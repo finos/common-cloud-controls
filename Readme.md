@@ -21,7 +21,7 @@ There are several ways to contribute to Common Cloud Controls:
 
 Find the next meeting on the [FINOS projects calendar](https://finos.org/calendar) and browse [past meeting minutes in GitHub](https://github.com/finos/ccc/labels/meeting).
 
-* **Join the mailing list**: Communications for the Common Cloud Controls project are conducted through the ccc@lists.finos.org mailing list. Please email [ccc@lists.finos.org](mailto:ccc@lists.finos.org) to join the mailing list.
+* **Join the mailing list**: Communications for the Common Cloud Controls project are conducted through the ccc-participants@lists.finos.org mailing list. Please email [ccc-participants@lists.finos.org](mailto:ccc-participants@lists.finos.org) to join the mailing list.
 
 * **Raise an issue**: if you have any questions or suggestions, please [raise an issue](https://github.com/finos/ccc/issues/new/choose)
 
