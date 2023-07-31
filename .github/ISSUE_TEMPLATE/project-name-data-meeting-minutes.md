@@ -1,23 +1,23 @@
 ---
-name: {standard name} Meeting Minutes
-about: To track {standard name} meeting agenda and attendance
-title: MMDDYYYY {standard name} Meeting Minutes
+name: Common Cloud Controls Meeting Minutes
+about: To track Common Cloud Controls meeting agenda and attendance
+title: MMDDYYYY Common Cloud Controls Meeting Minutes
 labels: meeting
 assignees: ''
 
 ---
 
 ---
-name: "\U0001F91D{standard name} Meeting Minutes"
-about: To track {standard name} meeting agenda and attendance
-title: MMM DD YYYY - {standard name} Meeting Minutes
-labels: {standard name}, meeting
+name: "\U0001F91DCommon Cloud Controls Meeting Minutes"
+about: To track Common Cloud Controls meeting agenda and attendance
+title: MMM DD YYYY - Common Cloud Controls Meeting Minutes
+labels: Common Cloud Controls, meeting
 assignees: ''
 
 ---
 
-# {standard name} Meeting
-[{standard name} overview, roadmap and background](https://{github}.com/finos/{project slug}/readme.md)
+# Common Cloud Controls Meeting
+[Common Cloud Controls overview, roadmap and background](https://github.com/finos/{project slug}/readme.md)
 
 ## Date
 YYYYMMDD - 10am ET / 3pm GMT

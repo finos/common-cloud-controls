@@ -1,4 +1,4 @@
-# Participants enrolled in the {standard name} project
+# Participants enrolled in the Common Cloud Controls project
 Below is the list of [participants](governance-documents/5._Governance.md#1roles) in the {standard_name}, who have committed to the [Community Specification Contributor License Agreement](governance-documents/0._CS_Contributor_License_Agreement.md).
 
 ## Participants
@@ -16,11 +16,11 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 
 
 ## How to enroll as a participant
-In order to enroll as a participant in the {standard name} project, please submit a Pull Request to this [participants](#participants) file listing your name, organization, and date of enrollment, by following the steps described below. 
+In order to enroll as a participant in the Common Cloud Controls project, please submit a Pull Request to this [participants](#participants) file listing your name, organization, and date of enrollment, by following the steps described below. 
 
 _:question:Please email help@finos.org if you encounter issues or have questions._
 
-**Step 1. Go to  the [participants](#participants) file** and make sure you are signed into your {GitHub} account
+**Step 1. Go to  the [participants](#participants) file** and make sure you are signed into your github account
 
 **Step 2. Click on the :pen: icon at the top right of the the [participants](#participants) file**
     
@@ -34,7 +34,7 @@ _:question:Please email help@finos.org if you encounter issues or have questions
     
 [<img src="https://user-images.githubusercontent.com/51138318/151390757-69ca6d4a-8972-4134-9239-caf02d8fb105.png" width="500">](https://user-images.githubusercontent.com/51138318/151390757-69ca6d4a-8972-4134-9239-caf02d8fb105.png)
 
-**Step 5. Create a Pull Request** to request that the changes you made to the [participants](#participants) file be added to the "master" branch of the https://{github}.com/finos/{project slug} repository
+**Step 5. Create a Pull Request** to request that the changes you made to the [participants](#participants) file be added to the "master" branch of the https://github.com/finos/{project slug} repository
 
 **Step 5.1. Click on "Pull Request" in the GitHub navigation bar**
 

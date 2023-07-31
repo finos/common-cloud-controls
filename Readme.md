@@ -1,23 +1,32 @@
-# Community Specification
+[![FINOS - Forming](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-forming.svg)](https://github.com/finos/community/blob/master/governance/Software-Projects/Project-Lifecycle.md#forming-projects-optional)
 
-## What is the Community Specification For?
+# Common Cloud Controls
 
-The Community Specification process is a repository-based approach for creating standards and specifications in version control systems, such as Git. 
+Short blurb about what your project does.
 
-## What is the benefit?
+## Background 
 
-The Community Specification allows you to start a specification development effort as easily as an open source project.  The Community Specification incorporates the terms and processes required for standards and specification development, including legal terms, intellectual property issues, due process, and governance.  It also provides the mechanisms to allow your project to grow and scale.  For example, the Community Specification provides the basis to take your specification to other standards bodies, including international standards bodies, for formal standardization if your community desires to pursue those options.
+## Roadmap
 
-## How to get started?
+List the roadmap steps; alternatively link the Confluence Wiki page where the project roadmap is published.
 
-Instructions for using the Community Specification are included in the [Getting Started.md file](governance-documents/Getting%20Started.md).
+1. Item 1
+2. Item 2
+3. ....
 
-## Could I just use an open source license for my specifications? Why should I use a specification license?
+# Get Involved: Contribute to Common Cloud Controls
+There are several ways to contribute to Common Cloud Controls:
 
-Open source is collaboration around a specific codebase, while specifications provide a blueprint developers implement in different ways in many different codebases. Accordingly, open source licenses provide terms to use and modify a particular codebase and specification licenses are designed to provide terms for separate independent implementations of the specification. Because of this, if you use an open source license for specifications, people implementing those specifications may be doing so without the meaningful copyright or patent grants that you expect.
+* **Join the next meeting**: participants of the Common Cloud Controls workstream meet... {meeting cadance}.
 
-A second difference is that common open source software and specification licenses tend to have different coverage scopes for intellectual property terms. Open source licenses generally grant terms scoped only to a contributor's contributions. Specification licenses, however, generally cover implementations of the entire specification, regardless of who made the actual contribution. Because the specification will often be developed with contributions from multiple organizations, the various contributing organizations will often want to review and approve the full specification before extending patent commitments to the final, combined result. 
+Find the next meeting on the [FINOS projects calendar](https://finos.org/calendar) and browse [past meeting minutes in GitHub](https://github.com/finos/ccc/labels/meeting).
 
-## Who developed the Community Specification
+* **Join the mailing list**: Communications for the Common Cloud Controls project are conducted through the ccc@lists.finos.org mailing list. Please email [ccc@lists.finos.org](mailto:ccc@lists.finos.org) to join the mailing list.
 
-The Community Specification has been developed via the [Joint Development Foundation](http://www.jointdevelopment.org), with inspiration from the [Open Web Foundation agreements](http://openwebfoundation.org) and the [Alliance for Open Media Patent License 1.0](http://aomedia.org/license/patent-license/).
+* **Raise an issue**: if you have any questions or suggestions, please [raise an issue](https://github.com/finos/ccc/issues/new/choose)
+
+## License
+
+This project uses the **Community Specification License 1.0** ; you can read more in the [LICENSE](LICENSE) file.
+
+The source code is included in this repository is subject to the [Apache-2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
