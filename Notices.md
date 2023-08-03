@@ -2,8 +2,9 @@
 
 ## Code of Conduct
 
-Contact for Code of Conduct issues or inquires: legal@linuxfoundation.org
+Contributors to FINOS standards projects should follow the FINOS Code of Conduct, which can be found at [https://community.finos.org/docs/governance/code-of-conduct](https://community.finos.org/docs/governance/code-of-conduct).
 
+For issues or inquires, please contact [legal@linuxfoundation.org](mailto:legal@linuxfoundation.org).
 
 ## License Acceptance
 
