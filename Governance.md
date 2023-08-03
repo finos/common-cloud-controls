@@ -8,9 +8,7 @@ Each Working Group may include the following roles. Additional roles may be adop
 
 **1.1.	Maintainer.** “Maintainers” are responsible for organizing activities around developing, maintaining, and updating the specification(s) developed by the Working Group.  Maintainers are also responsible for determining consensus and coordinating appeals.  Each Working Group will designate one or more Maintainer for that Working Group.  A Working Group may select a new or additional Maintainer(s) upon Approval of the Working Group Participants.  
 
-**1.2.	Editor.**  “Editors” are responsible for ensuring that the contents of the document accurately reflect the decisions that have been made by the group, and that the specification adheres to formatting and content guidelines. Each Working Group will designate an Editor for that Working Group.  A Working Group may select a new Editor upon Approval of the Working Group Participants.
-
-**1.3.	Participants.**  “Participants” are those that have made Contributions to the Working Group subject to the Community Specification License.
+**1.2.	Participants.**  “Participants” are those that have made Contributions to the Working Group subject to the Community Specification License.
 
 ## 2.	Decision Making.
 
