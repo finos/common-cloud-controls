@@ -1,21 +1,21 @@
 ---
-name: "Enrollment in the specification process"
-about: Create this pull request to abide to the terms to participate to this project
-title: Enrollment in the specification process
+name: "Enrollment in the Common Cloud Controls specification process"
+about: Create this pull request to abide to the terms to participate to Common Cloud Controls
+title: Enrollment in the Common Cloud Controls specification process
 labels: enrollment
 ---
 
 My name is <FirstName LastName> and I'd like to formally participate to the <projectName> project.
   
-  By making a Contribution to this repository, I agree to the terms of the following documents located at https://github.com/finos/standards-project-blueprint/:
+  By making a Contribution to this repository, I agree to the terms of the following documents located at [https://github.com/finos/common-cloud-controls](https://github.com/finos/common-cloud-controls):
 
-(a) Community Specification License 1.0 (.0_Community_Specification_License-v1.md)
+(a) Community Specification License 1.0 ([LICENSE](https://github.com/finos/common-cloud-controls/blob/main/LICENSE))
 
-(b) Community Specification Governance Policy 1.0 (5._Governance.md)
+(b) Community Specification Governance Policy 1.0 ([Governance.md](https://github.com/finos/common-cloud-controls/blob/main/Governance.md))
 
-(c) Community Specification Contribution Policy 1.0 (6._Contributing.md)
+(c) Community Specification Contribution Policy 1.0 ([CONTRIBUTING.md](https://github.com/finos/common-cloud-controls/blob/main/.github/CONTRIBUTING.md))
 
-(d) Community Specification Code of Conduct (8._Code_of_Conduct.md)
+(d) Community Specification Code of Conduct ([CODE_OF_CONDUCT.md](https://github.com/finos/common-cloud-controls/blob/main/.github/CODE_OF_CONDUCT.md))
 
 In addition, for source code contributions, I certify that:
 
