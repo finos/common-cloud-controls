@@ -7,7 +7,7 @@ Contact for Code of Conduct issues or inquires: legal@linuxfoundation.org
 
 ## License Acceptance
 
-Per Community Specification License 1.0 Section 2.1.3.3, Licensees may indicate their acceptance of the Community Specification License by issuing a pull request to the Specification’s repository’s Notice.md file, including the Licensee’s name, authorized individuals' names, and repository system identifier (e.g. GitHub ID), and specification version.
+Per Community Specification License 1.0 Section 2.1.3.3, Licensees may indicate their acceptance of the Community Specification License by issuing a pull request to this file, including the Licensee’s name, authorized individuals' names, and repository system identifier (e.g. GitHub ID), and specification version.
 
 A Licensee may consent to accepting the current Community Specification License version or any future version of the Community Specification License by indicating "or later" after their specification version.
 
