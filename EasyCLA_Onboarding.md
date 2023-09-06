@@ -8,4 +8,4 @@ This will trigger the EasyCLA bot, which will post a comment to the Pull Request
 
 If you are not covered, EasyCLA will post instructions on how to sign the FINOS CLA.
 
-You can read more about EasyCLA on [FINOS community repo](https://github.com/finos/community/blob/master/governance/Software-Projects/EasyCLA.md).
+You can read more about EasyCLA on [FINOS community repo](https://github.com/finos/community/blob/master/docs/governance/Software-Projects/EasyCLA.md).
