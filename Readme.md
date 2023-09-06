@@ -8,17 +8,15 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 You can read more on [finos.org/common-cloud-controls-project](https://www.finos.org/common-cloud-controls-project).
 
-## Background 
+## Common Cloud Controls Requires a Signed FINOS CLA
 
-## Roadmap
+All Common Cloud Controls participants are required to sign a FINOS Standard Project CLA before joining project calls and collaborating in working groups.
 
-List the roadmap steps; alternatively link the Confluence Wiki page where the project roadmap is published.
+Please visit [EasyCLA_Onboarding.md](EasyCLA_Onboarding.md) to raise a Pull Request that will automatically take you through the CLA signing process.
 
-1. Item 1
-2. Item 2
-3. ....
+Email help@finos.org if you need help signing the FINOS CLA.
 
-# Get Involved: Contribute to Common Cloud Controls
+## Registering Your Interest with FINOS
 
 Fill in the form available at [finos.org/common-cloud-controls-project](https://www.finos.org/common-cloud-controls-project) to register your interest in participating in the project. If you are not a FINOS Member, you can apply for membership [here](https://enrollment.lfx.linuxfoundation.org/?project=finos).
 
