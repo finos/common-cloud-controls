@@ -8,17 +8,17 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 You can read more on [finos.org/common-cloud-controls-project](https://www.finos.org/common-cloud-controls-project).
 
-## Background 
+## FINOS CSLA Needed to Participate in Common Cloud Controls
 
-## Roadmap
+All Common Cloud Controls participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices) before joining project calls and collaborating in working groups.
 
-List the roadmap steps; alternatively link the Confluence Wiki page where the project roadmap is published.
+Please visit [participants.md](participants.md) and raise a Pull Request by adding your `name`, `organisation` and `enrollment date` to the markdown file. 
 
-1. Item 1
-2. Item 2
-3. ....
+Raising a Pull Request on [participants.md](participants.md) will automatically take you through the Linux Foundation EasyCLA process for signing the FINOS [CSCLA](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices).
 
-# Get Involved: Contribute to Common Cloud Controls
+Email help@finos.org if you require further help.
+
+## Registering Your Interest with FINOS
 
 Fill in the form available at [finos.org/common-cloud-controls-project](https://www.finos.org/common-cloud-controls-project) to register your interest in participating in the project. If you are not a FINOS Member, you can apply for membership [here](https://enrollment.lfx.linuxfoundation.org/?project=finos).
 
