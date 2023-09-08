@@ -15,12 +15,8 @@ labels: Common Cloud Controls, meeting
 assignees: ''
 
 ---
-
-# Common Cloud Controls Meeting
-[Common Cloud Controls overview, roadmap and background](https://github.com/finos/{project slug}/readme.md)
-
 ## Date
-YYYYMMDD - 10am ET / 3pm GMT
+YYYYMMDD - (X)am ET / (Y)pm UK
 
 ## Untracked attendees
 - Fullname, Affiliation, (optional) GitHub username
@@ -40,24 +36,47 @@ YYYYMMDD - 10am ET / 3pm GMT
 - [ ] Display [FINOS Antitrust Policy summary slide](https://community.finos.org/Compliance-Slides/Antitrust-Compliance-Slide.pdf) 
 - [ ] Review Meeting Notices (see above)
 - [ ] Approve past meeting minutes
-- [ ] Agenda item 1
-- [ ] Agenda item 2
 - [ ] ...
 - [ ] AOB, Q&A & Adjourn (5mins)
 
-## Decisions Made
-- [ ] Decision 1
-- [ ] Decision 2
-- [ ] ...
+### Zoom info
+Join Zoom Meeting
+https://zoom.us/j/98254617376?pwd=aGV6VzZQOTg3MHptY0tkZHRVSUsxUT09
 
-## Action Items
-- [ ] Action 1
-- [ ] Action 2
-- [ ] ...
+Meeting ID: 982 5461 7376
+Passcode: 305874
 
-### WebEx info
-- [WebEx Meeting URL](https://finos.webex.com/finos/j.php?MTID=mf27815a7807f13f1d0974a973196cb4c)
-- Meeting Number: 127 819 0322
-- Join by phone: +1.415.655.0003 USA Toll | +44-20319-88141 UK Toll | Access code: 127 819 0322
-- Password: VXcd2eQgh82
-- [Global call-in numbers](https://finos.webex.com/finos/globalcallin.php?serviceType=MC&ED=582460637&tollFree=0)
+---
+
+Dial by your location
+• +1 719 359 4580 US
+• +1 253 205 0468 US
+• +1 253 215 8782 US (Tacoma)
+• +1 301 715 8592 US (Washington DC)
+• +1 305 224 1968 US
+• +1 309 205 3325 US
+• +1 312 626 6799 US (Chicago)
+• +1 346 248 7799 US (Houston)
+• +1 360 209 5623 US
+• +1 386 347 5053 US
+• +1 507 473 4847 US
+• +1 564 217 2000 US
+• +1 646 558 8656 US (New York)
+• +1 646 931 3860 US
+• +1 669 444 9171 US
+• +1 669 900 6833 US (San Jose)
+• +1 689 278 1000 US
+• 855 880 1246 US Toll-free
+• 877 369 0926 US Toll-free
+• +1 438 809 7799 Canada
+• +1 587 328 1099 Canada
+• +1 647 374 4685 Canada
+• +1 647 558 0588 Canada
+• +1 778 907 2071 Canada
+• +1 780 666 0144 Canada
+• +1 204 272 7920 Canada
+• 855 703 8985 Canada Toll-free
+
+Meeting ID: 982 5461 7376
+
+Find your local number: https://zoom.us/u/acPjHdY2IO
