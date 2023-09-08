@@ -1,8 +1,9 @@
-# Participants enrolled in the Common Cloud Controls project
+# Participants enrolled in the Common Cloud Controls project:
 Below is the list of [participants](governance-documents/5._Governance.md#1roles) in the {standard_name}, who have committed to the [Community Specification Contributor License Agreement](governance-documents/0._CS_Contributor_License_Agreement.md).
 
 ## Participants
-- Name, organization, Date of enrollment: MMM/DD/YYYY
+- Gabriele Columbro, Linux Foundation, Date of Enrollment: 
+- Name, organization, Date of enrollment: 09/08/2023
 - 
 -
 -  
