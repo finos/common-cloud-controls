@@ -3,7 +3,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 
 ## Participants
 - Name, organization, Date of enrollment: MMM/DD/YYYY
-- 
+- Sonali Mendis, Scott Logic, 14th September 2023
 -
 -  
 - 
