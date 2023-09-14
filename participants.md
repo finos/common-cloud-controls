@@ -4,7 +4,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 ## Participants
 - Name, organization, Date of enrollment: MMM/DD/YYYY
 - 
--
+- Emily Fox, Red Hat, SEPT/14/2023
 -  
 - 
 - 
