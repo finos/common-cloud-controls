@@ -2,7 +2,7 @@
 Below is the list of [participants](governance-documents/5._Governance.md#1roles) in the {standard_name}, who have committed to the [Community Specification Contributor License Agreement](governance-documents/0._CS_Contributor_License_Agreement.md).
 
 ## Participants
-- Name, organization, Date of enrollment: MMM/DD/YYYY
+- Don Duet, Concourse Labs, Date of enrollment: 09/19/2023
 - 
 -
 -  
