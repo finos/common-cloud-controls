@@ -3,7 +3,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 
 ## Participants
 - Name, organization, Date of enrollment: MMM/DD/YYYY
-- 
+- Rachel Kim, Google, 09/22/2023
 -
 -  
 - 
