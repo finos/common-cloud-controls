@@ -1,0 +1,25 @@
+| AWS                                | https://aws.amazon.com/#                                                                                             | top menu item "solutions", "by use case" |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Archiving                          | Affordable solutions for data archiving from gigabytes to petabytes                                                  |                                          |
+| Backup and Restore                 | Durable, cost-effective options for backup and disaster recovery                                                     |                                          |
+| Blockchain                         | Shared ledgers for trusted transactions among multiple parties                                                       |                                          |
+| Cloud Migration                    | Easily migrate apps and data to AWS                                                                                  |                                          |
+| Cloud Operations                   | Operate securely and safely in the cloud, at scale                                                                   |                                          |
+| Containers                         | Fully managed services for every workload                                                                            |                                          |
+| Content Delivery                   | Accelerate websites, APIs, and video content                                                                         |                                          |
+| Database Migrations                | Save time and cost by migrating to fully managed databases                                                           |                                          |
+| Data Lakes and Analytics           | Comprehensive, secure, scalable, and cost-effective data lake and analytics solutions                                |                                          |
+| DevOps                             | Rapidly and reliably build and deliver products using DevOps practices                                               |                                          |
+| E-Commerce                         | Drive small or large e-commerce businesses with our secure and highly scalable solutions for online sales and retail |                                          |
+| Edge Computing                     | Move data processing and analysis as close to the end user as necessary                                              |                                          |
+| Front-End Web & Mobile Development | Build and deploy secure, scalable mobile and web apps fast                                                           |                                          |
+| High Performance Computing         | Enhanced networking and cloud-scale clusters for complex problems                                                    |                                          |
+| Hybrid Cloud Architectures         | Extend your IT infrastructure to the AWS cloud                                                                       |                                          |
+| Internet of Things                 | Easily scale to billions of devices and trillions of messages                                                        |                                          |
+| Machine Learning                   | Build with powerful services and platforms, and the broadest machine learning framework support anywhere             |                                          |
+| Modern Application Development     | Develop and evolve applications through cycles of rapid innovation                                                   |                                          |
+| Multicloud                         | Simplify and centralize operations in hybrid and multicloud environments                                             |                                          |
+| Remote Work                        | AWS solutions for remote employees, contact center agents, and creative professionals                                |                                          |
+| Scientific Computing               | Analyze, store, and share massive data sets                                                                          |                                          |
+| Serverless Computing               | Build and run applications without thinking about servers                                                            |                                          |
+| Websites                           | Reliable, highly scalable, and low cost website and web application hosting                                          |                                          |
