@@ -4,8 +4,18 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 ## Participants
 - Name, organization, Date of enrollment: MMM/DD/YYYY
 - James McLeod, FINOS, 11th September 2023
-- _next person here ..._
-
+- Valentin Mihai, Google, 22nd September 2023
+- _next person here ...
+- 
+-
+-  
+- 
+- 
+- 
+-  
+- 
+- 
+- 
 
 
 ## How to enroll as a participant
