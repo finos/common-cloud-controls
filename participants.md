@@ -2,8 +2,9 @@
 Below is the list of [participants](governance-documents/5._Governance.md#1roles) in the {standard_name}, who have committed to the [Community Specification Contributor License Agreement](governance-documents/0._CS_Contributor_License_Agreement.md).
 
 ## Participants
-- Name, organization, Date of enrollment: MMM/DD/YYYY
 - Naseer Mohammad, Google, 09/14/2023
+- Valentin Mihai, Google, Date of enrollment: Sep/22/2023
+- James McLeod, FINOS, Date of enrollment: Sep/26/2023
 -
 -  
 - 
