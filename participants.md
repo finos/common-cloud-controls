@@ -3,7 +3,8 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 
 ## Participants
 - Name, organization, Date of enrollment: MMM/DD/YYYY
-- 
+- Valentin Mihai, Google, Date of enrollment: Sep/22/2023
+- James McLeod, FINOS, Date of enrollment: Sep/26/2023
 - Emily Fox, Red Hat, SEPT/14/2023
 -  
 - 
