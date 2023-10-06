@@ -5,6 +5,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 
 - Name, organization, Date of enrollment: MMM/DD/YYYY
 - Euthyme Ziogas, Scott Logic, SEP/14/2023
+- Robert Griffiths, Scott Logic, Oct/06/2023
 - Valentin Mihai, Google, Date of enrollment: Sep/22/2023
 - James McLeod, FINOS, Date of enrollment: Sep/26/2023
 -
