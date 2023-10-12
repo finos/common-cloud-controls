@@ -32,6 +32,29 @@ Find the next meeting on the [FINOS projects calendar](https://finos.org/calenda
 
 * **Raise an issue**: if you have any questions or suggestions, please [raise an issue](https://github.com/finos/common-cloud-controls/issues/new/choose)
 
+## CCC Project Maintainers
+
+FINOS Common Cloud Controls is maintained by FINOS members and the wider open source in finance community. 
+
+The following are the FINOS CCC maintainers, the firms they represent and the maintainer working group alignment.   
+
+| FINOS CCC Maintainer | Representing   | FINOS CCC Working Group                     |
+| -------------------- | -------------- | ------------------------------------------- |
+| Jonathan Meadows     | Citi           | OSCAL Representaion of CCC                  |
+| Jason Nelson         | Citi           | Engage with MITRE Threat Catalogue          |
+| Mark Rushing         | Citi           | Define Cloud Services Taxonomy              |
+| Moe Matar            | Citi           | Define Cloud Services Taxonomy              | 
+| Anna Selyugina       | Goldman Sachs  | Engage with MITRE & Cloud Services Taxonomy |
+| Paul Stevenson       | Morgan Stanley | TBC                                         |
+| Simon Zhang          | BMO            | Define Cloud Services Taxonomy              |  
+| Adrian Hammond       | Red Hat        | Define Cloud Services Taxonomy              |
+| Naseer Mohammad      | Google         | Engage with MITRE Threat Catalogue          |
+| Valentin Mihai       | Google         | TBC                                         |
+| Rachel Kim           | Google         | OSCAL Representaion of CCC                  | 
+| Raj Krishnamurthy    | Compliance Cow | Engage with MITRE Threat Catalogue          | 
+| Vicente Herrera      | Control Plane  | Define Cloud Services Taxonomy              |
+| Michaela Iorga       | NIST           | OSCAL Representaion of CCC                  | 
+
 ## License
 
 This project uses the **Community Specification License 1.0** ; you can read more in the [LICENSE](LICENSE) file.
