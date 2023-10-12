@@ -10,7 +10,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - James McLeod, FINOS, Date of enrollment: Sep/26/2023
 - Rachel Kim, Google, 09/22/2023
 - Mitch Hibbs, Symphony, Date of enrollment: Oct/05/2023
-- 
+- Naseer Mohammad, Google, 09/14/2023
 - 
 - 
 -  
