@@ -40,7 +40,7 @@ The following are the FINOS CCC maintainers, the firms they represent and the ma
 
 | FINOS CCC Maintainer | Representing   | FINOS CCC Working Group                     |
 | -------------------- | -------------- | ------------------------------------------- |
-| Jonathan Meadows     | Citi           | OSCAL Representaion of CCC                  |
+| Jonathan Meadows     | Citi           | OSCAL Representation of CCC                 |
 | Jason Nelson         | Citi           | Engage with MITRE Threat Catalogue          |
 | Mark Rushing         | Citi           | Define Cloud Services Taxonomy              |
 | Moe Matar            | Citi           | Define Cloud Services Taxonomy              | 
@@ -50,10 +50,10 @@ The following are the FINOS CCC maintainers, the firms they represent and the ma
 | Adrian Hammond       | Red Hat        | Define Cloud Services Taxonomy              |
 | Naseer Mohammad      | Google         | Engage with MITRE Threat Catalogue          |
 | Valentin Mihai       | Google         | TBC                                         |
-| Rachel Kim           | Google         | OSCAL Representaion of CCC                  | 
+| Rachel Kim           | Google         | OSCAL Representation of CCC                 | 
 | Raj Krishnamurthy    | Compliance Cow | Engage with MITRE Threat Catalogue          | 
 | Vicente Herrera      | Control Plane  | Define Cloud Services Taxonomy              |
-| Michaela Iorga       | NIST           | OSCAL Representaion of CCC                  | 
+| Michaela Iorga       | NIST           | OSCAL Representation of CCC                 | 
 
 ## License
 
