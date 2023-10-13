@@ -54,10 +54,10 @@ Edits to plan made on 12th October at #54
     - How should contributions be validated and accepted?
     - Maybe other collaboration and editing solutions are better for the team?
 1. [Define which cloud service providers are accepting the initial OSCAL definitions  #45](https://github.com/finos/common-cloud-controls/issues/45)
-    - _**Due date : 19th January 2023**_
+    - _**Due date : 19th January 2024**_
     - Investigate and define how are their services implemented and tested?
 1. [Implement an initial cloud service example that demonstrates a steel thread across working groups. #46](https://github.com/finos/common-cloud-controls/issues/46)
-    - _**Due date : 19th January 2023**_
+    - _**Due date : 19th January 2024**_
     - Pick initial common cloud services to define 
     - Allocate MITRE threats and apply OSCAL mitigations
     - Write Gherkin tests to describe service configuration expectations
