@@ -24,25 +24,40 @@ The following highlights the first iteration of Common Cloud Controls project de
 
 ### NIST / OSCAL Working Group Roadmap
 
+## First Iteration NIST / OSCAL Working Group Roadmap
+
+cc @jonmuk 
+
+Edits to plan made on 12th October at #54
+
+1.  [Create a sample control catalog and component definition implementing the controls #65](https://github.com/finos/common-cloud-controls/issues/65)
+    - _**Due date : 20th October 2023**_
 1. [Define vision and purpose for OSCAL Representation of CCC working group #42](https://github.com/finos/common-cloud-controls/issues/42)
+    - _**Due date : 20th October 2023**_
     - Define the end target for the working group.
     - For example, stop regenerating processes. 
-2. [Define whether the working group wants to create a repo of component definitions #43](https://github.com/finos/common-cloud-controls/issues/43)
+1. [Define whether the working group wants to create a repo of component definitions #43](https://github.com/finos/common-cloud-controls/issues/43) - [Working Group 4 (when online)](https://private-user-images.githubusercontent.com/6029572/258053369-96a59c56-f687-420e-870a-31ceccb7ca10.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE2OTcxMjg0NDcsIm5iZiI6MTY5NzEyODE0NywicGF0aCI6Ii82MDI5NTcyLzI1ODA1MzM2OS05NmE1OWM1Ni1mNjg3LTQyMGUtODcwYS0zMWNlY2NiN2NhMTAucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQUlXTkpZQVg0Q1NWRUg1M0ElMkYyMDIzMTAxMiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyMzEwMTJUMTYyOTA3WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MmY0ZjViZGI3ZWJiNDc5ZTA1NzMwZDdjZWM1YmQzZmI3MTU4Mzc5OGQyNjEyNWRlZjhiZDZiODJlYzQwYTRmYSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmYWN0b3JfaWQ9MCZrZXlfaWQ9MCZyZXBvX2lkPTAifQ.4kOWlkww-fNbR7AJC41K9fIet2Jh5Ym_KtNFNjY-6o8)
+    - _**Due date : 17th November 2023**_
     - Define whether the working group wants to create an OSCAL catalog?
     - Define whether the group needs a repo that is friendly for managing OSCAL content, catalogs and service definitions?
     - Define whether the repo be a database or a GitHub repo?
       - Potential for GitHub repo(s) that can be contributed via pull request
       - Potential for cloud object storage that can be indexed and displayed. 
       - Potential for delivery pipeline from GitHub repo into other hosted service
-3. [Define the tooling that should be used by the group / open source community #44](https://github.com/finos/common-cloud-controls/issues/44)
+1. [Identify where to add test cases and threats within OSCAL. Working in collaboration with NIST. #64](https://github.com/finos/common-cloud-controls/issues/64)
+    - _**Due date : 15th December 2023**_
+1. [Define the tooling that should be used by the group / open source community? #44](https://github.com/finos/common-cloud-controls/issues/44)
+    - _**Due date : 15th December 2023**_
     - Should OSCAL be written by hand?
     - How are the services described as OSCAL?
     - Are there any editorial tools that enable automation of OSCAL? 
     - How should contributions be validated and accepted?
     - Maybe other collaboration and editing solutions are better for the team?
-4. [Define which cloud service providers are accepting the initial OSCAL definitions #45](https://github.com/finos/common-cloud-controls/issues/45)
+1. [Define which cloud service providers are accepting the initial OSCAL definitions  #45](https://github.com/finos/common-cloud-controls/issues/45)
+    - _**Due date : 19th January 2023**_
     - Investigate and define how are their services implemented and tested?
-7. [Implement an initial cloud service example that demonstrates a steel thread across working groups. #46](https://github.com/finos/common-cloud-controls/issues/46)
+1. [Implement an initial cloud service example that demonstrates a steel thread across working groups. #46](https://github.com/finos/common-cloud-controls/issues/46)
+    - _**Due date : 19th January 2023**_
     - Pick initial common cloud services to define 
     - Allocate MITRE threats and apply OSCAL mitigations
     - Write Gherkin tests to describe service configuration expectations
