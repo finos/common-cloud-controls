@@ -13,9 +13,8 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - Adrian Hammond, Red Hat, Date of enrollment: Oct/05/2023
 - Rachel Kim, Google, 09/22/2023
 - Mitch Hibbs, Symphony, Date of enrollment: Oct/05/2023
-- Steven Shiells, Scott Loigc: Oct/19/2023
-- 
-- 
+- Charlotte Hayes, Scott Logic, Oct/19/2023
+- Steven Shiells, Scott Loigc: Oct/19/2023 
 -  
 - 
 - 
