@@ -40,7 +40,6 @@ Feature: Relational Database Management System Taxonomy
         | 8x   |
         | 4x   |
         | 1x   |
-        | 32x  |
 
     @CCC-RDMS-3
     Scenario: Ensure the system supports horizontal scaling via read replicas
