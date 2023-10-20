@@ -31,7 +31,7 @@ Feature: Relational Database Management System Taxonomy
 
     @CCC-RDMS-2
     Scenario: Ensure the system supports vertical scaling
-        When the system is scaled vertically to "<SIZE>" of tyhe original value
+        When the system is scaled vertically to "<SIZE>" of the original value
         Then the changes can be verified in the system
 
     Examples:
