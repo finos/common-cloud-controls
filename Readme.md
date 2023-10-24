@@ -20,19 +20,24 @@ Email help@finos.org if you require further help.
 
 ## Get Involved with FINOS Common Cloud Controls
 
-There are several ways to contribute to FINOS Common Cloud Controls:
+There are several ways to contribute to FINOS Common Cloud Controls.
 
-- **Join the Next Meeting**
-  - **FINOS Common Cloud Controls - Project All Hands** - [First Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22All+Working+Groups%22)
-  - **OSCAL Representation of FINOS CCC** - [Second Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22OSCAL+Representation+of+FINOS+CCC%22)
-  - **Engage with MITRE Threat Catalogue** - [Third Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22Engage+with+MITRE+Threat+Catalogue%22)
-  - **Define Cloud Services Taxonomy** - [Fourth Thursday of each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3A%22Define+Cloud+Services+Taxonomy%22+label%3Ameeting)
+### Join FINOS CCC Project Meetings
+FINOS Common Cloud Controls meets over Zoom and you can find future agendas and previous meetings below.
 
-Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
+- **FINOS Common Cloud Controls - Project All Hands** - [First Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22All+Working+Groups%22)
+- **OSCAL Representation of FINOS CCC** - [Second Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22OSCAL+Representation+of+FINOS+CCC%22)
+- **Engage with MITRE Threat Catalogue** - [Third Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22Engage+with+MITRE+Threat+Catalogue%22)
+- **Define Cloud Services Taxonomy** - [Fourth Thursday of each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3A%22Define+Cloud+Services+Taxonomy%22+label%3Ameeting)
 
-* **Join the mailing list**: Communications for the FINOS Common Cloud Controls project are conducted through the ccc-participants@lists.finos.org mailing list. Please email [ccc-participants@lists.finos.org](mailto:ccc-participants@lists.finos.org) to join the mailing list.
+Alternatively, find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
-* **Raise an issue**: if you have any questions or suggestions, please [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose)
+### Join the FINOS Common Cloud Controls Mailing List 
+FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants@lists.finos.org](mailto:ccc-participants@lists.finos.org) to join.
+
+### Raise a FINOS Common Cloud Controls GitHub Issue
+
+FINOS Common Cloud Controls is maintained and run through GitHub. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions. 
 
 ## FINOS CCC Project Maintainers
 
