@@ -1,16 +1,16 @@
 [![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
 
-<img height="200px" src="https://raw.githubusercontent.com/finos/finos-landscape/master/hosted_logos/ccc.svg"/>
+<img height="100px" src="https://github.com/finos/branding/blob/master/project-logos/active-project-logos/FINOS%20Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal.svg?raw=true"/>
 
-Common Cloud Controls (CCC) is the codename for an open standard project, originally proposed by Citi and currently undergoing formation in FINOS, to describe consistent controls for compliant public cloud deployments in the financial services sector.
+FINOS Common Cloud Controls (FINOS CCC) is the codename for an open standard project, originally proposed by Citi and currently incubating in FINOS, to describe consistent controls for compliant public cloud deployments in the financial services sector.
 
 This standard is a collaborative project which aims to develop a unified set of cybersecurity, resiliency, and compliance controls for common services across the major cloud service providers (CSPs).
 
-You can read more on [finos.org/common-cloud-controls-project](https://www.finos.org/common-cloud-controls-project).
+You can read more and register your interest on [finos.org/common-cloud-controls-project](https://www.finos.org/common-cloud-controls-project).
 
 ## FINOS CSLA Needed to Participate in Common Cloud Controls
 
-All Common Cloud Controls participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices) before joining project calls and collaborating in working groups.
+All FINOS Common Cloud Controls participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices) before joining project calls and collaborating in working groups.
 
 Please visit [participants.md](participants.md) and raise a Pull Request by adding your `name`, `organisation` and `enrollment date` to the markdown file. 
 
@@ -18,21 +18,28 @@ Raising a Pull Request on [participants.md](participants.md) will automatically 
 
 Email help@finos.org if you require further help.
 
-## Registering Your Interest with FINOS
+## Get Involved with FINOS Common Cloud Controls
 
-Fill in the form available at [finos.org/common-cloud-controls-project](https://www.finos.org/common-cloud-controls-project) to register your interest in participating in the project. If you are not a FINOS Member, you can apply for membership [here](https://enrollment.lfx.linuxfoundation.org/?project=finos).
+There are several ways to contribute to FINOS Common Cloud Controls.
 
-There are several ways to contribute to Common Cloud Controls:
+### Join FINOS CCC Project Meetings
+FINOS Common Cloud Controls meets over Zoom and you can find future agendas and previous meetings below.
 
-* **Join the next meeting**: participants of the Common Cloud Controls workstream meet... {TODO - meeting cadance}.
+- **FINOS Common Cloud Controls - Project All Hands** - [First Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22All+Working+Groups%22)
+- **OSCAL Representation of FINOS CCC** - [Second Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22OSCAL+Representation+of+FINOS+CCC%22)
+- **Engage with MITRE Threat Catalogue** - [Third Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22Engage+with+MITRE+Threat+Catalogue%22)
+- **Define Cloud Services Taxonomy** - [Fourth Thursday of each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3A%22Define+Cloud+Services+Taxonomy%22+label%3Ameeting)
 
-Find the next meeting on the [FINOS projects calendar](https://finos.org/calendar) and browse [past meeting minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
+Alternatively, find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
-* **Join the mailing list**: Communications for the Common Cloud Controls project are conducted through the ccc-participants@lists.finos.org mailing list. Please email [ccc-participants@lists.finos.org](mailto:ccc-participants@lists.finos.org) to join the mailing list.
+### Join the FINOS Common Cloud Controls Mailing List 
+FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants@lists.finos.org](mailto:ccc-participants@lists.finos.org) to join.
 
-* **Raise an issue**: if you have any questions or suggestions, please [raise an issue](https://github.com/finos/common-cloud-controls/issues/new/choose)
+### Raise a FINOS Common Cloud Controls GitHub Issue
 
-## CCC Project Maintainers
+FINOS Common Cloud Controls is maintained and run through GitHub. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions. 
+
+## FINOS CCC Project Maintainers
 
 FINOS Common Cloud Controls is maintained by FINOS members and the wider open source in finance community. 
 
