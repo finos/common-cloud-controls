@@ -1,6 +1,6 @@
-[![FINOS - Forming](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-forming.svg)](https://github.com/finos/community/blob/master/governance/Software-Projects/Project-Lifecycle.md#forming-projects-optional)
+[![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
 
-# Common Cloud Controls
+<img height="200px" src="https://raw.githubusercontent.com/finos/finos-landscape/master/hosted_logos/ccc.svg"/>
 
 Common Cloud Controls (CCC) is the codename for an open standard project, originally proposed by Citi and currently undergoing formation in FINOS, to describe consistent controls for compliant public cloud deployments in the financial services sector.
 
