@@ -64,6 +64,6 @@ The following are the FINOS CCC maintainers, the firms they represent and the ma
 
 ## License
 
-This project uses the **Community Specification License 1.0** ; you can read more in the [LICENSE](LICENSE) file.
+This project uses the **Community Specification License 1.0**; you can read more in the [LICENSE](LICENSE) file.
 
-The source code is included in this repository is subject to the [Apache-2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
+The source code included in this repository is subject to the [Apache-2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
