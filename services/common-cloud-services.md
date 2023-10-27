@@ -48,6 +48,7 @@ Service Level Taxonomy:
 - Logging - Configurable logs are available for user inspection.
 - Monitoring - Configurable metrics are available for user inspection.
 - Alerting - Configurable alerts can be enabled.
+- Failover - Standby database is trasitioned to the primary after the primary fails or become unreachable.
 
 [(read more)](database/relational/taxonomy.md)
 

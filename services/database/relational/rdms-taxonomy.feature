@@ -102,3 +102,8 @@ Feature: Relational Database Management System Taxonomy
         When alerting is enabled
         Then the system returns the expected value
     
+    @CCC-RDMS-13
+    Scenario: Ensure the system can support failover
+        When the system has a standby database configured
+        And the primary database has become unreachable
+        Then the system should transit the standby instance to be the primary
