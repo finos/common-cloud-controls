@@ -106,4 +106,4 @@ Feature: Relational Database Management System Taxonomy
     Scenario: Ensure the system can support failover
         When the system has a standby database configured
         And the primary database has become unreachable
-        Then the system should transit the standby instance to be the primary
+        Then the system should use the standby system instead
