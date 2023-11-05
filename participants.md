@@ -16,7 +16,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - Charlotte Hayes, Scott Logic, Oct/19/2023
 - Steven Shiells, Scott Loigc: Oct/19/2023 
 - Andrés Vega, Messier 42 (M42), Oct/24/2023
-- 
+- Kannan, Zentec, Nov/05/2023
 - 
 - 
 
