@@ -17,7 +17,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - Steven Shiells, Scott Loigc: Oct/19/2023 
 - Andrés Vega, Messier 42 (M42), Oct/24/2023
 - Aaron Sutton, Google, Date of enrollment: NOV/07/2023
-- 
+- Vicente Herrera Garcia, Control Plane, Date of enrolment: NOV/09/2023
 - 
 
 
