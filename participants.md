@@ -18,6 +18,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - Andrés Vega, Messier 42 (M42), Oct/24/2023
 - Ian Miell, Container Solutions, Oct/26/2023
 - Aaron Sutton, Google, Date of enrollment: NOV/07/2023
+- Vicente Herrera Garcia, Control Plane, Date of enrolment: NOV/09/2023
 - Rowan Baker, ControlPlane, Nov/10/2023
 - 
 
