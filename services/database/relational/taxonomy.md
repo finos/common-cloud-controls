@@ -20,3 +20,4 @@ use in financial services ecosystems.
 | CCC-RDMS-10  | Logging | Configurable logs are available for user inspection. |
 | CCC-RDMS-11 | Monitoring | Configurable metrics are available for user inspection. |
 | CCC-RDMS-12 | Alerting | Configurable alerts can be enabled. |
+| CCC-RDMS-13 | Failover | Standby database can be implemented for failover when the primary can't be reached. |
