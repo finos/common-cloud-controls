@@ -56,7 +56,7 @@ The following are the FINOS CCC maintainers, the firms they represent and the ma
 | Simon Zhang          | BMO            | Define Cloud Services Taxonomy              |  
 | Adrian Hammond       | Red Hat        | Define Cloud Services Taxonomy              |
 | Naseer Mohammad      | Google         | Engage with MITRE Threat Catalogue          |
-| Valentin Mihai       | Google         | TBC                                         |
+| Valentin Mihai       | Google         | Engage with MITRE Threat Catalogue & OSCAL Representation of CCC|
 | Rachel Kim           | Google         | OSCAL Representation of CCC                 | 
 | Raj Krishnamurthy    | Compliance Cow | Engage with MITRE Threat Catalogue          | 
 | Vicente Herrera      | Control Plane  | Define Cloud Services Taxonomy              |
