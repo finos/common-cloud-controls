@@ -59,7 +59,8 @@ The following are the FINOS CCC maintainers, the firms they represent and the ma
 | Valentin Mihai       | Google         | Engage with MITRE Threat Catalogue & OSCAL Representation of CCC|
 | Rachel Kim           | Google         | OSCAL Representation of CCC                 | 
 | Raj Krishnamurthy    | Compliance Cow | Engage with MITRE Threat Catalogue          | 
-| Vicente Herrera      | Control Plane  | Define Cloud Services Taxonomy              |
+| Francesco Beltramini | ControlPlane   | OSCAL Representation of CCC                 | 
+| Vicente Herrera      | ControlPlane   | Define Cloud Services Taxonomy              |
 | Michaela Iorga       | NIST           | OSCAL Representation of CCC                 | 
 
 ## License
