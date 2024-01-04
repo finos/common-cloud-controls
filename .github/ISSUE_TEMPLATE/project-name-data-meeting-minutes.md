@@ -41,10 +41,10 @@ YYYYMMDD - (X)am ET / (Y)pm UK
 
 ### Zoom info
 Join Zoom Meeting
-https://zoom.us/j/98254617376?pwd=aGV6VzZQOTg3MHptY0tkZHRVSUsxUT09
+https://zoom.us/j/93861901920
 
-Meeting ID: 982 5461 7376
-Passcode: 305874
+Meeting ID: 938 6190 1920
+Passcode: 284383
 
 ---
 
@@ -77,6 +77,6 @@ Dial by your location
 • +1 204 272 7920 Canada
 • 855 703 8985 Canada Toll-free
 
-Meeting ID: 982 5461 7376
+Meeting ID: 938 6190 1920
 
 Find your local number: https://zoom.us/u/acPjHdY2IO
