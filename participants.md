@@ -20,7 +20,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - Aaron Sutton, Google, Date of enrollment: NOV/07/2023
 - Vicente Herrera Garcia, Control Plane, Date of enrolment: NOV/09/2023
 - Rowan Baker, ControlPlane, Nov/10/2023
-- 
+- Henry Mortimer, ControlPlane, JAN/26/2024
 
 
 ## How to enroll as a participant
