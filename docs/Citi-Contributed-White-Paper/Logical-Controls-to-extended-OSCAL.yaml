@@ -1,0 +1,181 @@
+# Extracted from whitepaper section 3.6 for easier reference
+controls:
+  - id: M1032
+    class: MITRE Att&ck
+    title: Multi-Factor Authentication
+    params:
+      props:
+        - name: label
+          value: M1032
+          class: MITRE Att&ck
+        - name: sort-id
+          value: M1032
+    links:
+      - href: "#M1032"
+        rel: required
+      - href: "#M1026"
+        rel: related
+      - href: "#M1018"
+        rel: related
+      - href: "#CCC.M1"
+        rel: related
+    parts:
+      - id: M1032_smt
+        name: statement
+        prose: "Multi Factor Authentication"
+        parts:
+          - id: M1032_smt.CCC.C1
+            name: item
+            props:
+              - name: label
+                value: (CCC.C1)
+            prose: "Platform must enforce authentication with MFA."
+          - id: M1032_smt.CCC.C2
+            name: item
+            props:
+              - name: label
+                value: (CCC.C2)
+            prose: " Local authentication must be disabled or restricted."
+          - id: M1032_smt.CCC.C3
+            name: item
+            props:
+            - name: label
+              value: (CCC.C3)
+            prose: "Monitor API action that disables MFA."
+          - id: M1032_smt.CCC.C4
+            name: item
+            props:
+            - name: label
+              value: (CCC.C4)
+            prose: "Monitor for database actions to related to local authentication."
+      - id: M1032_gdn
+        name: guidance
+        prose: >-
+          "Use two or more pieces of evidence to authenticate to a system;
+          such as username and password in addition to a token from a physical
+          smart card or token generator."
+      - id: M1032_obj
+        name: assessment-objective
+        props:
+          - name: label
+            value: M1032
+            class: CCC
+        parts:
+          - id: M1032_obj.CCC.C1
+            name: assessment-objective
+            class: preventative
+            props:
+            - name: label
+              value: (CCC.C1)
+            prose: >-
+              "Use two or more pieces of evidence to authenticate to a system;
+              such as username and password in addition to a token from a physical
+              smart card or token generator."
+          - id: M1032_obj.CCC.C2
+            name: assessment-objective
+            class: preventative
+            props:
+            - name: label
+              value: (CCC.C2)
+            prose: "Local Authentication must be disabled and only allow multi-factor authentication."
+          - id: M1032_obj.CCC.C3
+            name: assessment-objective
+            class: detective
+            props:
+            - name: label
+              value: (CCC.C3)
+            prose: >-
+              "Attempt to disable multi-factor authentication are recorded,
+              monitored and alerted on."
+          - id: M1032_obj.CCC.C4
+            name: assessment-objective
+            class: detective
+            props:
+            - name: label
+              value: (CCC.C4)
+            prose: >-
+              "Successful attempt to use local authentication to access a
+              resource should be monitored and alerted on."
+      - id: M1032_asm-examine
+        name: assessment-method
+        props:
+          - name: method
+            ns: ... #namespace to CCC
+            value: EXAMINE
+          - name: label
+            value: M1032-Examine
+            class: CCC
+        parts:
+          - name: assessment-objects
+            prose: >-
+              CSP Identification and authentication policy
+              Cloud Service Authentication policy
+              Procedures addressing authenticator management
+              System security plan
+              System design documentation
+              System configuration settings and associated documentation
+              Other relevant documents or records
+      - id: M1032_asm-validate
+        name: assessment-method
+        props:
+          - name: method
+            ns: ... #namespace to FSC2
+            value: Validate
+          - name: label
+            value: M1032-Validate
+            class: CCC
+        parts:
+          - name: assessment-objects
+            prose: >-
+              Mechanisms supporting and/or implementing password-based
+              authenticator management capability
+          - id: M1032_asm-validate
+            name: assessment-method
+            props:
+              - name: method
+                value: Validate
+                ns: ... #namespace to CCC
+                class: CCC
+              - name: label
+                value: M1032-Validate
+                class: CCC
+            parts:
+              - id: M1032_asm-validate.CCC.C1
+                name: validate
+                props:
+                  - name: method
+                    value: (CCC.C1)
+                    class: preventative
+                prose: >-
+                  "GIVEN Cloud Platform WHEN principle attempts authentication to perform API action
+                  THEN platform must enforce multi-factor authentication for each user"
+              - id: M1032_asm-validate.CCC.C2
+                name: validate
+                props:
+                  - name: method
+                    value: (CCC.C2)
+                    class: preventative
+                prose: >-
+                  "GIVEN cloud service WHEN principle attempts authentication to the service with 
+                  local credential THEN service should deny action for all principles"
+              - id: M1032_asm-validate.CCC.C3
+                name: validate
+                props:
+                  - name: method
+                    value: (CCC.C3)
+                    class: detective
+                prose: >-
+                  "GIVEN MFA is enabled on cloud service WHEN authentication attempt is successful. 
+                  and MFA age is '0' or 'null' and MFA authentication token present=false THEN 
+                  record the action and alert"
+              - id: M1032_asm-validate.CCC.C4
+                name: validate
+                props:
+                  - name: method
+                    value: (CCC.C4)
+                    class: detective
+                prose: >-
+                  "GIVEN cloud service WHEN principle attempts authentication to service with 
+                  local credential THEN record the action and alert"
+
+
