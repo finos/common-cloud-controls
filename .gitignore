@@ -1,0 +1,4 @@
+# Name of default directory for oscal-cli
+build/oscal-cli
+# VS Code 
+.DS_Store
