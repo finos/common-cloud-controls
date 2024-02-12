@@ -33,7 +33,7 @@ FINOS Common Cloud Controls meets over Zoom and you can find future agendas and 
 Alternatively, find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
 ### Join the FINOS Common Cloud Controls Mailing List 
-FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants@lists.finos.org](mailto:ccc-participants@lists.finos.org) to join.
+FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants@lists.finos.org](mailto: ccc-participants+subscribe@lists.finos.org) to join.
 
 ### Raise a FINOS Common Cloud Controls GitHub Issue
 
