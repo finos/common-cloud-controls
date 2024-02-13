@@ -1,62 +1,29 @@
 # Common Cloud Services Taxonomy
 
-- [Storage Services](#storage-services)
-  - [Object Storage](#object-storage)
-  - [Block Storage](#block-storage)
-  
-- [Database Services](#database-services)
-  - [Relational Databases](#relational-databases)
-  - [NoSQL Databases](#nosql-databases)
+The Common Cloud Services Taxonomy is the highest-level classification of a core functionality provided across all cloud service providers. Each service must belong to one and only one Service Taxonomy that best aligns to its primary purpose.
 
-## Storage Services
+## Service Taxonomy
 
-### Object Storage
+The Service Taxonomy column MUST be present and MUST NOT be null or empty.
 
-- **AWS**: Amazon S3
-- **Azure**: Azure Blob Storage
-- **Google Cloud**: Google Cloud Storage
+## Description
 
-### Block Storage
+Primary purpose and the core functionality covered by the Service Taxonomy
 
-Managed Services:
+| Service Taxonomy | Description  |
+| -------- | ---------- |
+| [Compute Services](compute-services) | Virtual computing, batch operations, serverless functions, high-performance computing |
+| Containers | Containerized computing, Kubernetes |
+| [Storage Services](storage-services) | Storage for structured and unstructured data in the forms of objects, blobs queues, etc |
+| [Database Services](database-services) | Database platforms and services that allow for storage and querying of data. |
+| Application Integrations | Event buses, message broker services, message queues and various notification services |
+| [Networking Service](networking-services) | Networking and content delivery related services |
+| Analytics | Daata processing, analytics, and visualization capabilities. |
+| AI and Machine Learning | Artificial Intelligence and Machine Learning related technologies. |
+| Security and Identity Services | Access and Authorization management, creation and control of encryption keys, provisioning of SSL/TLS certificates, secret management |  
+| Management and Governance Services | Services including logging, monitoring, tracing, debugging, audit trails, cost optimizing |
+| Developer Tools | SDK, CLI, CI/CD tools, etc. |
 
-- **AWS**: Amazon EBS
-- **Azure**: Azure Disk Storage
-- **Google Cloud**: Google Persistent Disk
-
-## Database Services
-
-### Relational Databases
-
-Managed Services:
-
-- **AWS**: Amazon RDS
-- **Azure**: Azure Database for MySQL, SQL Database (SQL Server)
-- **Google Cloud**: Cloud SQL
-
-Service Level Taxonomy:
-
-- SQL Support - Properly handle queries in the SQL language.
-- Vertical Scaling - Increase or decrease resource allocation.
-- Horizontal Scaling - Read replicas of the primary database can be created.
-- Multi-region - Read replicas can be created in multiple user-specified regions.
-- Automated Backups - Backups can be automatically created and stored according to user specification.
-- Point in Time Recovery - Backups can be restored on demand to a specific point in time.
-- Encryption at Rest - Data is encrypted at rest, and can be encrypted with user private keys.
-- Encryption in Transit - Data is encrypted in transit, and can be encrypted with user private keys.
-- Role Based Access Control - Users can be assigned roles with specific permissions.
-- Logging - Configurable logs are available for user inspection.
-- Monitoring - Configurable metrics are available for user inspection.
-- Alerting - Configurable alerts can be enabled.
-- Failover - Standby database can be implemented for failover when the primary can't be reached.
-
-[(read more)](database/relational/taxonomy.md)
-
-### NoSQL Databases
-
-- **AWS**: Amazon DynamoDB
-- **Azure**: Azure Cosmos DB
-- **Google Cloud**: Google Cloud Bigtable, Firestore
 
 ## References
 
