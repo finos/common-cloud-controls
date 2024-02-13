@@ -12,8 +12,7 @@ Primary purpose and the core functionality covered by the Service Taxonomy
 
 | Service Taxonomy | Description  |
 | -------- | ---------- |
-| [Compute Services](compute-services) | Virtual computing, batch operations, serverless functions, high-performance computing |
-| Containers | Containerized computing, Kubernetes |
+| [Compute Services](compute-services) | Virtual computing, container services, batch operations, serverless functions, high-performance computing |
 | [Storage Services](storage-services) | Storage for structured and unstructured data in the forms of objects, blobs queues, etc |
 | [Database Services](database-services) | Database platforms and services that allow for storage and querying of data. |
 | Application Integrations | Event buses, message broker services, message queues and various notification services |
