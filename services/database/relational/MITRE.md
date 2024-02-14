@@ -12,11 +12,13 @@ This document takes the MITRE ATT&CK matrix and for each Tactic under a Techniqu
 
 The suggested format (for discussion) is:
 
+```gherkin
 Scenario: THREAT ID - Human readable threat description  
-  Given Service  
-  and Taxonomy Feature  
-  When A "<THREAT ACTOR>" requests/ enacts attack x  
-  And Attack success criteria  
-  Then MITRE Technique Ref  
-  And MITRE ATT&CK Tactic  
-  And Loss of Service Taxonomy Feature C/I/A 
+    Given Service  
+    And Taxonomy Feature  
+    When A "<THREAT ACTOR>" requests/ enacts attack x  
+    And Attack success criteria  
+    Then MITRE Technique Ref  
+    And MITRE ATT&CK Tactic  
+    And Loss of Service Taxonomy Feature C/I/A 
+```
