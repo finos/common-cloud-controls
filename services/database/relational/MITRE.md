@@ -18,7 +18,7 @@ This document takes the [MITRE ATT&CK Enterprise Cloud IAAS matrix](https://atta
 The suggested format (for discussion) is:
 
 ```gherkin
-Scenario THREAT ID - Human readable threat description  
+Scenario: THREAT ID - Human readable threat description  
     Given Service  
     And Taxonomy Feature  
     When A "<THREAT ACTOR>" requests/ enacts attack x  
@@ -38,7 +38,7 @@ Scenario THREAT ID - Human readable threat description
 For example:
 
 ```gherkin
- Scenario RDMS-T005 Attacker disables logs
+ Scenario: RDMS-T005 Attacker disables logs
     Given An RDMS instance
     And CCC-RDMS-10 Ensure the system supports logging
     When A "<THREAT ACTOR>" requests disabling of logging
@@ -52,7 +52,7 @@ For example:
 ### T1190 Exploit Public-Facing Application
 
 ```gherkin## Execution
-Scenario RDMS-T001 Vulnerable Internet facing RDMS instance exploited
+Scenario: RDMS-T001 Vulnerable Internet facing RDMS instance exploited
     Given RDMS  
     When An Unauthenticated Internet Based Attacker exploits a vulnerability in a internet facing RDMS instance with "<PAYLOAD>"
     And Response is "<RESPONSE>"
@@ -69,7 +69,7 @@ Scenario RDMS-T001 Vulnerable Internet facing RDMS instance exploited
 ### T1078 Valid Accounts
 
 ```gherkin
-Scenario RDMS-T002 RDMS Credential Compromised by internet based attacker
+Scenario: RDMS-T002 RDMS Credential Compromised by internet based attacker
     Given RDMS
     And CCC-RDMS-1 SQL Support
     When an Internet Based Attacker attempts to execute "<QUERY>"
@@ -97,7 +97,7 @@ Examples:
 | SELECT department, COUNT(*) as employee_count FROM employees GROUP BY department ORDER BY employee_count DESC | "Sales", 3 |
 
 ```gherkin
-Scenario RDMS-T004 Default local accounts used to access RDMS instance
+Scenario: RDMS-T004 Default local accounts used to access RDMS instance
     Given an RDMS Instance
     And local User/PW authentication
     And unauthenticated attacker with network access
@@ -126,7 +126,7 @@ Examples:
 ### T1059 Command and Scripting Interpreter
 
 ```gherkin
-Scenario RDMS-T003 SQL Injection Attack
+Scenario: RDMS-T003 SQL Injection Attack
     Given RDMS
     And CCC-RDMS-1 SQL Support
     When the following query is executed "<QUERY>"
@@ -188,7 +188,7 @@ N/A
 ### T1562 Impair Defenses
 
 ```gherkin
- Scenario RDMS-T005 Attacker disables logs
+ Scenario: RDMS-T005 Attacker disables logs
     Given An RDMS instance
     And CCC-RDMS-10 Ensure the system supports logging
     When a "<THREAT ACTOR>" requests disabling of logging
@@ -212,7 +212,7 @@ N/A
 ### T1110 Brute Force
 
 ```gherkin
-Scenario RDMS-T006 Password Brute Force Attacks
+Scenario: RDMS-T006 Password Brute Force Attacks
     Given an RDMS Instance
     And Local User/PW authentication
     When an unauthenticated internet attacker executes a password spraying attack
@@ -296,7 +296,7 @@ Scenario: RDMS-T007 Unencrypted RDMS traffic is intercepted
 
 ```gherkin
 Scenario: RDMS-T008 Backup to adversary controlled cloud account
-    Given: An RDMS Instance
+    Given An RDMS Instance
     And CCC-RDMS-5  Automated Backups
     When a "<THREAT ACTOR>" requests an on demand backup/snapshot
     And the backup destination is in a cloud storage resource outside of the organisations control
