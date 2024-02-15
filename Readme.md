@@ -62,6 +62,19 @@ The following are the FINOS CCC maintainers, the firms they represent and the ma
 | Vicente Herrera      | Control Plane  | Define Cloud Services Taxonomy              |
 | Michaela Iorga       | NIST           | OSCAL Representation of CCC                 | 
 
+
+## OSCAL Representation of FINOS CCC Working Group
+The OSCAL Representation of the Common Cloud Controls (CCC) Working Group aims to establish a standardized and collaborative framework for expressing the FINOS CCC within the [OSCAL](https://pages.nist.gov/OSCAL/) format. In the event that modifications to OSCAL are necessary to fully support the CCC, we will actively engage with the NIST community to facilitate these enhancements.
+
+### Key Objectives
+1. OSCAL Artifacts: Develop OSCAL control catalogs, profiles, and/or component definitions meticulously tailored to reflect the core services of major Cloud Service Providers (CSPs), based on the taxonomy and data from other working groups.
+2. Adaptive Framework: Institute a robust framework and accompanying change management processes to ensure the OSCAL representation of the FINOS CCC remains synchronized with evolving regulatory mandates, control best practices, and emergent compliance frameworks.
+
+### Expected Output
+* A definition of where CCC elements are represented in OSCAL
+* CCC OSCAL Control Catalog, Profile and/or Component definition of each major CSP services
+* Robust governance framework defining change management and required tool set to ensure sustainability of OSCAL files
+
 ## License
 
 This project uses the **Community Specification License 1.0**; you can read more in the [LICENSE](LICENSE) file.
