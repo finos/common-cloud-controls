@@ -51,7 +51,7 @@ For example:
 
 ### T1190 Exploit Public-Facing Application
 
-```gherkin## Execution
+```gherkin
 Scenario: RDMS-T001 Vulnerable Internet facing RDMS instance exploited
     Given RDMS  
     When An Unauthenticated Internet Based Attacker exploits a vulnerability in a internet facing RDMS instance with "<PAYLOAD>"
