@@ -64,11 +64,12 @@ The following are the FINOS CCC maintainers, the firms they represent and the ma
 
 
 ## OSCAL Representation of FINOS CCC Working Group
-The OSCAL Representation of the Common Cloud Controls (CCC) Working Group aims to establish a standardized and collaborative framework for expressing the FINOS CCC within the [OSCAL](https://pages.nist.gov/OSCAL/) format. In the event that modifications to OSCAL are necessary to fully support the CCC, we will actively engage with the NIST community to facilitate these enhancements.
+The research and development done by the "OSCAL Representation of the Common Cloud Controls (CCC)" Working Group aims to establish a standardized and collaborative framework for expressing the FINOS CCC within the [OSCAL](https://pages.nist.gov/OSCAL/) format. In the event that modifications to OSCAL are necessary to fully support the CCC, we will actively engage with the NIST community to facilitate these enhancements.
 
 ### Key Objectives
 1. OSCAL Artifacts: Develop OSCAL control catalogs, profiles, and/or component definitions meticulously tailored to reflect the core services of major Cloud Service Providers (CSPs), based on the taxonomy and data from other working groups.
-2. Adaptive Framework: Institute a robust framework and accompanying change management processes to ensure the OSCAL representation of the FINOS CCC remains synchronized with evolving regulatory mandates, control best practices, and emergent compliance frameworks.
+2. Adaptive Framework: Institute a robust framework and accompanying change management processes to ensure the OSCAL representation of the FINOS CCC information (a.k.a. CCC Catalog, Profiles, Component Definitions)remains synchronized with evolving regulatory mandates, control best practices, and emergent compliance frameworks.
+3. Develop and maintain a registry for the specific FINOS' namespace constraints and extensions, when applicable.
 
 ### Expected Output
 * A definition of where CCC elements are represented in OSCAL
