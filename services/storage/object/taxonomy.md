@@ -26,3 +26,4 @@ use in financial services ecosystems.
 | CCC-020116 | Identity Based Access Control | Ability to limit the users/roles who can access the object store. |
 | CCC-020117 | Object Level Access Control | Ability to control access to specific objects on the object store. |
 | CCC-020118 | Logging | Ability to log access, allowing the clients to track requests made to the object store. |
+| CCC-020119 | Signed URLs | Ability to give temporary access to objects and buckets through a signed URL or signed access token. |
