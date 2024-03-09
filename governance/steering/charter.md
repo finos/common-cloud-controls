@@ -19,17 +19,16 @@ Committee also defines the project values and structure.
   the Steering Committee.
 * All management<sup>[1](#footnote1)</sup> responsibilities should be delegated to other
   parties<sup>[2](#footnote2)</sup>.
-* All technical responsibilities should be delegated to SIGs (i.e. the SC shouldn't
-  retain technical responsibilities itself).
+* All technical responsibilities should be delegated to working groups. The Steering Committee shouldn't
+  retain any technical responsibilities itself.
 
 ## Direct responsibilities of the Steering Committee
 
 The following responsibilities belong directly to the Steering Committee.
 
-* Maintain the Steering Committee charter.
 * Define, evolve, and defend the non-technical vision / mission and the values
   of the project.
-* Delegate ownership of, responsibility for and authority over areas 
+* Delegate ownership of, responsibility for, and authority over areas 
   of the project to specific entities<sup>[2](#footnote2)</sup>.
 * Charter and refine policy for defining new community groups<sup>[3](#footnote3)</sup>,
   and establish transparency and accountability policies for such groups.
@@ -59,17 +58,17 @@ Rob Moffat — [@robmoffat](https://github.com/robmoffat)
 ### Composition
 
 The Steering Committee is composed of seven (7) members and shall always be
-considered this size for the purpose of majority and supermajority considerations
-regardless of temporary vacancies.
+considered this size regardless of temporary vacancies, for the purpose of voting
+majority and supermajority considerations.
 
-**FSI Seats.** Four (4) seats on the committee are reserved for FINOS members from financial
+**FSI Seats —** Four (4) seats on the committee are reserved for FINOS members from financial
 service institutions. These seats may not be occuppied by more than one individual
 from the same institution<sup>[6](#footnote6)</sup>. In the event that a committee 
-member occupying one of these seats experiences a change of employment, they
+member occupying an FSI seat undergoes a change of employment, they
 may retain their seat while in noncompliance for 30 calendar days before
 it is automatically considered vacant.
 
-**Community Seats** Three (3) seats on the committee are not reserved, and may be filled by any 
+**Community Seats —** Three (3) seats on the committee are not reserved, and may be filled by any 
 community member from any organization.
 
 ### Elections
@@ -124,10 +123,7 @@ provides context on the reason for the vote. This statement must be seconded by
 the committee member who seconded the vote.
 
 Once a vote of no confidence has been called, the committee will notify the
-community through the following channels:
-
-* the [community mailing list][dev-list]
-* the [Steering Committee public mailing list][steering-public-list]
+community through the CCC mailing list.
 
 This notification will include:
 
@@ -193,8 +189,8 @@ Quorum **to vote in a meeting** is a **_two-thirds supermajority of the
 
 ## Inclusive Leadership Training
 
-Members of the committee must take an
-[Inclusive Open Source Community Orientation course](course)
+Members of the committee must take the
+[Inclusive Open Source Community Orientation](course) course
 in support of our community values.  Members are required to report
 completion of the course as part of on-boarding within 30 days from
 the date of their appointment.
