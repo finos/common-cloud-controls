@@ -1,0 +1,1 @@
+issue for proposing SIGs, WGs, and technical work. checkboxes, choose which category, schedule presentation to appropriate group, name any member sponsors, etc

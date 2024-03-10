@@ -1,13 +1,13 @@
-# Common Cloud Controls (CCC) Steering Committee Charter
+# Common Cloud Controls Steering Committee Charter
 
 This document outlines the mission, scope, and objectives of
-the CCC Steering Committee.
+the Common Cloud Controls (CCC) Steering Committee.
 
 ## Mission
 
 The CCC Steering Committee is the governing body of the CCC
 project, providing decision-making and oversight pertaining to the CCC
-project bylaws, sub-organizations, and financial planning.  The Steering 
+project bylaws, sub-organizations, and financial planning.  The Steering
 Committee also defines the project values and structure.
 
 ## Approach
@@ -28,13 +28,14 @@ The following responsibilities belong directly to the Steering Committee.
 
 * Define, evolve, and defend the non-technical vision / mission and the values
   of the project.
-* Delegate ownership of, responsibility for, and authority over areas 
+* Delegate ownership of, responsibility for, and authority over areas
   of the project to specific entities<sup>[2](#footnote2)</sup>.
 * Charter and refine policy for defining new community groups<sup>[3](#footnote3)</sup>,
   and establish transparency and accountability policies for such groups.
+* Appoint leadership for Special Interest Groups (SIGs).
 * Define and evolve project and group<sup>[3](#footnote3)</sup> governance
   structures and policies<sup>[4](#footnote4)</sup>.
-* Act as a final non-technical escalation point for any CCC community group 
+* Act as a final non-technical escalation point for any CCC community group
   or technical effort.
 * Define and enforce requirements for community groups<sup>[3](#footnote3)</sup>
   to ensure ongoing positive standing, or decomission any groups not in good standing.
@@ -63,12 +64,12 @@ majority and supermajority considerations.
 
 **FSI Seats —** Four (4) seats on the committee are reserved for FINOS members from financial
 service institutions. These seats may not be occuppied by more than one individual
-from the same institution<sup>[6](#footnote6)</sup>. In the event that a committee 
+from the same institution<sup>[6](#footnote6)</sup>. In the event that a committee
 member occupying an FSI seat undergoes a change of employment, they
 may retain their seat while in noncompliance for 30 calendar days before
 it is automatically considered vacant.
 
-**Community Seats —** Three (3) seats on the committee are not reserved, and may be filled by any 
+**Community Seats —** Three (3) seats on the committee are not reserved, and may be filled by any
 community member from any organization.
 
 ### Elections
@@ -207,7 +208,7 @@ Committee members may propose a change to this document through the following pr
 
 ## Attribution
 
-This document was adapted from the Kubernetes Steering Committee Charter [[afb3858]](upstream).
+This document was adapted from the Kubernetes Steering Committee Charter [[afb3858](upstream)].
 
 ## Footnotes
 
@@ -241,5 +242,3 @@ interconnected organizations should be considered a single entity for the purpos
 [course]: https://training.linuxfoundation.org/training/inclusive-open-source-community-orientation-lfc102/
 
 [upstream]: https://github.com/kubernetes/steering/blob/afb3858/charter.md
-
-[community groups]: ./community.md

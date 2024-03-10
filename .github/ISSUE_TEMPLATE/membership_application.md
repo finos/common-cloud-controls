@@ -1,0 +1,1 @@
+apply for base membership status

@@ -71,9 +71,9 @@ honor on the recipient, acknowledging the significant contributions they have ma
 to the project. Emeritus members have no binding vote, and no expectation of continued
 participation in steering committee affairs.
 
-## Election schedule and operation
+## Election Schedule and Operation
 
-The steering committee (after the Bootstrap election) is responsible for the selection 
+After the first bootstrap election, the steering committee is responsible for the appointment
 of election officers to operate the election and circulate an exact election timeline
 to the community. The steering committee should provide the election officer with a
 desired timeline based on current community needs.
@@ -90,8 +90,15 @@ For example:
   - Conclusion of Election
   - Results announced at first community meeting after the election concludes
 
-The election officers will choose exact dates for each step and propose the
-final schedule to steering per the [election procedure].
+The election officers will choose exact dates for each step and propose the final 
+schedule to Steering Committee.
+
+### Nomination and Election Procedure
+
+Nominations will be made using the _Nomination_ GitHub Issue template.
+
+Elections will be held using an online preference election system which supports 
+Condorcet elections. The most preferred candidates will be elected to the open seats.
 
 ### Election Officer Eligibility
 
@@ -142,7 +149,7 @@ community of FINOS Members.
 
 [Condorcet]: https://en.wikipedia.org/wiki/Condorcet_method
 
-[election procedure]: ./elections-procedure.md
+[election procedure]: #election-procedure
 
 [devstats-sql]: https://github.com/cncf/devstats/blob/master/metrics/shared/project_developer_stats.sql
 [devstats-dashboard]: https://k8s.devstats.cncf.io/d/13/developer-activity-counts-by-repository-group?orgId=1&var-period_name=Last%20year&var-metric=contributions&var-repogroup_name=All
