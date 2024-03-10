@@ -9,19 +9,17 @@ Everyone is welcome to contribute through discussion, issues, and pull requests.
 | WG Lead | Set direction and priorities for a working group (WG) | Demonstrated responsibility and excellent technical judgement for the subproject | [CODEOWNERS] entry for all files or directories relating to the WG |
 | SIG Lead | Set direction and priorities for a Special Interest Group (SIG) | Demonstrated responsibility and excellent technical judgement on the central SIG topic | Video conference and mailing list admin permissions |
 
-_**Note:** All roles listed here include the points from `Member`._
-
-_`SIG Lead` and `WG Lead` each also include the points from `Approver`, but do not necessarily overlap with eachother (All SIG Leads and WG leads are also Approvers and Members, but not all SIG Leads are WG Leads or visa versa)._
-
 ## New & Established Contributors
 
 New contributors should be welcomed to the community by existing members, helped with pull request (PR) 
 workflow, and directed to relevant documentation and communication channels.
 
-Established community members are expected to demonstrate technical and/or writing ability,
-their adherence to the principles in this document, and familiarity with project organization 
+Established community members of all roles are expected to demonstrate technical and/or writing ability,
+their adherence to the principles of the project, and familiarity with project organization 
 (roles, policies, procedures, conventions, etc). Role-specific expectations, responsibilities,
 and requirements are enumerated below.
+
+Anyone attending a CCC meeting, event, or contributing in any way will be expected to follow the [Linux Foundation Code of Conduct]
 
 ## Member
 
@@ -87,23 +85,24 @@ correctness issues, interactions with other parts of the system, and so forth.
 
 ### Requirements
 
-- _Member_ of the project for at least 3 months.
-- History of quality reviews and contributions within a particular space.
+- Active _Member_ of the project for at least 3 months.
+- History of quality reviews and contributions within a specific scope.
 - Appointed by a SIG Lead or WG Lead.
-  - Appointer must create a PR to update the `CODEOWNERS` file.
-    - The PR must remain open for no less than seven (7) days.
-    - Any current approver may block the appointment.
+  - Appointer must create a PR to add appointee to the `CODEOWNERS` file for the 
+    appropriate scope.
+    - The PR must remain open for seven (7) days to gather feedback, or until
+      all active approvers have responded, whichever is first.
+    - Any current approver may request changes or reject the appointment.
       - Objections may be made for any reason, with or without public explanation.
       - Objection appeals to the Steering Committee may be made by the nominator.
     - **Note:** Adjustments to an approver's scope must follow this same process.
-- Adhere to requirements from `Member`
 
 ### Responsibilities and Privileges
 
 - Provide thorough and practical reviews of contributions from other members.
 - Ensure contributions meet the project's conventions and quality standards.
 - May approve and merge PRs from other members, or block PRs with requests for changes.
-- Includes points from _Member_.
+- Adhere to the general responsibilities of a member.
 
 ## WG Lead
 
@@ -126,8 +125,9 @@ and excellent technical judgement for the subproject.
 
 ### Responsibilities and Privileges
 
-- Set direction and priorities for the working group.
-- Includes points from _Approver_.
+- Set direction and priorities for a WG, ensuring consistent progress.
+- Present the WG status and progress to the rest of the SIG.
+- Adhere to the general responsibilities of an _Approver_.
 
 ## SIG Lead
 
@@ -151,9 +151,9 @@ technical judgement on the central SIG topic.
   - Maintain the SIG charter
   - Ensure proper execution of SIG meetings
   - Represent the SIG in public Steering Committee meetings, or delegate a representative
-- Adhere to requirements from _Approver_.
+- Adhere to the general responsibilities of an _Approver_.
 
-## Inactive Members
+### Members
 
 A core principle in maintaining a healthy community is encouraging active
 participation. It is inevitable that people's focuses will change over time and
@@ -165,7 +165,7 @@ community and go through the aforementioned processes again to regain their stat
 ### Inactivity Qualification
 
 Inactive members are those who carry an aforementioned role or title within CCC 
-with **zero** contributions in the preceding 6 months.
+with **zero** qualifying contributions in the preceding 6 months.
 
 Specific group charters may specify a shorter period for their roles.
 
@@ -175,8 +175,9 @@ This document was adapted from the documentation for Kubernetes Community Member
 
 ---
 
+[Linux Foundation Code of Conduct]: <https://events.linuxfoundation.org/about/code-of-conduct/>
 [upstream]: https://github.com/kubernetes/community/blob/519169d/community-membership.md
-[CODEOWNERS]: <CODEOWNERS>
+[CODEOWNERS]: <https://github.com/finos/common-cloud-controls/blob/main/CODEOWNERS>
 [ccc-participants@finos.org]: <TODO: how do people subscribe to this?>
 [membership template]: <.github/ISSUE_TEMPLATE/membership.md>
 [Steering Committee]: <./steering/charter.md>
