@@ -19,7 +19,7 @@ their adherence to the principles of the project, and familiarity with project o
 (roles, policies, procedures, conventions, etc). Role-specific expectations, responsibilities,
 and requirements are enumerated below.
 
-Anyone attending a CCC meeting, event, or contributing in any way will be expected to follow the [Linux Foundation Code of Conduct]
+Anyone attending a CCC meeting, event, or contributing in any way will be expected to follow the [Linux Foundation Code of Conduct].
 
 ## Member
 
