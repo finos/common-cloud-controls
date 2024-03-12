@@ -50,7 +50,7 @@ The following are the FINOS CCC maintainers, the firms they represent and the ma
 | Jonathan Meadows     | Citi           | OSCAL Representation of CCC                 |
 | Jason Nelson         | Citi           | Engage with MITRE Threat Catalogue          |
 | Mark Rushing         | Citi           | Define Cloud Services Taxonomy              |
-| Moe Matar            | Citi           | Define Cloud Services Taxonomy              | 
+| Moe Matar            | Ex-Citi        | Define Cloud Services Taxonomy              | 
 | Anna Selyugina       | Goldman Sachs  | Engage with MITRE & Cloud Services Taxonomy |
 | Paul Stevenson       | Morgan Stanley | Cloud Services Taxonomy & OSCAL Representation of CCC |
 | Simon Zhang          | BMO            | Define Cloud Services Taxonomy              |  
