@@ -35,12 +35,11 @@ assist or scribe on community calls.
 - Actively contributing to 1 or more subgroups in the past three (3) months.
 - Have made **multiple contributions** to the project or community, enough to
   demonstrate an **ongoing and long-term commitment** to the project.
-- Subscribed to [ccc-participants@finos.org]
+- Subscribed to the [community mail group]
 - Applied, sponsored, and approved for member status.
   1. [Open an issue][membership template] against the CCC repo
     - Ensure your sponsors are @mentioned on the issue
     - Complete every item on the checklist 
-      ([preview the current version of the template][membership template])
     - Make sure that the list of contributions included is representative of your work on the project.
   2. Have your sponsoring reviewers reply confirmation of sponsorship: `+1`
     - Sponsored by 2 approvers from 2 employers.
@@ -178,7 +177,7 @@ This document was adapted from the documentation for Kubernetes Community Member
 [Linux Foundation Code of Conduct]: <https://events.linuxfoundation.org/about/code-of-conduct/>
 [upstream]: https://github.com/kubernetes/community/blob/519169d/community-membership.md
 [CODEOWNERS]: <https://github.com/finos/common-cloud-controls/blob/main/CODEOWNERS>
-[ccc-participants@finos.org]: <TODO: how do people subscribe to this?>
-[membership template]: <.github/ISSUE_TEMPLATE/membership.md>
+[community mail group]: <mailto:ccc-participants+subscribe@finos.org>
+[membership template]: <https://github.com/finos/common-cloud-controls/blob/main/.github/ISSUE_TEMPLATE/membership.md>
 [Steering Committee]: <./steering/charter.md>
 [community groups]: <./community-groups.md>

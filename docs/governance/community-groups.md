@@ -110,10 +110,11 @@ Changes to the community structure can be proposed through pull requests to the 
 [Code of Conduct]: <https://www.finos.org/code-of-conduct>
 [community groups]: <./community-groups.md>
 [CODEOWNERS]: <https://github.com/finos/common-cloud-controls/blob/main/CODEOWNERS>
-[ccc-participants@finos.org]: <TODO: how do people subscribe to this?>
 [Steering Committee Charter]: <./steering/charter.md>
 [SC]: <#steering-committee>
 [SIG]: <#special-interest-groups>
 [WG]: <#working-groups>
-[upstream]: https://github.com/kubernetes/community
-[proposal template]: <https://github.com/finos/common-cloud-controls/blob/main/.github/ISSUE_TEMPLACE/proposal.md>
+[SIG Lead]: <./roles.md#sig-lead>
+[WG Lead]: <./roles.md#wg-lead>
+[upstream]: <https://github.com/kubernetes/community>
+[proposal template]: <https://github.com/finos/common-cloud-controls/blob/main/.github/ISSUE_TEMPLATE/proposal.md>
