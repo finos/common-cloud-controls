@@ -16,7 +16,7 @@ The **Steering Committee** is the ultimate governance body of the CCC project, r
 
 All SIGs must hold a public meeting no less than once every three (3) weeks, excluding November and December. Agendas and attendance to public SIG meetings must be tracked in GitHub Issues.
 
-The creation or decomission of a SIG may only be done through a supermajority vote of the Steering Committee.
+The creation or decomission of a SIG may only be done through a supermajority vote of the Steering Committee (in accordance with the [Steering Committee] Charter).
 
 ### Formation
 
