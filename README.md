@@ -1,69 +1,77 @@
 [![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
 
+# Common Cloud Controls
+
 <img height="100px" src="https://github.com/finos/branding/blob/master/project-logos/active-project-logos/FINOS%20Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal.svg?raw=true"/>
 
-FINOS Common Cloud Controls (FINOS CCC) is the codename for an open standard project, originally proposed by Citi and currently incubating in FINOS, to describe consistent controls for compliant public cloud deployments in the financial services sector.
+FINOS Common Cloud Controls (FINOS CCC) is an open standard project incubating in FINOS to describe
+consistent controls for public cloud services that are compliant with common regulatory controls for
+the financial services sector.
 
-This standard is a collaborative project which aims to develop a unified set of cybersecurity, resiliency, and compliance controls for common services across the major cloud service providers (CSPs).
+This standard is a cross-industry collaboration which aims to develop a unified set of cybersecurity,
+resiliency, and compliance controls for common services across cloud service providers (CSPs).
 
-You can read more and register your interest on [finos.org/common-cloud-controls-project](https://www.finos.org/common-cloud-controls-project).
+## Getting Started
 
-## FINOS CSLA Needed to Participate in Common Cloud Controls
+The CCC Standard is currently under construction, and not yet ready for end user consumption. The
+community mailing list will be notified when a release candidate is ready for end user feedback.
 
-All FINOS Common Cloud Controls participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices) before joining project calls and collaborating in working groups.
+If you would like to provide topically scoped end user feedback while development is ongoing, join
+or propose the creation of a [User Group] within a [SIG].
 
-Please visit [participants.md](participants.md) and raise a Pull Request by adding your `name`, `organisation` and `enrollment date` to the markdown file. 
+To contribute to the standard as a governance, regulatory, compliance, or cybersecurity professional, consider joining a [SIG] community meeting.
 
-Raising a Pull Request on [participants.md](participants.md) will automatically take you through the Linux Foundation EasyCLA process for signing the FINOS [CSCLA](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices).
+### Join the Community Mailing List
 
-Email help@finos.org if you require further help.
+CCC communications are primarily conducted through the community mailing list. Simply email
+[ccc-participants+subscribe@lists.finos.org] to be automatically added.
 
-## Get Involved with FINOS Common Cloud Controls
+### Join a Special Interest Group
 
-There are several ways to contribute to FINOS Common Cloud Controls.
+A CCC Special Interest Group ([SIG]) is your first port of entry to contribute to the standard.
+Review the [governance documentation] for more information about CCC community groups, roles,
+and their respective responsibilities.
 
-### Join FINOS CCC Project Meetings
-FINOS Common Cloud Controls meets over Zoom and you can find future agendas and previous meetings below.
+| SIG Name | Description | SIG Lead |
+| -------- | ----------- | -------- |
+| Cybersecurity | Responsible for everything related to cybersecurity controls in the CCC standard | SIG Lead TBD |
+| Multicloud Portability | Responsible for the definition and maintenance of controls related to the minimum neccessary features required for a service to be considered portable across CSPs | SIG Lead TBD |
+| Regulation Compliance | Works with other SIGs, regulatory bodies, CSPs, and others to ensure the proper integration of regulatory considerations in CCC | SIG Lead TBD |
+| Specification Design | Works with other SIGs as well as end users to ensure that the specification format and presentation is suitable for all use cases | SIG Lead TBD |
 
-- **FINOS Common Cloud Controls - Project All Hands** - [First Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22All+Working+Groups%22)
-- **OSCAL Representation of FINOS CCC** - [Second Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22OSCAL+Representation+of+FINOS+CCC%22)
-- **Engage with MITRE Threat Catalogue** - [Third Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22Engage+with+MITRE+Threat+Catalogue%22)
-- **Define Cloud Services Taxonomy** - [Fourth Thursday of each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3A%22Define+Cloud+Services+Taxonomy%22+label%3Ameeting)
+Once you find the SIG you're interested in, review their charter for more information about their meeting times, or find the next meeting on the [FINOS Community Calendar]. You may also browse [past meeting minutes] to get up to speed with the latest happenings.
 
-Alternatively, find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
+## Contributing Organizations
 
-### Join the FINOS Common Cloud Controls Mailing List 
-FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants@lists.finos.org](mailto:ccc-participants@lists.finos.org) to join.
+The following firms are proudly contributing to the CCC standard.
 
-### Raise a FINOS Common Cloud Controls GitHub Issue
+Financial Services Institutions:
 
-FINOS Common Cloud Controls is maintained and run through GitHub. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions. 
+- BMO
+- Citi
+- Goldman Sachs
+- Morgan Stanley
 
-## FINOS CCC Project Maintainers
+Other Institutions:
 
-FINOS Common Cloud Controls is maintained by FINOS members and the wider open source in finance community. 
-
-The following are the FINOS CCC maintainers, the firms they represent and the maintainer working group alignment.   
-
-| FINOS CCC Maintainer | Representing   | FINOS CCC Working Group                     |
-| -------------------- | -------------- | ------------------------------------------- |
-| Jonathan Meadows     | Citi           | OSCAL Representation of CCC                 |
-| Jason Nelson         | Citi           | Engage with MITRE Threat Catalogue          |
-| Mark Rushing         | Citi           | Define Cloud Services Taxonomy              |
-| Moe Matar            | Citi           | Define Cloud Services Taxonomy              | 
-| Anna Selyugina       | Goldman Sachs  | Engage with MITRE & Cloud Services Taxonomy |
-| Paul Stevenson       | Morgan Stanley | Cloud Services Taxonomy & OSCAL Representation of CCC |
-| Simon Zhang          | BMO            | Define Cloud Services Taxonomy              |  
-| Adrian Hammond       | Red Hat        | Define Cloud Services Taxonomy              |
-| Naseer Mohammad      | Google         | Engage with MITRE Threat Catalogue          |
-| Valentin Mihai       | Google         | Engage with MITRE Threat Catalogue & OSCAL Representation of CCC|
-| Rachel Kim           | Google         | OSCAL Representation of CCC                 | 
-| Raj Krishnamurthy    | Compliance Cow | Engage with MITRE Threat Catalogue          | 
-| Vicente Herrera      | Control Plane  | Define Cloud Services Taxonomy              |
-| Michaela Iorga       | NIST           | OSCAL Representation of CCC                 | 
+- Control Plane
+- Compliance Cow
+- Google
+- MITRE
+- NIST
+- Red Hat
+- Sonatype
 
 ## License
 
-This project uses the **Community Specification License 1.0**; you can read more in the [LICENSE](LICENSE) file.
+This project uses the **Community Specification License 1.0**; you can read more in the [LICENSE] file.
 
-The source code included in this repository is subject to the [Apache-2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
+Any source code included in this repository is subject to the [Apache-2.0 License].
+
+[ccc-participants+subscribe@lists.finos.org]: <mailto:ccc-participants+subscribe@lists.finos.org>
+[SIG]: <./docs/governance/community-groups.md#special-interest-groups>
+[governance documentation]: <./docs/governance>
+[LICENSE]: <LICENSE>
+[Apache-2.0 License]: <https://www.apache.org/licenses/LICENSE-2.0>
+[FINOS Community Calendar]: <https://finos.org/calendar>
+[past meeting minutes]: <https://github.com/finos/common-cloud-controls/labels/meeting>
