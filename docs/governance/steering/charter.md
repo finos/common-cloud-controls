@@ -65,11 +65,13 @@ In case this fails to fill the seat, a special election for that position will b
 
 A committee member elected in a special election will serve out the remainder of the term for the person they are replacing, regardless of the length of that remainder.
 
-### Resignation
+### Removal
+
+A committee member may remove themselves or be removed through the following processes.
+
+#### Resignation
 
 If a committee member chooses not to continue in their role, for whatever self-elected reason, they must notify the committee in writing.
-
-### Removal
 
 #### No confidence
 
