@@ -31,17 +31,17 @@ The formation of a [SIG] should follow these steps.
 1. Propose the formation of a new [SIG] using the [proposal template], completing all necessary fields.
 1. Work with the [SC] to schedule a proposal presentation.
 1. The [SC] will vote on the proposal within two (2) weeks of presentation.
-1. If approved, the [SC] will appoint a [SIG] Lead. If the proposer included a volunteer to lead the [SIG], a vote should be called to consider the volunteer. Otherwise, a volunteer should be found and confirmed prior to the [SIG] formation.
-1. The [SIG] Lead should work closely with the SC to draft a charter for the [SIG]. The charter for the [WG] must be contributed through a pull request to a new directory within `docs/governance/special-interest-groups`.
-1. When it is complete, the [SIG] Lead should work with the [SC] to schedule a charter presentation.
-1. The [SC] will vote on the proposed charter within one (1) week of presentation. If not approved, the [SIG] Lead should incorporate any feedback and schedule a new charter presentation.
-1. Upon acceptance of the charter, the [SC] must coordinate with FINOS and the [SIG] Lead to add a recurring public meeting to the community calendar.
+1. If approved, the [SC] will appoint a [SIG Lead]. If the proposer included a volunteer to lead the [SIG], a vote should be called to consider the volunteer. Otherwise, a volunteer should be found and confirmed prior to the [SIG] formation.
+1. The [SIG Lead] should work closely with the SC to draft a charter for the [SIG]. The charter for the [WG] must be contributed through a pull request to a new directory within `docs/governance/special-interest-groups`.
+1. When it is complete, the [SIG Lead] should work with the [SC] to schedule a charter presentation.
+1. The [SC] will vote on the proposed charter within one (1) week of presentation. If not approved, the [SIG Lead] should incorporate any feedback and schedule a new charter presentation.
+1. Upon acceptance of the charter, the [SC] must coordinate with FINOS and the [SIG Lead] to add a recurring public meeting to the community calendar.
 
 ### Accountability
 
-[SIG] Leads or their delegates must present verbal OR written updates to the [SC] at its regular public meetings.
+[SIG Lead]s or their delegates must present verbal OR written updates to the [SC] at its regular public meetings.
 
-[SIG] Leads or their delegates must present an annual status report to the [SC] at the [SC]'s discretion.
+[SIG Lead]s or their delegates must present an annual status report to the [SC] at the [SC]'s discretion.
 
 ### Horizontal [SIGs]
 
@@ -65,26 +65,33 @@ The formation of a [WG] should follow these steps.
 1. Work with the topically relevant [SIG] to schedule a proposal presentation.
 1. The [SIG] must resolve any [WG] proposals in a timely manner to limit the number of outstanding 
    issues against the CCC project.
-1. If approved, the [SIG] will appoint a [WG] Lead. If the proposal includes a volunteer to lead the [WG], a vote or attempt at consensus should first be made to consider the volunteer. If the volunteer is not approved, another should be found and confirmed prior to the [WG] formation.
-1. The [SIG] Lead should work closely with the [SIG] to draft a charter for the [WG]. The charter for the [WG] must be contributed through a pull request to a new directory within `docs/governance/special-interest-groups`. The PR must remain open for no less than seven (7) days. During this time, a request for changes from a [SIG] approver may extend the review process.
+1. If approved, the [SIG] will appoint a [WG Lead]. If the proposal includes a volunteer to lead the [WG], a vote or attempt at consensus should first be made to consider the volunteer. If the volunteer is not approved, another should be found and confirmed prior to the [WG] formation.
+1. The [SIG Lead] should work closely with the [SIG] to draft a charter for the [WG]. The charter for the [WG] must be contributed through a pull request to a new directory within the parent SIG's governance directory. The PR must remain open for no less than seven (7) days. During this time, a request for changes from a [SIG] approver may extend the review process.
 1. The PR may be merged after the allotted time, if there are no relevant requests for changes. Upon merge of the charter, the [WG] is considered formed.
 
 ### Accountability
 
-[WG] Leads must collaborate with their parent [SIG] to provide accountability according to their charters.
+[WG Lead]s must collaborate with their parent [SIG] to provide accountability according to their charters.
 
 ## User Groups
 
-**User Groups** are community-driven clusters where individuals with common interests or use-cases gather to share experiences and best practices. Discussion within user groups may result in feedback, suggestions, or contributions to the CCC project based on their real-world usage of cloud services and controls.
+**User Groups** are community-driven clusters where individuals with common interests or use-cases gather to share experiences and best practices. Discussion within User Groups may result in feedback, suggestions, or contributions to the CCC project based on their real-world usage of cloud services and controls.
+
+The SIG Lead is responsible for supporting or delegating any support necessary for the User Group's
+operation according to its charter (such as to ensure meetings are run smoothly and feedback is applied).
+
+The creation or decomission of a User Group is subject to the consensus of a [SIG], as outlined in the respective [SIG] charter and as defined in the goals of the User Group stated in the User Group charter.
 
 ### Formation
 
-The formation of a [WG] should follow these steps.
+The formation of a User Group should follow these steps.
 
-1. Propose the formation of a new [WG] using the [proposal template], completing all necessary fields.
+1. Propose the formation of a new User Group using the [proposal template], completing all necessary fields.
 1. Work with the topically relevant [SIG] to schedule a proposal presentation.
-1. The [SIG] must resolve any [WG] proposals in a timely manner to limit the number of outstanding 
+1. The [SIG] must resolve any User Group proposals in a timely manner to limit the number of outstanding 
    issues against the CCC project.
+1. The [SIG Lead] should work closely with the [SIG] to draft a charter for the User Group. The charter for the User Group must be contributed through a pull request to a new directory within the parent SIG's governance directory. The PR must remain open for no less than seven (7) days. During this time, a request for changes from a [SIG] approver may extend the review process.
+1. The PR may be merged after the allotted time, if there are no relevant requests for changes. Upon merge of the charter, the User Group is considered formed.
 
 ## Governance
 
