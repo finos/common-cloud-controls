@@ -51,7 +51,7 @@ Horizontal [SIGs] in the CCC project address broad areas that cut across multipl
 
 Vertical [SIGs] within the CCC project concentrate on specific segments of the cloud ecosystem, developing controls and standards tailored to particular use cases, technologies, or industry sectors. They delve into the unique challenges and requirements of these focused areas to provide more specialized guidance and standards.
 
-## Working Groups (WGs)
+## Working Groups
 
 **Working Groups (WGs)** are temporary entities formed to address specific problems or projects within the CCC framework. They cross-collaborate with [SIGs] and focus on achieving their goals before disbanding.
 
@@ -113,5 +113,7 @@ Changes to the community structure can be proposed through pull requests to the 
 [ccc-participants@finos.org]: <TODO: how do people subscribe to this?>
 [Steering Committee Charter]: <./steering/charter.md>
 [SC]: <#steering-committee>
+[SIG]: <#special-interest-groups>
+[WG]: <#working-groups>
 [upstream]: https://github.com/kubernetes/community
 [proposal template]: <https://github.com/finos/common-cloud-controls/blob/main/.github/ISSUE_TEMPLACE/proposal.md>

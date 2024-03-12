@@ -47,7 +47,7 @@ assist or scribe on community calls.
     - Sponsors must have close project interactions with the prospective member
       (such as in PR review, proposal creation, coordinating on issues, etc.)
   3. Once your sponsors have responded, your request will be reviewed by the [Steering Committee]
-    within 30 days.
+     within 30 days.
 
 ### Contributions Definition
 
@@ -55,7 +55,7 @@ Contributions are meaningful engagements that advance the goals of the community
 These include, but are not limited to:
 
 - Submittion of impactful pull requests that are subsequently merged into the project's
- repositories.
+  repositories.
 - Additive participation in discussions on issues, pull requests, or community forums
   like mailing lists, Slack channels, or meetings.
 - Contribution to design proposals or reviews.
