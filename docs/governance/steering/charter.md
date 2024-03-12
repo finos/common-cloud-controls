@@ -171,12 +171,5 @@ This document was adapted from the Kubernetes Steering Committee Charter [[afb38
 
 [maximal-representation]: /elections.md#maximal-representation
 [voter-eligibility]: /elections.md#eligibility-for-voting
-
-[dev-list]: mailto:dev@kubernetes.io
-[steering-private-list]: mailto:steering-private@kubernetes.io
-[steering-public-list]: mailto:steering@kubernetes.io
-[steering-repo]: https://git.k8s.io/steering
-
 [course]: https://training.linuxfoundation.org/training/inclusive-open-source-community-orientation-lfc102/
-
 [upstream]: https://github.com/kubernetes/steering/blob/afb3858/charter.md
