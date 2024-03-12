@@ -8,10 +8,11 @@ The CCC Steering Committee is the governing body of the CCC project, providing d
 
 ## Approach
 
-* Adapt the role and structure of the Steering Committee as needed to meet the needs of the project.
+* Adapt the role and structure of the Steering Committee to meet the ongoing needs of the project.
 * Responsibilities not explicitly delegated to other parties<sup>[2](#footnote2)</sup> through their respective charters reside with the Steering Committee.
 * All management<sup>[1](#footnote1)</sup> responsibilities should be delegated to other parties<sup>[2](#footnote2)</sup>.
 * All technical responsibilities should be delegated to working groups. The Steering Committee shouldn't retain any technical responsibilities itself.
+* The steering committee will hold a public community call no less than once per quarter to provide updates to stakeholders regarding all CCC efforts.
 
 ## Direct responsibilities of the Steering Committee
 
