@@ -20,6 +20,8 @@ Examples:
 - **Azure**: Virtual Machines 
 - **Google Cloud**: Compute Engine
 
+Read more about [Virtual Machines](compute/virtual-machines/taxonomy.md)
+
 ### Containers
 
 Containers are lightweight, portable, and isolated environments that package applications and their dependencies for deployment across different computing environments. Container services provide orchestration, management, and scaling capabilities for containerized workloads using platforms such as Docker and Kubernetes. Cloud providers offer managed container services with features such as container registry, cluster management, and auto-scaling.
