@@ -42,9 +42,7 @@ use in financial services ecosystems.
 |	CCC-030132	|	Dedicated Instances	|	Providing the option to run instances on physical servers that are dedicated solely to a single customer account, ensuring that the underlying hardware resources are not shared with other customers.	|
 |	CCC-030133	|	Instance Scheduling	|	Offering features for scheduling the startup, shutdown, and maintenance of virtual machine instances based on predefined schedules or conditions.	|
 |	CCC-030134	|	Interoperability with Storage Options	|	Capability to read/write to non-ephemeral external storage including object storage and encrypted block storage.	|
-|	CCC-030135	|	Instance Autoscaling	|	Automatically adjusting the number and instance type of virtual machine instances based on predefined criteria such as CPU utilization or incoming traffic.	|
-|	CCC-030136	|	Scalability - Horizontal	|	Ability to scale virtual machine instances horizontally by adding more instances to accommodate increased workload demands.	|
-|	CCC-030137	|	Scalability - Vertical	|	Ability to scale virtual machine instances vertically by adjusting CPU, memory, and storage resources.	|
-|	CCC-030138	|	Instance Grouping	|	Offering logical grouping and management tools for sets of virtual machine instances.	|
-|	CCC-030139	|	Security Groups	|	Ability to configure security groups or firewalls to control inbound and outbound traffic to and from instances.	|
-|	CCC-030140	|	TPM Support	|	Providing support for Trusted Platform Module (TPM) for hardware-based security features such as secure boot and cryptographic key storage.	|
+|	CCC-030135	|	Instance Autoscaling	|	Providing an interface for autoscaling services to automatically adjusting the number and/or instance type of virtual machine instances based on predefined criteria such as CPU utilization or incoming traffic.	|
+|	CCC-030136	|	Instance Grouping	|	Offering logical grouping and management tools for sets of virtual machine instances.	|
+|	CCC-030137	|	Security Groups	|	Ability to configure security groups or firewalls to control inbound and outbound traffic to and from instances.	|
+|	CCC-030138	|	TPM Support	|	Providing support for Trusted Platform Module (TPM) for hardware-based security features such as secure boot and cryptographic key storage.	|
