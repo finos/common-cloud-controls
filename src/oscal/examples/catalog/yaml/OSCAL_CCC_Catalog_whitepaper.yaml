@@ -1,0 +1,35 @@
+---
+catalog:
+  uuid: edaf664a-e984-4dbf-85ec-1104186fc12f
+  metadata:
+    title: Exampe CCC Catalog from FINOS CCC Whitepaper
+    published: '2020-02-02T11:01:04.736-04:00'
+    last-modified: '2020-12-18T16:23:23.811-05:00'
+    version: '1.0'
+    oscal-version: 1.0.0-rc1
+  controls:
+  - id: M1032
+    title: Multi-Factor Authentication
+    props:
+    - name: label
+      value: 1.1.1
+    parts:
+    - id: M1032_stm
+      name: statement
+      prose: Multi-Factor Authentication
+    - id: M1032_obj
+      name: assessment-objective
+      props:
+        - name: label
+          value: M1032
+          class: CCC
+      parts:
+        - id: M1032_obj.CCC.C2
+          name: assessment-objective
+          class: preventative
+          props:
+            - name: label
+              value: CCC.C2
+          prose: Local Authentication must be disabled and only allow Multi-Factor
+
+
