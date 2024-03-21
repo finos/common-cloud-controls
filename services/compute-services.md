@@ -47,8 +47,8 @@ Batch processing services enable users to execute large-scale, parallelizable co
 Examples:
 
 - **AWS**: AWS Batch
-- **Azure**: Cloud Dataflow
-- **Google Cloud**: Azure Batch
+- **Azure**: Azure Batch
+- **Google Cloud**: Cloud Dataflow
 
 ### Edge Computing
 
@@ -57,5 +57,5 @@ Edge computing services extend cloud computing capabilities to the network edge,
 Examples:
 
 - **AWS**: AWS IoT Greengrass and AWS Outposts
-- **Azure**: Google Cloud IoT Edge
-- **Google Cloud**: Azure IoT Edge
+- **Azure**: Azure IoT Edge
+- **Google Cloud**: Google Cloud IoT Edge
