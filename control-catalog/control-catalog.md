@@ -6,4 +6,5 @@
 | Test | GIVEN you own the object storage bucket; WHEN an unencrypted HTTP request is made to the bucket; THEN the request should be denied |
 | Service Taxonomy Id  | CCC-020115 |
 | NIST CF  | Protect  |
+| MITRE ATT&CK Mitigations | [M1041](https://attack.mitre.org/mitigations/M1041) |
 | Threats | CCC.OS.T1 |
