@@ -8,7 +8,7 @@ Because this work includes the creation of strict charters and limitations on fu
 
 # Phase 1 — Steering Committee Bootstrapping
 
-The first, and most important step, is to create a charter and assign members to the top level organizational unit: the Steering Committee. This must be done through a consensus of the most active CCC participants, with an opportunity for input from the entire community.
+The first, and most important step, is to create a charter and assign members to the top level organizational unit: the Steering Committee. This must be done through a consensus of the most active CCC participants from financial service institutions, with an opportunity for input from the entire community.
 
 Process:
 
