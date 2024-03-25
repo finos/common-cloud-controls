@@ -33,7 +33,7 @@ The following responsibilities belong directly to the Steering Committee.
 
 ### FINOS Point of Contact
 
-The assigned point of contact for the steering committee to coordinate with FINOS Staff is:
+In addition to general foundation support given to projects, the assigned point of contact for the steering committee to coordinate with FINOS Staff is:
 
 Rob Moffat — [@robmoffat](https://github.com/robmoffat)
 
@@ -43,7 +43,7 @@ Rob Moffat — [@robmoffat](https://github.com/robmoffat)
 
 The Steering Committee is composed of seven (7) members and shall always be considered this size regardless of temporary vacancies, for the purpose of voting majority and supermajority considerations.
 
-**FSI Seats —** Four (4) seats on the committee are reserved for FINOS members from financial service institutions. These seats may not be occuppied by more than one individual from the same institution<sup>[6](#footnote6)</sup>. In the event that a committee member occupying an FSI seat undergoes a change of employment, they may retain their seat while in noncompliance for 30 calendar days before it is automatically considered vacant.
+**FSI Seats —** Four (4) seats on the committee are reserved for FINOS members from financial services institutions. These seats may not be occupied by more than one individual from the same institution<sup>[6](#footnote6)</sup>. In the event that a committee member occupying an FSI seat undergoes a change of employment, they may retain their seat while in noncompliance for 30 calendar days before it is automatically considered vacant.
 
 **Community Seats —** Three (3) seats on the committee are not reserved, and may be filled by any community member from any organization.
 
@@ -148,7 +148,7 @@ Committee members may propose a change to this document through the following pr
 - Post a pull request to this repository describing the change.
 - Call a public vote for the nearest acceptable business day four (4) weeks after initial 
   introduction of the change. A vote may be scheduled earlier if all committee members consent.
-- The change is accepted if three-fourths of the committee members vote in favor.
+- The change is accepted if three-quarters of the committee members vote in favor.
 - The pull request is merged or closed.
 
 ## Attribution
@@ -163,7 +163,7 @@ This document was adapted from the Kubernetes Steering Committee Charter [[afb38
 
 <a name="footnote3">3</a>: Community groups include Special Interest Groups, Working Groups, and Committees.
 
-<a name="footnote4">4</a>: This includes subgroup the process for contributors to become maintainers or reviewers.
+<a name="footnote4">4</a>: This includes the process for contributors to become maintainers or reviewers.
 
 <a name="footnote5">5</a>: Including repositories, artifact repositories, build and test infrastructure, web sites and their domains, blogs, social-media accounts, etc.
 
