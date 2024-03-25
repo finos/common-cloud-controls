@@ -13,11 +13,12 @@ The first, and most important step, is to create a charter and assign members to
 Process:
 
 1. A proposed charter will be presented to an open-invite irregular call
-1. Inaugural committee members will be nominated by the members of the same call
 1. The greater community will be notified via ccc-participants+subscribe@lists.finos.org
 1. A feedback period will be held for seven (7) days, during which time anyone may give feedback
 1. A consensus will be sought in an open-invite irregular call at the end of the feedback period
 1. If consensus is achieved, the charter will be accepted
+1. Inaugural committee members will be nominated by the charter authors
+1. Upon approval from the FINOS Board, the inaugural committee members will begin the next phase
 
 # Phase 2 — Organizational Bootstrapping
 
@@ -25,7 +26,7 @@ The second step is only marginally less critical than the first. In this phase, 
 
 Following the procedure set out in the SC charter:
 
-1. The SC will determine the exact scope of work and set a meeting cadence for the bootstrapping phase.
+1. The SC will determine their exact scope of work and set a meeting cadence for the bootstrapping phase.
 1. The SC will define and document the intended community structure, including all group types, member roles, and accountability structure.
 1. The SC will set the charters for any inaugural groups, then appoint leadership as needed.
 1. The SC will operate at a heightened awareness for the next two months, seeking to iterate on the community organizational structure and/or support community groups as needed.
