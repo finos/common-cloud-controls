@@ -8,14 +8,11 @@ Restrictions on candidacy and voting are in place to ensure that the CCC project
 
 ### Eligibility for voting
 
-In order to be eligible for voting, an individual must be:
+In order to be eligible for voting, an individual must:
 
-- A FINOS Member<sup>[1](#footnote1)</sup> who had a substantial contributions 
-  to the CCC project within 12 months prior to their nomination.
-  Contributions include GitHub events like creating issues, creating PRs,
-  reviewing PRs, commenting on issues, etc.
-- An appointed or elected member of one or more active [community groups].
-  within 4 months prior to their nomination.
+- Be an FINOS Member<sup>[1](#footnote1)</sup> who had a substantial contribution to the CCC project within 12 months prior to their nomination. Contributions include GitHub events like creating issues, creating PRs, reviewing PRs, commenting on issues, etc.
+- Be an appointed or elected member of one or more active [community groups] within 4 months prior to their nomination.
+- Demonstrate expertise in any subfield of cybersecurity, or general working experience in cybersecurity for financial services, within 2 years prior to their nomination.
 
 _It is the responsibility of the steering committee to refine these criteria prior to each election, including setting the number of required contributions, and adding any additional committee memberships that include eligibility._
 
@@ -41,13 +38,13 @@ Any FINOS member may nominate as many people as they wish to. We recommend that 
 
 ## Terms and Election Cycles
 
-Steering committee members are elected to serve a two (2) year term. Members can serve two (2) consecutive terms and a lifetime of four terms. Terms that result in less than or equal to one (1) year served are exempt.
+Steering committee members are elected to serve a two (2) year term. Members can serve two (2) consecutive terms and a lifetime of four (4) terms. Terms that result in less than or equal to one (1) year served are exempt.
 
-Election cycles are scheduled such that roughly half of the seats come up for re-election each year for purposes of continuity. The exact number of seats alternates between 3 and 4.
+Election cycles are scheduled such that roughly half of the seats come up for re-election each year for purposes of continuity. The exact number of seats alternates between three (3) and four (4).
 
 ### Bootstrap Election
 
-In the during the [bootstrap] process (which does not follow the guidelines set forth here) 4 seats will be allocated for one (1) year terms, for the purpose of staggering all future elections. The committee will be responsible for self-allocation of these seats.
+In the [bootstrap] process (which does not follow the guidelines set forth here) four (4) seats will be allocated for 364-day terms, to stagger all future elections. The committee will be responsible for self-allocation of these seats.
 
 ### Emeritus Term
 
@@ -69,7 +66,7 @@ For example:
   - Conclusion of Election
   - Results announced at first community meeting after the election concludes
 
-The election officers will choose exact dates for each step and propose the final schedule to Steering Committee.
+The election officers will choose exact dates for each step and propose the final schedule to the Steering Committee.
 
 ### Nomination and Election Procedure
 
