@@ -14,7 +14,7 @@ Review the [Steering Committee Charter] for more information.
 
 The CCC community adheres to a transparent and open governance model. Decisions are made through consensus or vote, depending on the group charter.
 
-Non-technical issues or high-level design decisions may be escalated to the [SC] if a decision or conflict is not resolved in a timely (relative to the time-sensitivity of the issue).
+Non-technical issues or high-level design decisions may be escalated to the [SC] if a decision or conflict is not resolved in a timely manner (relative to the time-sensitivity of the issue).
 
 ## Changes to the Structure
 
