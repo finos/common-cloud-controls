@@ -106,7 +106,7 @@ self-nominate but are otherwise expected to adhere to this recusal.
 
 ## Attribution
 
-This document was adapted from the Kubernetes Steering Committee Elections document [[afb3858](upstream)].
+This document was adapted from the Kubernetes Steering Committee Elections document [afb3858].
 
 ## Footnotes
 
@@ -123,4 +123,4 @@ This document was adapted from the Kubernetes Steering Committee Elections docum
 [bootstrap]: https://github.com/CCC/community/tree/master/docs/formation/bootstrap.md
 [elections]: https://github.com/CCC/community/tree/master/docs/governance/elections.md
 
-[upstream]: https://github.com/kubernetes/steering/blob/afb3858/elections.md
+[afb3858]: https://github.com/kubernetes/steering/blob/afb3858/elections.md
