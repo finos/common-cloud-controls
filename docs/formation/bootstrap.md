@@ -12,15 +12,22 @@ The first, and most important step, is to create a charter and assign members to
 
 Process:
 
-1. A proposed charter will be presented to an open-invite irregular call
-1. The greater community will be notified via ccc-participants+subscribe@lists.finos.org
-1. A feedback period will be held for seven (7) days, during which time anyone may give feedback
-1. A consensus will be sought in an open-invite irregular call at the end of the feedback period
-1. If consensus is achieved, the charter will be accepted
-1. Inaugural committee members will be nominated by the charter authors
-1. Upon approval from the FINOS Board, the inaugural committee members will begin the next phase
+1. A proposed charter was be presented to an off-calendar call
+1. The greater community was notified via ccc-participants+subscribe@lists.finos.org
+1. A feedback period was held for two (2) weeks, during which time feedback was incorporated from more than 10 community members
+1. A consensus was achieved in an off-calendar call at the end of the feedback period
+1. Additional fixes were incorporated for polish prior to merging
 
-# Phase 2 — Organizational Bootstrapping
+# Phase 2 — Inaugural Steering Committee Appointments
+
+As the official election process inherently depends on an extant committee, the initial bootstrapping of the committee requires an appointing authority.
+
+Process:
+
+1. The greater community was invited to self-nominate themselves by commenting on [PR #150](https://github.com/finos/common-cloud-controls/issues/150)
+ via ccc-participants+subscribe@lists.finos.org
+
+# Phase 3 — Organizational Bootstrapping
 
 The second step is only marginally less critical than the first. In this phase, the Steering Committee (SC) will be asked to meet frequently to define the community structure, document the processes surrounding it, and launch the inaugural community groups. The goal is to have this proccess quickly completed so that the subsequent groups are free to begin their work.
 
