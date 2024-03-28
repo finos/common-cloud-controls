@@ -29,5 +29,5 @@ Changes to the community structure can be proposed through pull requests to the 
 ---
 
 [FINOS Code of Conduct]: <https://www.finos.org/code-of-conduct>
-[Steering Committee Charter]: <./steering/charter.md>
+[Steering Committee Charter]: <steering/charter.md>
 [SC]: <#steering-committee>
