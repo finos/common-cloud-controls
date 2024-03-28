@@ -1,6 +1,6 @@
 # Governance Bootstrap
 
-In March 2023, the CCC community identified a need for improved organizational structure to better enable contributions to the standard.
+In March 2024, the CCC community identified a need for improved organizational structure to better enable contributions to the standard.
 
 This improvement work is being done in two phases, detailed below.
 

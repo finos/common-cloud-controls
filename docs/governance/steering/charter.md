@@ -49,7 +49,7 @@ In addition to general foundation support given to projects, the Steering Commit
 
 The Steering Committee is composed of seven (7) members and shall always be considered this size regardless of temporary vacancies, for the purpose of voting majority and supermajority considerations.
 
-**FSI Seats —** Four (4) seats on the committee are reserved for FINOS members from financial services institutions. These seats may not be occupied by more than one individual from the same institution<sup>[6](#footnote6)</sup>. In the event that a committee member occupying an FSI seat undergoes a change of employment, they may retain their seat while in noncompliance for 30 calendar days before it is automatically considered vacant.
+**Reserved Seats —** Four (4) seats on the committee are reserved for FINOS members from financial services institutions. These seats may not be occupied by more than one individual from the same institution<sup>[6](#footnote6)</sup>. In the event that a committee member occupying an FSI seat undergoes a change of employment, they may retain their seat while in noncompliance for 30 calendar days before it is automatically considered vacant.
 
 **Community Seats —** Three (3) seats on the committee are not reserved, and may be filled by any community member from any organization.
 
