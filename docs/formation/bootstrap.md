@@ -6,7 +6,7 @@ This improvement work is being done in two phases, detailed below.
 
 Because this work includes the creation of strict charters and limitations on future change, it will only happen this way once. All subsequent changes must follow steps outlined in the respective group charters.
 
-# Phase 1 — Steering Committee Bootstrapping
+# Phase 1 — Governance Bootstrapping
 
 The first, and most important step, is to create a charter and assign members to the top level organizational unit: the Steering Committee. This must be done through a consensus of the most active CCC participants from financial service institutions, with an opportunity for input from the entire community.
 
@@ -24,12 +24,14 @@ As the official election process inherently depends on an extant committee, the 
 
 Process:
 
-1. The greater community was invited to self-nominate themselves by commenting on [PR #150](https://github.com/finos/common-cloud-controls/issues/150)
- via ccc-participants+subscribe@lists.finos.org
+1. The greater community will be invited via ccc-participants+subscribe@lists.finos.org to self-nominate themselves by commenting on [PR #150](https://github.com/finos/common-cloud-controls/issues/150). 
+1. Reminders to self-nominate will be made in the next two community meetings, and _ad hoc_ as needed.
+1. The FINOS Technical Oversight Committee (TOC) will present a list of eligible nominees to the FINOS Board of Directors during their next upcoming meeting.
+1. Upon validation of eligibility and community support, the TOC and Board will formalize the nominations by updating the project README to reflect the changes.
 
 # Phase 3 — Organizational Bootstrapping
 
-The second step is only marginally less critical than the first. In this phase, the Steering Committee (SC) will be asked to meet frequently to define the community structure, document the processes surrounding it, and launch the inaugural community groups. The goal is to have this proccess quickly completed so that the subsequent groups are free to begin their work.
+The Steering Committee (SC) will self-organize to define the community structure, document the processes surrounding it, and launch the inaugural community groups. The goal is to have this proccess quickly completed so that the subsequent groups are free to begin their work.
 
 Following the procedure set out in the SC charter:
 
