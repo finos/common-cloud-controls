@@ -81,7 +81,7 @@ If a committee member chooses not to continue in their role, for whatever self-e
 
 A Steering Committee member may be removed by an affirmative vote of a **_three-quarters supermajority of the [fixed membership of the committee](#composition)_**.
 
-The call for a vote of no confidence will happen in a public Steering Committee meeting and must be documented as a GitHub issue in the repository where governance documentation is tracked.
+The call for a vote of no confidence will happen in a public Steering Committee meeting and must be documented as a GitHub issue in the repository.
 
 The call for a vote of no confidence must be made by a current member of the committee and must be seconded by another current member. The committee member who calls for the vote must include on the issue a statement which provides context on the reason for the vote.
 
