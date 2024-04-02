@@ -25,7 +25,7 @@ The following responsibilities belong directly to the Steering Committee.
 * Enforce charters for community groups<sup>[3](#footnote3)</sup> to ensure ongoing positive standing, or decomission any groups not in good standing.
 * Define and evolve project and group<sup>[3](#footnote3)</sup> governance structures and policies<sup>[4](#footnote4)</sup>.
 * Act as a final non-technical escalation point for any CCC community group or technical effort.
-* Decide who is a member of standing on the CCC project, and what privileges that entails.
+* Decide who is a standing member on the CCC project, and what privileges that entails.
 * Control and delegate access to and establish processes regarding project resources<sup>[5](#footnote5)</sup>.
 * Coordinate with FINOS regarding usage of the CCC brand and deciding which things can be called "Common Cloud Controls," as well as how that mark can be used in relation to other efforts or vendors.
 * Request funds and other support from FINOS (e.g. marketing, press, etc).
