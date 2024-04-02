@@ -12,7 +12,7 @@ The first, and most important step, is to create a charter and assign members to
 
 Process:
 
-1. A proposed charter was be presented to an off-calendar call
+1. A proposed charter was presented on an off-calendar call
 1. The greater community was notified via ccc-participants+subscribe@lists.finos.org
 1. A feedback period was held for two (2) weeks, during which time feedback was incorporated from more than 10 community members
 1. A consensus was achieved in an off-calendar call at the end of the feedback period
