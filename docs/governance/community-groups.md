@@ -24,7 +24,7 @@ Technical issues should be resolved by the relevant community group. Failure to 
 
 ## Changes to the Community Structure
 
-Changes to the community structure can be proposed through pull requests to the governance documentation. All changes must be approved in accordance with the relevant group charter.
+Changes to the community structure can be proposed through pull requests. All changes must be approved in accordance with the relevant group charter.
 
 ---
 
