@@ -27,7 +27,7 @@ Process:
 1. The greater community will be invited via ccc-participants+subscribe@lists.finos.org to self-nominate themselves by commenting on [PR #150](https://github.com/finos/common-cloud-controls/issues/150). 
 1. Reminders to self-nominate will be made in the next two community meetings, and _ad hoc_ as needed.
 1. The FINOS Technical Oversight Committee (TOC) will present a list of eligible nominees to the FINOS Board of Directors during their next upcoming meeting.
-1. Upon validation of eligibility and community support, the TOC and Board will formalize the nominations by updating the project README to reflect the changes.
+1. Upon validation of eligibility and community support, the TOC and Board will formalize the nominations and the README will be subsequently updated to reflect said changes.
 
 # Phase 3 — Organizational Bootstrapping
 
