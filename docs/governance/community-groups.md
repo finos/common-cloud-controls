@@ -20,7 +20,7 @@ The CCC community adheres to a transparent and open governance model. Decisions 
 
 Non-technical issues or high-level design decisions may be escalated to the [SC] if a decision or conflict is not resolved in a timely manner (relative to the time-sensitivity of the issue).
 
-Technical issues should be resolved by the relevant community group. Failure to resolve technical issues may be considered a non-technical issue that can be escalated to the [SC] for guidance on finding a resolution.
+Technical issues should be resolved by the relevant community group. Failure to resolve technical issues may be escalated to the [SC] for guidance on finding a resolution.
 
 ## Changes to the Community Structure
 
