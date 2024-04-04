@@ -1,0 +1,24 @@
+name: "Controls Testing Workflow - PR"
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs: # Can expand on this later if we'd like to
+    run-terraform-apply:
+        uses: ./.github/workflows/terraform-plan-and-apply.yml
+        permissions:
+          pull-requests: write
+          contents: read
+        secrets: inherit
+    
+    # Once all has been applied, execute the python script for testing/validation
+    run-testing-scripts:
+        uses: ./.github/workflows/controls_testing_python_script.yml
+        permissions:
+          pull-requests: write
+          contents: read
+        secrets: inherit
+    
+    # Then, tear resources down
+    

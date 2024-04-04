@@ -1,0 +1,3 @@
+module "storage" {
+    source = "./storage"
+}
