@@ -2,7 +2,7 @@
 
 In March 2024, the CCC community identified a need for improved organizational structure to better enable contributions to the standard.
 
-This improvement work is being done in two phases, detailed below.
+This improvement work is being done in three phases, detailed below.
 
 Because this work includes the creation of strict charters and limitations on future change, it will only happen this way once. All subsequent changes must follow steps outlined in the respective group charters.
 

@@ -81,7 +81,6 @@ The steering committee should choose multiple election officers using the follow
 - Each individual must be eligible to vote.
 - Each individual must have been a FINOS member for at least one year.
 - At least one election officer should have served before.
-- At least one election officer should have never served before.
 - Each officer should come from a different employer.
 - Each officer can be relied upon to follow the [election procedure].  
 
