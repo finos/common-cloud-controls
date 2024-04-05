@@ -39,4 +39,4 @@ Following the procedure set out in the SC charter:
 1. The SC will define and document the intended community structure, including all group types, member roles, and accountability structure.
 1. The SC will set the charters for any inaugural groups, then appoint leadership as needed.
 1. The SC will operate at a heightened awareness for the next two months, seeking to iterate on the community organizational structure and/or support community groups as needed.
-1. At the end of the aforementioned, the SC should scale back to allow groups to self-organize according to their respective charters.
+1. Once established, community groups should self-organize according to their respective charters.
