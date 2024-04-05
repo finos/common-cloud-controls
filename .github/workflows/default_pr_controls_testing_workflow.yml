@@ -6,7 +6,7 @@ on:
 
 jobs: # Can expand on this later if we'd like to
     run-terraform-apply:
-        uses: ./.github/workflows/terraform-plan-and-apply.yml
+        uses: ./.github/workflows/controls_terraform_apply.yml
         permissions:
           pull-requests: write
           contents: read
@@ -21,4 +21,9 @@ jobs: # Can expand on this later if we'd like to
         secrets: inherit
     
     # Then, tear resources down
-    
+    run-terraform-destroy:
+      uses: ./.github/workflows/controls_terraform_destroy.yml
+      permissions:
+        pull-requests: write
+        contents: read
+      secrets: inherit

@@ -16,6 +16,15 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+        aws-region: ${{ secrets.REGION }}
     
-    # Fill in the rest - placeholder
+    - name: Set up Python
+      uses: actions/setup-python@v2  # This action sets up Python
+  
+    - name: Install dependencies
+      working-directory: ./src/control-catalog/behave_tests
+      run: pip install -r requirements.txt  # Install your Python dependencies
+  
+    - name: Run Behave Tests
+      working-directory: ./src/control-catalog/behave_tests
+      run: behave
