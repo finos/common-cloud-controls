@@ -15,6 +15,7 @@ jobs: # Can expand on this later if we'd like to
     # Once all has been applied, execute the python script for testing/validation
     run-testing-scripts:
         uses: ./.github/workflows/controls_testing_python_script.yml
+        needs: run-terraform-apply
         permissions:
           pull-requests: write
           contents: read
@@ -23,6 +24,7 @@ jobs: # Can expand on this later if we'd like to
     # Then, tear resources down
     run-terraform-destroy:
       uses: ./.github/workflows/controls_terraform_destroy.yml
+      needs: run-testing-scripts
       permissions:
         pull-requests: write
         contents: read

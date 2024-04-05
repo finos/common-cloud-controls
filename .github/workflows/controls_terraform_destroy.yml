@@ -10,7 +10,7 @@ env:
   TF_CLOUD_ORGANIZATION: "CCC-Testing"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}" # API Token for Project
   TF_WORKSPACE: "ccc-controls-testing" #TODO: TBD
-  CONFIG_DIRECTORY: "./"
+  CONFIG_DIRECTORY: "./src/control-catalog/terraform_modules"
 
 jobs:
     terraform:
