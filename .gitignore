@@ -4,6 +4,7 @@ build/oscal-cli
 .DS_Store
 
 # Python
+.env/
 
 # Terraform
 ## Local .terraform directories
