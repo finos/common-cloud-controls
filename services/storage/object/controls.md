@@ -1,4 +1,4 @@
-| Control Id | Objective | Description | Test | Service Taxonomy Id | NIST CF | MITRE ATT&CK Mitigations | Threats |
+| Control Id | Objective | Description | Test | Service Taxonomy Id | NIST CSF | MITRE ATT&CK Mitigations | Threats |
 |------------|-----------|-------------|------|---------------------|---------|--------------------------|---------|
 | CCC.OS.C1  | Prevent unencrypted requests to object storage bucket | Block all unencrypted requests to the object storage bucket you own | GIVEN you own the object storage bucket; WHEN an unencrypted HTTP request is made to the bucket; THEN the request should be denied | CCC-020115 | Protect | [M1041](https://attack.mitre.org/mitigations/M1041) | CCC.OS.T1 |
 | CCC.OS.C2  | Prevent object storage data encrypted for impact | Block data plane requests with untrusted KMS keys to the object storage bucket you own | GIVEN you own the object storage bucket; WHEN a data plane request with an untrusted KMS key is made to the object storage bucket; THEN the request should be denied | CCC-020114 | Protect | None | CCC.OS.T2 |
