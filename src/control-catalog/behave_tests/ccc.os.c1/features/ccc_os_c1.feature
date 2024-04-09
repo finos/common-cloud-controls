@@ -1,4 +1,4 @@
-Feature: Deny unencrypted HTTP or prove encrypted HTTPS Requests Object Storage Buckets (CCC.OS.C1)
+Feature: (CCC.OS.C1) - Deny unencrypted HTTP or prove encrypted HTTPS Requests Object Storage Buckets
 
 Scenario: Test Control CCC.OS.C1 AWS
     GIVEN you own the object storage bucket in AWS

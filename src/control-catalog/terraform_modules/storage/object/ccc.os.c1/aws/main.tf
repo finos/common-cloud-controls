@@ -46,7 +46,7 @@ resource "aws_s3_bucket_policy" "deny_https_bucket_policy" {
   bucket = aws_s3_bucket.malicious_bucket.id
   policy = data.aws_iam_policy_document.default_bucket_policy.json
 
-  depends_on = [ aws_s3_bucket_public_access_block.bucket_pab_config ]
+  depends_on = [aws_s3_bucket_public_access_block.bucket_pab_config]
 }
 
 resource "aws_s3_bucket_public_access_block" "bucket_pab_config" {

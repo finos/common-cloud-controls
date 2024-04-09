@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  run_behave_tests:
+  run_behave_tests_cccosc1:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,5 +30,34 @@ jobs:
       run: pip install -r requirements.txt  # Install your Python dependencies
   
     - name: Run Behave Tests
-      working-directory: ./src/control-catalog/behave_tests
+      working-directory: ./src/control-catalog/behave_tests/ccc.os.c1
       run: behave
+
+  run_behave_tests_cccosc3:
+      runs-on: ubuntu-latest
+  
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+  
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "eu-west-3"
+      
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+  
+      - name: Set up Python
+        uses: actions/setup-python@v2  # This action sets up Python
+    
+      - name: Install dependencies
+        working-directory: ./src/control-catalog/behave_tests
+        run: pip install -r requirements.txt  # Install your Python dependencies
+    
+      - name: Run Behave Tests
+        working-directory: ./src/control-catalog/behave_tests/ccc.os.c3
+        run: behave

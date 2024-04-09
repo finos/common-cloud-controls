@@ -15,6 +15,6 @@ provider "aws" {
 }
 
 provider "google" {
-  project     = "common-cloud-controls-testing"
-  region      = "us-central1"
+  project = "common-cloud-controls-testing"
+  region  = "us-central1"
 }
