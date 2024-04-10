@@ -38,7 +38,7 @@ resource "aws_kms_key" "trusted_kms_key" {
 
 # Trusted KMS Key Alias
 resource "aws_kms_alias" "trusted_kms_key_alias" {
-  name          = "${var.bucket_name}-trusted-ccc-os-c2"
+  name          = "alias/${var.bucket_name}-trusted-ccc-os-c2"
   target_key_id = aws_kms_key.trusted_kms_key.key_id
 }
 
@@ -49,6 +49,6 @@ resource "aws_kms_key" "untrusted_kms_key" {
 
 # Untrusted KMS Key Alias
 resource "aws_kms_alias" "untrusted_kms_key_alias" {
-  name          = "${var.bucket_name}-untrusted-ccc-os-c2"
+  name          = "alias/${var.bucket_name}-untrusted-ccc-os-c2"
   target_key_id = aws_kms_key.untrusted_kms_key.key_id
 }
