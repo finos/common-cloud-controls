@@ -31,6 +31,7 @@ def upload_obj_with_untrusted_key(context):
 
 @then("the request should be denied")
 def validate_request_denied(context):
+    print(context.s3_publish_error)
     if "AccessDenied" in context.s3_publish_error:
         assert True
     else:
