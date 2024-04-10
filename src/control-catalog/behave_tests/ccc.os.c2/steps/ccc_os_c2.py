@@ -18,7 +18,7 @@ def verify_aws_bucket_exists(context):
 @when("a data plane request with an untrusted KMS key is made to the object storage bucket")
 def upload_obj_with_untrusted_key(context):
     context.kms_client = boto3.client("kms")
-    untrusted_key_arn = context.kms.client.describe_key(KeyId=UNTRUSTED_KEY_ALIAS)["KeyMetadata"]["Arn"]
+    untrusted_key_arn = context.kms_client.describe_key(KeyId=UNTRUSTED_KEY_ALIAS)["KeyMetadata"]["Arn"]
     object_key = "test_obj"
     object_content = b"Hello, world!"
     try:
