@@ -6,7 +6,7 @@ from google.api_core.exceptions import PreconditionFailed
 from google.cloud import storage
 from behave import given, then, when
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 STORAGE_BUCKET_NAME = "malicious-sb-ccc-os-c3"
 
