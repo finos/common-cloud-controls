@@ -1,12 +1,15 @@
 import logging
+import time
 import boto3
 
 from google.cloud import storage
+from google.cloud import kms_v1
 from botocore.exceptions import ClientError
 from behave import given, then, when
 
 logging.basicConfig(level=logging.INFO)
 
+BUCKET_OBJ_NAME = "test.txt"
 STORAGE_BUCKET_NAME = "malicious-sb-ccc-os-c2"
 UNTRUSTED_KEY_NAME = "malicious-sb-untrusted-ccc-os-c2"
 UNTRUSTED_KEY_ALIAS = f"alias/{UNTRUSTED_KEY_NAME}"
@@ -51,19 +54,44 @@ def aws_upload_obj_with_untrusted_key(context):
     "a data plane request with an untrusted KMS key is made to the GCP object storage bucket"
 )
 def gcp_upload_obj_with_untrusted_key(context):
-    # This control needs to be reviewed in more detail - we 
+    # This control needs to be reviewed in more detail - we
     # can upload to the bucket with an untrusted key.
-    key_name = f"projects/common-cloud-controls-testing/locations/us-central1/keyRings/{STORAGE_BUCKET_NAME}-keyring/cryptoKeys/{UNTRUSTED_KEY_NAME}"
+    client = kms_v1.KeyManagementServiceClient()
+    parent = "projects/common-cloud-controls-testing/locations/us-central1"
+    key_rings = client.list_key_rings(request={"parent": parent})
+
+    kms_key_id = None
+    for key_ring in key_rings:
+        kms_keys = kms_v1.ListCryptoKeysRequest(mapping={"parent": key_ring.name})
+        for kms_key in client.list_crypto_keys(kms_keys):
+            if (
+                UNTRUSTED_KEY_NAME in kms_key.name
+                and kms_key.primary.destroy_time is None
+            ):
+                kms_key_id = kms_key.name
+                break
+
+        if kms_key_id is not None:
+            break
+
     bucket = storage.Bucket(context.storage_client, STORAGE_BUCKET_NAME)
-    bucket.blob("test.txt", kms_key_name=key_name).upload_from_string(
+    bucket.blob(BUCKET_OBJ_NAME, kms_key_name=kms_key_id).upload_from_string(
         "Hello, World"
     )
+    time.sleep(10)  # Sleep for 10 seconds
 
 
-@then("the request should be denied")
+@then("the AWS request should be denied")
 def validate_request_denied(context):
     print(context.s3_publish_error)
     if "AccessDenied" in context.s3_publish_error:
         assert True
     else:
         assert False
+
+
+@then("the GCP storage object should have been deleted")
+def validate_request_denied(context):
+    bucket = storage.Bucket(context.storage_client, STORAGE_BUCKET_NAME)
+    blob = bucket.blob(BUCKET_OBJ_NAME)
+    assert not blob.exists()

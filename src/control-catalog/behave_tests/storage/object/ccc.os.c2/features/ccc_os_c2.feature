@@ -5,4 +5,5 @@ Scenario: Test Control CCC.OS.C2
     AND you own the object storage bucket in GCP
     WHEN a data plane request with an untrusted KMS key is made to the AWS object storage bucket
     AND a data plane request with an untrusted KMS key is made to the GCP object storage bucket
-    THEN the request should be denied 
+    THEN the AWS request should be denied
+    AND the GCP storage object should have been deleted
