@@ -31,8 +31,8 @@ The CCC project is split into several separate, but related, working groups. Eac
 Working groups are structured with distinct roles to ensure effective operation and governance
 
 1. Working Group Lead: The lead orchestrates the group’s activities, liaises with the broader project community, and represents the group in larger project discussions. As the primary contact, the lead ensures smooth communication and progress.
-2. Maintainers: These are project maintainers deeply invested in the group’s focus areas. While a maintainer may also serve as the lead, it is not a requirement.
-3. PR Approvers: Selected members are entrusted with the authority to review, approve, and merge pull requests (PRs), maintaining the quality and integrity of contributions.
+2. Maintainers: These are project maintainers deeply invested in the group’s focus areas. Maintainers will have the responsibility of merging pull requests (PRs). While a maintainer may also serve as the lead, it is not a requirement.
+3. PR Approvers: Selected members are entrusted with the authority to review, approve pull requests (PRs), maintaining the quality and integrity of contributions.
 4. Group Members: Contributors who actively engage in the group’s work, from submitting work to reviewing PRs.
 
 The working group charter must encapsulate the members’ details and their respective roles. Newcomers desiring to join should propose their inclusion via a PR to the group members list.
@@ -60,6 +60,7 @@ Every working group is required to develop a charter that clearly outlines its s
 * Membership and Roles: A list of all working group members, along with their specific roles and responsibilities.
 * Meeting Schedule and Records: Information on the regular meeting schedule, accompanied by a link to access the minutes of these meetings for transparency and reference.
 * Group Dependencies: The charter must also map out the interdependencies between different working groups, both upstream and downstream. It should provide links to the respective charters of these groups to streamline communication and collaboration.
+* PR Approval Count: The charter must specify the number of approvals required by a PR before it can be merged.
 
 ## Changes to the Community Structure
 
