@@ -46,8 +46,10 @@ A list of technical leaders and their roles should be kept current here:
 
 ### Meetings and Minutes
 
-- Regular meetings of the Taxonomy working group will be held fortnightly.
+- Regular meetings of the Taxonomy working group will be held fortnightly. These will be termed "Taxonomy Working Group Regular Meetings".
 - Meeting minutes will be documented and made available to all members for reference and transparency.
+- A reporting meeting will be held once a month, e.g., first Wednesday of the month, in order to discuss recent progress and future direction with the SteerCo, other working groups, and open to any other stakeholders or interested parties to provide input and/or direction. These will be termed "Taxonomy Working Group Reporting Meetings". 
+  - These meetings could also serve as a collaboration forum and an integration point with other working groups for wider discussion. Additional information pertinent to cross-working-group collaboration can be found in the "improving efficiency" charter.
 
 ### Mailing List
 
