@@ -30,14 +30,25 @@ The CCC project is split into several separate, but related, working groups. Eac
 
 Working groups are structured with distinct roles to ensure effective operation and governance
 
-1. Working Group Lead: The lead orchestrates the group’s activities, liaises with the broader project community, and represents the group in larger project discussions. As the primary contact, the lead ensures smooth communication and progress.
-2. Maintainers: These are project maintainers deeply invested in the group’s focus areas. Maintainers will have the responsibility of merging pull requests (PRs). While a maintainer may also serve as the lead, it is not a requirement.
+1. Working Group Lead: The lead orchestrates the group’s activities, liaises with the broader project community, and represents the group in larger project discussions. Responsible alongside the maintainers to perform regular reviews of the members list. As the primary contact, the lead ensures smooth communication and progress.
+2. Maintainers: These are project maintainers deeply invested in the group’s focus areas. Maintainers will have the responsibility of merging pull requests (PRs). Also responsible alongside the working group leads to perform regular reviews of the members list. While a maintainer may also serve as the lead, it is not a requirement.
 3. PR Approvers: Selected members are entrusted with the authority to review, approve pull requests (PRs), maintaining the quality and integrity of contributions.
-4. Group Members: Contributors who actively engage in the group’s work, from submitting work to reviewing PRs.
+4. Contributers: Members who actively engage in the group’s work, from submitting work to reviewing PRs.
+5. Observers: Those who are interested in the activities of the working group and who may contribute occassionaly but may not have the time to contribute on a regular basis.
 
 The working group charter must encapsulate the members’ details and their respective roles. Newcomers desiring to join should propose their inclusion via a PR to the group members list.
 
 Regular audits of participation are vital. Inactive members should be pruned from the members list to reflect current engagement levels accurately, facilitating more strategic planning of group tasks.
+
+#### Role Assignment
+
+Roles are assigned on an informal basis and based on disucssions within each working group. The criteria of exactly how roles are assigned within a working group should be outlined it's charter. A general example of how roles can be assigned is given below:
+
+1. Working Group Lead: A volunteer from within the group.
+2. Maintainers: People from the list of the wider project maintainers. Each maintainer can assign themselves to be part of a working group.
+3. PR Approvers: The criteria for what makes someone a suitable PR reviewer should be determined on a group by group basis.
+4. Contributers: **TODO:** details of what makes someone an active contributer needs to be discussed.
+5. Observers: Anyone who wants to participate in a working group can add themselve as an observer.
 
 ### Working Group Meetings
 
@@ -57,7 +68,7 @@ Reviews of the meeting frequency and times should be reviewed at least twice ann
 
 Every working group is required to develop a charter that clearly outlines its scope and objectives. The charter should serve as a comprehensive guide that includes:
 
-* Membership and Roles: A list of all working group members, along with their specific roles and responsibilities.
+* Membership and Roles: A list of all working group members, along with their specific roles and responsibilities. Definitions of each role, and details of how roles are assigned within a working group should be specified.
 * Meeting Schedule and Records: Information on the regular meeting schedule, accompanied by a link to access the minutes of these meetings for transparency and reference.
 * Group Dependencies: The charter must also map out the interdependencies between different working groups, both upstream and downstream. It should provide links to the respective charters of these groups to streamline communication and collaboration.
 * PR Approval Count: The charter must specify the number of approvals required by a PR before it can be merged.
