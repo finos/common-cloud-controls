@@ -39,7 +39,7 @@ The following responsibilities belong directly to the Steering Committee.
   - the CCC project README.md
   - Steering Committee governance documentation
 
-### FINOS Point of Contact
+## FINOS Point of Contact
 
 In addition to general foundation support given to projects, the Steering Committee will have an assigned point of contact. This should be tracked in the same documentation as the list of current Steering Commmittee members.
 
