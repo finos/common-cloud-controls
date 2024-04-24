@@ -14,6 +14,12 @@ Steering Committee membership is presented in the [README.md] of the main CCC re
 
 Review the [Steering Committee Charter] for more information.
 
+## Working Groups
+
+A working group (WG) is a subset of the community that has been chartered by the steering committee to accomplish or deliver within a specific scope.
+
+WGs are formed based on the needs identified by the [SC], following any applicable guidelines set forth by the Community Structure WG.
+
 ## Community Governance
 
 The CCC community adheres to a transparent and open governance model. Decisions are made through consensus or vote, depending on the relevant group charter.
