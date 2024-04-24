@@ -39,17 +39,17 @@ This group should, at minimum, create and maintain the following items in the pr
 
 This [WG] is not responsible for approving proposed policies or ensuring compliance with policies.
 
-To reduce unilateral authority from either this group or the SteerCo, all policy proposals should come from this group and be finalized through a vote from the SteerCo.
+To reduce unilateral authority from either this group or the [SC], all policy proposals should come from this group and be finalized through a vote from the [SC].
 
 ## Membership
 
 The membership structure of this [WG], including roles and responsibilities, must adhere to the latest recommendations from the Community Structure [WG]. 
 
-Where recommendations do note yet exist on a topic, this [WG] should follow guidance from the CCC SteerCo.
+Where recommendations do note yet exist on a topic, this [WG] should follow guidance from the CCC [SC].
 
 ## Community Cadence
 
-A member of this [WG] should be present on for any calls scheduled by the SteerCo for participation by the full CCC community, such as quarterly SteerCo calls.
+A member of this [WG] should be present on for any calls scheduled by the [SC] for participation by the full CCC community, such as quarterly [SC] calls.
 
 This [WG] will use the mail group <ccc-structure@lists.finos.org> for regular communications.
 
