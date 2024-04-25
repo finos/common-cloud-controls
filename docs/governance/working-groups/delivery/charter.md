@@ -4,9 +4,9 @@ This [WG] defines and maintains the delivery process for the Common Cloud Contro
 
 ## Mission
 
-The mission of the Delivery [WG] is to establish robust, scalable, and efficient frameworks for the governance and operation of all community [WG]s within the CCC.
+The mission of the Delivery [WG] is to establish and maintain robust communication channels, ensuring openness and clarity in all activities and decisions related to outputs and deliverables. We aim to curate a comprehensive repository of community outputs slated for release, diligently managing version control and devising optimal strategies for content dissemination.
 
-By designing clear guidelines and structures, this group ensures consistency and facilitates effective collaboration across the entire community. It acts as a central body to guide the formation and operation of other [WG]s, helping them align with the overarching goals of the CCC.
+By coordinating with fellow [WG]'s, we endeavor to synchronize release efforts, while meticulously defining and adhering to a structured release schedule, fostering efficiency and coherence in our endeavors.
 
 ## Approach
 
