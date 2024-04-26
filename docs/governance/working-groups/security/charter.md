@@ -1,6 +1,6 @@
 # Security Working Group
 
-This [WG] defines and maintains the delivery process for the Common Cloud Controls project deliverables.
+This [WG] defines how new and existing security controls catalogs can be used to assess the security of the common cloud services defined by the CCC services taxonomy working group.
 
 ## Mission
 
