@@ -20,7 +20,7 @@ A Code Owner is responsible approving and merging PRs.
 
 ### Eligibility
 
-A person is considered eligible to become a Code Owner if they are currently considered an active Contributer.
+A person is considered eligible to become a Code Owner if they are currently considered an active contributor.
 
 ## Contributor
 
