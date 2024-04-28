@@ -1,11 +1,3 @@
-
-•	Steps to follow to create a charter/checklist [SCOTT LOGIC]
-o	Create a PR attached to a GitHub issue
-	PR should have draft charter
-	A WG lead should be proposed
-	Find a SteerCo sponsor to raise a vote for approval (majority?) 
-	Once approved create a mailing list
-
 # Proposing a Working Group
 
 To propose a new working group complete the items in the list below:
