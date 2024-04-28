@@ -20,7 +20,7 @@
 
 ## Out of Scope
 
-<*An explicit description of the things do not fall wihtin the scope of the working group.*>
+<*An explicit description of the things do not fall within in the scope of the working group.*>
 
 ## Membership
 

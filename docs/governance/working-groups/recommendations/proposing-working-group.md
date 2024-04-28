@@ -10,7 +10,7 @@ To propose a new working group complete the items in the list below:
 
 * Find a [SC] to sponsor the [WG].
 
-    * The [SC] sponsor can call for a vote on the new [WG]. If the proposal recieves a majority vote then it can be considered active.
+    * The [SC] sponsor can call for a vote on the new [WG]. If the proposal receives a majority vote then it can be considered active.
 
 * Once the [SC] has approved the [WG] create a mailing list for the [WG] by emailing <help@finos.org>. The mailing list should use the naming convention ```ccc-[wg-name]@lists.finos.org```.
 
