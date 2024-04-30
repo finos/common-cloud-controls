@@ -1,10 +1,10 @@
 # Security Working Group
 
-This [WG] defines how new and existing security controls catalogs can be used to assess the security of the common cloud services defined by the CCC services taxonomy working group.
+This [WG] defines how a threat-informed control catalog can be used to assess the security of the common cloud services defined by the CCC services taxonomy working group.
 
 ## Mission
 
-The mission of the Security [WG] is to develop, maintain, and enhance a comprehensive threat-informed security controls catalog specifically tailored to the CCC cloud services taxonomy. Additionally, the working group will explore how existing security controls catalogs can be leveraged to assess the security posture of cloud services, define methodologies for conducting such assessments, and ensure alignment with industry standards and best practices.
+The mission of the Security [WG] is to develop, maintain, and enhance a comprehensive threat-informed security control catalog specifically tailored to the CCC cloud services taxonomy. Additionally, the working group will explore how existing catalogs, knowledge bases and assement frameworks can be leveraged to assess the security posture of cloud services, as well as define guidelines for conducting assessments, and ensure alignment with industry standards and best practices.
 
 ## Approach
 
@@ -14,10 +14,9 @@ The mission of the Security [WG] is to develop, maintain, and enhance a comprehe
 
 ## Responsibilities
 
-- Create and maintain a detailed security controls catalog outlining effective measures to mitigate identified threats.
-- Define methodologies and criteria for assessing the effectiveness of security controls, including leveraging existing security controls catalogs, risk-based assessments, compliance frameworks, and testing procedures.
-- Explore how existing security controls catalogs, such as CIS benchmarks, NIST SP 800-53, and ISO/IEC 27001, can be utilized to assess the security posture of cloud services.
-- Develop guidelines and frameworks for conducting assessments of cloud services' security posture using existing security controls catalogs, ensuring thorough coverage of relevant security domains and alignment with industry standards.
+- Define and maintain a threat-informed security control catalog outlining effective measures to mitigate identified threats relative to the CCC services taxonomy.
+- Define methodologies and criteria for assessing the effectiveness of security controls, including leveraging existing security controls catalogs, threat knowledge bases, risk-based assessments, assessment formats (e.g. OSCAL), and testing procedures.
+- Explore how existing security controls catalogs, such as CIS benchmarks, NIST SP 800-53, ISO/IEC 27001, as well as threat knowledge bases (e.g. MITRE ATT&CK) can be utilized to assess the security posture of cloud services.
 - Collaborate with industry experts, security researchers, and cloud service providers to ensure the accuracy and relevance of the catalogs, assessment methodologies, and exploration of existing controls catalogs.
 - Regularly update and expand the catalogs, assessment methodologies, and exploration of existing controls catalogs to reflect evolving threats, emerging technologies, and best practices in cloud security.
 - Provide guidance and support to users, developers, and organizations in implementing recommended security controls within their cloud environments, conducting assessments using existing controls catalogs, and aligning with industry standards and best practices.
@@ -26,7 +25,8 @@ The mission of the Security [WG] is to develop, maintain, and enhance a comprehe
 
 This group should, at minimum, create and maintain the following items in the project GitHub repository.
 
-- Security controls catalog [WG]
+- Threat catalog 
+- Control catalog
 
 ## Out of Scope
 
@@ -42,7 +42,7 @@ Where recommendations do not yet exist on a topic, this [WG] should follow guida
 
 A member of this [WG] should be present on for any calls scheduled by the [SC] for participation by the full CCC community, such as quarterly [SC] calls.
 
-This [WG] will use the mail group <ccc-delivery@lists.finos.org> for regular communications.
+This [WG] will use the mail group <ccc-security@lists.finos.org> for regular communications.
 
 ## Changes
 
