@@ -1,36 +1,43 @@
-# <NAME_OF_WORKING_GROUP> Working Group
+# Common Cloud Control <NAME_OF_WORKING_GROUP> Working Group Charter
 
+<<<<<<< HEAD:docs/governance/working-groups/community-structure/templates/charter.md
 <*A sentence outlining the high level role this working group plays withing the CCC project.*>
+=======
+This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) <*name of the working group*>.
+>>>>>>> 0a3e034 (improvements to the charter template):docs/governance/working-groups/templates/charter.md
 
 ## Mission
 
-<*Two to Three sentences describing the mission of the working group.*>
+<*The mission of the working group and its high level role within the CCC project.*>
 
-## Approach
+## Objectives / Responsibilities
 
-<*A bullet point list outlining the approach the working group will take to achieve it's mission.*>
-
-## Responsibilities
-
-<*A bullet point list outlining the responsibilities of the working group.*>
+<*A list of objectives / responsibilities of the working group.*>
 
 ### Output / Deliverables
 
-<*A bullet point list outlining the outputs / deliverables the working group should produced.*>
+<*A list of outputs / deliverables the working group should produce.*>
 
-## Out of Scope
+## Scope
 
-<*An explicit description of the things do not fall within in the scope of the working group.*>
+<*An explicit list of the items that do and do not fall within in the scope of the working group.*>
+
+## Approach (Optional)
+
+<*A list outlining the approach the working group will take to achieve its mission.*>
 
 ## Membership
 
-The membership structure of this [WG], including roles and responsibilities, must adhere to the latest recommendations from the Community Structure [WG].
+The membership structure of this working group, including roles and responsibilities.
 
-## Community Cadence
+***Note: Must adhere to the latest recommendations from the Community Structure working group.***
 
-A member of this [WG] should be present on for any calls scheduled by the [SC] for participation by the full CCC community, such as quarterly [SC] calls.
+## Meeting Cadence
 
-This [WG] will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
+* This working group will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
+* <*Specify the types of meetings this working group will have in order to discuss the working group specific matters and their frequency*> (Please refer to [meetings](../recommendations/communication.md#meetings) for more information).
+* <*Specify the types of meetings this working group will have to collaborate with other CCC working groups and their frequency*>.
+* A member of this working group should represent this working group on for any calls scheduled by the steering committee ([SC]) for participation by the full CCC community, such as quarterly [SC] calls.
 
 ## Governance
 
