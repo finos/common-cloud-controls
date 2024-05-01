@@ -1,14 +1,18 @@
-# Project Charter - FINOS CCC Duplication Reduction Working Group
+# Duplication Reduction Working Group
+
+This [WG] facilitates the research of existing frameworks for the Common Cloud Controls project community.
 
 ## Mission
 
 This working group will evaluate the tools, assets, and partners that exist in the cloud controls space that can help reduce the effort required to meet the overall CCC goals for the CCC contributors and consumers. 
 
-## Scope
+Our goal is to ensure the CCC efforts do not duplicate pre-existing standards, and instead are net new contributions to the broader ecosystem aligned to the specific needs of the financial services industry.
 
-This work will span 2 phases:
+## Approach
 
-### Phase 1 — Investigate existing frameworks
+This work will span 2 main outputs:
+
+### 1 — Investigate existing frameworks
 
 The first step is to identify a set of existing frameworks and capabilities that we should investigate (eg. NIST, ISO, OSCAL, MITRE, etc) against the CCC goals. 
 
@@ -18,65 +22,46 @@ Process:
 3. Evaluate each frameworks ability to meet the overall CCC goals
 4. Idenitfy how each framework can help achieve each goal, likely provided as a starting point or framework for other work groups.
 
-### Phase 2 — Articulate why we've choosen each framework
+### 2 — Articulate recommendations to other working groups
 
-After investigating and choosing frameworks to build upon, we will produce a written overview of each framework choosen and the reasoning behind that decision. This should include already completed decisions such as MITRE ATT&CK, OSCAL, and others which form a basis for other work group products. Overviews should be concise but allow for future contributors to understand and re-evaluate any decisions made if appropriate as standards and technology evolves.
+After investigating and aligning frameworks to build upon, we will produce a written overview of each framework recommended and the reasoning behind that selection. This should include already completed decisions such as MITRE ATT&CK, OSCAL, and others which form a basis for other work group products. Overviews should be concise but allow for future contributors to understand and re-evaluate any recommendations made if appropriate as standards and technology evolves.
 
 In addition, we should provide a clear set of what's missing from these exixsting frameworks, and identify how the work being done in CCC augments/improves these systems.
 
-## Success Criteria
+## Responsibilities
 
-The CCC efforts do not duplicate pre-existing standards, and instead are net new contributions to the broader ecosystem aligned to the specific needs of the financial services industry.
+- Propose and maintain recommended frameworks and documented research and reasoning
+- Provide advice and support to WGs
 
-## Deliverables
 
+### Output / Deliverables
+
+This group should, at minimum, create and maintain the following items in the project GitHub repository.
 * One frameworks overview page with investigations performed and insights
 * One page per selected framework on reasoning and how it will be used
 
-## Participation
+## Out of Scope
 
-* Open to all participants
+This [WG] is not responsible for approving proposed frameworks or ensuring compliance with recommendations.
 
-## Roles and Responsibilities
+To reduce unilateral authority from either this group or the [SC], all framework recommendations should come from this group and be finalized through a vote from the [SC].
 
-The working group should self-select which of its contributors should have various roles and/or responsibilities assigned to them, e.g., Maintainer or Approver.
+## Membership
 
-## Licensing
+The membership structure of this [WG], including roles and responsibilities, must adhere to the latest recommendations from the Community Structure [WG]. 
 
-* We should use FINOS standard words here
+Where recommendations do note yet exist on a topic, this [WG] should follow guidance from the CCC [SC].
 
-## Intellectual Property Claims
+## Community Cadence
 
-* We should use FINOS standard words here
+A member of this [WG] should be present on for any calls scheduled by the [SC] for participation by the full CCC community, such as quarterly [SC] calls.
 
-## Group Information
+This [WG] will use the mail group <ccc-duplication-reduction@lists.finos.org> for regular communications.
 
-### Technical Leaders
+## Changes
 
-A list of technical leaders and their roles should be kept current here:
+Changes to this charter must be approved through a majority vote by the [SC].
 
-- Name
-- GitHub Handle
-- Roles
-
-### Meetings and Minutes
-
-- Regular meetings of the Duplication Reduction working group will be held fortnightly. These will be termed "Duplication Reduction Working Group Regular Meetings".
-- Meeting minutes will be documented and made available to all members for reference and transparency.
-- A reporting meeting will be held once a month, e.g., first Wednesday of the month, in order to discuss recent progress and future direction with the SteerCo, other working groups, and open to any other stakeholders or interested parties to provide input and/or direction. These will be termed "Duplication Reduction Working Group Reporting Meetings". 
-  - These meetings could also serve as a collaboration forum and an integration point with other working groups for wider discussion. Additional information pertinent to cross-working-group collaboration can be found in the "improving efficiency" charter.
-
-### Mailing List
-
-- The Taxonomy working group mailing list will serve as the primary communication channel for group discussions, announcements, and coordination.
-- All members are encouraged to subscribe to the mailing list to stay informed and participate in discussions.
-
-### Conference Call Details
-
-- Fortnightly call to be scheduled
-- Ad hoc conference calls will be scheduled as needed for in-depth discussions, decision-making, and updates.
-- Details regarding conference call schedules, dial-in numbers, access codes, and meeting agendas will be shared with group members in advance.
-- Details are also published on the FINOS CCC GitHub repo
-
-
+[SC]: <../../community-groups.md#steering-committee>
+[WG]: <../../community-groups.md#working-groups>
 
