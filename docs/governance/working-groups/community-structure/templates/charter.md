@@ -28,9 +28,11 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
 
 ## Membership
 
-The membership structure of this working group, including roles and responsibilities.
+The membership structure of this working group.
 
-***Note: Must adhere to the latest recommendations from the Community Structure working group.***
+[WG] Lead: <*name of the WG lead*>
+
+***Note:*** Must adhere to the latest recommendations from the Community Structure working group. See [Community Organization](../recommendations/community-organisation.md#roles-definition-for-a-working-group)
 
 ## Meeting Cadence
 
