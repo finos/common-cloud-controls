@@ -4,7 +4,8 @@ Guidelines are formal recommendations to the community provided as structured ou
 
 ## New Recommendations
 
-New recommendations can be suggested by anyone by raising a PR and sending it to the Community Structure [WG] using the mailing list <ccc-structure@lists.finos.org> for consideration and approval.
+* New recommendations can be suggested by anyone by raising a PR and sending it to the Community Structure [WG] using the mailing list <ccc-structure@lists.finos.org> for consideration.
+* Then the members of the Community Structure [WG] should discuss this issue in their [WG] meetings and approve the PR for it to become a recommendation.
 
 ## Upgrading a Recommendation to become a Policy
 
