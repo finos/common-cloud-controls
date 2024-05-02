@@ -18,7 +18,7 @@ These meetings are advertised on the FINOS Calendar.
 
 ### Regular [WG] Meetings
 
-Some [WG]s may chose to hold regular meetings to provide a space for discussion of [WG] specific activities. If a [WG] decides this is necessary then the details of the meeting should be published to members of the [WG] using the corresponding mailing list.
+Some [WGs] may chose to hold regular meetings to provide a space for discussion of [WG] specific activities. If a [WG] decides this is necessary then the details of the meeting should be published to members of the [WG] using the corresponding mailing list.
 
 Any regular [WG] wide meetings should have minutes taken and made available.
 

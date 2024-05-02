@@ -1,6 +1,6 @@
 # <NAME_OF_WORKING_GROUP> Working Group
 
-<*A sentence outlining the high level role the working group plays withing the CCC project.*>
+<*A sentence outlining the high level role this working group plays withing the CCC project.*>
 
 ## Mission
 
@@ -32,9 +32,14 @@ A member of this [WG] should be present on for any calls scheduled by the [SC] f
 
 This [WG] will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
 
-## Changes
+## Governance
 
-Changes to this charter must be approved through a majority vote by the [SC].
+This [WG] will remain compliant with all applicable community policies
 
-[SC]: <../../community-groups.md#steering-committee>
+### Changes
+
+Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
+
+[WG]: <../../community-policies/README.md>
 [WG]: <../../community-groups.md#working-groups>
+[SC]: <../../community-groups.md#steering-committee>
