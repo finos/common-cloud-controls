@@ -4,22 +4,23 @@ This [WG] defines how a threat-informed control catalog can be used to assess th
 
 ## Mission
 
-The mission of the Security [WG] is to develop, maintain, and enhance a comprehensive threat-informed security control catalog specifically tailored to the CCC cloud services taxonomy. Additionally, the working group will explore how existing catalogs, knowledge bases and assement frameworks can be leveraged to assess the security posture of cloud services, as well as define guidelines for conducting assessments, and ensure alignment with industry standards and best practices.
+The mission of the Security [WG] is to develop, maintain, and enhance a comprehensive threat-informed security control catalog specifically tailored to the CCC cloud services taxonomy. As part of the mission, the working group will explore how existing catalogs, knowledge bases and assessment frameworks can be leveraged to assess the security posture of CCC-relevant cloud services and ensure alignment with industry standards and best practices.
 
 ## Approach
 
 - Maintain open and transparent communication channels for all WG activities and decisions in regard to outputs/deliverables
-- Maintain a list of all community outputs that need to be released
-- Determine best process for versioning/releasing the output owners content
 
 ## Responsibilities
 
 - Define and maintain a threat-informed security control catalog outlining effective measures to mitigate identified threats relative to the CCC services taxonomy.
 - Define methodologies and criteria for assessing the effectiveness of security controls, including leveraging existing security controls catalogs, threat knowledge bases, risk-based assessments, assessment formats (e.g. OSCAL), and testing procedures.
-- Explore how existing security controls catalogs, such as CIS benchmarks, NIST SP 800-53, ISO/IEC 27001, as well as threat knowledge bases (e.g. MITRE ATT&CK) can be utilized to assess the security posture of cloud services.
+- Explore how existing security controls catalogs, such as CIS benchmarks, NIST SP 800-53, ISO/IEC 27001, as well as threat knowledge bases, such as MITRE ATT&CK, can be utilized to assess the security posture of cloud services.
 - Collaborate with industry experts, security researchers, and cloud service providers to ensure the accuracy and relevance of the catalogs, assessment methodologies, and exploration of existing controls catalogs.
-- Regularly update and expand the catalogs, assessment methodologies, and exploration of existing controls catalogs to reflect evolving threats, emerging technologies, and best practices in cloud security.
-- Provide guidance and support to users, developers, and organizations in implementing recommended security controls within their cloud environments, conducting assessments using existing controls catalogs, and aligning with industry standards and best practices.
+- Regularly update and expand the catalogs, assessment methodologies, and exploration of existing control catalogs to reflect evolving threats, emerging technologies, and best practices in cloud security.
+
+### Input
+
+The input to the WG is the output from the services taxonomy WG.
 
 ### Output / Deliverables
 
