@@ -2,9 +2,11 @@
 
 Guidelines are formal recommendations to the community provided as structured outputs from the Community Structure [WG]. While these guidelines have not been approved by the [SC] as official community policy, it is strongly advised that each [WG] follow the recommendations.
 
-## New Recommendations
+This directory will contain all guidelines recommended 
 
-* New recommendations can be suggested by anyone by raising a PR and sending it to the Community Structure [WG] using the mailing list <ccc-structure@lists.finos.org> for consideration.
+## Adding or Modifying a New Guideline
+
+* Changes can be suggested by anyone by raising a PR and notifying the Community Structure [WG] using the mailing list <ccc-structure@lists.finos.org> for consideration.
 * Then the members of the Community Structure [WG] should discuss this issue in their [WG] meetings and approve the PR for it to become a recommendation.
 
 ## Upgrading a Recommendation to become a Policy
