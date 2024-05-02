@@ -1,10 +1,6 @@
 # Common Cloud Control <NAME_OF_WORKING_GROUP> Working Group Charter
 
-<<<<<<< HEAD:docs/governance/working-groups/community-structure/templates/charter.md
-<*A sentence outlining the high level role this working group plays withing the CCC project.*>
-=======
 This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) <*name of the working group*>.
->>>>>>> 0a3e034 (improvements to the charter template):docs/governance/working-groups/templates/charter.md
 
 ## Mission
 
@@ -49,6 +45,5 @@ This [WG] will remain compliant with all applicable community policies
 
 Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
 
-[WG]: <../../community-policies/README.md>
 [WG]: <../../community-groups.md#working-groups>
 [SC]: <../../community-groups.md#steering-committee>
