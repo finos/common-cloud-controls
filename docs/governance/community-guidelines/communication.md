@@ -5,7 +5,7 @@ This document is a [community guideline].
 ## Mailing Lists
 
 * A mailing list should be used as the main means of distributing written communications for all activities related to the CCC Project.
-* To create a new mailing list email help@finos.org. Mailing Lists should only be created for a new [WG] or at the discretion of the [SC].
+* Mailing lists should be requested for a [WG] by the sponsoring SteerCo member upon passage of the charter vote.
 
 ## Meetings
 
