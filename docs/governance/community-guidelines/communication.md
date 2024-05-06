@@ -23,7 +23,7 @@ Any meeting published on the public calendar must additionally adhere to a stric
 
 * A [WG] may choose to hold regular meetings to provide a dedicated space for discussion of [WG]-specific activities. 
 * If a [WG] decides to have regular [WG] meetings, then the details of the meeting should be published to members of the [WG] using the corresponding mailing list.
-* Where practical, these meetings should have minutes taken and published to the rest of the [WG].
+* Where practical, these meetings should have notes or minutes published to the rest of the [WG].
 
 ### Ad hoc [WG] Meetings
 
