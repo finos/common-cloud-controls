@@ -1,6 +1,6 @@
 # Common Cloud Control <NAME_OF_WORKING_GROUP> Working Group Charter
 
-This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) <*name of the working group*>.
+This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) <*name of the working group*> [WG].
 
 ## Mission
 
@@ -14,11 +14,11 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
 
 <*A list of outputs / deliverables the working group should produce.*>
 
-## Scope
+## Out of Scope
 
-<*An explicit list of the items that do and do not fall within in the scope of the working group.*>
+<*An explicit list of the items that do not fall within in the scope of the working group.*>
 
-## Approach (Optional)
+## Approach
 
 <*A list outlining the approach the working group will take to achieve its mission.*>
 
@@ -34,7 +34,7 @@ The membership structure of this working group.
 
 * This working group will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
 * <*Specify the types of meetings this working group will have in order to discuss the working group specific matters and their frequency*> (Please refer to [meetings](../recommendations/communication.md#meetings) for more information).
-* <*Specify the types of meetings this working group will have to collaborate with other CCC working groups and their frequency*>.
+* <*Specify the types of meetings this working group will have to collaborate with other CCC working groups and their frequency*>. 
 * A member of this working group should represent this working group on for any calls scheduled by the steering committee ([SC]) for participation by the full CCC community, such as quarterly [SC] calls.
 
 ## Governance
