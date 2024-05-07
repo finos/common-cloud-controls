@@ -46,8 +46,8 @@ The membership structure of this working group.
 ## Meeting Cadence
 
 * This working group will use the mail group <ccc-taxonomy@lists.finos.org> for regular communications.
-* This working group will use biweekly [regular meetings](../community-guidelines/communication.md#regular-meetings) and [ad hoc meetings](../community-guidelines/communication.md#ad-hoc-meetings) as required to discuss [WG] specific tasks.
-* This working group will use monthly [reporting meetings](../community-guidelines/communication.md#reporting-meetings) and [ad hoc meetings](../community-guidelines/communication.md#ad-hoc-meetings) as required to collaborate with other CCC working groups.
+* This working group will use biweekly [regular meetings](../../community-guidelines/communication.md#regular-wg-meetings) and [ad hoc meetings](../../community-guidelines/communication.md#ad-hoc-wg-meetings) as required to discuss [WG] specific tasks.
+* This working group will use monthly [SteerCo reporting meetings](../../community-guidelines/communication.md#steerco-reporting-meetings) and [ad hoc meetings](../../community-guidelines/communication.md#ad-hoc-wg-meetings) as required to collaborate with other CCC working groups.
 * A member of this working group will represent this working group on for any calls scheduled by the steering committee ([SC]) for participation by the full CCC community, such as quarterly [SC] calls.
 
 ## Governance
