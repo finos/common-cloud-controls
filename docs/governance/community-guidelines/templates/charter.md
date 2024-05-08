@@ -5,11 +5,14 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
 ## Table of Contents
 
 1. [Mission](#mission)
-2. [Objectives / Responsibilities](#objectives--responsibilities)
+2. [Approach & Responsibilities](#approach--responsibilities)
    - [Output / Deliverables](#output--deliverables)
 3. [Out of Scope](#out-of-scope)
 4. [Meeting Cadence](#meeting-cadence)
 5. [Governance](#governance)
+   - [Membership](#membership)
+   - [Changes](#changes)
+   - [Meeting Cadence](#meeting-cadence)
    - [Changes](#changes)
 
 ## Mission
