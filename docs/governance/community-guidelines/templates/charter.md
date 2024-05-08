@@ -39,7 +39,7 @@ The following activities will not be performed by this group:
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community policies. At the guidance of the WG Lead, this group will seek to implement recommendations set forth by the Community Structure WG.
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] set forth by the Community Structure WG.
 
 ### Membership
 
@@ -56,7 +56,7 @@ The membership structure of this working group:
 * This working group will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
 * <*Specify the types of meetings this working group will have in order to discuss the working group specific matters and their frequency*> (Please refer to [meetings](../recommendations/communication.md#meetings) for more information).
 * <*Specify the types of meetings this working group will have to collaborate with other CCC working groups and their frequency*>.
-* A member of this working group should represent this working group on for any calls scheduled by the steering committee ([SC]) for participation by the full CCC community, such as quarterly [SC] calls.
+* A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
 
 ### Changes
 
@@ -64,3 +64,5 @@ Any functional changes to this charter must be approved through a majority vote 
 
 [WG]: <../../community-groups.md#working-groups>
 [SC]: <../../community-groups.md#steering-committee>
+[policies]: <../../community-policies/README.md>
+[recommendations]: <../../community-recommendations/README.md>
