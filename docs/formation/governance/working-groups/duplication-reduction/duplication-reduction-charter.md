@@ -1,4 +1,4 @@
-# Common Cloud Control Duplication Reduction Working Group Charter
+# Duplication Reduction Working Group Charter
 
 This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) Duplication Reduction [WG].
 
