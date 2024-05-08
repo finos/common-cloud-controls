@@ -1,4 +1,4 @@
-# Common Cloud Control Communications Working Group Charter
+# Communications Working Group Charter
 
 This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) Communications [WG]
 
@@ -36,7 +36,7 @@ This group will:
 The following items will be maintained in the project repository:
 
 - Public-facing Project Roadmap
-- Marketing collateral such as graphics and website
+- Marketing collateral such as graphics and website code
 - Community engagement guides
 - De-personalized end-user requirements and requests (through GitHub issues)
 
@@ -53,15 +53,15 @@ This [WG] will remain compliant with all applicable community policies. At the g
 
 The membership structure of this working group:
 
-- **SteerCo Sponsor:** Eddie Knight
 - **WG Lead:** Alex St. Pierre
+- **SteerCo Sponsor:** Eddie Knight
 - This group is not authorized to create independent sub-groups.
 
 ## Meeting Cadence
 
 - This [WG] will use the mail group <ccc-communications@lists.finos.org> for routine communications.
 - A bi-weekly meeting will be created on the FINOS community calendar as a space to gather end-user feedback and discuss ongoing [WG] activities 
-- A member of this [WG] will represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC community, such as quarterly [SC] calls.
+* A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
 
 ### Changes
 
