@@ -1,45 +1,59 @@
 # Common Cloud Control <NAME_OF_WORKING_GROUP> Working Group Charter
 
-This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) <*name of the working group*> [WG].
+This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) <*name of the working group*>.
+
+## Table of Contents
+
+1. [Mission](#mission)
+2. [Objectives / Responsibilities](#objectives--responsibilities)
+   - [Output / Deliverables](#output--deliverables)
+3. [Out of Scope](#out-of-scope)
+4. [Meeting Cadence](#meeting-cadence)
+5. [Governance](#governance)
+   - [Changes](#changes)
 
 ## Mission
 
 <*The mission of the working group and its high level role within the CCC project.*>
 
-## Objectives / Responsibilities
+## Approach & Responsibilities
 
-<*A list of objectives / responsibilities of the working group.*>
+This group will:
+
+- <*A list detailing how this group will work, and things this group will be responsible for.*>
 
 ### Output / Deliverables
 
-<*A list of outputs / deliverables the working group should produce.*>
+The following artifacts will be created and stored in the project GitHub repo: 
+
+- <*A list of outputs / deliverables the working group should produce.*>
 
 ## Out of Scope
 
-<*An explicit list of the items that do not fall within in the scope of the working group.*>
+The following activities will not be performed by this group:
 
-## Approach
-
-<*A list outlining the approach the working group will take to achieve its mission.*>
-
-## Membership
-
-The membership structure of this working group.
-
-[WG] Lead: <*name of the WG lead*>
-
-***Note:*** Must adhere to the latest recommendations from the Community Structure working group. See [Community Organization](../recommendations/community-organisation.md#roles-definition-for-a-working-group)
-
-## Meeting Cadence
-
-* This working group will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
-* <*Specify the types of meetings this working group will have in order to discuss the working group specific matters and their frequency*> (Please refer to [meetings](../recommendations/communication.md#meetings) for more information).
-* <*Specify the types of meetings this working group will have to collaborate with other CCC working groups and their frequency*>. 
-* A member of this working group should represent this working group on for any calls scheduled by the steering committee ([SC]) for participation by the full CCC community, such as quarterly [SC] calls.
+- <*An explicit list of the items that do not fall within in the scope of this group's responsibility.*>
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community policies
+This [WG] will remain compliant with all applicable community policies. At the guidance of the WG Lead, this group will seek to implement recommendations set forth by the Community Structure WG.
+
+### Membership
+
+The membership structure of this working group:
+
+- SC Sponsor: <*name of the SteerCo member who sponsored formation or continuation of this group*>
+- WG Lead: <*name of the WG lead*>
+- This group <*is or is not*> authorized to create independent sub-groups. <*Any additional details*>
+
+<* Note:*** Refer to [Community Organization](../recommendations/community-organisation.md#roles-definition-for-a-working-group) for more information about WG composition. *>
+
+### Meeting Cadence
+
+* This working group will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
+* <*Specify the types of meetings this working group will have in order to discuss the working group specific matters and their frequency*> (Please refer to [meetings](../recommendations/communication.md#meetings) for more information).
+* <*Specify the types of meetings this working group will have to collaborate with other CCC working groups and their frequency*>.
+* A member of this working group should represent this working group on for any calls scheduled by the steering committee ([SC]) for participation by the full CCC community, such as quarterly [SC] calls.
 
 ### Changes
 
