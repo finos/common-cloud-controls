@@ -1,67 +1,77 @@
-# Duplication Reduction Working Group
+# Common Cloud Control Duplication Reduction Working Group Charter
 
-This [WG] facilitates the research of existing frameworks for the Common Cloud Controls project community.
+This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) Duplication Reduction [WG].
+
+## Table of Contents
+
+1. [Mission](#mission)
+2. [Approach & Responsibilities](#approach--responsibilities)
+   - [Output / Deliverables](#output--deliverables)
+3. [Out of Scope](#out-of-scope)
+4. [Meeting Cadence](#meeting-cadence)
+5. [Governance](#governance)
+   - [Membership](#membership)
+   - [Changes](#changes)
+   - [Meeting Cadence](#meeting-cadence)
+   - [Changes](#changes)
 
 ## Mission
 
-This working group will evaluate the tools, assets, and partners that exist in the cloud controls space that can help reduce the effort required to meet the overall CCC goals for the CCC contributors and consumers. 
+This [WG] facilitates the research of existing frameworks for the Common Cloud Controls project community through evaluation of tools, assets, and partners that exist in the cloud controls space that can help reduce the effort required to meet the overall CCC goals for the CCC contributors and consumers.
 
-Our goal is to ensure the CCC efforts do not duplicate pre-existing standards, and instead are net new contributions to the broader ecosystem aligned to the specific needs of the financial services industry.
+Efforts from this group will ensure that the CCC efforts do not duplicate pre-existing standards, and instead are net new contributions to the broader ecosystem aligned to the specific needs of the financial services industry.
 
 ## Approach
 
-This work will span 2 main outputs:
+This group will:
 
-### 1 — Investigate existing frameworks
-
-The first step is to identify a set of existing frameworks and capabilities that we should investigate (eg. NIST, ISO, OSCAL, MITRE, etc) against the CCC goals. 
-
-Process:
-1. Develop a set of principles and goals to consider for evaluating frameworks 
-2. Research a set of frameworks to consider
-3. Evaluate each frameworks ability to meet the overall CCC goals
-4. Idenitfy how each framework can help achieve each goal, likely provided as a starting point or framework for other work groups.
-
-### 2 — Articulate recommendations to other working groups
-
-After investigating and aligning frameworks to build upon, we will produce a written overview of each framework recommended and the reasoning behind that selection. This should include already completed decisions such as MITRE ATT&CK, OSCAL, and others which form a basis for other work group products. Overviews should be concise but allow for future contributors to understand and re-evaluate any recommendations made if appropriate as standards and technology evolves.
-
-In addition, we should provide a clear set of what's missing from these exixsting frameworks, and identify how the work being done in CCC augments/improves these systems.
-
-## Responsibilities
-
-- Propose and maintain recommended frameworks and documented research and reasoning
-- Provide advice and support to WGs
-
+- Identify existing resources that we should investigate for use toward various CCC [WG] goals, including tools, approaches, or frameworks.
+- Develop a set of principles and goals to consider for evaluating resources
+- Evaluate each resource's ability to meet project goals
+- Idenitfy how each resource can help achieve a goal, in a way that can serve as a starting point or reference for other [WG]s
+- Document research that has been done on each resource 
+- Provide a clear set of what's missing from existing frameworks such as NIST, ISO, OSCAL, and MITRE, with how the work being done in CCC augments or improves these systems
+- Collaborate with the [Community Structure WG] to create new [recommendations] or policies regarding the use of specific resources, with links to documented research and reasoning
+- Provide advice and support related to duplicative efforts to all [WG]s
 
 ### Output / Deliverables
 
-This group should, at minimum, create and maintain the following items in the project GitHub repository.
-* One frameworks overview page with investigations performed and insights
-* One page per selected framework on reasoning and how it will be used
+The following items will be maintained by this [WG] in the project repository:
+
+- Resource Overview Document
+- Featured Resources Guides
+- Resource Evaluation Guide
 
 ## Out of Scope
 
-This [WG] is not responsible for approving proposed frameworks or ensuring compliance with recommendations.
+The following activities will not be performed by this group:
 
-To reduce unilateral authority from either this group or the [SC], all framework recommendations should come from this group and be finalized through a vote from the [SC].
+- Integrating resources into project workflows or outputs
+- Ensuring compliance with [recommendations] or [policies]
 
-## Membership
+## Governance
 
-The membership structure of this [WG], including roles and responsibilities, must adhere to the latest recommendations from the Community Structure [WG]. 
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] approved by the [Community Structure WG].
 
-Where recommendations do note yet exist on a topic, this [WG] should follow guidance from the CCC [SC].
+### Membership
 
-## Community Cadence
+The membership structure of this working group:
 
-A member of this [WG] should be present on for any calls scheduled by the [SC] for participation by the full CCC community, such as quarterly [SC] calls.
+- WG Lead: Jared Lambert
+- SC Sponsor: Eddie Knight
+- This group is not authorized to create independent sub-groups
 
-This [WG] will use the mail group <ccc-duplication-reduction@lists.finos.org> for regular communications.
+### Meeting Cadence
 
-## Changes
+* This working group will use the mail group <ccc-duplication-reduction@lists.finos.org> for regular communications.
+* A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
 
-Changes to this charter must be approved through a majority vote by the [SC].
+### Changes
 
-[SC]: <../../community-groups.md#steering-committee>
+Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
+
 [WG]: <../../community-groups.md#working-groups>
-
+[SC]: <../../community-groups.md#steering-committee>
+[Community Structure WG]: <../community-structure/charter.md>
+[policies]: <../../community-policies/README.md>
+[recommendations]: <../../community-recommendations/README.md>
