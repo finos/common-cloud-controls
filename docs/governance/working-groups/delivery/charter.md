@@ -28,6 +28,9 @@ By coordinating with fellow [WG]'s, we endeavor to synchronize release efforts, 
 This group will:
 
 - Maintain open and transparent communication channels for all WG activities and decisions in regard to outputs/deliverables
+- Define and document standards related to how content is organized in the repository
+- Document standards for how all project artifacts reference eachother, such as control identifiers
+- Create and maintain automation related to acceptance of content proposed to the project repository
 - Maintain a list of all community outputs that need to be released
 - Determine and document project best practices for versioning and releasing content
 - Maintain a version controlled process for releasing content
@@ -40,6 +43,8 @@ This group will:
 The following artifacts will be created and stored in the project GitHub repo:
 
 - Documentation of the project's comprehensive release strategy
+- Documentation of the project's content format and hygiene standards
+- Automation related to the acceptance and management of content proposed to the project repository
 - Automation related to release of version-controlled project artifacts
 - Release artifacts corresponding to any version-controlled outputs from the project
 
@@ -47,7 +52,7 @@ The following artifacts will be created and stored in the project GitHub repo:
 
 The following activities will not be performed by this group:
 
-- Technicial work that does not pertain to a release
+- Technicial work that does not pertain to a release or repo content format
 - Public-facing communications
 
 ## Governance
