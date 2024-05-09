@@ -1,4 +1,4 @@
-# Common Cloud Control <NAME_OF_WORKING_GROUP> Working Group Charter
+# <NAME_OF_WORKING_GROUP> Charter
 
 This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) <*name of the working group*>.
 
@@ -41,22 +41,25 @@ The following activities will not be performed by this group:
 
 This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] set forth by the Community Structure WG.
 
+<* Note:*** Refer to [Community Organization](../recommendations/community-organisation.md#roles-definition-for-a-working-group) for more information about WG composition. *>
+
 ### Membership
 
 The membership structure of this working group:
 
-- SC Sponsor: <*name of the SteerCo member who sponsored formation or continuation of this group*>
 - WG Lead: <*name of the WG lead*>
+- SC Sponsor: <*name of the SteerCo member who sponsored formation or continuation of this group*>
+
+### Sub-Groups
+
 - This group <*is or is not*> authorized to create independent sub-groups. <*Any additional details*>
 
-<* Note:*** Refer to [Community Organization](../recommendations/community-organisation.md#roles-definition-for-a-working-group) for more information about WG composition. *>
+### Meetings & Communication
 
-### Meeting Cadence
-
-* This working group will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
-* <*Specify the types of meetings this working group will have in order to discuss the working group specific matters and their frequency*> (Please refer to [meetings](../recommendations/communication.md#meetings) for more information).
-* <*Specify the types of meetings this working group will have to collaborate with other CCC working groups and their frequency*>.
-* A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
+- This working group will use the mail group <ccc-[wg-name]@lists.finos.org> for regular communications.
+- <*Specify the types of meetings this working group will have in order to discuss the working group specific matters and their frequency*> (Please refer to [meetings](../recommendations/communication.md#meetings) for more information).
+- <*Specify the types of meetings this working group will have to collaborate with other CCC working groups and their frequency*>.
+- A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
 
 ### Changes
 
