@@ -52,7 +52,7 @@ The following activities will not be performed by this group:
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] set forth by the Community Structure WG.
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] set forth by the [Community Structure WG].
 
 ### Membership
 
@@ -76,3 +76,4 @@ Any functional changes to this charter must be approved through a majority vote 
 [policies]: <../../community-policies/README.md>
 [recommendations]: <../../community-recommendations/README.md>
 [Communications WG]: <../communications/charter.md>
+[Community Structure WG]: <../communications/charter.md>
