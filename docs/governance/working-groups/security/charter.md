@@ -1,53 +1,85 @@
-# Security Working Group
+# Security Working Group Charter
 
-This [WG] defines how a threat-informed control catalog can be used to assess the security of the common cloud services defined by the CCC services taxonomy working group.
+This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) Security [WG].
+
+## Table of Contents
+
+1. [Mission](#mission)
+2. [Approach & Responsibilities](#approach--responsibilities)
+   - [Output / Deliverables](#output--deliverables)
+3. [Out of Scope](#out-of-scope)
+4. [Meeting Cadence](#meeting-cadence)
+5. [Governance](#governance)
+   - [Membership](#membership)
+   - [Changes](#changes)
+   - [Meeting Cadence](#meeting-cadence)
+   - [Changes](#changes)
 
 ## Mission
 
+This [WG] defines how a threat-informed control catalog can be used to assess the security of the common cloud services defined by the CCC services taxonomy working group.
+
 The mission of the Security [WG] is to develop, maintain, and enhance a comprehensive threat-informed security control catalog specifically tailored to the CCC cloud services taxonomy. As part of the mission, the working group will explore how existing catalogs, knowledge bases and assessment frameworks can be leveraged to assess the security posture of CCC-relevant cloud services and ensure alignment with industry standards and best practices.
 
-## Approach
+## Approach & Responsibilities
 
-- Maintain open and transparent communication channels for all WG activities and decisions in regard to outputs/deliverables
+This group will:
 
-## Responsibilities
-
-- Define and maintain a threat-informed security control catalog outlining effective measures to mitigate identified threats relative to the CCC services taxonomy.
-- Define methodologies and criteria for assessing the effectiveness of security controls, including leveraging existing security controls catalogs, threat knowledge bases, risk-based assessments, assessment formats (e.g. OSCAL), and testing procedures.
-- Explore how existing security controls catalogs, such as CIS benchmarks, NIST SP 800-53, ISO/IEC 27001, as well as threat knowledge bases, such as MITRE ATT&CK, can be utilized to assess the security posture of cloud services.
-- Collaborate with industry experts, security researchers, and cloud service providers to ensure the accuracy and relevance of the catalogs, assessment methodologies, and exploration of existing controls catalogs.
-- Regularly update and expand the catalogs, assessment methodologies, and exploration of existing control catalogs to reflect evolving threats, emerging technologies, and best practices in cloud security.
-
-### Input
-
-The input to the WG is the output from the services taxonomy WG.
-
+- Collaborate with the [Duplication Reduction WG] to evaluate existing security controls catalogs, threat knowledge bases, risk-based assessments, assessment formats, and testing procedures
+- Define and maintain effective measures to mitigate identified threats relative to the CCC services taxonomy
+- Collaborate with industry experts, security researchers, and cloud service providers to ensure the accuracy and relevance of the project approaches and outputs
+- Regularly update and expand the catalogs, assessment methodologies, and exploration of existing control catalogs to reflect evolving threats, emerging technologies, and best practices in cloud security
+- Collaborate with the [Delivery WG] to determine an appropriate release process and cadence
+- Review and incorporate relevant feedback gathered by the [Communications WG] from the community and end users
+ 
 ### Output / Deliverables
 
-This group should, at minimum, create and maintain the following items in the project GitHub repository.
+The following artifacts will be created and stored in the project GitHub repo:
 
-- Threat catalog 
-- Control catalog
+- Catalog of security threats for each cloud service type 
+- Catalog of security controls for each cloud service type
 
 ## Out of Scope
 
-This [WG] is not responsible for technicial work that does not pertain to the management of the CCC threat and control catalogs.
+The following activities will not be performed by this group:
 
-## Membership
+- Technicial work that does not pertain to the development of its deliverables.
+- Public-facing communications outside of the project repository
 
-The membership structure of this [WG], including roles and responsibilities, must adhere to the latest recommendations from the Community Structure [WG].
+## Governance
 
-Where recommendations do not yet exist on a topic, this [WG] should follow guidance from the CCC [SC].
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] set forth by the Community Structure WG.
 
-## Community Cadence
+### Membership
 
-A member of this [WG] should be present on for any calls scheduled by the [SC] for participation by the full CCC community, such as quarterly [SC] calls.
+The membership structure of this working group:
 
-This [WG] will use the mail group <ccc-security@lists.finos.org> for regular communications.
+- WG Lead: Michael Anthony Lysaght
+- SC Sponsor: Eddie Knight
 
-## Changes
+### Sub-Groups
 
-Changes to this charter must be approved through a majority vote by the [SC].
+This group **is** authorized to create independent sub-groups. 
 
-[SC]: <../../community-groups.md#steering-committee>
+This may be done by modifying this document to include a link to the relevant sub-group charter. Such modifications require PR approval from the WG Lead and one [SC] member.
+
+The following [WG] have been chartered by and are accountable to this group:
+
+- None
+
+### Meeting & Communications
+
+* This working group will use the mail group <ccc-security@lists.finos.org> for regular communications.
+- This group will host a public meeting via the FINOS calendar no less than once every three (3) weeks, excluding November and December.
+- The WG Lead or their delegate must present verbal or written updates to the [SC] at its regular public meetings.
+
+### Changes
+
+Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
+
 [WG]: <../../community-groups.md#working-groups>
+[SC]: <../../community-groups.md#steering-committee>
+[policies]: <../../community-policies/README.md>
+[Communications WG]: <../communications/charter.md>
+[Delivery WG]: <../delivery/charter.md>
+[recommendations]: <../../community-recommendations/README.md>
