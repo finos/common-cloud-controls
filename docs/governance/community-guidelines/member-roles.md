@@ -24,21 +24,20 @@ and eligibility requirements are enumerated below.
 
 ## Member
 
-Members are continuously active contributors within the community. They can have issues and PRs
-assigned to them, participate in Special Interest Groups (SIGs) and Working Groups (WGs), and
-assist or scribe on community calls.
+Members are continuously active contributors within the community. They can have issues or PRs
+assigned to them and assist or scribe on community calls.
 
 **Defined by:** GitHub FINOS `ccc-members` Group Member
 
 ### Eligibility Requirements
 
 - Enabled two-factor authentication on their GitHub account
-- Actively contributing to 1 or more [WGs] in the past three (3) months.
+- Actively contributing to 1 or more [WG] in the past three (3) months.
 - Have made **multiple contributions** to the project or community, enough to
   demonstrate an **ongoing and long-term commitment** to the project.
 - Subscribed to the [community mail group]
 - Applied, sponsored, and approved for member status.
-  1. Open an pull request against the CCC repo `participants.md`:
+  1. Open an pull request against the CCC repo [`members.md`](members.md):
     - The PR description should contain a list or summary of your work on the project to date.
   2. Sponsoring reviewers mark the PR as ready to merge:
     - Must be sponsored by 2 approvers from 2 employers.
@@ -66,7 +65,7 @@ These include, but are not limited to:
 - Scribe on community calls when necessary.
 - Can have issues and PRs assigned to them.
 - Can be invited to review and advise on PR approvals.
-- Participation publicly credited in `members.md`
+- Participation publicly documented in [`members.md`](members.md).
 
 ## Approver
 
@@ -110,9 +109,9 @@ and excellent technical judgement for the subproject.
 ### Requirements
 
 - Demonstrated responsibility and excellent technical judgement for the WG topic as an
-  _Approver_ for at least (3) months, or participated in the parent SIG for the same amount of time.
+  _Approver_ for at least (3) months.
 - Appointed by a [SC] vote.
-  - A [SC] sponsor must create a PR to update the `CONTRIBUTORS.md` file with the new appointment.
+  - A [SC] sponsor must create a PR to update [`members.md`](members.md) with the new appointment.
   - Extending [CODEOWNERS] scope for an individual must follow the approver nomination process.
   - When appointment is confirmed, the sponsor must work with a repo admin to add appointee to the appropriate GitHub team(s)
 - Adhere to relevant [community groups] guidelines, such as:
@@ -123,7 +122,7 @@ and excellent technical judgement for the subproject.
 ### Responsibilities and Privileges
 
 - Set direction and priorities for a WG, ensuring consistent progress.
-- Present the WG status and progress to the rest of the SIG.
+- Present the WG status and progress to the rest of the community.
 - Adhere to the general responsibilities of an _Approver_.
 
 ## Inactive Members
