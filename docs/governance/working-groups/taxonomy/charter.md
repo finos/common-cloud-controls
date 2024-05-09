@@ -30,6 +30,7 @@ The following activities will not be performed by this group:
 
 - Working on assets related to cybersecurity topics
 - Public-facing communications
+- Tracking cloud vendor support of taxonomy features
 
 ## Governance
 
