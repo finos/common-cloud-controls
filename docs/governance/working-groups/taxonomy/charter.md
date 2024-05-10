@@ -2,22 +2,22 @@
 
 This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) Taxonomy [WG].
 
-## Mission
-
-The mission of the Taxonomy [WG] is to define and maintain a comprehensive taxonomy of cloud services offered by the cloud hyperscalers.
-
 ## Table of Contents
 
 1. [Mission](#mission)
 2. [Approach & Responsibilities](#approach--responsibilities)
    - [Output / Deliverables](#output--deliverables)
 3. [Out of Scope](#out-of-scope)
-4. [Meeting Cadence](#meeting-cadence)
-5. [Governance](#governance)
+4. [Governance](#governance)
    - [Membership](#membership)
+   - [Sub-Groups](#sub-groups)
+   - [Meeting & Communication](#meeting--communication)
    - [Changes](#changes)
-   - [Meeting Cadence](#meeting-cadence)
-   - [Changes](#changes)
+   
+## Mission
+
+The mission of the Taxonomy [WG] is to define and maintain a comprehensive taxonomy of cloud services offered by the cloud hyperscalers.
+
 
 ## Approach & Responsibilities
 
