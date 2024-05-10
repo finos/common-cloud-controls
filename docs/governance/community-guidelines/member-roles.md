@@ -8,7 +8,7 @@ The following are roles and additional responsibilities that a person may reciev
 | ----- | ---------------- | ------------ | ------- |
 | Member | Active contributor in the community, assist on community calls, give input on proposals | Sponsored by 2 reviewers after multiple contributions to the project | GitHub FINOS `ccc-members` Group Member |
 | Approver | Review contributions from other members | History of quality reviews and authorship in a particular space | [CODEOWNERS] entry for specific files or directories |
-| WG Lead | Set direction and priorities for a working group (WG) | Demonstrated responsibility and excellent technical judgement for the subproject | [CODEOWNERS] entry for all files or directories relating to the WG |
+| WG Lead | Set direction and priorities for a working group (WG) | Demonstrated responsibility and excellent technical judgement for the subproject | [CODEOWNERS] entry for all files or directories relating to the [WG] |
 
 ## All New & Established Contributors
 
@@ -104,11 +104,11 @@ correctness issues, interactions with other parts of the system, and so forth.
 WG Leads set direction and priorities for a working group, demonstrating responsibility
 and excellent technical judgement for the subproject.
 
-**Defined by:** [CODEOWNERS] entry for all files or directories relating to the WG **and** GitHub Team for the respective working group.
+**Defined by:** [CODEOWNERS] entry for all files or directories relating to the [WG] **and** GitHub Team for the respective working group.
 
 ### Requirements
 
-- Demonstrated responsibility and excellent technical judgement for the WG topic as an
+- Demonstrated responsibility and excellent technical judgement for the [WG] topic as an
   _Approver_ for at least (3) months.
 - Appointed by a [SC] vote.
   - A [SC] sponsor must create a PR to update [`members.md`](members.md) with the new appointment.
@@ -122,7 +122,7 @@ and excellent technical judgement for the subproject.
 ### Responsibilities and Privileges
 
 - Set direction and priorities for a WG, ensuring consistent progress.
-- Present the WG status and progress to the rest of the community.
+- Present the [WG] status and progress to the rest of the community.
 - Adhere to the general responsibilities of an _Approver_.
 
 ## Inactive Members
