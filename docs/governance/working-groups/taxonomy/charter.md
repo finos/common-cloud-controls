@@ -1,4 +1,4 @@
-# Common Cloud Control Taxonomy Working Group Charter
+# Taxonomy Working Group Charter
 
 This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) Taxonomy [WG].
 
@@ -6,7 +6,20 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
 
 The mission of the Taxonomy [WG] is to define and maintain a comprehensive taxonomy of cloud services offered by the cloud hyperscalers.
 
-## Objectives / Responsibilities
+## Table of Contents
+
+1. [Mission](#mission)
+2. [Approach & Responsibilities](#approach--responsibilities)
+   - [Output / Deliverables](#output--deliverables)
+3. [Out of Scope](#out-of-scope)
+4. [Meeting Cadence](#meeting-cadence)
+5. [Governance](#governance)
+   - [Membership](#membership)
+   - [Changes](#changes)
+   - [Meeting Cadence](#meeting-cadence)
+   - [Changes](#changes)
+
+## Approach & Responsibilities
 
 - Identify common cloud service categories, prioritizing those most commonly used within financial service institutions
 - Create and maintain an index of all common service categories each organized by common categorical delineations
@@ -40,14 +53,17 @@ This [WG] will remain compliant with all applicable community [policies]. At the
 
 The membership structure of this working group.
 
-- WG Lead: Sonali Mendis
-- SC Sponsor: Robert Griffiths
+- **WG Lead:** Sonali Mendis
+- **SC Sponsor:** Robert Griffiths
+
+### Sub-Groups
+
 - This group is not authorized to create independent sub-groups.
 
-### Meeting Cadence
+### Meeting & Communication
 
 - This working group will use the mail group <ccc-taxonomy@lists.finos.org> for regular communications.
-- This group will host a public meeting via the FINOS calendar no less than once every three (3) weeks, excluding November and December.
+- This group will host a recurring WG meeting (not hosted by FINOS) every two weeks, with possible exceptions for months, April, November and December.
 - The WG Lead or their delegate must present verbal or written updates to the [SC] at its regular public meetings.
 
 ### Changes
