@@ -4,7 +4,7 @@ This _service-level threats_ documents the most common list of threats that impa
 
 ## Threat Catalog
 
-| Threat Id | Name | Description | Service Taxonomy Id | MITRE ATT&CK TTPs |
+| Threat ID | Name | Description | Service Taxonomy Id | MITRE ATT&CK TTPs |
 |-----------|------|-------------|---------------------|---------------------|
 | CCC.RDMS.T1 | Unauthorized Access to Database | An threat actor gains unauthorized access to the cloud relational database by using a compromised role or using default administrative credentials. | [CCC-RDMS-9](./taxonomy.md/#CCC-RDMS-9) | [TA0006](https://attack.mitre.org/tactics/TA0006/), [T1552](https://attack.mitre.org/techniques/T1552/) |
 | CCC.RDMS.T2 | Unauthorized Cross Organization Snapshot Collection | An threat actor initiates an snapshot collection activity using a privileged role and copies the snapshot outside of the organization, which allows for data exflitration and theft. | [CCC-RDMS-5](./taxonomy.md/#CCC-RDMS-5) | [TA0009](https://attack.mitre.org/tactics/TA0009/), [T1530](https://attack.mitre.org/techniques/T1530/) |
