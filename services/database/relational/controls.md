@@ -1,6 +1,6 @@
 # Controls: Relational Database Management Systems
 
-This _service-level controls_ documents an abstracted list of controls based on the [Threats for Relational Database Management Systems](./threats.md). The scope of these controls expand across cloud service providers.
+This _service-level controls_ documents an abstracted list of controls based on the [Threats for Relational Database Management Systems](./threats.md). The scope of these controls expand across cloud service providers. The controls gherkin feature file can be located [here].(./tests/controls.feature).
 
 ## Controls Catalog
 
