@@ -16,8 +16,7 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
    
 ## Mission
 
-The mission of the Taxonomy [WG] is to define and maintain a comprehensive taxonomy of cloud services offered by the cloud hyperscalers.
-
+The mission of the Taxonomy [WG] is to define and maintain a comprehensive taxonomy of cloud services offered by the cloud hyperscalers. This initiative aims to establish a standardized nomenclature and attributes for common cloud capabilities such as VMs, Storage, and Networking. By creating this uniform taxonomy, the WG will facilitate the application of a set of controls across various cloud provider implementations, addressing common risks and promoting broader applicability of the CCC project's resources.
 
 ## Approach & Responsibilities
 
