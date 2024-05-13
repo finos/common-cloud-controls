@@ -62,7 +62,7 @@ The membership structure of this working group.
 ### Meeting & Communication
 
 - This working group will use the mail group <ccc-taxonomy@lists.finos.org> for regular communications.
-- This group will host a recurring WG meeting (not hosted by FINOS) every two weeks, with possible interferences on global holidays.
+- This group will host an informal recurring WG meeting every two weeks, with possible interferences on global holidays.
 - The WG Lead or their delegate must present verbal or written updates to the [SC] at its regular public meetings.
 
 ### Changes
