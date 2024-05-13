@@ -42,7 +42,7 @@ The following activities will not be performed by this group:
 
 - Working on assets related to cybersecurity topics
 - Public-facing communications
-- Tracking cloud vendor support of taxonomy features
+- Tracking cloud vendor support of service features
 
 ## Governance
 
@@ -62,7 +62,7 @@ The membership structure of this working group.
 ### Meeting & Communication
 
 - This working group will use the mail group <ccc-taxonomy@lists.finos.org> for regular communications.
-- This group will host a recurring WG meeting (not hosted by FINOS) every two weeks, with possible exceptions for months, April, November and December.
+- This group will host a recurring WG meeting (not hosted by FINOS) every two weeks, with possible interferences on global holidays.
 - The WG Lead or their delegate must present verbal or written updates to the [SC] at its regular public meetings.
 
 ### Changes
