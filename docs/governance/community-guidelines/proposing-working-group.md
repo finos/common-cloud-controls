@@ -2,7 +2,7 @@
 
 To propose a new working group complete the items in the check list below:
 
-- Create a PR with a draft charter which follows this [template](../templates/charter.md).
+- Create a PR with a draft charter which follows this [template](./templates/charter.md).
 - Find a [SC] member to sponsor the [WG].
 - The proposal must include the name of the [WG] Lead.
 - The [SC] sponsor will call for a [vote] on the new [WG] when it is ready.
