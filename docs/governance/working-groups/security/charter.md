@@ -69,8 +69,8 @@ The following [WG] have been chartered by and are accountable to this group:
 
 ### Meeting & Communications
 
-* This working group will use the mail group <ccc-security@lists.finos.org> for regular communications.
-- This group will host a public meeting via the FINOS calendar no less than once every three (3) weeks, excluding November and December.
+- This working group will use the mail group <ccc-security@lists.finos.org> for regular communications.
+- This group will host an informal [WG] meeting no less than once every three (3) weeks, excluding November and December.
 - The WG Lead or their delegate must present verbal or written updates to the [SC] at its regular public meetings.
 
 ### Changes
