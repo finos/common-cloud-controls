@@ -55,7 +55,7 @@ This [WG] will remain compliant with all applicable community [policies]. At the
 The membership structure of this working group:
 
 - WG Lead: Michael Anthony Lysaght
-- SC Sponsor: Eddie Knight
+- SC Sponsor: Jonathan Meadows
 
 ### Sub-Groups
 
