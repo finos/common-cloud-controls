@@ -1,6 +1,6 @@
 # Delivery Working Group Charter
 
-This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) <*name of the working group*>.
+This document outlines the mission, scope, and objectives of the Common Cloud Controls (CCC) Delivery [WG].
 
 ## Table of Contents
 
