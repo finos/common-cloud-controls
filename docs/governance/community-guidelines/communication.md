@@ -36,7 +36,7 @@ Any meeting published on the public calendar must additionally adhere to a stric
 - If these meetings are hosted by FINOS they must follow the guidance for [FINOS hosted meetings](#finos-hosted-meetings).
 - If these meetings are NOT hosted by FINOS then any noteworthy decisions or outcomes should be communicated back to the wider [WG] via the mailing list.
 
-[SC]: <../../community-groups.md#steering-committee>
-[WG]: <../../community-groups.md#working-groups>
+[SC]: <../community-groups.md#steering-committee>
+[WG]: <../community-groups.md#working-groups>
 [community guideline]: <./README.md>
 [FINOS Point of Contact]: <../steering/charter.md#finos-point-of-contact>
