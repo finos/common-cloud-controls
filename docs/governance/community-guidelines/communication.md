@@ -15,6 +15,8 @@ All meetings hosted by FINOS are expected to follow FINOS Anti-Trust policies.
 
 Any meeting published on the public calendar must additionally adhere to a strict agenda, maintain public meeting minutes on this GitHub repo, and display the FINOS Anti-Trust slide at the beginning of the session.
 
+**IMPORTANT:** Any adjustments/cancellations to any FINOS hosted meetings MUST be coordinated with a FINOS employee.
+
 ### SteerCo Reporting Meetings
 
 - Quarterly reporting meetings hosted by the [SC] should be attended by all [WG] leads or an appropriate delegate.
