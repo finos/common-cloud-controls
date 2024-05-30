@@ -20,7 +20,8 @@
 
 ########
 #
-# These elements require review from the FINOS POC for the CCC Strategic Initiative
+# These elements require review from the FINOS Point of Contact for the 
+# Common Cloud Controls Strategic Initiative
 docs/formation @finos/common-cloud-controls
 docs/*.* @finos/common-cloud-controls
 #
