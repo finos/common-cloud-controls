@@ -4,22 +4,21 @@ This document is a [community guideline].
 
 The document outlines the general workflow and describes expected interactions between various working groups ([WG]s).
 
-1. **Community-Driven Direction:**
+**Community-Driven Direction:**
    - The project's direction will be influenced by community needs.
    - Requests will be processed by the [Communications WG].
    - The [Communications WG] will collaborate with the [SC] to establish the project's high-level roadmap.
 
-2. **Roadmap Communication:**
+**Service Cataloging:**
    - The [Communications WG] will communicate the roadmap to the [Taxonomy WG].
    - Based on the roadmap, the [Taxonomy WG] will expand the service catalog.
    - Completed services will be handed over to the [Security WG].
 
-3. **Security Cataloging:**
+**Security Cataloging:**
    - The [Security WG] will catalog security threats and controls for each service.
 
-4. **Release Coordination:**
-   - The [Delivery WG] will closely collaborate with the [Taxonomy WG] and the [Security WG].
-   - Together, they will assemble releases.
+**Release Coordination:**
+   - The [Delivery WG] will closely collaborate with the [Taxonomy WG] and the [Security WG] to assemble releases.
    - The [Delivery WG] will provide status and release updates to the [Communications WG].
    - The [Communications WG] will prepare communications to share with the community.
 
