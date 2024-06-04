@@ -24,10 +24,10 @@ The document outlines the general workflow and describes expected interactions b
    - The [Communications WG] will prepare communications to share with the community.
 
 [community guideline]: <./README.md>
-[SC]: <../../community-groups.md#steering-committee>
+[SC]: <../community-groups.md#steering-committee>
 [WG]: <../community-groups.md#working-groups>
-[Communications WG]: <../../working-groups/communications/charter.md>
-[Community Structure WG]: <../../working-groups/community-structure/charter.md>
-[Delivery WG]: <../../working-groups/delivery/charter.md>
-[Security WG]: <../../working-groups/security/charter.md>
-[Taxonomy WG]: <../../working-groups/taxonomy/charter.md>
+[Communications WG]: <../working-groups/communications/charter.md>
+[Community Structure WG]: <../working-groups/community-structure/charter.md>
+[Delivery WG]: <../working-groups/delivery/charter.md>
+[Security WG]: <../working-groups/security/charter.md>
+[Taxonomy WG]: <../working-groups/taxonomy/charter.md>
