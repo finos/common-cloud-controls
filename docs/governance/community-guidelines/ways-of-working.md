@@ -4,23 +4,17 @@ This document is a [community guideline].
 
 The document outlines the general workflow and describes expected interactions between various working groups ([WG]s).
 
-### Community-Driven Direction
-   - The project's direction will be influenced by community needs.
-   - Requests from the community will be processed by the [Communications WG].
-   - The [Communications WG] will collaborate with the [SC] to establish the project's roadmap.
+The community, or project contributers will put forward suggestions for services to be covered by the CCC project.
 
-### Service Cataloging
-   - The [Communications WG] will communicate the roadmap to the [Taxonomy WG].
-   - Based on the roadmap, the [Taxonomy WG] will expand the service catalog.
-   - Completed services will be handed over to the [Security WG].
+The [Communications WG] will update the project roadmap based on the suggested services and communicate the changes to the roadmap back the community and the project contributers.
 
-### Security Cataloging
-   - The [Security WG] will catalog security threats and controls for each service.
+The [Taxonomy WG] will update the taxonomy to include the services prioritized in the roadmap.
 
-### Release Coordination
-   - The [Delivery WG] will closely collaborate with the [Taxonomy WG] and the [Security WG] to assemble releases.
-   - The [Delivery WG] will provide status and release updates to the [Communications WG].
-   - The [Communications WG] will prepare communications to share with the community.
+The [Security WG] will extend the taxonomy to include a list of the threats and controls for each service.
+
+The [Delivery WG] will work with all working groups to determine best practices for releasing new versions of the taxonomy.
+
+The [Communications WG] will work with all working groups to communicate updates and releases back to the community.
 
 [community guideline]: <./README.md>
 [SC]: <../community-groups.md#steering-committee>
