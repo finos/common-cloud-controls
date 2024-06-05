@@ -20,20 +20,11 @@
 
 ########
 #
-# These elements require review from the FINOS Point of Contact for the 
-# Common Cloud Controls Strategic Initiative
-docs/formation @finos/common-cloud-controls
-docs/*.* @finos/common-cloud-controls
-#
-########
-
-########
-#
 # Charters and policies require review from at least one SteerCo member
 # Policies also require review from the Community Structure WG
 docs/governance/steering @finos/ccc-steerco
 */charter.md @finos/ccc-steerco
-docs/governance/community-policies @finos/ccc-steerco @finos/ccc-wg-community-structure
+docs/governance @finos/ccc-steerco @finos/ccc-wg-community-structure
 #
 ########
 
