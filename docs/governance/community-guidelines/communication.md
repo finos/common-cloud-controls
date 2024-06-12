@@ -39,4 +39,4 @@ Any meeting published on the public calendar must additionally adhere to a stric
 [SC]: <../community-groups.md#steering-committee>
 [WG]: <../community-groups.md#working-groups>
 [community guideline]: <./README.md>
-[FINOS Point of Contact]: <../steering/charter.md#finos-point-of-contact>
+[FINOS Point of Contact]: <../finos-poc.md>
