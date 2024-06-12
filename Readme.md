@@ -22,11 +22,11 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 > CCC aims to reduce the burden of compliance for CSPs by providing a common definition of controls which they can adopt. As CCC controls are specified in a cloud-agostic way, CSPs can implement them in a way that is consistent with their own infrastructure, while delivering services that FS firms understand and trust.
 
-#### 🧭 A Path Towards Common Implementation
+#### 🧭 A Path Towards Common Implementation
 
 > FINOS sister project, [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) aims to be a downstream implementation of the CCC controls standard. In tandem with CCC, this will provide FS firms with a one-stop shop for secure cloud infrastructure deployment.
 
-#### 🥇 A Path Towards Certification
+#### 🥇 A Path Towards Certification
 
 > It is envisaged that eventually, CCC will offer _certification_ for CSPs who conform to the standard.
 
@@ -40,6 +40,8 @@ The CCC project is in **incubation** at the moment but aims to deliver its first
 - **Duplication Reduction** - Focused on ensuring that the CCC standard does not duplicate existing standards.
 - **Taxonomy** - Focused on defining the taxonomy of cloud services that will be covered by the standard.
 - **Delivery** - Focused on the delivery of the CCC standard for use downstream by FS firms and CSPs.
+
+Work is done in the open, with all meetings and decisions documented in the project GitHub repository.
 
 ## Get Involved with FINOS Common Cloud Controls
 
