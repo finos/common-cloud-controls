@@ -47,7 +47,7 @@ Work is done in the open, with all meetings and decisions documented in the proj
 
 There are several ways to contribute to FINOS Common Cloud Controls.
 
-### Join FINOS CCC Project Meetings
+### 1. Join FINOS CCC Project Meetings
 
 The CCC project is split into 6 working groups in the CCC project which meet on a fortnightly basis:
 
@@ -62,19 +62,19 @@ The CCC project is split into 6 working groups in the CCC project which meet on 
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
-### Join the FINOS Common Cloud Controls Mailing Lists
+### 2. Join the FINOS Common Cloud Controls Mailing Lists
 
 FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants+subscribe@lists.finos.org](mailto: ccc-participants+subscribe@lists.finos.org) to join.
 
 Other working groups have an email list too. Too join those, simply email to the addresses below:
 
-ccc-delivery+subscribe@lists.finos.org
-ccc-duplication-reduction@lists.finos.org
-ccc-taxonomy+subscribe@lists.finos.org
-ccc-security+subscribe@lists.finos.org
-ccc-structure+subscribe@lists.finos.org
+- ccc-delivery+subscribe@lists.finos.org
+- ccc-duplication-reduction@lists.finos.org
+- ccc-taxonomy+subscribe@lists.finos.org
+- ccc-security+subscribe@lists.finos.org
+- ccc-structure+subscribe@lists.finos.org
 
-### Raise a FINOS Common Cloud Controls GitHub Issue
+### 3. Raise a FINOS Common Cloud Controls GitHub Issue
 
 FINOS Common Cloud Controls is maintained and run through GitHub. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions.
 
@@ -107,6 +107,8 @@ The CCC Steering Committee is the governing body of the CCC project, providing d
 | Robert Griffiths     | Scott Logic    | Community |
 | Eddie Knight         | Sonatype       | Community |
 | Adrian Hammond       | Red Hat        | Community |
+
+@robmoffat is the current [FINOS Point of Contact](docs/governance/finos-poc.md) for the CCC project.
 
 ## License
 
