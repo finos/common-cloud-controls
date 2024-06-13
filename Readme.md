@@ -51,14 +51,14 @@ There are several ways to contribute to FINOS Common Cloud Controls.
 
 The CCC project is split into 6 working groups in the CCC project which meet on a fortnightly basis:
 
-| Working Group                                                                             | Meeting Cadence | When                                       | Chair                |
-| ----------------------------------------------------------------------------------------- | --------------- | ------------------------------------------ | -------------------- |
-| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md)   | Fortnightly     | 5PM UK, 1st and 3rd Thursday each month    | @Alexstpierrework    |
-| [Security](/docs/governance/working-groups/security/charter.md)                           | Fortnightly     | 4PM UK, 1st and 3rd Thursday each month    | @mlysaght2017        |
-| [Community Structure](/docs/governance/working-groups/community-structure/charter.md)     | Fortnightly     | 5PM UK, 2nd and 4th Thursday each month    | @sshiells-scottlogic |
-| [Duplication Reduction](/docs/governance/working-groups/duplication-reduction/charter.md) | Fortnightly     | 5:30PM UK, 2nd and 4th Thursday each month | @jared-lambert       |
-| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                           | Fortnightly     | 4:30PM UK, 2nd and 4th Thursday each month | @smendis-scottlogic  |
-| [Delivery](/docs/governance/working-groups/delivery/charter.md)                           | Fortnightly     | 4:30PM UK, 1st and 3rd Thursday each month | @damienjburks        |
+| Working Group | When | Chair | Mailing List |
+| --- | --- | --- | --- |
+| [Security](/docs/governance/working-groups/security/charter.md) | 4PM UK, 1st and 3rd Thursday each month | @mlysaght2017 | [ccc-security](mailto:ccc-security+subscribe@lists.finos.org) |
+| [Delivery](/docs/governance/working-groups/delivery/charter.md) | 4:30PM UK, 1st and 3rd Thursday each month | @damienjburks | [ccc-delivery](mailto:ccc-delivery+subscribe@lists.finos.org) |
+| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 5PM UK, 1st and 3rd Thursday each month | @Alexstpierrework | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
+| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md) | 4:30PM UK, 2nd and 4th Thursday each month | @smendis-scottlogic | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org) |
+| [Community Structure](/docs/governance/working-groups/community-structure/charter.md) | 5PM UK, 2nd and 4th Thursday each month | @sshiells-scottlogic | [ccc-structure](mailto:ccc-structure+subscribe@lists.finos.org) |
+| [Duplication Reduction](/docs/governance/working-groups/duplication-reduction/charter.md) | 5:30PM UK, 2nd and 4th Thursday each month | @jared-lambert | [ccc-duplication](mailto:ccc-duplication-reduction@lists.finos.org) |
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
