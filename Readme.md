@@ -87,7 +87,7 @@ Participants of FINOS standards projects should follow the FINOS Code of Conduct
 
 ## Governance
 
-### FINOS CCC Steering Committee Members
+### FINOS CCC Steering Committee
 
 The CCC Steering Committee is the governing body of the CCC project, providing decision-making and oversight pertaining to the CCC project bylaws, sub-organizations, and financial planning. The Steering Committee also defines the project values and structure. [Documented here](docs/governance/steering/charter.md).
 
