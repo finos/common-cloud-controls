@@ -4,7 +4,7 @@
 
 ## What Is It?
 
-FINOS Common Cloud Controls (FINOS CCC) is the codename for an open standard project, originally proposed by Citi and currently incubating in FINOS, to describe consistent controls for compliant public cloud deployments in the financial services sector.
+FINOS Common Cloud Controls (FINOS CCC) is the codename for an open standard project, originally proposed by Citi and currently incubating in FINOS, to describe consistent controls for compliant public cloud deployments in the financial services (FS) sector.
 
 This standard is a collaborative project which aims to develop a unified set of cybersecurity, resiliency, and compliance controls for common services across the major cloud service providers (CSPs).
 
