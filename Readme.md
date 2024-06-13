@@ -66,13 +66,6 @@ Find the next meeting on the [FINOS Community Calendar](https://finos.org/calend
 
 FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants+subscribe@lists.finos.org](mailto: ccc-participants+subscribe@lists.finos.org) to join.
 
-Other working groups have an email list too. Too join those, simply email to the addresses below:
-
-- ccc-delivery+subscribe@lists.finos.org
-- ccc-duplication-reduction@lists.finos.org
-- ccc-taxonomy+subscribe@lists.finos.org
-- ccc-security+subscribe@lists.finos.org
-- ccc-structure+subscribe@lists.finos.org
 
 ### 3. Raise a FINOS Common Cloud Controls GitHub Issue
 
