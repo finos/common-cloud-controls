@@ -14,17 +14,9 @@
 ########
 #
 # Changes that might impact automation must be reviewed by the Delivery WG
+# Code owners should only be modified by the SteerCo
 .github @finos/ccc-wg-delivery
-#
-########
-
-########
-#
-# Charters and policies require review from at least one SteerCo member
-# Policies also require review from the Community Structure WG
-docs/governance/steering @finos/ccc-steerco
-*/charter.md @finos/ccc-steerco
-docs/governance @finos/ccc-steerco @finos/ccc-wg-community-structure
+.github/CODEOWNERS @finos/ccc-steerco
 #
 ########
 
@@ -60,5 +52,15 @@ services @finos/ccc-wg-taxonomy
 # Threats or controls definition changes must be reviewed by the Security WG
 **/threats.md @finos/ccc-wg-security
 **/controls.md @finos/ccc-wg-security
+#
+########
+
+########
+#
+# Charters and policies require review from at least one SteerCo member
+# Policies also require review from the Community Structure WG
+docs/governance/steering @finos/ccc-steerco
+docs/governance @finos/ccc-steerco @finos/ccc-wg-community-structure
+**/charter.md @finos/ccc-steerco
 #
 ########
