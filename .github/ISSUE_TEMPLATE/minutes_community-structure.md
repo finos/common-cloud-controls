@@ -3,7 +3,9 @@
 name: Community Structure WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
 title: MM/DD/YYYY All Hands Meeting Minutes
-labels: meeting
+labels: 
+  - meeting
+  - community structure
 assignees: 'sshiells-scottlogic'
 
 ---
