@@ -1,8 +1,9 @@
 # Database Services
 
-Database services in the context of cloud computing refer to managed database solutions provided by cloud service providers. These services enable users to store, manage, and access structured data in a scalable, reliable, and cost-effective manner. 
+Database services in the context of cloud computing refer to managed database solutions provided by cloud service providers. These services enable users to store, manage, and access structured data in a scalable, reliable, and cost-effective manner.
 
 ## Types of Database Services
+
 - [Relational Databases](#relational-databases)
 - [NoSQL Databases](#nosql-databases)
 - [Graph Databases](#graph-databases)
@@ -23,7 +24,7 @@ Read more about [RDMS Taxonomy](database/relational/taxonomy.md)
 
 ### NoSQL Databases
 
-NoSQL (Not Only SQL) databases support flexible, schema-less data models and are suitable for semi-structured or unstructured data. 
+NoSQL (Not Only SQL) databases support flexible, schema-less data models and are suitable for semi-structured or unstructured data.
 
 Examples:
 
@@ -33,7 +34,7 @@ Examples:
 
 ### In-Memory Databases
 
-In-memory database services store data in memory for faster read and write operations, making them ideal for high-performance applications. 
+In-memory database services store data in memory for faster read and write operations, making them ideal for high-performance applications.
 
 Examples:
 

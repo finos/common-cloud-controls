@@ -31,12 +31,12 @@ This group will:
 - Regularly update and expand the catalogs, assessment methodologies, and exploration of existing control catalogs to reflect evolving threats, emerging technologies, and best practices in cloud security
 - Collaborate with the [Delivery WG] to determine an appropriate release process and cadence
 - Review and incorporate relevant feedback gathered by the [Communications WG] from the community and end users
- 
+
 ### Output / Deliverables
 
 The following artifacts will be created and stored in the project GitHub repo:
 
-- Catalog of security threats for each cloud service type 
+- Catalog of security threats for each cloud service type
 - Catalog of security controls for each cloud service type
 
 ## Out of Scope
@@ -59,7 +59,7 @@ The membership structure of this working group:
 
 ### Sub-Groups
 
-This group **is** authorized to create independent sub-groups. 
+This group **is** authorized to create independent sub-groups.
 
 This may be done by modifying this document to include a link to the relevant sub-group charter. Such modifications require PR approval from the WG Lead and one [SC] member.
 
@@ -77,9 +77,9 @@ The following [WG] have been chartered by and are accountable to this group:
 
 Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
 
-[WG]: <../../community-groups.md#working-groups>
-[SC]: <../../community-groups.md#steering-committee>
-[policies]: <../../community-policies/README.md>
-[Communications WG]: <../communications/charter.md>
-[Delivery WG]: <../delivery/charter.md>
-[recommendations]: <../../community-recommendations/README.md>
+[WG]: ../../community-groups.md#working-groups
+[SC]: ../../community-groups.md#steering-committee
+[policies]: ../../community-policies/README.md
+[Communications WG]: ../communications/charter.md
+[Delivery WG]: ../delivery/charter.md
+[recommendations]: ../../community-recommendations/README.md

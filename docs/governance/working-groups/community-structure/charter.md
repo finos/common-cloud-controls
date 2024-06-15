@@ -4,7 +4,7 @@ This [WG] facilitates the structure and governance design for the Common Cloud C
 
 ## Mission
 
-The mission of the Community Structure [WG] is to establish robust, scalable, and efficient frameworks for the governance and operation of all community [WG]s within the CCC. 
+The mission of the Community Structure [WG] is to establish robust, scalable, and efficient frameworks for the governance and operation of all community [WG]s within the CCC.
 
 By designing clear guidelines and structures, this group ensures consistency and facilitates effective collaboration across the entire community. It acts as a central body to guide the formation and operation of other [WG]s, helping them align with the overarching goals of the CCC.
 
@@ -43,7 +43,7 @@ To reduce unilateral authority from either this group or the [SC], all policy pr
 
 ## Membership
 
-The membership structure of this [WG], including roles and responsibilities, must adhere to the latest recommendations from the Community Structure [WG]. 
+The membership structure of this [WG], including roles and responsibilities, must adhere to the latest recommendations from the Community Structure [WG].
 
 Where recommendations do note yet exist on a topic, this [WG] should follow guidance from the CCC [SC].
 
@@ -57,5 +57,5 @@ This [WG] will use the mail group <ccc-structure@lists.finos.org> for regular co
 
 Changes to this charter must be approved through a majority vote by the [SC].
 
-[SC]: <../../community-groups.md#steering-committee>
-[WG]: <../../community-groups.md#working-groups>
+[SC]: ../../community-groups.md#steering-committee
+[WG]: ../../community-groups.md#working-groups

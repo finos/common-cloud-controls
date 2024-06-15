@@ -12,7 +12,7 @@ You can read more and register your interest on [finos.org/common-cloud-controls
 
 All FINOS Common Cloud Controls participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices) before joining project calls and collaborating in working groups.
 
-Please visit [participants.md](participants.md) and raise a Pull Request by adding your `name`, `organisation` and `enrollment date` to the markdown file. 
+Please visit [participants.md](participants.md) and raise a Pull Request by adding your `name`, `organisation` and `enrollment date` to the markdown file.
 
 Raising a Pull Request on [participants.md](participants.md) will automatically take you through the Linux Foundation EasyCLA process for signing the FINOS [CSCLA](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices).
 
@@ -23,6 +23,7 @@ Email help@finos.org if you require further help.
 There are several ways to contribute to FINOS Common Cloud Controls.
 
 ### Join FINOS CCC Project Meetings
+
 FINOS Common Cloud Controls meets over Zoom and you can find future agendas and previous meetings below.
 
 - **FINOS Common Cloud Controls - Project All Hands** - [First Thursday of Each Month](https://github.com/finos/common-cloud-controls/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting+label%3A%22All+Working+Groups%22)
@@ -32,49 +33,50 @@ FINOS Common Cloud Controls meets over Zoom and you can find future agendas and 
 
 Alternatively, find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
-### Join the FINOS Common Cloud Controls Mailing List 
+### Join the FINOS Common Cloud Controls Mailing List
+
 FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants+subscribe@lists.finos.org](mailto: ccc-participants+subscribe@lists.finos.org) to join.
 
 ### Raise a FINOS Common Cloud Controls GitHub Issue
 
-FINOS Common Cloud Controls is maintained and run through GitHub. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions. 
+FINOS Common Cloud Controls is maintained and run through GitHub. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions.
 
 ## FINOS CCC Steering Committeee Members
 
 The CCC Steering Committee is the governing body of the CCC project, providing decision-making and oversight pertaining to the CCC project bylaws, sub-organizations, and financial planning. The Steering Committee also defines the project values and structure. [Documented here](docs/governance/steering/charter.md).
 
-| FINOS CCC Maintainer | Representing   | Seat |
-| -------------------- | -------------- | ---- | 
-| Jon Meadows          | Citi           | FSI  |
-| Oli Bage             | LSEG           | FSI  |
-| Simon Zhang          | BMO            | FSI  |
-| Paul Stevenson       | Morgan Stanley | FSI  |
+| FINOS CCC Maintainer | Representing   | Seat      |
+| -------------------- | -------------- | --------- |
+| Jon Meadows          | Citi           | FSI       |
+| Oli Bage             | LSEG           | FSI       |
+| Simon Zhang          | BMO            | FSI       |
+| Paul Stevenson       | Morgan Stanley | FSI       |
 | Robert Griffiths     | Scott Logic    | Community |
 | Eddie Knight         | Sonatype       | Community |
 | Adrian Hammond       | Red Hat        | Community |
 
 ## FINOS CCC Project Maintainers
 
-FINOS Common Cloud Controls is maintained by FINOS members and the wider open source in finance community. 
+FINOS Common Cloud Controls is maintained by FINOS members and the wider open source in finance community.
 
-The following are the FINOS CCC maintainers, the firms they represent and the maintainer working group alignment.   
+The following are the FINOS CCC maintainers, the firms they represent and the maintainer working group alignment.
 
-| FINOS CCC Maintainer | Representing   | FINOS CCC Working Group                     |
-| -------------------- | -------------- | ------------------------------------------- |
-| Jonathan Meadows     | Citi           | OSCAL Representation of CCC                 |
-| Jason Nelson         | Citi           | Engage with MITRE Threat Catalogue          |
-| Mark Rushing         | Citi           | Define Cloud Services Taxonomy              |
-| Moe Matar            | Citi           | Define Cloud Services Taxonomy              | 
-| Anna Selyugina       | Goldman Sachs  | Engage with MITRE & Cloud Services Taxonomy |
-| Paul Stevenson       | Morgan Stanley | Cloud Services Taxonomy & OSCAL Representation of CCC |
-| Simon Zhang          | BMO            | Define Cloud Services Taxonomy              |  
-| Adrian Hammond       | Red Hat        | Define Cloud Services Taxonomy              |
-| Naseer Mohammad      | Google         | Engage with MITRE Threat Catalogue          |
-| Valentin Mihai       | Google         | Engage with MITRE Threat Catalogue & OSCAL Representation of CCC|
-| Rachel Kim           | Google         | OSCAL Representation of CCC                 | 
-| Raj Krishnamurthy    | Compliance Cow | Engage with MITRE Threat Catalogue          | 
-| Vicente Herrera      | Control Plane  | Define Cloud Services Taxonomy              |
-| Michaela Iorga       | NIST           | OSCAL Representation of CCC                 | 
+| FINOS CCC Maintainer | Representing   | FINOS CCC Working Group                                          |
+| -------------------- | -------------- | ---------------------------------------------------------------- |
+| Jonathan Meadows     | Citi           | OSCAL Representation of CCC                                      |
+| Jason Nelson         | Citi           | Engage with MITRE Threat Catalogue                               |
+| Mark Rushing         | Citi           | Define Cloud Services Taxonomy                                   |
+| Moe Matar            | Citi           | Define Cloud Services Taxonomy                                   |
+| Anna Selyugina       | Goldman Sachs  | Engage with MITRE & Cloud Services Taxonomy                      |
+| Paul Stevenson       | Morgan Stanley | Cloud Services Taxonomy & OSCAL Representation of CCC            |
+| Simon Zhang          | BMO            | Define Cloud Services Taxonomy                                   |
+| Adrian Hammond       | Red Hat        | Define Cloud Services Taxonomy                                   |
+| Naseer Mohammad      | Google         | Engage with MITRE Threat Catalogue                               |
+| Valentin Mihai       | Google         | Engage with MITRE Threat Catalogue & OSCAL Representation of CCC |
+| Rachel Kim           | Google         | OSCAL Representation of CCC                                      |
+| Raj Krishnamurthy    | Compliance Cow | Engage with MITRE Threat Catalogue                               |
+| Vicente Herrera      | Control Plane  | Define Cloud Services Taxonomy                                   |
+| Michaela Iorga       | NIST           | OSCAL Representation of CCC                                      |
 
 ## License
 
