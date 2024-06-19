@@ -8,11 +8,9 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
 2. [Approach & Responsibilities](#approach--responsibilities)
    - [Output / Deliverables](#output--deliverables)
 3. [Out of Scope](#out-of-scope)
-4. [Meeting Cadence](#meeting-cadence)
-5. [Governance](#governance)
+4. [Governance](#governance)
    - [Membership](#membership)
    - [Changes](#changes)
-   - [Meeting Cadence](#meeting-cadence)
    - [Changes](#changes)
 
 ## Mission
@@ -41,7 +39,11 @@ The following activities will not be performed by this group:
 
 This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] set forth by the Community Structure WG.
 
-<\* Note:_\*\* Refer to [Community Organization](../recommendations/community-organisation.md#roles-definition-for-a-working-group) for more information about WG composition. _>
+<!-- markdownlint-disable MD037 -->
+
+<\* Note:_\*\* Refer to [Community Organization](../recommendations/community-organisation.md#roles-definition-for-a-working-group) for more information about WG composition._>
+
+<!-- markdownlint-enable MD037 -->
 
 ### Membership
 

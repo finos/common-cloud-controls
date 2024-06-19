@@ -39,11 +39,11 @@ assigned to them and assist or scribe on community calls.
 - Applied, sponsored, and approved for member status.
   1. Open an pull request against the CCC repo [`members.md`](members.md):
   - The PR description should contain a list or summary of your work on the project to date.
-  2. Sponsoring reviewers mark the PR as ready to merge:
+  1. Sponsoring reviewers mark the PR as ready to merge:
   - Must be sponsored by 2 approvers from 2 employers.
   - Sponsors must have close project interactions with the prospective member
     (such as in PR review, proposal creation, coordinating on issues, etc.)
-  3. Once your sponsors have approved, your request will be merged by the appropriate party within 14 days.
+  1. Once your sponsors have approved, your request will be merged by the appropriate party within 14 days.
 
 ### Definition of Contributions
 
@@ -144,8 +144,6 @@ Specific group charters may specify a shorter period for their roles.
 [Linux Foundation Code of Conduct]: https://events.linuxfoundation.org/about/code-of-conduct/
 [CODEOWNERS]: https://github.com/finos/common-cloud-controls/blob/main/CODEOWNERS
 [community mail group]: mailto:ccc-participants+subscribe@finos.org
-[membership template]: https://github.com/finos/common-cloud-controls/blob/main/.github/ISSUE_TEMPLATE/membership.md
-[Steering Committee]: ../steering/charter.md
 [community groups]: ../community-groups.md
 [SC]: ../../community-groups.md#steering-committee
 [WG]: ../../community-groups.md#working-groups

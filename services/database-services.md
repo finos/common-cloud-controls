@@ -6,7 +6,6 @@ Database services in the context of cloud computing refer to managed database so
 
 - [Relational Databases](#relational-databases)
 - [NoSQL Databases](#nosql-databases)
-- [Graph Databases](#graph-databases)
 - [In-Memory Databases](#in-memory-databases)
 - [Data Warehousing](#data-warehousing)
 

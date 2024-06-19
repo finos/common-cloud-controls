@@ -44,9 +44,9 @@ This section includes any Exclusion Notices made against a Draft Deliverable or 
 
 **For issued patents and published patent applications:**
 
-    (i)	patent number(s) or title and application number(s), as the case may be:
+    (i) patent number(s) or title and application number(s), as the case may be:
 
-    (ii)	identification of the specific part(s) of the Specification whose implementation makes the excluded claim a Necessary Claim.
+    (ii) identification of the specific part(s) of the Specification whose implementation makes the excluded claim a Necessary Claim.
 
 **For unpublished patent applications must provide either:**
 

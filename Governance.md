@@ -2,7 +2,7 @@
 
 This document provides the governance policy for specifications and other documents developed using the Community Specification process in a repository (each a “Working Group”). Each Working Group and must adhere to the requirements in this document.
 
-## 1. Roles.
+## 1. Roles
 
 Each Working Group may include the following roles. Additional roles may be adopted and documented by the Working Group.
 
@@ -10,13 +10,13 @@ Each Working Group may include the following roles. Additional roles may be adop
 
 **1.2. Participants.** “Participants” are those that have made Contributions to the Working Group subject to the Community Specification License.
 
-## 2. Decision Making.
+## 2. Decision Making
 
 **2.1. Consensus-Based Decision Making.** Working Groups make decisions through a consensus process (“Approval” or “Approved”). While the agreement of all Participants is preferred, it is not required for consensus. Rather, the Maintainer will determine consensus based on their good faith consideration of a number of factors, including the dominant view of the Working Group Participants and nature of support and objections. The Maintainer will document evidence of consensus in accordance with these requirements.
 
 **2.2. Appeal Process.** Decisions may be appealed be via a pull request or an issue, and that appeal will be considered by the Maintainer in good faith, who will respond in writing within a reasonable time.
 
-## 3. Ways of Working.
+## 3. Ways of Working
 
 Inspired by [ANSI’s Essential Requirements for Due Process](https://share.ansi.org/Shared%20Documents/Standards%20Activities/American%20National%20Standards/Procedures,%20Guides,%20and%20Forms/2020_ANSI_Essential_Requirements.pdf), Community Specification Working Groups must adhere to consensus-based due process requirements. These requirements apply to activities related to the development of consensus for approval, revision, reaffirmation, and withdrawal of Community Specifications. Due process means that any person (organization, company, government agency, individual, etc.) with a direct and material interest has a right to participate by: a) expressing a position and its basis, b) having that position considered, and c) having the right to appeal. Due process allows for equity and fair play. The following constitute the minimum acceptable due process requirements for the development of consensus.
 
@@ -32,7 +32,7 @@ Inspired by [ANSI’s Essential Requirements for Due Process](https://share.ansi
 
 **3.6. Written procedures.** This governance document and other materials documenting the Community Specification development process shall be available to any interested person.
 
-## 4. Specification Development Process.
+## 4. Specification Development Process
 
 **4.1. Pre-Draft.** Any Participant may submit a proposed initial draft document as a candidate Draft Specification of that Working Group. The Maintainer will designate each submission as a “Pre-Draft” document.
 
@@ -44,6 +44,6 @@ Inspired by [ANSI’s Essential Requirements for Due Process](https://share.ansi
 
 **4.5. Submissions to Standards Bodies.** No Draft Specification or Approved Specification may be submitted to another standards development organization without Working group Approval. Upon reaching Approval, the Maintainer will coordinate the submission of the applicable Draft Specification or Approved Specification to another standards development organization. Working Group Participants that developed that Draft Specification or Approved Specification agree to grant the copyright rights necessary to make those submissions.
 
-## 5. Non-Confidential, Restricted Disclosure.
+## 5. Non-Confidential, Restricted Disclosure
 
 Information disclosed in connection with any Working Group activity, including but not limited to meetings, Contributions, and submissions, is not confidential, regardless of any markings or statements to the contrary. Notwithstanding the foregoing, if the Working Group is collaborating via a private repository, the Participants will not make any public disclosures of that information contained in that private repository without the Approval of the Working Group.
