@@ -29,11 +29,13 @@ All [WG] charters should contain a reference to these standards and practices, w
 
 - **Content Release Standards**
   - [Documentation Release Guidelines](./Documentation_Release_Guidelines.md)
-  - [Software Release Process](./Software_Release_Process.md)
+  - [Release Process](./Software_Release_Process.md)
 
 ## Feedback and Contribution Disclaimer
 
-Feedback on these guidelines is vital for continuous improvement. If you have suggestions or updates, please communicate this to the Delivery [WG]. Do note that new guidelines and policies may be created or modified by a [vote] of the [SC] at any time, following the same process as [Upgrading a Recommendation to become a Policy](../community-guidelines/README.md/#upgrading-a-recommendation-to-become-a-policy).
+Feedback on these guidelines is vital for continuous improvement. If you have suggestions or updates, please communicate this to the [Delivery WG]. Do note that new guidelines and policies may be created or modified by a [vote] of the [SC] at any time, following the same process as [Upgrading a Recommendation to become a Policy](../community-guidelines/README.md/#upgrading-a-recommendation-to-become-a-policy).
 
 [SC]: <../../community-groups.md#steering-committee>
 [vote]: <../steering/charter.md#voting>
+[Delivery WG]: <../working-groups/delivery/charter.md>
+[WG]: <../working-groups/>
