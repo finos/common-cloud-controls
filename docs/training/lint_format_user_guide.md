@@ -2,9 +2,9 @@
 
 ## Purpose
 
-This document provides a comprehensive guide for contributors to install and configure `markdownlint-cli2` and `prettier` in Visual Studio Code (VSCode). These tools are essential for maintaining consistent markdown formatting and ensuring adherence to markdown style guidelines in your project. By following this guide, you will be able to:
+This document provides a comprehensive guide for contributors to install and configure `markdownlint-cli` and `prettier` in Visual Studio Code (VSCode). These tools are essential for maintaining consistent markdown formatting and ensuring adherence to markdown style guidelines in your project. By following this guide, you will be able to:
 
-- Install `markdownlint-cli2` and `prettier` as development dependencies in your project.
+- Install `markdownlint-cli` and `prettier` as development dependencies in your project.
 - Set up the necessary VSCode extensions for enhanced markdown editing.
 - Reference configuration files for seamless integration with VSCode, ensuring that your markdown files are automatically linted and formatted.
 
@@ -18,10 +18,10 @@ Before you begin, please ensure you have Node.js installed. You can download it 
 
 1. Open your terminal.
 2. Navigate to your project directory.
-3. Run the following commands to install `markdownlint-cli2` and `prettier` as development dependencies:
+3. Run the following commands to install `markdownlint-cli` and `prettier` as development dependencies:
 
    ```bash
-   npm install -g markdownlint-cli2 prettier
+   npm install -g markdownlint-cli prettier
    ```
 
 ### Step 2: Install VSCode Extensions
@@ -62,11 +62,11 @@ Before you begin, please ensure you have Node.js installed. You can download it 
 3. Run the following command in your terminal to lint your Markdown files:
 
    ```bash
-   npx markdownlint-cli2 "**/*.md"
+   markdownlint-cli '**/*.md' --config ./.config/.markdownlint.yaml
    ```
 
-   > **NOTE**: Ensure there are no linting errors or warnings. If so, please reach out to the Delivery [WG]
+   > **NOTE**: Ensure there are no linting errors or warnings. If so, please reach out to the Delivery [WG].
 
-Thanks for reading. At this point, you have now successfully installed and configured `markdownlint-cli2` and `prettier` in VSCode.
+Thanks for reading. At this point, you have now successfully installed and configured `markdownlint-cli` and `prettier` in VSCode.
 
 If you have any issues, please do not hesistate to reach out to the Delivery WG for more assistance.
