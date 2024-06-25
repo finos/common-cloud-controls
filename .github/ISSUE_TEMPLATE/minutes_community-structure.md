@@ -1,13 +1,11 @@
 ---
-
 name: Community Structure WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
 title: MM/DD/YYYY All Hands Meeting Minutes
-labels: 
+labels:
   - meeting
   - community structure
-assignees: 'sshiells-scottlogic'
-
+assignees: "sshiells-scottlogic"
 ---
 
 ## Date
@@ -38,5 +36,6 @@ MM/DD/YYYY - (X)am ET / (Y)pm UK
 - [ ] AOB, Q&A & Adjourn (5mins)
 
 ## Untracked attendees
+
 - Fullname, Affiliation, (optional) GitHub username
 - ...

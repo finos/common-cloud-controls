@@ -55,21 +55,20 @@ There are several ways to contribute to FINOS Common Cloud Controls.
 
 The CCC project is split into 6 working groups in the CCC project which meet on a fortnightly basis:
 
-| Working Group | When | Chair | Mailing List |
-| --- | --- | --- | --- |
-| [Security](/docs/governance/working-groups/security/charter.md) | 4PM UK, 1st and 3rd Thursday each month | @mlysaght2017 | [ccc-security](mailto:ccc-security+subscribe@lists.finos.org) |
-| [Delivery](/docs/governance/working-groups/delivery/charter.md) | 4:30PM UK, 1st and 3rd Thursday each month | @damienjburks | [ccc-delivery](mailto:ccc-delivery+subscribe@lists.finos.org) |
-| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 5PM UK, 1st and 3rd Thursday each month | @Alexstpierrework | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
-| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md) | 4:30PM UK, 2nd and 4th Thursday each month | @smendis-scottlogic | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org) |
-| [Community Structure](/docs/governance/working-groups/community-structure/charter.md) | 5PM UK, 2nd and 4th Thursday each month | @sshiells-scottlogic | [ccc-structure](mailto:ccc-structure+subscribe@lists.finos.org) |
-| [Duplication Reduction](/docs/governance/working-groups/duplication-reduction/charter.md) | 5:30PM UK, 2nd and 4th Thursday each month | @jared-lambert | [ccc-duplication](mailto:ccc-duplication-reduction@lists.finos.org) |
+| Working Group                                                                             | When                                       | Chair                | Mailing List                                                              |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------ | -------------------- | ------------------------------------------------------------------------- |
+| [Security](/docs/governance/working-groups/security/charter.md)                           | 4PM UK, 1st and 3rd Thursday each month    | @mlysaght2017        | [ccc-security](mailto:ccc-security+subscribe@lists.finos.org)             |
+| [Delivery](/docs/governance/working-groups/delivery/charter.md)                           | 4:30PM UK, 1st and 3rd Thursday each month | @damienjburks        | [ccc-delivery](mailto:ccc-delivery+subscribe@lists.finos.org)             |
+| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md)   | 5PM UK, 1st and 3rd Thursday each month    | @Alexstpierrework    | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
+| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                           | 4:30PM UK, 2nd and 4th Thursday each month | @smendis-scottlogic  | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
+| [Community Structure](/docs/governance/working-groups/community-structure/charter.md)     | 5PM UK, 2nd and 4th Thursday each month    | @sshiells-scottlogic | [ccc-structure](mailto:ccc-structure+subscribe@lists.finos.org)           |
+| [Duplication Reduction](/docs/governance/working-groups/duplication-reduction/charter.md) | 5:30PM UK, 2nd and 4th Thursday each month | @jared-lambert       | [ccc-duplication](mailto:ccc-duplication-reduction@lists.finos.org)       |
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
 ### 2. Join the FINOS Common Cloud Controls Mailing Lists
 
 FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants+subscribe@lists.finos.org](mailto: ccc-participants+subscribe@lists.finos.org) to join.
-
 
 ### 3. Raise a FINOS Common Cloud Controls GitHub Issue
 
@@ -95,15 +94,15 @@ Participants of FINOS standards projects should follow the FINOS Code of Conduct
 
 The CCC Steering Committee is the governing body of the CCC project, providing decision-making and oversight pertaining to the CCC project bylaws, sub-organizations, and financial planning. The Steering Committee also defines the project values and structure. [Documented here](docs/governance/steering/charter.md).
 
-| Name                 | Representing   | Seat      |
-| -------------------- | -------------- | --------- |
-| Jon Meadows          | Citi           | FSI       |
-| Oli Bage             | LSEG           | FSI       |
-| Simon Zhang          | BMO            | FSI       |
-| Paul Stevenson       | Morgan Stanley | FSI       |
-| Robert Griffiths     | Scott Logic    | Community |
-| Eddie Knight         | Sonatype       | Community |
-| Adrian Hammond       | Red Hat        | Community |
+| Name             | Representing   | Seat      |
+| ---------------- | -------------- | --------- |
+| Jon Meadows      | Citi           | FSI       |
+| Oli Bage         | LSEG           | FSI       |
+| Simon Zhang      | BMO            | FSI       |
+| Paul Stevenson   | Morgan Stanley | FSI       |
+| Robert Griffiths | Scott Logic    | Community |
+| Eddie Knight     | Sonatype       | Community |
+| Adrian Hammond   | Red Hat        | Community |
 
 @robmoffat is the current [FINOS Point of Contact](docs/governance/finos-poc.md) for the CCC project.
 
