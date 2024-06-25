@@ -14,23 +14,23 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 ## What Are The Benefits?
 
-#### 💯 Defining Best Practices Around Cloud Security
+### 💯 Defining Best Practices Around Cloud Security
 
 > CCC aims to standardize cloud security controls for the banking sector, providing a common set of controls that CSPs can implement to meet the requirements of FS firms. As multiple FS firms are involved in the project, effort is shared, the controls will be representative of the sector as a whole, and be more robust than any one firm could develop on its own.
 
-#### 🎯 One Target For CSPs To Conform To
+### 🎯 One Target For CSPs To Conform To
 
 > If all FS firms specify their own cloud infrastructure requirements, CSPs will have to conform to multiple standards. CCC aims to provide a single target for CSPs to conform to.
 
-#### 🎒 Sharing The Burden Of A Common Definition
+### 🎒 Sharing The Burden Of A Common Definition
 
 > CCC aims to reduce the burden of compliance for CSPs by providing a common definition of controls which they can adopt. As CCC controls are specified in a cloud-agostic way, CSPs can implement them in a way that is consistent with their own infrastructure, while delivering services that FS firms understand and trust.
 
-#### 🧭 A Path Towards Common Implementation
+### 🧭 A Path Towards Common Implementation
 
 > FINOS sister project, [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) aims to be a downstream implementation of the CCC controls standard. In tandem with CCC, this will provide FS firms with a one-stop shop for secure cloud infrastructure deployment.
 
-#### 🥇 A Path Towards Certification
+### 🥇 A Path Towards Certification
 
 > It is envisaged that eventually, CCC will offer _certification_ for CSPs who conform to the standard.
 
@@ -68,7 +68,7 @@ Find the next meeting on the [FINOS Community Calendar](https://finos.org/calend
 
 ### 2. Join the FINOS Common Cloud Controls Mailing Lists
 
-FINOS Common Cloud Controls communications are conducted through the ccc-participants@lists.finos.org mailing list. Simply email [ccc-participants+subscribe@lists.finos.org](mailto: ccc-participants+subscribe@lists.finos.org) to join.
+FINOS Common Cloud Controls communications are conducted through the <ccc-participants@lists.finos.org> mailing list. Simply email [ccc-participants+subscribe@lists.finos.org](mailto: <ccc-participants+subscribe@lists.finos.org>) to join.
 
 ### 3. Raise a FINOS Common Cloud Controls GitHub Issue
 
@@ -82,7 +82,7 @@ Please visit [participants.md](participants.md) and raise a Pull Request by addi
 
 Raising a Pull Request on [participants.md](participants.md) will automatically take you through the Linux Foundation EasyCLA process for signing the FINOS [CSCLA](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices).
 
-Email help@finos.org if you require further help.
+Email <help@finos.org> if you require further help.
 
 ### FINOS Code of Conduct
 
