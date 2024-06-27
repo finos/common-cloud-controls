@@ -75,3 +75,4 @@ Any functional changes to this charter must be approved through a majority vote 
 [recommendations]: <../../community-recommendations/README.md>
 [Communications WG]: <../communications/charter.md>
 [Community Structure WG]: <../communications/charter.md>
+[Delivery WG]: <../delivery/charter.md>
