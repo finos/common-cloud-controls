@@ -39,34 +39,37 @@ Before you begin, please ensure you have Node.js installed. You can download it 
 ### Reference Configuration Files in VSCode
 
 1. Open the Command Palette by pressing `Ctrl+Shift+P`.
-2. Type `Preferences: Open Settings (JSON)` and select it.
+2. Type `Preferences: Open Workspace Settings (JSON)` and select it.
 3. Add the following configurations to your `settings.json` file to reference your config files:
 
    ```json
    {
+     // Markdown & Prettier Configuration File
      "editor.defaultFormatter": "esbenp.prettier-vscode",
      "[markdown]": {
        "editor.defaultFormatter": "esbenp.prettier-vscode"
      },
      "markdownlint.config": {
-       "extends": ".markdownlint.yaml"
+       "extends": "./.config/.markdownlint.yaml"
      },
-     "prettier.configPath": ".prettierrc"
+     "prettier.configPath": "./.config/.prettierrc"
    }
    ```
 
 ## Installation Verification
 
 1. Open a Markdown file in your project.
-2. Save the file to trigger `prettier` formatting.
+2. Save the file to trigger `prettier` formatting, or manually trigger it by pressing `Shift + Alt + F`.
 3. Run the following command in your terminal to lint your Markdown files:
 
    ```bash
    markdownlint-cli '**/*.md' --config ./.config/.markdownlint.yaml
    ```
 
-   > **NOTE**: Ensure there are no linting errors or warnings. If so, please reach out to the Delivery [WG].
+   > **NOTE**: Ensure there are no linting errors or warnings. If so, please reach out to the [Delivery WG].
 
 Thanks for reading. At this point, you have now successfully installed and configured `markdownlint-cli` and `prettier` in VSCode.
 
-If you have any issues, please do not hesistate to reach out to the Delivery WG for more assistance.
+If you have any issues, please do not hesistate to reach out to the [Delivery WG] for more assistance.
+
+[Delivery WG]: ../governance/working-groups/delivery/charter.md
