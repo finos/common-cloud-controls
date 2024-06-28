@@ -27,6 +27,7 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - Damien Burks, Citi, MAR/07/2024
 - Jared Lambert, Microsoft, APR/01/2024
 - Eric Peeters, Weaver, JUN/12/2024
+- David Ogle, Scott Logic, JUN/28/2024
 
 ## How to enroll as a participant
 In order to enroll as a participant in the Common Cloud Controls project, please submit a Pull Request to this [participants](#participants) file listing your name, organization, and date of enrollment, by following the steps described below. 
