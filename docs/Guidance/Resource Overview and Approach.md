@@ -2,7 +2,7 @@
 ## Approach
 In developing CCC, we desire to reuse existing resources from other projects, such as frameworks, toolkits, documentation, or workflows. This can save time and effort, avoid duplication of work, and ensure consistency and quality across the project. However, reusing resources also requires some planning and coordination, as well as finding those best practices. In this section, we will provide guidance on resources we recommend and our reasoning behind them. 
 
-Our approach is to break down the core deliverables being investigated by CCC into functional areas, then identify any potentially reusable content in each area. Once we’ve identified potential content, we will evaluate it for suitability by looking at it’s relevance, quality, and overall compatibility. It is likely that in some areas, no suitable content exists, where we will recommend that CCC invest directly.
+Our approach is to break down the core deliverables being investigated by CCC into functional areas, then identify any potentially reusable content in each area. Once we’ve identified potential content, we will evaluate it for suitability by looking at its relevance, quality, and overall compatibility. It is likely that in some areas, no suitable content exists, where we will recommend that CCC invest directly.
 
 As we decompose the CCC project into these functional areas where duplication may exist, we think about it as a series of steps:
 1.	**Service Taxonomy** – Provides a common set of cloud agnostic service definitions and attributes which we can refer to when discussing controls. These are mapped to the specific cloud provider services. For example, Virtual Machines is our common name for Amazon Elastic Cloud Compute, Azure Virtual Machines, and Google Compute Engine. <Link>
@@ -15,7 +15,7 @@ As we decompose the CCC project into these functional areas where duplication ma
 We summarize our recommendations against each of these areas:
 
 ### Service Taxonomy
-One of the key goals of CCC (Link?), is to ensure that the controls are provider agnostic and enable portability between cloud providers. It is apparent that in order to do this, we must be able to work against a common taxonomy of services. 
+One of the key goals of CCC (Link? Where do you want to link to??), is to ensure that the controls are provider agnostic and enable portability between cloud providers. It is apparent that in order to do this, we must be able to work against a common taxonomy of services. 
 On first glance, it seems that there must be a common library of these, and we have investigated portability standards such as ISO/IEC 19941:2017, or more service specific standards such as OVF from DMTF. However, to date we have been unable to find a clear, comprehensive, and open common mapping. Therefore, our current recommendation in this space is to invest directly in a taxonomy provided by CCC. Future efforts may be spent to further evaluate this space.
 
 ### Threats
