@@ -16,7 +16,7 @@ In order for a guideline to become a policy a [SC], they must be put forward for
 1. A pull request should be made by the [SC] sponsor to move the guideline into the [Policies] directory.
 2. The [SC] sponsor should call a [SC] [vote] and if approved by the majority the PR can be merged and the recommendation is now a policy.
 
-[Policies]: <../community-policies>
-[vote]: <../steering/charter.md#voting>
-[SC]: <../../community-groups.md#steering-committee>
-[WG]: <../../community-groups.md#working-groups>
+[Policies]: ../community-policies
+[vote]: ../steering/charter.md#voting
+[SC]: ../../community-groups.md#steering-committee
+[WG]: ../../community-groups.md#working-groups

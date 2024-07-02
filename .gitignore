@@ -2,3 +2,4 @@
 build/oscal-cli
 # VS Code 
 .DS_Store
+.vscode

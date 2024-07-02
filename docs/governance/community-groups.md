@@ -34,6 +34,6 @@ Changes to the community structure can be proposed through pull requests. All ch
 
 ---
 
-[FINOS Code of Conduct]: <https://www.finos.org/code-of-conduct>
-[Steering Committee Charter]: <steering/charter.md>
-[SC]: <#steering-committee>
+[FINOS Code of Conduct]: https://www.finos.org/code-of-conduct
+[Steering Committee Charter]: steering/charter.md
+[SC]: #steering-committee

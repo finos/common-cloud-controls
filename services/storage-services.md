@@ -1,9 +1,9 @@
-  
 # Storage Services
 
 "Storage Services" in the context of cloud computing refer to the provision of storage resources over the internet that users can access and utilize remotely. These services allow users to store, retrieve, and manage their data in a scalable, reliable, and cost-effective manner.
 
 ## Types of Storage Services
+
 - [Object Storage](#object-storage)
 - [Block Storage](#block-storage)
 - [File Storage](#file-storage)
@@ -11,7 +11,7 @@
 
 ### Object Storage
 
-Object storage is a scalable storage solution that stores data as objects, each containing the data itself along with metadata and a unique identifier. 
+Object storage is a scalable storage solution that stores data as objects, each containing the data itself along with metadata and a unique identifier.
 
 Examples:
 

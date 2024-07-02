@@ -10,19 +10,18 @@ The Service Taxonomy column MUST be present and MUST NOT be null or empty.
 
 Primary purpose and the core functionality covered by the Service Taxonomy
 
-| Service Taxonomy | Description  |
-| -------- | ---------- |
-| Compute Services | Virtual computing, container services, batch operations, serverless functions, high-performance computing |
-| Storage Services | Storage for structured and unstructured data in the forms of objects, blobs queues, etc |
-| Database Services | Database platforms and services that allow for storage and querying of data. |
-| Application Integrations | Event buses, message broker services, message queues and various notification services |
-| Networking Service | Networking and content delivery related services |
-| Analytics | Daata processing, analytics, and visualization capabilities. |
-| AI and Machine Learning | Artificial Intelligence and Machine Learning related technologies. |
-| Security and Identity Services | Access and Authorization management, creation and control of encryption keys, provisioning of SSL/TLS certificates, secret management |  
-| Management and Governance Services | Services including logging, monitoring, tracing, debugging, audit trails, cost optimizing |
-| Developer Tools | SDK, CLI, CI/CD tools, etc. |
-
+| Service Taxonomy                   | Description                                                                                                                           |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Compute Services                   | Virtual computing, container services, batch operations, serverless functions, high-performance computing                             |
+| Storage Services                   | Storage for structured and unstructured data in the forms of objects, blobs queues, etc                                               |
+| Database Services                  | Database platforms and services that allow for storage and querying of data.                                                          |
+| Application Integrations           | Event buses, message broker services, message queues and various notification services                                                |
+| Networking Service                 | Networking and content delivery related services                                                                                      |
+| Analytics                          | Daata processing, analytics, and visualization capabilities.                                                                          |
+| AI and Machine Learning            | Artificial Intelligence and Machine Learning related technologies.                                                                    |
+| Security and Identity Services     | Access and Authorization management, creation and control of encryption keys, provisioning of SSL/TLS certificates, secret management |
+| Management and Governance Services | Services including logging, monitoring, tracing, debugging, audit trails, cost optimizing                                             |
+| Developer Tools                    | SDK, CLI, CI/CD tools, etc.                                                                                                           |
 
 ## References
 

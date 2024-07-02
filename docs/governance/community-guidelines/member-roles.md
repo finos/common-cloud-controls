@@ -1,24 +1,24 @@
 # Member Roles
 
-Everyone is welcome to contribute through discussion, issues, and pull requests. 
+Everyone is welcome to contribute through discussion, issues, and pull requests.
 
 The following are roles and additional responsibilities that a person may recieve in the community.
 
-| Role | Responsibilities | Requirements | Defined by |
-| ----- | ---------------- | ------------ | ------- |
-| Member | Active contributor in the community, assist on community calls, give input on proposals | Sponsored by 2 reviewers after multiple contributions to the project | GitHub FINOS `ccc-members` Group Member |
-| Approver | Review contributions from other members | History of quality reviews and authorship in a particular space | [CODEOWNERS] entry for specific files or directories |
-| WG Lead | Set direction and priorities for a working group (WG) | Demonstrated responsibility and excellent technical judgement for the subproject | [CODEOWNERS] entry for all files or directories relating to the [WG] |
+| Role     | Responsibilities                                                                        | Requirements                                                                     | Defined by                                                           |
+| -------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Member   | Active contributor in the community, assist on community calls, give input on proposals | Sponsored by 2 reviewers after multiple contributions to the project             | GitHub FINOS `ccc-members` Group Member                              |
+| Approver | Review contributions from other members                                                 | History of quality reviews and authorship in a particular space                  | [CODEOWNERS] entry for specific files or directories                 |
+| WG Lead  | Set direction and priorities for a working group (WG)                                   | Demonstrated responsibility and excellent technical judgement for the subproject | [CODEOWNERS] entry for all files or directories relating to the [WG] |
 
 ## All New & Established Contributors
 
 Anyone attending a CCC meeting, event, or contributing in any way will be expected to follow the [Linux Foundation Code of Conduct].
 
-New contributors should be welcomed to the community by existing members, helped with pull request (PR) 
+New contributors should be welcomed to the community by existing members, helped with pull request (PR)
 workflow, and directed to relevant documentation and communication channels.
 
 Established community members of **all roles** are expected to demonstrate technical and/or writing ability in their contributions,
-adherence to the principles of the project, and familiarity with project organization 
+adherence to the principles of the project, and familiarity with project organization
 (roles, policies, procedures, conventions, etc). Role-specific expectations, responsibilities,
 and eligibility requirements are enumerated below.
 
@@ -38,16 +38,16 @@ assigned to them and assist or scribe on community calls.
 - Subscribed to the [community mail group]
 - Applied, sponsored, and approved for member status.
   1. Open an pull request against the CCC repo [`members.md`](members.md):
-    - The PR description should contain a list or summary of your work on the project to date.
-  2. Sponsoring reviewers mark the PR as ready to merge:
-    - Must be sponsored by 2 approvers from 2 employers.
-    - Sponsors must have close project interactions with the prospective member
-      (such as in PR review, proposal creation, coordinating on issues, etc.)
-  3. Once your sponsors have approved, your request will be  merged by the appropriate party within 14 days.
+  - The PR description should contain a list or summary of your work on the project to date.
+  1. Sponsoring reviewers mark the PR as ready to merge:
+  - Must be sponsored by 2 approvers from 2 employers.
+  - Sponsors must have close project interactions with the prospective member
+    (such as in PR review, proposal creation, coordinating on issues, etc.)
+  1. Once your sponsors have approved, your request will be merged by the appropriate party within 14 days.
 
 ### Definition of Contributions
 
-Contributions are meaningful engagements that advance the goals of the community. 
+Contributions are meaningful engagements that advance the goals of the community.
 These include, but are not limited to:
 
 - Submittion of impactful pull requests that are subsequently merged into the project's
@@ -72,7 +72,7 @@ These include, but are not limited to:
 Approvers review contributions from members and have a history of quality reviews
 and authorship in a specific domain.
 
-Approvers are able to block or approve code contributions.  Approval is focused on
+Approvers are able to block or approve code contributions. Approval is focused on
 holistic acceptance of a contribution including: backwards / forwards
 compatibility, adhering to all conventions, subtle performance and
 correctness issues, interactions with other parts of the system, and so forth.
@@ -131,22 +131,19 @@ A core principle in maintaining a healthy community is encouraging active
 participation. It is inevitable that people's focuses will change over time and
 they are not expected to be actively contributing forever.
 
-Inactive members are those who carry an aforementioned role or title within CCC 
+Inactive members are those who carry an aforementioned role or title within CCC
 with **zero** qualifying contributions in the preceding 6 months.
 
-Inactive members will be removed from their roles and will need to re-engage with the 
+Inactive members will be removed from their roles and will need to re-engage with the
 community and go through the aforementioned processes again to regain their status.
 
 Specific group charters may specify a shorter period for their roles.
 
 ---
 
-[Linux Foundation Code of Conduct]: <https://events.linuxfoundation.org/about/code-of-conduct/>
-[CODEOWNERS]: <https://github.com/finos/common-cloud-controls/blob/main/CODEOWNERS>
-[community mail group]: <mailto:ccc-participants+subscribe@finos.org>
-[membership template]: <https://github.com/finos/common-cloud-controls/blob/main/.github/ISSUE_TEMPLATE/membership.md>
-[Steering Committee]: <../steering/charter.md>
-[community groups]: <../community-groups.md>
-
-[SC]: <../../community-groups.md#steering-committee>
-[WG]: <../../community-groups.md#working-groups>
+[Linux Foundation Code of Conduct]: https://events.linuxfoundation.org/about/code-of-conduct/
+[CODEOWNERS]: https://github.com/finos/common-cloud-controls/blob/main/CODEOWNERS
+[community mail group]: mailto:ccc-participants+subscribe@finos.org
+[community groups]: ../community-groups.md
+[SC]: ../../community-groups.md#steering-committee
+[WG]: ../../community-groups.md#working-groups

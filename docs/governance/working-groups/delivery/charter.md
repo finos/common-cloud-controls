@@ -69,16 +69,16 @@ The membership structure of this working group:
 
 ### Meeting Cadence
 
-* This working group will use the mail group <ccc-delivery@lists.finos.org> for regular communications.
-* A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
+- This working group will use the mail group <ccc-delivery@lists.finos.org> for regular communications.
+- A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
 
 ### Changes
 
 Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
 
-[WG]: <../../community-groups.md#working-groups>
-[SC]: <../../community-groups.md#steering-committee>
-[policies]: <../../community-policies/README.md>
-[recommendations]: <../../community-recommendations/README.md>
-[Communications WG]: <../communications/charter.md>
-[Community Structure WG]: <../communications/charter.md>
+[WG]: ../../community-groups.md#working-groups
+[SC]: ../../community-groups.md#steering-committee
+[policies]: ../../community-policies/README.md
+[recommendations]: ../../community-recommendations/README.md
+[Communications WG]: ../communications/charter.md
+[Community Structure WG]: ../communications/charter.md

@@ -11,7 +11,7 @@ This document is a [community guideline].
 
 ### FINOS Hosted Meetings
 
-All meetings hosted by FINOS are expected to follow FINOS Anti-Trust policies. 
+All meetings hosted by FINOS are expected to follow FINOS Anti-Trust policies.
 
 Any meeting published on the public calendar must additionally adhere to a strict agenda, maintain public meeting minutes on this GitHub repo, and display the FINOS Anti-Trust slide at the beginning of the session.
 
@@ -25,7 +25,7 @@ Any meeting published on the public calendar must additionally adhere to a stric
 
 ### Recurring [WG] Meetings
 
-- A [WG] may choose to hold recurring meetings to provide a dedicated space for discussion of [WG]-specific activities. 
+- A [WG] may choose to hold recurring meetings to provide a dedicated space for discussion of [WG]-specific activities.
 - If a [WG] decides to have recurring [WG] meetings, then the details of the meeting should be published to members of the [WG] using the corresponding mailing list.
 - If these meetings are hosted by FINOS they must follow the guidance for [FINOS hosted meetings](#finos-hosted-meetings).
 - If these meetings are NOT hosted by FINOS then where practical, these meetings should have notes or minutes published to the rest of the [WG].
@@ -36,7 +36,7 @@ Any meeting published on the public calendar must additionally adhere to a stric
 - If these meetings are hosted by FINOS they must follow the guidance for [FINOS hosted meetings](#finos-hosted-meetings).
 - If these meetings are NOT hosted by FINOS then any noteworthy decisions or outcomes should be communicated back to the wider [WG] via the mailing list.
 
-[SC]: <../community-groups.md#steering-committee>
-[WG]: <../community-groups.md#working-groups>
-[community guideline]: <./README.md>
-[FINOS Point of Contact]: <../finos-poc.md>
+[SC]: ../community-groups.md#steering-committee
+[WG]: ../community-groups.md#working-groups
+[community guideline]: ./README.md
+[FINOS Point of Contact]: ../finos-poc.md

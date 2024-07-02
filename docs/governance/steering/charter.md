@@ -4,38 +4,38 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
 
 ## Mission
 
-The CCC Steering Committee is the governing body of the CCC project, providing decision-making and oversight pertaining to the CCC project bylaws, sub-organizations, and financial planning.  The Steering Committee also defines the project values and structure.
+The CCC Steering Committee is the governing body of the CCC project, providing decision-making and oversight pertaining to the CCC project bylaws, sub-organizations, and financial planning. The Steering Committee also defines the project values and structure.
 
 ## Approach
 
-* Adapt the role and structure of the Steering Committee to meet the ongoing needs of the project.
-* Responsibilities not explicitly delegated to other parties<sup>[2](#footnote2)</sup> through their respective charters reside with the Steering Committee.
-* All management<sup>[1](#footnote1)</sup> responsibilities should be delegated to other parties<sup>[2](#footnote2)</sup>.
-* All technical responsibilities should be delegated to working groups. The Steering Committee should not retain any technical responsibilities itself.
-* The steering committee will hold a public community call no less than once per quarter to provide updates to stakeholders regarding all CCC efforts.
+- Adapt the role and structure of the Steering Committee to meet the ongoing needs of the project.
+- Responsibilities not explicitly delegated to other parties<sup>[2](#footnote2)</sup> through their respective charters reside with the Steering Committee.
+- All management<sup>[1](#footnote1)</sup> responsibilities should be delegated to other parties<sup>[2](#footnote2)</sup>.
+- All technical responsibilities should be delegated to working groups. The Steering Committee should not retain any technical responsibilities itself.
+- The steering committee will hold a public community call no less than once per quarter to provide updates to stakeholders regarding all CCC efforts.
 
 ## Direct responsibilities of the Steering Committee
 
 The following responsibilities belong directly to the Steering Committee.
 
-* Define, evolve, and defend the non-technical vision / mission and the values of the project.
-* Delegate ownership of, responsibility for, and authority over areas of the project to specific entities<sup>[2](#footnote2)</sup>.
-* Charter and refine policy for defining new community groups<sup>[3](#footnote3)</sup>, and establish transparency and accountability policies for such groups.
-* Appoint leadership for chartered community groups.
-* Enforce charters for community groups<sup>[3](#footnote3)</sup> to ensure ongoing positive standing, or decomission any groups not in good standing.
-* Define and evolve project and group<sup>[3](#footnote3)</sup> governance structures and policies<sup>[4](#footnote4)</sup>.
-* Act as a final non-technical escalation point for any CCC community group or technical effort.
-* Decide who is a standing member on the CCC project, and what privileges that entails.
-* Control and delegate access to and establish processes regarding project resources<sup>[5](#footnote5)</sup>.
-* Coordinate with FINOS regarding usage of the CCC brand and deciding which things can be called "Common Cloud Controls," as well as how that mark can be used in relation to other efforts or vendors.
-* Request funds and other support from FINOS (e.g. marketing, press, etc).
-* Interface with the FINOS Staff point of contact as needed for guidance and accountability.
+- Define, evolve, and defend the non-technical vision / mission and the values of the project.
+- Delegate ownership of, responsibility for, and authority over areas of the project to specific entities<sup>[2](#footnote2)</sup>.
+- Charter and refine policy for defining new community groups<sup>[3](#footnote3)</sup>, and establish transparency and accountability policies for such groups.
+- Appoint leadership for chartered community groups.
+- Enforce charters for community groups<sup>[3](#footnote3)</sup> to ensure ongoing positive standing, or decomission any groups not in good standing.
+- Define and evolve project and group<sup>[3](#footnote3)</sup> governance structures and policies<sup>[4](#footnote4)</sup>.
+- Act as a final non-technical escalation point for any CCC community group or technical effort.
+- Decide who is a standing member on the CCC project, and what privileges that entails.
+- Control and delegate access to and establish processes regarding project resources<sup>[5](#footnote5)</sup>.
+- Coordinate with FINOS regarding usage of the CCC brand and deciding which things can be called "Common Cloud Controls," as well as how that mark can be used in relation to other efforts or vendors.
+- Request funds and other support from FINOS (e.g. marketing, press, etc).
+- Interface with the FINOS Staff point of contact as needed for guidance and accountability.
 
 ## Non-responsibilities of the Steering Committee
 
-* Technical decision-making.
-* Chartering, approval, or oversight of any sub-groups created by Steering-chartered community groups (those which are authorized to do so within their charter).
-* Files and resources outside of:
+- Technical decision-making.
+- Chartering, approval, or oversight of any sub-groups created by Steering-chartered community groups (those which are authorized to do so within their charter).
+- Files and resources outside of:
   - the CCC project README.md
   - Steering Committee governance documentation
 
@@ -89,17 +89,17 @@ Once a vote of no confidence has been called, the committee will notify the comm
 
 This notification will include:
 
-* a link to the aforementioned GitHub issue
-* the statement providing context on the reason for the vote
+- a link to the aforementioned GitHub issue
+- the statement providing context on the reason for the vote
 
 There will be a period of two (2) weeks for members of the community to reach out to Steering Committee members to provide feedback.
 
 Community members may provide feedback by the following methods:
 
-* comment on the GitHub issue
-* send an email to the Steering Committee private mailing list
+- comment on the GitHub issue
+- send an email to the Steering Committee private mailing list
   - the mailing list will be launched and linked here after the first phase of bootstraping is complete
-* send a message to individual committee members
+- send a message to individual committee members
 
 After this feedback period, Steering Committee members must vote on the issue within 48 hours.
 
@@ -111,10 +111,10 @@ In the course of the committee's operations, members will be expected to vote on
 
 These votes may be called on agreed-upon platforms by the committee, such as:
 
-* a pull request
-* an issue
-* a Steering Committee [meeting](#meetings)
-* a mailing list
+- a pull request
+- an issue
+- a Steering Committee [meeting](#meetings)
+- a mailing list
 
 For public business, the vote must be captured on an issue or pull request.
 
@@ -142,14 +142,14 @@ We use the following guidelines to determine whether we have reached quorum and 
 ## Inclusive Leadership Training
 
 Members of the committee must take the [Inclusive Open Source Community Orientation] course
-in support of our community values.  Members are required to report completion of the course as part of on-boarding within 30 days from the date of their appointment.
+in support of our community values. Members are required to report completion of the course as part of on-boarding within 30 days from the date of their appointment.
 
 ## Changes
 
 Committee members may propose a change to this document through the following process:
 
 - Post a pull request to this repository describing the change.
-- Call a public vote for the nearest acceptable business day four (4) weeks after initial 
+- Call a public vote for the nearest acceptable business day four (4) weeks after initial
   introduction of the change. A vote may be scheduled earlier if all committee members consent.
 - The change is accepted if three-quarters of the committee members vote in favor.
 - The pull request is merged or closed.
@@ -178,4 +178,7 @@ This document was adapted from the Kubernetes Steering Committee Charter [afb385
 [Eligible voters]: /elections.md#eligibility-for-voting
 [Inclusive Open Source Community Orientation]: https://training.linuxfoundation.org/training/inclusive-open-source-community-orientation-lfc102/
 [afb3858]: https://github.com/kubernetes/steering/blob/afb3858/charter.md
+
+<!--
 [Steering Committee private mailing list]: !TODO!
+-->

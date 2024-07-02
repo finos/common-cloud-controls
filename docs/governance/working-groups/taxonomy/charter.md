@@ -13,7 +13,7 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
    - [Sub-Groups](#sub-groups)
    - [Meeting & Communication](#meeting--communication)
    - [Changes](#changes)
-   
+
 ## Mission
 
 The mission of the Taxonomy [WG] is to define and maintain a comprehensive taxonomy of service(s) offered by the cloud hyperscalers. This initiative aims to establish a standardized nomenclature and attributes for common service categories such as VMs, Storage, and Networking. By creating this uniform taxonomy, the WG will facilitate the application of a set of controls across various cloud provider implementations, addressing common risks and promoting broader applicability of the CCC project's resources.
@@ -69,9 +69,9 @@ The membership structure of this working group.
 
 Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
 
-[WG]: <../../community-groups.md#working-groups>
-[SC]: <../../community-groups.md#steering-committee>
-[policies]: <../../community-policies/README.md>
-[recommendations]: <../../community-recommendations/README.md>
-[Communications WG]: <../communications/charter.md>
-[Community Structure WG]: <../communications/charter.md>
+[WG]: ../../community-groups.md#working-groups
+[SC]: ../../community-groups.md#steering-committee
+[policies]: ../../community-policies/README.md
+[recommendations]: ../../community-recommendations/README.md
+[Communications WG]: ../communications/charter.md
+[Community Structure WG]: ../communications/charter.md

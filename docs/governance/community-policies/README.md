@@ -10,5 +10,5 @@ This directory will contain the latest version of all policies that must be adhe
 
 Policies may be created or modified by a [vote] of the [SC] at any time, following the same process as [Upgrading a Recommendation to become a Policy](../community-guidelines/README.md/#upgrading-a-recommendation-to-become-a-policy).
 
-[SC]: <../../community-groups.md#steering-committee>
-[vote]: <../steering/charter.md#voting>
+[SC]: ../../community-groups.md#steering-committee
+[vote]: ../steering/charter.md#voting
