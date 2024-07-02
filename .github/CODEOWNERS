@@ -1,0 +1,66 @@
+########
+#
+# In the event that a file is not covered by policies below, the 
+# Community Structure WG should advise changes or create a new 
+# CODEOWNERS entry for it.
+#
+# NOTE: If the GitHub automated reviewers do not behave as expected,
+#       please contact the Community Structure WG.
+* @finos/ccc-wg-community-structure
+.github/CODEOWNERS @finos/ccc-wg-community-structure
+#
+########
+
+########
+#
+# Changes that might impact automation must be reviewed by the Delivery WG
+# Code owners should only be modified by the SteerCo
+.github @finos/ccc-wg-delivery
+.github/CODEOWNERS @finos/ccc-steerco
+#
+########
+
+########
+#
+# Community Guidelines only need review from the Community Structure WG
+docs/governance/community-guidelines @finos/ccc-wg-community-structure
+#
+########
+
+########
+#
+# Each WG may place ad hoc documentation in their governance subdirectory
+docs/governance/working-groups/communications @finos/ccc-wg-communications
+docs/governance/working-groups/community-structure @finos/ccc-wg-community-structure
+docs/governance/working-groups/delivery @finos/ccc-wg-delivery
+docs/governance/working-groups/duplication-reduction @finos/ccc-wg-duplication-reduction
+docs/governance/working-groups/security @finos/ccc-wg-security
+docs/governance/working-groups/taxonomy @finos/ccc-wg-taxonomy
+#
+########
+
+########
+#
+# Changes to the services directory must be reviewed by the Taxonomy WG
+# excluding threats and controls definitions
+services @finos/ccc-wg-taxonomy
+#
+########
+
+########
+#
+# Threats or controls definition changes must be reviewed by the Security WG
+**/threats.md @finos/ccc-wg-security
+**/controls.md @finos/ccc-wg-security
+#
+########
+
+########
+#
+# Charters and policies require review from at least one SteerCo member
+# Policies also require review from the Community Structure WG
+docs/governance/steering @finos/ccc-steerco
+docs/governance @finos/ccc-steerco @finos/ccc-wg-community-structure
+**/charter.md @finos/ccc-steerco
+#
+########
