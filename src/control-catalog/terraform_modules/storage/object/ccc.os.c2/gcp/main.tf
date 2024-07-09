@@ -15,32 +15,6 @@ resource "google_storage_bucket" "malicious_storage_bucket" {
   depends_on = [ google_kms_crypto_key_iam_binding.trusted_kms_key_binding ]
 }
 
-data "archive_file" "my_function_src" {
-  type             = "zip"
-  source_dir       = "${path.module}/src"
-  output_file_mode = "0666"
-  output_path      = "${path.module}/example_src.zip"
-}
-resource "google_storage_bucket_object" "src" {
-  name   = "example_src_${data.archive_file.my_function_src.output_md5}.zip"
-  bucket = google_storage_bucket.malicious_storage_bucket.name
-  source = data.archive_file.my_function_src.output_path
-}
-resource "google_cloudfunctions_function" "untrusted_enc_obj_deleter" {
-  name                  = "${var.bucket_name}-ccc-os-c2-autorem-control"
-  runtime               = "python39"
-  entry_point           = "delete_object"
-  source_archive_bucket = google_storage_bucket_object.src.bucket
-  source_archive_object = google_storage_bucket_object.src.name
-
-  event_trigger {
-    event_type = "google.storage.object.finalize"
-    resource   = google_storage_bucket.malicious_storage_bucket.name
-  }
-
-  https_trigger_security_level = "SECURE_ALWAYS"
-}
-
 resource "random_string" "random" {
   length  = 5
   special = false
