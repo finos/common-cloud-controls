@@ -74,12 +74,13 @@ def gcp_upload_obj_with_untrusted_key(context):
         if kms_key_id is not None:
             break
 
-    bucket = storage.Bucket(context.storage_client, STORAGE_BUCKET_NAME)
-    bucket.blob(BUCKET_OBJ_NAME, kms_key_name=kms_key_id).upload_from_string(
-        "Hello, World"
-    )
-    time.sleep(10)  # Sleep for 10 seconds
-
+    try:        
+        bucket = storage.Bucket(context.storage_client, STORAGE_BUCKET_NAME)
+        bucket.blob(BUCKET_OBJ_NAME, kms_key_name=kms_key_id).upload_from_string(
+            "Hello, World"
+        )
+    except Exception as err:
+        context.gcp_publish_error = str(err)
 
 @then("the AWS request should be denied")
 def validate_request_denied(context):

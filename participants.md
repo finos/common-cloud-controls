@@ -21,7 +21,14 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - Vicente Herrera Garcia, Control Plane, Date of enrolment: NOV/09/2023
 - Rowan Baker, ControlPlane, Nov/10/2023
 - Henry Mortimer, ControlPlane, JAN/26/2024
-
+- Joshua Isted, Scott Logic, MAR/06/2024
+- Zeal Somani, JupiterOne, Mar/7/2024
+- Michael Lysaght, Citi, Mar/07/2024
+- Damien Burks, Citi, MAR/07/2024
+- Jared Lambert, Microsoft, APR/01/2024
+- Eric Peeters, Weaver, JUN/12/2024
+- Ivan Mladjenovic, Scott Logic, JUN/28/2024
+- Dave Ogle, Scott Logic, JUN/28/2024
 
 ## How to enroll as a participant
 In order to enroll as a participant in the Common Cloud Controls project, please submit a Pull Request to this [participants](#participants) file listing your name, organization, and date of enrollment, by following the steps described below. 
