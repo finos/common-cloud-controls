@@ -1,4 +1,4 @@
-# Markdown Formatting Guidelines
+# Global Markdown Linting Guidelines
 
 ## Table of Contents
 
@@ -9,7 +9,7 @@
 
 ## Introduction
 
-This document outlines the formatting guidelines for Markdown files. To maintain consistency and readability across all documentation, we use `prettier`, an opinionated code formatter that enforces a uniform style. Adhering to these guidelines will ensure consistency across all written content and enhance readability for everyone across all of the [WG].
+This document provides comprehensive rules and examples for creating well-structured and visually appealing Markdown documents. These guidelines are aligned with the rules enforced by `markdownlint-cli`, a tool that helps maintain clean Markdown syntax. Adhering to these guidelines will ensure consistency across all written content and enhance readability for everyone across all of the [WG]'s.
 
 ## Enabled Rules
 
@@ -60,9 +60,7 @@ This section of this document contains a list of rules that are enabled for this
 - **[MD052/reference-links-images](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md052)**: Reference links and images should use a label that is defined with specific configurations.
 - **[MD053/link-image-reference-definitions](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md053)**: Link and image reference definitions should be needed with specific configurations.
 - **[MD054/link-image-style](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md054)**: Link and image style with specific configurations.
-- **[MD055/table-pipe-style](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#
-
-md055)**: Table pipe style should be consistent.
+- **[MD055/table-pipe-style](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md055)**: Table pipe style should be consistent.
 - **[MD056/table-column-count](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md056)**: Table column count.
 
 ## Disabled Rules

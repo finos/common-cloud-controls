@@ -1,4 +1,4 @@
-# Markdown Formatting Guidelines
+# Global Markdown Formatting Guidelines
 
 ## Table of Contents
 
@@ -9,7 +9,7 @@
 
 ## Introduction
 
-This document outlines the formatting guidelines for Markdown files. To maintain consistency and readability across all documentation, we use `prettier`, an opinionated code formatter that enforces a uniform style. Adhering to these guidelines will ensure consistency across all written content and enhance readability for everyone across all of the [WG].
+This document outlines the formatting guidelines for Markdown files. To maintain consistency and readability across all documentation, we use `prettier`, an opinionated code formatter that enforces a uniform style. Adhering to these guidelines will ensure consistency across all written content and enhance readability for everyone across all of the [WG]'s.
 
 ## Enabled Rules
 
