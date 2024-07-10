@@ -1,5 +1,7 @@
 # Resource Overview and Approach
+
 ## Approach
+
 In developing CCC, we desire to reuse existing resources from other projects, such as frameworks, toolkits, documentation, or workflows. This can save time and effort, avoid duplication of work, and ensure consistency and quality across the project. However, reusing resources also requires some planning and coordination, as well as finding those best practices. In this section, we will provide guidance on resources we recommend and our reasoning behind them. 
 
 Our approach is to break down the core deliverables being investigated by CCC into functional areas, then identify any potentially reusable content in each area. Once we’ve identified potential content, we will evaluate it for suitability by looking at its relevance, quality, and overall compatibility. It is likely that in some areas, no suitable content exists, where we will recommend that CCC invest directly.
