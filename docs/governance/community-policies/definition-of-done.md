@@ -11,4 +11,4 @@ Stated below is the set of criteria that a service must meet for the team to con
 - All identified features should be numbered according to the _common-cloud-control_ guidelines.
 - A description should be provided for all identified features.
 - An asset describing the ways to test the presence of each control should be documented in feature file with the name `<service-name>.feature`.
-- All higher-level groupings in the hierarchy should be completed with `taxonmy.md` and `<service-name>.feature` files of its own containing the common features.
+- All higher-level groupings in the hierarchy should be completed with `taxonomy.md` and `<service-name>.feature` files containing the common features.
