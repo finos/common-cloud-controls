@@ -1,0 +1,11 @@
+{
+  // Markdown & Prettier Configuration File
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "markdownlint.config": {
+    "extends": "./.config/.markdownlint.yaml"
+  },
+  "prettier.configPath": "./.config/.prettierrc"
+}
