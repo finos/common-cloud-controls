@@ -29,5 +29,4 @@ Feedback on these policies is vital for continuous improvement. If you have sugg
 
 [SC]: ../../community-groups.md#steering-committee
 [vote]: ../steering/charter.md#voting
-
-[Delivery WG]: <../working-groups/delivery/
+[Delivery WG]: ../working-groups/delivery
