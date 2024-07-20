@@ -1,3 +1,9 @@
+# Object Storage Threats Catalog
+
+This service-level threats documents the most common list of threats that impacts Object Storage. The scope of these threats expand across various cloud service providers.
+
+## Threats
+
 | Threat Id | Name                                                  | Description                                                                                                                                                                                                                                                                                                                                       | Service Taxonomy Id | MITRE ATT&CK TTPs                                                                                      |
 | --------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------ |
 | CCC.OS.T1 | Attacker intercepts data in transit to a bucket       | The object storage service allows communication over HTTP. An attacker can intercept the traffic you send to bucket, in order to read or modify the data.                                                                                                                                                                                         | CCC-020115          | [TA009](https://attack.mitre.org/tactics/TA0009/) [T1557](https://attack.mitre.org/techniques/T1557/)  |

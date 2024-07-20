@@ -1,3 +1,9 @@
+# Object Storage Controls
+
+This document contains an abstracted list of controls based on the Threats for Object Storage. The scope of these controls expand across various cloud service providers.
+
+## Controls
+
 | Control Id | Objective                                                                         | Description                                                                            | Test                                                                                                                                                                 | Service Taxonomy Id | NIST CSF | MITRE ATT&CK Mitigations                             | Threats   |
 | ---------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | -------- | ---------------------------------------------------- | --------- |
 | CCC.OS.C1  | Prevent unencrypted requests to object storage bucket                             | Block all unencrypted requests to the object storage bucket you own                    | GIVEN you own the object storage bucket; WHEN an unencrypted HTTP request is made to the bucket; THEN the request should be denied                                   | CCC-020115          | Protect  | [M1041](https://attack.mitre.org/mitigations/M1041)  | CCC.OS.T1 |

@@ -7,6 +7,10 @@ Database services in the context of cloud computing refer to managed database so
 - [Relational Databases](#relational-databases)
 - [NoSQL Databases](#nosql-databases)
 - [In-Memory Databases](#in-memory-databases)
+  <!-- This needs to be addressed; there is no section for Graph Databases... -->
+  <!-- markdownlint-disable MD042 -->
+- [Graph Databases]()
+  <!-- markdownlint-enable MD042 -->
 - [Data Warehousing](#data-warehousing)
 
 ### Relational Databases
