@@ -20,8 +20,6 @@ Examples:
 - **Azure**: Virtual Machines 
 - **Google Cloud**: Compute Engine
 
-Read more about [Virtual Machines](compute/virtual-machines/taxonomy.md)
-
 ### Containers
 
 Containers are lightweight, portable, and isolated environments that package applications and their dependencies for deployment across different computing environments. Container services provide orchestration, management, and scaling capabilities for containerized workloads using platforms such as Docker and Kubernetes. Cloud providers offer managed container services with features such as container registry, cluster management, and auto-scaling.
@@ -47,8 +45,8 @@ Batch processing services enable users to execute large-scale, parallelizable co
 Examples:
 
 - **AWS**: AWS Batch
-- **Azure**: Azure Batch
-- **Google Cloud**: Cloud Dataflow
+- **Azure**: Cloud Dataflow
+- **Google Cloud**: Azure Batch
 
 ### Edge Computing
 
@@ -57,5 +55,5 @@ Edge computing services extend cloud computing capabilities to the network edge,
 Examples:
 
 - **AWS**: AWS IoT Greengrass and AWS Outposts
-- **Azure**: Azure IoT Edge
-- **Google Cloud**: Google Cloud IoT Edge
+- **Azure**: Google Cloud IoT Edge
+- **Google Cloud**: Azure IoT Edge

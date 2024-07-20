@@ -35,8 +35,6 @@ Examples:
 - **Azure**: Azure Load Balancer
 - **Google Cloud**: Cloud Load Balancing
 
-Read more about [Load Balancing Taxonomy](networking/loadbalancer/taxonomy.md)
-
 ### Content Delivery Network (CDN)
 
 CDN services accelerate the delivery of web content to users by caching static assets such as images, videos, and documents on edge servers located closer to the end-users. CDNs reduce latency, improve performance, and offload origin server traffic.
