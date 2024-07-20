@@ -25,6 +25,13 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 - Zeal Somani, JupiterOne, Mar/7/2024
 - Michael Lysaght, Citi, Mar/07/2024
 - Damien Burks, Citi, MAR/07/2024
+- Jared Lambert, Microsoft, APR/01/2024
+- Eric Peeters, Weaver, JUN/12/2024
+- Ivan Mladjenovic, Scott Logic, JUN/28/2024
+- Dave Ogle, Scott Logic, JUN/28/2024
+- Leroy Abikhui, LSEG, Jul/16/2024
+- Chris Plank, Natwest, JUL/17/2024
+- Ted Newman, NatWest Group, JUL/17/2024
 
 ## How to enroll as a participant
 In order to enroll as a participant in the Common Cloud Controls project, please submit a Pull Request to this [participants](#participants) file listing your name, organization, and date of enrollment, by following the steps described below. 
