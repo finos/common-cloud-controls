@@ -8,7 +8,7 @@ FINOS Common Cloud Controls (FINOS CCC) is an open standard project that describ
 
 This standard is a collaborative project which aims to develop a unified set of cybersecurity, resiliency, and compliance controls for common services across the major cloud service providers (CSPs).
 
-[Download the FINOS CCC Primer Here](/finos/common-cloud-controls/blob/main/FINOS.CCC.Primer.June.2024.pdf)
+[Download the FINOS CCC Primer Here](/blob/main/FINOS.CCC.Primer.June.2024.pdf)
 
 ## What Are The Benefits?
 
