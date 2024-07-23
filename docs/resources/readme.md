@@ -32,6 +32,3 @@ NIST 800-53 is our top pick in this space and is our recommended control framewo
 When it comes to evidence, our focus is on the format and retrieval strategies to be used. We desire formats that are commonly adopted by practitioners, and generally available from service providers. 
 The OSCAL format is a leading industry standard that meets these needs and is our current recommendation. 
 
-
-
-
