@@ -1,0 +1,17 @@
+name: "PR Workflow"
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  run-format-check:
+    uses: ./.github/workflows/format-check.yml
+    permissions:
+      pull-requests: write
+      contents: read
+      
+  run-linting-check:
+      uses: ./.github/workflows/linting-check.yml
+      permissions:
+        pull-requests: write
