@@ -57,6 +57,12 @@ services @finos/ccc-wg-taxonomy
 
 ########
 #
+# Resource selection guidance and justifications must be reviewed by the Duplication Reduction WG
+/docs/resources/ @finos/ccc-wg-duplication-reduction
+########
+
+########
+#
 # Charters and policies require review from at least one SteerCo member
 # Policies also require review from the Community Structure WG
 docs/governance/steering @finos/ccc-steerco
