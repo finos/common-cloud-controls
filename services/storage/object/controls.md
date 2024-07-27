@@ -1,12 +1,140 @@
-| Control Id | Objective | Test | Service Taxonomy Id | Full Service Feature Name | NIST CSF | MITRE ATT&CK TTPs | Control Mappings |
-|------------|-----------|------|---------------------|---------------------------|----------|-------------------|------------------|
-| CCC.OS.C1  | Prevent unencrypted requests to object storage bucket | GIVEN you own the object storage bucket; WHEN an unencrypted HTTP request is made to the bucket; THEN the request is denied | CCC-020115 | Encryption in Transit | Protect (PR.DS-2) | [T1040 - Network Sniffing](https://attack.mitre.org/techniques/T1040/) | CCM: IVS-09, DSI-03 |
-| CCC.OS.C2  | Prevent object storage data encrypted for impact | GIVEN you own the object storage bucket; WHEN a data plane request with an untrusted KMS key is made to the object storage bucket; THEN the request is denied | CCC-020114 | Encryption at Rest | Protect (PR.DS-1) | [T1486 - Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486/) | CCM: DSI-01, DSI-02 |
-| CCC.OS.C3  | Prevent the granting of direct public access to the object storage bucket you own | GIVEN you own the object storage bucket; WHEN the access controls on the bucket are updated to grant public access to the bucket; THEN the request is denied | CCC-020116 | Identity Based Access Control | Protect (PR.AC-4) | [T1530 - Data from Cloud Storage Object](https://attack.mitre.org/techniques/T1530/) | CCM: IVS-07, DSI-04 |
-| CCC.OS.C4  | Ensure that all access to the object storage bucket is restricted by the outermost data perimeter achievable based on identity, minimizing the risk of unauthorized access and data exfiltration by enforcing strict identity-based access controls at the outermost boundary for the object storage service. | GIVEN you own the object storage bucket; WHEN an identity outside the outermost identity-based data perimeter attempts to access the bucket; THEN access is denied | CCC-020116 | Identity Based Access Control | Protect (PR.AC-1, PR.AC-3) | [T1078 - Valid Accounts](https://attack.mitre.org/techniques/T1078/), [T1531 - Data from Cloud Storage Object](https://attack.mitre.org/techniques/T1531/) | CCM: IAM-01, IAM-02 |
-| CCC.OS.C5  | Ensure that all human user access to object storage bucket requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms. | GIVEN you own the object storage bucket; WHEN an identity without valid MFA attempts to access the bucket; THEN access is denied | CCC-020116 | Identity Based Access Control | Protect (PR.AC-7) | [T1078 - Valid Accounts](https://attack.mitre.org/techniques/T1078/) | CCM: IAM-03, IAM-08 |
-| CCC.OS.C6  | Ensure that all communications with object storage buckets use the latest available TLS version to prevent unauthorized access and data breaches. | GIVEN you own the object storage bucket; WHEN an entity attempts to connect to the object storage bucket with an outdated TLS version; THEN the connection is denied | CCC-020115 | Encryption in Transit | Protect (PR.DS-2) | [T1040 - Network Sniffing](https://attack.mitre.org/techniques/T1040/), [T1071 - Application Layer Protocol](https://attack.mitre.org/techniques/T1071/) | CCM: IVS-09, IVS-10 |
-| CCC.OS.C7  | Ensure that data stored in the object storage bucket is immutable for a defined period, preventing unauthorized modifications or deletions and thereby mitigating data destruction. | GIVEN you own the object storage bucket; WHEN an attempt is made to modify objects in the bucket during the defined immutability retention period; THEN the modification is denied | CCC-020112 | Compliance and Governance | Protect (PR.DS-1) | [T1485 - Data Destruction](https://attack.mitre.org/techniques/T1485/), [T1074 - Data Staged](https://attack.mitre.org/techniques/T1074/) | CCM: DSI-05, DSI-07 |
-| CCC.OS.C8  | Ensure that all control plane activity on the object storage bucket is logged | GIVEN you own the object storage bucket; WHEN control plane activity occurs on the bucket; THEN the activity is logged | CCC-020118 | Logging | Detect (DE.AE-3) | [T1005 - Data from Local System](https://attack.mitre.org/techniques/T1005/), [T1027 - Obfuscated Files or Information](https://attack.mitre.org/techniques/T1027/) | CCM: DSI-06, STA-04 |
-| CCC.OS.C9  | Ensure that all data plane activity on the object storage bucket is logged | GIVEN you own the object storage bucket; WHEN data plane activity occurs on the bucket; THEN the activity is logged | CCC-020118 | Logging | Detect (DE.AE-3) | [T1005 - Data from Local System](https://attack.mitre.org/techniques/T1005/), [T1074 - Data Staged](https://attack.mitre.org/techniques/T1074/) | CCM: DSI-06, STA-04 |
-| CCC.OS.C10 | Ensure that multiple versions of objects in the object storage bucket are maintained to mitigate data destruction or encryption for impact | GIVEN you own the object storage bucket; WHEN an object is modified or deleted; THEN a previous version of the object is retained | CCC-020111 | Versioning | Protect (PR.DS-1) | [T1485 - Data Destruction](https://attack.mitre.org/techniques/T1485/), [T1486 - Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486/) | CCM: DSI-05, DSI-07 |
+# CCC.OS: Object Storage v25.07
+
+| Control Id | Service Taxonomy Id | Control |
+|---|---|---|
+| CCC.OS.C1 | CCC-020115 | Prevent unencrypted requests to object storage bucket |
+| CCC.OS.C2 | CCC-020114 | Ensure data encryption at rest |
+| CCC.OS.C3 | CCC-020116 | Implement multi-factor authentication (MFA) for access |
+| CCC.OS.C4 | CCC-020112 | Maintain immutable backups of data |
+| CCC.OS.C5 | CCC-020118 | Log all access and changes to object storage |
+
+---
+
+## CCC.OS.C1: Prevent unencrypted requests to object storage bucket
+
+- Corresponding Feature: CCC-020115 (Encryption in Transit)
+- NIST CSF: Protect (PR.DS-2)
+- MITRE ATT&CK TTP: T1573 - Encrypted Channels
+
+### Objective
+
+Prevent any unencrypted requests to the object storage bucket, ensuring that all communications are encrypted in transit to protect data integrity and confidentiality.
+
+### Control Mappings
+
+- CCM: IVS-09, DSI-03
+- ISO/IEC 27001:2013 A.13.1.1
+- NIST SP 800-53: SC-8, SC-13
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. **CCC.OS.C1.TR.01** {#CCC.OS.C1.TR.01}: All supported network data protocols must be running on secure channels.
+2. **CCC.OS.C1.TR.02** {#CCC.OS.C1.TR.02}: All clear text channels should be disabled.
+3. **CCC.OS.C1.TR.03** {#CCC.OS.C1.TR.03}: The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST/MITRE proposed latest standard cipher suites](#).
+
+---
+
+## CCC.OS.C2: Ensure data encryption at rest
+
+- Corresponding Feature: CCC-020114 (Encryption at Rest)
+- NIST CSF: Protect (PR.DS-1)
+- MITRE ATT&CK TTP: [T1486 - Data Encrypted for Impact](https://attack.mitre.org/techniques/T1486/)
+
+### Objective
+
+Ensure that all data stored within the object storage service is encrypted at rest to maintain confidentiality and integrity.
+
+### Control Mappings
+
+- CCM: DSI-01, DSI-02
+- ISO/IEC 27001:2013 A.10.1.1
+- NIST SP 800-53: SC-28
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. **CCC.OS.C2.TR.01** {#CCC.OS.C2.TR.01}: Verify that data stored in the object storage bucket is encrypted using industry-standard algorithms.
+2. **CCC.OS.C2.TR.02** {#CCC.OS.C2.TR.02}: Ensure that encryption keys are managed securely and rotated periodically.
+3. **CCC.OS.C2.TR.03** {#CCC.OS.C2.TR.03}: Confirm that decryption is only possible through authorized access mechanisms.
+
+---
+
+## CCC.OS.C3: Implement multi-factor authentication (MFA) for access
+
+- Corresponding Feature: CCC-020116 (Identity Based Access Control)
+- NIST CSF: Protect (PR.AC-7)
+- MITRE ATT&CK TTP: [T1078 - Valid Accounts](https://attack.mitre.org/techniques/T1078/)
+
+### Objective
+
+Ensure that all human user access to object storage buckets requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms.
+
+### Control Mappings
+
+- CCM: IAM-03, IAM-08
+- ISO/IEC 27001:2013 A.9.4.2
+- NIST SP 800-53: IA-2
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. **CCC.OS.C3.TR.01** {#CCC.OS.C3.TR.01}: Verify that MFA is enforced for all access attempts to the object storage bucket.
+2. **CCC.OS.C3.TR.02** {#CCC.OS.C3.TR.02}: Ensure that MFA is required for all administrative access to the storage management interface.
+3. **CCC.OS.C3.TR.03** {#CCC.OS.C3.TR.03}: Confirm that users are unable to access the object storage bucket without completing MFA.
+
+---
+
+## CCC.OS.C4: Maintain immutable backups of data
+
+- Corresponding Feature: CCC-020112 (Compliance and Governance)
+- NIST CSF: Protect (PR.DS-1)
+- MITRE ATT&CK TTP: [T1485 - Data Destruction](https://attack.mitre.org/techniques/T1485/)
+
+### Objective
+
+Ensure that data stored in the object storage bucket is immutable for a defined period, preventing unauthorized modifications or deletions and thereby mitigating data destruction.
+
+### Control Mappings
+
+- CCM: DSI-05, DSI-07
+- ISO/IEC 27001:2013 A.12.3.1
+- NIST SP 800-53: CP-9
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. **CCC.OS.C4.TR.01** {#CCC.OS.C4.TR.01}: Verify that data in the object storage bucket is protected by immutability settings.
+2. **CCC.OS.C4.TR.02** {#CCC.OS.C4.TR.02}: Ensure that attempts to modify or delete data within the immutability period are denied.
+3. **CCC.OS.C4.TR.03** {#CCC.OS.C4.TR.03}: Confirm that immutable data remains unchanged throughout the defined retention period.
+
+---
+
+## CCC.OS.C5: Log all access and changes to object storage
+
+- Corresponding Feature: CCC-020118 (Logging)
+- NIST CSF: Detect (DE.AE-3)
+- MITRE ATT&CK TTP: [T1005 - Data from Local System](https://attack.mitre.org/techniques/T1005/)
+
+### Objective
+
+Ensure that all access and changes to the object storage bucket are logged to maintain a detailed audit trail for security and compliance purposes.
+
+### Control Mappings
+
+- CCM: DSI-06, STA-04
+- ISO/IEC 27001:2013 A.12.4.1
+- NIST SP 800-53: AU-2, AU-3
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. **CCC.OS.C5.TR.01** {#CCC.OS.C5.TR.01}: Verify that all access attempts to the object storage bucket are logged.
+2. **CCC.OS.C5.TR.02** {#CCC.OS.C5.TR.02}: Ensure that all changes to the object storage bucket configurations are logged.
+3. **CCC.OS.C5.TR.03** {#CCC.OS.C5.TR.03}: Confirm that logs are protected against unauthorized access and tampering.
+
