@@ -118,7 +118,7 @@ The following validations must be performed against corresponding Control Implem
 
 - Corresponding Feature: CCC-020118 (Logging)
 - NIST CSF: Detect (DE.AE-3)
-- MITRE ATT&CK TTP: [T1005 - Data from Local System](https://attack.mitre.org/techniques/T1005/)
+- MITRE ATT&CK TTP: [T1530: Data from Cloud Storage Object](https://attack.mitre.org/techniques/T1530)
 
 ### Objective
 
