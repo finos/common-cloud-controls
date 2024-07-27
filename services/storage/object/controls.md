@@ -30,9 +30,9 @@ Prevent any unencrypted requests to the object storage bucket, ensuring that all
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. **CCC.OS.C1.TR.01** {#CCC.OS.C1.TR.01}: All supported network data protocols must be running on secure channels.
-2. **CCC.OS.C1.TR.02** {#CCC.OS.C1.TR.02}: All clear text channels should be disabled.
-3. **CCC.OS.C1.TR.03** {#CCC.OS.C1.TR.03}: The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST/MITRE proposed latest standard cipher suites](#).
+1. [**CCC.OS.C1.TR01**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR01): All supported network data protocols must be running on secure channels.
+2. [**CCC.OS.C1.TR02**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR02): All clear text channels should be disabled.
+3. [**CCC.OS.C1.TR03**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR03): The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST/MITRE proposed latest standard cipher suites](#).
 
 ---
 
@@ -82,9 +82,9 @@ Ensure that all human user access to object storage buckets requires multi-facto
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. **CCC.OS.C3.TR.01** {#CCC.OS.C3.TR.01}: Verify that MFA is enforced for all access attempts to the object storage bucket.
-2. **CCC.OS.C3.TR.02** {#CCC.OS.C3.TR.02}: Ensure that MFA is required for all administrative access to the storage management interface.
-3. **CCC.OS.C3.TR.03** {#CCC.OS.C3.TR.03}: Confirm that users are unable to access the object storage bucket without completing MFA.
+1. [**CCC.OS.C3.TR01**](./tests/ccc-os-c3.feature#CCC.OS.C3.TR01): Verify that MFA is enforced for all access attempts to the object storage bucket.
+2. [**CCC.OS.C3.TR02**](./tests/ccc-os-c3.feature#CCC.OS.C3.TR02): Ensure that MFA is required for all administrative access to the storage management interface.
+3. [**CCC.OS.C3.TR03**](./tests/ccc-os-c3.feature#CCC.OS.C3.TR03): Confirm that users are unable to access the object storage bucket without completing MFA.
 
 ---
 
