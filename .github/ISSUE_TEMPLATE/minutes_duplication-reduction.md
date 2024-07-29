@@ -10,7 +10,7 @@ assignees: "jared-lambert"
 
 ## Date
 
-MM/DD/YYYY - (X)am ET / (Y)pm UK
+MM/DD/YYYY - 12:30 ET / 17:30 UK
 
 - [Join Zoom Meeting](https://zoom.us/j/94109603410)
 - Meeting ID: 941 0960 3410

@@ -10,7 +10,7 @@ assignees: "sshiells-scottlogic"
 
 ## Date
 
-MM/DD/YYYY - (X)am ET / (Y)pm UK
+MM/DD/YYYY - 12:00 ET / 17:00 UK
 
 - [Join Zoom Meeting](https://zoom.us/j/99708793584)
 - Meeting ID: 997 0879 3584
