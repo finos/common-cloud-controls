@@ -12,7 +12,7 @@ projects:
 
 ## Date
 
-MM/DD/YYYY - (X)am ET / (Y)pm UK
+MM/DD/YYYY - 12:00 ET / 17:00 UK
 
 - [Join Zoom Meeting](https://zoom.us/j/94416168360)
 - Meeting ID: 944 1616 8360

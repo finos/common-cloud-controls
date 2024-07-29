@@ -1,7 +1,7 @@
 ---
 name: Taxonomy WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
-title: MM/DD/YYYY All Hands Meeting Minutes
+title: MM/DD/YYYY Taxonomy Meeting Minutes
 labels:
   - meeting
   - taxonomy
@@ -10,7 +10,7 @@ assignees: "smendis-scottlogic"
 
 ## Date
 
-MM/DD/YYYY - (X)am ET / (Y)pm UK
+MM/DD/YYYY - 11:30 ET / 16:30 UK
 
 - [Join Zoom Meeting](https://zoom.us/j/994109603410)
 - Meeting ID: 941 0960 3410
