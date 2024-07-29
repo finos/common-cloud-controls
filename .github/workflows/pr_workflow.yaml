@@ -15,3 +15,9 @@ jobs:
       uses: ./.github/workflows/linting-check.yml
       permissions:
         pull-requests: write
+
+  link-checker:
+        uses: ./.github/workflows/links.yml
+        permissions:
+          pull-requests: write
+          contents: read
