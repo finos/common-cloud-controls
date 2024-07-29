@@ -6,7 +6,7 @@ This document is a [community guideline].
 
 The document outlines the guidelines of managing releases within the CCC project.
 
-### Ownership
+## Ownership
 
 The [Communications WG] takes ownership of releases. They set the roadmap and communicate project progress to the wider community. All other [WG]s should contribute to determining the content of each release.
 
