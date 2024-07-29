@@ -1,7 +1,7 @@
 ---
 name: Security WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
-title: MM/DD/YYYY All Hands Meeting Minutes
+title: MM/DD/YYYY Security Meeting Minutes
 labels:
   - meeting
   - security

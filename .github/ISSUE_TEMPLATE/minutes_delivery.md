@@ -1,7 +1,7 @@
 ---
 name: Delivery WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
-title: MM/DD/YYYY All Hands Meeting Minutes
+title: MM/DD/YYYY Delivery Meeting Minutes
 labels:
   - meeting
   - delivery
