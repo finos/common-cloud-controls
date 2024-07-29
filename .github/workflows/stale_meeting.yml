@@ -5,7 +5,7 @@ on:
     - cron: '18 22 * * *'
 
 jobs:
-  close_stale_meeting:
+  close-stale-meeting:
     runs-on: ubuntu-latest
     permissions:
       issues: write
