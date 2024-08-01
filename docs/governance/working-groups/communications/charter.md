@@ -30,7 +30,7 @@ This group will:
 - Communicate any roadmap changes to users and stakeholders
 - Communicate all information regarding project releases provided by the Delivery WG
 - When applicable, publicly communicate how user feedback has been integrated into a project release
-	
+
 ### Output / Deliverables
 
 The following items will be maintained in the project repository:
@@ -47,7 +47,7 @@ The following items will be maintained in the project repository:
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community policies. At the guidance of the WG Lead, this group will seek to implement recommendations set forth by the Community Structure WG.
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement recommendations set forth by the [Community Structure WG].
 
 ### Membership
 
@@ -67,8 +67,7 @@ The membership structure of this working group:
 
 Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
 
-[WG]: <../../community-groups.md#working-groups>
-[SC]: <../../community-groups.md#steering-committee>
-[Community Structure WG]: <../community-structure/charter.md>
-[policies]: <../../community-policies/README.md>
-[guidelines]: <../../community-guidelines/README.md>
+[WG]: ../../community-groups.md#working-groups
+[SC]: ../../community-groups.md#steering-committee
+[Community Structure WG]: ../community-structure/charter.md
+[policies]: ../../community-policies/README.md

@@ -1,18 +1,16 @@
 ---
-
 name: Duplication Reduction WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
-title: MM/DD/YYYY All Hands Meeting Minutes
-labels: 
+title: MM/DD/YYYY Duplication Reduction Meeting Minutes
+labels:
   - meeting
   - duplication reduction
-assignees: 'jared-lambert'
-
+assignees: "jared-lambert"
 ---
 
 ## Date
 
-MM/DD/YYYY - (X)am ET / (Y)pm UK
+MM/DD/YYYY - 12:30 ET / 17:30 UK
 
 - [Join Zoom Meeting](https://zoom.us/j/94109603410)
 - Meeting ID: 941 0960 3410
@@ -28,8 +26,9 @@ MM/DD/YYYY - (X)am ET / (Y)pm UK
 - FINOS project meetings may be recorded for use solely by the FINOS team for administration purposes. In very limited instances, and with explicit approval, recordings may be made more widely available.
 
 ## Agenda
+
 - [ ] Convene & roll call (5mins)
-- [ ] Display [FINOS Antitrust Policy summary slide](https://community.finos.org/Compliance-Slides/Antitrust-Compliance-Slide.pdf) 
+- [ ] Display [FINOS Antitrust Policy summary slide](https://community.finos.org/Compliance-Slides/Antitrust-Compliance-Slide.pdf)
 - [ ] Review Meeting Notices (see above)
 - [ ] Approve past meeting minutes
 - [ ] [Project board](https://github.com/orgs/finos/projects/78/views/13) walkthrough
@@ -37,5 +36,6 @@ MM/DD/YYYY - (X)am ET / (Y)pm UK
 - [ ] AOB, Q&A & Adjourn (5mins)
 
 ## Untracked attendees
+
 - Fullname, Affiliation, (optional) GitHub username
 - ...

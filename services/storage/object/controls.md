@@ -138,3 +138,15 @@ The following validations must be performed against corresponding Control Implem
 2. **CCC.OS.C5.TR.02** {#CCC.OS.C5.TR.02}: Ensure that all changes to the object storage bucket configurations are logged.
 3. **CCC.OS.C5.TR.03** {#CCC.OS.C5.TR.03}: Confirm that logs are protected against unauthorized access and tampering.
 
+=======
+# Object Storage Controls
+
+This document contains an abstracted list of controls based on the Threats for Object Storage. The scope of these controls expand across various cloud service providers.
+
+## Controls
+
+| Control Id | Objective                                                                         | Description                                                                            | Test                                                                                                                                                                 | Service Taxonomy Id | NIST CSF | MITRE ATT&CK Mitigations                             | Threats   |
+| ---------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | -------- | ---------------------------------------------------- | --------- |
+| CCC.OS.C1  | Prevent unencrypted requests to object storage bucket                             | Block all unencrypted requests to the object storage bucket you own                    | GIVEN you own the object storage bucket; WHEN an unencrypted HTTP request is made to the bucket; THEN the request should be denied                                   | CCC-020115          | Protect  | [M1041](https://attack.mitre.org/mitigations/M1041)  | CCC.OS.T1 |
+| CCC.OS.C2  | Prevent object storage data encrypted for impact                                  | Block data plane requests with untrusted KMS keys to the object storage bucket you own | GIVEN you own the object storage bucket; WHEN a data plane request with an untrusted KMS key is made to the object storage bucket; THEN the request should be denied | CCC-020114          | Protect  | None                                                 | CCC.OS.T2 |
+| CCC.OS.C3  | Prevent the granting of direct public access to the object storage bucket you own | Block the creation or update of buckets with public access                             | GIVEN you own the object storage bucket; WHEN the access controls on the bucket are updated to grant public access to the bucket; THEN the request should be denied  | CCC-020116          | Protect  | [M1022](https://attack.mitre.org/mitigations/M1022/) | CCC.OS.T3 |
