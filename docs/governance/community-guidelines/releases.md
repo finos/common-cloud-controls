@@ -39,6 +39,5 @@ Additionally, labels can flag issues specifically targeted for events (e.g., OSF
 
 [WG]: <../community-groups.md#working-groups>
 [Communications WG]: <../working-groups/communications/charter.md>
-[FINOS Point of Contact]: <../finos-poc.md>
 [community guideline]: <./README.md>
 [Milestones]: <https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones>
