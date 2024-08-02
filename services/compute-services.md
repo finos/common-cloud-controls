@@ -1,6 +1,6 @@
 # Compute Services
 
-Compute services in the context of cloud computing refer to the resources and capabilities provided by cloud service providers to run and manage applications, workloads, and virtualized computing environments in a scalable, flexible, and cost-effective manner. These services enable users to provision, configure, and manage virtual servers, containers, serverless functions, and other computing resources without the need for physical hardware procurement or management. 
+Compute services in the context of cloud computing refer to the resources and capabilities provided by cloud service providers to run and manage applications, workloads, and virtualized computing environments in a scalable, flexible, and cost-effective manner. These services enable users to provision, configure, and manage virtual servers, containers, serverless functions, and other computing resources without the need for physical hardware procurement or management.
 
 ## Types of Compute Services
 
@@ -17,7 +17,7 @@ Virtual machines are virtualized instances of computer hardware that emulate phy
 Examples:
 
 - **AWS**: Amazon Elastic Compute Cloud (EC2)
-- **Azure**: Virtual Machines 
+- **Azure**: Virtual Machines
 - **Google Cloud**: Compute Engine
 
 Read more about [Virtual Machines](compute/virtual-machines/taxonomy.md)
@@ -42,7 +42,7 @@ Examples:
 
 ### Batch Processing
 
-Batch processing services enable users to execute large-scale, parallelizable computing tasks, such as data processing, analytics, and batch jobs. These services automatically allocate and manage compute resources to execute batch jobs efficiently and cost-effectively. Users can specify job requirements, dependencies, and scheduling preferences to optimize job execution. 
+Batch processing services enable users to execute large-scale, parallelizable computing tasks, such as data processing, analytics, and batch jobs. These services automatically allocate and manage compute resources to execute batch jobs efficiently and cost-effectively. Users can specify job requirements, dependencies, and scheduling preferences to optimize job execution.
 
 Examples:
 
