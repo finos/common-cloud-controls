@@ -6,7 +6,7 @@
 | CCC.OS.C2 | CCC-020114 | Ensure data encryption at rest |
 | CCC.OS.C3 | CCC-020116 | Implement multi-factor authentication (MFA) for access |
 | CCC.OS.C4 | CCC-020112 | Maintain immutable backups of data |
-| CCC.OS.C5 | CCC-020118 | Log all access and changes to object storage |
+| CCC.OS.C5 | CCC-020118 | Log all access and changes to object storage bucket |
 
 ---
 
@@ -32,7 +32,7 @@ The following validations must be performed against corresponding Control Implem
 
 1. [**CCC.OS.C1.TR01**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR01): All supported network data protocols must be running on secure channels.
 2. [**CCC.OS.C1.TR02**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR02): All clear text channels should be disabled.
-3. [**CCC.OS.C1.TR03**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR03): The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST/MITRE proposed latest standard cipher suites](#).
+3. [**CCC.OS.C1.TR03**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR03): The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST proposed latest standard cipher suites]([#](https://csrc.nist.gov/pubs/sp/800/52/r2/final)).
 
 ---
 
@@ -137,4 +137,3 @@ The following validations must be performed against corresponding Control Implem
 1. **CCC.OS.C5.TR.01** {#CCC.OS.C5.TR.01}: Verify that all access attempts to the object storage bucket are logged.
 2. **CCC.OS.C5.TR.02** {#CCC.OS.C5.TR.02}: Ensure that all changes to the object storage bucket configurations are logged.
 3. **CCC.OS.C5.TR.03** {#CCC.OS.C5.TR.03}: Confirm that logs are protected against unauthorized access and tampering.
-
