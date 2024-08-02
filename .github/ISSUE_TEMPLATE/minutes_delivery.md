@@ -1,7 +1,7 @@
 ---
 name: Delivery WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
-title: MM/DD/YYYY All Hands Meeting Minutes
+title: MM/DD/YYYY Delivery Meeting Minutes
 labels:
   - meeting
   - delivery
@@ -10,7 +10,7 @@ assignees: "damienjburks"
 
 ## Date
 
-MM/DD/YYYY - (X)am ET / (Y)pm UK
+MM/DD/YYYY - 11:30 ET / 16:30 UK
 
 - [Join Zoom Meeting](https://zoom.us/j/93010138669)
 - Meeting ID: 930 1013 8669
