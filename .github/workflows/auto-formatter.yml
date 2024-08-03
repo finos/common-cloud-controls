@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -27,11 +30,12 @@ jobs:
       - name: Format all MD files
         run: |
           cat md-files.txt | xargs npx prettier --write --config ./.config/.prettierrc
+          rm md-files.txt
       
-      - uses: actions/checkout@v4
-      - run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Check in formatted changes
+        run: |
+          git config --global user.name 'CCC Delivery'
+          git config --global user.email "ccc-delivery@users.noreply.github.com"
           git add .
-          git commit -m 'Auto formatted code with Prettier'
-          git push
+          git commit -am 'Auto formatted code with Prettier'
+          git push origin ${{ github.head_ref }}

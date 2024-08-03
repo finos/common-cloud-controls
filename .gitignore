@@ -5,3 +5,5 @@ build/oscal-cli
 .vscode
 # GH Actions
 node_modules/
+package.json
+package-lock.json
