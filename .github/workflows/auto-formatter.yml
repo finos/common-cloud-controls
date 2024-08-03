@@ -1,0 +1,46 @@
+name: Markdown Auto Formatter
+
+on:
+  workflow_call:
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install --save-dev prettier
+
+      - name: Get list of changed files
+        id: changed-files
+        run: |
+          git fetch origin main
+          git diff --name-only origin/main...HEAD | grep -v '^.github/' > changed-files.txt
+
+      - name: Format changed files
+        run: |
+          if [ -s changed-files.txt ]; then
+            cat changed-files.txt | xargs npx prettier --write --config ./.config/.prettierrc
+          else
+            echo "No files to format"
+          fi
+
+      - name: Check formatting
+        run: npx prettier --check "**/*.md" --config ./.config/.prettierrc
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git diff-index --quiet HEAD || git commit -m 'Auto formatted code with Prettier'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

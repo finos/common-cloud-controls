@@ -5,19 +5,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-format-check:
-    uses: ./.github/workflows/format-check.yml
+  run-auto-formatter:
+    needs: [run-linting-check, link-checker]
+    uses: ./.github/workflows/auto-formatter.yml
     permissions:
       pull-requests: write
       contents: read
-      
+    with:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   run-linting-check:
-      uses: ./.github/workflows/linting-check.yml
-      permissions:
-        pull-requests: write
+    uses: ./.github/workflows/linting-check.yml
+    permissions:
+      pull-requests: write
 
   link-checker:
-        uses: ./.github/workflows/links.yml
-        permissions:
-          pull-requests: write
-          contents: read
+    uses: ./.github/workflows/links.yml
+    permissions:
+      pull-requests: write
+      contents: read
