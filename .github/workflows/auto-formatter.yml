@@ -28,8 +28,9 @@ jobs:
 
       - name: Get List of MD Files
         run: |
-          git show --name-only --pretty=format: | grep -v '^.github/' | grep '\.md$' > md-files.txt || true
-          cat md-files.txt || true
+          touch md-files.txt
+          git show --name-only --pretty=format: | grep -v '^.github/' | grep '\.md$' > md-files.txt
+          cat md-files.txt
 
       - name: Format all MD files
         run: |
