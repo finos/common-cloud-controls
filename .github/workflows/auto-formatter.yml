@@ -7,11 +7,16 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }} # Checkout the PR branch
+
+      - name: Checkout PR
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr checkout $PR_NUMBER
+          git pull
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -36,6 +41,7 @@ jobs:
           fi
 
       - name: Check for changes
+        id: check_changes
         run: |
           if git diff --quiet; then
             echo "No changes were made."
@@ -52,4 +58,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -am 'Auto formatted code with Prettier'
-          git push origin ${{ github.event.pull_request.head.ref }} # Checkout the PR branch
+          git push origin HEAD
