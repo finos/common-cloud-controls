@@ -7,7 +7,7 @@
 | CCC.OS.C3  | CCC-020116          | Implement multi-factor authentication (MFA) for access |
 | CCC.OS.C4  | CCC-020112          | Maintain immutable backups of data                     |
 | CCC.OS.C5  | CCC-020118          | Log all access and changes to object storage bucket    |
-| CCC.OS.C6  | CCC-020118          | Prevent access to object storage from non trusted cloud tenants   |
+| CCC.OS.C6  | CCC-020118          | Prevent access to object storage from trusted cloud tenants and cloud services   |
 ---
 
 ## CCC.OS.C1: Prevent unencrypted requests to object storage bucket
