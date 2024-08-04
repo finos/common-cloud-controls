@@ -70,3 +70,8 @@
 **/charter.md @finos/ccc-steerco
 #
 ########
+
+########
+# Adding in permissions for the github-actions-bot 
+# to update md files only the project files using automation
+*.md @github-actions[bot]
