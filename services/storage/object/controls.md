@@ -7,7 +7,7 @@
 | CCC.OS.C3  | CCC-020116          | Implement multi-factor authentication (MFA) for access |
 | CCC.OS.C4  | CCC-020112          | Maintain immutable backups of data                     |
 | CCC.OS.C5  | CCC-020118          | Log all access and changes to object storage bucket    |
-
+| CCC.OS.C6  | CCC-020118          | Prevent access to object storage from non trusted cloud tenants   |
 ---
 
 ## CCC.OS.C1: Prevent unencrypted requests to object storage bucket
@@ -137,3 +137,24 @@ The following validations must be performed against corresponding Control Implem
 1. **CCC.OS.C5.TR.01** {#CCC.OS.C5.TR.01}: Verify that all access attempts to the object storage bucket are logged.
 2. **CCC.OS.C5.TR.02** {#CCC.OS.C5.TR.02}: Ensure that all changes to the object storage bucket configurations are logged.
 3. **CCC.OS.C5.TR.03** {#CCC.OS.C5.TR.03}: Confirm that logs are protected against unauthorized access and tampering.
+
+## CCC.OS.C6: Prevent access to object storage from trusted cloud tenants and cloud services
+
+### Objective
+
+Ensure secure management of access to object storage resources, preventing unauthorized data access, exfiltration, and misuse of legitimate services by adversaries.
+
+### Control Mappings
+
+- NIST CSF: PR.PT-3: Remote access is managed.
+- NIST CSF: PR.PT-4: Communications and control networks are protected.
+- MITRE ATT&CK Remote Services (T1021)
+- CSA-CCM DS-5: Data Loss Prevention - Implement controls to prevent the unauthorized exfiltration of sensitive data.
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. **CCC.OS.C6.TR.01** {#CCC.OS.C6.TR.01}: Verify that object storage endpoint can be blocked from public access.
+2. **CCC.OS.C6.TR.02** {#CCC.OS.C6.TR.02}: Verify that object storage can be blocked from cloud services deployed on the same cloud tenant.
+3. **CCC.OS.C6.TR.03** {#CCC.OS.C6.TR.03}: Confirm that it's possible to prevent access to object storage from other cloud tenants, even if those tenants have network connectivity to the cloud tenant hosting the object storage.
