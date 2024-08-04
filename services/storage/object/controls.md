@@ -8,6 +8,7 @@
 | CCC.OS.C4  | CCC-020112          | Maintain immutable backups of data                     |
 | CCC.OS.C5  | CCC-020118          | Log all access and changes to object storage bucket    |
 | CCC.OS.C6  | CCC-020118          | Prevent access to object storage from trusted cloud tenants and cloud services   |
+| CCC.OS.C7  | CCC-020118          | Prevent deploying object storage in restricted regions   |
 ---
 
 ## CCC.OS.C1: Prevent unencrypted requests to object storage bucket
@@ -158,3 +159,24 @@ The following validations must be performed against corresponding Control Implem
 1. **CCC.OS.C6.TR.01** {#CCC.OS.C6.TR.01}: Verify that object storage endpoint can be blocked from public access.
 2. **CCC.OS.C6.TR.02** {#CCC.OS.C6.TR.02}: Verify that object storage can be blocked from cloud services deployed on the same cloud tenant.
 3. **CCC.OS.C6.TR.03** {#CCC.OS.C6.TR.03}: Confirm that it's possible to prevent access to object storage from other cloud tenants, even if those tenants have network connectivity to the cloud tenant hosting the object storage.
+
+## CCC.OS.C7: Prevent deploying object storage in restricted regions
+
+### Objective
+
+Ensure that object storage resources are not provisioned or deployed in geographic regions or cloud availability zones that have been designated as restricted or prohibited
+
+### Control Mappings
+
+- NIST CSF: PR.AC-3 Access Control Policy
+- NIST CSF: PR.DS-5 Data Location and Protection
+- NIST CSF: RS.AN-3 Security Analysis
+- MITRE ATT&CK  Cloud Accounts (T1583)
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. **CCC.OS.C7.TR.01** {#CCC.OS.C7.TR.01}: Verify that object storage are not deployed in any of the restricted regions and zones.
+2. **CCC.OS.C7.TR.02** {#CCC.OS.C7.TR.02}: Verify that object storage cannot be deployed in any of the restricted regions and zones.
+3. **CCC.OS.C7.TR.03** {#CCC.OS.C7.TR.03}: Verify that object storage cannot be backedup or copied to any of the restriced regions and zones.
