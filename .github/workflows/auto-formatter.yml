@@ -16,13 +16,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: "14"
 
       - name: Install dependencies
         run: npm install --save-dev prettier
 
       - name: Get List of MD Files
-        id: md-files
         run: |
           git show --name-only --pretty=format: | grep -v '^.github/' | grep '\.md$' > md-files.txt
           cat md-files.txt
@@ -31,11 +30,20 @@ jobs:
         run: |
           cat md-files.txt | xargs npx prettier --write --config ./.config/.prettierrc
           rm md-files.txt
-      
-      - name: Check in formatted changes
+
+      - name: Check for changes
         run: |
-          git config --global user.name 'CCC Delivery'
-          git config --global user.email "ccc-delivery@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "CHANGES=false" >> $GITHUB_ENV
+          else
+            echo "CHANGES=true" >> $GITHUB_ENV
+          fi
+
+      - name: Check in formatted changes
+        if: env.CHANGES == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -am 'Auto formatted code with Prettier'
           git push origin ${{ github.head_ref }}

@@ -40,7 +40,6 @@ Below is the list of [participants](governance-documents/5._Governance.md#1roles
 In order to enroll as a participant in the Common Cloud Controls project, please submit a Pull Request to this [participants](#participants) file listing your name, organization, and date of enrollment, by following the steps described below.
 
 1. Go to the [participants](#participants) file and make sure you are signed into your github account
-
 1. Click on the :pen: icon at the top right of the the [participants](#participants) file
    [<img src="https://user-images.githubusercontent.com/51138318/151390328-00e6ac68-6069-493e-b536-d329fa9cc51e.png" width="500" alt="Participants Image 1">](https://user-images.githubusercontent.com/51138318/151390328-00e6ac68-6069-493e-b536-d329fa9cc51e.png)
 
