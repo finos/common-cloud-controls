@@ -58,7 +58,7 @@ There are several ways to contribute to FINOS Common Cloud Controls.
 The CCC project is split into 6 working groups in the CCC project which meet on a fortnightly basis:
 
 | Working Group                                                                             | When                                       | Chair                | Mailing List                                                              |
-| ----------------------------------------------------------------------------------------- | ------------------------------------------ | -------------------- | ------------------------------------------------------------------------- |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------ | -------------------- | --- |
 | [Security](/docs/governance/working-groups/security/charter.md)                           | 4PM UK, 1st and 3rd Thursday each month    | @mlysaght2017        | [ccc-security](mailto:ccc-security+subscribe@lists.finos.org)             |
 | [Delivery](/docs/governance/working-groups/delivery/charter.md)                           | 4:30PM UK, 1st and 3rd Thursday each month | @damienjburks        | [ccc-delivery](mailto:ccc-delivery+subscribe@lists.finos.org)             |
 | [Communications / All Hands](/docs/governance/working-groups/communications/charter.md)   | 5PM UK, 1st and 3rd Thursday each month    | @Alexstpierrework    | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
