@@ -30,7 +30,7 @@ Many threat libraries exist today, but few are as widely adopted in financial se
 
 Many existing control catalogs exist today, and this is a space with a diverse adoption landscape. We desire to use a controls framework that has broad adoption, is global, and will provide a wealth of mappings to both threat libraries and cloud provider evidence.
 
-NIST 800-53 is our top pick in this space and is our recommended control framework.
+NIST 800-53 is our top pick in this space and is our recommended control framework.  We are also investigating the value of CDMC, a Cloud Data Management Controls framework developed by EDMCouncil in partnership with major CSPs.
 
 ### Evidence
 

@@ -51,6 +51,7 @@
 # Threats or controls definition changes must be reviewed by the Security WG
 **/threats.md @finos/ccc-wg-security
 **/controls.md @finos/ccc-wg-security
+**/*.feature @finos/ccc-wg-security
 #
 ########
 
@@ -75,3 +76,5 @@
 # Adding in permissions for the github-actions-bot 
 # to update md files only the project files using automation
 *.md @github-actions[bot]
+=======
+########
