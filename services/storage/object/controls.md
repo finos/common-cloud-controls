@@ -1,14 +1,15 @@
 # CCC.OS: Object Storage
 
-| Control Id | Service Taxonomy Id | Control                                                |
-| ---------- | ------------------- | ------------------------------------------------------ |
-| CCC.OS.C1  | CCC-020115          | Prevent unencrypted requests to object storage bucket  |
-| CCC.OS.C2  | CCC-020114          | Ensure data encryption at rest                         |
-| CCC.OS.C3  | CCC-020116          | Implement multi-factor authentication (MFA) for access |
-| CCC.OS.C4  | CCC-020112          | Maintain immutable backups of data                     |
-| CCC.OS.C5  | CCC-020118          | Log all access and changes to object storage bucket    |
-| CCC.OS.C6  | CCC-020118          | Prevent access to object storage from trusted cloud tenants and cloud services   |
-| CCC.OS.C7  | CCC-020118          | Prevent deploying object storage in restricted regions   |
+| Control Id | Service Taxonomy Id | Control                                                                        |
+| ---------- | ------------------- | ------------------------------------------------------------------------------ |
+| CCC.OS.C1  | CCC-020115          | Prevent unencrypted requests to object storage bucket                          |
+| CCC.OS.C2  | CCC-020114          | Ensure data encryption at rest                                                 |
+| CCC.OS.C3  | CCC-020116          | Implement multi-factor authentication (MFA) for access                         |
+| CCC.OS.C4  | CCC-020112          | Maintain immutable backups of data                                             |
+| CCC.OS.C5  | CCC-020118          | Log all access and changes to object storage bucket                            |
+| CCC.OS.C6  | CCC-020118          | Prevent access to object storage from trusted cloud tenants and cloud services |
+| CCC.OS.C7  | CCC-020118          | Prevent deploying object storage in restricted regions                         |
+
 ---
 
 ## CCC.OS.C1: Prevent unencrypted requests to object storage bucket
@@ -171,7 +172,7 @@ Ensure that object storage resources are not provisioned or deployed in geograph
 - NIST CSF: PR.AC-3 Access Control Policy
 - NIST CSF: PR.DS-5 Data Location and Protection
 - NIST CSF: RS.AN-3 Security Analysis
-- MITRE ATT&CK  Cloud Accounts (T1583)
+- MITRE ATT&CK Cloud Accounts (T1583)
 
 ### Testing Requirements
 
