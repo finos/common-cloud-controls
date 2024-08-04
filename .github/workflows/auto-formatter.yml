@@ -23,13 +23,17 @@ jobs:
 
       - name: Get List of MD Files
         run: |
-          git show --name-only --pretty=format: | grep -v '^.github/' | grep '\.md$' > md-files.txt
-          cat md-files.txt
+          git show --name-only --pretty=format: | grep -v '^.github/' | grep '\.md$' > md-files.txt || true
+          cat md-files.txt || true
 
       - name: Format all MD files
         run: |
-          cat md-files.txt | xargs npx prettier --write --config ./.config/.prettierrc
-          rm md-files.txt
+          if [ -s md-files.txt ]; then
+            cat md-files.txt | xargs npx prettier --write --config ./.config/.prettierrc
+            rm md-files.txt
+          else
+            echo "No Markdown files to format"
+          fi
 
       - name: Check for changes
         run: |

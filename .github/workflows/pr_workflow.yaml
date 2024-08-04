@@ -6,20 +6,20 @@ on:
 
 jobs:
   run-auto-formatter:
-    #needs: [run-linting-check, link-checker]
+    needs: [run-linting-check, link-checker]
     uses: ./.github/workflows/auto-formatter.yml
     permissions:
       pull-requests: write
       contents: write
     secrets: inherit
 
-  # run-linting-check:
-  #   uses: ./.github/workflows/linting-check.yml
-  #   permissions:
-  #     pull-requests: write
+  run-linting-check:
+    uses: ./.github/workflows/linting-check.yml
+    permissions:
+      pull-requests: write
 
-  # link-checker:
-  #   uses: ./.github/workflows/links.yml
-  #   permissions:
-  #     pull-requests: write
-  #     contents: read
+  link-checker:
+    uses: ./.github/workflows/links.yml
+    permissions:
+      pull-requests: write
+      contents: read
