@@ -34,8 +34,10 @@ jobs:
       - name: Check for changes
         run: |
           if git diff --quiet; then
+            echo "No changes were made."
             echo "CHANGES=false" >> $GITHUB_ENV
           else
+            echo "Formatting changes were made!"
             echo "CHANGES=true" >> $GITHUB_ENV
           fi
 
