@@ -1,0 +1,95 @@
+title: CCC Object Storage Security Controls
+category-id: CCC.OS
+controls:
+  - id: CCC.OS.C1
+    feature_id: CCC.OS.F15
+    title: Prevent unencrypted requests to object storage bucket
+    objective: Prevent any unencrypted requests to the object storage bucket, ensuring that all communications are encrypted in transit to protect data integrity and confidentiality.
+    nist_csf: PR.DS-2
+    mitre_attack: T1573
+    control_mappings:
+      CCM: 
+        - IVS-09
+        - DSI-03
+      ISO_27001: 
+        - 2013 A.13.1.1
+      NIST_800_53: 
+        - SC-8
+        - SC-13
+    test_requirements:
+      01: All supported network data protocols must be running on secure channels.
+      02: All clear text channels should be disabled.
+      03: The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST proposed latest standard cipher suites](<[#](https://csrc.nist.gov/pubs/sp/800/52/r2/final)>).
+  - id: CCC.OS.C2
+    feature_id: CCC.OS.F14
+    title: Ensure data encryption at rest
+    objective: Ensure that all data stored within the object storage service is encrypted at rest to maintain confidentiality and integrity.
+    nist_csf: PR.DS-1
+    mitre_attack: T1486
+    control_mappings:
+      CCM: 
+        - DSI-01
+        - DSI-02
+      ISO_27001: 
+        - 2013 A.10.1.1
+      NIST_800_53: 
+        - SC-28
+    test_requirements:
+      01: Verify that data stored in the object storage bucket is encrypted using industry-standard algorithms.
+      02: Ensure that encryption keys are managed securely and rotated periodically.
+      03: Confirm that decryption is only possible through authorized access mechanisms.
+  - id: CCC.OS.C3
+    feature_id: CCC.OS.F16
+    title: Implement multi-factor authentication (MFA) for access
+    objective: Ensure that all human user access to object storage buckets requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms.
+    nist_csf: PR.AC-7
+    mitre_attack: T1078
+    control_mappings:
+      CCM: 
+        - IAM-03
+        - IAM-08
+      ISO_27001: 
+        - 2013 A.9.4.2
+      NIST_800_53: 
+        - IA-2
+    test_requirements:
+      01: Verify that MFA is enforced for all access attempts to the object storage bucket.
+      02: Ensure that MFA is required for all administrative access to the storage management interface.
+      03: Confirm that users are unable to access the object storage bucket without completing MFA.
+  - id: CCC.OS.C4
+    feature_id: CCC.OS.F12
+    title: Maintain immutable backups of data
+    objective: Ensure that data stored in the object storage bucket is immutable for a defined period, preventing unauthorized modifications or deletions and thereby mitigating data destruction.
+    nist_csf: PR.DS-1
+    mitre_attack: T1485
+    control_mappings:
+      CCM: 
+        - DSI-05
+        - DSI-07
+      ISO_27001: 
+        - 2013 A.12.3.1
+      NIST_800_53: 
+        - CP-9
+    test_requirements:
+      01: Verify that data in the object storage bucket is protected by immutability settings.
+      02: Ensure that attempts to modify or delete data within the immutability period are denied.
+      03: Confirm that immutable data remains unchanged throughout the defined retention period.
+  - id: CCC.OS.C5
+    feature_id: CCC.OS.F18
+    title: Log all access and changes to object storage
+    objective: Ensure that all access and changes to the object storage bucket are logged to maintain a detailed audit trail for security and compliance purposes.
+    nist_csf: DE.AE-3
+    mitre_attack: T1530
+    control_mappings:
+      CCM: 
+        - DSI-06
+        - STA-04
+      ISO_27001: 
+        - 2013 A.12.4.1
+      NIST_800_53: 
+        - AU-2
+        - AU-3
+    test_requirements:
+      01: Verify that all access attempts to the object storage bucket are logged.
+      02: Ensure that all changes to the object storage bucket configurations are logged.
+      03: Confirm that logs are protected against unauthorized access and tampering.
