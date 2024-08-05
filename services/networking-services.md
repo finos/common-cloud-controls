@@ -1,6 +1,6 @@
 # Networking Service
 
-Networking services in the context of cloud computing refer to the set of tools and resources provided by cloud service providers to facilitate communication, connectivity, and security within and between cloud environments, data centers, and end-users. These services enable users to build, manage, and optimize network infrastructure in a flexible, scalable, and cost-effective manner. 
+Networking services in the context of cloud computing refer to the set of tools and resources provided by cloud service providers to facilitate communication, connectivity, and security within and between cloud environments, data centers, and end-users. These services enable users to build, manage, and optimize network infrastructure in a flexible, scalable, and cost-effective manner.
 
 ## Types of Networking Services
 
@@ -17,7 +17,7 @@ VPC is a logically isolated virtual network environment within the cloud, allowi
 
 ### Virtual Private Network (VPN)
 
-VPN services establish secure encrypted connections between on-premises networks and cloud resources, enabling remote access, site-to-site connectivity, and secure data transmission over public networks. 
+VPN services establish secure encrypted connections between on-premises networks and cloud resources, enabling remote access, site-to-site connectivity, and secure data transmission over public networks.
 
 Examples:
 

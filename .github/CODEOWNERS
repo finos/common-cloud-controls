@@ -6,8 +6,7 @@
 #
 # NOTE: If the GitHub automated reviewers do not behave as expected,
 #       please contact the Community Structure WG.
-* @finos/ccc-wg-community-structure
-.github/CODEOWNERS @finos/ccc-wg-community-structure
+/* @finos/ccc-wg-community-structure
 #
 ########
 
@@ -15,27 +14,27 @@
 #
 # Changes that might impact automation must be reviewed by the Delivery WG
 # Code owners should only be modified by the SteerCo
-.github @finos/ccc-wg-delivery
-.github/CODEOWNERS @finos/ccc-steerco
+/.github @finos/ccc-wg-delivery
+/.github/CODEOWNERS @finos/ccc-steerco
 #
 ########
 
 ########
 #
 # Community Guidelines only need review from the Community Structure WG
-docs/governance/community-guidelines @finos/ccc-wg-community-structure
+/docs/governance/community-guidelines @finos/ccc-wg-community-structure
 #
 ########
 
 ########
 #
 # Each WG may place ad hoc documentation in their governance subdirectory
-docs/governance/working-groups/communications @finos/ccc-wg-communications
-docs/governance/working-groups/community-structure @finos/ccc-wg-community-structure
-docs/governance/working-groups/delivery @finos/ccc-wg-delivery
-docs/governance/working-groups/duplication-reduction @finos/ccc-wg-duplication-reduction
-docs/governance/working-groups/security @finos/ccc-wg-security
-docs/governance/working-groups/taxonomy @finos/ccc-wg-taxonomy
+/docs/governance/working-groups/communications @finos/ccc-wg-communications
+/docs/governance/working-groups/community-structure @finos/ccc-wg-community-structure
+/docs/governance/working-groups/delivery @finos/ccc-wg-delivery
+/docs/governance/working-groups/duplication-reduction @finos/ccc-wg-duplication-reduction
+/docs/governance/working-groups/security @finos/ccc-wg-security
+/docs/governance/working-groups/taxonomy @finos/ccc-wg-taxonomy
 #
 ########
 
@@ -43,7 +42,7 @@ docs/governance/working-groups/taxonomy @finos/ccc-wg-taxonomy
 #
 # Changes to the services directory must be reviewed by the Taxonomy WG
 # excluding threats and controls definitions
-services @finos/ccc-wg-taxonomy
+/services @finos/ccc-wg-taxonomy
 #
 ########
 
@@ -57,10 +56,17 @@ services @finos/ccc-wg-taxonomy
 
 ########
 #
+# Resource selection guidance and justifications must be reviewed by the Duplication Reduction WG
+/docs/resources/ @finos/ccc-wg-duplication-reduction
+#
+########
+
+########
+#
 # Charters and policies require review from at least one SteerCo member
 # Policies also require review from the Community Structure WG
-docs/governance/steering @finos/ccc-steerco
-docs/governance @finos/ccc-steerco @finos/ccc-wg-community-structure
+/docs/governance/steering @finos/ccc-steerco
+/docs/governance @finos/ccc-steerco @finos/ccc-wg-community-structure
 **/charter.md @finos/ccc-steerco
 #
 ########

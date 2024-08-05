@@ -1,6 +1,6 @@
 # Common Cloud Controls (CCC) Steering Committee Elections
 
-This document outlines the process for steering committee elections.
+This document outlines the process for steering committee [elections].
 
 ## Eligibility
 
@@ -20,10 +20,10 @@ _It is the responsibility of the steering committee to refine these criteria pri
 
 In order to be eligible for candidacy, an individual must:
 
-* Be eligible for voting in the current Steering Committe election.
-* Accept a nomination or self-nominate.
-* Be endorsed by another party from their own employer.
-* Be endorsed by at least one eligible voter from a financial institution who is
+- Be eligible for voting in the current Steering Committe election.
+- Accept a nomination or self-nominate.
+- Be endorsed by another party from their own employer.
+- Be endorsed by at least one eligible voter from a financial institution who is
   not the candidate's employer.
 
 In the event that multiple candidates from the same employer are nominated for a reserved seat, only the candidate with the most votes will be selected.
@@ -44,7 +44,7 @@ Election cycles are scheduled such that roughly half of the seats come up for re
 
 ### Bootstrap Election
 
-In the [bootstrap] process (which does not follow the guidelines set forth here) four (4) seats will be allocated for 364-day terms, to stagger all future elections. The committee will be responsible for self-allocation of these seats.
+In the [bootstrap] process (which does not follow the guidelines set forth here) four (4) seats will be allocated for 364-day terms, to stagger all future [elections]. The committee will be responsible for self-allocation of these seats.
 
 ### Emeritus Term
 
@@ -60,9 +60,9 @@ For example:
   - Election officers
   - Voter eligibility criteria
   - Election preparation
-- September   
+- September
   - Nomination period and election
-- October  
+- October
   - Conclusion of Election
   - Results announced at first community meeting after the election concludes
 
@@ -72,7 +72,7 @@ The election officers will choose exact dates for each step and propose the fina
 
 Nominations will be made using the _Nomination_ GitHub Issue template.
 
-Elections will be held using an online preference election system which supports Condorcet elections. The most preferred candidates will be elected to the open seats.
+[Elections] will be held using an online preference election system which supports [Condorcet] elections. The most preferred candidates will be elected to the open seats.
 
 ### Election Officer Eligibility
 
@@ -82,13 +82,13 @@ The steering committee should choose multiple election officers using the follow
 - Each individual must have been a FINOS member for at least one year.
 - At least one election officer should have served before.
 - Each officer should come from a different employer.
-- Each officer can be relied upon to follow the [election procedure].  
+- Each officer can be relied upon to follow the [election procedure].
 
-History of election officers:  
+History of election officers:
 
-|Year|Officers|
-|---|---|
-| 2024 | TBD |
+| Year | Officers |
+| ---- | -------- |
+| 2024 | TBD      |
 
 ## Steering Committee and Election Officer Recusal
 
@@ -114,12 +114,8 @@ This document was adapted from the Kubernetes Steering Committee Elections docum
 ---
 
 [community groups]: ./community.md
-
 [Condorcet]: https://en.wikipedia.org/wiki/Condorcet_method
-
-[election procedure]: #election-procedure
-
+[election procedure]: #nomination-and-election-procedure
 [bootstrap]: https://github.com/CCC/community/tree/master/docs/formation/bootstrap.md
 [elections]: https://github.com/CCC/community/tree/master/docs/governance/elections.md
-
 [afb3858]: https://github.com/kubernetes/steering/blob/afb3858/elections.md

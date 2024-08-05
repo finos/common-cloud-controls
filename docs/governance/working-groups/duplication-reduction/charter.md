@@ -21,7 +21,7 @@ This [WG] facilitates the research of existing frameworks for the Common Cloud C
 
 Efforts from this group will ensure that the CCC efforts do not duplicate pre-existing standards, and instead are net new contributions to the broader ecosystem aligned to the specific needs of the financial services industry.
 
-## Approach
+## Approach & Responsibilities
 
 This group will:
 
@@ -29,7 +29,7 @@ This group will:
 - Develop a set of principles and goals to consider for evaluating resources
 - Evaluate each resource's ability to meet project goals
 - Idenitfy how each resource can help achieve a goal, in a way that can serve as a starting point or reference for other [WG]s
-- Document research that has been done on each resource 
+- Document research that has been done on each resource
 - Provide a clear set of what's missing from existing frameworks such as NIST, ISO, OSCAL, and MITRE, with how the work being done in CCC augments or improves these systems
 - Collaborate with the [Community Structure WG] to create new [recommendations] or policies regarding the use of specific resources, with links to documented research and reasoning
 - Provide advice and support related to duplicative efforts to all [WG]s
@@ -63,15 +63,15 @@ The membership structure of this working group:
 
 ### Meeting Cadence
 
-* This working group will use the mail group <ccc-duplication-reduction@lists.finos.org> for regular communications.
-* A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
+- This working group will use the mail group <ccc-duplication-reduction@lists.finos.org> for regular communications.
+- A group member should represent this [WG] on any calls scheduled by the [SC] for participation by the full CCC project community.
 
 ### Changes
 
 Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
 
-[WG]: <../../community-groups.md#working-groups>
-[SC]: <../../community-groups.md#steering-committee>
-[Community Structure WG]: <../community-structure/charter.md>
-[policies]: <../../community-policies/README.md>
-[recommendations]: <../../community-recommendations/README.md>
+[WG]: ../../community-groups.md#working-groups
+[SC]: ../../community-groups.md#steering-committee
+[Community Structure WG]: ../community-structure/charter.md
+[policies]: ../../community-policies/README.md
+[recommendations]: ../../community-recommendations/README.md
