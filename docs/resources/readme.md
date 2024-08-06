@@ -8,11 +8,7 @@ Our approach is to break down the core deliverables being investigated by CCC in
 
 As we decompose the CCC project into these functional areas where duplication may exist, we think about it as a series of steps:
 
-<<<<<<< HEAD
-1. **Service Taxonomy** – Provides a common set of cloud agnostic service definitions and attributes which we can refer to when discussing controls. These are mapped to the specific cloud provider services. For example, Virtual Machines is our common name for Amazon Elastic Cloud Compute, Azure Virtual Machines, and Google Compute Engine. <Link>
-=======
 1. **Service Taxonomy** – Provides a common set of cloud agnostic service definitions and attributes which we can refer to when discussing controls. These are mapped to the specific cloud provider services. For example, Virtual Machines is our common name for Amazon Elastic Cloud Compute, Azure Virtual Machines, and Google Compute Engine.
->>>>>>> f0ca11c46866e297067415a70e086ce176245db9
 2. **Threats** – We evaluate a set of threats against the common service taxonomy, to understand the risks to be mitigated by the required controls. For example, an attacker may intercept traffic to a VM.
 3. **Controls** – Once the threats are known, we map a set of controls to mitigate each of the threats. For example, all traffic to a VM must be encrypted.
 4. **Evidence** – Finally, to consider a given cloud provider service to be compliant, a required set of evidence must be programmatically verified. For example, a policy X enforces network encryption on VMs.
