@@ -2,16 +2,16 @@
 
 | Control Id  | Service Taxonomy Id | Control                                       |
 | ----------- | ------------------- | --------------------------------------------- |
-| CCC.RDMS.C1 | CCC-020115          | Enforce Role-Based Access Control             |
-| CCC.RDMS.C2 | CCC-020114          | Disable Access with Default Credentials       |
-| CCC.RDMS.C3 | CCC-020116          | Restrict Snapshot Collection To Trusted Roles |
-| CCC.RDMS.C4 | CCC-020118          | Enforce Logging & Monitoring                  |
+| CCC.RDMS.C1 | CCC-RDMS-9          | Enforce Role-Based Access Control             |
+| CCC.RDMS.C2 | CCC-RDMS-9          | Disable Access with Default Credentials       |
+| CCC.RDMS.C3 | CCC-RDMS-5          | Restrict Snapshot Collection To Trusted Roles |
+| CCC.RDMS.C4 | CCC-RDMS-11         | Enforce Logging & Monitoring                  |
 
 ---
 
 ## CCC.RDMS.C1: Enforce Role-Based Access Control
 
-- Corresponding Feature: CCC-020115 (Access Control)
+- Corresponding Feature: CCC-RDMS-9 (Role Based Access Control)
 - NIST CSF: Protect (PR.AC-1)
 - MITRE ATT&CK TTP: [M1041 - Restrict User Privileges](https://attack.mitre.org/mitigations/M1041)
 
@@ -37,7 +37,7 @@ The following validations must be performed against corresponding Control Implem
 
 ## CCC.RDMS.C2: Disable Access with Default Credentials
 
-- Corresponding Feature: CCC-020114 (Credential Management)
+- Corresponding Feature: CCC-RDMS-9 (Role Based Access Control)
 - NIST CSF: Protect (PR.AC-5)
 - MITRE ATT&CK TTP: [M1041 - Restrict User Privileges](https://attack.mitre.org/mitigations/M1041)
 
@@ -63,7 +63,7 @@ The following validations must be performed against corresponding Control Implem
 
 ## CCC.RDMS.C3: Restrict Snapshot Collection To Trusted Roles
 
-- Corresponding Feature: CCC-020116 (Snapshot Management)
+- Corresponding Feature: CCC-RDMS-5 (Automated Backups)
 - NIST CSF: Protect (PR.DS-3)
 - MITRE ATT&CK TTP: [M1054 - Restrict Data Access](https://attack.mitre.org/mitigations/M1054)
 
@@ -89,7 +89,7 @@ The following validations must be performed against corresponding Control Implem
 
 ## CCC.RDMS.C4: Enforce Logging & Monitoring
 
-- Corresponding Feature: CCC-020118 (Logging and Monitoring)
+- Corresponding Feature: CCC-RDMS-11 (Monitoring)
 - NIST CSF: Protect (PR.PT-1)
 - MITRE ATT&CK TTP: [M1030 - Network Intrusion Detection](https://attack.mitre.org/mitigations/M1030)
 
