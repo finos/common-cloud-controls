@@ -37,7 +37,7 @@ Each [WG] should apply their label to relevant issues, clearly indicating which 
 
 Additionally, labels can flag issues specifically targeted for events (e.g., OSFF events).
 
-[WG]: <../community-groups.md#working-groups>
-[Communications WG]: <../working-groups/communications/charter.md>
-[community guideline]: <./README.md>
-[Milestones]: <https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones>
+[WG]: ../community-groups.md#working-groups
+[Communications WG]: ../working-groups/communications/charter.md
+[community guideline]: ./README.md
+[Milestones]: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones
