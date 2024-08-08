@@ -9,6 +9,8 @@
 | CCC.OS.C5  | CCC-020118          | Log all access and changes to object storage bucket                            |
 | CCC.OS.C6  | CCC-020118          | Prevent access to object storage from trusted cloud tenants and cloud services |
 | CCC.OS.C7  | CCC-020118          | Prevent deploying object storage in restricted regions                         |
+| CCC.OS.C8  | CCC-020114          | Prevent requests to object storage that use untrusted encryption keys          |
+| CCC.OS.C9  | CCC-020106          | Prevent object storage replication of data to untrusted destinations           |
 
 ---
 
@@ -181,3 +183,47 @@ The following validations must be performed against corresponding Control Implem
 1. **CCC.OS.C7.TR.01** {#CCC.OS.C7.TR.01}: Verify that object storage are not deployed in any of the restricted regions and zones.
 2. **CCC.OS.C7.TR.02** {#CCC.OS.C7.TR.02}: Verify that object storage cannot be deployed in any of the restricted regions and zones.
 3. **CCC.OS.C7.TR.03** {#CCC.OS.C7.TR.03}: Verify that object storage cannot be backedup or copied to any of the restriced regions and zones.
+
+## CCC.OS.C8: Prevent Requests to Object Storage Buckets or Objects with Untrusted KMS Keys
+
+- Corresponding Feature: CCC-020116 (Access Control)
+- NIST CSF: Protect (PR.DS-4)
+- MITRE ATT&CK TTP: T1486 - Data Encrypted for Impact
+
+### Objective
+
+Prevent any requests to object storage buckets or objects using untrusted KMS keys to protect against unauthorized data encryption that can impact data availability and integrity.
+
+### Control Mappings
+
+- CCM: DSI-04, DSI-05
+- ISO/IEC 27001:2013 A.12.3.1
+- NIST SP 800-53: CP-6, CP-9
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. [**CCC.OS.C8.TR01**]{#CCC.OS.C8.TR.01}: Verify that access policies for cloud storage buckets and objects prevent requests with untrusted KMS keys.
+
+## CCC.OS.C9: Prevent Replication to Untrusted Destinations
+
+- Corresponding Feature: CCC-020106 (Availability)
+- NIST CSF: Protect (PR.DS-4)
+- MITRE ATT&CK TTP: T1537 - Transfer Data to Cloud Account
+
+### Objective
+
+Prevent object storage replication feature from replicating data to untrusted destinations.
+
+### Control Mappings
+
+- CCM: DSI-04, DSI-05
+- ISO/IEC 27001:2013 A.12.3.1
+- NIST SP 800-53: CP-6, CP-9
+
+### Testing Requirements
+
+The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
+
+1. [**CCC.OS.C9.TR01**]{#CCC.OS.C9.TR.01}: Verify that object storage replication configurations are prevented from replicating to untrusted destinations.
