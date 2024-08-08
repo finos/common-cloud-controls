@@ -29,9 +29,9 @@ Ensure only authorized roles can access database resources.
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. [**CCC.RDMS.C1.TR01**](./tests/ccc-rdms-c1.feature#CCC.RDMS.C1.TR01): Verify that access controls are in place to enforce role-based access.
-2. [**CCC.RDMS.C1.TR02**](./tests/ccc-rdms-c1.feature#CCC.RDMS.C1.TR02): Ensure that access to database resources is restricted based on role definitions.
-3. [**CCC.RDMS.C1.TR03**](./tests/ccc-rdms-c1.feature#CCC.RDMS.C1.TR03): Confirm that unauthorized roles cannot access database resources.
+1. [**CCC.RDMS.C1.TR01**](./tests/ccc-rdms-c1.feature#CCC.RDMS.C1.TR01): Role-based access control for database management system
+2. [**CCC.RDMS.C1.TR02**](./tests/ccc-rdms-c1.feature#CCC.RDMS.C1.TR02): Restrict access to database resources based on role definitions
+3. [**CCC.RDMS.C1.TR03**](./tests/ccc-rdms-c1.feature#CCC.RDMS.C1.TR03): Prevent unauthorized access to database resources
 
 ---
 
@@ -55,9 +55,7 @@ Ensure that default credentials are disabled and only authorized roles can acces
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. [**CCC.RDMS.C2.TR01**](./tests/ccc-rdms-c2.feature#CCC.RDMS.C2.TR01): Verify that default credentials are disabled.
-2. [**CCC.RDMS.C2.TR02**](./tests/ccc-rdms-c2.feature#CCC.RDMS.C2.TR02): Ensure that only authorized roles can access database resources.
-3. [**CCC.RDMS.C2.TR03**](./tests/ccc-rdms-c2.feature#CCC.RDMS.C2.TR03): Confirm that access attempts using default credentials are denied.
+1. [**CCC.RDMS.C2.TR01**](./tests/ccc-rdms-c2.feature#CCC.RDMS.C2.TR01): Secure Database Access Control
 
 ---
 
@@ -81,9 +79,9 @@ Limit snapshot collection capabilities to trusted roles.
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. [**CCC.RDMS.C3.TR01**](./tests/ccc-rdms-c3.feature#CCC.RDMS.C3.TR01): Verify that only trusted roles can perform snapshot collection.
-2. [**CCC.RDMS.C3.TR02**](./tests/ccc-rdms-c3.feature#CCC.RDMS.C3.TR02): Ensure that snapshot collection capabilities are restricted to trusted roles.
-3. [**CCC.RDMS.C3.TR03**](./tests/ccc-rdms-c3.feature#CCC.RDMS.C3.TR03): Confirm that unauthorized roles cannot collect snapshots.
+1. [**CCC.RDMS.C3.TR01**](./tests/ccc-rdms-c3.feature#CCC.RDMS.C3.TR01): Snapshot collection by trusted roles
+2. [**CCC.RDMS.C3.TR02**](./tests/ccc-rdms-c3.feature#CCC.RDMS.C3.TR02): Restriction of snapshot collection capabilities
+3. [**CCC.RDMS.C3.TR03**](./tests/ccc-rdms-c3.feature#CCC.RDMS.C3.TR03): Prevent unauthorized snapshot collection
 
 ---
 
@@ -107,6 +105,6 @@ Ensure logging and monitoring cannot be disabled by users.
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. [**CCC.RDMS.C4.TR01**](./tests/ccc-rdms-c4.feature#CCC.RDMS.C5.TR01): Verify that logging is enabled for all database activities.
-2. [**CCC.RDMS.C4.TR02**](./tests/ccc-rdms-c4.feature#CCC.RDMS.C5.TR02): Ensure that monitoring is active for all database resources.
-3. [**CCC.RDMS.C4.TR03**](./tests/ccc-rdms-c4.feature#CCC.RDMS.C5.TR03): Confirm that users cannot disable logging and monitoring.
+1. [**CCC.RDMS.C4.TR01**](./tests/ccc-rdms-c4.feature#CCC.RDMS.C5.TR01): Enable logging for database activities
+2. [**CCC.RDMS.C4.TR02**](./tests/ccc-rdms-c4.feature#CCC.RDMS.C5.TR02): Active monitoring of database resources
+3. [**CCC.RDMS.C4.TR03**](./tests/ccc-rdms-c4.feature#CCC.RDMS.C5.TR03): Restrict users from disabling logging and monitoring
