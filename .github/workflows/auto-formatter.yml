@@ -1,0 +1,64 @@
+name: Markdown Auto Formatter
+
+on:
+  workflow_call:
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Checkout PR
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr checkout $PR_NUMBER
+          git pull
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "14"
+
+      - name: Install dependencies
+        run: npm install --save-dev prettier
+
+      - name: Get List of MD Files
+        run: |
+          touch md-files.txt
+          git show --name-only --pretty=format: | grep -v '^.github/' | grep '\.md$' > md-files.txt
+          cat md-files.txt
+
+      - name: Format all MD files
+        run: |
+          if [ -s md-files.txt ]; then
+            cat md-files.txt | xargs npx prettier --write --config ./.config/.prettierrc
+            rm md-files.txt
+          else
+            echo "No Markdown files to format"
+          fi
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes were made."
+            echo "CHANGES=false" >> $GITHUB_ENV
+          else
+            echo "Formatting changes were made!"
+            echo "CHANGES=true" >> $GITHUB_ENV
+          fi
+
+      - name: Check in formatted changes
+        if: env.CHANGES == 'true'
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m 'Auto formatted code with Prettier'
+          git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.event.pull_request.head.ref }}
