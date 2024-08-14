@@ -8,7 +8,7 @@ Our approach is to break down the core deliverables being investigated by CCC in
 
 As we decompose the CCC project into these functional areas where duplication may exist, we think about it as a series of steps:
 
-1. **Service Taxonomy** – Provides a common set of cloud agnostic service definitions and attributes which we can refer to when discussing controls. These are mapped to the specific cloud provider services. For example, Virtual Machines is our common name for Amazon Elastic Cloud Compute, Azure Virtual Machines, and Google Compute Engine. <Link>
+1. **Service Taxonomy** – Provides a common set of cloud agnostic service definitions and attributes which we can refer to when discussing controls. These are mapped to the specific cloud provider services. For example, Virtual Machines is our common name for Amazon Elastic Cloud Compute, Azure Virtual Machines, and Google Compute Engine.
 2. **Threats** – We evaluate a set of threats against the common service taxonomy, to understand the risks to be mitigated by the required controls. For example, an attacker may intercept traffic to a VM.
 3. **Controls** – Once the threats are known, we map a set of controls to mitigate each of the threats. For example, all traffic to a VM must be encrypted.
 4. **Evidence** – Finally, to consider a given cloud provider service to be compliant, a required set of evidence must be programmatically verified. For example, a policy X enforces network encryption on VMs.
@@ -30,7 +30,7 @@ Many threat libraries exist today, but few are as widely adopted in financial se
 
 Many existing control catalogs exist today, and this is a space with a diverse adoption landscape. We desire to use a controls framework that has broad adoption, is global, and will provide a wealth of mappings to both threat libraries and cloud provider evidence.
 
-NIST 800-53 is our top pick in this space and is our recommended control framework.
+NIST 800-53 is our top pick in this space and is our recommended control framework.  We are also investigating the value of CDMC, a Cloud Data Management Controls framework developed by EDMCouncil in partnership with major CSPs.
 
 ### Evidence
 

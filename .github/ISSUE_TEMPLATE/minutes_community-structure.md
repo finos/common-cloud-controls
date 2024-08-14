@@ -1,7 +1,7 @@
 ---
 name: Community Structure WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
-title: MM/DD/YYYY All Hands Meeting Minutes
+title: MM/DD/YYYY Community Structure Minutes
 labels:
   - meeting
   - community structure
@@ -10,7 +10,7 @@ assignees: "sshiells-scottlogic"
 
 ## Date
 
-MM/DD/YYYY - (X)am ET / (Y)pm UK
+MM/DD/YYYY - 12:00 ET / 17:00 UK
 
 - [Join Zoom Meeting](https://zoom.us/j/99708793584)
 - Meeting ID: 997 0879 3584

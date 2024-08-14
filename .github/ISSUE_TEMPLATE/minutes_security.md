@@ -1,7 +1,7 @@
 ---
 name: Security WG Meeting Minutes
 about: To track Common Cloud Controls meeting agenda and attendance
-title: MM/DD/YYYY All Hands Meeting Minutes
+title: MM/DD/YYYY Security Meeting Minutes
 labels:
   - meeting
   - security
@@ -10,7 +10,7 @@ assignees: "mlysaght2017"
 
 ## Date
 
-MM/DD/YYYY - (X)am ET / (Y)pm UK
+MM/DD/YYYY - 11:00 ET / 16:00 UK
 
 - [Join Zoom Meeting](https://zoom.us/j/99521272221)
 - Meeting ID: 995 2127 2221
