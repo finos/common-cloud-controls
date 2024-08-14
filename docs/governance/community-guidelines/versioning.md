@@ -22,6 +22,6 @@ Versioning will be scoped to each artifact delivered by the working groups. This
 
 Releases should happen, at most, one time per month. This schedule ensures a manageable release cadence and maintains the stability of our artifacts. For more information about the releases, please refer to this document: [Releases](./releases.md)
 
-[WG]: <../community-groups.md#working-groups>
-[Communications WG]: <../working-groups/communications/charter.md>
-[community guideline]: <./README.md>
+[WG]: ../community-groups.md#working-groups
+[Communications WG]: ../working-groups/communications/charter.md
+[community guideline]: ./README.md
