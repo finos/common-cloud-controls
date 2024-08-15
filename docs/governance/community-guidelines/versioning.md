@@ -16,7 +16,12 @@ The CalVer Standard (Calendar Versioning) is a method of version control that ut
 
 ## Artifact-Specific Versioning
 
-Versioning will be scoped to each artifact delivered by the working groups. This means each artifact may have its own unique version number, reflecting its specific timeline and updates.
+Versioning will be scoped to each artifact delivered by the working groups. This means each artifact may have its own unique version number, reflecting its specific timeline and updates. The following items or artifacts are in-scope for versioning:
+
+- Threat Catalogs
+- Controls Catalogs
+- Taxonomy Documents
+- Feature files (Gherkin acceptance test cases)
 
 ## Release Frequency
 
