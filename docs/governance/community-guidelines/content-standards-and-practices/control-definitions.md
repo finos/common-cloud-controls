@@ -18,6 +18,7 @@ The following list outlines the values necessary to create a new control definit
 - **Objective** - A 1 to 3 sentence description of the control’s objective and what it aims to achieve.
 - **NIST CSF** - The specific ID from the NIST Cybersecurity Framework that corresponds to the control.
 - **MITRE ATT&CK** - The unique identifier for the MITRE ATT&CK Tactics, Techniques, and Procedures (TTP) relevant to the control.
+- **Threats** - A list of IDs for CCC threats that this control is designed to mitigate.
 - **Control Mappings** - Identifiers for other frameworks (e.g., CCM, ISO 27001, NIST 800-53) that map to this control.
 - **Test Requirements** - Detailed descriptions of the testing requirements needed to validate the control’s implementation.
 
