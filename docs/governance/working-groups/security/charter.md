@@ -46,7 +46,7 @@ The following activities will not be performed by this group:
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement recommendations set forth by the Community Structure WG.
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [guidelines] set forth by the [Community Structure WG].
 
 ### Membership
 
