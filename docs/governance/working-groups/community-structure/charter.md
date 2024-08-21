@@ -43,9 +43,9 @@ To reduce unilateral authority from either this group or the [SC], all policy pr
 
 ## Membership
 
-The membership structure of this [WG], including roles and responsibilities, must adhere to the latest recommendations from the Community Structure [WG].
+The membership structure of this [WG], including roles and responsibilities, must adhere to the latest [guidelines] from the Community Structure [WG].
 
-Where recommendations do note yet exist on a topic, this [WG] should follow guidance from the CCC [SC].
+Where guidelines do note yet exist on a topic, this [WG] should follow guidance from the CCC [SC].
 
 ## Community Cadence
 
@@ -59,3 +59,4 @@ Changes to this charter must be approved through a majority vote by the [SC].
 
 [SC]: ../../community-groups.md#steering-committee
 [WG]: ../../community-groups.md#working-groups
+[guidelines]: ../../community-guidelines/README.md

@@ -47,7 +47,7 @@ The following items will be maintained in the project repository:
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement recommendations set forth by the [Community Structure WG].
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [guidelines] set forth by the [Community Structure WG].
 
 ### Membership
 
@@ -71,3 +71,4 @@ Any functional changes to this charter must be approved through a majority vote 
 [SC]: ../../community-groups.md#steering-committee
 [Community Structure WG]: ../community-structure/charter.md
 [policies]: ../../community-policies/README.md
+[guidelines]: ../../community-guidelines/README.md

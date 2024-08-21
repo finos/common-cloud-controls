@@ -15,7 +15,7 @@ MM/DD/YYYY - 12:00 ET / 17:00 UK
 - [Join Zoom Meeting](https://zoom.us/j/99708793584)
 - Meeting ID: 997 0879 3584
 - Passcode: 718089
-- [Copy this meeting to your calendar](calendar.finos.org)
+- [Copy this meeting to your calendar](https://calendar.finos.org/)
 - [Find your local number](https://zoom.us/u/abu2VMzm1v)
 
 ## Meeting notices

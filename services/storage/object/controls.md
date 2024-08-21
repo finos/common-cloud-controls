@@ -34,7 +34,7 @@ The following validations must be performed against corresponding Control Implem
 
 1. [**CCC.OS.C1.TR01**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR01): All supported network data protocols must be running on secure channels.
 2. [**CCC.OS.C1.TR02**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR02): All clear text channels should be disabled.
-3. [**CCC.OS.C1.TR03**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR03): The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST proposed latest standard cipher suites](<[#](https://csrc.nist.gov/pubs/sp/800/52/r2/final)>).
+3. [**CCC.OS.C1.TR03**](./tests/ccc-os-c1.feature#CCC.OS.C1.TR03): The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST proposed latest standard cipher suites](https://csrc.nist.gov/pubs/sp/800/52/r2/final).
 
 ---
 

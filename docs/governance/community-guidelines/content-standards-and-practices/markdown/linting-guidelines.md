@@ -73,4 +73,4 @@ This section of this document contains a list of rules that are enabled for this
 
 Following these Markdown linting guidelines will help maintain a standard style across all our documents. Consistent formatting not only improves readability but also creates a professional appearance for all our communications. We encourage all contributors to adhere to these practices to ensure clarity and uniformity in our documentation.
 
-[WG]: ../../community-groups.md#working-groups
+[WG]: ../../../community-groups.md#working-groups

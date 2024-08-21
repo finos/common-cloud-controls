@@ -37,7 +37,7 @@ assigned to them and assist or scribe on community calls.
   demonstrate an **ongoing and long-term commitment** to the project.
 - Subscribed to the [community mail group]
 - Applied, sponsored, and approved for member status.
-  1. Open an pull request against the CCC repo [`members.md`](members.md):
+  1. Open an pull request against the CCC repo [`participants.md`](/participants.md):
   - The PR description should contain a list or summary of your work on the project to date.
   1. Sponsoring reviewers mark the PR as ready to merge:
   - Must be sponsored by 2 approvers from 2 employers.
@@ -50,7 +50,7 @@ assigned to them and assist or scribe on community calls.
 Contributions are meaningful engagements that advance the goals of the community.
 These include, but are not limited to:
 
-- Submittion of impactful pull requests that are subsequently merged into the project's
+- Submission of impactful pull requests that are subsequently merged into the project's
   repositories.
 - Additive participation in discussions on issues, pull requests, or community forums
   like mailing lists, Slack channels, or meetings.
@@ -65,7 +65,7 @@ These include, but are not limited to:
 - Scribe on community calls when necessary.
 - Can have issues and PRs assigned to them.
 - Can be invited to review and advise on PR approvals.
-- Participation publicly documented in [`members.md`](members.md).
+- Participation publicly documented in [`participants.md`](/participants.md).
 
 ## Approver
 
@@ -111,7 +111,7 @@ and excellent technical judgement for the subproject.
 - Demonstrated responsibility and excellent technical judgement for the [WG] topic as an
   _Approver_ for at least (3) months.
 - Appointed by a [SC] vote.
-  - A [SC] sponsor must create a PR to update [`members.md`](members.md) with the new appointment.
+  - A [SC] sponsor must create a PR to update [`participants.md`](/participants.md): with the new appointment.
   - Extending [CODEOWNERS] scope for an individual must follow the approver nomination process.
   - When appointment is confirmed, the sponsor must work with a repo admin to add appointee to the appropriate GitHub team(s)
 - Adhere to relevant [community groups] guidelines, such as:
@@ -142,8 +142,8 @@ Specific group charters may specify a shorter period for their roles.
 ---
 
 [Linux Foundation Code of Conduct]: https://events.linuxfoundation.org/about/code-of-conduct/
-[CODEOWNERS]: https://github.com/finos/common-cloud-controls/blob/main/CODEOWNERS
+[CODEOWNERS]: https://github.com/finos/common-cloud-controls/blob/main/.github/CODEOWNERS
 [community mail group]: mailto:ccc-participants+subscribe@finos.org
 [community groups]: ../community-groups.md
-[SC]: ../../community-groups.md#steering-committee
-[WG]: ../../community-groups.md#working-groups
+[SC]: ../community-groups.md#steering-committee
+[WG]: ../community-groups.md#working-groups

@@ -9,6 +9,6 @@ To propose a new working group complete the items in the check list below:
 - If the proposal receives a majority [vote], it is immediately considered active and responsible to act according to its charter.
 - After the [SC] has approved the [WG], the sponsor should promptly request a mailing list for the [WG] by contacting <help@finos.org>. The mailing list should use the naming convention `ccc-[wg-name]@lists.finos.org`.
 
-[WG]: ../../community-groups.md#working-groups
-[SC]: ../../community-groups.md#steering-committee
+[WG]: ../community-groups.md#working-groups
+[SC]: ../community-groups.md#steering-committee
 [vote]: ../steering/charter.md#voting

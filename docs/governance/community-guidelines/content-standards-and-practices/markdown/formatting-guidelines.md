@@ -36,4 +36,4 @@ This section of this document contains a list of rules that are enabled for this
 
 Adhering to these formatting guidelines and using `prettier` will help ensure that our Markdown documents are not only consistent but also maintain a high standard of quality and readability. Regular use of `prettier` will streamline the document creation process, making it easier for everyone to produce well-formatted documentation.
 
-[WG]: ../../community-groups.md#working-groups
+[WG]: ../../../community-groups.md#working-groups

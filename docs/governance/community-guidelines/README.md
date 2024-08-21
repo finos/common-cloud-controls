@@ -18,5 +18,5 @@ In order for a guideline to become a policy a [SC], they must be put forward for
 
 [Policies]: ../community-policies
 [vote]: ../steering/charter.md#voting
-[SC]: ../../community-groups.md#steering-committee
-[WG]: ../../community-groups.md#working-groups
+[SC]: ../community-groups.md#steering-committee
+[WG]: ../community-groups.md#working-groups
