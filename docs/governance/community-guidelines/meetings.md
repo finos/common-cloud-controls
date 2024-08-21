@@ -4,7 +4,7 @@ This document is a [community guideline].
 
 ## Chairing Meetings
 
-It is the responsiblity of the [WG] lead to chair the meetings for their [WG].
+It is the responsibility of the [WG] lead to chair the meetings for their [WG].
 
 In the event the [WG] lead is unable to attend the meeting they should appoint an appropriate delegate from within the [WG] to chair the meeting in their absence. If there are no appropriate delegates for the [WG] then the [FINOS Point of Contact] can be contacted to see if they can chair the meeting.
 
