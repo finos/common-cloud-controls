@@ -1,4 +1,4 @@
-title: CCC <Service Category> Security Threats
+title: CCC <Service Category> Security Controls
 category_id: CCC.<Service Category Abbreviation>
 controls:
   - id: CCC.<Service Category Abbreviation>.C1
