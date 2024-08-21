@@ -50,7 +50,7 @@ assigned to them and assist or scribe on community calls.
 Contributions are meaningful engagements that advance the goals of the community.
 These include, but are not limited to:
 
-- Submittion of impactful pull requests that are subsequently merged into the project's
+- Submission of impactful pull requests that are subsequently merged into the project's
   repositories.
 - Additive participation in discussions on issues, pull requests, or community forums
   like mailing lists, Slack channels, or meetings.
@@ -142,7 +142,7 @@ Specific group charters may specify a shorter period for their roles.
 ---
 
 [Linux Foundation Code of Conduct]: https://events.linuxfoundation.org/about/code-of-conduct/
-[CODEOWNERS]: https://github.com/finos/common-cloud-controls/blob/main/CODEOWNERS
+[CODEOWNERS]: https://github.com/finos/common-cloud-controls/blob/main/.github/CODEOWNERS
 [community mail group]: mailto:ccc-participants+subscribe@finos.org
 [community groups]: ../community-groups.md
 [SC]: ../../community-groups.md#steering-committee
