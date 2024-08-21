@@ -111,7 +111,7 @@ and excellent technical judgement for the subproject.
 - Demonstrated responsibility and excellent technical judgement for the [WG] topic as an
   _Approver_ for at least (3) months.
 - Appointed by a [SC] vote.
-  - A [SC] sponsor must create a PR to update [`members.md`](members.md) with the new appointment.
+  - A [SC] sponsor must create a PR to update [`participants.md`](/participants.md): with the new appointment.
   - Extending [CODEOWNERS] scope for an individual must follow the approver nomination process.
   - When appointment is confirmed, the sponsor must work with a repo admin to add appointee to the appropriate GitHub team(s)
 - Adhere to relevant [community groups] guidelines, such as:
