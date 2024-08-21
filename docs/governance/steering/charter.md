@@ -174,8 +174,8 @@ This document was adapted from the Kubernetes Steering Committee Charter [afb385
 
 ---
 
-[election policy]: /elections.md
-[Eligible voters]: /elections.md#eligibility-for-voting
+[election policy]: elections.md
+[Eligible voters]: elections.md#eligibility-for-voting
 [Inclusive Open Source Community Orientation]: https://training.linuxfoundation.org/training/inclusive-open-source-community-orientation-lfc102/
 [afb3858]: https://github.com/kubernetes/steering/blob/afb3858/charter.md
 
