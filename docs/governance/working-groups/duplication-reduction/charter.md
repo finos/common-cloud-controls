@@ -28,7 +28,7 @@ This group will:
 - Identify existing resources that we should investigate for use toward various CCC [WG] goals, including tools, approaches, or frameworks.
 - Develop a set of principles and goals to consider for evaluating resources
 - Evaluate each resource's ability to meet project goals
-- Idenitfy how each resource can help achieve a goal, in a way that can serve as a starting point or reference for other [WG]s
+- Identify how each resource can help achieve a goal, in a way that can serve as a starting point or reference for other [WG]s
 - Document research that has been done on each resource
 - Provide a clear set of what's missing from existing frameworks such as NIST, ISO, OSCAL, and MITRE, with how the work being done in CCC augments or improves these systems
 - Collaborate with the [Community Structure WG] to create new recommendations or policies regarding the use of specific resources, with links to documented research and reasoning
