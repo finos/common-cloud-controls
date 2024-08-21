@@ -1,6 +1,6 @@
 # Participants enrolled in the Common Cloud Controls project
 
-Below is the list of [participants](governance-documents/5._Governance.md#1roles) in the {standard_name}, who have committed to the [Community Specification Contributor License Agreement](governance-documents/0._CS_Contributor_License_Agreement.md).
+Below is the list of participants in the {standard_name}, who have committed to the [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices).
 
 ## Participants
 
