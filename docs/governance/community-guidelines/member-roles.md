@@ -37,7 +37,7 @@ assigned to them and assist or scribe on community calls.
   demonstrate an **ongoing and long-term commitment** to the project.
 - Subscribed to the [community mail group]
 - Applied, sponsored, and approved for member status.
-  1. Open an pull request against the CCC repo [`members.md`](members.md):
+  1. Open an pull request against the CCC repo [`participants.md`](/participants.md):
   - The PR description should contain a list or summary of your work on the project to date.
   1. Sponsoring reviewers mark the PR as ready to merge:
   - Must be sponsored by 2 approvers from 2 employers.
@@ -145,5 +145,5 @@ Specific group charters may specify a shorter period for their roles.
 [CODEOWNERS]: https://github.com/finos/common-cloud-controls/blob/main/.github/CODEOWNERS
 [community mail group]: mailto:ccc-participants+subscribe@finos.org
 [community groups]: ../community-groups.md
-[SC]: ../../community-groups.md#steering-committee
-[WG]: ../../community-groups.md#working-groups
+[SC]: ../community-groups.md#steering-committee
+[WG]: ../community-groups.md#working-groups
