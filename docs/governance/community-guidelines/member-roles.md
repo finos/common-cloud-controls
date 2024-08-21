@@ -65,7 +65,7 @@ These include, but are not limited to:
 - Scribe on community calls when necessary.
 - Can have issues and PRs assigned to them.
 - Can be invited to review and advise on PR approvals.
-- Participation publicly documented in [`members.md`](members.md).
+- Participation publicly documented in [`participants.md`](/participants.md).
 
 ## Approver
 
