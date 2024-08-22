@@ -11,7 +11,7 @@ import (
 
 // ComponentDefinition represents the structure of the input YAML file.
 type ComponentDefinition struct {
-	CategoryID string    `yaml:"category-id"`
+	CategoryID string    `yaml:"category_id"`
 	Title      string    `yaml:"title"`
 	Version    string    `yaml:"version"`
 	Controls   []Control `yaml:"controls"`
