@@ -1,0 +1,113 @@
+title: CCC Virtual Machine Features
+category_id: CCC.VM
+type: Compute
+description: This documents the minimual set of features that should be present for a virtual machine service to be considered for use in financial services ecosystems.
+features:
+  - id: CCC.VM.F01
+    title: Instance Types - General Computing
+    description: Providing a range of instance types with different specifications for CPU and memory.
+  - id: CCC.VM.F02
+    title: Instance Types - Storage Optimised
+    description: Providing instance types with storage optimization features including high-speed I/O capabilities, disk types, and high capacities.
+  - id: CCC.VM.F03
+    title: Instance Types - GPU Optimised
+    description: Providing instance types tailored specifically for GPU-intensive workloads.
+  - id: CCC.VM.F04
+    title: Instance Types - Network Optimised
+    description: Providing instance types equipped with a range of networking capabilities, including options for high-bandwidth connections, low-latency networking, and the ability to attach multiple or redundant network interfaces.
+  - id: CCC.VM.F05
+    title: Instance Types - Dynamic Performance
+    description: Providing "burstable" instances for intermittent workloads that accumulate credits during periods of low usage which can be used to burst above baseline performance when needed.
+  - id: CCC.VM.F06
+    title: Operating System Options
+    description: A selection of operating systems for virtual machine instances.
+  - id: CCC.VM.F07
+    title: Ephemeral Storage
+    description: Temporary storage available to the VM which is lost when the instance is stopped or terminated.
+  - id: CCC.VM.F08
+    title: High Availability
+    description: Ensuring high availability of virtual machine instances through redundancy and multiple (availability) zones within a region.
+  - id: CCC.VM.F09
+    title: Identity and Access Management
+    description: Implementing identity and access management features such as key pairs, JIT and MFA to control user access to virtual machine instances.
+  - id: CCC.VM.F10
+    title: Monitoring and Logging
+    description: Offering monitoring and logging capabilities to track performance metrics, user access, and security events.
+  - id: CCC.VM.F11
+    title: Backup and Restore
+    description: Providing backup and disaster recovery solutions for virtual machine instances and associated data, including snapshot-based backups, incremental backups, and point-in-time recovery.
+  - id: CCC.VM.F12
+    title: Encryption at Rest
+    description: Encrypting data stored by virtual machine instances to protect against unauthorized access.
+  - id: CCC.VM.F13
+    title: Patch Management
+    description: Offering patch management services and compatibility with third-party patch management tools to keep virtual machine instances up to date with security patches and updates.
+  - id: CCC.VM.F14
+    title: Isolated Secure Environments
+    description: Providing an isolated "enclave" within a virtual machine for processing encrypted and/or sensitive data, with support for custom key management infrastructure.
+  - id: CCC.VM.F15
+    title: Nested Virtualization
+    description: Allowing the creation of virtual machines within virtual machines.
+  - id: CCC.VM.F16
+    title: Container Support
+    description: Offering support for running containers within virtual machine instances for containerized applications.
+  - id: CCC.VM.F17
+    title: Instance Metadata
+    description: Providing metadata about virtual machine instances for configuration and management purposes.
+  - id: CCC.VM.F18
+    title: Instance Lifecycle Events
+    description: Offering features for managing the lifecycle and state of virtual machine instances, including starting, stopping, pausing, and restarting instances as needed.
+  - id: CCC.VM.F19
+    title: Instance Snapshots
+    description: Creation of snapshots of virtual machine instances to capture and preserve state and data for backup and cloning purposes.
+  - id: CCC.VM.F20
+    title: Instance Templates
+    description: Offering templates for provisioning virtual machine instances with pre-configured images, instance types, and network configurations.
+  - id: CCC.VM.F21
+    title: Bootstrap Scripts
+    description: Ability to provide bootstrap scripts to a VM to run during the instance boot process.
+  - id: CCC.VM.F22
+    title: Instance Preemptibility
+    description: Providing the option for using preemptible virtual machine (spot) instances at a lower cost for non-critical or fault-tolerant workloads that may be terminated by the cloud provider after a notice period.
+  - id: CCC.VM.F23
+    title: Instance Affinity/Anti-affinity
+    description: Enabling control over the location of virtual machine instances to ensure or prevent co-location on the same physical hardware.
+  - id: CCC.VM.F24
+    title: Instance Health Checks
+    description: Exposing health checks on virtual machine instances so that unhealthy instances can be automatically replaced or repaired.
+  - id: CCC.VM.F25
+    title: Instance Remote Access
+    description: Offering remote access to virtual machine instances through methods such as SSH or RDP for troubleshooting, debugging, and maintenance purposes.
+  - id: CCC.VM.F26
+    title: Instance Live Migration
+    description: Ability to perform live migration of virtual machine instances between physical hosts for maintenance or load balancing purposes without downtime.
+  - id: CCC.VM.F27
+    title: Instance Remote Configuration
+    description: Providing tools for remotely configuring virtual machine instances, including deployment automation and configuration management frameworks.
+  - id: CCC.VM.F28
+    title: Instance Resource Tagging
+    description: Enabling tagging of virtual machine instances with metadata for organization, management, and cost allocation purposes.
+  - id: CCC.VM.F29
+    title: Instance Resource Utilisation Metrics
+    description: Providing tools for monitoring resource utilization and performance metrics for virtual machine instances, including CPU usage, memory usage, disk I/O, and network traffic.
+  - id: CCC.VM.F30
+    title: Custom Images
+    description: Allows users to create and manage their own customized virtual machine images.
+  - id: CCC.VM.F31
+    title: Dedicated Instances
+    description: Providing the option to run instances on physical servers that are dedicated solely to a single customer account, ensuring that the underlying hardware resources are not shared with other customers.
+  - id: CCC.VM.F32
+    title: Interoperability with Storage Options
+    description: Capability to read/write to non-ephemeral external storage including object storage and encrypted block storage.
+  - id: CCC.VM.F33
+    title: Instance Autoscaling
+    description: Providing an interface for autoscaling services to automatically adjust the number and/or instance type of virtual machine instances based on predefined criteria such as CPU utilization or incoming traffic.
+  - id: CCC.VM.F34
+    title: Instance Grouping
+    description: Offering logical grouping and management tools for sets of virtual machine instances.
+  - id: CCC.VM.F35
+    title: Security Groups
+    description: Ability to configure security groups or firewalls to control inbound and outbound traffic to and from instances.
+  - id: CCC.VM.F36
+    title: TPM Support
+    description: Providing support for Trusted Platform Module (TPM) for hardware-based security features such as secure boot and cryptographic key storage.
