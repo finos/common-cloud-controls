@@ -15,7 +15,7 @@ MM/DD/YYYY - 11:30 ET / 16:30 UK
 - [Join Zoom Meeting](https://zoom.us/j/994109603410)
 - Meeting ID: 941 0960 3410
 - Passcode: 353234
-- [Copy this meeting to your calendar](calendar.finos.org)
+- [Copy this meeting to your calendar](https://calendar.finos.org/)
 - [Find your local number](https://zoom.us/u/ab9zAHYy5T)
 
 ## Meeting notices

@@ -28,10 +28,10 @@ This group will:
 - Identify existing resources that we should investigate for use toward various CCC [WG] goals, including tools, approaches, or frameworks.
 - Develop a set of principles and goals to consider for evaluating resources
 - Evaluate each resource's ability to meet project goals
-- Idenitfy how each resource can help achieve a goal, in a way that can serve as a starting point or reference for other [WG]s
+- Identify how each resource can help achieve a goal, in a way that can serve as a starting point or reference for other [WG]s
 - Document research that has been done on each resource
 - Provide a clear set of what's missing from existing frameworks such as NIST, ISO, OSCAL, and MITRE, with how the work being done in CCC augments or improves these systems
-- Collaborate with the [Community Structure WG] to create new [recommendations] or policies regarding the use of specific resources, with links to documented research and reasoning
+- Collaborate with the [Community Structure WG] to create new guidelines or policies regarding the use of specific resources, with links to documented research and reasoning
 - Provide advice and support related to duplicative efforts to all [WG]s
 
 ### Output / Deliverables
@@ -47,11 +47,11 @@ The following items will be maintained by this [WG] in the project repository:
 The following activities will not be performed by this group:
 
 - Integrating resources into project workflows or outputs
-- Ensuring compliance with [recommendations] or [policies]
+- Ensuring compliance with [guidelines] or [policies]
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] approved by the [Community Structure WG].
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [guidelines] approved by the [Community Structure WG].
 
 ### Membership
 
@@ -74,4 +74,4 @@ Any functional changes to this charter must be approved through a majority vote 
 [SC]: ../../community-groups.md#steering-committee
 [Community Structure WG]: ../community-structure/charter.md
 [policies]: ../../community-policies/README.md
-[recommendations]: ../../community-recommendations/README.md
+[guidelines]: ../../community-guidelines/README.md

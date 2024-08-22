@@ -28,5 +28,5 @@ This directory will contain the content development standards and practices, whe
 Feedback on these policies is vital for continuous improvement. If you have suggestions or updates, please communicate this to the [Delivery WG]. Do note that new policies and standards may be created or modified by a [vote] of the [SC] at any time, following the same process as [Upgrading a Recommendation to become a Policy](../../community-guidelines/README.md#upgrading-a-recommendation-to-become-a-policy).
 
 [SC]: ../../community-groups.md#steering-committee
-[vote]: ../steering/charter.md#voting
-[Delivery WG]: ../working-groups/delivery
+[vote]: ../../steering/charter.md#voting
+[Delivery WG]: ../../working-groups/delivery

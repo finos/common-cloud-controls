@@ -20,7 +20,7 @@ _It is the responsibility of the steering committee to refine these criteria pri
 
 In order to be eligible for candidacy, an individual must:
 
-- Be eligible for voting in the current Steering Committe election.
+- Be eligible for voting in the current Steering Committee election.
 - Accept a nomination or self-nominate.
 - Be endorsed by another party from their own employer.
 - Be endorsed by at least one eligible voter from a financial institution who is
@@ -113,9 +113,9 @@ This document was adapted from the Kubernetes Steering Committee Elections docum
 
 ---
 
-[community groups]: ./community.md
+[community groups]: ../community-groups.md
 [Condorcet]: https://en.wikipedia.org/wiki/Condorcet_method
 [election procedure]: #nomination-and-election-procedure
-[bootstrap]: https://github.com/CCC/community/tree/master/docs/formation/bootstrap.md
-[elections]: https://github.com/CCC/community/tree/master/docs/governance/elections.md
+[bootstrap]: https://github.com/finos/common-cloud-controls/blob/main/docs/formation/bootstrap.md
+[elections]: https://github.com/finos/common-cloud-controls/blob/main/docs/governance/steering/elections.md
 [afb3858]: https://github.com/kubernetes/steering/blob/afb3858/elections.md
