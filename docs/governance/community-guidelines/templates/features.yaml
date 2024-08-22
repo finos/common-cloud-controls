@@ -2,8 +2,6 @@ title: CCC <Service Category> Features
 category_id: CCC.<Service Category Abbreviation>
 type: <Parent Type of this Category>
 description: <1-3 sentence description of the service category>
-service_examples:
-  - <Nams of known cloud services that fall under this category>
 features:
   - id: CCC.<Service Category Abbreviation>.F<##>
     title: <Shortname of the feature>
