@@ -16,12 +16,24 @@ The following list outlines the values necessary to create a new control definit
 - **Feature ID** - The corresponding feature ID that this control is associated with.
 - **Control Title** - A brief title (3 to 10 words) that succinctly describes the control.
 - **Objective** - A 1 to 3 sentence description of the control’s objective and what it aims to achieve.
+- **Control Family** - Name of the [Control Family](#control-family) this group belongs to.
 - **NIST CSF** - The specific ID from the NIST Cybersecurity Framework that corresponds to the control.
 - **MITRE ATT&CK** - The unique identifier for the MITRE ATT&CK Tactics, Techniques, and Procedures (TTP) relevant to the control.
 - **Threats** - A list of IDs for CCC threats that this control is designed to mitigate.
 - **Control Mappings** - Identifiers for other frameworks (e.g., CCM, ISO 27001, NIST 800-53) that map to this control.
 - **Test Requirements** - Detailed descriptions of the testing requirements needed to validate the control’s implementation.
 
-This structure ensures that controls are standardized and can be consistently applied across all services within the CCC Taxonomy.
+### Control Family
+
+Control family refers to a group of related security controls that are organized together based on their similar functions or objectives. Each control family addresses a particular aspect of information security.
+
+The following list should be updated in the event that a new control family is added to the CCC Controls Catalog:
+
+- Encryption
+- Data
+- Identity and Access Management
+- Logging & Monitoring
+- Software Supply Chain
+
 
 [Communications WG]: ../working-groups/communications/charter.md

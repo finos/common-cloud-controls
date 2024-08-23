@@ -14,7 +14,6 @@ The following list outlines the values necessary to create a new threat definiti
 
 - **Category Title** - The title of the service category this threat belongs to, formatted as `CCC <Service Category> Security Threats`.
 - **Category ID** - A unique identifier for the service category, following the format `CCC.<Service Category Abbreviation>`.
-- **Threat Model** - URL to the threat model used; omit this if not applicable.
 - **Threat ID** - A unique identifier for the threat, following the format `<category-id>.T<#>`.
 - **Threat Title** - A short name or title that succinctly describes the threat.
 - **Threat Description** - A complete description of the threat, detailing its nature and potential impact.
