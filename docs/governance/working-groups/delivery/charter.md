@@ -29,7 +29,7 @@ This group will:
 
 - Maintain open and transparent communication channels for all WG activities and decisions in regard to outputs/deliverables
 - Define and document standards related to how content is organized in the repository
-- Document standards for how all project artifacts reference eachother, such as control identifiers
+- Document standards for how all project artifacts reference each other, such as control identifiers
 - Create and maintain automation related to acceptance of content proposed to the project repository
 - Maintain a list of all community outputs that need to be released
 - Determine and document project best practices for versioning and releasing content
@@ -57,7 +57,7 @@ The following activities will not be performed by this group:
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [recommendations] set forth by the [Community Structure WG].
+This [WG] will remain compliant with all applicable community [policies]. At the guidance of the WG Lead, this group will seek to implement [guidelines] set forth by the [Community Structure WG].
 
 ### Membership
 
@@ -79,6 +79,6 @@ Any functional changes to this charter must be approved through a majority vote 
 [WG]: ../../community-groups.md#working-groups
 [SC]: ../../community-groups.md#steering-committee
 [policies]: ../../community-policies/README.md
-[recommendations]: ../../community-recommendations/README.md
+[guidelines]: ../../community-guidelines/README.md
 [Communications WG]: ../communications/charter.md
 [Community Structure WG]: ../communications/charter.md

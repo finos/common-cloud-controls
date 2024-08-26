@@ -18,7 +18,7 @@ MM/DD/YYYY - 12:00 ET / 17:00 UK
 - Meeting ID: 944 1616 8360
 - Passcode: 042805
 - [Find your local number](https://zoom.us/u/apjhwwA3K)
-- [Copy this meeting to your calendar](calendar.finos.org)
+- [Copy this meeting to your calendar](https://calendar.finos.org/)
 
 ## Meeting notices
 

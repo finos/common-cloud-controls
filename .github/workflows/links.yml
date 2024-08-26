@@ -16,5 +16,3 @@ jobs:
             args: --base . --verbose --no-progress './**/*.md'
             output: lychee/results.md
             token: ${{ secrets.GITHUB_TOKEN }}
-            # Don't fail action on broken links
-            fail: false
