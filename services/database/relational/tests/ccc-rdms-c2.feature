@@ -23,14 +23,22 @@ Scenario: Confirm that access attempts using default credentials are denied
    When an access attempt is made using default credentials
    Then the access attempt should be denied
 
-@CCC.RDMS.C2.TR01.TR04
-Scenario: Ensure that only authorized local accounts exist and are restricted to accessing the data they need
-   Given that local accounts may be used for application access
+
+@CCC.RDMS.C2.TR02
+Feature: Secure Database Access Control with Local users
+
+"""
+This feature targets database configurations where a local user is defined and granted permissions to interact with the databse system.  
+"""
+
+@CCC.RDMS.C2.TR02.TR01
+Scenario: Ensure that only authorized local accounts exist in the database and are restricted to accessing the data they need
+   Given that local database accounts may be used for application access
    When auditing local accounts 
    Then the admin should ensure the account is properly scoped to the database(s) needed 
 
-@CCC.RDMS.C2.TR01.TR05
+@CCC.RDMS.C2.TR02.TR02
 Scenario: Ensure that authorized accounts only have the minimum neccessary permissions to perform their task
-   Given that local accounts must be granted certain permissions to perform certain operations
+   Given that local accounts must be granted certain permissions to perform certain operations on the database system
    When auditing local account permissions
-   Then d the permissions are the minimum needed to fulfil the role
+   Then the permissions are the minimum needed to
