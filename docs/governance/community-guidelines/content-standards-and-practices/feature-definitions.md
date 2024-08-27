@@ -8,7 +8,7 @@ Each feature definition should be created for a service in the CCC Taxonomy, wit
 
 In order to create a cohesive standard that is readily useful to end users, features must be indistinguishable from each other in format, style, and tone. A review from the [Communications WG] is recommended, but not required, in cases where additional support is needed to match the writing style and tone.
 
-As such, all features must match the layout presented in the [feature template](../templates/feature.md) prior to release.
+As such, all features must match the layout presented in the [feature template](../templates/features.yaml) prior to release.
 
 The following list outlines the values necessary to create a new feature definition using the feature template:
 
@@ -23,4 +23,4 @@ The following list outlines the values necessary to create a new feature definit
 
 This structure ensures that features are standardized and can be consistently applied across all services within the CCC Taxonomy.
 
-[Communications WG]: ../working-groups/communications/charter.md
+[Communications WG]: ../../working-groups/communications/charter.md

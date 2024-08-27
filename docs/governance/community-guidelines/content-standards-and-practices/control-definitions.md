@@ -36,4 +36,4 @@ The following list should be updated in the event that a new control family is a
 - Software Supply Chain
 
 
-[Communications WG]: ../working-groups/communications/charter.md
+[Communications WG]: ../../working-groups/communications/charter.md

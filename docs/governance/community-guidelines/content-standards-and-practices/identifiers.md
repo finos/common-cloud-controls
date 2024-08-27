@@ -7,10 +7,10 @@ This document provides a standardized approach for assigning unique identifiers 
 | **Service Type**     | `CCC.<ServiceType>`                        | `CCC.Storage`         |
 | **Service Category** | `CCC.<ServiceCategory>`                    | `CCC.ObjStor`         |
 | **Feature**          | `CCC.<ServiceCategory>.F<##>`              | `CCC.ObjStor.F01`     |
-| **Threat**           | `CCC.<ServiceCategory>.T<##>`              | `CCC.RDMS.T01`        |
+| **Threat**           | `CCC.<ServiceCategory>.TH<##>`              | `CCC.RDMS.TH01`        |
 | **Control**          | `CCC.<ServiceCategory>.C<##>`              | `CCC.VM.C01`          |
 | **Test Requirement** | `CCC.<ServiceCategory>.C<##>.TR<##>`       | `CCC.VM.C01.TR01`     |
-| **Test**             | `CCC.<ServiceCategory>.C<##>.TR<##>.T<##>` | `CCC.VM.C01.TR01.T01` |
+| **Test**             | `CCC.<ServiceCategory>.C<##>.TR<##>.TE<##>` | `CCC.VM.C01.TR01.TE01` |
 
 ## Service Types
 
@@ -53,12 +53,12 @@ Each feature ID follows the format `CCC.<ServiceCategory>.F<##>`.
 Threats are potential security risks associated with a service category.
 Controls and threats have a "many to many" releationship, where 
 
-Each threat ID follows the format `CCC.<ServiceCategory>.T<##>`.
+Each threat ID follows the format `CCC.<ServiceCategory>.TH<##>`.
 
 ### Examples:
 
-- **CCC.RDMS.T01** - The first threat in the RDMS service category.
-- **CCC.VM.T10** - The tenth threat in the Virtual Machine service category.
+- **CCC.RDMS.TH01** - The first threat in the RDMS service category.
+- **CCC.VM.TH10** - The tenth threat in the Virtual Machine service category.
 
 ## 5. Controls
 
@@ -88,12 +88,12 @@ Each test requirement ID follows the format `CCC.<ServiceCategory>.C<##>.TR<##>`
 
 Tests are individual assessments or procedures that fulfill a test requirement. These should be written in Gherkin for easy implementation.
 
-Each test ID follows the format `CCC.<ServiceCategory>.C<##>.TR<##>.T<##>`.
+Each test ID follows the format `CCC.<ServiceCategory>.C<##>.TR<##>.TE<##>`.
 
 ### Examples:
 
-- **CCC.VM.C01.TR01.T01** - The first test for the first test requirement of the first control in the Virtual Machine service category.
-- **CCC.ObjStor.C02.TR02.T02** - The second test for the second test requirement of the second control in the Object Storage service category.
+- **CCC.VM.C01.TR01.TE01** - The first test for the first test requirement of the first control in the Virtual Machine service category.
+- **CCC.ObjStor.C02.TR02.TE02** - The second test for the second test requirement of the second control in the Object Storage service category.
 
 ## Summary
 
