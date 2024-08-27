@@ -1,0 +1,62 @@
+title: CCC Object Storage Features
+category_id: CCC.ObjStor
+type: Storage
+description: This documents the minimual set of features that should be present for a object storage service to be considered for use in financial services ecosystems.
+features:
+  - id: CCC.ObjStor.F01
+    title: Buckets
+    description: Concept of having uniquely identifiable containers in which objects exist.
+  - id: CCC.ObjStor.F02
+    title: Metadata
+    description: Support storing, accessing, and managing of object metadata for stored objects.
+  - id: CCC.ObjStor.F03
+    title: Scalability - Capacity Limit
+    description: Ability to store unlimited number of objects under a given maximum total capacity per bucket.
+  - id: CCC.ObjStor.F04
+    title: Scalability - Object Size Limit
+    description: Ability to store large objects under a given maximum object size.
+  - id: CCC.ObjStor.F05
+    title: Durability
+    description: High durability for stored objects through redundancy and replication.
+  - id: CCC.ObjStor.F06
+    title: Availability
+    description: High availability for stored objects through replication over multiple (availability) zones within a region.
+  - id: CCC.ObjStor.F07
+    title: Performance - Transaction Rate Limits
+    description: High throughput and low latency for read/write operations under given maximum transaction rate limits.
+  - id: CCC.ObjStor.F08
+    title: Performance - Querying
+    description: Ability to perform simple select queries to retrieve only a subset of objects from the bucket.
+  - id: CCC.ObjStor.F09
+    title: Storage Classes
+    description: Having different storage classes for frequently and infrequently accessed objects.
+  - id: CCC.ObjStor.F10
+    title: Lifecycle Policies
+    description: Ability to define policies to automate data management tasks.
+  - id: CCC.ObjStor.F11
+    title: Versioning
+    description: Ability to keep multiple versions of an object in the same bucket.
+  - id: CCC.ObjStor.F12
+    title: Compliance and Governance
+    description: Ability to create locks on objects disabling modification and/or deletion of an object for a given period of time.
+  - id: CCC.ObjStor.F13
+    title: Event Notifications
+    description: Publish object level events for creation, deletion and modification of objects allowing users to trigger actions in response.
+  - id: CCC.ObjStor.F14
+    title: Encryption at Rest
+    description: Data should be encrypted before storing by default. Should also make the option available for clients to maintain control over the encryption keys.
+  - id: CCC.ObjStor.F15
+    title: Encryption in Transit
+    description: Ability to encrypt data in transit using SSL/TSL.
+  - id: CCC.ObjStor.F16
+    title: Identity Based Access Control
+    description: Ability to limit the users/roles who can access the object store.
+  - id: CCC.ObjStor.F17
+    title: Object Level Access Control
+    description: Ability to control access to specific objects on the object store.
+  - id: CCC.ObjStor.F18
+    title: Logging
+    description: Ability to log access, allowing the clients to track requests made to the object store.
+  - id: CCC.ObjStor.F19
+    title: Signed URLs
+    description: Ability to give temporary access to objects and buckets through a signed URL or signed access token.
