@@ -8,7 +8,7 @@ A set of control definitions should be created for each service in the CCC Taxon
 
 In order to create a cohesive standard that is readily useful to end users, controls must be indistinguishable from each other in format, style, and tone. A review from the [Communications WG] is recommended, but not required, in cases where additional support is needed to match the writing style and tone.
 
-Similarly, all controls must match the layout presented in the [control template](../templates/control.md) prior to release.
+Similarly, all controls must match the layout presented in the [control template](../templates/controls.yaml) prior to release.
 
 The following list outlines the values necessary to create a new control definition using the control template:
 
