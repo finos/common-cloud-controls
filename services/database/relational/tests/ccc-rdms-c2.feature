@@ -33,9 +33,10 @@ This feature targets database configurations where a local user is defined and g
 
 @CCC.RDMS.C2.TR02.TR01
 Scenario: Ensure that only authorized local accounts exist in the database and are restricted to accessing the data they need
-   Given that local database accounts may be used for application access
+   Given a local database with user accounts that may be used for application access
    When auditing local accounts 
-   Then the admin should ensure the account is properly scoped to the database(s) needed 
+   Then only expected local accounts exist in the database
+   And each account is properly scoped to the expected permissions
 
 @CCC.RDMS.C2.TR02.TR02
 Scenario: Ensure that authorized accounts only have the minimum neccessary permissions to perform their task
