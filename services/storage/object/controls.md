@@ -204,7 +204,7 @@ Prevent any requests to object storage buckets or objects using untrusted KMS ke
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. [**CCC.OS.C8.TR01**]{#CCC.OS.C8.TR.01}: Verify that access policies for cloud storage buckets and objects prevent requests with untrusted KMS keys.
+1. [**CCC.OS.C8.TR01**]{#CCC.OS.C8.TR.01}: Verify that access policies for cloud storage buckets and objects prevent requests with untrusted KMS keys. In this case, an untrusted KMS key is one that is not specified as trusted by the cloud storage bucket owner.
 
 ## CCC.OS.C9: Prevent Replication to Untrusted Destinations
 
@@ -214,7 +214,7 @@ The following validations must be performed against corresponding Control Implem
 
 ### Objective
 
-Prevent object storage replication feature from replicating data to untrusted destinations.
+Prevent object storage replication feature from replicating data to untrusted destinations. In this case, an untrusted destination is a resource that exists outside of a specified trusted identity or network perimeter (i.e. a data perimeter).
 
 ### Control Mappings
 
