@@ -41,4 +41,4 @@ Scenario: Ensure that only authorized local accounts exist in the database and a
 Scenario: Ensure that authorized accounts only have the minimum neccessary permissions to perform their task
    Given that local accounts must be granted certain permissions to perform certain operations on the database system
    When auditing local account permissions
-   Then the permissions are the minimum needed to
+   Then the permissions are the minimum needed to local account to perform necessary operations
