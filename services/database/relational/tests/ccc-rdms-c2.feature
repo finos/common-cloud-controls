@@ -28,7 +28,7 @@ Scenario: Confirm that access attempts using default credentials are denied
 Feature: Secure Database Access Control with Local users
 
 """
-This feature targets database configurations where a local user is defined and granted permissions to interact with the databse system.  
+This feature targets database configurations where a local user is defined and granted permissions to interact with the database system.  
 """
 
 @CCC.RDMS.C2.TR02.TR01
