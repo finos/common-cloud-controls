@@ -15,6 +15,7 @@
 # Changes that might impact automation must be reviewed by the Delivery WG
 # Code owners should only be modified by the SteerCo
 /.github @finos/ccc-wg-delivery
+/release @finos/ccc-wg-delivery
 /.github/CODEOWNERS @finos/ccc-steerco
 #
 ########

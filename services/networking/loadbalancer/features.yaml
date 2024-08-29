@@ -1,0 +1,200 @@
+title: CCC Load Balancer Features
+category_id: CCC.LB
+type: Networking
+description: This documents the minimual set of features that should be present for a load balancer service to be considered for use in financial services ecosystems.
+features:
+  - id: CCC.LB.F01
+    title: Layer 7 Load Balancing - HTTP/1.1
+    description: Provide load balancer operation on the HTTP/1.1 protocol at the Application Layer (Layer 7) of the OSI model. These load balancers will intelligently distribute incoming traffic based on application-level information, such as HTTP headers, cookies, or URLs, to ensure efficient and scalable application delivery.
+  - id: CCC.LB.F02
+    title: Layer 7 Load Balancing - HTTPS/1.1
+    description: Provide load balancer operation on the HTTPS/1.1 protocol at the Application Layer (Layer 7) of the OSI model. These load balancers will intelligently distribute incoming traffic based on application-level information, such as HTTP headers, cookies, or URLs, to ensure efficient and scalable application delivery.
+  - id: CCC.LB.F03
+    title: Layer 7 Load Balancing - HTTP/2 / gRPC
+    description: Provide load balancer operation on the HTTP/2 or gRPC protocol at the Application Layer (Layer 7) of the OSI model. These load balancers will intelligently distribute incoming traffic based on application-level information, such as HTTP headers, cookies, or URLs, to ensure efficient and scalable application delivery.
+  - id: CCC.LB.F04
+    title: Layer 7 Load Balancing - HTTP/3
+    description: Provide load balancer operation on the HTTP/3 protocol at the Application Layer (Layer 7) of the OSI model. These load balancers will intelligently distribute incoming traffic based on application-level information, such as HTTP headers, cookies, or URLs, to ensure efficient and scalable application delivery.
+  - id: CCC.LB.F05
+    title: Layer 7 Load Balancing - TCP
+    description: Provide load balancer operation on the TCP protocol at the Application Layer (Layer 7) of the OSI model. These load balancers will intelligently distribute incoming traffic based on application-level information, such as HTTP headers, cookies, or URLs, to ensure efficient and scalable application delivery.
+  - id: CCC.LB.F06
+    title: Layer 7 Load Balancing - DNS
+    description: Provide load balancer operation on the DNS protocol at the Application Layer (Layer 7) of the OSI model. These load balancers will intelligently distribute incoming traffic based on application-level information, such as HTTP headers, cookies, or URLs, to ensure efficient and scalable application delivery.
+  - id: CCC.LB.F07
+    title: Layer 4 Load Balancing - TCP
+    description: Provide load balancer operation on the TCP protocol at the Transport Layer (Layer 4) of the OSI model. These load balancers should efficiently route incoming traffic based on network-level information, such as IP addresses and TCP/UDP ports, ensuring high-throughput and low-latency distribution of traffic to backend servers.
+  - id: CCC.LB.F08
+    title: Layer 4 Load Balancing - SSL
+    description: Provide load balancer operation on the SSL protocol at the Transport Layer (Layer 4) of the OSI model. These load balancers should efficiently route incoming traffic based on network-level information, such as IP addresses and TCP/UDP ports, ensuring high-throughput and low-latency distribution of traffic to backend servers.
+  - id: CCC.LB.F09
+    title: Layer 4 Load Balancing - UDP
+    description: Provide load balancer operation on the UDP protocol at the Transport Layer (Layer 4) of the OSI model. These load balancers should efficiently route incoming traffic based on network-level information, such as IP addresses and TCP/UDP ports, ensuring high-throughput and low-latency distribution of traffic to backend servers.
+  - id: CCC.LB.F10
+    title: Layer 4 Load Balancing - TLS
+    description: Provide load balancer operation on the TLS protocol at the Transport Layer (Layer 4) of the OSI model. These load balancers should efficiently route incoming traffic based on network-level information, such as IP addresses and TCP/UDP ports, ensuring high-throughput and low-latency distribution of traffic to backend servers.
+  - id: CCC.LB.F11
+    title: Layer 3 Load Balancing - IP
+    description: Provide load balancer operation on the IP protocol at the Network Layer (Layer 3) of the OSI model. These load balancers will manage traffic at the network level, directing traffic based on IP addresses and routing protocols, to facilitate seamless connectivity and scalability for virtual networks and other networking environments.
+  - id: CCC.LB.F12
+    title: HTTP
+    description: Support for the HTTP protocol.
+  - id: CCC.LB.F13
+    title: HTTPS
+    description: Support for the HTTPS protocol.
+  - id: CCC.LB.F14
+    title: HTTP/2
+    description: Support for the HTTP/2 protocol.
+  - id: CCC.LB.F15
+    title: gRPC
+    description: Support for the gRPC protocol.
+  - id: CCC.LB.F16
+    title: TCP
+    description: Support for the TCP protocol.
+  - id: CCC.LB.F17
+    title: SSL/TLS
+    description: Support for the SSL/TLS protocol.
+  - id: CCC.LB.F18
+    title: UDP
+    description: Support for the UDP protocol.
+  - id: CCC.LB.F19
+    title: ESP
+    description: Support for the ESP protocol.
+  - id: CCC.LB.F20
+    title: GRE
+    description: Support for the GRE protocol.
+  - id: CCC.LB.F21
+    title: ICMP
+    description: Support for the ICMP protocol.
+  - id: CCC.LB.F22
+    title: ICMPv6
+    description: Support for the ICMPv6 protocol.
+  - id: CCC.LB.F23
+    title: Static load balancing
+    description: Employ load balancing algorithms that follow fixed rules, independent of the current server state.
+  - id: CCC.LB.F24
+    title: Dynamic load balancing
+    description: Employ load balancing algorithms that consider the current state of servers before distributing traffic. These algorithms will determine the best server for each client request based on real-time server conditions.
+  - id: CCC.LB.F25
+    title: Load balancer autoscaling
+    description: Ability for the load balancer to dynamically adjust its capacity in response to fluctuations in incoming traffic.
+  - id: CCC.LB.F26
+    title: Target autoscaling
+    description: Ability for backend servers or target groups behind the load balancer to dynamically adjust their capacity in response to changes in workload demands.
+  - id: CCC.LB.F27
+    title: Target autohealing
+    description: Automatically restart compromised applications by promptly detecting failed instances and recreating them.
+  - id: CCC.LB.F28
+    title: Full start
+    description: Load balancer can be configured to allow targets to receive its full share of requests as soon as it's registered.
+  - id: CCC.LB.F29
+    title: Slow start
+    description: Load balancer can be configured to allow targets time to warm up before sending them a full share of requests.
+  - id: CCC.LB.F30
+    title: Connection draining (deregistration delay)
+    description: Ability to gracefully terminate active connections to backend instances before they are removed from the load balancer's pool, to allow ongoing requests to complete successfully without disruption.
+  - id: CCC.LB.F31
+    title: Flow termination / Proxy behaviour
+    description: Proxy incoming requests to the selected backend server or servers, establishing a new connection to the backend server and forwarding the request while ensuring the integrity of the original request is maintained.
+  - id: CCC.LB.F32
+    title: URL redirects
+    description: Redirect incoming traffic to a different URL or location.
+  - id: CCC.LB.F33
+    title: URL rewrites
+    description: Rewrite URL paths before forwarding them to backend services.
+  - id: CCC.LB.F34
+    title: Configurable timeouts
+    description: Configure timeout settings related to the handling of connections and requests by the load balancer. These settings may include idle connection timeouts, request processing timeouts, and health check timeouts.
+  - id: CCC.LB.F35
+    title: Custom error responses / fixed response
+    description: Users have the capability to configure specific HTTP responses to be returned by the load balancer under defined conditions.
+  - id: CCC.LB.F36
+    title: Outlier detection
+    description: Configure the criteria for eviction of unhealthy backends, along with criteria defining when a backend or endpoint is considered healthy enough to receive traffic again.
+  - id: CCC.LB.F37
+    title: Request and response header transformations
+    description: Can modify HTTP headers in both incoming requests and outgoing responses.
+  - id: CCC.LB.F38
+    title: Retries
+    description: Configure the conditions under which the load balancer retries failed requests, how long to wait before retrying, and the maximum number of retries permitted.
+  - id: CCC.LB.F39
+    title: URL based routing
+    description: Direct incoming requests to different backend resources based on the content of the request URL.
+  - id: CCC.LB.F40
+    title: HTTP header based routing
+    description: Direct incoming requests to different backend resources based on the values of HTTP headers.
+  - id: CCC.LB.F41
+    title: Traffic mirroring
+    description: Can duplicate incoming network traffic and send it to a secondary destination for monitoring, analysis, or testing purposes.
+  - id: CCC.LB.F42
+    title: Traffic splitting / weighted routing
+    description: Can distribute incoming traffic across multiple backend resources based on predefined weights or percentages. (e.g. for canary deployments, A/B testing, blue-green deployments, or gradual traffic migrations)
+  - id: CCC.LB.F43
+    title: Hybrid cloud connectivity
+    description: Can extend cloud-provisioned load balancing services across on-premises, private, and other public cloud infrastructures.
+  - id: CCC.LB.F44
+    title: Same virtual network
+    description: Can be configured to operate within the same virtual network as the backend instances they are balancing traffic to.
+  - id: CCC.LB.F45
+    title: Multiple virtual networks
+    description: Can be configured to handle requests to backend instances in different virtual networks.
+  - id: CCC.LB.F46
+    title: External access
+    description: Can configure public-facing endpoints to handle requests originating from the internet or other external networks.
+  - id: CCC.LB.F47
+    title: Session affinity
+    description: Can configure subsequent requests from an initial client to be passed to the same target.
+  - id: CCC.LB.F48
+    title: Long-lived TCP connection
+    description: Supports connections that remain open for an extended period without teardown and re-establishment.
+  - id: CCC.LB.F49
+    title: Load balancing to multiple ports on the same instance
+    description: Can load balance to multiple ports on the same instance to distribute incoming traffic across different services or applications running on the same backend server.
+  - id: CCC.LB.F50
+    title: Preserve source IP address
+    description: Can maintain the original source IP address of incoming requests throughout the load balancing process.
+  - id: CCC.LB.F51
+    title: WebSockets
+    description: Can handle WebSocket connections.
+  - id: CCC.LB.F52
+    title: Zonal isolation
+    description: Operation can be restricted to communicate only between resources deployed within a specific availability zone.
+  - id: CCC.LB.F53
+    title: Regional load balancing
+    description: Load balancers can be distributed across multiple zones in the same region.
+  - id: CCC.LB.F54
+    title: Cross-regional load balancing
+    description: Load balancers can be distributed across multiple regions.
+  - id: CCC.LB.F55
+    title: Flow stickiness
+    description: Allows requests from the same client to be consistently routed to the same backend server during the duration of a session.
+  - id: CCC.LB.F56
+    title: Automatic failover to healthy backends
+    description: Detect and redirect traffic away from unhealthy or failed backend servers to healthy ones automatically.
+  - id: CCC.LB.F57
+    title: Configurable standby backends
+    description: Configure backend targets that are only routed to if primary targets become unhealthy.
+  - id: CCC.LB.F58
+    title: Target health checks
+    description: Can perform health checks on backend instances by sending HTTP, HTTPS, TCP, or SSL requests to specified endpoints and evaluate the responses to determine the health status.
+  - id: CCC.LB.F59
+    title: Load balancer health checks
+    description: Can perform health checks on the load balancer by sending HTTP, HTTPS, TCP, or SSL requests to the load balancer endpoint and evaluate the responses to determine the health status.
+  - id: CCC.LB.F60
+    title: Traffic control
+    description: Can control inbound and outbound traffic based on source and destination IP addresses, port numbers, and protocols.
+  - id: CCC.LB.F61
+    title: SSL offloading / termination
+    description: Can terminate SSL/TLS connections from clients and forwards decrypted traffic to backend servers.
+  - id: CCC.LB.F62
+    title: Auto-provisioned certificates
+    description: Can automatically generate, provision, and manage SSL/TLS certificates.
+  - id: CCC.LB.F63
+    title: CORS passthrough
+    description: Can relay CORS headers between clients and backend servers without modifying or filtering them.
+  - id: CCC.LB.F64
+    title: Metrics
+    description: Provides valuable insights into the performance, health, and behaviour of the load balancing infrastructure.
+  - id: CCC.LB.F65
+    title: Logging
+    description: Provides logging to allows administrators to monitor and analyze traffic.

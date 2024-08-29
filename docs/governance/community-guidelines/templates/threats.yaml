@@ -1,0 +1,13 @@
+title: CCC <Service Category> Security Threats
+category_id: CCC.<Service Category Abbreviation>
+threat_model: <URL to threat model; Omit if not applicable>
+threats:
+  - id: <category-id>.TH01
+    title: <Short name of the threat>
+    description: <Complete description of the threat>
+    feature_id: <category-id>.F<#>
+    mitre_attack: 
+      - <Mitre ATT&CK tactic ID>
+      - <Mitre ATT&CK technique ID>
+    threat_models:
+      - <URL to threat models used to form this threat; Omit if not applicable>

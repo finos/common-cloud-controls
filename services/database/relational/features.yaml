@@ -1,0 +1,44 @@
+title: CCC Relational Database Management System Features
+category_id: CCC.RDMS
+type: Databases
+description: This documents the minimual set of features that should be present for a RDMS service to be considered for use in financial services ecosystems.
+features:
+  - id: CCC.RDMS.F01
+    title: SQL Support
+    description: Properly handle queries in the SQL language.
+  - id: CCC.RDMS.F02
+    title: Vertical Scaling
+    description: Users may increase or decrease resource allocation.
+  - id: CCC.RDMS.F03
+    title: Horizontal Scaling
+    description: Read replicas of the primary database can be created.
+  - id: CCC.RDMS.F04
+    title: Multi-region
+    description: Read replicas can be created in multiple user-specified regions.
+  - id: CCC.RDMS.F05
+    title: Automated Backups
+    description: Backups can be automatically created and stored according to user specification.
+  - id: CCC.RDMS.F06
+    title: Point in Time Recovery
+    description: Backups can be restored on demand to a specific point in time.
+  - id: CCC.RDMS.F07
+    title: Encryption at Rest
+    description: Data is encrypted at rest, and can be encrypted with user private keys.
+  - id: CCC.RDMS.F08
+    title: Encryption in Transit
+    description: Data is encrypted in transit, and can be encrypted with user private keys.
+  - id: CCC.RDMS.F09
+    title: Role Based Access Control
+    description: Users can be assigned roles with specific permissions.
+  - id: CCC.RDMS.F10
+    title: Logging
+    description: Configurable logs are available for user inspection.
+  - id: CCC.RDMS.F11
+    title: Monitoring
+    description: Configurable metrics are available for user inspection.
+  - id: CCC.RDMS.F12
+    title: Alerting
+    description: Configurable alerts can be enabled.
+  - id: CCC.RDMS.F13
+    title: Failover
+    description: Standby database can be implemented for failover when the primary can't be reached.

@@ -1,0 +1,21 @@
+title: CCC <Service Category> Security Controls
+category_id: CCC.<Service Category Abbreviation>
+controls:
+  - id: CCC.<Service Category Abbreviation>.C1
+    feature_id: <Corresponding Feature ID>
+    title: <Name of the control>
+    objective: <1-3 sentence description of the control objective>
+    control_family: <Control Family>
+    nist_csf: <NIST CSF control ID>
+    mitre_attack: <Mitre ATT&CK technique ID>
+    threats:
+      - <Threat IDs>
+    control_mappings:
+      CCM: 
+        - <CCM control IDs>
+      ISO_27001: 
+        - <ISO 27001 control IDs>
+      NIST_800_53: 
+        - <NIST 800-53 control IDs>
+    test_requirements:
+      <##>: <Test requirement descriptions>
