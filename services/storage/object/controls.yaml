@@ -1,10 +1,11 @@
 title: CCC Object Storage Security Controls
-category-id: CCC.ObjStor
+category_id: CCC.ObjStor
 controls:
   - id: CCC.ObjStor.C01
     feature_id: CCC.ObjStor.F15
     title: Prevent unencrypted requests to object storage bucket
     objective: Prevent any unencrypted requests to the object storage bucket, ensuring that all communications are encrypted in transit to protect data integrity and confidentiality.
+    control_family: Data
     nist_csf: PR.DS-2
     mitre_attack: T1573
     control_mappings:
@@ -24,6 +25,7 @@ controls:
     feature_id: CCC.ObjStor.F14
     title: Ensure data encryption at rest
     objective: Ensure that all data stored within the object storage service is encrypted at rest to maintain confidentiality and integrity.
+    control_family: Encryption
     nist_csf: PR.DS-1
     mitre_attack: T1486
     control_mappings:
@@ -42,6 +44,7 @@ controls:
     feature_id: CCC.ObjStor.F16
     title: Implement multi-factor authentication (MFA) for access
     objective: Ensure that all human user access to object storage buckets requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms.
+    control_family: Identity and Access Management
     nist_csf: PR.AC-7
     mitre_attack: T1078
     control_mappings:
@@ -60,6 +63,7 @@ controls:
     feature_id: CCC.ObjStor.F12
     title: Maintain immutable backups of data
     objective: Ensure that data stored in the object storage bucket is immutable for a defined period, preventing unauthorized modifications or deletions and thereby mitigating data destruction.
+    control_family: Data
     nist_csf: PR.DS-1
     mitre_attack: T1485
     control_mappings:
@@ -78,6 +82,7 @@ controls:
     feature_id: CCC.ObjStor.F18
     title: Log all access and changes to object storage
     objective: Ensure that all access and changes to the object storage bucket are logged to maintain a detailed audit trail for security and compliance purposes.
+    control_family: Logging & Monitoring
     nist_csf: DE.AE-3
     mitre_attack: T1530
     control_mappings:
@@ -97,6 +102,7 @@ controls:
     feature_id: CCC.ObjStor.F19
     title: Prevent access to object storage from untrusted cloud tenants and services
     objective: Ensure secure management of access to object storage resources, preventing unauthorized data access, exfiltration, and misuse of legitimate services by adversaries.
+    control_family: Identity and Access Management
     nist_csf: 
       - PR.PT-3
       - PR.PT-4
@@ -117,6 +123,7 @@ controls:
     feature_id: CCC.ObjStor.F20
     title: Prevent deploying object storage in restricted regions
     objective: Ensure that object storage resources are not provisioned or deployed in geographic regions or cloud availability zones that have been designated as restricted or prohibited, to comply with regulatory requirements and reduce exposure to geopolitical risks.
+    control_family: Data
     nist_csf: 
       - PR.AC-3
       - PR.DS-5
@@ -139,6 +146,7 @@ controls:
     feature_id: CCC.ObjStor.F15
     title: Prevent Requests to Object Storage Buckets or Objects with Untrusted KMS Keys
     objective: Prevent any requests to object storage buckets or objects using untrusted KMS keys to protect against unauthorized data encryption that can impact data availability and integrity.
+    control_family: Data
     nist_csf: PR.DS-4
     mitre_attack: T1486
     control_mappings:
@@ -156,6 +164,7 @@ controls:
     feature_id: CCC.ObjStor.F07
     title: Prevent Replication to Untrusted Destinations
     objective: Prevent object storage replication feature from replicating data to untrusted destinations. In this case, an untrusted destination is a resource that exists outside of a specified trusted identity or network perimeter (i.e. a data perimeter).
+    control_family: Data
     nist_csf: PR.DS-4
     mitre_attack: T1537
     control_mappings:
