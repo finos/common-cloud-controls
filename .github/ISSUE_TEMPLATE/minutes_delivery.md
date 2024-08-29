@@ -15,7 +15,7 @@ MM/DD/YYYY - 11:30 ET / 16:30 UK
 - [Join Zoom Meeting](https://zoom.us/j/93010138669)
 - Meeting ID: 930 1013 8669
 - Passcode: 432980
-- [Copy this meeting to your calendar](calendar.finos.org)
+- [Copy this meeting to your calendar](https://calendar.finos.org/)
 - [Find your local number](https://zoom.us/u/aeflbEDu94)
 
 ## Meeting notices

@@ -15,7 +15,7 @@ MM/DD/YYYY - 11:00 ET / 16:00 UK
 - [Join Zoom Meeting](https://zoom.us/j/99521272221)
 - Meeting ID: 995 2127 2221
 - Passcode: 128200
-- [Copy this meeting to your calendar](calendar.finos.org)
+- [Copy this meeting to your calendar](https://calendar.finos.org/)
 - [Find your local number](https://zoom.us/u/aUVBvM9h)
 
 ## Meeting notices

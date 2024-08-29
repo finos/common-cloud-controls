@@ -2,7 +2,7 @@ title: CCC <Service Category> Security Threats
 category_id: CCC.<Service Category Abbreviation>
 threat_model: <URL to threat model; Omit if not applicable>
 threats:
-  - id: <category-id>.T01
+  - id: <category-id>.TH01
     title: <Short name of the threat>
     description: <Complete description of the threat>
     feature_id: <category-id>.F<#>
