@@ -12,7 +12,7 @@ Scenario: Verify that databases are enforcing encrypted connections
    Then the connection should be refused
 
 @CCC.RDMS.C8.TR01.T02
-Scenario: Ensure ability to audit for any users who have connected using an insecure protocol
+Scenario: Verify all connections to the database are established using secure connectionss
    Given a user connection has been established to the database
-   When an admin establishes an admin connection to a database server and runs from mysql.user where ssl_type=''
-   Then no users should be returned
+   When an admin follows vendor specific steps to audit connection details  
+   Then there should be no connections observed using insecure connections
