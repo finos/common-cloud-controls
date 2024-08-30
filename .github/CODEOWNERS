@@ -50,8 +50,6 @@
 ########
 #
 # Threats or controls definition changes must be reviewed by the Security WG
-**/threats.yaml @finos/ccc-wg-security
-**/controls.yaml @finos/ccc-wg-security
 **/*.feature @finos/ccc-wg-security
 #
 ########
