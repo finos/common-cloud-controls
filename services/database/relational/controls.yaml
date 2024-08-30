@@ -5,7 +5,7 @@ controls:
     feature_id: CCC-RDMS-F9
     title: Enforce Role-Based Access Control
     objective: Ensure only authorized roles can access database resources.
-    control_family:
+    control_family: Identity and Access Management
     nist_csf: PR.AC-1
     mitre_attack: [M1041 - Restrict User Privileges](https://attack.mitre.org/mitigations/M1041)
     threats:
@@ -26,7 +26,7 @@ controls:
     feature_id: CCC-RDMS-9
     title: Disable Access with Default Credentials
     objective: Ensure that default credentials are disabled and only authorized roles can access database resources.
-    control_family: 
+    control_family: Identity and Access Management
     nist_csf: PR.AC-5
     mitre_attack: [M1041 - Restrict User Privileges](https://attack.mitre.org/mitigations/M1041)
     threats:
@@ -45,7 +45,7 @@ controls:
     feature_id: CCC-RDMS-F5
     title: Restrict Snapshot Collection To Trusted Roles
     objective: Limit snapshot collection capabilities to trusted roles.
-    control_family: 
+    control_family: Identity and Access Management
     nist_csf: PR.DS-3
     mitre_attack: [M1054 - Restrict Data Access](https://attack.mitre.org/mitigations/M1054)
     threats:
@@ -66,7 +66,7 @@ controls:
     feature_id: CCC-RDMS-F11
     title: Enforce Logging & Monitoring
     objective: Ensure logging and monitoring cannot be disabled by users.
-    control_family:
+    control_family: Logging & Monitoring
     nist_csf: PR.PT-1
     mitre_attack: [M1030 - Network Intrusion Detection](https://attack.mitre.org/mitigations/M1030)
     threats:
