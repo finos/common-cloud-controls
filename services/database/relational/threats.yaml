@@ -1,49 +1,55 @@
-title: Relational Database Management Systems Threats
+title: CCC Relational Database Management Systems Threats
 category_id: CCC.RDMS
-type: Dabases
+threat_model:
 description: This document contains the most common list of threats that impacts cloud-native relational database management systems (RDBMS). The scope of these threats expand across cloud service providers.
 threats: 
-  - id: CCC.RDMS.T1
+  - id: CCC.RDMS.TH01
     title: Unauthorized Access to Database
     description: An threat actor gains unauthorized access to the cloud relational database by using a compromised role or using default administrative credentials.
-    taxonomy_id: CCC-RDMS-9
-    mitre_attack_ttps:
+    feature_id: CCC-RDMS-F9
+    mitre_attack:
       - [TA0006](https://attack.mitre.org/tactics/TA0006/)
       - [T1552](https://attack.mitre.org/techniques/T1552/)
-  - id: CCC.RDMS.T2
+    thread_models:
+  - id: CCC.RDMS.TH02
     title: Unauthorized Cross Organization Snapshot Collection
     description: An threat actor initiates an snapshot collection activity using a privileged role and copies the snapshot outside of the organization, which allows for data exflitration and theft.
-    taxonomy_id: CCC-RDMS-5
-    mitre_attack_ttps:
+    feature_id: CCC-RDMS-F5
+    mitre_attack:
       - [TA0009](https://attack.mitre.org/tactics/TA0009/)
-      - [T1530](https://attack.mitre.org/techniques/T1530/) 
-  - id: CCC.RDMS.T3
+      - [T1530](https://attack.mitre.org/techniques/T1530/)
+    threat_models:
+  - id: CCC.RDMS.TH03
     title: Disabled Logging & Monitoring
     description: An threat actor can disable the logging and monitoring of the relational database, which allows for evasion techniques and activites to take place. In addition, this removes traces of malicious actions performed on the system.
-    taxonomy_id: CCC-RDMS-11, CCC-RDMS-10
-    mitre_attack_ttps:
+    feature_id: CCC-RDMS-F11, CCC-RDMS-F10
+    mitre_attack:
       - [TA0005](https://attack.mitre.org/tactics/TA0005/)
       - [T1562](https://attack.mitre.org/techniques/T1562/)
-  - id: CCC.RDMS.T4
+    thread_models:
+  - id: CCC.RDMS.TH04
     title: Unauthorized Configuration Modification
     description: An threat actor attempts to make a change to the configuration of the cloud RDMS with a malicious role.
-    taxonomy_id: CCC-RDMS-5
-    mitre_attack_ttps:
+    feature_id: CCC-RDMS-F5
+    mitre_attack:
       - [TA0004](https://attack.mitre.org/tactics/TA0004)
       - [TA0005](https://attack.mitre.org/tactics/TA0005)
       - [T1548](https://attack.mitre.org/techniques/T1548/)
-  - id: CCC.RDMS.T5
+    thread_models:
+  - id: CCC.RDMS.TH05
     title: Unencrypted Connection To Database
     description: An end-user connects to the database over HTTP, which is susceptible to network sniffing attacks and various other exploits.
-    taxonomy_id: CCC-RDMS-8
-    mitre_attack_ttps:
+    feature_id: CCC-RDMS-F8
+    mitre_attack:
       - [TA0006](https://attack.mitre.org/tactics/TA0006)
       - [TA0007](https://attack.mitre.org/tactics/TA0007)
       - [T1040](https://attack.mitre.org/techniques/T1040/)
-  - id: CCC.RDMS.T6
+    thread_models:
+  - id: CCC.RDMS.TH06
     title: Snapshot Collection with Unauthorized Encryption Key
     description: An threat actor attempts to perform snapshot collection with the non-default encryption key that is associated with the RDMS.
-    taxonomy_id: CCC-RDMS-7
-    mitre_attack_ttps:
+    feature_id: CCC-RDMS-F7
+    mitre_attack:
       - [TA0009](https://attack.mitre.org/tactics/TA0009)
       - [T1530](https://attack.mitre.org/techniques/T1530/)
+    thread_models:
