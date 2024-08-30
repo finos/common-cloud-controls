@@ -5,7 +5,7 @@ Feature: Data encryption in transit
 This reature ensures that end-to-end encryption of data in transit is leveraged and enforced
 """
 
-@CCC.RDMS.C8.TR01.T01
+@CCC.RDMS.C8.TR01.TE01
 Scenario: Verify that databases are enforcing encrypted connections
    Given an application attempting to connect to a database and the database is configured with some form of "require secure transport"
    When the connection attempt is made without using encryption
