@@ -167,7 +167,7 @@ The following validations must be performed against corresponding Control Implem
 
 ### Objective
 
-Ensure that object storage resources are not provisioned or deployed in geographic regions or cloud availability zones that have been designated as restricted or prohibited
+Ensure that object storage resources are not provisioned or deployed in geographic regions or cloud availability zones that have been designated as restricted or prohibited.
 
 ### Control Mappings
 
@@ -204,7 +204,7 @@ Prevent any requests to object storage buckets or objects using untrusted KMS ke
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. [**CCC.OS.C8.TR01**]{#CCC.OS.C8.TR.01}: Verify that access policies for cloud storage buckets and objects prevent requests with untrusted KMS keys. In this case, an untrusted KMS key is one that is not specified as trusted by the cloud storage bucket owner.
+1. [**CCC.OS.C8.TR01**](./tests/ccc-os-c8.feature#CCC.OS.C8.TR01): Verify that access policies for cloud storage buckets and objects prevent requests with untrusted KMS keys. In this case, an untrusted KMS key is one that is not specified as trusted by the cloud storage bucket owner.
 
 ## CCC.OS.C9: Prevent Replication to Untrusted Destinations
 
@@ -226,4 +226,4 @@ Prevent object storage replication feature from replicating data to untrusted de
 
 The following validations must be performed against corresponding Control Implementation capabilities to ensure the Control Objective is thoroughly assessed:
 
-1. [**CCC.OS.C9.TR01**]{#CCC.OS.C9.TR.01}: Verify that object storage replication configurations are prevented from replicating to untrusted destinations.
+1. [**CCC.OS.C9.TR01**](./tests/ccc-os-c9.feature#CCC.OS.C9.TR01): Verify that object storage replication configurations are prevented from replicating to untrusted destinations.
