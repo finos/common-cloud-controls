@@ -11,7 +11,7 @@ Scenario: Verify that databases are enforcing encrypted connections
    When the connection attempt is made without using encryption
    Then the connection should be refused
 
-@CCC.RDMS.C8.TR01.T02
+@CCC.RDMS.C8.TR01.TE02
 Scenario: Verify all connections to the database are established using secure connectionss
    Given a user connection has been established to the database
    When an admin follows vendor specific steps to audit connection details  
