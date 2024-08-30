@@ -31,7 +31,7 @@ Feature: Secure Database Access Control with Local users
 This feature targets database configurations where a local user is defined and granted permissions to interact with the database system.  
 """
 
-@CCC.RDMS.C2.TR02.TR01
+@CCC.RDMS.C2.TR02.TE01
 Scenario: Ensure that only authorized local accounts exist in the database and are restricted to accessing the data they need
    Given a local database with user accounts that may be used for application access
    When auditing local accounts 
