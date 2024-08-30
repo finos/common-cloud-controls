@@ -1,0 +1,24 @@
+title: CCC Object Storage Security Threats
+category-id: CCC.ObjStor
+threats:
+  - id: CCC.ObjStor.TH01
+    title: Attacker intercepts data in transit to a bucket
+    description: The object storage service allows communication over HTTP. An attacker can intercept the traffic you send to bucket, in order to read or modify the data.
+    feature_id: CCC.ObjStor.F15
+    mitre_attack: 
+      - TA009
+      - T1557
+  - id: CCC.ObjStor.TH02
+    title: Attacker encrypts objects for ransomware
+    description: The object storage service provides several types of encryption where the key is not operated by the CSP. An attacker can encrypt all the data stored in the bucket to ransom the data owner to get the decryption key. Alternatively, an attacker can change the default encryption key, for a similar effect on any new data uploaded.
+    feature_id: CCC.ObjStor.F14
+    mitre_attack: 
+      - TA0040
+      - T1486
+  - id: CCC.ObjStor.TH03
+    title: Attacker grants bucket access to untrusted principals
+    description: The bucket access controls (e.g. ACLs, bucket policies) can enable access to objects owned by the bucket. An attacker (or someone by negligence) can change (i.e., impair) the bucket access controls and make the content accessible to untrusted principals (via public endpoints, cross-account VPC endpoints, or cross-account access point).
+    feature_id: CCC.ObjStor.F16
+    mitre_attack: 
+      - TA0005
+      - T1562

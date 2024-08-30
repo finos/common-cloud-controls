@@ -1,0 +1,181 @@
+title: CCC Object Storage Security Controls
+category_id: CCC.ObjStor
+controls:
+  - id: CCC.ObjStor.C01
+    feature_id: CCC.ObjStor.F15
+    title: Prevent unencrypted requests to object storage bucket
+    objective: Prevent any unencrypted requests to the object storage bucket, ensuring that all communications are encrypted in transit to protect data integrity and confidentiality.
+    control_family: Data
+    nist_csf: PR.DS-2
+    mitre_attack: T1573
+    control_mappings:
+      CCM: 
+        - IVS-09
+        - DSI-03
+      ISO_27001: 
+        - 2013 A.13.1.1
+      NIST_800_53: 
+        - SC-8
+        - SC-13
+    test_requirements:
+      01: All supported network data protocols must be running on secure channels.
+      02: All clear text channels should be disabled.
+      03: The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST proposed latest standard cipher suites](<[#](https://csrc.nist.gov/pubs/sp/800/52/r2/final)>).
+  - id: CCC.ObjStor.C02
+    feature_id: CCC.ObjStor.F14
+    title: Ensure data encryption at rest
+    objective: Ensure that all data stored within the object storage service is encrypted at rest to maintain confidentiality and integrity.
+    control_family: Encryption
+    nist_csf: PR.DS-1
+    mitre_attack: T1486
+    control_mappings:
+      CCM: 
+        - DSI-01
+        - DSI-02
+      ISO_27001: 
+        - 2013 A.10.1.1
+      NIST_800_53: 
+        - SC-28
+    test_requirements:
+      01: Verify that data stored in the object storage bucket is encrypted using industry-standard algorithms.
+      02: Ensure that encryption keys are managed securely and rotated periodically.
+      03: Confirm that decryption is only possible through authorized access mechanisms.
+  - id: CCC.ObjStor.C03
+    feature_id: CCC.ObjStor.F16
+    title: Implement multi-factor authentication (MFA) for access
+    objective: Ensure that all human user access to object storage buckets requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms.
+    control_family: Identity and Access Management
+    nist_csf: PR.AC-7
+    mitre_attack: T1078
+    control_mappings:
+      CCM: 
+        - IAM-03
+        - IAM-08
+      ISO_27001: 
+        - 2013 A.9.4.2
+      NIST_800_53: 
+        - IA-2
+    test_requirements:
+      01: Verify that MFA is enforced for all access attempts to the object storage bucket.
+      02: Ensure that MFA is required for all administrative access to the storage management interface.
+      03: Confirm that users are unable to access the object storage bucket without completing MFA.
+  - id: CCC.ObjStor.C04
+    feature_id: CCC.ObjStor.F12
+    title: Maintain immutable backups of data
+    objective: Ensure that data stored in the object storage bucket is immutable for a defined period, preventing unauthorized modifications or deletions and thereby mitigating data destruction.
+    control_family: Data
+    nist_csf: PR.DS-1
+    mitre_attack: T1485
+    control_mappings:
+      CCM: 
+        - DSI-05
+        - DSI-07
+      ISO_27001: 
+        - 2013 A.12.3.1
+      NIST_800_53: 
+        - CP-9
+    test_requirements:
+      01: Verify that data in the object storage bucket is protected by immutability settings.
+      02: Ensure that attempts to modify or delete data within the immutability period are denied.
+      03: Confirm that immutable data remains unchanged throughout the defined retention period.
+  - id: CCC.ObjStor.C05
+    feature_id: CCC.ObjStor.F18
+    title: Log all access and changes to object storage
+    objective: Ensure that all access and changes to the object storage bucket are logged to maintain a detailed audit trail for security and compliance purposes.
+    control_family: Logging & Monitoring
+    nist_csf: DE.AE-3
+    mitre_attack: T1530
+    control_mappings:
+      CCM: 
+        - DSI-06
+        - STA-04
+      ISO_27001: 
+        - 2013 A.12.4.1
+      NIST_800_53: 
+        - AU-2
+        - AU-3
+    test_requirements:
+      01: Verify that all access attempts to the object storage bucket are logged.
+      02: Ensure that all changes to the object storage bucket configurations are logged.
+      03: Confirm that logs are protected against unauthorized access and tampering.
+  - id: CCC.ObjStor.C06
+    feature_id: CCC.ObjStor.F19
+    title: Prevent access to object storage from untrusted cloud tenants and services
+    objective: Ensure secure management of access to object storage resources, preventing unauthorized data access, exfiltration, and misuse of legitimate services by adversaries.
+    control_family: Identity and Access Management
+    nist_csf: 
+      - PR.PT-3
+      - PR.PT-4
+    mitre_attack: 
+      - T1021
+    control_mappings:
+      CCM: 
+        - DS-5
+      ISO_27001: 
+        - 2013 A.13.1.3
+      NIST_800_53: 
+        - AC-3
+    test_requirements:
+      01: Verify that object storage endpoint can be blocked from public access.
+      02: Verify that object storage can be blocked from cloud services deployed on the same cloud tenant.
+      03: Confirm that it's possible to prevent access to object storage from other cloud tenants, even if those tenants have network connectivity to the cloud tenant hosting the object storage.
+  - id: CCC.ObjStor.C07
+    feature_id: CCC.ObjStor.F20
+    title: Prevent deploying object storage in restricted regions
+    objective: Ensure that object storage resources are not provisioned or deployed in geographic regions or cloud availability zones that have been designated as restricted or prohibited, to comply with regulatory requirements and reduce exposure to geopolitical risks.
+    control_family: Data
+    nist_csf: 
+      - PR.AC-3
+      - PR.DS-5
+      - RS.AN-3
+    mitre_attack: 
+      - T1583
+    control_mappings:
+      CCM: 
+        - DSI-06
+        - DSI-08
+      ISO_27001: 
+        - 2013 A.11.1.1
+      NIST_800_53: 
+        - AC-6
+    test_requirements:
+      01: Verify that object storage resources are not deployed in any of the restricted regions or cloud availability zones.
+      02: Ensure that the cloud provider's configuration management tools are used to enforce restrictions on provisioning in prohibited regions.
+      03: Confirm that object storage backups and copies are not allowed to be stored in restricted regions or cloud availability zones.
+  - id: CCC.ObjStor.C08
+    feature_id: CCC.ObjStor.F15
+    title: Prevent Requests to Object Storage Buckets or Objects with Untrusted KMS Keys
+    objective: Prevent any requests to object storage buckets or objects using untrusted KMS keys to protect against unauthorized data encryption that can impact data availability and integrity.
+    control_family: Data
+    nist_csf: PR.DS-4
+    mitre_attack: T1486
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - 2013 A.12.3.1
+      NIST_800_53: 
+        - CP-6
+        - CP-9
+    test_requirements:
+      01: Verify that access policies for cloud storage buckets and objects prevent requests with untrusted KMS keys. In this case, an untrusted KMS key is one that is not specified as trusted by the cloud storage bucket owner.
+  - id: CCC.ObjStor.C09
+    feature_id: CCC.ObjStor.F07
+    title: Prevent Replication to Untrusted Destinations
+    objective: Prevent object storage replication feature from replicating data to untrusted destinations. In this case, an untrusted destination is a resource that exists outside of a specified trusted identity or network perimeter (i.e. a data perimeter).
+    control_family: Data
+    nist_csf: PR.DS-4
+    mitre_attack: T1537
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - 2013 A.12.3.1
+      NIST_800_53: 
+        - CP-6
+        - CP-9
+    test_requirements:
+      01: Verify that object storage replication configurations are prevented from replicating to untrusted destinations.
+  
