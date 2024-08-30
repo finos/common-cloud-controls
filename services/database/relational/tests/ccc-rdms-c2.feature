@@ -5,7 +5,7 @@ Feature: Secure Database Access Control
 This feature verifies various security measures in the database management system, including disabling default credentials, ensuring only authorized roles have access, and denying access attempts using default credentials.
 """
 
-@CCC.RDMS.C2.TR01.T01
+@CCC.RDMS.C2.TR01.TE01
 Scenario: Ensure that only authorized roles can access database resources
    Given a user with an authorized role
    When the user tries to access the database resources
