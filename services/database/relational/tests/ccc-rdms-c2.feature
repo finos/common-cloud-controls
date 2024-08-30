@@ -17,7 +17,7 @@ Scenario: Ensure that unauthorized roles cannot access database resources
    When the user tries to access the database resources
    Then the user should be denied access to the database resources
 
-@CCC.RDMS.C2.TR01.TR03
+@CCC.RDMS.C2.TR01.TE03
 Scenario: Confirm that access attempts using default credentials are denied
    Given the database management system has default credentials
    When an access attempt is made using default credentials
