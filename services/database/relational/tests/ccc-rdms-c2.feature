@@ -40,6 +40,6 @@ Scenario: Ensure that only authorized local accounts exist in the database and a
 
 @CCC.RDMS.C2.TR02.TE02
 Scenario: Ensure that authorized accounts only have the minimum neccessary permissions to perform their task
-   Given that local accounts must be granted certain permissions to perform certain operations on the database system
+   Given a local database with user accounts
    When auditing local account permissions
    Then the permissions are the minimum needed to local account to perform necessary operations
