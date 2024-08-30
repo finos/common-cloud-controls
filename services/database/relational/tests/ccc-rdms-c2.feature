@@ -11,7 +11,7 @@ Scenario: Ensure that only authorized roles can access database resources
    When the user tries to access the database resources
    Then the user should be granted access to the database resources
 
-@CCC.RDMS.C2.TR01.T02
+@CCC.RDMS.C2.TR01.TE02
 Scenario: Ensure that unauthorized roles cannot access database resources
    Given a user with an unauthorized role
    When the user tries to access the database resources
