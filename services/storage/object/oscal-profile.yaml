@@ -1,7 +1,7 @@
 catalog:
-  uuid: "ccc-object-storage-catalog-uuid"
+  uuid: "ccc-catalog-uuid"
   metadata:
-    title: "CCC Object Storage Security Controls"
+    title: "CCC Security Controls Profile"
     last-modified: "2024-09-01T00:00:00Z"
     version: "1.0.0"
     oscal-version: "1.1.2"
@@ -13,13 +13,13 @@ catalog:
     - id: data
       title: "Data"
       controls:
-        - id: CCC.ObjStor.C01
-          title: "Prevent unencrypted requests to object storage bucket"
+        - id: CCC.Common.C01
+          title: "Prevent unencrypted requests"
           class: data
           parts:
             - id: objective
               name: objective
-              prose: "Prevent any unencrypted requests to the object storage bucket, ensuring that all communications are encrypted in transit to protect data integrity and confidentiality."
+              prose: "Prevent any unencrypted requests, ensuring that all communications are encrypted in transit to protect data integrity and confidentiality."
           props:
             - name: nist-csf
               value: PR.DS-2
@@ -32,38 +32,38 @@ catalog:
             - name: nist-800-53
               value: SC-8, SC-13
           assessment-objective:
-            - id: CCC.ObjStor.C01.obj
+            - id: CCC.Common.C01.obj
               name: assessment-objective
               props:
                 - name: label
-                  value: CCC.ObjStor.C01.obj
+                  value: CCC.Common.C01.obj
               parts:
-                - id: CCC.ObjStor.C01.obj.01
+                - id: CCC.Common.C01.obj.01
                   name: assessment-objective
                   props:
                     - name: label
                       value: "01"
                   prose: "Verify that all supported network data protocols are running on secure channels."
-                - id: CCC.ObjStor.C01.obj.02
+                - id: CCC.Common.C01.obj.02
                   name: assessment-objective
                   props:
                     - name: label
                       value: "02"
                   prose: "Verify that all clear text channels are disabled."
-                - id: CCC.ObjStor.C01.obj.03
+                - id: CCC.Common.C01.obj.03
                   name: assessment-objective
                   props:
                     - name: label
                       value: "03"
                   prose: "Ensure that the cipher suite implemented for ensuring the integrity and confidentiality of data conforms with the latest suggested cipher suites."
 
-        - id: CCC.ObjStor.C04
+        - id: CCC.Common.C04
           title: "Maintain immutable backups of data"
           class: data
           parts:
             - id: objective
               name: objective
-              prose: "Ensure that data stored in the object storage bucket is immutable for a defined period, preventing unauthorized modifications or deletions and thereby mitigating data destruction."
+              prose: "Ensure that data stored is immutable for a defined period, preventing unauthorized modifications or deletions and thereby mitigating data destruction."
           props:
             - name: nist-csf
               value: PR.DS-1
@@ -76,38 +76,38 @@ catalog:
             - name: nist-800-53
               value: CP-9
           assessment-objective:
-            - id: CCC.ObjStor.C04.obj
+            - id: CCC.Common.C04.obj
               name: assessment-objective
               props:
                 - name: label
-                  value: CCC.ObjStor.C04.obj
+                  value: CCC.Common.C04.obj
               parts:
-                - id: CCC.ObjStor.C04.obj.01
+                - id: CCC.Common.C04.obj.01
                   name: assessment-objective
                   props:
                     - name: label
                       value: "01"
-                  prose: "Verify that data in the object storage bucket is protected by immutability settings."
-                - id: CCC.ObjStor.C04.obj.02
+                  prose: "Verify that data is protected by immutability settings."
+                - id: CCC.Common.C04.obj.02
                   name: assessment-objective
                   props:
                     - name: label
                       value: "02"
                   prose: "Ensure that attempts to modify or delete data within the immutability period are denied."
-                - id: CCC.ObjStor.C04.obj.03
+                - id: CCC.Common.C04.obj.03
                   name: assessment-objective
                   props:
                     - name: label
                       value: "03"
                   prose: "Confirm that immutable data remains unchanged throughout the defined retention period."
 
-        - id: CCC.ObjStor.C07
-          title: "Prevent deploying object storage in restricted regions"
+        - id: CCC.Common.C07
+          title: "Prevent deploying in restricted regions"
           class: data
           parts:
             - id: objective
               name: objective
-              prose: "Ensure that object storage resources are not provisioned or deployed in geographic regions or cloud availability zones that have been designated as restricted or prohibited, to comply with regulatory requirements and reduce exposure to geopolitical risks."
+              prose: "Ensure that resources are not provisioned or deployed in geographic regions or cloud availability zones that have been designated as restricted or prohibited, to comply with regulatory requirements and reduce exposure to geopolitical risks."
           props:
             - name: nist-csf
               value: PR.AC-3, PR.DS-5, RS.AN-3
@@ -120,41 +120,41 @@ catalog:
             - name: nist-800-53
               value: AC-6
           assessment-objective:
-            - id: CCC.ObjStor.C07.obj
+            - id: CCC.Common.C07.obj
               name: assessment-objective
               props:
                 - name: label
-                  value: CCC.ObjStor.C07.obj
+                  value: CCC.Common.C07.obj
               parts:
-                - id: CCC.ObjStor.C07.obj.01
+                - id: CCC.Common.C07.obj.01
                   name: assessment-objective
                   props:
                     - name: label
                       value: "01"
-                  prose: "Verify that object storage resources are not deployed in any of the restricted regions or cloud availability zones."
-                - id: CCC.ObjStor.C07.obj.02
+                  prose: "Verify that resources are not deployed in any of the restricted regions or cloud availability zones."
+                - id: CCC.Common.C07.obj.02
                   name: assessment-objective
                   props:
                     - name: label
                       value: "02"
                   prose: "Ensure that the cloud provider's configuration management tools are used to enforce restrictions on provisioning in prohibited regions."
-                - id: CCC.ObjStor.C07.obj.03
+                - id: CCC.Common.C07.obj.03
                   name: assessment-objective
                   props:
                     - name: label
                       value: "03"
-                  prose: "Confirm that object storage backups and copies are not allowed to be stored in restricted regions or cloud availability zones."
+                  prose: "Confirm that backups and copies are not allowed to be stored in restricted regions or cloud availability zones."
 
     - id: encryption
       title: "Encryption"
       controls:
-        - id: CCC.ObjStor.C02
+        - id: CCC.Common.C02
           title: "Ensure data encryption at rest"
           class: encryption
           parts:
             - id: objective
               name: objective
-              prose: "Ensure that all data stored within the object storage service is encrypted at rest to maintain confidentiality and integrity."
+              prose: "Ensure that all data stored is encrypted at rest to maintain confidentiality and integrity."
           props:
             - name: nist-csf
               value: PR.DS-1
@@ -167,25 +167,25 @@ catalog:
             - name: nist-800-53
               value: SC-28
           assessment-objective:
-            - id: CCC.ObjStor.C02.obj
+            - id: CCC.Common.C02.obj
               name: assessment-objective
               props:
                 - name: label
-                  value: CCC.ObjStor.C02.obj
+                  value: CCC.Common.C02.obj
               parts:
-                - id: CCC.ObjStor.C02.obj.01
+                - id: CCC.Common.C02.obj.01
                   name: assessment-objective
                   props:
                     - name: label
                       value: "01"
-                  prose: "Verify that data stored in the object storage bucket is encrypted using industry-standard algorithms."
-                - id: CCC.ObjStor.C02.obj.02
+                  prose: "Verify that data stored is encrypted using industry-standard algorithms."
+                - id: CCC.Common.C02.obj.02
                   name: assessment-objective
                   props:
                     - name: label
                       value: "02"
                   prose: "Ensure that encryption keys are managed securely and rotated periodically."
-                - id: CCC.ObjStor.C02.obj.03
+                - id: CCC.Common.C02.obj.03
                   name: assessment-objective
                   props:
                     - name: label
@@ -195,13 +195,13 @@ catalog:
     - id: identity-and-access-management
       title: "Identity and Access Management"
       controls:
-        - id: CCC.ObjStor.C03
+        - id: CCC.Common.C03
           title: "Implement multi-factor authentication (MFA) for access"
           class: identity-and-access-management
           parts:
             - id: objective
               name: objective
-              prose: "Ensure that all human user access to object storage buckets requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms."
+              prose: "Ensure that all human user access requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms."
           props:
             - name: nist-csf
               value: PR.AC-7
@@ -214,38 +214,38 @@ catalog:
             - name: nist-800-53
               value: IA-2
           assessment-objective:
-            - id: CCC.ObjStor.C03.obj
+            - id: CCC.Common.C03.obj
               name: assessment-objective
               props:
                 - name: label
-                  value: CCC.ObjStor.C03.obj
+                  value: CCC.Common.C03.obj
               parts:
-                - id: CCC.ObjStor.C03.obj.01
+                - id: CCC.Common.C03.obj.01
                   name: assessment-objective
                   props:
                     - name: label
                       value: "01"
-                  prose: "Verify that MFA is enforced for all access attempts to the object storage bucket."
-                - id: CCC.ObjStor.C03.obj.02
+                  prose: "Verify that MFA is enforced for all access attempts."
+                - id: CCC.Common.C03.obj.02
                   name: assessment-objective
                   props:
                     - name: label
                       value: "02"
-                  prose: "Ensure that MFA is required for all administrative access to the storage management interface."
-                - id: CCC.ObjStor.C03.obj.03
+                  prose: "Ensure that MFA is required for all administrative access to the management interface."
+                - id: CCC.Common.C03.obj.03
                   name: assessment-objective
                   props:
                     - name: label
                       value: "03"
-                  prose: "Confirm that users are unable to access the object storage bucket without completing MFA."
+                  prose: "Confirm that users are unable to access without completing MFA."
 
-        - id: CCC.ObjStor.C06
-          title: "Prevent access to object storage from untrusted cloud tenants and services"
+        - id: CCC.Common.C06
+          title: "Prevent access from untrusted cloud tenants and services"
           class: identity-and-access-management
           parts:
             - id: objective
               name: objective
-              prose: "Ensure secure management of access to object storage resources, preventing unauthorized data access, exfiltration, and misuse of legitimate services by adversaries."
+              prose: "Ensure secure management of access to resources, preventing unauthorized data access, exfiltration, and misuse of legitimate services by adversaries."
           props:
             - name: nist-csf
               value: PR.PT-3, PR.PT-4
@@ -258,41 +258,41 @@ catalog:
             - name: nist-800-53
               value: AC-3
           assessment-objective:
-            - id: CCC.ObjStor.C06.obj
+            - id: CCC.Common.C06.obj
               name: assessment-objective
               props:
                 - name: label
-                  value: CCC.ObjStor.C06.obj
+                  value: CCC.Common.C06.obj
               parts:
-                - id: CCC.ObjStor.C06.obj.01
+                - id: CCC.Common.C06.obj.01
                   name: assessment-objective
                   props:
                     - name: label
                       value: "01"
-                  prose: "Verify that object storage endpoint can be blocked from public access."
-                - id: CCC.ObjStor.C06.obj.02
+                  prose: "Verify that the service endpoint can be blocked from public access."
+                - id: CCC.Common.C06.obj.02
                   name: assessment-objective
                   props:
                     - name: label
                       value: "02"
-                  prose: "Verify that object storage can be blocked from cloud services deployed on the same cloud tenant."
-                - id: CCC.ObjStor.C06.obj.03
+                  prose: "Verify that the service can be blocked from cloud services deployed on the same cloud tenant."
+                - id: CCC.Common.C06.obj.03
                   name: assessment-objective
                   props:
                     - name: label
                       value: "03"
-                  prose: "Confirm that it's possible to prevent access to object storage from other cloud tenants, even if those tenants have network connectivity to the cloud tenant hosting the object storage."
+                  prose: "Confirm that it's possible to prevent access the resource from other cloud tenants, even if those tenants have network connectivity to the cloud tenant hosting the resource."
 
     - id: logging-and-monitoring
       title: "Logging & Monitoring"
       controls:
-        - id: CCC.ObjStor.C05
-          title: "Log all access and changes to object storage"
+        - id: CCC.Common.C05
+          title: "Log all access and changes to the resource"
           class: logging-and-monitoring
           parts:
             - id: objective
               name: objective
-              prose: "Ensure that all access and changes to the object storage bucket are logged to maintain a detailed audit trail for security and compliance purposes."
+              prose: "Ensure that all access and changes to the resource are logged to maintain a detailed audit trail for security and compliance purposes."
           props:
             - name: nist-csf
               value: DE.AE-3
@@ -305,25 +305,25 @@ catalog:
             - name: nist-800-53
               value: AU-2, AU-3
           assessment-objective:
-            - id: CCC.ObjStor.C05.obj
+            - id: CCC.Common.C05.obj
               name: assessment-objective
               props:
                 - name: label
-                  value: CCC.ObjStor.C05.obj
+                  value: CCC.Common.C05.obj
               parts:
-                - id: CCC.ObjStor.C05.obj.01
+                - id: CCC.Common.C05.obj.01
                   name: assessment-objective
                   props:
                     - name: label
                       value: "01"
-                  prose: "Verify that all access attempts to the object storage bucket are logged."
-                - id: CCC.ObjStor.C05.obj.02
+                  prose: "Verify that all access attempts to the resource are logged."
+                - id: CCC.Common.C05.obj.02
                   name: assessment-objective
                   props:
                     - name: label
                       value: "02"
-                  prose: "Ensure that all changes to the object storage bucket configurations are logged."
-                - id: CCC.ObjStor.C05.obj.03
+                  prose: "Ensure that all changes to the resource configurations are logged."
+                - id: CCC.Common.C05.obj.03
                   name: assessment-objective
                   props:
                     - name: label
