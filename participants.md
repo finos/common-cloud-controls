@@ -11,7 +11,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Sonali Mendis, Scott Logic, 14th September 2023
 - Robert Griffiths, Scott Logic, Oct/06/2023
 - Valentin Mihai, Google, Date of enrollment: Sep/22/2023
-- James McLeod, FINOS, Date of enrollment: Sep/26/2023
+- James McLeod, NatWest Group, Date of enrollment: Sep/26/2023
 - Adrian Hammond, Red Hat, Date of enrollment: Oct/05/2023
 - Rachel Kim, Google, 09/22/2023
 - Mitch Hibbs, Symphony, Date of enrollment: Oct/05/2023
