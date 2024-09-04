@@ -2,7 +2,7 @@ title: CCC <Service Category> Security Controls
 category_id: CCC.<Service Category Abbreviation>
 common-controls:
   - <IDs of common controls; Omit if not applicable>
-controls:
+specific-controls:
   - id: CCC.<Service Category Abbreviation>.C1
     feature_id: <Corresponding Feature ID>
     title: <Name of the control>

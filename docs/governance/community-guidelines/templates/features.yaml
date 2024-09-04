@@ -4,7 +4,7 @@ type: <Parent Type of this Category>
 description: <1-3 sentence description of the service category>
 common-features:
   - <IDs of common features; Omit if not applicable>
-features:
+specific-features:
   - id: CCC.<Service Category Abbreviation>.F<##>
     title: <Shortname of the feature>
     description: <Complete description of the feature>
