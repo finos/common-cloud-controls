@@ -6,15 +6,15 @@ The **Common Cloud Controls (CCC)** framework defines these assurance levels to 
 
 ## Assurance Levels for Certification
 
-Each assurance level builds on the previous one, progressively increasing the security requirements. This allows organizations to match the assurance level of their cloud resources to the risk environment in which they operate. For example, higher-risk environments, such as those in financial services or critical infrastructure, would require higher assurance levels.
+Each assurance level builds on the previous one, progressively increasing the security requirements. This allows organizations to match the assurance level of their cloud resources to the risk environment in which they operate. For example, higher-risk environments, such as those in financial services, would require higher assurance levels.
 
-### **Level 0 - Basic Certification**
+### **Level 0 - Portable Certification**
 
 - **Description:** The resource meets basic portability requirements, ensuring consistent deployment across cloud environments.
-- **Risk Environment:** Low-risk environments where security is less critical but consistent deployment is necessary.
+- **Risk Environment:** Low-risk environments where security is less critical but portability and flexibility are key.
 - **Criteria:**
   - The resource is portable according to the corresponding CCC taxonomy.
-- **Use Case:** Suitable for resources in development or testing environments where security is not the primary concern but ease of deployment is important.
+- **Use Case:** Suitable for resources that need to function as **drop-in replacements** within common services, enabling seamless integration across different cloud platforms or environments. This is ideal for situations where organizations require the flexibility to quickly swap or scale controls, such as when migrating services or standardizing across multi-cloud architectures.
 
 ### **Level 1 - Secure Certification**
 
@@ -41,13 +41,13 @@ Each assurance level builds on the previous one, progressively increasing the se
 - **Criteria:**
   - Meets the requirements of Level 2.
   - A **red-teaming activity** has been conducted, simulating real-world attacks, and the CCC controls have been adjusted based on findings to ensure comprehensive security.
-- **Use Case:** This highest assurance level is for resources that need to withstand sophisticated, real-world threats and attacks, often in critical sectors such as defense, government, or financial services.
+- **Use Case:** This highest assurance level is for resources that need to withstand sophisticated, real-world threats and attacks.
 
 ## Summary Table of CCC Assurance Levels
 
 | **Assurance Level** | **Description**                     | **Criteria**                                                                                                 | **Risk Environment**              |
 | ------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------- |
-| **Level 0**         | Basic Certification                 | Resource meets CCC portability requirements.                                                                 | Low Risk                          |
+| **Level 0**         | Portable Certification              | Resource meets CCC portability requirements.                                                                 | Low Risk                          |
 | **Level 1**         | Secure Certification                | Resource meets portability and CCC security guidelines for secure-by-default configurations.                 | Moderate Risk                     |
 | **Level 2**         | Threat-Model Informed Certification | Resource is secure, and a threat model has informed the CCC controls.                                        | High Risk                         |
 | **Level 3**         | Red-Team Informed Certification     | Resource is secure, threat-model informed, and red-teaming has been performed to validate security controls. | Very High Risk / Mission-Critical |
