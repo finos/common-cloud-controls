@@ -1,46 +1,4 @@
-id: CCC
-title: CCC Common Values
-features:
-  - id: CCC.F01
-    title: Encryption in Transit can be Enabled
-    description: Supports encrypting data in transit using SSL/TLS.
-  - id: CCC.F02
-    title: Encryption at Rest Enabled by Default
-    description: Provides default encryption of data before storage, with the option for clients to maintain control over the encryption keys.
-  - id: CCC.F03
-    title: Access Logs
-    description: Provides users with the ability to track all requests made to resources.
-  - id: CCC.F04
-    title: Transaction Rate Limits
-    description: Allows the setting of a threshold where industry-standard throughput is achieved up to the specified rate limit.
-  - id: CCC.F05
-    title: Signed URLs
-    description: Provides the ability to grant temporary or restricted access to a resource through a custom URL that contains authentication information.
-  - id: CCC.F06
-    title: Identity Based Access Control
-    description: Provides the ability to determine access to resources based on attributes associated with a user identity.
-threats: # WIP
-  - id: CCC.TH01
-    title: Attacker intercepts data in transit
-    description: The service allows unencrypted communication (e.g., HTTP). An attacker can intercept traffic between clients and the service to read or modify the data during transmission.
-    feature_id: CCC.F01 # TODO: This is wrong... if enryption is enabled by default, this threat should not be possible
-    mitre_attack:
-      - TA009
-      - T1557
-  - id: CCC.TH02
-    title: Attacker encrypts data with client-managed keys
-    description: The service provides encryption mechanisms, but the encryption keys are managed by the client. An attacker with access to the service can encrypt the data, rendering it inaccessible without the decryption key they hold. Additionally, an attacker may alter the encryption key management settings to prevent access to data.
-    feature_id: CCC.F02 # TODO: Same as above... if encryption at rest is enabled by default, this threat should not be possible
-    mitre_attack:
-      - TA0040
-      - T1486
-  - id: CCC.TH03
-    title: Attacker modifies access control settings to expose data
-    description: Aaccess control policies such as IAM roles and access policies can be misconfigured to grant excessive privileges. An attacker or misinformed user can alter these policies, unintentionally or maliciously, to allow unauthorized access to sensitive data.
-    feature_id: CCC.ObjStor.F16
-    mitre_attack: 
-      - TA0005
-      - T1562
+title: CCC Common Controls
 common-controls:
   - id: CCC.C01
     title: Prevent unencrypted requests
@@ -49,7 +7,7 @@ common-controls:
     nist_csf: PR.DS-2
     mitre_attack: T1573
     control_mappings:
-      CCM: 
+      CCM:
         - IVS-09
         - DSI-03
       ISO_27001: 

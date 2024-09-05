@@ -1,0 +1,23 @@
+title: CCC Common Threats
+threats: # WIP
+  - id: CCC.TH01
+    title: Attacker intercepts data in transit
+    description: The service allows unencrypted communication (e.g., HTTP). An attacker can intercept traffic between clients and the service to read or modify the data during transmission.
+    feature_id: CCC.F01 # TODO: This is wrong... if enryption is enabled by default, this threat should not be possible
+    mitre_attack:
+      - TA009
+      - T1557
+  - id: CCC.TH02
+    title: Attacker encrypts data with client-managed keys
+    description: The service provides encryption mechanisms, but the encryption keys are managed by the client. An attacker with access to the service can encrypt the data, rendering it inaccessible without the decryption key they hold. Additionally, an attacker may alter the encryption key management settings to prevent access to data.
+    feature_id: CCC.F02 # TODO: Same as above... if encryption at rest is enabled by default, this threat should not be possible
+    mitre_attack:
+      - TA0040
+      - T1486
+  - id: CCC.TH03
+    title: Attacker modifies access control settings to expose data
+    description: Aaccess control policies such as IAM roles and access policies can be misconfigured to grant excessive privileges. An attacker or misinformed user can alter these policies, unintentionally or maliciously, to allow unauthorized access to sensitive data.
+    feature_id: CCC.ObjStor.F16
+    mitre_attack: 
+      - TA0005
+      - T1562
