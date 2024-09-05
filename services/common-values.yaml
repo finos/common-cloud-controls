@@ -2,11 +2,11 @@ id: CCC
 title: CCC Common Values
 features:
   - id: CCC.F01
+    title: Encryption in Transit can be Enabled
+    description: Supports encrypting data in transit using SSL/TLS.
+  - id: CCC.F02
     title: Encryption at Rest Enabled by Default
     description: Provides default encryption of data before storage, with the option for clients to maintain control over the encryption keys.
-  - id: CCC.F02
-    title: Encryption in Transit Enabled by Default
-    description: Supports encrypting data in transit using SSL/TLS.
   - id: CCC.F03
     title: Access Logs
     description: Provides users with the ability to track all requests made to resources.
@@ -22,22 +22,114 @@ features:
 threats: # WIP
   - id: CCC.TH01
     title: Attacker intercepts data in transit
-    description: The object storage service allows communication over HTTP. An attacker can intercept the traffic you send to bucket, in order to read or modify the data.
-    feature_id: CCC.ObjStor.F15
-    mitre_attack: 
+    description: The service allows unencrypted communication (e.g., HTTP). An attacker can intercept traffic between clients and the service to read or modify the data during transmission.
+    feature_id: CCC.F01 # TODO: This is wrong... if enryption is enabled by default, this threat should not be possible
+    mitre_attack:
       - TA009
       - T1557
   - id: CCC.TH02
-    title: Attacker encrypts objects for ransomware
-    description: The object storage service provides several types of encryption where the key is not operated by the CSP. An attacker can encrypt all the data stored in the bucket to ransom the data owner to get the decryption key. Alternatively, an attacker can change the default encryption key, for a similar effect on any new data uploaded.
-    feature_id: CCC.ObjStor.F14
-    mitre_attack: 
+    title: Attacker encrypts data with client-managed keys
+    description: The service provides encryption mechanisms, but the encryption keys are managed by the client. An attacker with access to the service can encrypt the data, rendering it inaccessible without the decryption key they hold. Additionally, an attacker may alter the encryption key management settings to prevent access to data.
+    feature_id: CCC.F02 # TODO: Same as above... if encryption at rest is enabled by default, this threat should not be possible
+    mitre_attack:
       - TA0040
       - T1486
-  - id: CCC.ObjStor.TH03
-    title: Attacker grants bucket access to untrusted principals
-    description: The bucket access controls (e.g. ACLs, bucket policies) can enable access to objects owned by the bucket. An attacker (or someone by negligence) can change (i.e., impair) the bucket access controls and make the content accessible to untrusted principals (via public endpoints, cross-account VPC endpoints, or cross-account access point).
+  - id: CCC.TH03
+    title: Attacker modifies access control settings to expose data
+    description: Aaccess control policies such as IAM roles and access policies can be misconfigured to grant excessive privileges. An attacker or misinformed user can alter these policies, unintentionally or maliciously, to allow unauthorized access to sensitive data.
     feature_id: CCC.ObjStor.F16
     mitre_attack: 
       - TA0005
       - T1562
+common-controls:
+  - id: CCC.C01
+    title: Prevent unencrypted requests
+    objective: Ensure that all communications are encrypted in transit to protect data integrity and confidentiality.
+    control_family: Data
+    nist_csf: PR.DS-2
+    mitre_attack: T1573
+    control_mappings:
+      CCM: 
+        - IVS-09
+        - DSI-03
+      ISO_27001: 
+        - 2013 A.13.1.1
+      NIST_800_53:
+        - SC-8
+        - SC-13
+    test_requirements:
+      01: All supported network data protocols must be running on secure channels.
+      02: All clear text channels should be disabled.
+      03: The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites.
+  - id: CCC.C02
+    title: Ensure data encryption at rest all stored data
+    objective: Ensure that all data stored is encrypted at rest to maintain confidentiality and integrity.
+    control_family: Encryption
+    nist_csf: PR.DS-1
+    mitre_attack: T1486
+    control_mappings:
+      CCM: 
+        - DSI-01
+        - DSI-02
+      ISO_27001: 
+        - 2013 A.10.1.1
+      NIST_800_53: 
+        - SC-28
+    test_requirements:
+      01: Verify that stored data is encrypted using industry-standard algorithms.
+      02: Ensure that encryption keys are managed securely and rotated periodically.
+      03: Confirm that decryption is only possible through authorized access mechanisms.
+  - id: CCC.C03
+    title: Implement multi-factor authentication (MFA) for access
+    objective: Ensure that all human user access requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms.
+    control_family: Identity and Access Management
+    nist_csf: PR.AC-7
+    mitre_attack: T1078
+    control_mappings:
+      CCM: 
+        - IAM-03
+        - IAM-08
+      ISO_27001: 
+        - 2013 A.9.4.2
+      NIST_800_53: 
+        - IA-2
+    test_requirements:
+      01: Verify that MFA is enforced for all access attempts.
+      02: Ensure that MFA is required for all administrative access to the management interface.
+      03: Confirm that users are unable to access without completing MFA.
+  - id: CCC.C04
+    title: Log all access and changes
+    objective: Ensure that all access and changes are logged to maintain a detailed audit trail for security and compliance purposes.
+    control_family: Logging & Monitoring
+    nist_csf: DE.AE-3
+    mitre_attack: T1530
+    control_mappings:
+      CCM: 
+        - DSI-06
+        - STA-04
+      ISO_27001: 
+        - 2013 A.12.4.1
+      NIST_800_53: 
+        - AU-2
+        - AU-3
+    test_requirements:
+      01: Verify that all access attempts are logged.
+      02: Ensure that all changes to configurations are logged.
+      03: Confirm that logs are protected against unauthorized access and tampering.
+  - id: CCC.C05
+    title: Prevent access from untrusted tenants and services
+    objective: Ensure secure access controls prevent unauthorized data access, exfiltration, and misuse of legitimate services by adversaries.
+    control_family: Identity and Access Management
+    nist_csf: PR.PT-3, PR.PT-4
+    mitre_attack: T1021
+    control_mappings:
+      CCM: 
+        - DS-5
+      ISO_27001: 
+        - 2013 A.13.1.3
+      NIST_800_53: 
+        - AC-3
+    test_requirements:
+      01: Verify that endpoints can be blocked from public access.
+      02: Verify that can be blocked from services deployed on the same cloud tenant.
+      03: Confirm that it's possible to prevent access from other cloud tenants, even if those tenants have network connectivity to the cloud tenant hosting the resources.
