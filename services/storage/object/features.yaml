@@ -3,8 +3,12 @@ category_id: CCC.ObjStor
 type: Storage
 description: This documents the minimual set of features that should be present for a object storage service to be considered for use in financial services ecosystems.
 common-features:
-  - CCC.Common.F01
-specific-features:
+  - CCC.F01
+  - CCC.F02
+  - CCC.F03
+  - CCC.F04
+  - CCC.F05
+features:
   - id: CCC.ObjStor.F01
     title: Storage Buckets
     description: Provides uniquely identifiable segmentations in which data elements may be stored.

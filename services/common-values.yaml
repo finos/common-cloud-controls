@@ -1,33 +1,33 @@
-id: CCC.Common
+id: CCC
 title: CCC Common Values
 features:
-  - id: CCC.Common.F01
+  - id: CCC.F01
     title: Encryption at Rest Enabled by Default
     description: Provides default encryption of data before storage, with the option for clients to maintain control over the encryption keys.
-  - id: CCC.Common.F02
+  - id: CCC.F02
     title: Encryption in Transit Enabled by Default
     description: Supports encrypting data in transit using SSL/TLS.
-  - id: CCC.Common.F03
+  - id: CCC.F03
     title: Access Logs
     description: Provides users with the ability to track all requests made to resources.
-  - id: CCC.Common.F04
+  - id: CCC.F04
     title: Transaction Rate Limits
     description: Allows the setting of a threshold where industry-standard throughput is achieved up to the specified rate limit.
-  - id: CCC.Common.F05
+  - id: CCC.F05
     title: Signed URLs
     description: Provides the ability to grant temporary or restricted access to a resource through a custom URL that contains authentication information.
-  - id: CCC.Common.F06
+  - id: CCC.F06
     title: Identity Based Access Control
     description: Provides the ability to determine access to resources based on attributes associated with a user identity.
-threats:
-  - id: CCC.ObjStor.TH01
-    title: Attacker intercepts data in transit to a bucket
+threats: # WIP
+  - id: CCC.TH01
+    title: Attacker intercepts data in transit
     description: The object storage service allows communication over HTTP. An attacker can intercept the traffic you send to bucket, in order to read or modify the data.
     feature_id: CCC.ObjStor.F15
     mitre_attack: 
       - TA009
       - T1557
-  - id: CCC.ObjStor.TH02
+  - id: CCC.TH02
     title: Attacker encrypts objects for ransomware
     description: The object storage service provides several types of encryption where the key is not operated by the CSP. An attacker can encrypt all the data stored in the bucket to ransom the data owner to get the decryption key. Alternatively, an attacker can change the default encryption key, for a similar effect on any new data uploaded.
     feature_id: CCC.ObjStor.F14
