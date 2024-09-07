@@ -1,7 +1,7 @@
 title: CCC Common Features
 features:
   - id: CCC.F01
-    title: Encryption in Transit can be Enabled
+    title: Encryption in Transit Enabled by Default
     description: Supports encrypting data in transit using SSL/TLS.
   - id: CCC.F02
     title: Encryption at Rest Enabled by Default
@@ -18,3 +18,6 @@ features:
   - id: CCC.F06
     title: Identity Based Access Control
     description: Provides the ability to determine access to resources based on attributes associated with a user identity.
+  - id: CCC.F07
+    title: Event Notifications
+    description: Publishes events for creation, deletion, and modification of objects in a way that enables users to trigger actions in response.

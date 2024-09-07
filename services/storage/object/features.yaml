@@ -1,14 +1,12 @@
-title: CCC Object Storage Features
-category_id: CCC.ObjStor
-type: Storage
-description: This documents the minimual set of features that should be present for a object storage service to be considered for use in financial services ecosystems.
 common-features:
-  - CCC.F01
-  - CCC.F02
-  - CCC.F03
-  - CCC.F04
-  - CCC.F05
-features:
+  - CCC.F01 # Encryption in Transit Enabled by Default
+  - CCC.F02 # Encryption at Rest Enabled by Default
+  - CCC.F03 # Access Logs
+  - CCC.F04 # Transaction Rate Limits
+  - CCC.F05 # Signed URLs
+  - CCC.F06 # Identity Based Access Control
+  - CCC.F07 # Event Notifications
+specific-features:
   - id: CCC.ObjStor.F01
     title: Storage Buckets
     description: Provides uniquely identifiable segmentations in which data elements may be stored.
@@ -28,8 +26,8 @@ features:
     title: High-Availability Objects
     description: Provides high availability for stored objects through replication across multiple availability zones within a region. # TODO: Can this be made falsifiable?
   - id: CCC.ObjStor.F07
-  title: Querying
-  description: Supports performing simple select queries to retrieve only a subset of objects from the bucket. # TODO: S3 appears to have deprecated SQL select statments. Should this be removed?
+    title: Querying
+    description: Supports performing simple select queries to retrieve only a subset of objects from the bucket. # TODO: S3 appears to have deprecated SQL select statments. Should this be removed?
   - id: CCC.ObjStor.F08
     title: Storage Classes
     description: Provides different storage classes for frequently and infrequently accessed objects.
@@ -43,8 +41,5 @@ features:
     title: Object Modification Locks
     description: Allows locking of objects to disable modification and/or deletion of an object for a defined period of time.
   - id: CCC.ObjStor.F12
-    title: Event Notifications
-    description: Publishes object-level events for creation, deletion, and modification of objects in a way that enables users to trigger actions in response.
-  - id: CCC.ObjStor.F13
     title: Object Level Access Control
     description: Supports controlling access to specific objects within the object store.

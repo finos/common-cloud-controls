@@ -1,13 +1,6 @@
-title: CCC Object Storage Security Threats
-category-id: CCC.ObjStor
 common-threats:
   - CCC.TH01
   - CCC.TH02
+  - CCC.TH03
 specific-threats:
-  - id: CCC.ObjStor.TH01
-    title: Attacker grants bucket access to untrusted principals
-    description: The bucket access controls (e.g. ACLs, bucket policies) can enable access to objects owned by the bucket. An attacker (or someone by negligence) can change (i.e., impair) the bucket access controls and make the content accessible to untrusted principals (via public endpoints, cross-account VPC endpoints, or cross-account access point).
-    feature_id: CCC.ObjStor.F16
-    mitre_attack: 
-      - TA0005
-      - T1562
+  # WIP: Only common threats have been identified so far.
