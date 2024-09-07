@@ -32,8 +32,7 @@ If a control is unique to this service category, add the full control definition
 
 The following list outlines the values necessary to create a new control definition using the control template. Refer to the feature or control definition for the `Service Category` name and abbreviation.
 
-- **Category Title** - The title of the service category this control belongs to, formatted as `CCC <Service Category> Security Controls`.
-- **Control ID** - A unique identifier for the control, following the format `CCC.<Service Category Abbreviation>.C#`.
+- **Control ID** - A unique identifier for the control, following the format `<category-id>.C#`.
 - **Feature ID** - The corresponding feature ID that this control is associated with.
 - **Control Title** - A brief title (3 to 10 words) that succinctly describes the control.
 - **Objective** - A 1 to 3 sentence description of the control’s objective and what it aims to achieve.

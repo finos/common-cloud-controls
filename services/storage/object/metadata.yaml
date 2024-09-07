@@ -7,9 +7,9 @@ category-id: CCC.ObjStor
 ## AL1 if features, threats, and controls are complete at release time
 ## AL2 if threats are written based on a threat model for this category
 ## AL3 if threats are written based on a red team exercise for this category
-assurance_level: None
+assurance-level: None
 
-threat_model_author: None
-threat_model_url: None
-red_team: None
-red_team_exercize_url: None
+threat-model-author: None
+threat-model-url: None
+red-team: None
+red-team-exercize-url: None
