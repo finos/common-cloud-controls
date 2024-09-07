@@ -1,6 +1,6 @@
 common-threats:
-  - CCC.TH01
-  - CCC.TH02
-  - CCC.TH03
+  - CCC.TH01 # Unauthorized access to object storage
+  - CCC.TH02 # Data leakage from object storage
+  - CCC.TH03 # Compromised KMS keys
 specific-threats:
   # WIP: Only common threats have been identified so far.

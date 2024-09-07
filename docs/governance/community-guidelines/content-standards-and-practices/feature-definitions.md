@@ -32,15 +32,22 @@ If a feature is unique to this service category, add the full feature definition
 
 The following list outlines the values necessary to create a new feature definition using the feature template. When defining a new `Service Category` for the first time, be sure to use a unique abbreviation that is a maximum of 8 characters.
 
-- **Category Title** - The title of the service category this feature belongs to, formatted as `CCC <Service Category> Minimum Features`.
-- **Category ID** - A unique identifier for the service category, following the format `CCC.<Service Category Abbreviation>`.
-- **Type** - The parent type of the service category.
-- **Category Description** - A 1 to 3 sentence description of the service category.
-- **Service Examples** - Names of known cloud services that fall under this category.
-- **Feature ID** - A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
-- **Feature Title** - A short name that succinctly describes the feature.
-- **Feature Description** - A falsifiable description of the feature, detailing its purpose and functionality.
-  - A falsifiable feature should include concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected or not.
-This structure ensures that features are standardized and can be consistently applied across all services within the CCC Taxonomy.
+- `id`
+  - **Feature ID** - A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
+- `title`
+  - **Feature Title** - A shor name that succinctly describes the feature, preferably 1 to 5 words.
+- `description`
+  - **Feature Description** - A falsifiable description of the feature, detailing its purpose and functionality.
+    - A falsifiable feature should include concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected or not.
+
+## Example
+
+```yaml
+  - id: CCC.ObjStor.F02
+    title: Storage Objects
+    description: |
+      Supports storing, accessing, and managing data elements which contain
+      both data and metadata.
+```
 
 [Communications WG]: ../../working-groups/communications/charter.md

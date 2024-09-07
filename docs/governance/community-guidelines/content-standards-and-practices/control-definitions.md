@@ -32,16 +32,24 @@ If a control is unique to this service category, add the full control definition
 
 The following list outlines the values necessary to create a new control definition using the control template. Refer to the feature or control definition for the `Service Category` name and abbreviation.
 
-- **Control ID** - A unique identifier for the control, following the format `<category-id>.C#`.
-- **Feature ID** - The corresponding feature ID that this control is associated with.
-- **Control Title** - A brief title (3 to 10 words) that succinctly describes the control.
-- **Objective** - A 1 to 3 sentence description of the control’s objective and what it aims to achieve.
-- **Control Family** - Name of the [Control Family](#control-family) this group belongs to.
-- **NIST CSF** - The specific ID from the NIST Cybersecurity Framework that corresponds to the control.
-- **MITRE ATT&CK** - The unique identifier for the MITRE ATT&CK Tactics, Techniques, and Procedures (TTP) relevant to the control.
-- **Threats** - A list of IDs for CCC threats that this control is designed to mitigate.
-- **Control Mappings** - Identifiers for other frameworks that map to this control (CCM, ISO 27001, NIST 800-53, etc).
-- **Test Requirements** - Detailed descriptions of the testing requirements needed to validate the control’s implementation.
+- `id`
+    - **Control ID** - A unique identifier for the control, following the format `<category-id>.C#`.
+- `title`
+    - **Control Title** - A brief title (3 to 10 words) that succinctly describes the control.
+- `objective`
+    - **Objective** - A 1 to 3 sentence description of the control’s objective and what it aims to achieve.
+- `control-family`
+    - **Control Family** - Name of the [Control Family](#control-family) this group belongs to.
+- `threats`
+    - **CCC Threats** - A YAML list of IDs for CCC [threats] that this control is designed to mitigate.
+- `nist_csf`
+    - **NIST CSF** - The specific ID from the NIST Cybersecurity Framework that corresponds to the control.
+- `mitre_attack`
+    - **MITRE ATT&CK Technique** - The unique identifier for the MITRE ATT&CK Technique that is most relevant to this control.
+- `control_mappings`
+    - **External Control Mappings** - Identifiers for any other frameworks that map to this control (CCM, ISO 27001, NIST 800-53, etc).
+- `test_requirements`
+    - **Validation Test Requirements** - Detailed descriptions of the testing requirements needed to validate the control’s implementation.
 
 ### Control Family
 
@@ -55,5 +63,49 @@ The following list should be updated in the event that a new control family is a
 - Logging & Monitoring
 - Software Supply Chain
 
+## Example
 
+```yaml
+common-controls:
+  - CCC.C01  # Implement multi-factor authentication (MFA) for access to any cloud resource
+  - CCC.C02  # Log all access and changes to any cloud resource
+  - CCC.C03  # Prevent access to cloud resources from untrusted tenants and services
+specific-controls:
+  - id: CCC.ObjStor.C01
+    title: Prevent access to object storage from untrusted entities
+    objective: |
+      Ensure secure management of access to object storage resources,
+      preventing unauthorized data access, exfiltration, and misuse of
+      legitimate services by adversaries.
+    control_family: Identity and Access Management
+    threats:
+      - CCC.TH01
+      - CCC.TH02
+      - CCC.TH03
+    nist_csf:
+      - PR.PT-3
+      - PR.PT-4
+    mitre_attack:
+      - T1021
+    control_mappings:
+      CCM: 
+        - DS-5
+      ISO_27001:
+        - 2013 A.13.1.3
+      NIST_800_53:
+        - AC-3
+    test_requirements:
+      01: |
+        Verify that object storage endpoint can be blocked from public access.
+      02: |
+        Verify that object storage can be blocked from cloud services deployed
+        on the same cloud tenant.
+      03: |
+        Confirm that it's possible to prevent access to object storage from
+        other cloud tenants, even if those tenants have network connectivity to
+        the cloud tenant hosting the object storage.
+```
+
+
+[feature]: ./threat-definitions.md
 [Communications WG]: ../../working-groups/communications/charter.md

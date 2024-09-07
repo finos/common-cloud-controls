@@ -7,7 +7,8 @@ specific-threats:
   - id: <category-id>.TH01
     title: <Short name of the threat>
     description: <Complete description of the threat>
-    feature_id: <category-id>.F<#>
+    features:
+      - <Related feature IDs>
     mitre_attack: 
       - <Mitre ATT&CK tactic ID>
       - <Mitre ATT&CK technique ID>

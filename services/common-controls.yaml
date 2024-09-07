@@ -1,8 +1,11 @@
+# max line length for this file is 80 characters
 title: CCC Common Controls
 common-controls:
   - id: CCC.C01
     title: Prevent unencrypted requests
-    objective: Ensure that all communications are encrypted in transit to protect data integrity and confidentiality.
+    objective: |
+      Ensure that all communications are encrypted in transit to protect data
+      integrity and confidentiality.
     control_family: Data
     nist_csf: PR.DS-2
     control_mappings:
@@ -15,12 +18,19 @@ common-controls:
         - SC-8
         - SC-13
     test_requirements:
-      01: All supported network data protocols must be running on secure channels.
-      02: All clear text channels should be disabled.
-      03: The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites.
+      01: |
+        All supported network data protocols must be running on secure channels
+      02: |
+        All clear text channels should be disabled
+      03: |
+        The cipher suite implemented for ensuring the integrity and
+        confidentiality of data should conform with the latest suggested cipher
+        suites
   - id: CCC.C02
     title: Ensure data encryption at rest all stored data
-    objective: Ensure that all data stored is encrypted at rest to maintain confidentiality and integrity.
+    objective: |
+      Ensure that all data stored is encrypted at rest to maintain
+      confidentiality and integrity.
     control_family: Encryption
     nist_csf: PR.DS-1
     control_mappings:
@@ -32,17 +42,21 @@ common-controls:
       NIST_800_53: 
         - SC-28
     test_requirements:
-      01: Verify that stored data is encrypted using industry-standard algorithms.
-      02: Ensure that encryption keys are managed securely and rotated periodically.
-      03: Confirm that decryption is only possible through authorized access mechanisms.
+      01: |
+        Verify that stored data is encrypted using industry-standard algorithms
+      02: |
+        Ensure that encryption keys are managed securely and rotated
+        periodically
+      03: |
+        Confirm that decryption is only possible through authorized access
+        mechanisms
   - id: CCC.C03
     title: Implement multi-factor authentication (MFA) for access
-    objective: Ensure that all human user access requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms.
+    objective: |
+      Ensure that all human user access requires multi-factor authentication
+      (MFA), minimizing the risk of unauthorized access by enforcing strong
+      authentication mechanisms.
     control_family: Identity and Access Management
-    threats: # WIP
-      - CCC.TH01
-      - CCC.TH02
-      - CCC.TH03
     nist_csf: PR.AC-7
     control_mappings:
       CCM: 
@@ -53,17 +67,19 @@ common-controls:
       NIST_800_53: 
         - IA-2
     test_requirements:
-      01: Verify that MFA is enforced for all access attempts.
-      02: Ensure that MFA is required for all administrative access to the management interface.
-      03: Confirm that users are unable to access without completing MFA.
+      01: |
+        Verify that MFA is enforced for all access attempts
+      02: |
+        Ensure that MFA is required for all administrative access to the
+        management interface
+      03: |
+        Confirm that users are unable to access without completing MFA
   - id: CCC.C04
     title: Log all access and changes
-    objective: Ensure that all access and changes are logged to maintain a detailed audit trail for security and compliance purposes.
+    objective: |
+      Ensure that all access and changes are logged to maintain a detailed
+      audit trail for security and compliance purposes.
     control_family: Logging & Monitoring
-    threats: # WIP
-      - CCC.TH01
-      - CCC.TH02
-      - CCC.TH03
     nist_csf: DE.AE-3
     control_mappings:
       CCM: 
@@ -75,17 +91,19 @@ common-controls:
         - AU-2
         - AU-3
     test_requirements:
-      01: Verify that all access attempts are logged.
-      02: Ensure that all changes to configurations are logged.
-      03: Confirm that logs are protected against unauthorized access and tampering.
+      01: |
+        Verify that all access attempts are logged
+      02: |
+        Ensure that all changes to configurations are logged
+      03: |
+        Confirm that logs are protected against unauthorized access and
+        tampering
   - id: CCC.C05
     title: Prevent access from untrusted tenants and services
-    objective: Ensure secure access controls prevent unauthorized data access, exfiltration, and misuse of legitimate services by adversaries.
+    objective: |
+      Ensure secure access controls prevent unauthorized data access,
+      exfiltration, and misuse of legitimate services by adversaries.
     control_family: Identity and Access Management
-    threats: # WIP
-      - CCC.TH01
-      - CCC.TH02
-      - CCC.TH03
     nist_csf: PR.PT-3, PR.PT-4
     control_mappings:
       CCM: 
@@ -95,6 +113,12 @@ common-controls:
       NIST_800_53: 
         - AC-3
     test_requirements:
-      01: Verify that endpoints can be blocked from public access.
-      02: Verify that can be blocked from services deployed on the same cloud tenant.
-      03: Confirm that it's possible to prevent access from other cloud tenants, even if those tenants have network connectivity to the cloud tenant hosting the resources.
+      01: |
+        Verify that endpoints can be blocked from public access
+      02: |
+        Verify that can be blocked from services deployed on the same cloud
+        tenant
+      03: |
+        Confirm that it's possible to prevent access from other cloud tenants,
+        even if those tenants have network connectivity to the cloud tenant
+        hosting the resources

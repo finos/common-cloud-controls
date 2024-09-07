@@ -13,9 +13,11 @@ In addition to these three YAML files, each release should contain a `metadata.y
 Metadata information is included to add information about the state of the release.
 
 - `title`
-  - **Category Title**: The title of the service category this control belongs to, formatted as `CCC <Service Category> Security Controls`
-- `category-id`
-  - **Category Identifier**: The value that will be used as a prefix for all other IDs in this release, including features, threats, controls, test requirements, and tests. It is should contain a category abbreviation that is a maximum of 8 characters long. The ID is formatted as `CCC.<category abbreviation>`
+  - **Category Title**: The title of the service category this control belongs to.
+- `id`
+  - **Category Identifier**: The value that will prefix all other IDs in this release, including features, threats, controls, test requirements, and tests. It is should contain a category abbreviation that is a maximum of 8 characters long. The ID is formatted as `CCC.<Category Abbreviation>`
+- `description`
+  - **Category Description** - A 1 to 3 sentence description of the service category.
 - `assurance-level`
   - **[Assurance Level]**: The degree of confidence that a cloud resource or service is secure, reliable, and capable of withstanding threats. This is to be referenced by a certification authority. Possible values are:
     - `None`: actively under development

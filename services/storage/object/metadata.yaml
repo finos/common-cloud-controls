@@ -1,14 +1,13 @@
-title: CCC Object Storage Security Threats
-category-id: CCC.ObjStor
-
-# Assurance Levels:
-## None if actively under development
-## AL0 if only features are complete at release time
-## AL1 if features, threats, and controls are complete at release time
-## AL2 if threats are written based on a threat model for this category
-## AL3 if threats are written based on a red team exercise for this category
+title: Object Storage
+id: CCC.ObjStor
+description: |
+  Object storage is a data storage architecture that manages data as objects,
+  rather than as files or blocks. Each object contains the data itself,
+  metadata, and a unique identifier, making it ideal for storing large amounts
+  of unstructured data such as multimedia files, backups, and archives. It is
+  highly scalable and often used in cloud environments due to its flexibility
+  and accessibility.
 assurance-level: None
-
 threat-model-author: None
 threat-model-url: None
 red-team: None

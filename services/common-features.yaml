@@ -2,22 +2,34 @@ title: CCC Common Features
 features:
   - id: CCC.F01
     title: Encryption in Transit Enabled by Default
-    description: Supports encrypting data in transit using SSL/TLS.
+    description: |
+      Supports encrypting data in transit using SSL/TLS.
   - id: CCC.F02
     title: Encryption at Rest Enabled by Default
-    description: Provides default encryption of data before storage, with the option for clients to maintain control over the encryption keys.
+    description: |
+      Provides default encryption of data before storage, with the option for
+      clients to maintain control over the encryption keys.
   - id: CCC.F03
     title: Access Logs
-    description: Provides users with the ability to track all requests made to resources.
+    description: |
+      Provides users with the ability to track all requests made to resources.
   - id: CCC.F04
     title: Transaction Rate Limits
-    description: Allows the setting of a threshold where industry-standard throughput is achieved up to the specified rate limit.
+    description: |
+      Allows the setting of a threshold where industry-standard throughput is
+      achieved up to the specified rate limit.
   - id: CCC.F05
     title: Signed URLs
-    description: Provides the ability to grant temporary or restricted access to a resource through a custom URL that contains authentication information.
+    description: |
+      Provides the ability to grant temporary or restricted access
+      to a resource through a custom URL that contains authentication information.
   - id: CCC.F06
     title: Identity Based Access Control
-    description: Provides the ability to determine access to resources based on attributes associated with a user identity.
+    description: |
+      Provides the ability to determine access to resources based on
+      attributes associated with a user identity.
   - id: CCC.F07
     title: Event Notifications
-    description: Publishes events for creation, deletion, and modification of objects in a way that enables users to trigger actions in response.
+    description: |
+      Publishes events for creation, deletion, and modification of
+      objects in a way that enables users to trigger actions in response.

@@ -9,37 +9,53 @@ common-features:
 specific-features:
   - id: CCC.ObjStor.F01
     title: Storage Buckets
-    description: Provides uniquely identifiable segmentations in which data elements may be stored.
+    description: |
+      Provides uniquely identifiable segmentations in which data
+      elements may be stored.
   - id: CCC.ObjStor.F02
     title: Storage Objects
-    description: Supports storing, accessing, and managing data elements which contain both data and metadata.
+    description: |
+      Supports storing, accessing, and managing data elements which contain
+      both data and metadata.
   - id: CCC.ObjStor.F03
     title: Bucket Capacity Limit
-    description: Provides the ability to set a maximum total capacity for objects within a bucket.
+    description: |
+      Provides the ability to set a maximum total capacity for objects within
+      a bucket.
   - id: CCC.ObjStor.F04
     title: Object Size Limit
-    description: Supports setting a maximum object size for storing objects.
+    description: |
+      Supports setting a maximum object size for storing objects.
   - id: CCC.ObjStor.F05
-    title: Durable Objects
-    description: Provides industry-standard durability for stored objects through the use of redundancy and replication mechanisms. # TODO: Can this be made falsifiable?
+    title: Object Storage Replication
+    description: |
+      Supports replicating objects across multiple regions or availability zones
+      to ensure high availability and durability.
   - id: CCC.ObjStor.F06
-    title: High-Availability Objects
-    description: Provides high availability for stored objects through replication across multiple availability zones within a region. # TODO: Can this be made falsifiable?
-  - id: CCC.ObjStor.F07
     title: Querying
-    description: Supports performing simple select queries to retrieve only a subset of objects from the bucket. # TODO: S3 appears to have deprecated SQL select statments. Should this be removed?
-  - id: CCC.ObjStor.F08
+    description: |
+      Supports performing simple select queries to retrieve only a subset of
+      objects from the bucket.
+  - id: CCC.ObjStor.F07
     title: Storage Classes
-    description: Provides different storage classes for frequently and infrequently accessed objects.
-  - id: CCC.ObjStor.F09
+    description: |
+      Provides different storage classes for frequently and infrequently
+      accessed objects.
+  - id: CCC.ObjStor.F08
     title: Lifecycle Policies
-    description: Supports defining policies to automate data management tasks.
-  - id: CCC.ObjStor.F10
+    description: |
+      Supports defining policies to automate data management tasks.
+  - id: CCC.ObjStor.F09
     title: Object Versioning
-    description: Provides the ability to keep multiple versions of an object in the same bucket.
-  - id: CCC.ObjStor.F11
+    description: |
+      Provides the ability to keep multiple versions of an object in the same
+      bucket.
+  - id: CCC.ObjStor.F10
     title: Object Modification Locks
-    description: Allows locking of objects to disable modification and/or deletion of an object for a defined period of time.
-  - id: CCC.ObjStor.F12
+    description: |
+      Allows locking of objects to disable modification and/or deletion of an
+      object for a defined period of time.
+  - id: CCC.ObjStor.F11
     title: Object Level Access Control
-    description: Supports controlling access to specific objects within the object store.
+    description: |
+      Supports controlling access to specific objects within the object store.
