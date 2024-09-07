@@ -7,8 +7,8 @@ description: |
   of unstructured data such as multimedia files, backups, and archives. It is
   highly scalable and often used in cloud environments due to its flexibility
   and accessibility.
-assurance-level: None
-threat-model-author: None
-threat-model-url: None
-red-team: None
-red-team-exercize-url: None
+assurance_level: None
+threat_model_author: None
+threat_model_url: None
+red_team: None
+red_team_exercize_url: None

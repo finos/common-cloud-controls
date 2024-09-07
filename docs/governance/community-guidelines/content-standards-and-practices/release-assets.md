@@ -18,20 +18,20 @@ Metadata information is included to add information about the state of the relea
   - **Category Identifier**: The value that will prefix all other IDs in this release, including features, threats, controls, test requirements, and tests. It is should contain a category abbreviation that is a maximum of 8 characters long. The ID is formatted as `CCC.<Category Abbreviation>`
 - `description`
   - **Category Description** - A 1 to 3 sentence description of the service category.
-- `assurance-level`
+- `assurance_level`
   - **[Assurance Level]**: The degree of confidence that a cloud resource or service is secure, reliable, and capable of withstanding threats. This is to be referenced by a certification authority. Possible values are:
     - `None`: actively under development
     - `AL0 `: only features are complete at release time
     - `AL1 `: features, threats, and controls are complete at release time
     - `AL2 `: threats are written based on a threat model for this category
     - `AL3 `: threats are written based on a red team exercise for this category
-- `threat-model-author`
+- `threat_model_author`
   - **Threat Model Author**: The name of the organization, or the name of the lead author for the threat model that informs this release. If no threat model has been completed, this should be `None`.
-- `threat-model-url`
+- `threat_model_url`
   - **Threat Model URL**: Stable path to where the threat model for this release can be referenced. If no threat model has been completed, this should be `None`.
-- `red-team`
+- `red_team`
   - **Red Team Name**: The name of the organization, or the name of the team lead for the red team exercize that informs this release. If no red team exercize has been completed, this should be `None`.
-- `red-team-exercize-url`
+- `red_team_exercize_url`
   - `Red Team Exercize Assets URL`: Stable path to where the red team exercize assets for this release can be referenced. If no red team exercize has been completed, this should be `None`.
 
 [release]: ../releases.md

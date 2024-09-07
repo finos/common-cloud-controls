@@ -38,7 +38,7 @@ The following list outlines the values necessary to create a new control definit
     - **Control Title** - A brief title (3 to 10 words) that succinctly describes the control.
 - `objective`
     - **Objective** - A 1 to 3 sentence description of the control’s objective and what it aims to achieve.
-- `control-family`
+- `control_family`
     - **Control Family** - Name of the [Control Family](#control-family) this group belongs to.
 - `threats`
     - **CCC Threats** - A YAML list of IDs for CCC [threats] that this control is designed to mitigate.
