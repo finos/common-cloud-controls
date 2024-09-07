@@ -12,11 +12,11 @@ specific-controls:
       Prevent any requests to object storage buckets or objects using untrusted
       KMS keys to protect against unauthorized data encryption that can impact
       data availability and integrity.
+    control_family: Data
     threats:
       - CCC.TH01
       - CCC.TH02
       - CCC.TH03
-    control_family: Data
     nist_csf: PR.DS-4
     mitre_attack: T1486
     control_mappings:
