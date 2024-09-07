@@ -46,3 +46,13 @@ threats:
     mitre_attack:
       - TA0040
       - T1486
+  - id: CCC.TH05
+    title: Actors in known dangerous regions attempt to access data
+    description: |
+      The service is deployed in a region with known geopolitical risks. An
+      attacker in that region may attempt to access the resource by exploiting
+      privileged network access or other vulnerabilities.
+    features: # TODO: Something about multi-region deployment?
+    mitre_attack:
+      - TA0042
+      - T1583
