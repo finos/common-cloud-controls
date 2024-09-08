@@ -1,0 +1,57 @@
+title: CCC Storage Services
+id: CCC.Storage
+description: |
+  "Storage Services" in the context of cloud computing refer to the provision of
+  storage resources over the internet that users can access and utilize remotely.
+  These services allow users to store, retrieve, and manage their data in a
+  scalable, reliable, and cost-effective manner.
+service_categories:
+  - id: CCC.ObjStor
+    title: Object Storage
+    description: |
+      Object storage is a scalable storage solution that stores data as objects,
+      each containing the data itself along with metadata and a unique identifier.
+    examples:
+      - AWS: 
+        - Amazon S3
+      - Azure:
+        - Azure Blob Storage
+      - Google Cloud:
+        - Google Cloud Storage
+  - id: CCC.BlocStor
+    title: Block Storage
+    description: |
+      Block storage provides raw storage volumes that can be attached to virtual
+      machines to store operating systems, applications, and other data.
+    examples:
+      - AWS: 
+        - Amazon EBS (Elastic Block Store)
+      - Azure:
+        - Azure Managed Disks
+      - Google Cloud:
+        - Google Persistent Disk
+  - id: CCC.FileStor
+    title: File Storage
+    description: |
+      File storage services offer shared network storage accessible via standard
+      file protocols such as NFS (Network File System) or SMB (Server Message
+      Block).
+    examples:
+      - AWS: 
+        - Amazon EFS (Elastic File System)
+      - Azure:
+        - Azure File Storage
+      - Google Cloud:
+        - Google Cloud Filestore
+  - id: CCC.ArchStor
+    title: Archival Storage
+    description: |
+      Archival storage services are designed for long-term retention of
+      infrequently accessed data at a lower cost.
+    examples:
+      - AWS: 
+        - Amazon Glacier
+      - Azure:
+        - Azure Archive Storage
+      - Google Cloud:
+        - Google Cloud Storage Nearline
