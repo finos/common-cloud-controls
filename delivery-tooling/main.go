@@ -2,38 +2,54 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
+	"os"
+	"strings"
 
-	"gopkg.in/yaml.v3"
+	"github.com/spf13/cobra"
 )
 
+var (
+	// Version is to be replaced at build time by the associated tag
+	Version = "0.0.0"
+	// VersionPostfix is a marker for the version such as "dev", "beta", "rc", etc.
+	VersionPostfix = "dev"
+	// GitCommitHash is the commit at build time
+	GitCommitHash = ""
+	// BuiltAt is the actual build datetime
+	BuiltAt = ""
+	// ASCII art logo
+	logo = "\033[34m     _____\033[35m_____\033[36m_____\n\033[34m    / ___/\033[35m ___/\033[36m ___/\n\033[34m   / /  \033[35m/ /  \033[36m/ / \n\033[34m  / /__\033[35m/ /__\033[36m/ /___ \n\033[34m  \\____/\033[35m____/\033[36m____/\n\033[37m"
+	divider = fmt.Sprintf("\n%s\n", strings.Repeat("-", 40))
+	// baseCmd represents the base command when called without any subcommands
+	baseCmd = &cobra.Command{
+		Use: "",
+		Short: "test",
+		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		},
+		PersistentPostRun: func(cmd *cobra.Command, args []string) {
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println(divider)
+			fmt.Println("Welcome to the CCC Delivery Tooling CLI v" + Version)		
+			fmt.Print(logo)
+			fmt.Println(divider)
+			fmt.Println("You appear to be exploring!")
+			fmt.Println("We suggest you begin by running the 'help' command via -h to review what options are available.")
+			fmt.Println(divider)
+		},
+	}
+)
+
+func init() {
+	baseCmd.AddCommand(yamlCmd)
+}
+
 func main() {
-	outputDir := parseArgs()
-	data := readAndCompile()
-	// pretty print data yaml with indentation
-	dataYaml, err := yaml.Marshal(&data)
-	if err != nil {
-		log.Fatalf("error: %v", err)
+	if VersionPostfix != "" {
+		Version = fmt.Sprintf("%s-%s", Version, VersionPostfix)
 	}
-	// print to output file outputDir/compiled-controls.yaml
-	// err = ioutil.WriteFile("compiled-controls.yaml", dataYaml, 0644)
-	err = ioutil.WriteFile(fmt.Sprintf("%s/compiled-controls.yaml", outputDir), dataYaml, 0644)
+	err := baseCmd.Execute()
 	if err != nil {
-		log.Fatalf("error: %v", err)
+		os.Exit(1)
 	}
-	
-
-	// fmt.Printf("Data read successfully: %+v\n", data) // Debug print
-
-
-	// Create or open the Markdown file based on the YAML id value
-	// mdFile, err := os.Create(fmt.Sprintf("%s/%s.md", outputDir, data.CategoryID))
-	// if err != nil {
-	// 	log.Fatalf("error: %v", err)
-	// }
-	// defer mdFile.Close()
-
-	// // Write the Markdown content
-	// writeMarkdown(mdFile, data)
 }
