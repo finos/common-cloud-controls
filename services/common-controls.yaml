@@ -125,7 +125,7 @@ controls:
     title: Prevent deployment in restricted regions
     objective: |
       Ensure that resources are not provisioned or deployed in geographic
-      regions or cloud availability zones that have been designated as 
+      regions or cloud availability zones that have been designated as
       restricted or prohibited, to comply with regulatory requirements and
       reduce exposure to geopolitical risks.
     control_family: Data
