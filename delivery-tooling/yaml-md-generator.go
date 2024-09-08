@@ -18,25 +18,16 @@ type CompiledData struct {
 	Threats  []Threat
 }
 
-// Define the Go struct
-type ControlMappings struct {
-	CCM        []string `yaml:"CCM"`
-	ISO27001   []string `yaml:"ISO_27001"`
-	NIST80053  []string `yaml:"NIST_800_53"`
-}
-
-type TestRequirements map[int]string
-
 type Control struct {
-	ID              string           `yaml:"id"`
-	Title           string           `yaml:"title"`
-	Objective       string           `yaml:"objective"`
-	ControlFamily   string           `yaml:"control_family"`
-	Threats         []string         `yaml:"threats"`
-	NISTCSF         string           `yaml:"nist_csf"`
-	MITREATTACK     string           `yaml:"mitre_attack"`
-	ControlMappings ControlMappings  `yaml:"control_mappings"`
-	TestRequirements TestRequirements `yaml:"test_requirements"`
+	ID               string                  `yaml:"id"`
+	Title            string                  `yaml:"title"`
+	Objective        string                  `yaml:"objective"`
+	ControlFamily    string                  `yaml:"control_family"`
+	Threats          []string                `yaml:"threats"`
+	NISTCSF          string                  `yaml:"nist_csf"`
+	MITREATTACK      string                  `yaml:"mitre_attack"`
+	ControlMappings  map[string]interface{}  `yaml:"control_mappings"`
+	TestRequirements map[int]string          `yaml:"test_requirements"`
 }
 
 type ControlSet struct {
@@ -64,13 +55,13 @@ type FeatureSet struct {
 
 type Feature struct {
 	ID          string `yaml:"id"`
-	title       string `yaml:"title"`
-	description string `yaml:"description"`
+	Title       string `yaml:"title"`
+	Description string `yaml:"description"`
 }
 
 // ThreatSet is a struct that represents the threats.yaml file
 type ThreatSet struct {
-	CommonThreatIDs []string `yaml:"common-threats"`
+	CommonThreatIDs []string `yaml:"common_threats"`
 	SpecificThreats []Threat `yaml:"threats"`
 }
 
@@ -180,7 +171,8 @@ func getYaml(name string) ([]byte) {
 	return readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
 }
 
-func unmarshalData(yamlData []byte, dataSet interface{}) {
+func unmarshalData(dataName string, dataSet interface{}) {
+	yamlData := getYaml(dataName)
     err := yaml.Unmarshal(yamlData, dataSet)
     if err != nil {
         log.Fatalf("error: %v", err)
@@ -193,21 +185,21 @@ func unmarshalData(yamlData []byte, dataSet interface{}) {
 func readAndCompile() (data CompiledData) {
 	// read controls.yaml, features.yaml, threats.yaml, and metadata.yaml from dir path
 	controlsData := ControlSet{}
-	unmarshalData(getYaml("controls"), &controlsData)
+	unmarshalData("controls", &controlsData)
 	featuresData := FeatureSet{}
-	unmarshalData(getYaml("features"), &featuresData)
+	unmarshalData("features", &featuresData)
 	threatsData := ThreatSet{}
-	unmarshalData(getYaml("threats"), &threatsData)
+	unmarshalData("threats", &threatsData)
 	metadata := Metadata{}
-	unmarshalData(getYaml("metadata"), &metadata)
+	unmarshalData("metadata", &metadata)
 
 	// read the common controls, features, and threats from the common entries directory
 	commonControlsData := ControlSet{}
-	unmarshalData(getYaml("common-controls"), &commonControlsData)
+	unmarshalData("common-controls", &commonControlsData)
 	commonFeaturesData := FeatureSet{}
-	unmarshalData(getYaml("common-features"), &commonFeaturesData)
+	unmarshalData("common-features", &commonFeaturesData)
 	commonThreatsData := ThreatSet{}
-	unmarshalData(getYaml("common-threats"), &commonThreatsData)
+	unmarshalData("common-threats", &commonThreatsData)
 
 	return CompiledData{
 		Metadata: metadata,
@@ -218,14 +210,18 @@ func readAndCompile() (data CompiledData) {
 }
 
 func main() {
-	// readAndCompile()
 	data := readAndCompile()
 	// pretty print data yaml with indentation
 	dataYaml, err := yaml.Marshal(&data)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("Data read successfully: %s\n", string(dataYaml)) // Debug print
+	// print to output file "compiled-controls.yaml"
+	err = ioutil.WriteFile("compiled-controls.yaml", dataYaml, 0644)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	
 
 	// fmt.Printf("Data read successfully: %+v\n", data) // Debug print
 
