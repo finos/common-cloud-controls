@@ -20,7 +20,6 @@ service_categories:
       monitoring, and pay-as-you-go pricing.
     examples:
       - AWS: 
-        - 
         - Amazon Elastic Compute Cloud (EC2)
       - Azure:
         - Virtual Machines
