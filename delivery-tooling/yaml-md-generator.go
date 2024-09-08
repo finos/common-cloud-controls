@@ -18,22 +18,30 @@ type CompiledData struct {
 	Threats  []Threat
 }
 
-// ControlSet is a struct that represents the controls.yaml file
-type ControlSet struct {
-	CommonControlIDs []string `yaml:"common_controls"`
-	SpecificControls []Control `yaml:"specific_controls"`
+// Define the Go struct
+type ControlMappings struct {
+	CCM        []string `yaml:"CCM"`
+	ISO27001   []string `yaml:"ISO_27001"`
+	NIST80053  []string `yaml:"NIST_800_53"`
 }
 
+type TestRequirements map[int]string
+
 type Control struct {
-	ID               string              `yaml:"id"`
-	Title            string              `yaml:"title"`
-	Objective        string              `yaml:"objective"`
-	ControlFamily    string              `yaml:"control_family"`
-	Threats          []string            `yaml:"threats"`
-	NISTCSF          string              `yaml:"nist_csf"`
-	MITREAttack      string              `yaml:"mitre_attack"`
-	ControlMappings  map[string][]string `yaml:"control_mappings"`
-	TestRequirements map[string]string   `yaml:"test_requirements"`
+	ID              string           `yaml:"id"`
+	Title           string           `yaml:"title"`
+	Objective       string           `yaml:"objective"`
+	ControlFamily   string           `yaml:"control_family"`
+	Threats         []string         `yaml:"threats"`
+	NISTCSF         string           `yaml:"nist_csf"`
+	MITREATTACK     string           `yaml:"mitre_attack"`
+	ControlMappings ControlMappings  `yaml:"control_mappings"`
+	TestRequirements TestRequirements `yaml:"test_requirements"`
+}
+
+type ControlSet struct {
+	CommonControls   []string  `yaml:"common_controls"`
+	SpecificControls []Control `yaml:"controls"`
 }
 
 // Metadata is a struct that represents the metadata.yaml file
@@ -50,8 +58,8 @@ type Metadata struct {
 
 // FeatureSet is a struct that represents the features.yaml file
 type FeatureSet struct {
-	CommonFeatureIDs []string `yaml:"common-features"`
-	SpecificFeatures []Feature `yaml:"specific-features"`
+	CommonFeatureIDs []string `yaml:"common_features"`
+	SpecificFeatures []Feature `yaml:"features"`
 }
 
 type Feature struct {
@@ -63,7 +71,7 @@ type Feature struct {
 // ThreatSet is a struct that represents the threats.yaml file
 type ThreatSet struct {
 	CommonThreatIDs []string `yaml:"common-threats"`
-	SpecificThreats []Threat `yaml:"specific-threats"`
+	SpecificThreats []Threat `yaml:"threats"`
 }
 
 type Threat struct {
@@ -137,6 +145,28 @@ func parseArgs() string {
 	return outputDir
 }
 
+func getDataDirectory(name string) (string) {
+	switch name {
+	case "controls":
+		return os.Args[1]
+	case "features":
+		return os.Args[1]
+	case "threats":
+		return os.Args[1]
+	case "metadata":
+		return os.Args[1]
+	case "common-controls":
+		return os.Args[2]
+	case "common-features":
+		return os.Args[2]
+	case "common-threats":
+		return os.Args[2]
+	default:
+		log.Fatalf("error: %v", "Invalid data type")
+	}
+	return ""
+}
+
 func readYamlFile(filepath string) (yamlFile []byte) {
 	yamlFile, err := ioutil.ReadFile(filepath)
 	if err != nil {
@@ -145,62 +175,39 @@ func readYamlFile(filepath string) (yamlFile []byte) {
 	return
 }
 
-func selectDataType(name string) (interface{}, string) {
-	switch name {
-	case "controls":
-		return ControlSet{}, os.Args[1]
-	case "features":
-		return FeatureSet{}, os.Args[1]
-	case "threats":
-		return ThreatSet{}, os.Args[1]
-	case "metadata":
-		return Metadata{}, os.Args[1]
-	case "common-controls":
-		return ControlSet{}, os.Args[2]
-	case "common-features":
-		return FeatureSet{}, os.Args[2]
-	case "common-threats":
-		return ThreatSet{}, os.Args[2]
-	default:
-		log.Fatalf("error: %v", "Invalid data type")
-	}
-	return nil, ""
+func getYaml(name string) ([]byte) {
+	directory := getDataDirectory(name)
+	return readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
 }
 
-func getYaml(name string) (data interface{}) {
-	dataSet, directory := selectDataType(name)
-	log.Printf("Type of dataSet: %T", dataSet)
-
-	yamlData := readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
-
-	// unmarshal the common control IDs and specific controls to dataSet
-	err := yaml.Unmarshal(yamlData, &dataSet)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	log.Printf("Type of dataSet: %T", dataSet)
-
-	// pretty print dataSet with indentation
-	dataSetBytes, err := yaml.Marshal(dataSet)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	log.Printf("Data Set: %s", string(dataSetBytes))
-
-	return dataSet
+func unmarshalData(yamlData []byte, dataSet interface{}) {
+    err := yaml.Unmarshal(yamlData, dataSet)
+    if err != nil {
+        log.Fatalf("error: %v", err)
+    } else {
+		// Debug print
+        fmt.Printf("Data unmarshaled successfully: %+v\n", dataSet)
+    }
 }
 
 func readAndCompile() (data CompiledData) {
 	// read controls.yaml, features.yaml, threats.yaml, and metadata.yaml from dir path
-	controlsData := getYaml("controls").(ControlSet)
-	featuresData := getYaml("features").(FeatureSet)
-	threatsData := getYaml("threats").(ThreatSet)
-	metadata := getYaml("metadata").(Metadata)
+	controlsData := ControlSet{}
+	unmarshalData(getYaml("controls"), &controlsData)
+	featuresData := FeatureSet{}
+	unmarshalData(getYaml("features"), &featuresData)
+	threatsData := ThreatSet{}
+	unmarshalData(getYaml("threats"), &threatsData)
+	metadata := Metadata{}
+	unmarshalData(getYaml("metadata"), &metadata)
 
 	// read the common controls, features, and threats from the common entries directory
-	commonControlsData := getYaml("common-controls").(ControlSet)
-	commonFeaturesData := getYaml("common-features").(FeatureSet)
-	commonThreatsData := getYaml("common-threats").(ThreatSet)
+	commonControlsData := ControlSet{}
+	unmarshalData(getYaml("common-controls"), &commonControlsData)
+	commonFeaturesData := FeatureSet{}
+	unmarshalData(getYaml("common-features"), &commonFeaturesData)
+	commonThreatsData := ThreatSet{}
+	unmarshalData(getYaml("common-threats"), &commonThreatsData)
 
 	return CompiledData{
 		Metadata: metadata,
@@ -211,8 +218,18 @@ func readAndCompile() (data CompiledData) {
 }
 
 func main() {
+	// readAndCompile()
 	data := readAndCompile()
-	log.Print(data)
+	// pretty print data yaml with indentation
+	dataYaml, err := yaml.Marshal(&data)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	fmt.Printf("Data read successfully: %s\n", string(dataYaml)) // Debug print
+
+	// fmt.Printf("Data read successfully: %+v\n", data) // Debug print
+
+
 	// Create or open the Markdown file based on the YAML id value
 	// mdFile, err := os.Create(fmt.Sprintf("%s/%s.md", outputDir, data.CategoryID))
 	// if err != nil {
