@@ -1,6 +1,5 @@
 # max line length for this file is 80 characters
-title: CCC Common Controls
-common-controls:
+controls:
   - id: CCC.C01
     title: Prevent unencrypted requests
     objective: |
@@ -132,12 +131,8 @@ common-controls:
     control_family: Data
     threats:
       - CCC.TH05
-    nist_csf:
-      - PR.AC-3
-      - PR.DS-5
-      - RS.AN-3
-    mitre_attack:
-      - T1583
+    nist_csf: # TODO
+    mitre_attack: # TODO
     control_mappings:
       CCM: 
         - DSI-06

@@ -3,5 +3,5 @@ common-threats:
   - CCC.TH02 # Vendor-hosted keys are compromised
   - CCC.TH03 # Attacker intercepts data in transit
   - CCC.TH04 # Attacker encrypts data with client-managed keys
-specific-threats:
+threats:
   # WIP: Only common threats have been identified so far.

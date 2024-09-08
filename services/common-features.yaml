@@ -1,4 +1,3 @@
-title: CCC Common Features
 features:
   - id: CCC.F01
     title: Encryption in Transit Enabled by Default
