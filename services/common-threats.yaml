@@ -1,4 +1,3 @@
-title: CCC Common Threats
 threats:
   - id: CCC.TH01
     title: Unauthorized access through elevated privileges

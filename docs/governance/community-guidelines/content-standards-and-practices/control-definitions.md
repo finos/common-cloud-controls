@@ -8,7 +8,7 @@ A set of control definitions should be created for each service category in the 
 
 In order to streamline maintenance, the CCC project maintains a list of [common controls].
 
-In each service category's `controls.yaml` document, common controls are referenced in a list of IDs in the top-level value `common-controls`.
+In each service category's `controls.yaml` document, common controls are referenced in a list of IDs in the top-level value `common_controls`.
 
 In the release pipeline, our [delivery tooling] will compile the common controls into the document alongside the specific controls. In the final output, the only difference in presentation of the controls will be the unique identifier.
 
@@ -22,9 +22,9 @@ A review from the [Communications WG] is recommended, but not required, in cases
 
 ### Common Control References
 
-When documenting controls for a service category, begin by reviewing the existing [common controls]. In the event that a common control applies to this category, you may reference it from your document by adding its ID to the list `common-controls` at the top level of the controls document.
+When documenting controls for a service category, begin by reviewing the existing [common controls]. In the event that a common control applies to this category, you may reference it from your document by adding its ID to the list `common_controls` at the top level of the controls document.
 
-In the event that a common entry does not exist for this control, consider whether the control will apply to at least three other service categories. Or, look for a place where an existing _specific control_ can be genericized and moved to the _common controls_. After adding the new control definition to [common controls], add its ID in `common-controls`.
+In the event that a common entry does not exist for this control, consider whether the control will apply to at least three other service categories. Or, look for a place where an existing _specific control_ can be genericized and moved to the _common controls_. After adding the new control definition to [common controls], add its ID in `common_controls`.
 
 If a control is unique to this service category, add the full control definition within the `specific-controls` value in the controls document for this service category.
 
@@ -66,7 +66,7 @@ The following list should be updated in the event that a new control family is a
 ## Example
 
 ```yaml
-common-controls:
+common_controls:
   - CCC.C01  # Implement multi-factor authentication (MFA) for access to any cloud resource
   - CCC.C02  # Log all access and changes to any cloud resource
   - CCC.C03  # Prevent access to cloud resources from untrusted tenants and services

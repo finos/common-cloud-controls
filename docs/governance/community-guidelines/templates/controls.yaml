@@ -1,6 +1,6 @@
 title: CCC <Service Category> Security Controls
 category_id: CCC.<Service Category Abbreviation>
-common-controls:
+common_controls:
   - <IDs of common controls; Omit if not applicable>
 specific-controls:
   - id: CCC.<Service Category Abbreviation>.C1

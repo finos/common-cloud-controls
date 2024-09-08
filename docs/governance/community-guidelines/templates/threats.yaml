@@ -3,7 +3,7 @@ category_id: CCC.<Service Category Abbreviation>
 threat_model: <URL to threat model; Omit if not applicable>
 common-threats:
   - <IDs of common threats; Omit if not applicable>
-specific-threats:
+threats:
   - id: <category-id>.TH01
     title: <Short name of the threat>
     description: <Complete description of the threat>

@@ -26,7 +26,7 @@ When documenting threats for a service category, begin by reviewing the existing
 
 In the event that a common entry does not exist for this threat, consider whether the threat will apply to at least three other service categories. Or, look for a place where an existing _specific threat_ can be genericized and moved to the _common threats_. After adding the new threat definition to [common threats], add its ID in `common-threats`.
 
-If a threat is unique to this service category, add the full threat definition within the `specific-threats` value in the threats document for this service category.
+If a threat is unique to this service category, add the full threat definition within the `threats` value in the threats document for this service category.
 
 ### Threat Definition Values
 

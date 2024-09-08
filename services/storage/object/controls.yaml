@@ -1,11 +1,11 @@
-common-controls:
+common_controls:
   - CCC.C01  # Prevent unencrypted requests
   - CCC.C02  # Ensure data encryption at rest all stored data
   - CCC.C03  # Implement multi-factor authentication (MFA) for access
   - CCC.C04  # Log all access and changes
   - CCC.C05  # Prevent access from untrusted entities
   - CCC.C06  # Prevent deployment in restricted regions
-specific-controls:
+controls:
   - id: CCC.ObjStor.C01
     title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     objective: |
