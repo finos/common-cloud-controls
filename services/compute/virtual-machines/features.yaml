@@ -1,6 +1,6 @@
 title: CCC Virtual Machine Features
 category_id: CCC.VM
-type: Compute
+family: CCC.Compute
 description: This documents the minimual set of features that should be present for a virtual machine service to be considered for use in financial services ecosystems.
 features:
   - id: CCC.VM.F01
