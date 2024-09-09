@@ -11,7 +11,7 @@ import (
 
 type CompiledData struct {
 	Metadata Metadata
-	
+
 	// These lists contain the common and specific entries smashed together
 	Controls []Control
 	Features []Feature
@@ -82,19 +82,6 @@ func formatList(items []string) string {
 		result += item
 	}
 	return result
-}
-
-func parseArgs() string {
-	// exit with a warning if no arguments are provided
-	if len(os.Args) < 3 {
-		log.Fatalf("[ERROR] Please provide a directory path as an argument.")
-	}
-	// if optional second arg is provided, use it as the output directory
-	outputDir := "."
-	if len(os.Args) > 3 {
-		outputDir = os.Args[3]
-	}
-	return outputDir
 }
 
 func getDataDirectory(name string) (string) {
