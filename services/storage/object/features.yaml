@@ -6,7 +6,7 @@ common-features:
   - CCC.F05 # Signed URLs
   - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
-specific-features:
+features:
   - id: CCC.ObjStor.F01
     title: Storage Buckets
     description: |

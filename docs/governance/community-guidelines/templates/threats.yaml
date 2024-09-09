@@ -1,6 +1,3 @@
-title: CCC <Service Category> Security Threats
-category_id: CCC.<Service Category Abbreviation>
-threat_model: <URL to threat model; Omit if not applicable>
 common-threats:
   - <IDs of common threats; Omit if not applicable>
 threats:
