@@ -2,13 +2,13 @@
 
 A control definitions document provides a detailed specification of security measures designed to mitigate risks and ensure compliance with established standards and frameworks. It includes a list of all controls relevant to a specific service category, along with supporting information.
 
-Each service category in the CCC Taxonomy should have its own set of control definitions, with each control mapped to a feature of that service. Optionally, behavioral test definitions in Gherkin can be provided alongside the control definitions to support validation.
+Each service category in the CCC Taxonomy should have its own set of control definitions, with each control mapped to known [threats]. Optionally, behavioral test definitions in Gherkin can be provided alongside the control definitions to streamline validation.
 
 ## Common vs. Specific Controls
 
 To streamline maintenance, the CCC project maintains a list of [common controls].
 
-Each service category’s `controls.yaml` file references common controls by listing their IDs under the top-level `common_controls` value. During the release pipeline, our [delivery tooling] compiles these common controls into the final document alongside any specific controls. In the final output, both types of controls are presented consistently, with the unique identifier being the only difference.
+Each service category’s `controls.yaml` file references these by listing their IDs under the top-level `common_controls` value. During the release pipeline, our [delivery tooling] compiles these common controls into the final document alongside any specific controls. In the final output, both types of controls are presented consistently, with the unique identifier being the only difference.
 
 ### Common Controls
 
@@ -53,4 +53,6 @@ A control family refers to a group of related security controls that are organiz
 The list of control families is maintained in the [common controls] data.
 
 [Communications WG]: ../../working-groups/communications/charter.md
-[common controls] /services/common-controls.yaml
+[common controls]: /services/common-controls.yaml
+[delivery tooling]: /delivery-tooling
+[threats]: ./threat-definitions.md

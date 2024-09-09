@@ -47,3 +47,5 @@ Although a review from the Communications WG is optional, it may be useful if ad
 
 [common features]: /services/common-features.yaml
 [Communications WG]: ../../working-groups/communications/charter.md
+[delivery tooling]: /delivery-tooling
+[threats template]: ../templates/threats.yaml
