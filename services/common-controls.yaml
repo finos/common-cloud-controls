@@ -1,4 +1,9 @@
-# max line length for this file is 80 characters
+control_families:
+  - Encryption
+  - Data
+  - Identity and Access Management
+  - Logging & Monitoring
+  - Software Supply Chain
 controls:
   - id: CCC.C01
     title: Prevent unencrypted requests
