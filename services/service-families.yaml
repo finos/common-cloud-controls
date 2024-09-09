@@ -1,0 +1,49 @@
+families:
+  - id: CCC.Analytics
+    title: Analytics
+    description: |
+      Services for data processing, analysis, and visualization.
+  - id: CCC.AppIntegration
+    title: Application Integrations
+    description: |
+      Event buses, message brokers, message queues, and notification services.
+  - id: CCC.AppServices
+    title: Application Services
+    description: |
+      Services providing application-level functionality like web interfaces, email delivery, and SMS messaging.
+  - id: CCC.AIML
+    title: Artificial Intelligence and Machine Learning
+    description: |
+      Technologies for building, training, and deploying machine learning models and AI solutions.
+  - id: CCC.Compute
+    title: Compute Services
+    description: |
+      Virtual computing, containerization, batch processing, serverless functions, and high-performance computing.
+  - id: CCC.RDMS
+    title: Database Services
+    description: |
+      Platforms for managing structured and semi-structured data, providing advanced querying, indexing, and transaction capabilities.
+  - id: CCC.DevTools
+    title: Developer Tools
+    description: |
+      Tools for development productivity, including SDKs, CLIs, and CI/CD tools.
+  - id: CCC.IoT
+    title: Internet of Things
+    description: |
+      Services for managing IoT devices, data, and applications.
+  - id: CCC.Management
+    title: Management and Governance Services
+    description: |
+      Logging, monitoring, tracing, debugging, auditing, and cost optimization services.
+  - id: CCC.Network
+    title: Networking Services
+    description: |
+      Services for networking and content delivery.
+  - id: CCC.Storage
+    title: Storage Services
+    description: |
+      General-purpose storage for structured, semi-structured, and unstructured data, designed for scalability and durability without the need for complex querying or indexing.
+  - id: CCC.Security
+    title: Security and Identity Services
+    description: |
+      Services for identity, access management, encryption, SSL/TLS certificate provisioning, and secret management.
