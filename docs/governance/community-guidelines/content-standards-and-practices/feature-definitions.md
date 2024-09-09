@@ -4,50 +4,48 @@ A feature definitions document provides a detailed specification of features ass
 
 Each feature definition should be created for a service in the CCC Taxonomy, with each feature mapped to a specific aspect or functionality of that service.
 
-## Common vs Specific Features
+## Common vs. Specific Features
 
-In order to streamline maintenance, the CCC project maintains a list of [common features].
+To streamline maintenance, the CCC project maintains a list of [common features].
 
-In each service category's `features.yaml` document, common features are referenced in a list of IDs in the top-level value `common-features`.
+Each service category’s `features.yaml` file references common features by listing their IDs under the top-level `common_features` value. During the release pipeline, our [delivery tooling] compiles these common features into the final document alongside any specific features. In the final output, both types of features are presented consistently, with the unique identifier being the only difference.
 
-In the release pipeline, our [delivery tooling] will compile the common features into the document alongside the specific features. In the final output, the only difference in presentation of the features will be the unique identifier.
+### Common Features
+
+- Common features are reusable across multiple service categories. They are documented once in the [common features] file and referenced where applicable.
+- These features streamline the process by reducing redundancy and providing a consistent baseline across service categories.
+
+### Specific Features
+
+- Specific features are unique to a particular service category.
+- If a feature is relevant to multiple categories, consider whether it should be generalized and added to the common features list.
+
+## Feature Documentation Process
+
+When creating or updating a `features.yaml` file for a service category, follow these steps:
+
+1. **Review Common Features**: Start by reviewing the [common features] list. If any common features apply to this category, reference them by adding their IDs to the `common_features` list.
+2. **Define Specific Features**: If a feature is unique to the service category, document it in the `specific-features` section of the `features.yaml` file.
+3. **Consider Generalization**: If a specific feature could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common features] list.
 
 ## Feature Definition Format
 
-In order to create a cohesive standard that is readily useful to end users, features must be indistinguishable from each other in format, style, and tone. As such, all features must match the layout presented in the [feature template](../templates/features.yaml) prior to release.
-
-A review from the [Communications WG] is recommended, but not required, in cases where additional support is needed to match the writing style and tone.
-
-[!NOTE] The list of common features follows a similar but unique format, which can be found in the [common features] file.
-
-### Common Feature References
-
-When documenting features for a service category, begin by reviewing the existing [common features]. In the event that a common feature applies to this category, you may reference it from your document by adding its ID to the list `common-features` at the top level of the features document.
-
-In the event that a common entry does not exist for this feature, consider whether the feature will apply to at least three other service categories. Or, look for a place where an existing _specific feature_ can be genericized and moved to the _common features_. After adding the new feature definition to [common features], add its ID in `common-features`.
-
-If a feature is unique to this service category, add the full feature definition within the `specific-features` value in the features document for this service category.
+To maintain consistency, all features—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [feature template](../templates/features.yaml) before release.
 
 ### Feature Definition Values
 
-The following list outlines the values necessary to create a new feature definition using the feature template. When defining a new `Service Category` for the first time, be sure to use a unique abbreviation that is a maximum of 8 characters.
+When creating a new feature definition, use the following values:
 
-- `id`
-  - **Feature ID** - A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
-- `title`
-  - **Feature Title** - A shor name that succinctly describes the feature, preferably 1 to 5 words.
-- `description`
-  - **Feature Description** - A falsifiable description of the feature, detailing its purpose and functionality.
-    - A falsifiable feature should include concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected or not.
+- **Feature ID** (`id`): A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
+- **Feature Title** (`title`): A short name that succinctly describes the feature, preferably 1 to 5 words.
+- **Feature Description** (`description`): A falsifiable description of the feature, detailing its purpose and functionality.
+    - A falsifiable feature includes concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected.
 
-## Example
+## Review Process
 
-```yaml
-  - id: CCC.ObjStor.F02
-    title: Storage Objects
-    description: |
-      Supports storing, accessing, and managing data elements which contain
-      both data and metadata.
-```
+Although a review from the Communications WG is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
+[common features]: /services/common-features.yaml
 [Communications WG]: ../../working-groups/communications/charter.md
+[delivery tooling]: /delivery-tooling
+[threats template]: ../templates/threats.yaml

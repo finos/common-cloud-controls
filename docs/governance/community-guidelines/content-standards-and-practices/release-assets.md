@@ -1,38 +1,30 @@
 # Release Assets
 
-Each asset released by CCC will be a set of common features, threats, and controls for a category of cloud services.
+Each asset released by the CCC will include a set of features, threats, and controls for a specific cloud service category.
 
-For example: A single [release] for Object Storage will contain [features] that should be present on any cloud service that seeks to be compliant in this category— such as AWS S3, Azure Blob Storage, and Google Cloud Storage. That same release will contain [threats] that have been identified for the common features, informed by the MITRE ATT&CK framework. Finally, a set of [controls] will be included, which contain information about the mitigation of the common threats as well as mappings to other frequently used control frameworks such as CCM, ISO 27001, and NIST 800-53.
+For example, a [release] for Object Storage will contain [features] that any compliant cloud service—such as AWS S3, Azure Blob Storage, or Google Cloud Storage—must include. The release will also contain [threats] associated with the common features, informed by the MITRE ATT&CK framework. Finally, a set of [controls] will be provided, detailing the mitigation of these threats, along with mappings to external control frameworks like CCM, ISO 27001, and NIST 800-53.
 
-When creating assets for a new service category, be sure to review the content standards for the [features], [threats], and [controls].
+When creating assets for a new service category, review the content standards for [features], [threats], and [controls].
 
-In addition to these three YAML files, each release should contain a `metadata.yaml`, which is defined below.
+In addition to the three YAML files, each release must include a `metadata.yaml` file, which is described below.
 
 ## Release Metadata
 
-Metadata information is included to add information about the state of the release.
+Metadata adds critical information about the state and context of the release.
 
-- `title`
-  - **Category Title**: The title of the service category this control belongs to.
-- `id`
-  - **Category Identifier**: The value that will prefix all other IDs in this release, including features, threats, controls, test requirements, and tests. It is should contain a category abbreviation that is a maximum of 8 characters long. The ID is formatted as `CCC.<Category Abbreviation>`
-- `description`
-  - **Category Description** - A 1 to 3 sentence description of the service category.
-- `assurance_level`
-  - **[Assurance Level]**: The degree of confidence that a cloud resource or service is secure, reliable, and capable of withstanding threats. This is to be referenced by a certification authority. Possible values are:
-    - `None`: actively under development
-    - `AL0 `: only features are complete at release time
-    - `AL1 `: features, threats, and controls are complete at release time
-    - `AL2 `: threats are written based on a threat model for this category
-    - `AL3 `: threats are written based on a red team exercise for this category
-- `threat_model_author`
-  - **Threat Model Author**: The name of the organization, or the name of the lead author for the threat model that informs this release. If no threat model has been completed, this should be `None`.
-- `threat_model_url`
-  - **Threat Model URL**: Stable path to where the threat model for this release can be referenced. If no threat model has been completed, this should be `None`.
-- `red_team`
-  - **Red Team Name**: The name of the organization, or the name of the team lead for the red team exercize that informs this release. If no red team exercize has been completed, this should be `None`.
-- `red_team_exercize_url`
-  - `Red Team Exercize Assets URL`: Stable path to where the red team exercize assets for this release can be referenced. If no red team exercize has been completed, this should be `None`.
+- **Category Title** (`title`): The title of the service category to which this release pertains.
+- **Category Identifier** (`id`): A unique identifier that prefixes all IDs in the release (features, threats, controls, etc.). It should use a category abbreviation (max 8 characters), formatted as `CCC.<Category Abbreviation>`.
+- **Category Description** (`description`): A 1-3 sentence description of the service category.
+- **Assurance Level** (`assurance_level`): Indicates the level of confidence in the security and reliability of the service. Values include:
+    - `None`: Actively under development
+    - `AL0`: Only features are complete at release time
+    - `AL1`: Features, threats, and controls are complete at release time
+    - `AL2`: Threats are based on a threat model for this category
+    - `AL3`: Threats are based on a red team exercise for this category
+- **Threat Model Author** (`threat_model_author`): The organization or lead author responsible for the threat model that informs this release. If no model exists, use `None`.
+- **Threat Model URL** (`threat_model_url`): A stable URL to the threat model for the release. If no model exists, use `None`.
+- **Red Team Name** (`red_team`): The organization or team lead responsible for the red team exercise informing this release. If no exercise exists, use `None`.
+- **Red Team Exercise URL** (`red_team_exercize_url`): A stable URL to the red team exercise assets for this release. If no exercise exists, use `None`.
 
 [release]: ../releases.md
 [features]: ./feature-definitions.md
