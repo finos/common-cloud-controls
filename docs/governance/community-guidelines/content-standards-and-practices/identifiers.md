@@ -2,14 +2,14 @@
 
 This document provides a standardized approach for assigning unique identifiers (IDs) to various entities within the CCC Taxonomy, including Service Families, service categories, features, threats, controls, test requirements, and tests. Adhering to this standard ensures consistency and clarity across all related documentation and implementations.
 
-| **ID Type**          | **Format**                                 | **Example**           |
-|----------------------|--------------------------------------------|-----------------------|
-| **Service Family**     | `CCC.<ServiceType>`                        | `CCC.Storage`         |
-| **Service Category** | `CCC.<ServiceCategory>`                    | `CCC.ObjStor`         |
-| **Feature**          | `CCC.<ServiceCategory>.F<##>`              | `CCC.ObjStor.F01`     |
+| **ID Type**          | **Format**                                  | **Example**            |
+|----------------------|---------------------------------------------|------------------------|
+| **Service Family**   | `CCC.<ServiceType>`                         | `CCC.Storage`          |
+| **Service Category** | `CCC.<ServiceCategory>`                     | `CCC.ObjStor`          |
+| **Feature**          | `CCC.<ServiceCategory>.F<##>`               | `CCC.ObjStor.F01`      |
 | **Threat**           | `CCC.<ServiceCategory>.TH<##>`              | `CCC.RDMS.TH01`        |
-| **Control**          | `CCC.<ServiceCategory>.C<##>`              | `CCC.VM.C01`          |
-| **Test Requirement** | `CCC.<ServiceCategory>.C<##>.TR<##>`       | `CCC.VM.C01.TR01`     |
+| **Control**          | `CCC.<ServiceCategory>.C<##>`               | `CCC.VM.C01`           |
+| **Test Requirement** | `CCC.<ServiceCategory>.C<##>.TR<##>`        | `CCC.VM.C01.TR01`      |
 | **Test**             | `CCC.<ServiceCategory>.C<##>.TR<##>.TE<##>` | `CCC.VM.C01.TR01.TE01` |
 
 ## Service Families
