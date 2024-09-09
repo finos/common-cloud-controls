@@ -28,14 +28,6 @@ When creating or updating a `threats.yaml` file for a service category, follow t
 2. **Define Specific Threats**: If a threat is unique to the service category, document it in the `threats` section of the `threats.yaml` file.
 3. **Consider Generalization**: If a specific threat could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common threats] list.
 
-## Common vs Specific Threats
-
-In order to streamline maintenance, the CCC project maintains a list of [common threats].
-
-In each service category's `threats.yaml` document, common threats are referenced in a list of IDs in the top-level value `common-threats`.
-
-In the release pipeline, our [delivery tooling] will compile the common threats into the document alongside the specific threats. In the final output, the only difference in presentation of the threats will be the unique identifier.
-
 ## Threat Definition Format
 
 To maintain consistency, all threats—whether common or specific—must follow the same format, style, and tone. Each threat should adhere to the [threats template] before release. 

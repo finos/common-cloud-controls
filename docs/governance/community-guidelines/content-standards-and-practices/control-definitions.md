@@ -52,49 +52,6 @@ A control family refers to a group of related security controls that are organiz
 
 The list of control families is maintained in the [common controls] data.
 
-```yaml
-common_controls:
-  - CCC.C01  # Implement multi-factor authentication (MFA) for access to any cloud resource
-  - CCC.C02  # Log all access and changes to any cloud resource
-  - CCC.C03  # Prevent access to cloud resources from untrusted tenants and services
-specific-controls:
-  - id: CCC.ObjStor.C01
-    title: Prevent access to object storage from untrusted entities
-    objective: |
-      Ensure secure management of access to object storage resources,
-      preventing unauthorized data access, exfiltration, and misuse of
-      legitimate services by adversaries.
-    control_family: Identity and Access Management
-    threats:
-      - CCC.TH01
-      - CCC.TH02
-      - CCC.TH03
-    nist_csf:
-      - PR.PT-3
-      - PR.PT-4
-    mitre_attack:
-      - T1021
-    control_mappings:
-      CCM: 
-        - DS-5
-      ISO_27001:
-        - 2013 A.13.1.3
-      NIST_800_53:
-        - AC-3
-    test_requirements:
-      01: |
-        Verify that object storage endpoint can be blocked from public access.
-      02: |
-        Verify that object storage can be blocked from cloud services deployed
-        on the same cloud tenant.
-      03: |
-        Confirm that it's possible to prevent access to object storage from
-        other cloud tenants, even if those tenants have network connectivity to
-        the cloud tenant hosting the object storage.
-```
-
-
-[feature]: ./threat-definitions.md
 [Communications WG]: ../../working-groups/communications/charter.md
 [common controls]: /services/common-controls.yaml
 [delivery tooling]: /delivery-tooling
