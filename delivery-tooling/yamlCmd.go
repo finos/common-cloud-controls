@@ -27,6 +27,14 @@ var (
 )
 
 
+func init() {
+	baseCmd.AddCommand(yamlCmd)
+	// rootCmd.PersistentFlags().StringP("binaries-path", "b", defaultBinariesPath(), "Path to the directory where raids are installed")
+	// viper.BindPFlag("binaries-path", rootCmd.PersistentFlags().Lookup("binaries-path"))
+
+}
+
+
 func null() {
 	outputDir := parseArgs()
 	data := readAndCompile()

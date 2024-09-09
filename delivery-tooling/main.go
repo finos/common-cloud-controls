@@ -34,14 +34,13 @@ var (
 			fmt.Print(logo)
 			fmt.Println(divider)
 			fmt.Println("You appear to be exploring!")
-			fmt.Println("We suggest you begin by running the 'help' command via -h to review what options are available.")
+			fmt.Println("We suggest you begin by running the 'help' command via -h to review the available options.")
 			fmt.Println(divider)
 		},
 	}
 )
 
 func init() {
-	baseCmd.AddCommand(yamlCmd)
 }
 
 func main() {
