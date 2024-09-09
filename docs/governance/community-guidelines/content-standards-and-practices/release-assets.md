@@ -1,6 +1,6 @@
 # Release Assets
 
-Each asset released by CCC will be a set of common features, threats, and controls for a category of cloud services.
+Each asset released by CCC will include a set of features, threats, and controls for a category of cloud services.
 
 For example: A single [release] for Object Storage will contain [features] that should be present on any cloud service that seeks to be compliant in this category— such as AWS S3, Azure Blob Storage, and Google Cloud Storage. That same release will contain [threats] that have been identified for the common features, informed by the MITRE ATT&CK framework. Finally, a set of [controls] will be included, which contain information about the mitigation of the common threats as well as mappings to other frequently used control frameworks such as CCM, ISO 27001, and NIST 800-53.
 
