@@ -1,0 +1,9 @@
+title: <Service Category Name>
+id: CCC.<Service Category Abbreviation>
+description: |
+  <Complete description of the Service Category>
+assurance_level: <Assurance Level Abbreviation>
+threat_model_author: <Name of the organization or lead author for the threat model>
+threat_model_url: <URL to the threat model document>
+red_team: <Name of the organization or team lead for the red team exercise>
+red_team_exercise_url: <URL to the red team exercise report>

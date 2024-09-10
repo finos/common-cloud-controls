@@ -24,7 +24,7 @@ Metadata adds critical information about the state and context of the release.
 - **Threat Model Author** (`threat_model_author`): The organization or lead author responsible for the threat model that informs this release. If no model exists, use `None`.
 - **Threat Model URL** (`threat_model_url`): A stable URL to the threat model for the release. If no model exists, use `None`.
 - **Red Team Name** (`red_team`): The organization or team lead responsible for the red team exercise informing this release. If no exercise exists, use `None`.
-- **Red Team Exercise URL** (`red_team_exercize_url`): A stable URL to the red team exercise assets for this release. If no exercise exists, use `None`.
+- **Red Team Exercise URL** (`red_team_exercise_url`): A stable URL to the red team exercise assets for this release. If no exercise exists, use `None`.
 
 [release]: ../releases.md
 [features]: ./feature-definitions.md
