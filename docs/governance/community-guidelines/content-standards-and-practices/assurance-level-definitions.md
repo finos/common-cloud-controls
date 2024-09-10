@@ -2,7 +2,9 @@
 
 **Assurance levels** represent the degree of confidence that a cloud resource or service is secure, reliable, and capable of withstanding threats. These levels are based on the security measures in place, and they align with the **risk environments** within an organization. Higher assurance levels are required in higher-risk environments, such as those handling sensitive data or critical infrastructure.
 
-The **Common Cloud Controls (CCC)** framework defines these assurance levels to guide organizations in securing cloud resources, such as managed services or Infrastructure as Code (IaC) modules. While the CCC is not a certifying authority, it outlines certification criteria based on varying assurance levels that organizations can adopt. Certification may only be issued if a resource meets the required assurance level criteria, depending on its intended risk environment.
+The **Common Cloud Controls (CCC)** framework defines these assurance levels to guide organizations in securing cloud resources through assured deployment mechanisms, such as managed services or Infrastructure as Code (IaC) modules.
+
+While the CCC project is not a certifying authority, it outlines certification criteria based on varying assurance levels that organizations can adopt. Certification may only be issued if a resource meets the required assurance level criteria, depending on its intended risk environment.
 
 ## Assurance Levels for Certification
 
@@ -13,34 +15,36 @@ Each assurance level builds on the previous one, progressively increasing the se
 - **Description:** The resource meets basic portability requirements, ensuring consistent deployment across cloud environments.
 - **Risk Environment:** Low-risk environments where security is less critical but portability and flexibility are key.
 - **Criteria:**
-  - The resource is portable according to the corresponding CCC taxonomy.
+  - The mechanism used to deploy the resource universally results in a service that has been verified as portable according to the corresponding CCC taxonomy.
 - **Use Case:** Suitable for resources that need to function as **drop-in replacements** within common services, enabling seamless integration across different cloud platforms or environments. This is ideal for situations where organizations require the flexibility to quickly swap or scale controls, such as when migrating services or standardizing across multi-cloud architectures.
 
 ### **Level 1 - Secure Certification**
 
-- **Description:** The resource is both portable and secure by default, following CCC security guidelines.
+- **Description:** The resource is both portable and has good security measures in place.
 - **Risk Environment:** Moderate-risk environments, such as general enterprise deployments, where security configurations are important but not mission-critical.
 - **Criteria:**
-  - Meets the portability requirements of Level 0.
-  - The resource is secure according to the CCC component definition, meaning it follows default security configurations.
+  - Meets the requirements of Level 0.
+  - The mechanism used to deploy the resource universally results in a service that has been verified as secure according to the CCC component definition, meaning it follows default security configurations.
 - **Use Case:** Appropriate for cloud resources used in enterprise environments, ensuring basic security measures like encryption and access controls are in place.
 
 ### **Level 2 - Threat-Model Informed Certification**
 
-- **Description:** The resource is portable, secure, and incorporates controls informed by a formal threat model.
+- **Description:** The resource is portable and incorporates highly researched security controls.
 - **Risk Environment:** High-risk environments where sensitive data is handled, such as financial services or healthcare, and where threats must be systematically assessed and addressed.
 - **Criteria:**
   - Meets the requirements of Level 1.
   - A **threat model** has been applied to identify potential vulnerabilities and tailor CCC controls to mitigate those risks.
+  - The mechanism used to deploy the resource universally results in a service that has been verified as compliant with updated CCC controls informed by the CCC threat model.
 - **Use Case:** For resources operating in environments with heightened security concerns, such as handling PII or regulated data, where threat analysis is crucial to ensure robust protection.
 
 ### **Level 3 - Red-Team Informed Certification**
 
-- **Description:** The resource is portable, secure, informed by a threat model, and tested through red-teaming activities.
+- **Description:** The resource is portable and incorporates comprehensive end-to-end security controls.
 - **Risk Environment:** Mission-critical and very high-risk environments, such as critical infrastructure or national security, where real-world attacks could have catastrophic impacts.
 - **Criteria:**
   - Meets the requirements of Level 2.
-  - A **red-teaming activity** has been conducted, simulating real-world attacks, and the CCC controls have been adjusted based on findings to ensure comprehensive security.
+  - A **red-teaming activity** simulating real-world attacks has been conducted on the full reference architecture used to deploy this resource, then the CCC controls have been adjusted based on findings to ensure comprehensive security.
+  - The mechanism used to deploy the resource universally results in a complete architecture that has been verified as compliant with updated CCC controls informed by the CCC red-teaming activity.
 - **Use Case:** This highest assurance level is for resources that need to withstand sophisticated, real-world threats and attacks.
 
 ## Summary Table of CCC Assurance Levels
