@@ -1,10 +1,10 @@
 # Releases
 
-This document is a [community guideline].
+This document is a [community policy].
 
 ## Purpose
 
-The document outlines the guidelines of managing releases within the Common Cloud Controls (CCC) project.
+The document outlines the policy of managing releases within the Common Cloud Controls (CCC) project.
 
 ## Ownership
 
@@ -39,5 +39,5 @@ Additionally, labels can flag issues specifically targeted for events (e.g., OSF
 
 [WG]: ../community-groups.md#working-groups
 [Communications WG]: ../working-groups/communications/charter.md
-[community guideline]: ./README.md
+[community policy]: ./README.md
 [Milestones]: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones
