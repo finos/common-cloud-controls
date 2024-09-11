@@ -34,6 +34,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Leroy Abikhui, LSEG, Jul/16/2024
 - Chris Plank, Natwest, JUL/17/2024
 - Ted Newman, NatWest Group, JUL/17/2024
+- Mike Smith, Scott Logic, Sep/11/2024
 
 ## How to enroll as a participant
 
