@@ -6,7 +6,7 @@ The following are roles and additional responsibilities that a person may reciev
 
 | Role     | Responsibilities                                                                        | Requirements                                                                     | Defined by                                                           |
 | -------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| Member   | Active contributor in the community, assist on community calls, give input on proposals | Sponsored by 2 reviewers after multiple contributions to the project             | GitHub FINOS `ccc-members` Group Member                              |
+| Member   | Active contributor in the community, assist on community calls, give input on proposals | Sponsored by 2 approvers after multiple contributions to the project             | GitHub FINOS `ccc-members` Group Member                              |
 | Approver | Review contributions from other members                                                 | History of quality reviews and authorship in a particular space                  | [CODEOWNERS] entry for specific files or directories                 |
 | WG Lead  | Set direction and priorities for a working group (WG)                                   | Demonstrated responsibility and excellent technical judgement for the subproject | [CODEOWNERS] entry for all files or directories relating to the [WG] |
 
