@@ -1,6 +1,6 @@
-# Versioning Guidelines
+# Versioning Policy
 
-This document is a [community guideline].
+This document is a [community policy].
 
 ## Purpose
 
@@ -30,4 +30,4 @@ Releases should happen, at most, one time per month. This schedule ensures a man
 [WG]: ../community-groups.md#working-groups
 [Communications WG]: ../working-groups/communications/charter.md
 [Delivery WG]: ../working-groups/delivery/charter.md
-[community guideline]: ./README.md
+[community policy]: ./README.md
