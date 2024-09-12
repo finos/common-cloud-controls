@@ -33,13 +33,33 @@ Further, T1001.002 Steganography is mapped n:m back to 8 NIST 800-53 Controls, i
  - Malicious Code Protection (as discussed)
  - System Monitoring
 
-## Coverage
+![Screenshot 2024-09-12 at 14 50 07](https://github.com/user-attachments/assets/26f15876-d47f-447f-9f6a-ace0f713801b)
+
+### Coverage
 
 - Rev4 and Rev5 of NIST 800-53
 - Att&ck 14.1, 12.1, 10.1, 9.0 and 8.2
 - Enterprise Att&ck domain
+
+### Similar Work
+
+- [M365 Native security features vs Att&ck](https://mitre-engenuity.org/cybersecurity/center-for-threat-informed-defense/our-work/security-stack-mappings-microsoft-365/)
+
+## Technique Inference Engine
+
+> "Know your adversary’s next move with the Technique Inference Engine, a machine learning-powered tool that infers unseen adversary techniques, providing security teams actionable intelligence."
+
+A model to infer an attacker’s next technique, based on observed adversary operations.
+
+- [Project Website](https://center-for-threat-informed-defense.github.io/technique-inference-engine/#/)
+
+### Example
+
+Given an Att&ck, e.g. T1001.002 Steganography (again), what techniques is an attacker likely to employ next?  According to this tool, it will be:
+
+![Screenshot 2024-09-12 at 14 49 06](https://github.com/user-attachments/assets/59835eb4-25ae-4598-838d-4c6facf650a7)
+
   
 ## Resource Links
 
-
-- [Controls Mappings ]
+- [News Page](https://mitre-engenuity.org/news-insights/)
