@@ -1,0 +1,91 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "common_controls": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "IDs of common controls; can be omitted if not applicable"
+        }
+      },
+      "controls": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Control ID in the format CCC.<Service Category Abbreviation>.C1"
+            },
+            "title": {
+              "type": "string",
+              "description": "Name of the control"
+            },
+            "objective": {
+              "type": "string",
+              "description": "1-3 sentence description of the control objective"
+            },
+            "control_family": {
+              "type": "string",
+              "description": "Control Family"
+            },
+            "nist_csf": {
+              "type": "string",
+              "description": "NIST CSF control ID"
+            },
+            "mitre_attack": {
+              "type": "string",
+              "description": "Mitre ATT&CK technique ID"
+            },
+            "threats": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Threat IDs"
+              }
+            },
+            "control_mappings": {
+              "type": "object",
+              "properties": {
+                "CCM": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "CCM control IDs"
+                  }
+                },
+                "ISO_27001": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "ISO 27001 control IDs"
+                  }
+                },
+                "NIST_800_53": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "NIST 800-53 control IDs"
+                  }
+                }
+              },
+              "required": ["CCM", "ISO_27001", "NIST_800_53"],
+              "additionalProperties": false
+            },
+            "test_requirements": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "description": "Test requirement descriptions"
+              }
+            }
+          },
+          "required": ["id", "title", "objective", "control_family", "nist_csf", "mitre_attack", "threats", "control_mappings", "test_requirements"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["controls"],
+    "additionalProperties": false
+  }
