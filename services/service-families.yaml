@@ -46,8 +46,8 @@ families:
   - id: CCC.Crypto
     title: Cryptographic Services
     description: |
-      Services for certificate key and secret management.
+      Services for certificate, key, and secret management.
   - id: CCC.Identity
     title: Identity Services
     description: |
-      Services for managing user identities, control access to resources and ensure secure authentication and authorization.
+      Services for managing user identities, controlling access to resources, and ensuring secure authentication and authorization.

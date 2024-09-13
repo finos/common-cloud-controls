@@ -1,9 +1,9 @@
 title: CCC Cryptographic Services
 id: CCC.Crypto
 description: |
-  In cloud computing, cryptographic services refer to cloud-based tools that secure
-  data and communications through encryption and decryption, while also providing 
-  a secure means for storing and managing keys, secrets, and certificates. These services 
+  In cloud computing, cryptographic services refer to cloud-based tools that protect
+  data and communications through encryption and decryption. They also provide secure 
+  methods for storing and managing keys, secrets, and certificates. These services 
   ensure the confidentiality, integrity, and authenticity of data in both storage and transmission.
 service_categories:
   - id: CCC.Key
@@ -21,9 +21,9 @@ service_categories:
   - id: CCC.Secret
     title: Secret Management
     description: |
-      Service that securely store, retrieve and manage sensitive data such as
-      API keys, passwords, database credentials, encryption keys, certificates
-      and make them accessible only to authorized users or applications.
+      Service that securely stores, retrieves, and manages sensitive data such as
+      API keys, passwords, database credentials, encryption keys, and certificates
+      and makes them accessible only to authorized users or applications.
     examples:
       - AWS:
           - AWS Secrets Manager
@@ -34,9 +34,9 @@ service_categories:
   - id: CCC.Cert
     title: Certificate Management
     description: |
-      Tool or a service that automates the creation, deployment, management,
+      Tool or service that automates the creation, deployment, management,
       and renewal of digital certificates such as SSL/TLS certificates,
-      used to secure communication and authenticate identities over network.
+      used to secure communication and authenticate identities over a network.
     examples:
       - AWS:
           - AWS Certificate Manager

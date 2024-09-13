@@ -33,7 +33,7 @@ features:
       Publishes events for creation, deletion, and modification of
       objects in a way that enables users to trigger actions in response.
   - id: CCC.F08
-    title: Multi zone deployability
+    title: Multi-zone Deployability
     description: |
       Proving the ability for the service to be deployed in multiple availability
       zones within a region to increase availability and fault tolerance.
@@ -45,13 +45,13 @@ features:
   - id: CCC.F10
     title: Logging
     description: |
-      Providing the ability to transmit system events, application activities, or/and
+      Providing the ability to transmit system events, application activities, and/or
       user interactions to a logging service
   - id: CCC.F11
     title: Backup
     description: |
       Providing the ability to create copies of associated data or configurations in form of automated backups,
-      snapshot-based backups, or/and incremental backups.
+      snapshot-based backups, and/or incremental backups.
   - id: CCC.F12
     title: Recovery
     description: |
@@ -64,11 +64,11 @@ features:
   - id: CCC.F14
     title: API Access
     description: |
-      Allowing users to interact programmatically with the sevice and its resources using APIs, SDKs and CLI.
+      Allowing users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
   - id: CCC.F15
     title: Cost Management
     description: |
-      Providing the ability to filter spending and to detect cost anomalies by ther service.
+      Providing the ability to filter spending and to detect cost anomalies by the service.
   - id: CCC.F16
     title: Budgeting
     description: |
@@ -76,8 +76,8 @@ features:
   - id: CCC.F17
     title: Alerting
     description: |
-      Providing the ability to set an alarm based on performance matrix, logs, events or spending thresholds of the service.
+      Providing the ability to set an alarm based on performance metrics, logs, events or spending thresholds of the service.
   - id: CCC.F18
     title: Versioning
     description: |
-      Providing the ability to maintain multiple versions of the same resources.
+      Providing the ability to maintain multiple versions of the same resource.
