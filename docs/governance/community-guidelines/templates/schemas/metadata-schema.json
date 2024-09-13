@@ -1,0 +1,43 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "Service Category Name"
+      },
+      "id": {
+        "type": "string",
+        "pattern": "^CCC\\.[A-Za-z]+$",
+        "description": "Control ID in the format CCC.<Service Category Abbreviation>"
+      },
+      "description": {
+        "type": "string",
+        "description": "Complete description of the Service Category"
+      },
+      "assurance_level": {
+        "type": "string",
+        "description": "Assurance Level Abbreviation"
+      },
+      "threat_model_author": {
+        "type": "string",
+        "description": "Name of the organization or lead author for the threat model"
+      },
+      "threat_model_url": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL to the threat model document"
+      },
+      "red_team": {
+        "type": "string",
+        "description": "Name of the organization or team lead for the red team exercise"
+      },
+      "red_team_exercise_url": {
+        "type": "string",
+        "format": "uri",
+        "description": "URL to the red team exercise report"
+      }
+    },
+    "required": ["title", "id", "description", "assurance_level", "threat_model_author", "threat_model_url", "red_team", "red_team_exercise_url"],
+    "additionalProperties": false
+  }
