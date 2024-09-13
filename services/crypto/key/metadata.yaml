@@ -1,0 +1,11 @@
+title: Key Management
+id: CCC.Key
+description: |
+  Key Management Service is a tool provided by the cloud service providers
+  to securely create, store and manage cryptographic keys used to
+  encrypt and decrypt sensitive data.
+assurance_level: None
+threat_model_author: None
+threat_model_url: None
+red_team: None
+red_team_exercise_url: None

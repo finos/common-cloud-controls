@@ -32,3 +32,52 @@ features:
     description: |
       Publishes events for creation, deletion, and modification of
       objects in a way that enables users to trigger actions in response.
+  - id: CCC.F08
+    title: Multi zone deployability
+    description: |
+      Proving the ability for the service to be deployed in multiple availability
+      zones within a region to increase availability and fault tolerance.
+  - id: CCC.F09
+    title: Monitoring
+    description: |
+      Providing the ability to continuously observe, track, and analyze
+      the performance, availability, and health of the service resources or applications.
+  - id: CCC.F10
+    title: Logging
+    description: |
+      Providing the ability to transmit system events, application activities, or/and
+      user interactions to a logging service
+  - id: CCC.F11
+    title: Backup
+    description: |
+      Providing the ability to create copies of associated data or configurations in form of automated backups,
+      snapshot-based backups, or/and incremental backups.
+  - id: CCC.F12
+    title: Recovery
+    description: |
+      Providing the ability to restore data, system, or application to a functional state
+      after an incident such as data loss, corruption or a disaster.
+  - id: CCC.F13
+    title: Infrastructure as Code
+    description: |
+      Providing the automated deployment of the service resources through templates.
+  - id: CCC.F14
+    title: API Access
+    description: |
+      Allowing users to interact programmatically with the sevice and its resources using APIs, SDKs and CLI.
+  - id: CCC.F15
+    title: Cost Management
+    description: |
+      Providing the ability to filter spending and to detect cost anomalies by ther service.
+  - id: CCC.F16
+    title: Budgeting
+    description: |
+      Providing the ability to set a maximum spend for the service.
+  - id: CCC.F17
+    title: Alerting
+    description: |
+      Providing the ability to set an alarm based on performance matrix, logs, events or spending thresholds of the service.
+  - id: CCC.F18
+    title: Versioning
+    description: |
+      Providing the ability to maintain multiple versions of the same resources.
