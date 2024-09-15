@@ -1,7 +1,3 @@
-title: CCC Load Balancer Features
-category_id: CCC.LB
-type: Networking
-description: This documents the minimual set of features that should be present for a load balancer service to be considered for use in financial services ecosystems.
 features:
   - id: CCC.LB.F01
     title: Layer 7 Load Balancing - HTTP/1.1
