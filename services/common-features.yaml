@@ -50,7 +50,7 @@ features:
   - id: CCC.F11
     title: Backup
     description: |
-      Providing the ability to create copies of associated data or configurations in form of automated backups,
+      Providing the ability to create copies of associated data or configurations in the form of automated backups,
       snapshot-based backups, and/or incremental backups.
   - id: CCC.F12
     title: Recovery
