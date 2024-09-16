@@ -55,7 +55,7 @@ features:
   - id: CCC.F12
     title: Recovery
     description: |
-      Providing the ability to restore data, system, or application to a functional state
+      Providing the ability to restore data, a system, or an application to a functional state
       after an incident such as data loss, corruption or a disaster.
   - id: CCC.F13
     title: Infrastructure as Code
