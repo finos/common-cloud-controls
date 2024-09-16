@@ -16,7 +16,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Rachel Kim, Google, 09/22/2023
 - Mitch Hibbs, Symphony, Date of enrollment: Oct/05/2023
 - Charlotte Hayes, Scott Logic, Oct/19/2023
-- Steven Shiells, Scott Loigc: Oct/19/2023
+- Steven Shiells, Scott Logic: Oct/19/2023
 - Andrés Vega, Messier 42 (M42), Oct/24/2023
 - Ian Miell, Container Solutions, Oct/26/2023
 - Aaron Sutton, Google, Date of enrollment: NOV/07/2023
@@ -35,6 +35,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Chris Plank, Natwest, JUL/17/2024
 - Ted Newman, NatWest Group, JUL/17/2024
 - Mike Smith, Scott Logic, Sep/11/2024
+- Daniel Moorhouse, Scott Logic, Sep/16/2024
 
 ## How to enroll as a participant
 
