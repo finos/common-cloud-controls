@@ -16,11 +16,11 @@ Metadata adds critical information about the state and context of the release.
 - **Category Identifier** (`id`): A unique identifier that prefixes all IDs in the release (features, threats, controls, etc.). It should use a category abbreviation (max 8 characters), formatted as `CCC.<Category Abbreviation>`.
 - **Category Description** (`description`): A 1-3 sentence description of the service category.
 - **Assurance Level** (`assurance_level`): Indicates the level of confidence in the security and reliability of the service. Values include:
-    - `None`: Actively under development
-    - `AL0`: Only features are complete at release time
-    - `AL1`: Features, threats, and controls are complete at release time
-    - `AL2`: Threats are based on a threat model for this category
-    - `AL3`: Threats are based on a red team exercise for this category
+  - `None`: Actively under development
+  - `AL0`: Only features are complete at release time
+  - `AL1`: Features, threats, and controls are complete at release time
+  - `AL2`: Threats are based on a threat model for this category
+  - `AL3`: Threats are based on a red team exercise for this category
 - **Threat Model Author** (`threat_model_author`): The organization or lead author responsible for the threat model that informs this release. If no model exists, use `None`.
 - **Threat Model URL** (`threat_model_url`): A stable URL to the threat model for the release. If no model exists, use `None`.
 - **Red Team Name** (`red_team`): The organization or team lead responsible for the red team exercise informing this release. If no exercise exists, use `None`.

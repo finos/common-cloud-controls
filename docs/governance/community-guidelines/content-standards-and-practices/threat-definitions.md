@@ -30,7 +30,7 @@ When creating or updating a `threats.yaml` file for a service category, follow t
 
 ## Threat Definition Format
 
-To maintain consistency, all threats—whether common or specific—must follow the same format, style, and tone. Each threat should adhere to the [threats template] before release. 
+To maintain consistency, all threats—whether common or specific—must follow the same format, style, and tone. Each threat should adhere to the [threats template] before release.
 
 ### Threat Definition Values
 
