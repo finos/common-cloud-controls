@@ -6,7 +6,7 @@ description: |
   methods for storing and managing keys, secrets, and certificates. These services 
   ensure the confidentiality, integrity, and authenticity of data in both storage and transmission.
 service_categories:
-  - id: CCC.Key
+  - id: CCC.KeyMgmt
     title: Key Management
     description: |
       Service that securely create, store and manage cryptographic keys used to
@@ -18,7 +18,7 @@ service_categories:
           - Azure Key Vault
       - Google Cloud:
           - Google Cloud Key Management Service (Cloud KMS)
-  - id: CCC.Secret
+  - id: CCC.SecMgmt
     title: Secret Management
     description: |
       Service that securely stores, retrieves, and manages sensitive data such as
@@ -31,7 +31,7 @@ service_categories:
           - Azure Key Vault
       - Google Cloud:
           - Google Secret Manager
-  - id: CCC.Cert
+  - id: CCC.CertMgmt
     title: Certificate Management
     description: |
       Tool or service that automates the creation, deployment, management,

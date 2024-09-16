@@ -35,7 +35,7 @@ features:
   - id: CCC.F08
     title: Multi-zone Deployability
     description: |
-      Proving the ability for the service to be deployed in multiple availability
+      Providing the ability for the service to be deployed in multiple availability
       zones within a region to increase availability and fault tolerance.
   - id: CCC.F09
     title: Monitoring
@@ -60,7 +60,7 @@ features:
   - id: CCC.F13
     title: Infrastructure as Code
     description: |
-      Providing the automated deployment of the service resources through templates.
+      Allows for managing and provisioning service resources through machine-readable configuration files, such as templates.
   - id: CCC.F14
     title: API Access
     description: |
@@ -72,7 +72,7 @@ features:
   - id: CCC.F16
     title: Budgeting
     description: |
-      Providing the ability to set a maximum spend for the service.
+      Providing the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
   - id: CCC.F17
     title: Alerting
     description: |
