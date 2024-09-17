@@ -13,6 +13,6 @@ release_details:
       name: <Name of the release manager>
       github_id: <GitHub ID of the release manager>
       company: <Company of the release manager>
-      note: <Any additional notes from the release manager>
+      summary: <Summary of the release and the reason for the changes.>
     change_log:
       - <Additional notes; one per PR added after release>

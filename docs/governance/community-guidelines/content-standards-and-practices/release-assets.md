@@ -39,7 +39,7 @@ Information about the individual overseeing the release:
 - **Name** (`name`): The name of the release manager.
 - **GitHub ID** (`github_id`): The GitHub handle of the release manager for issue tracking, PR review, and contribution attribution.
 - **Company** (`company`): The company or organization the release manager is associated with.
-- **Notes** (`note`): Any additional notes or context from the release manager about the release.
+- **Summary** (`summary`): Summary of the release and the reason for the changes.
 
 ### Change Log
 
@@ -67,7 +67,7 @@ release_details:
       name: Damien Burks
       github_id: damienjburks
       company: Citi
-      note: This release is the first to include a red team exercise based on Object Storage.
+      summary: This release is the first to include a red team exercise based on Object Storage.
     change_log:
       - "PR#25: Added mitigation for XYZ risk identified in red team exercise."
       - "PR#34: Updated controls for increased encryption requirements."
