@@ -1,3 +1,4 @@
+common_features: []
 features:
   - id: CCC.RDMS.F01
     title: SQL Support

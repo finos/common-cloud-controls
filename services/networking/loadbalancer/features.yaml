@@ -1,3 +1,4 @@
+common_features: []
 features:
   - id: CCC.LB.F01
     title: Layer 7 Load Balancing - HTTP/1.1
