@@ -3,7 +3,7 @@
 This document provides a standardized approach for assigning unique identifiers (IDs) to various entities within the CCC Taxonomy, including Service Families, service categories, features, threats, controls, test requirements, and tests. Adhering to this standard ensures consistency and clarity across all related documentation and implementations.
 
 | **ID Type**          | **Format**                                  | **Example**            |
-|----------------------|---------------------------------------------|------------------------|
+| -------------------- | ------------------------------------------- | ---------------------- |
 | **Service Family**   | `CCC.<ServiceType>`                         | `CCC.Storage`          |
 | **Service Category** | `CCC.<ServiceCategory>`                     | `CCC.ObjStor`          |
 | **Feature**          | `CCC.<ServiceCategory>.F<##>`               | `CCC.ObjStor.F01`      |
@@ -51,7 +51,7 @@ Each feature ID follows the format `CCC.<ServiceCategory>.F<##>`.
 ## Threats
 
 Threats are potential security risks associated with a service category.
-Controls and threats have a "many to many" releationship, where 
+Controls and threats have a "many to many" releationship, where
 
 Each threat ID follows the format `CCC.<ServiceCategory>.TH<##>`.
 
@@ -74,7 +74,7 @@ Each control ID follows the format `CCC.<ServiceCategory>.C<##>`.
 
 ## 6. Test Requirements
 
-Test requirements are specific conditions or criteria that must be met to validate the associated control. 
+Test requirements are specific conditions or criteria that must be met to validate the associated control.
 Each Test Requirement will map to a set of Tests.
 
 Each test requirement ID follows the format `CCC.<ServiceCategory>.C<##>.TR<##>`.
