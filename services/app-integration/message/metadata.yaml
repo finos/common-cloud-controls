@@ -1,0 +1,11 @@
+title: CCC Virtual Machines
+id: CCC.Message
+description: |
+  Messaging services facilitate communication between distributed applications
+  and services by enabling the exchange of messages in a reliable and scalable
+  manner.
+assurance_level: None
+threat_model_author: None
+threat_model_url: None
+red_team: None
+red_team_exercise_url: None
