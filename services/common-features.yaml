@@ -32,6 +32,7 @@ features:
     description: |
       Publishes events for creation, deletion, and modification of
       objects in a way that enables users to trigger actions in response.
+<<<<<<< HEAD
   - id: CCC.F08
     title: Multi-zone Deployability
     description: |
@@ -81,3 +82,5 @@ features:
     title: Versioning
     description: |
       Providing the ability to maintain multiple versions of the same resource.
+=======
+>>>>>>> 9c10c3eac6c53fd160d7495234785e725d6e69e4
