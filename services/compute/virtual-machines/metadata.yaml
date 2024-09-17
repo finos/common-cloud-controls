@@ -1,0 +1,10 @@
+title: CCC Virtual Machines
+id: CCC.VM
+description: |
+  This documents the minimual set of features that should be present for a
+  virtual machine service to be considered for use in financial services ecosystems.
+assurance_level: None
+threat_model_author: None
+threat_model_url: None
+red_team: None
+red_team_exercise_url: None

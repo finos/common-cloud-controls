@@ -1,0 +1,11 @@
+title: CCC Load Balancer Features
+id: CCC.LB
+description: |
+  This documents the minimual set of features that should be present
+  for a load balancer service to be considered for use in financial
+  services ecosystems.
+assurance_level: None
+threat_model_author: None
+threat_model_url: None
+red_team: None
+red_team_exercise_url: None

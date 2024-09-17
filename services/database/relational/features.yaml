@@ -1,7 +1,4 @@
-title: CCC Relational Database Management System Features
-category_id: CCC.RDMS
-type: Databases
-description: This documents the minimual set of features that should be present for a RDMS service to be considered for use in financial services ecosystems.
+common_features: []
 features:
   - id: CCC.RDMS.F01
     title: SQL Support
