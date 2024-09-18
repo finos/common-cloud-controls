@@ -7,5 +7,11 @@
   "markdownlint.config": {
     "extends": "./.config/.markdownlint.yaml"
   },
-  "prettier.configPath": "./.config/.prettierrc"
+  "prettier.configPath": "./.config/.prettierrc",
+  "yaml.schemas": {
+    "docs/governance/community-guidelines/templates/schemas/features-schema.json": "/**/features.yaml",
+    "docs/governance/community-guidelines/templates/schemas/threats-schema.json": "/**/threats.yaml",
+    "docs/governance/community-guidelines/templates/schemas/controls-schema.json": "/**/controls.yaml",
+    "docs/governance/community-guidelines/templates/schemas/metadata-schema.json": "/**/metadata.yaml",
+  }
 }
