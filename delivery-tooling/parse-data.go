@@ -38,19 +38,33 @@ type ControlSet struct {
 
 // Metadata is a struct that represents the metadata.yaml file
 type Metadata struct {
-	Title              string `yaml:"title"`
-	ID                 string `yaml:"id"`
-	Description        string `yaml:"description"`
-	AssuranceLevel     string `yaml:"assurance_level"`
-	ThreatModelAuthor  string `yaml:"threat_model_author"`
-	ThreatModelURL     string `yaml:"threat_model_url"`
-	RedTeam            string `yaml:"red_team"`
-	RedTeamExercizeURL string `yaml:"red_team_exercize_url"`
+	Title              string         `yaml:"title"`
+	ID                 string         `yaml:"id"`
+	Description        string         `yaml:"description"`
+	ReleaseDetails     ReleaseDetails `yaml:"release_details"`
+}
+
+type ReleaseDetails struct {
+	Version            string         `yaml:"version"`
+	AssuranceLevel     string         `yaml:"assurance_level"`
+	ThreatModelURL     string         `yaml:"threat_model_url"`
+	ThreatModelAuthor  string         `yaml:"threat_model_author"`
+	RedTeam            string         `yaml:"red_team"`
+	RedTeamExercizeURL string         `yaml:"red_team_exercize_url"`
+	ReleaseManager     ReleaseManager `yaml:"release_manager"`
+	ChangeLog          []string       `yaml:"change_log"`
+}
+
+type ReleaseManager struct {
+	Name      string `yaml:"name"`
+	GithubId  string `yaml:"github_id"`
+	Company   string `yaml:"company"`
+	Summary   string `yaml:"summary"`
 }
 
 // FeatureSet is a struct that represents the features.yaml file
 type FeatureSet struct {
-	CommonFeatureIDs []string `yaml:"common_features"`
+	CommonFeatureIDs []string  `yaml:"common_features"`
 	SpecificFeatures []Feature `yaml:"features"`
 }
 
