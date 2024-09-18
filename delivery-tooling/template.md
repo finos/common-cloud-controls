@@ -31,7 +31,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 
 ## Threats
 
-|Feature ID|Threat Title|
+|Threat ID|Threat Title|
 |----|----|
 {{- range .Threats }}
 |{{ .ID }}|{{ .Title }}|
@@ -41,7 +41,8 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 {{ range .Threats }}
 ### {{ .ID }} - {{ .Title }}
 
-{{ .Description }}
+**Description:** {{ .Description }}
+
 **Related Features:**
 {{ range .Features }}
   - {{ . }}
@@ -50,5 +51,36 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 **Related MITRE ATT&CK Values:**
 {{ range .MITRE }}
   - {{ . }}
+{{- end }}
+{{ end }}
+
+## Controls
+
+|Control ID|Control Title|
+|----|----|
+{{- range .Controls }}
+|{{ .ID }}|{{ .Title }}|
+{{- end }}
+
+---
+{{ range .Controls }}
+### {{ .ID }} - {{ .Title }}
+
+**Objective:** {{ .Objective }}
+
+**Control Family:** {{ .ControlFamily}}
+
+**NIST CSF:** {{ .NISTCSF }}
+
+**Mitigated Threats:**
+{{ range .Threats }}
+  - {{ . }}
+{{- end }}
+
+**Control Mappings:**
+{{ range $key, $value := .ControlMappings }}
+{{- range $value }}
+  - {{ $key }} {{ . }}
+{{- end }}
 {{- end }}
 {{ end }}

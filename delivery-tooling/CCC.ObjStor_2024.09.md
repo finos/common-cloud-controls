@@ -193,7 +193,7 @@ Supports controlling access to specific objects within the object store.
 
 ## Threats
 
-|Feature ID|Threat Title|
+|Threat ID|Threat Title|
 |----|----|
 |CCC.TH01|Unauthorized access through elevated privileges|
 |CCC.TH02|Vendor-hosted keys are compromised|
@@ -205,8 +205,9 @@ Supports controlling access to specific objects within the object store.
 
 ### CCC.TH01 - Unauthorized access through elevated privileges
 
-An attacker can exploit misconfigured access controls to gain
+**Description:** An attacker can exploit misconfigured access controls to gain
 unauthorized access to sensitive resources by granting excessive privileges.
+
 
 **Related Features:**
 
@@ -219,9 +220,10 @@ unauthorized access to sensitive resources by granting excessive privileges.
 
 ### CCC.TH02 - Vendor-hosted keys are compromised
 
-The service uses a vendor-hosted key management service (KMS) to manage
+**Description:** The service uses a vendor-hosted key management service (KMS) to manage
 encryption keys. Insider threats or mistakes can result in access by a
 threat actor.
+
 
 **Related Features:**
 
@@ -235,9 +237,10 @@ threat actor.
 
 ### CCC.TH03 - Attacker intercepts data in transit
 
-The service allows unencrypted communication (e.g., HTTP). An attacker
+**Description:** The service allows unencrypted communication (e.g., HTTP). An attacker
 can intercept traffic between clients and the service to read or modify
 the data during transmission.
+
 
 **Related Features:**
 
@@ -249,11 +252,12 @@ the data during transmission.
 
 ### CCC.TH04 - Attacker encrypts data with client-managed keys
 
-The service provides encryption mechanisms, but the encryption keys are
+**Description:** The service provides encryption mechanisms, but the encryption keys are
 managed by the client. An attacker with access to the service can encrypt
 the data, rendering it inaccessible without the decryption key they hold.
 Additionally, an attacker may alter the encryption key management settings
 to prevent access to data.
+
 
 **Related Features:**
 
@@ -267,9 +271,10 @@ to prevent access to data.
 
 ### CCC.TH05 - Actors in known dangerous regions attempt to access data
 
-The service is deployed in a region with known geopolitical risks. An
+**Description:** The service is deployed in a region with known geopolitical risks. An
 attacker in that region may attempt to access the resource by exploiting
 privileged network access or other vulnerabilities.
+
 
 **Related Features:**
 
@@ -279,3 +284,167 @@ privileged network access or other vulnerabilities.
   - TA0042
   - T1583
 
+
+## Controls
+
+|Control ID|Control Title|
+|----|----|
+|CCC.C01|Prevent unencrypted requests|
+|CCC.C02|Ensure data encryption at rest for all stored data|
+|CCC.C03|Implement multi-factor authentication (MFA) for access|
+|CCC.C04|Log all access and changes|
+|CCC.C05|Prevent access from untrusted entities|
+|CCC.C06|Prevent deployment in restricted regions|
+|CCC.ObjStor.C01|Prevent Requests to Buckets or Objects with Untrusted KMS Keys|
+
+---
+
+### CCC.C01 - Prevent unencrypted requests
+
+**Objective:** Ensure that all communications are encrypted in transit to protect data
+integrity and confidentiality.
+
+
+**Control Family:** Data
+
+**NIST CSF:** PR.DS-2
+
+**Mitigated Threats:**
+
+
+**Control Mappings:**
+
+  - CCM IVS-09
+  - CCM DSI-03
+  - ISO_27001 2013 A.13.1.1
+  - NIST_800_53 SC-8
+  - NIST_800_53 SC-13
+
+### CCC.C02 - Ensure data encryption at rest for all stored data
+
+**Objective:** Ensure that all data stored is encrypted at rest to maintain
+confidentiality and integrity.
+
+
+**Control Family:** Encryption
+
+**NIST CSF:** PR.DS-1
+
+**Mitigated Threats:**
+
+
+**Control Mappings:**
+
+  - CCM DSI-01
+  - CCM DSI-02
+  - ISO_27001 2013 A.10.1.1
+  - NIST_800_53 SC-28
+
+### CCC.C03 - Implement multi-factor authentication (MFA) for access
+
+**Objective:** Ensure that all human user access requires multi-factor authentication
+(MFA), minimizing the risk of unauthorized access by enforcing strong
+authentication mechanisms.
+
+
+**Control Family:** Identity and Access Management
+
+**NIST CSF:** PR.AC-7
+
+**Mitigated Threats:**
+
+
+**Control Mappings:**
+
+  - CCM IAM-03
+  - CCM IAM-08
+  - ISO_27001 2013 A.9.4.2
+  - NIST_800_53 IA-2
+
+### CCC.C04 - Log all access and changes
+
+**Objective:** Ensure that all access and changes are logged to maintain a detailed
+audit trail for security and compliance purposes.
+
+
+**Control Family:** Logging &amp; Monitoring
+
+**NIST CSF:** DE.AE-3
+
+**Mitigated Threats:**
+
+
+**Control Mappings:**
+
+  - CCM DSI-06
+  - CCM STA-04
+  - ISO_27001 2013 A.12.4.1
+  - NIST_800_53 AU-2
+  - NIST_800_53 AU-3
+
+### CCC.C05 - Prevent access from untrusted entities
+
+**Objective:** Ensure secure access controls prevent unauthorized data access,
+exfiltration, and misuse of legitimate services by adversaries.
+
+
+**Control Family:** Identity and Access Management
+
+**NIST CSF:** PR.AC-3
+
+**Mitigated Threats:**
+
+
+**Control Mappings:**
+
+  - CCM DS-5
+  - ISO_27001 2013 A.13.1.3
+  - NIST_800_53 AC-3
+
+### CCC.C06 - Prevent deployment in restricted regions
+
+**Objective:** Ensure that resources are not provisioned or deployed in geographic
+regions or cloud availability zones that have been designated as
+restricted or prohibited, to comply with regulatory requirements and
+reduce exposure to geopolitical risks.
+
+
+**Control Family:** Data
+
+**NIST CSF:** 
+
+**Mitigated Threats:**
+
+  - CCC.TH05
+
+**Control Mappings:**
+
+  - CCM DSI-06
+  - CCM DSI-08
+  - ISO_27001 2013 A.11.1.1
+  - NIST_800_53 AC-6
+
+### CCC.ObjStor.C01 - Prevent Requests to Buckets or Objects with Untrusted KMS Keys
+
+**Objective:** Prevent any requests to object storage buckets or objects using untrusted
+KMS keys to protect against unauthorized data encryption that can impact
+data availability and integrity.
+
+
+**Control Family:** Data
+
+**NIST CSF:** PR.DS-4
+
+**Mitigated Threats:**
+
+  - CCC.TH01
+  - CCC.TH02
+  - CCC.TH03
+
+**Control Mappings:**
+
+  - CCM DSI-04
+  - CCM DSI-05
+  - ISO_27001 2013 A.12.3.1
+  - NIST_800_53 CP-6
+  - NIST_800_53 CP-9
