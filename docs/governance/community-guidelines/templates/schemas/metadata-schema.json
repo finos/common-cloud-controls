@@ -1,43 +1,86 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "properties": {
-      "title": {
-        "type": "string",
-        "description": "Service Category Name"
-      },
-      "id": {
-        "type": "string",
-        "pattern": "^CCC\\.[A-Za-z]+$",
-        "description": "Control ID in the format CCC.<Service Category Abbreviation>"
-      },
-      "description": {
-        "type": "string",
-        "description": "Complete description of the Service Category"
-      },
-      "assurance_level": {
-        "type": "string",
-        "description": "Assurance Level Abbreviation"
-      },
-      "threat_model_author": {
-        "type": "string",
-        "description": "Name of the organization or lead author for the threat model"
-      },
-      "threat_model_url": {
-        "type": "string",
-        "format": "uri",
-        "description": "URL to the threat model document"
-      },
-      "red_team": {
-        "type": "string",
-        "description": "Name of the organization or team lead for the red team exercise"
-      },
-      "red_team_exercise_url": {
-        "type": "string",
-        "format": "uri",
-        "description": "URL to the red team exercise report"
-      }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Service Category Name"
     },
-    "required": ["title", "id", "description", "assurance_level", "threat_model_author", "threat_model_url", "red_team", "red_team_exercise_url"],
-    "additionalProperties": false
-  }
+    "id": {
+      "type": "string",
+      "pattern": "^CCC\\.[A-Za-z]+$",
+      "description": "Control ID in the format CCC.<Service Category Abbreviation>"
+    },
+    "description": {
+      "type": "string",
+      "description": "Complete description of the Service Category"
+    },
+    "release_details": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "pattern": "^\\d{4}\\.\\d{2}$",
+            "description": "Version number in CalVer format (YYYY.MM)"
+          },
+          "assurance_level": {
+            "type": "string",
+            "description": "Assurance Level Abbreviation"
+          },
+          "threat_model_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the threat model document"
+          },
+          "threat_model_author": {
+            "type": "string",
+            "description": "Name of the organization or lead author for the threat model"
+          },
+          "red_team": {
+            "type": "string",
+            "description": "Name of the organization or team lead for the red team exercise"
+          },
+          "red_team_exercise_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the red team exercise report"
+          },
+          "release_manager": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the release manager"
+              },
+              "github_id": {
+                "type": "string",
+                "description": "GitHub ID of the release manager"
+              },
+              "company": {
+                "type": "string",
+                "description": "Company of the release manager"
+              },
+              "summary": {
+                "type": "string",
+                "description": "Summary of the release and the reason for the changes."
+              }
+            },
+            "required": ["name", "github_id", "summary"]
+          },
+          "change_log": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Additional notes; one per PR added after release"
+            }
+          }
+        },
+        "required": ["version", "assurance_level", "threat_model_url", "threat_model_author", "red_team", "red_team_exercise_url", "release_manager"]
+      }
+    }
+  },
+  "required": ["title", "id", "description", "release_details"],
+  "additionalProperties": false
+}
