@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -31,18 +30,6 @@ var (
 
 func init() {
 	baseCmd.AddCommand(yamlCmd)
-	yamlCmd.PersistentFlags().StringP("build-target", "t", "", "Name of the category and service (eg. storage/object)")
-	yamlCmd.PersistentFlags().StringP("output-dir", "o", ".", "Path to the directory where the compiled assets will be stored")
-	yamlCmd.PersistentFlags().StringP("services-dir", "", filepath.Join("..", "services"), "Path to the top level of the services directory")
-	viper.BindPFlag("build-target", yamlCmd.PersistentFlags().Lookup("build-target"))
-	viper.BindPFlag("output-dir", yamlCmd.PersistentFlags().Lookup("output-dir"))
-	viper.BindPFlag("services-dir", yamlCmd.PersistentFlags().Lookup("services-dir"))
-}
-
-func checkArgs(){
-	if viper.GetString("build-target") == "" {
-		log.Fatal("--build-target is required")
-	}
 }
 
 func generateOmnibusYamlFile() {

@@ -1,0 +1,407 @@
+metadata:
+    title: Object Storage
+    id: CCC.ObjStor
+    description: |
+        Object storage is a data storage architecture that manages data as objects,
+        rather than as files or blocks. Each object contains the data itself,
+        metadata, and a unique identifier, making it ideal for storing large amounts
+        of unstructured data such as multimedia files, backups, and archives. It is
+        highly scalable and often used in cloud environments due to its flexibility
+        and accessibility.
+    release_details:
+        - version: "2024.09"
+          assurance_level: None
+          threat_model_url: None
+          threat_model_author: None
+          red_team: None
+          red_team_exercize_url: ""
+          release_manager:
+            name: Damien Burks
+            github_id: damienjburks
+            company: Citi
+            summary: Initial release
+          change_log:
+            - Test
+            - Test
+controls:
+    - id: CCC.C01
+      title: Prevent unencrypted requests
+      objective: |
+        Ensure that all communications are encrypted in transit to protect data
+        integrity and confidentiality.
+      control_family: Data
+      threats: []
+      nist_csf: PR.DS-2
+      mitre_attack: ""
+      control_mappings:
+        CCM:
+            - IVS-09
+            - DSI-03
+        ISO_27001:
+            - 2013 A.13.1.1
+        NIST_800_53:
+            - SC-8
+            - SC-13
+      test_requirements:
+        1: |
+            All supported network data protocols must be running on secure channels
+        2: |
+            All clear text channels should be disabled
+        3: |
+            The cipher suite implemented for ensuring the integrity and
+            confidentiality of data should conform with the latest suggested cipher
+            suites
+    - id: CCC.C02
+      title: Ensure data encryption at rest for all stored data
+      objective: |
+        Ensure that all data stored is encrypted at rest to maintain
+        confidentiality and integrity.
+      control_family: Encryption
+      threats: []
+      nist_csf: PR.DS-1
+      mitre_attack: ""
+      control_mappings:
+        CCM:
+            - DSI-01
+            - DSI-02
+        ISO_27001:
+            - 2013 A.10.1.1
+        NIST_800_53:
+            - SC-28
+      test_requirements:
+        1: |
+            Verify that stored data is encrypted using industry-standard algorithms
+        2: |
+            Ensure that encryption keys are managed securely and rotated
+            periodically
+        3: |
+            Confirm that decryption is only possible through authorized access
+            mechanisms
+    - id: CCC.C03
+      title: Implement multi-factor authentication (MFA) for access
+      objective: |
+        Ensure that all human user access requires multi-factor authentication
+        (MFA), minimizing the risk of unauthorized access by enforcing strong
+        authentication mechanisms.
+      control_family: Identity and Access Management
+      threats: []
+      nist_csf: PR.AC-7
+      mitre_attack: ""
+      control_mappings:
+        CCM:
+            - IAM-03
+            - IAM-08
+        ISO_27001:
+            - 2013 A.9.4.2
+        NIST_800_53:
+            - IA-2
+      test_requirements:
+        1: |
+            Verify that MFA is enforced for all access attempts
+        2: |
+            Ensure that MFA is required for all administrative access to the
+            management interface
+        3: |
+            Confirm that users are unable to access without completing MFA
+    - id: CCC.C04
+      title: Log all access and changes
+      objective: |
+        Ensure that all access and changes are logged to maintain a detailed
+        audit trail for security and compliance purposes.
+      control_family: Logging & Monitoring
+      threats: []
+      nist_csf: DE.AE-3
+      mitre_attack: ""
+      control_mappings:
+        CCM:
+            - DSI-06
+            - STA-04
+        ISO_27001:
+            - 2013 A.12.4.1
+        NIST_800_53:
+            - AU-2
+            - AU-3
+      test_requirements:
+        1: |
+            Verify that all access attempts are logged
+        2: |
+            Ensure that all changes to configurations are logged
+        3: |
+            Confirm that logs are protected against unauthorized access and
+            tampering
+    - id: CCC.C05
+      title: Prevent access from untrusted entities
+      objective: |
+        Ensure secure access controls prevent unauthorized data access,
+        exfiltration, and misuse of legitimate services by adversaries.
+      control_family: Identity and Access Management
+      threats: []
+      nist_csf: PR.AC-3
+      mitre_attack: ""
+      control_mappings:
+        CCM:
+            - DS-5
+        ISO_27001:
+            - 2013 A.13.1.3
+        NIST_800_53:
+            - AC-3
+      test_requirements:
+        1: |
+            Verify that endpoints can be blocked from public access
+        2: |
+            Verify that can be blocked from services deployed on the same cloud
+            tenant
+        3: |
+            Confirm that it's possible to prevent access from other cloud tenants,
+            even if those tenants have network connectivity to the cloud tenant
+            hosting the resources
+    - id: CCC.C06
+      title: Prevent deployment in restricted regions
+      objective: |
+        Ensure that resources are not provisioned or deployed in geographic
+        regions or cloud availability zones that have been designated as
+        restricted or prohibited, to comply with regulatory requirements and
+        reduce exposure to geopolitical risks.
+      control_family: Data
+      threats:
+        - CCC.TH05
+      nist_csf: ""
+      mitre_attack: ""
+      control_mappings:
+        CCM:
+            - DSI-06
+            - DSI-08
+        ISO_27001:
+            - 2013 A.11.1.1
+        NIST_800_53:
+            - AC-6
+      test_requirements:
+        1: |
+            Verify that resources are not deployed in any
+            restricted regions or cloud availability zones.
+        2: |
+            Ensure that the cloud provider's configuration management tools are
+            used to enforce restrictions on provisioning in prohibited regions.
+        3: |
+            Confirm that backups and copies are not allowed to be
+            stored in restricted regions or cloud availability zones.
+    - id: CCC.ObjStor.C01
+      title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
+      objective: |
+        Prevent any requests to object storage buckets or objects using untrusted
+        KMS keys to protect against unauthorized data encryption that can impact
+        data availability and integrity.
+      control_family: Data
+      threats:
+        - CCC.TH01
+        - CCC.TH02
+        - CCC.TH03
+      nist_csf: PR.DS-4
+      mitre_attack: T1486
+      control_mappings:
+        CCM:
+            - DSI-04
+            - DSI-05
+        ISO_27001:
+            - 2013 A.12.3.1
+        NIST_800_53:
+            - CP-6
+            - CP-9
+      test_requirements:
+        1: |
+            Verify that access policies for cloud storage buckets and objects
+            prevent requests with untrusted KMS keys. In this case, an untrusted
+            KMS key is one that is not specified as trusted by the cloud storage
+            bucket owner.
+features:
+    - id: CCC.F01
+      title: Encryption in Transit Enabled by Default
+      description: |
+        Supports encrypting data in transit using SSL/TLS.
+    - id: CCC.F02
+      title: Encryption at Rest Enabled by Default
+      description: |
+        Provides default encryption of data before storage, with the option for
+        clients to maintain control over the encryption keys.
+    - id: CCC.F03
+      title: Access Logs
+      description: |
+        Provides users with the ability to track all requests made to resources.
+    - id: CCC.F04
+      title: Transaction Rate Limits
+      description: |
+        Allows the setting of a threshold where industry-standard throughput is
+        achieved up to the specified rate limit.
+    - id: CCC.F05
+      title: Signed URLs
+      description: |
+        Provides the ability to grant temporary or restricted access
+        to a resource through a custom URL that contains authentication information.
+    - id: CCC.F06
+      title: Identity Based Access Control
+      description: |
+        Provides the ability to determine access to resources based on
+        attributes associated with a user identity.
+    - id: CCC.F07
+      title: Event Notifications
+      description: |
+        Publishes events for creation, deletion, and modification of
+        objects in a way that enables users to trigger actions in response.
+    - id: CCC.F08
+      title: Multi-zone Deployability
+      description: |
+        Providing the ability for the service to be deployed in multiple availability
+        zones within a region to increase availability and fault tolerance.
+    - id: CCC.F09
+      title: Monitoring
+      description: |
+        Providing the ability to continuously observe, track, and analyze
+        the performance, availability, and health of the service resources or applications.
+    - id: CCC.F10
+      title: Logging
+      description: |
+        Providing the ability to transmit system events, application activities, and/or
+        user interactions to a logging service
+    - id: CCC.F11
+      title: Backup
+      description: |
+        Providing the ability to create copies of associated data or configurations in the form of automated backups,
+        snapshot-based backups, and/or incremental backups.
+    - id: CCC.F12
+      title: Recovery
+      description: |
+        Providing the ability to restore data, a system, or an application to a functional state
+        after an incident such as data loss, corruption or a disaster.
+    - id: CCC.F13
+      title: Infrastructure as Code
+      description: |
+        Allows for managing and provisioning service resources through machine-readable configuration files, such as templates.
+    - id: CCC.F14
+      title: API Access
+      description: |
+        Allowing users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+    - id: CCC.F15
+      title: Cost Management
+      description: |
+        Providing the ability to filter spending and to detect cost anomalies by the service.
+    - id: CCC.F16
+      title: Budgeting
+      description: |
+        Providing the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+    - id: CCC.F17
+      title: Alerting
+      description: |
+        Providing the ability to set an alarm based on performance metrics, logs, events or spending thresholds of the service.
+    - id: CCC.F18
+      title: Versioning
+      description: |
+        Providing the ability to maintain multiple versions of the same resource.
+    - id: CCC.ObjStor.F01
+      title: Storage Buckets
+      description: |
+        Provides uniquely identifiable segmentations in which data
+        elements may be stored.
+    - id: CCC.ObjStor.F02
+      title: Storage Objects
+      description: |
+        Supports storing, accessing, and managing data elements which contain
+        both data and metadata.
+    - id: CCC.ObjStor.F03
+      title: Bucket Capacity Limit
+      description: |
+        Provides the ability to set a maximum total capacity for objects within
+        a bucket.
+    - id: CCC.ObjStor.F04
+      title: Object Size Limit
+      description: |
+        Supports setting a maximum object size for storing objects.
+    - id: CCC.ObjStor.F05
+      title: Object Storage Replication
+      description: |
+        Supports replicating objects across multiple regions or availability zones
+        to ensure high availability and durability.
+    - id: CCC.ObjStor.F06
+      title: Querying
+      description: |
+        Supports performing simple select queries to retrieve only a subset of
+        objects from the bucket.
+    - id: CCC.ObjStor.F07
+      title: Storage Classes
+      description: |
+        Provides different storage classes for frequently and infrequently
+        accessed objects.
+    - id: CCC.ObjStor.F08
+      title: Lifecycle Policies
+      description: |
+        Supports defining policies to automate data management tasks.
+    - id: CCC.ObjStor.F09
+      title: Object Versioning
+      description: |
+        Provides the ability to keep multiple versions of an object in the same
+        bucket.
+    - id: CCC.ObjStor.F10
+      title: Object Modification Locks
+      description: |
+        Allows locking of objects to disable modification and/or deletion of an
+        object for a defined period of time.
+    - id: CCC.ObjStor.F11
+      title: Object Level Access Control
+      description: |
+        Supports controlling access to specific objects within the object store.
+threats:
+    - id: CCC.TH01
+      title: Unauthorized access through elevated privileges
+      description: |
+        An attacker can exploit misconfigured access controls to gain
+        unauthorized access to sensitive resources by granting excessive privileges.
+      features:
+        - CCC.F06
+      mitre_attack:
+        - TA0005
+        - T1562
+    - id: CCC.TH02
+      title: Vendor-hosted keys are compromised
+      description: |
+        The service uses a vendor-hosted key management service (KMS) to manage
+        encryption keys. Insider threats or mistakes can result in access by a
+        threat actor.
+      features:
+        - CCC.F01
+        - CCC.F02
+      mitre_attack:
+        - TA0006
+        - T1556.006
+    - id: CCC.TH03
+      title: Attacker intercepts data in transit
+      description: |
+        The service allows unencrypted communication (e.g., HTTP). An attacker
+        can intercept traffic between clients and the service to read or modify
+        the data during transmission.
+      features: []
+      mitre_attack:
+        - TA009
+        - T1557
+    - id: CCC.TH04
+      title: Attacker encrypts data with client-managed keys
+      description: |
+        The service provides encryption mechanisms, but the encryption keys are
+        managed by the client. An attacker with access to the service can encrypt
+        the data, rendering it inaccessible without the decryption key they hold.
+        Additionally, an attacker may alter the encryption key management settings
+        to prevent access to data.
+      features:
+        - CCC.F01
+        - CCC.F02
+      mitre_attack:
+        - TA0040
+        - T1486
+    - id: CCC.TH05
+      title: Actors in known dangerous regions attempt to access data
+      description: |
+        The service is deployed in a region with known geopolitical risks. An
+        attacker in that region may attempt to access the resource by exploiting
+        privileged network access or other vulnerabilities.
+      features: []
+      mitre_attack:
+        - TA0042
+        - T1583

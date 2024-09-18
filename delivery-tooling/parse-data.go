@@ -17,6 +17,8 @@ type CompiledData struct {
 	Controls []Control
 	Features []Feature
 	Threats  []Threat
+
+	LatestReleaseDetails ReleaseDetails
 }
 
 type Control struct {
@@ -41,7 +43,7 @@ type Metadata struct {
 	Title              string         `yaml:"title"`
 	ID                 string         `yaml:"id"`
 	Description        string         `yaml:"description"`
-	ReleaseDetails     ReleaseDetails `yaml:"release_details"`
+	ReleaseDetails     []ReleaseDetails `yaml:"release_details"`
 }
 
 type ReleaseDetails struct {
@@ -142,9 +144,6 @@ func unmarshalData(dataName string, dataSet interface{}) {
     err := yaml.Unmarshal(yamlData, dataSet)
     if err != nil {
         log.Fatalf("error reading %s: %v", dataName, err)
-    } else {
-		// Debug print
-        fmt.Printf("Data unmarshaled successfully: %+v\n", dataSet)
     }
 }
 
@@ -172,5 +171,6 @@ func readAndCompile() (data CompiledData) {
 		Controls: append(commonControlsData.SpecificControls, controlsData.SpecificControls...),
 		Features: append(commonFeaturesData.SpecificFeatures, featuresData.SpecificFeatures...),
 		Threats:  append(commonThreatsData.SpecificThreats, threatsData.SpecificThreats...),
+		LatestReleaseDetails: metadata.ReleaseDetails[len(metadata.ReleaseDetails)-1],
 	}
 }
