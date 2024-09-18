@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 )
 
@@ -21,7 +23,7 @@ var (
 			fmt.Println(divider)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Not yet implemented")
+			generateOmnibusYamlFile()
 		},
 	}
 )
@@ -29,36 +31,33 @@ var (
 
 func init() {
 	baseCmd.AddCommand(yamlCmd)
-	yamlCmd.PersistentFlags().StringP("input-dir", "i", "", "Path to the directory where the YAML files are located")
+	yamlCmd.PersistentFlags().StringP("build-target", "t", "", "Name of the category and service (eg. storage/object)")
 	yamlCmd.PersistentFlags().StringP("output-dir", "o", ".", "Path to the directory where the compiled assets will be stored")
+	yamlCmd.PersistentFlags().StringP("services-dir", "", filepath.Join("..", "services"), "Path to the top level of the services directory")
+	viper.BindPFlag("build-target", yamlCmd.PersistentFlags().Lookup("build-target"))
+	viper.BindPFlag("output-dir", yamlCmd.PersistentFlags().Lookup("output-dir"))
+	viper.BindPFlag("services-dir", yamlCmd.PersistentFlags().Lookup("services-dir"))
 }
 
+func checkArgs(){
+	if viper.GetString("build-target") == "" {
+		log.Fatal("--build-target is required")
+	}
+}
 
-func null() {
-	outputDir := parseArgs()
+func generateOmnibusYamlFile() {
+	checkArgs()
+
 	data := readAndCompile()
-	// pretty print data yaml with indentation
+	
 	dataYaml, err := yaml.Marshal(&data)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	// print to output file outputDir/compiled-controls.yaml
-	// err = ioutil.WriteFile("compiled-controls.yaml", dataYaml, 0644)
-	err = ioutil.WriteFile(fmt.Sprintf("%s/compiled-controls.yaml", outputDir), dataYaml, 0644)
+
+	outputDir := viper.GetString("output-dir")
+	err = os.WriteFile(fmt.Sprintf("%s/compiled-controls.yaml", outputDir), dataYaml, 0644)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-
-	// fmt.Printf("Data read successfully: %+v\n", data) // Debug print
-
-
-	// Create or open the Markdown file based on the YAML id value
-	// mdFile, err := os.Create(fmt.Sprintf("%s/%s.md", outputDir, data.CategoryID))
-	// if err != nil {
-	// 	log.Fatalf("error: %v", err)
-	// }
-	// defer mdFile.Close()
-
-	// // Write the Markdown content
-	// writeMarkdown(mdFile, data)
 }

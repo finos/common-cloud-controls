@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 
+	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 )
 
@@ -85,21 +86,24 @@ func formatList(items []string) string {
 }
 
 func getDataDirectory(name string) (string) {
+	buildTarget := filepath.Join(viper.GetString("services-dir"), viper.GetString("build-target"))
+	serviceDir := viper.GetString("services-dir")
+
 	switch name {
 	case "controls":
-		return os.Args[1]
+		return buildTarget
 	case "features":
-		return os.Args[1]
+		return buildTarget
 	case "threats":
-		return os.Args[1]
+		return buildTarget
 	case "metadata":
-		return os.Args[1]
+		return buildTarget
 	case "common-controls":
-		return os.Args[2]
+		return serviceDir
 	case "common-features":
-		return os.Args[2]
+		return serviceDir
 	case "common-threats":
-		return os.Args[2]
+		return serviceDir
 	default:
 		log.Fatalf("error: %v", "Invalid data type")
 	}
@@ -107,7 +111,7 @@ func getDataDirectory(name string) (string) {
 }
 
 func readYamlFile(filepath string) (yamlFile []byte) {
-	yamlFile, err := ioutil.ReadFile(filepath)
+	yamlFile, err := os.ReadFile(filepath)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
@@ -123,7 +127,7 @@ func unmarshalData(dataName string, dataSet interface{}) {
 	yamlData := getYaml(dataName)
     err := yaml.Unmarshal(yamlData, dataSet)
     if err != nil {
-        log.Fatalf("error: %v", err)
+        log.Fatalf("error reading %s: %v", dataName, err)
     } else {
 		// Debug print
         fmt.Printf("Data unmarshaled successfully: %+v\n", dataSet)
