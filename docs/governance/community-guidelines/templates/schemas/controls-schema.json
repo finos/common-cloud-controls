@@ -75,10 +75,42 @@
             },
             "test_requirements": {
               "type": "object",
-              "additionalProperties": {
-                "type": "string",
-                "description": "Test requirement descriptions"
-              }
+              "properties": {
+                "tlp_green": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "description": "TLP Green test requirement descriptions"
+                  },
+                  "description": "A list of validation requirements for systems that intend limited disclosure, restricted to the community."
+                },
+                "tlp_amber": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "description": "TLP Amber test requirement descriptions"
+                  },
+                  "description": "A list of validation requirements for systems that intend limited disclosure, recipients can only spread this on a need-to-know basis within their organization and its clients."
+                },
+                "tlp_red": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "description": "TLP Red test requirement descriptions"
+                  },
+                  "description": "A list of validation requirements for systems intended for eyes and ears of individual recipients only, no further disclosure."
+                },
+                "tlp_clear": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "description": "TLP Clear test requirement descriptions"
+                  },
+                  "description": "A list of validation requirements for systems containing data that recipients can spread to the world, there is no limit on disclosure."
+                }
+              },
+              "required": ["tlp_green", "tlp_amber", "tlp_red", "tlp_clear"],
+              "additionalProperties": false
             }
           },
           "required": ["id", "title", "objective", "control_family", "nist_csf", "mitre_attack", "threats", "control_mappings", "test_requirements"],
@@ -88,4 +120,4 @@
     },
     "required": ["controls"],
     "additionalProperties": false
-  }
+}
