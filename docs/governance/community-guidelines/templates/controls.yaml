@@ -17,4 +17,9 @@ controls:
       NIST_800_53: 
         - <NIST 800-53 control IDs>
     test_requirements:
-      <##>: <Test requirement descriptions>
+      tlp_green:
+        <##>: <Test requirement descriptions>
+      tlp_amber:
+        <##>: <Test requirement descriptions>
+      tlp_red:
+        <##>: <Test requirement descriptions>
