@@ -1,0 +1,12 @@
+title: Generative AI
+id: CCC.GenAI
+description: |
+  Generative AI consist of set of tools provided by the cloud service providers
+  that uses large language models (LLMs) and deep learning frameworks to 
+  understand, generate, and manipulate natural language, images, code, audio to 
+  create new content, and insights base on patterns and data.
+assurance_level: None
+threat_model_author: None
+threat_model_url: None
+red_team: None
+red_team_exercise_url: None

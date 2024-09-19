@@ -1,0 +1,18 @@
+title: CCC Artificial Intelligence and Machine Learning
+id: CCC.AIML
+description: |
+  In cloud computing, AI & ML services refer to cloud-based tools that 
+  building, training, and deploying machine learning models and AI solutions.
+service_categories:
+  - id: CCC.GenAI
+    title: Generative AI
+    description: |
+      Service that creates new content, and insights base on patterns and data 
+      using large language models and deep learning frameworks.
+    examples:
+      - AWS:
+          - AWS Bedrock
+      - Azure:
+          - Azure OpenAI
+      - Google Cloud:
+          - Google Cloud AI
