@@ -21,3 +21,9 @@ jobs:
         permissions:
           pull-requests: write
           contents: read
+
+  yaml-checker:
+    uses: ./.github/workflows/yaml-check.yml
+    permissions:
+      pull-requests: write
+      contents: read

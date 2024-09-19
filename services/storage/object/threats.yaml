@@ -1,7 +1,7 @@
-common-threats:
+common_threats:
   - CCC.TH01 # Unauthorized access through elevated privileges
   - CCC.TH02 # Vendor-hosted keys are compromised
   - CCC.TH03 # Attacker intercepts data in transit
   - CCC.TH04 # Attacker encrypts data with client-managed keys
-threats:
+threats: []
   # WIP: Only common threats have been identified so far.

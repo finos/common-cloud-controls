@@ -1,9 +1,8 @@
-title: Key Management
-id: CCC.KeyMgmt
+title: CCC Relational Database Management System Features
+id: CCC.RDMS
 description: |
-  Key Management Service is a tool provided by cloud service providers
-  to securely create, store, and manage cryptographic keys used to
-  encrypt and decrypt sensitive data.
+  This documents the minimual set of features that should be present for a RDMS
+  service to be considered for use in financial services ecosystems.
 release_details:
   - version: "2024.09"
     assurance_level: None

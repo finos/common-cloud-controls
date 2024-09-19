@@ -1,0 +1,15 @@
+profiles:
+  default:
+    # Voting duration of 7 days
+    duration: 7d
+    # Pass threshold of 51% (i.e. majority)
+    pass_threshold: 51
+    allowed_voters:
+      teams: [ccc-steerco]
+      users: []
+
+    # Periodic status check - no status check
+    periodic_status_check: null
+
+    # Close vote on passing
+    close_on_passing: true
