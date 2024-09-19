@@ -117,15 +117,13 @@ controls:
       NIST_800_53:
         - AC-3
     test_requirements:
-      01: |
-        Verify that endpoints can be blocked from public access
-      02: |
-        Verify that can be blocked from services deployed on the same cloud
-        tenant
-      03: |
-        Confirm that it's possible to prevent access from other cloud tenants,
-        even if those tenants have network connectivity to the cloud tenant
-        hosting the resources
+      tlp_red: # TODO: Elaborate on these... Allowlist?
+        01: |
+          Endpoints are blocked from public access
+        02: |
+          Services deployed on the same cloud tenant are blocked by default
+        03: |
+          Access from other cloud tenants is blocked by default
   - id: CCC.C06
     title: Prevent deployment in restricted regions
     objective: |
@@ -156,3 +154,11 @@ controls:
       03: |
         Confirm that backups and copies are not allowed to be
         stored in restricted regions or cloud availability zones.
+  - id: CCC.C07
+    title: Alert on non-human enumeration
+    objective: |
+      Ensure that logs and associated alerts are generated when non-human
+      entities attempt to enumerate resources, to detect and respond to
+      potential malicious recon activities.
+    control_family: Logging & Monitoring
+  - id: CCC.C08
