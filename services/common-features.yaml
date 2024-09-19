@@ -9,9 +9,10 @@ features:
       Provides default encryption of data before storage, with the option for
       clients to maintain control over the encryption keys.
   - id: CCC.F03
-    title: Access Logs
+    title: Access/Activity Logs
     description: |
-      Provides users with the ability to track all requests made to resources.
+      Provides users with the ability to track all requests made to or 
+      activities performed on resources for audit purposes.
   - id: CCC.F04
     title: Transaction Rate Limits
     description: |
@@ -68,7 +69,7 @@ features:
   - id: CCC.F15
     title: Cost Management
     description: |
-      Providing the ability to filter spending and to detect cost anomalies by the service.
+      Providing the ability to filter spending and to detect cost anomalies for the service.
   - id: CCC.F16
     title: Budgeting
     description: |
@@ -81,3 +82,11 @@ features:
     title: Versioning
     description: |
       Providing the ability to maintain multiple versions of the same resource.
+  - id: CCC.F19
+    title: On Demand Scaling
+    description: |
+      Provide scaling of resources based on demand.
+  - id: CCC.F20
+    title: Tagging
+    description: |
+      Provide the ability to tag a resource to effectively manage and gain insights of the resource.
