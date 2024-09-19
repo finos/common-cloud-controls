@@ -1,0 +1,19 @@
+title: Generative AI (RAG LLM)
+id: CCC.RagLLM
+description: |
+  Generative AI (RAG LLM) is a machine learning model that generates text based on
+  a given prompt. It is trained on a large corpus of text data and uses a
+  transformer architecture to generate text that is coherent and contextually
+  relevant. RAG LLM is used in a variety of applications, including chatbots,
+  content generation, and question answering systems.
+services:
+  - id: CCC.RagLLM.S01
+    title: # TODO
+    service_category: # TODO
+    purpose: # TODO
+    tlp_level: # TODO
+    connections:
+      inbound:
+        - CCC.RagLLM.S02
+      outbound:
+        - CCC.RagLLM.S02
