@@ -9,7 +9,7 @@ description: |
 services:
   - id: CCC.RagLLM.S01
     title: # TODO
-    service_category: # TODO
+    service_category: CCC.ObjStor
     purpose: # TODO
     tlp_level: # TODO
     connections:
