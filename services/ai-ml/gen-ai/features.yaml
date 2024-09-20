@@ -91,7 +91,7 @@ features:
   - id: CCC.GenAI.F17
     title: Contextual Prompts
     description: |
-      Ability provide context or background information within the prompt to guide the response
+      Ability to provide context or background information within the prompt to guide the response
   - id: CCC.GenAI.F18
     title: Interactive Prompts
     description: |
