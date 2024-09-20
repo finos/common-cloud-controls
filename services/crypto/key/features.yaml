@@ -82,7 +82,7 @@ features:
     title: Soft Delete
     description: |
       Supports the ability to prevent the immediate deletion of a managed key. This includes the ability
-      recover accidental deletion of keys within the grace period.
+      recover accidental deletion of keys within a grace period.
   - id: CCC.KeyMgmt.F19
     title: Delete Key
     description: |
