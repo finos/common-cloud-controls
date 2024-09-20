@@ -55,7 +55,7 @@ features:
   - id: CCC.GenAI.F09
     title: Parameter tuning - Top P (Nucleus Sampling)
     description: |
-      Ability to adjust number of likely next tokens to consider base on 
+      Ability to adjust number of likely next tokens to consider based on 
       cumulative probability.
   - id: CCC.GenAI.F10
     title: Parameter tuning - Top K
