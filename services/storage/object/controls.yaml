@@ -29,7 +29,7 @@ controls:
       NIST_800_53:
         - CP-6
         - CP-9
-    test_requirements:
+    test_requirements: # TODO
       tlp_red:
         01: |
           Verify that access policies for cloud storage buckets and objects
@@ -56,15 +56,14 @@ controls:
       NIST_800_53:
         - AC-6
         - AC-2
-    test_requirements:
+    test_requirements: # TODO
       tlp_green:
         01: |
           ACL based access to the bucket is prevented.
         02: |
           Access to the bucket is controlled through IAM policies only.
   - id: CCC.ObjStor.C03
-    # bucket retention policy is locked
-    title: Prevent bucket deletion through irrevocable bucket retention policy # TODO: this should probably be lifted up to a common control
+    title: Prevent bucket deletion through irrevocable bucket retention policy
     control_family: Data
     objective: |
       Ensure that object storage bucket is not deleted after creation,
@@ -72,7 +71,7 @@ controls:
     threats:
       - CCC.TH06
     nist_csf: PR.DS-1
-    test_requirements:
+    test_requirements: # TODO
       tlp_green: # this might not be necessary for internal-only amber/red?
         01: |
           Verify that the bucket cannot be deleted as long as the retention policy is in effect.
@@ -88,7 +87,7 @@ controls:
     threats:
       - CCC.TH08
     nist_csf: PR.PT-5
-    test_requirements: # GCS-CO-6.11/12 — Can this be tested beyond reading the config?
+    test_requirements: # TODO # GCS-CO-6.11/12 — Can this be tested beyond reading the config?
       tlp_green:
         01: |
           Verify that data stored in object storage is replicated across multiple
@@ -106,7 +105,7 @@ controls:
     threats:
       - CCC.TH06
     nist_csf: PR.DS-1
-    test_requirements:
+    test_requirements: # TODO
       tlp_green:
         01: |
           Verify that any new objects stored in the bucket automatically inherit a default retention policy.
@@ -125,7 +124,7 @@ controls:
       - CCC.TH04
       - CCC.TH06
     nist_csf: PR.DS-1
-    test_requirements:
+    test_requirements: # TODO
       tlp_green:
         01: |
           Verify that when two objects with the same name are uploaded to the bucket, 
@@ -140,14 +139,13 @@ controls:
     objective: |
       Ensure that access logs for object storage buckets are stored in a separate
       bucket to protect against unauthorized access, tampering, or deletion of
-      logs.
+      logs (Logbuckets are exempt from this requirement, but must be tlp_red).
     threats:
       - CCC.TH07
     nist_csf: PR.DS-6
-    test_requirements:
+    test_requirements: # TODO
       tlp_green:
-        01:
-          | # TODO: This could become recursive if we include the logbucket in the controlled architecure... unless we have that one set to TLP Clear, no logging needed?
+        01: | # TODO: This could become recursive if we include the logbucket in the controlled architecure... unless we have that one set to TLP Clear, no logging needed?
           Access logs for object storage buckets are stored in a separate bucket.
   - id: CCC.ObjStor.08 # TODO: This is probably a common control
     title: Prevent Replication to Desinations Outside of Defined Trust Perimeter
@@ -159,8 +157,7 @@ controls:
     threats:
       - CCC.TH08
     nist_csf: PR.DS-4
-    test_requirements:
+    test_requirements: # TODO
       tlp_green:
         CCC.OS.C9.TR01: |
           Verify that replication to destinations outside of the defined trust perimeter is prevented.
-

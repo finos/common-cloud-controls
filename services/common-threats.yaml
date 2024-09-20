@@ -99,4 +99,3 @@ threats:
       - CCC.ObjStor.F05 # TODO: doesn't seem right - is the feature of replication of data not common or is there something specical about objects?
     mitre_attack:
       - T1537: Transfer Data to Cloud Account
-
