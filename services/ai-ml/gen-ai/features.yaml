@@ -14,34 +14,34 @@ common_features:
   - CCC.F20 # Tagging
 features:
   - id: CCC.GenAI.F01
-    title: Access for text-based models
+    title: Text-based model selection
     description: |
-      Ability to access foundation models that excel at natural language 
+      Ability to select a foundation model that excels at natural language 
       understanding and generation tasks such as summarization, translation, 
       text generation, question answering, and sentiment analysis.
   - id: CCC.GenAI.F02
-    title: Access for code-based models
+    title: Code-based model selection
     description: |
-      Ability to access foundation models that focus on code understanding, 
+      Ability to select a foundation model that focuses on code understanding, 
       generation, and transformation tasks.
   - id: CCC.GenAI.F03
-    title: Access for embedding models
+    title: Embedding model selection
     description: |
-      Ability to access foundation models used for tasks like semantic 
+      Ability to select a foundation model used for tasks like semantic 
       search, clustering, and document similarity by converting text into 
       vector embeddings.
   - id: CCC.GenAI.F04
-    title: Access for image-based models
+    title: Image-based model selection
     description: |
-      Ability to access foundation models focus on tasks related to vision, 
+      Ability to select a foundation model that focuses on tasks related to vision, 
       such as image generation, editing, and manipulation.
   - id: CCC.GenAI.F05
-    title: Access for multimodal models
+    title: Multimodal model selection
     description: |
-      Ability to access foundation models that support more than one modality, 
+      Ability to select a foundation model that support more than one modality, 
       such as combining text and image
   - id: CCC.GenAI.F06
-    title: Access for customizable models
+    title: Customizable model selection
     description: |
       Provide users the ability to fine-tune models with their own data.
   - id: CCC.GenAI.F07
@@ -114,32 +114,15 @@ features:
       Ensures prompts, model outputs, embeddings and training data fed by the customers 
       are not used to train its foundation models.
   - id: CCC.GenAI.F23
+    title: Data Storage
+    description: |
+      Ability to retrieve previously generated outputs and prompts for the given session.
+  - id: CCC.GenAI.F24
     title: Data Residency
     description: |
-      Ensures the customer content processed and stored by the service will remain in the same region 
-      as the service.
-  - id: CCC.GenAI.F24
+      Ability to select a region for processing and storing of data in the service.
+  - id: CCC.GenAI.F25
     title: Content Moderation
     description: |
       Ensure the service detects and filters, abusive, harmful and sensitive information, to ensure 
       responsible and safe use of the service.
-  - id: CCC.GenAI.F25
-    title: SOC Compliance
-    description: |
-      Ensure the service complies with SOC1, SOC2 and SOC3 standards set by Service and Organization Control (SOC).
-  - id: CCC.GenAI.F26
-    title: ISO Compliance
-    description: |
-      Ensures the service complies with ISO 27001 standards set by the International Organization for Standardization (ISO).
-  - id: CCC.GenAI.F27
-    title: GDPR Compliance
-    description: |
-      Ensure the service complies with General Data Protection Regulation (GDPR).
-  - id: CCC.GenAI.F28
-    title: HIPAA Compliance
-    description: |
-      Ensure the service complies with Health Insurance Portability and Accountability Act (HIPAA).
-  - id: CCC.GenAI.F29
-    title: FedRAMP Compliance
-    description: |
-      Ensure the service complies with Federal Risk and Authorization Management Program (FedRAMP).
