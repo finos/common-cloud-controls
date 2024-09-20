@@ -83,7 +83,7 @@ features:
     description: |
       Providing the ability to maintain multiple versions of the same resource.
   - id: CCC.F19
-    title: On Demand Scaling
+    title: On-Demand Scaling
     description: |
       Provide scaling of resources based on demand.
   - id: CCC.F20

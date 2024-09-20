@@ -7,7 +7,7 @@ service_categories:
   - id: CCC.GenAI
     title: Generative AI
     description: |
-      Services that creates new content, and insights base on patterns and data 
+      Services that creates new content, and insights based on patterns and data 
       using large language models and deep learning frameworks.
     examples:
       - AWS:
