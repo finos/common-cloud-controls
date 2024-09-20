@@ -80,7 +80,7 @@ features:
     description: |
       Supports the ability to re-enable a disabled managed key.
   - id: CCC.KeyMgmt.F18
-    title: Disable key
+    title: Prevent immediate key deletion
     description: |
       Supports the ability to prevent the immediate deletion of a managed key.
   - id: CCC.KeyMgmt.F19
