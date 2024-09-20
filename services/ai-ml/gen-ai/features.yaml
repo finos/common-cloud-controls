@@ -22,7 +22,7 @@ features:
   - id: CCC.GenAI.F02
     title: Access for code-based models
     description: |
-      Ability to access foundation models focus on code understanding, 
+      Ability to access foundation models that focus on code understanding, 
       generation, and transformation tasks.
   - id: CCC.GenAI.F03
     title: Access for embedding models
