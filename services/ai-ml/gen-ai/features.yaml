@@ -73,7 +73,7 @@ features:
   - id: CCC.GenAI.F13
     title: Parameter tuning - Presence Penalty
     description: |
-      Ability to penalizes tokens that have already been used, encouraging 
+      Ability to penalize tokens that have already been used, encouraging 
       the model to introduce new tokens.
   - id: CCC.GenAI.F14
     title: Parameter tuning - Context Length
