@@ -14,11 +14,11 @@ common_features:
   - CCC.F20 # Tagging
 features:
   - id: CCC.GenAI.F01
-    title: Access for text base models
+    title: Access for text-based models
     description: |
       Ability to access foundation models that excel at natural language 
       understanding and generation tasks such as summarization, translation, 
-      content generation, and more.
+      text generation, question answering, and sentiment analysis.
   - id: CCC.GenAI.F02
     title: Access for code-based models
     description: |
@@ -81,7 +81,7 @@ features:
       Ability to controls how much prior conversation or input the model will 
       use for generating coherent responses.
   - id: CCC.GenAI.F15
-    title: Text-Base Prompts
+    title: Text-Based Prompts
     description: |
       Ability to input prompts in plain text.
   - id: CCC.GenAI.F16
@@ -107,7 +107,7 @@ features:
   - id: CCC.GenAI.F21
     title: Generate Content
     description: |
-      Ability to generate response given foundational model, parameter values and a prompt.
+      Ability to generate response given a foundation model, parameter values and a prompt.
   - id: CCC.GenAI.F22
     title: Data Control
     description: |
