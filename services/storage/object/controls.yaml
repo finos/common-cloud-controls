@@ -149,3 +149,18 @@ controls:
         01:
           | # TODO: This could become recursive if we include the logbucket in the controlled architecure... unless we have that one set to TLP Clear, no logging needed?
           Access logs for object storage buckets are stored in a separate bucket.
+  - id: CCC.ObjStor.08 # TODO: This is probably a common control
+    title: Prevent Replication to Desinations Outside of Defined Trust Perimeter
+    control_family: Data
+    objective: |
+      Prevent replicating data to untrusted destinations outside of defined trust perimeter. 
+      An untrusted destination is defined as a resource that exists outside of a specified 
+      trusted identity or network perimeter (i.e., a data perimeter).
+    threats:
+      - CCC.TH08
+    nist_csf: PR.DS-4
+    test_requirements:
+      tlp_green:
+        CCC.OS.C9.TR01: |
+          Verify that replication to destinations outside of the defined trust perimeter is prevented.
+

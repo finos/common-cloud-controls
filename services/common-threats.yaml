@@ -7,7 +7,6 @@ threats:
     features:
       - CCC.F06
     mitre_attack: 
-      - TA0005
       - T1562
   - id: CCC.TH02
     title: Vendor-hosted keys are compromised
@@ -19,7 +18,6 @@ threats:
       - CCC.F01
       - CCC.F02
     mitre_attack:
-      - TA0006
       - T1556.006
   - id: CCC.TH03
     title: Attacker intercepts data in transit
@@ -29,7 +27,6 @@ threats:
       the data during transmission.
     features: CCC.F01
     mitre_attack:
-      - TA009
       - T1557
   - id: CCC.TH04
     title: Attacker encrypts data with client-managed keys
@@ -43,7 +40,6 @@ threats:
       - CCC.F01
       - CCC.F02
     mitre_attack:
-      - TA0040
       - T1486
   - id: CCC.TH05
     title: Actors in known dangerous regions attempt to access data
@@ -53,7 +49,6 @@ threats:
       privileged network access or other vulnerabilities.
     features: # TODO: Something about multi-region deployment?
     mitre_attack:
-      - TA0042
       - T1583
   - id: CCC.TH06
     title: Accidental or malicious deletion of critical data
@@ -94,4 +89,14 @@ threats:
       - CCC.F14
     mitre_attack:
       - T1580
+  - id: CCC.TH14
+    title: Unauthorized replication of sensitive data to untrusted or external locations
+    description: |
+      Sensitive data may be replicated to untrusted or external locations if replication configurations 
+      are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
+      outside the organization's trusted perimeter.
+    features:
+      - CCC.ObjStor.F05 # TODO: doesn't seem right - is the feature of replication of data not common or is there something specical about objects?
+    mitre_attack:
+      - T1537: Transfer Data to Cloud Account
 
