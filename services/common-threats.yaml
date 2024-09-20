@@ -27,7 +27,7 @@ threats:
       The service allows unencrypted communication (e.g., HTTP). An attacker
       can intercept traffic between clients and the service to read or modify
       the data during transmission.
-    features: # TODO: Add a feature related to web traffic?
+    features: CCC.F01
     mitre_attack:
       - TA009
       - T1557
@@ -84,4 +84,14 @@ threats:
       - CCC.F08
     mitre_attack:
       - T1499: Endpoint Denial of Service
+  - id: CCC.TH09
+    title: Automated scripts or bots may enumerate resources to identify weaknesses or sensitive data
+    description: |
+      Non-human entities, such as automated scripts or bots, may perform enumeration activities 
+      to map out resources, identify security weaknesses, or locate sensitive data for exploitation. 
+      This reconnaissance is often a precursor to a more significant attack.
+    features:
+      - CCC.F14
+    mitre_attack:
+      - T1580
 

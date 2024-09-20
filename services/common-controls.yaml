@@ -117,13 +117,13 @@ controls:
       NIST_800_53:
         - AC-3
     test_requirements:
-      tlp_red: # TODO: Elaborate on these... Allowlist?
+      tlp_red:
         01: |
-          Endpoints are blocked from public access
+          Verify that endpoints are blocked from public access, except for those explicitly added to an allowlist.
         02: |
-          Services deployed on the same cloud tenant are blocked by default
+          Confirm that services deployed within the same cloud tenant are blocked by default and only accessible to allowlisted services.
         03: |
-          Access from other cloud tenants is blocked by default
+          Ensure access from other cloud tenants is blocked by default, and only entities on the allowlist can access the service.
   - id: CCC.C06
     title: Prevent deployment in restricted regions
     objective: |
@@ -134,8 +134,7 @@ controls:
     control_family: Data
     threats:
       - CCC.TH05
-    nist_csf: # TODO
-    mitre_attack: # TODO
+    nist_csf: PR.DS-1
     control_mappings:
       CCM:
         - DSI-06
@@ -156,9 +155,18 @@ controls:
         stored in restricted regions or cloud availability zones.
   - id: CCC.C07
     title: Alert on non-human enumeration
-    objective: |
-      Ensure that logs and associated alerts are generated when non-human
-      entities attempt to enumerate resources, to detect and respond to
-      potential malicious recon activities.
     control_family: Logging & Monitoring
-  - id: CCC.C08
+    objective: |
+      Ensure that logs and associated alerts are generated when non-human 
+      entities (e.g., automated processes) attempt to enumerate 
+      resources. This helps to detect and respond to potential malicious 
+      reconnaissance activities early.
+    threats:
+      - CCC.TH09
+    nist_csf: DE.AE-1
+    test_requirements:
+      tlp_green:
+        01: |
+          Simulate non-human enumeration activities (e.g., with service accounts) and verify that alerts are triggered in the logging system.
+        02: |
+          Confirm that logs are properly generated and accessible for review following non-human enumeration attempts.

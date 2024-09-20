@@ -36,23 +36,32 @@ controls:
           prevent requests with untrusted KMS keys. In this case, an untrusted
           KMS key is one that is not specified as trusted by the cloud storage
           bucket owner.
-  - id: CCC.ObjStor.C02 # TODO: this smells like a common control?
-    title: Prevent ad-hoc privilege escalation and access control lists
+  - id: CCC.ObjStor.C02
+    title: Enforce uniform bucket-level access to prevent inconsistent permissions
     control_family: Identity and Access Management
     objective: |
-      Ensure that the intended access controls are uniformally enforced for
-      all users and roles to enforce the principle of least privilege.
-    test_requirements: # TODO
+      Ensure that uniform bucket-level access is enforced across all object storage buckets. 
+      This prevents the use of ad-hoc or inconsistent object-level permissions, ensuring 
+      centralized, consistent, and secure access management in accordance with the principle 
+      of least privilege.
+    threats:
+      - CCC.TH01
+    nist_csf: PR.AC-4
+    control_mappings:
+      CCM:
+        - IAM-02
+        - IAM-11
+      ISO_27001:
+        - 2013 A.9.1.2
+      NIST_800_53:
+        - AC-6
+        - AC-2
+    test_requirements:
       tlp_green:
-        01: | # TODO
-          Verify that all users and roles have the minimum required permissions
-          to perform their tasks.
-        02: | # TODO
-          Confirm that all users and roles have the same permissions in all
-          environments.
-      tlp_amber:
-      tlp_red:
-      tlp_clear:
+        01: |
+          ACL based access to the bucket is prevented.
+        02: |
+          Access to the bucket is controlled through IAM policies only.
   - id: CCC.ObjStor.C03
     # bucket retention policy is locked
     title: Prevent bucket deletion through irrevocable bucket retention policy # TODO: this should probably be lifted up to a common control
