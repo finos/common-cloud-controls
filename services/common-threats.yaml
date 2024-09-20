@@ -55,3 +55,33 @@ threats:
     mitre_attack:
       - TA0042
       - T1583
+  - id: CCC.TH06
+    title: Accidental or malicious deletion of critical data
+    description: |
+      Critical data can be deleted either through accidental action by authorized users 
+      or through malicious intent by threat actors exploiting vulnerabilities or misconfigurations.
+    features: 
+      - CCC.F11
+      - CCC.F18
+    mitre_attack:
+      - T1485: Data Destruction
+  - id: CCC.TH07
+    title: Corruption or deletion of access logs by malicious actors covering their tracks
+    description: |
+      A malicious actor may attempt to corrupt, delete, or disable access logging to avoid detection 
+      and erase evidence of unauthorized or malicious activity. This can prevent security teams 
+      from identifying the full scope of the breach or tracking the attacker’s actions.
+    features: CCC.F03
+    mitre_attack:
+      - T1562.002
+  - id: CCC.TH08
+    title: Deliberate targeting of single-zone or single-region vulnerabilities
+    description: |
+      An attacker may exploit the lack of multi-zone or multi-region replication to cause permanent data loss by 
+      triggering a failure or disaster in a single zone or region. Without replication, this targeted attack 
+      could result in significant data loss for critical systems.
+    features: 
+      - CCC.F08
+    mitre_attack:
+      - T1499: Endpoint Denial of Service
+

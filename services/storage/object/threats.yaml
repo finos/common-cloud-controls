@@ -3,5 +3,10 @@ common_threats:
   - CCC.TH02 # Vendor-hosted keys are compromised
   - CCC.TH03 # Attacker intercepts data in transit
   - CCC.TH04 # Attacker encrypts data with client-managed keys
-threats: []
+  - CCC.TH05 # Actors in known dangerous regions attempt to access data
+  - CCC.TH06 # Accidental or malicious deletion of critical data
+  - CCC.TH07 # Corruption or deletion of access logs by malicious actors covering their tracks
+  - CCC.TH08 # Deliberate targeting of single-zone or single-region vulnerabilities
+threats:
+  []
   # WIP: Only common threats have been identified so far.
