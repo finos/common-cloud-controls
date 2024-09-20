@@ -14,7 +14,6 @@ features:
     title: AES-256
     description: |
       Support for the AES-256 Advanced Encryption Standard with a 256-bit key for encryption and decryption.
-      Note: Azure only supports symmetric keys in the managed HSM service.
   - id: CCC.KeyMgmt.F02
     title: RSA-2048
     description: |
@@ -80,19 +79,18 @@ features:
     description: |
       Supports the ability to re-enable a disabled managed key.
   - id: CCC.KeyMgmt.F18
-    title: Prevent immediate key deletion
+    title: Soft Delete
     description: |
-      Supports the ability to prevent the immediate deletion of a managed key.
+      Supports the ability to prevent the immediate deletion of a managed key. This includes the ability
+      recover accidental deletion of keys within the grace period.
   - id: CCC.KeyMgmt.F19
+    title: Delete Key
+    description: |
+      Supports the ability to permanently delete a managed key after the grace period defined on soft delete.
+  - id: CCC.KeyMgmt.F20
     title: Automatic Symmetric Key Rotation
     description: |
       Supports the ability to automatically rotate a managed symmetric key as long as the key was generated within the KMS.
-      Note: Azure only supports symmetric keys in the managed HSM service.
-  - id: CCC.KeyMgmt.F20
-    title: Automatic Asymmetric Key Rotation
-    description: |
-      Supports the ability to automatically rotate a managed asymmetric key as long as the key was generated within the KMS.
-      Note: Automatic asymmetric key rotation is only supported by Azure. In AWS and GCP an asymmetric key must be manually rotated.
   - id: CCC.KeyMgmt.F21
     title: Manual Key Rotation
     description: |
