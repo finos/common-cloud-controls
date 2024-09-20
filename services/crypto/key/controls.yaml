@@ -1,0 +1,23 @@
+common_controls:
+  - CCC.C01 # Prevent unencrypted requests
+  - CCC.C02 # Ensure data encryption at rest all stored data
+  - CCC.C03 # Implement multi-factor authentication (MFA) for access
+  - CCC.C04 # Log all access and changes
+  - CCC.C05 # Prevent access from untrusted entities
+  - CCC.C06 # Prevent deployment in restricted regions
+controls:
+  - id: CCC.KeyMgmt.C01
+    title: Enforce alerting on key version management activities
+    control_family: Logging and Monitoring
+    objective: |
+      Ensure that alerts are generated for any key version management activities in a cloud key management service (KMS), 
+      including the deletion, disabling, or modification of key versions.
+    threats:
+      - CCC.KeyMgmt.TH01
+    nist_csf: RS.AN-1
+    test_requirements:
+      tlp_green:
+        CCC.KeyMgmt.C01.TR01: |
+          Verify that alerts are triggered when the kms key version is scheduled for deletion.
+        CCC.KeyMgmt.C01.TR02: |
+          Verify that alerts are triggered when the kms key version is disabled.
