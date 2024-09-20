@@ -32,7 +32,7 @@ service_categories:
   - id: CCC.AICode
     title: AI-Powered Coding Assistant
     description: |
-      Service designed to enhance developer productivity by providing real-time code 
+      Services designed to enhance developer productivity by providing real-time code 
       suggestions from within the integrated development environments (IDEs).
     examples:
       - AWS:
