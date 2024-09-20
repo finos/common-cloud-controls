@@ -19,7 +19,7 @@ service_categories:
   - id: CCC.AIAssist
     title: AI-Powered Assistant
     description: |
-      Service designed to enhance productivity across various applications by providing 
+      Services designed to enhance productivity across various applications by providing 
       context-specific AI assistance, helping with tasks such as generating content, 
       summarizing documents, and offering insights based on enterprise data.
     examples:
