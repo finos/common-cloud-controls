@@ -5,7 +5,7 @@ description: |
   building, training, and deploying machine learning models and AI solutions.
 service_categories:
   - id: CCC.GenAI
-    title: Generative AI
+    title: Generative AI Platform
     description: |
       Services that creates new content, and insights based on patterns and data 
       using large language models and deep learning frameworks.
@@ -15,7 +15,7 @@ service_categories:
       - Azure:
           - Azure OpenAI
       - Google Cloud:
-          - Google Cloud AI
+          - Google Vertex AI
   - id: CCC.AIAssist
     title: AI-Powered Assistant
     description: |
