@@ -68,7 +68,7 @@ features:
   - id: CCC.GenAI.F12
     title: Parameter tuning - Frequency Penalty
     description: |
-      Ability to penalizes words that have been used frequently, reducing 
+      Ability to penalize words that have been used frequently, reducing 
       their likelihood of being repeated.
   - id: CCC.GenAI.F13
     title: Parameter tuning - Presence Penalty
