@@ -43,7 +43,11 @@ families:
     title: Storage Services
     description: |
       General-purpose storage for structured, semi-structured, and unstructured data, designed for scalability and durability without the need for complex querying or indexing.
-  - id: CCC.Security
-    title: Security and Identity Services
+  - id: CCC.Crypto
+    title: Cryptographic Services
     description: |
-      Services for identity, access management, encryption, SSL/TLS certificate provisioning, and secret management.
+      Services for certificate, key, and secret management.
+  - id: CCC.Identity
+    title: Identity Services
+    description: |
+      Services for managing user identities, controlling access to resources, and ensuring secure authentication and authorization.

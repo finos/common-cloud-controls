@@ -16,7 +16,7 @@ controls:
       CCM:
         - IVS-09
         - DSI-03
-      ISO_27001: 
+      ISO_27001:
         - 2013 A.13.1.1
       NIST_800_53:
         - SC-8
@@ -31,19 +31,19 @@ controls:
         confidentiality of data should conform with the latest suggested cipher
         suites
   - id: CCC.C02
-    title: Ensure data encryption at rest all stored data
+    title: Ensure data encryption at rest for all stored data
     objective: |
       Ensure that all data stored is encrypted at rest to maintain
       confidentiality and integrity.
     control_family: Encryption
     nist_csf: PR.DS-1
     control_mappings:
-      CCM: 
+      CCM:
         - DSI-01
         - DSI-02
-      ISO_27001: 
+      ISO_27001:
         - 2013 A.10.1.1
-      NIST_800_53: 
+      NIST_800_53:
         - SC-28
     test_requirements:
       01: |
@@ -63,12 +63,12 @@ controls:
     control_family: Identity and Access Management
     nist_csf: PR.AC-7
     control_mappings:
-      CCM: 
+      CCM:
         - IAM-03
         - IAM-08
-      ISO_27001: 
+      ISO_27001:
         - 2013 A.9.4.2
-      NIST_800_53: 
+      NIST_800_53:
         - IA-2
     test_requirements:
       01: |
@@ -86,12 +86,12 @@ controls:
     control_family: Logging & Monitoring
     nist_csf: DE.AE-3
     control_mappings:
-      CCM: 
+      CCM:
         - DSI-06
         - STA-04
-      ISO_27001: 
+      ISO_27001:
         - 2013 A.12.4.1
-      NIST_800_53: 
+      NIST_800_53:
         - AU-2
         - AU-3
     test_requirements:
@@ -110,11 +110,11 @@ controls:
     control_family: Identity and Access Management
     nist_csf: PR.AC-3
     control_mappings:
-      CCM: 
+      CCM:
         - DS-5
-      ISO_27001: 
+      ISO_27001:
         - 2013 A.13.1.3
-      NIST_800_53: 
+      NIST_800_53:
         - AC-3
     test_requirements:
       01: |
@@ -139,20 +139,20 @@ controls:
     nist_csf: # TODO
     mitre_attack: # TODO
     control_mappings:
-      CCM: 
+      CCM:
         - DSI-06
         - DSI-08
-      ISO_27001: 
+      ISO_27001:
         - 2013 A.11.1.1
-      NIST_800_53: 
+      NIST_800_53:
         - AC-6
     test_requirements:
       01: |
-        Verify that object storage resources are not deployed in any of the
+        Verify that resources are not deployed in any
         restricted regions or cloud availability zones.
       02: |
         Ensure that the cloud provider's configuration management tools are
         used to enforce restrictions on provisioning in prohibited regions.
       03: |
-        Confirm that object storage backups and copies are not allowed to be
+        Confirm that backups and copies are not allowed to be
         stored in restricted regions or cloud availability zones.

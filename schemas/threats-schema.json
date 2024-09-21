@@ -35,16 +35,16 @@
                 "description": "Feature ID in the format <category-id>.F<#>"
               }
             },
-            "mitre_attack": {
+            "mitre_technique": {
               "type": "array",
               "items": {
                 "type": "string",
-                "description": "Mitre ATT&CK tactic or technique ID"
+                "description": "Mitre ATT&CK technique ID"
               },
               "minItems": 1
             }
           },
-          "required": ["id", "title", "description", "features", "mitre_attack"],
+          "required": ["id", "title", "description", "features", "mitre_technique"],
           "additionalProperties": false
         }
       }

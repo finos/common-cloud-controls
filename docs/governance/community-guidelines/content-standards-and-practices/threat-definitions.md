@@ -30,7 +30,7 @@ When creating or updating a `threats.yaml` file for a service category, follow t
 
 ## Threat Definition Format
 
-To maintain consistency, all threats—whether common or specific—must follow the same format, style, and tone. Each threat should adhere to the [threats template] before release. 
+To maintain consistency, all threats—whether common or specific—must follow the same format, style, and tone. Each threat should adhere to the [threats template] before release.
 
 ### Threat Definition Values
 
@@ -40,7 +40,7 @@ When creating a new threat definition, use the following values:
 - **Threat Title** (`title`): A short name or title that succinctly describes the threat.
 - **Threat Description** (`description`): A detailed description of the threat, including its nature and potential impact.
 - **Feature IDs** (`features`): A list of IDs for the corresponding CCC features that this threat is associated with.
-- **MITRE ATT&CK** (`mitre_attack`): A list of relevant MITRE ATT&CK tactic and technique IDs.
+- **MITRE ATT&CK Technique** (`mitre_technique`): The unique identifier for the most relevant MITRE ATT&CK Technique.
 - **Threat Models** (`threat_models`): URLs for any threat models used to develop this threat (omit if not applicable).
 
 ### Review Process

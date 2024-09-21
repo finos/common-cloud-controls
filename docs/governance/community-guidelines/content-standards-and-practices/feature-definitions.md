@@ -39,13 +39,12 @@ When creating a new feature definition, use the following values:
 - **Feature ID** (`id`): A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
 - **Feature Title** (`title`): A short name that succinctly describes the feature, preferably 1 to 5 words.
 - **Feature Description** (`description`): A falsifiable description of the feature, detailing its purpose and functionality.
-    - A falsifiable feature includes concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected.
+  - A falsifiable feature includes concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected.
 
 ## Review Process
 
-Although a review from the Communications WG is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
+Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
 [common features]: /services/common-features.yaml
 [Communications WG]: ../../working-groups/communications/charter.md
 [delivery tooling]: /delivery-tooling
-[threats template]: ../templates/threats.yaml
