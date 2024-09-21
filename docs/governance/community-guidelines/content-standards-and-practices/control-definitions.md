@@ -44,7 +44,11 @@ When creating a new control definition, use the following values:
 - **NIST CSF** (`nist_csf`): The specific ID from the NIST Cybersecurity Framework that corresponds to the control.
 - **MITRE ATT&CK Technique** (`mitre_attack`): The unique identifier for the most relevant MITRE ATT&CK Technique.
 - **External Control Mappings** (`control_mappings`): Identifiers for any other frameworks that map to this control (e.g., CCM, ISO 27001, NIST 800-53).
-- **Validation Test Requirements** (`test_requirements`): Detailed descriptions of testing requirements necessary to validate the control’s implementation.
+- **Validation Test Section** (`test_requirements`): Detailed descriptions of testing requirements necessary to validate the control’s implementation.
+- **TLP Green Test Requirements** (`tlp_green`): A list of validation requirements for systems that intend limited disclosure, restricted to the community. ([ref])
+- **TLP Amber Test Requirements** (`tlp_amber`): A list of validation requirements for systems that intend limited disclosure, recipients can only spread this on a need-to-know basis within their organization and its clients. ([ref])
+- **TLP Red Test Requirements** (`tlp_red`): A list of validation requirements for systems intended for eyes and ears of individual recipients only, no further disclosure. ([ref])
+- **TLP Clear Test Requirements** (`tlp_clear`): A list of validation requirements for systems containing data that recipients can spread this to the world, there is no limit on disclosure. ([ref])
 
 ### Control Family
 
@@ -55,3 +59,4 @@ The list of control families is maintained in the [common controls] data.
 [common controls]: /services/common-controls.yaml
 [delivery tooling]: /delivery-tooling
 [threats]: ./threat-definitions.md
+[ref]: https://www.cisa.gov/sites/default/files/2023-02/tlp-2-0-user-guide_508c.pdf

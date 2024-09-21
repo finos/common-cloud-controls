@@ -10,11 +10,18 @@ controls:
     threats:
       - <Threat IDs>
     control_mappings:
-      CCM: 
+      CCM:
         - <CCM control IDs>
-      ISO_27001: 
+      ISO_27001:
         - <ISO 27001 control IDs>
-      NIST_800_53: 
+      NIST_800_53:
         - <NIST 800-53 control IDs>
     test_requirements:
-      <##>: <Test requirement descriptions>
+      tlp_green:
+        <##>: <Test requirement descriptions>
+      tlp_amber:
+        <##>: <Test requirement descriptions>
+      tlp_red:
+        <##>: <Test requirement descriptions>
+      tlp_clear:
+        <##>: <Test requirement descriptions>
