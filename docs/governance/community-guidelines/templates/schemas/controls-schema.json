@@ -109,7 +109,7 @@
               "additionalProperties": false
             }
           },
-          "required": ["id", "title", "objective", "control_family", "nist_csf", "threats", "control_mappings", "test_requirements"],
+          "required": ["id", "title", "objective", "control_family", "nist_csf", "threats", "test_requirements"],
           "additionalProperties": false
         }
       }
