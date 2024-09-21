@@ -16,8 +16,8 @@ jobs:
         with:
             schemaMapping: |
               {
-                "docs/governance/community-guidelines/templates/schemas/controls-schema.json": [ "services/**/controls.yml", "services/**/controls.yaml" ],
-                "docs/governance/community-guidelines/templates/schemas/features-schema.json": [ "services/**/features.yml", "services/**/features.yaml" ],
-                "docs/governance/community-guidelines/templates/schemas/metadata-schema.json": [ "services/**/metadata.yml", "services/**/metadata.yaml" ],
-                "docs/governance/community-guidelines/templates/schemas/threats-schema.json": [ "services/**/threats.yml", "services/**/threats.yaml" ]
+                "schemas/controls-schema.json": [ "services/**/controls.yml", "services/**/controls.yaml" ],
+                "schemas/features-schema.json": [ "services/**/features.yml", "services/**/features.yaml" ],
+                "schemas/metadata-schema.json": [ "services/**/metadata.yml", "services/**/metadata.yaml" ],
+                "schemas/threats-schema.json": [ "services/**/threats.yml", "services/**/threats.yaml" ]
               }
