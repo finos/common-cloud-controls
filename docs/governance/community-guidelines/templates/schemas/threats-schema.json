@@ -16,7 +16,7 @@
           "properties": {
             "id": {
               "type": "string",
-              "pattern": "^[a-zA-Z0-9]+\\.TH\\d{2}$",
+              "pattern": "^CCC\\.[a-zA-Z0-9]+\\.TH\\d{2}$",
               "description": "Threat ID in the format <category-id>.TH##"
             },
             "title": {
@@ -31,7 +31,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "pattern": "^[a-zA-Z0-9]+\\.F\\d+$",
+                "pattern": "^CCC\\.[a-zA-Z0-9]+\\.F\\d+$",
                 "description": "Feature ID in the format <category-id>.F<#>"
               }
             },
