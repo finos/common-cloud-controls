@@ -34,10 +34,6 @@
               "type": "string",
               "description": "NIST CSF control ID"
             },
-            "mitre_attack": {
-              "type": "string",
-              "description": "Mitre ATT&CK technique ID"
-            },
             "threats": {
               "type": "array",
               "items": {
@@ -113,7 +109,7 @@
               "additionalProperties": false
             }
           },
-          "required": ["id", "title", "objective", "control_family", "nist_csf", "mitre_attack", "threats", "control_mappings", "test_requirements"],
+          "required": ["id", "title", "objective", "control_family", "nist_csf", "threats", "control_mappings", "test_requirements"],
           "additionalProperties": false
         }
       }
