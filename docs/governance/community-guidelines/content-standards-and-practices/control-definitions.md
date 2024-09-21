@@ -42,9 +42,12 @@ When creating a new control definition, use the following values:
 - **Control Family** (`family`): The name of the [Control Family](#control-family) this control belongs to.
 - **CCC Threats** (`threats`): A YAML list of IDs for CCC [threats] that this control is designed to mitigate.
 - **NIST CSF** (`nist_csf`): The specific ID from the NIST Cybersecurity Framework that corresponds to the control.
-- **MITRE ATT&CK Technique** (`mitre_attack`): The unique identifier for the most relevant MITRE ATT&CK Technique.
-- **External Control Mappings** (`control_mappings`): Identifiers for any other frameworks that map to this control (e.g., CCM, ISO 27001, NIST 800-53).
-- **Validation Test Requirements** (`test_requirements`): Detailed descriptions of testing requirements necessary to validate the control’s implementation.
+- **External Control Mappings** (`control_mappings`): Object where keys are other frameworks that map to this control (e.g., CCM, ISO 27001, NIST 800-53). The values will each contain a list of strings, representing the corresponding control mappings.
+- **Validation Test Section** (`test_requirements`): Detailed descriptions of testing requirements necessary to validate the control’s implementation.
+- **TLP Green Test Requirements** (`tlp_green`): A list of validation requirements for systems that intend limited disclosure, restricted to the community. ([ref])
+- **TLP Amber Test Requirements** (`tlp_amber`): A list of validation requirements for systems that intend limited disclosure, recipients can only spread this on a need-to-know basis within their organization and its clients. ([ref])
+- **TLP Red Test Requirements** (`tlp_red`): A list of validation requirements for systems intended for eyes and ears of individual recipients only, no further disclosure. ([ref])
+- **TLP Clear Test Requirements** (`tlp_clear`): A list of validation requirements for systems containing data that recipients can spread this to the world, there is no limit on disclosure. ([ref])
 
 ### Control Family
 
@@ -52,7 +55,7 @@ A control family refers to a group of related security controls that are organiz
 
 The list of control families is maintained in the [common controls] data.
 
-[Communications WG]: ../../working-groups/communications/charter.md
 [common controls]: /services/common-controls.yaml
 [delivery tooling]: /delivery-tooling
 [threats]: ./threat-definitions.md
+[ref]: https://www.cisa.gov/sites/default/files/2023-02/tlp-2-0-user-guide_508c.pdf

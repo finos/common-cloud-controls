@@ -1,8 +1,10 @@
-title: CCC Virtual Machines
-id: CCC.VM
+title: Generative AI Platform
+id: CCC.GenAI
 description: |
-  This documents the minimual set of features that should be present for a
-  virtual machine service to be considered for use in financial services ecosystems.
+  Generative AI Platform consist of set of tools provided by the cloud service providers
+  that use large language models (LLMs) and deep learning frameworks to 
+  understand, generate, and manipulate natural language, images, code, or audio to 
+  create new content, and insights base on patterns and data.
 release_details:
   - version: "2024.09"
     assurance_level: None
