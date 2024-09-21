@@ -43,9 +43,8 @@ When creating a new feature definition, use the following values:
 
 ## Review Process
 
-Although a review from the Communications WG is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
+Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
 [common features]: /services/common-features.yaml
 [Communications WG]: ../../working-groups/communications/charter.md
 [delivery tooling]: /delivery-tooling
-[threats template]: ../templates/threats.yaml

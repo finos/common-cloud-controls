@@ -1,9 +1,10 @@
-title: Key Management
-id: CCC.KeyMgmt
+title: Generative AI Platform
+id: CCC.GenAI
 description: |
-  Key Management Service is a tool provided by cloud service providers
-  to securely create, store, and manage cryptographic keys used to
-  encrypt and decrypt sensitive data.
+  Generative AI Platform consist of set of tools provided by the cloud service providers
+  that use large language models (LLMs) and deep learning frameworks to 
+  understand, generate, and manipulate natural language, images, code, or audio to 
+  create new content, and insights base on patterns and data.
 release_details:
   - version: "2024.09"
     assurance_level: None
