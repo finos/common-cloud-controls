@@ -8,5 +8,15 @@ common_threats:
   - CCC.TH07 # Corruption or deletion of access logs by malicious actors covering their tracks
   - CCC.TH08 # Deliberate targeting of single-zone or single-region vulnerabilities
 threats:
-  []
-  # WIP: Only common threats have been identified so far.
+  - id: CCC.TH14
+    title: Unauthorized object replication to untrusted or external locations
+    description: |
+      An attacker could replicate objects to untrusted or external locations if replication configurations 
+      are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
+      outside the organization's trusted perimeter.
+    features:
+      - CCC.ObjStor.F05
+    mitre_attack:
+      - T1537
+
+

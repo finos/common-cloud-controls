@@ -90,7 +90,7 @@ threats:
     mitre_attack:
       - T1580
   - id: CCC.TH14
-    title: Unauthorized replication of sensitive data to untrusted or external locations
+    title: Unauthorized object replication to untrusted or external locations
     description: |
       Sensitive data may be replicated to untrusted or external locations if replication configurations 
       are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
