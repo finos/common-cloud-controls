@@ -30,4 +30,3 @@ Metadata adds critical information about the state and context of the release.
 [features]: ./feature-definitions.md
 [threats]: ./threat-definitions.md
 [controls]: ./control-definitions.md
-[Assurance Level]: ./assurance-level-definitions.md
