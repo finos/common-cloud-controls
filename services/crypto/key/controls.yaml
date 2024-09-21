@@ -7,17 +7,33 @@ common_controls:
   - CCC.C06 # Prevent deployment in restricted regions
 controls:
   - id: CCC.KeyMgmt.C01
-    title: Enforce alerting on key version management activities
+    title: Alert when key versions are deleted or disabled
     control_family: Logging and Monitoring
     objective: |
-      Ensure that alerts are generated for any key version management activities in a cloud key management service (KMS), 
-      including the deletion, disabling, or modification of key versions.
+      Ensure that alerts are generated when key versions are scheduled for deletion or disabled.
     threats:
       - CCC.KeyMgmt.TH01
     nist_csf: RS.AN-1
+    control_mappings:
+      NIST_800_53: IR-5
     test_requirements:
       tlp_green:
         CCC.KeyMgmt.C01.TR01: |
           Verify that alerts are triggered when the kms key version is scheduled for deletion.
         CCC.KeyMgmt.C01.TR02: |
+          Verify that alerts are triggered when the kms key version is disabled.
+      tlp_amber:
+        CCC.KeyMgmt.C01.TR03: |
+          Verify that alerts are triggered when the kms key version is scheduled for deletion.
+        CCC.KeyMgmt.C01.TR04: |
+          Verify that alerts are triggered when the kms key version is disabled.
+      tlp_red:
+        CCC.KeyMgmt.C01.TR05: |
+          Verify that alerts are triggered when the kms key version is scheduled for deletion.
+        CCC.KeyMgmt.C01.TR06: |
+          Verify that alerts are triggered when the kms key version is disabled.
+      tlp_clear:
+        CCC.KeyMgmt.C01.TR07: |
+          Verify that alerts are triggered when the kms key version is scheduled for deletion.
+        CCC.KeyMgmt.C01.TR08: |
           Verify that alerts are triggered when the kms key version is disabled.
