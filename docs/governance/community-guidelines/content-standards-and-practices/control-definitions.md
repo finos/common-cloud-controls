@@ -56,7 +56,6 @@ A control family refers to a group of related security controls that are organiz
 
 The list of control families is maintained in the [common controls] data.
 
-[Communications WG]: ../../working-groups/communications/charter.md
 [common controls]: /services/common-controls.yaml
 [delivery tooling]: /delivery-tooling
 [threats]: ./threat-definitions.md

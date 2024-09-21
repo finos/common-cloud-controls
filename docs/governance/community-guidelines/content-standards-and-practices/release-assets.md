@@ -77,4 +77,3 @@ release_details:
 [features]: ./feature-definitions.md
 [threats]: ./threat-definitions.md
 [controls]: ./control-definitions.md
-[Assurance Level]: ./assurance-level-definitions.md
