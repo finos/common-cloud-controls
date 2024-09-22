@@ -41,7 +41,7 @@ jobs:
         targets_array=($(echo "$input_targets" | tr ',' ' '))
         
         # Convert to JSON array
-        json_targets=$(printf '%s\n' "${targets_array[@]}" | jq -R . | jq -s .)
+        json_targets=$(printf '%s\n' "${targets_array[@]}" | jq -R . | jq -sc .)
         
         echo "Processed targets: $json_targets"
         echo "targets=$json_targets" >> $GITHUB_OUTPUT
