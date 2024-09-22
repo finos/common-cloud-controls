@@ -42,6 +42,18 @@
                 "description": "Mitre ATT&CK technique ID"
               },
               "minItems": 1
+            },
+            "threat_mappings": {
+              "type": "object",
+              "properties": {
+                "owasp_llm_top_10": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "OWASP Top 10 Threat IDs for LLMs"
+                  }
+                }
+              }
             }
           },
           "required": ["id", "title", "description", "features", "mitre_technique"],
