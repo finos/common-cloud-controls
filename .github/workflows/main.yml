@@ -85,13 +85,15 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: yaml-catalogs
-          path: ./
 
       - name: Download Markdown Artifacts
         uses: actions/download-artifact@v4
         with:
           name: markdown-catalogs
-          path: ./
+      
+      - name: List files
+        run: |
+          ls -lah
 
       # Create a GitHub release
       - name: Create GitHub Release
@@ -110,7 +112,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./
+          asset_path: $GITHUB_WORKSPACE
           asset_name: ccc-catalogs-${{ github.event.inputs.tag }}.zip
           asset_content_type: application/zip
         env:
