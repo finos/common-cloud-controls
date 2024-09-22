@@ -6,9 +6,21 @@ on:
       build_targets:
         description: 'List of Build Targets (comma-separated)'
         required: true
+      tag:
+        description: 'Tag for this release'
+        required: true
 
 jobs:
-  build:
+
+  # approval:
+  #   runs-on: ubuntu-latest
+  #   environment: approval-required
+  #   steps:
+  #     - name: Approval check
+  #       run: echo "Approval granted, proceeding with build"
+
+  release:
+    #needs: approval
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,16 +31,13 @@ jobs:
         with: 
           ref: release-pipeline-code
 
-      - name: Set up Go
+      - name: Configure Go
         uses: actions/setup-go@v5
 
-      - name: Display Go version
-        run: go version
-
-      - name: Get dependencies
+      - name: Install dependencies
         run: go mod download
   
-      - name: Process Build Targets
+      - name: Get Build Targets
         id: process_targets
         run: |
           # Read the input
@@ -43,7 +52,7 @@ jobs:
           echo "Processed targets: $json_targets"
           echo "targets=$json_targets" >> $GITHUB_OUTPUT
 
-      - name: Create Artifacts
+      - name: Create Release Artifacts
         run: |
           echo "List of Build Targets: ${{ steps.process_targets.outputs.targets }}"        
           echo '${{ steps.process_targets.outputs.targets }}' | jq -r .[] | while read -r target; do
@@ -51,35 +60,19 @@ jobs:
             go run . "yaml" --build-target $target
             go run . "md" --build-target $target
           done
-
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   environment: production
-  #   steps:
-  #     - name: Deploy
-  #       run: echo "Deploying to production"
-
-  # release:
-  #   needs: [build, deploy]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: my-artifact
-  #     - name: Create Release
-  #       id: create_release
-  #       uses: actions/create-release@v1
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       with:
-  #         tag_name: ${{ github.ref }}
-  #         release_name: Release ${{ github.ref }}
-  #         draft: false
-  #         prerelease: false
-  #     - name: Upload Release Artifacts
-  #       uses: actions/upload-artifact@v4.4.0
-  #       with:
-  #         name: my-artifact
-  #         path: path/to/artifact/world.txt
+      
+      - name: Upload YAML Artifacts
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: yaml-catalogs
+          path: ./delivery-tooling/artifacts/*.yaml
+          if-no-files-found: error
+          retention-days: 90 # Maximum Retention
+  
+      - name: Upload Markdown Artifacts
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: markdown-catalogs
+          path: ./delivery-tooling/artifacts/*.md
+          if-no-files-found: error
+          retention-days: 90 # Maximum Retention
