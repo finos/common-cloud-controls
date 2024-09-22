@@ -1,0 +1,58 @@
+name: Release Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      list_of_directories:
+        description: 'Person to greet'
+        required: true
+        default: 'World'
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: |
+          echo "Building for tag ${{ github.ref }}"
+      - name: Set up Go
+        uses: actions/setup-go@v5
+
+      - name: Display Go version
+        run: go version
+
+      - name: Get dependencies
+        run: go mod download
+
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   environment: production
+  #   steps:
+  #     - name: Deploy
+  #       run: echo "Deploying to production"
+
+  # release:
+  #   needs: [build, deploy]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download artifact
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: my-artifact
+  #     - name: Create Release
+  #       id: create_release
+  #       uses: actions/create-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         tag_name: ${{ github.ref }}
+  #         release_name: Release ${{ github.ref }}
+  #         draft: false
+  #         prerelease: false
+  #     - name: Upload Release Artifacts
+  #       uses: actions/upload-artifact@v4.4.0
+  #       with:
+  #         name: my-artifact
+  #         path: path/to/artifact/world.txt

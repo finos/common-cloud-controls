@@ -11,6 +11,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+// baseCmd represents the base command when called without any subcommands.
+// This is the entry point of the CLI application.
 var (
 	// Version is to be replaced at build time by the associated tag
 	Version = "0.0.0"
@@ -43,7 +45,9 @@ var (
 	}
 )
 
+// init configures the base command and initializes the Viper configuration for various flags.
 func init() {
+	// Set & Bind Flags
 	baseCmd.PersistentFlags().StringP("build-target", "t", "", "Name of the category and service (eg. storage/object)")
 	baseCmd.PersistentFlags().StringP("output-dir", "o", ".", "Path to the directory where the compiled assets will be stored")
 	baseCmd.PersistentFlags().StringP("services-dir", "", filepath.Join("..", "services"), "Path to the top level of the services directory")
@@ -52,12 +56,30 @@ func init() {
 	viper.BindPFlag("services-dir", baseCmd.PersistentFlags().Lookup("services-dir"))
 }
 
+// initializeOutputDirectory sets up the default output directory and ensures it exists.
+//
+// This function performs two main tasks:
+// 1. Sets the default value for the "output-dir" configuration to "./artifacts" using Viper.
+// 2. Calls createDirectoryIfNotExists to ensure the specified output directory exists.
+//
+// If the "output-dir" value has been set elsewhere (e.g., via command line flags or config file),
+// that value will be used instead of the default.
+func initializeOutputDirectory() {
+    viper.SetDefault("output-dir", "./artifacts")
+    createDirectoryIfNotExists(viper.GetString("output-dir"))
+}
+
+// checkArgs checks if the required "build-target" argument is provided.
+//
+// If the argument is not provided, it logs a fatal error message and exits the program.
+// This function should be called after Viper has been initialized and the configuration loaded.
 func checkArgs(){
 	if viper.GetString("build-target") == "" {
 		log.Fatal("--build-target is required")
 	}
 }
 
+// main is the entry point of the application.
 func main() {
 	if VersionPostfix != "" {
 		Version = fmt.Sprintf("%s-%s", Version, VersionPostfix)
