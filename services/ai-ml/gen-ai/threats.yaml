@@ -17,7 +17,9 @@ threats:
 
   - id: CCC.GAI.TH02
     title: Data Leakage
-    description: Unauthorized transmission of data from the model via network traffic, removable media, or social engineering.
+    description: |
+      Unauthorized transmission of data from the model via network traffic,
+      removable media, or social engineering.
     features:
       - CCC.GenAI.F22 # Data Control
       - CCC.GenAI.F23 # Data Storage
@@ -29,10 +31,11 @@ threats:
 
   - id: CCC.GAI.TH03
     title: Unauthorized Access
-    description: Gaining unauthorized access to the model, its data, or resources.
+    description: |
+      Gaining unauthorized access to the model, its data, or resources.
     features:
+      - CCC.F06       # Identity-Based Access Control
       - CCC.GenAI.F06 # Customizable model selection
-      - CCC.F06        # Identity-Based Access Control
     mitre_technique: []
     threat_mappings:
       owasp_llm_top_10:
@@ -40,7 +43,9 @@ threats:
 
   - id: CCC.GAI.TH04
     title: Model Inversion Attacks
-    description: Inferring sensitive information about the training data from model inference results.
+    description: |
+      Inferring sensitive information about the training data from model
+      inference results.
     features:
       - CCC.GenAI.F06 # Customizable model selection
       - CCC.GenAI.F24 # Data Residency
@@ -52,7 +57,9 @@ threats:
 
   - id: CCC.GAI.TH05
     title: Adversarial Attacks
-    description: Manipulating input data to deceive the model into making incorrect predictions or classifications.
+    description: |
+      Manipulating input data to deceive the model into making incorrect
+      predictions or classifications.
     features:
       - CCC.GenAI.F15 # Text-Based Prompts
       - CCC.GenAI.F17 # Contextual Prompts
@@ -64,7 +71,9 @@ threats:
 
   - id: CCC.GAI.TH06
     title: Data Poisoning
-    description: Injecting malicious data into the training dataset, causing the model to learn incorrect patterns.
+    description: |
+      Injecting malicious data into the training dataset, causing the model to
+      learn incorrect patterns.
     features:
       - CCC.GenAI.F06 # Customizable model selection
       - CCC.GenAI.F22 # Data Control
@@ -76,7 +85,8 @@ threats:
 
   - id: CCC.GAI.TH07
     title: Privacy Violations
-    description: Unauthorized disclosure of personal or private information.
+    description: |
+      Unauthorized disclosure of personal or private information.
     features:
       - CCC.GenAI.F06 # Customizable model selection
       - CCC.GenAI.F24 # Data Residency
@@ -87,9 +97,11 @@ threats:
 
   - id: CCC.GAI.TH08
     title: Service Disruption
-    description: Denial-of-service (DoS) or denial-of-wallet (DoW) attacks impacting service availability.
+    description: |
+      Denial-of-service (DoS) or denial-of-wallet (DoW) attacks impacting
+      service availability.
     features:
-      - CCC.F19 # On Demand Scaling
+      - CCC.F19       # On Demand Scaling
       - CCC.GenAI.F20 # Custom Template Prompts
     mitre_technique: []
     threat_mappings:
@@ -98,7 +110,9 @@ threats:
 
   - id: CCC.GAI.TH09
     title: Intellectual Property Theft
-    description: Loss of proprietary information, such as algorithms, models, and datasets.
+    description: |
+      Loss of proprietary information, such as algorithms, models, and
+      datasets.
     features:
       - CCC.GenAI.F22 # Data Control
       - CCC.GenAI.F24 # Data Residency
@@ -109,7 +123,9 @@ threats:
 
   - id: CCC.GAI.TH10
     title: Compliance Violations
-    description: Failing to adhere to relevant laws and regulations, including data protection, privacy, and financial regulations.
+    description: |
+      Failing to adhere to relevant laws and regulations, including data
+      protection, privacy, and financial regulations.
     features:
       - CCC.GenAI.F24 # Data Residency
       - CCC.GenAI.F25 # Content Moderation
@@ -117,16 +133,21 @@ threats:
 
   - id: CCC.GAI.TH11
     title: Cost Exploitation
-    description: Exhausting the application's query budget or incurring additional costs through malicious activity.
+    description: |
+      Exhausting the application's query budget or incurring additional costs
+      through malicious activity.
     features:
-      - CCC.F15 # Cost Management
-      - CCC.F16 # Budgeting
+      - CCC.F15       # Cost Management
+      - CCC.F16       # Budgeting
+      - CCC.GenAI.F21 # Generate Content
     mitre_technique:
       - AML.TA0011
 
   - id: CCC.GAI.TH12
     title: Unexpected Nondeterministic Behavior
-    description: The model produces unpredictable outputs or performance issues, possibly due to a version change.
+    description: |
+      The model produces unpredictable outputs or performance issues, possibly
+      due to a version change.
     features:
       - CCC.F18 # Versioning
     mitre_technique:
