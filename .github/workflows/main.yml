@@ -85,11 +85,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: yaml-catalogs
+          path: ./
 
       - name: Download Markdown Artifacts
         uses: actions/download-artifact@v4
         with:
           name: markdown-catalogs
+          path: ./
 
       # Create a GitHub release
       - name: Create GitHub Release
@@ -98,9 +100,6 @@ jobs:
         with:
           tag_name: ${{ github.event.inputs.tag }}
           release_name: Release ${{ github.event.inputs.tag }}
-          body: |
-            Release created for the following build targets:
-            ${{ needs.build.outputs.targets }}
           draft: false
           prerelease: false
         env:
