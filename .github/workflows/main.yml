@@ -28,26 +28,46 @@ jobs:
       - name: Get dependencies
         run: go mod download
   
-  process-items:
+  process-targets:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Convert input to JSON array
-      id: convert
+    - name: Process build targets
+      id: process_targets
       run: |
-        items_json=$(echo '${{ github.event.inputs.build_targets }}' | jq -R -s -c 'split(",")')
-        echo "items=$items_json" >> $GITHUB_OUTPUT
+        # Read the input
+        input_targets="${{ github.event.inputs.build_targets }}"
+        
+        # Replace commas with spaces, then split on spaces
+        targets_array=($(echo "$input_targets" | tr ',' ' '))
+        
+        # Convert to JSON array
+        json_targets=$(printf '%s\n' "${targets_array[@]}" | jq -R . | jq -s .)
+        
+        echo "Processed targets: $json_targets"
+        echo "targets=$json_targets" >> $GITHUB_OUTPUT
 
-    - name: Show converted items
-      run: echo ${{ steps.convert.outputs.items }}
-
-    - name: Process items
+    - name: Use processed targets
       run: |
-        bt_array=(${{ github.event.inputs.build_targets }})
-        for build_target in "${bt_array[@]}"; do
-          echo "Processing $build_target"
+        echo "Targets: ${{ steps.process_targets.outputs.targets }}"
+        
+        # Example of iterating through the targets
+        echo '${{ steps.process_targets.outputs.targets }}' | jq -c '.[]' | while read -r target; do
+          echo "Processing target: $target"
           # Add your processing logic here
         done
+  
+  matrix-job:
+    needs: process-targets
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.process-targets.outputs.targets) }}
+    
+    steps:
+    - name: Process ${{ matrix.target }}
+      run: |
+        echo "Processing target: ${{ matrix.target }}"
+        # Add your processing logic here
 
   # deploy:
   #   needs: build
