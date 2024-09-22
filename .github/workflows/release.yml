@@ -11,10 +11,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Build
-        run: |
-          echo "Building for tag ${{ github.ref }}"
+      - uses: actions/checkout@v4
+        name: Build
+        with: 
+          ref: release-pipeline-code
+          
       - name: Set up Go
         uses: actions/setup-go@v5
 
