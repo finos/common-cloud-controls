@@ -10,12 +10,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./delivery-tooling
     steps:
       - uses: actions/checkout@v4
         name: Build
         with: 
           ref: release-pipeline-code
-          
+
       - name: Set up Go
         uses: actions/setup-go@v5
 
@@ -24,6 +27,7 @@ jobs:
 
       - name: Get dependencies
         run: go mod download
+  
   process-items:
     runs-on: ubuntu-latest
     
@@ -31,7 +35,7 @@ jobs:
     - name: Convert input to JSON array
       id: convert
       run: |
-        items_json=$(echo '${{ github.event.inputs.items }}' | jq -R -s -c 'split(",")')
+        items_json=$(echo '${{ github.event.inputs.build_targets }}' | jq -R -s -c 'split(",")')
         echo "items=$items_json" >> $GITHUB_OUTPUT
 
     - name: Show converted items
@@ -39,9 +43,9 @@ jobs:
 
     - name: Process items
       run: |
-        items_array=(${{ github.event.inputs.items }})
-        for item in "${items_array[@]}"; do
-          echo "Processing $item"
+        bt_array=(${{ github.event.inputs.build_targets }})
+        for build_target in "${bt_array[@]}"; do
+          echo "Processing $build_target"
           # Add your processing logic here
         done
 
