@@ -77,22 +77,24 @@
             }
           },
           "contributors": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "Name of the contributor"
+            "type": "array",
+            "items": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the contributor"
+                },
+                "github_id": {
+                  "type": "string",
+                  "description": "GitHub ID of the contributor"
+                },
+                "company": {
+                  "type": "string",
+                  "description": "Company of the contributor"
+                }
               },
-              "github_id": {
-                "type": "string",
-                "description": "GitHub ID of the contributor"
-              },
-              "company": {
-                "type": "string",
-                "description": "Company of the contributor"
-              }
-            },
-            "required": ["name", "github_id", "company"]
+              "required": ["name", "github_id", "company"]
+            }
           }
         },
         "required": ["version", "assurance_level", "threat_model_url", "threat_model_author", "red_team", "red_team_exercise_url", "release_manager"]
