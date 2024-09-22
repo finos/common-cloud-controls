@@ -1,105 +1,90 @@
 title: CCC Generative AI Security Threats
 category_id: CCC.GAI
 threats:
-  - id: CCC.GAI.T01
+  - id: CCC.GAI.TH01
     title: Injection Attacks
-    description: Untrusted data bypasses controls when sent to an interpreter as part of a prompt command or query, which can lead to unauthorized access, data leakage, and system compromise.
-    feature_id: CCC.GAI.F01
-    mitre_attack:
+    description: Untrusted data bypasses controls when sent to an interpreter as part of a prompt command or query, leading to unauthorized access, data leakage, and system compromise.
+    features:
+      - CCC.GAI.F01
+    mitre_technique:
       - AML.TA0013
-    owasp_llm_top_10:
+    threat_mappings:
+      owasp_llm_top_10:
       - "LLM01: Prompt Injection"
 
-  - id: CCC.GAI.T02
+  - id: CCC.GAI.TH02
     title: Data Leakage
-    description: Unauthorized transmission of data from the model via network traffic, removable media, and social engineering.
-    feature_id: CCC.GAI.F01
-    mitre_attack:
-      -
-    owasp_llm_top_10:
-      - "LLM06: Sensitive Information Disclosure"
-      - "LLM10: Model Theft"
+    description: Unauthorized transmission of data from the model via network traffic, removable media, or social engineering.
+    features:
+      - CCC.GAI.F01
+    mitre_technique: []
+    threat_mappings:
+      owasp_llm_top_10:
+        - "LLM06: Sensitive Information Disclosure"
+        - "LLM10: Model Theft"
 
-  - id: CCC.GAI.T03
+  - id: CCC.GAI.TH03
     title: Unauthorized Access
-    description: Gaining access to the model, its data, or resources without permission.
-    feature_id: CCC.GAI.F01
-    mitre_attack:
-      -
-    owasp_llm_top_10:
-      - ...
+    description: Gaining unauthorized access to the model, its data, or resources.
+    features:
+      - CCC.GAI.F01
+    mitre_technique: []
+    threat_mappings:
+      owasp_llm_top_10:
+      - LLMxx (replace with valid reference)
 
-  - id: CCC.GAI.T04
+  - id: CCC.GAI.TH04
     title: Model Inversion Attacks
-    description: Infer sensitive information about the training data from the inference results of the model.
-    feature_id: CCC.GAI.F04
-    mitre_attack:
-      -
-    owasp_llm_top_10:
+    description: Inferring sensitive information about the training data from model inference results.
+    features:
+      - CCC.GAI.F04
+    mitre_technique: []
+    threat_mappings:
+      owasp_llm_top_10:
       - "LLM06: Sensitive Information Disclosure"
       - "LLM10: Model Theft"
 
-  - id: CCC.GAI.T05
+  - id: CCC.GAI.TH05
     title: Adversarial Attacks
-    description: Manipulating input data to deceive a model into making incorrect predictions or classifications.
-    feature_id: CCC.GAI.F04
-    mitre_attack:
-      -
-    owasp_llm_top_10:
+    description: Manipulating input data to deceive the model into making incorrect predictions or classifications.
+    features:
+      - CCC.GAI.F04
+    mitre_technique: []
+    threat_mappings:
+      owasp_llm_top_10:
       - "LLM01: Prompt Injection"
       - "LLM06: Sensitive Information Disclosure"
 
-  - id: CCC.GAI.T06
+  - id: CCC.GAI.TH06
     title: Data Poisoning
-    description: Injects malicious data into the training dataset, causing the model to learn incorrect patterns.
-    feature_id: CCC.GAI.F05
-    mitre_attack:
-    owasp_llm_top_10:
+    description: Injecting malicious data into the training dataset, causing the model to learn incorrect patterns.
+    features:
+      - CCC.GAI.F05
+    mitre_technique: []
+    threat_mappings:
+      owasp_llm_top_10:
       - "LLM03: Training Data Poisoning"
       - "LLM05: Supply Chain Vulnerabilities"
 
-  - id: CCC.GAI.T07
+  - id: CCC.GAI.TH07
     title: Privacy Violations
-    description: The unauthorized disclosure of personal or private information.
-    feature_id: CCC.GAI.F07
-    mitre_attack:
-    owasp_llm_top_10:
+    description: Unauthorized disclosure of personal or private information.
+    features:
+      - CCC.GAI.F07
+    mitre_technique: []
+    threat_mappings:
+      owasp_llm_top_10:
       - "LLM03: Training Data Poisoning"
 
-  - id: CCC.GAI.T08
+  - id: CCC.GAI.TH08
     title: Service Disruption
     description: Denial-of-service (DoS) or denial-of-wallet (DoW) attacks impacting service availability.
-    feature_id: CCC.GAI.F06
-    mitre_attack:
-    owasp_llm_top_10:
+    features:
+      - CCC.GAI.F06
+    mitre_technique: []
+    threat_mappings:
+      owasp_llm_top_10:
       - "LLM04: Model Denial of Service"
 
-  - id: CCC.GAI.T09
-    title: Intellectual Property Theft
-    description: Loss of proprietary information, such as algorithms, models, and datasets.
-    feature_id: CCC.GAI.F10
-    mitre_attack:
-      - owasp_llm_top_10:
-          - "LLM06: Sensitive Information Disclosure"
-
-  - id: CCC.GAI.T10
-    title: Compliance Violations
-    description: Adherence to relevant laws and regulations, including data protection, privacy, and financial regulations.
-    feature_id: CCC.GAI.Fxx
-    mitre_attack:
-
-  - id: CCC.GAI.T11
-    title: Cost Exploitation
-    description: Exhausting the application's query budget or incurring additional costs.
-    feature_id: CCC.GAI.Fxx
-    mitre_attack:
-      - AML.TA0011
-
-  # how best to capture the risk of a model version change?
-  - id: CCC.GAI.T12
-    title: Unexpected Nondeterministic Behavior
-    description: Unexpected unpredictable outputs or performance issues.
-    feature_id: CCC.GAI.Fxx
-    mitre_attack:
-      - AML.TA0011
-
+  - id: CCC.GAI.TH09
+   
