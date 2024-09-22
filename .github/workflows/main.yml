@@ -46,7 +46,7 @@ jobs:
       - name: Create Artifacts
         run: |
           echo "List of Build Targets: ${{ steps.process_targets.outputs.targets }}"        
-          echo '${{ steps.process_targets.outputs.targets }}' | jq -c '.' | while read -r target; do
+          echo '${{ steps.process_targets.outputs.targets }}' | jq -r .[] | while read -r target; do
             echo "Creating Artifacts for: $target"
             go run . "yaml" --build-target $target
             go run . "md" --build-target $target
