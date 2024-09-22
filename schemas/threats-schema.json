@@ -46,11 +46,11 @@
           "threat_mappings": {
             "type": "object",
             "properties": {
-              "owasp_llm_top_10": {
+              "owasp": {
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "description": "OWASP Top 10 Threat IDs for LLMs"
+                  "description": "Identifiers from OWASP Top 10 Lists"
                 }
               }
             }
