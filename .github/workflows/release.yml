@@ -3,11 +3,10 @@ name: Release Workflow
 on:
   workflow_dispatch:
     inputs:
-      list_of_directories:
-        description: 'Person to greet'
+      build_targets:
+        description: 'List of Build Targets (comma-separated)'
         required: true
-        default: 'World'
-        
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,6 +23,26 @@ jobs:
 
       - name: Get dependencies
         run: go mod download
+  process-items:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Convert input to JSON array
+      id: convert
+      run: |
+        items_json=$(echo '${{ github.event.inputs.items }}' | jq -R -s -c 'split(",")')
+        echo "items=$items_json" >> $GITHUB_OUTPUT
+
+    - name: Show converted items
+      run: echo ${{ steps.convert.outputs.items }}
+
+    - name: Process items
+      run: |
+        items_array=(${{ github.event.inputs.items }})
+        for item in "${items_array[@]}"; do
+          echo "Processing $item"
+          # Add your processing logic here
+        done
 
   # deploy:
   #   needs: build
