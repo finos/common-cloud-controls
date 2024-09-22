@@ -110,18 +110,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./yaml-catalogs.zip
-          asset_name: yaml-catalogs-${{ github.event.inputs.tag }}.zip
-          asset_content_type: application/zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Release Assets - Markdown
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./markdown-catalogs.zip
-          asset_name: markdown-catalogs-${{ github.event.inputs.tag }}.zip
+          asset_path: ./
+          asset_name: ccc-catalogs-${{ github.event.inputs.tag }}.zip
           asset_content_type: application/zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
