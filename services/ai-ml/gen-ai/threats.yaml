@@ -1,6 +1,6 @@
 common_threats: []
 threats:
-  - id: CCC.GAI.TH01
+  - id: CCC.GenAI.TH01
     title: Injection Attacks
     description: |
       Untrusted data bypasses controls when sent to an interpreter as part of a
@@ -15,7 +15,7 @@ threats:
       owasp_llm_top_10:
       - "LLM01: Prompt Injection"
 
-  - id: CCC.GAI.TH02
+  - id: CCC.GenAI.TH02
     title: Data Leakage
     description: |
       Unauthorized transmission of data from the model via network traffic,
@@ -29,7 +29,7 @@ threats:
       - "LLM06: Sensitive Information Disclosure"
       - "LLM10: Model Theft"
 
-  - id: CCC.GAI.TH03
+  - id: CCC.GenAI.TH03
     title: Unauthorized Access
     description: |
       Gaining unauthorized access to the model, its data, or resources.
@@ -41,7 +41,7 @@ threats:
       owasp_llm_top_10:
         - LLMxx (replace with valid reference)
 
-  - id: CCC.GAI.TH04
+  - id: CCC.GenAI.TH04
     title: Model Inversion Attacks
     description: |
       Inferring sensitive information about the training data from model
@@ -55,7 +55,7 @@ threats:
         - "LLM06: Sensitive Information Disclosure"
         - "LLM10: Model Theft"
 
-  - id: CCC.GAI.TH05
+  - id: CCC.GenAI.TH05
     title: Adversarial Attacks
     description: |
       Manipulating input data to deceive the model into making incorrect
@@ -69,7 +69,7 @@ threats:
         - "LLM01: Prompt Injection"
         - "LLM06: Sensitive Information Disclosure"
 
-  - id: CCC.GAI.TH06
+  - id: CCC.GenAI.TH06
     title: Data Poisoning
     description: |
       Injecting malicious data into the training dataset, causing the model to
@@ -83,7 +83,7 @@ threats:
         - "LLM03: Training Data Poisoning"
         - "LLM05: Supply Chain Vulnerabilities"
 
-  - id: CCC.GAI.TH07
+  - id: CCC.GenAI.TH07
     title: Privacy Violations
     description: |
       Unauthorized disclosure of personal or private information.
@@ -95,7 +95,7 @@ threats:
       owasp_llm_top_10:
         - "LLM03: Training Data Poisoning"
 
-  - id: CCC.GAI.TH08
+  - id: CCC.GenAI.TH08
     title: Service Disruption
     description: |
       Denial-of-service (DoS) or denial-of-wallet (DoW) attacks impacting
@@ -108,7 +108,7 @@ threats:
       owasp_llm_top_10:
         - "LLM04: Model Denial of Service"
 
-  - id: CCC.GAI.TH09
+  - id: CCC.GenAI.TH09
     title: Intellectual Property Theft
     description: |
       Loss of proprietary information, such as algorithms, models, and
@@ -121,7 +121,7 @@ threats:
       owasp_llm_top_10:
         - "LLM06: Sensitive Information Disclosure"
 
-  - id: CCC.GAI.TH10
+  - id: CCC.GenAI.TH10
     title: Compliance Violations
     description: |
       Failing to adhere to relevant laws and regulations, including data
@@ -131,7 +131,7 @@ threats:
       - CCC.GenAI.F25 # Content Moderation
     mitre_technique: []
 
-  - id: CCC.GAI.TH11
+  - id: CCC.GenAI.TH11
     title: Cost Exploitation
     description: |
       Exhausting the application's query budget or incurring additional costs
@@ -143,7 +143,7 @@ threats:
     mitre_technique:
       - AML.TA0011
 
-  - id: CCC.GAI.TH12
+  - id: CCC.GenAI.TH12
     title: Unexpected Nondeterministic Behavior
     description: |
       The model produces unpredictable outputs or performance issues, possibly
