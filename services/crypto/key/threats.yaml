@@ -1,7 +1,7 @@
 common_threats:
   - CCC.TH01
 threats:
-  - id: CCC.KeyMgmt.TH17
+  - id: CCC.KeyMgmt.TH01
     title: Deletion or disabling of KMS key versions leading to denial of service or data destruction
     description: |
       An attacker with access to the KMS service can delete or disable key versions that are used 
@@ -12,7 +12,17 @@ threats:
       - CCC.KeyMgmt.F16
       - CCC.KeyMgmt.F18
       - CCC.KeyMgmt.F19
-    mitre_attack:
+    mitre_technique:
       - T1485
       - T1489
       - T1490
+  - id: CCC.KeyMgmt.TH02
+    title: Attacker decrypts sensitive data using an exposed KMS key outside of a defined identity and network perimeter
+    description: |
+      An attacker who gains unauthorized access to a KMS key outside the trusted identity and network perimeter 
+      can use the key to decrypt sensitive data, compromising confidentiality. For example, Public exposure of 
+      the KMS key allows attackers to decrypt stored data.
+    features: 
+      - CCC.KeyMgmt.F10
+    mitre_technique:
+      - T1600

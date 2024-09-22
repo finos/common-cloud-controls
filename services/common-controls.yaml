@@ -108,6 +108,8 @@ controls:
       Ensure secure access controls prevent unauthorized data access,
       exfiltration, and misuse of legitimate services by adversaries.
     control_family: Identity and Access Management
+    threats:
+      - CCC.KeyMgmt.TH01
     nist_csf: PR.AC-3
     control_mappings:
       CCM:

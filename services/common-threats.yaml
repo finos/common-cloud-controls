@@ -10,7 +10,7 @@ threats:
       - TA0005
       - T1562
   - id: CCC.TH02
-    title: Vendor-hosted keys are compromised
+    title: Vendor-hosted keys are compromised #TODO: Should this be in the crypto service?
     description: |
       The service uses a vendor-hosted key management service (KMS) to manage
       encryption keys. Insider threats or mistakes can result in access by a
@@ -32,7 +32,7 @@ threats:
       - TA009
       - T1557
   - id: CCC.TH04
-    title: Attacker encrypts data with client-managed keys
+    title: Attacker encrypts data with client-managed keys #TODO: Should this be in the crypto service?
     description: |
       The service provides encryption mechanisms, but the encryption keys are
       managed by the client. An attacker with access to the service can encrypt
