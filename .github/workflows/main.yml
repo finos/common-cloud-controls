@@ -51,7 +51,7 @@ jobs:
         echo "Targets: ${{ steps.process_targets.outputs.targets }}"
         
         # Example of iterating through the targets
-        echo '${{ steps.process_targets.outputs.targets }}' | jq -c '.[]' | while read -r target; do
+        echo '${{ steps.process_targets.outputs.targets }}' | jq -c '.' | while read -r target; do
           echo "Processing target: $target"
           # Add your processing logic here
         done
