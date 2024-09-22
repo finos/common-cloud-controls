@@ -103,6 +103,8 @@ jobs:
             ${{ needs.build.outputs.targets }}
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload the artifacts to the release
       - name: Upload Release Assets - YAML
@@ -112,6 +114,8 @@ jobs:
           asset_path: ./yaml-catalogs/*.yaml
           asset_name: yaml-catalogs-${{ github.event.inputs.tag }}.zip
           asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Release Assets - Markdown
         uses: actions/upload-release-asset@v1
@@ -120,3 +124,5 @@ jobs:
           asset_path: ./markdown-catalogs/*.md
           asset_name: markdown-catalogs-${{ github.event.inputs.tag }}.zip
           asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
