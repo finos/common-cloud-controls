@@ -1,0 +1,22 @@
+title: Machine Learning Development Environment (MLDE)
+id: CCC.MLDE
+description: |
+  The Machine Learning Development Environment (MLDE) is designed to provide a
+  secure and controlled environment for data scientists and machine learning
+  engineers to develop, train, and test models. It includes mechanisms for
+  managing access control, data protection, configuration management, and
+  resilience to ensure that sensitive data and computational resources are
+  protected against unauthorized access, data leakage, and service disruptions.
+release_details:
+  - version: "2024.09"
+    assurance_level: None
+    threat_model_url: None
+    threat_model_author: None
+    red_team: None
+    red_team_exercise_url: None
+    release_manager:
+      name: None
+      github_id: None
+      company: None
+      summary: None
+    change_log: []

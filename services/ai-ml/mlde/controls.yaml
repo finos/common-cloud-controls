@@ -1,0 +1,221 @@
+common_controls: []
+controls:
+  - id: CCC.MLDE.C01
+    title: Define Access Mode for MLDE Notebooks and Instances
+    objective: |
+      Ensure that access to machine learning development environments (MLDE)
+      resources is strictly defined and controlled. Only authorized users with
+      appropriate permissions can access these environments, ensuring data and
+      system integrity, and mitigating the risk of unauthorized access, data
+      leakage, or service disruption.
+    control_family: Access Control
+    threats:
+      - CCC.MLDE.TH01 # Unauthorized Access
+      - CCC.MLDE.TH02 # Data Leakage
+      - CCC.MLDE.TH03 # Service Disruption
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - A.9.2.1 # Control of access rights to ensure only authorized users
+      NIST_800_53: 
+        - AC-3    # Access enforcement
+        - AC-6    # Least privilege
+    test_requirements:
+      tlp_red:
+        01: |
+          Only authorized users can access MLDE resources.
+      tlp_amber:
+        02: |
+          Only authorized users can access MLDE resources.
+      tlp_green: {}
+      tlp_clear: {}
+
+  - id: CCC.MLDE.C02
+    title: Disable File Downloads on MLDE Instances
+    objective: |
+      Prevent unauthorized file downloads from machine learning development
+      environments, protecting sensitive data.
+    control_family: Data Protection
+    threats:
+      - CCC.MLDE.TH02 # Data Leakage
+    nist_csf: PR.DS-4
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - A.12.3.1
+      NIST_800_53: 
+        - CP-6
+        - CP-9
+    test_requirements:
+      tlp_red:
+        01: |
+          Resources cannot be downloaded from MLDE environments.
+      tlp_amber:
+        02: |
+          Resources cannot be downloaded from MLDE environments.
+      tlp_green: {}
+      tlp_clear: {}
+
+  - id: CCC.MLDE.C03
+    title: Prevent Root Access on MLDE User-Managed Notebooks and Instances
+    objective: |
+      Disallow root access to protect system integrity by preventing
+      unauthorized use of elevated permissions.
+    control_family: Access Control
+    threats:
+      - CCC.MLDE.TH01 # Unauthorized Access
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - A.9.2.1
+      NIST_800_53: 
+        - AC-3
+        - AC-6
+    test_requirements:
+      tlp_red:
+        01: |
+          No entity can use sudo or sign in as root in MLDE environments.
+      tlp_amber:
+        02: |
+          No entity can use sudo or sign in as root in MLDE environments.
+      tlp_green:
+        03: |
+          No entity can use sudo or sign in as root in MLDE environments.
+      tlp_clear:
+        04: |
+          No entity can use sudo or sign in as root in MLDE environments.
+
+  - id: CCC.MLDE.C04
+    title: Prevent Terminal Access on MLDE Instances
+    objective: |
+      Disabling terminal access mitigates the risk of unauthorized system
+      changes, protecting the integrity of the AI environment.
+    control_family: Access Control
+    threats:
+      - CCC.MLDE.TH01 # Unauthorized Access
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - A.9.2.1
+      NIST_800_53: 
+        - AC-3
+        - AC-6
+    test_requirements:
+      tlp_red:
+        01: |
+          Verify that terminal is disabled on MLDE instances.
+      tlp_amber:
+        01: |
+          Verify that terminal is disabled on MLDE instances.
+      tlp_green:
+        01: |
+          Verify that terminal is disabled on MLDE instances.
+      tlp_clear:
+        02: |
+          Verify that terminal is disabled on MLDE instances.
+
+  - id: CCC.MLDE.C05
+    title: Restrict Environment Options on MLDE Notebooks and Instances
+    objective: |
+      Limit environment options on MLDE instances to prevent unnecessary
+      exposure to vulnerabilities.
+    control_family: Access Control
+    threats: []
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - A.9.2.1
+      NIST_800_53: 
+        - AC-3
+        - AC-6
+    test_requirements: # TODO
+      tlp_red: {}
+      tlp_amber: {}
+      tlp_green: {}
+      tlp_clear: {}
+
+  - id: CCC.MLDE.C06
+    title: Require Automatic Scheduled Upgrades on User-Managed Notebooks
+    and Instances
+    objective: |
+      Ensure MLDE instances are up-to-date with the latest security patches by
+      enabling automatic scheduled upgrades.
+    control_family: Configuration Management
+    threats:
+      - CCC.MLDE.TH04 # Unexpected Nondeterministic Behavior
+    nist_csf: PR.IP-12
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - A.12.6.1
+      NIST_800_53: 
+        - CM-2
+        - CM-3
+    test_requirements:
+      tlp_red: {}
+      tlp_amber: {}
+      tlp_green: {}
+      tlp_clear: {}
+
+  - id: CCC.MLDE.C07
+    title: Restrict Public IP Access on MLDE Notebooks and Instances
+    objective: |
+      Prevent public IP access to MLDE environments, reducing the attack
+      surface for unauthorized access.
+    control_family: Access Control
+    threats:
+      - CCC.MLDE.TH01 # Unauthorized Access
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - A.9.2.1
+      NIST_800_53: 
+        - AC-3
+        - AC-6
+    test_requirements: # TODO
+      tlp_red: {}
+      tlp_amber: {}
+      tlp_green: {}
+      tlp_clear: {}
+
+  - id: CCC.MLDE.C08
+    title: Restrict VPC Networks on MLDE Instances
+    objective: |
+      Ensure that MLDE environments are restricted to specific VPC networks,
+      limiting unauthorized network access.
+    control_family: Access Control
+    threats: []
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM: 
+        - DSI-04
+        - DSI-05
+      ISO_27001: 
+        - A.9.2.1
+      NIST_800_53: 
+        - AC-3
+        - AC-6
+    test_requirements: # TODO
+      tlp_red: {}
+      tlp_amber: {}
+      tlp_green: {}
+      tlp_clear: {}

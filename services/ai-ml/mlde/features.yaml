@@ -1,0 +1,41 @@
+common_features: []
+features:
+  - id: CCC.MLDE.F01
+    title: Authentication Mechanisms
+    description: |
+      Mechanisms that enforce strong authentication practices to ensure only authorized users can access MLDE environments. This includes multi-factor authentication (MFA) and identity management systems.
+
+  - id: CCC.MLDE.F02
+    title: Role-Based Access Control
+    description: |
+      Implementation of role-based access control (RBAC) to assign appropriate permissions based on the user's role, limiting access to resources within the MLDE environment.
+
+  - id: CCC.MLDE.F03
+    title: Data Encryption
+    description: |
+      Encryption mechanisms applied to data both at rest and in transit within MLDE environments, preventing unauthorized parties from accessing sensitive information during transmission or storage.
+
+  - id: CCC.MLDE.F04
+    title: Network Security
+    description: |
+      Network security protocols that control the flow of data between MLDE instances and external systems, including the use of firewalls, VPNs, and private IP addressing to protect against unauthorized access and data leakage.
+
+  - id: CCC.MLDE.F05
+    title: Monitoring and Logging
+    description: |
+      Continuous monitoring and logging of MLDE instances to track access, system events, and anomalies, providing an audit trail and real-time alerts to mitigate service disruptions and unauthorized activities.
+
+  - id: CCC.MLDE.F06
+    title: Resilience Mechanisms
+    description: |
+      Features designed to enhance the resilience of MLDE environments, ensuring continuity of operations during potential service disruptions. This includes automated failover, redundancy, and system health checks.
+
+  - id: CCC.MLDE.F07
+    title: Configuration Management
+    description: |
+      Processes and tools for managing the configuration of MLDE instances to ensure consistency, integrity, and compliance with organizational standards. This includes configuration baselines and change management controls.
+
+  - id: CCC.MLDE.F08
+    title: Patch Management
+    description: |
+      Automated patching and version control for MLDE environments to ensure that systems are up to date with the latest security fixes and software updates, reducing the risk of vulnerabilities and nondeterministic behavior.

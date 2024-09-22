@@ -1,0 +1,41 @@
+common_threats: []
+threats:
+  - id: CCC.MLDE.TH01
+    title: Unauthorized Access
+    description: |
+      Unauthorized access occurs when users without appropriate permissions are able to enter machine learning development environments (MLDE). This can lead to data breaches, system compromise, or improper use of resources.
+    features:
+      - CCC.MLDE.F01 # Authentication Mechanisms
+      - CCC.MLDE.F02 # Role-Based Access Control
+    mitre_technique:
+      - T1078 # Valid Accounts
+
+  - id: CCC.MLDE.TH02
+    title: Data Leakage
+    description: |
+      Data leakage refers to the accidental or deliberate exposure of sensitive data from MLDE environments. This can occur through unauthorized downloads, unsecured network access, or improper sharing of files.
+    features:
+      - CCC.MLDE.F03 # Data Encryption
+      - CCC.MLDE.F04 # Network Security
+    mitre_technique:
+      - T1030 # Data Transfer Size Limits
+
+  - id: CCC.MLDE.TH03
+    title: Service Disruption
+    description: |
+      Service disruption involves any event or series of events that prevent MLDE services from functioning properly, often caused by resource exhaustion, malicious activity, or technical failures.
+    features:
+      - CCC.MLDE.F05 # Monitoring and Logging
+      - CCC.MLDE.F06 # Resilience Mechanisms
+    mitre_technique:
+      - T1499 # Endpoint Denial of Service
+
+  - id: CCC.MLDE.TH04
+    title: Unexpected Nondeterministic Behavior
+    description: |
+      This threat occurs when MLDE instances exhibit behavior that was not anticipated, due to improper configurations, unpatched vulnerabilities, or the introduction of malicious code.
+    features:
+      - CCC.MLDE.F07 # Configuration Management
+      - CCC.MLDE.F08 # Patch Management
+    mitre_technique:
+      - T1069 # Permission Groups Discovery
