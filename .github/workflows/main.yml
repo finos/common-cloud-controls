@@ -80,7 +80,7 @@ jobs:
       
       - name: Create Release Zip File
         run: |
-          zip -r ccc-catalogs--${{ github.event.inputs.tag }}.zip .
+          zip -r ccc-catalogs-${{ github.event.inputs.tag }}.zip .
 
       # Create a GitHub release
       - name: Create GitHub Release
