@@ -19,7 +19,7 @@ jobs:
   #     - name: Approval check
   #       run: echo "Approval granted, proceeding with build"
 
-  release:
+  build:
     #needs: approval
     runs-on: ubuntu-latest
     defaults:
@@ -61,18 +61,46 @@ jobs:
             go run . "md" --build-target $target
           done
       
-      - name: Upload YAML Artifacts
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4.4.0
         with:
-          name: yaml-catalogs
-          path: ./delivery-tooling/artifacts/*.yaml
+          name: ccc-catalogs
+          path: ./delivery-tooling/artifacts/*
           if-no-files-found: error
-          retention-days: 90 # Maximum Retention
-  
-      - name: Upload Markdown Artifacts
-        uses: actions/upload-artifact@v4.4.0
+          retention-days: 1 # Maximum Retention
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4.1.8
         with:
-          name: markdown-catalogs
-          path: ./delivery-tooling/artifacts/*.md
-          if-no-files-found: error
-          retention-days: 90 # Maximum Retention
+          name: ccc-catalogs
+      
+      - name: Create Release Zip File
+        run: |
+          zip -r ccc-catalogs-${{ github.event.inputs.tag }}.zip .
+
+      # Create a GitHub release
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          release_name: Release ${{ github.event.inputs.tag }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Upload the artifacts to the release
+      - name: Upload Release Assets - YAML
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ccc-catalogs-${{ github.event.inputs.tag }}.zip
+          asset_name: ccc-catalogs-${{ github.event.inputs.tag }}.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
