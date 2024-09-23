@@ -1,11 +1,12 @@
 common_features:
   - CCC.F01 # Encryption in Transit Enabled by Default
   - CCC.F02 # Encryption at Rest Enabled by Default
-  - CCC.F03 # Access Logs
+  - CCC.F03 # Access/Activity Logs
   - CCC.F04 # Transaction Rate Limits
   - CCC.F05 # Signed URLs
   - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
+  - CCC.F21 # Data Replication
 features:
   - id: CCC.ObjStor.F01
     title: Storage Buckets
@@ -26,11 +27,6 @@ features:
     title: Object Size Limit
     description: |
       Supports setting a maximum object size for storing objects.
-  - id: CCC.ObjStor.F05
-    title: Object Storage Replication
-    description: |
-      Supports replicating objects across multiple regions or availability zones
-      to ensure high availability and durability.
   - id: CCC.ObjStor.F06
     title: Querying
     description: |

@@ -1,10 +1,11 @@
 common_controls:
-  - CCC.C01  # Prevent unencrypted requests
-  - CCC.C02  # Ensure data encryption at rest all stored data
-  - CCC.C03  # Implement multi-factor authentication (MFA) for access
-  - CCC.C04  # Log all access and changes
-  - CCC.C05  # Prevent access from untrusted entities
-  - CCC.C06  # Prevent deployment in restricted regions
+  - CCC.C01 # Prevent unencrypted requests
+  - CCC.C02 # Ensure data encryption at rest all stored data
+  - CCC.C03 # Implement multi-factor authentication (MFA) for access
+  - CCC.C04 # Log all access and changes
+  - CCC.C05 # Prevent access from untrusted entities
+  - CCC.C06 # Prevent deployment in restricted regions
+  - CCC.C07 # Alert on non-human enumeration
 controls:
   - id: CCC.ObjStor.C01
     title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
@@ -18,19 +19,127 @@ controls:
       - CCC.TH02
       - CCC.TH03
     nist_csf: PR.DS-4
-    mitre_attack: T1486
     control_mappings:
-      CCM: 
+      CCM:
         - DSI-04
         - DSI-05
-      ISO_27001: 
+      ISO_27001:
         - 2013 A.12.3.1
-      NIST_800_53: 
+      NIST_800_53:
         - CP-6
         - CP-9
-    test_requirements:
-      01: |
-        Verify that access policies for cloud storage buckets and objects
-        prevent requests with untrusted KMS keys. In this case, an untrusted
-        KMS key is one that is not specified as trusted by the cloud storage
-        bucket owner.
+    test_requirements: # TODO
+      tlp_red:
+        01: |
+          Verify that access policies for cloud storage buckets and objects
+          prevent requests with untrusted KMS keys. In this case, an untrusted
+          KMS key is one that is not specified as trusted by the cloud storage
+          bucket owner.
+  - id: CCC.ObjStor.C02
+    title: Enforce uniform bucket-level access to prevent inconsistent permissions
+    control_family: Identity and Access Management
+    objective: |
+      Ensure that uniform bucket-level access is enforced across all object storage buckets. 
+      This prevents the use of ad-hoc or inconsistent object-level permissions, ensuring 
+      centralized, consistent, and secure access management in accordance with the principle 
+      of least privilege.
+    threats:
+      - CCC.TH01
+    nist_csf: PR.AC-4
+    control_mappings:
+      CCM:
+        - IAM-02
+        - IAM-11
+      ISO_27001:
+        - 2013 A.9.1.2
+      NIST_800_53:
+        - AC-6
+        - AC-2
+    test_requirements: # TODO
+      tlp_green:
+        01: |
+          ACL based access to the bucket is prevented.
+        02: |
+          Access to the bucket is controlled through IAM policies only.
+  - id: CCC.ObjStor.C03
+    title: Prevent bucket deletion through irrevocable bucket retention policy
+    control_family: Data
+    objective: |
+      Ensure that object storage bucket is not deleted after creation,
+      and that the preventative measure cannot be unset.
+    threats:
+      - CCC.TH06
+    nist_csf: PR.DS-1
+    test_requirements: # TODO
+      tlp_green: # this might not be necessary for internal-only amber/red?
+        01: |
+          Verify that the bucket cannot be deleted as long as the retention policy is in effect.
+        02: |
+          Confirm that the bucket retention policy cannot be modified or unset.
+
+  - id: CCC.ObjStor.C05
+    title: Objects have an effective retention policy by default
+    control_family: Data
+    objective: |
+      Ensure that all objects stored in the object storage system have a retention policy 
+      applied by default, preventing premature deletion or modification of objects and ensuring 
+      compliance with data retention regulations.
+    threats:
+      - CCC.TH06
+    nist_csf: PR.DS-1
+    test_requirements: # TODO
+      tlp_green:
+        01: |
+          Verify that any new objects stored in the bucket automatically inherit a default retention policy.
+        02: |
+          Attempt to modify or remove the retention policy on an object and confirm that it cannot be altered or deleted without explicit authorization.
+        03: |
+          Confirm that the retention policy is enforced and prevents premature deletion of objects within the defined retention period.
+  - id: CCC.ObjStor.C06
+    title: Versioning is enabled for all objects in the bucket
+    control_family: Data
+    objective: |
+      Ensure that versioning is enabled for all objects stored in the object
+      storage bucket to enable recovery of previous versions of objects in case
+      of loss or corruption.
+    threats:
+      - CCC.TH04
+      - CCC.TH06
+    nist_csf: PR.DS-1
+    test_requirements: # TODO
+      tlp_green:
+        01: |
+          Verify that when two objects with the same name are uploaded to the bucket, 
+          the object with the same name is not overwritten and that both
+          objects are stored with unique identifiers.
+        02: |
+          Verify that previous versions of an object can be accessed and restored 
+          after an object is modified or deleted.
+  - id: CCC.ObjStor.C07
+    title: Access logs are stored in a separate bucket
+    control_family: Data
+    objective: |
+      Ensure that access logs for object storage buckets are stored in a separate
+      bucket to protect against unauthorized access, tampering, or deletion of
+      logs (Logbuckets are exempt from this requirement, but must be tlp_red).
+    threats:
+      - CCC.TH07
+    nist_csf: PR.DS-6
+    test_requirements: # TODO
+      tlp_green:
+        01: | # TODO: This could become recursive if we include the logbucket in the controlled architecure... unless we have that one set to TLP Clear, no logging needed?
+          Access logs for object storage buckets are stored in a separate bucket.
+  - id: CCC.ObjStor.08
+    title: Prevent object replication to desinations outside of defined trust perimeter
+    control_family: Data
+    objective: |
+      Prevent replicating objects to untrusted destinations outside of defined trust perimeter. 
+      An untrusted destination is defined as a resource that exists outside of a specified 
+      trusted identity or network perimeter (i.e., a data perimeter).
+    threats:
+      - CCC.ObjStor.TH01
+    nist_csf: PR.DS-4
+    test_requirements: # TODO
+      tlp_green:
+        CCC.OS.C9.TR01: |
+          Verify that object replication to destinations outside of the defined trust perimeter is prevented.
