@@ -4,13 +4,18 @@ control_families:
   - Identity and Access Management
   - Logging & Monitoring
   - Software Supply Chain
+  - Network Security
+
 controls:
-  - id: CCC.C01
+
+  - id: CCC.C01 # Prevent unencrypted requests
     title: Prevent unencrypted requests
     objective: |
       Ensure that all communications are encrypted in transit to protect data
       integrity and confidentiality.
     control_family: Data
+    threats:
+      - CCC.TH02 # Data is intercepted in transit
     nist_csf: PR.DS-2
     control_mappings:
       CCM:
@@ -30,12 +35,15 @@ controls:
         The cipher suite implemented for ensuring the integrity and
         confidentiality of data should conform with the latest suggested cipher
         suites
-  - id: CCC.C02
+
+  - id: CCC.C02 # Ensure data encryption at rest for all stored data
     title: Ensure data encryption at rest for all stored data
     objective: |
       Ensure that all data stored is encrypted at rest to maintain
       confidentiality and integrity.
     control_family: Encryption
+    threats:
+      - CCC.TH01 # Access control is misconfigured
     nist_csf: PR.DS-1
     control_mappings:
       CCM:
@@ -54,13 +62,16 @@ controls:
       03: |
         Confirm that decryption is only possible through authorized access
         mechanisms
-  - id: CCC.C03
+
+  - id: CCC.C03 # Implement multi-factor authentication (MFA) for access
     title: Implement multi-factor authentication (MFA) for access
     objective: |
       Ensure that all human user access requires multi-factor authentication
       (MFA), minimizing the risk of unauthorized access by enforcing strong
       authentication mechanisms.
     control_family: Identity and Access Management
+    threats:
+      - CCC.TH01 # Access control is misconfigured
     nist_csf: PR.AC-7
     control_mappings:
       CCM:
@@ -78,12 +89,15 @@ controls:
         management interface
       03: |
         Confirm that users are unable to access without completing MFA
-  - id: CCC.C04
+
+  - id: CCC.C04 # Log all access and changes
     title: Log all access and changes
     objective: |
       Ensure that all access and changes are logged to maintain a detailed
       audit trail for security and compliance purposes.
     control_family: Logging & Monitoring
+    threats:
+      - CCC.TH01 # Access control is misconfigured
     nist_csf: DE.AE-3
     control_mappings:
       CCM:
@@ -102,7 +116,8 @@ controls:
       03: |
         Confirm that logs are protected against unauthorized access and
         tampering
-  - id: CCC.C05
+
+  - id: CCC.C05 # Prevent access from untrusted entities
     title: Prevent access from untrusted entities
     objective: |
       Ensure secure access controls prevent unauthorized data access,
@@ -124,7 +139,8 @@ controls:
           Confirm that services deployed within the same cloud tenant are blocked by default and only accessible to allowlisted services.
         03: |
           Ensure access from other cloud tenants is blocked by default, and only entities on the allowlist can access the service.
-  - id: CCC.C06
+
+  - id: CCC.C06 # Prevent deployment in restricted regions
     title: Prevent deployment in restricted regions
     objective: |
       Ensure that resources are not provisioned or deployed in geographic
@@ -153,7 +169,8 @@ controls:
       03: |
         Confirm that backups and copies are not allowed to be
         stored in restricted regions or cloud availability zones.
-  - id: CCC.C07
+
+  - id: CCC.C07 # Alert on non-human enumeration
     title: Alert on non-human enumeration
     control_family: Logging & Monitoring
     objective: |
@@ -161,8 +178,7 @@ controls:
       entities (e.g., automated processes) attempt to enumerate 
       resources. This helps to detect and respond to potential malicious 
       reconnaissance activities early.
-    threats:
-      - CCC.TH09
+    threats: []
     nist_csf: DE.AE-1
     test_requirements:
       tlp_green:
@@ -171,7 +187,7 @@ controls:
         02: |
           Confirm that logs are properly generated and accessible for review following non-human enumeration attempts.
 
-  - id: CCC.ObjStor.C08 # Enable multi-zone or multi-region data replication
+  - id: CCC.C08 # Enable multi-zone or multi-region data replication
     title: Enable multi-zone or multi-region data replication
     control_family: Data
     objective: |
@@ -179,13 +195,22 @@ controls:
       zones or regions to protect against data loss due to hardware failures,
       natural disasters, or other catastrophic events.
     threats:
-      - CCC.TH11
+      - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.PT-5
-    test_requirements: # TODO # GCS-CO-6.11/12 — Can this be tested beyond reading the config?
-      tlp_green:
-        01: |
-          Verify that data stored in object storage is replicated across multiple
-          zones or regions.
-        02: |
+    test_requirements:
+      - id: CCC.C08.TR01
+        text: |
+          Verify that data stored in object storage is replicated across
+          multiple zones or regions.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.ObjStor.C08.TR02
+        text: |
           Perform a failover test to confirm that data remains accessible during 
           a simulated outage in one zone or region.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
