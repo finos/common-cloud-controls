@@ -11,16 +11,7 @@ on:
         required: true
 
 jobs:
-
-  # approval:
-  #   runs-on: ubuntu-latest
-  #   environment: approval-required
-  #   steps:
-  #     - name: Approval check
-  #       run: echo "Approval granted, proceeding with build"
-
   build:
-    #needs: approval
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -77,10 +68,6 @@ jobs:
         uses: actions/download-artifact@v4.1.8
         with:
           name: ccc-catalogs
-      
-      - name: Create Release Zip File
-        run: |
-          zip -r ccc-catalogs-${{ github.event.inputs.tag }}.zip .
 
       # Create a GitHub release
       - name: Create GitHub Release
@@ -90,17 +77,20 @@ jobs:
           tag_name: ${{ github.event.inputs.tag }}
           release_name: Release ${{ github.event.inputs.tag }}
           draft: false
-          prerelease: false
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload the artifacts to the release
-      - name: Upload Release Assets - YAML
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ccc-catalogs-${{ github.event.inputs.tag }}.zip
-          asset_name: ccc-catalogs-${{ github.event.inputs.tag }}.zip
-          asset_content_type: application/zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Release Assets
+        run: |
+          for file in ./*
+          do
+            echo "Uploading $file"
+            filename=$(basename "$file")
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Content-Type: multipart/form-data" \
+              -F "asset=@$file" \
+              "${{ steps.create_release.outputs.upload_url }}?name=$filename"
+          done
