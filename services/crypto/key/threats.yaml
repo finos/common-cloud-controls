@@ -1,18 +1,19 @@
 common_threats:
-  - CCC.TH01
+  - <IDs of common threats; Omit if not applicable>
 threats:
-  - id: CCC.KeyMgmt.TH17
-    title: Deletion or disabling of KMS key versions leading to denial of service or data destruction
-    description: |
-      An attacker with access to the KMS service can delete or disable key versions that are used 
-      to encrypt or decrypt sensitive data. This can result in a denial of service by preventing 
-      data decryption or, in some cases, lead to permanent data destruction.
+  - id: categoryid.TH01
+    title: <Short name of the threat>
+    description: <Complete description of the threat>
     features:
-      - CCC.KeyMgmt.F14
-      - CCC.KeyMgmt.F16
-      - CCC.KeyMgmt.F18
-      - CCC.KeyMgmt.F19
-    mitre_attack:
-      - T1485
-      - T1489
-      - T1490
+      - <category-id>.F<#>
+    mitre_technique: 
+      - <Mitre ATT&CK tactic ID>
+      - <Mitre ATT&CK technique ID>
+  - id: <category-id>.TH01
+    title: <Short name of the threat>
+    description: <Complete description of the threat>
+    features:
+      - <category-id>.F<#>
+    mitre_technique: 
+      - <Mitre ATT&CK tactic ID>
+      - <Mitre ATT&CK technique ID>
