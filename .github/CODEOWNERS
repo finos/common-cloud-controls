@@ -54,6 +54,15 @@
 **/threats.md @finos/ccc-wg-security
 **/controls.md @finos/ccc-wg-security
 **/*.feature @finos/ccc-wg-security
+**/common-controls.yaml @finos/ccc-wg-security
+**/common-threats.yaml @finos/ccc-wg-security
+#
+########
+
+#
+# Additional Changes that might impact automation must be reviewed by the 
+# Delivery WG
+**/metadata.yaml @finos/ccc-wg-delivery
 #
 ########
 
