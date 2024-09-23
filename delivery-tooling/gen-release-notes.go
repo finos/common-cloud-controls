@@ -97,9 +97,7 @@ func init() {
 func generateReleaseNotes() (outputPath string, err error) {
 	data := readAndCompileCatalog()
 
-	serviceName := data.Metadata.ID
-	version := data.Metadata.ReleaseDetails[len(data.Metadata.ReleaseDetails)-1].Version
-	mdFileName := fmt.Sprintf("%s_%s_release_notes.md", serviceName, version)
+	mdFileName := "release_notes.md"
 	outputPath = filepath.Join(viper.GetString("output-dir"), mdFileName)
 
 	outputFile, err := os.Create(outputPath)
