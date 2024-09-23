@@ -76,24 +76,7 @@ controls:
           Verify that the bucket cannot be deleted as long as the retention policy is in effect.
         02: |
           Confirm that the bucket retention policy cannot be modified or unset.
-  - id: CCC.ObjStor.C04 # TODO: this should probably be lifted up to a common control
-    title: Enable multi-zone or multi-region data replication
-    control_family: Data
-    objective: |
-      Ensure that data stored in object storage is replicated across multiple
-      zones or regions to protect against data loss due to hardware failures,
-      natural disasters, or other catastrophic events.
-    threats:
-      - CCC.TH08
-    nist_csf: PR.PT-5
-    test_requirements: # TODO # GCS-CO-6.11/12 — Can this be tested beyond reading the config?
-      tlp_green:
-        01: |
-          Verify that data stored in object storage is replicated across multiple
-          zones or regions.
-        02: |
-          Perform a failover test to confirm that data remains accessible during 
-          a simulated outage in one zone or region.
+
   - id: CCC.ObjStor.C05
     title: Objects have an effective retention policy by default
     control_family: Data

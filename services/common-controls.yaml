@@ -170,3 +170,22 @@ controls:
           Simulate non-human enumeration activities (e.g., with service accounts) and verify that alerts are triggered in the logging system.
         02: |
           Confirm that logs are properly generated and accessible for review following non-human enumeration attempts.
+
+  - id: CCC.ObjStor.C08 # Enable multi-zone or multi-region data replication
+    title: Enable multi-zone or multi-region data replication
+    control_family: Data
+    objective: |
+      Ensure that data stored in object storage is replicated across multiple
+      zones or regions to protect against data loss due to hardware failures,
+      natural disasters, or other catastrophic events.
+    threats:
+      - CCC.TH11
+    nist_csf: PR.PT-5
+    test_requirements: # TODO # GCS-CO-6.11/12 — Can this be tested beyond reading the config?
+      tlp_green:
+        01: |
+          Verify that data stored in object storage is replicated across multiple
+          zones or regions.
+        02: |
+          Perform a failover test to confirm that data remains accessible during 
+          a simulated outage in one zone or region.

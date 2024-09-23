@@ -10,21 +10,6 @@ common_threats:
 
 threats:
 
-  - id: CCC.ObjStor.TH01
-    title: Compromised encrpytion keys
-    description: |
-      If encryption keys for object storage are compromised, attackers can
-      decrypt sensitive data or forge access tokens to retrieve stored objects.
-      This might include encryption at rest or signed URLs.
-    features:
-      - CCC.F02 # Encryption at Rest Enabled by Default
-      - CCC.F05 # Signed URLs
-    mitre_technique:
-      - T1552 # Unsecured Credentials
-      - T1556 # Modify Authentication Process
-      - T1078.004 # Valid Accounts: Cloud Accounts
-      - T1565 # Data Manipulation
-
   - id: CCC.ObjStor.TH04 # Data exfiltration via insecure lifecycle policies
     title: Data exfiltration via insecure lifecycle policies
     description: |
@@ -100,13 +85,3 @@ threats:
     features:
       - CCC.F07 # Event Notifications
 
-  - id: CCC.TH09
-    title: Unauthorized object replication to untrusted or external locations
-    description: |
-      An attacker could replicate objects to untrusted or external locations if replication configurations 
-      are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
-      outside the organization's trusted perimeter.
-    features:
-      - CCC.ObjStor.F05
-    mitre_attack:
-      - T1537
