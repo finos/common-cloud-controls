@@ -9,6 +9,7 @@ threats:
     features:
       - CCC.GenAI.F15 # Text-Based Prompts
       - CCC.GenAI.F16 # Structured Prompts
+      - CCC.GenAI.F20 # Custom Template Prompts
     mitre_technique:
       - TA0013 #
     threat_mappings:
@@ -63,7 +64,10 @@ threats:
       predictions or classifications.
     features:
       - CCC.GenAI.F15 # Text-Based Prompts
+      - CCC.GenAI.F16 # Structured Prompts
       - CCC.GenAI.F17 # Contextual Prompts
+      - CCC.GenAI.F18 # Interactive Prompts
+      - CCC.GenAI.F19 # Image-Based Prompts
     mitre_technique: []
     threat_mappings:
       owasp:
