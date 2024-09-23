@@ -6,6 +6,7 @@
         "type": "array",
         "items": {
           "type": "string",
+          "pattern": "^CCC\\.C\\d{2,}$",
           "description": "IDs of common controls; can be omitted if not applicable"
         }
       },
@@ -16,6 +17,7 @@
           "properties": {
             "id": {
               "type": "string",
+              "pattern": "^CCC\\.[A-Za-z]+\\.C\\d{2,}$",
               "description": "Control ID in the format CCC.<Service Category Abbreviation>.C##"
             },
             "title": {
@@ -32,13 +34,23 @@
             },
             "nist_csf": {
               "type": "string",
+              "pattern": "^[A-Za-z]{2}\\.[A-Za-z]{2}-\\d{1,}$",
+              "example": "PR.DS-2",
               "description": "NIST CSF control ID"
+            },
+            "mitre_attack": {
+              "type": "string",
+              "description": "MITRE ATT&CK technique identifier",
+              "pattern": "^T[0-9]+$",
+              "example": "T1486"
             },
             "threats": {
               "type": "array",
               "items": {
                 "type": "string",
-                "description": "Threat IDs"
+                "pattern": "^CCC\\.TH\\d{2,}$",
+                "description": "Threat IDs",
+                "example": "CCC.TH01"
               }
             },
             "control_mappings": {
@@ -48,21 +60,27 @@
                   "type": "array",
                   "items": {
                     "type": "string",
-                    "description": "CCM control IDs"
+                    "description": "CCM control IDs",
+                    "pattern": "^[A-Za-z]{2,}-[0-9]+$",
+                    "example": "DSI-04"
                   }
                 },
                 "ISO_27001": {
                   "type": "array",
                   "items": {
                     "type": "string",
-                    "description": "ISO 27001 control IDs"
+                    "description": "ISO 27001 control IDs",
+                    "pattern": "^[0-9]{4} A\\.\\d+\\.\\d+\\.\\d+$",
+                    "example": "2013 A.12.3.1"
                   }
                 },
                 "NIST_800_53": {
                   "type": "array",
                   "items": {
                     "type": "string",
-                    "description": "NIST 800-53 control IDs"
+                    "description": "NIST 800-53 control IDs",
+                    "pattern": "^[A-Za-z]{2,}-[0-9]+$",
+                    "example": "CP-6"
                   }
                 }
               },
