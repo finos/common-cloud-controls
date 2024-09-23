@@ -107,8 +107,8 @@ threats:
       outside the organization's trusted perimeter.
     features:
       - CCC.F05
-    mitre_attack:
-      - 
+    mitre_attack: # TODO
+      - T1565 # Data Manipulation
 
   - id: CCC.TH11
     title: Data is lost or corrupted
@@ -117,3 +117,9 @@ threats:
       misconfiguration, or malicious activity.  This can result in the loss of
       critical data, service disruption, or unauthorized access to sensitive
       information.
+    features: []
+    mitre_attack:
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1491 # Defacement
+      - T1490 # Inhibit System Recovery
