@@ -3,8 +3,8 @@ name: Release Workflow
 on:
   workflow_dispatch:
     inputs:
-      build_targets:
-        description: 'List of Build Targets (comma-separated)'
+      build_target:
+        description: 'Build Target (e.g storage/object)'
         required: true
       tag:
         description: 'Tag for this release'
@@ -28,28 +28,24 @@ jobs:
       - name: Install dependencies
         run: go mod download
   
-      - name: Get Build Targets
-        id: process_targets
+      - name: Get Build Target
+        id: process_target
         run: |
-          # Read the input
-          input_targets="${{ github.event.inputs.build_targets }}"
+          # Read the input for a single build target
+          build_target="${{ github.event.inputs.build_target }}"
           
-          # Replace commas with spaces, then split on spaces
-          targets_array=($(echo "$input_targets" | tr ',' ' '))
-          
-          # Convert to JSON array
-          json_targets=$(printf '%s\n' "${targets_array[@]}" | jq -R . | jq -sc .)
-          
-          echo "Processed targets: $json_targets"
-          echo "targets=$json_targets" >> $GITHUB_OUTPUT
+          # Print and save the build target
+          echo "Build target: $build_target"
+          echo "target=$build_target" >> $GITHUB_OUTPUT
+
       - name: Create Release Artifacts
         run: |
-          echo "List of Build Targets: ${{ steps.process_targets.outputs.targets }}"        
-          echo '${{ steps.process_targets.outputs.targets }}' | jq -r .[] | while read -r target; do
-            echo "Creating Artifacts for: $target"
-            go run . "yaml" --build-target $target
-            go run . "md" --build-target $target
-          done
+          # Create all artifacts for the specified build target
+          build_target="${{ steps.process_target.outputs.target }}"
+          echo "Creating Artifacts for: $build_target"
+          go run . "yaml" --build-target $build_target
+          go run . "md" --build-target $build_target
+          go run . "release-notes" --build-target $build_target
       
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4.4.0
@@ -58,7 +54,7 @@ jobs:
           path: ./delivery-tooling/artifacts/*
           if-no-files-found: error
           retention-days: 1 # Maximum Retention
-
+          
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -73,6 +69,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         with:
+          body_path: ./release_notes.md
           tag_name: ${{ github.event.inputs.tag }}
           release_name: Release ${{ github.event.inputs.tag }}
           draft: false
