@@ -36,6 +36,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Ted Newman, NatWest Group, JUL/17/2024
 - Mike Smith, Scott Logic, Sep/11/2024
 - Daniel Moorhouse, Scott Logic, Sep/16/2024
+- Kamran Kazmi, Google, SEP/20/2024
 
 ## How to enroll as a participant
 
