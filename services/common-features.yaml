@@ -2,16 +2,17 @@ features:
   - id: CCC.F01
     title: Encryption in Transit Enabled by Default
     description: |
-      Supports encrypting data in transit using SSL/TLS.
+      Provides default encryption of data in transit through SSL or TLS.
   - id: CCC.F02
     title: Encryption at Rest Enabled by Default
     description: |
       Provides default encryption of data before storage, with the option for
       clients to maintain control over the encryption keys.
   - id: CCC.F03
-    title: Access Logs
+    title: Access/Activity Logs
     description: |
-      Provides users with the ability to track all requests made to resources.
+      Provides users with the ability to track all requests made to or 
+      activities performed on resources for audit purposes.
   - id: CCC.F04
     title: Transaction Rate Limits
     description: |
@@ -33,29 +34,29 @@ features:
       Publishes events for creation, deletion, and modification of
       objects in a way that enables users to trigger actions in response.
   - id: CCC.F08
-    title: Multi-zone Deployability
+    title: Multi-zone Deployment
     description: |
-      Providing the ability for the service to be deployed in multiple availability
+      Provides the ability for the service to be deployed in multiple availability
       zones within a region to increase availability and fault tolerance.
   - id: CCC.F09
     title: Monitoring
     description: |
-      Providing the ability to continuously observe, track, and analyze
+      Provides the ability to continuously observe, track, and analyze
       the performance, availability, and health of the service resources or applications.
   - id: CCC.F10
     title: Logging
     description: |
-      Providing the ability to transmit system events, application activities, and/or
+      Provides the ability to transmit system events, application activities, and/or
       user interactions to a logging service
   - id: CCC.F11
     title: Backup
     description: |
-      Providing the ability to create copies of associated data or configurations in the form of automated backups,
+      Provides the ability to create copies of associated data or configurations in the form of automated backups,
       snapshot-based backups, and/or incremental backups.
   - id: CCC.F12
     title: Recovery
     description: |
-      Providing the ability to restore data, a system, or an application to a functional state
+      Provides the ability to restore data, a system, or an application to a functional state
       after an incident such as data loss, corruption or a disaster.
   - id: CCC.F13
     title: Infrastructure as Code
@@ -64,20 +65,33 @@ features:
   - id: CCC.F14
     title: API Access
     description: |
-      Allowing users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+      Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
   - id: CCC.F15
     title: Cost Management
     description: |
-      Providing the ability to filter spending and to detect cost anomalies by the service.
+      Provides the ability to filter spending and to detect cost anomalies for the service.
   - id: CCC.F16
     title: Budgeting
     description: |
-      Providing the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+      Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
   - id: CCC.F17
     title: Alerting
     description: |
-      Providing the ability to set an alarm based on performance metrics, logs, events or spending thresholds of the service.
+      Provides the ability to set an alarm based on performance metrics, logs, events or spending thresholds of the service.
   - id: CCC.F18
     title: Versioning
     description: |
-      Providing the ability to maintain multiple versions of the same resource.
+      Provides the ability to maintain multiple versions of the same resource.
+  - id: CCC.F19
+    title: On-Demand Scaling
+    description: |
+      Provide scaling of resources based on demand.
+  - id: CCC.F20
+    title: Tagging
+    description: |
+      Provide the ability to tag a resource to effectively manage and gain insights of the resource.
+  - id: CCC.F21
+    title: Data Replication
+    description: |
+      Provides the ability to copy data to multiple locations to ensure data
+      availability and durability.

@@ -6,7 +6,6 @@ controls:
     objective: <1-3 sentence description of the control objective>
     control_family: <Control Family>
     nist_csf: <NIST CSF control ID>
-    mitre_attack: <Mitre ATT&CK technique ID>
     threats:
       - <Threat IDs>
     control_mappings:
