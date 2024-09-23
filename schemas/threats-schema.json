@@ -1,54 +1,66 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "object",
-    "properties": {
-      "common_threats": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "description": "IDs of common threats; can be omitted if not applicable"
-        }
-      },
-      "threats": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "pattern": "^CCC\\.[a-zA-Z0-9]+\\.TH\\d{2}$",
-              "description": "Threat ID in the format <category-id>.TH##"
-            },
-            "title": {
-              "type": "string",
-              "description": "Short name of the threat"
-            },
-            "description": {
-              "type": "string",
-              "description": "Complete description of the threat"
-            },
-            "features": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "pattern": "^CCC\\.[a-zA-Z0-9]+\\.F\\d+$",
-                "description": "Feature ID in the format <category-id>.F<#>"
-              }
-            },
-            "mitre_technique": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "description": "Mitre ATT&CK technique ID"
-              },
-              "minItems": 1
-            }
-          },
-          "required": ["id", "title", "description", "features", "mitre_technique"],
-          "additionalProperties": false
-        }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "common_threats": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "IDs of common threats; can be omitted if not applicable"
       }
     },
-    "required": ["threats"],
-    "additionalProperties": false
-  }
+    "threats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.TH\\d{2}$",
+            "description": "Threat ID in the format <category-id>.TH##"
+          },
+          "title": {
+            "type": "string",
+            "description": "Short name of the threat"
+          },
+          "description": {
+            "type": "string",
+            "description": "Complete description of the threat"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.F\\d+$",
+              "description": "Feature ID in the format <category-id>.F<#>"
+            }
+          },
+          "mitre_technique": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Mitre ATT&CK technique ID"
+            },
+            "minItems": 1
+          },
+          "threat_mappings": {
+            "type": "object",
+            "properties": {
+              "owasp": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "Identifiers from OWASP Top 10 Lists"
+                }
+              }
+            }
+          }
+        },
+        "required": ["id", "title", "description", "features", "mitre_technique"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["threats"],
+  "additionalProperties": false
+}

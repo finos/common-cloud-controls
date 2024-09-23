@@ -18,6 +18,7 @@
 /release @finos/ccc-wg-delivery
 /.vscode @finos/ccc-wg-delivery
 /.github/CODEOWNERS @finos/ccc-steerco
+**/metadata.yaml @finos/ccc-wg-delivery
 #
 ########
 
