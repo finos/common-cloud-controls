@@ -63,7 +63,7 @@ func init() {
 //   - err: An error if any step in the process fails, nil otherwise.
 func generateOmnibusYamlFile() (outputPath string, err error) {
     // Read and compile data from an unspecified source
-    data := readAndCompile()
+    data := readAndCompileCatalog()
     
     // Marshal the compiled data into YAML format
     dataYaml, err := yaml.Marshal(&data)

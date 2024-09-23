@@ -10,7 +10,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type CompiledData struct {
+type CompiledCatalog struct {
 	Metadata Metadata
 
 	// These lists contain the common and specific entries smashed together
@@ -55,6 +55,7 @@ type ReleaseDetails struct {
 	RedTeamExercizeURL string         `yaml:"red_team_exercize_url"`
 	ReleaseManager     ReleaseManager `yaml:"release_manager"`
 	ChangeLog          []string       `yaml:"change_log"`
+	Contributors       []Contributors `yaml:"contributors"`
 }
 
 type ReleaseManager struct {
@@ -62,6 +63,12 @@ type ReleaseManager struct {
 	GithubId  string `yaml:"github_id"`
 	Company   string `yaml:"company"`
 	Summary   string `yaml:"summary"`
+}
+
+type Contributors struct {
+	Name      string `yaml:"name"`
+	GithubId  string `yaml:"github_id"`
+	Company   string `yaml:"company"`
 }
 
 // FeatureSet is a struct that represents the features.yaml file
@@ -147,7 +154,7 @@ func unmarshalData(dataName string, dataSet interface{}) {
     }
 }
 
-func readAndCompile() (data CompiledData) {
+func readAndCompileCatalog() (data CompiledCatalog) {
 	// read controls.yaml, features.yaml, threats.yaml, and metadata.yaml from dir path
 	controlsData := ControlSet{}
 	unmarshalData("controls", &controlsData)
@@ -166,7 +173,7 @@ func readAndCompile() (data CompiledData) {
 	commonThreatsData := ThreatSet{}
 	unmarshalData("common-threats", &commonThreatsData)
 
-	return CompiledData{
+	return CompiledCatalog{
 		Metadata: metadata,
 		Controls: append(commonControlsData.SpecificControls, controlsData.SpecificControls...),
 		Features: append(commonFeaturesData.SpecificFeatures, featuresData.SpecificFeatures...),

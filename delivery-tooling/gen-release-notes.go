@@ -12,10 +12,10 @@ import (
 
 // Global Variables
 var (
-	catalogTemplatePath = "templates/catalog.md"
+	releaseNotesTemplatePath = "templates/release-notes.md"
 )
 
-// mdCmd represents the md command
+// releaseNotesCmd represents the releaseNotesCmd command
 //
 // This variable is used to define the md command and its subcommands.
 // It is used in the init function to add the command to the root command.
@@ -23,17 +23,17 @@ var (
 // The PersistentPreRun and PersistentPostRun functions are used to print a divider and the logo before and after the command is executed, respectively.
 //
 // Example usage:
-//   mdCmd := &cobra.Command{
-//     Use:   "md",
-//     Short: "Generate an Omnibus Markdown file",
+//   releaseNotesCmd := &cobra.Command{
+//     Use:   "release-notes",
+//     Short: "Generate an Release Notes",
 //     Run: func(cmd *cobra.Command, args []string) {
 //       // Command logic
 //     },
 //   }
 var (
 	// baseCmd represents the base command when called without any subcommands
-	mdCmd = &cobra.Command{
-		Use: "md",
+	releaseNotesCmd = &cobra.Command{
+		Use: "release-notes",
 		Short: "",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			fmt.Print(divider)
@@ -47,7 +47,7 @@ var (
 			checkArgs()
 			initializeOutputDirectory()
 
-			outputPath, err := generateOmnibusMdFile()
+			outputPath, err := generateReleaseNotes()
 			if err != nil {
 				fmt.Println(err)
 			} else {
@@ -72,30 +72,34 @@ var (
 // Example usage:
 //   init(baseCmd)
 func init() {
-	baseCmd.AddCommand(mdCmd)
+	baseCmd.AddCommand(releaseNotesCmd)
 }
 
-// generateFileFromTemplate creates a Markdown file from a template using the provided CompiledCatalog.
+// generateReleaseNotes generates the release notes based on the provided template
 //
-// This function performs the following steps:
-// 1. Constructs the output file name using the service name and version from the CompiledCatalog.
-// 2. Creates the output file in the directory specified by the "output-dir" configuration.
-// 3. Parses the template file specified by the global catalogTemplatePath variable.
-// 4. Executes the template with the provided CompiledCatalog and writes the result to the output file.
+// This function reads the catalog data, parses the template file, and generates the release notes file.
 //
+// Parameters: None
 //
 // Returns:
-//   - outputPath: The full path of the generated Markdown file.
-//   - err: An error if any step in the process fails, nil otherwise.
+//   - outputPath: The path of the generated release notes file
+//   - err: An error if the generation fails
 //
-// The function will return an error if it fails to create the output file,
-// parse the template, or execute the template.
-func generateOmnibusMdFile() (outputPath string, err error) {
+// The function returns the path of the generated release notes file and an error if the generation fails.
+//
+// Example usage:
+//   outputPath, err := generateReleaseNotes()
+//   if err != nil {
+//     fmt.Println(err)
+//   } else {
+//     fmt.Printf("File generated successfully: %s\n", outputPath)
+//   }
+func generateReleaseNotes() (outputPath string, err error) {
 	data := readAndCompileCatalog()
 
 	serviceName := data.Metadata.ID
 	version := data.Metadata.ReleaseDetails[len(data.Metadata.ReleaseDetails)-1].Version
-	mdFileName := fmt.Sprintf("%s_%s.md", serviceName, version)
+	mdFileName := fmt.Sprintf("%s_%s_release_notes.md", serviceName, version)
 	outputPath = filepath.Join(viper.GetString("output-dir"), mdFileName)
 
 	outputFile, err := os.Create(outputPath)
@@ -105,9 +109,9 @@ func generateOmnibusMdFile() (outputPath string, err error) {
 	}
 	defer outputFile.Close()
 
-	tmpl, err := template.ParseFiles(catalogTemplatePath)
+	tmpl, err := template.ParseFiles(releaseNotesTemplatePath)
 	if err != nil {
-		err = fmt.Errorf("error parsing template file %s: %w", catalogTemplatePath, err)
+		err = fmt.Errorf("error parsing template file %s: %w", releaseNotesTemplatePath, err)
 		return
 	}
 
