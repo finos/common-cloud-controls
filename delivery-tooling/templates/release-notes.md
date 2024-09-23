@@ -22,9 +22,7 @@ Below is a list of all the changes and updates included in this release. Please 
 
 ### Contributors
 {{ range .LatestReleaseDetails.Contributors }}
-- **Name**: {{ .Name }}
-- **GitHub ID**: [{{ .GithubId }}](https://github.com/{{ .GithubId }})
-- **Company**: {{ .Company }}
+- {{ .Name }}, {{ .Company }} ([{{ .GithubId }}](https://github.com/{{ .GithubId }}))
 {{ end }}
 
 **Thank you to all the contributors for your valuable efforts and contributions to this release! The work that you all have completed is greatly appreciated!**
