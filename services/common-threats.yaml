@@ -39,24 +39,8 @@ threats:
       - T1557 # Adversary-in-the-Middle
       - T1040 # Network Sniffing
 
-  - id: CCC.TH04 # Attacker encrypts data with client-managed keys
-    title: Attacker encrypts data with client-managed keys
-    description: |
-      The service provides encryption mechanisms, but the encryption keys are
-      managed by the client. An attacker with access to the service can encrypt
-      the data, rendering it inaccessible without the decryption key they hold.
-      Additionally, an attacker may alter the encryption key management settings
-      to prevent access to data.
-    features:
-      - CCC.F01 # Encryption in Transit Enabled by Default
-      - CCC.F02 # Encryption at Rest Enabled by Default
-    mitre_attack:
-      - T1486 # Data Encrypted for Impact
-      - T1485 # Data Destruction
-      - T1070 # Indicator Removal on Host
-
   - id: CCC.TH05 # Actors in known dangerous regions intercept network activity
-    title: # Actors in known dangerous regions intercept network activity
+    title: Actors in known dangerous regions intercept network activity
     description: |
       If the service is deployed in a region with known geopolitical risks, an
       attacker in that region may attempt to access the resource by exploiting
@@ -110,6 +94,31 @@ threats:
       - CCC.F21 # Replication
       - CCC.F12 # Recovery
     mitre_technique:
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1491 # Defacement
+      - T1490 # Inhibit System Recovery
+
+  - id: CCC.TH10
+    title: Unauthorized resource replication to untrusted or external locations
+    description: |
+      An attacker could replicate objects to untrusted or external locations if replication configurations 
+      are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
+      outside the organization's trusted perimeter.
+    features:
+      - CCC.F05
+    mitre_attack: # TODO
+      - T1565 # Data Manipulation
+
+  - id: CCC.TH11
+    title: Data is lost or corrupted
+    description: |
+      Data loss or corruption can occur due to accidental deletion,
+      misconfiguration, or malicious activity.  This can result in the loss of
+      critical data, service disruption, or unauthorized access to sensitive
+      information.
+    features: []
+    mitre_attack:
       - T1485 # Data Destruction
       - T1565 # Data Manipulation
       - T1491 # Defacement

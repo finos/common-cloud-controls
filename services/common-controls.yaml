@@ -117,15 +117,13 @@ controls:
       NIST_800_53:
         - AC-3
     test_requirements:
-      01: |
-        Verify that endpoints can be blocked from public access
-      02: |
-        Verify that can be blocked from services deployed on the same cloud
-        tenant
-      03: |
-        Confirm that it's possible to prevent access from other cloud tenants,
-        even if those tenants have network connectivity to the cloud tenant
-        hosting the resources
+      tlp_red:
+        01: |
+          Verify that endpoints are blocked from public access, except for those explicitly added to an allowlist.
+        02: |
+          Confirm that services deployed within the same cloud tenant are blocked by default and only accessible to allowlisted services.
+        03: |
+          Ensure access from other cloud tenants is blocked by default, and only entities on the allowlist can access the service.
   - id: CCC.C06
     title: Prevent deployment in restricted regions
     objective: |
@@ -136,8 +134,7 @@ controls:
     control_family: Data
     threats:
       - CCC.TH05
-    nist_csf: # TODO
-    mitre_attack: # TODO
+    nist_csf: PR.DS-1
     control_mappings:
       CCM:
         - DSI-06
@@ -156,3 +153,39 @@ controls:
       03: |
         Confirm that backups and copies are not allowed to be
         stored in restricted regions or cloud availability zones.
+  - id: CCC.C07
+    title: Alert on non-human enumeration
+    control_family: Logging & Monitoring
+    objective: |
+      Ensure that logs and associated alerts are generated when non-human 
+      entities (e.g., automated processes) attempt to enumerate 
+      resources. This helps to detect and respond to potential malicious 
+      reconnaissance activities early.
+    threats:
+      - CCC.TH09
+    nist_csf: DE.AE-1
+    test_requirements:
+      tlp_green:
+        01: |
+          Simulate non-human enumeration activities (e.g., with service accounts) and verify that alerts are triggered in the logging system.
+        02: |
+          Confirm that logs are properly generated and accessible for review following non-human enumeration attempts.
+
+  - id: CCC.ObjStor.C08 # Enable multi-zone or multi-region data replication
+    title: Enable multi-zone or multi-region data replication
+    control_family: Data
+    objective: |
+      Ensure that data stored in object storage is replicated across multiple
+      zones or regions to protect against data loss due to hardware failures,
+      natural disasters, or other catastrophic events.
+    threats:
+      - CCC.TH11
+    nist_csf: PR.PT-5
+    test_requirements: # TODO # GCS-CO-6.11/12 — Can this be tested beyond reading the config?
+      tlp_green:
+        01: |
+          Verify that data stored in object storage is replicated across multiple
+          zones or regions.
+        02: |
+          Perform a failover test to confirm that data remains accessible during 
+          a simulated outage in one zone or region.
