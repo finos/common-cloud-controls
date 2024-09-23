@@ -99,5 +99,14 @@ threats:
       potential breaches of sensitive data.
     features:
       - CCC.F07 # Event Notifications
-    mitre_technique:
-      - T1057 # Process Discovery
+
+  - id: CCC.TH09
+    title: Unauthorized object replication to untrusted or external locations
+    description: |
+      An attacker could replicate objects to untrusted or external locations if replication configurations 
+      are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
+      outside the organization's trusted perimeter.
+    features:
+      - CCC.ObjStor.F05
+    mitre_attack:
+      - T1537
