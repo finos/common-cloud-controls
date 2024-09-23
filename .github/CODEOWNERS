@@ -55,6 +55,7 @@
 **/controls.md @finos/ccc-wg-security
 **/*.feature @finos/ccc-wg-security
 **/common-controls.yaml @finos/ccc-wg-security
+**/common-threats.yaml @finos/ccc-wg-security
 #
 ########
 
