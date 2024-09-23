@@ -54,7 +54,7 @@ jobs:
           path: ./delivery-tooling/artifacts/*
           if-no-files-found: error
           retention-days: 1 # Maximum Retention
-          
+
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -70,8 +70,8 @@ jobs:
         uses: actions/create-release@v1
         with:
           body_path: ./release_notes.md
-          tag_name: ${{ github.event.inputs.tag }}
-          release_name: Release ${{ github.event.inputs.tag }}
+          tag_name: ${{ github.event.inputs.tag }}-rc
+          release_name: Release ${{ github.event.inputs.tag }}-rc
           draft: false
           prerelease: true
         env:
