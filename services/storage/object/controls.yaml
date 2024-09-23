@@ -19,7 +19,6 @@ controls:
       - CCC.TH02
       - CCC.TH03
     nist_csf: PR.DS-4
-    mitre_attack: T1486
     control_mappings:
       CCM:
         - DSI-04

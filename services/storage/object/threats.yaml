@@ -4,9 +4,100 @@ common_threats:
   - CCC.TH03 # Attacker intercepts data in transit
   - CCC.TH04 # Attacker encrypts data with client-managed keys
   - CCC.TH05 # Actors in known dangerous regions attempt to access data
-  - CCC.TH06 # Accidental or malicious deletion of critical data
-  - CCC.TH07 # Corruption or deletion of access logs by malicious actors covering their tracks
-  - CCC.TH08 # Deliberate targeting of single-zone or single-region vulnerabilities
+  - CCC.TH06 # Resource exhaustion
+  - CCC.TH07 # Abuse of event notifications
+  - CCC.TH08 # Data corruption during replication
+
 threats:
-  []
-  # WIP: Only common threats have been identified so far.
+
+  - id: CCC.ObjStor.TH01
+    title: Compromised encrpytion keys
+    description: |
+      If encryption keys for object storage are compromised, attackers can
+      decrypt sensitive data or forge access tokens to retrieve stored objects.
+      This might include encryption at rest or signed URLs.
+    features:
+      - CCC.F02 # Encryption at Rest Enabled by Default
+      - CCC.F05 # Signed URLs
+    mitre_technique:
+      - T1552 # Unsecured Credentials
+      - T1556 # Modify Authentication Process
+      - T1078.004 # Valid Accounts: Cloud Accounts
+      - T1565 # Data Manipulation
+
+  - id: CCC.ObjStor.TH04 # Data exfiltration via insecure lifecycle policies
+    title: Data exfiltration via insecure lifecycle policies
+    description: |
+      Misconfigured lifecycle policies may unintentionally allow data to be
+      exfiltrated or destroyed prematurely, resulting in a loss of availability
+      and potential exposure of sensitive data.
+    features:
+      - CCC.ObjStor.F08 # Lifecycle Policies
+      - CCC.F09 # Data Replication
+      - CCC.F10 # Data Backup
+    mitre_technique:
+      - T1020 # Automated Exfiltration
+      - T1537 # Transfer Data to Cloud Account
+      - T1567 # Exfiltration Over Web Services
+      - T1048 # Exfiltration Over Alternative Protocol
+      - T1485 # Data Destruction
+
+  - id: CCC.ObjStor.TH05
+    title: Overly permissive access control policies
+    description: |
+      Inadequate access control policies on individual objects or buckets can
+      lead to sensitive data exposure, allowing unauthorized users to read or
+      modify critical data.
+    features:
+      - CCC.ObjStor.F11 # Object Level Access Control
+      - CCC.ObjStor.F07 # Storage Classes
+      - CCC.ObjStor.F01 # Storage Buckets
+    mitre_technique:
+      - T1078 # Valid Accounts
+      - T1537 # Transfer Data to Cloud Account
+      - T1567 # Exfiltration Over Web Services
+      - T1048 # Exfiltration Over Alternative Protocol
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+
+  - id: CCC.ObjStor.TH06
+    title: Data manipulation through object versioning
+    description: |
+      Attackers may manipulate object versioning to revert objects to older,
+      vulnerable versions, introducing security flaws or malicious content.
+    features:
+      - CCC.ObjStor.F09 # Object Versioning
+    mitre_technique:
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+      - T1491 # Defacement
+      - T1565 # Data Manipulation
+      - T1489 # Service Stop
+
+  - id: CCC.ObjStor.TH07
+    title: Improper enforcement of object modification locks
+    description: |
+      Attackers may exploit vulnerabilities in object modification locks to
+      delete or alter objects despite the lock being in place, leading to data
+      loss or tampering.
+    features:
+      - CCC.ObjStor.F10 # Object Modification Locks
+    mitre_technique:
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+      - T1490 # Inhibit System Recovery
+      - T1491 # Defacement
+      - T1565 # Data Manipulation
+
+  - id: CCC.ObjStor.TH08
+    title: Event notification interception
+    description: |
+      Malicious actors may exploit event notifications to monitor and intercept
+      information about sensitive operations or access patterns, leading to
+      potential breaches of sensitive data.
+    features:
+      - CCC.F07 # Event Notifications
+    mitre_technique:
+      - T1057 # Process Discovery
