@@ -16,3 +16,7 @@ release_details:
       summary: <Summary of the release and the reason for the changes.>
     change_log:
       - <Additional notes; one per PR added after release>
+    contributors:
+      - name: <Your First and Last Name>
+        github_id: <Your GitHub Id>
+        company: <Your company name>
