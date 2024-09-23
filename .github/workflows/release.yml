@@ -42,7 +42,6 @@ jobs:
           
           echo "Processed targets: $json_targets"
           echo "targets=$json_targets" >> $GITHUB_OUTPUT
-
       - name: Create Release Artifacts
         run: |
           echo "List of Build Targets: ${{ steps.process_targets.outputs.targets }}"        
@@ -90,7 +89,7 @@ jobs:
             filename=$(basename "$file")
             curl -X POST \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Content-Type: multipart/form-data" \
-              -F "asset=@$file" \
-              "${{ steps.create_release.outputs.upload_url }}?name=$filename"
+              -H "Content-Type: application/octet-stream" \
+              --data-binary @"$file" \
+              "${{ steps.create_release.outputs.upload_url }}=$filename&label=$filename"
           done
