@@ -212,6 +212,10 @@ threats:
     features:
       - CCC.F18 # Versioning
     mitre_technique:
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1489 # Service Stop
       - T1562.01 # Impair Defenses: Downgrade Attack
       - T1027 # Obfuscated Files or Information
       - T1485 # Data Destruction
