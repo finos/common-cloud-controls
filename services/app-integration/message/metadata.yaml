@@ -1,0 +1,17 @@
+title: CCC Messaging Services
+id: CCC.Message
+description: |
+  Messaging services facilitate communication between distributed applications
+  and services by enabling the exchange of messages in a reliable and scalable
+  manner.
+release_details:
+  - version: "2024.09"
+    assurance_level: None
+    threat_model_url: None
+    threat_model_author: None
+    red_team: None
+    red_team_exercise_url: None
+    release_manager:
+      name: None
+      github_id: None
+      summary: None
