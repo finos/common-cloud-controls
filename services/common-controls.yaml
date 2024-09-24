@@ -215,22 +215,21 @@ controls:
     test_requirements:
       - id: CCC.C06.TR01
         text: |
-          Verify that resources are not deployed in any restricted regions or cloud availability zones.
+          The service prevents deployment in restricted regions or cloud
+          availability zones, blocking any provisioning attempts in designated
+          areas.
         tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C06.TR02
         text: |
-          Ensure that the cloud provider's configuration management tools are used to enforce restrictions on provisioning in prohibited regions.
+          The service ensures that replication of data, backups, and disaster
+          recovery operations do not occur in restricted regions or
+          availability zones.
         tlp_levels:
-          - tlp_green
-          - tlp_amber
-          - tlp_red
-      - id: CCC.C06.TR03
-        text: |
-          Confirm that backups and copies are not allowed to be stored in restricted regions or cloud availability zones.
-        tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
@@ -248,14 +247,15 @@ controls:
     test_requirements:
       - id: CCC.C07.TR01
         text: |
-          Simulate non-human enumeration activities (e.g., with service accounts) and verify that alerts are triggered in the logging system.
+          The service generates real-time alerts whenever non-human entities
+          (e.g., automated scripts or processes) attempt to enumerate resources
+          or services.
         tlp_levels:
-          - tlp_green
-          - tlp_amber
           - tlp_red
       - id: CCC.C07.TR02
         text: |
-          Confirm that logs are properly generated and accessible for review following non-human enumeration attempts.
+          Confirm that logs are properly generated and accessible for review
+          following non-human enumeration attempts.
         tlp_levels:
           - tlp_green
           - tlp_amber
@@ -274,16 +274,16 @@ controls:
     test_requirements:
       - id: CCC.C08.TR01
         text: |
-          Verify that data stored in object storage is replicated across
-          multiple zones or regions.
+          Data is replicated across multiple availability zones or regions.
         tlp_levels:
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.ObjStor.C08.TR02
         text: |
-          Perform a failover test to confirm that data remains accessible during 
-          a simulated outage in one zone or region.
+          Admin users can verify the replication status of data across multiple
+          zones or regions, including the replication locations and data
+          synchronization status.
         tlp_levels:
           - tlp_green
           - tlp_amber
