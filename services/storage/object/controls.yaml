@@ -10,9 +10,9 @@ controls:
   - id: CCC.ObjStor.C01
     title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     objective: |
-      Prevent any requests to object storage buckets or objects using untrusted
-      KMS keys to protect against unauthorized data encryption that can impact
-      data availability and integrity.
+      Prevent any requests to object storage buckets or objects using 
+      untrusted KMS keys to protect against unauthorized data encryption 
+      that can impact data availability and integrity.
     control_family: Data
     threats:
       - CCC.TH01
@@ -30,7 +30,7 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C01.TR01
         text: |
-          The service prevents access to any object storage bucket or object
+          The service prevents access to any object storage bucket or object 
           that uses KMS keys not listed as trusted by the organization.
         tlp_levels:
           - tlp_clear
@@ -39,13 +39,15 @@ controls:
           - tlp_red
 
   - id: CCC.ObjStor.C02
-    title: Enforce uniform bucket-level access to prevent inconsistent permissions
+    title: Enforce uniform bucket-level access to prevent inconsistent 
+      permissions
     control_family: Identity and Access Management
     objective: |
-      Ensure that uniform bucket-level access is enforced across all object storage buckets. 
-      This prevents the use of ad-hoc or inconsistent object-level permissions, ensuring 
-      centralized, consistent, and secure access management in accordance with the principle 
-      of least privilege.
+      Ensure that uniform bucket-level access is enforced across all 
+      object storage buckets. This prevents the use of ad-hoc or 
+      inconsistent object-level permissions, ensuring centralized, 
+      consistent, and secure access management in accordance with the 
+      principle of least privilege.
     threats:
       - CCC.TH01
     nist_csf: PR.AC-4
@@ -61,9 +63,9 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C02.TR01
         text: |
-          Admin users can configure bucket-level permissions uniformly across
-          all buckets, ensuring that object-level permissions cannot be applied
-          without explicit authorization.
+          Admin users can configure bucket-level permissions uniformly across 
+          all buckets, ensuring that object-level permissions cannot be 
+          applied without explicit authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -72,7 +74,7 @@ controls:
     title: Prevent bucket deletion through irrevocable bucket retention policy
     control_family: Data
     objective: |
-      Ensure that object storage bucket is not deleted after creation,
+      Ensure that object storage bucket is not deleted after creation, 
       and that the preventative measure cannot be unset.
     threats:
       - CCC.TH06 # Data is lost or corrupted
@@ -99,17 +101,18 @@ controls:
     title: Objects have an effective retention policy by default
     control_family: Data
     objective: |
-      Ensure that all objects stored in the object storage system have a retention policy 
-      applied by default, preventing premature deletion or modification of objects and ensuring 
-      compliance with data retention regulations.
+      Ensure that all objects stored in the object storage system have a 
+      retention policy applied by default, preventing premature deletion 
+      or modification of objects and ensuring compliance with data retention 
+      regulations.
     threats:
       - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1
     test_requirements:
       - id: CCC.ObjStor.C05.TR01
         text: |
-          All objects stored in the object storage system automatically receive
-          a default retention policy that prevents premature deletion or
+          All objects stored in the object storage system automatically receive 
+          a default retention policy that prevents premature deletion or 
           modification.
         tlp_levels:
           - tlp_clear
@@ -118,7 +121,7 @@ controls:
           - tlp_red
       - id: CCC.ObjStor.C05.TR04
         text: |
-          Attempts to delete or modify objects that are subject to an active
+          Attempts to delete or modify objects that are subject to an active 
           retention policy are prevented.
         tlp_levels:
           - tlp_clear
@@ -130,18 +133,18 @@ controls:
     title: Versioning is enabled for all objects in the bucket
     control_family: Data
     objective: |
-      Ensure that versioning is enabled for all objects stored in the object
-      storage bucket to enable recovery of previous versions of objects in case
-      of loss or corruption.
+      Ensure that versioning is enabled for all objects stored in the object 
+      storage bucket to enable recovery of previous versions of objects in 
+      case of loss or corruption.
     threats:
       - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1
     test_requirements:
       - id: CCC.ObjStor.C06.TR01
         text: |
-          Verify that when two objects with the same name are uploaded to the bucket, 
-          the object with the same name is not overwritten and that both
-          objects are stored with unique identifiers.
+          Verify that when two objects with the same name are uploaded to the 
+          bucket, the object with the same name is not overwritten and that 
+          both objects are stored with unique identifiers.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -149,8 +152,8 @@ controls:
           - tlp_red
       - id: CCC.ObjStor.C06.TR04
         text: |
-          Previous versions of an object can be accessed and restored 
-          after an object is modified or deleted.
+          Previous versions of an object can be accessed and restored after 
+          an object is modified or deleted.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -161,9 +164,10 @@ controls:
     title: Access logs are stored in a separate bucket
     control_family: Data
     objective: |
-      Ensure that access logs for object storage buckets are stored in a separate
-      bucket to protect against unauthorized access, tampering, or deletion of
-      logs (Logbuckets are exempt from this requirement, but must be tlp_red).
+      Ensure that access logs for object storage buckets are stored in a 
+      separate bucket to protect against unauthorized access, tampering, 
+      or deletion of logs (Logbuckets are exempt from this requirement, 
+      but must be tlp_red).
     threats:
       - CCC.TH07 # Logs are Tampered With or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
@@ -171,26 +175,29 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C07.TR01
         text: |
-          Access logs for all object storage buckets are stored in a separate bucket.
+          Access logs for all object storage buckets are stored in a separate 
+          bucket.
         tlp_levels:
           - tlp_amber
           - tlp_red
 
   - id: CCC.ObjStor.08
-    title: Prevent object replication to desinations outside of defined trust perimeter
+    title: Prevent object replication to desinations outside of defined 
+      trust perimeter
     control_family: Data
     objective: |
-      Prevent replicating objects to untrusted destinations outside of defined trust perimeter. 
-      An untrusted destination is defined as a resource that exists outside of a specified 
-      trusted identity or network perimeter (i.e., a data perimeter).
+      Prevent replicating objects to untrusted destinations outside of 
+      defined trust perimeter. An untrusted destination is defined as a 
+      resource that exists outside of a specified trusted identity or network 
+      perimeter (i.e., a data perimeter).
     threats:
       - CCC.ObjStor.TH01
     nist_csf: PR.DS-4
     test_requirements:
       - id: CCC.ObjStor.C08.TR01
         text: |
-          Object replication to destinations outside of the defined trust
-          perimeter is automatically blocked, preventing replication to
+          Object replication to destinations outside of the defined trust 
+          perimeter is automatically blocked, preventing replication to 
           untrusted resources.
         tlp_levels:
           - tlp_green
