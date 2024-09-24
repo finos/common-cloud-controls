@@ -1,0 +1,21 @@
+title: CCC Application Integration
+id: CCC.AppInt
+description: |
+  Application integration services enable the connection and interoperability of
+  disparate software applications and systems to facilitate data exchange and
+  communication. These services help organizations streamline business processes,
+  improve operational efficiency, and enhance customer experiences.
+service_categories:
+  - id: CCC.Message
+    title: Messaging Services
+    description: |
+      Messaging services facilitate communication between distributed applications
+      and services by enabling the exchange of messages in a reliable and scalable
+      manner.
+    examples:
+      - AWS: 
+        - Amazon SQS (Simple Queue Service)
+      - Azure:
+        - Azure Service Bus
+      - Google Cloud:
+        - Google Cloud Pub/Sub
