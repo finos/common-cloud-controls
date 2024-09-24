@@ -45,7 +45,7 @@ features:
     title: Multi-zone Deployment
     description: |
       Provides the ability for the service to be deployed in multiple availability
-      zones within a region to increase availability and fault tolerance.
+      zones or regions to increase availability and fault tolerance.
 
   - id: CCC.F09 # Monitoring
     title: Monitoring
