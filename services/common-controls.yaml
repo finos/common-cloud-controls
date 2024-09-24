@@ -16,11 +16,11 @@ controls:
     control_family: Data
     threats:
       - CCC.TH02 # Data is intercepted in transit
-    nist_csf: PR.DS-2
+    nist_csf: PR.DS-02
     control_mappings:
       CCM:
-        - IVS-09
-        - DSI-03
+        - IVS-03
+        - IVS-07
       ISO_27001:
         - 2013 A.13.1.1
       NIST_800_53:
