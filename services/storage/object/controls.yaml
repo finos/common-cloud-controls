@@ -17,7 +17,6 @@ controls:
     threats:
       - CCC.TH01
       - CCC.TH02
-      - CCC.TH03
     nist_csf: PR.DS-4
     control_mappings:
       CCM:
@@ -68,7 +67,7 @@ controls:
       Ensure that object storage bucket is not deleted after creation,
       and that the preventative measure cannot be unset.
     threats:
-      - CCC.TH06
+      - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1
     test_requirements: # TODO
       tlp_green: # this might not be necessary for internal-only amber/red?
@@ -85,7 +84,7 @@ controls:
       applied by default, preventing premature deletion or modification of objects and ensuring 
       compliance with data retention regulations.
     threats:
-      - CCC.TH06
+      - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1
     test_requirements: # TODO
       tlp_green:
@@ -103,8 +102,7 @@ controls:
       storage bucket to enable recovery of previous versions of objects in case
       of loss or corruption.
     threats:
-      - CCC.TH04
-      - CCC.TH06
+      - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1
     test_requirements: # TODO
       tlp_green:
@@ -123,7 +121,8 @@ controls:
       bucket to protect against unauthorized access, tampering, or deletion of
       logs (Logbuckets are exempt from this requirement, but must be tlp_red).
     threats:
-      - CCC.TH07
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
     nist_csf: PR.DS-6
     test_requirements: # TODO
       tlp_green:

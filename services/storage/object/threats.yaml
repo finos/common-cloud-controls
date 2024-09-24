@@ -1,12 +1,17 @@
 common_threats:
   - CCC.TH01 # Unauthorized access through elevated privileges
-  - CCC.TH02 # Vendor-hosted keys are compromised
-  - CCC.TH03 # Attacker intercepts data in transit
-  - CCC.TH04 # Attacker encrypts data with client-managed keys
-  - CCC.TH05 # Actors in known dangerous regions attempt to access data
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH04 # Resource is replicated to untrusted or external locations
+  - CCC.TH05 # Data is corrupted during replication
   - CCC.TH06 # Resource exhaustion
-  - CCC.TH07 # Abuse of event notifications
-  - CCC.TH08 # Data corruption during replication
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Alerts are Intercepted
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # Resource Tags Are Manipulated
+  - CCC.TH14 # Older Resource Versions Are Exploited
 
 threats:
 
@@ -18,8 +23,7 @@ threats:
       and potential exposure of sensitive data.
     features:
       - CCC.ObjStor.F08 # Lifecycle Policies
-      - CCC.F09 # Data Replication
-      - CCC.F10 # Data Backup
+      - CCC.F11 # Backup
     mitre_technique:
       - T1020 # Automated Exfiltration
       - T1537 # Transfer Data to Cloud Account

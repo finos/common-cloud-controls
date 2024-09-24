@@ -6,7 +6,7 @@ common_features:
   - CCC.F05 # Signed URLs
   - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
-  - CCC.F21 # Data Replication
+  - CCC.F21 # Replication
 features:
   - id: CCC.ObjStor.F01
     title: Storage Buckets
