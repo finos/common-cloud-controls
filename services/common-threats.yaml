@@ -14,6 +14,12 @@ threats:
       - T1098 # Account Manipulation
       - T1484 # Domain or Tenant Policy Modification
       - T1546 # Event Triggered Execution
+      - T1537 # Transfer Data to Cloud Account
+      - T1567 # Exfiltration Over Web Services
+      - T1048 # Exfiltration Over Alternative Protocol
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1027 # Obfuscated Files or Information
 
   - id: CCC.TH02 # Data is intercepted in transit
     title: Data is intercepted in transit
@@ -206,4 +212,8 @@ threats:
     features:
       - CCC.F18 # Versioning
     mitre_technique:
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1489 # Service Stop
       - T1562.01 # Impair Defenses: Downgrade Attack
