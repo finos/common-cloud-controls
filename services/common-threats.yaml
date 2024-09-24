@@ -124,18 +124,18 @@ threats:
       - CCC.F09 # Monitoring
     mitre_technique:
       - T1003 # Credential Dumping
-      - T1007	# System Service Discovery
+      - T1007 # System Service Discovery
       - T1018 # Remote System Discovery
-      - T1033	# System Owner/User Discovery
+      - T1033 # System Owner/User Discovery
       - T1046 # Network Service Discovery
       - T1057 # Process Discovery
       - T1069 # Permission Groups Discovery
       - T1070 # Indicator Removal
-      - T1082	# System Information Discovery
+      - T1082 # System Information Discovery
       - T1120 # Peripheral Device Discovery
-      - T1124	# System Time Discovery
+      - T1124 # System Time Discovery
       - T1497 # Virtualization/Sandbox Evasion
-      - T1518	# Software Discovery
+      - T1518 # Software Discovery
 
   - id: CCC.TH10 # Alerts are Intercepted
     title: Alerts are Intercepted
@@ -164,8 +164,8 @@ threats:
       - CCC.F17 # Alerting
     mitre_technique:
       - T1205     # Traffic Signaling
-      - T1001.001	# Data Obfuscation: Junk Data
-      - T1491.001	# Defacement: Internal Defacement
+      - T1001.001 # Data Obfuscation: Junk Data
+      - T1491.001 # Defacement: Internal Defacement
 
   - id: CCC.TH12 # Resource constraints are exhausted
     title: Resource constraints are exhausted
