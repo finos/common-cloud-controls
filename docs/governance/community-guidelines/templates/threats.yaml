@@ -1,15 +1,6 @@
 common_threats:
   - <IDs of common threats; Omit if not applicable>
 threats:
-  - id: <category-id>.TH01
-    title: <Short name of the threat>
-    description: <Complete description of the threat>
-    features:
-      - <category-id>.F<#>
-    mitre_attack: 
-      - <Mitre ATT&CK tactic ID>
-      - <Mitre ATT&CK technique ID>
-
   - id: CCC.<category-id>.TH01
     title: <Short name of the threat>
     description: <Complete description of the threat>
