@@ -16,7 +16,7 @@
           "properties": {
             "id": {
               "type": "string",
-              "description": "Control ID in the format CCC.<Service Category Abbreviation>.C1"
+              "description": "Control ID in the format CCC.<Service Category Abbreviation>.C##"
             },
             "title": {
               "type": "string",
@@ -66,47 +66,33 @@
                   }
                 }
               },
-              "required": ["CCM", "ISO_27001", "NIST_800_53"],
               "additionalProperties": false
             },
             "test_requirements": {
-              "type": "object",
-              "properties": {
-                "tlp_green": {
-                  "type": "object",
-                  "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
                     "type": "string",
-                    "description": "TLP Green test requirement descriptions"
+                    "description": "Test requirement ID in the format CCC.<Service Category Abbreviation>.<Control ID>.TR##"
                   },
-                  "description": "A list of validation requirements for systems that intend limited disclosure, restricted to the community."
+                  "text": {
+                    "type": "string",
+                    "description": "Detailed description of the test requirement"
+                  },
+                  "tlp_levels": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["tlp_clear", "tlp_green", "tlp_amber", "tlp_red"],
+                      "description": "TLP level indicating the disclosure level for the test"
+                    }
+                  }
                 },
-                "tlp_amber": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string",
-                    "description": "TLP Amber test requirement descriptions"
-                  },
-                  "description": "A list of validation requirements for systems that intend limited disclosure, recipients can only spread this on a need-to-know basis within their organization and its clients."
-                },
-                "tlp_red": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string",
-                    "description": "TLP Red test requirement descriptions"
-                  },
-                  "description": "A list of validation requirements for systems intended for eyes and ears of individual recipients only, no further disclosure."
-                },
-                "tlp_clear": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string",
-                    "description": "TLP Clear test requirement descriptions"
-                  },
-                  "description": "A list of validation requirements for systems containing data that recipients can spread to the world, there is no limit on disclosure."
-                }
-              },
-              "required": ["tlp_green", "tlp_amber", "tlp_red", "tlp_clear"],
-              "additionalProperties": false
+                "required": ["id", "text", "tlp_levels"],
+                "additionalProperties": false
+              }
             }
           },
           "required": ["id", "title", "objective", "control_family", "nist_csf", "threats", "test_requirements"],

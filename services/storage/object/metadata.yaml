@@ -22,3 +22,7 @@ release_details:
     change_log:
       - "Test"
       - "Test"
+    contributors:
+      - name: Damien Burks
+        github_id: damienjburks
+        company: Citi
