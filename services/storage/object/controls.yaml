@@ -50,6 +50,7 @@ controls:
       principle of least privilege.
     threats:
       - CCC.TH01
+      - CCC.ObjStor.TH02 # Overly permissive access control policies
     nist_csf: PR.AC-4
     control_mappings:
       CCM:
@@ -191,7 +192,7 @@ controls:
       resource that exists outside of a specified trusted identity or network 
       perimeter (i.e., a data perimeter).
     threats:
-      - CCC.ObjStor.TH01
+      - CCC.ObjStor.TH01 # Data exfiltration via insecure lifecycle policies
     nist_csf: PR.DS-4
     test_requirements:
       - id: CCC.ObjStor.C08.TR01

@@ -32,27 +32,7 @@ threats:
       - T1048 # Exfiltration Over Alternative Protocol
       - T1485 # Data Destruction
 
-  - id: CCC.ObjStor.TH02 # Overly permissive access control policies
-    title: Overly permissive access control policies
-    description: |
-      Inadequate access control policies on individual objects or buckets can
-      lead to sensitive data exposure, allowing unauthorized users to read or
-      modify critical data.
-    features:
-      - CCC.ObjStor.F11 # Object Level Access Control
-      - CCC.ObjStor.F07 # Storage Classes
-      - CCC.ObjStor.F01 # Storage Buckets
-    mitre_technique:
-      - T1078 # Valid Accounts
-      - T1537 # Transfer Data to Cloud Account
-      - T1567 # Exfiltration Over Web Services
-      - T1048 # Exfiltration Over Alternative Protocol
-      - T1485 # Data Destruction
-      - T1565 # Data Manipulation
-      - T1027 # Obfuscated Files or Information
-      - T1485 # Data Destruction
-
-  - id: CCC.ObjStor.TH03 # Improper enforcement of object modification locks
+  - id: CCC.ObjStor.TH02 # Improper enforcement of object modification locks
     title: Improper enforcement of object modification locks
     description: |
       Attackers may exploit vulnerabilities in object modification locks to
