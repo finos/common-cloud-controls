@@ -131,33 +131,22 @@ controls:
       - CCC.TH01 # Access control is misconfigured
     nist_csf: DE.AE-3
     control_mappings:
-      CCM:
-        - DSI-06
-        - STA-04
-      ISO_27001:
-        - 2013 A.12.4.1
-      NIST_800_53:
-        - AU-2
-        - AU-3
+      CCM: []
+      ISO_27001: []
+      NIST_800_53: []
+    test_requirements:
     test_requirements:
       - id: CCC.C04.TR01
         text: |
-          Verify that all access attempts are logged.
+          The service logs all access attempts, including successful and failed login attempts.
         tlp_levels:
-          - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C04.TR02
         text: |
-          Ensure that all changes to configurations are logged.
+          The service logs all changes to configuration, including administrative actions and modifications to user roles or privileges.
         tlp_levels:
-          - tlp_green
-          - tlp_amber
-          - tlp_red
-      - id: CCC.C04.TR03
-        text: |
-          Confirm that logs are protected against unauthorized access and tampering.
-        tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
@@ -179,22 +168,27 @@ controls:
     test_requirements:
       - id: CCC.C05.TR01
         text: |
-          Verify that endpoints are blocked from public access, except for those explicitly added to an allowlist.
+          The service blocks access to sensitive resources and admin access
+          from untrusted sources, including unauthorized IP addresses, domains,
+          or networks that are not included in a pre-approved allowlist.
         tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C05.TR02
         text: |
-          Confirm that services deployed within the same cloud tenant are blocked by default and only accessible to allowlisted services.
+          The service logs all access attempts from untrusted entities,
+          including failed connection attempts.
         tlp_levels:
-          - tlp_green
           - tlp_amber
           - tlp_red
-      - id: CCC.C05.TR03
+      - id: CCC.C05.TR04
         text: |
-          Ensure access from other cloud tenants is blocked by default, and only entities on the allowlist can access the service.
+          The service prevents unauthorized cross-tenant access, ensuring that
+          only allowlisted services from other tenants can access resources.
         tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
