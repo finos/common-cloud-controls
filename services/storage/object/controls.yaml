@@ -27,13 +27,17 @@ controls:
       NIST_800_53:
         - CP-6
         - CP-9
-    test_requirements: # TODO
-      tlp_red:
-        01: |
-          Verify that access policies for cloud storage buckets and objects
-          prevent requests with untrusted KMS keys. In this case, an untrusted
-          KMS key is one that is not specified as trusted by the cloud storage
-          bucket owner.
+    test_requirements:
+      - id: CCC.ObjStor.C01.TR01
+        text: |
+          The service prevents access to any object storage bucket or object
+          that uses KMS keys not listed as trusted by the organization.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+
   - id: CCC.ObjStor.C02
     title: Enforce uniform bucket-level access to prevent inconsistent permissions
     control_family: Identity and Access Management
@@ -54,12 +58,16 @@ controls:
       NIST_800_53:
         - AC-6
         - AC-2
-    test_requirements: # TODO
-      tlp_green:
-        01: |
-          ACL based access to the bucket is prevented.
-        02: |
-          Access to the bucket is controlled through IAM policies only.
+    test_requirements:
+      - id: CCC.ObjStor.C02.TR01
+        text: |
+          Admin users can configure bucket-level permissions uniformly across
+          all buckets, ensuring that object-level permissions cannot be applied
+          without explicit authorization.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+
   - id: CCC.ObjStor.C03
     title: Prevent bucket deletion through irrevocable bucket retention policy
     control_family: Data
@@ -69,12 +77,23 @@ controls:
     threats:
       - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1
-    test_requirements: # TODO
-      tlp_green: # this might not be necessary for internal-only amber/red?
-        01: |
-          Verify that the bucket cannot be deleted as long as the retention policy is in effect.
-        02: |
-          Confirm that the bucket retention policy cannot be modified or unset.
+    test_requirements:
+      - id: CCC.ObjStor.C03.TR01
+        text: |
+          Object storage buckets cannot be deleted after creation.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.ObjStor.C03.TR02
+        text: |
+          Retention policy for object storage buckets cannot be unset.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
 
   - id: CCC.ObjStor.C05
     title: Objects have an effective retention policy by default
@@ -86,14 +105,27 @@ controls:
     threats:
       - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1
-    test_requirements: # TODO
-      tlp_green:
-        01: |
-          Verify that any new objects stored in the bucket automatically inherit a default retention policy.
-        02: |
-          Attempt to modify or remove the retention policy on an object and confirm that it cannot be altered or deleted without explicit authorization.
-        03: |
-          Confirm that the retention policy is enforced and prevents premature deletion of objects within the defined retention period.
+    test_requirements:
+      - id: CCC.ObjStor.C05.TR01
+        text: |
+          All objects stored in the object storage system automatically receive
+          a default retention policy that prevents premature deletion or
+          modification.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.ObjStor.C05.TR04
+        text: |
+          Attempts to delete or modify objects that are subject to an active
+          retention policy are prevented.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+
   - id: CCC.ObjStor.C06
     title: Versioning is enabled for all objects in the bucket
     control_family: Data
@@ -104,15 +136,27 @@ controls:
     threats:
       - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1
-    test_requirements: # TODO
-      tlp_green:
-        01: |
+    test_requirements:
+      - id: CCC.ObjStor.C06.TR01
+        text: |
           Verify that when two objects with the same name are uploaded to the bucket, 
           the object with the same name is not overwritten and that both
           objects are stored with unique identifiers.
-        02: |
-          Verify that previous versions of an object can be accessed and restored 
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.ObjStor.C06.TR04
+        text: |
+          Previous versions of an object can be accessed and restored 
           after an object is modified or deleted.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+
   - id: CCC.ObjStor.C07
     title: Access logs are stored in a separate bucket
     control_family: Data
@@ -124,10 +168,14 @@ controls:
       - CCC.TH07 # Logs are Tampered With or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
     nist_csf: PR.DS-6
-    test_requirements: # TODO
-      tlp_green:
-        01: | # TODO: This could become recursive if we include the logbucket in the controlled architecure... unless we have that one set to TLP Clear, no logging needed?
-          Access logs for object storage buckets are stored in a separate bucket.
+    test_requirements:
+      - id: CCC.ObjStor.C07.TR01
+        text: |
+          Access logs for all object storage buckets are stored in a separate bucket.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+
   - id: CCC.ObjStor.08
     title: Prevent object replication to desinations outside of defined trust perimeter
     control_family: Data
@@ -138,7 +186,13 @@ controls:
     threats:
       - CCC.ObjStor.TH01
     nist_csf: PR.DS-4
-    test_requirements: # TODO
-      tlp_green:
-        CCC.OS.C9.TR01: |
-          Verify that object replication to destinations outside of the defined trust perimeter is prevented.
+    test_requirements:
+      - id: CCC.ObjStor.C08.TR01
+        text: |
+          Object replication to destinations outside of the defined trust
+          perimeter is automatically blocked, preventing replication to
+          untrusted resources.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
