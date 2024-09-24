@@ -1,7 +1,7 @@
 features:
 
   - id: CCC.F01 # Encryption in Transit Enabled by Default
-    title: # Encryption in Transit Enabled by Default
+    title: Encryption in Transit Enabled by Default
     description: |
       Provides default encryption of data in transit through SSL or TLS.
 
