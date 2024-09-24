@@ -11,7 +11,9 @@ threats:
       - CCC.GenAI.F16 # Structured Prompts
       - CCC.GenAI.F20 # Custom Template Prompts
     mitre_technique:
-      - TA0013 #
+      - T1659 # Content Injection
+      - T1055 # Process Injection
+      - T1221 # Template Injection
     threat_mappings:
       owasp:
         - "LLM01: Prompt Injection"
@@ -24,8 +26,7 @@ threats:
     features:
       - CCC.GenAI.F22 # Data Control
       - CCC.GenAI.F23 # Data Storage
-    mitre_technique:
-      - x
+    mitre_technique: []
     threat_mappings:
       owasp:
         - "LLM06: Sensitive Information Disclosure"
@@ -125,7 +126,6 @@ threats:
     threat_mappings:
       owasp:
           - "LLM06: Sensitive Information Disclosure"
-
   - id: CCC.GenAI.TH10
     title: Compliance Violations
     description: |
@@ -135,7 +135,6 @@ threats:
       - CCC.GenAI.F24 # Data Residency
       - CCC.GenAI.F25 # Content Moderation
     mitre_technique: []
-
   - id: CCC.GenAI.TH11
     title: Cost Exploitation
     description: |
