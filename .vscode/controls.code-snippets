@@ -6,7 +6,7 @@
 			"common_controls:",
 			"  - <IDs of common controls; Omit if not applicable>",
 			"controls:",
-			"  - id: CCC.<Service Category Abbreviation>.C1",
+			"  - id: CCC.<Service Category Abbreviation>.C#",
 			"    title: <Name of the control>",
 			"    objective: <1-3 sentence description of the control objective>",
 			"    control_family: <Control Family>",
