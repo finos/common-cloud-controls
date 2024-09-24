@@ -27,14 +27,34 @@ controls:
         - SC-8
         - SC-13
     test_requirements:
-      01: |
-        All supported network data protocols must be running on secure channels
-      02: |
-        All clear text channels should be disabled
-      03: |
-        The cipher suite implemented for ensuring the integrity and
-        confidentiality of data should conform with the latest suggested cipher
-        suites
+      - id: CCC.C01.TR01
+        text: |
+          The service enforces the use of secure transport protocols for all
+          network communications (e.g., TLS 1.2 or higher).
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C01.TR02
+        text: |
+          The service automatically redirects incoming unencrypted HTTP
+          requests to HTTPS.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C01.TR03
+        text: |
+          The service rejects or blocks any attempts to establish outgoing
+          connections using outdated or insecure protocols (e.g., SSL, TLS 1.0,
+          or TLS 1.1).
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
 
   - id: CCC.C02 # Ensure data encryption at rest for all stored data
     title: Ensure data encryption at rest for all stored data
@@ -54,14 +74,27 @@ controls:
       NIST_800_53:
         - SC-28
     test_requirements:
-      01: |
-        Verify that stored data is encrypted using industry-standard algorithms
-      02: |
-        Ensure that encryption keys are managed securely and rotated
-        periodically
-      03: |
-        Confirm that decryption is only possible through authorized access
-        mechanisms
+      - id: CCC.C02.TR01
+        text: |
+          Verify that stored data is encrypted using industry-standard algorithms.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C02.TR02
+        text: |
+          Ensure that encryption keys are managed securely and rotated periodically.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C02.TR03
+        text: |
+          Confirm that decryption is only possible through authorized access mechanisms.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
 
   - id: CCC.C03 # Implement multi-factor authentication (MFA) for access
     title: Implement multi-factor authentication (MFA) for access
@@ -82,13 +115,27 @@ controls:
       NIST_800_53:
         - IA-2
     test_requirements:
-      01: |
-        Verify that MFA is enforced for all access attempts
-      02: |
-        Ensure that MFA is required for all administrative access to the
-        management interface
-      03: |
-        Confirm that users are unable to access without completing MFA
+      - id: CCC.C03.TR01
+        text: |
+          Verify that MFA is enforced for all access attempts.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C03.TR02
+        text: |
+          Ensure that MFA is required for all administrative access to the management interface.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C03.TR03
+        text: |
+          Confirm that users are unable to access without completing MFA.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
 
   - id: CCC.C04 # Log all access and changes
     title: Log all access and changes
@@ -109,13 +156,27 @@ controls:
         - AU-2
         - AU-3
     test_requirements:
-      01: |
-        Verify that all access attempts are logged
-      02: |
-        Ensure that all changes to configurations are logged
-      03: |
-        Confirm that logs are protected against unauthorized access and
-        tampering
+      - id: CCC.C04.TR01
+        text: |
+          Verify that all access attempts are logged.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C04.TR02
+        text: |
+          Ensure that all changes to configurations are logged.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C04.TR03
+        text: |
+          Confirm that logs are protected against unauthorized access and tampering.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
 
   - id: CCC.C05 # Prevent access from untrusted entities
     title: Prevent access from untrusted entities
@@ -132,13 +193,27 @@ controls:
       NIST_800_53:
         - AC-3
     test_requirements:
-      tlp_red:
-        01: |
+      - id: CCC.C05.TR01
+        text: |
           Verify that endpoints are blocked from public access, except for those explicitly added to an allowlist.
-        02: |
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C05.TR02
+        text: |
           Confirm that services deployed within the same cloud tenant are blocked by default and only accessible to allowlisted services.
-        03: |
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C05.TR03
+        text: |
           Ensure access from other cloud tenants is blocked by default, and only entities on the allowlist can access the service.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
 
   - id: CCC.C06 # Prevent deployment in restricted regions
     title: Prevent deployment in restricted regions
@@ -160,15 +235,27 @@ controls:
       NIST_800_53:
         - AC-6
     test_requirements:
-      01: |
-        Verify that resources are not deployed in any
-        restricted regions or cloud availability zones.
-      02: |
-        Ensure that the cloud provider's configuration management tools are
-        used to enforce restrictions on provisioning in prohibited regions.
-      03: |
-        Confirm that backups and copies are not allowed to be
-        stored in restricted regions or cloud availability zones.
+      - id: CCC.C06.TR01
+        text: |
+          Verify that resources are not deployed in any restricted regions or cloud availability zones.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C06.TR02
+        text: |
+          Ensure that the cloud provider's configuration management tools are used to enforce restrictions on provisioning in prohibited regions.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C06.TR03
+        text: |
+          Confirm that backups and copies are not allowed to be stored in restricted regions or cloud availability zones.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
 
   - id: CCC.C07 # Alert on non-human enumeration
     title: Alert on non-human enumeration
@@ -181,11 +268,20 @@ controls:
     threats: []
     nist_csf: DE.AE-1
     test_requirements:
-      tlp_green:
-        01: |
+      - id: CCC.C07.TR01
+        text: |
           Simulate non-human enumeration activities (e.g., with service accounts) and verify that alerts are triggered in the logging system.
-        02: |
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C07.TR02
+        text: |
           Confirm that logs are properly generated and accessible for review following non-human enumeration attempts.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
 
   - id: CCC.C08 # Enable multi-zone or multi-region data replication
     title: Enable multi-zone or multi-region data replication
