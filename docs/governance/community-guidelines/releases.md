@@ -41,7 +41,7 @@ Additionally, labels can flag issues specifically targeted for events (e.g., OSF
 
 ### Pull Request Validation
 
-1. **Submission:** A contributor raises a Pull Request (PR) against the CCC repository, proposing changes to the catalogs and `metadata.yaml`.
+1. **Submission:** A contributor raises a Pull Request (PR) against the CCC repository, proposing changes to the catalogs and `metadata.yaml`. All applicable details should be added within the `release_details` object, including the name of the release manager who will oversee the next steps upon merge.
 2. **Working Group Review:**
    - The [Security WG] reviews the PR to ensure that all the required fields have been populated correctly and the controls and threat catalogs are ready for release.
    - The [Taxonomy WG] reviews the PR to ensure that all the required fields have been populated correctly and the features are ready for release.
