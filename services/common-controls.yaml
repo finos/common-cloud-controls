@@ -135,7 +135,6 @@ controls:
       ISO_27001: []
       NIST_800_53: []
     test_requirements:
-    test_requirements:
       - id: CCC.C04.TR01
         text: |
           The service logs all access attempts, including successful and failed login attempts.
