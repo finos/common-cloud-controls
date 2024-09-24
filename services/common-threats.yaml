@@ -50,7 +50,7 @@ threats:
       are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
       outside the organization's trusted perimeter.
     features:
-      - CCC.F05 # Signed URLs
+      - CCC.F17 # Resource Replication
     mitre_technique:
       - T1565 # Data Manipulation
 
