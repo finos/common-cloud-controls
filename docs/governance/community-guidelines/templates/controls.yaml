@@ -17,11 +17,11 @@ controls:
       NIST_800_53:
         - <NIST 800-53 control IDs>
     test_requirements:
-      tlp_green:
-        <##>: <Test requirement descriptions>
-      tlp_amber:
-        <##>: <Test requirement descriptions>
-      tlp_red:
-        <##>: <Test requirement descriptions>
-      tlp_clear:
-        <##>: <Test requirement descriptions>
+      - id: CCC.<Service Category Abbreviation>.C#.TR##
+        text: |
+          <REQUIREMENT TEXT>
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red

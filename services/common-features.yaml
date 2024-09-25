@@ -1,97 +1,120 @@
 features:
-  - id: CCC.F01
+
+  - id: CCC.F01 # Encryption in Transit Enabled by Default
     title: Encryption in Transit Enabled by Default
     description: |
       Provides default encryption of data in transit through SSL or TLS.
-  - id: CCC.F02
+
+  - id: CCC.F02 # Encryption at Rest Enabled by Default
     title: Encryption at Rest Enabled by Default
     description: |
       Provides default encryption of data before storage, with the option for
       clients to maintain control over the encryption keys.
-  - id: CCC.F03
+
+  - id: CCC.F03 # Access/Activity Logs
     title: Access/Activity Logs
     description: |
       Provides users with the ability to track all requests made to or 
       activities performed on resources for audit purposes.
-  - id: CCC.F04
+
+  - id: CCC.F04 # Transaction Rate Limits
     title: Transaction Rate Limits
     description: |
       Allows the setting of a threshold where industry-standard throughput is
       achieved up to the specified rate limit.
-  - id: CCC.F05
+
+  - id: CCC.F05 # Signed URLs
     title: Signed URLs
     description: |
       Provides the ability to grant temporary or restricted access
       to a resource through a custom URL that contains authentication information.
-  - id: CCC.F06
+
+  - id: CCC.F06 # Identity Based Access Control
     title: Identity Based Access Control
     description: |
       Provides the ability to determine access to resources based on
       attributes associated with a user identity.
-  - id: CCC.F07
+
+  - id: CCC.F07 # Event Notifications
     title: Event Notifications
     description: |
       Publishes events for creation, deletion, and modification of
       objects in a way that enables users to trigger actions in response.
-  - id: CCC.F08
+
+  - id: CCC.F08 # Multi-zone Deployment
     title: Multi-zone Deployment
     description: |
       Provides the ability for the service to be deployed in multiple availability
-      zones within a region to increase availability and fault tolerance.
-  - id: CCC.F09
+      zones or regions to increase availability and fault tolerance.
+
+  - id: CCC.F09 # Monitoring
     title: Monitoring
     description: |
       Provides the ability to continuously observe, track, and analyze
-      the performance, availability, and health of the service resources or applications.
-  - id: CCC.F10
+      the performance, availability, and health of the service resources or
+      applications.
+
+  - id: CCC.F10 # Logging
     title: Logging
     description: |
-      Provides the ability to transmit system events, application activities, and/or
-      user interactions to a logging service
-  - id: CCC.F11
+      Provides the ability to transmit system events, application activities,
+      and/or user interactions to a logging service
+
+  - id: CCC.F11 # Backup
     title: Backup
     description: |
-      Provides the ability to create copies of associated data or configurations in the form of automated backups,
-      snapshot-based backups, and/or incremental backups.
-  - id: CCC.F12
+      Provides the ability to create copies of associated data or
+      configurations in the form of automated backups, snapshot-based backups,
+      and/or incremental backups.
+
+  - id: CCC.F12 # Recovery
     title: Recovery
     description: |
       Provides the ability to restore data, a system, or an application to a functional state
       after an incident such as data loss, corruption or a disaster.
-  - id: CCC.F13
+
+  - id: CCC.F13 # Infrastructure as Code
     title: Infrastructure as Code
     description: |
       Allows for managing and provisioning service resources through machine-readable configuration files, such as templates.
-  - id: CCC.F14
+
+  - id: CCC.F14 # API Access
     title: API Access
     description: |
       Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
-  - id: CCC.F15
+
+  - id: CCC.F15 # Cost Management
     title: Cost Management
     description: |
       Provides the ability to filter spending and to detect cost anomalies for the service.
-  - id: CCC.F16
+
+  - id: CCC.F16 # Budgeting
     title: Budgeting
     description: |
       Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
-  - id: CCC.F17
+
+  - id: CCC.F17 # Alerting
     title: Alerting
     description: |
       Provides the ability to set an alarm based on performance metrics, logs, events or spending thresholds of the service.
-  - id: CCC.F18
+
+  - id: CCC.F18 # Versioning
     title: Versioning
     description: |
       Provides the ability to maintain multiple versions of the same resource.
-  - id: CCC.F19
+
+  - id: CCC.F19 # On-Demand Scaling
     title: On-Demand Scaling
     description: |
       Provide scaling of resources based on demand.
-  - id: CCC.F20
+
+  - id: CCC.F20 # Tagging
     title: Tagging
     description: |
       Provide the ability to tag a resource to effectively manage and gain insights of the resource.
-  - id: CCC.F21
-    title: Data Replication
+
+  - id: CCC.F21 # Replication
+    title: Replication
     description: |
-      Provides the ability to copy data to multiple locations to ensure data
+      Provides the ability to copy data or resource to multiple locations to ensure
       availability and durability.
