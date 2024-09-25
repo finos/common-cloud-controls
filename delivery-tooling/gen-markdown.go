@@ -17,7 +17,7 @@ var (
 const cssStyle = `<style>
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  margin: 0.5in; /* Reduced from 1in to 0.5in */
+  margin: 0.25in; /* Further reduced to 0.25in */
 }
 h1, h2, h3 {
   color: #2E86C1;
@@ -26,7 +26,7 @@ p {
   line-height: 1.6;
 }
 @page {
-  margin: 0.5in; /* Set page margins to match body margins */
+  margin: 0.25in; /* Match body margin */
 }
 </style>
 `
