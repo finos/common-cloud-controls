@@ -1,0 +1,12 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 1in;
+}
+h1,
+h2,
+h3 {
+  color: #2e86c1;
+}
+p {
+  line-height: 1.6;
+}

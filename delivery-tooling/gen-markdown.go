@@ -14,6 +14,19 @@ import (
 var (
 	catalogTemplatePath = "templates/catalog.md"
 )
+const cssStyle = `<style>
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 1in;
+}
+h1, h2, h3 {
+  color: #2E86C1;
+}
+p {
+  line-height: 1.6;
+}
+</style>
+`
 
 // mdCmd represents the md command
 //
@@ -104,6 +117,13 @@ func generateOmnibusMdFile() (outputPath string, err error) {
 		return
 	}
 	defer outputFile.Close()
+
+	// Write the CSS to the file first
+    _, err = outputFile.WriteString(cssStyle)
+    if err != nil {
+        err = fmt.Errorf("error writing CSS to file %s: %w", outputPath, err)
+        return
+    }
 
 	tmpl, err := template.ParseFiles(catalogTemplatePath)
 	if err != nil {
