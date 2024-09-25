@@ -1,0 +1,198 @@
+common_controls:
+  - CCC.C01  # Prevent unencrypted requests
+  - CCC.C03  # Implement multi-factor authentication (MFA) for access
+  - CCC.C04  # Log all access and changes
+  - CCC.C05  # Prevent access from untrusted entities
+  - CCC.C06  # Prevent deployment in restricted regions
+
+controls:
+  - id: CCC.VPC.C01
+    title: Skip Default Network Creation
+    objective: |
+      Prevent the automatic creation of default virtual networks and related resources during cloud project initialization to avoid insecure default configurations and enforce custom network policies.
+    control_family: Network Security
+    threats:
+      - CCC.VPC.TH01
+      - CCC.TH01  # Access control is misconfigured (common threat)
+    nist_csf: PR.AC-5
+    control_mappings:
+      CCM:
+        - TVM-02
+      ISO_27001:
+        - 2013 A.12.3.1
+      NIST_800_53:
+        - SC-7
+    test_requirements:
+      - id: CCC.VPC.C01.TR01
+        text: |
+          Verify that default networks are not automatically created upon project initialization.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C01.TR02
+        text: |
+          Confirm that only custom networks with appropriate security controls are in place.
+        tlp_levels:
+          - tlp_red
+
+  - id: CCC.VPC.C02
+    title: Limit External IP Addresses for Virtual Machines
+    objective: |
+      Restrict the assignment of external (public) IP addresses to virtual machines to reduce exposure to the public internet and minimize attack surfaces.
+    control_family: Network Security
+    threats:
+      - CCC.VPC.TH02
+      - CCC.TH02  # Data is intercepted in transit (common threat)
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM:
+        - SEF-05
+      ISO_27001:
+        - 2013 A.13.1.1
+      NIST_800_53:
+        - AC-4
+    test_requirements:
+      - id: CCC.VPC.C02.TR01
+        text: |
+          Verify that policies are in place to prevent unauthorized assignment of external IPs to virtual machines containing sensitive data.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C02.TR02
+        text: |
+          Ensure that external IP assignments are approved and monitored for virtual machines without sensitive data.
+        tlp_levels:
+          - tlp_green
+
+  - id: CCC.VPC.C03
+    title: Restrict IP Forwarding on Virtual Machines
+    objective: |
+      Control the use of IP forwarding on virtual machines to prevent unauthorized network traffic routing and potential security risks.
+    control_family: Network Security
+    threats:
+      - CCC.VPC.TH03
+    nist_csf: PR.AC-5
+    control_mappings:
+      CCM:
+        - SEF-05
+      ISO_27001:
+        - 2013 A.13.1.1
+      NIST_800_53:
+        - SC-7
+    test_requirements:
+      - id: CCC.VPC.C03.TR01
+        text: |
+          Verify that IP forwarding is disabled on all virtual machines containing sensitive data.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C03.TR02
+        text: |
+          Attempt to enable IP forwarding on a sensitive VM and confirm that it is denied.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C03.TR03
+        text: |
+          Confirm that IP forwarding is only enabled on virtual machines without sensitive data and with a justified operational need.
+        tlp_levels:
+          - tlp_green
+      - id: CCC.VPC.C03.TR04
+        text: |
+          Review and document the instances where IP forwarding is enabled under TLP Green classification.
+        tlp_levels:
+          - tlp_green
+
+  - id: CCC.VPC.C04
+    title: Restrict Public IP Access to ML Development Environments
+    objective: |
+      Prevent public IP access to Machine Learning (ML) development environments (e.g., ML notebooks) to reduce exposure to the internet and enhance security.
+    control_family: Network Security
+    threats:
+      - CCC.VPC.TH04
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM:
+        - SEF-05
+      ISO_27001:
+        - 2013 A.13.1.1
+      NIST_800_53:
+        - SC-7
+    test_requirements:
+      - id: CCC.VPC.C04.TR01
+        text: |
+          Verify that ML development environments containing sensitive data cannot be accessed via public IP addresses.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C04.TR02
+        text: |
+          Attempt to access an ML notebook via a public IP and confirm that access is denied.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C04.TR03
+        text: |
+          Ensure that any ML development environments without sensitive data requiring public access are approved and have appropriate security controls.
+        tlp_levels:
+          - tlp_green
+
+  - id: CCC.VPC.C05
+    title: Restrict Virtual Networks for ML Development Environments
+    objective: |
+      Limit the virtual networks that can be used when creating new ML development environment instances to ensure they are deployed within approved and secure network environments.
+    control_family: Network Security
+    threats:
+      - CCC.VPC.TH05
+      - CCC.TH01  # Access control is misconfigured (common threat)
+    nist_csf: PR.AC-4
+    control_mappings:
+      CCM:
+        - IAM-12
+      ISO_27001:
+        - 2013 A.9.1.2
+      NIST_800_53:
+        - AC-6
+    test_requirements:
+      - id: CCC.VPC.C05.TR01
+        text: |
+          Verify that ML development environments containing sensitive data can only be deployed in approved virtual networks with appropriate security controls.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C05.TR02
+        text: |
+          Attempt to deploy an ML development environment in an unapproved network and confirm that it is denied.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C05.TR03
+        text: |
+          Ensure that ML development environments without sensitive data are deployed in networks that meet organizational security standards.
+        tlp_levels:
+          - tlp_green
+
+  - id: CCC.VPC.C06
+    title: Disable Nested Virtualization on Virtual Machines
+    objective: |
+      Disable hardware-accelerated nested virtualization on virtual machines to prevent potential security risks associated with nested environments.
+    control_family: Virtualization Security
+    threats:
+      - CCC.VPC.TH06
+      - CCC.TH06  # Data is lost or corrupted (common threat)
+    nist_csf: PR.DS-7
+    control_mappings:
+      CCM:
+        - IVS-08
+      ISO_27001:
+        - 2013 A.12.6.2
+      NIST_800_53:
+        - SC-7
+    test_requirements:
+      - id: CCC.VPC.C06.TR01
+        text: |
+          Verify that nested virtualization cannot be enabled on virtual machines containing sensitive data.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C06.TR02
+        text: |
+          Attempt to enable nested virtualization on a sensitive VM and confirm that it is denied.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C06.TR03
+        text: |
+          For virtual machines without sensitive data, ensure that nested virtualization is only enabled when necessary and with appropriate security measures.
+        tlp_levels:
+          - tlp_green
