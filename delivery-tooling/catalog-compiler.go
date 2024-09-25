@@ -99,7 +99,7 @@ type Threat struct {
 	Title       string   `yaml:"title"`
 	Description string   `yaml:"description"`
 	Features    []string `yaml:"features"`
-	MITRE       []string `yaml:"mitre_attack"`
+	MITRETechnique       []string `yaml:"mitre_technique"`
 }
 
 func formatList(items []string) string {

@@ -104,38 +104,56 @@ func init() {
 // The function will return an error if it fails to create the output file,
 // parse the template, or execute the template.
 func generateOmnibusMdFile() (outputPath string, err error) {
-	data := readAndCompileCatalog()
+    data := readAndCompileCatalog()
 
-	serviceName := data.Metadata.ID
-	version := data.Metadata.ReleaseDetails[len(data.Metadata.ReleaseDetails)-1].Version
-	mdFileName := fmt.Sprintf("%s_%s.md", serviceName, version)
-	outputPath = filepath.Join(viper.GetString("output-dir"), mdFileName)
+    serviceName := data.Metadata.ID
+    version := data.Metadata.ReleaseDetails[len(data.Metadata.ReleaseDetails)-1].Version
+    mdFileName := fmt.Sprintf("%s_%s.md", serviceName, version)
+    outputPath = filepath.Join(viper.GetString("output-dir"), mdFileName)
 
-	outputFile, err := os.Create(outputPath)
-	if err != nil {
-		err = fmt.Errorf("error creating output file %s: %w", outputPath, err)
-		return
-	}
-	defer outputFile.Close()
+    outputFile, err := os.Create(outputPath)
+    if err != nil {
+        return "", fmt.Errorf("error creating output file %s: %w", outputPath, err)
+    }
+    defer outputFile.Close()
 
-	// Write the CSS to the file first
+    // Write the CSS to the file first
     _, err = outputFile.WriteString(cssStyle)
     if err != nil {
-        err = fmt.Errorf("error writing CSS to file %s: %w", outputPath, err)
-        return
+        return "", fmt.Errorf("error writing CSS to file %s: %w", outputPath, err)
     }
 
-	tmpl, err := template.ParseFiles(catalogTemplatePath)
-	if err != nil {
-		err = fmt.Errorf("error parsing template file %s: %w", catalogTemplatePath, err)
-		return
-	}
+    // Read SVGs from folder
+    svgFolder := "./logos" // Adjust this path as needed
+    svgs, err := readSVGsFromFolder(svgFolder)
+    if err != nil {
+        return "", fmt.Errorf("error reading SVGs from folder: %w", err)
+    }
 
-	err = tmpl.Execute(outputFile, data)
-	if err != nil {
-		err = fmt.Errorf("error executing template for file %s: %w", outputPath, err)
-		return
-	}
+    // Read and print template content
+    templateContent, err := os.ReadFile(catalogTemplatePath)
+    if err != nil {
+        return "", fmt.Errorf("error reading template file: %w", err)
+    }
 
-	return
+	// Updated template content
+	contentWithPageBreaks:=addPageBreaksBeforeH2(templateContent)
+
+    // Create and parse template
+    tmpl, err := template.New("catalog").Funcs(template.FuncMap{
+        "insertSVGs": func() template.HTML {
+            return combineSVGs(svgs)
+        },
+    }).Parse(string(contentWithPageBreaks))
+    if err != nil {
+        return "", fmt.Errorf("error parsing template: %w", err)
+    }
+
+    // Execute template
+    err = tmpl.Execute(outputFile, data)
+    if err != nil {
+        return "", fmt.Errorf("error executing template: %w", err)
+    }
+
+    return outputPath, nil
 }

@@ -9,7 +9,7 @@
 
 Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestReleaseDetails.ReleaseManager.Company }}** ({{ .LatestReleaseDetails.ReleaseManager.GithubId }})
 
-### Changes Since Last Release
+## Changes Since Last Release
 {{ range .LatestReleaseDetails.ChangeLog }}
 - {{ . }}
 {{- end }}
@@ -49,7 +49,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 {{- end }}
 
 **Related MITRE ATT&CK Values:**
-{{ range .MITRE }}
+{{ range .MITRETechnique }}
   - {{ . }}
 {{- end }}
 {{ end }}
@@ -84,3 +84,9 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 {{- end }}
 {{- end }}
 {{ end }}
+
+## Contributing Organizations
+
+We would like to acknowledge the following organizations for their valuable contributions to this project:
+
+{{ insertSVGs }}
