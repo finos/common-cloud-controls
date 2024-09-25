@@ -17,13 +17,16 @@ var (
 const cssStyle = `<style>
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  margin: 1in;
+  margin: 0.5in; /* Reduced from 1in to 0.5in */
 }
 h1, h2, h3 {
   color: #2E86C1;
 }
 p {
   line-height: 1.6;
+}
+@page {
+  margin: 0.5in; /* Set page margins to match body margins */
 }
 </style>
 `
