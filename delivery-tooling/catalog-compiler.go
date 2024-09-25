@@ -28,9 +28,14 @@ type Control struct {
 	ControlFamily    string                  `yaml:"control_family"`
 	Threats          []string                `yaml:"threats"`
 	NISTCSF          string                  `yaml:"nist_csf"`
-	MITREATTACK      string                  `yaml:"mitre_attack"`
 	ControlMappings  map[string]interface{}  `yaml:"control_mappings"`
-	TestRequirements map[int]string          `yaml:"test_requirements"`
+	TestRequirements []TestRequirements      `yaml:"test_requirements"`
+}
+
+type TestRequirements struct {
+	Id        string    `yaml:"id"`
+	Text      string    `yaml:"text"`
+	TlpLevels []string  `yaml:"tlp_levels"`
 }
 
 type ControlSet struct {
@@ -40,9 +45,9 @@ type ControlSet struct {
 
 // Metadata is a struct that represents the metadata.yaml file
 type Metadata struct {
-	Title              string         `yaml:"title"`
-	ID                 string         `yaml:"id"`
-	Description        string         `yaml:"description"`
+	Title              string           `yaml:"title"`
+	ID                 string           `yaml:"id"`
+	Description        string           `yaml:"description"`
 	ReleaseDetails     []ReleaseDetails `yaml:"release_details"`
 }
 
