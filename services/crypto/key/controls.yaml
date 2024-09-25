@@ -1,7 +1,4 @@
 common_controls:
-  - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure data encryption at rest all stored data
-  - CCC.C03 # Implement multi-factor authentication (MFA) for access
   - CCC.C04 # Log all access and changes
   - CCC.C05 # Prevent access from untrusted entities
   - CCC.C06 # Prevent deployment in restricted regions
@@ -14,26 +11,18 @@ controls:
     threats:
       - CCC.KeyMgmt.TH01
     nist_csf: RS.AN-1
-    control_mappings:
-      NIST_800_53: IR-5
     test_requirements:
-      tlp_green:
-        CCC.KeyMgmt.C01.TR01: |
+      - id: CCC.KeyMgmt.C01.TR01:
+        text: |
           Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        CCC.KeyMgmt.C01.TR02: |
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.KeyMgmt.C01.TR02:
+        text: |
           Verify that alerts are triggered when the kms key version is disabled.
-      tlp_amber:
-        CCC.KeyMgmt.C01.TR03: |
-          Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        CCC.KeyMgmt.C01.TR04: |
-          Verify that alerts are triggered when the kms key version is disabled.
-      tlp_red:
-        CCC.KeyMgmt.C01.TR05: |
-          Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        CCC.KeyMgmt.C01.TR06: |
-          Verify that alerts are triggered when the kms key version is disabled.
-      tlp_clear:
-        CCC.KeyMgmt.C01.TR07: |
-          Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        CCC.KeyMgmt.C01.TR08: |
-          Verify that alerts are triggered when the kms key version is disabled.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
