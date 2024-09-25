@@ -41,16 +41,15 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 {{ range .Threats }}
 ### {{ .ID }} - {{ .Title }}
 
-**Description:** {{ .Description }}
-
+{{ .Description }}
 **Related Features:**
 {{ range .Features }}
-  - {{ . }}
+- {{ . }}
 {{- end }}
 
 **Related MITRE ATT&CK Values:**
 {{ range .MITRE }}
-  - {{ . }}
+- {{ . }}
 {{- end }}
 {{ end }}
 
@@ -66,7 +65,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 {{ range .Controls }}
 ### {{ .ID }} - {{ .Title }}
 
-**Objective:** {{ .Objective }}
+{{ .Objective }}
 
 **Control Family:** {{ .ControlFamily}}
 
@@ -74,13 +73,13 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 
 **Mitigated Threats:**
 {{ range .Threats }}
-  - {{ . }}
+- {{ . }}
 {{- end }}
 
 **Control Mappings:**
 {{ range $key, $value := .ControlMappings }}
 {{- range $value }}
-  - {{ $key }} {{ . }}
+- {{ $key }} {{ . }}
 {{- end }}
 {{- end }}
 {{ end }}
