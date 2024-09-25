@@ -1,13 +1,14 @@
 # {{ .Metadata.ID }} v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.Title }})
 
+<img height="250px" src="https://github.com/finos/branding/blob/master/project-logos/active-project-logos/FINOS%20Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal.svg?raw=true" alt="CCC Logo"/>
+
 {{ .Metadata.Description }}
----
 
 ## Release Notes
 
 > _{{ .LatestReleaseDetails.ReleaseManager.Summary }}_
 
-Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestReleaseDetails.ReleaseManager.Company }}** ({{ .LatestReleaseDetails.ReleaseManager.GithubId }})
+Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestReleaseDetails.ReleaseManager.Company }}** ([{{ .LatestReleaseDetails.ReleaseManager.GithubId }}](https://github.com/{{ .LatestReleaseDetails.ReleaseManager.GithubId }}))
 
 ## Changes Since Last Release
 {{ range .LatestReleaseDetails.ChangeLog }}
