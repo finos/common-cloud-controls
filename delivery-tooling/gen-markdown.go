@@ -17,7 +17,7 @@ var (
 const cssStyle = `<style>
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    margin: 0.5in; /* Increased margin for better readability */
+    margin: 0.2in; /* Updated margin to 0.2in */
     font-size: 11pt; /* Standard font size for professional documents */
     line-height: 1.5; /* Standard line height */
     color: #333333; /* Darker text color for better contrast */
@@ -71,7 +71,7 @@ ul, ol {
 }
 
 @page {
-    margin: 0.5in; /* Increased page margin for professional layout */
+    margin: 0.2in; /* Increased page margin for professional layout */
 }
 </style>
 `

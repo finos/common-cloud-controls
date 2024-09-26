@@ -1,3 +1,4 @@
+<!-- markdownlint-disable -->
 # {{ .Metadata.ID }} v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.Title }})
 
 <img height="250px" src="https://github.com/finos/branding/blob/master/project-logos/active-project-logos/FINOS%20Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal.svg?raw=true" alt="CCC Logo"/>
@@ -74,16 +75,26 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 **NIST CSF:** {{ .NISTCSF }}
 
 **Mitigated Threats:**
+{{ if .Threats }}
 {{ range .Threats }}
   - {{ . }}
 {{- end }}
+{{- else }}
+_No mitigated threats._
+{{- end }}
 
 **Control Mappings:**
+{{if .ControlMappings}}
 {{ range $key, $value := .ControlMappings }}
+{{- if $value }}
 {{- range $value }}
   - {{ $key }} {{ . }}
 {{- end }}
 {{- end }}
+{{- end }}
+{{else}}
+_No control mappings added._
+{{end}}
 {{ end }}
 
 ## Contributing Organizations
@@ -91,3 +102,4 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 We would like to acknowledge the following organizations for their valuable contributions to this project:
 
 {{ insertSVGs }}
+<!-- markdownlint-enable -->
