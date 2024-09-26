@@ -19,8 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: Build
-        with: 
-          ref: release-pipeline-code
 
       - name: Configure Go
         uses: actions/setup-go@v5
