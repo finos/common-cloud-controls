@@ -182,7 +182,7 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.08
+  - id: CCC.ObjStor.C08
     title: Prevent object replication to desinations outside of defined 
       trust perimeter
     control_family: Data
