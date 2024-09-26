@@ -2,3 +2,6 @@
 build/oscal-cli
 # VS Code 
 .DS_Store
+# Delivery Tooling
+delivery-tooling/artifacts
+.env/
