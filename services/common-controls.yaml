@@ -293,6 +293,7 @@ controls:
     title: Prevent tampering, deletion, or unauthorized access to access logs
     control_family: Data
     objective: |
+      Access logs should always be considered sensitive.
       Ensure that access logs are protected against unauthorized access, tampering, 
       or deletion.
     threats:
