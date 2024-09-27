@@ -6,7 +6,7 @@
         "type": "array",
         "items": {
           "type": "string",
-          "pattern": "^CCC\\.C\\d{2,}$",
+          "pattern": "^CCC\\.C\\d{2,8}$",
           "description": "IDs of common controls; can be omitted if not applicable"
         }
       },
@@ -17,7 +17,7 @@
           "properties": {
             "id": {
               "type": "string",
-              "pattern": "^CCC\\.[A-Za-z]+\\.C\\d{2,}$",
+              "pattern": "^CCC\\.[A-Za-z]+\\.C\\d{2,8}$",
               "description": "Control ID in the format CCC.<Service Category Abbreviation>.C##"
             },
             "title": {
@@ -38,17 +38,11 @@
               "example": "PR.DS-2",
               "description": "NIST CSF control ID"
             },
-            "mitre_attack": {
-              "type": "string",
-              "description": "MITRE ATT&CK technique identifier",
-              "pattern": "^T[0-9]+$",
-              "example": "T1486"
-            },
             "threats": {
               "type": "array",
               "items": {
                 "type": "string",
-                "pattern": "^CCC\\.TH\\d{2,}$",
+                "pattern": "^CCC\\.TH\\d{2,8}$",
                 "description": "Threat IDs",
                 "example": "CCC.TH01"
               }
