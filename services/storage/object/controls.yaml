@@ -170,7 +170,7 @@ controls:
     threats:
       - CCC.TH07 # Logs are Tampered With or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-    nist_csf: PR.DS-6
+    nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify software, firmware, and information integrity
     test_requirements:
       - id: CCC.ObjStor.C07.TR01
         text: |
@@ -191,7 +191,7 @@ controls:
       perimeter (i.e., a data perimeter).
     threats:
       - CCC.ObjStor.TH01 # Data exfiltration via insecure lifecycle policies
-    nist_csf: PR.DS-4
+    nist_csf: PR.DS-5 # Protections against data leaks are implemented
     test_requirements:
       - id: CCC.ObjStor.C08.TR01
         text: |
