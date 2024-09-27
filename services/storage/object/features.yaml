@@ -6,6 +6,10 @@ common_features:
   - CCC.F05 # Signed URLs
   - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
+  - CCC.F09 # Monitoring
+  - CCC.F10 # Logging
+  - CCC.F11 # Backup
+  - CCC.F12 # Restore
   - CCC.F21 # Replication
 
 features:
