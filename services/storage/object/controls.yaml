@@ -6,6 +6,9 @@ common_controls:
   - CCC.C05 # Prevent access from untrusted entities
   - CCC.C06 # Prevent deployment in restricted regions
   - CCC.C07 # Alert on non-human enumeration
+  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+  - CCC.C10 # Prevent data replication to desinations outside of defined trust perimeter
+
 controls:
   - id: CCC.ObjStor.C01
     title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
@@ -38,7 +41,7 @@ controls:
           - tlp_red
 
   - id: CCC.ObjStor.C02
-    title: Enforce uniform bucket-level access to prevent inconsistent 
+    title: Enforce uniform bucket-level access to prevent inconsistent
       permissions
     control_family: Identity and Access Management
     objective: |
@@ -159,7 +162,7 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C07
+  - id: CCC.ObjStor.C07 # TODO: Remove this control as it's covered by CCC.C09
     title: Access logs are stored in a separate bucket
     control_family: Data
     objective: |
@@ -177,28 +180,5 @@ controls:
           Access logs for all object storage buckets are stored in a separate 
           bucket.
         tlp_levels:
-          - tlp_amber
-          - tlp_red
-
-  - id: CCC.ObjStor.C08
-    title: Prevent object replication to desinations outside of defined 
-      trust perimeter
-    control_family: Data
-    objective: |
-      Prevent replicating objects to untrusted destinations outside of 
-      defined trust perimeter. An untrusted destination is defined as a 
-      resource that exists outside of a specified trusted identity or network 
-      perimeter (i.e., a data perimeter).
-    threats:
-      - CCC.TH04 # Resource is replicated to untrusted or external locations
-    nist_csf: PR.DS-5 # Protections against data leaks are implemented
-    test_requirements:
-      - id: CCC.ObjStor.C08.TR01
-        text: |
-          Object replication to destinations outside of the defined trust 
-          perimeter is automatically blocked, preventing replication to 
-          untrusted resources.
-        tlp_levels:
-          - tlp_green
           - tlp_amber
           - tlp_red

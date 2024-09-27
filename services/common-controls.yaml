@@ -241,7 +241,8 @@ controls:
       entities (e.g., automated processes) attempt to enumerate 
       resources. This helps to detect and respond to potential malicious 
       reconnaissance activities early.
-    threats: []
+    threats:
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
     nist_csf: DE.AE-1
     test_requirements:
       - id: CCC.C07.TR01
@@ -264,7 +265,7 @@ controls:
     title: Enable multi-zone or multi-region data replication
     control_family: Data
     objective: |
-      Ensure that data stored in object storage is replicated across multiple
+      Ensure that data is replicated across multiple
       zones or regions to protect against data loss due to hardware failures,
       natural disasters, or other catastrophic events.
     threats:
@@ -283,6 +284,54 @@ controls:
           Admin users can verify the replication status of data across multiple
           zones or regions, including the replication locations and data
           synchronization status.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+  
+  - id: CCC.C09
+    title: Prevent tampering, deletion, or unauthorized access to access logs
+    control_family: Data
+    objective: |
+      Ensure that access logs are protected against unauthorized access, tampering, 
+      or deletion.
+    threats:
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH04 # Resource is replicated to untrusted or external locations
+    nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify software, firmware, and information integrity
+    test_requirements:
+      - id: CCC.C09.TR01
+        text: |
+          Access logs cannot be accessed, tampered with, or deleted by unauthorized users.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C09.TR02
+        text: |
+          Access logs cannot be replicated to untrusted or external locations.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+  
+  - id: CCC.C10
+    title: Prevent data replication to desinations outside of defined 
+      trust perimeter
+    control_family: Data
+    objective: |
+      Prevent replication of data to untrusted destinations outside of 
+      defined trust perimeter. An untrusted destination is defined as a 
+      resource that exists outside of a specified trusted identity or network 
+      perimeter (i.e., a data perimeter).
+    threats:
+      - CCC.TH04 # Resource is replicated to untrusted or external locations
+    nist_csf: PR.DS-5 # Protections against data leaks are implemented
+    test_requirements:
+      - id: CCC.C10.TR01
+        text: |
+          Replication of data to destinations outside of the defined trust 
+          perimeter is automatically blocked, preventing replication to 
+          untrusted resources.
         tlp_levels:
           - tlp_green
           - tlp_amber

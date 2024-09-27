@@ -49,14 +49,14 @@ threats:
       - T1583 # Acquire Infrastructure
       - T1557 # Adversary-in-the-Middle
 
-  - id: CCC.TH04 # Resource is replicated to untrusted or external locations
-    title: Resource is replicated to untrusted or external locations
+  - id: CCC.TH04 # Data is replicated to untrusted or external locations
+    title: Data is replicated to untrusted or external locations
     description: |
-      An attacker could replicate objects to untrusted or external locations if replication configurations 
+      An attacker could replicate data to untrusted or external locations if replication configurations 
       are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
       outside the organization's trusted perimeter.
     features:
-      - CCC.F17 # Resource Replication
+      - CCC.F21 # Replication
     mitre_technique:
       - T1565 # Data Manipulation
 
@@ -86,6 +86,7 @@ threats:
     features:
       - CCC.F11 # Backup
       - CCC.F12 # Recovery
+      - CCC.F18 # Versioning
     mitre_technique:
       - T1485 # Data Destruction
       - T1565 # Data Manipulation
@@ -221,3 +222,17 @@ threats:
       - T1485 # Data Destruction
       - T1565 # Data Manipulation
       - T1489 # Service Stop
+
+  - id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+    title: Automated Enumeration and Reconnaissance by Non-Human Entities
+    description: |
+      Attackers may deploy automated processes or bots to perform reconnaissance 
+      activities by enumerating resources such as APIs, file systems, or directories. 
+      These activities can help attackers identify vulnerabilities, misconfigurations, 
+      or unsecured resources, which can then be exploited for unauthorized access 
+      or data theft. 
+    features:
+      - CCC.F14 # Logging and Monitoring
+    mitre_technique:
+      - T1580 # Cloud Infrastructure Discovery
+

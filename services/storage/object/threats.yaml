@@ -2,7 +2,7 @@ common_threats:
   - CCC.TH01 # Unauthorized access through elevated privileges
   - CCC.TH02 # Data is intercepted in transit
   - CCC.TH03 # Deployment region network is untrusted
-  - CCC.TH04 # Resource is replicated to untrusted or external locations
+  - CCC.TH04 # Data is replicated to untrusted or external locations
   - CCC.TH05 # Data is corrupted during replication
   - CCC.TH06 # Resource exhaustion
   - CCC.TH07 # Logs are Tampered With or Deleted
