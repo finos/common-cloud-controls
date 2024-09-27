@@ -50,16 +50,15 @@ controls:
     threats:
       - CCC.TH01
       - CCC.ObjStor.TH02 # Overly permissive access control policies
-    nist_csf: PR.AC-4
+    nist_csf: PR.AC-4 # Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties
     control_mappings:
       CCM:
-        - IAM-02
-        - IAM-11
+        - DCS-09 # Access Control
       ISO_27001:
-        - 2013 A.9.1.2
+        - 2013 A.9.4.1 # Information Access Restriction
       NIST_800_53:
-        - AC-6
-        - AC-2
+        - AC-3 # Access Enforcement
+        - AC-6 # Least Privilege
     test_requirements:
       - id: CCC.ObjStor.C02.TR01
         text: |
@@ -78,7 +77,7 @@ controls:
       and that the preventative measure cannot be unset.
     threats:
       - CCC.TH06 # Data is lost or corrupted
-    nist_csf: PR.DS-1
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     test_requirements:
       - id: CCC.ObjStor.C03.TR01
         text: |
@@ -107,7 +106,7 @@ controls:
       regulations.
     threats:
       - CCC.TH06 # Data is lost or corrupted
-    nist_csf: PR.DS-1
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     test_requirements:
       - id: CCC.ObjStor.C05.TR01
         text: |
@@ -138,7 +137,7 @@ controls:
       case of loss or corruption.
     threats:
       - CCC.TH06 # Data is lost or corrupted
-    nist_csf: PR.DS-1
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     test_requirements:
       - id: CCC.ObjStor.C06.TR01
         text: |
