@@ -17,16 +17,15 @@ controls:
     threats:
       - CCC.TH01
       - CCC.TH02
-    nist_csf: PR.DS-4
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     control_mappings:
       CCM:
-        - DSI-04
-        - DSI-05
+        - DCS-04 # Data Protection and Encryption
+        - DCS-06 # Data Integrity
       ISO_27001:
-        - 2013 A.12.3.1
+        - 2013 A.10.1.1 # Policy on the use of cryptographic controls
       NIST_800_53:
-        - CP-6
-        - CP-9
+        - SC-28 # Protection of Information at Rest
     test_requirements:
       - id: CCC.ObjStor.C01.TR01
         text: |
