@@ -303,7 +303,28 @@ controls:
     test_requirements:
       - id: CCC.C09.TR01
         text: |
-          Access logs cannot be accessed, tampered with, or deleted by unauthorized users.
+          Access logs cannot be accessed without proper authorization.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+          - tlp_green
+          - tlp_clear
+      - id: CCC.C09.TR02
+        text: |
+          Access logs cannot be modified without proper authorization.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+          - tlp_green
+          - tlp_clear
+      - id: CCC.C09.TR03
+        text: |
+          Access logs cannot be deleted without proper authorization.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+          - tlp_green
+          - tlp_clear
         tlp_levels:
           - tlp_amber
           - tlp_red
