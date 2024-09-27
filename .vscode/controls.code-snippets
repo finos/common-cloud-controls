@@ -28,7 +28,8 @@
 			"          - tlp_clear",
 			"          - tlp_green",
 			"          - tlp_amber",
-			"          - tlp_red"
+			"          - tlp_red",
+			""
 		  ],
 		"description": "Create a blank FINOS CCC Controls file"
 	},
@@ -58,7 +59,8 @@
 			"          - tlp_clear",
 			"          - tlp_green",
 			"          - tlp_amber",
-			"          - tlp_red"
+			"          - tlp_red",
+			""
 		  ],
 		"description": "Create a blank FINOS CCC Control"
 	}
