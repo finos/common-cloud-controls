@@ -326,9 +326,6 @@ controls:
           - tlp_red
           - tlp_green
           - tlp_clear
-        tlp_levels:
-          - tlp_amber
-          - tlp_red
   
   - id: CCC.C10
     title: Prevent data replication to desinations outside of defined 

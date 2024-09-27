@@ -162,7 +162,7 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C07 # TODO: Remove this control as it's covered by CCC.C09
+  - id: CCC.ObjStor.C07
     title: Access logs are stored in a separate bucket
     control_family: Data
     objective: |
