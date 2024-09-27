@@ -190,7 +190,7 @@ controls:
       resource that exists outside of a specified trusted identity or network 
       perimeter (i.e., a data perimeter).
     threats:
-      - CCC.ObjStor.TH01 # Data exfiltration via insecure lifecycle policies
+      - CCC.TH04 # Resource is replicated to untrusted or external locations
     nist_csf: PR.DS-5 # Protections against data leaks are implemented
     test_requirements:
       - id: CCC.ObjStor.C08.TR01
