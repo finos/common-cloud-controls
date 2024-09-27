@@ -1,6 +1,6 @@
 common_controls:
   - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure data encryption at rest all stored data
+  - CCC.C02 # Ensure data encryption at rest for all stored data
   - CCC.C03 # Implement multi-factor authentication (MFA) for access
   - CCC.C04 # Log all access and changes
   - CCC.C05 # Prevent access from untrusted entities
