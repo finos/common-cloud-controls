@@ -201,7 +201,7 @@ controls:
       reduce exposure to geopolitical risks.
     control_family: Data
     threats:
-      - CCC.TH03 
+      - CCC.TH03 # Deployment region network is untrusted
     nist_csf: PR.DS-1
     control_mappings:
       CCM:
