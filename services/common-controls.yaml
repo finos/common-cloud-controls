@@ -328,12 +328,6 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C09.TR02
-        text: |
-          Access logs cannot be replicated to untrusted or external locations.
-        tlp_levels:
-          - tlp_amber
-          - tlp_red
   
   - id: CCC.C10
     title: Prevent data replication to desinations outside of defined 
