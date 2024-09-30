@@ -18,8 +18,8 @@ controls:
       that can impact data availability and integrity.
     control_family: Data
     threats:
-      - CCC.TH01
-      - CCC.TH02
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.DS-1 # Data-at-rest is protected
     control_mappings:
       CCM:
