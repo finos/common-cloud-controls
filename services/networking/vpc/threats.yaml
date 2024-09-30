@@ -1,0 +1,71 @@
+common_threats:
+  - CCC.TH01  # Access control is misconfigured
+  - CCC.TH02  # Data is intercepted in transit
+  - CCC.TH03  # Deployment region network is untrusted
+  - CCC.TH06  # Data is lost or corrupted
+  - CCC.TH07  # Logs are Tampered With or Deleted
+
+threats:
+  - id: CCC.VPC.TH01
+    title: Unauthorized Access via Insecure Default Networks
+    description: |
+      Default network configurations may include insecure settings and open firewall rules, leading to unauthorized access and potential data breaches.
+    features:
+      - CCC.VPC.F01  # Custom Network Creation
+      - CCC.F06      # Identity Based Access Control (common feature)
+    mitre_technique:
+      - T1040  # Network Sniffing
+      - T1136  # Create Account
+
+  - id: CCC.VPC.TH02
+    title: Exposure of Virtual Machines to Public Internet
+    description: |
+      Assignment of external IP addresses to virtual machines exposes them to the public internet, increasing the risk of attacks such as brute force, exploitation of vulnerabilities, or unauthorized access.
+    features:
+      - CCC.VPC.F02  # External IP Address Assignment
+      - CCC.F01      # Encryption in Transit Enabled by Default (common feature)
+    mitre_technique:
+      - T1133  # External Remote Services
+      - T1078  # Valid Accounts
+
+  - id: CCC.VPC.TH03
+    title: Unauthorized Network Traffic Routing
+    description: |
+      Enabling IP forwarding on virtual machines allows them to route traffic, which can be exploited to redirect traffic, bypass network controls, or launch attacks within the network.
+    features:
+      - CCC.VPC.F03  # IP Forwarding
+    mitre_technique:
+      - T1590  # Gather Victim Network Information
+      - T1021  # Remote Services
+
+  - id: CCC.VPC.TH04
+    title: Unauthorized Access to ML Development Environments via Public IP
+    description: |
+      Public IP access to ML development environments can lead to unauthorized access if proper security controls are not in place, increasing the risk of compromise and data breaches.
+    features:
+      - CCC.VPC.F04  # Public IP Access Control
+      - CCC.F06      # Identity Based Access Control (common feature)
+    mitre_technique:
+      - T1133  # External Remote Services
+      - T1078  # Valid Accounts
+
+  - id: CCC.VPC.TH05
+    title: Deployment of ML Development Environments in Unapproved Networks
+    description: |
+      Deploying ML development environments in unapproved or less secure networks can expose them to vulnerabilities and unauthorized access, compromising sensitive data and security policies.
+    features:
+      - CCC.VPC.F05  # Virtual Network Selection
+      - CCC.F06      # Identity Based Access Control (common feature)
+    mitre_technique:
+      - T1578  # Modify Cloud Compute Infrastructure
+
+  - id: CCC.VPC.TH06
+    title: Security Risks from Nested Virtualization
+    description: |
+      Nested virtualization can introduce additional layers of abstraction, increasing complexity and potentially leading to security vulnerabilities that can be exploited.
+    features:
+      - CCC.VPC.F06  # Nested Virtualization
+      - CCC.F09      # Monitoring (common feature)
+    mitre_technique:
+      - T1497  # Virtualization/Sandbox Evasion
+      - T1059  # Command and Scripting Interpreter
