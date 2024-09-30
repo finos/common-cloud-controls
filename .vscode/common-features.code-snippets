@@ -1,0 +1,170 @@
+{
+	"Encryption in Transit Enabled by Default": {
+		"scope": "yaml",
+		"prefix": "CF1, CF Encryption in Transit Enabled by Default",
+		"body": [
+			"- CCC.F01 # Encryption in Transit Enabled by Default"
+		  ],
+		"description": "Common Feature Encryption in Transit Enabled by Default"
+	},
+	"Encryption at Rest Enabled by Default": {
+		"scope": "yaml",
+		"prefix": "CF2, CF Encryption at Rest Enabled by Default",
+		"body": [
+			"- CCC.F02 # Encryption at Rest Enabled by Default"
+		  ],
+		"description": "Common Feature Encryption at Rest Enabled by Default"
+	},
+	"Access/Activity Logs": {
+		"scope": "yaml",
+		"prefix": "CF3, CF Access/Activity Logs",
+		"body": [
+			"- CCC.F03 # Access/Activity Logs"
+		  ],
+		"description": "Common Feature Access/Activity Logs"
+	},
+	"Transaction Rate Limits": {
+		"scope": "yaml",
+		"prefix": "CF4, CF Transaction Rate Limits",
+		"body": [
+			"- CCC.F04 # Transaction Rate Limits"
+		  ],
+		"description": "Common Feature Transaction Rate Limits"
+	},
+	"Signed URLs": {
+		"scope": "yaml",
+		"prefix": "CF5, CF Signed URLs",
+		"body": [
+			"- CCC.F05 # Signed URLs"
+		  ],
+		"description": "Common Feature Signed URLs"
+	},
+	"Identity Based Access Control": {
+		"scope": "yaml",
+		"prefix": "CF6, CF Identity Based Access Control",
+		"body": [
+			"- CCC.F06 # Identity Based Access Control"
+		  ],
+		"description": "Common Feature Identity Based Access Control"
+	},
+	"Event Notifications": {
+		"scope": "yaml",
+		"prefix": "CF7, CF Event Notifications",
+		"body": [
+			"- CCC.F07 # Event Notifications"
+		  ],
+		"description": "Common Feature Event Notifications"
+	},
+	"Multi-zone Deployment": {
+		"scope": "yaml",
+		"prefix": "CF8, CF Multi-zone Deployment",
+		"body": [
+			"- CCC.F08 # Multi-zone Deployment"
+		  ],
+		"description": "Common Feature Multi-zone Deployment"
+	},
+	"Monitoring": {
+		"scope": "yaml",
+		"prefix": "CF9, CF Monitoring",
+		"body": [
+			"- CCC.F09 # Monitoring"
+		  ],
+		"description": "Common Feature Monitoring"
+	},
+	"Logging": {
+		"scope": "yaml",
+		"prefix": "C10, CF Logging",
+		"body": [
+			"- CCC.F10 # Logging"
+		  ],
+		"description": "Common Feature Logging"
+	},
+	"Backup": {
+		"scope": "yaml",
+		"prefix": "C11, CF Backup",
+		"body": [
+			"- CCC.F11 # Backup"
+		  ],
+		"description": "Common Feature Backup"
+	},
+	"Recovery": {
+		"scope": "yaml",
+		"prefix": "C12, CF Recovery",
+		"body": [
+			"- CCC.F12 # Recovery"
+		  ],
+		"description": "Common Feature Recovery"
+	},
+	"Infrastructure as Code": {
+		"scope": "yaml",
+		"prefix": "C13, CF Infrastructure as Code",
+		"body": [
+			"- CCC.F13 # Infrastructure as Code"
+		  ],
+		"description": "Common Feature Infrastructure as Code"
+	},
+	"API Access": {
+		"scope": "yaml",
+		"prefix": "C14, CF API Access",
+		"body": [
+			"- CCC.F14 # API Access"
+		  ],
+		"description": "Common Feature API Access"
+	},
+	"Cost Management": {
+		"scope": "yaml",
+		"prefix": "C15, CF Cost Management",
+		"body": [
+			"- CCC.F15 # Cost Management"
+		  ],
+		"description": "Common Feature Cost Management"
+	},
+	"BudgetingAlerting": {
+		"scope": "yaml",
+		"prefix": "C16, CF BudgetingAlerting",
+		"body": [
+			"- CCC.F16 # BudgetingAlerting"
+		  ],
+		"description": "Common Feature BudgetingAlerting"
+	},
+	"Alerting": {
+		"scope": "yaml",
+		"prefix": "C17, CF Alerting",
+		"body": [
+			"- CCC.F17 # Alerting"
+		  ],
+		"description": "Common Feature Alerting"
+	},
+	"Versioning": {
+		"scope": "yaml",
+		"prefix": "C18, CF Versioning",
+		"body": [
+			"- CCC.F18 # Versioning"
+		  ],
+		"description": "Common Feature Versioning"
+	},
+	"On-Demand Scaling": {
+		"scope": "yaml",
+		"prefix": "C19, CF On-Demand Scaling",
+		"body": [
+			"- CCC.F19 # On-Demand Scaling"
+		  ],
+		"description": "Common Feature On-Demand Scaling"
+	},
+	"Tagging": {
+		"scope": "yaml",
+		"prefix": "C20, CF Tagging",
+		"body": [
+			"- CCC.F20 # Tagging"
+		  ],
+		"description": "Common Feature Tagging"
+	},
+	"Replication": {
+		"scope": "yaml",
+		"prefix": "C21, CF Replication",
+		"body": [
+			"- CCC.F21 # Replication"
+		  ],
+		"description": "Common Feature Replication"
+	}
+}

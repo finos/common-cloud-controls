@@ -1,16 +1,22 @@
 common_threats:
   - CCC.TH01 # Unauthorized access through elevated privileges
-  - CCC.TH02 # Vendor-hosted keys are compromised
-  - CCC.TH03 # Attacker intercepts data in transit
-  - CCC.TH04 # Attacker encrypts data with client-managed keys
-  - CCC.TH05 # Actors in known dangerous regions attempt to access data
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH03 # Deployment region network is untrusted
+  - CCC.TH04 # Resource is replicated to untrusted or external locations
+  - CCC.TH05 # Data is corrupted during replication
   - CCC.TH06 # Resource exhaustion
-  - CCC.TH07 # Abuse of event notifications
-  - CCC.TH08 # Data corruption during replication
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Alerts are Intercepted
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # Resource Tags Are Manipulated
+  - CCC.TH14 # Older Resource Versions Are Exploited
 
 threats:
 
-  - id: CCC.ObjStor.TH04 # Data exfiltration via insecure lifecycle policies
+  - id: CCC.ObjStor.TH01 # Data exfiltration via insecure lifecycle policies
     title: Data exfiltration via insecure lifecycle policies
     description: |
       Misconfigured lifecycle policies may unintentionally allow data to be
@@ -18,8 +24,7 @@ threats:
       and potential exposure of sensitive data.
     features:
       - CCC.ObjStor.F08 # Lifecycle Policies
-      - CCC.F09 # Data Replication
-      - CCC.F10 # Data Backup
+      - CCC.F11 # Backup
     mitre_technique:
       - T1020 # Automated Exfiltration
       - T1537 # Transfer Data to Cloud Account
@@ -27,41 +32,7 @@ threats:
       - T1048 # Exfiltration Over Alternative Protocol
       - T1485 # Data Destruction
 
-  - id: CCC.ObjStor.TH05
-    title: Overly permissive access control policies
-    description: |
-      Inadequate access control policies on individual objects or buckets can
-      lead to sensitive data exposure, allowing unauthorized users to read or
-      modify critical data.
-    features:
-      - CCC.ObjStor.F11 # Object Level Access Control
-      - CCC.ObjStor.F07 # Storage Classes
-      - CCC.ObjStor.F01 # Storage Buckets
-    mitre_technique:
-      - T1078 # Valid Accounts
-      - T1537 # Transfer Data to Cloud Account
-      - T1567 # Exfiltration Over Web Services
-      - T1048 # Exfiltration Over Alternative Protocol
-      - T1485 # Data Destruction
-      - T1565 # Data Manipulation
-      - T1027 # Obfuscated Files or Information
-      - T1485 # Data Destruction
-
-  - id: CCC.ObjStor.TH06
-    title: Data manipulation through object versioning
-    description: |
-      Attackers may manipulate object versioning to revert objects to older,
-      vulnerable versions, introducing security flaws or malicious content.
-    features:
-      - CCC.ObjStor.F09 # Object Versioning
-    mitre_technique:
-      - T1027 # Obfuscated Files or Information
-      - T1485 # Data Destruction
-      - T1491 # Defacement
-      - T1565 # Data Manipulation
-      - T1489 # Service Stop
-
-  - id: CCC.ObjStor.TH07
+  - id: CCC.ObjStor.TH02 # Improper enforcement of object modification locks
     title: Improper enforcement of object modification locks
     description: |
       Attackers may exploit vulnerabilities in object modification locks to
@@ -76,12 +47,4 @@ threats:
       - T1491 # Defacement
       - T1565 # Data Manipulation
 
-  - id: CCC.ObjStor.TH08
-    title: Event notification interception
-    description: |
-      Malicious actors may exploit event notifications to monitor and intercept
-      information about sensitive operations or access patterns, leading to
-      potential breaches of sensitive data.
-    features:
-      - CCC.F07 # Event Notifications
 
