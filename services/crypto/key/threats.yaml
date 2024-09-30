@@ -12,7 +12,7 @@ threats:
       - CCC.KeyMgmt.F16
       - CCC.KeyMgmt.F18
       - CCC.KeyMgmt.F19
-    mitre_attack:
+    mitre_technique:
       - T1485
       - T1489
       - T1490
