@@ -7,7 +7,6 @@ control_families:
   - Network Security
 
 controls:
-
   - id: CCC.C01 # Prevent unencrypted requests
     title: Prevent unencrypted requests
     objective: |
@@ -288,8 +287,8 @@ controls:
           - tlp_green
           - tlp_amber
           - tlp_red
-  
-  - id: CCC.C09
+
+  - id: CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
     title: Prevent tampering, deletion, or unauthorized access to access logs
     control_family: Data
     objective: |
@@ -299,7 +298,7 @@ controls:
     threats:
       - CCC.TH07 # Logs are Tampered With or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH04 # Resource is replicated to untrusted or external locations
+      - CCC.TH04 # Data is replicated to untrusted or external locations
     nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify software, firmware, and information integrity
     test_requirements:
       - id: CCC.C09.TR01
@@ -326,9 +325,9 @@ controls:
           - tlp_red
           - tlp_green
           - tlp_clear
-  
-  - id: CCC.C10
-    title: Prevent data replication to desinations outside of defined 
+
+  - id: CCC.C10 # Prevent data replication to destinations outside of defined
+    title: Prevent data replication to destinations outside of defined
       trust perimeter
     control_family: Data
     objective: |
@@ -337,7 +336,7 @@ controls:
       resource that exists outside of a specified trusted identity or network 
       perimeter (i.e., a data perimeter).
     threats:
-      - CCC.TH04 # Resource is replicated to untrusted or external locations
+      - CCC.TH04 # Data is replicated to untrusted or external locations
     nist_csf: PR.DS-5 # Protections against data leaks are implemented
     test_requirements:
       - id: CCC.C10.TR01

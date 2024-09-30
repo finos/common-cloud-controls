@@ -16,7 +16,6 @@ common_threats:
   - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
 
 threats:
-
   - id: CCC.ObjStor.TH01 # Data exfiltration via insecure lifecycle policies
     title: Data exfiltration via insecure lifecycle policies
     description: |
@@ -40,12 +39,11 @@ threats:
       delete or alter objects despite the lock being in place, leading to data
       loss or tampering.
     features:
-      - CCC.ObjStor.F10 # Object Modification Locks
+      - CCC.ObjStor.F09 # Object Modification Locks
     mitre_technique:
       - T1027 # Obfuscated Files or Information
       - T1485 # Data Destruction
       - T1490 # Inhibit System Recovery
       - T1491 # Defacement
       - T1565 # Data Manipulation
-
 

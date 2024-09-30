@@ -10,7 +10,7 @@ common_controls:
   - CCC.C10 # Prevent data replication to desinations outside of defined trust perimeter
 
 controls:
-  - id: CCC.ObjStor.C01
+  - id: CCC.ObjStor.C01 # Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     objective: |
       Prevent any requests to object storage buckets or objects using 
@@ -40,7 +40,7 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C02
+  - id: CCC.ObjStor.C02 # Enforce uniform bucket-level access to prevent inconsistent
     title: Enforce uniform bucket-level access to prevent inconsistent
       permissions
     control_family: Identity and Access Management
@@ -51,8 +51,8 @@ controls:
       consistent, and secure access management in accordance with the 
       principle of least privilege.
     threats:
-      - CCC.TH01
-      - CCC.ObjStor.TH02 # Overly permissive access control policies
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.ObjStor.TH02 # Improper enforcement of object modification locks
     nist_csf: PR.AC-4 # Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties
     control_mappings:
       CCM:
@@ -72,7 +72,7 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C03
+  - id: CCC.ObjStor.C03 # Prevent bucket deletion through irrevocable bucket retention policy
     title: Prevent bucket deletion through irrevocable bucket retention policy
     control_family: Data
     objective: |
@@ -99,7 +99,7 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C05
+  - id: CCC.ObjStor.C05 # Objects have an effective retention policy by default
     title: Objects have an effective retention policy by default
     control_family: Data
     objective: |
@@ -131,7 +131,7 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C06
+  - id: CCC.ObjStor.C06 # Versioning is enabled for all objects in the bucket
     title: Versioning is enabled for all objects in the bucket
     control_family: Data
     objective: |
@@ -162,7 +162,7 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C07
+  - id: CCC.ObjStor.C07 # Access logs are stored in a separate bucket
     title: Access logs are stored in a separate bucket
     control_family: Data
     objective: |

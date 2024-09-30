@@ -1,5 +1,4 @@
 threats:
-
   - id: CCC.TH01 # Access control is misconfigured
     title: Access control is misconfigured
     description: |
@@ -85,7 +84,6 @@ threats:
       information.
     features:
       - CCC.F11 # Backup
-      - CCC.F12 # Recovery
       - CCC.F18 # Versioning
     mitre_technique:
       - T1485 # Data Destruction
@@ -148,7 +146,7 @@ threats:
     title: Alerts are Intercepted
     description: |
       Malicious actors may exploit event notifications to monitor and
-      intercept information about sensitive operations or access patterns. 
+      intercept information about sensitive operations or access patterns.
     features:
       - CCC.F03 # Access/Activity Logs
       - CCC.F07 # Event Notifications
@@ -170,7 +168,7 @@ threats:
       - CCC.F07 # Event Notifications
       - CCC.F17 # Alerting
     mitre_technique:
-      - T1205     # Traffic Signaling
+      - T1205 # Traffic Signaling
       - T1001.001 # Data Obfuscation: Junk Data
       - T1491.001 # Defacement: Internal Defacement
 
@@ -230,9 +228,9 @@ threats:
       activities by enumerating resources such as APIs, file systems, or directories. 
       These activities can help attackers identify vulnerabilities, misconfigurations, 
       or unsecured resources, which can then be exploited for unauthorized access 
-      or data theft. 
+      or data theft.
     features:
-      - CCC.F14 # Logging and Monitoring
+      - CCC.F14 # API Access
     mitre_technique:
       - T1580 # Cloud Infrastructure Discovery
 

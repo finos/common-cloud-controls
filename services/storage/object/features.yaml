@@ -6,57 +6,67 @@ common_features:
   - CCC.F05 # Signed URLs
   - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
+  - CCC.F08 # Multi-zone Deployment
   - CCC.F09 # Monitoring
   - CCC.F10 # Logging
   - CCC.F11 # Backup
   - CCC.F12 # Restore
+  - CCC.F14 # API Access
+  - CCC.F18 # Versioning
   - CCC.F21 # Replication
 
 features:
-  - id: CCC.ObjStor.F01
+  - id: CCC.ObjStor.F01 # Storage Buckets
     title: Storage Buckets
     description: |
       Provides uniquely identifiable segmentations in which data elements may
       be stored.
-  - id: CCC.ObjStor.F02
+  - id: CCC.ObjStor.F02 # Storage Objects
     title: Storage Objects
     description: |
       Supports storing, accessing, and managing data elements which contain
       both data and metadata.
-  - id: CCC.ObjStor.F03
+  - id: CCC.ObjStor.F03 # Bucket Capacity Limit
     title: Bucket Capacity Limit
     description: |
       Provides the ability to set a maximum total capacity for objects within
       a bucket.
-  - id: CCC.ObjStor.F04
+  - id: CCC.ObjStor.F04 # Object Size Limit
     title: Object Size Limit
     description: |
       Supports setting a maximum object size for storing objects.
-  - id: CCC.ObjStor.F06
-    title: Querying
+  - id: CCC.ObjStor.F05 # Ability to store new objects
+    title: Ability to store new objects
     description: |
-      Supports performing simple select queries to retrieve only a subset of
-      objects from the bucket.
-  - id: CCC.ObjStor.F07
-    title: Storage Classes
+      Supports for storing a new object in the bucket.
+  - id: CCC.ObjStor.F06 # Ability to replace stored objects
+    title: Ability to replace stored objects
     description: |
-      Provides different storage classes for frequently and infrequently
-      accessed objects.
-  - id: CCC.ObjStor.F08
+      Supports for replacing an object in the bucket with a new object for the same key.
+  - id: CCC.ObjStor.F07 # Ability to delete stored objects
+    title: Ability to delete stored objects
+    description: |
+      Supports for deleting objects from the bucket given the object key.
+  - id: CCC.ObjStor.F08 # Lifecycle Policies
     title: Lifecycle Policies
     description: |
       Supports defining policies to automate data management tasks.
-  - id: CCC.ObjStor.F09
-    title: Object Versioning
-    description: |
-      Provides the ability to keep multiple versions of an object in the same
-      bucket.
-  - id: CCC.ObjStor.F10
+  - id: CCC.ObjStor.F09 # Object Modification Locks
     title: Object Modification Locks
     description: |
       Allows locking of objects to disable modification and/or deletion of an
       object for a defined period of time.
-  - id: CCC.ObjStor.F11
+  - id: CCC.ObjStor.F10 # Object Level Access Control
     title: Object Level Access Control
     description: |
       Supports controlling access to specific objects within the object store.
+    - id: CCC.ObjStor.F11 # Querying
+    title: Querying
+    description: |
+      Supports performing simple select queries to retrieve only a subset of
+      objects from the bucket.
+  - id: CCC.ObjStor.F12 # Storage Classes
+    title: Storage Classes
+    description: |
+      Provides different storage classes for frequently and infrequently
+      accessed objects.
