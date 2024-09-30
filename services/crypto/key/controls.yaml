@@ -15,25 +15,46 @@ controls:
       - CCC.KeyMgmt.TH01
     nist_csf: RS.AN-1
     control_mappings:
-      NIST_800_53: IR-5
+      NIST_800_53: 
+        - IR-5
     test_requirements:
-      tlp_green:
-        CCC.KeyMgmt.C01.TR01: |
+      - id: CCC.KeyMgmt.C01.TR01
+        text: |
           Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        CCC.KeyMgmt.C01.TR02: |
+        tlp_levels:
+          - tlp_green
+      - id: CCC.KeyMgmt.C01.TR02
+        text: |
           Verify that alerts are triggered when the kms key version is disabled.
-      tlp_amber:
-        CCC.KeyMgmt.C01.TR03: |
+        tlp_levels:
+          - tlp_green
+      - id: CCC.KeyMgmt.C01.TR03
+        text: |
           Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        CCC.KeyMgmt.C01.TR04: |
+        tlp_levels:
+          - tlp_amber
+      - id: CCC.KeyMgmt.C01.TR04
+        text: |
           Verify that alerts are triggered when the kms key version is disabled.
-      tlp_red:
-        CCC.KeyMgmt.C01.TR05: |
+        tlp_levels:
+          - tlp_amber
+      - id: CCC.KeyMgmt.C01.TR05
+        text: |
           Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        CCC.KeyMgmt.C01.TR06: |
+        tlp_levels:
+          - tlp_red
+      - id: CCC.KeyMgmt.C01.TR06
+        text: |
           Verify that alerts are triggered when the kms key version is disabled.
-      tlp_clear:
-        CCC.KeyMgmt.C01.TR07: |
+        tlp_levels:
+          - tlp_red
+      - id: CCC.KeyMgmt.C01.TR07
+        text: |
           Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        CCC.KeyMgmt.C01.TR08: |
+        tlp_levels:
+          - tlp_clear
+      - id: CCC.KeyMgmt.C01.TR08
+        text: |
           Verify that alerts are triggered when the kms key version is disabled.
+        tlp_levels:
+          - tlp_clear
