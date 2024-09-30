@@ -23,17 +23,18 @@ var (
 // The PersistentPreRun and PersistentPostRun functions are used to print a divider and the logo before and after the command is executed, respectively.
 //
 // Example usage:
-//   releaseNotesCmd := &cobra.Command{
-//     Use:   "release-notes",
-//     Short: "Generate an Release Notes",
-//     Run: func(cmd *cobra.Command, args []string) {
-//       // Command logic
-//     },
-//   }
+//
+//	releaseNotesCmd := &cobra.Command{
+//	  Use:   "release-notes",
+//	  Short: "Generate an Release Notes",
+//	  Run: func(cmd *cobra.Command, args []string) {
+//	    // Command logic
+//	  },
+//	}
 var (
 	// baseCmd represents the base command when called without any subcommands
 	releaseNotesCmd = &cobra.Command{
-		Use: "release-notes",
+		Use:   "release-notes",
 		Short: "",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			fmt.Print(divider)
@@ -52,7 +53,7 @@ var (
 				fmt.Println(err)
 			} else {
 				fmt.Printf("File generated successfully: %s\n", outputPath)
-			}		
+			}
 		},
 	}
 )
@@ -70,7 +71,8 @@ var (
 // No return value is specified since this function does not return a value.
 //
 // Example usage:
-//   init(baseCmd)
+//
+//	init(baseCmd)
 func init() {
 	baseCmd.AddCommand(releaseNotesCmd)
 }
@@ -88,12 +90,13 @@ func init() {
 // The function returns the path of the generated release notes file and an error if the generation fails.
 //
 // Example usage:
-//   outputPath, err := generateReleaseNotes()
-//   if err != nil {
-//     fmt.Println(err)
-//   } else {
-//     fmt.Printf("File generated successfully: %s\n", outputPath)
-//   }
+//
+//	outputPath, err := generateReleaseNotes()
+//	if err != nil {
+//	  fmt.Println(err)
+//	} else {
+//	  fmt.Printf("File generated successfully: %s\n", outputPath)
+//	}
 func generateReleaseNotes() (outputPath string, err error) {
 	data := readAndCompileCatalog()
 

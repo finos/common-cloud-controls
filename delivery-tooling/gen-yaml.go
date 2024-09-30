@@ -17,7 +17,7 @@ import (
 var (
 	// baseCmd represents the base command when called without any subcommands
 	yamlCmd = &cobra.Command{
-		Use: "yaml",
+		Use:   "yaml",
 		Short: "",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			fmt.Print(divider)
@@ -30,13 +30,13 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			checkArgs()
 			initializeOutputDirectory()
-			
-			outputPath,err := generateOmnibusYamlFile()
+
+			outputPath, err := generateOmnibusYamlFile()
 			if err != nil {
 				fmt.Println(err)
 			} else {
 				fmt.Printf("File generated successfully: %s\n", outputPath)
-			}	
+			}
 		},
 	}
 )
@@ -62,33 +62,33 @@ func init() {
 //   - outputPath: The full path of the generated YAML file.
 //   - err: An error if any step in the process fails, nil otherwise.
 func generateOmnibusYamlFile() (outputPath string, err error) {
-    // Read and compile data from an unspecified source
-    data := readAndCompileCatalog()
-    
-    // Marshal the compiled data into YAML format
-    dataYaml, err := yaml.Marshal(&data)
-    if err != nil {
-        log.Fatalf("error: %v", err)
-    }
+	// Read and compile data from an unspecified source
+	data := readAndCompileCatalog()
 
-    // Get the output directory from Viper configuration
-    outputDir := viper.GetString("output-dir")
+	// Marshal the compiled data into YAML format
+	dataYaml, err := yaml.Marshal(&data)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
 
-    // Extract service name and version from the compiled data
-    serviceName := data.Metadata.ID
-    version := data.Metadata.ReleaseDetails[len(data.Metadata.ReleaseDetails)-1].Version
-    
-    // Construct the YAML filename using service name and version
-    yamlFileName := fmt.Sprintf("%s_%s.yaml", serviceName, version)
-    
-    // Write the YAML data to a file in the specified output directory
-    err = os.WriteFile(fmt.Sprintf("%s/%s", outputDir, yamlFileName), dataYaml, 0644)
-    if err != nil {
-        log.Fatalf("error: %v", err)
-    }
+	// Get the output directory from Viper configuration
+	outputDir := viper.GetString("output-dir")
 
-    // Construct the full output path
-    outputPath = fmt.Sprintf("%s/%s", outputDir, yamlFileName)
+	// Extract service name and version from the compiled data
+	serviceName := data.Metadata.ID
+	version := data.Metadata.ReleaseDetails[len(data.Metadata.ReleaseDetails)-1].Version
 
-    return outputPath, err
+	// Construct the YAML filename using service name and version
+	yamlFileName := fmt.Sprintf("%s_%s.yaml", serviceName, version)
+
+	// Write the YAML data to a file in the specified output directory
+	err = os.WriteFile(fmt.Sprintf("%s/%s", outputDir, yamlFileName), dataYaml, 0644)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+
+	// Construct the full output path
+	outputPath = fmt.Sprintf("%s/%s", outputDir, yamlFileName)
+
+	return outputPath, err
 }
