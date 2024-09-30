@@ -130,3 +130,8 @@ features:
     description: |
       Ensure the service detects and filters abusive, harmful, and sensitive 
       information to ensure responsible and safe use of the service.
+  - id: CCC.GenAI.F26
+    title: Plugin Integrations
+    description: |
+        Ability for the model to use tools to complete a model interaction. For example web search, python code execution or external maths engine.
+      
