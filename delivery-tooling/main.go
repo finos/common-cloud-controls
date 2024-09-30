@@ -23,11 +23,11 @@ var (
 	// BuiltAt is the actual build datetime
 	BuiltAt = ""
 	// ASCII art logo
-	logo = "\033[34m     _____\033[35m_____\033[36m_____\n\033[34m    / ___/\033[35m ___/\033[36m ___/\n\033[34m   / /  \033[35m/ /  \033[36m/ / \n\033[34m  / /__\033[35m/ /__\033[36m/ /___ \n\033[34m  \\____/\033[35m____/\033[36m____/\n\033[37m"
+	logo    = "\033[34m     _____\033[35m_____\033[36m_____\n\033[34m    / ___/\033[35m ___/\033[36m ___/\n\033[34m   / /  \033[35m/ /  \033[36m/ / \n\033[34m  / /__\033[35m/ /__\033[36m/ /___ \n\033[34m  \\____/\033[35m____/\033[36m____/\n\033[37m"
 	divider = fmt.Sprintf("\n%s\n", strings.Repeat("-", 40))
 	// baseCmd represents the base command when called without any subcommands
 	baseCmd = &cobra.Command{
-		Use: "",
+		Use:   "",
 		Short: "test",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		},
@@ -35,7 +35,7 @@ var (
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println(divider)
-			fmt.Println("Welcome to the CCC Delivery Tooling CLI v" + Version)		
+			fmt.Println("Welcome to the CCC Delivery Tooling CLI v" + Version)
 			fmt.Print(logo)
 			fmt.Println(divider)
 			fmt.Println("You appear to be exploring!")
@@ -65,15 +65,15 @@ func init() {
 // If the "output-dir" value has been set elsewhere (e.g., via command line flags or config file),
 // that value will be used instead of the default.
 func initializeOutputDirectory() {
-    viper.SetDefault("output-dir", "./artifacts")
-    createDirectoryIfNotExists(viper.GetString("output-dir"))
+	viper.SetDefault("output-dir", "./artifacts")
+	createDirectoryIfNotExists(viper.GetString("output-dir"))
 }
 
 // checkArgs checks if the required "build-target" argument is provided.
 //
 // If the argument is not provided, it logs a fatal error message and exits the program.
 // This function should be called after Viper has been initialized and the configuration loaded.
-func checkArgs(){
+func checkArgs() {
 	if viper.GetString("build-target") == "" {
 		log.Fatal("--build-target is required")
 	}

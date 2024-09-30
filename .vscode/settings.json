@@ -14,4 +14,7 @@
     "schemas/controls-schema.json": "/**/controls.yaml",
     "schemas/metadata-schema.json": "/**/metadata.yaml",
   },
+  "[go]": {
+    "editor.defaultFormatter": "golang.go"
+  },
 }

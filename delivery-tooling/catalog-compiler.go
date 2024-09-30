@@ -22,20 +22,20 @@ type CompiledCatalog struct {
 }
 
 type Control struct {
-	ID               string                  `yaml:"id"`
-	Title            string                  `yaml:"title"`
-	Objective        string                  `yaml:"objective"`
-	ControlFamily    string                  `yaml:"control_family"`
-	Threats          []string                `yaml:"threats"`
-	NISTCSF          string                  `yaml:"nist_csf"`
-	ControlMappings  map[string]interface{}  `yaml:"control_mappings"`
-	TestRequirements []TestRequirements      `yaml:"test_requirements"`
+	ID               string                 `yaml:"id"`
+	Title            string                 `yaml:"title"`
+	Objective        string                 `yaml:"objective"`
+	ControlFamily    string                 `yaml:"control_family"`
+	Threats          []string               `yaml:"threats"`
+	NISTCSF          string                 `yaml:"nist_csf"`
+	ControlMappings  map[string]interface{} `yaml:"control_mappings"`
+	TestRequirements []TestRequirements     `yaml:"test_requirements"`
 }
 
 type TestRequirements struct {
-	Id        string    `yaml:"id"`
-	Text      string    `yaml:"text"`
-	TlpLevels []string  `yaml:"tlp_levels"`
+	Id        string   `yaml:"id"`
+	Text      string   `yaml:"text"`
+	TlpLevels []string `yaml:"tlp_levels"`
 }
 
 type ControlSet struct {
@@ -45,10 +45,10 @@ type ControlSet struct {
 
 // Metadata is a struct that represents the metadata.yaml file
 type Metadata struct {
-	Title              string           `yaml:"title"`
-	ID                 string           `yaml:"id"`
-	Description        string           `yaml:"description"`
-	ReleaseDetails     []ReleaseDetails `yaml:"release_details"`
+	Title          string           `yaml:"title"`
+	ID             string           `yaml:"id"`
+	Description    string           `yaml:"description"`
+	ReleaseDetails []ReleaseDetails `yaml:"release_details"`
 }
 
 type ReleaseDetails struct {
@@ -64,16 +64,16 @@ type ReleaseDetails struct {
 }
 
 type ReleaseManager struct {
-	Name      string `yaml:"name"`
-	GithubId  string `yaml:"github_id"`
-	Company   string `yaml:"company"`
-	Summary   string `yaml:"summary"`
+	Name     string `yaml:"name"`
+	GithubId string `yaml:"github_id"`
+	Company  string `yaml:"company"`
+	Summary  string `yaml:"summary"`
 }
 
 type Contributors struct {
-	Name      string `yaml:"name"`
-	GithubId  string `yaml:"github_id"`
-	Company   string `yaml:"company"`
+	Name     string `yaml:"name"`
+	GithubId string `yaml:"github_id"`
+	Company  string `yaml:"company"`
 }
 
 // FeatureSet is a struct that represents the features.yaml file
@@ -95,11 +95,11 @@ type ThreatSet struct {
 }
 
 type Threat struct {
-	ID          string   `yaml:"id"`
-	Title       string   `yaml:"title"`
-	Description string   `yaml:"description"`
-	Features    []string `yaml:"features"`
-	MITRETechnique       []string `yaml:"mitre_technique"`
+	ID             string   `yaml:"id"`
+	Title          string   `yaml:"title"`
+	Description    string   `yaml:"description"`
+	Features       []string `yaml:"features"`
+	MITRETechnique []string `yaml:"mitre_technique"`
 }
 
 func formatList(items []string) string {
@@ -113,7 +113,7 @@ func formatList(items []string) string {
 	return result
 }
 
-func getDataDirectory(name string) (string) {
+func getDataDirectory(name string) string {
 	buildTarget := filepath.Join(viper.GetString("services-dir"), viper.GetString("build-target"))
 	serviceDir := viper.GetString("services-dir")
 
@@ -146,17 +146,17 @@ func readYamlFile(filepath string) (yamlFile []byte) {
 	return
 }
 
-func getYaml(name string) ([]byte) {
+func getYaml(name string) []byte {
 	directory := getDataDirectory(name)
 	return readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
 }
 
 func unmarshalData(dataName string, dataSet interface{}) {
 	yamlData := getYaml(dataName)
-    err := yaml.Unmarshal(yamlData, dataSet)
-    if err != nil {
-        log.Fatalf("error reading %s: %v", dataName, err)
-    }
+	err := yaml.Unmarshal(yamlData, dataSet)
+	if err != nil {
+		log.Fatalf("error reading %s: %v", dataName, err)
+	}
 }
 
 func readAndCompileCatalog() (data CompiledCatalog) {
@@ -179,10 +179,10 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	unmarshalData("common-threats", &commonThreatsData)
 
 	return CompiledCatalog{
-		Metadata: metadata,
-		Controls: append(commonControlsData.SpecificControls, controlsData.SpecificControls...),
-		Features: append(commonFeaturesData.SpecificFeatures, featuresData.SpecificFeatures...),
-		Threats:  append(commonThreatsData.SpecificThreats, threatsData.SpecificThreats...),
+		Metadata:             metadata,
+		Controls:             append(commonControlsData.SpecificControls, controlsData.SpecificControls...),
+		Features:             append(commonFeaturesData.SpecificFeatures, featuresData.SpecificFeatures...),
+		Threats:              append(commonThreatsData.SpecificThreats, threatsData.SpecificThreats...),
 		LatestReleaseDetails: metadata.ReleaseDetails[len(metadata.ReleaseDetails)-1],
 	}
 }
