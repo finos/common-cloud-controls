@@ -45,19 +45,19 @@ release_details:
       contributors:
         - name: Michael Lysaght
           github_id: mlysaght2017
-          company: REPLACE_ME
+          company: Citi
         - name: Eddie Knight
           github_id: eddie-knight
-          company: REPLACE_ME
+          company: Sonatype
         - name: Damien Burks
           github_id: damienjburks
-          company: REPLACE_ME
+          company: Citi
         - name: Sonali Mendis
           github_id: smendis-scottlogic
-          company: REPLACE_ME
+          company: Scott Logic
         - name: Dave Ogle
           github_id: dogle-scottlogic
-          company: REPLACE_ME
+          company: Scott Logic
         - name: Naseer Mohammad
           github_id: nas-hub
-          company: REPLACE_ME
+          company: Google
