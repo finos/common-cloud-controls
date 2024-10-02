@@ -78,3 +78,17 @@ func addPageBreaksBeforeH2(content []byte) []byte {
 		return append(pageBreak, match...)
 	})
 }
+
+func removeDuplicates[T comparable](slice []T) []T {
+	uniqueMap := make(map[T]bool)
+	var result []T
+
+	for _, item := range slice {
+		if _, exists := uniqueMap[item]; !exists {
+			uniqueMap[item] = true
+			result = append(result, item)
+		}
+	}
+
+	return result
+}
