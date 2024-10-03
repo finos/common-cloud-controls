@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/google/go-github/v53/github"
@@ -15,6 +16,9 @@ import (
 )
 
 var (
+	MetadataFilepath   string
+	BuildDirectoryPath string
+
 	// baseCmd represents the base command when called without any subcommands
 	updateMetadataCmd = &cobra.Command{
 		Use:   "update-metadata",
@@ -32,11 +36,15 @@ var (
 
 			servicesDir := viper.GetString("services-dir")
 			buildTarget := viper.GetString("build-target")
-			err := updateMetadata(servicesDir, buildTarget)
+
+			buildDirectoryPath := filepath.Join(servicesDir, buildTarget)
+			MetadataFilepath = filepath.Join(buildDirectoryPath, "metadata.yaml")
+
+			err := updateMetadata()
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Printf("Metadata for %s has been updated successfully!\n", buildTarget)
+				fmt.Printf("Metadata for %s has been updated successfully:\n", MetadataFilepath)
 			}
 		},
 	}
@@ -46,14 +54,11 @@ func init() {
 	baseCmd.AddCommand(updateMetadataCmd)
 }
 
-func updateMetadata(servicesDir string, buildTarget string) (err error) {
+func updateMetadata() (err error) {
 	// Replace with your GitHub personal access token
 	accessToken := os.Getenv("GITHUB_TOKEN")
 	repoOwner := "finos"
 	repoName := "common-cloud-controls"
-
-	// Specify the directory for which you want to get commit messages
-	directoryPath := "/services/storage/object"
 
 	// Create a new OAuth2 token for GitHub API access
 	ctx := context.Background()
@@ -67,7 +72,7 @@ func updateMetadata(servicesDir string, buildTarget string) (err error) {
 
 	// Prepare the options to filter commits by the specified path (directory)
 	opts := &github.CommitsListOptions{
-		Path: directoryPath,
+		Path: BuildDirectoryPath,
 	}
 
 	// Fetch the list of commits from the repository
@@ -87,11 +92,12 @@ func updateMetadata(servicesDir string, buildTarget string) (err error) {
 		if commit.Commit != nil {
 			// Get the commit author's name and GitHub username
 			commitAuthorName := commit.Commit.Author.GetName()
-			commitAuthorLogin := "Unknown"
+			var commitAuthorLogin string
 			if commit.Author != nil && commit.Author.Login != nil {
 				commitAuthorLogin = *commit.Author.Login
+			} else {
+				log.Fatalf("No GitHub username found for commit: %s", commit.Commit.GetSHA())
 			}
-
 			// Add the contributor to the map (set-like behavior)
 			newContributor := Contributors{
 				Name:     commitAuthorName,
@@ -119,7 +125,7 @@ func updateMetadata(servicesDir string, buildTarget string) (err error) {
 	}
 
 	// Read YAML
-	metadata := readMetadataYaml(servicesDir, buildTarget)
+	metadata := getMetadataYaml()
 
 	// Update metadata struct to include change log and contributors
 	metadata.ReleaseDetails[0].ChangeLog = changelog
@@ -131,7 +137,7 @@ func updateMetadata(servicesDir string, buildTarget string) (err error) {
 		log.Fatalf("Error marshaling YAML: %v", err)
 	}
 
-	err = os.WriteFile(fmt.Sprintf("%s/%s/metadata.yaml", servicesDir, buildTarget), metadataData, os.FileMode(0666))
+	err = os.WriteFile(MetadataFilepath, metadataData, os.FileMode(0666))
 	if err != nil {
 		log.Fatalf("Error writing to the YAML file: %v", err)
 	}
@@ -140,9 +146,9 @@ func updateMetadata(servicesDir string, buildTarget string) (err error) {
 	return
 }
 
-func readMetadataYaml(servicesDir string, buildTarget string) Metadata {
+func getMetadataYaml() Metadata {
 	// Read the YAML file
-	yamlFile, err := os.ReadFile(fmt.Sprintf("%s/%s/metadata.yaml", servicesDir, buildTarget))
+	yamlFile, err := os.ReadFile(MetadataFilepath)
 	if err != nil {
 		log.Fatalf("Error reading YAML file: %v", err)
 	}
