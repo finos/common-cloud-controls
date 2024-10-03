@@ -60,7 +60,7 @@ features:
     title: Object Level Access Control
     description: |
       Supports controlling access to specific objects within the object store.
-    - id: CCC.ObjStor.F11 # Querying
+  - id: CCC.ObjStor.F11 # Querying
     title: Querying
     description: |
       Supports performing simple select queries to retrieve only a subset of
