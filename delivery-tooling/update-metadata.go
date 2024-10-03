@@ -44,7 +44,7 @@ var (
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Printf("Metadata for %s has been updated successfully:\n", MetadataFilepath)
+				fmt.Printf("Metadata has been updated successfully: %s\n", MetadataFilepath)
 			}
 		},
 	}
