@@ -30,7 +30,7 @@ features:
   - id: CCC.VPC.F05
     title: Virtual Network Selection
     description: |
-      Allows selection of specific virtual networks and subnets when creating ML development environment instances, defining the network environment and security boundaries for the instance.
+      Allows selection of specific virtual networks and subnets when creating resources, defining the network environment and security boundaries for the instance.
 
   - id: CCC.VPC.F06
     title: Nested Virtualization
