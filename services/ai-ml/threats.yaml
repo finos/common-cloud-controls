@@ -1,0 +1,49 @@
+common_threats:
+  - CCC.TH01  # Access control is misconfigured
+  - CCC.TH02  # Data is intercepted in transit
+  - CCC.TH06  # Data is lost or corrupted
+
+threats:
+  - id: CCC.MLDE.TH01  # Unauthorized Access
+    title: Unauthorized Access
+    description: |
+      Unauthorized access occurs when users without appropriate permissions are able to access MLDE resources, leading to potential data breaches, system compromise, or misuse of resources.
+    features:
+      - CCC.MLDE.F01  # Authentication Mechanisms
+      - CCC.F06       # Identity Based Access Control (common feature)
+    mitre_technique:
+      - T1078  # Valid Accounts
+      - T1190  # Exploit Public-Facing Application
+
+  - id: CCC.MLDE.TH02  # Data Leakage
+    title: Data Leakage
+    description: |
+      Data leakage refers to the accidental or deliberate exposure of sensitive data from MLDE environments, through unauthorized downloads, unsecured network access, or improper sharing of files.
+    features:
+      - CCC.MLDE.F02  # Data Loss Prevention
+      - CCC.F01       # Encryption in Transit Enabled by Default (common feature)
+    mitre_technique:
+      - T1048  # Exfiltration Over Alternative Protocol
+      - T1567  # Exfiltration Over Web Services
+
+  - id: CCC.MLDE.TH03  # Service Disruption
+    title: Service Disruption
+    description: |
+      Events that prevent MLDE services from functioning properly, often caused by resource exhaustion, malicious activity, or technical failures, leading to reduced availability or denial of service.
+    features:
+      - CCC.MLDE.F03  # Monitoring and Logging
+      - CCC.F09       # Monitoring (common feature)
+    mitre_technique:
+      - T1499  # Endpoint Denial of Service
+      - T1498  # Network Denial of Service
+
+  - id: CCC.MLDE.TH04  # Unexpected Nondeterministic Behavior
+    title: Unexpected Nondeterministic Behavior
+    description: |
+      Occurs when MLDE instances exhibit unanticipated behavior due to improper configurations, unpatched vulnerabilities, or introduction of malicious code, potentially leading to security risks.
+    features:
+      - CCC.MLDE.F04  # Configuration Management
+      - CCC.MLDE.F05  # Patch Management
+    mitre_technique:
+      - T1068  # Exploitation for Privilege Escalation
+      - T1490  # Inhibit System Recovery
