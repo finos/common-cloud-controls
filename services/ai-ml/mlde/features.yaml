@@ -1,0 +1,37 @@
+common_features:
+  - CCC.F01  # Encryption in Transit Enabled by Default
+  - CCC.F03  # Access/Activity Logs
+  - CCC.F06  # Identity Based Access Control
+  - CCC.F09  # Monitoring
+  - CCC.F10  # Logging
+
+features:
+  - id: CCC.MLDE.F01  # Authentication Mechanisms
+    title: Authentication Mechanisms
+    description: |
+      Supports strong authentication methods to verify the identity of users accessing MLDE resources, such as multi-factor authentication.
+
+  - id: CCC.MLDE.F02  # Data Loss Prevention
+    title: Data Loss Prevention
+    description: |
+      Provides capabilities to prevent unauthorized access, transfer, or download of sensitive data from MLDE environments.
+
+  - id: CCC.MLDE.F03  # Monitoring and Logging
+    title: Monitoring and Logging
+    description: |
+      Enables continuous monitoring and logging of activities within MLDE instances to detect anomalies and support incident response.
+
+  - id: CCC.MLDE.F04  # Configuration Management
+    title: Configuration Management
+    description: |
+      Provides mechanisms to manage and enforce configurations of MLDE instances to ensure compliance with security policies.
+
+  - id: CCC.MLDE.F05  # Patch Management
+    title: Patch Management
+    description: |
+      Supports automatic or scheduled updates to apply security patches and updates to MLDE instances.
+
+  - id: CCC.MLDE.F06  # Resilience Mechanisms
+    title: Resilience Mechanisms
+    description: |
+      Features that enhance the resilience of MLDE services, such as automated backups, failover capabilities, and disaster recovery options.
