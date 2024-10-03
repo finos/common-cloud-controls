@@ -1,0 +1,253 @@
+common_controls:
+  - CCC.C01  # Prevent unencrypted requests
+  - CCC.C02  # Ensure data encryption at rest for all stored data
+  - CCC.C03  # Implement multi-factor authentication (MFA) for access
+  - CCC.C04  # Log all access and changes
+  - CCC.C05  # Prevent access from untrusted entities
+  - CCC.C06  # Prevent deployment in restricted regions
+
+controls:
+  - id: CCC.MLDE.C01  # Define Access Mode for ML Development Environments
+    title: Define Access Mode for ML Development Environments
+    objective: |
+      Ensure that access to Machine Learning Development Environment (MLDE) resources is strictly defined and controlled. Only authorized users with appropriate permissions can access these environments, mitigating the risk of unauthorized access, data leakage, or service disruption.
+    control_family: Identity and Access Management
+    threats:
+      - CCC.MLDE.TH01  # Unauthorized Access
+      - CCC.TH01       # Access control is misconfigured (common threat)
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM:
+        - IAM-01
+        - IAM-02
+      ISO_27001:
+        - 2013 A.9.1.1
+        - 2013 A.9.2.1
+      NIST_800_53:
+        - AC-2
+        - AC-3
+    test_requirements:
+      - id: CCC.MLDE.C01.TR01
+        text: |
+          Verify that only authorized users can access MLDE resources, and that access modes are properly defined and enforced.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+          - tlp_green
+          - tlp_clear
+
+  - id: CCC.MLDE.C02  # Disable File Downloads on MLDE Instances
+    title: Disable File Downloads on MLDE Instances
+    objective: |
+      Prevent unauthorized file downloads from MLDE instances to protect sensitive data from being exfiltrated.
+    control_family: Data Protection
+    threats:
+      - CCC.MLDE.TH02  # Data Leakage
+      - CCC.TH02       # Data is intercepted in transit (common threat)
+    nist_csf: PR.DS-5
+    control_mappings:
+      CCM:
+        - DSI-05
+        - DSI-07
+      ISO_27001:
+        - 2013 A.13.2.1
+      NIST_800_53:
+        - SC-7
+        - SC-8
+    test_requirements:
+      - id: CCC.MLDE.C02.TR01
+        text: |
+          Confirm that file download functionality is disabled on MLDE instances containing sensitive data.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.MLDE.C02.TR02
+        text: |
+          For MLDE instances without sensitive data, ensure that file downloads are monitored and logged.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+          - tlp_green
+          - tlp_clear
+
+  - id: CCC.MLDE.C03  # Disable Root Access on MLDE Instances
+    title: Disable Root Access on MLDE Instances
+    objective: |
+      Prevent users from obtaining root access on MLDE instances to reduce the risk of unauthorized system modifications and potential security breaches.
+    control_family: Identity and Access Management
+    threats:
+      - CCC.MLDE.TH01  # Unauthorized Access
+    nist_csf: PR.AC-4
+    control_mappings:
+      CCM:
+        - IAM-08
+        - IAM-12
+      ISO_27001:
+        - 2013 A.9.2.3
+      NIST_800_53:
+        - AC-6
+    test_requirements:
+      - id: CCC.MLDE.C03.TR01
+        text: |
+          Verify that root access is disabled on MLDE instances containing sensitive data.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.MLDE.C03.TR02
+        text: |
+          For MLDE instances without sensitive data, ensure that root access is only enabled when necessary and properly authorized.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+          - tlp_green
+          - tlp_clear
+
+  - id: CCC.MLDE.C04  # Disable Terminal Access on MLDE Instances
+    title: Disable Terminal Access on MLDE Instances
+    objective: |
+      Prevent users from accessing the terminal on MLDE instances to limit the risk of unauthorized commands and potential system compromise.
+    control_family: Identity and Access Management
+    threats:
+      - CCC.MLDE.TH01  # Unauthorized Access
+    nist_csf: PR.AC-4
+    control_mappings:
+      CCM:
+        - IAM-08
+      ISO_27001:
+        - 2013 A.9.2.3
+      NIST_800_53:
+        - AC-6
+    test_requirements:
+      - id: CCC.MLDE.C04.TR01
+        text: |
+          Verify that terminal access is disabled on MLDE instances containing sensitive data.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.MLDE.C04.TR02
+        text: |
+          For MLDE instances without sensitive data, ensure that terminal access is only enabled when necessary and properly authorized.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+          - tlp_green
+          - tlp_clear
+
+  - id: CCC.MLDE.C05  # Restrict Environment Options on MLDE Instances
+    title: Restrict Environment Options on MLDE Instances
+    objective: |
+      Limit the virtual machine and container image options available when creating new MLDE instances to approved and secure configurations.
+    control_family: Configuration Management
+    threats:
+      - CCC.MLDE.TH04  # Unexpected Nondeterministic Behavior
+    nist_csf: PR.IP-1
+    control_mappings:
+      CCM:
+        - TVM-02
+      ISO_27001:
+        - 2013 A.12.5.1
+      NIST_800_53:
+        - CM-2
+    test_requirements:
+      - id: CCC.MLDE.C05.TR01
+        text: |
+          Verify that only approved VM and container images can be selected when creating MLDE instances.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+      - id: CCC.MLDE.C05.TR02
+        text: |
+          Attempt to create an MLDE instance with an unapproved image and confirm that it is denied.
+        tlp_levels:
+          - tlp_red
+
+  - id: CCC.MLDE.C06  # Require Automatic Scheduled Upgrades on User-Managed MLDE Instances
+    title: Require Automatic Scheduled Upgrades on User-Managed MLDE Instances
+    objective: |
+      Ensure that MLDE instances are kept up-to-date with the latest security patches by enforcing automatic scheduled upgrades.
+    control_family: Vulnerability Management
+    threats:
+      - CCC.MLDE.TH04  # Unexpected Nondeterministic Behavior
+      - CCC.TH06       # Data is lost or corrupted (common threat)
+    nist_csf: PR.IP-12
+    control_mappings:
+      CCM:
+        - TVM-01
+        - TVM-02
+      ISO_27001:
+        - 2013 A.12.6.1
+      NIST_800_53:
+        - SI-2
+    test_requirements:
+      - id: CCC.MLDE.C06.TR01
+        text: |
+          Verify that automatic scheduled upgrades are enabled on user-managed MLDE instances containing sensitive data.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.MLDE.C06.TR02
+        text: |
+          Ensure that the upgrade schedule is appropriately configured and does not interfere with critical operations.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+          - tlp_green
+          - tlp_clear
+
+  - id: CCC.MLDE.C07  # Restrict Public IP Access on MLDE Instances
+    title: Restrict Public IP Access on MLDE Instances
+    objective: |
+      Prevent public IP access to MLDE instances to reduce exposure to the internet and enhance security.
+    control_family: Network Security
+    threats:
+      - CCC.MLDE.TH02  # Data Leakage
+      - CCC.VPC.TH02   # Exposure of Virtual Machines to Public Internet
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM:
+        - SEF-05
+      ISO_27001:
+        - 2013 A.13.1.1
+      NIST_800_53:
+        - SC-7
+    test_requirements:
+      - id: CCC.MLDE.C07.TR01
+        text: |
+          Verify that MLDE instances containing sensitive data cannot be accessed via public IP addresses.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.MLDE.C07.TR02
+        text: |
+          For MLDE instances without sensitive data requiring public access, ensure that appropriate security controls are in place and access is approved.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+          - tlp_green
+          - tlp_clear
+
+  - id: CCC.MLDE.C08  # Restrict Virtual Networks for MLDE Instances
+    title: Restrict Virtual Networks for MLDE Instances
+    objective: |
+      Limit the virtual networks that can be used when creating new MLDE instances to ensure they are deployed within approved and secure network environments.
+    control_family: Network Security
+    threats:
+      - CCC.MLDE.TH01  # Unauthorized Access
+      - CCC.TH01       # Access control is misconfigured (common threat)
+    nist_csf: PR.AC-4
+    control_mappings:
+      CCM:
+        - IAM-12
+      ISO_27001:
+        - 2013 A.9.1.2
+      NIST_800_53:
+        - AC-6
+    test_requirements:
+      - id: CCC.MLDE.C08.TR01
+        text: |
+          Verify that MLDE instances containing sensitive data can only be deployed in approved virtual networks with appropriate security controls.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.MLDE.C08.TR02
+        text: |
+          Ensure that MLDE instances without sensitive data are deployed in networks that meet organizational security standards.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+          - tlp_green
+          - tlp_clear
