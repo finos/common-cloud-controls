@@ -1,4 +1,19 @@
-common_threats: []
+common_threats:
+  - CCC.TH01 # Unauthorized access through elevated privileges
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH03 # Deployment region network is untrusted
+  - CCC.TH04 # Resource is replicated to untrusted or external locations
+  - CCC.TH05 # Data is corrupted during replication
+  - CCC.TH06 # Resource exhaustion
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Alerts are Intercepted
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # Resource Tags Are Manipulated
+  - CCC.TH14 # Older Resource Versions Are Exploited
+
 threats:
   - id: CCC.GenAI.TH01
     title: Injection Attacks
@@ -19,30 +34,20 @@ threats:
         - "LLM01: Prompt Injection"
 
   - id: CCC.GenAI.TH02
-    title: Data Leakage
+    title: Data Leakage from Unsecured Prompts
     description: |
-      Unauthorized transmission of data from the model via network traffic,
-      removable media, or social engineering.
+      Unsecured prompts that contain sensitive information may inadvertently expose 
+      customer data, leading to data leakage and privacy violations.
     features:
+      - CCC.GenAI.F21 # Generate Content
       - CCC.GenAI.F22 # Data Control
-      - CCC.GenAI.F23 # Data Storage
-    mitre_technique: []
+      - CCC.GenAI.F17 # Contextual Prompts
+    mitre_technique:
+      - T1071 # Application Layer Protocol
     threat_mappings:
       owasp:
         - "LLM06: Sensitive Information Disclosure"
         - "LLM10: Model Theft"
-
-  - id: CCC.GenAI.TH03
-    title: Unauthorized Access
-    description: |
-      Gaining unauthorized access to the model, its data, or resources.
-    features:
-      - CCC.F06       # Identity-Based Access Control
-      - CCC.GenAI.F06 # Customizable model selection
-    mitre_technique: []
-    threat_mappings:
-      owasp:
-        - LLMxx (replace with valid reference)
 
   - id: CCC.GenAI.TH04
     title: Model Inversion Attacks
@@ -59,7 +64,7 @@ threats:
           - "LLM10: Model Theft"
 
   - id: CCC.GenAI.TH05
-    title: Adversarial Attacks
+    title: Adversarial Users
     description: |
       Manipulating input data to deceive the model into making incorrect
       predictions or classifications.
