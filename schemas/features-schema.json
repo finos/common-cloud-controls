@@ -6,6 +6,7 @@
         "type": "array",
         "items": {
           "type": "string",
+          "pattern": "^CCC\\.F\\d{2,8}$",
           "description": "IDs of common features; can be omitted if not applicable"
         }
       },
@@ -16,6 +17,7 @@
           "properties": {
             "id": {
               "type": "string",
+              "pattern": "^CCC\\.[A-Za-z]+\\.F\\d{2,8}$",
               "description": "Feature ID in the format CCC.<Service Category Abbreviation>.F<##>"
             },
             "title": {
