@@ -41,7 +41,7 @@ Additionally, labels can flag issues specifically targeted for events (e.g., OSF
 
 The release process involves contributors proposing changes through a pull request, followed by reviews and validations from relevant Working Groups, the creation of a release candidate, and multiple stages of approval from the Change Management Board (CMB) and core maintainers, culminating in the official release being published and announced to the community. The diagram below explains the entire flow at a high-level, and we expand upon this in the subsections of the flow diagram.
 
-## Release Flow Diagram
+### Release Flow Diagram
 
 ![Release Flow Diagram](./imgs/release-process.drawio.svg)
 
