@@ -50,21 +50,21 @@ The release process involves contributors proposing changes through a pull reque
 #### Pull Request Validation
 
 1. **Submission:** A contributor proposes a deliverable or change through a Pull Request (PR) to the CCC repository.
-2. **Working Group Review:**  
-    - The relevant [WG]s will review the PR.  
-    - **[Security WG]** ensures all controls and threat catalogs are complete and ready for release.
-    - **[Taxonomy WG]** ensures the required fields and features are populated and ready for release.
-    - **[Duplication Reduction WG]** ensures that the content is unique and does not duplicate or mimic any existing standards or known catalogs.
-    - **[Delivery WG]** ensures that the PR aligns with content development and formatting standards.
+2. **Working Group Review:**
+   - The relevant [WG]s will review the PR.
+   - **[Security WG]** ensures all controls and threat catalogs are complete and ready for release.
+   - **[Taxonomy WG]** ensures the required fields and features are populated and ready for release.
+   - **[Duplication Reduction WG]** ensures that the content is unique and does not duplicate or mimic any existing standards or known catalogs.
+   - **[Delivery WG]** ensures that the PR aligns with content development and formatting standards.
 3. **Validation:** Both WGs must validate and approve the PR to proceed. Upon approval, the PR can be merged into the main branch.
 
 #### Release Candidate Preparation
 
 1. **Request for Release Candidate (RC):** After the PR is merged, the Release Manager compiles the release candidate based on the merged changes.
 2. **Working Group Approval:** The [WG]s review the release candidate to ensure all deliverables are finalized and meet release criteria. The release candidate must be approved before moving forward.
-3. **Change Management Board (CMB) Review:**  
-    - The CMB reviews the release candidate and confirms whether it adheres to compliance and quality standards.
-    - If further changes are required, the Release Manager aggregates feedback and creates a loop for revisions.
+3. **Change Management Board (CMB) Review:**
+   - The CMB reviews the release candidate and confirms whether it adheres to compliance and quality standards.
+   - If further changes are required, the Release Manager aggregates feedback and creates a loop for revisions.
 4. **Prepare Official Release:** Once the CMB has approved the request, then the Release Manager will begin the promotion process for the release candidate.
 
 #### Final Release
@@ -72,11 +72,11 @@ The release process involves contributors proposing changes through a pull reque
 1. **Publishing:** The Release Manager creates the official release based on the final approved release candidate. This is published on GitHub along with release notes and documentation updates.
 2. **Announcement:** The [Communications WG] announces the release through appropriate channels such as mailing lists, social media, and relevant community events.
 
-[WG]: ../community-groups.md#working-groups  
-[Security WG]: ../working-groups/security/charter.md  
-[Taxonomy WG]: ../working-groups/taxonomy/charter.md  
+[WG]: ../community-groups.md#working-groups
+[Security WG]: ../working-groups/security/charter.md
+[Taxonomy WG]: ../working-groups/taxonomy/charter.md
 [Delivery WG]: ../working-groups/delivery/charter.md
 [Duplication Reduction WG]: ../working-groups/duplication-reduction/charter.md
-[Communications WG]: ../working-groups/communications/charter.md  
-[community guideline]: ./README.md  
-[Milestones]: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones  
+[Communications WG]: ../working-groups/communications/charter.md
+[community guideline]: ./README.md
+[Milestones]: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones
