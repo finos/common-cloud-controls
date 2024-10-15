@@ -50,23 +50,6 @@ When engaging, the following is expected of a CMB member:
   - The Release Manager logs any dissenting opinions and communicates the majority decision.
 - A release cannot proceed without 5 approvals; members are encouraged to help meet this threshold by approving or requesting changes.
 
-The key responsibilities of the CMB include:
-
-1. **Review of Proposed Changes**
-
-   - The CMB reviews all proposed changes to the CCC framework, ensuring they meet security and compliance standards, and align with both internal and external regulations.
-
-2. **Approval of Release Candidates**
-
-   - The board evaluates release candidates and either approves them for official release or requests further changes.
-
-3. **Arbitration of Change Requests**
-
-   - The CMB arbitrates any disputes or unresolved issues related to proposed changes, ensuring that all stakeholders reach a consensus before final approval.
-
-4. **Monitoring and Adapting to Industry Standards**
-   - The CMB ensures that the CCC framework remains aligned with evolving industry standards, adjusting guidelines as needed to stay compliant with new regulations and technological advancements.
-
 ## Membership
 
 The CMB is comprised of representatives from the following:
