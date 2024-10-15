@@ -6,7 +6,7 @@ This document is a [community guideline].
 
 The document outlines and defines the guidelines for the Change Management Board (CMB) for the Common Cloud Controls (CCC) project.
 
-The Change Management Board (CMB) is a collaborative body composed of representatives from multiple banks of varying sizes and other external organizations. Its primary role is to oversee and approve changes and new catalogs that are within the Release Candidate. The CMB acts as a governing entity, facilitating discussion and arbitration when necessary, to ensure that all stakeholder concerns are addressed before approving release candidates for official publication. This diverse representation ensures that the framework is adaptable to the needs of a wide range of institutions while maintaining consistency and integrity across the board.
+The CMB is a body of representatives from financial institutions of varying sizes and types. Its primary role is to review and approve changes and new catalogs that are within the Release Candidate. The CMB collectively represents end-user stakeholders, ensuring that each artifact is adaptable to the needs of a wide range of institutions while maintaining consistency and integrity across the board.
 
 ## Responsibilities
 
