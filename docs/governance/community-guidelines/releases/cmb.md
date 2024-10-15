@@ -101,12 +101,6 @@ The process followed by the CMB to manage changes includes:
 4. **Final Approval and Release**
    - Upon receiving approval, the release manager compiles the final release package, and the CMB confirms the official release of the updated framework.
 
-## Collaboration with Working Groups
-
-The CMB works closely with the following working groups:
-
-- [Delivery WG]: Oversees the delivery and implementation of the proposed changes.
-
 [Security WG]: ../working-groups/security/charter.md
 [Delivery WG]: ../working-groups/delivery/charter.md
 [community guideline]: ./README.md

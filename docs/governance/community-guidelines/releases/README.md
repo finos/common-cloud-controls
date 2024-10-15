@@ -29,7 +29,7 @@ To manage GitHub issues targeted for a release, we recommend using a combination
 There are two types of releases:
 
 1. Service Releases: Controls for individual services can be released independently.
-2. Service Sets: When appropriate, the controls of multiple services can be grouped together and released as a bundle.
+2. Service Sets: When appropriate, the controls of multiple services can be scheduled for simultaneous release. 
 
 ### Labels
 
@@ -43,9 +43,7 @@ The release process involves contributors proposing changes through a pull reque
 
 ![Release Flow Diagram](./imgs/release-process.drawio.svg)
 
-### Flow Explained
-
-#### Pull Request Validation
+### Pull Request Validation
 
 1. **Submission:** A contributor proposes a deliverable or change through a Pull Request (PR) to the CCC repository.
 
