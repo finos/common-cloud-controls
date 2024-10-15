@@ -57,7 +57,7 @@ The release process involves contributors proposing changes through a pull reque
    - **[Delivery WG]** ensures that the PR aligns with content development and formatting standards.
 3. **Validation:** All [WG]s must validate and approve the PR to proceed. Upon approval, the PR can be merged into the main branch.
 
-#### Release Candidate Preparation
+### Release Candidate Preparation
 
 1. **Request for Release Candidate (RC):** After the PR is merged, the Release Manager compiles the release candidate based on the merged changes.
 2. **Working Group Approval:** The [WG]s review the release candidate to ensure all deliverables are finalized and meet release criteria. The release candidate must be approved before moving forward in the process.
