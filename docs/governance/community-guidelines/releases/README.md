@@ -54,7 +54,7 @@ The release process involves contributors proposing changes through a pull reque
    - **[Taxonomy WG]** ensures the required fields and features are populated and ready for release.
    - **[Delivery WG]** ensures that the PR aligns with content development and formatting standards.
 
-3. **Validation:** All [WG]s must validate and approve the PR to proceed. Upon approval, the PR can be merged into the main branch.
+3. **Validation:** All [WG]s
 
 ### Release Candidate Preparation
 
