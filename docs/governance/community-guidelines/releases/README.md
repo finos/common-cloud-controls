@@ -45,9 +45,7 @@ The release process involves contributors proposing changes through a pull reque
 
 ![Release Flow Diagram](./imgs/release-process.drawio.svg)
 
-### Flow Explained
-
-#### Pull Request Validation
+### Pull Request Validation
 
 1. **Submission:** A contributor proposes a deliverable or change through a Pull Request (PR) to the CCC repository.
 
