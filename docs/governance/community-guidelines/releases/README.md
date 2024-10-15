@@ -66,7 +66,7 @@ The release process involves contributors proposing changes through a pull reque
    - If further changes are required, the Release Manager aggregates feedback and creates a loop for revisions.
 4. **Prepare Official Release:** Once the CMB has approved the request, then the Release Manager will begin the promotion process for the release candidate.
 
-#### Final Release
+### Final Release
 
 1. **Publishing:** The Release Manager creates the official release based on the final approved release candidate. This is published on GitHub along with release notes and documentation updates.
 2. **Announcement:** The [Communications WG] announces the release through appropriate channels suchs as mailing lists and social media.
