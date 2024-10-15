@@ -29,7 +29,7 @@ To manage GitHub issues targeted for a release, we recommend using a combination
 There are two types of releases:
 
 1. Service Releases: Controls for individual services can be released independently.
-2. Service Sets: When appropriate, the controls of multiple services can be grouped together and released as a bundle.
+2. Service Sets: When appropriate, the controls of multiple services can be scheduled for simultaneous release. 
 
 ### Labels
 
