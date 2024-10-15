@@ -41,8 +41,6 @@ Additionally, labels can flag issues specifically targeted for events (e.g., OSF
 
 The release process involves contributors proposing changes through a pull request, followed by reviews and validations from relevant Working Groups, the creation of a release candidate, and multiple stages of approval from the [Change Management Board] (CMB) and project contributors, culminating in the official release being published and announced to the community. The diagram below explains the entire flow at a high-level, and we expand upon this in the subsections of the flow diagram.
 
-### Release Flow Diagram
-
 ![Release Flow Diagram](./imgs/release-process.drawio.svg)
 
 ### Flow Explained
@@ -56,7 +54,6 @@ The release process involves contributors proposing changes through a pull reque
 2. **Working Group Review:** The relevant [WG]s will review the PR.
    - **[Security WG]** ensures all controls and threat catalogs are complete and ready for release.
    - **[Taxonomy WG]** ensures the required fields and features are populated and ready for release.
-   - **[Duplication Reduction WG]** ensures that the content is unique and does not duplicate or mimic any existing standards or known catalogs.
    - **[Delivery WG]** ensures that the PR aligns with content development and formatting standards.
 
 3. **Validation:** All [WG]s must validate and approve the PR to proceed. Upon approval, the PR can be merged into the main branch.
@@ -80,6 +77,5 @@ The release process involves contributors proposing changes through a pull reque
 [Taxonomy WG]: ../../working-groups/taxonomy/charter.md
 [Delivery WG]: ../../working-groups/delivery/charter.md
 [Change Management Board]: ./cmb.md
-[Duplication Reduction WG]: ../../working-groups/duplication-reduction/charter.md
 [Communications WG]: ../../working-groups/communications/charter.md
 [community guideline]: ../README.md
