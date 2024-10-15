@@ -50,6 +50,7 @@ The release process involves contributors proposing changes through a pull reque
 #### Pull Request Validation
 
 1. **Submission:** A contributor proposes a deliverable or change through a Pull Request (PR) to the CCC repository.
+  - If a release manager has not been preemptively appointed for this deliverable, the [Delivery WG] should do so at this time.
 2. **Working Group Review:** The relevant [WG]s will review the PR.
    - **[Security WG]** ensures all controls and threat catalogs are complete and ready for release.
    - **[Taxonomy WG]** ensures the required fields and features are populated and ready for release.
