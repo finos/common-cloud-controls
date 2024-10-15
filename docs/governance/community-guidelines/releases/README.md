@@ -26,11 +26,6 @@ To manage GitHub issues targeted for a release, we recommend using a combination
 
 [Milestones] group GitHub issues related to a specific release. Each release should have a single top-level milestone associated with all relevant issues.
 
-There are two types of releases:
-
-1. Service Releases: Controls for individual services can be released independently.
-2. Service Sets: When appropriate, the controls of multiple services can be scheduled for simultaneous release. 
-
 ### Labels
 
 Each [WG] should apply their label to relevant issues, clearly indicating which issues fall under their responsibility.
