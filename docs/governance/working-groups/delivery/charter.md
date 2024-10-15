@@ -34,7 +34,7 @@ This group will:
 - Maintain a list of all community outputs that need to be released
 - Determine and document project best practices for versioning and releasing content
 - Maintain a version controlled process for releasing content
-- Collaborate with other [WG]s to coordinate releases
+- Collaborate with other [WG]'s to coordinate releases
 - Define and maintain a release strategy and schedule (whether it be biweekly, monthly, etc.)
 - Coordinate with the [Communications WG] regarding upcoming releases
 

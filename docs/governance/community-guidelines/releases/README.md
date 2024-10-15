@@ -8,7 +8,7 @@ The document outlines the guidelines of managing releases within the Common Clou
 
 ## Ownership
 
-The [Communications WG] has overall ownership of releases. They are responsible for setting the roadmap and communicating project progress to the wider community. All other [WG]s should contribute to determining the content of a release.
+The [Communications WG] has overall ownership of releases. They are responsible for setting the roadmap and communicating project progress to the wider community. All other [WG]'s should contribute to determining the content of a release.
 
 ## Scheduling
 
@@ -39,7 +39,7 @@ Additionally, labels can flag issues specifically targeted for events (e.g., OSF
 
 ## Release Process
 
-The release process involves contributors proposing changes through a pull request, followed by reviews and validations from relevant Working Groups, the creation of a release candidate, and multiple stages of approval from the Change Management Board (CMB) and core maintainers, culminating in the official release being published and announced to the community. The diagram below explains the entire flow at a high-level, and we expand upon this in the subsections of the flow diagram.
+The release process involves contributors proposing changes through a pull request, followed by reviews and validations from relevant Working Groups, the creation of a release candidate, and multiple stages of approval from the [Change Management Board] (CMB) and project contributors, culminating in the official release being published and announced to the community. The diagram below explains the entire flow at a high-level, and we expand upon this in the subsections of the flow diagram.
 
 ### Release Flow Diagram
 
@@ -60,7 +60,7 @@ The release process involves contributors proposing changes through a pull reque
 #### Release Candidate Preparation
 
 1. **Request for Release Candidate (RC):** After the PR is merged, the Release Manager compiles the release candidate based on the merged changes.
-2. **Working Group Approval:** The [WG]s review the release candidate to ensure all deliverables are finalized and meet release criteria. The release candidate must be approved before moving forward.
+2. **Working Group Approval:** The [WG]s review the release candidate to ensure all deliverables are finalized and meet release criteria. The release candidate must be approved before moving forward in the process.
 3. **Change Management Board (CMB) Review:**
    - The CMB reviews the release candidate and confirms whether it adheres to compliance and quality standards.
    - If further changes are required, the Release Manager aggregates feedback and creates a loop for revisions.
@@ -69,13 +69,13 @@ The release process involves contributors proposing changes through a pull reque
 #### Final Release
 
 1. **Publishing:** The Release Manager creates the official release based on the final approved release candidate. This is published on GitHub along with release notes and documentation updates.
-2. **Announcement:** The [Communications WG] announces the release through appropriate channels such as mailing lists, social media, and relevant community events.
+2. **Announcement:** The [Communications WG] announces the release through appropriate channels suchs as mailing lists and social media.
 
-[WG]: ../community-groups.md#working-groups
-[Security WG]: ../working-groups/security/charter.md
-[Taxonomy WG]: ../working-groups/taxonomy/charter.md
-[Delivery WG]: ../working-groups/delivery/charter.md
-[Duplication Reduction WG]: ../working-groups/duplication-reduction/charter.md
-[Communications WG]: ../working-groups/communications/charter.md
-[community guideline]: ./README.md
-[Milestones]: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/about-milestones
+[WG]: ../../community-groups.md#working-groups
+[Security WG]: ../../working-groups/security/charter.md
+[Taxonomy WG]: ../../working-groups/taxonomy/charter.md
+[Delivery WG]: ../../working-groups/delivery/charter.md
+[Change Management Board]: ./cmb.md
+[Duplication Reduction WG]: ../../working-groups/duplication-reduction/charter.md
+[Communications WG]: ../../working-groups/communications/charter.md
+[community guideline]: ../README.md
