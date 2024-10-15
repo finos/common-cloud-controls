@@ -50,17 +50,37 @@ When engaging, the following is expected of a CMB member:
   - The Release Manager logs any dissenting opinions and communicates the majority decision.
 - A release cannot proceed without 5 approvals; members are encouraged to help meet this threshold by approving or requesting changes.
 
-## Membership
+### Qualifications for Participation
 
-The CMB is comprised of representatives from the following:
+Individuals of any background or experience level may participate in a review.
 
-1. **FSIs of Varying Sizes**
+To approve or request changes, an individual must be an appointed CMB member in good standing.
 
-   - Representatives from banks of different scales, ensuring that the interests and needs of both small and large financial institutions are accounted for.
+CMB members are appointed by the [Delivery WG], through application or recruitment. If you have questions, please reach out to a current WG member or join a community call.
 
-2. **External Organizations**
-   - Representatives from various other organizations also welcomed to join this effort.
+### Release Manager Qualifications
 
+A release manager shall be a [Delivery WG] approver or a CMB member who has provided feedback on a previous release cycle.
+
+Release managers are expected to demonstrate the following qualities:
+
+- Strong written communication skills
+- High attention to detail
+- Commitment to process and protocol
+- Ability to parse and relay complex feedback
+- Fundamental knowledge of the domain featured in the release
+- Availability and responsiveness during the release cycle (at least one month)
+
+### Breach of Decorum
+
+Members of the Change Management Board are expected to follow the [FINOS Community Code of Conduct](https://community.finos.org/docs/governance/code-of-conduct) at all times.
+
+Appointments shall be permanently revoked in the following cases:
+
+- Repeat disrespectful communication
+- Repeat obstructive behavior such as vague or non-actionable feedback
+- Repeat abandonment of a stated commitment
+- Undermining the process, such as deliberately circumventing or disregarding documented norms
 ## Process
 
 The process followed by the CMB to manage changes includes:
