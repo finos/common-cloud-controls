@@ -8,7 +8,7 @@ The document outlines and defines the guidelines for the Change Management Board
 
 The CMB is a body of representatives from financial institutions of varying sizes and types. Its primary role is to review and approve changes and new catalogs that are within the Release Candidate. The CMB collectively represents end-user stakeholders, ensuring that each artifact is adaptable to the needs of a wide range of institutions while maintaining consistency and integrity across the board.
 
-## Membership 
+## Membership
 
 The change management board is comprised of a Release Manager and the body of reviewers.
 
@@ -56,7 +56,7 @@ Individuals of any background or experience level may participate in a review.
 
 To approve or request changes, an individual must be an appointed CMB member in good standing.
 
-CMB members are appointed by the [Delivery WG], through application or recruitment. If you have questions, please reach out to a current WG member or join a community call.
+CMB members are appointed by the [Delivery WG]. If you are interested or have any questions, please reach out to a current [Delivery WG] member or join the community call.
 
 ### Release Manager Qualifications
 
@@ -69,7 +69,7 @@ Release managers are expected to demonstrate the following qualities:
 - Commitment to process and protocol
 - Ability to parse and relay complex feedback
 - Fundamental knowledge of the domain featured in the release
-- Availability and responsiveness during the release cycle (at least one month)
+- Reasonable availability and responsiveness during the release cycle (at least one month)
 
 ### Breach of Decorum
 
@@ -81,6 +81,7 @@ Appointments shall be permanently revoked in the following cases:
 - Repeat obstructive behavior such as vague or non-actionable feedback
 - Repeat abandonment of a stated commitment
 - Undermining the process, such as deliberately circumventing or disregarding documented norms
+
 ## Process
 
 The process followed by the CMB to manage changes includes:
