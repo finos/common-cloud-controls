@@ -10,7 +10,7 @@ The CMB is a body of representatives from financial institutions of varying size
 
 ## Membership
 
-The change management board is comprised of a Release Manager and the body of reviewers.
+The change management board is composed of a Release Manager and the body of reviewers.
 
 A release cycle shall be a minimum of one month, during which time a Release Manager will solicit and arbitrate feedback from the reviewers prior to approving and initiating the release.
 
