@@ -8,7 +8,7 @@ The document outlines the guidelines of managing releases within the Common Clou
 
 ## Ownership
 
-The [Communications WG] has overall ownership of releases. They are responsible for setting the roadmap and communicating project progress to the wider community. All other [WG]'s should contribute to determining the content of a release.
+The [Communications WG] is responsible for setting the release roadmap and communicating project progress to the wider community. All other [WG]'s should contribute to determining the content of a release.
 
 ## Scheduling
 

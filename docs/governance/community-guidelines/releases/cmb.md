@@ -8,9 +8,22 @@ The document outlines and defines the guidelines for the Change Management Board
 
 The CMB is a body of representatives from financial institutions of varying sizes and types. Its primary role is to review and approve changes and new catalogs that are within the Release Candidate. The CMB collectively represents end-user stakeholders, ensuring that each artifact is adaptable to the needs of a wide range of institutions while maintaining consistency and integrity across the board.
 
+## Process
+
+The process followed by the CMB to manage changes includes:
+	
+1. **Proposal Submission**
+   - Proposed changes are submitted for CMB review by contributors or working groups within the CCC project.
+1. **Review Cycle**
+   - The CMB reviews the changes based on the established guidelines and feedback from relevant working groups such as the [Security WG], [Delivery WG], and others.
+1. **Approval or Request for Modifications**
+   - After review, the CMB either approves the proposed changes for the next release candidate or requests modifications and additional feedback from the contributor or associated working group.
+1. **Final Approval and Release**
+   - Upon receiving approval, the release manager compiles the final release package, and the CMB confirms the official release of the updated framework.
+   
 ## Membership
 
-The change management board is composed of a Release Manager and the body of reviewers.
+The change management board is composed of a Release Manager and the body of reviewers, both appointed by the [Delivery WG].
 
 A release cycle shall be a minimum of one month, during which time a Release Manager will solicit and arbitrate feedback from the reviewers prior to approving and initiating the release.
 
@@ -48,7 +61,7 @@ When engaging, the following is expected of a CMB member:
   - When a change request (CR) is received, the Release Manager will open discussions and facilitate responses from the board.
 - Members are encouraged to respond within 7 days if they have input on a CR.
   - The Release Manager logs any dissenting opinions and communicates the majority decision.
-- A release cannot proceed without 5 approvals; members are encouraged to help meet this threshold by approving or requesting changes.
+- A release cannot proceed without a minimum of 5 approvals; members are encouraged to help meet this threshold by approving, requesting changes, or contributing to discussion around open change requests.
 
 ### Qualifications for Participation
 
@@ -81,25 +94,6 @@ Appointments shall be permanently revoked in the following cases:
 - Repeat obstructive behavior such as vague or non-actionable feedback
 - Repeat abandonment of a stated commitment
 - Undermining the process, such as deliberately circumventing or disregarding documented norms
-
-## Process
-
-The process followed by the CMB to manage changes includes:
-
-1. **Proposal Submission**
-
-   - Proposed changes are submitted for CMB review by contributors or working groups within the CCC project.
-
-2. **Review Cycle**
-
-   - The CMB reviews the changes based on the established guidelines and feedback from relevant working groups such as the [Security WG], [Delivery WG], and others.
-
-3. **Approval or Request for Modifications**
-
-   - After review, the CMB either approves the proposed changes for the next release candidate or requests modifications and additional feedback from the contributor or associated working group.
-
-4. **Final Approval and Release**
-   - Upon receiving approval, the release manager compiles the final release package, and the CMB confirms the official release of the updated framework.
 
 [Security WG]: ../working-groups/security/charter.md
 [Delivery WG]: ../working-groups/delivery/charter.md
