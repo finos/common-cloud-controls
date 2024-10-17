@@ -1,0 +1,38 @@
+common_features:
+  - CCC.F01  # Encryption in Transit Enabled by Default
+  - CCC.F03  # Access/Activity Logs
+  - CCC.F06  # Identity Based Access Control
+  - CCC.F08  # Multi-zone Deployment
+  - CCC.F09  # Monitoring
+  - CCC.F10  # Logging
+
+features:
+  - id: CCC.VPC.F01
+    title: Custom Network Creation
+    description: |
+      Ability to create custom virtual networks with specified configurations, subnets, and security controls to isolate and manage resources effectively.
+
+  - id: CCC.VPC.F02
+    title: External IP Address Assignment
+    description: |
+      Capability to assign external (public) IP addresses to virtual machines or resources for internet connectivity and access.
+
+  - id: CCC.VPC.F03
+    title: IP Forwarding
+    description: |
+      Enables virtual machines to forward packets not destined to themselves, allowing them to act as gateways, routers, or perform network address translation (NAT).
+
+  - id: CCC.VPC.F04
+    title: Public IP Access Control
+    description: |
+      Controls and restricts access to virtual machine instances or services via public IP addresses, including firewall rules and access policies.
+
+  - id: CCC.VPC.F05
+    title: Virtual Network Selection
+    description: |
+      Allows selection of specific virtual networks and subnets when creating resources, defining the network environment and security boundaries for the instance.
+
+  - id: CCC.VPC.F06
+    title: Nested Virtualization
+    description: |
+      Supports running virtual machines within virtual machines, enabling nested virtualization features for scenarios like testing, development, or running hypervisor-dependent workloads.
