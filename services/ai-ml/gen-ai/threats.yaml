@@ -1,0 +1,249 @@
+common_threats:
+  - CCC.TH01 # Unauthorized access through elevated privileges
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH03 # Deployment region network is untrusted
+  - CCC.TH04 # Resource is replicated to untrusted or external locations
+  - CCC.TH05 # Data is corrupted during replication
+  - CCC.TH06 # Resource exhaustion
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Alerts are Intercepted
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # Resource Tags Are Manipulated
+  - CCC.TH14 # Older Resource Versions Are Exploited
+
+threats:
+  - id: CCC.GenAI.TH01
+    title: Injection Attacks
+    description: |
+      Untrusted data bypasses controls when sent to an interpreter as part of a
+      prompt command or query, leading to unauthorized access, data leakage,
+      and system compromise.
+    features:
+      - CCC.GenAI.F15 # Text-Based Prompts
+      - CCC.GenAI.F16 # Structured Prompts
+      - CCC.GenAI.F20 # Custom Template Prompts
+    mitre_technique:
+      - T1659 # Content Injection
+      - T1055 # Process Injection
+      - T1221 # Template Injection
+    threat_mappings:
+      owasp:
+        - "LLM01: Prompt Injection"
+
+  - id: CCC.GenAI.TH02
+    title: Data Leakage from Unsecured Prompts
+    description: |
+      Unsecured prompts that contain sensitive information may inadvertently expose 
+      customer data, leading to data leakage and privacy violations.
+    features:
+      - CCC.GenAI.F21 # Generate Content
+      - CCC.GenAI.F22 # Data Control
+      - CCC.GenAI.F17 # Contextual Prompts
+    mitre_technique:
+      - T1071 # Application Layer Protocol
+    threat_mappings:
+      owasp:
+        - "LLM06: Sensitive Information Disclosure"
+        - "LLM10: Model Theft"
+
+  - id: CCC.GenAI.TH04
+    title: Model Inversion Attacks
+    description: |
+      Inferring sensitive information about the training data from model
+      inference results.
+    features:
+      - CCC.GenAI.F06 # Customizable model selection
+      - CCC.GenAI.F24 # Data Residency
+    mitre_technique: []
+    threat_mappings:
+      owasp:
+          - "LLM06: Sensitive Information Disclosure"
+          - "LLM10: Model Theft"
+
+  - id: CCC.GenAI.TH05
+    title: Adversarial Users
+    description: |
+      Manipulating input data to deceive the model into making incorrect
+      predictions or classifications.
+    features:
+      - CCC.GenAI.F15 # Text-Based Prompts
+      - CCC.GenAI.F16 # Structured Prompts
+      - CCC.GenAI.F17 # Contextual Prompts
+      - CCC.GenAI.F18 # Interactive Prompts
+      - CCC.GenAI.F19 # Image-Based Prompts
+    mitre_technique: []
+    threat_mappings:
+      owasp:
+          - "LLM01: Prompt Injection"
+          - "LLM06: Sensitive Information Disclosure"
+
+  - id: CCC.GenAI.TH06
+    title: Data Poisoning
+    description: |
+      Injecting malicious data into the training dataset, causing the model to
+      learn incorrect patterns.
+    features:
+      - CCC.GenAI.F06 # Customizable model selection
+      - CCC.GenAI.F22 # Data Control
+    mitre_technique: []
+    threat_mappings:
+      owasp:
+          - "LLM03: Training Data Poisoning"
+          - "LLM05: Supply Chain Vulnerabilities"
+
+  - id: CCC.GenAI.TH07
+    title: Privacy Violations
+    description: |
+      Unauthorized disclosure of personal or private information.
+    features:
+      - CCC.GenAI.F06 # Customizable model selection
+      - CCC.GenAI.F24 # Data Residency
+    mitre_technique: []
+    threat_mappings:
+      owasp:
+          - "LLM03: Training Data Poisoning"
+
+  - id: CCC.GenAI.TH08
+    title: Service Disruption
+    description: |
+      Denial-of-service (DoS) or denial-of-wallet (DoW) attacks impacting
+      service availability.
+    features:
+      - CCC.F19       # On Demand Scaling
+      - CCC.GenAI.F20 # Custom Template Prompts
+    mitre_technique: []
+    threat_mappings:
+      owasp:
+          - "LLM04: Model Denial of Service"
+
+  - id: CCC.GenAI.TH09
+    title: Intellectual Property Theft
+    description: |
+      Loss of proprietary information, such as algorithms, models, and
+      datasets.
+    features:
+      - CCC.GenAI.F22 # Data Control
+      - CCC.GenAI.F24 # Data Residency
+    mitre_technique: []
+    threat_mappings:
+      owasp:
+          - "LLM06: Sensitive Information Disclosure"
+  - id: CCC.GenAI.TH10
+    title: Compliance Violations
+    description: |
+      Failing to adhere to relevant laws and regulations, including data
+      protection, privacy, and financial regulations.
+    features:
+      - CCC.GenAI.F24 # Data Residency
+      - CCC.GenAI.F25 # Content Moderation
+    mitre_technique: []
+  - id: CCC.GenAI.TH11
+    title: Cost Exploitation
+    description: |
+      Exhausting the application's query budget or incurring additional costs
+      through malicious activity.
+    features:
+      - CCC.F15       # Cost Management
+      - CCC.F16       # Budgeting
+      - CCC.GenAI.F21 # Generate Content
+    mitre_technique:
+      - x
+
+  - id: CCC.GenAI.TH13
+    title: Performance Degredation
+    description: |
+      The model's performance degrades over time due to data drift, concept
+      drift, model decay, or misconfigured parameters.
+    features:
+      - CCC.GenAI.F07 # Parameter tuning - Temperature
+      - CCC.GenAI.F08 # Parameter tuning - Max Tokens
+      - CCC.GenAI.F09 # Parameter tuning - Top P
+      - CCC.GenAI.F10 # Parameter tuning - Top K
+      - CCC.GenAI.F11 # Parameter tuning - Stop Sequences
+      - CCC.GenAI.F12 # Parameter tuning - Frequency Penalty
+      - CCC.GenAI.F13 # Parameter tuning - Presence Penalty
+      - CCC.GenAI.F14 # Parameter tuning - Context Length
+    mitre_technique:
+      - T1480 # Execution Guardrails
+
+  - id: CCC.GenAI.TH14
+    title: Insecure or Malicious Code Generation
+    description: |
+      The model generates outputs that will introduce further risk through insecure,
+      malicious, or non-compliant code if implemented without scrutiny. If the model
+      is compromised, output may contain backdoors or other vulnerabilities.
+    features:
+      - CCC.GenAI.F02 # Code-based model selection
+      - CCC.GenAI.F21 # Generate Content
+    mitre_technique:
+      - x
+    threat_mappings:
+      owasp:
+          - LLM02 # Insecure Output Handling
+
+  - id: CCC.GenAI.TH15
+    title: Embedding Poisoning
+    description: |
+      Attackers manipulate Embedding Model Selection to inject poisoned embeddings
+      into the model's knowledge base. This can result in incorrect semantic
+      relationships, leading to biased or harmful decisions based on incorrect data
+      associations. Such an attack could allow the embedding model to output distorted
+      results in tasks like clustering, semantic search, or similarity scoring.
+    features:
+      - CCC.GenAI.F03 # Embedding model selection
+      - CCC.GenAI.F05 # Multimodal model selection
+      - CCC.GenAI.F06 # Customizable model selection
+    mitre_technique:
+      - T1565 # Data Manipulation
+    threat_mappings:
+      owasp:
+          - LLM03 # Training Data Poisoning
+
+  - id: CCC.GenAI.TH16
+    title: Adversarial Image Attacks
+    description: |
+      Attackers manipulate the model by submitting adversarial image inputs
+      designed to deceive the model into making incorrect predictions or
+      classifications. This could be used to exploit image classification,
+      generation, or editing tasks, causing the model to produce harmful,
+      biased, or misleading content. The attack may bypass standard validation
+      mechanisms and result in unexpected or dangerous outcomes in systems that
+      rely on accurate image processing.
+    features:
+      - CCC.GenAI.F04 # Image-based model selection
+      - CCC.GenAI.F05 # Multimodal model selection
+      - CCC.GenAI.F06 # Customizable model selection
+      - CCC.GenAI.F19 # Image-Based Prompts
+    mitre_technique:
+      - T1565 # Data Manipulation
+    threat_mappings:
+      owasp:
+          - LLM03 # Training Data Poisoning
+
+  - id: CCC.GenAI.TH17
+    title: Stop Sequence Exploitation
+    description: |
+      Attackers manipulate the Stop Sequence parameter to halt the model's
+      generation prematurely, causing it to omit important information.
+      Alternatively, attackers could manipulate stop sequences to extend the
+      model's output, leading to data leakage or unexpected behavior.
+    features:
+      - CCC.GenAI.F11 # Parameter tuning - Stop Sequences
+    mitre_technique:
+      - T1565 # Data Manipulation
+
+  - id: CCC.GenAI.TH18
+    title: Custom Template Prompt Manipulation
+    description: |
+      Attackers create or modify custom template prompts to bypass input
+      validation, introduce vulnerabilities, or inject harmful data. By
+      exploiting the template structure, they can manipulate model inputs,
+      leading to unauthorized access, harmful output, or data leakage.
+    features:
+      - CCC.GenAI.F20 # Custom Template Prompts
+      - CCC.GenAI.F21 # Generate Content
+    mitre_technique:
+      - T1565 # Data Manipulation
