@@ -100,5 +100,5 @@ _No control mappings added._
 
 We would like to acknowledge the following organizations for their valuable contributions to this project:
 
-{{ insertSVGs }}
+{{ insertLogoWall }}
 <!-- markdownlint-enable -->
