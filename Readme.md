@@ -101,7 +101,7 @@ The CCC Steering Committee is the governing body of the CCC project, providing d
 | Jon Meadows      | Citi           | FSI       |
 | Oli Bage         | LSEG           | FSI       |
 | Simon Zhang      | BMO            | FSI       |
-| Paul Stevenson   | Morgan Stanley | FSI       |
+| Vladimir Rabotka | Morgan Stanley | FSI       |
 | Robert Griffiths | Scott Logic    | Community |
 | Eddie Knight     | Sonatype       | Community |
 | Adrian Hammond   | Red Hat        | Community |
