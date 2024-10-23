@@ -16,6 +16,7 @@
 # Code owners should only be modified by the SteerCo
 /.github @finos/ccc-wg-delivery
 /release @finos/ccc-wg-delivery
+/.vscode @finos/ccc-wg-delivery
 /.github/CODEOWNERS @finos/ccc-steerco
 #
 ########
@@ -50,9 +51,18 @@
 ########
 #
 # Threats or controls definition changes must be reviewed by the Security WG
-**/threats.md @finos/ccc-wg-security
-**/controls.md @finos/ccc-wg-security
+**/threats.yaml @finos/ccc-wg-security
+**/controls.yaml @finos/ccc-wg-security
 **/*.feature @finos/ccc-wg-security
+**/common-controls.yaml @finos/ccc-wg-security
+**/common-threats.yaml @finos/ccc-wg-security
+#
+########
+
+#
+# Additional Changes that might impact automation must be reviewed by the 
+# Delivery WG
+**/metadata.yaml @finos/ccc-wg-delivery
 #
 ########
 

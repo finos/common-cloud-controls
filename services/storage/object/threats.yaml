@@ -1,24 +1,49 @@
-title: CCC Object Storage Security Threats
-category-id: CCC.ObjStor
+common_threats:
+  - CCC.TH01 # Unauthorized access through elevated privileges
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH03 # Deployment region network is untrusted
+  - CCC.TH04 # Data is replicated to untrusted or external locations
+  - CCC.TH05 # Data is corrupted during replication
+  - CCC.TH06 # Data is lost or corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Alerts are Intercepted
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # Resource Tags Are Manipulated
+  - CCC.TH14 # Older Resource Versions Are Exploited
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+
 threats:
-  - id: CCC.ObjStor.TH01
-    title: Attacker intercepts data in transit to a bucket
-    description: The object storage service allows communication over HTTP. An attacker can intercept the traffic you send to bucket, in order to read or modify the data.
-    feature_id: CCC.ObjStor.F15
-    mitre_attack: 
-      - TA009
-      - T1557
-  - id: CCC.ObjStor.TH02
-    title: Attacker encrypts objects for ransomware
-    description: The object storage service provides several types of encryption where the key is not operated by the CSP. An attacker can encrypt all the data stored in the bucket to ransom the data owner to get the decryption key. Alternatively, an attacker can change the default encryption key, for a similar effect on any new data uploaded.
-    feature_id: CCC.ObjStor.F14
-    mitre_attack: 
-      - TA0040
-      - T1486
-  - id: CCC.ObjStor.TH03
-    title: Attacker grants bucket access to untrusted principals
-    description: The bucket access controls (e.g. ACLs, bucket policies) can enable access to objects owned by the bucket. An attacker (or someone by negligence) can change (i.e., impair) the bucket access controls and make the content accessible to untrusted principals (via public endpoints, cross-account VPC endpoints, or cross-account access point).
-    feature_id: CCC.ObjStor.F16
-    mitre_attack: 
-      - TA0005
-      - T1562
+  - id: CCC.ObjStor.TH01 # Data exfiltration via insecure lifecycle policies
+    title: Data exfiltration via insecure lifecycle policies
+    description: |
+      Misconfigured lifecycle policies may unintentionally allow data to be
+      exfiltrated or destroyed prematurely, resulting in a loss of availability
+      and potential exposure of sensitive data.
+    features:
+      - CCC.ObjStor.F08 # Lifecycle Policies
+      - CCC.F11 # Backup
+    mitre_technique:
+      - T1020 # Automated Exfiltration
+      - T1537 # Transfer Data to Cloud Account
+      - T1567 # Exfiltration Over Web Services
+      - T1048 # Exfiltration Over Alternative Protocol
+      - T1485 # Data Destruction
+
+  - id: CCC.ObjStor.TH02 # Improper enforcement of object modification locks
+    title: Improper enforcement of object modification locks
+    description: |
+      Attackers may exploit vulnerabilities in object modification locks to
+      delete or alter objects despite the lock being in place, leading to data
+      loss or tampering.
+    features:
+      - CCC.ObjStor.F09 # Object Modification Locks
+    mitre_technique:
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+      - T1490 # Inhibit System Recovery
+      - T1491 # Defacement
+      - T1565 # Data Manipulation
+

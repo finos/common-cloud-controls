@@ -4,23 +4,47 @@ A feature definitions document provides a detailed specification of features ass
 
 Each feature definition should be created for a service in the CCC Taxonomy, with each feature mapped to a specific aspect or functionality of that service.
 
+## Common vs. Specific Features
+
+To streamline maintenance, the CCC project maintains a list of [common features].
+
+Each service category’s `features.yaml` file references common features by listing their IDs under the top-level `common_features` value. During the release pipeline, our [delivery tooling] compiles these common features into the final document alongside any specific features. In the final output, both types of features are presented consistently, with the unique identifier being the only difference.
+
+### Common Features
+
+- Common features are reusable across multiple service categories. They are documented once in the [common features] file and referenced where applicable.
+- These features streamline the process by reducing redundancy and providing a consistent baseline across service categories.
+
+### Specific Features
+
+- Specific features are unique to a particular service category.
+- If a feature is relevant to multiple categories, consider whether it should be generalized and added to the common features list.
+
+## Feature Documentation Process
+
+When creating or updating a `features.yaml` file for a service category, follow these steps:
+
+1. **Review Common Features**: Start by reviewing the [common features] list. If any common features apply to this category, reference them by adding their IDs to the `common_features` list.
+2. **Define Specific Features**: If a feature is unique to the service category, document it in the `specific-features` section of the `features.yaml` file.
+3. **Consider Generalization**: If a specific feature could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common features] list.
+
 ## Feature Definition Format
 
-In order to create a cohesive standard that is readily useful to end users, features must be indistinguishable from each other in format, style, and tone. A review from the [Communications WG] is recommended, but not required, in cases where additional support is needed to match the writing style and tone.
+To maintain consistency, all features—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [feature template](../templates/features.yaml) before release.
 
-As such, all features must match the layout presented in the [feature template](../templates/features.yaml) prior to release.
+### Feature Definition Values
 
-The following list outlines the values necessary to create a new feature definition using the feature template:
+When creating a new feature definition, use the following values:
 
-- **Category Title** - The title of the service category this feature belongs to, formatted as `CCC <Service Category> Security Threats`.
-- **Category ID** - A unique identifier for the service category, following the format `CCC.<Service Category Abbreviation>`.
-- **Type** - The parent type of the service category.
-- **Category Description** - A 1 to 3 sentence description of the service category.
-- **Service Examples** - Names of known cloud services that fall under this category.
-- **Feature ID** - A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
-- **Feature Title** - A short name or title that succinctly describes the feature.
-- **Feature Description** - A complete description of the feature, detailing its purpose and functionality.
+- **Feature ID** (`id`): A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
+- **Feature Title** (`title`): A short name that succinctly describes the feature, preferably 1 to 5 words.
+- **Feature Description** (`description`): A falsifiable description of the feature, detailing its purpose and functionality.
+  - A falsifiable feature includes concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected.
 
-This structure ensures that features are standardized and can be consistently applied across all services within the CCC Taxonomy.
+## Review Process
 
+Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
+
+[common features]: /services/common-features.yaml
 [Communications WG]: ../../working-groups/communications/charter.md
+[delivery tooling]: /delivery-tooling

@@ -1,0 +1,105 @@
+name: Release Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_target:
+        description: 'Build Target (e.g storage/object)'
+        required: true
+      tag:
+        description: 'Tag for this release'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./delivery-tooling
+    steps:
+      - uses: actions/checkout@v4
+        name: Build
+
+      - name: Configure Go
+        uses: actions/setup-go@v5
+
+      - name: Install dependencies
+        run: go mod download
+  
+      - name: Get Build Target
+        id: process_target
+        run: |
+          # Read the input for a single build target
+          build_target="${{ github.event.inputs.build_target }}"
+          
+          # Print and save the build target
+          echo "Build target: $build_target"
+          echo "target=$build_target" >> $GITHUB_OUTPUT
+
+      - name: Create Release Artifacts
+        run: |
+          # Create all artifacts for the specified build target
+          build_target="${{ steps.process_target.outputs.target }}"
+          echo "Creating Artifacts for: $build_target"
+          go run . "yaml" --build-target $build_target
+          go run . "md" --build-target $build_target
+          go run . "release-notes" --build-target $build_target
+          
+          # Create PDF files from MD files
+          echo "Converting MD file to PDF"
+          for md_file in ./artifacts/*.md; do
+            filename=$(basename "$md_file" .md)
+            
+            # Check if the filename contains "release-notes"
+            if [[ $filename != *"release_notes"* ]]; then
+                echo "Converting $md_file to $filename.pdf"
+                docker run --rm -v "$PWD:/app" jmaupetit/md2pdf "./artifacts/$filename.md" "./artifacts/$filename.pdf"
+            else
+                echo "Skipping $md_file as it contains 'release-notes'"
+            fi
+          done
+
+      
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4.4.0
+        with:
+          name: ccc-catalogs
+          path: ./delivery-tooling/artifacts/*
+          if-no-files-found: error
+          retention-days: 1 # Maximum Retention
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: ccc-catalogs
+
+      # Create a GitHub release
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          body_path: ./release_notes.md
+          tag_name: ${{ github.event.inputs.tag }}-rc
+          release_name: Release ${{ github.event.inputs.tag }}-rc
+          draft: false
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Upload the artifacts to the release
+      - name: Upload Release Assets
+        run: |
+          for file in ./*
+          do
+            echo "Uploading $file"
+            filename=$(basename "$file")
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Content-Type: application/octet-stream" \
+              --data-binary @"$file" \
+              "${{ steps.create_release.outputs.upload_url }}=$filename&label=$filename"
+          done

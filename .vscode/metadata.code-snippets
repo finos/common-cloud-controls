@@ -1,0 +1,28 @@
+{
+	"Metadata File": {
+	 	"scope": "yaml",
+	 	"prefix": "metadata-file, finosccc:metadata-file",
+		 "body": [
+			"title: <TITLE>",
+			"id: CCC.<IDENTIFIER>",
+			"description: |",
+			" <DESCRIPTION>",
+			"release_details:",
+			"  - version: \"<CALVER>\"",
+			"    assurance_level: None",
+			"    threat_model_url: None",
+			"    threat_model_author: None",
+			"    red_team: None",
+			"    red_team_exercise_url: None",
+			"    release_manager:",
+			"      name: <RELEASE MANAGER NAME>",
+			"      github_id: <RELEASE MANAGER GITHUB ID>",
+			"      company: <RELEASE MANAGER COMPANY>",
+			"      summary: <SUMMARY>",
+			"    change_log:",
+			"      - \"<CHANGE LOG>\""
+		  ],
+	 	"description": "Create a blank FINOS CCC Metadata file",
+		"isFileTemplate": true
+	}
+}

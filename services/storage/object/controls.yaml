@@ -1,181 +1,184 @@
-title: CCC Object Storage Security Controls
-category_id: CCC.ObjStor
+common_controls:
+  - CCC.C01 # Prevent unencrypted requests
+  - CCC.C02 # Ensure data encryption at rest for all stored data
+  - CCC.C03 # Implement multi-factor authentication (MFA) for access
+  - CCC.C04 # Log all access and changes
+  - CCC.C05 # Prevent access from untrusted entities
+  - CCC.C06 # Prevent deployment in restricted regions
+  - CCC.C07 # Alert on non-human enumeration
+  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+  - CCC.C10 # Prevent data replication to desinations outside of defined trust perimeter
+
 controls:
-  - id: CCC.ObjStor.C01
-    feature_id: CCC.ObjStor.F15
-    title: Prevent unencrypted requests to object storage bucket
-    objective: Prevent any unencrypted requests to the object storage bucket, ensuring that all communications are encrypted in transit to protect data integrity and confidentiality.
+  - id: CCC.ObjStor.C01 # Prevent Requests to Buckets or Objects with Untrusted KMS Keys
+    title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
+    objective: |
+      Prevent any requests to object storage buckets or objects using 
+      untrusted KMS keys to protect against unauthorized data encryption 
+      that can impact data availability and integrity.
     control_family: Data
-    nist_csf: PR.DS-2
-    mitre_attack: T1573
+    threats:
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH06 # Data is lost or corrupted
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     control_mappings:
-      CCM: 
-        - IVS-09
-        - DSI-03
-      ISO_27001: 
-        - 2013 A.13.1.1
-      NIST_800_53: 
-        - SC-8
-        - SC-13
+      CCM:
+        - DCS-04 # Data Protection and Encryption
+        - DCS-06 # Data Integrity
+      ISO_27001:
+        - 2013 A.10.1.1 # Policy on the use of cryptographic controls
+      NIST_800_53:
+        - SC-28 # Protection of Information at Rest
     test_requirements:
-      01: All supported network data protocols must be running on secure channels.
-      02: All clear text channels should be disabled.
-      03: The cipher suite implemented for ensuring the integrity and confidentiality of data should conform with the latest suggested cipher suites. [NIST proposed latest standard cipher suites](<[#](https://csrc.nist.gov/pubs/sp/800/52/r2/final)>).
-  - id: CCC.ObjStor.C02
-    feature_id: CCC.ObjStor.F14
-    title: Ensure data encryption at rest
-    objective: Ensure that all data stored within the object storage service is encrypted at rest to maintain confidentiality and integrity.
-    control_family: Encryption
-    nist_csf: PR.DS-1
-    mitre_attack: T1486
-    control_mappings:
-      CCM: 
-        - DSI-01
-        - DSI-02
-      ISO_27001: 
-        - 2013 A.10.1.1
-      NIST_800_53: 
-        - SC-28
-    test_requirements:
-      01: Verify that data stored in the object storage bucket is encrypted using industry-standard algorithms.
-      02: Ensure that encryption keys are managed securely and rotated periodically.
-      03: Confirm that decryption is only possible through authorized access mechanisms.
-  - id: CCC.ObjStor.C03
-    feature_id: CCC.ObjStor.F16
-    title: Implement multi-factor authentication (MFA) for access
-    objective: Ensure that all human user access to object storage buckets requires multi-factor authentication (MFA), minimizing the risk of unauthorized access by enforcing strong authentication mechanisms.
+      - id: CCC.ObjStor.C01.TR01
+        text: |
+          The service prevents access to any object storage bucket or object 
+          that uses KMS keys not listed as trusted by the organization.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+
+  - id: CCC.ObjStor.C02 # Enforce uniform bucket-level access to prevent inconsistent
+    title: Enforce uniform bucket-level access to prevent inconsistent
+      permissions
     control_family: Identity and Access Management
-    nist_csf: PR.AC-7
-    mitre_attack: T1078
+    objective: |
+      Ensure that uniform bucket-level access is enforced across all 
+      object storage buckets. This prevents the use of ad-hoc or 
+      inconsistent object-level permissions, ensuring centralized, 
+      consistent, and secure access management in accordance with the 
+      principle of least privilege.
+    threats:
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.ObjStor.TH02 # Improper enforcement of object modification locks
+    nist_csf: PR.AC-4 # Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties
     control_mappings:
-      CCM: 
-        - IAM-03
-        - IAM-08
-      ISO_27001: 
-        - 2013 A.9.4.2
-      NIST_800_53: 
-        - IA-2
+      CCM:
+        - DCS-09 # Access Control
+      ISO_27001:
+        - 2013 A.9.4.1 # Information Access Restriction
+      NIST_800_53:
+        - AC-3 # Access Enforcement
+        - AC-6 # Least Privilege
     test_requirements:
-      01: Verify that MFA is enforced for all access attempts to the object storage bucket.
-      02: Ensure that MFA is required for all administrative access to the storage management interface.
-      03: Confirm that users are unable to access the object storage bucket without completing MFA.
-  - id: CCC.ObjStor.C04
-    feature_id: CCC.ObjStor.F12
-    title: Maintain immutable backups of data
-    objective: Ensure that data stored in the object storage bucket is immutable for a defined period, preventing unauthorized modifications or deletions and thereby mitigating data destruction.
+      - id: CCC.ObjStor.C02.TR01
+        text: |
+          Admin users can configure bucket-level permissions uniformly across 
+          all buckets, ensuring that object-level permissions cannot be 
+          applied without explicit authorization.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+
+  - id: CCC.ObjStor.C03 # Prevent bucket deletion through irrevocable bucket retention policy
+    title: Prevent bucket deletion through irrevocable bucket retention policy
     control_family: Data
-    nist_csf: PR.DS-1
-    mitre_attack: T1485
-    control_mappings:
-      CCM: 
-        - DSI-05
-        - DSI-07
-      ISO_27001: 
-        - 2013 A.12.3.1
-      NIST_800_53: 
-        - CP-9
+    objective: |
+      Ensure that object storage bucket is not deleted after creation, 
+      and that the preventative measure cannot be unset.
+    threats:
+      - CCC.TH06 # Data is lost or corrupted
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     test_requirements:
-      01: Verify that data in the object storage bucket is protected by immutability settings.
-      02: Ensure that attempts to modify or delete data within the immutability period are denied.
-      03: Confirm that immutable data remains unchanged throughout the defined retention period.
-  - id: CCC.ObjStor.C05
-    feature_id: CCC.ObjStor.F18
-    title: Log all access and changes to object storage
-    objective: Ensure that all access and changes to the object storage bucket are logged to maintain a detailed audit trail for security and compliance purposes.
-    control_family: Logging & Monitoring
-    nist_csf: DE.AE-3
-    mitre_attack: T1530
-    control_mappings:
-      CCM: 
-        - DSI-06
-        - STA-04
-      ISO_27001: 
-        - 2013 A.12.4.1
-      NIST_800_53: 
-        - AU-2
-        - AU-3
-    test_requirements:
-      01: Verify that all access attempts to the object storage bucket are logged.
-      02: Ensure that all changes to the object storage bucket configurations are logged.
-      03: Confirm that logs are protected against unauthorized access and tampering.
-  - id: CCC.ObjStor.C06
-    feature_id: CCC.ObjStor.F19
-    title: Prevent access to object storage from untrusted cloud tenants and services
-    objective: Ensure secure management of access to object storage resources, preventing unauthorized data access, exfiltration, and misuse of legitimate services by adversaries.
-    control_family: Identity and Access Management
-    nist_csf: 
-      - PR.PT-3
-      - PR.PT-4
-    mitre_attack: 
-      - T1021
-    control_mappings:
-      CCM: 
-        - DS-5
-      ISO_27001: 
-        - 2013 A.13.1.3
-      NIST_800_53: 
-        - AC-3
-    test_requirements:
-      01: Verify that object storage endpoint can be blocked from public access.
-      02: Verify that object storage can be blocked from cloud services deployed on the same cloud tenant.
-      03: Confirm that it's possible to prevent access to object storage from other cloud tenants, even if those tenants have network connectivity to the cloud tenant hosting the object storage.
-  - id: CCC.ObjStor.C07
-    feature_id: CCC.ObjStor.F20
-    title: Prevent deploying object storage in restricted regions
-    objective: Ensure that object storage resources are not provisioned or deployed in geographic regions or cloud availability zones that have been designated as restricted or prohibited, to comply with regulatory requirements and reduce exposure to geopolitical risks.
+      - id: CCC.ObjStor.C03.TR01
+        text: |
+          Object storage buckets cannot be deleted after creation.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.ObjStor.C03.TR02
+        text: |
+          Retention policy for object storage buckets cannot be unset.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+
+  - id: CCC.ObjStor.C05 # Objects have an effective retention policy by default
+    title: Objects have an effective retention policy by default
     control_family: Data
-    nist_csf: 
-      - PR.AC-3
-      - PR.DS-5
-      - RS.AN-3
-    mitre_attack: 
-      - T1583
-    control_mappings:
-      CCM: 
-        - DSI-06
-        - DSI-08
-      ISO_27001: 
-        - 2013 A.11.1.1
-      NIST_800_53: 
-        - AC-6
+    objective: |
+      Ensure that all objects stored in the object storage system have a 
+      retention policy applied by default, preventing premature deletion 
+      or modification of objects and ensuring compliance with data retention 
+      regulations.
+    threats:
+      - CCC.TH06 # Data is lost or corrupted
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     test_requirements:
-      01: Verify that object storage resources are not deployed in any of the restricted regions or cloud availability zones.
-      02: Ensure that the cloud provider's configuration management tools are used to enforce restrictions on provisioning in prohibited regions.
-      03: Confirm that object storage backups and copies are not allowed to be stored in restricted regions or cloud availability zones.
-  - id: CCC.ObjStor.C08
-    feature_id: CCC.ObjStor.F15
-    title: Prevent Requests to Object Storage Buckets or Objects with Untrusted KMS Keys
-    objective: Prevent any requests to object storage buckets or objects using untrusted KMS keys to protect against unauthorized data encryption that can impact data availability and integrity.
+      - id: CCC.ObjStor.C05.TR01
+        text: |
+          All objects stored in the object storage system automatically receive 
+          a default retention policy that prevents premature deletion or 
+          modification.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.ObjStor.C05.TR04
+        text: |
+          Attempts to delete or modify objects that are subject to an active 
+          retention policy are prevented.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+
+  - id: CCC.ObjStor.C06 # Versioning is enabled for all objects in the bucket
+    title: Versioning is enabled for all objects in the bucket
     control_family: Data
-    nist_csf: PR.DS-4
-    mitre_attack: T1486
-    control_mappings:
-      CCM: 
-        - DSI-04
-        - DSI-05
-      ISO_27001: 
-        - 2013 A.12.3.1
-      NIST_800_53: 
-        - CP-6
-        - CP-9
+    objective: |
+      Ensure that versioning is enabled for all objects stored in the object 
+      storage bucket to enable recovery of previous versions of objects in 
+      case of loss or corruption.
+    threats:
+      - CCC.TH06 # Data is lost or corrupted
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     test_requirements:
-      01: Verify that access policies for cloud storage buckets and objects prevent requests with untrusted KMS keys. In this case, an untrusted KMS key is one that is not specified as trusted by the cloud storage bucket owner.
-  - id: CCC.ObjStor.C09
-    feature_id: CCC.ObjStor.F07
-    title: Prevent Replication to Untrusted Destinations
-    objective: Prevent object storage replication feature from replicating data to untrusted destinations. In this case, an untrusted destination is a resource that exists outside of a specified trusted identity or network perimeter (i.e. a data perimeter).
+      - id: CCC.ObjStor.C06.TR01
+        text: |
+          Verify that when two objects with the same name are uploaded to the 
+          bucket, the object with the same name is not overwritten and that 
+          both objects are stored with unique identifiers.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.ObjStor.C06.TR04
+        text: |
+          Previous versions of an object can be accessed and restored after 
+          an object is modified or deleted.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+
+  - id: CCC.ObjStor.C07 # Access logs are stored in a separate bucket
+    title: Access logs are stored in a separate bucket
     control_family: Data
-    nist_csf: PR.DS-4
-    mitre_attack: T1537
-    control_mappings:
-      CCM: 
-        - DSI-04
-        - DSI-05
-      ISO_27001: 
-        - 2013 A.12.3.1
-      NIST_800_53: 
-        - CP-6
-        - CP-9
+    objective: |
+      Ensure that access logs for object storage buckets are stored in a 
+      separate bucket to protect against unauthorized access, tampering, 
+      or deletion of logs (Logbuckets are exempt from this requirement, 
+      but must be tlp_red).
+    threats:
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+    nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify software, firmware, and information integrity
     test_requirements:
-      01: Verify that object storage replication configurations are prevented from replicating to untrusted destinations.
-  
+      - id: CCC.ObjStor.C07.TR01
+        text: |
+          Access logs for all object storage buckets are stored in a separate 
+          bucket.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
