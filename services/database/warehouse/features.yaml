@@ -1,0 +1,42 @@
+common_features:
+  - CCC.F01  # Encryption in Transit Enabled by Default
+  - CCC.F02  # Encryption at Rest Enabled by Default
+  - CCC.F03  # Access/Activity Logs
+  - CCC.F04  # Transaction Rate Limits
+  - CCC.F05  # Signed URLs
+  - CCC.F06  # Identity-Based Access Control
+  - CCC.F07  # Event Notifications
+  - CCC.F08  # Multi-zone Deployment
+  - CCC.F09  # Monitoring
+  - CCC.F10  # Logging
+  - CCC.F11  # Backup
+  - CCC.F12  # Restore
+  - CCC.F14  # API Access
+  - CCC.F18  # Versioning
+  - CCC.F21  # Replication
+
+features:
+  - id: CCC.DataWar.F01  # Dataset Management
+    title: Dataset Management
+    description: |
+      Provides the ability to create, manage, and organize datasets within the Cloud Data Warehouse for structured data storage.
+
+  - id: CCC.DataWar.F02  # Authorized Views
+    title: Authorized Views
+    description: |
+      Supports creating views that allow sharing query results with specific users or groups without providing access to underlying data.
+
+  - id: CCC.DataWar.F03  # Column-Level Security
+    title: Column-Level Security
+    description: |
+      Allows setting access policies at the column level to restrict access to sensitive data fields within tables.
+
+  - id: CCC.DataWar.F05  # Row-Level Security
+    title: Row-Level Security
+    description: |
+      Enables setting access policies at the row level to control access to subsets of data within a table based on user roles.
+
+  - id: CCC.DataWar.F06  # Data Encryption Functions
+    title: Data Encryption Functions
+    description: |
+      Offers functions to encrypt and decrypt individual data values within tables for enhanced data security.
