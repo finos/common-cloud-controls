@@ -1,0 +1,43 @@
+common_features:
+  - CCC.F01 # Encryption in Transit Enabled by Default
+  - CCC.F02 # Encryption at Rest Enabled by Default
+  - CCC.F03 # Access/Activity Logs
+  - CCC.F04 # Transaction Rate Limits
+  - CCC.F05 # Signed URLs
+  - CCC.F06 # Identity-Based Access Control
+  - CCC.F07 # Event Notifications
+  - CCC.F08 # Multi-zone Deployment
+  - CCC.F09 # Monitoring
+  - CCC.F10 # Logging
+  - CCC.F11 # Backup
+  - CCC.F12 # Restore
+  - CCC.F14 # API Access
+  - CCC.F18 # Versioning
+  - CCC.F19 # On-Demand Scaling
+  - CCC.F21 # Replication
+
+features:
+  - id: CCC.Message.F03 # Message Storage Policies
+    title: Message Storage Policies
+    description: |
+      Allows configuration of message storage policies to control the regions where messages are stored, supporting compliance with data residency requirements.
+
+  - id: CCC.Message.F04 # Publish/Subscribe Model
+    title: Publish/Subscribe Model
+    description: |
+      Implements a scalable publish/subscribe messaging system that decouples senders and receivers, supporting asynchronous communication between services.
+
+  - id: CCC.Message.F05 # Dead Letter Topics
+    title: Dead Letter Topics
+    description: |
+      Supports dead-letter topics for handling messages that cannot be delivered or processed, improving reliability and fault tolerance.
+
+  - id: CCC.Message.F06 # Ordering and Deduplication
+    title: Ordering and Deduplication
+    description: |
+      Provides message ordering and deduplication features to ensure messages are processed in order and duplicates are eliminated.
+
+  - id: CCC.Message.F07 # Message Filtering
+    title: Message Filtering
+    description: |
+      Allows subscribers to filter messages based on attributes or content, ensuring that they receive only relevant messages.
