@@ -1,0 +1,52 @@
+common_controls:
+  - CCC.C01  # Prevent unencrypted requests
+  - CCC.C02  # Ensure data encryption at rest for all stored data
+  - CCC.C03  # Implement multi-factor authentication (MFA) for access
+  - CCC.C04  # Log all access and changes
+  - CCC.C05  # Prevent access from untrusted entities
+  - CCC.C06  # Prevent deployment in restricted regions
+  - CCC.C07  # Alert on non-human enumeration
+  - CCC.C09  # Prevent tampering, deletion, or unauthorized access to access logs
+  - CCC.C10  # Prevent data replication to destinations outside of defined trust perimeter
+
+controls:
+  - id: CCC.SvlsComp.C01  # Require VPC Connector for Serverless Functions
+    title: Require VPC Connector for Serverless Functions
+    objective: |
+      Ensure that all serverless functions are configured with a Virtual Private Cloud (VPC) connector. This enforces network controls, restricts unauthorized network access, and allows functions to securely access resources within a private network.
+    control_family: Network Security
+    threats:
+      - CCC.TH01  # Access control is misconfigured
+    nist_csf: PR.AC-5  # Network integrity is protected
+    control_mappings:
+      NIST_800_53:
+        - SC-7  # Boundary Protection
+        - SC-8  # Transmission Confidentiality and Integrity
+    test_requirements:
+      - id: CCC.SvlsComp.C01.TR01
+        text: |
+          Verify that all deployed serverless functions have a VPC connector configured, enforcing network isolation and secure access.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+
+  - id: CCC.SvlsComp.C02  # Implement Function Invocation Rate Limits
+    title: Implement Function Invocation Rate Limits
+    objective: |
+      Prevent resource exhaustion and potential denial of service by setting appropriate concurrency and invocation limits on serverless functions.
+    control_family: Availability
+    threats:
+      - CCC.TH12  # Resource constraints are exhausted
+    nist_csf: PR.DS-4  # Adequate capacity to ensure availability
+    control_mappings:
+      NIST_800_53:
+        - SC-5  # Denial of Service Protection
+    test_requirements:
+      - id: CCC.SvlsComp.C02.TR01
+        text: |
+          Verify that functions have concurrency and rate limits configured to prevent excessive resource consumption.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+          - tlp_green
+          - tlp_clear
