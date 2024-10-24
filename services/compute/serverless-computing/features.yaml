@@ -1,0 +1,43 @@
+common_features:
+  - CCC.F01  # Encryption in Transit Enabled by Default
+  - CCC.F02  # Encryption at Rest Enabled by Default
+  - CCC.F03  # Access/Activity Logs
+  - CCC.F04  # Transaction Rate Limits
+  - CCC.F05  # Signed URLs
+  - CCC.F06  # Identity-Based Access Control
+  - CCC.F07  # Event Notifications
+  - CCC.F08  # Multi-zone Deployment
+  - CCC.F09  # Monitoring
+  - CCC.F10  # Logging
+  - CCC.F11  # Backup
+  - CCC.F12  # Restore
+  - CCC.F14  # API Access
+  - CCC.F18  # Versioning
+  - CCC.F19  # On-Demand Scaling
+  - CCC.F21  # Replication
+
+features:
+  - id: CCC.SvlsComp.F01  # Function Execution
+    title: Function Execution
+    description: |
+      Supports execution of code functions in response to events without the need to manage underlying server infrastructure.
+
+  - id: CCC.SvlsComp.F02  # Event Triggers
+    title: Event Triggers
+    description: |
+      Supports triggering functions in response to events from various sources such as HTTP requests, cloud storage changes, messaging services, and scheduled events.
+
+  - id: CCC.SvlsComp.F04  # VPC Connectivity
+    title: VPC Connectivity
+    description: |
+      Supports connecting functions to a Virtual Private Cloud (VPC) network using VPC connectors, enabling secure access to resources in a private network.
+
+  - id: CCC.SvlsComp.F05  # Environment Variables
+    title: Environment Variables
+    description: |
+      Allows setting environment variables for functions to store configuration settings and operational parameters.
+
+  - id: CCC.SvlsComp.F08  # Deployment Processes
+    title: Deployment Processes
+    description: |
+      Supports deployment processes for functions, allowing for staged rollouts, rollbacks, and management of different function versions.
