@@ -15,4 +15,7 @@ jobs:
         uses: phntmxyz/pr_todo_checker@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          comment_on_todo: false
+          comment_on_todo: true
+          comment_body: |
+            "Please resolve the TODO item above."
+          comment_checkbox: 'Acknowledged'
