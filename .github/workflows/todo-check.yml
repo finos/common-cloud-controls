@@ -4,7 +4,7 @@ on:
     workflow_call:
 
 jobs:
-  find_todos:
+  find-todos:
     runs-on: ubuntu-latest
 
     steps:
