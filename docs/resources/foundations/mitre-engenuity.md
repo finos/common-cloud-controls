@@ -19,19 +19,19 @@ MITRE Engenuity is a non-profit organization that operates under the MITRE Corpo
 
 > "System entry and exit points include firewalls, remote access servers, workstations, electronic mail servers, web servers, proxy servers, notebook computers, and mobile devices. Malicious code includes viruses, worms, Trojan horses, and spyware. Malicious code can also be encoded in various formats contained within compressed or hidden files or hidden in files using techniques such as steganography. Malicious code can be inserted into systems in a variety of ways, including by electronic mail, the world-wide web, and portable storage devices. Malicious code insertions occur through the exploitation of system vulnerabilities. A variety of technologies and methods exist to limit or eliminate the effects of malicious code. (...)"
 
-This is mapped in m:n fashion with MITRE ATT&CKs.  For this particular mapping, 214 Att&cks are linked, including Att&ck [T1001.002 Steganography](https://center-for-threat-informed-defense.github.io/mappings-explorer/attack/attack-14.1/domain-enterprise/techniques/T1001.002/):
+This is mapped in m:n fashion with MITRE ATT&CKs. For this particular mapping, 214 Att&cks are linked, including Att&ck [T1001.002 Steganography](https://center-for-threat-informed-defense.github.io/mappings-explorer/attack/attack-14.1/domain-enterprise/techniques/T1001.002/):
 
 > "Adversaries may use steganographic techniques to hide command and control traffic to make detection efforts more difficult. Steganographic techniques can be used to hide data in digital messages that are transferred between systems. This hidden information can be used for command and control of compromised systems. In some cases, the passing of files embedded using steganography, such as image or document files, can be used for command and control."
 
 Further, T1001.002 Steganography is mapped n:m back to 8 NIST 800-53 Controls, including the one first cited as well as:
 
- - Information Flow Enforcement
- - Continuous Monitoring
- - Baseline Configuration
- - Configuration Settings
- - Boundary Protection
- - Malicious Code Protection (as discussed)
- - System Monitoring
+- Information Flow Enforcement
+- Continuous Monitoring
+- Baseline Configuration
+- Configuration Settings
+- Boundary Protection
+- Malicious Code Protection (as discussed)
+- System Monitoring
 
 ![Screenshot 2024-09-12 at 14 50 07](https://github.com/user-attachments/assets/26f15876-d47f-447f-9f6a-ace0f713801b)
 
@@ -55,11 +55,10 @@ A model to infer an attacker’s next technique, based on observed adversary ope
 
 ### Example
 
-Given an Att&ck, e.g. T1001.002 Steganography (again), what techniques is an attacker likely to employ next?  According to this tool, it will be:
+Given an Att&ck, e.g. T1001.002 Steganography (again), what techniques is an attacker likely to employ next? According to this tool, it will be:
 
 ![Screenshot 2024-09-12 at 14 49 06](https://github.com/user-attachments/assets/59835eb4-25ae-4598-838d-4c6facf650a7)
 
-  
 ## Resource Links
 
 - [News Page](https://mitre-engenuity.org/news-insights/)
