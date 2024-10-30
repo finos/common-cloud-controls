@@ -11,7 +11,7 @@ The CMB is a body of representatives from financial institutions of varying size
 ## Process
 
 The process followed by the CMB to manage changes includes:
-	
+
 1. **Proposal Submission**
    - Proposed changes are submitted for CMB review by contributors or working groups within the CCC project.
 1. **Review Cycle**
@@ -20,7 +20,7 @@ The process followed by the CMB to manage changes includes:
    - After review, the CMB either approves the proposed changes for the next release candidate or requests modifications and additional feedback from the contributor or associated working group.
 1. **Final Approval and Release**
    - Upon receiving approval, the release manager compiles the final release package, and the CMB confirms the official release of the updated framework.
-   
+
 ## Membership
 
 The change management board is composed of a Release Manager and the body of reviewers, both appointed by the [Delivery WG].
