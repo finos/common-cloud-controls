@@ -6,7 +6,6 @@ control_families:
   - Software Supply Chain
   - Network Security
 
-# TODO: Whaaat
 controls:
   - id: CCC.C01 # Prevent unencrypted requests
     title: Prevent unencrypted requests
