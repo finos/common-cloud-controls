@@ -95,6 +95,6 @@ Appointments shall be permanently revoked in the following cases:
 - Repeat abandonment of a stated commitment
 - Undermining the process, such as deliberately circumventing or disregarding documented norms
 
-[Security WG]: ../working-groups/security/charter.md
-[Delivery WG]: ../working-groups/delivery/charter.md
+[Security WG]: ../../governance/working-groups/security/charter.md
+[Delivery WG]: ../../working-groups/delivery/charter.md
 [community guideline]: ./README.md
