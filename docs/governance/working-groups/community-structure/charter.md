@@ -59,4 +59,4 @@ Changes to this charter must be approved through a majority vote by the [SC].
 
 [SC]: ../../governance/community-structure.md#steering-committee
 [WG]: ../../governance/community-structure.md#working-groups
-[guidelines]: ../../community-guidelines/README.md
+[guidelines]: ../../../community-guidelines/README.md
