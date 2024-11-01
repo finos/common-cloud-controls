@@ -75,8 +75,8 @@ The following [WG] have been chartered by and are accountable to this group:
 
 Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
 
-[WG]: ../../governance/community-structure.md#working-groups
-[SC]: ../../governance/community-structure.md#steering-committee
-[policies]: ../../community-policies/README.md
+[WG]: ../../../governance/community-structure.md#working-groups
+[SC]: ../../../governance/community-structure.md#steering-committee
+[policies]: ../../../community-policies/README.md
 [Communications WG]: ../communications/charter.md
 [Delivery WG]: ../delivery/charter.md

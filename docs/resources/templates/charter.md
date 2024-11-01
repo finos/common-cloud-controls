@@ -63,5 +63,5 @@ Any functional changes to this charter must be approved through a majority vote 
 
 [WG]: ../../governance/community-structure.md#working-groups
 [SC]: ../../governance/community-structure.md#steering-committee
-[policies]: ../../../community-policies/README.md
-[guidelines]: ../../../community-guidelines/README.md
+[policies]: ../../community-policies/README.md
+[guidelines]: ../../community-guidelines/README.md

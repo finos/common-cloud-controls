@@ -96,5 +96,5 @@ Appointments shall be permanently revoked in the following cases:
 - Undermining the process, such as deliberately circumventing or disregarding documented norms
 
 [Security WG]: ../../governance/working-groups/security/charter.md
-[Delivery WG]: ../../working-groups/delivery/charter.md
+[Delivery WG]: ../../governance/working-groups/delivery/charter.md
 [community guideline]: ./README.md
