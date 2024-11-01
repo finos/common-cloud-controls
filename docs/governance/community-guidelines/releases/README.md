@@ -66,7 +66,7 @@ The release process involves contributors proposing changes through a pull reque
 1. **Publishing:** The Release Manager creates the official release based on the final approved release candidate. This is published on GitHub along with release notes and documentation updates.
 2. **Announcement:** The [Communications WG] announces the release through appropriate channels suchs as mailing lists and social media.
 
-[WG]: ../../community-groups.md#working-groups
+[WG]: ../../governance/community-structure.md#working-groups
 [Security WG]: ../../working-groups/security/charter.md
 [Taxonomy WG]: ../../working-groups/taxonomy/charter.md
 [Delivery WG]: ../../working-groups/delivery/charter.md
