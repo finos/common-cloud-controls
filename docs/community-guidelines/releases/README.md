@@ -71,5 +71,5 @@ The release process involves contributors proposing changes through a pull reque
 [Taxonomy WG]: ../../governance/working-groups/taxonomy/charter.md
 [Delivery WG]: ../../governance/working-groups/delivery/charter.md
 [Change Management Board]: ./cmb.md
-[Communications WG]: ../../working-groups/communications/charter.md
+[Communications WG]: ../../governance/working-groups/communications/charter.md
 [community guideline]: ../README.md
