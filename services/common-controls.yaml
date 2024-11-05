@@ -173,13 +173,6 @@ controls:
           - tlp_green
           - tlp_amber
           - tlp_red
-      - id: CCC.C05.TR02
-        text: |
-          The service logs all access attempts from untrusted entities,
-          including failed connection attempts.
-        tlp_levels:
-          - tlp_amber
-          - tlp_red
       - id: CCC.C05.TR04
         text: |
           The service prevents unauthorized cross-tenant access, ensuring that
