@@ -11,9 +11,9 @@ common_controls:
 
 controls:
   - id: CCC.SvlsComp.C01 # Enforce Virtual Network Integration for Serverless Function
-    title: Enforce Virtual Private Network Integration for Serverless Function
+    title: Enforce Use of Private Endpoints for Serverless Function
     objective: |
-      Ensure that the serverless function is integrated with a virtual private network, allowing it to access resources securely within the network and preventing unauthorized external access.
+      Ensure that the serverless function is accessible only through a private endpoint, allowing it to communicate securely within a virtual private network and preventing unauthorized external access.
     control_family: Network Security
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -25,7 +25,7 @@ controls:
     test_requirements:
       - id: CCC.SvlsComp.C01.TR01
         text: |
-          Attempt to access the serverless function from outside the virtual private network and verify that access is denied.
+          Attempt to access the serverless function over the public internet and verify that access is denied.
         tlp_levels:
           - tlp_red
           - tlp_amber
