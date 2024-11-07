@@ -174,10 +174,10 @@ func generateOmnibusMdFile() (outputPath string, err error) {
 	}
 
 	// Read SVGs from folder
-	svgFolder := "./logos" // Adjust this path as needed
-	svgs, err := readSVGsFromFolder(svgFolder)
+	svgLogoPath := "./logos/logo_wall.svg"
+	svgContent, err := os.ReadFile(svgLogoPath)
 	if err != nil {
-		return "", fmt.Errorf("error reading SVGs from folder: %w", err)
+		return "", fmt.Errorf("error reading SVG file %s: %w", svgLogoPath, err)
 	}
 
 	// Read and print template content
@@ -191,8 +191,8 @@ func generateOmnibusMdFile() (outputPath string, err error) {
 
 	// Create and parse template
 	tmpl, err := template.New("catalog").Funcs(template.FuncMap{
-		"insertSVGs": func() template.HTML {
-			return combineSVGs(svgs)
+		"insertLogoWall": func() template.HTML {
+			return template.HTML(svgContent)
 		},
 	}).Parse(string(contentWithPageBreaks))
 	if err != nil {
