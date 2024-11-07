@@ -37,8 +37,7 @@ controls:
           - tlp_red
       - id: CCC.C01.TR02
         text: |
-          The service automatically redirects incoming unencrypted HTTP
-          requests to HTTPS.
+          The service denies all unencrypted HTTP requests.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -172,13 +171,6 @@ controls:
         tlp_levels:
           - tlp_clear
           - tlp_green
-          - tlp_amber
-          - tlp_red
-      - id: CCC.C05.TR02
-        text: |
-          The service logs all access attempts from untrusted entities,
-          including failed connection attempts.
-        tlp_levels:
           - tlp_amber
           - tlp_red
       - id: CCC.C05.TR04
