@@ -11,7 +11,7 @@ The CMB is a body of representatives from financial institutions of varying size
 ## Process
 
 The process followed by the CMB to manage changes includes:
-	
+
 1. **Proposal Submission**
    - Proposed changes are submitted for CMB review by contributors or working groups within the CCC project.
 1. **Review Cycle**
@@ -20,7 +20,7 @@ The process followed by the CMB to manage changes includes:
    - After review, the CMB either approves the proposed changes for the next release candidate or requests modifications and additional feedback from the contributor or associated working group.
 1. **Final Approval and Release**
    - Upon receiving approval, the release manager compiles the final release package, and the CMB confirms the official release of the updated framework.
-   
+
 ## Membership
 
 The change management board is composed of a Release Manager and the body of reviewers, both appointed by the [Delivery WG].
@@ -51,17 +51,7 @@ The release manager will be responsible for the following:
 
 ### Reviewer Responsibilities
 
-Members are **not** obligated to review every release but will be notified and may choose to engage in reviews.
-
-When engaging, the following is expected of a CMB member:
-
-- Be thorough, thoughtful, and provide detailed feedback before requesting changes.
-  - Gather feedback from colleagues as needed to support a review.
-- If changes are requested, communicate clearly and promptly through the channels outlined by the Release Manager for the current release cycle.
-  - When a change request (CR) is received, the Release Manager will open discussions and facilitate responses from the board.
-- Members are encouraged to respond within 7 days if they have input on a CR.
-  - The Release Manager logs any dissenting opinions and communicates the majority decision.
-- A release cannot proceed without a minimum of 5 approvals; members are encouraged to help meet this threshold by approving, requesting changes, or contributing to discussion around open change requests.
+Members are **not** obligated to review every release but will be notified and may choose to engage in reviews. [Read about the process here.](./member-responsibilities.md)
 
 ### Qualifications for Participation
 
