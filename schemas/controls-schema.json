@@ -42,7 +42,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "pattern": "^CCC\\.TH\\d{2,8}$",
+                "pattern": "^((CCC\.TH\d{2,8})|(CCC\.\w{1,8}\.TH\d{2,8}))$",
                 "description": "Threat IDs",
                 "example": "CCC.TH01"
               }
