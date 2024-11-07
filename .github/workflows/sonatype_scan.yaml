@@ -1,0 +1,47 @@
+
+name: Sonatype SCA Scanning
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: 
+      - "**.go"
+      - "**/go.mod"
+      - "**/go.sum"
+env:
+  SonatypeUrl: "https://finos.sonatype.app/platform/"
+  SonatypeAppId: "ccc-delivery"
+  SonatypeScanTarget: "delivery-tooling/"
+  ExcludeDirectory: ""
+
+jobs:
+  build:
+    # if: github.repository_owner == 'finos'
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sonatype Lifecycle SCA Scan
+        id: evaluate
+        uses: sonatype/actions/evaluate@v1
+        with:
+          iq-server-url: ${{ env.SonatypeUrl }}
+          username: ${{ secrets.SONATYPE_SCANNER_USERNAME }}
+          password: ${{ secrets.SONATYPE_SCANNER_PASSWORD }}
+          application-id: ${{ env.SonatypeAppId }}
+          stage: "build"
+          scan-targets: ${{ env.SonatypeScanTarget }}
+          module-exclude: ${{ env.ExcludeDirectory }}
+
+      - name: Save Sonatype SBOM
+        uses: sonatype/actions/fetch-sbom@v1
+        if: always() && steps.evaluate.outputs.scan-id
+        with:
+          iq-server-url: ${{ env.SonatypeUrl }}
+          username: ${{ secrets.SONATYPE_SCANNER_USERNAME }}
+          password: ${{ secrets.SONATYPE_SCANNER_PASSWORD }}
+          application-id: ${{ env.SonatypeAppId }}
+          scan-id: ${{ steps.evaluate.outputs.scan-id }}
+          sbom-standard: spdx
+          sbom-version: 2.3
+          artifact-name: ${{ env.SonatypeAppId }}-sonatype-bom
+  
