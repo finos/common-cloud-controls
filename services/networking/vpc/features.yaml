@@ -1,38 +1,88 @@
 common_features:
-  - CCC.F01  # Encryption in Transit Enabled by Default
-  - CCC.F03  # Access/Activity Logs
-  - CCC.F06  # Identity Based Access Control
-  - CCC.F08  # Multi-zone Deployment
-  - CCC.F09  # Monitoring
-  - CCC.F10  # Logging
-
+  - CCC.F06 # Identity Based Access Control
+  - CCC.F08 # Multi-zone Deployment
+  - CCC.F09 # Monitoring
+  - CCC.F10 # Logging
+  - CCC.F13 # Infrastructure as Code
+  - CCC.F20 # Tagging
 features:
   - id: CCC.VPC.F01
-    title: Custom Network Creation
+    title: Isolated Custom Network Creation
     description: |
-      Ability to create custom virtual networks with specified configurations, subnets, and security controls to isolate and manage resources effectively.
-
+      Ability to create a virtual network that is isolated from other users of the same
+      public cloud.
   - id: CCC.VPC.F02
-    title: External IP Address Assignment
+    title: IPv4 CIDR block
     description: |
-      Capability to assign external (public) IP addresses to virtual machines or resources for internet connectivity and access.
-
+      Ability to specify a IPv4 CIDR block to the virtual network.
   - id: CCC.VPC.F03
-    title: IP Forwarding
+    title: IPv6 CIDR block
     description: |
-      Enables virtual machines to forward packets not destined to themselves, allowing them to act as gateways, routers, or perform network address translation (NAT).
-
+      Ability to specify a IPv6 CIDR block to the virtual network.
   - id: CCC.VPC.F04
-    title: Public IP Access Control
+    title: Public Subnet Creation
     description: |
-      Controls and restricts access to virtual machine instances or services via public IP addresses, including firewall rules and access policies.
-
+      Ability to create a subnet that allows resources within the subnet to
+      communicate with the public internet.
   - id: CCC.VPC.F05
-    title: Virtual Network Selection
+    title: Private Subnet Creation
     description: |
-      Allows selection of specific virtual networks and subnets when creating resources, defining the network environment and security boundaries for the instance.
-
+      Ability to create a subnet that resources within the subnet cannot directly
+      access the public internet.
   - id: CCC.VPC.F06
-    title: Nested Virtualization
+    title: Multiple Availability Zones for Subnets
     description: |
-      Supports running virtual machines within virtual machines, enabling nested virtualization features for scenarios like testing, development, or running hypervisor-dependent workloads.
+      Ability to spread the subnets in more than one availability zones.
+  - id: CCC.VPC.F07
+    title: Routing Control
+    description: |
+      Ability to control traffic within the VPC and between the VPC and the 
+      internet or on-premises networks using customizable route tables.
+  - id: CCC.VPC.F08
+    title: Connectivity Options - Internet Gateway
+    description: |
+      Enables direct internet access for resources within a VPC.
+  - id: CCC.VPC.F09
+    title: Connectivity Options - NAT Gateways
+    description: |
+      Allows instances in private subnets to access the internet without 
+      exposing them to inbound internet traffic.
+  - id: CCC.VPC.F10
+    title: Connectivity Options - Private Connection
+    description: |
+      Dedicated, private, high-speed connections between on-premises
+       networks and cloud VPC.
+  - id: CCC.VPC.F11
+    title: Connectivity Options - VPC Peering
+    description: |
+      Establishing a private connection between two VPCs to 
+      communicate seamlessly.
+  - id: CCC.VPC.F12
+    title: Connectivity Options - Transit Gateways
+    description: |
+      A hub-and-spoke model for connecting multiple VPCs and 
+      on-premises networks.
+  - id: CCC.VPC.F13
+    title: Connectivity Option - Site-to-site VPN
+    description: |
+      Provides an encrypted connection over the internet between 
+      a VPC and an on-premises network.
+  - id: CCC.VPC.F14
+    title: Built-in DNS Resolution
+    description: |
+      Resolves hostnames to IP addresses for instances within the VPC
+       allowing instances to communicate using hostnames instead of IP addresses.
+  - id: CCC.VPC.F15
+    title: Built-in DHCP Resolution
+    description: |
+      Automatically assign IP addresses, subnet masks, default gateways 
+      and other network configurations to instances within the VPC.
+  - id: CCC.VPC.F16
+    title: Flow Logs
+    description: |
+      Ability to capture information about the IP traffic going through the VPC.
+  - id: CCC.VPC.F17
+    title: VPC Endpoints
+    description: |
+      Ability to allow secure, private connectivity between resources within a VPC 
+      and other services without the need for a public internet.
