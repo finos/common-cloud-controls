@@ -10,6 +10,7 @@ common_threats:
   - CCC.TH10 # Alerts are Intercepted
   - CCC.TH11 # Event Notifications are Incorrectly Triggered
   - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # DB user authentication mechanism is misconfigured
 
 threats:
   - id: CCC.RDMS.TH01
@@ -73,3 +74,11 @@ threats:
     mitre_technique:
       - TA0009
       - T1530
+
+  - id: CCC.RDMS.TH13
+    title: DB user authentication mechanism is misconfigured
+    description: A threat actor alters the DB user authentication mechanism
+    features:
+      - CCC.F06
+    mitre_technique:
+      - T1556
