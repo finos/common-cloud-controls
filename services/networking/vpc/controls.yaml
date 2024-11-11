@@ -268,7 +268,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C09.TR01
         text: |
-          When a route table is created or updated, then it MUST NOT include a route to an Internet Gateway unless explicitly required and approved for specific use cases.
+          When a route table is created or updated, then it MUST NOT include a route to an Internet Gateway.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C09.TR02
