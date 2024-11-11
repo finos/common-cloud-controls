@@ -1,0 +1,32 @@
+common_features:
+  - CCC.F01  # Encryption in Transit Enabled by Default
+  - CCC.F02  # Encryption at Rest Enabled by Default
+  - CCC.F03  # Access/Activity Logs
+  - CCC.F04  # Transaction Rate Limits
+  - CCC.F06  # Identity-Based Access Control
+  - CCC.F07  # Event Notifications
+  - CCC.F09  # Monitoring
+  - CCC.F14  # API Access
+  - CCC.F18  # Versioning
+  - CCC.F21  # Replication
+
+features:
+  - id: CCC.ContainReg.F01 # Artifact Storage
+    title: Artifact Storage
+    description: |
+      Provides secure storage for container images and language packages such as Maven and npm artifacts.
+
+  - id: CCC.ContainReg.F03 # Integration with CI/CD Tooling
+    title: Integration with CI/CD Tooling
+    description: |
+      Seamlessly integrates with CI/CD pipelines to automate build, test, and deployment processes.
+
+  - id: CCC.ContainReg.F04 # Vulnerability Scanning Integration
+    title: Vulnerability Scanning Integration
+    description: |
+      Integrates with vulnerability scanning tools to automatically scan artifacts for security vulnerabilities.
+
+  - id: CCC.ContainReg.F05 # Cleanup Policies
+    title: Cleanup Policies
+    description: |
+      Supports defining policies for automatic deletion of unused or outdated artifacts to manage storage effectively.
