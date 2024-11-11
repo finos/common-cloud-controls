@@ -28,8 +28,8 @@ controls:
     test_requirements:
       - id: CCC.C01.TR01
         text: |
-          The service enforces the use of secure transport protocols for all
-          network communications (e.g., TLS 1.2 or higher).
+          When a port is exposed for non-SSH network traffic, all traffic MUST
+          include a TLS handshake AND be encrypted using TLS 1.2 or higher.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -37,17 +37,8 @@ controls:
           - tlp_red
       - id: CCC.C01.TR02
         text: |
-          The service denies all unencrypted HTTP requests.
-        tlp_levels:
-          - tlp_clear
-          - tlp_green
-          - tlp_amber
-          - tlp_red
-      - id: CCC.C01.TR03
-        text: |
-          The service rejects or blocks any attempts to establish outgoing
-          connections using outdated or insecure protocols (e.g., SSL, TLS 1.0,
-          or TLS 1.1).
+          When a port is exposed for SSH network traffic, all traffic MUST
+          include a SSH handshake AND be encrypted using SSHv2 or higher.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -70,15 +61,9 @@ controls:
     test_requirements:
       - id: CCC.C02.TR01
         text: |
-          The service encrypts all stored data at rest using industry-standard encryption algorithms (e.g., AES-256).
-        tlp_levels:
-          - tlp_clear
-          - tlp_green
-          - tlp_amber
-          - tlp_red
-      - id: CCC.C02.TR02
-        text: |
-          Admin users can verify and audit encryption status for stored data at rest, including verification of key management processes.
+          When data is stored at rest, the service MUST be configured to
+          encrypt data at rest using the latest industry-standard encryption
+          methods.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -86,11 +71,16 @@ controls:
           - tlp_red
 
   - id: CCC.C03 # Implement multi-factor authentication (MFA) for access
+    # TODO: Should we disallow an end user interacting with their own data via API? That seems to be excluded by this definition.
+    # Brainstorming... An end user might authorize program to access an API on their behalf, but it should be a known program that is
+    # explicitly allowed to access API endpoints on the network. Not sure whether this covers things like Plaid, Zelle, etc.
     title: Implement multi-factor authentication (MFA) for access
     objective: |
-      Ensure that all human user access requires multi-factor authentication
-      (MFA), minimizing the risk of unauthorized access by enforcing strong
-      authentication mechanisms.
+      Ensure that all sensitive activities require two or more identity factors
+      during authentication to prevent unauthorized access. This may include
+      something you know, something you have, or something you are. In the
+      case of programattically accessible services, such as API endpoints, this
+      includes a combination of API keys or tokens and network restrictions.
     control_family: Identity and Access Management
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -104,15 +94,55 @@ controls:
       NIST_800_53:
         - IA-2
     test_requirements:
-      - id: CCC.C03.TR01
+      - id: CCC.C03.TR01 # modification auth
         text: |
-          Ensure that MFA is required for all user access to the service interface.
+          When an entity attempts to modify the service, the service MUST
+          attempt to verify the client's identity through an authentication
+          process.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C03.TR02 # amber/red view auth
+        text: |
+          When an entity attempts to view information presented by the service,
+          service, the service MUST attempt to verify the client's identity
+          through an authentication process.
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C03.TR02
+      - id: CCC.C03.TR03 # amber/red UI view MFA
         text: |
-          Ensure that MFA is required for all administrative access to the management interface.
+          When an entity attempts to view information on the service through
+          a user interface, the authentication process MUST require multiple
+          identifying factors from the user.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C03.TR04 # API modify allowlist
+        text: |
+          When an entity attempts to modify the service through an API
+          endpoint, the authentication process MUST be limited to a
+          specific allowed network.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C03.TR05 # amber/red API view allowlist
+        text: |
+          When an entity attempts to view information on the service through
+          an API endpoint, the authentication process MUST be limited to a
+          specific allowed network.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C03.TR06 # UI modify MFA
+        text: |
+          When an entity attempts to modify the service through a user
+          interface, the authentication process MUST require multiple
+          identifying factors from the user.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -135,13 +165,24 @@ controls:
     test_requirements:
       - id: CCC.C04.TR01
         text: |
-          The service logs all access attempts, including successful and failed login attempts.
+          When any access attempt is made to the service, the service MUST log
+          the client identity, time, and result of the attempt.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C04.TR01
+        text: |
+          When any access attempt is made to the view sensitive information,
+          the service MUST log the client identity, time, and result of the
+          attempt.
         tlp_levels:
           - tlp_amber
           - tlp_red
       - id: CCC.C04.TR02
         text: |
-          The service logs all changes to configuration, including administrative actions and modifications to user roles or privileges.
+          When any change is made to the service configuration, the service MUST 
+          log the change, including the client, time, previous state, and the
+          new state following the change.
         tlp_levels:
           - tlp_clear
           - tlp_green
