@@ -1,0 +1,41 @@
+common_threats:
+  - CCC.TH01 # Access control is misconfigured
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH03 # Deployment region network is untrusted
+  - CCC.TH04 # Data is replicated to untrusted or external locations
+  - CCC.TH05 # Data is corrupted during replication
+  - CCC.TH06 # Data is lost or corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH14 # Older Resource Versions Are Exploited
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+  - CCC.TH16 # Non-compliance with encryption key management policies
+
+threats:
+  - id: CCC.ContainReg.TH01 # Vulnerabilities in Artifacts are Exploited
+    title: Vulnerabilities in Artifacts are Exploited
+    description: |
+      Attackers exploit known vulnerabilities in container images or artifacts stored in the registry, leading to unauthorized access, data breaches, or system compromise.
+    features:
+      - CCC.ContainReg.F04 # Vulnerability Scanning Integration
+    controls:
+      - CCC.ContainReg.C01 # Implement Vulnerability Scanning for Artifacts
+      - CCC.C04 # Log all access and changes
+    mitre_technique:
+      - T1190 # Exploit Public-Facing Application
+      - T1195 # Supply Chain Compromise
+
+  - id: CCC.ContainReg.TH02 # Accumulation of Unused Artifacts
+    title: Accumulation of Unused Artifacts
+    description: |
+      The registry accumulates outdated or unused artifacts, increasing storage costs and the risk of deploying vulnerable or untested versions.
+    features:
+      - CCC.ContainReg.F06 # Cleanup Policies
+      - CCC.F18 # Versioning
+    controls:
+      - CCC.ContainReg.C02 # Implement Cleanup Policies for Artifacts
+    mitre_technique:
+      - T1490 # Inhibit System Recovery
+      - T1485 # Data Destruction
