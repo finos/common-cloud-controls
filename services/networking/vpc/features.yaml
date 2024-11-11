@@ -5,6 +5,7 @@ common_features:
   - CCC.F08  # Multi-zone Deployment
   - CCC.F09  # Monitoring
   - CCC.F10  # Logging
+  - CCC.F11  # DNS Lookup
 
 features:
   - id: CCC.VPC.F01
@@ -36,3 +37,8 @@ features:
     title: Nested Virtualization
     description: |
       Supports running virtual machines within virtual machines, enabling nested virtualization features for scenarios like testing, development, or running hypervisor-dependent workloads.
+
+  - id: CCC.VPC.F11
+    title: DNS Lookup
+    description: |
+      Supports the resolution of domain names or IP addresses using DNS infrastructure (possibly public)
