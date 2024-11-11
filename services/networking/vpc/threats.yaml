@@ -69,3 +69,13 @@ threats:
     mitre_technique:
       - T1497  # Virtualization/Sandbox Evasion
       - T1059  # Command and Scripting Interpreter
+
+  - id: CCC.VPC.TH07
+    title: Unauthorized Network Access through VPC Peering
+    description: |
+      Unauthorized VPC peering connections can allow network traffic between untrusted or unapproved accounts/projects, leading to potential data exposure or exfiltration.
+    features:
+      - CCC.VPC.FXX # TO DO: VPC Peering
+    mitre_technique:
+      - T1071  # Application Layer Protocol
+

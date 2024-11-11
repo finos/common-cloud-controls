@@ -200,3 +200,26 @@ controls:
           For virtual machines without sensitive data, ensure that nested virtualization is only enabled when necessary and with appropriate security measures.
         tlp_levels:
           - tlp_green
+
+  - id: CCC.VPC.C07
+    title: Restrict VPC Peering to Authorized Accounts
+    objective: |
+      Ensure VPC peering connections are only established with explicitly authorized destinations to limit network exposure and enforce boundary controls.
+    control_family: Network Security
+    threats:
+      - CCC.VPC.TH02
+    nist_csf: PR.AC-3
+    control_mappings:
+      CCM:
+        - IVS-01
+      ISO_27001:
+        - 2013 A.13.1.3
+      NIST_800_53:
+        - AC-4
+    test_requirements:
+      - id: CCC.VPC.C07.TR01
+        text: |
+          When a VPC peering connection request is made, then it MUST be prevented if the target destination is not on an approved authorized list.
+        tlp_levels:
+          - tlp_red
+  
