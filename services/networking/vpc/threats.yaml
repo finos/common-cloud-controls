@@ -38,27 +38,6 @@ threats:
       - T1590  # Gather Victim Network Information
       - T1021  # Remote Services
 
-  - id: CCC.VPC.TH04
-    title: Unauthorized Access to ML Development Environments via Public IP
-    description: |
-      Public IP access to ML development environments can lead to unauthorized access if proper security controls are not in place, increasing the risk of compromise and data breaches.
-    features:
-      - CCC.VPC.F04  # Public IP Access Control
-      - CCC.F06      # Identity Based Access Control (common feature)
-    mitre_technique:
-      - T1133  # External Remote Services
-      - T1078  # Valid Accounts
-
-  - id: CCC.VPC.TH05
-    title: Deployment of ML Development Environments in Unapproved Networks
-    description: |
-      Deploying ML development environments in unapproved or less secure networks can expose them to vulnerabilities and unauthorized access, compromising sensitive data and security policies.
-    features:
-      - CCC.VPC.F05  # Virtual Network Selection
-      - CCC.F06      # Identity Based Access Control (common feature)
-    mitre_technique:
-      - T1578  # Modify Cloud Compute Infrastructure
-
   - id: CCC.VPC.TH06
     title: Security Risks from Nested Virtualization
     description: |
@@ -73,9 +52,29 @@ threats:
   - id: CCC.VPC.TH07
     title: Unauthorized Network Access through VPC Peering
     description: |
-      Unauthorized VPC peering connections can allow network traffic between untrusted or unapproved accounts/projects, leading to potential data exposure or exfiltration.
+      Unauthorized VPC peering connections can allow network traffic between untrusted or unapproved accounts/projects/subscriptions, leading to potential data exposure or exfiltration.
     features:
       - CCC.VPC.FXX # TO DO: VPC Peering
     mitre_technique:
-      - T1071  # Application Layer Protocol
+      - T1599  # Network Boundary Bridging
+
+  - id: CCC.VPC.TH08
+    title: Lack of Network Visibility Due to Disabled VPC Flow Logs
+    description: |
+      VPC subnets with disabled flow logs lack critical network traffic visibility, which can lead to undetected unauthorized access, data exfiltration, and network misconfigurations. This lack of visibility increases the risk of undetected security incidents.
+    features:
+      - CCC.VPC.FXX  # VPC Flow Logs
+    mitre_technique:
+      - T1580 # Cloud Infrastructure Discovery
+
+  - id: CCC.VPC.TH09
+    title: Unauthorized Exposure to the Internet via Internet Gateway Routes
+    description: |
+      Route tables configured with routes to an Internet Gateway allow direct exposure of network resources to the public internet. 
+    features:
+      - CCC.VPC.XX  # Route Table
+    mitre_technique:
+      - T1011  # Exfiltration Over Alternative Protocol
+
+
 

@@ -207,7 +207,7 @@ controls:
       Ensure VPC peering connections are only established with explicitly authorized destinations to limit network exposure and enforce boundary controls.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH02
+      - CCC.VPC.TH07
     nist_csf: PR.AC-3
     control_mappings:
       CCM:
@@ -222,4 +222,59 @@ controls:
           When a VPC peering connection request is made, then it MUST be prevented if the target destination is not on an approved authorized list.
         tlp_levels:
           - tlp_red
+
+  - id: CCC.VPC.C08
+    title: Enforce VPC Flow Logs on VPCs.
+    objective: |
+      Ensure VPCs are configured with flow logs enabled to capture traffic information, support auditing, and enhance network visibility and security.
+    control_family: Network Security
+    threats:
+      - CCC.VPC.TH08
+    nist_csf: PR.PT-1
+    control_mappings:
+      CCM:
+        - IVS-06
+      ISO_27001:
+        - 2013 A.12.4.1
+      NIST_800_53:
+        - AU-2
+    test_requirements:
+      - id: CCC.VPC.C08.TR01
+        text: |
+          When a VPC is created or updated, then VPC flow logs MUST be enabled to capture and log all network traffic within the VPC.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C08.TR02
+        text: |
+          When VPC flow logs are disabled, then an alert MUST trigger.
+        tlp_levels:
+          - tlp_red
+
+  - id: CCC.VPC.C09
+    title: Restrict Route Table Entries from Internet Gateway Access
+    objective: |
+      Ensure that route tables do not contain routes to an Internet Gateway.
+    control_family: Network Security
+    threats:
+      - CCC.VPC.TH09
+    nist_csf: PR.AC-5
+    control_mappings:
+      CCM:
+        - DSI-04
+      ISO_27001:
+        - 2013 A.13.1.3
+      NIST_800_53:
+        - SC-7
+    test_requirements:
+      - id: CCC.VPC.C09.TR01
+        text: |
+          When a route table is created or updated, then it MUST NOT include a route to an Internet Gateway unless explicitly required and approved for specific use cases.
+        tlp_levels:
+          - tlp_red
+      - id: CCC.VPC.C09.TR02
+        text: |
+          When an unauthorized route to an Internet Gateway is detected in any route table, then an alert MUST trigger.
+        tlp_levels:
+          - tlp_red
+
   
