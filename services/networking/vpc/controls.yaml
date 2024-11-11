@@ -24,6 +24,7 @@ controls:
         - SC-7
     test_requirements:
       - id: CCC.VPC.C01.TR01
+        # TO DO: When a new project/account/subscription is created, then default networks are not automatically created.
         text: |
           Verify that default networks are not automatically created upon project initialization.
         tlp_levels:
