@@ -54,9 +54,10 @@ controls:
     test_requirements:
       - id: CCC.VPC.C02.TR01
         text: |
-          Verify that policies are in place to prevent unauthorized assignment of external IPs to virtual machines containing sensitive data.
+          When assigning IP addresses within VPCs, then IP ranges MUST be private.
         tlp_levels:
           - tlp_red
+      # TO DO: Remove CCC.VPC.C02.TR02?
       - id: CCC.VPC.C02.TR02
         text: |
           Ensure that external IP assignments are approved and monitored for virtual machines without sensitive data.
@@ -81,25 +82,27 @@ controls:
     test_requirements:
       - id: CCC.VPC.C03.TR01
         text: |
-          Verify that IP forwarding is disabled on all virtual machines containing sensitive data.
+          When a virtual machine is created, then IP forwarding MUST be disabled by default.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C03.TR02
         text: |
-          Attempt to enable IP forwarding on a sensitive VM and confirm that it is denied.
+          When an attempt is made to enable IP forwarding on a VM, then the attempt MUST be denied.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C03.TR03
+      # TO DO: Remove? Is this testable?
         text: |
           Confirm that IP forwarding is only enabled on virtual machines without sensitive data and with a justified operational need.
         tlp_levels:
           - tlp_green
+      # TO DO: Remove? Is this testable?
       - id: CCC.VPC.C03.TR04
         text: |
           Review and document the instances where IP forwarding is enabled under TLP Green classification.
         tlp_levels:
           - tlp_green
-
+  # TO DO: Remove? This is written is a way that it is specific to ML.
   - id: CCC.VPC.C04
     title: Restrict Public IP Access to ML Development Environments
     objective: |
@@ -131,7 +134,7 @@ controls:
           Ensure that any ML development environments without sensitive data requiring public access are approved and have appropriate security controls.
         tlp_levels:
           - tlp_green
-
+  # TO DO: Remove? This is written is a way that it is specific to ML.
   - id: CCC.VPC.C05
     title: Restrict Virtual Networks for ML Development Environments
     objective: |
@@ -164,7 +167,7 @@ controls:
           Ensure that ML development environments without sensitive data are deployed in networks that meet organizational security standards.
         tlp_levels:
           - tlp_green
-
+  # TO DO: Remove? Nested virtualization is not a feature of VPCs.
   - id: CCC.VPC.C06
     title: Disable Nested Virtualization on Virtual Machines
     objective: |
