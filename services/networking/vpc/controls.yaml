@@ -241,7 +241,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C08.TR01
         text: |
-          When a VPC is created or updated, then VPC flow logs MUST be enabled to capture and log all network traffic within the VPC.
+          When any network traffic goes to or from an interface in the VPC, VPC flow logs MUST capture and log all relevant information.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C08.TR02
