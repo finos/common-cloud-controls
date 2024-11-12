@@ -118,7 +118,7 @@ controls:
           - tlp_red
       - id: CCC.VPC.C05.TR02
         text: |
-          When VPC flow logs are disabled, then an alert MUST trigger.
+          When VPC flow logs are disabled, then the activity is logged in the cloud native logging service.
         tlp_levels:
           - tlp_red
 
@@ -145,6 +145,6 @@ controls:
           - tlp_red
       - id: CCC.VPC.C06.TR02
         text: |
-          When an unauthorized route to an Internet Gateway is detected in any route table, then an alert MUST trigger.
+          When an unauthorized route to an Internet Gateway is detected in any route table, then this must be logged.
         tlp_levels:
           - tlp_red
