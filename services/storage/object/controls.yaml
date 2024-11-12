@@ -84,16 +84,17 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C03.TR01
         text: |
-          When an object storage bucket is created then it MUST be protected from all deletion attempts, including both hard delete and soft delete, to ensure irrevocable data integrity and prevent any loss.
+          When an object storage bucket is created then it must be protected from all deletion attempts, including both hard delete and soft delete, to ensure irrevocable data integrity and prevent any loss.
         tlp_levels:
           - tlp_red
       - id: CCC.ObjStor.C03.TR02
         text: |
-          When an object storage bucket is created, then soft delete MAY be allowed, but it MUST enforce a retention period that allows for recovery of deleted buckets within the specified timeline to prevent unintended permanent data loss.
+          When an object storage bucket is created, then soft delete may be allowed, but it must enforce a retention period that allows for recovery of deleted buckets within the specified timeline to prevent unintended permanent data loss.
         tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
-      - id: CCC.ObjStor.C03.TR02
+      - id: CCC.ObjStor.C03.TR03
         text: |
           Retention policy for object storage buckets cannot be unset.
         tlp_levels:
