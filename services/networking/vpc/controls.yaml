@@ -24,7 +24,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C01.TR01
         text: |
-          When a new project/account/subscription is created, then the project/account/subscription MUST NOT contain any default network resources.
+          When a new project/account/subscription is created, then the project/account/subscription must not contain any default network resources.
         tlp_levels:
           - tlp_red
 
@@ -46,7 +46,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C02.TR01
         text: |
-          When a resource is created, then the resource MUST NOT be assigned an external IP address by default.
+          When a resource is created, then the resource must not be assigned an external IP address by default.
         tlp_levels:
           - tlp_red
 
@@ -68,7 +68,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C03.TR01
         text: |
-          When an attempt is made to enable IP forwarding on a VM, then the VM configuration MUST remain unchanged.
+          When an attempt is made to enable IP forwarding on a VM, then the VM configuration must remain unchanged.
         tlp_levels:
           - tlp_red
 
@@ -91,7 +91,7 @@ controls:
       - id: CCC.VPC.C04.TR01
         text: |
           When a VPC peering connection is requested for an untrusted
-          destination, the VPC’s peering configuration MUST remain unchanged.
+          destination, the VPC’s peering configuration must remain unchanged.
         tlp_levels:
           - tlp_red
 
@@ -113,7 +113,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C05.TR01
         text: |
-          When any network traffic goes to or from an interface in the VPC, VPC flow logs MUST capture and log all relevant information.
+          When any network traffic goes to or from an interface in the VPC, VPC flow logs must capture and log all relevant information.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C05.TR02
@@ -140,7 +140,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C06.TR01
         text: |
-          When a route table is created or updated, then it MUST NOT include a route to an Internet Gateway.
+          When a route table is created or updated, then it must not include a route to an Internet Gateway.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C06.TR02
