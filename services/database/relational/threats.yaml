@@ -10,7 +10,6 @@ common_threats:
   - CCC.TH10 # Alerts are Intercepted
   - CCC.TH11 # Event Notifications are Incorrectly Triggered
   - CCC.TH12 # Resource constraints are exhausted
-  - CCC.TH13 # DB user authentication mechanism is misconfigured
 
 threats:
   - id: CCC.RDMS.TH01
