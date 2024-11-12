@@ -87,7 +87,7 @@ controls:
           - tlp_red
       - id: CCC.VPC.C03.TR02
         text: |
-          When an attempt is made to enable IP forwarding on a VM, then the attempt MUST be denied.
+          When an attempt is made to enable IP forwarding on a VM, then the VM configuration MUST remain unchanged.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C03.TR03
