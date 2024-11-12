@@ -29,7 +29,7 @@ threats:
       - T1078  # Valid Accounts
 
   - id: CCC.VPC.TH03
-    title: Unauthorized Network Traffic Routing
+    title: Unauthorized Network Traffic Routing via IP Forwarding
     description: |
       Enabling IP forwarding on virtual machines allows them to route traffic, which can be exploited to redirect traffic, bypass network controls, or launch attacks within the network.
     features:
@@ -38,18 +38,7 @@ threats:
       - T1590  # Gather Victim Network Information
       - T1021  # Remote Services
 
-  - id: CCC.VPC.TH06
-    title: Security Risks from Nested Virtualization
-    description: |
-      Nested virtualization can introduce additional layers of abstraction, increasing complexity and potentially leading to security vulnerabilities that can be exploited.
-    features:
-      - CCC.VPC.F06  # Nested Virtualization
-      - CCC.F09      # Monitoring (common feature)
-    mitre_technique:
-      - T1497  # Virtualization/Sandbox Evasion
-      - T1059  # Command and Scripting Interpreter
-
-  - id: CCC.VPC.TH07
+  - id: CCC.VPC.TH04
     title: Unauthorized Network Access through VPC Peering
     description: |
       Unauthorized VPC peering connections can allow network traffic between untrusted or unapproved accounts/projects/subscriptions, leading to potential data exposure or exfiltration.
@@ -58,7 +47,7 @@ threats:
     mitre_technique:
       - T1599  # Network Boundary Bridging
 
-  - id: CCC.VPC.TH08
+  - id: CCC.VPC.TH05
     title: Lack of Network Visibility Due to Disabled VPC Flow Logs
     description: |
       VPC subnets with disabled flow logs lack critical network traffic visibility, which can lead to undetected unauthorized access, data exfiltration, and network misconfigurations. This lack of visibility increases the risk of undetected security incidents.
@@ -67,7 +56,7 @@ threats:
     mitre_technique:
       - T1580 # Cloud Infrastructure Discovery
 
-  - id: CCC.VPC.TH09
+  - id: CCC.VPC.TH06
     title: Unauthorized Exposure to the Internet via Internet Gateway Routes
     description: |
       Route tables configured with routes to an Internet Gateway allow direct exposure of network resources to the public internet. 
