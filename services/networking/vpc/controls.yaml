@@ -82,7 +82,8 @@ controls:
     test_requirements:
       - id: CCC.VPC.C03.TR01
         text: |
-          When a virtual machine is created, then IP forwarding MUST be disabled by default.
+          When a VPC peering connection is requested for an untrusted
+          destination, the VPC’s peering configuration MUST remain unchanged.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C03.TR02
