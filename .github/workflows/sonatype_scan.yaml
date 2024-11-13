@@ -15,7 +15,7 @@ env:
 
 jobs:
   build:
-    # if: github.repository_owner == 'finos'
+    if: github.repository_owner == 'finos'
     name: Build
     runs-on: ubuntu-latest
     steps:
