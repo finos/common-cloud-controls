@@ -89,7 +89,7 @@ controls:
           - tlp_red
       - id: CCC.ObjStor.C03.TR02
         text: |
-          When an object storage bucket is created, then soft delete may be allowed, but it must enforce a retention period that allows for recovery of deleted buckets within the specified timeline to prevent unintended permanent data loss.
+         When an object storage bucket deletion is attempted, the bucket MUST be fully recoverable for a set timeframe after deletion is requested.
         tlp_levels:
           - tlp_clear
           - tlp_green
