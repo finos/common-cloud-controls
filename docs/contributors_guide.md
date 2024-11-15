@@ -72,6 +72,8 @@ To make use of these snippets start typing the snippet prefix in any `yaml` file
 CF3
 ```
 
+![snippet](/docs/resources/snippet.gif)
+
 ### YAML Schema validation
 
 By default, the contents of `.vscode/settings.json` should automatically be considered by Visual Studio Code. In-line suggestions should appear in the event that your file is not compatible with the corresponding schema.
@@ -91,3 +93,5 @@ If this does not satisfy your use case for some reason, you can update your glob
    ```
 
 3. Save these settings and reload VSCode.
+
+![yaml](/docs/resources/yaml-validate.gif)
