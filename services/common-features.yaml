@@ -1,5 +1,4 @@
 features:
-
   - id: CCC.F01 # Encryption in Transit Enabled by Default
     title: Encryption in Transit Enabled by Default
     description: |
@@ -14,7 +13,7 @@ features:
   - id: CCC.F03 # Access/Activity Logs
     title: Access/Activity Logs
     description: |
-      Provides users with the ability to track all requests made to or 
+      Provides users with the ability to track all requests made to or
       activities performed on resources for audit purposes.
 
   - id: CCC.F04 # Transaction Rate Limits
@@ -76,7 +75,8 @@ features:
   - id: CCC.F13 # Infrastructure as Code
     title: Infrastructure as Code
     description: |
-      Allows for managing and provisioning service resources through machine-readable configuration files, such as templates.
+      Allows for managing and provisioning service resources
+      through machine-readable configuration files, such as templates.
 
   - id: CCC.F14 # API Access
     title: API Access
@@ -96,7 +96,8 @@ features:
   - id: CCC.F17 # Alerting
     title: Alerting
     description: |
-      Provides the ability to set an alarm based on performance metrics, logs, events or spending thresholds of the service.
+      Provides the ability to set an alarm based on performance metrics,
+      logs, events or spending thresholds of the service.
 
   - id: CCC.F18 # Versioning
     title: Versioning

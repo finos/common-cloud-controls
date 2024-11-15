@@ -1,7 +1,7 @@
 name: TODO Checker
 
 on:
-    workflow_call:
+  workflow_call:
 
 jobs:
   find-todos:
@@ -11,8 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check for TODOs in services directory         
+      - name: Check for TODOs in services directory
         uses: damienjburks/simple-todo-checker@1.0.0
-        with: 
+        with:
           path: "./services"
-    
