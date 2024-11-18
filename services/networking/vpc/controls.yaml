@@ -7,9 +7,9 @@ common_controls:
 
 controls:
   - id: CCC.VPC.C01
-    title: Prevent Default Network Creation
+    title: Restrict Default Network Creation
     objective: |
-      Prevent the automatic creation of default virtual networks and related resources during cloud project initialization to avoid insecure default configurations and enforce custom network policies.
+      Restrict the automatic creation of default virtual networks and related resources during subscription initialization to avoid insecure default configurations and enforce custom network policies.
     control_family: Network Security
     threats:
       - CCC.VPC.TH01
@@ -24,7 +24,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C01.TR01
         text: |
-          When a new project/account/subscription is created, then the project/account/subscription must not contain any default network resources.
+          When a subscription is created, the subscription must not contain any default network resources.
         tlp_levels:
           - tlp_red
 
@@ -47,28 +47,6 @@ controls:
       - id: CCC.VPC.C02.TR01
         text: |
           When a resource is created, then the resource must not be assigned an external IP address by default.
-        tlp_levels:
-          - tlp_red
-
-  - id: CCC.VPC.C03
-    title: Restrict IP Forwarding on Virtual Machines
-    objective: |
-      Control the use of IP forwarding on virtual machines to prevent unauthorized network traffic routing and potential security risks.
-    control_family: Network Security
-    threats:
-      - CCC.VPC.TH03
-    nist_csf: PR.AC-5
-    control_mappings:
-      CCM:
-        - SEF-05
-      ISO_27001:
-        - 2013 A.13.1.1
-      NIST_800_53:
-        - SC-7
-    test_requirements:
-      - id: CCC.VPC.C03.TR01
-        text: |
-          When an attempt is made to enable IP forwarding on a VM, then the VM configuration must remain unchanged.
         tlp_levels:
           - tlp_red
 
@@ -98,7 +76,7 @@ controls:
   - id: CCC.VPC.C05
     title: Enforce VPC Flow Logs on VPCs.
     objective: |
-      Ensure VPCs are configured with flow logs enabled to capture traffic information, support auditing, and enhance network visibility and security.
+      Ensure VPCs are configured with flow logs enabled to capture traffic information.
     control_family: Network Security
     threats:
       - CCC.VPC.TH08
