@@ -15,6 +15,13 @@ service_categories:
       and network gateways. VPC enables secure and controlled communication
       between resources while providing integration with on-premises networks
       through VPN or dedicated connections.
+    examples:
+      - AWS:
+          - AWS Virtual Private Cloud (VPC)
+      - Azure:
+          - Azure Virtual Network (VNet)
+      - Google Cloud:
+          - Google Cloud Virtual Private Cloud (VPC)
   - id: CCC.VPN
     title: Virtual Private Network (VPN)
     description: |
@@ -22,12 +29,12 @@ service_categories:
       networks and cloud resources, enabling remote access, site-to-site
       connectivity, and secure data transmission over public networks.
     examples:
-      - AWS: 
-        - AWS VPN
+      - AWS:
+          - AWS VPN
       - Azure:
-        - Azure VPN
+          - Azure VPN
       - Google Cloud:
-        - Cloud VPN
+          - Cloud VPN
   - id: CCC.LoadBal
     title: Load Balancing
     description: |
@@ -35,12 +42,12 @@ service_categories:
       instances or servers to ensure high availability, scalability, and
       reliability of applications.
     examples:
-      - AWS: 
-        - Elastic Load Balancer
+      - AWS:
+          - Elastic Load Balancer
       - Azure:
-        - Azure Load Balancer
+          - Azure Load Balancer
       - Google Cloud:
-        - Cloud Load Balancing
+          - Cloud Load Balancing
     documentation: networking/loadbalancer/taxonomy.md
   - id: CCC.CDN
     title: Content Delivery Network (CDN)
@@ -50,12 +57,12 @@ service_categories:
       closer to the end-users. CDNs reduce latency, improve performance, and
       offload origin server traffic.
     examples:
-      - AWS: 
-        - Amazon CloudFront
+      - AWS:
+          - Amazon CloudFront
       - Azure:
-        - Azure CDN
+          - Azure CDN
       - Google Cloud:
-        - Google Cloud CDN
+          - Google Cloud CDN
   - id: CCC.DirConn
     title: Direct Connect
     description: |
@@ -63,12 +70,12 @@ service_categories:
       on-premises data centers and cloud environments, bypassing the public
       internet to achieve higher bandwidth, lower latency, and improved security.
     examples:
-      - AWS: 
-        - AWS Direct Connect
+      - AWS:
+          - AWS Direct Connect
       - Azure:
-        - Azure ExpressRoute
+          - Azure ExpressRoute
       - Google Cloud:
-        - Cloud Interconnect
+          - Cloud Interconnect
   - id: CCC.DNS
     title: Domain Name System (DNS)
     description: |
@@ -77,9 +84,9 @@ service_categories:
       domain names. Cloud providers offer managed DNS services which provide
       global scalability, low latency, and advanced DNS management features.
     examples:
-      - AWS: 
-        - Amazon Route 53
+      - AWS:
+          - Amazon Route 53
       - Azure:
-        - Azure DNS
+          - Azure DNS
       - Google Cloud:
-        - Google Cloud DNS
+          - Google Cloud DNS
