@@ -74,6 +74,21 @@ CF3
 
 ![snippet](/docs/resources/snippet.gif)
 
+#### Snippet overview
+
+| Snippet           | Description                            | File                                                                   | Prompt     |
+| ----------------- | -------------------------------------- | ---------------------------------------------------------------------- | ---------- |
+| Threats File      | Create a blank FINOS CCC Threats file  | [threats.code-snippets](.vscode/threats.code-snippets)                 | `th`, `fi` |
+| Threat            | Create a blank FINOS CCC Threat        | [threats.code-snippets](.vscode/threats.code-snippets)                 | `th`, `fi` |
+| Common Threats\*  | Create a common FINOS CCC Threat       | [common-threats.code-snippets](.vscode/common-threats.code-snippets)   | `CT`       |
+| Feature File      | Create a blank FINOS CCC Feature file  | [features.code-snippets](.vscode/features.code-snippets)               | `fe`, `fi` |
+| Feature           | Create a blank FINOS CCC Feature       | [features.code-snippets](.vscode/features.code-snippets)               | `fe`, `fi` |
+| Common Features\* | Create a common FINOS CCC Feature      | [common-features.code-snippets](.vscode/common-features.code-snippets) | `CF`       |
+| Controls File     | Create a blank FINOS CCC Controls file | [controls.code-snippets](.vscode/controls.code-snippets)               | `co`, `fi` |
+| Control           | Create a blank FINOS CCC Control       | [controls.code-snippets](.vscode/controls.code-snippets)               | `co`, `fi` |
+| Common Controls\* | Create a common FINOS CCC Control      | [common-controls.code-snippets](.vscode/common-controls.code-snippets) | `CT`       |
+| Metadata File     | Create a blank FINOS CCC Metadata file | [metadata.code-snippets](.vscode/metadata.code-snippets)               | `me`, `fi` |
+
 ### YAML Schema validation
 
 By default, the contents of `.vscode/settings.json` should automatically be considered by Visual Studio Code. In-line suggestions should appear in the event that your file is not compatible with the corresponding schema.
