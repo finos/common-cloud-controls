@@ -17,7 +17,7 @@ This section provides a high-level overview of the project structure.
 
 ### .config
 
-The [`.config`](/.config) directory contains config for various tooling used in the project, e.g. [prettier](<(https://prettier.io/)>) and [markdownlint](https://github.com/DavidAnson/markdownlint).
+The [`.config`](/.config) directory contains config for various tooling used in the project, e.g. [prettier](https://prettier.io/) and [markdownlint](https://github.com/DavidAnson/markdownlint).
 
 ### .github
 
@@ -65,7 +65,7 @@ The top level of the `services` directory contains `yaml` files for common contr
 
 ### Snippets
 
-[VSCode snippets](https://code.visualstudio.com/docs/editor/userdefinedsnippets) are defined for common [features](../.vscode/common-features.code-snippets), [threats](../.vscode/common-threats.code-snippets) and [controls](../.vscode/common-controls.code-snippets).
+[VSCode snippets](https://code.visualstudio.com/docs/editor/userdefinedsnippets) are defined for common [features](.vscode/common-features.code-snippets), [threats](.vscode/common-threats.code-snippets) and [controls](.vscode/common-controls.code-snippets).
 To make use of these snippets start typing the snippet prefix in any `yaml` file and VSCode will offer you the option to auto-complete the snippet e.g.
 
 ```yaml
