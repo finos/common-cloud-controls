@@ -77,27 +77,3 @@ controls:
         text: Restriction of snapshot collection capabilities
       - id: CCC.RDMS.C3.TR03
         text: Prevent unauthorized snapshot collection
-
-  - id: CCC.RDMS.C04
-    title: Enforce Logging & Monitoring
-    objective: Ensure logging and monitoring cannot be disabled by users.
-    control_family: Data
-    nist_csf: PR.PT-1
-    threats:
-      - M1030 # Network Intrusion Detection
-    control_mappings:
-      CCM:
-        - STA-04
-        - STA-05
-      ISO_27001:
-        - 2013 A.12.4.1
-      NIST_800_53:
-        - AU-2
-        - AU-3
-    test_requirements:
-      - id: CCC.RDMS.C4.TR01
-        text: Enable logging for database activities
-      - id: CCC.RDMS.C4.TR02
-        text: Active monitoring of database resources
-      - id: CCC.RDMS.C4.TR03
-        text: Restrict users from disabling logging and monitoring
