@@ -1,0 +1,39 @@
+common_threats:
+  - CCC.TH01 # Access control is misconfigured
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH03 # Deployment region network is untrusted
+  - CCC.TH04 # Data is replicated to untrusted or external locations
+  - CCC.TH05 # Data is corrupted during replication
+  - CCC.TH06 # Data is lost or corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH14 # Older Resource Versions Are Exploited
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+  - CCC.TH16 # Non-compliance with encryption key management policies
+
+threats:
+  - id: CCC.Build.TH01  # Unauthorized Build Execution
+    title: Unauthorized Build Execution
+    description: |
+      Attackers may trigger builds using unauthorized build agents or external services, leading to unauthorized code execution or deployment of malicious code.
+    features:
+      - CCC.Build.F01  # Build Automation
+      - CCC.Build.F04  # Source Repository Integration
+    controls:
+      - CCC.Build.C01  # Restrict Allowed Build Agents
+      - CCC.Build.C02  # Restrict Allowed External Services for Build Triggers
+    mitre_technique:
+      - T1195  # Supply Chain Compromise
+
+  - id: CCC.Build.TH02  # External Exposure of Build Environments
+    title: External Exposure of Build Environments
+    description: |
+      If build environments have external network access, they may be accessed by unauthorized parties, leading to data exfiltration or tampering.
+    features:
+      - CCC.Build.F03  # Custom Build Environments
+    controls:
+      - CCC.Build.C03  # Deny External Network Access for Build Environments
+    mitre_technique:
+      - T1133  # External Remote Services
