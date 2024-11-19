@@ -18,32 +18,21 @@ threats:
       - T1136  # Create Account
 
   - id: CCC.VPC.TH02
-    title: Exposure of Virtual Machines to Public Internet
+    title: Exposure of Resources to Public Internet
     description: |
-      Assignment of external IP addresses to virtual machines exposes them to the public internet, increasing the risk of attacks such as brute force, exploitation of vulnerabilities, or unauthorized access.
+      Assignment of external IP addresses to resources exposes them to the public internet, increasing the risk of attacks such as brute force, exploitation of vulnerabilities, or unauthorized access.
     features:
       - CCC.VPC.F02  # External IP Address Assignment
-      - CCC.F01      # Encryption in Transit Enabled by Default (common feature)
     mitre_technique:
       - T1133  # External Remote Services
       - T1078  # Valid Accounts
 
-  - id: CCC.VPC.TH03
-    title: Unauthorized Network Traffic Routing via IP Forwarding
-    description: |
-      Enabling IP forwarding on virtual machines allows them to route traffic, which can be exploited to redirect traffic, bypass network controls, or launch attacks within the network.
-    features:
-      - CCC.VPC.F03  # IP Forwarding
-    mitre_technique:
-      - T1590  # Gather Victim Network Information
-      - T1021  # Remote Services
-
   - id: CCC.VPC.TH04
     title: Unauthorized Network Access through VPC Peering
     description: |
-      Unauthorized VPC peering connections can allow network traffic between untrusted or unapproved accounts/projects/subscriptions, leading to potential data exposure or exfiltration.
+      Unauthorized VPC peering connections can allow network traffic between untrusted or unapproved subscriptions, leading to potential data exposure or exfiltration.
     features:
-      - CCC.VPC.FXX # TO DO: VPC Peering
+      - CCC.VPC.F11 # VPC Peering
     mitre_technique:
       - T1599  # Network Boundary Bridging
 
@@ -52,7 +41,7 @@ threats:
     description: |
       VPC subnets with disabled flow logs lack critical network traffic visibility, which can lead to undetected unauthorized access, data exfiltration, and network misconfigurations. This lack of visibility increases the risk of undetected security incidents.
     features:
-      - CCC.VPC.FXX  # VPC Flow Logs
+      - CCC.VPC.F16  # VPC Flow Logs
     mitre_technique:
       - T1580 # Cloud Infrastructure Discovery
 
@@ -64,6 +53,15 @@ threats:
       - CCC.VPC.XX  # Route Table
     mitre_technique:
       - T1011  # Exfiltration Over Alternative Protocol
+
+  - id: CCC.VPC.TH07
+    title: Misconfigured or Unauthorized Access to VPC Endpoints
+    description: |
+      Misconfigured or unauthorized VPC Endpoints can expose private network resources to unauthorized access, bypassing traditional network controls. This may lead to data exposure or exploitation of services through unintended access paths.
+    features:
+      - CCC.VPC.F17  # VPC Endpoints
+    mitre_technique:
+      - T1071  # Application Layer Protocol
 
 
 
