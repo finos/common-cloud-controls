@@ -21,9 +21,6 @@ threats:
     features:
       - CCC.Build.F01  # Build Automation
       - CCC.Build.F04  # Source Repository Integration
-    controls:
-      - CCC.Build.C01  # Restrict Allowed Build Agents
-      - CCC.Build.C02  # Restrict Allowed External Services for Build Triggers
     mitre_technique:
       - T1195  # Supply Chain Compromise
 
@@ -33,7 +30,5 @@ threats:
       If build environments have external network access, they may be accessed by unauthorized parties, leading to data exfiltration or tampering.
     features:
       - CCC.Build.F03  # Custom Build Environments
-    controls:
-      - CCC.Build.C03  # Deny External Network Access for Build Environments
     mitre_technique:
       - T1133  # External Remote Services
