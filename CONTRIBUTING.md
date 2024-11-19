@@ -86,7 +86,7 @@ CF3
 | Common Features\* | Create a common FINOS CCC Feature      | [common-features.code-snippets](.vscode/common-features.code-snippets) | `CF`       |
 | Controls File     | Create a blank FINOS CCC Controls file | [controls.code-snippets](.vscode/controls.code-snippets)               | `co`, `fi` |
 | Control           | Create a blank FINOS CCC Control       | [controls.code-snippets](.vscode/controls.code-snippets)               | `co`, `fi` |
-| Common Controls\* | Create a common FINOS CCC Control      | [common-controls.code-snippets](.vscode/common-controls.code-snippets) | `CT`       |
+| Common Controls\* | Create a common FINOS CCC Control      | [common-controls.code-snippets](.vscode/common-controls.code-snippets) | `CC`       |
 | Metadata File     | Create a blank FINOS CCC Metadata file | [metadata.code-snippets](.vscode/metadata.code-snippets)               | `me`, `fi` |
 
 ### YAML Schema validation
