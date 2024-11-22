@@ -9,8 +9,9 @@ threats:
   - id: CCC.VPC.TH01
     title: Unauthorized Access via Insecure Default Networks
     description: |
-      Default network configurations may include insecure settings and open firewall rules,
-      leading to unauthorized access and potential data breaches.
+      Default network configurations may include insecure settings and open 
+      firewall rules,leading to unauthorized access and potential data 
+      breaches.
     features:
       - CCC.VPC.F01 # Custom Network Creation
     mitre_technique:
@@ -19,7 +20,9 @@ threats:
   - id: CCC.VPC.TH02
     title: Exposure of Resources to Public Internet
     description: |
-      Assignment of external IP addresses to resources exposes resources to the public internet, increasing the risk of attacks such as brute force, exploitation of vulnerabilities, or unauthorized access.
+      Assignment of external IP addresses to resources exposes resources to the
+      public internet, increasing the risk of attacks such as brute force, 
+      exploitation of vulnerabilities, or unauthorized access.
     features:
       - CCC.VPC.F02  # External IP Address Assignment
     mitre_technique:
@@ -29,7 +32,9 @@ threats:
   - id: CCC.VPC.TH04
     title: Unauthorized Network Access through VPC Peering
     description: |
-      Unauthorized VPC peering connections can allow network traffic between untrusted or unapproved subscriptions, leading to potential data exposure or exfiltration.
+      Unauthorized VPC peering connections can allow network traffic between 
+      untrusted or unapproved subscriptions, leading to potential data 
+      exposure or exfiltration.
     features:
       - CCC.VPC.F11 # VPC Peering
     mitre_technique:
@@ -38,7 +43,10 @@ threats:
   - id: CCC.VPC.TH05
     title: Lack of Network Visibility Due to Disabled VPC Flow Logs
     description: |
-      VPC subnets with disabled flow logs lack critical network traffic visibility, which can lead to undetected unauthorized access, data exfiltration, and network misconfigurations. This lack of visibility increases the risk of undetected security incidents.
+      VPC subnets with disabled flow logs lack critical network traffic 
+      visibility, which can lead to undetected unauthorized access, 
+      data exfiltration, and network misconfigurations. This lack of 
+      visibility increases the risk of undetected security incidents.
     features:
       - CCC.VPC.F16  # VPC Flow Logs
     mitre_technique:
@@ -47,7 +55,8 @@ threats:
   - id: CCC.VPC.TH06
     title: Overly Permissive VPC Endpoint Policies
     description: |
-      VPC Endpoint policies that are overly permissive may inadvertently expose resources within the VPC to unintended principals or external threats.
+      VPC Endpoint policies that are overly permissive may inadvertently expose
+      resources within the VPC to unintended principals or external threats.
     features:
       - CCC.VPC.F17  # VPC Endpoints
     mitre_technique:

@@ -9,7 +9,9 @@ controls:
   - id: CCC.VPC.C01
     title: Restrict Default Network Creation
     objective: |
-      Restrict the automatic creation of default virtual networks and related resources during subscription initialization to avoid insecure default configurations and enforce custom network policies.
+      Restrict the automatic creation of default virtual networks and related 
+      resources during subscription initialization to avoid insecure default 
+      configurations and enforce custom network policies.
     control_family: Network Security
     threats:
       - CCC.VPC.TH01
@@ -24,14 +26,16 @@ controls:
     test_requirements:
       - id: CCC.VPC.C01.TR01
         text: |
-          When a subscription is created, the subscription must not contain any default network resources.
+          When a subscription is created, the subscription must not contain any
+          default network resources.
         tlp_levels:
           - tlp_red
 
   - id: CCC.VPC.C02
     title: Limit External IP Addresses
     objective: |
-      Restrict the assignment of external (public) IP addresses to resources to reduce exposure to the public internet and minimize attack surfaces.
+      Restrict the assignment of external (public) IP addresses to resources to
+      reduce exposure to the public internet and minimize attack surfaces.
     control_family: Network Security
     threats:
       - CCC.VPC.TH02
@@ -46,14 +50,17 @@ controls:
     test_requirements:
       - id: CCC.VPC.C02.TR01
         text: |
-          When a resource is created, the resource must not be assigned an external IP address by default.
+          When a resource is created, the resource must not be assigned an 
+          external IP address by default.
         tlp_levels:
           - tlp_red
 
   - id: CCC.VPC.C04
     title: Restrict VPC Peering to Authorized Accounts
     objective: |
-      Ensure VPC peering connections are only established with explicitly authorized destinations to limit network exposure and enforce boundary controls.
+      Ensure VPC peering connections are only established with explicitly 
+      authorized destinations to limit network exposure and enforce boundary 
+      controls.
     control_family: Network Security
     threats:
       - CCC.VPC.TH07
@@ -76,7 +83,8 @@ controls:
   - id: CCC.VPC.C05
     title: Enforce VPC Flow Logs on VPCs.
     objective: |
-      Ensure VPCs are configured with flow logs enabled to capture traffic information.
+      Ensure VPCs are configured with flow logs enabled to capture traffic 
+      information.
     control_family: Network Security
     threats:
       - CCC.VPC.TH08
@@ -91,11 +99,13 @@ controls:
     test_requirements:
       - id: CCC.VPC.C05.TR01
         text: |
-          When any network traffic goes to or from an interface in the VPC, VPC flow logs must capture and log all relevant information.
+          When any network traffic goes to or from an interface in the VPC, VPC
+          flow logs must capture and log all relevant information.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C05.TR02
         text: |
-          When VPC flow logs are disabled, then the activity is logged in the cloud native logging service.
+          When VPC flow logs are disabled, then the activity is logged in the 
+          cloud native logging service.
         tlp_levels:
           - tlp_red
