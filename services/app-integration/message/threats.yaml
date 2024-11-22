@@ -16,4 +16,5 @@ common_threats:
   - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
 
 threats:
+  []
   # No messaging-specific threats after for now
