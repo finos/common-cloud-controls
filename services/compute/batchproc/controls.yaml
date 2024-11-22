@@ -25,7 +25,7 @@ controls:
     test_requirements:
       - id: CCC.BatchProc.C01.TR01
         text: |
-          Attempt to access the compute resource over the public internet using an external IP address and verify that access is denied.
+          When an external IP address attempts to access the compute resource over the public internet, the system MUST deny the request.
         tlp_levels:
           - tlp_red
           - tlp_amber
