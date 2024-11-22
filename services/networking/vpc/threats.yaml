@@ -1,21 +1,22 @@
 common_threats:
-  - CCC.TH01  # Access control is misconfigured
-  - CCC.TH02  # Data is intercepted in transit
-  - CCC.TH03  # Deployment region network is untrusted
-  - CCC.TH06  # Data is lost or corrupted
-  - CCC.TH07  # Logs are Tampered With or Deleted
+  - CCC.TH01 # Access control is misconfigured
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH03 # Deployment region network is untrusted
+  - CCC.TH06 # Data is lost or corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
 
 threats:
   - id: CCC.VPC.TH01
     title: Unauthorized Access via Insecure Default Networks
     description: |
-      Default network configurations may include insecure settings and open firewall rules, leading to unauthorized access and potential data breaches.
+      Default network configurations may include insecure settings and open firewall rules,
+      leading to unauthorized access and potential data breaches.
     features:
-      - CCC.VPC.F01  # Custom Network Creation
-      - CCC.F06      # Identity Based Access Control (common feature)
+      - CCC.VPC.F01 # Custom Network Creation
+      - CCC.F06 # Identity Based Access Control (common feature)
     mitre_technique:
-      - T1040  # Network Sniffing
-      - T1136  # Create Account
+      - T1040 # Network Sniffing
+      - T1136 # Create Account
 
   - id: CCC.VPC.TH02
     title: Exposure of Resources to Public Internet
@@ -24,8 +25,8 @@ threats:
     features:
       - CCC.VPC.F02  # External IP Address Assignment
     mitre_technique:
-      - T1133  # External Remote Services
-      - T1078  # Valid Accounts
+      - T1133 # External Remote Services
+      - T1078 # Valid Accounts
 
   - id: CCC.VPC.TH04
     title: Unauthorized Network Access through VPC Peering
@@ -48,11 +49,11 @@ threats:
   - id: CCC.VPC.TH07
     title: Misconfigured or Unauthorized Access to VPC Endpoints
     description: |
-      Misconfigured or unauthorized VPC Endpoints can expose private network resources to unauthorized access, bypassing traditional network controls. This may lead to data exposure or exploitation of services through unintended access paths.
+      Nested virtualization can introduce additional layers of abstraction, increasing complexity and
+      potentially leading to security vulnerabilities that can be exploited.
     features:
-      - CCC.VPC.F17  # VPC Endpoints
+      - CCC.VPC.F06 # Nested Virtualization
+      - CCC.F09 # Monitoring (common feature)
     mitre_technique:
-      - T1071  # Application Layer Protocol
-
-
-
+      - T1497 # Virtualization/Sandbox Evasion
+      - T1059 # Command and Scripting Interpreter

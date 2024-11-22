@@ -13,7 +13,8 @@ controls:
   - id: CCC.SvlsComp.C01 # Enforce Virtual Network Integration for Serverless Function
     title: Enforce Use of Private Endpoints for Serverless Function
     objective: |
-      Ensure that the serverless function is accessible only through a private endpoint, allowing it to communicate securely within a virtual private network and preventing unauthorized external access.
+      Ensure that the serverless function is accessible only through a private endpoint,
+      allowing it to communicate securely within a virtual private network and preventing unauthorized external access.
     control_family: Network Security
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -33,7 +34,8 @@ controls:
   - id: CCC.SvlsComp.C02 # Implement Function Invocation Rate Limits
     title: Implement Function Invocation Rate Limits
     objective: |
-      Ensure that function invocation is limited to a specified threshold from any single entity, preventing resource exhaustion and denial of service attacks.
+      Ensure that function invocation is limited to a specified threshold from any single entity,
+      preventing resource exhaustion and denial of service attacks.
     control_family: Availability
     threats:
       - CCC.TH12 # Resource constraints are exhausted
@@ -44,7 +46,8 @@ controls:
     test_requirements:
       - id: CCC.SvlsComp.C02.TR01
         text: |
-          Send requests to invoke the function up to the allowed threshold and confirm they are successful; then send additional requests exceeding the threshold from the same entity and verify that they are denied.
+          Send requests to invoke the function up to the allowed threshold and confirm they are successful;
+          then send additional requests exceeding the threshold from the same entity and verify that they are denied.
         tlp_levels:
           - tlp_red
           - tlp_amber
