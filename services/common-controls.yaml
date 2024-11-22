@@ -342,51 +342,55 @@ controls:
           - tlp_green
           - tlp_amber
           - tlp_red
-  
-- id: CCC.C11 # Enforce Key Management Policies
-  title: Enforce Key Management Policies
-  objective: |
-    Ensure that encryption keys are managed securely by enforcing the use of approved algorithms, regular key rotation, and customer-managed encryption keys (CMEKs) where applicable.
-  control_family: Encryption
-  threats:
-    - CCC.TH16 # Non-compliance with encryption key management policies
-  nist_csf: PR.DS-1 # Data-at-rest is protected
-  control_mappings:
-    CCM:
-      - EKM-02
-      - EKM-03
-    ISO_27001:
-      - 2013 A.10.1.2
-    NIST_800_53:
-      - SC-12 # Cryptographic Key Establishment and Management
-      - SC-17 # Public Key Infrastructure Certificates
-  test_requirements:
-    - id: CCC.C11.TR01
-      text: |
-        Verify that all encryption keys use approved cryptographic algorithms as per organizational standards (e.g., AES-256, RSA-2048).
-      tlp_levels:
-        - tlp_clear
-        - tlp_green
-        - tlp_amber
-        - tlp_red
-    - id: CCC.C11.TR02
-      text: |
-        Confirm that encryption keys are rotated at a frequency compliant with organizational policies (e.g., every 90 days).
-      tlp_levels:
-        - tlp_green
-        - tlp_amber
-        - tlp_red
-    - id: CCC.C11.TR03
-      text: |
-        Ensure that customer-managed encryption keys (CMEKs) are used for data encryption where applicable, providing greater control over key management.
-      tlp_levels:
-        - tlp_green
-        - tlp_amber
-        - tlp_red
-    - id: CCC.C11.TR04
-      text: |
-        Verify that access to encryption keys is restricted to authorized personnel and services, following the principle of least privilege.
-      tlp_levels:
-        - tlp_amber
-        - tlp_red
 
+  - id: CCC.C11 # Enforce Key Management Policies
+    title: Enforce Key Management Policies
+    objective: |
+      Ensure that encryption keys are managed securely by enforcing the use of approved algorithms,
+      regular key rotation, and customer-managed encryption keys (CMEKs) where applicable.
+    control_family: Encryption
+    threats:
+      - CCC.TH16 # Non-compliance with encryption key management policies
+    nist_csf: PR.DS-1 # Data-at-rest is protected
+    control_mappings:
+      CCM:
+        - EKM-02
+        - EKM-03
+      ISO_27001:
+        - 2013 A.10.1.2
+      NIST_800_53:
+        - SC-12 # Cryptographic Key Establishment and Management
+        - SC-17 # Public Key Infrastructure Certificates
+    test_requirements:
+      - id: CCC.C11.TR01
+        text: |
+          Verify that all encryption keys use approved cryptographic algorithms
+          as per organizational standards (e.g., AES-256, RSA-2048).
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C11.TR02
+        text: |
+          Confirm that encryption keys are rotated at a frequency compliant
+          with organizational policies (e.g., every 90 days).
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C11.TR03
+        text: |
+          Ensure that customer-managed encryption keys (CMEKs) are used for data
+          encryption where applicable, providing greater control over key management.
+        tlp_levels:
+          - tlp_green
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C11.TR04
+        text: |
+          Verify that access to encryption keys is restricted to authorized
+          personnel and services, following the principle of least privilege.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
