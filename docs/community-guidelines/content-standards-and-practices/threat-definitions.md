@@ -50,6 +50,6 @@ Although a review from the [Communications WG] is optional, it may be useful if 
 This structure ensures that threats are standardized and can be consistently identified and addressed across all services within the CCC Taxonomy.
 
 [common threats]: /services/common-threats.yaml
-[Communications WG]: ../../working-groups/communications/charter.md
+[Communications WG]: ../../governance/working-groups/communications/charter.md
 [delivery tooling]: /delivery-tooling
-[threats template]: ../templates/threats.yaml
+[threats template]: ../../resources/templates/threats.yaml
