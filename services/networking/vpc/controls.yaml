@@ -46,7 +46,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C02.TR01
         text: |
-          When a resource is created, then the resource must not be assigned an external IP address by default.
+          When a resource is created, the resource must not be assigned an external IP address by default.
         tlp_levels:
           - tlp_red
 
@@ -97,32 +97,5 @@ controls:
       - id: CCC.VPC.C05.TR02
         text: |
           When VPC flow logs are disabled, then the activity is logged in the cloud native logging service.
-        tlp_levels:
-          - tlp_red
-
-  - id: CCC.VPC.C06
-    title: Restrict Route Table Entries from Internet Gateway Access
-    objective: |
-      Ensure that route tables do not contain routes to an Internet Gateway.
-    control_family: Network Security
-    threats:
-      - CCC.VPC.TH09
-    nist_csf: PR.AC-5
-    control_mappings:
-      CCM:
-        - DSI-04
-      ISO_27001:
-        - 2013 A.13.1.3
-      NIST_800_53:
-        - SC-7
-    test_requirements:
-      - id: CCC.VPC.C06.TR01
-        text: |
-          When a route table is created or updated, then it must not include a route to an Internet Gateway.
-        tlp_levels:
-          - tlp_red
-      - id: CCC.VPC.C06.TR02
-        text: |
-          When an unauthorized route to an Internet Gateway is detected in any route table, then this must be logged.
         tlp_levels:
           - tlp_red

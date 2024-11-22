@@ -13,10 +13,8 @@ threats:
       leading to unauthorized access and potential data breaches.
     features:
       - CCC.VPC.F01 # Custom Network Creation
-      - CCC.F06 # Identity Based Access Control (common feature)
     mitre_technique:
       - T1040 # Network Sniffing
-      - T1136 # Create Account
 
   - id: CCC.VPC.TH02
     title: Exposure of Resources to Public Internet
@@ -44,16 +42,14 @@ threats:
     features:
       - CCC.VPC.F16  # VPC Flow Logs
     mitre_technique:
-      - T1580 # Cloud Infrastructure Discovery
+      - T1562 # Impair Defenses
 
-  - id: CCC.VPC.TH07
-    title: Misconfigured or Unauthorized Access to VPC Endpoints
+  - id: CCC.VPC.TH06
+    title: Overly Permissive VPC Endpoint Policies
     description: |
-      Nested virtualization can introduce additional layers of abstraction, increasing complexity and
-      potentially leading to security vulnerabilities that can be exploited.
+      VPC Endpoint policies that are overly permissive may inadvertently expose resources within the VPC to unintended principals or external threats.
     features:
-      - CCC.VPC.F06 # Nested Virtualization
-      - CCC.F09 # Monitoring (common feature)
+      - CCC.VPC.F17  # VPC Endpoints
     mitre_technique:
-      - T1497 # Virtualization/Sandbox Evasion
-      - T1059 # Command and Scripting Interpreter
+      - T1078 # Valid Accounts
+      - T1071 # Application Layer Protocol
