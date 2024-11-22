@@ -16,29 +16,29 @@ features:
   - id: CCC.GenAI.F01
     title: Text-Based Model Selection
     description: |
-      Ability to select a foundation model that excels at natural language 
-      understanding and generation tasks such as summarization, translation, 
+      Ability to select a foundation model that excels at natural language
+      understanding and generation tasks such as summarization, translation,
       text generation, question answering, and sentiment analysis.
   - id: CCC.GenAI.F02
     title: Code-Based Model Selection
     description: |
-      Ability to select a foundation model that focuses on code understanding, 
+      Ability to select a foundation model that focuses on code understanding,
       generation, and transformation tasks.
   - id: CCC.GenAI.F03
     title: Embedding Model Selection
     description: |
-      Ability to select a foundation model used for tasks like semantic 
-      search, clustering, and document similarity by converting text into 
+      Ability to select a foundation model used for tasks like semantic
+      search, clustering, and document similarity by converting text into
       vector embeddings.
   - id: CCC.GenAI.F04
     title: Image-Based Model Selection
     description: |
-      Ability to select a foundation model that focuses on tasks related to vision, 
+      Ability to select a foundation model that focuses on tasks related to vision,
       such as image generation, editing, and manipulation.
   - id: CCC.GenAI.F05
     title: Multimodal Model Selection
     description: |
-      Ability to select a foundation model that supports more than one modality, 
+      Ability to select a foundation model that supports more than one modality,
       such as combining text and image.
   - id: CCC.GenAI.F06
     title: Customizable Model Selection
@@ -55,7 +55,7 @@ features:
   - id: CCC.GenAI.F09
     title: Parameter Tuning - Top P (Nucleus Sampling)
     description: |
-      Ability to adjust the number of likely next tokens to consider based on 
+      Ability to adjust the number of likely next tokens to consider based on
       cumulative probability.
   - id: CCC.GenAI.F10
     title: Parameter Tuning - Top K
@@ -68,17 +68,17 @@ features:
   - id: CCC.GenAI.F12
     title: Parameter Tuning - Frequency Penalty
     description: |
-      Ability to penalize words that have been used frequently, reducing 
+      Ability to penalize words that have been used frequently, reducing
       their likelihood of being repeated.
   - id: CCC.GenAI.F13
     title: Parameter Tuning - Presence Penalty
     description: |
-      Ability to penalize tokens that have already been used, encouraging 
+      Ability to penalize tokens that have already been used, encouraging
       the model to introduce new tokens.
   - id: CCC.GenAI.F14
     title: Parameter Tuning - Context Length
     description: |
-      Ability to control how much prior conversation or input the model will 
+      Ability to control how much prior conversation or input the model will
       use for generating coherent responses.
   - id: CCC.GenAI.F15
     title: Text-Based Prompts
@@ -91,7 +91,7 @@ features:
   - id: CCC.GenAI.F17
     title: Contextual Prompts
     description: |
-      Ability to provide context or background information within the prompt 
+      Ability to provide context or background information within the prompt
       to guide the response.
   - id: CCC.GenAI.F18
     title: Interactive Prompts
@@ -104,22 +104,22 @@ features:
   - id: CCC.GenAI.F20
     title: Custom Template Prompts
     description: |
-      Ability to define custom templates or structures for prompts to 
+      Ability to define custom templates or structures for prompts to
       standardize interactions with the models.
   - id: CCC.GenAI.F21
     title: Generate Content
     description: |
-      Ability to generate a response given a foundation model, parameter values, 
+      Ability to generate a response given a foundation model, parameter values,
       and a prompt.
   - id: CCC.GenAI.F22
     title: Data Control
     description: |
-      Ensures prompts, model outputs, embeddings, and training data fed by 
+      Ensures prompts, model outputs, embeddings, and training data fed by
       customers are not used to train foundation models.
   - id: CCC.GenAI.F23
     title: Data Storage
     description: |
-      Ability to retrieve previously generated outputs and prompts for the 
+      Ability to retrieve previously generated outputs and prompts for the
       given session.
   - id: CCC.GenAI.F24
     title: Data Residency
@@ -128,10 +128,10 @@ features:
   - id: CCC.GenAI.F25
     title: Content Moderation
     description: |
-      Ensure the service detects and filters abusive, harmful, and sensitive 
+      Ensure the service detects and filters abusive, harmful, and sensitive
       information to ensure responsible and safe use of the service.
   - id: CCC.GenAI.F26
     title: Plugin Integrations
     description: |
-        Ability for the model to use tools to complete a model interaction. For example web search, python code execution or external maths engine.
-      
+      Ability for the model to use tools to complete a model interaction.
+      For example web search, python code execution or external maths engine.
