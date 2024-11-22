@@ -1,5 +1,4 @@
 features:
-
   - id: CCC.F01 # Encryption in Transit Enabled by Default
     title: Encryption in Transit Enabled by Default
     description: |
@@ -118,3 +117,13 @@ features:
     description: |
       Provides the ability to copy data or resource to multiple locations to ensure
       availability and durability.
+
+  - id: CCC.F22 # Location Lock-In
+    title: Location Lock-In
+    description: |
+      Provides the ability to control where the resources are created.
+
+  - id: CCC.F23 # Network Access Rules
+    title: Network Access Rules
+    description: |
+      Ability to control access to the resource by defining network access rules.
