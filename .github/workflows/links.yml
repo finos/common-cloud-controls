@@ -13,6 +13,6 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v1
         with:
-            args: --base . --verbose --no-progress './**/*.md'
-            output: lychee/results.md
-            token: ${{ secrets.GITHUB_TOKEN }}
+          args: --base . --verbose --no-progress './**/*.md'
+          output: lychee/results.md
+          token: ${{ secrets.GITHUB_TOKEN }}
