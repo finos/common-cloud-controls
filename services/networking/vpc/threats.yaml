@@ -20,7 +20,7 @@ threats:
   - id: CCC.VPC.TH02
     title: Exposure of Resources to Public Internet
     description: |
-      Assignment of external IP addresses to resources exposes them to the public internet, increasing the risk of attacks such as brute force, exploitation of vulnerabilities, or unauthorized access.
+      Assignment of external IP addresses to resources exposes resources to the public internet, increasing the risk of attacks such as brute force, exploitation of vulnerabilities, or unauthorized access.
     features:
       - CCC.VPC.F02  # External IP Address Assignment
     mitre_technique:
@@ -44,15 +44,6 @@ threats:
       - CCC.VPC.F16  # VPC Flow Logs
     mitre_technique:
       - T1580 # Cloud Infrastructure Discovery
-
-  - id: CCC.VPC.TH06
-    title: Unauthorized Exposure to the Internet via Internet Gateway Routes
-    description: |
-      Route tables configured with routes to an Internet Gateway allow direct exposure of network resources to the public internet. 
-    features:
-      - CCC.VPC.XX  # Route Table
-    mitre_technique:
-      - T1011  # Exfiltration Over Alternative Protocol
 
   - id: CCC.VPC.TH07
     title: Misconfigured or Unauthorized Access to VPC Endpoints
