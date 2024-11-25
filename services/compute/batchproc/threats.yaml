@@ -12,5 +12,4 @@ common_threats:
   - CCC.TH14 # Older Resource Versions Are Exploited
 
 # No BatchProc-specific threats for now
-threats: []
-
+# threats: []

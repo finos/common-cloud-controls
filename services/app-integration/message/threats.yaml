@@ -15,6 +15,6 @@ common_threats:
   - CCC.TH14 # Older Resource Versions Are Exploited
   - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
 
-threats:
-  []
-  # No messaging-specific threats after for now
+# threats:
+#  []
+# No messaging-specific threats after for now
