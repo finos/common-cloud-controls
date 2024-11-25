@@ -17,6 +17,6 @@ In order for a guideline to become a policy a [SC], they must be put forward for
 2. The [SC] sponsor should call a [SC] [vote] and if approved by the majority the PR can be merged and the recommendation is now a policy.
 
 [Policies]: ../community-policies
-[vote]: ../steering/charter.md#voting
-[SC]: ../community-groups.md#steering-committee
-[WG]: ../community-groups.md#working-groups
+[vote]: ../governance/steering/charter.md#voting
+[SC]: ../governance/community-structure.md#steering-committee
+[WG]: ../governance/community-structure.md#working-groups

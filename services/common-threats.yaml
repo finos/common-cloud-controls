@@ -51,8 +51,8 @@ threats:
   - id: CCC.TH04 # Data is replicated to untrusted or external locations
     title: Data is replicated to untrusted or external locations
     description: |
-      An attacker could replicate data to untrusted or external locations if replication configurations 
-      are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
+      An attacker could replicate data to untrusted or external locations if replication configurations
+      are not properly restricted. This could result in data leakage or exposure to unauthorized entities
       outside the organization's trusted perimeter.
     features:
       - CCC.F21 # Replication
@@ -94,8 +94,8 @@ threats:
   - id: CCC.TH07 # Logs are Tampered With or Deleted
     title: Logs are Tampered With or Deleted
     description: |
-      Attackers may tamper with or delete logs to cover their tracks and evade 
-      detection. This prevents security teams from identifying the full scope 
+      Attackers may tamper with or delete logs to cover their tracks and evade
+      detection. This prevents security teams from identifying the full scope
       of an attack and may disrupt forensic investigations.
     features:
       - CCC.F03 # Access/Activity Logs
@@ -108,8 +108,8 @@ threats:
   - id: CCC.TH08 # Cost Management Data is Manipulated
     title: Cost Management Data is Manipulated
     description: |
-      Attackers may manipulate cost management data to hide excessive resource 
-      consumption or to deceive users about resource usage. This could be used 
+      Attackers may manipulate cost management data to hide excessive resource
+      consumption or to deceive users about resource usage. This could be used
       to exhaust budgets, cause financial losses, or evade detection of other attacks.
     features:
       - CCC.F15 # Cost Management
@@ -118,7 +118,7 @@ threats:
       - T1070 # Indicator Removal on Host
 
   - id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-    title: Logs or Montoring Data are Read by Unauthorized Users
+    title: Logs or Monitoring Data are Read by Unauthorized Users
     description: |
       Unauthorized access to logs or monitoring data can provide attackers with
       valuable information about the system's configuration, operations, and
@@ -176,7 +176,7 @@ threats:
     title: Resource constraints are exhausted
     description: |
       An attack or misconfiguration can consume all available resources, such
-      as memory, CPU, or storage, to disrupt the service or deny access to 
+      as memory, CPU, or storage, to disrupt the service or deny access to
       legitimate users. This can be achieved through repeated requests,
       resource-intensive operations, or the lowering of rate/budget limits.
       Through auto-scaling, the attacker may also attempt to exhaust
@@ -193,8 +193,8 @@ threats:
   - id: CCC.TH13 # Resource Tags Are Manipulated
     title: Resource Tags Are Manipulated
     description: |
-      Attackers may manipulate resource tags to alter organizational policies, 
-      disrupt billing, or evade detection. This can result in mismanaged 
+      Attackers may manipulate resource tags to alter organizational policies,
+      disrupt billing, or evade detection. This can result in mismanaged
       resources, unauthorized access, or financial abuse.
     features:
       - CCC.F20 # Tagging
@@ -204,9 +204,9 @@ threats:
   - id: CCC.TH14 # Older Resource Versions Are Exploited
     title: Older Resource Versions Are Exploited
     description: |
-      Attackers may exploit vulnerabilities in older versions of resources, 
-      taking advantage of deprecated or insecure configurations. Without 
-      proper version control and monitoring, outdated versions can be used 
+      Attackers may exploit vulnerabilities in older versions of resources,
+      taking advantage of deprecated or insecure configurations. Without
+      proper version control and monitoring, outdated versions can be used
       to bypass security measures.
     features:
       - CCC.F18 # Versioning
@@ -224,13 +224,12 @@ threats:
   - id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
     title: Automated Enumeration and Reconnaissance by Non-Human Entities
     description: |
-      Attackers may deploy automated processes or bots to perform reconnaissance 
-      activities by enumerating resources such as APIs, file systems, or directories. 
-      These activities can help attackers identify vulnerabilities, misconfigurations, 
-      or unsecured resources, which can then be exploited for unauthorized access 
+      Attackers may deploy automated processes or bots to perform reconnaissance
+      activities by enumerating resources such as APIs, file systems, or directories.
+      These activities can help attackers identify vulnerabilities, misconfigurations,
+      or unsecured resources, which can then be exploited for unauthorized access
       or data theft.
     features:
       - CCC.F14 # API Access
     mitre_technique:
       - T1580 # Cloud Infrastructure Discovery
-

@@ -13,9 +13,9 @@ service_categories:
       and services by enabling the exchange of messages in a reliable and scalable
       manner.
     examples:
-      - AWS: 
-        - Amazon SQS (Simple Queue Service)
+      - AWS:
+          - Amazon SQS (Simple Queue Service)
       - Azure:
-        - Azure Service Bus
+          - Azure Service Bus
       - Google Cloud:
-        - Google Cloud Pub/Sub
+          - Google Cloud Pub/Sub
