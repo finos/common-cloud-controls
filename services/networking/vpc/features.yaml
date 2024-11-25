@@ -36,7 +36,7 @@ features:
   - id: CCC.VPC.F07 # Routing Control
     title: Routing Control
     description: |
-      Ability to control traffic within the VPC and between the VPC and the 
+      Ability to control traffic within the VPC and between the VPC and the
       internet or on-premises networks using customizable route tables.
   - id: CCC.VPC.F08 # Connectivity Options - Internet Gateway
     title: Connectivity Options - Internet Gateway
@@ -45,7 +45,7 @@ features:
   - id: CCC.VPC.F09 # Connectivity Options - NAT Gateways
     title: Connectivity Options - NAT Gateways
     description: |
-      Allows instances in private subnets to access the internet without 
+      Allows instances in private subnets to access the internet without
       exposing them to inbound internet traffic.
   - id: CCC.VPC.F10 # Connectivity Options - Private Connection
     title: Connectivity Options - Private Connection
@@ -55,17 +55,17 @@ features:
   - id: CCC.VPC.F11 # Connectivity Options - VPC Peering
     title: Connectivity Options - VPC Peering
     description: |
-      Establishing a private connection between two VPCs to 
+      Establishing a private connection between two VPCs to
       communicate seamlessly.
   - id: CCC.VPC.F12 # Connectivity Options - Transit Gateways
     title: Connectivity Options - Transit Gateways
     description: |
-      A hub-and-spoke model for connecting multiple VPCs and 
+      A hub-and-spoke model for connecting multiple VPCs and
       on-premises networks.
   - id: CCC.VPC.F13 # Connectivity Option - Site-to-site VPN
     title: Connectivity Option - Site-to-site VPN
     description: |
-      Provides an encrypted connection over the internet between 
+      Provides an encrypted connection over the internet between
       a VPC and an on-premises network.
   - id: CCC.VPC.F14 # Built-in DNS Resolution
     title: Built-in DNS Resolution
@@ -75,7 +75,7 @@ features:
   - id: CCC.VPC.F15 # Built-in DHCP Resolution
     title: Built-in DHCP Resolution
     description: |
-      Automatically assign IP addresses, subnet masks, default gateways 
+      Automatically assign IP addresses, subnet masks, default gateways
       and other network configurations to instances within the VPC.
   - id: CCC.VPC.F16 # Flow Logs
     title: Flow Logs
@@ -84,5 +84,5 @@ features:
   - id: CCC.VPC.F17 # VPC Endpoints
     title: VPC Endpoints
     description: |
-      Ability to allow secure, private connectivity between resources within a VPC 
+      Ability to allow secure, private connectivity between resources within a VPC
       and other services without the need for a public internet.

@@ -73,7 +73,7 @@ release_details:
       - "PR#34: Updated controls for increased encryption requirements."
 ```
 
-[release]: ../releases.md
+[release]: ../releases/README.md
 [features]: ./feature-definitions.md
 [threats]: ./threat-definitions.md
 [controls]: ./control-definitions.md
