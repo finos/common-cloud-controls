@@ -1,0 +1,15 @@
+extends: relaxed
+
+ignore:
+  - .config
+  - .gitvote.yml
+
+rules:
+  indentation:
+    level: error
+    spaces: 2 # Enforce 2 spaces for indentation
+  line-length:
+    level: error
+    max: 120 # Allow up to 120 characters per line
+  new-lines:
+    type: unix

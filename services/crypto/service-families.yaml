@@ -2,8 +2,8 @@ title: CCC Cryptographic Services
 id: CCC.Crypto
 description: |
   In cloud computing, cryptographic services refer to cloud-based tools that protect
-  data and communications through encryption and decryption. They also provide secure 
-  methods for storing and managing keys, secrets, and certificates. These services 
+  data and communications through encryption and decryption. They also provide secure
+  methods for storing and managing keys, secrets, and certificates. These services
   ensure the confidentiality, integrity, and authenticity of data in both storage and transmission.
 service_categories:
   - id: CCC.KeyMgmt

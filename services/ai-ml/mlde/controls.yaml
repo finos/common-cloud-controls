@@ -1,20 +1,23 @@
 common_controls:
-  - CCC.C01  # Prevent unencrypted requests
-  - CCC.C02  # Ensure data encryption at rest for all stored data
-  - CCC.C03  # Implement multi-factor authentication (MFA) for access
-  - CCC.C04  # Log all access and changes
-  - CCC.C05  # Prevent access from untrusted entities
-  - CCC.C06  # Prevent deployment in restricted regions
+  - CCC.C01 # Prevent unencrypted requests
+  - CCC.C02 # Ensure data encryption at rest for all stored data
+  - CCC.C03 # Implement multi-factor authentication (MFA) for access
+  - CCC.C04 # Log all access and changes
+  - CCC.C05 # Prevent access from untrusted entities
+  - CCC.C06 # Prevent deployment in restricted regions
 
 controls:
-  - id: CCC.MLDE.C01  # Define Access Mode for ML Development Environments
+  - id: CCC.MLDE.C01 # Define Access Mode for ML Development Environments
     title: Define Access Mode for ML Development Environments
     objective: |
-      Ensure that access to Machine Learning Development Environment (MLDE) resources is strictly defined and controlled. Only authorized users with appropriate permissions can access these environments, mitigating the risk of unauthorized access, data leakage, or service disruption.
+      Ensure that access to Machine Learning Development Environment (MLDE)
+      resources is strictly defined and controlled.
+      Only authorized users with appropriate permissions can access these environments,
+      mitigating the risk of unauthorized access, data leakage, or service disruption.
     control_family: Identity and Access Management
     threats:
-      - CCC.MLDE.TH01  # Unauthorized Access
-      - CCC.TH01       # Access control is misconfigured (common threat)
+      - CCC.MLDE.TH01 # Unauthorized Access
+      - CCC.TH01 # Access control is misconfigured (common threat)
     nist_csf: PR.AC-3
     control_mappings:
       CCM:
@@ -29,21 +32,22 @@ controls:
     test_requirements:
       - id: CCC.MLDE.C01.TR01
         text: |
-          Verify that only authorized users can access MLDE resources, and that access modes are properly defined and enforced.
+          Verify that only authorized users can access MLDE resources,
+          and that access modes are properly defined and enforced.
         tlp_levels:
           - tlp_red
           - tlp_amber
           - tlp_green
           - tlp_clear
 
-  - id: CCC.MLDE.C02  # Disable File Downloads on MLDE Instances
+  - id: CCC.MLDE.C02 # Disable File Downloads on MLDE Instances
     title: Disable File Downloads on MLDE Instances
     objective: |
       Prevent unauthorized file downloads from MLDE instances to protect sensitive data from being exfiltrated.
     control_family: Data Protection
     threats:
-      - CCC.MLDE.TH02  # Data Leakage
-      - CCC.TH02       # Data is intercepted in transit (common threat)
+      - CCC.MLDE.TH02 # Data Leakage
+      - CCC.TH02 # Data is intercepted in transit (common threat)
     nist_csf: PR.DS-5
     control_mappings:
       CCM:
@@ -69,13 +73,14 @@ controls:
           - tlp_green
           - tlp_clear
 
-  - id: CCC.MLDE.C03  # Disable Root Access on MLDE Instances
+  - id: CCC.MLDE.C03 # Disable Root Access on MLDE Instances
     title: Disable Root Access on MLDE Instances
     objective: |
-      Prevent users from obtaining root access on MLDE instances to reduce the risk of unauthorized system modifications and potential security breaches.
+      Prevent users from obtaining root access on MLDE instances to reduce the
+      risk of unauthorized system modifications and potential security breaches.
     control_family: Identity and Access Management
     threats:
-      - CCC.MLDE.TH01  # Unauthorized Access
+      - CCC.MLDE.TH01 # Unauthorized Access
     nist_csf: PR.AC-4
     control_mappings:
       CCM:
@@ -93,20 +98,22 @@ controls:
           - tlp_red
       - id: CCC.MLDE.C03.TR02
         text: |
-          For MLDE instances without sensitive data, ensure that root access is only enabled when necessary and properly authorized.
+          For MLDE instances without sensitive data, ensure that root access is only
+          enabled when necessary and properly authorized.
         tlp_levels:
           - tlp_red
           - tlp_amber
           - tlp_green
           - tlp_clear
 
-  - id: CCC.MLDE.C04  # Disable Terminal Access on MLDE Instances
+  - id: CCC.MLDE.C04 # Disable Terminal Access on MLDE Instances
     title: Disable Terminal Access on MLDE Instances
     objective: |
-      Prevent users from accessing the terminal on MLDE instances to limit the risk of unauthorized commands and potential system compromise.
+      Prevent users from accessing the terminal on MLDE instances to limit the risk of
+      unauthorized commands and potential system compromise.
     control_family: Identity and Access Management
     threats:
-      - CCC.MLDE.TH01  # Unauthorized Access
+      - CCC.MLDE.TH01 # Unauthorized Access
     nist_csf: PR.AC-4
     control_mappings:
       CCM:
@@ -123,20 +130,22 @@ controls:
           - tlp_red
       - id: CCC.MLDE.C04.TR02
         text: |
-          For MLDE instances without sensitive data, ensure that terminal access is only enabled when necessary and properly authorized.
+          For MLDE instances without sensitive data, ensure that terminal access is only
+          enabled when necessary and properly authorized.
         tlp_levels:
           - tlp_red
           - tlp_amber
           - tlp_green
           - tlp_clear
 
-  - id: CCC.MLDE.C05  # Restrict Environment Options on MLDE Instances
+  - id: CCC.MLDE.C05 # Restrict Environment Options on MLDE Instances
     title: Restrict Environment Options on MLDE Instances
     objective: |
-      Limit the virtual machine and container image options available when creating new MLDE instances to approved and secure configurations.
+      Limit the virtual machine and container image options available when creating
+      new MLDE instances to approved and secure configurations.
     control_family: Configuration Management
     threats:
-      - CCC.MLDE.TH04  # Unexpected Nondeterministic Behavior
+      - CCC.MLDE.TH04 # Unexpected Nondeterministic Behavior
     nist_csf: PR.IP-1
     control_mappings:
       CCM:
@@ -158,14 +167,15 @@ controls:
         tlp_levels:
           - tlp_red
 
-  - id: CCC.MLDE.C06  # Require Automatic Scheduled Upgrades on User-Managed MLDE Instances
+  - id: CCC.MLDE.C06 # Require Automatic Scheduled Upgrades on User-Managed MLDE Instances
     title: Require Automatic Scheduled Upgrades on User-Managed MLDE Instances
     objective: |
-      Ensure that MLDE instances are kept up-to-date with the latest security patches by enforcing automatic scheduled upgrades.
+      Ensure that MLDE instances are kept up-to-date with the
+      latest security patches by enforcing automatic scheduled upgrades.
     control_family: Vulnerability Management
     threats:
-      - CCC.MLDE.TH04  # Unexpected Nondeterministic Behavior
-      - CCC.TH06       # Data is lost or corrupted (common threat)
+      - CCC.MLDE.TH04 # Unexpected Nondeterministic Behavior
+      - CCC.TH06 # Data is lost or corrupted (common threat)
     nist_csf: PR.IP-12
     control_mappings:
       CCM:
@@ -190,14 +200,14 @@ controls:
           - tlp_green
           - tlp_clear
 
-  - id: CCC.MLDE.C07  # Restrict Public IP Access on MLDE Instances
+  - id: CCC.MLDE.C07 # Restrict Public IP Access on MLDE Instances
     title: Restrict Public IP Access on MLDE Instances
     objective: |
       Prevent public IP access to MLDE instances to reduce exposure to the internet and enhance security.
     control_family: Network Security
     threats:
-      - CCC.MLDE.TH02  # Data Leakage
-      - CCC.VPC.TH02   # Exposure of Virtual Machines to Public Internet
+      - CCC.MLDE.TH02 # Data Leakage
+      - CCC.VPC.TH02 # Exposure of Virtual Machines to Public Internet
     nist_csf: PR.AC-3
     control_mappings:
       CCM:
@@ -214,21 +224,23 @@ controls:
           - tlp_red
       - id: CCC.MLDE.C07.TR02
         text: |
-          For MLDE instances without sensitive data requiring public access, ensure that appropriate security controls are in place and access is approved.
+          For MLDE instances without sensitive data requiring public access,
+          ensure that appropriate security controls are in place and access is approved.
         tlp_levels:
           - tlp_red
           - tlp_amber
           - tlp_green
           - tlp_clear
 
-  - id: CCC.MLDE.C08  # Restrict Virtual Networks for MLDE Instances
+  - id: CCC.MLDE.C08 # Restrict Virtual Networks for MLDE Instances
     title: Restrict Virtual Networks for MLDE Instances
     objective: |
-      Limit the virtual networks that can be used when creating new MLDE instances to ensure they are deployed within approved and secure network environments.
+      Limit the virtual networks that can be used when creating new MLDE instances to
+      ensure they are deployed within approved and secure network environments.
     control_family: Network Security
     threats:
-      - CCC.MLDE.TH01  # Unauthorized Access
-      - CCC.TH01       # Access control is misconfigured (common threat)
+      - CCC.MLDE.TH01 # Unauthorized Access
+      - CCC.TH01 # Access control is misconfigured (common threat)
     nist_csf: PR.AC-4
     control_mappings:
       CCM:
@@ -240,12 +252,14 @@ controls:
     test_requirements:
       - id: CCC.MLDE.C08.TR01
         text: |
-          Verify that MLDE instances containing sensitive data can only be deployed in approved virtual networks with appropriate security controls.
+          Verify that MLDE instances containing sensitive data can only be deployed in
+          approved virtual networks with appropriate security controls.
         tlp_levels:
           - tlp_red
       - id: CCC.MLDE.C08.TR02
         text: |
-          Ensure that MLDE instances without sensitive data are deployed in networks that meet organizational security standards.
+          Ensure that MLDE instances without sensitive data are deployed in
+          networks that meet organizational security standards.
         tlp_levels:
           - tlp_red
           - tlp_amber

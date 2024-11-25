@@ -15,7 +15,7 @@ controls:
       - CCC.KeyMgmt.TH01
     nist_csf: RS.AN-1
     control_mappings:
-      NIST_800_53: 
+      NIST_800_53:
         - IR-5
     test_requirements:
       - id: CCC.KeyMgmt.C01.TR01

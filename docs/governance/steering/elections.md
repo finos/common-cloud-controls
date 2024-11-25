@@ -113,9 +113,9 @@ This document was adapted from the Kubernetes Steering Committee Elections docum
 
 ---
 
-[community groups]: ../community-groups.md
+[community groups]: ../community-structure.md
 [Condorcet]: https://en.wikipedia.org/wiki/Condorcet_method
 [election procedure]: #nomination-and-election-procedure
-[bootstrap]: https://github.com/finos/common-cloud-controls/blob/main/docs/formation/bootstrap.md
+[bootstrap]: https://github.com/finos/common-cloud-controls/blob/main/docs/governance/formation/bootstrap.md
 [elections]: https://github.com/finos/common-cloud-controls/blob/main/docs/governance/steering/elections.md
 [afb3858]: https://github.com/kubernetes/steering/blob/afb3858/elections.md

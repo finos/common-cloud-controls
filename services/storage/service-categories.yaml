@@ -12,24 +12,24 @@ service_categories:
       Object storage is a scalable storage solution that stores data as objects,
       each containing the data itself along with metadata and a unique identifier.
     examples:
-      - AWS: 
-        - Amazon S3
+      - AWS:
+          - Amazon S3
       - Azure:
-        - Azure Blob Storage
+          - Azure Blob Storage
       - Google Cloud:
-        - Google Cloud Storage
+          - Google Cloud Storage
   - id: CCC.BlocStor
     title: Block Storage
     description: |
       Block storage provides raw storage volumes that can be attached to virtual
       machines to store operating systems, applications, and other data.
     examples:
-      - AWS: 
-        - Amazon EBS (Elastic Block Store)
+      - AWS:
+          - Amazon EBS (Elastic Block Store)
       - Azure:
-        - Azure Managed Disks
+          - Azure Managed Disks
       - Google Cloud:
-        - Google Persistent Disk
+          - Google Persistent Disk
   - id: CCC.FileStor
     title: File Storage
     description: |
@@ -37,21 +37,21 @@ service_categories:
       file protocols such as NFS (Network File System) or SMB (Server Message
       Block).
     examples:
-      - AWS: 
-        - Amazon EFS (Elastic File System)
+      - AWS:
+          - Amazon EFS (Elastic File System)
       - Azure:
-        - Azure File Storage
+          - Azure File Storage
       - Google Cloud:
-        - Google Cloud Filestore
+          - Google Cloud Filestore
   - id: CCC.ArchStor
     title: Archival Storage
     description: |
       Archival storage services are designed for long-term retention of
       infrequently accessed data at a lower cost.
     examples:
-      - AWS: 
-        - Amazon Glacier
+      - AWS:
+          - Amazon Glacier
       - Azure:
-        - Azure Archive Storage
+          - Azure Archive Storage
       - Google Cloud:
-        - Google Cloud Storage Nearline
+          - Google Cloud Storage Nearline

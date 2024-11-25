@@ -10,17 +10,18 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
-      
+
   run-linting-check:
-      uses: ./.github/workflows/linting-check.yml
-      permissions:
-        pull-requests: write
+    uses: ./.github/workflows/linting-check.yml
+    permissions:
+      pull-requests: write
 
   link-checker:
-        uses: ./.github/workflows/links.yml
-        permissions:
-          pull-requests: write
-          contents: read
+    uses: ./.github/workflows/links.yml
+    permissions:
+      pull-requests: write
+      contents: read
+
   yaml-checker:
     uses: ./.github/workflows/yaml-check.yml
     permissions:
@@ -32,4 +33,3 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
-      

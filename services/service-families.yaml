@@ -22,7 +22,8 @@ families:
   - id: CCC.RDMS
     title: Database Services
     description: |
-      Platforms for managing structured and semi-structured data, providing advanced querying, indexing, and transaction capabilities.
+      Platforms for managing structured and semi-structured data,
+      providing advanced querying, indexing, and transaction capabilities.
   - id: CCC.DevTools
     title: Developer Tools
     description: |
@@ -42,7 +43,9 @@ families:
   - id: CCC.Storage
     title: Storage Services
     description: |
-      General-purpose storage for structured, semi-structured, and unstructured data, designed for scalability and durability without the need for complex querying or indexing.
+      General-purpose storage for structured, semi-structured,
+      and unstructured data, designed for scalability and durability without
+      the need for complex querying or indexing.
   - id: CCC.Crypto
     title: Cryptographic Services
     description: |
@@ -50,4 +53,5 @@ families:
   - id: CCC.Identity
     title: Identity Services
     description: |
-      Services for managing user identities, controlling access to resources, and ensuring secure authentication and authorization.
+      Services for managing user identities, controlling access to resources,
+      and ensuring secure authentication and authorization.
