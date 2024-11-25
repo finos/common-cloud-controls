@@ -8,90 +8,98 @@ catalog:
     version: 0.0.1
     oscal-version: 1.1.1
     props:
-    - name: keywords
-      value: "control, cloud, security, risk"
+      - name: keywords
+        value: "control, cloud, security, risk"
     roles:
-    - id: publisher
-      title: FINOS
-    - id: author
-      title: FINOS
-    - id: contact
-      title: Contact
+      - id: publisher
+        title: FINOS
+      - id: author
+        title: FINOS
+      - id: contact
+        title: Contact
     parties:
-    - uuid: 4bc82884-5a0c-486b-94d5-cc5195615ad3
-      type: organization
-      name: FINOS
-      addresses:
-      - addr-lines:
-        - FINOS
-        - some address
-        - more address
-        country: UK
+      - uuid: 4bc82884-5a0c-486b-94d5-cc5195615ad3
+        type: organization
+        name: FINOS
+        addresses:
+          - addr-lines:
+              - FINOS
+              - some address
+              - more address
+            country: UK
     responsible-parties:
-    - role-id: publisher
-      party-uuids:
-      - 4bc82884-5a0c-486b-94d5-cc5195615ad3
-    - role-id: author
-      party-uuids:
-      - 4bc82884-5a0c-486b-94d5-cc5195615ad3
-    - role-id: contact
-      party-uuids:
-      - 4bc82884-5a0c-486b-94d5-cc5195615ad3
+      - role-id: publisher
+        party-uuids:
+          - 4bc82884-5a0c-486b-94d5-cc5195615ad3
+      - role-id: author
+        party-uuids:
+          - 4bc82884-5a0c-486b-94d5-cc5195615ad3
+      - role-id: contact
+        party-uuids:
+          - 4bc82884-5a0c-486b-94d5-cc5195615ad3
   controls:
-  - id: M1047
-    class: mitigation
-    title: Audit
-    parts:
-    - id: M1047_stm
-      name: statement
-      prose: Frequently check permissions on cloud storage to ensure proper permissions are set to deny open or unprivileged access to resources.
-  - id: M1041
-    class: mitigation
-    title: Encrypt Sensitive Information
-    parts:
-    - id: M1041_stm
-      name: statement
-      prose: Encrypt data stored at rest in cloud storage.
-    - id: M1047_gdn
-      name: guidance
-      prose: |-
-        Managed encryption keys can be rotated by most providers.
-
-        At minimum ensure an incident response plan to storage breach includes rotating the keys and test for impact on client applications.
+    - id: M1047
+      class: mitigation
+      title: Audit
+      parts:
+        - id: M1047_stm
+          name: statement
+          prose: |
+            Frequently check permissions on cloud storage to ensure proper permissions
+            are set to deny open or unprivileged access to resources.
+    - id: M1041
+      class: mitigation
+      title: Encrypt Sensitive Information
+      parts:
+        - id: M1041_stm
+          name: statement
+          prose: Encrypt data stored at rest in cloud storage.
+        - id: M1047_gdn
+          name: guidance
+          prose: |-
+            Managed encryption keys can be rotated by most providers.
+            At minimum ensure an incident response plan to storage breach
+            includes rotating the keys and test for impact on client applications.
   groups:
-  - id: P1
-    title: Persistence Threats (P1) Mitigations
-    groups:
-    - id: M10
-      title: Threat Mitigations
-      controls:
-      - id: M1032
-        class: p1-mitigations
-        title: Multi-factor Authentication
-        parts:
-        - id: M1032_stm
-          name: statement
-          prose: "Use two or more pieces of evidence to authenticate to a system, such as username and password in addition to a token from a physical smart card or token generator."
-      - id: M1026
-        class: p1-mitigations
-        title: Privileged Account Management
-        parts:
-        - id: M1026_stm
-          name: statement
-          prose: "Manage the creation, modification, use, and permissions associated to privileged accounts."
-      - id: M1018
-        class: p1-mitigations
-        title: User Account Management
-        parts:
-        - id: M1018_stm
-          name: statement
-          prose: "Manage the creation, modification, use, and permissions associated to non-privileged user accounts."
-    - id: CCC
-      title: Policy name and identification
-      controls:
-      - id: CCC.M1
-        class: p1-mitigations
-        title: Organization level Authorization Origin Policy
-        parts:
-        - name: statement
-          prose: Define actions that are allowed for cloud accounts subscribed to an organization. Ensure policy set to enforce MFA for console and API actions for IAM principles.
+    - id: P1
+      title: Persistence Threats (P1) Mitigations
+      groups:
+        - id: M10
+          title: Threat Mitigations
+          controls:
+            - id: M1032
+              class: p1-mitigations
+              title: Multi-factor Authentication
+              parts:
+                - id: M1032_stm
+                  name: statement
+                  prose: |
+                    "Use two or more pieces of evidence to authenticate to a system,
+                    such as username and password in addition to a token from a physical smart card or token generator."
+            - id: M1026
+              class: p1-mitigations
+              title: Privileged Account Management
+              parts:
+                - id: M1026_stm
+                  name: statement
+                  prose: "Manage the creation, modification, use, and permissions associated to privileged accounts."
+            - id: M1018
+              class: p1-mitigations
+              title: User Account Management
+              parts:
+                - id: M1018_stm
+                  name: statement
+                  prose: |
+                    "Manage the creation, modification, use,
+                    and permissions associated to non-privileged user accounts."
+        - id: CCC
+          title: Policy name and identification
+          controls:
+            - id: CCC.M1
+              class: p1-mitigations
+              title: Organization level Authorization Origin Policy
+              parts:
+                - name: statement
+                  prose: |
+                    Define actions that are allowed for cloud accounts subscribed to an organization.
+                    Ensure policy set to enforce MFA for console and API actions for IAM principles.

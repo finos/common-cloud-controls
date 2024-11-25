@@ -51,6 +51,6 @@ Once minutes are added to the GitHub issue, close the issue.
 
 In the event that a meeting needs to be cancelled then the [FINOS Point of Contact] should be notified as soon as possible. The cancellation should also be communicated via the mailing list for the [WG].
 
-[WG]: ../community-groups.md#working-groups
-[FINOS Point of Contact]: ../finos-poc.md
+[WG]: ../governance/community-structure.md#working-groups
+[FINOS Point of Contact]: ../governance/finos-poc.md
 [community guideline]: ./README.md

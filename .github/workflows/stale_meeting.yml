@@ -1,8 +1,8 @@
 name: Auto Close Stale Meeting Issues
 
 on:
-    schedule:
-    - cron: '18 22 * * *'
+  schedule:
+    - cron: "18 22 * * *"
 
 jobs:
   close-stale-meeting:

@@ -57,6 +57,6 @@ This [WG] will use the mail group <ccc-structure@lists.finos.org> for regular co
 
 Changes to this charter must be approved through a majority vote by the [SC].
 
-[SC]: ../../community-groups.md#steering-committee
-[WG]: ../../community-groups.md#working-groups
-[guidelines]: ../../community-guidelines/README.md
+[SC]: ../../../governance/community-structure.md#steering-committee
+[WG]: ../../../governance/community-structure.md#working-groups
+[guidelines]: ../../../community-guidelines/README.md

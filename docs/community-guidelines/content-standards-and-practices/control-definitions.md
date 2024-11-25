@@ -30,7 +30,7 @@ When creating or updating a `controls.yaml` file for a service category, follow 
 
 ## Control Definition Format
 
-To maintain consistency, all controls— whether common or specific— must follow the same format, style, and tone. Each control should adhere to the [control template](../templates/controls.yaml) before release.
+To maintain consistency, all controls— whether common or specific— must follow the same format, style, and tone. Each control should adhere to the [control template](../../resources/templates/controls.yaml) before release.
 
 ### Control Definition Values
 

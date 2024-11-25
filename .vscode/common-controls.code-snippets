@@ -1,7 +1,7 @@
 {
     "Prevent unencrypted requests": {
       "scope": "yaml",
-      "prefix": "CT1, CT Prevent unencrypted requests",
+      "prefix": "CC1, CC Prevent unencrypted requests",
       "body": [
         "- CCC.C01 # Prevent unencrypted requests control"
       ],
@@ -9,7 +9,7 @@
     },
     "Ensure data encryption at rest": {
       "scope": "yaml",
-      "prefix": "CT2, CT Ensure data encryption at rest",
+      "prefix": "CC2, CC Ensure data encryption at rest",
       "body": [
         "- CCC.C02 # Ensure data encryption at rest for all stored data"
       ],
@@ -17,7 +17,7 @@
     },
     "Implement multi-factor authentication": {
       "scope": "yaml",
-      "prefix": "CT3, CT Implement MFA for access",
+      "prefix": "CC3, CC Implement MFA for access",
       "body": [
         "- CCC.C03 # Implement multi-factor authentication (MFA) for access"
       ],
@@ -25,7 +25,7 @@
     },
     "Log all access and changes": {
       "scope": "yaml",
-      "prefix": "CT4, CT Log all access and changes",
+      "prefix": "CC4, CC Log all access and changes",
       "body": [
         "- CCC.C04 # Log all access and changes"
       ],
@@ -33,7 +33,7 @@
     },
     "Prevent access from untrusted entities": {
       "scope": "yaml",
-      "prefix": "CT5, CT Prevent access from untrusted entities",
+      "prefix": "CC5, CC Prevent access from untrusted entities",
       "body": [
         "- CCC.C05 # Prevent access from untrusted entities"
       ],
@@ -41,7 +41,7 @@
     },
     "Prevent deployment in restricted regions": {
       "scope": "yaml",
-      "prefix": "CT6, CT Prevent deployment in restricted regions",
+      "prefix": "CC6, CC Prevent deployment in restricted regions",
       "body": [
         "- CCC.C06 # Prevent deployment in restricted regions"
       ],
@@ -49,7 +49,7 @@
     },
     "Alert on non-human enumeration": {
       "scope": "yaml",
-      "prefix": "CT7, CT Alert on non-human enumeration",
+      "prefix": "CC7, CC Alert on non-human enumeration",
       "body": [
         "- CCC.C07 # Alert on non-human enumeration"
       ],
@@ -57,7 +57,7 @@
     },
     "Enable multi-zone or multi-region data replication": {
       "scope": "yaml",
-      "prefix": "CT8, CT Enable multi-zone or multi-region data replication",
+      "prefix": "CC8, CC Enable multi-zone or multi-region data replication",
       "body": [
         "- CCC.C08 # Enable multi-zone or multi-region data replication"
       ],

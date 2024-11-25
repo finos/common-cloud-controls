@@ -166,5 +166,23 @@
 			"- CCC.F21 # Replication"
 		  ],
 		"description": "Common Feature Replication"
+	},
+
+	"Location Lock-In": {
+		"scope": "yaml",
+		"prefix": "CF22, CF Location Lock-In",
+		"body": [
+			"- CCC.F22 # Location Lock-In"
+		  ],
+		"description": "Common Feature Location Lock-In"
+	},
+
+	"Network Access Rules": {
+		"scope": "yaml",
+		"prefix": "CF23, CF Network Access Rules",
+		"body": [
+			"- CCC.F23 # Network Access Rules"
+		  ],
+		"description": "Common Feature Network Access Rules"
 	}
 }

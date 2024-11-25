@@ -90,7 +90,8 @@ features:
   - id: CCC.KeyMgmt.F20
     title: Automatic Symmetric Key Rotation
     description: |
-      Supports the ability to automatically rotate a managed symmetric key as long as the key was generated within the KMS.
+      Supports the ability to automatically rotate a managed symmetric
+      key as long as the key was generated within the KMS.
   - id: CCC.KeyMgmt.F21
     title: Manual Key Rotation
     description: |

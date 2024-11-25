@@ -69,10 +69,10 @@ The membership structure of this working group.
 
 Any functional changes to this charter must be approved through a majority vote by the [SC]. Minor changes such as formatting may be merged upon approval from any [SC] member.
 
-[WG]: ../../community-groups.md#working-groups
-[SC]: ../../community-groups.md#steering-committee
-[policies]: ../../community-policies/README.md
-[guidelines]: ../../community-guidelines/README.md
+[WG]: ../../../governance/community-structure.md#working-groups
+[SC]: ../../../governance/community-structure.md#steering-committee
+[policies]: ../../../community-policies/README.md
+[guidelines]: ../../../community-guidelines/README.md
 [Communications WG]: ../communications/charter.md
 [Community Structure WG]: ../communications/charter.md
 [Delivery WG]: ../delivery/charter.md

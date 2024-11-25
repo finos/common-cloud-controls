@@ -6,6 +6,6 @@ threats:
     description: <Complete description of the threat>
     features:
       - CCC.<category-id>.F<#>
-    mitre_technique: 
+    mitre_technique:
       - <Mitre ATT&CK tactic ID>
       - <Mitre ATT&CK technique ID>

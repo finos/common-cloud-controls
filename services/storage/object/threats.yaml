@@ -46,4 +46,3 @@ threats:
       - T1490 # Inhibit System Recovery
       - T1491 # Defacement
       - T1565 # Data Manipulation
-

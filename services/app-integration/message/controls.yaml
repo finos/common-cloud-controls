@@ -13,7 +13,8 @@ controls:
   - id: CCC.Message.C01 # Use Customer-Managed Encryption Keys (CMEK) for Messages
     title: Use Customer-Managed Encryption Keys (CMEK) for Messages
     objective: |
-      Ensure that messages are encrypted using customer-managed encryption keys (CMEK) to provide enhanced control over encryption processes and keys, meeting compliance and security requirements.
+      Ensure that messages are encrypted using customer-managed encryption keys (CMEK)
+      to provide enhanced control over encryption processes and keys, meeting compliance and security requirements.
     control_family: Encryption
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -25,7 +26,8 @@ controls:
     test_requirements:
       - id: CCC.Message.C01.TR01
         text: |
-          Attempt to publish a message without using a customer-managed encryption key and verify that the message is rejected or not stored.
+          Attempt to publish a message without using a customer-managed encryption key
+          and verify that the message is rejected or not stored.
         tlp_levels:
           - tlp_clear
           - tlp_green
