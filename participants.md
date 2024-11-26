@@ -37,6 +37,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Mike Smith, Scott Logic, Sep/11/2024
 - Daniel Moorhouse, Scott Logic, Sep/16/2024
 - Kamran Kazmi, Google, SEP/20/2024
+- Michael Schappacher, Citi, NOV/26/20024
 
 ## How to enroll as a participant
 
