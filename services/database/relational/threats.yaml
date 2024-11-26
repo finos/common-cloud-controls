@@ -91,3 +91,11 @@ threats:
       - CCC.F06
     mitre_technique:
       - T1556
+
+  - id: CCC.RDMS.TH14
+    title: DB backup is uninentionally restored
+    description: A threat actor restores a database backup thereby destroying data.
+    features:
+      - CCC.F11
+    mitre_technique:
+      - T1485
