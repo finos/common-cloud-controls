@@ -99,3 +99,11 @@ threats:
       - CCC.F11
     mitre_technique:
       - T1485
+
+  - id: CCC.RDMS.TH15
+    title: brute force attack against the database
+    description: threat actor uses brute force attack to discover database user password, threat actor then has access to the database user
+    features:
+      - CCC.RDMS.F07
+    mitre_technique:
+      - T1110
