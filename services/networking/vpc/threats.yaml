@@ -1,4 +1,3 @@
----
 common_threats:
   - CCC.TH01  # Access control is misconfigured
   - CCC.TH02  # Data is intercepted in transit
@@ -30,7 +29,7 @@ threats:
       - T1133  # External Remote Services
       - T1078  # Valid Accounts
 
-  - id: CCC.VPC.TH04
+  - id: CCC.VPC.TH03
     title: Unauthorized Network Access through VPC Peering
     description: |
       Unauthorized VPC peering connections can allow network traffic between
@@ -41,7 +40,7 @@ threats:
     mitre_technique:
       - T1599  # Network Boundary Bridging
 
-  - id: CCC.VPC.TH05
+  - id: CCC.VPC.TH04
     title: Lack of Network Visibility Due to Disabled VPC Flow Logs
     description: |
       VPC subnets with disabled flow logs lack critical network traffic
@@ -53,7 +52,7 @@ threats:
     mitre_technique:
       - T1562  # Impair Defenses
 
-  - id: CCC.VPC.TH06
+  - id: CCC.VPC.TH05
     title: Overly Permissive VPC Endpoint Policies
     description: |
       VPC Endpoint policies that are overly permissive may inadvertently expose
