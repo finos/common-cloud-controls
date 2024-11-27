@@ -70,7 +70,8 @@ controls:
     test_requirements:
       - id: CCC.C02.TR01
         text: |
-          The service encrypts all stored data at rest using industry-standard encryption algorithms (e.g., AES-256).
+          The service encrypts all stored data at rest using
+          industry-standard encryption algorithms (e.g., AES-256).
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -78,8 +79,9 @@ controls:
           - tlp_red
       - id: CCC.C02.TR02
         text: |
-          Admin users can verify and audit encryption status for stored data at rest,
-          including verification of key management processes.
+          Admin users can verify and audit encryption status for
+          stored data at rest, including verification of key
+          management processes.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -89,9 +91,9 @@ controls:
   - id: CCC.C03 # Implement multi-factor authentication (MFA) for access
     title: Implement multi-factor authentication (MFA) for access
     objective: |
-      Ensure that all human user access requires multi-factor authentication
-      (MFA), minimizing the risk of unauthorized access by enforcing strong
-      authentication mechanisms.
+      Ensure that all human user access requires multi-factor
+      authentication (MFA), minimizing the risk of unauthorized
+      access by enforcing strong authentication mechanisms.
     control_family: Identity and Access Management
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -107,13 +109,15 @@ controls:
     test_requirements:
       - id: CCC.C03.TR01
         text: |
-          Ensure that MFA is required for all user access to the service interface.
+          Ensure that MFA is required for all user access to the
+          service interface.
         tlp_levels:
           - tlp_amber
           - tlp_red
       - id: CCC.C03.TR02
         text: |
-          Ensure that MFA is required for all administrative access to the management interface.
+          Ensure that MFA is required for all administrative access
+          to the management interface.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -123,8 +127,8 @@ controls:
   - id: CCC.C04 # Log all access and changes
     title: Log all access and changes
     objective: |
-      Ensure that all access and changes are logged to maintain a detailed
-      audit trail for security and compliance purposes.
+      Ensure that all access and changes are logged to maintain a
+      detailed audit trail for security and compliance purposes.
     control_family: Logging & Monitoring
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -136,14 +140,16 @@ controls:
     test_requirements:
       - id: CCC.C04.TR01
         text: |
-          The service logs all access attempts, including successful and failed login attempts.
+          The service logs all access attempts, including successful
+          and failed login attempts.
         tlp_levels:
           - tlp_amber
           - tlp_red
       - id: CCC.C04.TR02
         text: |
-          The service logs all changes to configuration, including administrative
-          actions and modifications to user roles or privileges.
+          The service logs all changes to configuration, including
+          administrative actions and modifications to user roles
+          or privileges.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -167,9 +173,10 @@ controls:
     test_requirements:
       - id: CCC.C05.TR01
         text: |
-          The service blocks access to sensitive resources and admin access
-          from untrusted sources, including unauthorized IP addresses, domains,
-          or networks that are not included in a pre-approved allowlist.
+          The service blocks access to sensitive resources and admin
+          access from untrusted sources, including unauthorized IP
+          addresses, domains, or networks that are not included in
+          a pre-approved allowlist.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -177,8 +184,9 @@ controls:
           - tlp_red
       - id: CCC.C05.TR04
         text: |
-          The service prevents unauthorized cross-tenant access, ensuring that
-          only allowlisted services from other tenants can access resources.
+          The service prevents unauthorized cross-tenant access,
+          ensuring that only allowlisted services from other
+          tenants can access resources.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -188,10 +196,11 @@ controls:
   - id: CCC.C06 # Prevent deployment in restricted regions
     title: Prevent deployment in restricted regions
     objective: |
-      Ensure that resources are not provisioned or deployed in geographic
-      regions or cloud availability zones that have been designated as
-      restricted or prohibited, to comply with regulatory requirements and
-      reduce exposure to geopolitical risks.
+      Ensure that resources are not provisioned or deployed in
+      geographic regions or cloud availability zones that have been
+      designated as restricted or prohibited, to comply with
+      regulatory requirements and reduce exposure to geopolitical
+      risks.
     control_family: Data
     threats:
       - CCC.TH03 # Deployment region network is untrusted
@@ -207,9 +216,9 @@ controls:
     test_requirements:
       - id: CCC.C06.TR01
         text: |
-          The service prevents deployment in restricted regions or cloud
-          availability zones, blocking any provisioning attempts in designated
-          areas.
+          The service prevents deployment in restricted regions or
+          cloud availability zones, blocking any provisioning
+          attempts in designated areas.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -217,32 +226,30 @@ controls:
           - tlp_red
       - id: CCC.C06.TR02
         text: |
-          The service ensures that replication of data, backups, and disaster
-          recovery operations do not occur in restricted regions or
-          availability zones.
+          The service ensures that replication of data, backups, and
+          disaster recovery operations do not occur in restricted
+          regions or availability zones.
         tlp_levels:
           - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C07 # Alert on non-human enumeration
-    title: Alert on non-human enumeration
+  - id: CCC.C07 # Alert on unusal enumeration
+    title: Alert on Unusual Enumeration Activity
     control_family: Logging & Monitoring
     objective: |
-      Ensure that logs and associated alerts are generated when non-human
-      entities (e.g., automated processes) attempt to enumerate
-      resources. This helps to detect and respond to potential malicious
-      reconnaissance activities early.
+      Ensure that logs and associated alerts are generated when
+      unusual enumeration activity is detected that may indicate
+      reconnaissance activities.
     threats:
-      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+      - CCC.TH15 # Automated Enumeration
     nist_csf: DE.AE-1
     test_requirements:
       - id: CCC.C07.TR01
         text: |
-          The service generates real-time alerts whenever non-human entities
-          (e.g., automated scripts or processes) attempt to enumerate resources
-          or services.
+          The service detects enumeration activities indicative of
+          reconnaissance and generates real-time alerts
         tlp_levels:
           - tlp_red
       - id: CCC.C07.TR02
@@ -259,41 +266,42 @@ controls:
     control_family: Data
     objective: |
       Ensure that data is replicated across multiple
-      zones or regions to protect against data loss due to hardware failures,
-      natural disasters, or other catastrophic events.
+      zones or regions to protect against data loss due to hardware
+      failures, natural disasters, or other catastrophic events.
     threats:
       - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.PT-5
     test_requirements:
       - id: CCC.C08.TR01
         text: |
-          Data is replicated across multiple availability zones or regions.
+          Data is replicated across multiple availability zones or
+          regions.
         tlp_levels:
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C08.TR02
         text: |
-          Admin users can verify the replication status of data across multiple
-          zones or regions, including the replication locations and data
-          synchronization status.
+          The replication status of data across multiple zones or
+          regions can be verified, including the replication
+          locations and data synchronization status.
         tlp_levels:
           - tlp_green
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+  - id: CCC.C09 # Prevent tampering, deletion, or unauthorized access
     title: Prevent tampering, deletion, or unauthorized access to access logs
     control_family: Data
     objective: |
       Access logs should always be considered sensitive.
-      Ensure that access logs are protected against unauthorized access, tampering,
-      or deletion.
+      Ensure that access logs are protected against unauthorized
+      access, tampering, or deletion.
     threats:
       - CCC.TH07 # Logs are Tampered With or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
       - CCC.TH04 # Data is replicated to untrusted or external locations
-    nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify software, firmware, and information integrity
+    nist_csf: PR.DS-6 # Integrity checking mechanisms are used
     test_requirements:
       - id: CCC.C09.TR01
         text: |
@@ -320,24 +328,24 @@ controls:
           - tlp_green
           - tlp_clear
 
-  - id: CCC.C10 # Prevent data replication to destinations outside of defined
+  - id: CCC.C10 # Prevent data replication to destinations outside of perimeter
     title: Prevent data replication to destinations outside of defined
       trust perimeter
     control_family: Data
     objective: |
-      Prevent replication of data to untrusted destinations outside of
-      defined trust perimeter. An untrusted destination is defined as a
-      resource that exists outside of a specified trusted identity or network
-      perimeter (i.e., a data perimeter).
+      Prevent replication of data to untrusted destinations outside
+      of defined trust perimeter. An untrusted destination is defined
+      as a resource that exists outside of a specified trusted
+      identity or network perimeter (i.e., a data perimeter).
     threats:
       - CCC.TH04 # Data is replicated to untrusted or external locations
     nist_csf: PR.DS-5 # Protections against data leaks are implemented
     test_requirements:
       - id: CCC.C10.TR01
         text: |
-          Replication of data to destinations outside of the defined trust
-          perimeter is automatically blocked, preventing replication to
-          untrusted resources.
+          Replication of data to destinations outside of the defined
+          trust perimeter is automatically blocked, preventing
+          replication to untrusted resources.
         tlp_levels:
           - tlp_green
           - tlp_amber
@@ -346,8 +354,9 @@ controls:
   - id: CCC.C11 # Enforce Key Management Policies
     title: Enforce Key Management Policies
     objective: |
-      Ensure that encryption keys are managed securely by enforcing the use of approved algorithms,
-      regular key rotation, and customer-managed encryption keys (CMEKs) where applicable.
+      Ensure that encryption keys are managed securely by enforcing
+      the use of approved algorithms, regular key rotation, and
+      customer-managed encryption keys (CMEKs) where applicable.
     control_family: Encryption
     threats:
       - CCC.TH16 # Non-compliance with encryption key management policies
@@ -364,8 +373,9 @@ controls:
     test_requirements:
       - id: CCC.C11.TR01
         text: |
-          Verify that all encryption keys use approved cryptographic algorithms
-          as per organizational standards (e.g., AES-256, RSA-2048).
+          Verify that all encryption keys use approved cryptographic
+          algorithms as per organizational standards (e.g., AES-256,
+          RSA-2048).
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -373,24 +383,27 @@ controls:
           - tlp_red
       - id: CCC.C11.TR02
         text: |
-          Confirm that encryption keys are rotated at a frequency compliant
-          with organizational policies (e.g., every 90 days).
+          Confirm that encryption keys are rotated at a frequency
+          compliant with organizational policies (e.g., every
+          90 days).
         tlp_levels:
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C11.TR03
         text: |
-          Ensure that customer-managed encryption keys (CMEKs) are used for data
-          encryption where applicable, providing greater control over key management.
+          Ensure that customer-managed encryption keys (CMEKs) are
+          used for data encryption where applicable, providing
+          greater control over key management.
         tlp_levels:
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C11.TR04
         text: |
-          Verify that access to encryption keys is restricted to authorized
-          personnel and services, following the principle of least privilege.
+          Verify that access to encryption keys is restricted to
+          authorized personnel and services, following the principle
+          of least privilege.
         tlp_levels:
           - tlp_amber
           - tlp_red
