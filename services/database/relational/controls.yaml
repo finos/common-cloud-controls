@@ -10,13 +10,13 @@ common_controls:
   - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 controls:
-  - id: CCC.RDMS.C01 # Enforce Use of Managed Views for Data Access
+  - id: CCC.RDMS.C01 
     title: backup database to alternative trust-zone 
     objective: |
       Ensure that databases are backed up and the backup is outside of the applications trust-zone
     control_family: Data
     threats:
-      - CCC.RDMS.TH14
+      - CCC.RDMS.TH14 # DB backup is uninentionally restored
     nist_csf: PR.DS-11
     control_mappings:
       NIST_800_53:
