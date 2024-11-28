@@ -10,8 +10,8 @@ common_controls:
   - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 controls:
-  - id: CCC.RDMS.C01 
-    title: backup database to alternative trust-zone 
+  - id: CCC.RDMS.C01
+    title: backup database to alternative trust-zone
     objective: |
       Ensure that databases are backed up and the backup is outside of the applications trust-zone
     control_family: Data
