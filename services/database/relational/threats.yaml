@@ -110,3 +110,12 @@ threats:
       - CCC.RDMS.F07
     mitre_technique:
       - T1110
+
+  - id: CCC.RDMS.TH16
+    title: backups stopped
+    description: |
+      threat actor stops backups from occuring
+    features:
+      - CCC.F11
+    mitre_technique:
+      - T1490
