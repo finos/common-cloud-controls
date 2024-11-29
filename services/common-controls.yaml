@@ -79,8 +79,8 @@ controls:
           - tlp_red
       - id: CCC.C02.TR02
         text: |
-          Admin users can verify and audit encryption status for
-          stored data at rest, including verification of key
+          The encryption status for stored data at rest can be
+          verified and audited, including verification of key
           management processes.
         tlp_levels:
           - tlp_clear
