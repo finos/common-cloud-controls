@@ -177,7 +177,7 @@ controls:
           - tlp_red
       - id: CCC.C04.TR02
         text: |
-          When any change is made to the service configuration, the service MUST 
+          When any change is made to the service configuration, the service MUST
           log the change, including the client, time, previous state, and the
           new state following the change.
         tlp_levels:
