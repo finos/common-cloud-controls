@@ -7,14 +7,14 @@ common_controls:
   - CCC.C06 # Prevent deployment in restricted regions
   - CCC.C07 # Alert on non-human enumeration
   - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-  - CCC.C10 # Prevent data replication to desinations outside of defined trust perimeter
+  - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 controls:
   - id: CCC.ObjStor.C01 # Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     objective: |
-      Prevent any requests to object storage buckets or objects using 
-      untrusted KMS keys to protect against unauthorized data encryption 
+      Prevent any requests to object storage buckets or objects using
+      untrusted KMS keys to protect against unauthorized data encryption
       that can impact data availability and integrity.
     control_family: Data
     threats:
@@ -32,7 +32,7 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C01.TR01
         text: |
-          The service prevents access to any object storage bucket or object 
+          The service prevents access to any object storage bucket or object
           that uses KMS keys not listed as trusted by the organization.
         tlp_levels:
           - tlp_clear
@@ -45,15 +45,17 @@ controls:
       permissions
     control_family: Identity and Access Management
     objective: |
-      Ensure that uniform bucket-level access is enforced across all 
-      object storage buckets. This prevents the use of ad-hoc or 
-      inconsistent object-level permissions, ensuring centralized, 
-      consistent, and secure access management in accordance with the 
+      Ensure that uniform bucket-level access is enforced across all
+      object storage buckets. This prevents the use of ad-hoc or
+      inconsistent object-level permissions, ensuring centralized,
+      consistent, and secure access management in accordance with the
       principle of least privilege.
     threats:
       - CCC.TH01 # Access control is misconfigured
       - CCC.ObjStor.TH02 # Improper enforcement of object modification locks
-    nist_csf: PR.AC-4 # Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties
+    # Access permissions and authorizations are managed,
+    # incorporating the principles of least privilege and separation of duties
+    nist_csf: PR.AC-4
     control_mappings:
       CCM:
         - DCS-09 # Access Control
@@ -65,9 +67,9 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C02.TR01
         text: |
-          Admin users can configure bucket-level permissions uniformly across 
-          all buckets, ensuring that object-level permissions cannot be 
-          applied without explicit authorization.
+          Bucket-level permissions must be configured uniformly
+          across all buckets, ensuring that object-level permissions
+          cannot be applied without explicit authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -76,7 +78,7 @@ controls:
     title: Prevent bucket deletion through irrevocable bucket retention policy
     control_family: Data
     objective: |
-      Ensure that object storage bucket is not deleted after creation, 
+      Ensure that object storage bucket is not deleted after creation,
       and that the preventative measure cannot be unset.
     threats:
       - CCC.TH06 # Data is lost or corrupted
@@ -84,15 +86,16 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C03.TR01
         text: |
-          Object storage buckets cannot be deleted after creation.
+          When an object storage bucket deletion is attempted, the bucket must be
+          fully recoverable for a set time-frame after deletion is requested.
         tlp_levels:
           - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
-      - id: CCC.ObjStor.C03.TR02
+      - id: CCC.ObjStor.C03.TR03
         text: |
-          Retention policy for object storage buckets cannot be unset.
+          The retention policy for object storage buckets cannot be unset.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -103,9 +106,9 @@ controls:
     title: Objects have an effective retention policy by default
     control_family: Data
     objective: |
-      Ensure that all objects stored in the object storage system have a 
-      retention policy applied by default, preventing premature deletion 
-      or modification of objects and ensuring compliance with data retention 
+      Ensure that all objects stored in the object storage system have a
+      retention policy applied by default, preventing premature deletion
+      or modification of objects and ensuring compliance with data retention
       regulations.
     threats:
       - CCC.TH06 # Data is lost or corrupted
@@ -113,8 +116,8 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C05.TR01
         text: |
-          All objects stored in the object storage system automatically receive 
-          a default retention policy that prevents premature deletion or 
+          All objects stored in the object storage system automatically receive
+          a default retention policy that prevents premature deletion or
           modification.
         tlp_levels:
           - tlp_clear
@@ -123,7 +126,7 @@ controls:
           - tlp_red
       - id: CCC.ObjStor.C05.TR04
         text: |
-          Attempts to delete or modify objects that are subject to an active 
+          Attempts to delete or modify objects that are subject to an active
           retention policy are prevented.
         tlp_levels:
           - tlp_clear
@@ -135,8 +138,8 @@ controls:
     title: Versioning is enabled for all objects in the bucket
     control_family: Data
     objective: |
-      Ensure that versioning is enabled for all objects stored in the object 
-      storage bucket to enable recovery of previous versions of objects in 
+      Ensure that versioning is enabled for all objects stored in the object
+      storage bucket to enable recovery of previous versions of objects in
       case of loss or corruption.
     threats:
       - CCC.TH06 # Data is lost or corrupted
@@ -144,8 +147,8 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C06.TR01
         text: |
-          Verify that when two objects with the same name are uploaded to the 
-          bucket, the object with the same name is not overwritten and that 
+          Verify that when two objects with the same name are uploaded to the
+          bucket, the object with the same name is not overwritten and that
           both objects are stored with unique identifiers.
         tlp_levels:
           - tlp_clear
@@ -154,7 +157,7 @@ controls:
           - tlp_red
       - id: CCC.ObjStor.C06.TR04
         text: |
-          Previous versions of an object can be accessed and restored after 
+          Previous versions of an object can be accessed and restored after
           an object is modified or deleted.
         tlp_levels:
           - tlp_clear
@@ -162,23 +165,23 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C07 # Access logs are stored in a separate bucket
-    title: Access logs are stored in a separate bucket
+  - id: CCC.ObjStor.C07 # Access logs are stored in a data store
+    title: Access logs are stored in a separate data store
     control_family: Data
     objective: |
-      Ensure that access logs for object storage buckets are stored in a 
-      separate bucket to protect against unauthorized access, tampering, 
-      or deletion of logs (Logbuckets are exempt from this requirement, 
+      Ensure that access logs for object storage buckets are stored in a
+      separate data store to protect against unauthorized access, tampering,
+      or deletion of logs (Logbuckets are exempt from this requirement,
       but must be tlp_red).
     threats:
       - CCC.TH07 # Logs are Tampered With or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-    nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify software, firmware, and information integrity
+    nist_csf: PR.DS-6 # Integrity checking mechanisms are used
     test_requirements:
       - id: CCC.ObjStor.C07.TR01
         text: |
-          Access logs for all object storage buckets are stored in a separate 
-          bucket.
+          Access logs for all object storage buckets are stored in a separate
+          data store.
         tlp_levels:
           - tlp_amber
           - tlp_red
