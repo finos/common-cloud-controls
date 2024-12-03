@@ -80,7 +80,7 @@ controls:
         tlp_levels:
           - tlp_red
 
-  - id: CCC.VPC.C05
+  - id: CCC.VPC.C04
     title: Enforce VPC Flow Logs on VPCs.
     objective: |
       Ensure VPCs are configured with flow logs enabled to capture traffic
