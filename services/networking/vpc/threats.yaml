@@ -36,7 +36,7 @@ threats:
       untrusted or unapproved subscriptions, leading to potential data
       exposure or exfiltration.
     features:
-      - CCC.VPC.F11  # VPC Peering
+      - CCC.VPC.F11 # Connectivity Options - VPC Peering
     mitre_technique:
       - T1599  # Network Boundary Bridging
 
