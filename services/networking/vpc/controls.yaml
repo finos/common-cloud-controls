@@ -32,10 +32,10 @@ controls:
           - tlp_red
 
   - id: CCC.VPC.C02
-    title: Limit External IP Addresses
+    title: Limit Resource Creation in Public Subnet
     objective: |
-      Restrict the assignment of external (public) IP addresses to resources to
-      reduce exposure to the public internet and minimize attack surfaces.
+      Restrict the creation of resources in the public subnet with
+      direct access the internet to minimize attack surfaces.
     control_family: Network Security
     threats:
       - CCC.VPC.TH02  # Exposure of Resources to Public Internet
@@ -63,7 +63,7 @@ controls:
       controls.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH07
+      - CCC.VPC.TH03  # Unauthorized Network Access through VPC Peering
     nist_csf: PR.AC-3
     control_mappings:
       CCM:
@@ -87,7 +87,7 @@ controls:
       information.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH08
+      - CCC.VPC.TH04  # Lack of Network Visibility Due to Disabled VPC Flow Logs
     nist_csf: PR.PT-1
     control_mappings:
       CCM:
