@@ -67,9 +67,9 @@ controls:
     test_requirements:
       - id: CCC.ObjStor.C02.TR01
         text: |
-          Admin users can configure bucket-level permissions uniformly across
-          all buckets, ensuring that object-level permissions cannot be
-          applied without explicit authorization.
+          Bucket-level permissions must be configured uniformly
+          across all buckets, ensuring that object-level permissions
+          cannot be applied without explicit authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -165,23 +165,23 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.ObjStor.C07 # Access logs are stored in a separate bucket
-    title: Access logs are stored in a separate bucket
+  - id: CCC.ObjStor.C07 # Access logs are stored in a data store
+    title: Access logs are stored in a separate data store
     control_family: Data
     objective: |
       Ensure that access logs for object storage buckets are stored in a
-      separate bucket to protect against unauthorized access, tampering,
+      separate data store to protect against unauthorized access, tampering,
       or deletion of logs (Logbuckets are exempt from this requirement,
       but must be tlp_red).
     threats:
       - CCC.TH07 # Logs are Tampered With or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-    nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify software, firmware, and information integrity
+    nist_csf: PR.DS-6 # Integrity checking mechanisms are used
     test_requirements:
       - id: CCC.ObjStor.C07.TR01
         text: |
           Access logs for all object storage buckets are stored in a separate
-          bucket.
+          data store.
         tlp_levels:
           - tlp_amber
           - tlp_red
