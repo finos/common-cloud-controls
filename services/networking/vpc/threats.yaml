@@ -24,7 +24,7 @@ threats:
       public internet, increasing the risk of attacks such as brute force,
       exploitation of vulnerabilities, or unauthorized access.
     features:
-      - CCC.VPC.F02  # External IP Address Assignment
+      - CCC.VPC.F04 # Public Subnet Creation
     mitre_technique:
       - T1133  # External Remote Services
       - T1078  # Valid Accounts
