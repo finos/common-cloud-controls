@@ -1,86 +1,114 @@
 {
-  "Access control is misconfigured": {
-    "scope": "yaml",
-    "prefix": "CT1, CT Access control is misconfigured",
-    "body": ["- CCC.TH01 # Access control is misconfigured"],
-    "description": "Common Threat Access control is misconfigured",
-  },
-  "Data is intercepted in transit": {
-    "scope": "yaml",
-    "prefix": "CT2, CT Data is intercepted in transit",
-    "body": ["- CCC.TH02 # Data is intercepted in transit"],
-    "description": "Common Threat Data is intercepted in transit",
-  },
-  "Deployment region network is untrusted": {
-    "scope": "yaml",
-    "prefix": "CT3, CT Deployment region network is untrusted",
-    "body": ["- CCC.TH03 # Deployment region network is untrusted"],
-    "description": "Common Threat Deployment region network is untrusted",
-  },
-  "Resource is replicated to untrusted or external locations": {
-    "scope": "yaml",
-    "prefix": "CT4, CT Resource is replicated to untrusted or external locations",
-    "body": ["- CCC.TH04 # Resource is replicated to untrusted or external locations"],
-    "description": "Common Threat Resource is replicated to untrusted or external locations",
-  },
-  "Data is corrupted during replication": {
-    "scope": "yaml",
-    "prefix": "CT5, CT Data is corrupted during replication",
-    "body": ["- CCC.TH05 # Data is corrupted during replication"],
-    "description": "Common Threat Data is corrupted during replication",
-  },
-  "Data is lost or corrupted": {
-    "scope": "yaml",
-    "prefix": "CT6, CT Data is lost or corrupted",
-    "body": ["- CCC.TH06 # Data is lost or corrupted"],
-    "description": "Common Threat Data is lost or corrupted",
-  },
-  "Logs are Tampered With or Deleted": {
-    "scope": "yaml",
-    "prefix": "CT7, CT Logs are tampered with or deleted",
-    "body": ["- CCC.TH07 # Logs are tampered with or deleted"],
-    "description": "Common Threat Logs are tampered with or deleted",
-  },
-  "Cost Management Data is Manipulated": {
-    "scope": "yaml",
-    "prefix": "CT8, CT Cost management data is manipulated",
-    "body": ["- CCC.TH08 # Cost management data is manipulated"],
-    "description": "Common Threat Cost management data is manipulated",
-  },
-  "Logs or Monitoring Data are Read by Unauthorized Users": {
-    "scope": "yaml",
-    "prefix": "CT9, CT Logs or monitoring data are read by unauthorized users",
-    "body": ["- CCC.TH09 # Logs or monitoring data are read by unauthorized users"],
-    "description": "Common Threat Logs or monitoring data are read by unauthorized users",
-  },
-  "Alerts are Intercepted": {
-    "scope": "yaml",
-    "prefix": "CT10, CT Alerts are intercepted",
-    "body": ["- CCC.TH10 # Alerts are intercepted"],
-    "description": "Common Threat Alerts are intercepted",
-  },
-  "Event Notifications are Incorrectly Triggered": {
-    "scope": "yaml",
-    "prefix": "CT11, CT Event notifications are incorrectly triggered",
-    "body": ["- CCC.TH11 # Event notifications are incorrectly triggered"],
-    "description": "Common Threat Event notifications are incorrectly triggered",
-  },
-  "Resource constraints are exhaustedResource Tags Are Manipulated": {
-    "scope": "yaml",
-    "prefix": "CT12, CT Resource constraints are exhausted",
-    "body": ["- CCC.TH12 # Resource constraints are exhausted"],
-    "description": "Common Threat Resource constraints are exhausted",
-  },
-  "Resource Tags Are Manipulated": {
-    "scope": "yaml",
-    "prefix": "CT13, CT Resource tags are manipulated",
-    "body": ["- CCC.TH13 # Resource tags are manipulated"],
-    "description": "Common Threat Resource tags are manipulated",
-  },
-  "Older Resource Versions Are Exploited": {
-    "scope": "yaml",
-    "prefix": "CT14, CT Older resource versions are exploited",
-    "body": ["- CCC.TH14 # Older resource versions are exploited"],
-    "description": "Common Threat Older resource versions are exploited",
-  },
+	"Access control is misconfigured": {
+		"scope": "yaml",
+		"prefix": "CT1, CT Access control is misconfigured",
+		"body": [
+			"- CCC.TH01 # Access control is misconfigured"
+		],
+		"description": "Common Threat Access control is misconfigured",
+	},
+	"Data is intercepted in transit": {
+		"scope": "yaml",
+		"prefix": "CT2, CT Data is intercepted in transit",
+		"body": [
+			"- CCC.TH02 # Data is intercepted in transit"
+		],
+		"description": "Common Threat Data is intercepted in transit",
+	},
+	"Deployment region network is untrusted": {
+		"scope": "yaml",
+		"prefix": "CT3, CT Deployment region network is untrusted",
+		"body": [
+			"- CCC.TH03 # Deployment region network is untrusted"
+		],
+		"description": "Common Threat Deployment region network is untrusted",
+	},
+	"Resource is replicated to untrusted or external locations": {
+		"scope": "yaml",
+		"prefix": "CT4, CT Resource is replicated to untrusted or external locations",
+		"body": [
+			"- CCC.TH04 # Resource is replicated to untrusted or external locations"
+		],
+		"description": "Common Threat Resource is replicated to untrusted or external locations",
+	},
+	"Data is corrupted during replication": {
+		"scope": "yaml",
+		"prefix": "CT5, CT Data is corrupted during replication",
+		"body": [
+			"- CCC.TH05 # Data is corrupted during replication"
+		],
+		"description": "Common Threat Data is corrupted during replication",
+	},
+	"Data is lost or corrupted": {
+		"scope": "yaml",
+		"prefix": "CT6, CT Data is lost or corrupted",
+		"body": [
+			"- CCC.TH06 # Data is lost or corrupted"
+		],
+		"description": "Common Threat Data is lost or corrupted",
+	},
+	"Logs are Tampered With or Deleted": {
+		"scope": "yaml",
+		"prefix": "CT7, CT Logs are tampered with or deleted",
+		"body": [
+			"- CCC.TH07 # Logs are tampered with or deleted"
+		],
+		"description": "Common Threat Logs are tampered with or deleted",
+	},
+	"Cost Management Data is Manipulated": {
+		"scope": "yaml",
+		"prefix": "CT8, CT Cost management data is manipulated",
+		"body": [
+			"- CCC.TH08 # Cost management data is manipulated"
+		],
+		"description": "Common Threat Cost management data is manipulated",
+	},
+	"Logs or Monitoring Data are Read by Unauthorized Users": {
+		"scope": "yaml",
+		"prefix": "CT9, CT Logs or monitoring data are read by unauthorized users",
+		"body": [
+			"- CCC.TH09 # Logs or monitoring data are read by unauthorized users"
+		],
+		"description": "Common Threat Logs or monitoring data are read by unauthorized users",
+	},
+	"Alerts are Intercepted": {
+		"scope": "yaml",
+		"prefix": "CT10, CT Alerts are intercepted",
+		"body": [
+			"- CCC.TH10 # Alerts are intercepted"
+		],
+		"description": "Common Threat Alerts are intercepted",
+	},
+	"Event Notifications are Incorrectly Triggered": {
+		"scope": "yaml",
+		"prefix": "CT11, CT Event notifications are incorrectly triggered",
+		"body": [
+			"- CCC.TH11 # Event notifications are incorrectly triggered"
+		],
+		"description": "Common Threat Event notifications are incorrectly triggered",
+	},
+	"Resource constraints are exhaustedResource Tags Are Manipulated": {
+		"scope": "yaml",
+		"prefix": "CT12, CT Resource constraints are exhausted",
+		"body": [
+			"- CCC.TH12 # Resource constraints are exhausted"
+		],
+		"description": "Common Threat Resource constraints are exhausted",
+	},
+	"Resource Tags Are Manipulated": {
+		"scope": "yaml",
+		"prefix": "CT13, CT Resource tags are manipulated",
+		"body": [
+			"- CCC.TH13 # Resource tags are manipulated"
+		],
+		"description": "Common Threat Resource tags are manipulated",
+	},
+	"Older Resource Versions Are Exploited": {
+		"scope": "yaml",
+		"prefix": "CT14, CT Older resource versions are exploited",
+		"body": [
+			"- CCC.TH14 # Older resource versions are exploited"
+		],
+		"description": "Common Threat Older resource versions are exploited",
+	},
 }
