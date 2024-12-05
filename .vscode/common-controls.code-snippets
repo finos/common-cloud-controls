@@ -62,5 +62,5 @@
 			"- CCC.C08 # Enable multi-zone or multi-region data replication"
 		  ],
 		"description": "Common Control Enable multi-zone or multi-region data replication"
-	}
+	},
 }
