@@ -1,72 +1,85 @@
 common_features:
-  - CCC.F01 # Encryption in Transit Enabled by Default
-  - CCC.F02 # Encryption at Rest Enabled by Default
-  - CCC.F03 # Access/Activity Logs
-  - CCC.F04 # Transaction Rate Limits
+  - CCC.F01 # Encryption in transit enabled by default
+  - CCC.F02 # Encryption at rest enabled by default
+  - CCC.F03 # Access/activity logs
+  - CCC.F04 # Transaction rate limits
   - CCC.F05 # Signed URLs
-  - CCC.F06 # Identity Based Access Control
-  - CCC.F07 # Event Notifications
-  - CCC.F08 # Multi-zone Deployment
+  - CCC.F06 # Identity based access control
+  - CCC.F07 # Event notifications
+  - CCC.F08 # Multi-zone deployment
   - CCC.F09 # Monitoring
   - CCC.F10 # Logging
   - CCC.F11 # Backup
   - CCC.F12 # Restore
-  - CCC.F14 # API Access
+  - CCC.F14 # API access
   - CCC.F18 # Versioning
+  - CCC.F20 # Tagging
   - CCC.F21 # Replication
+  - CCC.F22 # Location lock-in
 
 features:
-  - id: CCC.ObjStor.F01 # Storage Buckets
-    title: Storage Buckets
+  - id: CCC.ObjStor.F01
+    title: Storage buckets
     description: |
       Provides uniquely identifiable segmentations in which data elements may
       be stored.
-  - id: CCC.ObjStor.F02 # Storage Objects
-    title: Storage Objects
+
+  - id: CCC.ObjStor.F02
+    title: Storage objects
     description: |
       Supports storing, accessing, and managing data elements which contain
       both data and metadata.
-  - id: CCC.ObjStor.F03 # Bucket Capacity Limit
-    title: Bucket Capacity Limit
+
+  - id: CCC.ObjStor.F03
+    title: Bucket capacity limit
     description: |
       Provides the ability to set a maximum total capacity for objects within
       a bucket.
-  - id: CCC.ObjStor.F04 # Object Size Limit
-    title: Object Size Limit
+
+  - id: CCC.ObjStor.F04
+    title: Object size limit
     description: |
       Supports setting a maximum object size for storing objects.
-  - id: CCC.ObjStor.F05 # Ability to store new objects
-    title: Ability to store new objects
+
+  - id: CCC.ObjStor.F05
+    title: Store new objects
     description: |
       Supports for storing a new object in the bucket.
-  - id: CCC.ObjStor.F06 # Ability to replace stored objects
-    title: Ability to replace stored objects
+
+  - id: CCC.ObjStor.F06
+    title: Replace stored objects
     description: |
       Supports for replacing an object in the bucket with a new object for the same key.
-  - id: CCC.ObjStor.F07 # Ability to delete stored objects
-    title: Ability to delete stored objects
+
+  - id: CCC.ObjStor.F07
+    title: Delete stored objects
     description: |
       Supports for deleting objects from the bucket given the object key.
-  - id: CCC.ObjStor.F08 # Lifecycle Policies
-    title: Lifecycle Policies
+
+  - id: CCC.ObjStor.F08
+    title: Lifecycle policies
     description: |
       Supports defining policies to automate data management tasks.
-  - id: CCC.ObjStor.F09 # Object Modification Locks
-    title: Object Modification Locks
+
+  - id: CCC.ObjStor.F09
+    title: Object modification locks
     description: |
       Allows locking of objects to disable modification and/or deletion of an
       object for a defined period of time.
-  - id: CCC.ObjStor.F10 # Object Level Access Control
-    title: Object Level Access Control
+
+  - id: CCC.ObjStor.F10
+    title: Object level access control
     description: |
       Supports controlling access to specific objects within the object store.
-  - id: CCC.ObjStor.F11 # Querying
+
+  - id: CCC.ObjStor.F11
     title: Querying
     description: |
       Supports performing simple select queries to retrieve only a subset of
       objects from the bucket.
-  - id: CCC.ObjStor.F12 # Storage Classes
-    title: Storage Classes
+
+  - id: CCC.ObjStor.F12
+    title: Storage classes
     description: |
       Provides different storage classes for frequently and infrequently
       accessed objects.
