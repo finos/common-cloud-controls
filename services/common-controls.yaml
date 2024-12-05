@@ -299,15 +299,18 @@ controls:
     test_requirements:
       - id: CCC.C07.TR01
         text: |
-          The service detects enumeration activities indicative of
-          reconnaissance and generates real-time alerts
+          When suspicious enumeration activities are detected, the 
+          service MUST generate real-time alerts to notify security
+          personnel.
         tlp_levels:
           - tlp_red
       - id: CCC.C07.TR02
         text: |
-          Confirm that logs are properly generated and accessible for review
-          following non-human enumeration attempts.
+          When suspicious enumeration activities are detected, the
+          service MUST log the event, including the source details,
+          time, and nature of the activity.
         tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
