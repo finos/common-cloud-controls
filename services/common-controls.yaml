@@ -189,9 +189,14 @@ controls:
   - id: CCC.C05 # Prevent access from untrusted entities
     title: Prevent access from untrusted entities
     objective: |
-      Ensure secure access controls prevent unauthorized data access,
-      exfiltration, and misuse of legitimate services by adversaries.
+      Ensure that secure access controls prevent unauthorized access,
+      mitigate risks of data exfiltration, and block misuse of services
+      by adversaries. This includes restricting access based on trust
+      criteria such as IP allowlists, domain restrictions, and tenant
+      isolation.
     control_family: Identity and Access Management
+    threats:
+      - CCC.TH01 # Access control is misconfigured
     nist_csf: PR.AC-3
     control_mappings:
       CCM:
@@ -201,22 +206,38 @@ controls:
       NIST_800_53:
         - AC-3
     test_requirements:
-      - id: CCC.C05.TR01
+      - id: CCC.C05.TR01 # Block untrusted sources
         text: |
-          The service blocks access to sensitive resources and admin
-          access from untrusted sources, including unauthorized IP
-          addresses, domains, or networks that are not included in
-          a pre-approved allowlist.
+          When access to sensitive resources is attempted, the service MUST
+          block requests from untrusted sources, including IP addresses,
+          domains, or networks that are not explicitly included in a
+          pre-approved allowlist.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C05.TR02 # Admin access restrictions
+        text: |
+          When administrative access is attempted, the service MUST validate
+          that the request originates from an explicitly allowed source as
+          defined in the allowlist.
         tlp_levels:
           - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
-      - id: CCC.C05.TR04
+      - id: CCC.C05.TR03 # Prevent cross-tenant access
         text: |
-          The service prevents unauthorized cross-tenant access,
-          ensuring that only allowlisted services from other
-          tenants can access resources.
+          When resources are accessed in a multi-tenant environment, the
+          service MUST enforce isolation by allowing access only to explicitly
+          allowlisted tenants.
+        tlp_levels:
+          - tlp_amber
+          - tlp_red
+      - id: CCC.C05.TR04 # Unauthorized access attempts logging
+        text: |
+          When an access attempt from an untrusted source is blocked, the
+          service MUST log the event, including the source details, time,
+          and reason for denial.
         tlp_levels:
           - tlp_clear
           - tlp_green
