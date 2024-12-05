@@ -1,13 +1,13 @@
 features:
-  - id: CCC.F01 # Encryption in Transit Enabled by Default
-    title: Encryption in Transit Enabled by Default
+  - id: CCC.F01 # Encryption in Transit
+    title: Encryption in Transit
     description: |
-      Provides default encryption of data in transit through SSL or TLS.
+      Provides encryption of data in transit through SSL or TLS.
 
   - id: CCC.F02 # Encryption at Rest Enabled by Default
-    title: Encryption at Rest Enabled by Default
+    title: Encryption at Rest
     description: |
-      Provides default encryption of data before storage, with the option for
+      Provides encryption of data in storage, with the option for
       clients to maintain control over the encryption keys.
 
   - id: CCC.F03 # Access/Activity Logs
@@ -22,23 +22,11 @@ features:
       Allows the setting of a threshold where industry-standard throughput is
       achieved up to the specified rate limit.
 
-  - id: CCC.F05 # Signed URLs
-    title: Signed URLs
-    description: |
-      Provides the ability to grant temporary or restricted access
-      to a resource through a custom URL that contains authentication information.
-
   - id: CCC.F06 # Identity Based Access Control
     title: Identity Based Access Control
     description: |
       Provides the ability to determine access to resources based on
       attributes associated with a user identity.
-
-  - id: CCC.F07 # Event Notifications
-    title: Event Notifications
-    description: |
-      Publishes events for creation, deletion, and modification of
-      objects in a way that enables users to trigger actions in response.
 
   - id: CCC.F08 # Multi-zone Deployment
     title: Multi-zone Deployment
@@ -86,12 +74,12 @@ features:
   - id: CCC.F15 # Cost Management
     title: Cost Management
     description: |
-      Provides the ability to filter spending and to detect cost anomalies for the service.
+      Provides the ability to manage costs, filter spending and to detect cost anomalies.
 
   - id: CCC.F16 # Budgeting
     title: Budgeting
     description: |
-      Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+      Provides the ability to trigger alerts when spending thresholds are approached or exceeded for services.
 
   - id: CCC.F17 # Alerting
     title: Alerting
