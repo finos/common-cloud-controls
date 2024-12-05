@@ -413,7 +413,7 @@ controls:
     objective: |
       Ensure that encryption keys are managed securely by enforcing
       the use of approved algorithms, regular key rotation, and
-      customer-managed encryption keys (CMEKs) where applicable.
+      customer-managed encryption keys (CMEKs).
     control_family: Encryption
     threats:
       - CCC.TH16 # Non-compliance with encryption key management policies
@@ -444,23 +444,22 @@ controls:
           encryption keys are rotated at a frequency compliant with
           organizational policies.
         tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C11.TR03
         text: |
-          Ensure that customer-managed encryption keys (CMEKs) are
-          used for data encryption where applicable, providing
-          greater control over key management.
+          When encrypting data, the service MUST verify that
+          customer-managed encryption keys (CMEKs) are used.
         tlp_levels:
-          - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C11.TR04
         text: |
-          Verify that access to encryption keys is restricted to
-          authorized personnel and services, following the principle
-          of least privilege.
+          When encryption keys are accessed, the service MUST verify that
+          access to encryption keys is restricted to authorized personnel
+          and services, following the principle of least privilege.
         tlp_levels:
           - tlp_amber
           - tlp_red
