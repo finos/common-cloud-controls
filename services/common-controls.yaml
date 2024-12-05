@@ -328,17 +328,18 @@ controls:
     test_requirements:
       - id: CCC.C08.TR01
         text: |
-          Data is replicated across multiple availability zones or
-          regions.
+          When data is stored, the service MUST ensure that data is
+          replicated across multiple availability zones or regions.
         tlp_levels:
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C08.TR02
         text: |
-          The replication status of data across multiple zones or
-          regions can be verified, including the replication
-          locations and data synchronization status.
+          When data is replicated across multiple zones or regions,
+          the service MUST be able to verify the replication state,
+          including the replication locations and data synchronization
+          status.
         tlp_levels:
           - tlp_green
           - tlp_amber
