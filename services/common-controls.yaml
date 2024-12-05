@@ -360,7 +360,8 @@ controls:
     test_requirements:
       - id: CCC.C09.TR01
         text: |
-          Access logs cannot be accessed without proper authorization.
+          When access logs are stored, the service MUST ensure that
+          access logs cannot be accessed without proper authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -368,7 +369,8 @@ controls:
           - tlp_clear
       - id: CCC.C09.TR02
         text: |
-          Access logs cannot be modified without proper authorization.
+          When access logs are stored, the service MUST ensure that
+          access logs cannot be modified without proper authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -376,7 +378,8 @@ controls:
           - tlp_clear
       - id: CCC.C09.TR03
         text: |
-          Access logs cannot be deleted without proper authorization.
+          When access logs are stored, the service MUST ensure that
+          access logs cannot be deleted without proper authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -391,16 +394,15 @@ controls:
       Prevent replication of data to untrusted destinations outside
       of defined trust perimeter. An untrusted destination is defined
       as a resource that exists outside of a specified trusted
-      identity or network perimeter (i.e., a data perimeter).
+      identity or network or data perimeter.
     threats:
       - CCC.TH04 # Data is replicated to untrusted or external locations
     nist_csf: PR.DS-5 # Protections against data leaks are implemented
     test_requirements:
       - id: CCC.C10.TR01
         text: |
-          Replication of data to destinations outside of the defined
-          trust perimeter is automatically blocked, preventing
-          replication to untrusted resources.
+          When data is replicated, the service MUST ensure that
+          replication is restricted to explicitly trusted destinations.
         tlp_levels:
           - tlp_green
           - tlp_amber
@@ -428,9 +430,9 @@ controls:
     test_requirements:
       - id: CCC.C11.TR01
         text: |
-          Verify that all encryption keys use approved cryptographic
-          algorithms as per organizational standards (e.g., AES-256,
-          RSA-2048).
+          When encryption keys are used, the service MUST verify that
+          all encryption keys use approved cryptographic algorithms as
+          per organizational standards.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -438,9 +440,9 @@ controls:
           - tlp_red
       - id: CCC.C11.TR02
         text: |
-          Confirm that encryption keys are rotated at a frequency
-          compliant with organizational policies (e.g., every
-          90 days).
+          When encryption keys are used, the service MUST verify that
+          encryption keys are rotated at a frequency compliant with
+          organizational policies.
         tlp_levels:
           - tlp_green
           - tlp_amber
