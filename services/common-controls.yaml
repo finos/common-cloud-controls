@@ -267,9 +267,9 @@ controls:
     test_requirements:
       - id: CCC.C06.TR01
         text: |
-          The service prevents deployment in restricted regions or
-          cloud availability zones, blocking any provisioning
-          attempts in designated areas.
+          When a deployment request is made, the service MUST validate
+          that the deployment region is not to a restricted or regions
+          or availability zones.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -277,9 +277,9 @@ controls:
           - tlp_red
       - id: CCC.C06.TR02
         text: |
-          The service ensures that replication of data, backups, and
-          disaster recovery operations do not occur in restricted
-          regions or availability zones.
+          When a deployment request is made, the service MUST validate that
+          replication of data, backups, and disaster recovery operations
+          will not occur in restricted regions or availability zones.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -299,15 +299,18 @@ controls:
     test_requirements:
       - id: CCC.C07.TR01
         text: |
-          The service detects enumeration activities indicative of
-          reconnaissance and generates real-time alerts
+          When suspicious enumeration activities are detected, the
+          service MUST generate real-time alerts to notify security
+          personnel.
         tlp_levels:
           - tlp_red
       - id: CCC.C07.TR02
         text: |
-          Confirm that logs are properly generated and accessible for review
-          following non-human enumeration attempts.
+          When suspicious enumeration activities are detected, the
+          service MUST log the event, including the source details,
+          time, and nature of the activity.
         tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
@@ -325,17 +328,18 @@ controls:
     test_requirements:
       - id: CCC.C08.TR01
         text: |
-          Data is replicated across multiple availability zones or
-          regions.
+          When data is stored, the service MUST ensure that data is
+          replicated across multiple availability zones or regions.
         tlp_levels:
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C08.TR02
         text: |
-          The replication status of data across multiple zones or
-          regions can be verified, including the replication
-          locations and data synchronization status.
+          When data is replicated across multiple zones or regions,
+          the service MUST be able to verify the replication state,
+          including the replication locations and data synchronization
+          status.
         tlp_levels:
           - tlp_green
           - tlp_amber
@@ -356,7 +360,8 @@ controls:
     test_requirements:
       - id: CCC.C09.TR01
         text: |
-          Access logs cannot be accessed without proper authorization.
+          When access logs are stored, the service MUST ensure that
+          access logs cannot be accessed without proper authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -364,7 +369,8 @@ controls:
           - tlp_clear
       - id: CCC.C09.TR02
         text: |
-          Access logs cannot be modified without proper authorization.
+          When access logs are stored, the service MUST ensure that
+          access logs cannot be modified without proper authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -372,7 +378,8 @@ controls:
           - tlp_clear
       - id: CCC.C09.TR03
         text: |
-          Access logs cannot be deleted without proper authorization.
+          When access logs are stored, the service MUST ensure that
+          access logs cannot be deleted without proper authorization.
         tlp_levels:
           - tlp_amber
           - tlp_red
@@ -387,16 +394,15 @@ controls:
       Prevent replication of data to untrusted destinations outside
       of defined trust perimeter. An untrusted destination is defined
       as a resource that exists outside of a specified trusted
-      identity or network perimeter (i.e., a data perimeter).
+      identity or network or data perimeter.
     threats:
       - CCC.TH04 # Data is replicated to untrusted or external locations
     nist_csf: PR.DS-5 # Protections against data leaks are implemented
     test_requirements:
       - id: CCC.C10.TR01
         text: |
-          Replication of data to destinations outside of the defined
-          trust perimeter is automatically blocked, preventing
-          replication to untrusted resources.
+          When data is replicated, the service MUST ensure that
+          replication is restricted to explicitly trusted destinations.
         tlp_levels:
           - tlp_green
           - tlp_amber
@@ -407,7 +413,7 @@ controls:
     objective: |
       Ensure that encryption keys are managed securely by enforcing
       the use of approved algorithms, regular key rotation, and
-      customer-managed encryption keys (CMEKs) where applicable.
+      customer-managed encryption keys (CMEKs).
     control_family: Encryption
     threats:
       - CCC.TH16 # Non-compliance with encryption key management policies
@@ -424,9 +430,9 @@ controls:
     test_requirements:
       - id: CCC.C11.TR01
         text: |
-          Verify that all encryption keys use approved cryptographic
-          algorithms as per organizational standards (e.g., AES-256,
-          RSA-2048).
+          When encryption keys are used, the service MUST verify that
+          all encryption keys use approved cryptographic algorithms as
+          per organizational standards.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -434,27 +440,26 @@ controls:
           - tlp_red
       - id: CCC.C11.TR02
         text: |
-          Confirm that encryption keys are rotated at a frequency
-          compliant with organizational policies (e.g., every
-          90 days).
+          When encryption keys are used, the service MUST verify that
+          encryption keys are rotated at a frequency compliant with
+          organizational policies.
         tlp_levels:
+          - tlp_clear
           - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C11.TR03
         text: |
-          Ensure that customer-managed encryption keys (CMEKs) are
-          used for data encryption where applicable, providing
-          greater control over key management.
+          When encrypting data, the service MUST verify that
+          customer-managed encryption keys (CMEKs) are used.
         tlp_levels:
-          - tlp_green
           - tlp_amber
           - tlp_red
       - id: CCC.C11.TR04
         text: |
-          Verify that access to encryption keys is restricted to
-          authorized personnel and services, following the principle
-          of least privilege.
+          When encryption keys are accessed, the service MUST verify that
+          access to encryption keys is restricted to authorized personnel
+          and services, following the principle of least privilege.
         tlp_levels:
           - tlp_amber
           - tlp_red
