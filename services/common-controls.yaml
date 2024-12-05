@@ -267,9 +267,9 @@ controls:
     test_requirements:
       - id: CCC.C06.TR01
         text: |
-          The service prevents deployment in restricted regions or
-          cloud availability zones, blocking any provisioning
-          attempts in designated areas.
+          When a deployment request is made, the service MUST validate 
+          that the deployment region is not to a restricted or regions
+          or availability zones.
         tlp_levels:
           - tlp_clear
           - tlp_green
@@ -277,9 +277,9 @@ controls:
           - tlp_red
       - id: CCC.C06.TR02
         text: |
-          The service ensures that replication of data, backups, and
-          disaster recovery operations do not occur in restricted
-          regions or availability zones.
+          When a deployment request is made, the service MUST validate that
+          replication of data, backups, and disaster recovery operations
+          will not occur in restricted regions or availability zones.
         tlp_levels:
           - tlp_clear
           - tlp_green
