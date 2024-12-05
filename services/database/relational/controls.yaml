@@ -1,8 +1,8 @@
 common_controls:
   - CCC.C01 # Prevent unencrypted requests
   - CCC.C02 # Ensure data encryption at rest for all stored data
-  - CCC.C03 # Implement multi-factor authentication (MFA) for access
-  - CCC.C04 # Log all access and changes
+  - CCC.C03 # Log all access and changes
+  - CCC.C04 # Implement multi-factor authentication (MFA) for access
   - CCC.C05 # Prevent access from untrusted entities
   - CCC.C06 # Prevent deployment in restricted regions
   - CCC.C07 # Alert on non-human enumeration
@@ -11,33 +11,29 @@ common_controls:
 
 controls:
   - id: CCC.RDMS.C01
-    title: Enforce Role-Based Access Control
-    objective: Ensure only authorized roles can access database resources.
+    title: Backup Database to Alternative Trust-Zone
+    objective: |
+      Ensure that databases are backed up and the backup is outside of the applications trust-zone
     control_family: Data
-    nist_csf: PR.AC-1
     threats:
-      - M1041 # Restrict User Privileges
+      - CCC.RDMS.TH14 # DB backup is unintentionally restored
+    nist_csf: PR.DS-11
     control_mappings:
-      CCM:
-        - IAM-02
-        - IAM-12
-      ISO_27001:
-        - 2013 A.9.1.2
       NIST_800_53:
-        - AC-2
+        - CP-6
     test_requirements:
-      - id: CCC.RDMS.C1.TR01
-        text: Role-based access control for database management system
-        tlp_levels: # TODO Need to confirm these
-      - id: CCC.RDMS.C1.TR02
-        text: Restrict access to database resources based on role definitions
-      - id: CCC.RDMS.C1.TR03
-        text: Prevent unauthorized access to database resources
+      - id: CCC.RDMS.C01.TR01
+        text: |
+          From the same trust-zone as the database attempt to access the database backup and ensure that access is
+          denied
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
 
   - id: CCC.RDMS.C02
     title: Disable Access with Default Credentials
     objective: |
-      Ensure that default credentials are disabled and only authorized 
+      Ensure that default credentials are disabled and only authorized
       roles can access database resources.
     control_family: Data
     nist_csf: PR.AC-5
