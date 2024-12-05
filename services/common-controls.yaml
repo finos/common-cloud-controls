@@ -267,7 +267,7 @@ controls:
     test_requirements:
       - id: CCC.C06.TR01
         text: |
-          When a deployment request is made, the service MUST validate 
+          When a deployment request is made, the service MUST validate
           that the deployment region is not to a restricted or regions
           or availability zones.
         tlp_levels:
@@ -299,7 +299,7 @@ controls:
     test_requirements:
       - id: CCC.C07.TR01
         text: |
-          When suspicious enumeration activities are detected, the 
+          When suspicious enumeration activities are detected, the
           service MUST generate real-time alerts to notify security
           personnel.
         tlp_levels:
