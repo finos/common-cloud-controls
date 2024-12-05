@@ -1,0 +1,31 @@
+common_controls:
+  - CCC.C01 # Prevent unencrypted requests
+  - CCC.C02 # Ensure data encryption at rest for all stored data
+  - CCC.C03 # Log all access and changes
+  - CCC.C04 # Implement multi-factor authentication (MFA) for access
+  - CCC.C05 # Prevent access from untrusted entities
+  - CCC.C06 # Prevent deployment in restricted regions
+  - CCC.C07 # Alert on non-human enumeration
+  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+  - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+
+controls:
+  - id: CCC.RDMS.C01
+    title: backup database to alternative trust-zone
+    objective: |
+      Ensure that databases are backed up and the backup is outside of the applications trust-zone
+    control_family: Data
+    threats:
+      - CCC.RDMS.TH14 # DB backup is uninentionally restored
+    nist_csf: PR.DS-11
+    control_mappings:
+      NIST_800_53:
+        - CP-6
+    test_requirements:
+      - id: CCC.RDMS.C01.TR01
+        text: |
+          From the same trust-zone as the database attempt to access the database backup and ensure that access is
+          denied
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
