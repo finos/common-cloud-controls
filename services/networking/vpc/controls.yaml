@@ -29,6 +29,7 @@ controls:
           When a subscription is created, the subscription MUST NOT
           contain default network resources.
         tlp_levels:
+          - tlp_amber
           - tlp_red
 
   - id: CCC.VPC.C02
@@ -73,12 +74,14 @@ controls:
       NIST_800_53:
         - AC-4
     test_requirements:
-      - id: CCC.VPC.C04.TR01
+      - id: CCC.VPC.C03.TR01
         text: |
           When a VPC peering connection is requested, the system MUST
           prevent the connection from being established unless the
           destination VPC ID is on an allowlist.
         tlp_levels:
+          - tlp_green
+          - tlp_amber
           - tlp_red
 
   - id: CCC.VPC.C04
@@ -98,15 +101,10 @@ controls:
       NIST_800_53:
         - AU-2
     test_requirements:
-      - id: CCC.VPC.C05.TR01
+      - id: CCC.VPC.C04.TR01
         text: |
           When any network traffic goes to or from an interface in the VPC,
           the service MUST capture and log all relevant information.
         tlp_levels:
-          - tlp_red
-      - id: CCC.VPC.C05.TR02
-        text: |
-          When built-in VPC flow logs are disabled, then the service MUST be
-          capture and log all relevant information using an alternative method.
-        tlp_levels:
+          - tlp_amber
           - tlp_red
