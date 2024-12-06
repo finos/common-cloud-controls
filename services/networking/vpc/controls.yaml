@@ -77,8 +77,8 @@ controls:
       - id: CCC.VPC.C03.TR01
         text: |
           When a VPC peering connection is requested, the service MUST
-          prevent the connection from being established unless the
-          destination VPC ID is on an allowlist.
+          prevent connections from VPCs that are not explicitly
+          allowed.
         tlp_levels:
           - tlp_green
           - tlp_amber
