@@ -76,7 +76,7 @@ controls:
     test_requirements:
       - id: CCC.VPC.C03.TR01
         text: |
-          When a VPC peering connection is requested, the system MUST
+          When a VPC peering connection is requested, the service MUST
           prevent the connection from being established unless the
           destination VPC ID is on an allowlist.
         tlp_levels:
