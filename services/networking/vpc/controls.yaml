@@ -35,7 +35,7 @@ controls:
     title: Limit Resource Creation in Public Subnet
     objective: |
       Restrict the creation of resources in the public subnet with
-      direct access the internet to minimize attack surfaces.
+      direct access to the internet to minimize attack surfaces.
     control_family: Network Security
     threats:
       - CCC.VPC.TH02  # Exposure of Resources to Public Internet
@@ -75,8 +75,9 @@ controls:
     test_requirements:
       - id: CCC.VPC.C04.TR01
         text: |
-          When a VPC peering connection is requested, that VPC peering
-          configuration MUST NOT be modified.
+          When a VPC peering connection is requested, the system MUST
+          prevent the connection from being established unless the
+          destination VPC ID is on an allowlist.
         tlp_levels:
           - tlp_red
 
