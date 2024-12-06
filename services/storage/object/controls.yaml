@@ -55,8 +55,6 @@ controls:
     threats:
       - CCC.TH01 # Access Control is Misconfigured
       - CCC.ObjStor.TH02 # Improper Enforcement of Object Modification Locks
-    # Access Permissions and Authorizations are Managed,
-    # Incorporating the Principles of Least Privilege and Separation of Duties
     control_mappings:
       CCM:
         - DCS-09 # Access Control
