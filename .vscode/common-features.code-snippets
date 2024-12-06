@@ -1,35 +1,35 @@
 {
-	"Encryption in transit enabled by default": {
+	"Encryption in Transit Enabled by Default": {
 		"scope": "yaml",
-		"prefix": "CF1, CF Encryption in transit enabled by default",
+		"prefix": "CF1, CF Encryption in Transit Enabled by Default",
 		"body": [
-			"- CCC.F01 # Encryption in transit enabled by default"
+			"- CCC.F01 # Encryption in Transit Enabled by Default"
 		  ],
-		"description": "Common Feature Encryption in transit enabled by default"
+		"description": "Common Feature Encryption in Transit Enabled by Default"
 	},
-	"Encryption at rest enabled by default": {
+	"Encryption at Rest Enabled by Default": {
 		"scope": "yaml",
-		"prefix": "CF2, CF Encryption at rest enabled by default",
+		"prefix": "CF2, CF Encryption at Rest Enabled by Default",
 		"body": [
-			"- CCC.F02 # Encryption at rest enabled by default"
+			"- CCC.F02 # Encryption at Rest Enabled by Default"
 		  ],
-		"description": "Common Feature Encryption at rest enabled by default"
+		"description": "Common Feature Encryption at Rest Enabled by Default"
 	},
-	"Access/activity logs": {
+	"Access/Activity Logs": {
 		"scope": "yaml",
-		"prefix": "CF3, CF Access/activity logs",
+		"prefix": "CF3, CF Access/Activity Logs",
 		"body": [
-			"- CCC.F03 # Access/activity logs"
+			"- CCC.F03 # Access/Activity Logs"
 		  ],
-		"description": "Common Feature Access/activity logs"
+		"description": "Common Feature Access/Activity Logs"
 	},
-	"Transaction rate limits": {
+	"Transaction Rate Limits": {
 		"scope": "yaml",
-		"prefix": "CF4, CF Transaction rate limits",
+		"prefix": "CF4, CF Transaction Rate Limits",
 		"body": [
-			"- CCC.F04 # Transaction rate limits"
+			"- CCC.F04 # Transaction Rate Limits"
 		  ],
-		"description": "Common Feature Transaction rate limits"
+		"description": "Common Feature Transaction Rate Limits"
 	},
 	"Signed URLs": {
 		"scope": "yaml",
@@ -39,29 +39,29 @@
 		  ],
 		"description": "Common Feature Signed URLs"
 	},
-	"Identity based access control": {
+	"Identity Based Access Control": {
 		"scope": "yaml",
-		"prefix": "CF6, CF Identity based access control",
+		"prefix": "CF6, CF Identity Based Access Control",
 		"body": [
-			"- CCC.F06 # Identity based access control"
+			"- CCC.F06 # Identity Based Access Control"
 		  ],
-		"description": "Common Feature Identity based access control"
+		"description": "Common Feature Identity Based Access Control"
 	},
-	"Event notifications": {
+	"Event Notifications": {
 		"scope": "yaml",
-		"prefix": "CF7, CF Event notifications",
+		"prefix": "CF7, CF Event Notifications",
 		"body": [
-			"- CCC.F07 # Event notifications"
+			"- CCC.F07 # Event Notifications"
 		  ],
-		"description": "Common Feature Event notifications"
+		"description": "Common Feature Event Notifications"
 	},
-	"Multi-zone deployment": {
+	"Multi-zone Deployment": {
 		"scope": "yaml",
-		"prefix": "CF8, CF Multi-zone deployment",
+		"prefix": "CF8, CF Multi-zone Deployment",
 		"body": [
-			"- CCC.F08 # Multi-zone deployment"
+			"- CCC.F08 # Multi-zone Deployment"
 		  ],
-		"description": "Common Feature Multi-zone deployment"
+		"description": "Common Feature Multi-zone Deployment"
 	},
 	"Monitoring": {
 		"scope": "yaml",
@@ -95,29 +95,29 @@
 		  ],
 		"description": "Common Feature Recovery"
 	},
-	"Infrastructure as code": {
+	"Infrastructure as Code": {
 		"scope": "yaml",
-		"prefix": "CF13, CF Infrastructure as code",
+		"prefix": "CF13, CF Infrastructure as Code",
 		"body": [
-			"- CCC.F13 # Infrastructure as code"
+			"- CCC.F13 # Infrastructure as Code"
 		  ],
-		"description": "Common Feature Infrastructure as code"
+		"description": "Common Feature Infrastructure as Code"
 	},
-	"API access": {
+	"API Access": {
 		"scope": "yaml",
-		"prefix": "CF14, CF API access",
+		"prefix": "CF14, CF API Access",
 		"body": [
-			"- CCC.F14 # API access"
+			"- CCC.F14 # API Access"
 		  ],
-		"description": "Common Feature API access"
+		"description": "Common Feature API Access"
 	},
-	"Cost management": {
+	"Cost Management": {
 		"scope": "yaml",
-		"prefix": "CF15, CF Cost management",
+		"prefix": "CF15, CF Cost Management",
 		"body": [
-			"- CCC.F15 # Cost management"
+			"- CCC.F15 # Cost Management"
 		  ],
-		"description": "Common Feature Cost management"
+		"description": "Common Feature Cost Management"
 	},
 	"Budgeting": {
 		"scope": "yaml",
@@ -143,13 +143,13 @@
 		  ],
 		"description": "Common Feature Versioning"
 	},
-	"On-demand scaling": {
+	"On-demand Scaling": {
 		"scope": "yaml",
-		"prefix": "CF19, CF On-demand scaling",
+		"prefix": "CF19, CF On-demand Scaling",
 		"body": [
-			"- CCC.F19 # On-demand scaling"
+			"- CCC.F19 # On-demand Scaling"
 		  ],
-		"description": "Common Feature On-demand scaling"
+		"description": "Common Feature On-demand Scaling"
 	},
 	"Tagging": {
 		"scope": "yaml",
@@ -168,21 +168,21 @@
 		"description": "Common Feature Replication"
 	},
 
-	"Location lock-in": {
+	"Location Lock-In": {
 		"scope": "yaml",
-		"prefix": "CF22, CF Location lock-in",
+		"prefix": "CF22, CF Location Lock-In",
 		"body": [
-			"- CCC.F22 # Location lock-in"
+			"- CCC.F22 # Location Lock-In"
 		  ],
-		"description": "Common Feature Location lock-in"
+		"description": "Common Feature Location Lock-In"
 	},
 
-	"Network access rules": {
+	"Network Access Rules": {
 		"scope": "yaml",
-		"prefix": "CF23, CF Network access rules",
+		"prefix": "CF23, CF Network Access Rules",
 		"body": [
-			"- CCC.F23 # Network access rules"
+			"- CCC.F23 # Network Access Rules"
 		  ],
-		"description": "Common Feature Network access rules"
+		"description": "Common Feature Network Access Rules"
 	},
 }

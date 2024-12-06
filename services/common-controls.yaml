@@ -8,14 +8,14 @@ control_families:
 
 controls:
   - id: CCC.C01
-    title: Prevent unencrypted requests
+    title: Prevent Unencrypted Requests
     objective: |
       Ensure that all communications are encrypted in transit to protect data
       integrity and confidentiality.
     control_family: Data
     nist_csf: PR.DS-02 # Data-in-transit is protected
     threats:
-      - CCC.TH02 # Data is intercepted in transit
+      - CCC.TH02 # Data is Intercepted in Transit
     control_mappings:
       CCM:
         - IVS-03
@@ -46,14 +46,14 @@ controls:
           - tlp_red
 
   - id: CCC.C02
-    title: Ensure data encryption at rest for all stored data
+    title: Ensure Data Encryption at Rest for All Stored Data
     objective: |
       Ensure that all data stored is encrypted at rest to maintain
       confidentiality and integrity.
     control_family: Encryption
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -71,7 +71,7 @@ controls:
           - tlp_red
 
   - id: CCC.C03
-    title: Implement multi-factor authentication (MFA) for access
+    title: Implement Multi-factor Authentication (MFA) for Access
     objective: |
       Ensure that all sensitive activities require two or more identity factors
       during authentication to prevent unauthorized access. This may include
@@ -82,7 +82,7 @@ controls:
     nist_csf: PR.AC-7 # Users, devices, and other assets are authenticated
     # commensurate with the risk of the transaction
     threats:
-      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
       CCM:
         - IAM-03
@@ -148,7 +148,7 @@ controls:
           - tlp_red
 
   - id: CCC.C04
-    title: Log all access and changes
+    title: Log All Access and Changes
     objective: |
       Ensure that all access and changes are logged to maintain a
       detailed audit trail for security and compliance purposes.
@@ -156,7 +156,7 @@ controls:
     nist_csf: DE.AE-3 # Event data are collected and correlated from multiple
     # sources and sensors
     threats:
-      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -189,7 +189,7 @@ controls:
           - tlp_red
 
   - id: CCC.C05
-    title: Prevent access from untrusted entities
+    title: Prevent Access from Untrusted Entities
     objective: |
       Ensure that secure access controls prevent unauthorized access,
       mitigate risks of data exfiltration, and block misuse of services
@@ -199,7 +199,7 @@ controls:
     control_family: Identity and Access Management
     nist_csf: PR.AC-3 # Remote access is managed
     threats:
-      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
       CCM:
         - DS-5
@@ -247,7 +247,7 @@ controls:
           - tlp_red
 
   - id: CCC.C06
-    title: Prevent deployment in restricted regions
+    title: Prevent Deployment in Restricted Regions
     objective: |
       Ensure that resources are not provisioned or deployed in
       geographic regions or cloud availability zones that have been
@@ -257,7 +257,7 @@ controls:
     control_family: Data
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH03 # Deployment region network is untrusted
+      - CCC.TH03 # Deployment Region Network is Untrusted
     control_mappings:
       CCM:
         - DSI-06
@@ -289,7 +289,7 @@ controls:
           - tlp_red
 
   - id: CCC.C07
-    title: Alert on unusual enumeration activity
+    title: Alert on Unusual Enumeration Activity
     objective: |
       Ensure that logs and associated alerts are generated when
       unusual enumeration activity is detected that may indicate
@@ -298,7 +298,7 @@ controls:
     nist_csf: DE.AE-1 # A baseline of network operations and expected data
     # flows for users and systems is established and managed
     threats:
-      - CCC.TH15 # Automated enumeration
+      - CCC.TH15 # Automated Enumeration
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -323,7 +323,7 @@ controls:
           - tlp_red
 
   - id: CCC.C08
-    title: Enable multi-zone or multi-region data replication
+    title: Enable Multi-zone or Multi-region Data Replication
     objective: |
       Ensure that data is replicated across multiple
       zones or regions to protect against data loss due to hardware
@@ -332,7 +332,7 @@ controls:
     nist_csf: PR.PT-5 # Audit/log records are determined, documented,
     # implemented, and reviewed in accordance with policy
     threats:
-      - CCC.TH06 # Data is lost or corrupted
+      - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -358,7 +358,7 @@ controls:
           - tlp_red
 
   - id: CCC.C09
-    title: Prevent tampering, deletion, or unauthorized access to access logs
+    title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
     objective: |
       Access logs should always be considered sensitive.
       Ensure that access logs are protected against unauthorized
@@ -367,9 +367,9 @@ controls:
     nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify
     # software, firmware, and information integrity
     threats:
-      - CCC.TH07 # Logs are tampered with or deleted
-      - CCC.TH09 # Logs or monitoring data are read by unauthorized users
-      - CCC.TH04 # Data is replicated to untrusted or external locations
+      - CCC.TH07 # Logs are Tampered with or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -404,8 +404,8 @@ controls:
           - tlp_clear
 
   - id: CCC.C10
-    title: Prevent data replication to destinations outside of defined
-      trust perimeter
+    title: Prevent Data Replication to Destinations Outside of Defined
+      Trust Perimeter
     objective: |
       Prevent replication of data to untrusted destinations outside
       of defined trust perimeter. An untrusted destination is defined
@@ -414,7 +414,7 @@ controls:
     control_family: Data
     nist_csf: PR.DS-5 # Protections against data leaks are implemented
     threats:
-      - CCC.TH04 # Data is replicated to untrusted or external locations
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -430,7 +430,7 @@ controls:
           - tlp_red
 
   - id: CCC.C11
-    title: Enforce key management policies
+    title: Enforce Key Management Policies
     objective: |
       Ensure that encryption keys are managed securely by enforcing
       the use of approved algorithms, regular key rotation, and
@@ -438,7 +438,7 @@ controls:
     control_family: Encryption
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH16 # Non-compliance with encryption key management policies
+      - CCC.TH16 # Non-compliance with Encryption Key Management Policies
     control_mappings:
       CCM:
         - EKM-02

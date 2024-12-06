@@ -1,23 +1,23 @@
 features:
   - id: CCC.F01
-    title: Encryption in transit enabled by default
+    title: Encryption in Transit Enabled by Default
     description: |
       Provides default encryption of data in transit through SSL or TLS.
 
   - id: CCC.F02
-    title: Encryption at rest enabled by default
+    title: Encryption at Rest Enabled by Default
     description: |
       Provides default encryption of data before storage, with the option for
       clients to maintain control over the encryption keys.
 
   - id: CCC.F03
-    title: Access/activity logs
+    title: Access/Activity Logs
     description: |
       Provides users with the ability to track all requests made to or
       activities performed on resources for audit purposes.
 
   - id: CCC.F04
-    title: Transaction rate limits
+    title: Transaction Rate Limits
     description: |
       Allows the setting of a threshold where industry-standard throughput is
       achieved up to the specified rate limit.
@@ -29,19 +29,19 @@ features:
       to a resource through a custom URL that contains authentication information.
 
   - id: CCC.F06
-    title: Identity based access control
+    title: Identity Based Access Control
     description: |
       Provides the ability to determine access to resources based on
       attributes associated with a user identity.
 
   - id: CCC.F07
-    title: Event notifications
+    title: Event Notifications
     description: |
       Publishes events for creation, deletion, and modification of
       objects in a way that enables users to trigger actions in response.
 
   - id: CCC.F08
-    title: Multi-zone deployment
+    title: Multi-zone Deployment
     description: |
       Provides the ability for the service to be deployed in multiple availability
       zones or regions to increase availability and fault tolerance.
@@ -73,18 +73,18 @@ features:
       after an incident such as data loss, corruption or a disaster.
 
   - id: CCC.F13
-    title: Infrastructure as code
+    title: Infrastructure as Code
     description: |
       Allows for managing and provisioning service resources
       through machine-readable configuration files, such as templates.
 
   - id: CCC.F14
-    title: API access
+    title: API Access
     description: |
       Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
 
   - id: CCC.F15
-    title: Cost management
+    title: Cost Management
     description: |
       Provides the ability to filter spending and to detect cost anomalies for the service.
 
@@ -105,7 +105,7 @@ features:
       Provides the ability to maintain multiple versions of the same resource.
 
   - id: CCC.F19
-    title: On-demand scaling
+    title: On-demand Scaling
     description: |
       Provide scaling of resources based on demand.
 
@@ -121,11 +121,11 @@ features:
       availability and durability.
 
   - id: CCC.F22
-    title: Location lock-in
+    title: Location Lock-In
     description: |
       Provides the ability to control where the resources are created.
 
   - id: CCC.F23
-    title: Network access rules
+    title: Network Access Rules
     description: |
       Ability to control access to the resource by defining network access rules.
