@@ -1,17 +1,17 @@
 common_controls:
-  - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure data encryption at rest for all stored data
-  - CCC.C03 # Implement multi-factor authentication (MFA) for access
-  - CCC.C04 # Log all access and changes
-  - CCC.C05 # Prevent access from untrusted entities
-  - CCC.C06 # Prevent deployment in restricted regions
-  - CCC.C07 # Alert on non-human enumeration
-  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-  - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+  - CCC.C01 # Prevent Unencrypted Requests
+  - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+  - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+  - CCC.C04 # Log All Access and Changes
+  - CCC.C05 # Prevent Access from Untrusted Entities
+  - CCC.C06 # Prevent Deployment in Restricted Regions
+  - CCC.C07 # Alert on Unusual Enumeration Activity
+  - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+  - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 
 controls:
   - id: CCC.ObjStor.C01
-    title: Prevent requests to buckets or objects with untrusted KMS keys
+    title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     objective: |
       Prevent any requests to object storage buckets or objects using
       untrusted KMS keys to protect against unauthorized data encryption
@@ -19,16 +19,16 @@ controls:
     control_family: Data
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH01 # Access control is misconfigured
-      - CCC.TH06 # Data is lost or corrupted
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
       CCM:
-        - DCS-04 # Data protection and encryption
-        - DCS-06 # Data integrity
+        - DCS-04 # Data Protection and Encryption
+        - DCS-06 # Data Integrity
       ISO_27001:
         - 2013 A.10.1.1 # Policy on the use of cryptographic controls
       NIST_800_53:
-        - SC-28 # Protection of information at rest
+        - SC-28 # Protection of Information at Rest
     test_requirements:
       - id: CCC.ObjStor.C01.TR01
         text: |
@@ -41,8 +41,8 @@ controls:
           - tlp_red
 
   - id: CCC.ObjStor.C02
-    title: Enforce uniform bucket-level access to prevent inconsistent
-      permissions
+    title: Enforce Uniform Bucket-level Access to Prevent Inconsistent
+      Permissions
     objective: |
       Ensure that uniform bucket-level access is enforced across all
       object storage buckets. This prevents the use of ad-hoc or
@@ -53,18 +53,18 @@ controls:
     nist_csf: PR.AC-4 # Access permissions and authorizations are managed,
     # incorporating the principles of least privilege and separation of duties
     threats:
-      - CCC.TH01 # Access control is misconfigured
-      - CCC.ObjStor.TH02 # Improper enforcement of object modification locks
-    # Access permissions and authorizations are managed,
-    # incorporating the principles of least privilege and separation of duties
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.ObjStor.TH02 # Improper Enforcement of Object Modification Locks
+    # Access Permissions and Authorizations are Managed,
+    # Incorporating the Principles of Least Privilege and Separation of Duties
     control_mappings:
       CCM:
-        - DCS-09 # Access control
+        - DCS-09 # Access Control
       ISO_27001:
-        - 2013 A.9.4.1 # Information access restriction
+        - 2013 A.9.4.1 # Information Access Restriction
       NIST_800_53:
-        - AC-3 # Access enforcement
-        - AC-6 # Least privilege
+        - AC-3 # Access Enforcement
+        - AC-6 # Least Privilege
     test_requirements:
       - id: CCC.ObjStor.C02.TR01
         text: |
@@ -76,14 +76,14 @@ controls:
           - tlp_red
 
   - id: CCC.ObjStor.C03
-    title: Prevent bucket deletion through irrevocable bucket retention policy
+    title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
     objective: |
       Ensure that object storage bucket is not deleted after creation,
       and that the preventative measure cannot be unset.
     control_family: Data
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH06 # Data is lost or corrupted
+      - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -108,7 +108,7 @@ controls:
           - tlp_red
 
   - id: CCC.ObjStor.C04
-    title: Objects have an effective retention policy by default
+    title: Objects have an Effective Retention Policy by Default
     objective: |
       Ensure that all objects stored in the object storage system have a
       retention policy applied by default, preventing premature deletion
@@ -117,7 +117,7 @@ controls:
     control_family: Data
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH06 # Data is lost or corrupted
+      - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -144,7 +144,7 @@ controls:
           - tlp_red
 
   - id: CCC.ObjStor.C05
-    title: Versioning is enabled for all objects in the bucket
+    title: Versioning is Enabled for All Objects in the Bucket
     objective: |
       Ensure that versioning is enabled for all objects stored in the object
       storage bucket to enable recovery of previous versions of objects in
@@ -152,7 +152,7 @@ controls:
     control_family: Data
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH06 # Data is lost or corrupted
+      - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -179,7 +179,7 @@ controls:
           - tlp_red
 
   - id: CCC.ObjStor.C06
-    title: Access logs are stored in a separate data store
+    title: Access Logs are Stored in a Separate Data Store
     objective: |
       Ensure that access logs for object storage buckets are stored in a
       separate data store to protect against unauthorized access, tampering,
@@ -188,8 +188,8 @@ controls:
     control_family: Data
     nist_csf: PR.DS-6 # Integrity checking mechanisms are used
     threats:
-      - CCC.TH07 # Logs are tampered with or deleted
-      - CCC.TH09 # Logs or monitoring data are read by unauthorized users
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
     control_mappings:
       CCM: []
       ISO_27001: []

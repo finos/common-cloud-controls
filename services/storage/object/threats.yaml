@@ -1,48 +1,48 @@
 common_threats:
-  - CCC.TH01 # Unauthorized access through elevated privileges
-  - CCC.TH02 # Data is intercepted in transit
-  - CCC.TH03 # Deployment region network is untrusted
-  - CCC.TH04 # Data is replicated to untrusted or external locations
-  - CCC.TH05 # Data is corrupted during replication
-  - CCC.TH06 # Data is lost or corrupted
-  - CCC.TH07 # Logs are tampered with or deleted
-  - CCC.TH08 # Cost management data is manipulated
-  - CCC.TH09 # Logs or monitoring data are read by unauthorized users
-  - CCC.TH10 # Alerts are intercepted
-  - CCC.TH11 # Event notifications are incorrectly triggered
-  - CCC.TH12 # Resource constraints are exhausted
-  - CCC.TH13 # Resource tags are manipulated
-  - CCC.TH14 # Older resource versions are exploited
-  - CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
+  - CCC.TH01 # Access Control is Misconfigured
+  - CCC.TH02 # Data is Intercepted in Transit
+  - CCC.TH03 # Deployment Region Network is Untrusted
+  - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+  - CCC.TH05 # Data is Corrupted During Replication
+  - CCC.TH06 # Data is Lost or Corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Alerts are Intercepted
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource Constraints are Exhausted
+  - CCC.TH13 # Resource Tags are Manipulated
+  - CCC.TH14 # Older Resource Versions are Exploited
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.ObjStor.TH01
-    title: Data exfiltration via insecure lifecycle policies
+    title: Data Exfiltration via Insecure Lifecycle Policies
     description: |
       Misconfigured lifecycle policies may unintentionally allow data to be
       exfiltrated or destroyed prematurely, resulting in a loss of availability
       and potential exposure of sensitive data.
     features:
-      - CCC.ObjStor.F08 # Lifecycle policies
+      - CCC.ObjStor.F08 # Lifecycle Policies
       - CCC.F11 # Backup
     mitre_technique:
-      - T1020 # Automated exfiltration
-      - T1537 # Transfer data to cloud account
-      - T1567 # Exfiltration over web services
-      - T1048 # Exfiltration over alternative protocol
-      - T1485 # Data destruction
+      - T1020 # Automated Exfiltration
+      - T1537 # Transfer Data to Cloud Account
+      - T1567 # Exfiltration Over Web Services
+      - T1048 # Exfiltration Over Alternative Protocol
+      - T1485 # Data Destruction
 
   - id: CCC.ObjStor.TH02
-    title: Improper enforcement of object modification locks
+    title: Improper Enforcement of Object Modification Locks
     description: |
       Attackers may exploit vulnerabilities in object modification locks to
       delete or alter objects despite the lock being in place, leading to data
       loss or tampering.
     features:
-      - CCC.ObjStor.F09 # Object modification locks
+      - CCC.ObjStor.F09 # Object Modification Locks
     mitre_technique:
-      - T1027 # Obfuscated files or information
-      - T1485 # Data destruction
-      - T1490 # Inhibit system recovery
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+      - T1490 # Inhibit System Recovery
       - T1491 # Defacement
-      - T1565 # Data manipulation
+      - T1565 # Data Manipulation
