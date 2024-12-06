@@ -26,8 +26,8 @@ controls:
     test_requirements:
       - id: CCC.VPC.C01.TR01
         text: |
-          When a subscription is created, the subscription must not contain any
-          default network resources.
+          When a subscription is created, the subscription MUST NOT
+          contain default network resources.
         tlp_levels:
           - tlp_red
 
@@ -50,8 +50,8 @@ controls:
     test_requirements:
       - id: CCC.VPC.C02.TR01
         text: |
-          When a resource is created, the resource must not be assigned an
-          external IP address by default.
+          When a resource is created in a public subnet, that resource
+          MUST NOT be assigned an external IP address by default.
         tlp_levels:
           - tlp_red
 
@@ -75,8 +75,8 @@ controls:
     test_requirements:
       - id: CCC.VPC.C04.TR01
         text: |
-          When a VPC peering connection is requested for an untrusted
-          destination, the VPC’s peering configuration must remain unchanged.
+          When a VPC peering connection is requested, that VPC peering
+          configuration MUST NOT be modified.
         tlp_levels:
           - tlp_red
 
@@ -99,13 +99,13 @@ controls:
     test_requirements:
       - id: CCC.VPC.C05.TR01
         text: |
-          When any network traffic goes to or from an interface in the VPC, VPC
-          flow logs must capture and log all relevant information.
+          When any network traffic goes to or from an interface in the VPC,
+          the service MUST capture and log all relevant information.
         tlp_levels:
           - tlp_red
       - id: CCC.VPC.C05.TR02
         text: |
-          When VPC flow logs are disabled, then the activity is logged in the
-          cloud native logging service.
+          When built-in VPC flow logs are disabled, then the service MUST be
+          capture and log all relevant information using an alternative method.
         tlp_levels:
           - tlp_red
