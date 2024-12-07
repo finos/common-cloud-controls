@@ -1,9 +1,9 @@
 common_controls:
-  - CCC.C01  # Prevent unencrypted requests
-  - CCC.C03  # Implement multi-factor authentication (MFA) for access
-  - CCC.C04  # Log all access and changes
-  - CCC.C05  # Prevent access from untrusted entities
-  - CCC.C06  # Prevent deployment in restricted regions
+  - CCC.C01 # Prevent Unencrypted Requests
+  - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+  - CCC.C04 # Log All Access and Changes
+  - CCC.C05 # Prevent Access from Untrusted Entities
+  - CCC.C06 # Prevent Deployment in Restricted Regions
 
 controls:
   - id: CCC.VPC.C01
@@ -14,8 +14,8 @@ controls:
       configurations and enforce custom network policies.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH01  # Unauthorized Access via Insecure Default Networks
-    nist_csf: PR.AC-5
+      - CCC.VPC.TH01 # Unauthorized Access via Insecure Default Networks
+    nist_csf: PR.AC-5 # Network integrity is protected
     control_mappings:
       CCM:
         - TVM-02
@@ -39,8 +39,8 @@ controls:
       direct access to the internet to minimize attack surfaces.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH02  # Exposure of Resources to Public Internet
-    nist_csf: PR.AC-3
+      - CCC.VPC.TH02 # Exposure of Resources to Public Internet
+    nist_csf: PR.AC-3 # Remote access is managed
     control_mappings:
       CCM:
         - SEF-05
@@ -64,8 +64,8 @@ controls:
       controls.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH03  # Unauthorized Network Access through VPC Peering
-    nist_csf: PR.AC-3
+      - CCC.VPC.TH03 # Unauthorized Network Access Through VPC Peering
+    nist_csf: PR.AC-3 # Remote access is managed
     control_mappings:
       CCM:
         - IVS-01
@@ -85,14 +85,15 @@ controls:
           - tlp_red
 
   - id: CCC.VPC.C04
-    title: Enforce VPC Flow Logs on VPCs.
+    title: Enforce VPC Flow Logs on VPCs
     objective: |
       Ensure VPCs are configured with flow logs enabled to capture traffic
       information.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH04  # Lack of Network Visibility Due to Disabled VPC Flow Logs
-    nist_csf: PR.PT-1
+      - CCC.VPC.TH04 # Lack of Network Visibility due to Disabled VPC Flow Logs
+    nist_csf: PR.PT-1 # Audit/log records are determined, documented, implemented,
+    # and reviewed in accordance with policy
     control_mappings:
       CCM:
         - IVS-06

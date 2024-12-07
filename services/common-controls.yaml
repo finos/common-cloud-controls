@@ -7,15 +7,15 @@ control_families:
   - Network Security
 
 controls:
-  - id: CCC.C01 # Prevent unencrypted requests
-    title: Prevent unencrypted requests
+  - id: CCC.C01
+    title: Prevent Unencrypted Requests
     objective: |
       Ensure that all communications are encrypted in transit to protect data
       integrity and confidentiality.
     control_family: Data
+    nist_csf: PR.DS-02 # Data-in-transit is protected
     threats:
-      - CCC.TH02 # Data is intercepted in transit
-    nist_csf: PR.DS-02
+      - CCC.TH02 # Data is Intercepted in Transit
     control_mappings:
       CCM:
         - IVS-03
@@ -45,15 +45,15 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C02 # Ensure data encryption at rest for all stored data
-    title: Ensure data encryption at rest for all stored data
+  - id: CCC.C02
+    title: Ensure Data Encryption at Rest for All Stored Data
     objective: |
       Ensure that all data stored is encrypted at rest to maintain
       confidentiality and integrity.
     control_family: Encryption
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH01 # Access control is misconfigured
-    nist_csf: PR.DS-1 # Data-at-rest is protected.
+      - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -70,8 +70,8 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C03 # Implement multi-factor authentication (MFA) for access
-    title: Implement multi-factor authentication (MFA) for access
+  - id: CCC.C03
+    title: Implement Multi-factor Authentication (MFA) for Access
     objective: |
       Ensure that all sensitive activities require two or more identity factors
       during authentication to prevent unauthorized access. This may include
@@ -79,9 +79,10 @@ controls:
       case of programattically accessible services, such as API endpoints, this
       includes a combination of API keys or tokens and network restrictions.
     control_family: Identity and Access Management
+    nist_csf: PR.AC-7 # Users, devices, and other assets are authenticated
+    # commensurate with the risk of the transaction
     threats:
-      - CCC.TH01 # Access control is misconfigured
-    nist_csf: PR.AC-7
+      - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
       CCM:
         - IAM-03
@@ -91,7 +92,7 @@ controls:
       NIST_800_53:
         - IA-2
     test_requirements:
-      - id: CCC.C03.TR01 # modification auth
+      - id: CCC.C03.TR01
         text: |
           When an entity attempts to modify the service, the service MUST
           attempt to verify the client's identity through an authentication
@@ -101,7 +102,7 @@ controls:
           - tlp_green
           - tlp_amber
           - tlp_red
-      - id: CCC.C03.TR02 # amber/red view auth
+      - id: CCC.C03.TR02
         text: |
           When an entity attempts to view information presented by the service,
           service, the service MUST attempt to verify the client's identity
@@ -109,7 +110,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C03.TR03 # amber/red UI view MFA
+      - id: CCC.C03.TR03
         text: |
           When an entity attempts to view information on the service through
           a user interface, the authentication process MUST require multiple
@@ -117,7 +118,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C03.TR04 # API modify allowlist
+      - id: CCC.C03.TR04
         text: |
           When an entity attempts to modify the service through an API
           endpoint, the authentication process MUST be limited to a
@@ -127,7 +128,7 @@ controls:
           - tlp_green
           - tlp_amber
           - tlp_red
-      - id: CCC.C03.TR05 # amber/red API view allowlist
+      - id: CCC.C03.TR05
         text: |
           When an entity attempts to view information on the service through
           an API endpoint, the authentication process MUST be limited to a
@@ -135,7 +136,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C03.TR06 # UI modify MFA
+      - id: CCC.C03.TR06
         text: |
           When an entity attempts to modify the service through a user
           interface, the authentication process MUST require multiple
@@ -146,15 +147,16 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C04 # Log all access and changes
-    title: Log all access and changes
+  - id: CCC.C04
+    title: Log All Access and Changes
     objective: |
       Ensure that all access and changes are logged to maintain a
       detailed audit trail for security and compliance purposes.
     control_family: Logging & Monitoring
+    nist_csf: DE.AE-3 # Event data are collected and correlated from multiple
+    # sources and sensors
     threats:
-      - CCC.TH01 # Access control is misconfigured
-    nist_csf: DE.AE-3
+      - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
       CCM: []
       ISO_27001: []
@@ -186,8 +188,8 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C05 # Prevent access from untrusted entities
-    title: Prevent access from untrusted entities
+  - id: CCC.C05
+    title: Prevent Access from Untrusted Entities
     objective: |
       Ensure that secure access controls prevent unauthorized access,
       mitigate risks of data exfiltration, and block misuse of services
@@ -195,9 +197,9 @@ controls:
       criteria such as IP allowlists, domain restrictions, and tenant
       isolation.
     control_family: Identity and Access Management
+    nist_csf: PR.AC-3 # Remote access is managed
     threats:
-      - CCC.TH01 # Access control is misconfigured
-    nist_csf: PR.AC-3
+      - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
       CCM:
         - DS-5
@@ -206,7 +208,7 @@ controls:
       NIST_800_53:
         - AC-3
     test_requirements:
-      - id: CCC.C05.TR01 # Block untrusted sources
+      - id: CCC.C05.TR01
         text: |
           When access to sensitive resources is attempted, the service MUST
           block requests from untrusted sources, including IP addresses,
@@ -215,7 +217,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C05.TR02 # Admin access restrictions
+      - id: CCC.C05.TR02
         text: |
           When administrative access is attempted, the service MUST validate
           that the request originates from an explicitly allowed source as
@@ -225,7 +227,7 @@ controls:
           - tlp_green
           - tlp_amber
           - tlp_red
-      - id: CCC.C05.TR03 # Prevent cross-tenant access
+      - id: CCC.C05.TR03
         text: |
           When resources are accessed in a multi-tenant environment, the
           service MUST enforce isolation by allowing access only to explicitly
@@ -233,7 +235,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C05.TR04 # Unauthorized access attempts logging
+      - id: CCC.C05.TR04
         text: |
           When an access attempt from an untrusted source is blocked, the
           service MUST log the event, including the source details, time,
@@ -244,8 +246,8 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C06 # Prevent deployment in restricted regions
-    title: Prevent deployment in restricted regions
+  - id: CCC.C06
+    title: Prevent Deployment in Restricted Regions
     objective: |
       Ensure that resources are not provisioned or deployed in
       geographic regions or cloud availability zones that have been
@@ -253,9 +255,9 @@ controls:
       regulatory requirements and reduce exposure to geopolitical
       risks.
     control_family: Data
+    nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH03 # Deployment region network is untrusted
-    nist_csf: PR.DS-1
+      - CCC.TH03 # Deployment Region Network is Untrusted
     control_mappings:
       CCM:
         - DSI-06
@@ -286,16 +288,21 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C07 # Alert on unusal enumeration
+  - id: CCC.C07
     title: Alert on Unusual Enumeration Activity
-    control_family: Logging & Monitoring
     objective: |
       Ensure that logs and associated alerts are generated when
       unusual enumeration activity is detected that may indicate
       reconnaissance activities.
+    control_family: Logging & Monitoring
+    nist_csf: DE.AE-1 # A baseline of network operations and expected data
+    # flows for users and systems is established and managed
     threats:
       - CCC.TH15 # Automated Enumeration
-    nist_csf: DE.AE-1
+    control_mappings:
+      CCM: []
+      ISO_27001: []
+      NIST_800_53: []
     test_requirements:
       - id: CCC.C07.TR01
         text: |
@@ -315,16 +322,21 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C08 # Enable multi-zone or multi-region data replication
-    title: Enable multi-zone or multi-region data replication
-    control_family: Data
+  - id: CCC.C08
+    title: Enable Multi-zone or Multi-region Data Replication
     objective: |
       Ensure that data is replicated across multiple
       zones or regions to protect against data loss due to hardware
       failures, natural disasters, or other catastrophic events.
+    control_family: Data
+    nist_csf: PR.PT-5 # Audit/log records are determined, documented,
+    # implemented, and reviewed in accordance with policy
     threats:
-      - CCC.TH06 # Data is lost or corrupted
-    nist_csf: PR.PT-5
+      - CCC.TH06 # Data is Lost or Corrupted
+    control_mappings:
+      CCM: []
+      ISO_27001: []
+      NIST_800_53: []
     test_requirements:
       - id: CCC.C08.TR01
         text: |
@@ -345,18 +357,23 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C09 # Prevent tampering, deletion, or unauthorized access
-    title: Prevent tampering, deletion, or unauthorized access to access logs
-    control_family: Data
+  - id: CCC.C09
+    title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
     objective: |
       Access logs should always be considered sensitive.
       Ensure that access logs are protected against unauthorized
       access, tampering, or deletion.
+    control_family: Data
+    nist_csf: PR.DS-6 # Integrity checking mechanisms are used to verify
+    # software, firmware, and information integrity
     threats:
-      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH07 # Logs are Tampered with or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH04 # Data is replicated to untrusted or external locations
-    nist_csf: PR.DS-6 # Integrity checking mechanisms are used
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+    control_mappings:
+      CCM: []
+      ISO_27001: []
+      NIST_800_53: []
     test_requirements:
       - id: CCC.C09.TR01
         text: |
@@ -386,18 +403,22 @@ controls:
           - tlp_green
           - tlp_clear
 
-  - id: CCC.C10 # Prevent data replication to destinations outside of perimeter
-    title: Prevent data replication to destinations outside of defined
-      trust perimeter
-    control_family: Data
+  - id: CCC.C10
+    title: Prevent Data Replication to Destinations Outside of Defined
+      Trust Perimeter
     objective: |
       Prevent replication of data to untrusted destinations outside
       of defined trust perimeter. An untrusted destination is defined
       as a resource that exists outside of a specified trusted
       identity or network or data perimeter.
-    threats:
-      - CCC.TH04 # Data is replicated to untrusted or external locations
+    control_family: Data
     nist_csf: PR.DS-5 # Protections against data leaks are implemented
+    threats:
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+    control_mappings:
+      CCM: []
+      ISO_27001: []
+      NIST_800_53: []
     test_requirements:
       - id: CCC.C10.TR01
         text: |
@@ -408,16 +429,16 @@ controls:
           - tlp_amber
           - tlp_red
 
-  - id: CCC.C11 # Enforce Key Management Policies
+  - id: CCC.C11
     title: Enforce Key Management Policies
     objective: |
       Ensure that encryption keys are managed securely by enforcing
       the use of approved algorithms, regular key rotation, and
       customer-managed encryption keys (CMEKs).
     control_family: Encryption
-    threats:
-      - CCC.TH16 # Non-compliance with encryption key management policies
     nist_csf: PR.DS-1 # Data-at-rest is protected
+    threats:
+      - CCC.TH16 # Non-compliance with Encryption Key Management Policies
     control_mappings:
       CCM:
         - EKM-02
@@ -425,8 +446,8 @@ controls:
       ISO_27001:
         - 2013 A.10.1.2
       NIST_800_53:
-        - SC-12 # Cryptographic Key Establishment and Management
-        - SC-17 # Public Key Infrastructure Certificates
+        - SC-12 # Cryptographic key establishment and management
+        - SC-17 # Public key infrastructure certificates
     test_requirements:
       - id: CCC.C11.TR01
         text: |
