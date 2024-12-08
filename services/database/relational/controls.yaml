@@ -48,7 +48,7 @@ controls:
       NIST_800_53:
         - AC-17
     test_requirements:
-      - id: CCC.RDMS.C2.TR01
+      - id: CCC.RDMS.C02.TR01
         text: Secure Database Access Control
 
   - id: CCC.RDMS.C03
