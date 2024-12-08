@@ -8,7 +8,7 @@ description: |
   highly scalable and often used in cloud environments due to its flexibility
   and accessibility.
 release_details:
-  - version: "2024.10"
+  - version: "2025.01"
     assurance_level: None
     threat_model_url: None
     threat_model_author: None
@@ -18,8 +18,14 @@ release_details:
       name: Damien Burks
       github_id: damienjburks
       company: Citi
-      summary: Initial release
+      summary: Initial Release - Object Storage
     change_log:
+      - Formatting changes for VPC and Object Storage (#578)
+      - Polished ObjStor Test Requirements (#577)
+      - Add in fixes to control definitions (#570)
+      - "#534: Add yaml linter (#543)"
+      - Add in updates to soft and hard delete bucket controls (#528)
+      - October Release Candidate - Object Storage (#445)
       - Add in fixes to object storage threats, controls, features (#436)
       - Typofix on control IDs (#432)
       - Object storage final polish (#419)
@@ -43,21 +49,21 @@ release_details:
       - updates
       - initial version of the object store taxonomy
     contributors:
-      - name: Michael Lysaght
-        github_id: mlysaght2017
-        company: Citi
-      - name: Eddie Knight
-        github_id: eddie-knight
-        company: Sonatype
-      - name: Damien Burks
-        github_id: damienjburks
-        company: Citi
       - name: Sonali Mendis
         github_id: smendis-scottlogic
         company: Scott Logic
+      - name: Eddie Knight
+        github_id: eddie-knight
+        company: Sonatype
+      - name: Michael Lysaght
+        github_id: mlysaght2017
+        company: Citi
       - name: Dave Ogle
         github_id: dogle-scottlogic
         company: Scott Logic
+      - name: Damien Burks
+        github_id: damienjburks
+        company: Citi
       - name: Naseer Mohammad
         github_id: nas-hub
         company: Google
