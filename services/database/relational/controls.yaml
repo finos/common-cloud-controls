@@ -69,7 +69,7 @@ controls:
     test_requirements:
       - id: CCC.RDMS.C3.TR01
         text: Snapshot collection by trusted roles
-      - id: CCC.RDMS.C3.TR02
+      - id: CCC.RDMS.C03.TR02
         text: Restriction of snapshot collection capabilities
       - id: CCC.RDMS.C03.TR03
         text: Prevent unauthorized snapshot collection
