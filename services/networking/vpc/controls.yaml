@@ -4,6 +4,8 @@ common_controls:
   - CCC.C04 # Log All Access and Changes
   - CCC.C05 # Prevent Access from Untrusted Entities
   - CCC.C06 # Prevent Deployment in Restricted Regions
+  - CCC.C07 # Alert on Unusual Enumeration Activity
+  - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
 
 controls:
   - id: CCC.VPC.C01
