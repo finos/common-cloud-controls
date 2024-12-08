@@ -4,6 +4,9 @@ common_threats:
   - CCC.TH03 # Deployment Region Network is Untrusted
   - CCC.TH06 # Data is Lost or Corrupted
   - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH13 # Resource Tags are Manipulated
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.VPC.TH01
