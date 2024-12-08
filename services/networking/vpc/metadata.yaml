@@ -5,7 +5,7 @@ description: |
   for a virtual private cloud service to be considered for use in financial
   services ecosystems.
 release_details:
-  - version: "2024.09"
+  - version: "2025.01"
     assurance_level: None
     threat_model_url: None
     threat_model_author: None
@@ -15,7 +15,31 @@ release_details:
       name: Damien Burks
       github_id: damienjburks
       company: Citi
-      summary: Initial release
+      summary: Initial Release
     change_log:
-      - "Test"
-      - "Test"
+      - Add in additional common threats and controls for VPC (#583)
+      - Formatting changes for VPC and Object Storage (#578)
+      - Add in fixes to VPC test requirements (#580)
+      - Polished VPC test requirements (#579)
+      - Updating testing requirements for VPC (#523)
+      - "#534: Add yaml linter (#543)"
+      - Detailed feature list for VPC (#518)
+      - Create features.yaml for VPC (#429)
+      - Create controls.yaml (#430)
+      - Create threats.yaml (#428)
+    contributors:
+      - name: Michael Lysaght
+        github_id: mlysaght2017
+        company: Citi
+      - name: Sonali Mendis
+        github_id: smendis-scottlogic
+        company: Scott Logic
+      - name: Eddie Knight
+        github_id: eddie-knight
+        company: Sonatype
+      - name: Dave Ogle
+        github_id: dogle-scottlogic
+        company: Scott Logic
+      - name: kazmik23
+        github_id: kazmik23
+        company: Google
