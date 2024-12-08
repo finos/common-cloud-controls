@@ -234,13 +234,13 @@ threats:
     mitre_technique:
       - T1580 # Cloud Infrastructure Discovery
 
-  - id: CCC.TH01
-    title: Unauthorized Network Access due to Overly Permissive Rules
+  - id: CCC.TH16
+    title: Unauthorized Inbound Network Access
     description: |
-      Overly permissive network access rules allow unauthorized
+      Overly permissive network access rules can allow unauthorized
       entities to establish direct connections to sensitive
-      resources, which can lead to undetected data exfiltration,
-      lateral movement, and compromised workloads.
+      resources, which can lead to lateral movement, and compromised
+      workloads.
     features:
       - CCC.F23 # Network Access Rules
     mitre_technique:

@@ -200,6 +200,7 @@ controls:
     nist_csf: PR.AC-3 # Remote access is managed
     threats:
       - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH16 # Unauthorized Inbound Network Access
     control_mappings:
       CCM:
         - DS-5
