@@ -16,8 +16,8 @@ import (
 )
 
 var (
-	MetadataFilepath   string
 	BuildDirectoryPath string
+	MetadataFilePath   string
 
 	// baseCmd represents the base command when called without any subcommands
 	updateMetadataCmd = &cobra.Command{
@@ -37,14 +37,14 @@ var (
 			servicesDir := viper.GetString("services-dir")
 			buildTarget := viper.GetString("build-target")
 
-			buildDirectoryPath := filepath.Join(servicesDir, buildTarget)
-			MetadataFilepath = filepath.Join(buildDirectoryPath, "metadata.yaml")
+			BuildDirectoryPath = filepath.Join(servicesDir, buildTarget)
+			MetadataFilePath = filepath.Join(BuildDirectoryPath, "metadata.yaml")
 
 			err := updateMetadata()
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Printf("Metadata has been updated successfully: %s\n", MetadataFilepath)
+				fmt.Printf("Metadata has been updated successfully: %s\n", MetadataFilePath)
 			}
 		},
 	}
@@ -70,12 +70,11 @@ func updateMetadata() (err error) {
 	// Create a new GitHub client
 	client := github.NewClient(tc)
 
-	// Prepare the options to filter commits by the specified path (directory)
-	opts := &github.CommitsListOptions{
-		Path: BuildDirectoryPath,
-	}
-
 	// Fetch the list of commits from the repository
+	cleanedPath := strings.Replace(filepath.ToSlash(BuildDirectoryPath), "../", "", 1)
+	opts := &github.CommitsListOptions{
+		Path: cleanedPath,
+	}
 	commits, _, err := client.Repositories.ListCommits(ctx, repoOwner, repoName, opts)
 	if err != nil {
 		log.Fatalf("Error fetching commits: %v", err)
@@ -137,7 +136,7 @@ func updateMetadata() (err error) {
 		log.Fatalf("Error marshaling YAML: %v", err)
 	}
 
-	err = os.WriteFile(MetadataFilepath, metadataData, os.FileMode(0666))
+	err = os.WriteFile(MetadataFilePath, metadataData, os.FileMode(0666))
 	if err != nil {
 		log.Fatalf("Error writing to the YAML file: %v", err)
 	}
@@ -148,7 +147,7 @@ func updateMetadata() (err error) {
 
 func getMetadataYaml() Metadata {
 	// Read the YAML file
-	yamlFile, err := os.ReadFile(MetadataFilepath)
+	yamlFile, err := os.ReadFile(MetadataFilePath)
 	if err != nil {
 		log.Fatalf("Error reading YAML file: %v", err)
 	}
