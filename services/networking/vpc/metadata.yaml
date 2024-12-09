@@ -5,17 +5,41 @@ description: |
   for a virtual private cloud service to be considered for use in financial
   services ecosystems.
 release_details:
-  - version: "2024.09"
-    assurance_level: None
+  - version: "2025.01"
+    assurance_level: 1
     threat_model_url: None
     threat_model_author: None
     red_team: None
     red_team_exercise_url: None
     release_manager:
-      name: Damien Burks
-      github_id: damienjburks
-      company: Citi
-      summary: Initial release
+      name: Eddie Knight
+      github_id: eddie-knight
+      company: Sonatype
+      summary: |
+        This initial release is part of the first batch of control catalogs
+        produced by the CCC. It is the result of thousands of hours dedicated to
+        exploring different ways of working and collaborating, on top of time
+        spent researching, writing, and reviewing the content. This marks a huge
+        milestone for the CCC and the broader community as further releases will
+        continue to build on this foundation. A huge thanks to everyone who has
+        brought us to this point!
     change_log:
-      - "Test"
-      - "Test"
+      - |
+        This initial release contains a variety of commits designed to capture
+        all of the features, threats, and controls for this service category.
+    contributors:
+      - name: Dave Ogle
+        github_id: dogle-scottlogic
+        company: Scott Logic
+      - name: Eddie Knight
+        github_id: eddie-knight
+        company: Sonatype
+      - name: Michael Lysaght
+        github_id: mlysaght2017
+        company: Scott Logic
+      - name: Sonali Mendis
+        github_id: smendis-scottlogic
+        company: Scott Logic
+      - name: Kamran Kazmi
+        github_id: kazmik23
+        company: Google
