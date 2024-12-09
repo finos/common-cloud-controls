@@ -15,18 +15,18 @@ release_details:
       name: Damien Burks
       github_id: damienjburks
       company: Citi
-      summary: Initial release
+      summary: |
+        This initial release is part of the first batch of control catalogs
+        produced by the CCC. It is the result of thousands of hours dedicated to
+        exploring different ways of working and collaborating, on top of time
+        spent researching, writing, and reviewing the content. This marks a huge
+        milestone for the CCC and the broader community as further releases will
+        continue to build on this foundation. A huge thanks to everyone who has
+        brought us to this point!
     change_log:
-      - Add in additional common threats and controls for VPC (#583)
-      - Formatting changes for VPC and Object Storage (#578)
-      - Add in fixes to VPC test requirements (#580)
-      - Polished VPC test requirements (#579)
-      - Updating testing requirements for VPC (#523)
-      - "#534: Add yaml linter (#543)"
-      - Detailed feature list for VPC (#518)
-      - Create features.yaml for VPC (#429)
-      - Create controls.yaml (#430)
-      - Create threats.yaml (#428)
+      - |
+        This initial release contains a variety of commits designed to capture
+        all of the features, threats, and controls for this service category.
     contributors:
       - name: Michael Lysaght
         github_id: mlysaght2017
