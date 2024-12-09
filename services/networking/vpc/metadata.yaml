@@ -5,7 +5,7 @@ description: |
   for a virtual private cloud service to be considered for use in financial
   services ecosystems.
 release_details:
-  - version: "2024.09"
+  - version: "2025.01"
     assurance_level: None
     threat_model_url: None
     threat_model_author: None
