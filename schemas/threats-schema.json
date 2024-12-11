@@ -7,11 +7,12 @@
       "items": {
         "type": "string",
         "pattern": "^CCC\\.TH\\d{2,8}$",
-        "description": "IDs of common threats; can be omitted if not applicable"
+        "description": "IDs of common threats"
       }
     },
     "threats": {
       "type": "array",
+      "description": "List of all threats in the system; can be omitted if not applicable",
       "items": {
         "type": "object",
         "properties": {
@@ -64,6 +65,6 @@
       }
     }
   },
-  "required": ["threats"],
+  "required": ["common_threats"],
   "additionalProperties": false
 }
