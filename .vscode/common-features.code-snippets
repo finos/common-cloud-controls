@@ -119,13 +119,13 @@
 		  ],
 		"description": "Common Feature Cost Management"
 	},
-	"BudgetingAlerting": {
+	"Budgeting": {
 		"scope": "yaml",
-		"prefix": "CF16, CF BudgetingAlerting",
+		"prefix": "CF16, CF Budgeting",
 		"body": [
-			"- CCC.F16 # BudgetingAlerting"
+			"- CCC.F16 # Budgeting"
 		  ],
-		"description": "Common Feature BudgetingAlerting"
+		"description": "Common Feature Budgeting"
 	},
 	"Alerting": {
 		"scope": "yaml",
@@ -143,13 +143,13 @@
 		  ],
 		"description": "Common Feature Versioning"
 	},
-	"On-Demand Scaling": {
+	"On-demand Scaling": {
 		"scope": "yaml",
-		"prefix": "CF19, CF On-Demand Scaling",
+		"prefix": "CF19, CF On-demand Scaling",
 		"body": [
-			"- CCC.F19 # On-Demand Scaling"
+			"- CCC.F19 # On-demand Scaling"
 		  ],
-		"description": "Common Feature On-Demand Scaling"
+		"description": "Common Feature On-demand Scaling"
 	},
 	"Tagging": {
 		"scope": "yaml",
@@ -184,5 +184,5 @@
 			"- CCC.F23 # Network Access Rules"
 		  ],
 		"description": "Common Feature Network Access Rules"
-	}
+	},
 }
