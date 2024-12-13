@@ -14,11 +14,11 @@ service_categories:
       querying.
     examples:
       - AWS:
-          - Amazon RDS (MySQL, PostgreSQL, Oracle, SQL Server, MariaDB)
+          - Amazon RDS
       - Azure:
-          - Azure SQL Database (SQL Server)
+          - Azure SQL Database
       - Google Cloud:
-          - Cloud SQL (MySQL, PostgreSQL, SQL Server)
+          - Cloud SQL
     documentation: database/relational/taxonomy.md
   - id: CCC.NoSQL
     title: NoSQL Databases
