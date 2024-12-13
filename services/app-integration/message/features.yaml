@@ -15,7 +15,7 @@ features:
   - id: CCC.Message.F01
     title: Publish/Subscribe Model
     description: |
-      Uses publish/subscribe (pub/sub) messaging service model for 
+      Uses publish/subscribe (pub/sub) messaging service model for
       fan-out distribution of messages to multiple subscribers.
 
   - id: CCC.Message.F02
@@ -36,7 +36,7 @@ features:
   - id: CCC.Message.F05
     title: Edit Topics
     description: |
-      Ability to to edit properties of existing topics other than 
+      Ability to to edit properties of existing topics other than
       the topic name and ordering preference.
 
   - id: CCC.Message.F06
@@ -57,7 +57,7 @@ features:
   - id: CCC.Message.F09
     title: Edit Subscriber
     description: |
-      Ability to edit subscriber properties such as subscription 
+      Ability to edit subscriber properties such as subscription
       filter policies after subscriber is created.
 
   - id: CCC.Message.F10
@@ -68,25 +68,25 @@ features:
   - id: CCC.Message.F11
     title: FIFO Message Ordering
     description: |
-      Support for first-in, first-out strictly preserved message 
+      Support for first-in, first-out strictly preserved message
       ordering with exactly one message delivered.
 
   - id: CCC.Message.F12
     title: Best Effort Message Ordering
     description: |
-      Support for best-effort message ordering with at-least one 
+      Support for best-effort message ordering with at-least one
       message delivered.
 
   - id: CCC.Message.F13
     title: Deduplication of Messages
     description: |
-      Support for deduplication of messages with use of messaging 
+      Support for deduplication of messages with use of messaging
       service features or deduplication IDs.
 
   - id: CCC.Message.F14
     title: Dead Letter Topics
     description: |
-      Supports dead-letter topics for handling messages that cannot be 
+      Supports dead-letter topics for handling messages that cannot be
       delivered or processed.
 
   - id: CCC.Message.F15
@@ -97,7 +97,7 @@ features:
   - id: CCC.Message.F16
     title: Message Filtering
     description: |
-      Allows subscribers to receive subset of messages published to the 
+      Allows subscribers to receive subset of messages published to the
       subscribed topic based on attributes or content.
 
   - id: CCC.Message.F17
