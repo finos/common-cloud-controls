@@ -10,8 +10,8 @@ service_categories:
     title: Messaging Services
     description: |
       Messaging services facilitate communication between distributed applications
-      and services by enabling the exchange of messages in a reliable and scalable
-      manner.
+      and services by enabling the exchange of messages using pub/sub model in
+      a reliable and scalable manner.
     examples:
       - AWS:
           - Amazon SQS (Simple Queue Service)
