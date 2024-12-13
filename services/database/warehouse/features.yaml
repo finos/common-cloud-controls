@@ -41,10 +41,10 @@ features:
     title: Column-Level Security
     description: |
       Allows setting access policies at the column level to restrict access to sensitive data fields within tables.
-    # references:
-    #   AWS: https://aws.amazon.com/blogs/big-data/achieve-finer-grained-data-security-with-column-level-access-control-in-amazon-redshift/
-    #   GCP: https://cloud.google.com/bigquery/docs/column-level-security
-    #   Azure: https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/column-level-security
+# references:
+#   AWS: https://aws.amazon.com/blogs/big-data/achieve-finer-grained-data-security-with-column-level-access-control-in-amazon-redshift/
+#   GCP: https://cloud.google.com/bigquery/docs/column-level-security
+#   Azure: https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/column-level-security
 
 
   - id: CCC.DataWar.F05  # Row-Level Security
@@ -53,7 +53,7 @@ features:
       Enables setting access policies at the row level to
       control access to subsets of data within a table based
       on user roles.
-    # references:
-    #   AWS: https://docs.aws.amazon.com/redshift/latest/dg/t_rls.html
-    #   GCP: https://cloud.google.com/bigquery/docs/row-level-security-intro
-    #   Azure: https://techcommunity.microsoft.com/t5/azure-synapse-analytics-blog/how-to-implement-row-level-security-in-serverless-sql-pools/ba-p/2354759
+# references:
+#   AWS: https://docs.aws.amazon.com/redshift/latest/dg/t_rls.html
+#   GCP: https://cloud.google.com/bigquery/docs/row-level-security-intro
+#   Azure: https://techcommunity.microsoft.com/t5/azure-synapse-analytics-blog/how-to-implement-row-level-security-in-serverless-sql-pools/ba-p/2354759
