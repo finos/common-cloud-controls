@@ -1,7 +1,7 @@
 name: YAML Check
 
 on:
-    workflow_call:
+  workflow_call:
 
 jobs:
   yaml-check:
@@ -14,10 +14,10 @@ jobs:
       - name: Validate YAML Schema
         uses: InoUno/yaml-ls-check@develop
         with:
-            schemaMapping: |
-              {
-                "schemas/controls-schema.json": [ "services/**/controls.yml", "services/**/controls.yaml" ],
-                "schemas/features-schema.json": [ "services/**/features.yml", "services/**/features.yaml" ],
-                "schemas/metadata-schema.json": [ "services/**/metadata.yml", "services/**/metadata.yaml" ],
-                "schemas/threats-schema.json": [ "services/**/threats.yml", "services/**/threats.yaml" ]
-              }
+          schemaMapping: |
+            {
+              "schemas/controls-schema.json": [ "services/**/controls.yml", "services/**/controls.yaml" ],
+              "schemas/features-schema.json": [ "services/**/features.yml", "services/**/features.yaml" ],
+              "schemas/metadata-schema.json": [ "services/**/metadata.yml", "services/**/metadata.yaml" ],
+              "schemas/threats-schema.json": [ "services/**/threats.yml", "services/**/threats.yaml" ]
+            }
