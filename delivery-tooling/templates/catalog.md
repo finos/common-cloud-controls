@@ -7,7 +7,7 @@
 
 ## Release Notes
 
-> _{{ .LatestReleaseDetails.ReleaseManager.Summary }}_
+> {{ .LatestReleaseDetails.ReleaseManager.Summary }}
 
 Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestReleaseDetails.ReleaseManager.Company }}** ([{{ .LatestReleaseDetails.ReleaseManager.GithubId }}](https://github.com/{{ .LatestReleaseDetails.ReleaseManager.GithubId }}))
 

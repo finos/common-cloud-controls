@@ -57,7 +57,7 @@ type ReleaseDetails struct {
 	ThreatModelURL     string         `yaml:"threat_model_url"`
 	ThreatModelAuthor  string         `yaml:"threat_model_author"`
 	RedTeam            string         `yaml:"red_team"`
-	RedTeamExercizeURL string         `yaml:"red_team_exercize_url"`
+	RedTeamExerciseURL string         `yaml:"red_team_exercise_url"`
 	ReleaseManager     ReleaseManager `yaml:"release_manager"`
 	ChangeLog          []string       `yaml:"change_log"`
 	Contributors       []Contributors `yaml:"contributors"`
