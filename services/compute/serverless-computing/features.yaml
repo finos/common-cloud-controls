@@ -16,39 +16,43 @@ features:
   - id: CCC.SvlsComp.F01  # Function Execution
     title: Function Execution
     description: |
-      Supports execution of code functions in response to events without the need to manage underlying server infrastructure.
+      Supports execution of code functions in response
+      to events without the need to manage underlying
+      server infrastructure.
     # references: #
     #  AWS: https://docs.aws.amazon.com/lambda/latest/dg/invocation-types.html
     #  GCP: https://cloud.google.com/functions/docs/concepts/exec
     #  Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview
-   
 
   - id: CCC.SvlsComp.F02  # Event Triggers
     title: Event Triggers
     description: |
-      Supports triggering functions in response to events from various sources such as HTTP requests, cloud storage changes, messaging services, and scheduled events.
-    references:
-      AWS: https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html
-      GCP: https://cloud.google.com/functions/docs/calling/triggers
-      Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings
- 
+      Supports triggering functions in response to events
+      from various sources such as HTTP requests, cloud
+      storage changes, messaging services, and scheduled
+      events.
+    # references:
+    #   AWS: https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html
+    #   GCP: https://cloud.google.com/functions/docs/calling/triggers
+    #   Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings
 
   - id: CCC.SvlsComp.F04  # VPC Connectivity
     title: VPC Connectivity
     description: |
-      Supports connecting functions to a Virtual Private Cloud (VPC) network using VPC connectors, enabling secure access to resources in a private network.
-    references:
-      AWS: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html
-      GCP: https://cloud.google.com/functions/docs/connecting-vpc
-      Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-networking-options
+      Supports connecting functions to a Virtual Private
+      Cloud (VPC) network using VPC connectors, enabling
+      secure access to resources in a private network.
+    # references:
+    #   AWS: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html
+    #   GCP: https://cloud.google.com/functions/docs/connecting-vpc
+    #   Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-networking-options
 
 
   - id: CCC.SvlsComp.F05  # Environment Variables
     title: Environment Variables
     description: |
       Allows setting environment variables for functions to store configuration settings and operational parameters.
-    references:
-      AWS: https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html
-      GCP: https://cloud.google.com/functions/docs/configuring/env-vars
-      Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings
-
+    # references:
+    #   AWS: https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html
+    #   GCP: https://cloud.google.com/functions/docs/configuring/env-vars
+    #   Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings
