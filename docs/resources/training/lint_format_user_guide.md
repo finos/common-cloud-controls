@@ -72,4 +72,4 @@ Thanks for reading. At this point, you have now successfully installed and confi
 
 If you have any issues, please do not hesistate to reach out to the [Delivery WG] for more assistance.
 
-[Delivery WG]: ../governance/working-groups/delivery/charter.md
+[Delivery WG]: ../../governance/working-groups/delivery/charter.md
