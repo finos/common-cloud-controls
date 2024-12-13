@@ -1,0 +1,53 @@
+common_controls:
+  - CCC.C01 # Prevent unencrypted requests
+  - CCC.C02 # Ensure data encryption at rest for all stored data
+  - CCC.C03 # Implement multi-factor authentication (MFA) for access
+  - CCC.C04 # Log all access and changes
+  - CCC.C05 # Prevent access from untrusted entities
+  - CCC.C06 # Prevent deployment in restricted regions
+  - CCC.C07 # Alert on non-human enumeration
+  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+  - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+
+controls:
+  - id: CCC.SecMgmt.C01 # Enforce Automatic Secret Rotation
+    title: Enforce Automatic Secret Rotation
+    objective: |
+      Ensure that secrets are automatically rotated on a defined schedule to reduce the risk of secret compromise and unauthorized access.
+    control_family: Data Protection
+    threats:
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH14 # Older Resource Versions Are Exploited
+    nist_csf: PR.DS-6 # Integrity checking mechanisms are used
+    control_mappings:
+      NIST_800_53:
+        - SC-12 # Cryptographic Key Establishment and Management
+        - SC-28 # Protection of Information at Rest
+    test_requirements:
+      - id: CCC.SecMgmt.C01.TR01
+        text: |
+          Attempt to use an outdated version of a secret after its rotation period has passed and verify that access is denied.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+
+  - id: CCC.SecMgmt.C02 # Enforce Secret Replication Policies
+    title: Enforce Secret Replication Policies
+    objective: |
+      Ensure that secrets are replicated only to authorized locations as per organizational data residency and compliance requirements.
+    control_family: Data Protection
+    threats:
+      - CCC.TH03 # Deployment region network is untrusted
+      - CCC.TH04 # Data is replicated to untrusted or external locations
+    nist_csf: PR.DS-5 # Protections against data leaks are implemented
+    control_mappings:
+      NIST_800_53:
+        - AC-3   # Access Enforcement
+        - SC-7   # Boundary Protection
+    test_requirements:
+      - id: CCC.SecMgmt.C02.TR01
+        text: |
+          Attempt to retrieve a secret from an unauthorized region and verify that access is denied.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
