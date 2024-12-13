@@ -17,10 +17,10 @@ features:
     title: Function Execution
     description: |
       Supports execution of code functions in response to events without the need to manage underlying server infrastructure.
-    references: # Temporary for validation purposes
-      AWS: https://docs.aws.amazon.com/lambda/latest/dg/invocation-types.html
-      GCP: https://cloud.google.com/functions/docs/concepts/exec
-      Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview
+    # references: #
+    #  AWS: https://docs.aws.amazon.com/lambda/latest/dg/invocation-types.html
+    #  GCP: https://cloud.google.com/functions/docs/concepts/exec
+    #  Azure: https://learn.microsoft.com/en-us/azure/azure-functions/functions-overview
    
 
   - id: CCC.SvlsComp.F02  # Event Triggers
