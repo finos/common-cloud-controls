@@ -21,7 +21,7 @@ features:
     title: Event Triggers
     description: |
       Ability to configure event triggers for functions such as
-      HTTP requests, cloud storage changes, messaging services, 
+      HTTP requests, cloud storage changes, messaging services,
       and schedules.
 
   - id: CCC.SvlsComp.F03
