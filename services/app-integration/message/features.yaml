@@ -1,56 +1,37 @@
 common_features:
-  - CCC.F01  # Encryption in Transit Enabled by Default
-  - CCC.F02  # Encryption at Rest Enabled by Default
-  - CCC.F03  # Access/Activity Logs
-  - CCC.F04  # Transaction Rate Limits
-  - CCC.F06  # Identity-Based Access Control
-  - CCC.F07  # Event Notifications
-  - CCC.F08  # Multi-zone Deployment
-  - CCC.F09  # Monitoring
-  - CCC.F14  # API Access
-  - CCC.F19  # On-Demand Scaling
+  - CCC.F01 # Encryption in Transit Enabled by Default
+  - CCC.F02 # Encryption at Rest Enabled by Default
+  - CCC.F03 # Access/Activity Logs
+  - CCC.F04 # Transaction Rate Limits
+  - CCC.F06 # Identity-Based Access Control
+  - CCC.F07 # Event Notifications
+  - CCC.F08 # Multi-zone Deployment
+  - CCC.F09 # Monitoring
+  - CCC.F14 # API Access
+  - CCC.F19 # On-Demand Scaling
 
 features:
-  - id: CCC.Message.F03  # Message Storage Policies
+  - id: CCC.Message.F03 # Message Storage Policies
     title: Message Storage Policies
     description: |
       Allows configuration of message storage policies to control the regions where messages are stored, supporting compliance with data residency requirements.
-    references: #Adding references for temporary validation purposes
-      GCP: https://cloud.google.com/pubsub/docs/resource-location-restriction
-      AWS: https://docs.aws.amazon.com/AmazonS3/latest/userguide/ways-to-add-notification-config-to-bucket.html
 
-  - id: CCC.Message.F04  # Publish/Subscribe Model
+  - id: CCC.Message.F04 # Publish/Subscribe Model
     title: Publish/Subscribe Model
     description: |
       Implements a scalable publish/subscribe messaging system that decouples senders and receivers, supporting asynchronous communication between services.
-    references:
-      AWS: https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/publish-subscribe.html
-      GCP: https://cloud.google.com/pubsub/docs/overview
-      Azure: https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview
 
-  - id: CCC.Message.F05  # Dead Letter Topics
+  - id: CCC.Message.F05 # Dead Letter Topics
     title: Dead Letter Topics
     description: |
       Supports dead-letter topics for handling messages that cannot be delivered or processed, improving reliability and fault tolerance.
-    references:
-      AWS: https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html
-      GCP: https://cloud.google.com/pubsub/docs/handling-failures
-      Azure: https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
 
-  - id: CCC.Message.F06  # Ordering and Deduplication
+  - id: CCC.Message.F06 # Ordering and Deduplication
     title: Ordering and Deduplication
     description: |
       Provides message ordering and deduplication features to ensure messages are processed in order and duplicates are eliminated.
-    references:
-      AWS: https://docs.aws.amazon.com/sns/latest/dg/fifo-topic-message-ordering.html
-      GCP: https://cloud.google.com/pubsub/docs/ordering
-      Azure: https://learn.microsoft.com/en-us/azure/service-bus-messaging/advanced-features-overview
 
-  - id: CCC.Message.F07  # Message Filtering
+  - id: CCC.Message.F07 # Message Filtering
     title: Message Filtering
     description: |
       Allows subscribers to filter messages based on attributes or content, ensuring that they receive only relevant messages.
-    references:
-      AWS: https://docs.aws.amazon.com/sns/latest/dg/sns-message-filtering.html
-      GCP: https://cloud.google.com/pubsub/docs/subscription-message-filter
-      Azure: https://learn.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
