@@ -30,7 +30,7 @@ When creating or updating a `features.yaml` file for a service category, follow 
 
 ## Feature Definition Format
 
-To maintain consistency, all features—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [feature template](../templates/features.yaml) before release.
+To maintain consistency, all features—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [feature template](../../resources/templates/features.yaml) before release.
 
 ### Feature Definition Values
 
@@ -46,5 +46,5 @@ When creating a new feature definition, use the following values:
 Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
 [common features]: /services/common-features.yaml
-[Communications WG]: ../../working-groups/communications/charter.md
+[Communications WG]: ../../governance/working-groups/communications/charter.md
 [delivery tooling]: /delivery-tooling
