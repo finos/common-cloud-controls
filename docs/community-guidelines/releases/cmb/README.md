@@ -51,17 +51,7 @@ The release manager will be responsible for the following:
 
 ### Reviewer Responsibilities
 
-Members are **not** obligated to review every release but will be notified and may choose to engage in reviews.
-
-When engaging, the following is expected of a CMB member:
-
-- Be thorough, thoughtful, and provide detailed feedback before requesting changes.
-  - Gather feedback from colleagues as needed to support a review.
-- If changes are requested, communicate clearly and promptly through the channels outlined by the Release Manager for the current release cycle.
-  - When a change request (CR) is received, the Release Manager will open discussions and facilitate responses from the board.
-- Members are encouraged to respond within 7 days if they have input on a CR.
-  - The Release Manager logs any dissenting opinions and communicates the majority decision.
-- A release cannot proceed without a minimum of 5 approvals; members are encouraged to help meet this threshold by approving, requesting changes, or contributing to discussion around open change requests.
+Members are **not** obligated to review every release but will be notified and may choose to engage in reviews. [Read about the process here.](./member-responsibilities.md)
 
 ### Qualifications for Participation
 
@@ -95,6 +85,6 @@ Appointments shall be permanently revoked in the following cases:
 - Repeat abandonment of a stated commitment
 - Undermining the process, such as deliberately circumventing or disregarding documented norms
 
-[Security WG]: ../working-groups/security/charter.md
-[Delivery WG]: ../working-groups/delivery/charter.md
+[Security WG]: /docs/governance/working-groups/security/charter.md
+[Delivery WG]: /docs/governance/working-groups/delivery/charter.md
 [community guideline]: ./README.md
