@@ -16,39 +16,44 @@ features:
   - id: CCC.DataWar.F01  # Dataset Management
     title: Dataset Management
     description: |
-      Provides the ability to create, manage, and organize datasets within the Cloud Data Warehouse for structured data storage.
-    references:  # Temporary for validation purposes
-      AWS: https://docs.aws.amazon.com/redshift/latest/dg/c-getting-started-using-spectrum.html
-      GCP: https://cloud.google.com/bigquery/docs/datasets
-      Azure: https://learn.microsoft.com/en-us/azure/synapse-analytics/synapse-link/connect-synapse-link-sql-database
-    
+      Provides the ability to create, manage, and organize 
+      datasets within the Cloud Data Warehouse for structured
+      data storage.
+    # references:  # Temporary for validation purposes
+    #   AWS: https://docs.aws.amazon.com/redshift/latest/dg/c-getting-started-using-spectrum.html
+    #   GCP: https://cloud.google.com/bigquery/docs/datasets
+    #   Azure: https://learn.microsoft.com/en-us/azure/synapse-analytics/synapse-link/connect-synapse-link-sql-database
+
 
   - id: CCC.DataWar.F02  # Managed Views
     title: Managed Views
     description: |
-      Supports creating views that allow sharing query results with specific users or groups without providing access to underlying data.
-    references:
-      AWS: https://docs.aws.amazon.com/redshift/latest/dg/r_CREATE_VIEW.html
-      GCP: https://cloud.google.com/bigquery/docs/authorized-views
-      Azure: https://learn.microsoft.com/en-us/azure/synapse-analytics/sql/create-use-views
- 
+      Supports creating views that allow sharing query results
+      with specific users or groups without providing access to
+      underlying data.
+    # references:
+    #   AWS: https://docs.aws.amazon.com/redshift/latest/dg/r_CREATE_VIEW.html
+    #   GCP: https://cloud.google.com/bigquery/docs/authorized-views
+    #   Azure: https://learn.microsoft.com/en-us/azure/synapse-analytics/sql/create-use-views
+
 
   - id: CCC.DataWar.F03  # Column-Level Security
     title: Column-Level Security
     description: |
       Allows setting access policies at the column level to restrict access to sensitive data fields within tables.
-    references:
-      AWS: https://aws.amazon.com/blogs/big-data/achieve-finer-grained-data-security-with-column-level-access-control-in-amazon-redshift/
-      GCP: https://cloud.google.com/bigquery/docs/column-level-security
-      Azure: https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/column-level-security
- 
+    # references:
+    #   AWS: https://aws.amazon.com/blogs/big-data/achieve-finer-grained-data-security-with-column-level-access-control-in-amazon-redshift/
+    #   GCP: https://cloud.google.com/bigquery/docs/column-level-security
+    #   Azure: https://learn.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/column-level-security
+
 
   - id: CCC.DataWar.F05  # Row-Level Security
     title: Row-Level Security
     description: |
-      Enables setting access policies at the row level to control access to subsets of data within a table based on user roles.
-    references:
-      AWS: https://docs.aws.amazon.com/redshift/latest/dg/t_rls.html
-      GCP: https://cloud.google.com/bigquery/docs/row-level-security-intro
-      Azure: https://techcommunity.microsoft.com/t5/azure-synapse-analytics-blog/how-to-implement-row-level-security-in-serverless-sql-pools/ba-p/2354759
-
+      Enables setting access policies at the row level to
+      control access to subsets of data within a table based
+      on user roles.
+    # references:
+    #   AWS: https://docs.aws.amazon.com/redshift/latest/dg/t_rls.html
+    #   GCP: https://cloud.google.com/bigquery/docs/row-level-security-intro
+    #   Azure: https://techcommunity.microsoft.com/t5/azure-synapse-analytics-blog/how-to-implement-row-level-security-in-serverless-sql-pools/ba-p/2354759
