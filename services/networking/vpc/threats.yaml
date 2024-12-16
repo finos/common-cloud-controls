@@ -1,9 +1,12 @@
 common_threats:
-  - CCC.TH01  # Access control is misconfigured
-  - CCC.TH02  # Data is intercepted in transit
-  - CCC.TH03  # Deployment region network is untrusted
-  - CCC.TH06  # Data is lost or corrupted
-  - CCC.TH07  # Logs are Tampered With or Deleted
+  - CCC.TH01 # Access Control is Misconfigured
+  - CCC.TH02 # Data is Intercepted in Transit
+  - CCC.TH03 # Deployment Region Network is Untrusted
+  - CCC.TH06 # Data is Lost or Corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH13 # Resource Tags are Manipulated
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.VPC.TH01
@@ -13,9 +16,9 @@ threats:
       firewall rules,leading to unauthorized access and potential data
       breaches.
     features:
-      - CCC.VPC.F01  # Custom Network Creation
+      - CCC.VPC.F01 # Custom Network Creation
     mitre_technique:
-      - T1040  # Network Sniffing
+      - T1040 # Network Sniffing
 
   - id: CCC.VPC.TH02
     title: Exposure of Resources to Public Internet
@@ -26,11 +29,11 @@ threats:
     features:
       - CCC.VPC.F04 # Public Subnet Creation
     mitre_technique:
-      - T1133  # External Remote Services
-      - T1078  # Valid Accounts
+      - T1133 # External Remote Services
+      - T1078 # Valid Accounts
 
   - id: CCC.VPC.TH03
-    title: Unauthorized Network Access through VPC Peering
+    title: Unauthorized Network Access Through VPC Peering
     description: |
       Unauthorized VPC peering connections can allow network traffic between
       untrusted or unapproved subscriptions, leading to potential data
@@ -38,19 +41,19 @@ threats:
     features:
       - CCC.VPC.F11 # Connectivity Options - VPC Peering
     mitre_technique:
-      - T1599  # Network Boundary Bridging
+      - T1599 # Network Boundary Bridging
 
   - id: CCC.VPC.TH04
-    title: Lack of Network Visibility Due to Disabled VPC Flow Logs
+    title: Lack of Network Visibility due to Disabled VPC Flow Logs
     description: |
       VPC subnets with disabled flow logs lack critical network traffic
       visibility, which can lead to undetected unauthorized access,
       data exfiltration, and network misconfigurations. This lack of
       visibility increases the risk of undetected security incidents.
     features:
-      - CCC.VPC.F16  # VPC Flow Logs
+      - CCC.VPC.F16 # VPC Flow Logs
     mitre_technique:
-      - T1562  # Impair Defenses
+      - T1562 # Impair Defenses
 
   - id: CCC.VPC.TH05
     title: Overly Permissive VPC Endpoint Policies
@@ -58,7 +61,7 @@ threats:
       VPC Endpoint policies that are overly permissive may inadvertently expose
       resources within the VPC to unintended principals or external threats.
     features:
-      - CCC.VPC.F17  # VPC Endpoints
+      - CCC.VPC.F17 # VPC Endpoints
     mitre_technique:
-      - T1078  # Valid Accounts
-      - T1071  # Application Layer Protocol
+      - T1078 # Valid Accounts
+      - T1071 # Application Layer Protocol
