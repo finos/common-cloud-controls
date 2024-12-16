@@ -11,7 +11,7 @@ common_controls:
 
 controls:
   - id: CCC.RDMS.C01
-    title: backup database to alternative trust-zone
+    title: Backup database to alternative trust-zone
     objective: |
       Ensure that databases are backed up and the backup is outside of the applications trust-zone
     control_family: Data
@@ -26,6 +26,44 @@ controls:
         text: |
           From the same trust-zone as the database attempt to access the database backup and ensure that access is
           denied
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+  - id: CCC.RDMS.C02
+    title: DB admin passwords must be change from default AND password correctly managed
+    objective: |
+        DB Admin passwords must be change from their default values and approporatly managed by password or secret
+        managers.
+    control_family: Data
+    threats:
+      - CCC.RDMS.TH01 # Unauthorized Access to Database
+    nist_csf: PR.AA-01
+    control_mappings:
+      NIST_800_53:
+        - 
+    test_requirements:
+      - id: CCC.RDMS.C01.TR02
+        text: |
+          Login to the DB using a default password, it must fail
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+  - id: CCC.RDMS.C03
+    title: Restrict snapshot sharing to authorized accounts
+    objective: |
+      Ensure snapshots are only shared with explicitly authorized account to limit data exposure and reduce data 
+      exfiltration
+    control_family: data
+    threats:
+      - CCC.RDMS.TH02
+    nist_csf: PR.DS-10
+    control_mappings:
+      NIST_800_53:
+        - AC-4
+    test_requirements:
+      - id: CCC.RDMS.C03.TR01
+        text: |
+          Attempt to share snapshot with unauthorized account and attempt is denied
         tlp_levels:
           - tlp_red
           - tlp_amber
