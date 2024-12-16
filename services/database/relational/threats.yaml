@@ -103,7 +103,7 @@ threats:
   - id: CCC.RDMS.TH15
     title: Brute force attack against the database
     description: |
-      threat actor uses brute force attack to discover
+      Threat actor uses brute force attack to discover
       database user password, threat actor then has access to the
       database user
     features:
