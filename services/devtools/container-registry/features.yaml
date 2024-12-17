@@ -1,0 +1,113 @@
+common_features:
+  - CCC.F01 # Encryption in Transit Enabled by Default
+  - CCC.F02 # Encryption at Rest Enabled by Default
+  - CCC.F03 # Access/Activity Logs
+  - CCC.F04 # Transaction Rate Limits
+  - CCC.F05 # Signed URLs
+  - CCC.F06 # Identity-Based Access Control
+  - CCC.F07 # Event Notifications
+  - CCC.F09 # Monitoring
+  - CCC.F13 # Infrastructure as Code
+  - CCC.F14 # API Access
+  - CCC.F18 # Versioning
+  - CCC.F21 # Replication
+  - CCC.F22 # Location Lock-In
+
+features:
+  - id: CCC.CtrReg.F01
+    title: Image Storage
+    description: |
+      Provides secure storage for container images and image metadata.
+
+  - id: CCC.CtrReg.F02
+    title: Private Repositories
+    description: |
+      Ability to create and manage container image repositories that
+      are restricted and only accessible by authorized users or services.
+
+  - id: CCC.CtrReg.F03
+    title: Public Repositories
+    description: |
+      Ability to create and manage container image repositories that
+      are open to the public. These repositories are used mainly for
+      sharing container images.
+
+  - id: CCC.CtrReg.F04
+    title: Lifecycle Policies
+    description: |
+      Supports defining of policies for automatic expiry of
+      unused or outdated images to manage storage effectively.
+
+  - id: CCC.CtrReg.F05
+    title: Image Scanning
+    description: |
+      Provides vulnerability scanning for container images (built-in
+      or through integration to scanning services) to detect security
+      issues and generate reports for known CVEs (Common Vulnerabilities
+      and Exposures).
+
+  - id: CCC.CtrReg.F06
+    title: Integration with CI/CD Tooling
+    description: |
+      Seamlessly integrates with CI/CD pipelines to automate pushing and pulling of
+      container images.
+
+  - id: CCC.CtrReg.F07
+    title: Caching of Images
+    description: |
+      Provides caching for faster access to frequently used images.
+
+  - id: CCC.CtrReg.F08
+    title: Multi-platform Support
+    description: |
+      Ability to store images built for different CPU architectures such as
+      x86_64 (AMD/Intel), ARM64, and others within the same container image
+      repository.
+
+  - id: CCC.CtrReg.F09
+    title: Immutable Tags
+    description: |
+      Prevent tags from being overwritten or deleted once they have been
+      assigned to an image. This ensures that once a container image is tagged
+      with a specific version or identifier, that tag remains associated with
+      the same image throughout its lifetime.
+
+  - id: CCC.CtrReg.F10
+    title: List Repositories
+    description: |
+      Ability to list all repositories in the container image registry.
+
+  - id: CCC.CtrReg.F11
+    title: Edit Repository
+    description: |
+      Ability to edit a container image repository properties after being created.
+
+  - id: CCC.CtrReg.F12
+    title: Delete Repository
+    description: |
+      Ability to delete a container image repository properties after being created.
+
+  - id: CCC.CtrReg.F13
+    title: List Images
+    description: |
+      Ability to list container images in a repository.
+
+  - id: CCC.CtrReg.F14
+    title: Delete Image
+    description: |
+      Ability to delete a container image after being created.
+
+  - id: CCC.CtrReg.F15
+    title: List Lifecycle Policies
+    description: |
+      Ability to list lifecycle policies for container images in a repository.
+
+  - id: CCC.CtrReg.F16
+    title: Edit Lifecycle Policy
+    description: |
+      Ability to edit a lifecycle policy after being created.
+
+  - id: CCC.CtrReg.F14
+    title: Delete Lifecycle Policy
+    description: |
+      Ability to delete a lifecycle policy after being created.
