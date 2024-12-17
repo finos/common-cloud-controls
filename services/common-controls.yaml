@@ -169,7 +169,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C04.TR01
+      - id: CCC.C04.TR02
         text: |
           When any access attempt is made to the view sensitive information,
           the service MUST log the client identity, time, and result of the
@@ -177,7 +177,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C04.TR02
+      - id: CCC.C04.TR03
         text: |
           When any change is made to the service configuration, the service MUST
           log the change, including the client, time, previous state, and the
