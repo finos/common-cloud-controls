@@ -29,7 +29,7 @@ controls:
         tlp_levels:
           - tlp_red
           - tlp_amber
-          
+
   - id: CCC.RDMS.C02
     title: DB admin passwords must be change from default and the password correctly managed
     objective: |
