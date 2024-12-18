@@ -85,7 +85,7 @@ features:
   - id: CCC.CtrReg.F12
     title: Delete Repository
     description: |
-      Ability to delete a container image repository properties after being created.
+      Ability to delete a container image repository after being created.
 
   - id: CCC.CtrReg.F13
     title: List Images
