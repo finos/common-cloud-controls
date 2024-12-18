@@ -30,7 +30,7 @@ controls:
           - tlp_red
           - tlp_amber
   - id: CCC.RDMS.C02
-    title: DB admin passwords must be change from default AND password correctly managed
+    title: DB admin passwords must be change from default and the password correctly managed
     objective: |
         DB Admin passwords must be change from their default values and approporatly managed by password or secret
         managers.
@@ -40,7 +40,7 @@ controls:
     nist_csf: PR.AA-01
     control_mappings:
       NIST_800_53:
-        - 
+        - AC-2
     test_requirements:
       - id: CCC.RDMS.C01.TR02
         text: |
