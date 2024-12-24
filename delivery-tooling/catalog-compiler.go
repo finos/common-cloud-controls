@@ -217,15 +217,6 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	addControlLink(controlsData.SpecificControls)
 	addControlLink(commonControlsData.SpecificControls)
 
-	for _, element := range featuresData.SpecificFeatures {
-		fmt.Println(element.ID)
-		fmt.Println(element.Link)
-	}
-	for _, element := range commonFeaturesData.SpecificFeatures {
-		fmt.Println(element.ID)
-		fmt.Println(element.Link)
-	}
-
 	return CompiledCatalog{
 		Metadata:             metadata,
 		Controls:             append(commonControlsData.SpecificControls, controlsData.SpecificControls...),
