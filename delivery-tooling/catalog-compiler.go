@@ -32,6 +32,7 @@ type Control struct {
 	NISTCSF          string                 `yaml:"nist_csf"`
 	ControlMappings  map[string]interface{} `yaml:"control_mappings"`
 	TestRequirements []TestRequirements     `yaml:"test_requirements"`
+	Link             string
 }
 
 type TestRequirements struct {
@@ -103,6 +104,7 @@ type Threat struct {
 	Description    string   `yaml:"description"`
 	Features       []string `yaml:"features"`
 	MITRETechnique []string `yaml:"mitre_technique"`
+	Link           string
 }
 
 func formatList(items []string) string {
@@ -171,18 +173,22 @@ func createLink(id string, title string) string {
 	return buffer.String()
 }
 
-func setLink(feature *Feature, link string) {
-	feature.Link = link
-}
-
-func addLink(features *[]Feature) {
-	for _, element := range *features {
-		setLink(&element, createLink(element.ID, element.Title))
+func addFeatureLink(features []Feature) {
+	for index, element := range features {
+		features[index].Link = createLink(element.ID, element.Title)
 	}
 }
 
-func addLinkFeatureSet(features *FeatureSet) {
-	addLink(&features.SpecificFeatures)
+func addThreatLink(threats []Threat) {
+	for index, element := range threats {
+		threats[index].Link = createLink(element.ID, element.Title)
+	}
+}
+
+func addControlLink(controls []Control) {
+	for index, element := range controls {
+		controls[index].Link = createLink(element.ID, element.Title)
+	}
 }
 
 func readAndCompileCatalog() (data CompiledCatalog) {
@@ -204,8 +210,12 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	commonThreatsData := ThreatSet{}
 	unmarshalData("common-threats", &commonThreatsData)
 
-	addLinkFeatureSet(&featuresData)
-	addLinkFeatureSet(&commonFeaturesData)
+	addFeatureLink(featuresData.SpecificFeatures)
+	addFeatureLink(commonFeaturesData.SpecificFeatures)
+	addThreatLink(threatsData.SpecificThreats)
+	addThreatLink(commonThreatsData.SpecificThreats)
+	addControlLink(controlsData.SpecificControls)
+	addControlLink(commonControlsData.SpecificControls)
 
 	for _, element := range featuresData.SpecificFeatures {
 		fmt.Println(element.ID)

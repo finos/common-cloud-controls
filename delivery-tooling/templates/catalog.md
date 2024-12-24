@@ -36,7 +36,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Threat ID|Threat Title|
 |----|----|
 {{- range .Threats }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
@@ -60,7 +60,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Control ID|Control Title|
 |----|----|
 {{- range .Controls }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
