@@ -49,9 +49,9 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 - {{ . }}
 {{- end }}
 
-**Related MITRE ATT&CK Values:**
+**Related MITRE ATT&CK Techniques:**
 {{ range .MITRETechnique }}
-- {{ . }}
+- [{{ . }}](https://attack.mitre.org/techniques/{{ . }})
 {{- end }}
 {{ end }}
 
