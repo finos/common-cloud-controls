@@ -169,7 +169,7 @@ func createLink(id string, title string) string {
 
 	buffer.WriteString(strings.ToLower(strings.ReplaceAll(id, ".", "")))
 	buffer.WriteString("---")
-	buffer.WriteString(strings.ToLower(strings.ReplaceAll(title, " ", "-")))
+	buffer.WriteString(strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(title, ",", ""), " ", "-")))
 	return buffer.String()
 }
 
