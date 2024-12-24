@@ -21,7 +21,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Feature ID|Feature Title|
 |----|----|
 {{- range .Features }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---

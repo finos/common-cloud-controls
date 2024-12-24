@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
@@ -86,6 +88,7 @@ type Feature struct {
 	ID          string `yaml:"id"`
 	Title       string `yaml:"title"`
 	Description string `yaml:"description"`
+	Link        string
 }
 
 // ThreatSet is a struct that represents the threats.yaml file
@@ -159,6 +162,29 @@ func unmarshalData(dataName string, dataSet interface{}) {
 	}
 }
 
+func createLink(id string, title string) string {
+	var buffer bytes.Buffer
+
+	buffer.WriteString(strings.ToLower(strings.ReplaceAll(id, ".", "")))
+	buffer.WriteString("---")
+	buffer.WriteString(strings.ToLower(strings.ReplaceAll(title, " ", "-")))
+	return buffer.String()
+}
+
+func setLink(feature *Feature, link string) {
+	feature.Link = link
+}
+
+func addLink(features *[]Feature) {
+	for _, element := range *features {
+		setLink(&element, createLink(element.ID, element.Title))
+	}
+}
+
+func addLinkFeatureSet(features *FeatureSet) {
+	addLink(&features.SpecificFeatures)
+}
+
 func readAndCompileCatalog() (data CompiledCatalog) {
 	// read controls.yaml, features.yaml, threats.yaml, and metadata.yaml from dir path
 	controlsData := ControlSet{}
@@ -177,6 +203,18 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	unmarshalData("common-features", &commonFeaturesData)
 	commonThreatsData := ThreatSet{}
 	unmarshalData("common-threats", &commonThreatsData)
+
+	addLinkFeatureSet(&featuresData)
+	addLinkFeatureSet(&commonFeaturesData)
+
+	for _, element := range featuresData.SpecificFeatures {
+		fmt.Println(element.ID)
+		fmt.Println(element.Link)
+	}
+	for _, element := range commonFeaturesData.SpecificFeatures {
+		fmt.Println(element.ID)
+		fmt.Println(element.Link)
+	}
 
 	return CompiledCatalog{
 		Metadata:             metadata,
