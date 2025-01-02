@@ -1,0 +1,38 @@
+title: CCC Dev Tools
+id: CCC.DevTools
+description: |
+  Dev Tools in the context of cloud computing refer to a suite of tools
+  and services provided by cloud service providers to help developers
+  build, test, deploy, and maintain applications efficiently. These tools
+  are designed to support the DevOps lifecycle by enabling collaboration,
+  automation, and scalability for development workflows in the cloud.
+service_categories:
+  - id: CCC.CntrReg
+    title: Container Registry
+    description: |
+      Container Registry is a repository for storing, managing and distributing
+      container images. It acts as a hub in the container ecosystem, enabling
+      developers to push, pull, version, and share container images efficiently
+      and securely.
+    examples:
+      - AWS:
+          - AWS Elastic Container Registry (ECR)
+      - Azure:
+          - Azure Container Registry (ACR)
+      - Google Cloud:
+          - Google Container Registry (GCR)
+  - id: CCC.Build
+    title: Build
+    description: |
+      Build intend to refer to a fully managed continuous integration service
+      provided by the cloud service providers for build automation. It is
+      designed to compile source code, run tests, and produce deployable artifacts
+      without having to setup, manage or scale your own infrastructure for running
+      build servers.
+    examples:
+      - AWS:
+          - AWS Code Build
+      - Azure:
+          - Azure Pipelines
+      - Google Cloud:
+          - Google Cloud Build
