@@ -13,7 +13,8 @@ features:
   - id: CCC.BatchProc.F01 # Batch Processing Workloads
     title: Batch Processing Workloads
     description: |
-      Supports the execution of large-scale batch processing workloads for data processing, transformation, and analysis.
+      Supports the execution of large-scale batch processing workloads for data processing, transformation,
+      and analysis.
 
   - id: CCC.BatchProc.F02 # Integration with Data Sources and Sinks
     title: Integration with Data Sources and Sinks
