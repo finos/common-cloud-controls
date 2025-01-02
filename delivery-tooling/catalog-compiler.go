@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
@@ -30,6 +32,7 @@ type Control struct {
 	NISTCSF          string                 `yaml:"nist_csf"`
 	ControlMappings  map[string]interface{} `yaml:"control_mappings"`
 	TestRequirements []TestRequirements     `yaml:"test_requirements"`
+	Link             string
 }
 
 type TestRequirements struct {
@@ -86,6 +89,7 @@ type Feature struct {
 	ID          string `yaml:"id"`
 	Title       string `yaml:"title"`
 	Description string `yaml:"description"`
+	Link        string
 }
 
 // ThreatSet is a struct that represents the threats.yaml file
@@ -100,6 +104,7 @@ type Threat struct {
 	Description    string   `yaml:"description"`
 	Features       []string `yaml:"features"`
 	MITRETechnique []string `yaml:"mitre_technique"`
+	Link           string
 }
 
 func formatList(items []string) string {
@@ -159,6 +164,33 @@ func unmarshalData(dataName string, dataSet interface{}) {
 	}
 }
 
+func createLink(id string, title string) string {
+	var buffer bytes.Buffer
+
+	buffer.WriteString(strings.ToLower(strings.ReplaceAll(id, ".", "")))
+	buffer.WriteString("---")
+	buffer.WriteString(strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(title, ",", ""), " ", "-")))
+	return buffer.String()
+}
+
+func addFeatureLink(features []Feature) {
+	for index, element := range features {
+		features[index].Link = createLink(element.ID, element.Title)
+	}
+}
+
+func addThreatLink(threats []Threat) {
+	for index, element := range threats {
+		threats[index].Link = createLink(element.ID, element.Title)
+	}
+}
+
+func addControlLink(controls []Control) {
+	for index, element := range controls {
+		controls[index].Link = createLink(element.ID, element.Title)
+	}
+}
+
 func readAndCompileCatalog() (data CompiledCatalog) {
 	// read controls.yaml, features.yaml, threats.yaml, and metadata.yaml from dir path
 	controlsData := ControlSet{}
@@ -177,6 +209,13 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	unmarshalData("common-features", &commonFeaturesData)
 	commonThreatsData := ThreatSet{}
 	unmarshalData("common-threats", &commonThreatsData)
+
+	addFeatureLink(featuresData.SpecificFeatures)
+	addFeatureLink(commonFeaturesData.SpecificFeatures)
+	addThreatLink(threatsData.SpecificThreats)
+	addThreatLink(commonThreatsData.SpecificThreats)
+	addControlLink(controlsData.SpecificControls)
+	addControlLink(commonControlsData.SpecificControls)
 
 	return CompiledCatalog{
 		Metadata:             metadata,
