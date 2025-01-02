@@ -58,8 +58,7 @@ features:
   - id: CCC.Build.F09
     title: Concurrent Builds
     description: |
-      Support for multiple parallel builds at the same time improving the build
-      performance.
+      Support for concurrent, parallel builds to improve build performance.
 
   - id: CCC.Build.F10
     title: Caching
