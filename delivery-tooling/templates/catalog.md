@@ -21,7 +21,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Feature ID|Feature Title|
 |----|----|
 {{- range .Features }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
@@ -36,7 +36,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Threat ID|Threat Title|
 |----|----|
 {{- range .Threats }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
@@ -49,9 +49,9 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 - {{ . }}
 {{- end }}
 
-**Related MITRE ATT&CK Values:**
+**Related MITRE ATT&CK Techniques:**
 {{ range .MITRETechnique }}
-- {{ . }}
+- [{{ . }}](https://attack.mitre.org/techniques/{{ . }})
 {{- end }}
 {{ end }}
 
@@ -60,7 +60,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Control ID|Control Title|
 |----|----|
 {{- range .Controls }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
