@@ -13,7 +13,7 @@ common_threats:
 
 threats:
   - id: CCC.RDMS.TH01
-    title: Unauthorized Access to Database
+    title: Unauthorized access to database
     description: |
       A threat actor gains unauthorized access to the cloud relational database by
       using a compromised role or using default administrative credentials.
@@ -25,7 +25,7 @@ threats:
       - T1552
 
   - id: CCC.RDMS.TH02
-    title: Unauthorized Cross Organization Snapshot Collection
+    title: Unauthorized cross organization snapshot collection
     description: |
       A threat actor initiates a snapshot collection activity using a privileged role
       and copies the snapshot outside of the organization, which allows for data exfiltration and theft.
@@ -38,7 +38,7 @@ threats:
       - T1530
 
   - id: CCC.RDMS.TH03
-    title: Disabled Logging & Monitoring
+    title: Disabled logging & monitoring
     description: |
       A threat actor disables the logging and monitoring of the relational database,
       which allows evasion and removes traces of malicious actions.
@@ -50,7 +50,7 @@ threats:
       - T1562
 
   - id: CCC.RDMS.TH04
-    title: Unauthorized Configuration Modification
+    title: Unauthorized configuration modification
     description: A threat actor attempts to make changes to the configuration of the cloud RDMS with a malicious role.
     features:
       - CCC.RDMS.F01 # SQL Support
@@ -61,7 +61,7 @@ threats:
       - T1548
 
   - id: CCC.RDMS.TH05
-    title: Unencrypted Connection To Database
+    title: Unencrypted connection to database
     description: |
       An end-user connects to the database over HTTP,
       which is susceptible to network sniffing attacks and other exploits.
@@ -73,7 +73,7 @@ threats:
       - T1040
 
   - id: CCC.RDMS.TH06
-    title: Snapshot Collection with Unauthorized Encryption Key
+    title: Snapshot collection with unauthorized encryption key
     description: |
       A threat actor attempts to perform snapshot collection
       using a non-default encryption key associated with the RDMS.
@@ -101,9 +101,9 @@ threats:
       - T1485
 
   - id: CCC.RDMS.TH15
-    title: brute force attack against the database
+    title: Brute force attack against the database
     description: |
-      threat actor uses brute force attack to discover
+      Threat actor uses brute force attack to discover
       database user password, threat actor then has access to the
       database user
     features:
@@ -112,9 +112,9 @@ threats:
       - T1110
 
   - id: CCC.RDMS.TH16
-    title: backups stopped
+    title: Database backups stopped
     description: |
-      threat actor stops backups from occuring
+      Threat actor stops database backups from occuring to inhibit system recovery.
     features:
       - CCC.F11
     mitre_technique:
