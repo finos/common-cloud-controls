@@ -24,7 +24,8 @@ features:
   - id: CCC.BatchProc.F03 # Custom Job Definitions
     title: Custom Job Definitions
     description: |
-      Allows users to define custom job configurations, including compute resources, environment settings, and execution parameters.
+      Allows users to define custom job configurations, including compute resources,
+      environment settings, and execution parameters.
 
   - id: CCC.BatchProc.F04 # Autoscaling Compute Resources
     title: Autoscaling Compute Resources
