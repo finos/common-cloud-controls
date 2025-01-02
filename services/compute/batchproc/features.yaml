@@ -34,4 +34,5 @@ features:
   - id: CCC.BatchProc.F05 # Job Scheduling and Queuing
     title: Job Scheduling and Queuing
     description: |
-      Provides job scheduling and queuing capabilities to manage the execution order and resource allocation of batch jobs.
+      Provides job scheduling and queuing capabilities to manage the execution order
+      and resource allocation of batch jobs.
