@@ -26,7 +26,7 @@ features:
     title: Source Repository Integration
     description: |
       Integrates with cloud native or external source code repositories such as
-      GitHub, Bitbucket to trigger builds on code changes.
+      GitHub, Bitbucket, GitLab to trigger builds on code changes.
 
   - id: CCC.Build.F04
     title: Artifact Storage
@@ -42,7 +42,8 @@ features:
   - id: CCC.Build.F06
     title: Custom Build Environments
     description: |
-      Allows custom build environments with the use of custom docker images.
+      Allows custom build environments by specifying the operating system, runtime, or
+      providing a custom docker runtime image.
 
   - id: CCC.Build.F07
     title: Build Docker Image
