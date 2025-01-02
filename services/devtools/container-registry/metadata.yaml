@@ -1,5 +1,5 @@
 title: CCC Container Registry
-id: CCC.CtrReg
+id: CCC.CntrReg
 description: |
   This documents the minimal set of features that should be present
   for a container registry service to be considered for use in financial
@@ -15,6 +15,5 @@ release_details:
       name: Damien Burks
       github_id: damienjburks
       company: Citi
-      summary: Test
-    change_log:
-      - Test
+      summary: None
+    change_log: []
