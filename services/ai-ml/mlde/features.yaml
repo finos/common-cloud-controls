@@ -1,40 +1,40 @@
 common_features:
-  - CCC.F03  # Access/Activity Logs
-  - CCC.F06  # Identity-Based Access Control
-  - CCC.F08  # Multi-zone Deployment
-  - CCC.F09  # Monitoring
-  - CCC.F10  # Logging
+  - CCC.F03 # Access/Activity Logs
+  - CCC.F06 # Identity-Based Access Control
+  - CCC.F08 # Multi-zone Deployment
+  - CCC.F09 # Monitoring
+  - CCC.F10 # Logging
 
 features:
-  - id: CCC.MLDE.F01 #Managed Notebook Environments
+  - id: CCC.MLDE.F01
     title: Managed Notebook Environments
     description: |
       Provides fully managed notebook instances specifically designed
       for machine learning development, eliminating the need to manage
       underlying infrastructure.
 
-  - id: CCC.MLDE.F02 #Pre-configured Machine Learning Libraries
+  - id: CCC.MLDE.F02
     title: Pre-configured Machine Learning Libraries
     description: |
       Offers environments pre-installed with popular machine
       learning libraries and frameworks such as TensorFlow, PyTorch,
       and Scikit-learn, optimized for ML tasks.
 
-  - id: CCC.MLDE.F03 #Integrated Experiment Management
+  - id: CCC.MLDE.F03
     title: Integrated Experiment Management
     description: |
       Facilitates tracking and management of machine learning
       experiments, including parameters, metrics, and artifacts,
       within the development environment.
 
-  - id: CCC.MLDE.F04 #Model Training and Deployment Integration
+  - id: CCC.MLDE.F04
     title: Model Training and Deployment Integration
     description: |
       Supports seamless transition from model development to
       training and deployment, allowing models to be trained and
       deployed directly from the MLDE.
 
-  - id: CCC.MLDE.F05 #Automated Machine Learning (AutoML) Features
+  - id: CCC.MLDE.F05
     title: Automated Machine Learning (AutoML) Features
     description: |
       Offers AutoML functionalities to automatically build,
