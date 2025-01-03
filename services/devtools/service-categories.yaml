@@ -24,7 +24,7 @@ service_categories:
   - id: CCC.Build
     title: Build
     description: |
-      Build refers to a fully managed continuous integration service offered by 
+      Build refers to a fully managed continuous integration service offered by
       cloud service providers for build automation. It is designed to compile
       source code, run tests, and produce deployable artifacts without having to
       setup, manage or scale your own infrastructure for running build servers.
