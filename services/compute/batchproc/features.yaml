@@ -1,0 +1,39 @@
+common_features:
+  - CCC.F01  # Encryption in Transit Enabled by Default
+  - CCC.F02  # Encryption at Rest Enabled by Default
+  - CCC.F03  # Access/Activity Logs
+  - CCC.F04  # Transaction Rate Limits
+  - CCC.F06  # Identity-Based Access Control
+  - CCC.F07  # Event Notifications
+  - CCC.F09  # Monitoring
+  - CCC.F14  # API Access
+  - CCC.F19  # On-Demand Scaling
+
+features:
+  - id: CCC.BatchProc.F01 # Batch Processing Workloads
+    title: Batch Processing Workloads
+    description: |
+      Supports the execution of large-scale batch processing workloads for data processing, transformation,
+      and analysis.
+
+  - id: CCC.BatchProc.F02 # Integration with Data Sources and Sinks
+    title: Integration with Data Sources and Sinks
+    description: |
+      Integrates with various data sources and storage services to read input data and write output results.
+
+  - id: CCC.BatchProc.F03 # Custom Job Definitions
+    title: Custom Job Definitions
+    description: |
+      Allows users to define custom job configurations, including compute resources,
+      environment settings, and execution parameters.
+
+  - id: CCC.BatchProc.F04 # Autoscaling Compute Resources
+    title: Autoscaling Compute Resources
+    description: |
+      Automatically scales compute resources based on job requirements to optimize performance and cost.
+
+  - id: CCC.BatchProc.F05 # Job Scheduling and Queuing
+    title: Job Scheduling and Queuing
+    description: |
+      Provides job scheduling and queuing capabilities to manage the execution order
+      and resource allocation of batch jobs.

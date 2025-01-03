@@ -1,0 +1,31 @@
+common_features:
+  - CCC.F01  # Encryption in Transit Enabled by Default
+  - CCC.F02  # Encryption at Rest Enabled by Default
+  - CCC.F03  # Access/Activity Logs
+  - CCC.F04  # Transaction Rate Limits
+  - CCC.F06  # Identity-Based Access Control
+  - CCC.F07  # Event Notifications
+  - CCC.F09  # Monitoring
+  - CCC.F14  # API Access
+  - CCC.F19  # On-Demand Scaling
+
+features:
+  - id: CCC.Build.F01  # Build Automation
+    title: Build Automation
+    description: |
+      Supports automated building, testing, and packaging of code based on triggers or schedules.
+
+  - id: CCC.Build.F02  # Integration with CI/CD Pipelines
+    title: Integration with CI/CD Pipelines
+    description: |
+      Integrates with Continuous Integration and Continuous Deployment pipelines for automated code delivery.
+
+  - id: CCC.Build.F03  # Custom Build Environments
+    title: Custom Build Environments
+    description: |
+      Allows customization of build environments, including specifying operating systems, runtimes, and build tools.
+
+  - id: CCC.Build.F04  # Source Repository Integration
+    title: Source Repository Integration
+    description: |
+      Integrates with various source code repositories to trigger builds on code changes.
