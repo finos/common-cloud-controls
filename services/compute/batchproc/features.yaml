@@ -35,7 +35,7 @@ features:
     title: Dynamic Resource Allocation
     description: |
       Automatically provision computing resources based on job requirements at the start
-      of execution and deallocate them once the job is completed."
+      of execution and deallocate them once the job is completed.
 
   - id: CCC.BatchProc.F06
     title: VPC Support
