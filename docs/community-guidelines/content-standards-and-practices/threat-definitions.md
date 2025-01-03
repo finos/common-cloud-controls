@@ -28,16 +28,24 @@ When creating or updating a `threats.yaml` file for a service category, follow t
 2. **Define Specific Threats**: If a threat is unique to the service category, document it in the `threats` section of the `threats.yaml` file.
 3. **Consider Generalization**: If a specific threat could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common threats] list.
 
-## Threat Definition Format
+## Threat Definition Style
 
 To maintain consistency, all threats—whether common or specific—must follow the same format, style, and tone. Each threat should adhere to the [threats template] before release.
+
+### Definition of a Threat
+
+According to **NIST SP 800-30 Rev. 1**, a threat is defined as:
+
+> **"Any circumstance or event with the potential to adversely impact organizational operations (including mission, functions, image, or reputation), organizational assets, individuals, other organizations, or the Nation through an information system via unauthorized access, destruction, disclosure, modification of information, and/or denial of service."**
+
+This definition emphasizes that a threat focuses on potential adverse impacts, not necessarily malicious intent.
 
 ### Threat Definition Values
 
 When creating a new threat definition, use the following values:
 
 - **Threat ID** (`id`): A unique identifier for the threat, following the format `<category-id>.TH<#>`.
-- **Threat Title** (`title`): A short name or title that succinctly describes the threat.
+- **Threat Title** (`title`): A short name or title using Title Case that succinctly describes the threat.
 - **Threat Description** (`description`): A detailed description of the threat, including its nature and potential impact.
 - **Feature IDs** (`features`): A list of IDs for the corresponding CCC features that this threat is associated with.
 - **MITRE ATT&CK Technique** (`mitre_technique`): The unique identifier for the most relevant MITRE ATT&CK Technique.
