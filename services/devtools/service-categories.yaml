@@ -24,11 +24,10 @@ service_categories:
   - id: CCC.Build
     title: Build
     description: |
-      Build intend to refer to a fully managed continuous integration service
-      provided by the cloud service providers for build automation. It is
-      designed to compile source code, run tests, and produce deployable artifacts
-      without having to setup, manage or scale your own infrastructure for running
-      build servers.
+      Build refers to a fully managed continuous integration service offered by 
+      cloud service providers for build automation. It is designed to compile
+      source code, run tests, and produce deployable artifacts without having to
+      setup, manage or scale your own infrastructure for running build servers.
     examples:
       - AWS:
           - AWS Code Build
