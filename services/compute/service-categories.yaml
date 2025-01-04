@@ -76,7 +76,7 @@ service_categories:
       - Azure:
           - Azure Batch
       - Google Cloud:
-          - Cloud Dataflow
+          - Google Cloud Batch
   - id: CCC.EdgeComp
     title: Edge Computing
     description: |

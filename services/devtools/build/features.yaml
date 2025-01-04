@@ -1,31 +1,76 @@
 common_features:
-  - CCC.F01  # Encryption in Transit Enabled by Default
-  - CCC.F02  # Encryption at Rest Enabled by Default
-  - CCC.F03  # Access/Activity Logs
-  - CCC.F04  # Transaction Rate Limits
-  - CCC.F06  # Identity-Based Access Control
-  - CCC.F07  # Event Notifications
-  - CCC.F09  # Monitoring
-  - CCC.F14  # API Access
-  - CCC.F19  # On-Demand Scaling
+  - CCC.F01 # Encryption in Transit Enabled by Default
+  - CCC.F02 # Encryption at Rest Enabled by Default
+  - CCC.F04 # Transaction Rate Limits
+  - CCC.F06 # Identity-Based Access Control
+  - CCC.F07 # Event Notifications
+  - CCC.F09 # Monitoring
+  - CCC.F10 # Logging
+  - CCC.F14 # API Access
+  - CCC.F19 # On-Demand Scaling
 
 features:
-  - id: CCC.Build.F01  # Build Automation
+  - id: CCC.Build.F01
     title: Build Automation
     description: |
-      Supports automated building, testing, and packaging of code based on triggers or schedules.
+      Provides fully managed continuous integration service that compiles source code,
+      run tests and produce software packages based on triggers or schedules.
 
-  - id: CCC.Build.F02  # Integration with CI/CD Pipelines
-    title: Integration with CI/CD Pipelines
+  - id: CCC.Build.F02
+    title: CI/CD Pipelines
     description: |
-      Integrates with Continuous Integration and Continuous Deployment pipelines for automated code delivery.
+      Provides or integrates with continuous integration and continuous delivery/deployment (CI/CD)
+      services.
 
-  - id: CCC.Build.F03  # Custom Build Environments
-    title: Custom Build Environments
-    description: |
-      Allows customization of build environments, including specifying operating systems, runtimes, and build tools.
-
-  - id: CCC.Build.F04  # Source Repository Integration
+  - id: CCC.Build.F03
     title: Source Repository Integration
     description: |
-      Integrates with various source code repositories to trigger builds on code changes.
+      Integrates with cloud native or external source code repositories such as
+      GitHub, Bitbucket, GitLab to trigger builds on code changes.
+
+  - id: CCC.Build.F04
+    title: Artifact Storage
+    description: |
+      Ability to securely store build artifacts for later use.
+
+  - id: CCC.Build.F05
+    title: Multi-language Support
+    description: |
+      Provides pre-configured build environments for popular programming languages such as Java,
+      Python, Node.js, .NET, etc.
+
+  - id: CCC.Build.F06
+    title: Custom Build Environments
+    description: |
+      Allows custom build environments by specifying the operating system, runtime, or
+      providing a custom docker runtime image.
+
+  - id: CCC.Build.F07
+    title: Build Docker Image
+    description: |
+      Support for building docker container images in the pipelines.
+
+  - id: CCC.Build.F08
+    title: Environment Variables
+    description: |
+      Ability to set environment variables within the build project.
+
+  - id: CCC.Build.F09
+    title: Concurrent Builds
+    description: |
+      Support for concurrent, parallel builds to improve build performance.
+
+  - id: CCC.Build.F10
+    title: Caching
+    description: |
+      Caching of dependencies between builds for faster builds.
+
+  - id: CCC.Build.F11
+    title: Realtime Build Logs
+    description: |
+      Providing the ability to monitor builds and view logs in the real-time.
+
+  - id: CCC.Build.F12
+    title: List and View Builds
+    description: |
+      Ability to list, view logs and download artifacts of old builds.
