@@ -8,21 +8,21 @@ common_controls:
   - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 controls:
-  - id: CCC.ContReg.C01 # Implement Vulnerability Scanning for Artifacts
+  - id: CCC.CntrReg.C01 # Implement Vulnerability Scanning for Artifacts
     title: Implement Vulnerability Scanning for Artifacts
     objective: |
       Ensure that container images and artifacts stored in the container registry are scanned for
       vulnerabilities to identify and remediate security issues before deployment.
     control_family: Risk Management
     threats:
-      - CCC.ContReg.TH01 # Vulnerabilities in Artifacts are Exploited
+      - CCC.CntrReg.TH01 # Vulnerabilities in Artifacts are Exploited
     nist_csf: ID.RA-1 # Asset vulnerabilities are identified and documented
     control_mappings:
       NIST_800_53:
         - RA-5 # Vulnerability Monitoring and Scanning
         - SI-5 # Security Alerts, Advisories, and Directives
     test_requirements:
-      - id: CCC.ContReg.C01.TR01
+      - id: CCC.CntrReg.C01.TR01
         text: |
           Attempt to push an artifact with known vulnerabilities to the registry
           and observe if it is flagged or rejected by the vulnerability scanning process.
@@ -30,7 +30,7 @@ controls:
           - tlp_red
           - tlp_amber
 
-  - id: CCC.ContReg.C02 # Implement Cleanup Policies for Artifacts
+  - id: CCC.CntrReg.C02 # Implement Cleanup Policies for Artifacts
     title: Implement Cleanup Policies for Artifacts
     objective: |
       Ensure that unused or outdated artifacts are cleaned up according to defined policies to
@@ -43,7 +43,7 @@ controls:
       NIST_800_53:
         - SI-12 # Information Handling and Retention
     test_requirements:
-      - id: CCC.ContReg.C02.TR01
+      - id: CCC.CntrReg.C02.TR01
         text: |
           Confirm that artifacts older than the specified retention period are automatically deleted from the registry.
         tlp_levels:
