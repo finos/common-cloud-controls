@@ -59,3 +59,67 @@ The list of control families is maintained in the [common controls] data.
 [delivery tooling]: /delivery-tooling
 [threats]: ./threat-definitions.md
 [ref]: https://www.cisa.gov/sites/default/files/2023-02/tlp-2-0-user-guide_508c.pdf
+
+## Style Guide for Test Requirements
+
+### Structure
+
+Test requirements must follow a **"When-Then-MUST/MUST NOT"** structure to ensure they are **actionable, specific, measurable, and verifiable**:
+
+1. **When**: Describe the triggering condition or scenario under which the test is applied.
+2. **Then**: Specify the expected outcome of the test in a clear and measurable manner.
+3. Use **MUST** or **MUST NOT** to define mandatory conditions.
+
+This approach ensures that test requirements are actionable by providing clear instructions for verification, making them easy to implement and audit.
+
+> **Note:** The **Then** statement does not need to be explicitly written if the expected outcome is clearly implied by the **When** condition and the use of **MUST** or **MUST NOT**.
+
+### Examples
+
+#### Good Example
+
+```yaml
+test_requirements:
+  - id: CCC.VPC.C01.TR01
+    text: |
+      When a subscription is created, the subscription MUST NOT
+      contain default network resources.
+    tlp_levels:
+      - tlp_amber
+      - tlp_red
+```
+
+#### Why It’s Good
+
+- Clearly describes the triggering condition ("When a subscription is created").
+- Specifies the measurable outcome ("MUST NOT contain default network resources").
+- Provides clear verification criteria, making it actionable and easy to test.
+- Aligns with the control objective by verifying a critical security configuration.
+
+#### Bad Example
+
+```yaml
+test_requirements:
+  - id: CCC.VPC.C01.TR01
+    text: |
+      A subscription MUST NOT have default networks.
+    tlp_levels:
+      - tlp_amber
+      - tlp_red
+```
+
+#### Issues
+
+- Missing the "When-Then" structure.
+- Ambiguous context for the condition.
+- Lacks specificity about how to verify the requirement.
+- Does not align directly with the control objective or provide measurable verification.
+
+### Best Practices
+
+1. **Actionable Requirements**: Define test requirements that are specific, measurable, and verifiable.
+2. **Clarity and Specificity**: Ensure test requirements clearly articulate the triggering condition and expected outcome.
+3. **When-Then Structure**: Clearly define the triggering condition (_When_) and expected result (_Then_) for clarity.
+4. **Mandatory Language**: Use **MUST** or **MUST NOT** to convey non-negotiable requirements.
+5. **Avoid Ambiguity**: Avoid vague terms like "should" or "could."
+6. **Alignment with Control Objective**: Ensure test requirements align with and verify the control objective effectively.
