@@ -1,9 +1,11 @@
 common_controls:
-  - CCC.C01  # Prevent unencrypted requests
-  - CCC.C03  # Implement multi-factor authentication (MFA) for access
-  - CCC.C04  # Log all access and changes
-  - CCC.C05  # Prevent access from untrusted entities
-  - CCC.C06  # Prevent deployment in restricted regions
+  - CCC.C01 # Prevent Unencrypted Requests
+  - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+  - CCC.C04 # Log All Access and Changes
+  - CCC.C05 # Prevent Access from Untrusted Entities
+  - CCC.C06 # Prevent Deployment in Restricted Regions
+  - CCC.C07 # Alert on Unusual Enumeration Activity
+  - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
 
 controls:
   - id: CCC.VPC.C01
@@ -14,8 +16,8 @@ controls:
       configurations and enforce custom network policies.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH01  # Unauthorized Access via Insecure Default Networks
-    nist_csf: PR.AC-5
+      - CCC.VPC.TH01 # Unauthorized Access via Insecure Default Networks
+    nist_csf: PR.AC-5 # Network integrity is protected
     control_mappings:
       CCM:
         - TVM-02
@@ -26,20 +28,21 @@ controls:
     test_requirements:
       - id: CCC.VPC.C01.TR01
         text: |
-          When a subscription is created, the subscription must not contain any
-          default network resources.
+          When a subscription is created, the subscription MUST NOT
+          contain default network resources.
         tlp_levels:
+          - tlp_amber
           - tlp_red
 
   - id: CCC.VPC.C02
     title: Limit Resource Creation in Public Subnet
     objective: |
       Restrict the creation of resources in the public subnet with
-      direct access the internet to minimize attack surfaces.
+      direct access to the internet to minimize attack surfaces.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH02  # Exposure of Resources to Public Internet
-    nist_csf: PR.AC-3
+      - CCC.VPC.TH02 # Exposure of Resources to Public Internet
+    nist_csf: PR.AC-3 # Remote access is managed
     control_mappings:
       CCM:
         - SEF-05
@@ -50,8 +53,8 @@ controls:
     test_requirements:
       - id: CCC.VPC.C02.TR01
         text: |
-          When a resource is created, the resource must not be assigned an
-          external IP address by default.
+          When a resource is created in a public subnet, that resource
+          MUST NOT be assigned an external IP address by default.
         tlp_levels:
           - tlp_red
 
@@ -63,8 +66,8 @@ controls:
       controls.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH03  # Unauthorized Network Access through VPC Peering
-    nist_csf: PR.AC-3
+      - CCC.VPC.TH03 # Unauthorized Network Access Through VPC Peering
+    nist_csf: PR.AC-3 # Remote access is managed
     control_mappings:
       CCM:
         - IVS-01
@@ -73,22 +76,26 @@ controls:
       NIST_800_53:
         - AC-4
     test_requirements:
-      - id: CCC.VPC.C04.TR01
+      - id: CCC.VPC.C03.TR01
         text: |
-          When a VPC peering connection is requested for an untrusted
-          destination, the VPC’s peering configuration must remain unchanged.
+          When a VPC peering connection is requested, the service MUST
+          prevent connections from VPCs that are not explicitly
+          allowed.
         tlp_levels:
+          - tlp_green
+          - tlp_amber
           - tlp_red
 
   - id: CCC.VPC.C04
-    title: Enforce VPC Flow Logs on VPCs.
+    title: Enforce VPC Flow Logs on VPCs
     objective: |
       Ensure VPCs are configured with flow logs enabled to capture traffic
       information.
     control_family: Network Security
     threats:
-      - CCC.VPC.TH04  # Lack of Network Visibility Due to Disabled VPC Flow Logs
-    nist_csf: PR.PT-1
+      - CCC.VPC.TH04 # Lack of Network Visibility due to Disabled VPC Flow Logs
+    nist_csf: PR.PT-1 # Audit/log records are determined, documented, implemented,
+    # and reviewed in accordance with policy
     control_mappings:
       CCM:
         - IVS-06
@@ -97,15 +104,10 @@ controls:
       NIST_800_53:
         - AU-2
     test_requirements:
-      - id: CCC.VPC.C05.TR01
+      - id: CCC.VPC.C04.TR01
         text: |
-          When any network traffic goes to or from an interface in the VPC, VPC
-          flow logs must capture and log all relevant information.
+          When any network traffic goes to or from an interface in the VPC,
+          the service MUST capture and log all relevant information.
         tlp_levels:
-          - tlp_red
-      - id: CCC.VPC.C05.TR02
-        text: |
-          When VPC flow logs are disabled, then the activity is logged in the
-          cloud native logging service.
-        tlp_levels:
+          - tlp_amber
           - tlp_red
