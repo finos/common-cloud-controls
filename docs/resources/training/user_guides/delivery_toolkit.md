@@ -38,7 +38,7 @@ To contribute to this project, ensure you have the following tools installed:
 Once installed, open VS Code and add the following extension:
 
 - **Go VS Code Extension**: [Install here](https://marketplace.visualstudio.com/items?itemName=golang.go)  
-   ![VS Code Extensions](image.png)
+   ![VS Code Extensions](./imgs/delivery_toolkit_go_extension.png)
 
 ### Installing Dependencies
 
@@ -51,28 +51,27 @@ Once installed, open VS Code and add the following extension:
    go get # Installs all required dependencies
    ```
 
-1. Once you install all of the dependencies, run this command to confirm everything works:
+1. Once all dependencies are installed, run this command to confirm the setup:
 
    ```bash
    go run .
 
-   # Output
+   # Output Example
    ----------------------------------------
-
-   Welcome to the CCC Delivery Tooling CLI v0.0.0-dev
-       _______________
+        _______________
        / ___/ ___/ ___/
-   / /  / /  / /
-   / /__/ /__/ /___
-   \____/____/____/
+      / /  / /  / /
+     / /__/ /__/ /___
+     \____/____/____/
 
    ----------------------------------------
+
+   Welcome to the CCC Delivery Toolkit CLI v0.0.0-dev
 
    You appear to be exploring!
    We suggest you begin by running the 'help' command via -h to review the available options.
 
    ----------------------------------------
-
    ```
 
 1. Set up the Docker container for PDF generation by pulling the required image:
@@ -83,6 +82,91 @@ Once installed, open VS Code and add the following extension:
 
 ## Testing Locally
 
+To generate artifacts and test commands locally for Object Storage specifically (as an example), use the following commands:
 
+- **Generating an Omnibus MD File**
 
-### Triggering Pipeline
+  ```bash
+  go run . "md" -t ..\services\storage\object\
+
+  # Output Example
+  ----------------------------------------
+       _______________
+      / ___/ ___/ ___/
+     / /  / /  / /
+    / /__/ /__/ /___
+    \____/____/____/
+
+  ----------------------------------------
+
+  File generated successfully: artifacts\CCC.ObjStor_2025.01.md
+
+  ----------------------------------------
+  ```
+
+- **Generating a YAML File**
+
+  ```bash
+  go run . "yaml" -t ..\services\storage\object\
+
+  # Output Example
+  ----------------------------------------
+       _______________
+      / ___/ ___/ ___/
+     / /  / /  / /
+    / /__/ /__/ /___
+    \____/____/____/
+
+  ----------------------------------------
+
+  File generated successfully: ./artifacts/CCC.ObjStor_2025.01.yaml
+
+  ----------------------------------------
+  ```
+
+- **Generating Release Notes**
+
+  ```bash
+  go run . "release-notes" -t ..\services\storage\object\
+
+  # Output Example
+  ----------------------------------------
+       _______________
+      / ___/ ___/ ___/
+     / /  / /  / /
+    / /__/ /__/ /___
+    \____/____/____/
+
+  ----------------------------------------
+
+  File generated successfully: artifacts\release_notes.md
+
+  ----------------------------------------
+  ```
+
+- **Updating Metadata**
+
+  ```bash
+  go run . "update-metadata" -t ..\services\storage\object\
+
+  # Output Example
+  ----------------------------------------
+       _______________
+      / ___/ ___/ ___/
+     / /  / /  / /
+    / /__/ /__/ /___
+    \____/____/____/
+
+  ----------------------------------------
+
+  Contributors and Change Log has been updated.
+  Metadata has been updated successfully: ..\services\storage\object\metadata.yaml
+
+  ----------------------------------------
+  ```
+
+  **NOTE:** This command should only be used when preparing for a release, as it modifies the `metadata.yaml` files for a given service.
+
+## Triggering Pipelines
+
+TBD/WIP!
