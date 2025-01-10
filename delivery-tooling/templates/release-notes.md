@@ -1,5 +1,5 @@
 <!-- markdownlint-disable -->
-# {{ .Metadata.Title }} Release Details - v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.ID }})
+# {{ .Metadata.Title }} - v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.ID }})
 
 ## Summary
 {{ .LatestReleaseDetails.ReleaseManager.Summary }}
@@ -23,7 +23,7 @@ Below is a list of all the changes and updates included in this release. Please 
 
 ### Contributors
 {{ range .LatestReleaseDetails.Contributors }}
-- {{ .Name }}, {{ .Company }} ([{{ .GithubId }}](https://github.com/{{ .GithubId }}))
+- {{ .Name }}, {{ .Company }} - @{{ .GithubId }}
 {{ end }}
 
 **Thank you to all the contributors for your valuable efforts and contributions to this release! The work that you all have completed is greatly appreciated!**

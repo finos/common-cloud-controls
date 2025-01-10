@@ -1,13 +1,13 @@
 title: CCC Artificial Intelligence and Machine Learning
 id: CCC.AIML
 description: |
-  In cloud computing, AI & ML services refer to cloud-based tools that 
+  In cloud computing, AI & ML services refer to cloud-based tools that
   building, training, and deploying machine learning models and AI solutions.
 service_categories:
   - id: CCC.GenAI
     title: Generative AI Platform
     description: |
-      Services that creates new content, and insights based on patterns and data 
+      Services that creates new content, and insights based on patterns and data
       using large language models and deep learning frameworks.
     examples:
       - AWS:
@@ -19,8 +19,8 @@ service_categories:
   - id: CCC.AIAssist
     title: AI-Powered Assistant
     description: |
-      Services designed to enhance productivity across various applications by providing 
-      context-specific AI assistance, helping with tasks such as generating content, 
+      Services designed to enhance productivity across various applications by providing
+      context-specific AI assistance, helping with tasks such as generating content,
       summarizing documents, and offering insights based on enterprise data.
     examples:
       - AWS:
@@ -32,7 +32,7 @@ service_categories:
   - id: CCC.AICode
     title: AI-Powered Coding Assistant
     description: |
-      Services designed to enhance developer productivity by providing real-time code 
+      Services designed to enhance developer productivity by providing real-time code
       suggestions from within the integrated development environments (IDEs).
     examples:
       - AWS:
@@ -41,3 +41,16 @@ service_categories:
           - Github Copilot for Azure
       - Google Cloud:
           - Google Duet AI
+  - id: CCC.MLDE
+    title: Machine Learning Development Environment
+    description: |
+      Services designed to facilitate the development, testing , deployment and
+      maintenance of machine learning models, to improve efficiency throughout
+      the machine learning lifecycle.
+    examples:
+      - AWS:
+          - Amazon SageMaker
+      - Azure:
+          - Azure Machine Learning
+      - Google Cloud:
+          - Google Vertex AI

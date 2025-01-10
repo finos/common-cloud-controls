@@ -7,7 +7,7 @@
 
 ## Release Notes
 
-> _{{ .LatestReleaseDetails.ReleaseManager.Summary }}_
+> {{ .LatestReleaseDetails.ReleaseManager.Summary }}
 
 Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestReleaseDetails.ReleaseManager.Company }}** ([{{ .LatestReleaseDetails.ReleaseManager.GithubId }}](https://github.com/{{ .LatestReleaseDetails.ReleaseManager.GithubId }}))
 
@@ -21,7 +21,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Feature ID|Feature Title|
 |----|----|
 {{- range .Features }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
@@ -36,7 +36,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Threat ID|Threat Title|
 |----|----|
 {{- range .Threats }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
@@ -49,9 +49,9 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 - {{ . }}
 {{- end }}
 
-**Related MITRE ATT&CK Values:**
+**Related MITRE ATT&CK Techniques:**
 {{ range .MITRETechnique }}
-- {{ . }}
+- [{{ . }}](https://attack.mitre.org/techniques/{{ . }})
 {{- end }}
 {{ end }}
 
@@ -60,7 +60,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 |Control ID|Control Title|
 |----|----|
 {{- range .Controls }}
-|{{ .ID }}|{{ .Title }}|
+|[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
@@ -100,5 +100,5 @@ _No control mappings added._
 
 We would like to acknowledge the following organizations for their valuable contributions to this project:
 
-{{ insertSVGs }}
+{{ insertLogoWall }}
 <!-- markdownlint-enable -->

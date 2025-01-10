@@ -73,7 +73,7 @@
 	},
 	"Logging": {
 		"scope": "yaml",
-		"prefix": "C10, CF Logging",
+		"prefix": "CF10, CF Logging",
 		"body": [
 			"- CCC.F10 # Logging"
 		  ],
@@ -81,7 +81,7 @@
 	},
 	"Backup": {
 		"scope": "yaml",
-		"prefix": "C11, CF Backup",
+		"prefix": "CF11, CF Backup",
 		"body": [
 			"- CCC.F11 # Backup"
 		  ],
@@ -89,7 +89,7 @@
 	},
 	"Recovery": {
 		"scope": "yaml",
-		"prefix": "C12, CF Recovery",
+		"prefix": "CF12, CF Recovery",
 		"body": [
 			"- CCC.F12 # Recovery"
 		  ],
@@ -97,7 +97,7 @@
 	},
 	"Infrastructure as Code": {
 		"scope": "yaml",
-		"prefix": "C13, CF Infrastructure as Code",
+		"prefix": "CF13, CF Infrastructure as Code",
 		"body": [
 			"- CCC.F13 # Infrastructure as Code"
 		  ],
@@ -105,7 +105,7 @@
 	},
 	"API Access": {
 		"scope": "yaml",
-		"prefix": "C14, CF API Access",
+		"prefix": "CF14, CF API Access",
 		"body": [
 			"- CCC.F14 # API Access"
 		  ],
@@ -113,23 +113,23 @@
 	},
 	"Cost Management": {
 		"scope": "yaml",
-		"prefix": "C15, CF Cost Management",
+		"prefix": "CF15, CF Cost Management",
 		"body": [
 			"- CCC.F15 # Cost Management"
 		  ],
 		"description": "Common Feature Cost Management"
 	},
-	"BudgetingAlerting": {
+	"Budgeting": {
 		"scope": "yaml",
-		"prefix": "C16, CF BudgetingAlerting",
+		"prefix": "CF16, CF Budgeting",
 		"body": [
-			"- CCC.F16 # BudgetingAlerting"
+			"- CCC.F16 # Budgeting"
 		  ],
-		"description": "Common Feature BudgetingAlerting"
+		"description": "Common Feature Budgeting"
 	},
 	"Alerting": {
 		"scope": "yaml",
-		"prefix": "C17, CF Alerting",
+		"prefix": "CF17, CF Alerting",
 		"body": [
 			"- CCC.F17 # Alerting"
 		  ],
@@ -137,23 +137,23 @@
 	},
 	"Versioning": {
 		"scope": "yaml",
-		"prefix": "C18, CF Versioning",
+		"prefix": "CF18, CF Versioning",
 		"body": [
 			"- CCC.F18 # Versioning"
 		  ],
 		"description": "Common Feature Versioning"
 	},
-	"On-Demand Scaling": {
+	"On-demand Scaling": {
 		"scope": "yaml",
-		"prefix": "C19, CF On-Demand Scaling",
+		"prefix": "CF19, CF On-demand Scaling",
 		"body": [
-			"- CCC.F19 # On-Demand Scaling"
+			"- CCC.F19 # On-demand Scaling"
 		  ],
-		"description": "Common Feature On-Demand Scaling"
+		"description": "Common Feature On-demand Scaling"
 	},
 	"Tagging": {
 		"scope": "yaml",
-		"prefix": "C20, CF Tagging",
+		"prefix": "CF20, CF Tagging",
 		"body": [
 			"- CCC.F20 # Tagging"
 		  ],
@@ -161,10 +161,28 @@
 	},
 	"Replication": {
 		"scope": "yaml",
-		"prefix": "C21, CF Replication",
+		"prefix": "CF21, CF Replication",
 		"body": [
 			"- CCC.F21 # Replication"
 		  ],
 		"description": "Common Feature Replication"
-	}
+	},
+
+	"Location Lock-In": {
+		"scope": "yaml",
+		"prefix": "CF22, CF Location Lock-In",
+		"body": [
+			"- CCC.F22 # Location Lock-In"
+		  ],
+		"description": "Common Feature Location Lock-In"
+	},
+
+	"Network Access Rules": {
+		"scope": "yaml",
+		"prefix": "CF23, CF Network Access Rules",
+		"body": [
+			"- CCC.F23 # Network Access Rules"
+		  ],
+		"description": "Common Feature Network Access Rules"
+	},
 }

@@ -1,0 +1,111 @@
+common_features:
+  - CCC.F01 # Encryption in Transit Enabled by Default
+  - CCC.F02 # Encryption at Rest Enabled by Default
+  - CCC.F03 # Access/Activity Logs
+  - CCC.F04 # Transaction Rate Limits
+  - CCC.F06 # Identity-Based Access Control
+  - CCC.F07 # Event Notifications
+  - CCC.F08 # Multi-zone Deployment
+  - CCC.F11 # Backup
+  - CCC.F12 # Restore
+  - CCC.F14 # API Access
+  - CCC.F19 # On-demand Scaling
+  - CCC.F21 # Replication
+
+features:
+  - id: CCC.DataWar.F01
+    title: Centralized Data Repository
+    description: |
+      Acts as a centralized repository where data from various
+      sources is consolidated, making it easier to manage and
+      analyze large volumes of data.
+
+  - id: CCC.DataWar.F02
+    title: Optimized Query Performance
+    description: |
+      Handles complex queries on large datasets efficiently using
+      techniques such as indexing and partitioning.
+
+  - id: CCC.DataWar.F03
+    title: Scalability
+    description: |
+      Ability to scale with growing data volumes and handle multiple
+      queries simultaneously without compromising the performance.
+
+  - id: CCC.DataWar.F04
+    title: Column Storage
+    description: |
+      Stores data in columns rather than rows for efficient
+      data retrieval.
+
+  - id: CCC.DataWar.F05
+    title: SQL Based Querying
+    description: |
+      Supports SQL based querying on the data sets with specific
+      enhancements and optimization for data warehousing.
+
+  - id: CCC.DataWar.F06
+    title: Data Types
+    description: |
+      Ability to store processed structured and semi-structured
+      data optimized for querying and analysis.
+
+  - id: CCC.DataWar.F07
+    title: Massively Parallel Processing (MPP)
+    description: |
+      Distributes queries across multiple nodes for increased performance.
+
+  - id: CCC.DataWar.F08
+    title: Materialized Views
+    description: |
+      Ability to store results od a query into physical tables for faster
+      data retrieval and improved query performance for complex queries.
+
+  - id: CCC.DataWar.F09
+    title: Column-Level Security
+    description: |
+      Allows setting access policies at the column level to
+      restrict access to sensitive data fields within tables.
+
+  - id: CCC.DataWar.F10
+    title: Row-Level Security
+    description: |
+      Enables setting access policies at the row level to
+      control access to subsets of data within a table based
+      on user roles.
+
+  - id: CCC.DataWar.F11
+    title: Integration with Data Sources
+    description: |
+      Seamless integration with various data sources such as object
+      storage, relational and non-relational databases, data streams
+      and data lakes.
+
+  - id: CCC.DataWar.F12
+    title: Integration with ETL
+    description: |
+      Integration with services that perform extract, transform and
+      load data from various sources into the data warehouse. Unstructured
+      data in transformed to structured or semi-structured data before
+      ingestion to the data warehouse using ETL tools.
+
+  - id: CCC.DataWar.F13
+    title: Integration with ML
+    description: |
+      Build-in integration with machine learning services for enhanced
+      processing of large volumes of complex data with ML models for
+      predictive analytics, automated insights and more. ML can be used
+      in data cleansing and transformation for improved data quality as well.
+
+  - id: CCC.DataWar.F14
+    title: Real-time Monitoring
+    description: |
+      Ability to continuously track and analyze data as it is ingested,
+      processed and stored to ensure data quality, operational efficiency,
+      scalability and security.
+
+  - id: CCC.DataWar.F15
+    title: Cross-Region Replication
+    description: |
+      Ability to replicate data to multiple regions for high availability,
+      disaster recovery and low-latency access.
