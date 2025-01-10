@@ -38,6 +38,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Daniel Moorhouse, Scott Logic, Sep/16/2024
 - Kamran Kazmi, Google, SEP/20/2024
 - Ian Walker-Smith, Citi, NOV/10/2024
+- Steve Hoffman, Percona, JAN/10/2025
 
 ## How to enroll as a participant
 
