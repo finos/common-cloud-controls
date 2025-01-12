@@ -166,6 +166,7 @@ The Artifact Pipeline is the backbone of the Delivery Toolkit, leveraging GitHub
 6. Once verified, update the release title and tag by removing the `-rc` designation.
 
    Example:
+
    - **Title**: Release v2025.01.VPC
    - **Tag**: v2025.01.VPC
 
