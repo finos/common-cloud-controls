@@ -35,7 +35,7 @@ var (
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println(divider)
-			fmt.Println("Welcome to the CCC Delivery Tooling CLI v" + Version)
+			fmt.Println("Welcome to the CCC Delivery Toolkit CLI v" + Version)
 			fmt.Print(logo)
 			fmt.Println(divider)
 			fmt.Println("You appear to be exploring!")
