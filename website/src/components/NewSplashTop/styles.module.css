@@ -1,0 +1,14 @@
+section.nst {
+	margin: auto;
+	max-width: 1200px;
+	text-align: center;
+}
+
+svg.logo {
+	height: calc(70vh);
+	width: 100%;
+}
+
+html[data-theme=dark] .fill {
+	fill: white;
+}
