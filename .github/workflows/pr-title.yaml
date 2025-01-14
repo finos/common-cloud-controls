@@ -14,18 +14,17 @@ jobs:
     uses: jmeridth/reusable-workflows/.github/workflows/pr-title.yaml@d788c4f6994c7b37134a9f592fe5db42fd7a0957
     with:
       types: |
+        add
+        change
+        remove
+      scopes: |
         ci
         docs
-        feat
-        fix
-      scopes: |
-        add
+        feature
+        threat
+        control
         category
-        change
-        controls
         family
-        remove
-        threats
       requireScope: true
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
