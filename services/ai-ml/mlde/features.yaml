@@ -46,3 +46,56 @@ features:
       Offers AutoML functionalities to automatically build,
       train, and optimize machine learning models with minimal
       manual intervention.
+    
+  - id: CCC.MLDE.F06
+    title: GPU/Specialized Hardware Support  
+    description: |  
+      Provides access to GPU instances and specialized ML acceleration   
+      hardware (TPUs, FPGAs) with automated driver and runtime management.  
+
+  - id: CCC.MLDE.F07
+    title: Data Pipeline Integration  
+    description: |  
+      Supports integration with data preparation and feature engineering   
+      pipelines, including versioning of datasets and features used in   
+      ML experiments.  
+
+  - id: CCC.MLDE.F08
+    title: Model Registry  
+    description: |  
+      Provides centralized storage and versioning for trained models,   
+      including metadata about training runs, model artifacts, and   
+      deployment history.  
+
+  - id: CCC.MLDE.F09
+    title: Collaborative Development Support  
+    description: |  
+      Enables multiple data scientists to work on the same project with   
+      version control integration, shared notebooks, and resource management.  
+
+  - id: CCC.MLDE.F10
+    title: Model Monitoring and Drift Detection  
+    description: |  
+      Supports monitoring of deployed models for performance degradation,   
+      data drift, and concept drift with automated alerting capabilities.  
+
+  - id: CCC.MLDE.F11
+    title: Reproducibility Features  
+    description: |  
+      Provides capability to capture and version all components needed to   
+      reproduce an ML experiment, including code, data, and environment   
+      configurations.  
+
+  - id: CCC.MLDE.F12
+    title: Resource Scheduling and Optimization  
+    description: |  
+      Supports scheduling and optimization of compute resources for   
+      training jobs, including spot instance usage and auto-scaling   
+      capabilities.  
+
+  - id: CCC.MLDE.F13
+    title: Security and Compliance Controls  
+    description: |  
+      Provides specific controls for ML workflows including model   
+      governance, bias detection, and compliance documentation for   
+      regulated industries.
