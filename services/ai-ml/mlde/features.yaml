@@ -46,7 +46,7 @@ features:
       Offers AutoML functionalities to automatically build,
       train, and optimize machine learning models with minimal
       manual intervention.
-    
+
   - id: CCC.MLDE.F06
     title: GPU/Specialized Hardware Support
     description: |
