@@ -4,10 +4,10 @@ common_features:
   - CCC.F08 # Multi-zone Deployment
   - CCC.F09 # Monitoring
   - CCC.F10 # Logging
-  - CCC.F14 # API Access 
+  - CCC.F14 # API Access
   - CCC.F15 # Cost Management
   - CCC.F16 # Budgeting
-  - CCC.F17 # Alerting 
+  - CCC.F17 # Alerting
   - CCC.F20 # Tagging
   - CCC.F23 # Network Access Rules
 
@@ -48,13 +48,13 @@ features:
       manual intervention.
     
   - id: CCC.MLDE.F06
-    title: GPU/Specialized Hardware Support  
+    title: GPU/Specialized Hardware Support
     description: |
       Provides access to GPU instances and specialized ML acceleration
       hardware (TPUs, FPGAs) with automated driver and runtime management.
 
   - id: CCC.MLDE.F07
-    title: Data Pipeline Integration  
+    title: Data Pipeline Integration
     description: |
       Supports integration with data preparation and feature engineering
       pipelines, including versioning of datasets and features used in
@@ -74,7 +74,7 @@ features:
       version control integration, shared notebooks, and resource management.
 
   - id: CCC.MLDE.F10
-    title: Model Monitoring and Drift Detection  
+    title: Model Monitoring and Drift Detection
     description: |
       Supports monitoring of deployed models for performance degradation,
       data drift, and concept drift with automated alerting capabilities.
