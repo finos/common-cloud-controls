@@ -39,6 +39,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Kamran Kazmi, Google, SEP/20/2024
 - Ian Walker-Smith, Citi, NOV/10/2024
 - Gordon Campbell, Scott Logic, JAN/14/2025
+- Vlad Georgescu, LSEG, JAN/16/2025
 
 ## How to enroll as a participant
 
