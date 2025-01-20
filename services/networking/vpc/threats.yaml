@@ -1,71 +1,67 @@
 common_threats:
-  - CCC.TH01  # Access control is misconfigured
-  - CCC.TH02  # Data is intercepted in transit
-  - CCC.TH03  # Deployment region network is untrusted
-  - CCC.TH06  # Data is lost or corrupted
-  - CCC.TH07  # Logs are Tampered With or Deleted
+  - CCC.TH01 # Access Control is Misconfigured
+  - CCC.TH02 # Data is Intercepted in Transit
+  - CCC.TH03 # Deployment Region Network is Untrusted
+  - CCC.TH06 # Data is Lost or Corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH13 # Resource Tags are Manipulated
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.VPC.TH01
     title: Unauthorized Access via Insecure Default Networks
     description: |
-      Default network configurations may include insecure settings and open firewall rules, leading to unauthorized access and potential data breaches.
+      Default network configurations may include insecure settings and open
+      firewall rules,leading to unauthorized access and potential data
+      breaches.
     features:
-      - CCC.VPC.F01  # Custom Network Creation
-      - CCC.F06      # Identity Based Access Control (common feature)
+      - CCC.VPC.F01 # Custom Network Creation
     mitre_technique:
-      - T1040  # Network Sniffing
-      - T1136  # Create Account
+      - T1040 # Network Sniffing
 
   - id: CCC.VPC.TH02
-    title: Exposure of Virtual Machines to Public Internet
+    title: Exposure of Resources to Public Internet
     description: |
-      Assignment of external IP addresses to virtual machines exposes them to the public internet, increasing the risk of attacks such as brute force, exploitation of vulnerabilities, or unauthorized access.
+      Assignment of external IP addresses to resources exposes resources to the
+      public internet, increasing the risk of attacks such as brute force,
+      exploitation of vulnerabilities, or unauthorized access.
     features:
-      - CCC.VPC.F02  # External IP Address Assignment
-      - CCC.F01      # Encryption in Transit Enabled by Default (common feature)
+      - CCC.VPC.F04 # Public Subnet Creation
     mitre_technique:
-      - T1133  # External Remote Services
-      - T1078  # Valid Accounts
+      - T1133 # External Remote Services
+      - T1078 # Valid Accounts
 
   - id: CCC.VPC.TH03
-    title: Unauthorized Network Traffic Routing
+    title: Unauthorized Network Access Through VPC Peering
     description: |
-      Enabling IP forwarding on virtual machines allows them to route traffic, which can be exploited to redirect traffic, bypass network controls, or launch attacks within the network.
+      Unauthorized VPC peering connections can allow network traffic between
+      untrusted or unapproved subscriptions, leading to potential data
+      exposure or exfiltration.
     features:
-      - CCC.VPC.F03  # IP Forwarding
+      - CCC.VPC.F11 # Connectivity Options - VPC Peering
     mitre_technique:
-      - T1590  # Gather Victim Network Information
-      - T1021  # Remote Services
+      - T1599 # Network Boundary Bridging
 
   - id: CCC.VPC.TH04
-    title: Unauthorized Access to ML Development Environments via Public IP
+    title: Lack of Network Visibility due to Disabled VPC Flow Logs
     description: |
-      Public IP access to ML development environments can lead to unauthorized access if proper security controls are not in place, increasing the risk of compromise and data breaches.
+      VPC subnets with disabled flow logs lack critical network traffic
+      visibility, which can lead to undetected unauthorized access,
+      data exfiltration, and network misconfigurations. This lack of
+      visibility increases the risk of undetected security incidents.
     features:
-      - CCC.VPC.F04  # Public IP Access Control
-      - CCC.F06      # Identity Based Access Control (common feature)
+      - CCC.VPC.F16 # VPC Flow Logs
     mitre_technique:
-      - T1133  # External Remote Services
-      - T1078  # Valid Accounts
+      - T1562 # Impair Defenses
 
   - id: CCC.VPC.TH05
-    title: Deployment of ML Development Environments in Unapproved Networks
+    title: Overly Permissive VPC Endpoint Policies
     description: |
-      Deploying ML development environments in unapproved or less secure networks can expose them to vulnerabilities and unauthorized access, compromising sensitive data and security policies.
+      VPC Endpoint policies that are overly permissive may inadvertently expose
+      resources within the VPC to unintended principals or external threats.
     features:
-      - CCC.VPC.F05  # Virtual Network Selection
-      - CCC.F06      # Identity Based Access Control (common feature)
+      - CCC.VPC.F17 # VPC Endpoints
     mitre_technique:
-      - T1578  # Modify Cloud Compute Infrastructure
-
-  - id: CCC.VPC.TH06
-    title: Security Risks from Nested Virtualization
-    description: |
-      Nested virtualization can introduce additional layers of abstraction, increasing complexity and potentially leading to security vulnerabilities that can be exploited.
-    features:
-      - CCC.VPC.F06  # Nested Virtualization
-      - CCC.F09      # Monitoring (common feature)
-    mitre_technique:
-      - T1497  # Virtualization/Sandbox Evasion
-      - T1059  # Command and Scripting Interpreter
+      - T1078 # Valid Accounts
+      - T1071 # Application Layer Protocol

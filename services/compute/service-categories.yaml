@@ -19,12 +19,12 @@ service_categories:
       VM services with features such as automated provisioning, scaling,
       monitoring, and pay-as-you-go pricing.
     examples:
-      - AWS: 
-        - Amazon Elastic Compute Cloud (EC2)
+      - AWS:
+          - Amazon Elastic Compute Cloud (EC2)
       - Azure:
-        - Virtual Machines
+          - Virtual Machines
       - Google Cloud:
-        - Compute Engine
+          - Compute Engine
     documentation: compute/virtual-machines/taxonomy.md
   - id: CCC.Cont
     title: Containers
@@ -37,13 +37,13 @@ service_categories:
       offer managed container services with features such as container
       registry, cluster management, and auto-scaling.
     examples:
-      - AWS: 
-        - Elastic Container Service (ECS)
-        - Elastic Kubernetes Service (EKS)
+      - AWS:
+          - Elastic Container Service (ECS)
+          - Elastic Kubernetes Service (EKS)
       - Azure:
-        - Azure Kubernetes Service (AKS)
+          - Azure Kubernetes Service (AKS)
       - Google Cloud:
-        - Google Kubernetes Engine (GKE)
+          - Google Kubernetes Engine (GKE)
   - id: CCC.SvlsComp
     title: Serverless Computing
     description: |
@@ -55,12 +55,12 @@ service_categories:
       based on demand and bill users only for the resources consumed during
       function execution.
     examples:
-      - AWS: 
-        - AWS Lambda
+      - AWS:
+          - AWS Lambda
       - Azure:
-        - Azure Functions
+          - Azure Functions
       - Google Cloud:
-        - Cloud Functions
+          - Cloud Functions
   - id: CCC.BatchProc
     title: Batch Processing
     description: |
@@ -71,12 +71,12 @@ service_categories:
       can specify job requirements, dependencies, and scheduling preferences
       to optimize job execution.
     examples:
-      - AWS: 
-        - AWS Batch
+      - AWS:
+          - AWS Batch
       - Azure:
-        - Azure Batch
+          - Azure Batch
       - Google Cloud:
-        - Cloud Dataflow
+          - Google Cloud Batch
   - id: CCC.EdgeComp
     title: Edge Computing
     description: |
@@ -87,9 +87,9 @@ service_categories:
       resources at edge locations, such as IoT devices, edge servers, and
       network appliances.
     examples:
-      - AWS: 
-        - AWS IoT Greengrass and AWS Outposts
+      - AWS:
+          - AWS IoT Greengrass and AWS Outposts
       - Azure:
-        - Azure IoT Edge
+          - Azure IoT Edge
       - Google Cloud:
-        - Google Cloud IoT Edge
+          - Google Cloud IoT Edge

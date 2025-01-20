@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       build_target:
-        description: 'Build Target (e.g storage/object)'
+        description: "Build Target (e.g storage/object)"
         required: true
       tag:
-        description: 'Tag for this release'
+        description: "Tag for this release"
         required: true
 
 # TODO: Add in pre-release tag to distinguish whether or not we want to have an official release
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./delivery-tooling
+        working-directory: ./delivery-toolkit
     steps:
       - uses: actions/checkout@v4
         name: Build
@@ -27,13 +27,13 @@ jobs:
 
       - name: Install dependencies
         run: go mod download
-  
+
       - name: Get Build Target
         id: process_target
         run: |
           # Read the input for a single build target
           build_target="${{ github.event.inputs.build_target }}"
-          
+
           # Print and save the build target
           echo "Build target: $build_target"
           echo "target=$build_target" >> $GITHUB_OUTPUT
@@ -46,12 +46,12 @@ jobs:
           go run . "yaml" --build-target $build_target
           go run . "md" --build-target $build_target
           go run . "release-notes" --build-target $build_target
-          
+
           # Create PDF files from MD files
           echo "Converting MD file to PDF"
           for md_file in ./artifacts/*.md; do
             filename=$(basename "$md_file" .md)
-            
+
             # Check if the filename contains "release-notes"
             if [[ $filename != *"release_notes"* ]]; then
                 echo "Converting $md_file to $filename.pdf"
@@ -61,12 +61,11 @@ jobs:
             fi
           done
 
-      
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4.4.0
         with:
           name: ccc-catalogs
-          path: ./delivery-tooling/artifacts/*
+          path: ./delivery-toolkit/artifacts/*
           if-no-files-found: error
           retention-days: 1 # Maximum Retention
 

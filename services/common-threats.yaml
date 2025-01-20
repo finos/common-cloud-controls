@@ -1,6 +1,6 @@
 threats:
-  - id: CCC.TH01 # Access control is misconfigured
-    title: Access control is misconfigured
+  - id: CCC.TH01
+    title: Access Control is Misconfigured
     description: |
       An attacker can exploit misconfigured access controls to grant excessive
       privileges or gain unauthorized access to sensitive resources.
@@ -20,8 +20,8 @@ threats:
       - T1565 # Data Manipulation
       - T1027 # Obfuscated Files or Information
 
-  - id: CCC.TH02 # Data is intercepted in transit
-    title: Data is intercepted in transit
+  - id: CCC.TH02
+    title: Data is Intercepted in Transit
     description: |
       In the event that encrypted communication is not properly in effect, an
       attacker can intercept traffic between clients and the service to read or
@@ -32,8 +32,8 @@ threats:
       - T1557 # Adversary-in-the-Middle
       - T1040 # Network Sniffing
 
-  - id: CCC.TH03 # Deployment region network is untrusted
-    title: Deployment region network is untrusted
+  - id: CCC.TH03
+    title: Deployment Region Network is Untrusted
     description: |
       If any part of the service is deployed in a hostile, unstable, or
       insecure location, an attacker may attempt to access the resource or
@@ -48,19 +48,19 @@ threats:
       - T1583 # Acquire Infrastructure
       - T1557 # Adversary-in-the-Middle
 
-  - id: CCC.TH04 # Data is replicated to untrusted or external locations
-    title: Data is replicated to untrusted or external locations
+  - id: CCC.TH04
+    title: Data is Replicated to Untrusted or External Locations
     description: |
-      An attacker could replicate data to untrusted or external locations if replication configurations 
-      are not properly restricted. This could result in data leakage or exposure to unauthorized entities 
+      An attacker could replicate data to untrusted or external locations if replication configurations
+      are not properly restricted. This could result in data leakage or exposure to unauthorized entities
       outside the organization's trusted perimeter.
     features:
       - CCC.F21 # Replication
     mitre_technique:
       - T1565 # Data Manipulation
 
-  - id: CCC.TH05 # Data is corrupted during replication
-    title: Data is corrupted during replication
+  - id: CCC.TH05
+    title: Data is Corrupted During Replication
     description: |
       Malicious actors may attempt to corrupt, delay, or delete data during
       replication processes across multiple regions or availability zones,
@@ -75,8 +75,8 @@ threats:
       - T1491 # Defacement
       - T1490 # Inhibit System Recovery
 
-  - id: CCC.TH06 # Data is lost or corrupted
-    title: Data is lost or corrupted
+  - id: CCC.TH06
+    title: Data is Lost or Corrupted
     description: |
       Data loss or corruption can occur due to accidental deletion,
       misconfiguration, or malicious activity.  This can result in the loss of
@@ -91,11 +91,11 @@ threats:
       - T1491 # Defacement
       - T1490 # Inhibit System Recovery
 
-  - id: CCC.TH07 # Logs are Tampered With or Deleted
+  - id: CCC.TH07
     title: Logs are Tampered With or Deleted
     description: |
-      Attackers may tamper with or delete logs to cover their tracks and evade 
-      detection. This prevents security teams from identifying the full scope 
+      Attackers may tamper with or delete logs to cover their tracks and evade
+      detection. This prevents security teams from identifying the full scope
       of an attack and may disrupt forensic investigations.
     features:
       - CCC.F03 # Access/Activity Logs
@@ -105,11 +105,11 @@ threats:
       - T1565 # Data Manipulation (for altering log entries)
       - T1027 # Obfuscated Files or Information (if log files are altered to hide activity)
 
-  - id: CCC.TH08 # Cost Management Data is Manipulated
+  - id: CCC.TH08
     title: Cost Management Data is Manipulated
     description: |
-      Attackers may manipulate cost management data to hide excessive resource 
-      consumption or to deceive users about resource usage. This could be used 
+      Attackers may manipulate cost management data to hide excessive resource
+      consumption or to deceive users about resource usage. This could be used
       to exhaust budgets, cause financial losses, or evade detection of other attacks.
     features:
       - CCC.F15 # Cost Management
@@ -117,8 +117,8 @@ threats:
       - T1565 # Data Manipulation
       - T1070 # Indicator Removal on Host
 
-  - id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-    title: Logs or Montoring Data are Read by Unauthorized Users
+  - id: CCC.TH09
+    title: Logs or Monitoring Data are Read by Unauthorized Users
     description: |
       Unauthorized access to logs or monitoring data can provide attackers with
       valuable information about the system's configuration, operations, and
@@ -142,7 +142,7 @@ threats:
       - T1497 # Virtualization/Sandbox Evasion
       - T1518 # Software Discovery
 
-  - id: CCC.TH10 # Alerts are Intercepted
+  - id: CCC.TH10
     title: Alerts are Intercepted
     description: |
       Malicious actors may exploit event notifications to monitor and
@@ -157,7 +157,7 @@ threats:
       - T1049 # System Network Connections Discovery
       - T1083 # File and Directory Discovery
 
-  - id: CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - id: CCC.TH11
     title: Event Notifications are Incorrectly Triggered
     description: |
       Malicious actors may exploit event notifications to trigger sensitive
@@ -172,11 +172,11 @@ threats:
       - T1001.001 # Data Obfuscation: Junk Data
       - T1491.001 # Defacement: Internal Defacement
 
-  - id: CCC.TH12 # Resource constraints are exhausted
-    title: Resource constraints are exhausted
+  - id: CCC.TH12
+    title: Resource Constraints are Exhausted
     description: |
       An attack or misconfiguration can consume all available resources, such
-      as memory, CPU, or storage, to disrupt the service or deny access to 
+      as memory, CPU, or storage, to disrupt the service or deny access to
       legitimate users. This can be achieved through repeated requests,
       resource-intensive operations, or the lowering of rate/budget limits.
       Through auto-scaling, the attacker may also attempt to exhaust
@@ -190,23 +190,23 @@ threats:
       - T1499 # Endpoint Denial of Service
       - T1498 # Network Denial of Service
 
-  - id: CCC.TH13 # Resource Tags Are Manipulated
-    title: Resource Tags Are Manipulated
+  - id: CCC.TH13
+    title: Resource Tags are Manipulated
     description: |
-      Attackers may manipulate resource tags to alter organizational policies, 
-      disrupt billing, or evade detection. This can result in mismanaged 
+      Attackers may manipulate resource tags to alter organizational policies,
+      disrupt billing, or evade detection. This can result in mismanaged
       resources, unauthorized access, or financial abuse.
     features:
       - CCC.F20 # Tagging
     mitre_technique:
       - T1565 # Data Manipulation
 
-  - id: CCC.TH14 # Older Resource Versions Are Exploited
-    title: Older Resource Versions Are Exploited
+  - id: CCC.TH14
+    title: Older Resource Versions are Exploited
     description: |
-      Attackers may exploit vulnerabilities in older versions of resources, 
-      taking advantage of deprecated or insecure configurations. Without 
-      proper version control and monitoring, outdated versions can be used 
+      Attackers may exploit vulnerabilities in older versions of resources,
+      taking advantage of deprecated or insecure configurations. Without
+      proper version control and monitoring, outdated versions can be used
       to bypass security measures.
     features:
       - CCC.F18 # Versioning
@@ -221,16 +221,15 @@ threats:
       - T1565 # Data Manipulation
       - T1489 # Service Stop
 
-  - id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
-    title: Automated Enumeration and Reconnaissance by Non-Human Entities
+  - id: CCC.TH15
+    title: Automated Enumeration and Reconnaissance by Non-human Entities
     description: |
-      Attackers may deploy automated processes or bots to perform reconnaissance 
-      activities by enumerating resources such as APIs, file systems, or directories. 
-      These activities can help attackers identify vulnerabilities, misconfigurations, 
-      or unsecured resources, which can then be exploited for unauthorized access 
+      Attackers may deploy automated processes or bots to perform reconnaissance
+      activities by enumerating resources such as APIs, file systems, or directories.
+      These activities can help attackers identify vulnerabilities, misconfigurations,
+      or unsecured resources, which can then be exploited for unauthorized access
       or data theft.
     features:
       - CCC.F14 # API Access
     mitre_technique:
       - T1580 # Cloud Infrastructure Discovery
-

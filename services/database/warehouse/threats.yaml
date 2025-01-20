@@ -1,53 +1,51 @@
 common_threats:
-  - CCC.TH01  # Unauthorized access through elevated privileges
-  - CCC.TH02  # Data is intercepted in transit
-  - CCC.TH03  # Deployment region network is untrusted
-  - CCC.TH04  # Data is replicated to untrusted or external locations
-  - CCC.TH05  # Data is corrupted during replication
-  - CCC.TH06  # Data is lost or corrupted
-  - CCC.TH07  # Logs are Tampered With or Deleted
-  - CCC.TH08  # Cost Management Data is Manipulated
-  - CCC.TH09  # Logs or Monitoring Data are Read by Unauthorized Users
-  - CCC.TH10  # Alerts are Intercepted
-  - CCC.TH11  # Event Notifications are Incorrectly Triggered
-  - CCC.TH12  # Resource constraints are exhausted
-  - CCC.TH13  # Resource Tags Are Manipulated
-  - CCC.TH14  # Older Resource Versions Are Exploited
-  - CCC.TH15  # Automated Enumeration and Reconnaissance by Non-Human Entities
+  - CCC.TH01 # Unauthorized access through elevated privileges
+  - CCC.TH02 # Data is intercepted in transit
+  - CCC.TH03 # Deployment region network is untrusted
+  - CCC.TH04 # Data is replicated to untrusted or external locations
+  - CCC.TH05 # Data is corrupted during replication
+  - CCC.TH06 # Data is lost or corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Alerts are Intercepted
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # Resource Tags Are Manipulated
+  - CCC.TH14 # Older Resource Versions Are Exploited
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
 
 threats:
-  - id: CCC.DataWar.TH01  # Unauthorized Public Access to Datasets
+  - id: CCC.DataWar.TH01 # Unauthorized Public Access to Datasets
     title: Unauthorized Public Access to Datasets
     description: |
-      Datasets may be unintentionally made publicly accessible, either at the dataset level or via IAM policies, allowing unauthorized users to read or modify sensitive data, leading to data breaches and compliance violations.
+      Datasets may be unintentionally made publicly accessible,
+      either at the dataset level or via IAM policies, allowing unauthorized users to read or modify sensitive data,
+      leading to data breaches and compliance violations.
     features:
-      - CCC.DataWar.F01  # Dataset Management
-    controls:
-      - CCC.DataWar.C01  # Prevent Datasets from Being Publicly Accessible
+      - CCC.DataWar.F01 # Dataset Management
     mitre_technique:
-      - T1530  # Data from Cloud Storage Object
-      - T1078  # Valid Accounts
+      - T1530 # Data from Cloud Storage Object
+      - T1078 # Valid Accounts
 
-  - id: CCC.DataWar.TH02  # Data Exfiltration via Unauthorized Views
+  - id: CCC.DataWar.TH02 # Data Exfiltration via Unauthorized Views
     title: Data Exfiltration via Unauthorized Views
     description: |
-      Attackers may create or exploit unauthorized views to access sensitive data without proper permissions, leading to data leakage.
+      Attackers may create or exploit unauthorized views to access sensitive data without proper permissions,
+      leading to data leakage.
     features:
-      - CCC.DataWar.F02  # Authorized Views
-    controls:
-      - CCC.DataWar.C03  # Use Authorized Views for Data Sharing
+      - CCC.DataWar.F02 # Authorized Views
     mitre_technique:
-      - T1020  # Automated Exfiltration
-      - T1002  # Data Compressed
+      - T1020 # Automated Exfiltration
+      - T1002 # Data Compressed
 
-  - id: CCC.DataWar.TH03  # Exposure of Sensitive Data through Inadequate Column-Level Security
+  - id: CCC.DataWar.TH03 # Exposure of Sensitive Data through Inadequate Column-Level Security
     title: Exposure of Sensitive Data through Inadequate Column-Level Security
     description: |
-      Lack of proper column-level security can lead to unauthorized users accessing sensitive data fields, resulting in data breaches.
+      Lack of proper column-level security can lead to unauthorized users accessing sensitive data fields,
+      resulting in data breaches.
     features:
-      - CCC.DataWar.F03  # Column-Level Security
-    controls:
-      - CCC.DataWar.C04  # Implement Column-Level Security
+      - CCC.DataWar.F03 # Column-Level Security
     mitre_technique:
-      - T1552  # Unsecured Credentials
-      - T1580  # Obtain Capabilities
+      - T1552 # Unsecured Credentials
+      - T1580 # Obtain Capabilities
