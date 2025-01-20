@@ -8,7 +8,7 @@ Each threat definition corresponds to a service in the CCC Taxonomy, with every 
 
 To streamline maintenance, the CCC project maintains a list of [common threats].
 
-Each service category’s `threats.yaml` file references these common threats by listing their IDs under the top-level `common_threats` value. During the release pipeline, our [delivery tooling] compiles these common threats into the final document alongside any service-specific threats. In the final output, both types of threats are presented consistently, with the unique identifier being the only difference.
+Each service category’s `threats.yaml` file references these common threats by listing their IDs under the top-level `common_threats` value. During the release pipeline, our [Delivery Toolkit] compiles these common threats into the final document alongside any service-specific threats. In the final output, both types of threats are presented consistently, with the unique identifier being the only difference.
 
 ### Common Threats
 
@@ -89,5 +89,5 @@ This structure ensures that threats are standardized and can be consistently ide
 
 [common threats]: /services/common-threats.yaml
 [Communications WG]: ../../governance/working-groups/communications/charter.md
-[delivery tooling]: /delivery-tooling
+[Delivery Toolkit]: /delivery-toolkit
 [threats template]: ../../resources/templates/threats.yaml
