@@ -86,3 +86,43 @@ controls:
         tlp_levels:
           - tlp_red
           - tlp_amber
+
+  - id: CCC.RDMS.C04
+    title: Password Management
+    objective: |
+        DB Admin passwords must be change from their default values and approporatly managed by password or secret
+        managers.
+    control_family: Data
+    threats:
+      - CCC.RDMS.TH01 # Unauthorized Access to Database
+    nist_csf: PR.AA-01
+    control_mappings:
+      NIST_800_53:
+        - AC-2
+    test_requirements:
+      - id: CCC.RDMS.C01.TR02
+        text: |
+          Login to the DB using a default password, it must fail
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+
+  - id: CCC.RDMS.C05
+    title: Restrict Snapshot Sharing to Authorized Accounts
+    objective: |
+      Ensure snapshots are only shared with explicitly authorized account to limit data exposure and reduce data
+      exfiltration
+    control_family: data
+    threats:
+      - CCC.RDMS.TH02
+    nist_csf: PR.DS-10
+    control_mappings:
+      NIST_800_53:
+        - AC-4
+    test_requirements:
+      - id: CCC.RDMS.C03.TR01
+        text: |
+          Attempt to share snapshot with unauthorized account and attempt is denied
+        tlp_levels:
+          - tlp_red
+          - tlp_amber

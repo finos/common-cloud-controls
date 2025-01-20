@@ -108,7 +108,7 @@ threats:
       - T1485
 
   - id: CCC.RDMS.TH15
-    title: Brute force attack against the database
+    title: Brute Force Attack Against the Database
     description: |
       Threat actor uses brute force attack to discover
       database user password, threat actor then has access to the
@@ -119,7 +119,7 @@ threats:
       - T1110
 
   - id: CCC.RDMS.TH16
-    title: Database backups stopped
+    title: Database Backups Stopped
     description: |
       Threat actor stops database backups from occuring to inhibit
       system recovery.
