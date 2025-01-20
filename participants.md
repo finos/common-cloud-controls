@@ -37,6 +37,10 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Mike Smith, Scott Logic, Sep/11/2024
 - Daniel Moorhouse, Scott Logic, Sep/16/2024
 - Kamran Kazmi, Google, SEP/20/2024
+- Ian Walker-Smith, Citi, NOV/10/2024
+- Gordon Campbell, Scott Logic, JAN/14/2025
+- Akin Akinbobola, LSEG, JAN/16/2025
+- Vlad Georgescu, LSEG, JAN/16/2025
 
 ## How to enroll as a participant
 

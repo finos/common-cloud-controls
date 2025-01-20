@@ -9,7 +9,7 @@ on:
 env:
   SonatypeUrl: "https://finos.sonatype.app/platform/"
   SonatypeAppId: "ccc-delivery"
-  SonatypeScanTarget: "delivery-tooling/"
+  SonatypeScanTarget: "delivery-toolkit/"
   ExcludeDirectory: ""
 
 jobs:

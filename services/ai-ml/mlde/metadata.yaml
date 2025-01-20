@@ -1,0 +1,19 @@
+title: Machine Learning Development Environment
+id: CCC.MLDE
+description: |
+  Machine Learning Development Environment refers to the suite of tools,
+  infrastructure, and processes that facilitate the development, testing,
+  deployment, and maintenance of machine learning models.
+release_details:
+  - version: "2025.06"
+    assurance_level: None
+    threat_model_url: None
+    threat_model_author: None
+    red_team: None
+    red_team_exercise_url: None
+    release_manager:
+      name: Damien Burks
+      github_id: damienjburks
+      company: Citi
+      summary: None
+    change_log: []
