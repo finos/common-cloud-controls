@@ -162,7 +162,7 @@ controls:
     control_mappings:
       CCM: []
       ISO_27001: []
-      NIST_800_53: 
+      NIST_800_53:
         - AU-2 # Audit events
         - AU-3 # Content of audit records
         - AU-12 # Audit generation
@@ -427,7 +427,7 @@ controls:
     control_mappings:
       CCM: []
       ISO_27001: []
-      NIST_800_53: 
+      NIST_800_53:
         - AC-4 # Information flow enforcement
     test_requirements:
       - id: CCC.C10.TR01
