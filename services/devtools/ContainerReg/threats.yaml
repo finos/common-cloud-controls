@@ -28,7 +28,8 @@ threats:
   - id: CCC.ContReg.TH02 # Accumulation of Unused Artifacts
     title: Accumulation of Unused Artifacts
     description: |
-      The registry accumulates outdated or unused artifacts, increasing storage costs and the risk of deploying vulnerable or untested versions.
+      The registry accumulates outdated or unused artifacts, increasing storage
+      costs and the risk of deploying vulnerable or untested versions.
     features:
       - CCC.ContReg.F06 # Cleanup Policies
       - CCC.F18 # Versioning
