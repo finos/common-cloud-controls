@@ -39,11 +39,13 @@ features:
   - id: CCC.RDMS.F06
     title: DB Managed Credentials
     description: |
-      Ability to managed the database credentials using the cloud provider's secret management service.
+      Ability to managed the database credentials using the cloud
+      provider's secret management service.
   - id: CCC.RDMS.F07
     title: DB Self Managed Credentials
     description: |
-      Ability to manage the database credentials by client managed username and passwords.
+      Ability to manage the database credentials by client managed
+      username and passwords.
   - id: CCC.RDMS.F08
     title: Support for IPv4
     description: |
@@ -71,7 +73,8 @@ features:
   - id: CCC.RDMS.F14
     title: Dedicated Database Instances
     description: |
-      Option to deploy the database on a dedicated instance for isolation requirements.
+      Option to deploy the database on a dedicated instance for
+      isolation requirements.
   - id: CCC.RDMS.F15
     title: Horizontal Scaling
     description: |
@@ -79,4 +82,5 @@ features:
   - id: CCC.RDMS.F16
     title: Failover
     description: |
-      Standby database can be implemented for failover when the primary can't be reached.
+      Standby database can be implemented for failover when the
+      primary can't be reached.

@@ -15,8 +15,9 @@ threats:
   - id: CCC.RDMS.TH01
     title: Unauthorized access to database
     description: |
-      A threat actor gains unauthorized access to the cloud relational database by
-      using a compromised role or using default administrative credentials.
+      A threat actor gains unauthorized access to the cloud relational
+      database by using a compromised role or using default
+      administrative credentials.
     features:
       - CCC.RDMS.F01 # SQL Support
       - CCC.F06 # Identity Based Access Control
@@ -27,8 +28,9 @@ threats:
   - id: CCC.RDMS.TH02
     title: Unauthorized cross organization snapshot collection
     description: |
-      A threat actor initiates a snapshot collection activity using a privileged role
-      and copies the snapshot outside of the organization, which allows for data exfiltration and theft.
+      A threat actor initiates a snapshot collection activity using
+      a privileged role and copies the snapshot outside of the
+      organization, which allows for data exfiltration and theft.
     features:
       - CCC.F11 # Backup
       - CCC.F12 # Recovery
@@ -40,8 +42,9 @@ threats:
   - id: CCC.RDMS.TH03
     title: Disabled logging & monitoring
     description: |
-      A threat actor disables the logging and monitoring of the relational database,
-      which allows evasion and removes traces of malicious actions.
+      A threat actor disables the logging and monitoring of the
+      relational database, which allows evasion and removes
+      traces of malicious actions.
     features:
       - CCC.F10 # Logging
       - CCC.F09 # Monitoring
@@ -51,7 +54,9 @@ threats:
 
   - id: CCC.RDMS.TH04
     title: Unauthorized configuration modification
-    description: A threat actor attempts to make changes to the configuration of the cloud RDMS with a malicious role.
+    description: |
+      A threat actor attempts to make changes to the
+      configuration of the cloud RDMS with a malicious role.
     features:
       - CCC.RDMS.F01 # SQL Support
       - CCC.F06 # Identity Based Access Control
@@ -94,7 +99,9 @@ threats:
 
   - id: CCC.RDMS.TH14
     title: DB backup is uninentionally restored
-    description: A threat actor restores a database backup thereby destroying data.
+    description: |
+      A threat actor restores a database backup thereby
+      destroying data.
     features:
       - CCC.F11
     mitre_technique:
@@ -114,7 +121,8 @@ threats:
   - id: CCC.RDMS.TH16
     title: Database backups stopped
     description: |
-      Threat actor stops database backups from occuring to inhibit system recovery.
+      Threat actor stops database backups from occuring to inhibit
+      system recovery.
     features:
       - CCC.F11
     mitre_technique:
