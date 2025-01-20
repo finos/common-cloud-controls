@@ -8,7 +8,7 @@ Each feature definition should be created for a service in the CCC Taxonomy, wit
 
 To streamline maintenance, the CCC project maintains a list of [common features].
 
-Each service category’s `features.yaml` file references common features by listing their IDs under the top-level `common_features` value. During the release pipeline, our [delivery tooling] compiles these common features into the final document alongside any specific features. In the final output, both types of features are presented consistently, with the unique identifier being the only difference.
+Each service category’s `features.yaml` file references common features by listing their IDs under the top-level `common_features` value. During the release pipeline, our [Delivery Toolkit] compiles these common features into the final document alongside any specific features. In the final output, both types of features are presented consistently, with the unique identifier being the only difference.
 
 ### Common Features
 
@@ -47,4 +47,4 @@ Although a review from the [Communications WG] is optional, it may be useful if 
 
 [common features]: /services/common-features.yaml
 [Communications WG]: ../../governance/working-groups/communications/charter.md
-[delivery tooling]: /delivery-tooling
+[Delivery Toolkit]: /delivery-toolkit
