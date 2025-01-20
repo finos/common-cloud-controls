@@ -7,16 +7,17 @@ common_controls:
   - CCC.C06 # Prevent deployment in restricted regions
   - CCC.C07 # Alert on non-human enumeration
   - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-  - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+  - CCC.C10 # Prevent data replication to destinations outside of perimeter
 
 controls:
   - id: CCC.RDMS.C01
-    title: backup database to alternative trust-zone
+    title: Backup Database to Alternative Trust-Zone
     objective: |
-      Ensure that databases are backed up and the backup is outside of the applications trust-zone
+      Ensure that databases are backed up and the backup is outside of the
+      applications trust-zone
     control_family: Data
     threats:
-      - CCC.RDMS.TH14 # DB backup is uninentionally restored
+      - CCC.RDMS.TH14 # DB backup is unintentionally restored
     nist_csf: PR.DS-11
     control_mappings:
       NIST_800_53:
@@ -24,8 +25,64 @@ controls:
     test_requirements:
       - id: CCC.RDMS.C01.TR01
         text: |
-          From the same trust-zone as the database attempt to access the database backup and ensure that access is
-          denied
+          From the same trust-zone as the database attempt to access
+          the database backup and ensure that access is denied
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+
+  - id: CCC.RDMS.C02
+    title: Disable Access with Default Credentials
+    objective: |
+      Ensure that default credentials are disabled and only authorized
+      roles can access database resources.
+    control_family: Data
+    nist_csf: PR.AC-5
+    threats:
+      - CCC.RDMS.TH01 # Unauthorized access to database
+    control_mappings:
+      CCM:
+        - IAM-09
+        - IAM-13
+      ISO_27001:
+        - 2013 A.9.2.6
+      NIST_800_53:
+        - AC-17
+    test_requirements:
+      - id: CCC.RDMS.C02.TR01
+        text: Secure Database Access Control
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+
+  - id: CCC.RDMS.C03
+    title: Restrict Snapshot Collection To Trusted Roles
+    objective: Limit snapshot collection capabilities to trusted roles.
+    control_family: Data
+    nist_csf: PR.DS-3
+    threats:
+      - CCC.RDMS.TH02 # Unauthorized cross organization snapshot collection
+    control_mappings:
+      CCM:
+        - DSI-05
+        - DSI-07
+      ISO_27001:
+        - 2013 A.12.3.1
+      NIST_800_53:
+        - CP-09
+    test_requirements:
+      - id: CCC.RDMS.C3.TR01
+        text: Snapshot collection by trusted roles
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+      - id: CCC.RDMS.C03.TR02
+        text: Restriction of snapshot collection capabilities
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
+      - id: CCC.RDMS.C03.TR03
+        text: Prevent unauthorized snapshot collection
         tlp_levels:
           - tlp_red
           - tlp_amber
