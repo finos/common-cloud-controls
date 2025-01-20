@@ -39,7 +39,7 @@ controls:
     control_family: Data
     nist_csf: PR.AC-5
     threats:
-      - M1041 # Restrict User Privileges
+      - CCC.RDMS.TH01 # Unauthorized access to database
     control_mappings:
       CCM:
         - IAM-09
@@ -51,6 +51,9 @@ controls:
     test_requirements:
       - id: CCC.RDMS.C02.TR01
         text: Secure Database Access Control
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
 
   - id: CCC.RDMS.C03
     title: Restrict Snapshot Collection To Trusted Roles
@@ -58,7 +61,7 @@ controls:
     control_family: Data
     nist_csf: PR.DS-3
     threats:
-      - M1054 # Restrict Data Access
+      - CCC.RDMS.TH02 # Unauthorized cross organization snapshot collection
     control_mappings:
       CCM:
         - DSI-05
@@ -70,7 +73,16 @@ controls:
     test_requirements:
       - id: CCC.RDMS.C3.TR01
         text: Snapshot collection by trusted roles
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
       - id: CCC.RDMS.C03.TR02
         text: Restriction of snapshot collection capabilities
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
       - id: CCC.RDMS.C03.TR03
         text: Prevent unauthorized snapshot collection
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
