@@ -5,12 +5,12 @@ common_controls:
   - CCC.C05 # Prevent access from untrusted entities
   - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
   - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
-  
 controls:
   - id: CCC.Build.C01 # Restrict Allowed Build Agents
     title: Restrict Allowed Build Agents
     objective: |
-      Ensure that builds are executed only on authorized build agents to maintain control over the build environment and prevent unauthorized code execution.
+      Ensure that builds are executed only on authorized build agents to maintain
+      control over the build environment and prevent unauthorized code execution.
     control_family: Access Control
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -30,7 +30,8 @@ controls:
   - id: CCC.Build.C02 # Restrict Allowed External Services for Build Triggers
     title: Restrict Allowed External Services for Build Triggers
     objective: |
-      Ensure that builds can only be triggered by authorized external services or repositories to prevent unauthorized code execution or tampering.
+      Ensure that builds can only be triggered by authorized external services or
+      repositories to prevent unauthorized code execution or tampering.
     control_family: Access Control
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -42,7 +43,8 @@ controls:
     test_requirements:
       - id: CCC.Build.C02.TR01
         text: |
-          Attempt to trigger a build from an unauthorized external service or repository and verify that the build does not start.
+          Attempt to trigger a build from an unauthorized external service or
+          repository and verify that the build does not start.
         tlp_levels:
           - tlp_red
           - tlp_amber
@@ -50,7 +52,8 @@ controls:
   - id: CCC.Build.C03 # Deny External Network Access for Build Environments
     title: Deny External Network Access for Build Environments
     objective: |
-      Ensure that build environments do not have external network access to prevent unauthorized external access and data exfiltration.
+      Ensure that build environments do not have external network access to
+      prevent unauthorized external access and data exfiltration.
     control_family: Network Security
     threats:
       - CCC.TH02 # Data is intercepted in transit
