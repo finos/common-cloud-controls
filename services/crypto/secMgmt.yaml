@@ -13,7 +13,8 @@ controls:
   - id: CCC.SecMgmt.C01 # Enforce Automatic Secret Rotation
     title: Enforce Automatic Secret Rotation
     objective: |
-      Ensure that secrets are automatically rotated on a defined schedule to reduce the risk of secret compromise and unauthorized access.
+      Ensure that secrets are automatically rotated on a defined schedule to
+      reduce the risk of secret compromise and unauthorized access.
     control_family: Data Protection
     threats:
       - CCC.TH01 # Access control is misconfigured
@@ -26,7 +27,8 @@ controls:
     test_requirements:
       - id: CCC.SecMgmt.C01.TR01
         text: |
-          Attempt to use an outdated version of a secret after its rotation period has passed and verify that access is denied.
+          Attempt to use an outdated version of a secret after its rotation period
+          has passed and verify that access is denied.
         tlp_levels:
           - tlp_red
           - tlp_amber
@@ -34,7 +36,8 @@ controls:
   - id: CCC.SecMgmt.C02 # Enforce Secret Replication Policies
     title: Enforce Secret Replication Policies
     objective: |
-      Ensure that secrets are replicated only to authorized locations as per organizational data residency and compliance requirements.
+      Ensure that secrets are replicated only to authorized locations as per
+      organizational data residency and compliance requirements.
     control_family: Data Protection
     threats:
       - CCC.TH03 # Deployment region network is untrusted
