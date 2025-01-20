@@ -87,7 +87,7 @@ controls:
           - tlp_red
           - tlp_amber
 
-  - id: CCC.RDMS.C02
+  - id: CCC.RDMS.C04
     title: Password Management
     objective: |
         DB Admin passwords must be change from their default values and approporatly managed by password or secret
@@ -107,7 +107,7 @@ controls:
           - tlp_red
           - tlp_amber
 
-  - id: CCC.RDMS.C03
+  - id: CCC.RDMS.C05
     title: Restrict Snapshot Sharing to Authorized Accounts
     objective: |
       Ensure snapshots are only shared with explicitly authorized account to limit data exposure and reduce data
