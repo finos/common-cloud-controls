@@ -11,7 +11,7 @@ common_controls:
 
 controls:
   - id: CCC.RDMS.C01
-    title: Backup database to alternative trust-zone
+    title: Backup Database to Alternative Trust-Zone
     objective: |
       Ensure that databases are backed up and the backup is outside of the applications trust-zone
     control_family: Data
@@ -31,7 +31,7 @@ controls:
           - tlp_amber
 
   - id: CCC.RDMS.C02
-    title: DB admin passwords must be change from default and the password correctly managed
+    title: Password Management
     objective: |
         DB Admin passwords must be change from their default values and approporatly managed by password or secret
         managers.
@@ -51,7 +51,7 @@ controls:
           - tlp_amber
 
   - id: CCC.RDMS.C03
-    title: Restrict snapshot sharing to authorized accounts
+    title: Restrict Snapshot Sharing to Authorized Accounts
     objective: |
       Ensure snapshots are only shared with explicitly authorized account to limit data exposure and reduce data
       exfiltration
