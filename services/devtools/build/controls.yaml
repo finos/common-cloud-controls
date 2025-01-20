@@ -6,7 +6,7 @@ common_controls:
   - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
   - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 controls:
-  - id: CCC.Build.C01 # Restrict Allowed Build Agents
+  - id: CCC.Build.C01
     title: Restrict Allowed Build Agents
     objective: |
       Ensure that builds are executed only on authorized build agents to maintain
@@ -27,7 +27,7 @@ controls:
           - tlp_red
           - tlp_amber
 
-  - id: CCC.Build.C02 # Restrict Allowed External Services for Build Triggers
+  - id: CCC.Build.C02
     title: Restrict Allowed External Services for Build Triggers
     objective: |
       Ensure that builds can only be triggered by authorized external services or
@@ -49,7 +49,7 @@ controls:
           - tlp_red
           - tlp_amber
 
-  - id: CCC.Build.C03 # Deny External Network Access for Build Environments
+  - id: CCC.Build.C03
     title: Deny External Network Access for Build Environments
     objective: |
       Ensure that build environments do not have external network access to
