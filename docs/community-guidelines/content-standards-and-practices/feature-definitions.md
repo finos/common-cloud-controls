@@ -8,7 +8,7 @@ Each feature definition should be created for a service in the CCC Taxonomy, wit
 
 To streamline maintenance, the CCC project maintains a list of [common features].
 
-Each service category’s `features.yaml` file references common features by listing their IDs under the top-level `common_features` value. During the release pipeline, our [delivery tooling] compiles these common features into the final document alongside any specific features. In the final output, both types of features are presented consistently, with the unique identifier being the only difference.
+Each service category’s `features.yaml` file references common features by listing their IDs under the top-level `common_features` value. During the release pipeline, our [Delivery Toolkit] compiles these common features into the final document alongside any specific features. In the final output, both types of features are presented consistently, with the unique identifier being the only difference.
 
 ### Common Features
 
@@ -30,7 +30,7 @@ When creating or updating a `features.yaml` file for a service category, follow 
 
 ## Feature Definition Format
 
-To maintain consistency, all features—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [feature template](../templates/features.yaml) before release.
+To maintain consistency, all features—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [feature template](../../resources/templates/features.yaml) before release.
 
 ### Feature Definition Values
 
@@ -46,5 +46,5 @@ When creating a new feature definition, use the following values:
 Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
 [common features]: /services/common-features.yaml
-[Communications WG]: ../../working-groups/communications/charter.md
-[delivery tooling]: /delivery-tooling
+[Communications WG]: ../../governance/working-groups/communications/charter.md
+[Delivery Toolkit]: /delivery-toolkit
