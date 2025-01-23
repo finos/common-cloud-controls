@@ -41,3 +41,16 @@ service_categories:
           - Github Copilot for Azure
       - Google Cloud:
           - Google Duet AI
+  - id: CCC.MLDE
+    title: Machine Learning Development Environment
+    description: |
+      Services designed to facilitate the development, testing , deployment and
+      maintenance of machine learning models, to improve efficiency throughout
+      the machine learning lifecycle.
+    examples:
+      - AWS:
+          - Amazon SageMaker
+      - Azure:
+          - Azure Machine Learning
+      - Google Cloud:
+          - Google Vertex AI

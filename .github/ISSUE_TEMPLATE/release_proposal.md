@@ -23,7 +23,7 @@ assignees: "damienjburks"
 - [ ] Modify the `metadata.yaml` files to include the latest release details. This can be accomplished in an automated form by running the following command:
 
   ```text
-  cd delivery-tooling
+  cd delivery-toolkit
   go run . release-notes -t /services/storage/object
   ```
 

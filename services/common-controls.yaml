@@ -57,7 +57,9 @@ controls:
     control_mappings:
       CCM: []
       ISO_27001: []
-      NIST_800_53: []
+      NIST_800_53:
+        - SC-13 # Use of cryptographic controls
+        - SC-28 # Protection of information at rest
     test_requirements:
       - id: CCC.C02.TR01
         text: |
@@ -160,7 +162,10 @@ controls:
     control_mappings:
       CCM: []
       ISO_27001: []
-      NIST_800_53: []
+      NIST_800_53:
+        - AU-2 # Audit events
+        - AU-3 # Content of audit records
+        - AU-12 # Audit generation
     test_requirements:
       - id: CCC.C04.TR01
         text: |
@@ -169,7 +174,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C04.TR01
+      - id: CCC.C04.TR02
         text: |
           When any access attempt is made to the view sensitive information,
           the service MUST log the client identity, time, and result of the
@@ -177,7 +182,7 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
-      - id: CCC.C04.TR02
+      - id: CCC.C04.TR03
         text: |
           When any change is made to the service configuration, the service MUST
           log the change, including the client, time, previous state, and the
@@ -302,7 +307,8 @@ controls:
     control_mappings:
       CCM: []
       ISO_27001: []
-      NIST_800_53: []
+      NIST_800_53:
+        - AU-6 # Audit monitoring, analysis, and reporting
     test_requirements:
       - id: CCC.C07.TR01
         text: |
@@ -336,7 +342,9 @@ controls:
     control_mappings:
       CCM: []
       ISO_27001: []
-      NIST_800_53: []
+      NIST_800_53:
+        - CP-2 # Contingency plan
+        - CP-10 # Information system recovery and reconstitution
     test_requirements:
       - id: CCC.C08.TR01
         text: |
@@ -373,7 +381,8 @@ controls:
     control_mappings:
       CCM: []
       ISO_27001: []
-      NIST_800_53: []
+      NIST_800_53:
+        - AU-9 # Protection of audit information
     test_requirements:
       - id: CCC.C09.TR01
         text: |
@@ -418,7 +427,8 @@ controls:
     control_mappings:
       CCM: []
       ISO_27001: []
-      NIST_800_53: []
+      NIST_800_53:
+        - AC-4 # Information flow enforcement
     test_requirements:
       - id: CCC.C10.TR01
         text: |
