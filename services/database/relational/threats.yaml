@@ -59,7 +59,7 @@ threats:
   - id: CCC.RDMS.TH04
     title: Unauthorized Configuration Modification
     description: |
-      Changes to the configuration of a cloud RDBMS may be attempted using
+      Changes to the configuration of a cloud RDMS may be attempted using
       unauthorized or inappropriate roles. This condition could lead to system
       instability, security vulnerabilities, or unintended operational outcomes.
     features:
@@ -88,7 +88,7 @@ threats:
     title: Snapshot Collection with Unauthorized Encryption Key
     description: |
       Snapshot collection may be attempted using a non-default encryption
-      key not authorized for the cloud RDBMS. This condition could compromise
+      key not authorized for the cloud RDMS. This condition could compromise
       data security.
     features:
       - CCC.F11 # Backup
