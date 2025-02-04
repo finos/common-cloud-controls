@@ -20,10 +20,10 @@ export default function Home(): ReactNode {
       <NewSplashTop />
       <main>
         <WhatIsIt />
+        <Contributors />
         <Benefits />
         <LearnMore />
         <Releases />
-        <Contributors />
       </main>
     </Layout>
   );
