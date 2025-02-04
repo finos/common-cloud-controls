@@ -13,11 +13,12 @@ common_threats:
 
 threats:
   - id: CCC.RDMS.TH01
-    title: Unauthorized access to database
+    title: Unauthorized Access to Database
     description: |
-      A threat actor gains unauthorized access to the cloud relational
-      database by using a compromised role or using default
-      administrative credentials.
+      Unauthorized access to a cloud relational database may
+      occur due to the use of compromised roles or default
+      administrative credentials. This condition could result in
+      data exposure, alteration, or disruption of database operations.
     features:
       - CCC.RDMS.F01 # SQL Support
       - CCC.F06 # Identity Based Access Control
@@ -26,11 +27,12 @@ threats:
       - T1552
 
   - id: CCC.RDMS.TH02
-    title: Unauthorized cross organization snapshot collection
+    title: Unauthorized Cross-Organization Snapshot Collection
     description: |
-      A threat actor initiates a snapshot collection activity using
-      a privileged role and copies the snapshot outside of the
-      organization, which allows for data exfiltration and theft.
+      Unauthorized snapshot collection using privileged roles may
+      result in sensitive data being copied outside the organization’s
+      environment. This condition could lead to unintended data
+      exposure and compromise of organizational information.
     features:
       - CCC.F11 # Backup
       - CCC.F12 # Recovery
@@ -40,11 +42,13 @@ threats:
       - T1530
 
   - id: CCC.RDMS.TH03
-    title: Disabled logging & monitoring
+    title: Disabled Logging and Monitoring
     description: |
-      A threat actor disables the logging and monitoring of the
-      relational database, which allows evasion and removes
-      traces of malicious actions.
+      The logging and monitoring of a relational database may be disabled,
+      potentially hindering the detection of security events and reducing
+      visibility into system activities. This condition can impact the
+      organization's ability to investigate incidents and maintain operational
+      integrity.
     features:
       - CCC.F10 # Logging
       - CCC.F09 # Monitoring
@@ -53,10 +57,11 @@ threats:
       - T1562
 
   - id: CCC.RDMS.TH04
-    title: Unauthorized configuration modification
+    title: Unauthorized Configuration Modification
     description: |
-      A threat actor attempts to make changes to the
-      configuration of the cloud RDMS with a malicious role.
+      Changes to the configuration of a cloud RDMS may be attempted using
+      unauthorized or inappropriate roles. This condition could lead to system
+      instability, security vulnerabilities, or unintended operational outcomes.
     features:
       - CCC.RDMS.F01 # SQL Support
       - CCC.F06 # Identity Based Access Control
@@ -66,10 +71,12 @@ threats:
       - T1548
 
   - id: CCC.RDMS.TH05
-    title: Unencrypted connection to database
+    title: Unencrypted Connection to Database
     description: |
-      An end-user connects to the database over HTTP,
-      which is susceptible to network sniffing attacks and other exploits.
+      Establishing a connection to a database over an unencrypted protocol,
+      such as HTTP, may expose data to interception and unauthorized access
+      during transmission. This condition increases the risk of data compromise
+      through network eavesdropping.
     features:
       - CCC.F01 # Encryption in Transit
       - CCC.F02 # Encryption at Rest
@@ -78,10 +85,11 @@ threats:
       - T1040
 
   - id: CCC.RDMS.TH06
-    title: Snapshot collection with unauthorized encryption key
+    title: Snapshot Collection with Unauthorized Encryption Key
     description: |
-      A threat actor attempts to perform snapshot collection
-      using a non-default encryption key associated with the RDMS.
+      Snapshot collection may be attempted using a non-default encryption
+      key not authorized for the cloud RDMS. This condition could compromise
+      data security.
     features:
       - CCC.F11 # Backup
       - CCC.F12 # Recovery
@@ -90,29 +98,36 @@ threats:
       - T1530
 
   - id: CCC.RDMS.TH13
-    title: DB user authentication mechanism is misconfigured
-    description: A threat actor alters the DB user authentication mechanism
+    title: Misconfigured Database User Authentication Mechanism
+    description: |
+      The database user authentication mechanism may be improperly configured,
+      potentially allowing unauthorized access or disrupting normal authentication
+      processes. This condition could weaken access controls and compromise
+      database security.
     features:
       - CCC.F06
     mitre_technique:
       - T1556
 
   - id: CCC.RDMS.TH14
-    title: DB backup is uninentionally restored
+    title: Unintentional Database Backup Restoration
     description: |
-      A threat actor restores a database backup thereby
-      destroying data.
+      A database backup may be restored unintentionally, potentially
+      leading to the loss or overwrite of current data. This condition
+      could disrupt operations and result in data inconsistency or
+      corruption.
     features:
       - CCC.F11
     mitre_technique:
       - T1485
 
   - id: CCC.RDMS.TH15
-    title: Brute Force Attack Against the Database
+    title: Brute Force Attempts on Database Authentication
     description: |
-      Threat actor uses brute force attack to discover
-      database user password, threat actor then has access to the
-      database user
+      Repeated attempts to guess database user passwords may be made
+      through brute force techniques. This condition could result in
+      unauthorized access if successful, compromising database security
+      and sensitive information.
     features:
       - CCC.RDMS.F07
     mitre_technique:
@@ -121,8 +136,9 @@ threats:
   - id: CCC.RDMS.TH16
     title: Database Backups Stopped
     description: |
-      Threat actor stops database backups from occuring to inhibit
-      system recovery.
+      Database backups may be halted, potentially impairing the organization's
+      ability to recover data and maintain business continuity. This condition
+      increases the risk of data loss and extended system downtime.
     features:
       - CCC.F11
     mitre_technique:
