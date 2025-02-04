@@ -15,7 +15,7 @@ threats:
   - id: CCC.RDMS.TH01
     title: Unauthorized Access to Database
     description: |
-      Unauthorized access to a cloud relational database may 
+      Unauthorized access to a cloud relational database may
       occur due to the use of compromised roles or default
       administrative credentials. This condition could result in
       data exposure, alteration, or disruption of database operations.
