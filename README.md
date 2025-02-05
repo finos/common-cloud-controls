@@ -12,8 +12,6 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 [Download the FINOS CCC Primer Here](./docs/resources/training/FINOS-CCC-Primer-June-2024.pdf)
 
-[View The CCC Website Here For Further Details](https://ccc.finos.org)
-
 ## How To Use It
 
 - **For controls development:** Download the latest [release PDF or Markdown(https://github.com/finos/common-cloud-controls/releases) for your target service, and use that as the basis for developing a control catalog for your specific organization or use case
