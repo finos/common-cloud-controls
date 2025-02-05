@@ -52,7 +52,7 @@ threats:
   - id: CCC.TH04
     title: Data is Replicated to Untrusted or External Locations
     description: |
-      Data may be replicated to untrusted or external locations ff replication configurations are not properly restricted. 
+      Data may be replicated to untrusted or external locations if replication configurations are not properly restricted. 
       This could result in unintended data leakage or exposure outside the organization's trusted perimeter.
     features:
       - CCC.F21 # Replication
