@@ -1,3 +1,5 @@
+# SIL Open Font License
+
     Copyright (c) 2015, Chris Simpson <chris@victoryonemedia.com>, with Reserved Font Name: "Metropolis".
 
     This Font Software is licensed under the SIL Open Font License, Version 1.1.
@@ -5,8 +7,6 @@
     http://scripts.sil.org/OFL
 
     Version 2.0 - 18 March 2012
-
-# SIL Open Font License
 
 ## Preamble
 
