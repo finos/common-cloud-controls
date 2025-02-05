@@ -178,7 +178,7 @@ threats:
     description: |
       Resource constraints, such as memory, CPU, or storage, may be exhausted 
       due to misconfigurations, or excessive resource consumption. This could disrupt 
-      service availability, deny access to legitimate users, or impact other systems 
+      service availability, deny access to users, or impact other systems 
       within the same scope. Exhaustion may occur through repeated requests, 
       resource-intensive operations, or lowering rate/budget limits.
     features:
@@ -193,10 +193,9 @@ threats:
   - id: CCC.TH13
     title: Resource Tags are Manipulated
     description: |
-      Misconfigured or improperly secured resource tags may be altered, leading to
-      changes in organizational policies, billing disruptions, or unintended exposure
-      of sensitive data. This could result in mismanaged resources, financial misuse, 
-      or security vulnerabilities.
+      Resource tags may be altered, leading to changes in organizational policies, billing 
+      disruptions, or unintended exposure of sensitive data. This could result in mismanaged resources, 
+      financial misuse, or security vulnerabilities.
     features:
       - CCC.F20 # Tagging
     mitre_technique:
@@ -226,9 +225,8 @@ threats:
     title: Automated Enumeration and Reconnaissance by Non-human Entities
     description: |
      Automated processes or bots may be used to perform reconnaissance by enumerating
-     resources such as APIs, file systems, or directories. These activities can help
-     identify vulnerabilities, misconfigurations, or unsecured resources, which could
-     lead to unauthorized access or data exposure.
+     resources such as APIs, file systems, or directories. These activities can reveal potential
+     vulnerabilities, misconfigurations, or unsecured resources, which might result in unauthorized access or data exposure.
     features:
       - CCC.F14 # API Access
     mitre_technique:
