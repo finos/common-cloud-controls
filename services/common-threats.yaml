@@ -24,9 +24,8 @@ threats:
   - id: CCC.TH02
     title: Data is Intercepted in Transit
     description: |
-      If encrypted communication is not properly implemented, data transmitted between
-      clients and the service may be susceptible to interception or modification during
-      transit. This could result in unauthorized access to sensitive information or
+      Data transmitted between clients and the service may be susceptible to interception or modification in transit 
+      if encrypted communication is not properly implemented. This could result in unauthorized access to sensitive information or
       unintended data alterations.
     features:
       - CCC.F01 # Encryption in Transit Enabled by Default
@@ -53,9 +52,8 @@ threats:
   - id: CCC.TH04
     title: Data is Replicated to Untrusted or External Locations
     description: |
-      If replication configurations are not properly restricted, data may be replicated
-      to untrusted or external locations. This could result in unintended data leakage
-      or exposure outside the organization's trusted perimeter.
+      Data may be replicated to untrusted or external locations ff replication configurations are not properly restricted. 
+      This could result in unintended data leakage or exposure outside the organization's trusted perimeter.
     features:
       - CCC.F21 # Replication
     mitre_technique:
@@ -64,10 +62,9 @@ threats:
   - id: CCC.TH05
     title: Data is Corrupted During Replication
     description: |
-      Data may become corrupted, delayed, or deleted during replication processes
-      across regions or availability zones due to misconfigurations,or unintended 
-      disruptions. This can compromise data integrity and availability, potentially 
-      affecting recovery processes and system reliability.
+      Data may become corrupted, delayed, or deleted during replication processes across regions or availability 
+      zones due to misconfigurations or unintended disruptions. This could lead to compromised data integrity and 
+      availability, potentially affecting recovery processes and system reliability.
     features:
       - CCC.F08 # Multi-zone Deployment
       - CCC.F12 # Recovery
@@ -97,9 +94,8 @@ threats:
     title: Logs are Tampered With or Deleted
     description: |
       Logs may be tampered with or deleted due to inadequate access controls,
-      or misconfigurations. This can hinder the ability to identify
-      security incidents, disrupt forensic investigations, and affect the accuracy of
-      audit trails.
+      or misconfigurations. This can make it difficult to identify security incidents, 
+      disrupt forensic investigations, and affect the accuracy of audit trails.
     features:
       - CCC.F03 # Access/Activity Logs
       - CCC.F10 # Logging
@@ -112,8 +108,8 @@ threats:
     title: Cost Management Data is Manipulated
     description: |
       Cost management data may be manipulated due to misconfigurations, or unauthorized 
-      access. This could lead to inaccurate resource usage reporting, exhaust budgets, 
-      cause financial losses, or hinder the detection of other incidents.
+      access. This might result in inaccurate resource usage reporting, budget exhaustion, 
+      financial losses, and hamper incident detection.
     features:
       - CCC.F15 # Cost Management
     mitre_technique:
@@ -211,7 +207,7 @@ threats:
     description: |
       Older versions of resources may contain vulnerabilities due to deprecated
       or insecure configurations. Without proper version control and monitoring,
-      outdated versions could bypass security measures, potentially leading to
+      outdated versions could lead to security measures bypass, potentially leading to
       security risks or operational disruptions.
     features:
       - CCC.F18 # Versioning
