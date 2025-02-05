@@ -18,4 +18,4 @@ Contact me via chris.m.simpson@icloud.com or http://twitter.com/ChrisMSimpson fo
 
 ## Support
 
-You can now support work on Metropolis via Patreon at https://www.patreon.com/metropolis.
+You can now support work on Metropolis via Patreon.
