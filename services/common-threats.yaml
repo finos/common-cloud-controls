@@ -107,9 +107,9 @@ threats:
   - id: CCC.TH08
     title: Cost Management Data is Manipulated
     description: |
-      Cost management data may be manipulated due to misconfigurations, or unauthorized 
+      Cost management data may be changed due to misconfigurations, or unauthorized 
       access. This might result in inaccurate resource usage reporting, budget exhaustion, 
-      financial losses, and hamper incident detection.
+      financial losses, and hinder incident detection.
     features:
       - CCC.F15 # Cost Management
     mitre_technique:
