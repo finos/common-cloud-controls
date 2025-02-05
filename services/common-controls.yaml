@@ -55,7 +55,8 @@ controls:
     threats:
       - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
-      CCM: []
+      CCM: 
+        - DSP-17 # Sensitive data protection
       ISO_27001: []
       NIST_800_53:
         - SC-13 # Use of cryptographic controls
@@ -160,7 +161,8 @@ controls:
     threats:
       - CCC.TH01 # Access Control is Misconfigured
     control_mappings:
-      CCM: []
+      CCM:
+        - LOG-08 # Log Records
       ISO_27001: []
       NIST_800_53:
         - AU-2 # Audit events
@@ -305,7 +307,8 @@ controls:
     threats:
       - CCC.TH15 # Automated Enumeration
     control_mappings:
-      CCM: []
+      CCM: 
+      - LOG-05 # Audit Log Monitoring and Response 
       ISO_27001: []
       NIST_800_53:
         - AU-6 # Audit monitoring, analysis, and reporting
@@ -340,7 +343,8 @@ controls:
     threats:
       - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
-      CCM: []
+      CCM: 
+        - BCR-08 # Back up
       ISO_27001: []
       NIST_800_53:
         - CP-2 # Contingency plan
@@ -379,7 +383,10 @@ controls:
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
       - CCC.TH04 # Data is Replicated to Untrusted or External Locations
     control_mappings:
-      CCM: []
+      CCM:
+      - LOG-02 # Audit log protection
+      - LOG-04 # Audit log access and accountability 
+      - LOG-09 # Log protection
       ISO_27001: []
       NIST_800_53:
         - AU-9 # Protection of audit information
@@ -425,7 +432,9 @@ controls:
     threats:
       - CCC.TH04 # Data is Replicated to Untrusted or External Locations
     control_mappings:
-      CCM: []
+      CCM:
+       - DSP-10 # Sensitive data transfer
+       - DSP-19 # Data location
       ISO_27001: []
       NIST_800_53:
         - AC-4 # Information flow enforcement
