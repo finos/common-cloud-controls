@@ -6,39 +6,33 @@
 
 <img height="100px" src="https://github.com/finos/branding/blob/master/project-logos/active-project-logos/FINOS%20Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal.svg?raw=true" alt="CCC Logo"/>
 
-## What Is It?
-
 FINOS Common Cloud Controls (FINOS CCC) is an open standard project that describes consistent controls for compliant public cloud deployments in the financial services (FS) sector.
 
 This standard is a collaborative project which aims to develop a unified set of cybersecurity, resiliency, and compliance controls for common services across the major cloud service providers (CSPs).
 
 [Download the FINOS CCC Primer Here](./docs/resources/training/FINOS-CCC-Primer-June-2024.pdf)
 
-## What Are The Benefits?
+## How To Use It
 
-### 💯 Defining Best Practices Around Cloud Security
+- **For controls development:** Download the latest [release PDF or Markdown(https://github.com/finos/common-cloud-controls/releases) for your target service, and use that as the basis for developing a control catalog for your specific organization or use case
 
-> CCC aims to standardize cloud security controls for the banking sector, providing a common set of controls that CSPs can implement to meet the requirements of FS firms. As multiple FS firms are involved in the project, effort is shared, the controls will be representative of the sector as a whole, and be more robust than any one firm could develop on its own.
+- **For automation development:** Download the latest [release YAML for your target service](https://github.com/finos/common-cloud-controls/releases), and build tests for each “Test Requirement,” organized according to the control they are part of. Open source validators are currently being developed by the [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) project.
 
-### 🎯 One Target For CSPs To Conform To
+## How To Contribute
 
-> If all FS firms specify their own cloud infrastructure requirements, CSPs will have to conform to multiple standards. CCC aims to provide a single target for CSPs to conform to.
+There are several ways to contribute to FINOS Common Cloud Controls.
 
-### 🎒 Sharing The Burden Of A Common Definition
+### 1. Improving CCC
 
-> CCC aims to reduce the burden of compliance for CSPs by providing a common definition of controls which they can adopt. As CCC controls are specified in a cloud-agostic way, CSPs can implement them in a way that is consistent with their own infrastructure, while delivering services that FS firms understand and trust.
+FINOS CCC is maintained and run through GitHub.
 
-### 🧭 A Path Towards Common Implementation
+- Check [the issues](https://github.com/finos/common-cloud-controls/issues) to see if there's anything you'd like to work on.
+- CCC follows an iterative process, so you can suggest changes to the standard at any time. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions.
+- If you see something in the repo that you'd like to improve, Pull Requests are always welcome - the main branch of the repo is considered an iterative development branch.
 
-> FINOS sister project, [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) aims to be a downstream implementation of the CCC controls standard. In tandem with CCC, this will provide FS firms with a one-stop shop for secure cloud infrastructure deployment.
+### 2. Join FINOS CCC Project Meetings
 
-### 🥇 A Path Towards Certification
-
-> It is envisaged that eventually, CCC will offer _certification_ for CSPs who conform to the standard.
-
-## How Does It Work?
-
-The CCC project is in **incubation** at the moment but aims to deliver its first standards in 2024. The project is split into 6 working groups, each with a specific focus:
+The CCC project is split into 6 working groups as follows:
 
 - **Communications / All Hands**: Focused on the overall project communications and community engagement.
 - **Security** - Working to specify the security controls and threats that will be covered by the standard.
@@ -47,15 +41,7 @@ The CCC project is in **incubation** at the moment but aims to deliver its first
 - **Taxonomy** - Focused on defining the taxonomy of cloud services that will be covered by the standard.
 - **Delivery** - Focused on the delivery of the CCC standard for use downstream by FS firms and CSPs.
 
-Work is done in the open, with all meetings and decisions documented in the project GitHub repository.
-
-## Get Involved with FINOS Common Cloud Controls
-
-There are several ways to contribute to FINOS Common Cloud Controls.
-
-### 1. Join FINOS CCC Project Meetings
-
-The CCC project is split into 6 working groups in the CCC project which meet on a fortnightly basis:
+Work is done in the open, with all meetings and decisions documented in the project GitHub repository. Working groups meet on a fortnightly basis:
 
 | Working Group                                                                             | When                                       | Chair                | Mailing List                                                              |
 | ----------------------------------------------------------------------------------------- | ------------------------------------------ | -------------------- | ------------------------------------------------------------------------- |
@@ -68,17 +54,13 @@ The CCC project is split into 6 working groups in the CCC project which meet on 
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
-### 2. Join the FINOS Common Cloud Controls Mailing Lists
+### 3. Join the FINOS CCC Mailing Lists
 
-FINOS Common Cloud Controls communications are conducted through the <ccc-participants@lists.finos.org> mailing list. Simply email [ccc-participants+subscribe@lists.finos.org](mailto: <ccc-participants+subscribe@lists.finos.org>) to join.
+FINOS CCC communications are conducted through the <ccc-participants@lists.finos.org> mailing list. Simply email [ccc-participants+subscribe@lists.finos.org](mailto: <ccc-participants+subscribe@lists.finos.org>) to join.
 
-### 3. Raise a FINOS Common Cloud Controls GitHub Issue
+### FINOS CSLA Needed to Participate in CCC
 
-FINOS Common Cloud Controls is maintained and run through GitHub. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions.
-
-### FINOS CSLA Needed to Participate in Common Cloud Controls
-
-All FINOS Common Cloud Controls participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices) before joining project calls and collaborating in working groups.
+All FINOS CCC participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices) before joining project calls and collaborating in working groups.
 
 Please visit [participants.md](participants.md) and raise a Pull Request by adding your `name`, `organisation` and `enrollment date` to the markdown file.
 

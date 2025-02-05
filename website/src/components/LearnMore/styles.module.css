@@ -1,0 +1,30 @@
+.videoGrid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+
+}
+
+.videoGrid .item {
+	display: block;
+	flex-basis: 29rem;
+	margin: 0rem;
+	padding: 1rem;
+	border: 1px dashed #000000;
+	height: 25rem;
+}
+
+.item figcaption {
+	font-weight: 600;
+	font-family: "metropolis";
+	padding: 1rem;
+}
+
+p {
+	padding: 1rem;
+}
+
+p a {
+	color: blue;
+	font-weight: 800;
+}
