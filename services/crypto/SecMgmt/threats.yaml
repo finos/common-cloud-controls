@@ -11,4 +11,3 @@ common_threats:
   - CCC.TH14 # Older Resource Versions Are Exploited
   - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
   - CCC.TH16 # Non-compliance with encryption key management policies
-
