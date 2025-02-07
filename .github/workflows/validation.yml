@@ -1,0 +1,17 @@
+name: Validation
+
+on:
+  workflow_call:
+
+jobs:
+  find-todos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: FINOS CCC Validator
+        uses: sshiells-scottlogic/finos-ccc-validator@1.0.0
+        with:
+          targetDir: "./services"
