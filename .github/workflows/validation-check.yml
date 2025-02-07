@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  find-todos:
+  validate-services:
     runs-on: ubuntu-latest
 
     steps:
