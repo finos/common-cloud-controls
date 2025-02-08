@@ -35,7 +35,10 @@ const config: Config = {
     [
       'classic',
       {
-        docs: false
+        docs: false,
+        "theme": {
+          "customCss": "./src/css/custom.css"
+        }
       }
     ],
   ],
