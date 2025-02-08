@@ -69,27 +69,8 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Primer',
-              to: 'https://github.com/finos/common-cloud-controls/blob/main/docs/resources/training/FINOS-CCC-Primer-June-2024.pdf',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/finos/common-cloud-controls'
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Finos.org. Built with Docusaurus.`,
+
+      copyright: `Copyright © ${new Date().getFullYear()} finos.org. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
