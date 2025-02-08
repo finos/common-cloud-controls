@@ -8,7 +8,7 @@ Each service category in the CCC Taxonomy should have its own set of control def
 
 To streamline maintenance, the CCC project maintains a list of [common controls].
 
-Each service category’s `controls.yaml` file references these by listing their IDs under the top-level `common_controls` value. During the release pipeline, our [delivery tooling] compiles these common controls into the final document alongside any specific controls. In the final output, both types of controls are presented consistently, with the unique identifier being the only difference.
+Each service category’s `controls.yaml` file references these by listing their IDs under the top-level `common_controls` value. During the release pipeline, our [Delivery Toolkit] compiles these common controls into the final document alongside any specific controls. In the final output, both types of controls are presented consistently, with the unique identifier being the only difference.
 
 ### Common Controls
 
@@ -56,7 +56,7 @@ A control family refers to a group of related security controls that are organiz
 The list of control families is maintained in the [common controls] data.
 
 [common controls]: /services/common-controls.yaml
-[delivery tooling]: /delivery-tooling
+[Delivery Toolkit]: /delivery-toolkit
 [threats]: ./threat-definitions.md
 [ref]: https://www.cisa.gov/sites/default/files/2023-02/tlp-2-0-user-guide_508c.pdf
 

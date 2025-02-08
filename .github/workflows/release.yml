@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./delivery-tooling
+        working-directory: ./delivery-toolkit
     steps:
       - uses: actions/checkout@v4
         name: Build
@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4.4.0
         with:
           name: ccc-catalogs
-          path: ./delivery-tooling/artifacts/*
+          path: ./delivery-toolkit/artifacts/*
           if-no-files-found: error
           retention-days: 1 # Maximum Retention
 
