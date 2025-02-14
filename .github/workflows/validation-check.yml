@@ -12,6 +12,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: FINOS CCC Validator
-        uses: sshiells-scottlogic/finos-ccc-validator@1.0.6
+        uses: sshiells-scottlogic/finos-ccc-validator@1.0.7
         with:
           targetDir: "./services"
