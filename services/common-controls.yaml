@@ -434,7 +434,7 @@ controls:
     control_mappings:
       CCM:
         - DSP-10 # Sensitive data transfer
-         - DSP-19 # Data location
+        - DSP-19 # Data location
       ISO_27001: []
       NIST_800_53:
         - AC-4 # Information flow enforcement
