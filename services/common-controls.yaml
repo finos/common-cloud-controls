@@ -385,8 +385,8 @@ controls:
     control_mappings:
       CCM:
         - LOG-02 # Audit log protection
-      - LOG-04 # Audit log access and accountability
-      - LOG-09 # Log protection
+        - LOG-04 # Audit log access and accountability
+        - LOG-09 # Log protection
       ISO_27001: []
       NIST_800_53:
         - AU-9 # Protection of audit information
@@ -434,7 +434,7 @@ controls:
     control_mappings:
       CCM:
         - DSP-10 # Sensitive data transfer
-       - DSP-19 # Data location
+         - DSP-19 # Data location
       ISO_27001: []
       NIST_800_53:
         - AC-4 # Information flow enforcement
