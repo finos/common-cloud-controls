@@ -1,6 +1,6 @@
 # Upgrading a Recommendation to become a Policy
 
-This document is a [community guideline].
+This document is a [community policy].
 
 In order for a community guideline to become a community policy, the guideline must pass a [SC] [vote]. A [vote] can be called for by a [SC] member sponsor or the [Community Structure WG] Lead.
 
@@ -10,7 +10,7 @@ In order for a community guideline to become a community policy, the guideline m
 4. The voting period will remain open for 7 days.
 5. A majority vote is required for the proposal to pass.
 
-[community guideline]: ./README.md
+[community policy]: ./README.md
 [Policies]: ../community-policies
 [vote]: ../governance/steering/charter.md#voting
 [SC]: ../governance/community-structure.md#steering-committee
