@@ -16,7 +16,7 @@ controls:
       Log and monitor:  Inputs from the user, output from the model, 
       API calls and information crossing trust boundaries.
     control_family: Data
-    nist_csf: PR.DS-1 # Data-at-rest is protected
+    nist_csf: DE.CM-09 # Computing hardware and software, runtime environments, and their data are monitored to find potentially adverse events
     threats:
       - CCC.GenAI.TH01 # Instability in foundation model behaviour
     control_mappings:
