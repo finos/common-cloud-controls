@@ -1,0 +1,34 @@
+common_controls:
+  - CCC.C01 # Prevent Unencrypted Requests
+  - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+  - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+  - CCC.C04 # Log All Access and Changes
+  - CCC.C05 # Prevent Access from Untrusted Entities
+  - CCC.C06 # Prevent Deployment in Restricted Regions
+  - CCC.C07 # Alert on Unusual Enumeration Activity
+  - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+  - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+
+controls:
+  - id: CCC.GenAI.C01
+    title: System observability
+    objective: |
+      Log and monitor:  Inputs from the user, output from the model, 
+      API calls and information crossing trust boundaries.
+    control_family: Data
+    nist_csf: PR.DS-1 # Data-at-rest is protected
+    threats:
+      - CCC.GenAI.TH01 # Instability in foundation model behaviour
+    control_mappings:
+      air:
+        - https://air-governance-framework.finos.org/#CT-4
+    test_requirements:
+      - id: CCC.GenAI.C01.TR01
+        text: |
+          Call the API with some test data and observe that the logs contain both the input
+          data and the output result returned.
+        tlp_levels:
+          - tlp_clear
+          - tlp_green
+          - tlp_amber
+          - tlp_red

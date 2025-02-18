@@ -1,0 +1,28 @@
+common_threats:
+  - CCC.TH01 # Access Control is Misconfigured
+  - CCC.TH02 # Data is Intercepted in Transit
+  - CCC.TH03 # Deployment Region Network is Untrusted
+  - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+  - CCC.TH05 # Data is Corrupted During Replication
+  - CCC.TH06 # Data is Lost or Corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Alerts are Intercepted
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource Constraints are Exhausted
+  - CCC.TH13 # Resource Tags are Manipulated
+  - CCC.TH14 # Older Resource Versions are Exploited
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+
+threats:
+  - id: CCC.GenAI.TH01
+    title: Instability in foundation model behaviour
+    description: |
+      Instability in foundation model behaviour would manifest itself 
+      as deviations in the output (i.e during inferencing), when supplied with the same prompt.
+    features:
+      - CCC.GenAI.F01 # Text-Based Model Selection
+    threat_reference:
+      - https://air-governance-framework.finos.org/#TR-5
+    mitre_technique:
