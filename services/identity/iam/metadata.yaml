@@ -1,8 +1,9 @@
-title: CCC Virtual Machines
-id: CCC.VM
+title: Identity and Access Management
+id: CCC.IAM
 description: |
-  This documents the minimal set of features that should be present for a
-  virtual machine service to be considered for use in financial services ecosystems.
+  This documents the minimal set of features that should be present
+  for a identity and access management service to be considered
+  for use in financial services ecosystems.
 release_details:
   - version: "2025.06"
     assurance_level: None
@@ -14,5 +15,5 @@ release_details:
       name: Damien Burks
       github_id: damienjburks
       company: Citi
-      summary: Initial release
+      summary: None
     change_log: []

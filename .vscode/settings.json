@@ -12,7 +12,7 @@
     "schemas/features-schema.json": "/**/features.yaml",
     "schemas/threats-schema.json": "/**/threats.yaml",
     "schemas/controls-schema.json": "/**/controls.yaml",
-    "schemas/metadata-schema.json": "/**/metadata.yaml",
+    "schemas/metadata-schema.json": "/**/metadata.yaml"
   },
   "[go]": {
     "editor.defaultFormatter": "golang.go"
