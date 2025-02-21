@@ -82,7 +82,7 @@ features:
     title: Soft Delete
     description: |
       Supports the ability to prevent the immediate deletion of a managed key. This includes the ability
-      recover accidental deletion of keys within a grace period.
+      to recover accidental deletion of keys within a grace period.
   - id: CCC.KeyMgmt.F19
     title: Delete Key
     description: |
@@ -100,3 +100,27 @@ features:
     title: Key Import
     description: |
       Supports the ability to import externally generated keys into the KMS.
+  - id: CCC.KeyMgmt.F23
+    title: Key Expiry
+    description: |
+      Supports the ability to set an expiration date for a key
+  - id: CCC.KeyMgmt.F24
+    title: Key Regionality
+    description: |
+      Supports the ability to limit the storage and use of a key to specific regions
+  - id: CCC.KeyMgmt.F25
+    title: Key Replication
+    description: |
+      Supports the ability to securely replicate a key across different regions
+  - id: CCC.KeyMgmt.F26
+    title: Key Usage Limits
+    description: |
+      Supports the ability to set limits on key operations
+  - id: CCC.KeyMgmt.F27
+    title: Key Permissions
+    description: |
+      Supports the ability to assign distinct permission sets to different entities for each key
+  - id: CCC.KeyMgmt.F28
+    title: Key Export
+    description: |
+      Supports the ability to export keys from the KMS
