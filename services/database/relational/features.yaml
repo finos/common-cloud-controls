@@ -9,6 +9,7 @@ common_features:
   - CCC.F10 # Logging
   - CCC.F11 # Backup
   - CCC.F12 # Recovery
+  - CCC.F13 # Infrastructure as Code
   - CCC.F17 # Alerting
   - CCC.F19 # On-Demand Scaling
   - CCC.F20 # Tagging
