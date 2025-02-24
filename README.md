@@ -22,6 +22,8 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 ## How To Contribute
 
+## How To Contribute
+
 There are several ways to contribute to FINOS Common Cloud Controls.
 
 ### 1. Improving CCC
