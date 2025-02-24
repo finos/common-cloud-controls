@@ -18,7 +18,7 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 - **For controls development:** Download the latest [release PDF or Markdown](https://github.com/finos/common-cloud-controls/releases) for your target service, and use that as the basis for developing a control catalog for your specific organization or use case.
 
-- **For automation development:** Download the latest [release YAML for your target service](https://github.com/finos/common-cloud-controls/releases), and build tests for each “Test Requirement,” organized according to the control they are part of. Open source validators are currently being developed by the [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) project.
+- **For automation development:** Download the latest [release YAML for your target service](https://github.com/finos/common-cloud-controls/releases), and build tests for each “Test Requirement”, organized according to the control they are part of. Open source validators are currently being developed by the [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) project.
 
 ## How To Contribute
 
