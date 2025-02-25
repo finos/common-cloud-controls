@@ -41,6 +41,8 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Gordon Campbell, Scott Logic, JAN/14/2025
 - Akin Akinbobola, LSEG, JAN/16/2025
 - Vlad Georgescu, LSEG, JAN/16/2025
+- Kris West, NatWest Group, Feb/25/2025
+- James Mcleod, NatWest Group, Feb/25/2025
 
 ## How to enroll as a participant
 
