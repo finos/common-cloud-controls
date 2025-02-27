@@ -1,0 +1,49 @@
+mappings:
+  - from: CCC.ObjStor.C01 # Prevent Requests to Buckets or Objects with Untrusted KMS Keys
+    to:
+      - id: SC-28 # Protection of Information at Rest
+        justification: The control is mapped to the NIST 800-53 SC-28 control because it is a requirement for protecting information at rest.
+
+  - from: CCC.ObjStor.C02 # Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
+    to:
+      - id: AC-3 # Access Enforcement
+        justification: This control maps to AC-3 as it enforces approved authorizations for logical access to information
+      and system resources.
+      - id:  AC-6 # Least Privilege
+        justification: Maps to AC-6 as it implements the principle of least privilege by ensuring consistent bucket-level permissions.
+
+  - from: CCC.ObjStor.C03 # Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
+    to:
+      - id: SC-28 # Protection of Information at Rest
+        justification: Maps to SC-28 as it protects stored data from deletion through retention policies.
+      - id: AU-11 # Audit Record Retention
+        justification: Maps to AU-11 as it enforces retention requirements for stored data.
+      - id: CP-10 # System Recovery and Reconstitution
+        justification: Maps to CP-10 by ensuring data can be recovered after deletion attempts within retention period.
+
+  - from: CCC.ObjStor.C04 # Objects have an Effective Retention Policy by Default
+    to:
+      - id: SC-28 # Protection of Information at Rest
+        justification: Maps to SC-28 by protecting stored data through default retention policies.
+      - id: AU-11 # Audit Record Retention
+        justification: Maps to AU-11 by enforcing retention requirements for all stored objects by default.
+      - id: CM-2 # Baseline Configuration
+        justification: Maps to CM-2 as it establishes a baseline configuration for object retention.
+
+  - from: CCC.ObjStor.C05 # Versioning is Enabled for All Objects in the Bucket
+    to:
+      - id: SC-28 # Protection of Information at Rest
+        justification: Maps to SC-28 by protecting stored data through versioning.
+      - id: CP-9 # Information System Backup
+        justification: Maps to CP-9 as versioning provides a form of backup for modified or deleted objects.
+      - id: CP-10 # System Recovery and Reconstitution
+        justification: Maps to CP-10 by enabling recovery of previous versions of objects.
+
+  - from: CCC.ObjStor.C06 # Access Logs are Stored in a Separate Data Store
+    to:
+      - id: AU-4 # Audit Storage Capacity
+        justification: Maps to AU-4 by ensuring adequate separate storage for access logs.
+      - id: AU-9 # Protection of Audit Information
+        justification: Maps to AU-9 by protecting audit logs through separation from the primary data store.
+      - id: AU-11 # Audit Record Retention
+        justification: Maps to AU-11 by enabling secure retention of access logs.
