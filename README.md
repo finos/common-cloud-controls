@@ -86,7 +86,7 @@ The CCC Steering Committee is the governing body of the CCC project, providing d
 | Vladimir Rabotka | Morgan Stanley | FSI       |
 | Robert Griffiths | Scott Logic    | Community |
 | Eddie Knight     | Sonatype       | Community |
-| Adrian Hammond   | Red Hat        | Community |
+| Aric Rosenbaum   | Red Hat        | Community |
 
 @robmoffat is the current [FINOS Point of Contact](docs/governance/finos-poc.md) for the CCC project.
 
