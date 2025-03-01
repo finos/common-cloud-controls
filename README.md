@@ -12,11 +12,15 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 [Download the FINOS CCC Primer Here](./docs/resources/training/FINOS-CCC-Primer-June-2024.pdf)
 
+[View The CCC Website Here For Further Details](https://ccc.finos.org)
+
 ## How To Use It
 
-- **For controls development:** Download the latest [release PDF or Markdown(https://github.com/finos/common-cloud-controls/releases) for your target service, and use that as the basis for developing a control catalog for your specific organization or use case
+- **For controls development:** Download the latest [release PDF or Markdown](https://github.com/finos/common-cloud-controls/releases) for your target service, and use that as the basis for developing a control catalog for your specific organization or use case.
 
-- **For automation development:** Download the latest [release YAML for your target service](https://github.com/finos/common-cloud-controls/releases), and build tests for each “Test Requirement,” organized according to the control they are part of. Open source validators are currently being developed by the [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) project.
+- **For automation development:** Download the latest [release YAML for your target service](https://github.com/finos/common-cloud-controls/releases), and build tests for each “Test Requirement”, organized according to the control they are part of. Open source validators are currently being developed by the [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) project.
+
+## How To Contribute
 
 ## How To Contribute
 
@@ -26,9 +30,9 @@ There are several ways to contribute to FINOS Common Cloud Controls.
 
 FINOS CCC is maintained and run through GitHub.
 
-- Check [the issues](https://github.com/finos/common-cloud-controls/issues) to see if there's anything you'd like to work on.
-- CCC follows an iterative process, so you can suggest changes to the standard at any time. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions.
-- If you see something in the repo that you'd like to improve, Pull Requests are always welcome - the main branch of the repo is considered an iterative development branch.
+- **Find a place to help the community:** Check [the issues](https://github.com/finos/common-cloud-controls/issues) to see if there's anything you'd like to work on.
+- **Create an entry for a new service category or family:**  Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions.
+- **Modify an existing document:** Pull Requests are always welcome - the main branch of the repo is considered an iterative development branch.
 
 ### 2. Join FINOS CCC Project Meetings
 
