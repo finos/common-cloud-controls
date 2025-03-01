@@ -10,23 +10,11 @@ common_threats:
   - CCC.TH10 # Alerts are Intercepted
   - CCC.TH11 # Event Notifications are Incorrectly Triggered
   - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # Resource tags are manipulated
+  - CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
 
 threats:
   - id: CCC.RDMS.TH01
-    title: Unauthorized Access to Database
-    description: |
-      Unauthorized access to a cloud relational database may
-      occur due to the use of compromised roles or default
-      administrative credentials. This condition could result in
-      data exposure, alteration, or disruption of database operations.
-    features:
-      - CCC.RDMS.F01 # SQL Support
-      - CCC.F06 # Identity Based Access Control
-    mitre_technique:
-      - TA0006
-      - T1552
-
-  - id: CCC.RDMS.TH02
     title: Unauthorized Cross-Organization Snapshot Collection
     description: |
       Unauthorized snapshot collection using privileged roles may
@@ -41,7 +29,7 @@ threats:
       - TA0009
       - T1530
 
-  - id: CCC.RDMS.TH03
+  - id: CCC.RDMS.TH02
     title: Disabled Logging and Monitoring
     description: |
       The logging and monitoring of a relational database may be disabled,
@@ -56,7 +44,7 @@ threats:
       - TA0005
       - T1562
 
-  - id: CCC.RDMS.TH04
+  - id: CCC.RDMS.TH03
     title: Unauthorized Configuration Modification
     description: |
       Changes to the configuration of a cloud RDMS may be attempted using
@@ -70,21 +58,7 @@ threats:
       - TA0004
       - T1548
 
-  - id: CCC.RDMS.TH05
-    title: Unencrypted Connection to Database
-    description: |
-      Establishing a connection to a database over an unencrypted protocol,
-      such as HTTP, may expose data to interception and unauthorized access
-      during transmission. This condition increases the risk of data compromise
-      through network eavesdropping.
-    features:
-      - CCC.F01 # Encryption in Transit
-      - CCC.F02 # Encryption at Rest
-    mitre_technique:
-      - TA0006
-      - T1040
-
-  - id: CCC.RDMS.TH06
+  - id: CCC.RDMS.TH04
     title: Snapshot Collection with Unauthorized Encryption Key
     description: |
       Snapshot collection may be attempted using a non-default encryption
@@ -97,7 +71,7 @@ threats:
       - TA0009
       - T1530
 
-  - id: CCC.RDMS.TH13
+  - id: CCC.RDMS.TH05
     title: Misconfigured Database User Authentication Mechanism
     description: |
       The database user authentication mechanism may be improperly configured,
@@ -105,11 +79,11 @@ threats:
       processes. This condition could weaken access controls and compromise
       database security.
     features:
-      - CCC.F06
+      - CCC.F06 # Identity Based Access Control
     mitre_technique:
       - T1556
 
-  - id: CCC.RDMS.TH14
+  - id: CCC.RDMS.TH06
     title: Unintentional Database Backup Restoration
     description: |
       A database backup may be restored unintentionally, potentially
@@ -117,11 +91,11 @@ threats:
       could disrupt operations and result in data inconsistency or
       corruption.
     features:
-      - CCC.F11
+      - CCC.F11 # Backup
     mitre_technique:
       - T1485
 
-  - id: CCC.RDMS.TH15
+  - id: CCC.RDMS.TH07
     title: Brute Force Attempts on Database Authentication
     description: |
       Repeated attempts to guess database user passwords may be made
@@ -129,17 +103,17 @@ threats:
       unauthorized access if successful, compromising database security
       and sensitive information.
     features:
-      - CCC.RDMS.F07
+      - CCC.RDMS.F07 # DB Self Managed Credentials
     mitre_technique:
       - T1110
 
-  - id: CCC.RDMS.TH16
+  - id: CCC.RDMS.TH08
     title: Database Backups Stopped
     description: |
       Database backups may be halted, potentially impairing the organization's
       ability to recover data and maintain business continuity. This condition
       increases the risk of data loss and extended system downtime.
     features:
-      - CCC.F11
+      - CCC.F11 # Backup
     mitre_technique:
       - T1490
