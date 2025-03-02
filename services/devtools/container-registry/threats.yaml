@@ -14,24 +14,24 @@ common_threats:
   - CCC.TH16 # Non-compliance with encryption key management policies
 
 threats:
-  - id: CCC.ContReg.TH01 # Vulnerabilities in Artifacts are Exploited
+  - id: CCC.CntrReg.TH01 # Vulnerabilities in Artifacts are Exploited
     title: Vulnerabilities in Artifacts are Exploited
     description: |
       Attackers exploit known vulnerabilities in container images or artifacts stored in
       the registry, leading to unauthorized access, data breaches, or system compromise.
     features:
-      - CCC.ContReg.F04 # Vulnerability Scanning Integration
+      - CCC.CntrReg.F04 # Vulnerability Scanning Integration
     mitre_technique:
       - T1190 # Exploit Public-Facing Application
       - T1195 # Supply Chain Compromise
 
-  - id: CCC.ContReg.TH02 # Accumulation of Unused Artifacts
+  - id: CCC.CntrReg.TH02 # Accumulation of Unused Artifacts
     title: Accumulation of Unused Artifacts
     description: |
       The registry accumulates outdated or unused artifacts, increasing storage
       costs and the risk of deploying vulnerable or untested versions.
     features:
-      - CCC.ContReg.F06 # Cleanup Policies
+      - CCC.CntrReg.F06 # Cleanup Policies
       - CCC.F18 # Versioning
     mitre_technique:
       - T1490 # Inhibit System Recovery
