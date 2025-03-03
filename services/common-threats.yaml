@@ -256,4 +256,4 @@ threats:
       - CCC.F10 # Logging
       - CCC.F09 # Monitoring
     mitre_technique:
-      - T1562
+      - T1562 # Impair Defenses
