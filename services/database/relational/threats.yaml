@@ -30,7 +30,7 @@ threats:
       - T1530
 
   - id: CCC.RDMS.TH02
-    title: Disabled Logging and Monitoring
+    title: Disabled Logging and Monitoring #TODO: why is this not a commmon threat?
     description: |
       The logging and monitoring of a relational database may be disabled,
       potentially hindering the detection of security events and reducing
@@ -45,7 +45,7 @@ threats:
       - T1562
 
   - id: CCC.RDMS.TH03
-    title: Unauthorized Configuration Modification
+    title: Unauthorized Configuration Modification #TODO: This looks too broad
     description: |
       Changes to the configuration of a cloud RDMS may be attempted using
       unauthorized or inappropriate roles. This condition could lead to system
@@ -59,7 +59,7 @@ threats:
       - T1548
 
   - id: CCC.RDMS.TH04
-    title: Snapshot Collection with Unauthorized Encryption Key
+    title: Snapshot Collection with Unauthorized Encryption Key #TODO: this is too vague?
     description: |
       Snapshot collection may be attempted using a non-default encryption
       key not authorized for the cloud RDMS. This condition could compromise
@@ -72,7 +72,7 @@ threats:
       - T1530
 
   - id: CCC.RDMS.TH05
-    title: Misconfigured Database User Authentication Mechanism
+    title: Misconfigured Database User Authentication Mechanism #TODO: this is too vague?
     description: |
       The database user authentication mechanism may be improperly configured,
       potentially allowing unauthorized access or disrupting normal authentication
