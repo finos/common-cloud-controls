@@ -7,20 +7,20 @@ threats:
       unintended data exposure or unauthorized actions being performed within
       the system.
     features:
-      - CCC.F06   # Identity Based Access Control
+      - CCC.F06 # Identity Based Access Control
     mitre_technique:
-      - T1078   # Valid Accounts
-      - T1548   # Abuse Elevation Control Mechanism
-      - T1203   # Exploitation for Credential Access
-      - T1098   # Account Manipulation
-      - T1484   # Domain or Tenant Policy Modification
-      - T1546   # Event Triggered Execution
-      - T1537   # Transfer Data to Cloud Account
-      - T1567   # Exfiltration Over Web Services
-      - T1048   # Exfiltration Over Alternative Protocol
-      - T1485   # Data Destruction
-      - T1565   # Data Manipulation
-      - T1027   # Obfuscated Files or Information
+      - T1078 # Valid Accounts
+      - T1548 # Abuse Elevation Control Mechanism
+      - T1203 # Exploitation for Credential Access
+      - T1098 # Account Manipulation
+      - T1484 # Domain or Tenant Policy Modification
+      - T1546 # Event Triggered Execution
+      - T1537 # Transfer Data to Cloud Account
+      - T1567 # Exfiltration Over Web Services
+      - T1048 # Exfiltration Over Alternative Protocol
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1027 # Obfuscated Files or Information
 
   - id: CCC.TH02
     title: Data is Intercepted in Transit
@@ -30,10 +30,10 @@ threats:
       properly implemented. This could result in unauthorized access to
       sensitive information or unintended data alterations.
     features:
-      - CCC.F01   # Encryption in Transit Enabled by Default
+      - CCC.F01 # Encryption in Transit Enabled by Default
     mitre_technique:
-      - T1557   # Adversary-in-the-Middle
-      - T1040   # Network Sniffing
+      - T1557 # Adversary-in-the-Middle
+      - T1040 # Network Sniffing
 
   - id: CCC.TH03
     title: Deployment Region Network is Untrusted
@@ -44,13 +44,13 @@ threats:
       vulnerabilities. This could result in unintended data disclosure or
       compromised system integrity.
     features:
-      - CCC.F08  # Multi-zone Deployment
+      - CCC.F08 # Multi-zone Deployment
     mitre_technique:
-      - T1040  # Network Sniffing
-      - T1110  # Brute Force
-      - T1105  # Ingress Tool Transfer
-      - T1583  # Acquire Infrastructure
-      - T1557  # Adversary-in-the-Middle
+      - T1040 # Network Sniffing
+      - T1110 # Brute Force
+      - T1105 # Ingress Tool Transfer
+      - T1583 # Acquire Infrastructure
+      - T1557 # Adversary-in-the-Middle
 
   - id: CCC.TH04
     title: Data is Replicated to Untrusted or External Locations
@@ -60,9 +60,9 @@ threats:
       in unintended data leakage or exposure outside the organization's trusted
       perimeter.
     features:
-      - CCC.F21  # Replication
+      - CCC.F21 # Replication
     mitre_technique:
-      - T1565  # Data Manipulation
+      - T1565 # Data Manipulation
 
   - id: CCC.TH05
     title: Data is Corrupted During Replication
@@ -73,14 +73,14 @@ threats:
       and availability, potentially affecting recovery processes and system
       reliability.
     features:
-      - CCC.F08  # Multi-zone Deployment
-      - CCC.F12  # Recovery
-      - CCC.F21  # Replication
+      - CCC.F08 # Multi-zone Deployment
+      - CCC.F12 # Recovery
+      - CCC.F21 # Replication
     mitre_technique:
-      - T1485  # Data Destruction
-      - T1565  # Data Manipulation
-      - T1491  # Defacement
-      - T1490  # Inhibit System Recovery
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1491 # Defacement
+      - T1490 # Inhibit System Recovery
 
   - id: CCC.TH06
     title: Data is Lost or Corrupted
@@ -89,13 +89,13 @@ threats:
       misconfiguration. This can result in the loss of critical data, service
       disruption, or unintended exposure of sensitive information.
     features:
-      - CCC.F11  # Backup
-      - CCC.F18  # Versioning
+      - CCC.F11 # Backup
+      - CCC.F18 # Versioning
     mitre_technique:
-      - T1485  # Data Destruction
-      - T1565  # Data Manipulation
-      - T1491  # Defacement
-      - T1490  # Inhibit System Recovery
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1491 # Defacement
+      - T1490 # Inhibit System Recovery
 
   - id: CCC.TH07
     title: Logs are Tampered With or Deleted
@@ -105,12 +105,12 @@ threats:
       incidents, disrupt forensic investigations, and affect the accuracy of
       audit trails.
     features:
-      - CCC.F03  # Access/Activity Logs
-      - CCC.F10  # Logging
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F10 # Logging
     mitre_technique:
-      - T1070  # Indicator Removal on Host
-      - T1565  # Data Manipulation (for altering log entries)
-      - T1027  # Obfuscated Files or Information
+      - T1070 # Indicator Removal on Host
+      - T1565 # Data Manipulation (for altering log entries)
+      - T1027 # Obfuscated Files or Information
 
   - id: CCC.TH08
     title: Cost Management Data is Manipulated
@@ -120,10 +120,10 @@ threats:
       reporting, budget exhaustion, financial losses, and hinder incident
       detection.
     features:
-      - CCC.F15  # Cost Management
+      - CCC.F15 # Cost Management
     mitre_technique:
-      - T1565  # Data Manipulation
-      - T1070  # Indicator Removal on Host
+      - T1565 # Data Manipulation
+      - T1070 # Indicator Removal on Host
 
   - id: CCC.TH09
     title: Logs or Monitoring Data are Read by Unauthorized Users
@@ -134,22 +134,22 @@ threats:
       enable the planning of attacks, or hinder the detection of ongoing
       incidents.
     features:
-      - CCC.F03  # Access/Activity Logs
-      - CCC.F09  # Monitoring
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F09 # Monitoring
     mitre_technique:
-      - T1003  # Credential Dumping
-      - T1007  # System Service Discovery
-      - T1018  # Remote System Discovery
-      - T1033  # System Owner/User Discovery
-      - T1046  # Network Service Discovery
-      - T1057  # Process Discovery
-      - T1069  # Permission Groups Discovery
-      - T1070  # Indicator Removal
-      - T1082  # System Information Discovery
-      - T1120  # Peripheral Device Discovery
-      - T1124  # System Time Discovery
-      - T1497  # Virtualization/Sandbox Evasion
-      - T1518  # Software Discovery
+      - T1003 # Credential Dumping
+      - T1007 # System Service Discovery
+      - T1018 # Remote System Discovery
+      - T1033 # System Owner/User Discovery
+      - T1046 # Network Service Discovery
+      - T1057 # Process Discovery
+      - T1069 # Permission Groups Discovery
+      - T1070 # Indicator Removal
+      - T1082 # System Information Discovery
+      - T1120 # Peripheral Device Discovery
+      - T1124 # System Time Discovery
+      - T1497 # Virtualization/Sandbox Evasion
+      - T1518 # Software Discovery
 
   - id: CCC.TH10
     title: Alerts are Intercepted
@@ -159,14 +159,14 @@ threats:
       information about sensitive operations or access patterns, potentially
       impacting system security and integrity.
     features:
-      - CCC.F03  # Access/Activity Logs
-      - CCC.F07  # Event Notifications
-      - CCC.F09  # Monitoring
-      - CCC.F17  # Alerting
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F07 # Event Notifications
+      - CCC.F09 # Monitoring
+      - CCC.F17 # Alerting
     mitre_technique:
-      - T1057  # Process Discovery
-      - T1049  # System Network Connections Discovery
-      - T1083  # File and Directory Discovery
+      - T1057 # Process Discovery
+      - T1049 # System Network Connections Discovery
+      - T1083 # File and Directory Discovery
 
   - id: CCC.TH11
     title: Event Notifications are Incorrectly Triggered
@@ -176,12 +176,12 @@ threats:
       triggered unintentionally, obfuscate other issues, or overwhelm the
       system, potentially disrupting legitimate operations.
     features:
-      - CCC.F07  # Event Notifications
-      - CCC.F17  # Alerting
+      - CCC.F07 # Event Notifications
+      - CCC.F17 # Alerting
     mitre_technique:
-      - T1205  # Traffic Signaling
-      - T1001.001  # Data Obfuscation: Junk Data
-      - T1491.001  # Defacement: Internal Defacement
+      - T1205 # Traffic Signaling
+      - T1001.001 # Data Obfuscation: Junk Data
+      - T1491.001 # Defacement: Internal Defacement
 
   - id: CCC.TH12
     title: Resource Constraints are Exhausted
@@ -192,13 +192,13 @@ threats:
       systems within the same scope. Exhaustion may occur through repeated
       requests, resource-intensive operations, or lowering rate/budget limits.
     features:
-      - CCC.F04  # Transaction Rate Limits
-      - CCC.F16  # Budgeting
-      - CCC.F19  # Auto-scaling
+      - CCC.F04 # Transaction Rate Limits
+      - CCC.F16 # Budgeting
+      - CCC.F19 # Auto-scaling
     mitre_technique:
-      - T1496  # Resource Hijacking
-      - T1499  # Endpoint Denial of Service
-      - T1498  # Network Denial of Service
+      - T1496 # Resource Hijacking
+      - T1499 # Endpoint Denial of Service
+      - T1498 # Network Denial of Service
 
   - id: CCC.TH13
     title: Resource Tags are Manipulated
@@ -208,9 +208,9 @@ threats:
       This could result in mismanaged resources, financial misuse, or security
       vulnerabilities.
     features:
-      - CCC.F20   # Tagging
+      - CCC.F20 # Tagging
     mitre_technique:
-      - T1565   # Data Manipulation
+      - T1565 # Data Manipulation
 
   - id: CCC.TH14
     title: Older Resource Versions are Exploited
@@ -220,17 +220,17 @@ threats:
       outdated versions could lead to security measures bypass, potentially
       leading to security risks or operational disruptions.
     features:
-      - CCC.F18   # Versioning
+      - CCC.F18 # Versioning
     mitre_technique:
-      - T1027   # Obfuscated Files or Information
-      - T1485   # Data Destruction
-      - T1565   # Data Manipulation
-      - T1489   # Service Stop
-      - T1562.01  # Impair Defenses: Downgrade Attack
-      - T1027   # Obfuscated Files or Information
-      - T1485   # Data Destruction
-      - T1565   # Data Manipulation
-      - T1489   # Service Stop
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1489 # Service Stop
+      - T1562.01 # Impair Defenses: Downgrade Attack
+      - T1027 # Obfuscated Files or Information
+      - T1485 # Data Destruction
+      - T1565 # Data Manipulation
+      - T1489 # Service Stop
 
   - id: CCC.TH15
     title: Automated Enumeration and Reconnaissance by Non-human Entities
@@ -241,6 +241,19 @@ threats:
       unsecured resources, which might result in unauthorized access or data
       exposure.
     features:
-      - CCC.F14   # API Access
+      - CCC.F14 # API Access
     mitre_technique:
-      - T1580   # Cloud Infrastructure Discovery
+      - T1580 # Cloud Infrastructure Discovery
+
+  - id: CCC.TH16
+    title: Logging and Monitoring are Disabled
+    description: |
+      Logging and monitoring may be disabled, potentially hindering the
+      detection of security events and reducing visibility into system
+      activities. This condition can impact the organization's ability
+      to investigate incidents and maintain operational integrity.
+    features:
+      - CCC.F10 # Logging
+      - CCC.F09 # Monitoring
+    mitre_technique:
+      - T1562
