@@ -12,90 +12,22 @@ common_threats:
   - CCC.TH12 # Resource constraints are exhausted
   - CCC.TH13 # Resource tags are manipulated
   - CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
+  - CCC.TH16 # Logging and Monitoring are Disabled
 
 threats:
   - id: CCC.RDMS.TH01
-    title: Unauthorized Cross-Organization Snapshot Collection
+    title: Unauthorized Access via Default Credentials
     description: |
-      Unauthorized snapshot collection using privileged roles may
-      result in sensitive data being copied outside the organization’s
-      environment. This condition could lead to unintended data
-      exposure and compromise of organizational information.
+      If default credentials are not disabled or changed, unauthorized access
+      may be gained to the RDMS environment. This may lead to data breaches,
+      data manipulation, or overall compromise of the database instance.
     features:
-      - CCC.F11 # Backup
-      - CCC.F12 # Recovery
-      - CCC.F21 # Replication
+      - CCC.RDMS.F06 # Managed Credentials
+      - CCC.RDMS.F07 # DB Self Managed Credentials
     mitre_technique:
-      - TA0009
-      - T1530
+      - T1078 # Valid Accounts
 
   - id: CCC.RDMS.TH02
-    title: Disabled Logging and Monitoring
-    description: |
-      The logging and monitoring of a relational database may be disabled,
-      potentially hindering the detection of security events and reducing
-      visibility into system activities. This condition can impact the
-      organization's ability to investigate incidents and maintain operational
-      integrity.
-    features:
-      - CCC.F10 # Logging
-      - CCC.F09 # Monitoring
-    mitre_technique:
-      - TA0005
-      - T1562
-
-  - id: CCC.RDMS.TH03
-    title: Unauthorized Configuration Modification
-    description: |
-      Changes to the configuration of a cloud RDMS may be attempted using
-      unauthorized or inappropriate roles. This condition could lead to system
-      instability, security vulnerabilities, or unintended operational outcomes.
-    features:
-      - CCC.RDMS.F01 # SQL Support
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F13 # Infrastructure as Code
-    mitre_technique:
-      - TA0004
-      - T1548
-
-  - id: CCC.RDMS.TH04
-    title: Snapshot Collection with Unauthorized Encryption Key
-    description: |
-      Snapshot collection may be attempted using a non-default encryption
-      key not authorized for the cloud RDMS. This condition could compromise
-      data security.
-    features:
-      - CCC.F11 # Backup
-      - CCC.F12 # Recovery
-    mitre_technique:
-      - TA0009
-      - T1530
-
-  - id: CCC.RDMS.TH05
-    title: Misconfigured Database User Authentication Mechanism
-    description: |
-      The database user authentication mechanism may be improperly configured,
-      potentially allowing unauthorized access or disrupting normal authentication
-      processes. This condition could weaken access controls and compromise
-      database security.
-    features:
-      - CCC.F06 # Identity Based Access Control
-    mitre_technique:
-      - T1556
-
-  - id: CCC.RDMS.TH06
-    title: Unintentional Database Backup Restoration
-    description: |
-      A database backup may be restored unintentionally, potentially
-      leading to the loss or overwrite of current data. This condition
-      could disrupt operations and result in data inconsistency or
-      corruption.
-    features:
-      - CCC.F11 # Backup
-    mitre_technique:
-      - T1485
-
-  - id: CCC.RDMS.TH07
     title: Brute Force Attempts on Database Authentication
     description: |
       Repeated attempts to guess database user passwords may be made
@@ -107,7 +39,7 @@ threats:
     mitre_technique:
       - T1110
 
-  - id: CCC.RDMS.TH08
+  - id: CCC.RDMS.TH03
     title: Database Backups Stopped
     description: |
       Database backups may be halted, potentially impairing the organization's
@@ -117,3 +49,27 @@ threats:
       - CCC.F11 # Backup
     mitre_technique:
       - T1490
+
+  - id: CCC.RDMS.TH04
+    title: Unintentional Database Backup Restoration
+    description: |
+      A database backup may be restored unintentionally, potentially
+      leading to the loss or overwrite of current data. This condition
+      could disrupt operations and result in data inconsistency or
+      corruption.
+    features:
+      - CCC.F11 # Backup
+    mitre_technique:
+      - T1485
+
+  - id: CCC.RDMS.TH05
+    title: Unauthorized Snapshot Sharing
+    description: |
+      Snapshots may be shared with untrusted accounts, which can lead to
+      unauthorized access and potential data exfiltration. This significantly
+      increases the risk of data exposure if sensitive information is contained
+      in the snapshots.
+    features:
+      - CCC.F11 # Backup
+    mitre_technique:
+      - T1530 # Data from Cloud Storage Object
