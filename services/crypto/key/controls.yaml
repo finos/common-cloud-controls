@@ -5,6 +5,7 @@ common_controls:
   - CCC.C04 # Log all access and changes
   - CCC.C05 # Prevent access from untrusted entities
   - CCC.C06 # Prevent deployment in restricted regions
+  - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 controls:
   - id: CCC.KeyMgmt.C01
     title: Alert when key versions are deleted or disabled
