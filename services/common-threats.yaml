@@ -45,6 +45,7 @@ threats:
       compromised system integrity.
     features:
       - CCC.F08 # Multi-zone Deployment
+      - CCC.F22 # Location Lock-In
     mitre_technique:
       - T1040 # Network Sniffing
       - T1110 # Brute Force
