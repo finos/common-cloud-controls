@@ -13,6 +13,7 @@ common_threats:
   - CCC.TH13 # Resource tags are manipulated
   - CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
   - CCC.TH16 # Logging and Monitoring are Disabled
+  - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 
 threats:
   - id: CCC.RDMS.TH01

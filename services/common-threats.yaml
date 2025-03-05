@@ -257,3 +257,16 @@ threats:
       - CCC.F09 # Monitoring
     mitre_technique:
       - T1562 # Impair Defenses
+
+  - id: CCC.TH17
+    title: Unauthorized Network Access via Misconfigured Rules
+    description: |
+      Improperly configured or overly permissive network access rules
+      such as security groups can allow unauthorized inbound connections,
+      to the service, which could result in unauthorized access to sensitive
+      resources or data and disruption to service availability.
+    features:
+      - CCC.F23 # Network Access Rules
+    mitre_technique:
+      - T1046 # Network Service Scanning
+      - T1133 # External Remote Services
