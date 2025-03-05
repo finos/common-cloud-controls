@@ -503,3 +503,28 @@ controls:
         tlp_levels:
           - tlp_amber
           - tlp_red
+
+  - id: CCC.C12
+    title: Ensure Secure Network Access Rules
+    objective: |
+      Ensure network access to the service is restricted to explicitly
+      authorized IP addresses, ports, and protocols by properly
+      configuring security group and/or firewall rules. Configuration
+      must follow the principle of least privilege to minimize the
+      attack surface and prevent unauthorized  inbound connections.
+      Overly permissive rules such as, 0.0.0.0/0 must be disallowed or
+      strictly controlled.
+    threats:
+      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+    nist_csf:
+      - PR.AC-3 # Access permissions, entitlements are managed
+    control_mappings:
+      NIST_800_53: AC-4 # Information Flow Enforcement
+    test_requirements:
+      - id: CCC.C12.TR01
+        text: |
+          When an unauthorized IP or network attempts to connect
+          to the service, the request MUST be denied.
+        tlp_levels:
+          - tlp_red
+          - tlp_amber
