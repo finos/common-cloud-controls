@@ -523,8 +523,8 @@ controls:
     test_requirements:
       - id: CCC.C12.TR01
         text: |
-          When an unauthorized source (IP or network) attempts to connect
-          to the service the request must be denied.
+          When an unauthorized IP or network attempts to connect
+          to the service, the request MUST be denied.
         tlp_levels:
           - tlp_red
           - tlp_amber
