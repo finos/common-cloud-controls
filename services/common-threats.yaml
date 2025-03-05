@@ -262,8 +262,8 @@ threats:
     title: Unauthorized Network Access via Misconfigured Rules
     description: |
       Improperly configured or overly permissive network access rules
-      such as security groups can allow unauthorized inbound connections,
-      to the service, which could result in unauthorized access to sensitive
+      such as security groups can allow unauthorized inbound connections
+      to the service. This could result in unauthorized access to sensitive
       resources or data and disruption to service availability.
     features:
       - CCC.F23 # Network Access Rules
