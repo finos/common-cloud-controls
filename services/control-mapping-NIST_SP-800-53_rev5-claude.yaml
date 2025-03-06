@@ -1,0 +1,63 @@
+mappings:
+  - from: CCC.C01 # Prevent Unencrypted Requests
+    to:
+      - id: SC-8 # Transmission Confidentiality and Integrity
+        justification: Cryptography is required for confidentiality.
+      - id: SC-13 # Cryptographic Protection
+        justification: Cryptographic protection means preventing unencrypted requests.
+
+  - from: CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+    to:
+      - id: SC-28 # Protection of Information at Rest
+        justification: Ensures that data is encrypted at rest to maintain confidentiality and integrity.
+
+  - from: CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+    to:
+      - id: IA-2 # Identification and Authentication (Organizational Users)
+        justification: MFA is a key component of robust identification and authentication processes.
+      - id: IA-5 # Authenticator Management
+        justification: MFA involves managing authenticators effectively.
+
+  - from: CCC.C04 # Log All Access and Changes
+    to:
+      - id: AU-2 # Audit Events
+        justification: Logging all access and changes is essential for auditing and accountability.
+      - id: AU-12 # Audit Record Generation
+        justification: Ensures that audit records are generated for all access and changes.
+
+  - from: CCC.C05 # Prevent Access from Untrusted Entities
+    to:
+      - id: AC-17 # Remote Access
+        justification: Preventing access from untrusted entities aligns with managing remote access.
+      - id: AC-19 # Access Control for Mobile Devices
+        justification: Ensures that access is controlled based on trust criteria.
+
+  - from: CCC.C06 # Prevent Deployment in Restricted Regions
+    to:
+      - id: SA-9 # External Information System Services
+        justification: Ensures compliance with regulatory requirements by restricting deployments.
+
+  - from: CCC.C07 # Alert on Unusual Enumeration Activity
+    to:
+      - id: SI-4 # Information System Monitoring
+        justification: Monitoring and alerting on unusual activity is crucial for security.
+
+  - from: CCC.C08 # Enable Multi-zone or Multi-region Data Replication
+    to:
+      - id: CP-6 # Alternate Storage Site
+        justification: Replicating data across multiple zones or regions ensures data availability.
+
+  - from: CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+    to:
+      - id: AU-9 # Protection of Audit Information
+        justification: Protecting access logs from tampering or unauthorized access is critical.
+
+  - from: CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+    to:
+      - id: SC-7 # Boundary Protection
+        justification: Ensures data replication is restricted to trusted destinations.
+
+  - from: CCC.C11 # Enforce Key Management Policies
+    to:
+      - id: SC-12 # Cryptographic Key Establishment and Management
+        justification: Enforcing key management policies is essential for secure cryptographic operations.
