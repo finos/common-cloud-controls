@@ -1,0 +1,27 @@
+section.homeSection {
+	margin: auto;
+	margin-top: 5rem;
+	padding-top: 5rem;
+	padding-bottom: 5rem;
+	overflow: hidden;
+	max-width: 66rem;
+
+}
+
+h2.sectionTitle {
+	font-size: 3rem;
+	text-align: center;
+	font-family: 'metropolis';
+	font-weight: 900;
+}
+
+div.sectionContents {
+	padding: 3rem;
+	padding-top: 0;
+}
+
+div.footerImage {
+	width: 3rem;
+	margin: auto;
+	margin-top: 0;
+}

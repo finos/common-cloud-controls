@@ -10,120 +10,67 @@ common_threats:
   - CCC.TH10 # Alerts are Intercepted
   - CCC.TH11 # Event Notifications are Incorrectly Triggered
   - CCC.TH12 # Resource constraints are exhausted
+  - CCC.TH13 # Resource tags are manipulated
+  - CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
+  - CCC.TH16 # Logging and Monitoring are Disabled
+  - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 
 threats:
   - id: CCC.RDMS.TH01
-    title: Unauthorized access to database
+    title: Unauthorized Access via Default Credentials
     description: |
-      A threat actor gains unauthorized access to the cloud relational
-      database by using a compromised role or using default
-      administrative credentials.
+      If default credentials are not disabled or changed, unauthorized access
+      may be gained to the RDMS environment. This may lead to data breaches,
+      data manipulation, or overall compromise of the database instance.
     features:
-      - CCC.RDMS.F01 # SQL Support
-      - CCC.F06 # Identity Based Access Control
+      - CCC.RDMS.F06 # Managed Credentials
+      - CCC.RDMS.F07 # DB Self Managed Credentials
     mitre_technique:
-      - TA0006
-      - T1552
+      - T1078 # Valid Accounts
 
   - id: CCC.RDMS.TH02
-    title: Unauthorized cross organization snapshot collection
+    title: Brute Force Attempts on Database Authentication
     description: |
-      A threat actor initiates a snapshot collection activity using
-      a privileged role and copies the snapshot outside of the
-      organization, which allows for data exfiltration and theft.
+      Repeated attempts to guess database user passwords may be made
+      through brute force techniques. This condition could result in
+      unauthorized access if successful, compromising database security
+      and sensitive information.
     features:
-      - CCC.F11 # Backup
-      - CCC.F12 # Recovery
-      - CCC.F21 # Replication
-    mitre_technique:
-      - TA0009
-      - T1530
-
-  - id: CCC.RDMS.TH03
-    title: Disabled logging & monitoring
-    description: |
-      A threat actor disables the logging and monitoring of the
-      relational database, which allows evasion and removes
-      traces of malicious actions.
-    features:
-      - CCC.F10 # Logging
-      - CCC.F09 # Monitoring
-    mitre_technique:
-      - TA0005
-      - T1562
-
-  - id: CCC.RDMS.TH04
-    title: Unauthorized configuration modification
-    description: |
-      A threat actor attempts to make changes to the
-      configuration of the cloud RDMS with a malicious role.
-    features:
-      - CCC.RDMS.F01 # SQL Support
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F13 # Infrastructure as Code
-    mitre_technique:
-      - TA0004
-      - T1548
-
-  - id: CCC.RDMS.TH05
-    title: Unencrypted connection to database
-    description: |
-      An end-user connects to the database over HTTP,
-      which is susceptible to network sniffing attacks and other exploits.
-    features:
-      - CCC.F01 # Encryption in Transit
-      - CCC.F02 # Encryption at Rest
-    mitre_technique:
-      - TA0006
-      - T1040
-
-  - id: CCC.RDMS.TH06
-    title: Snapshot collection with unauthorized encryption key
-    description: |
-      A threat actor attempts to perform snapshot collection
-      using a non-default encryption key associated with the RDMS.
-    features:
-      - CCC.F11 # Backup
-      - CCC.F12 # Recovery
-    mitre_technique:
-      - TA0009
-      - T1530
-
-  - id: CCC.RDMS.TH13
-    title: DB user authentication mechanism is misconfigured
-    description: A threat actor alters the DB user authentication mechanism
-    features:
-      - CCC.F06
-    mitre_technique:
-      - T1556
-
-  - id: CCC.RDMS.TH14
-    title: DB backup is uninentionally restored
-    description: |
-      A threat actor restores a database backup thereby
-      destroying data.
-    features:
-      - CCC.F11
-    mitre_technique:
-      - T1485
-
-  - id: CCC.RDMS.TH15
-    title: Brute Force Attack Against the Database
-    description: |
-      Threat actor uses brute force attack to discover
-      database user password, threat actor then has access to the
-      database user
-    features:
-      - CCC.RDMS.F07
+      - CCC.RDMS.F07 # DB Self Managed Credentials
     mitre_technique:
       - T1110
 
-  - id: CCC.RDMS.TH16
+  - id: CCC.RDMS.TH03
     title: Database Backups Stopped
     description: |
-      Threat actor stops database backups from occuring to inhibit
-      system recovery.
+      Database backups may be halted, potentially impairing the organization's
+      ability to recover data and maintain business continuity. This condition
+      increases the risk of data loss and extended system downtime.
     features:
-      - CCC.F11
+      - CCC.F11 # Backup
     mitre_technique:
       - T1490
+
+  - id: CCC.RDMS.TH04
+    title: Unintentional Database Backup Restoration
+    description: |
+      A database backup may be restored unintentionally, potentially
+      leading to the loss or overwrite of current data. This condition
+      could disrupt operations and result in data inconsistency or
+      corruption.
+    features:
+      - CCC.F11 # Backup
+    mitre_technique:
+      - T1485
+
+  - id: CCC.RDMS.TH05
+    title: Unauthorized Snapshot Sharing
+    description: |
+      Snapshots may be shared with untrusted accounts, which can lead to
+      unauthorized access and potential data exfiltration. This significantly
+      increases the risk of data exposure if sensitive information is contained
+      in the snapshots.
+    features:
+      - CCC.F11 # Backup
+    mitre_technique:
+      - T1530 # Data from Cloud Storage Object

@@ -2,8 +2,10 @@ threats:
   - id: CCC.TH01
     title: Access Control is Misconfigured
     description: |
-      An attacker can exploit misconfigured access controls to grant excessive
-      privileges or gain unauthorized access to sensitive resources.
+      Misconfigured access controls may grant excessive privileges or fail to
+      restrict unauthorized access to sensitive resources. This could result in
+      unintended data exposure or unauthorized actions being performed within
+      the system.
     features:
       - CCC.F06 # Identity Based Access Control
     mitre_technique:
@@ -23,9 +25,10 @@ threats:
   - id: CCC.TH02
     title: Data is Intercepted in Transit
     description: |
-      In the event that encrypted communication is not properly in effect, an
-      attacker can intercept traffic between clients and the service to read or
-      modify the data during transmission.
+      Data transmitted between clients and the service may be susceptible to
+      interception or modification in transit if encrypted communication is not
+      properly implemented. This could result in unauthorized access to
+      sensitive information or unintended data alterations.
     features:
       - CCC.F01 # Encryption in Transit Enabled by Default
     mitre_technique:
@@ -35,12 +38,14 @@ threats:
   - id: CCC.TH03
     title: Deployment Region Network is Untrusted
     description: |
-      If any part of the service is deployed in a hostile, unstable, or
-      insecure location, an attacker may attempt to access the resource or
-      intercept data by exploiting privileged network access or physical
-      vulnerabilities.
+      Deploying a service in an untrusted, unstable, or insecure location,
+      the network may be susceptible to unauthorized access or data
+      interception due to privileged network exposure or physical
+      vulnerabilities. This could result in unintended data disclosure or
+      compromised system integrity.
     features:
       - CCC.F08 # Multi-zone Deployment
+      - CCC.F22 # Location Lock-In
     mitre_technique:
       - T1040 # Network Sniffing
       - T1110 # Brute Force
@@ -51,9 +56,10 @@ threats:
   - id: CCC.TH04
     title: Data is Replicated to Untrusted or External Locations
     description: |
-      An attacker could replicate data to untrusted or external locations if replication configurations
-      are not properly restricted. This could result in data leakage or exposure to unauthorized entities
-      outside the organization's trusted perimeter.
+      Data may be replicated to untrusted or external locations if replication
+      configurations are not properly restricted. This could result
+      in unintended data leakage or exposure outside the organization's trusted
+      perimeter.
     features:
       - CCC.F21 # Replication
     mitre_technique:
@@ -62,9 +68,11 @@ threats:
   - id: CCC.TH05
     title: Data is Corrupted During Replication
     description: |
-      Malicious actors may attempt to corrupt, delay, or delete data during
-      replication processes across multiple regions or availability zones,
-      affecting the integrity and availability of data.
+      Data may become corrupted, delayed, or deleted during replication
+      processes across regions or availability zones due to misconfigurations
+      or unintended disruptions. This could lead to compromised data integrity
+      and availability, potentially affecting recovery processes and system
+      reliability.
     features:
       - CCC.F08 # Multi-zone Deployment
       - CCC.F12 # Recovery
@@ -78,10 +86,9 @@ threats:
   - id: CCC.TH06
     title: Data is Lost or Corrupted
     description: |
-      Data loss or corruption can occur due to accidental deletion,
-      misconfiguration, or malicious activity.  This can result in the loss of
-      critical data, service disruption, or unauthorized access to sensitive
-      information.
+      Data loss or corruption may occur due to accidental deletion, or
+      misconfiguration. This can result in the loss of critical data, service
+      disruption, or unintended exposure of sensitive information.
     features:
       - CCC.F11 # Backup
       - CCC.F18 # Versioning
@@ -94,23 +101,25 @@ threats:
   - id: CCC.TH07
     title: Logs are Tampered With or Deleted
     description: |
-      Attackers may tamper with or delete logs to cover their tracks and evade
-      detection. This prevents security teams from identifying the full scope
-      of an attack and may disrupt forensic investigations.
+      Logs may be tampered with or deleted due to inadequate access controls,
+      or misconfigurations. This can make it difficult to identify security
+      incidents, disrupt forensic investigations, and affect the accuracy of
+      audit trails.
     features:
       - CCC.F03 # Access/Activity Logs
       - CCC.F10 # Logging
     mitre_technique:
       - T1070 # Indicator Removal on Host
       - T1565 # Data Manipulation (for altering log entries)
-      - T1027 # Obfuscated Files or Information (if log files are altered to hide activity)
+      - T1027 # Obfuscated Files or Information
 
   - id: CCC.TH08
     title: Cost Management Data is Manipulated
     description: |
-      Attackers may manipulate cost management data to hide excessive resource
-      consumption or to deceive users about resource usage. This could be used
-      to exhaust budgets, cause financial losses, or evade detection of other attacks.
+      Cost management data may be changed due to misconfigurations, or
+      unauthorized access. This might result in inaccurate resource usage
+      reporting, budget exhaustion, financial losses, and hinder incident
+      detection.
     features:
       - CCC.F15 # Cost Management
     mitre_technique:
@@ -120,10 +129,11 @@ threats:
   - id: CCC.TH09
     title: Logs or Monitoring Data are Read by Unauthorized Users
     description: |
-      Unauthorized access to logs or monitoring data can provide attackers with
-      valuable information about the system's configuration, operations, and
-      security mechanisms. This can be used to identify vulnerabilities, plan
-      attacks, or evade detection.
+      Unauthorized access to logs or monitoring data may expose valuable
+      information about the system's configuration, operations, and security
+      mechanisms. This could allow for the identification of vulnerabilities,
+      enable the planning of attacks, or hinder the detection of ongoing
+      incidents.
     features:
       - CCC.F03 # Access/Activity Logs
       - CCC.F09 # Monitoring
@@ -145,8 +155,10 @@ threats:
   - id: CCC.TH10
     title: Alerts are Intercepted
     description: |
-      Malicious actors may exploit event notifications to monitor and
-      intercept information about sensitive operations or access patterns.
+      Event notifications may be intercepted due to misconfigurations,
+      inadequate security measures, or unauthorized access. This could expose
+      information about sensitive operations or access patterns, potentially
+      impacting system security and integrity.
     features:
       - CCC.F03 # Access/Activity Logs
       - CCC.F07 # Event Notifications
@@ -160,10 +172,10 @@ threats:
   - id: CCC.TH11
     title: Event Notifications are Incorrectly Triggered
     description: |
-      Malicious actors may exploit event notifications to trigger sensitive
-      operations or access patterns. Alternately, attackers may flood the
-      system with notifications to obfuscate another attack or overwhelm the
-      service to disrupt legitimate operations.
+      Event notifications may be triggered incorrectly due to misconfigurations,
+      or unauthorized access. This could result in sensitive operations being
+      triggered unintentionally, obfuscate other issues, or overwhelm the
+      system, potentially disrupting legitimate operations.
     features:
       - CCC.F07 # Event Notifications
       - CCC.F17 # Alerting
@@ -175,12 +187,11 @@ threats:
   - id: CCC.TH12
     title: Resource Constraints are Exhausted
     description: |
-      An attack or misconfiguration can consume all available resources, such
-      as memory, CPU, or storage, to disrupt the service or deny access to
-      legitimate users. This can be achieved through repeated requests,
-      resource-intensive operations, or the lowering of rate/budget limits.
-      Through auto-scaling, the attacker may also attempt to exhaust
-      higher-level budget thresholds to impact other systems in the same scope.
+      Resource constraints, such as memory, CPU, or storage, may be exhausted
+      due to misconfigurations, or excessive resource consumption. This could
+      disrupt service availability, deny access to users, or impact other
+      systems within the same scope. Exhaustion may occur through repeated
+      requests, resource-intensive operations, or lowering rate/budget limits.
     features:
       - CCC.F04 # Transaction Rate Limits
       - CCC.F16 # Budgeting
@@ -193,9 +204,10 @@ threats:
   - id: CCC.TH13
     title: Resource Tags are Manipulated
     description: |
-      Attackers may manipulate resource tags to alter organizational policies,
-      disrupt billing, or evade detection. This can result in mismanaged
-      resources, unauthorized access, or financial abuse.
+      Resource tags may be altered, leading to changes in organizational
+      policies, billing disruptions, or unintended exposure of sensitive data.
+      This could result in mismanaged resources, financial misuse, or security
+      vulnerabilities.
     features:
       - CCC.F20 # Tagging
     mitre_technique:
@@ -204,10 +216,10 @@ threats:
   - id: CCC.TH14
     title: Older Resource Versions are Exploited
     description: |
-      Attackers may exploit vulnerabilities in older versions of resources,
-      taking advantage of deprecated or insecure configurations. Without
-      proper version control and monitoring, outdated versions can be used
-      to bypass security measures.
+      Older versions of resources may contain vulnerabilities due to deprecated
+      or insecure configurations. Without proper version control and monitoring,
+      outdated versions could lead to security measures bypass, potentially
+      leading to security risks or operational disruptions.
     features:
       - CCC.F18 # Versioning
     mitre_technique:
@@ -224,12 +236,38 @@ threats:
   - id: CCC.TH15
     title: Automated Enumeration and Reconnaissance by Non-human Entities
     description: |
-      Attackers may deploy automated processes or bots to perform reconnaissance
-      activities by enumerating resources such as APIs, file systems, or directories.
-      These activities can help attackers identify vulnerabilities, misconfigurations,
-      or unsecured resources, which can then be exploited for unauthorized access
-      or data theft.
+      Automated processes or bots may be used to perform reconnaissance by
+      enumerating resources such as APIs, file systems, or directories. These
+      activities can reveal potential vulnerabilities, misconfigurations, or
+      unsecured resources, which might result in unauthorized access or data
+      exposure.
     features:
       - CCC.F14 # API Access
     mitre_technique:
       - T1580 # Cloud Infrastructure Discovery
+
+  - id: CCC.TH16
+    title: Logging and Monitoring are Disabled
+    description: |
+      Logging and monitoring may be disabled, potentially hindering the
+      detection of security events and reducing visibility into system
+      activities. This condition can impact the organization's ability
+      to investigate incidents and maintain operational integrity.
+    features:
+      - CCC.F10 # Logging
+      - CCC.F09 # Monitoring
+    mitre_technique:
+      - T1562 # Impair Defenses
+
+  - id: CCC.TH17
+    title: Unauthorized Network Access via Misconfigured Rules
+    description: |
+      Improperly configured or overly permissive network access rules
+      such as security groups can allow unauthorized inbound connections
+      to the service. This could result in unauthorized access to sensitive
+      resources or data and disruption to service availability.
+    features:
+      - CCC.F23 # Network Access Rules
+    mitre_technique:
+      - T1046 # Network Service Scanning
+      - T1133 # External Remote Services

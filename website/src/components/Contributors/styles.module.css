@@ -1,0 +1,23 @@
+.benefit {
+	font-family: 'metropolis';
+	margin-bottom: 3rem;
+	;
+}
+
+.benefit h3 {
+	font-size: 2rem;
+	font-weight: 800;
+}
+
+.benefit p {
+	border: 1px dashed #000000;
+	font-size: 1.5rem;
+	font-weight: 500;
+	margin: .5rem;
+	padding: 1.5rem;
+}
+
+.benefit a {
+	color: blue;
+	font-weight: 800;
+}
