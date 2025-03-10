@@ -1,0 +1,26 @@
+mappings:
+  - from: CCC.VPC.C01 # Restrict Default Network Creation
+    to:
+      - id: SC-7 # Boundary Protection
+        justification: Not allowing network creation in the subscription prevents the creation of insecure default networks.
+
+  - from: CCC.VPC.C02 # Limit Resource Creation in Public Subnet
+    to:
+      - id: AC-4 # Information Flow Enforcement
+        justification: Restricting resource creation in public subnets enforces control over information flow to and from the internet.
+      - id: SC-7 # Boundary Protection
+        justification: Limiting resources in public subnets helps protect network boundaries from unauthorized access.
+
+  - from: CCC.VPC.C03 # Restrict VPC Peering to Authorized Accounts
+    to:
+      - id: AC-3 # Access Enforcement
+        justification: Ensuring VPC peering is only with authorized accounts enforces access control policies.
+      - id: SC-7 # Boundary Protection
+        justification: Restricting VPC peering to authorized accounts protects network boundaries from unauthorized access.
+
+  - from: CCC.VPC.C04 # Enforce VPC Flow Logs on VPCs
+    to:
+      - id: AU-2 # Audit Events
+        justification: Enforcing VPC flow logs ensures that audit events are captured for network traffic.
+      - id: AU-12 # Audit Generation
+        justification: Capturing and logging network traffic information aligns with generating audit records for security monitoring.
