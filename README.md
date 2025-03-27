@@ -30,7 +30,7 @@ FINOS CCC is maintained and run through GitHub.
 
 ### 2. Join FINOS CCC Project Meetings
 
-The CCC project is split into 6 working groups as follows:
+The CCC project is split into 5 working groups as follows:
 
 - **Communications / All Hands**: Focused on the overall project communications and community engagement.
 - **Security** - Working to specify the security controls and threats that will be covered by the standard.
