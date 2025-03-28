@@ -120,9 +120,9 @@ features:
     title: Traffic Splitting / Weighted Routing
     description: |
       Can distribute incoming traffic across multiple backend resources
-      based on predefined weights or percentages. (e.g., for canary
+      based on predefined weights or percentages (e.g., for canary
       deployments, A/B testing, blue-green deployments, or gradual
-      traffic migrations)
+      traffic migrations).
   - id: CCC.LB.F21
     title: Traffic Mirroring
     description: |
@@ -133,7 +133,7 @@ features:
     description: |
       Ability to limit the number of requests per second per client. This
       ensures that no single client or user overloads the backend servers,
-      distributing requests fairly across multiple instances
+      distributing requests fairly across multiple instances.
   - id: CCC.LB.F23
     title: Firewall Integration
     description: |
