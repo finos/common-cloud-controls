@@ -36,7 +36,7 @@ features:
   - id: CCC.LB.F04
     title: Layer 4 Routing
     description: |
-      Providing distribution of incoming traffic based on the 
+      Providing distribution of incoming traffic based on the
       transport layer or layer 4 (on ISO model) information. It uses
       the combination of IP addresses and TCP/UDP port to distribute incoming
       traffic rather than inspecting the actual content of the packets.
@@ -109,7 +109,7 @@ features:
   - id: CCC.LB.F18
     title: Custom Response
     description: |
-      Ability to configure specific HTTP responses to be returned by 
+      Ability to configure specific HTTP responses to be returned by
       the load balancer under defined conditions.
   - id: CCC.LB.F19
     title: Request and Response Header Transformations
