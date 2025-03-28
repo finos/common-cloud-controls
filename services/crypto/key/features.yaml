@@ -111,7 +111,7 @@ features:
   - id: CCC.KeyMgmt.F25
     title: Key Replication
     description: |
-      Supports the ability to securely replicate a key across different regions
+      Supports the ability to securely replicate a key across different regions using automated or manual process.
   - id: CCC.KeyMgmt.F26
     title: Key Usage Limits
     description: |
