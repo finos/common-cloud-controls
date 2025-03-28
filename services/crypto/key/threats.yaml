@@ -1,5 +1,6 @@
 common_threats:
   - CCC.TH01
+  - CCC.TH04
 threats:
   - id: CCC.KeyMgmt.TH17
     title: Deletion or disabling of KMS key versions leading to denial of service or data destruction
