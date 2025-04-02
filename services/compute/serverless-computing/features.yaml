@@ -1,5 +1,5 @@
 common_features:
-  - CCC.F06 # Identity-Based Access Control
+  - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
   - CCC.F08 # Multi-zone Deployment
   - CCC.F09 # Monitoring

@@ -1,6 +1,6 @@
 common_features:
   - CCC.F03 # Access/Activity Logs
-  - CCC.F06 # Identity-Based Access Control
+  - CCC.F06 # Identity Based Access Control
   - CCC.F08 # Multi-zone Deployment
   - CCC.F09 # Monitoring
   - CCC.F10 # Logging

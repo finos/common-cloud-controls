@@ -17,7 +17,7 @@ controls:
     control_family: Identity and Access Management
     threats:
       - CCC.MLDE.TH01 # Unauthorized Access
-      - CCC.TH01 # Access control is misconfigured (common threat)
+      - CCC.TH01 # Access control is misconfigured
     nist_csf: PR.AC-3
     control_mappings:
       CCM:
@@ -47,7 +47,7 @@ controls:
     control_family: Data Protection
     threats:
       - CCC.MLDE.TH02 # Data Leakage
-      - CCC.TH02 # Data is intercepted in transit (common threat)
+      - CCC.TH02 # Data is intercepted in transit
     nist_csf: PR.DS-5
     control_mappings:
       CCM:
@@ -175,7 +175,7 @@ controls:
     control_family: Vulnerability Management
     threats:
       - CCC.MLDE.TH04 # Unexpected Nondeterministic Behavior
-      - CCC.TH06 # Data is lost or corrupted (common threat)
+      - CCC.TH06 # Data is lost or corrupted
     nist_csf: PR.IP-12
     control_mappings:
       CCM:
@@ -240,7 +240,7 @@ controls:
     control_family: Network Security
     threats:
       - CCC.MLDE.TH01 # Unauthorized Access
-      - CCC.TH01 # Access control is misconfigured (common threat)
+      - CCC.TH01 # Access control is misconfigured
     nist_csf: PR.AC-4
     control_mappings:
       CCM:

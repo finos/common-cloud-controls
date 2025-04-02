@@ -3,11 +3,11 @@ common_features:
   - CCC.F02 # Encryption at Rest Enabled by Default
   - CCC.F03 # Access/Activity Logs
   - CCC.F04 # Transaction Rate Limits
-  - CCC.F06 # Identity-Based Access Control
+  - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
   - CCC.F08 # Multi-zone Deployment
   - CCC.F11 # Backup
-  - CCC.F12 # Restore
+  - CCC.F12 # Recovery
   - CCC.F14 # API Access
   - CCC.F19 # On-demand Scaling
   - CCC.F21 # Replication

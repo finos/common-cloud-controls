@@ -21,7 +21,7 @@ threats:
       leading to unauthorized code execution or deployment of malicious code.
     features:
       - CCC.Build.F01  # Build Automation
-      - CCC.Build.F04  # Source Repository Integration
+      - CCC.Build.F03  # Source Repository Integration
     mitre_technique:
       - T1195  # Supply Chain Compromise
 
@@ -31,6 +31,6 @@ threats:
       If build environments have external network access, they may be accessed by unauthorized parties,
       leading to data exfiltration or tampering.
     features:
-      - CCC.Build.F03  # Custom Build Environments
+      - CCC.Build.F06  # Custom Build Environments
     mitre_technique:
       - T1133  # External Remote Services

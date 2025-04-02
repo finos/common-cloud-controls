@@ -1,5 +1,5 @@
 common_threats:
-  - CCC.TH01
+  - CCC.TH01 # Access Control is Misconfigured
 threats:
   - id: CCC.KeyMgmt.TH01
     title: Deletion or disabling of KMS key versions leading to denial of service or data destruction
@@ -8,10 +8,10 @@ threats:
       to encrypt or decrypt sensitive data. This can result in a denial of service by preventing
       data decryption or, in some cases, lead to permanent data destruction.
     features:
-      - CCC.KeyMgmt.F14
-      - CCC.KeyMgmt.F16
-      - CCC.KeyMgmt.F18
-      - CCC.KeyMgmt.F19
+      - CCC.KeyMgmt.F14 # Key Versioning
+      - CCC.KeyMgmt.F16 # Disable Key
+      - CCC.KeyMgmt.F18 # Soft Delete
+      - CCC.KeyMgmt.F19 # Delete Key
     mitre_technique:
       - T1485
       - T1489

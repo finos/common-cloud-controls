@@ -20,7 +20,7 @@ threats:
       Attackers exploit known vulnerabilities in container images or artifacts stored in
       the registry, leading to unauthorized access, data breaches, or system compromise.
     features:
-      - CCC.CntrReg.F04 # Vulnerability Scanning Integration
+      - CCC.CntrReg.F05 # Image Scanning
     mitre_technique:
       - T1190 # Exploit Public-Facing Application
       - T1195 # Supply Chain Compromise
@@ -31,7 +31,7 @@ threats:
       The registry accumulates outdated or unused artifacts, increasing storage
       costs and the risk of deploying vulnerable or untested versions.
     features:
-      - CCC.CntrReg.F06 # Cleanup Policies
+      - CCC.CntrReg.F04 # Lifecycle Policies
       - CCC.F18 # Versioning
     mitre_technique:
       - T1490 # Inhibit System Recovery
