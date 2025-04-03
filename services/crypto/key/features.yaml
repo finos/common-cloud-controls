@@ -104,10 +104,6 @@ features:
     title: Key Expiry
     description: |
       Supports the ability to set an expiration date for a key
-  - id: CCC.KeyMgmt.F24
-    title: Key Regionality
-    description: |
-      Supports the ability to limit the storage and use of a key to specific regions
   - id: CCC.KeyMgmt.F25
     title: Key Replication
     description: |
