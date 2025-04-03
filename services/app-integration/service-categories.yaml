@@ -15,6 +15,11 @@ service_categories:
     examples:
       - AWS:
           - Amazon SQS (Simple Queue Service)
+          - Amazon SNS (Simple Notification Service)
+          - Amazon MSK (Managed Streaming for Apache Kafka)
+          - Amazon Kinesis Data Streams
+          - Amazon Firehose
+          - Amazon EventBridge
       - Azure:
           - Azure Service Bus
       - Google Cloud:

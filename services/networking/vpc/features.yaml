@@ -5,6 +5,7 @@ common_features:
   - CCC.F10 # Logging
   - CCC.F13 # Infrastructure as Code
   - CCC.F20 # Tagging
+
 features:
   - id: CCC.VPC.F01
     title: Isolated Custom Network Creation

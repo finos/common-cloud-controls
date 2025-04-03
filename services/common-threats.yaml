@@ -59,7 +59,8 @@ threats:
       Data may be replicated to untrusted or external locations if replication
       configurations are not properly restricted. This could result
       in unintended data leakage or exposure outside the organization's trusted
-      perimeter.
+      perimeter. This threat isn't limited to replication of data but also includes 
+      being sent or targeted via un/intentional misconfiguration.
     features:
       - CCC.F21 # Replication
     mitre_technique:
