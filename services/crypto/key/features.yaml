@@ -116,10 +116,6 @@ features:
     title: Key Usage Limits
     description: |
       Supports the ability to set limits on key operations
-  - id: CCC.KeyMgmt.F27
-    title: Key Permissions
-    description: |
-      Supports the ability to assign distinct permission sets to different entities for each key
   - id: CCC.KeyMgmt.F28
     title: Key Export
     description: |
