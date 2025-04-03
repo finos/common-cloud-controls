@@ -104,7 +104,7 @@ features:
     title: Key Expiry
     description: |
       Supports the ability to set an expiration date for a key
-  - id: CCC.KeyMgmt.F25
+  - id: CCC.KeyMgmt.F24
     title: Key Replication
     description: |
       Supports the ability to securely replicate a key across different regions using automated or manual process.
