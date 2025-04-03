@@ -108,8 +108,6 @@ features:
     title: Key Replication
     description: |
       Supports the ability to securely replicate a key across different regions using automated or manual process.
-  - id: CCC.KeyMgmt.F26
-    title: Key Usage Limits
     description: |
       Supports the ability to set limits on key operations
   - id: CCC.KeyMgmt.F28
