@@ -17,18 +17,7 @@ service_categories:
       through VPN or dedicated connections.
     examples:
       - AWS:
-          - VPC
-            - AWS Virtual Private Cloud (VPC)
-            - AWS VPC Peering
-            - AWS VPC NAT Gateway
-            - AWS VPC Transit Gateway
-            - AWS VPC Gateway Endpoint
-            - AWS VPC Interface Endpoint
-            - AWS VPC Private Link Endpoint
-          - LoadBalancer
-            - AWS Application Load Balancer
-            - AWS Network Load Balancer
-          -
+          - AWS Virtual Private Cloud (VPC)
       - Azure:
           - Azure Virtual Network (VNet)
       - Google Cloud:

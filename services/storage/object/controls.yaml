@@ -22,11 +22,6 @@ controls:
       - CCC.TH01 # Access Control is Misconfigured
       - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
-      Homegrown:
-        - Obj.001
-        - Obj.002
-        - Obj.003
-        - Obj.004
       CCM:
         - DCS-04 # Data Protection and Encryption
         - DCS-06 # Data Integrity
@@ -34,11 +29,6 @@ controls:
         - 2013 A.10.1.1 # Policy on the use of cryptographic controls
       NIST_800_53:
         - SC-28 # Protection of Information at Rest
-      Regional:
-        Pakistan_Framework:
-          - PK.01.03 # Data Encryption
-        RBI:
-          - RBI_PD.5.2.2 # Data Encryption
     test_requirements:
       - id: CCC.ObjStor.C01.TR01
         text: |

@@ -79,7 +79,7 @@ controls:
       Ensure that all sensitive activities require two or more identity factors
       during authentication to prevent unauthorized access. This may include
       something you know, something you have, or something you are. In the
-      case of programatically accessible services, such as API endpoints, this
+      case of programattically accessible services, such as API endpoints, this
       includes a combination of API keys or tokens and network restrictions.
     control_family: Identity and Access Management
     nist_csf: PR.AC-7 # Users, devices, and other assets are authenticated
