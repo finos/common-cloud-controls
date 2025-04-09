@@ -13,4 +13,4 @@ common_controls:
   - CCC.C11 # Enforce Key Management Policies
   - CCC.C12 # Ensure Secure Network Access Rules
 
-controls:
+controls: []
