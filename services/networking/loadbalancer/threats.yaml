@@ -1,0 +1,30 @@
+common_threats:
+  - CCC.TH01 # Access Control is Misconfigured
+  - CCC.TH02 # Data is Intercepted in Transit
+  - CCC.TH03 # Deployment Region Network is Untrusted
+  - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+  - CCC.TH05 # Prevent Access from Untrusted Entities
+  - CCC.TH06 # Data is Lost or Corrupted
+  - CCC.TH07 # Logs are Tampered With or Deleted
+  - CCC.TH08 # Cost Management Data is Manipulated
+  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+  - CCC.TH10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+  - CCC.TH11 # Event Notifications are Incorrectly Triggered
+  - CCC.TH12 # Resource Constraints are Exhausted
+  - CCC.TH13 # Resource Tags are Manipulated
+  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+  - CCC.TH16 # Logging and Monitoring are Disabled
+  - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+
+threats:
+  - id: CCC.LB.TH02
+    title: Health Checks are Intercepted or Misused
+    description: |
+      Health Checks are intercepted by a rogue attacker, aiding reconnaissance
+      activities and potentially leading to unauthorized access.
+    features:
+      - CCC.LB.F36 # Outlier Detection
+      - CCC.LB.F58 # Target Health Checks
+    mitre_technique:
+      - T1057 # Process Discovery
+      - T1049 # System Network Connections Discovery
