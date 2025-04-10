@@ -15,7 +15,7 @@ features:
     title: IAM Users
     description: |
       Ability to create, manage, list and delete IAM users.
-      IAM user represents a single person or application. Long-term 
+      IAM user represents a single person or application. Long-term
       credentials (username/password, access keys).
   - id: CCC.IAM.F03
     title: IAM Groups
