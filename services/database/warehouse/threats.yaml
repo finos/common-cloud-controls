@@ -34,7 +34,7 @@ threats:
       Attackers may create or exploit unauthorized views to access sensitive data without proper permissions,
       leading to data leakage.
     features:
-      - CCC.DataWar.F02 # Authorized Views
+      - CCC.DataWar.F16 # View Creation and Access
     mitre_technique:
       - T1020 # Automated Exfiltration
       - T1002 # Data Compressed

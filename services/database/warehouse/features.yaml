@@ -58,7 +58,7 @@ features:
   - id: CCC.DataWar.F08
     title: Materialized Views
     description: |
-      Ability to store results od a query into physical tables for faster
+      Ability to store results of a query into physical tables for faster
       data retrieval and improved query performance for complex queries.
 
   - id: CCC.DataWar.F09
@@ -109,3 +109,11 @@ features:
     description: |
       Ability to replicate data to multiple regions for high availability,
       disaster recovery and low-latency access.
+
+  - id: CCC.DataWar.F16
+    title: View Creation and Access
+    description: |
+      Supports the creation of views (can be logical or material) to abstract
+      and simplify access to underlying data. Views can be created with custom
+      queries to expose subsets of data. These views are accessible by users
+      and applications with appropriate permissions.
