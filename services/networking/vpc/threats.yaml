@@ -16,7 +16,7 @@ threats:
       firewall rules,leading to unauthorized access and potential data
       breaches.
     features:
-      - CCC.VPC.F01 # Custom Network Creation
+      - CCC.VPC.F01 # Isolated Custom Network Creation
     mitre_technique:
       - T1040 # Network Sniffing
 
@@ -51,7 +51,7 @@ threats:
       data exfiltration, and network misconfigurations. This lack of
       visibility increases the risk of undetected security incidents.
     features:
-      - CCC.VPC.F16 # VPC Flow Logs
+      - CCC.VPC.F16 # Flow Logs
     mitre_technique:
       - T1562 # Impair Defenses
 

@@ -11,7 +11,7 @@ common_threats:
   - CCC.TH12 # Resource constraints are exhausted
   - CCC.TH14 # Older Resource Versions Are Exploited
   - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
-  - CCC.TH16 # Non-compliance with encryption key management policies
+  - CCC.TH16 # Logging and Monitoring are Disabled
 
 threats:
   - id: CCC.Build.TH01  # Unauthorized Build Execution
@@ -21,7 +21,7 @@ threats:
       leading to unauthorized code execution or deployment of malicious code.
     features:
       - CCC.Build.F01  # Build Automation
-      - CCC.Build.F04  # Source Repository Integration
+      - CCC.Build.F03  # Source Repository Integration
     mitre_technique:
       - T1195  # Supply Chain Compromise
 
@@ -31,6 +31,6 @@ threats:
       If build environments have external network access, they may be accessed by unauthorized parties,
       leading to data exfiltration or tampering.
     features:
-      - CCC.Build.F03  # Custom Build Environments
+      - CCC.Build.F06  # Custom Build Environments
     mitre_technique:
       - T1133  # External Remote Services

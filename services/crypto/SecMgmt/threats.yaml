@@ -10,4 +10,4 @@ common_threats:
   - CCC.TH13 # Resource Tags Are Manipulated
   - CCC.TH14 # Older Resource Versions Are Exploited
   - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
-  - CCC.TH16 # Non-compliance with encryption key management policies
+  - CCC.TH16 # Logging and Monitoring are Disabled
