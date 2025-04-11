@@ -11,7 +11,7 @@ common_threats:
   - CCC.TH12 # Resource constraints are exhausted
   - CCC.TH14 # Older Resource Versions Are Exploited
   - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
-  - CCC.TH16 # Non-compliance with encryption key management policies
+  - CCC.TH16 # Logging and Monitoring are Disabled
 
 threats:
   - id: CCC.Build.TH01  # Unauthorized Build Execution

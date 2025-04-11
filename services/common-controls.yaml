@@ -457,7 +457,7 @@ controls:
     control_family: Encryption
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH16 # Non-compliance with Encryption Key Management Policies
+      - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
       CCM:
         - EKM-02
