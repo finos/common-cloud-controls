@@ -3,6 +3,7 @@ import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import Link from "@docusaurus/Link";
 import { Badge } from "../../ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 
 export interface Threat {
   id: string;
@@ -10,6 +11,11 @@ export interface Threat {
   description: string;
   features: string[];
   mitre_technique: string[];
+  relatedControls?: {
+    id: string;
+    title: string;
+    link: string;
+  }[];
 }
 
 interface ThreatPageData {
@@ -71,6 +77,31 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
                       </a>
                     ))}
                   </div>
+                </div>
+              )}
+              {threat.relatedControls && threat.relatedControls.length > 0 && (
+                <div className="space-y-2">
+                  <span className="font-medium">Related Controls:</span>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Title</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {threat.relatedControls.map((control) => (
+                        <TableRow key={control.id}>
+                          <TableCell>
+                            <Link to={`/ccc/${slug}/${control.id}`} className="text-primary hover:underline">
+                              {control.id}
+                            </Link>
+                          </TableCell>
+                          <TableCell>{control.title}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
               )}
             </div>

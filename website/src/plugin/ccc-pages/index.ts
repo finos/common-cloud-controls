@@ -90,11 +90,34 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
 
                 // Create one page per feature
                 for (const feature of parsed.features || []) {
+                    // Find all controls that reference this feature
+                    const relatedControls = parsed.controls.filter(control =>
+                        control.features?.includes(feature.id)
+                    ).map(control => ({
+                        id: control.id,
+                        title: control.title,
+                        link: control.link
+                    }));
+
+                    // Find all threats that reference this feature
+                    const relatedThreats = parsed.threats.filter(threat =>
+                        threat.features?.includes(feature.id)
+                    ).map(threat => ({
+                        id: threat.id,
+                        title: threat.title,
+                        description: threat.description,
+                        link: threat.link
+                    }));
+
                     const featurePagePath = await createData(
                         `ccc-${slug}-${feature.id}.json`,
                         JSON.stringify({
                             slug,
-                            feature,
+                            feature: {
+                                ...feature,
+                                relatedControls,
+                                relatedThreats
+                            },
                             releaseTitle: parsed.metadata.title,
                             releaseId: parsed.metadata.id,
                         }, null, 2)
@@ -114,11 +137,23 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
 
                 // Create one page per threat
                 for (const threat of parsed.threats || []) {
+                    // Find all controls that reference this threat
+                    const relatedControls = parsed.controls.filter(control =>
+                        control.threats?.includes(threat.id)
+                    ).map(control => ({
+                        id: control.id,
+                        title: control.title,
+                        link: control.link
+                    }));
+
                     const threatPagePath = await createData(
                         `ccc-${slug}-${threat.id}.json`,
                         JSON.stringify({
                             slug,
-                            threat,
+                            threat: {
+                                ...threat,
+                                relatedControls
+                            },
                             releaseTitle: parsed.metadata.title,
                             releaseId: parsed.metadata.id,
                         }, null, 2)
