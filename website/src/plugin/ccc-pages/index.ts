@@ -25,11 +25,37 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
             const dataDir = path.resolve(__dirname, '../../data/ccc-releases');
             const files = fs.readdirSync(dataDir).filter((f) => f.endsWith('.yaml'));
 
+            // Group releases by component
+            const components: Record<string, any[]> = {};
+
             for (const file of files) {
                 const slug = file.replace(/\.yaml$/, '');
                 const filePath = path.join(dataDir, file);
                 const raw = fs.readFileSync(filePath, 'utf8');
                 const parsed = yaml.load(raw) as CCCReleaseYaml;
+
+                const componentTitle = parsed.metadata.title;
+                if (!components[componentTitle]) {
+                    components[componentTitle] = [];
+                }
+
+                components[componentTitle].push({
+                    id: parsed.metadata.id,
+                    title: parsed.metadata.title,
+                    slug,
+                    version: parsed.metadata.release_details[0]?.version || 'N/A',
+                    release_manager: {
+                        name: parsed.metadata.release_details[0]?.release_manager?.name || 'N/A',
+                        githubId: parsed.metadata.release_details[0]?.release_manager?.github_id || 'N/A',
+                        company: parsed.metadata.release_details[0]?.release_manager?.company || 'N/A',
+                        avatarUrl: parsed.metadata.release_details[0]?.release_manager?.avatarUrl
+                    },
+                    authors: parsed.metadata.release_details[0]?.contributors?.map(c => c.name) || [],
+                    controls_count: parsed.controls.length,
+                    threats_count: parsed.threats?.length || 0,
+                    features_count: parsed.features?.length || 0,
+                    link: `/ccc/${slug}`
+                });
 
                 const pageData = {
                     slug,
@@ -85,7 +111,6 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
                     });
 
                     console.log(`Added route for /ccc/${slug}/${control.id}`);
-
                 }
 
                 // Create one page per feature
@@ -146,13 +171,24 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
                         link: control.link
                     }));
 
+                    // Find all features that this threat references
+                    const relatedFeatures = threat.features?.map(featureId =>
+                        parsed.features.find(f => f.id === featureId)
+                    ).filter(Boolean).map(feature => ({
+                        id: feature.id,
+                        title: feature.title,
+                        description: feature.description,
+                        link: feature.link
+                    })) || [];
+
                     const threatPagePath = await createData(
                         `ccc-${slug}-${threat.id}.json`,
                         JSON.stringify({
                             slug,
                             threat: {
                                 ...threat,
-                                relatedControls
+                                relatedControls,
+                                relatedFeatures
                             },
                             releaseTitle: parsed.metadata.title,
                             releaseId: parsed.metadata.id,
@@ -171,6 +207,30 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
                     console.log(`Added route for /ccc/${slug}/${threat.link}`);
                 }
             }
+
+            // Create home page data
+            const homePageData = {
+                components: Object.entries(components).map(([title, releases]) => ({
+                    title,
+                    releases: releases.sort((a, b) => b.version.localeCompare(a.version))
+                }))
+            };
+
+            const homePagePath = await createData(
+                'ccc-home.json',
+                JSON.stringify(homePageData, null, 2)
+            );
+
+            addRoute({
+                path: '/ccc',
+                component: '@site/src/components/ccc/Home/index.tsx',
+                modules: {
+                    pageData: homePagePath,
+                },
+                exact: true,
+            });
+
+            console.log('Added route for /ccc');
         },
     };
 }

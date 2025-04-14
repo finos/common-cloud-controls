@@ -63,12 +63,12 @@ const config: Config = {
           label: 'Primer',
           to: 'https://github.com/finos/common-cloud-controls/blob/main/docs/resources/training/FINOS-CCC-Primer-June-2024.pdf'
         },
-        { to: 'https://github.com/finos/common-cloud-controls/releases', label: 'Releases', position: 'left' },
+        { to: '/ccc', label: 'CCC Catalog', position: 'left' },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
           position: 'right',
-        },
+        }
       ],
     },
     footer: {

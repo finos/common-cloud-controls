@@ -16,6 +16,12 @@ export interface Threat {
     title: string;
     link: string;
   }[];
+  relatedFeatures?: {
+    id: string;
+    title: string;
+    description: string;
+    link: string;
+  }[];
 }
 
 interface ThreatPageData {
@@ -31,14 +37,14 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
   return (
     <Layout title={`${threat.id} - ${threat.title}`}>
       <main className="container margin-vert--lg space-y-6">
+        <Link to={`/ccc/${slug}`} className="text-primary hover:underline flex items-center gap-1">
+          ← Back to {releaseTitle}
+        </Link>
+
         <Card>
           <CardHeader>
             <CardTitle>
-              <Link to={`/ccc/${slug}`} className="text-muted-foreground hover:underline">
-                {releaseTitle}
-              </Link>
-              {" > "}
-              {threat.id} - {threat.title}
+              {threat.id}: {threat.title}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -55,18 +61,35 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
                 <span className="font-medium">Description:</span>
                 <p className="text-muted-foreground">{threat.description}</p>
               </div>
-              {threat.features && threat.features.length > 0 && (
+
+              {threat.relatedFeatures && threat.relatedFeatures.length > 0 && (
                 <div className="space-y-2">
                   <span className="font-medium">Related Features:</span>
-                  <div className="flex flex-wrap gap-2">
-                    {threat.features.map((featureId) => (
-                      <Link key={featureId} to={`/ccc/${slug}/${featureId}`}>
-                        <Badge variant="secondary">{featureId}</Badge>
-                      </Link>
-                    ))}
-                  </div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Description</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {threat.relatedFeatures.map((feature) => (
+                        <TableRow key={feature.id}>
+                          <TableCell>
+                            <Link to={`/ccc/${slug}/${feature.id}`} className="text-primary hover:underline">
+                              {feature.id}
+                            </Link>
+                          </TableCell>
+                          <TableCell>{feature.title}</TableCell>
+                          <TableCell>{feature.description}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
               )}
+
               {threat.mitre_technique && threat.mitre_technique.length > 0 && (
                 <div className="space-y-2">
                   <span className="font-medium">MITRE ATT&CK Techniques:</span>
@@ -79,6 +102,7 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
                   </div>
                 </div>
               )}
+
               {threat.relatedControls && threat.relatedControls.length > 0 && (
                 <div className="space-y-2">
                   <span className="font-medium">Related Controls:</span>
