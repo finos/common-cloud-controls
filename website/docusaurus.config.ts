@@ -43,6 +43,10 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    './src/plugin/ccc-pages/index.ts',
+  ],
+
   themeConfig: {
     // Replace with your project's social card
     image: 'img/logo/2023_FinosCCC_Horizontal.png',

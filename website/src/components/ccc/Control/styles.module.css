@@ -1,0 +1,22 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    border: 1px solid var(--ifm-color-emphasis-200);
+    text-align: left;
+}
+
+.table th {
+    background-color: var(--ifm-table-head-bg);
+    font-weight: 600;
+}
+
+.table td a {
+    color: var(--ifm-link-color);
+    font-weight: 500;
+}
