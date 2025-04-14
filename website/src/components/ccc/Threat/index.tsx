@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import Link from "@docusaurus/Link";
 import { Badge } from "../../ui/badge";
 
-interface Threat {
+export interface Threat {
   id: string;
   title: string;
   description: string;

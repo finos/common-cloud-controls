@@ -4,13 +4,14 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Badge } from "../../ui/badge";
-
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
+import { Threat } from "../Threat";
 export interface Control {
   id: string;
   title: string;
   objective: string;
   control_family: string;
-  threats?: string[];
+  threats?: Threat[];
   nist_csf?: string;
   control_mappings?: ControlMappings;
   test_requirements?: TestRequirement[];
@@ -56,15 +57,30 @@ export default function CCCControlTemplate({ pageData }: { pageData: PageData })
               </div>
 
               {control.threats?.length > 0 && (
-                <div className="flex items-center gap-2">
+                <div className="space-y-2">
                   <span className="font-medium">Threats:</span>
-                  <div className="flex flex-wrap gap-2">
-                    {control.threats.map((threat) => (
-                      <Badge key={threat} variant="outline">
-                        {threat}
-                      </Badge>
-                    ))}
-                  </div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Description</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {control.threats.map((threat) => (
+                        <TableRow key={threat.id}>
+                          <TableCell>
+                            <Link to={`/ccc/${slug}/${threat.id}`} className="text-primary hover:underline">
+                              {threat.id}
+                            </Link>
+                          </TableCell>
+                          <TableCell>{threat.title}</TableCell>
+                          <TableCell>{threat.description}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
               )}
 

@@ -57,11 +57,19 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
 
                 // Create one page per control
                 for (const control of parsed.controls) {
+                    // Find the full threat objects for this control
+                    const fullThreats = control.threats?.map(threatId =>
+                        parsed.threats.find(t => t.id === threatId)
+                    ).filter(Boolean) || [];
+
                     const controlPagePath = await createData(
                         `ccc-${slug}-${control.id}.json`,
                         JSON.stringify({
                             slug,
-                            control,
+                            control: {
+                                ...control,
+                                threats: fullThreats
+                            },
                             releaseTitle: parsed.metadata.title,
                             releaseId: parsed.metadata.id,
                         }, null, 2)
