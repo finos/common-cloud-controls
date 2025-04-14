@@ -11,6 +11,8 @@ interface CCCReleaseYaml {
         release_details: any[];
     };
     controls: any[];
+    features: any[];
+    threats: any[];
 }
 
 export default function pluginCCCPages(_: LoadContext): Plugin<void> {
@@ -33,6 +35,8 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
                     slug,
                     metadata: parsed.metadata,
                     controls: parsed.controls,
+                    features: parsed.features || [],
+                    threats: parsed.threats || [],
                 };
 
                 const jsonPath = await createData(
@@ -74,6 +78,54 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
 
                     console.log(`Added route for /ccc/${slug}/${control.id}`);
 
+                }
+
+                // Create one page per feature
+                for (const feature of parsed.features || []) {
+                    const featurePagePath = await createData(
+                        `ccc-${slug}-${feature.id}.json`,
+                        JSON.stringify({
+                            slug,
+                            feature,
+                            releaseTitle: parsed.metadata.title,
+                            releaseId: parsed.metadata.id,
+                        }, null, 2)
+                    );
+
+                    addRoute({
+                        path: `/ccc/${slug}/${feature.link}`,
+                        component: '@site/src/components/ccc/Feature/index.tsx',
+                        modules: {
+                            pageData: featurePagePath,
+                        },
+                        exact: true,
+                    });
+
+                    console.log(`Added route for /ccc/${slug}/${feature.link}`);
+                }
+
+                // Create one page per threat
+                for (const threat of parsed.threats || []) {
+                    const threatPagePath = await createData(
+                        `ccc-${slug}-${threat.id}.json`,
+                        JSON.stringify({
+                            slug,
+                            threat,
+                            releaseTitle: parsed.metadata.title,
+                            releaseId: parsed.metadata.id,
+                        }, null, 2)
+                    );
+
+                    addRoute({
+                        path: `/ccc/${slug}/${threat.link}`,
+                        component: '@site/src/components/ccc/Threat/index.tsx',
+                        modules: {
+                            pageData: threatPagePath,
+                        },
+                        exact: true,
+                    });
+
+                    console.log(`Added route for /ccc/${slug}/${threat.link}`);
                 }
             }
         },

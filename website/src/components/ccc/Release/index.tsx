@@ -39,14 +39,32 @@ interface Metadata {
   release_details: ReleaseDetails[];
 }
 
+interface Feature {
+  id: string;
+  title: string;
+  description: string;
+  link: string;
+}
+
+interface Threat {
+  id: string;
+  title: string;
+  description: string;
+  features: string[];
+  mitre_technique: string[];
+  link: string;
+}
+
 interface CCCPageData {
   slug: string;
   metadata: Metadata;
   controls: Control[];
+  features: Feature[];
+  threats: Threat[];
 }
 
 export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData }) {
-  const { slug, metadata, controls } = pageData;
+  const { slug, metadata, controls, features, threats } = pageData;
   const release = metadata.release_details?.[0];
 
   return (
@@ -108,6 +126,76 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
             </CardContent>
           </Card>
         )}
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Features</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Description</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {features.map((feature) => (
+                  <TableRow key={feature.id}>
+                    <TableCell>
+                      <Link to={`/ccc/${slug}/${feature.link}`} className="text-primary hover:underline">
+                        {feature.id}
+                      </Link>
+                    </TableCell>
+                    <TableCell>{feature.title}</TableCell>
+                    <TableCell>{feature.description}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Threats</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>MITRE ATT&CK</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {threats.map((threat) => (
+                  <TableRow key={threat.id}>
+                    <TableCell>
+                      <Link to={`/ccc/${slug}/${threat.link}`} className="text-primary hover:underline">
+                        {threat.id}
+                      </Link>
+                    </TableCell>
+                    <TableCell>{threat.title}</TableCell>
+                    <TableCell>{threat.description}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {threat.mitre_technique?.map((technique) => (
+                          <a key={technique} href={`https://attack.mitre.org/techniques/${technique}`} target="_blank" rel="noopener noreferrer" className="text-xs">
+                            {technique}
+                          </a>
+                        ))}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
