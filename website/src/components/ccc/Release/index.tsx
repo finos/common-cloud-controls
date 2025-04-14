@@ -5,6 +5,7 @@ import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { Badge } from "../../ui/badge";
+import { User } from "../User";
 
 interface ReleaseManager {
   name: string;
@@ -63,7 +64,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
             <CardTitle>Release Details</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
+            <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <span className="font-medium">Version:</span>
                 <Badge variant="secondary">{release?.version}</Badge>
@@ -72,11 +73,9 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
                 <span className="font-medium">Assurance Level:</span>
                 <Badge variant="outline">{release?.assurance_level}</Badge>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="space-y-2">
                 <span className="font-medium">Release Manager:</span>
-                <span>
-                  {release?.release_manager?.name} ({release?.release_manager?.company})
-                </span>
+                {release?.release_manager && <User name={release.release_manager.name} githubId={release.release_manager.github_id} company={release.release_manager.company} avatarUrl={`https://github.com/${release.release_manager.github_id}.png`} />}
               </div>
             </div>
           </CardContent>
@@ -87,15 +86,9 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
             <CardTitle>Contributors</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              {release?.contributors?.map((c) => (
-                <div key={c.github_id} className="flex items-center gap-2">
-                  <span className="font-medium">{c.name}</span>
-                  <span className="text-muted-foreground">— {c.company}</span>
-                  <a href={`https://github.com/${c.github_id}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                    {c.github_id}
-                  </a>
-                </div>
+            <div className="space-y-4">
+              {release?.contributors?.map((contributor) => (
+                <User key={contributor.github_id} name={contributor.name} githubId={contributor.github_id} company={contributor.company} avatarUrl={`https://github.com/${contributor.github_id}.png`} />
               ))}
             </div>
           </CardContent>
