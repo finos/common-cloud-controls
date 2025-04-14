@@ -93,7 +93,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
                     );
 
                     addRoute({
-                        path: `/ccc/${slug}/${feature.link}`,
+                        path: `/ccc/${slug}/${feature.id}`,
                         component: '@site/src/components/ccc/Feature/index.tsx',
                         modules: {
                             pageData: featurePagePath,
@@ -117,7 +117,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<void> {
                     );
 
                     addRoute({
-                        path: `/ccc/${slug}/${threat.link}`,
+                        path: `/ccc/${slug}/${threat.id}`,
                         component: '@site/src/components/ccc/Threat/index.tsx',
                         modules: {
                             pageData: threatPagePath,

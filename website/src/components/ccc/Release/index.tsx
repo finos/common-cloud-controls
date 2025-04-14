@@ -144,7 +144,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
                 {features.map((feature) => (
                   <TableRow key={feature.id}>
                     <TableCell>
-                      <Link to={`/ccc/${slug}/${feature.link}`} className="text-primary hover:underline">
+                      <Link to={`/ccc/${slug}/${feature.id}`} className="text-primary hover:underline">
                         {feature.id}
                       </Link>
                     </TableCell>
@@ -175,7 +175,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
                 {threats.map((threat) => (
                   <TableRow key={threat.id}>
                     <TableCell>
-                      <Link to={`/ccc/${slug}/${threat.link}`} className="text-primary hover:underline">
+                      <Link to={`/ccc/${slug}/${threat.id}`} className="text-primary hover:underline">
                         {threat.id}
                       </Link>
                     </TableCell>
