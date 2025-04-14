@@ -1,8 +1,10 @@
 import React from "react";
 import Layout from "@theme/Layout";
-import styles from "./styles.module.css";
 import { Control } from "../Control";
 import Link from "@docusaurus/Link";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
+import { Badge } from "../../ui/badge";
 
 interface ReleaseManager {
   name: string;
@@ -48,76 +50,105 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
 
   return (
     <Layout title={metadata.title}>
-      <main className="container margin-vert--lg">
-        <h1>{metadata.title}</h1>
-        <p className={styles.description}>{metadata.description}</p>
+      <main className="container margin-vert--lg space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>{metadata.title}</CardTitle>
+            <p className="text-muted-foreground">{metadata.description}</p>
+          </CardHeader>
+        </Card>
 
-        <section className={styles.section}>
-          <h2>Release Details</h2>
-          <ul>
-            <li>
-              <strong>Version:</strong> {release?.version}
-            </li>
-            <li>
-              <strong>Assurance Level:</strong> {release?.assurance_level}
-            </li>
-            <li>
-              <strong>Release Manager:</strong> {release?.release_manager?.name} ({release?.release_manager?.company})
-            </li>
-          </ul>
-        </section>
+        <Card>
+          <CardHeader>
+            <CardTitle>Release Details</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Version:</span>
+                <Badge variant="secondary">{release?.version}</Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Assurance Level:</span>
+                <Badge variant="outline">{release?.assurance_level}</Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Release Manager:</span>
+                <span>
+                  {release?.release_manager?.name} ({release?.release_manager?.company})
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        <section className={styles.section}>
-          <h2>Contributors</h2>
-          <ul className={styles.contributors}>
-            {release?.contributors?.map((c: any) => (
-              <li key={c.github_id}>
-                <strong>{c.name}</strong> — {c.company} (
-                <a href={`https://github.com/${c.github_id}`} target="_blank" rel="noopener noreferrer">
-                  {c.github_id}
-                </a>
-                )
-              </li>
-            ))}
-          </ul>
-        </section>
+        <Card>
+          <CardHeader>
+            <CardTitle>Contributors</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {release?.contributors?.map((c) => (
+                <div key={c.github_id} className="flex items-center gap-2">
+                  <span className="font-medium">{c.name}</span>
+                  <span className="text-muted-foreground">— {c.company}</span>
+                  <a href={`https://github.com/${c.github_id}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    {c.github_id}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
         {release?.change_log && (
-          <section className={styles.section}>
-            <h2>Change Log</h2>
-            <ul>
-              {release.change_log.map((log: string, idx: number) => (
-                <li key={idx}>{log}</li>
-              ))}
-            </ul>
-          </section>
+          <Card>
+            <CardHeader>
+              <CardTitle>Change Log</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="list-disc pl-4 space-y-1">
+                {release.change_log.map((log, idx) => (
+                  <li key={idx}>{log}</li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         )}
 
-        <section className={styles.section}>
-          <h2>Controls</h2>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Objective</th>
-                <th>Control Family</th>
-              </tr>
-            </thead>
-            <tbody>
-              {controls.map((control) => (
-                <tr key={control.id}>
-                  <td>
-                    <Link to={`/ccc/${slug}/${control.id}`}>{control.id}</Link>
-                  </td>
-                  <td>{control.title}</td>
-                  <td>{control.objective}</td>
-                  <td>{control.control_family}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
+        <Card>
+          <CardHeader>
+            <CardTitle>Controls</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Objective</TableHead>
+                  <TableHead>Control Family</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {controls.map((control) => (
+                  <TableRow key={control.id}>
+                    <TableCell>
+                      <Link to={`/ccc/${slug}/${control.id}`} className="text-primary hover:underline">
+                        {control.id}
+                      </Link>
+                    </TableCell>
+                    <TableCell>{control.title}</TableCell>
+                    <TableCell>{control.objective}</TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">{control.control_family}</Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </main>
     </Layout>
   );

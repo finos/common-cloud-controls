@@ -1,9 +1,9 @@
 import { TestRequirement } from "../TestRequirement";
-
 import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
-import styles from "./styles.module.css";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Badge } from "../../ui/badge";
 
 export interface Control {
   id: string;
@@ -33,64 +33,105 @@ export default function CCCControlTemplate({ pageData }: { pageData: PageData })
 
   return (
     <Layout title={control.title}>
-      <main className="container margin-vert--lg">
-        <Link to={`/ccc/${slug}`}>&larr; Back to {releaseTitle}</Link>
-        <h1>
-          {control.id}: {control.title}
-        </h1>
+      <main className="container margin-vert--lg space-y-6">
+        <Link to={`/ccc/${slug}`} className="text-primary hover:underline flex items-center gap-1">
+          ← Back to {releaseTitle}
+        </Link>
 
-        <section className={styles.section}>
-          <p>
-            <strong>Objective:</strong> {control.objective}
-          </p>
-          <p>
-            <strong>Control Family:</strong> {control.control_family}
-          </p>
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              {control.id}: {control.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Objective:</span>
+                <span>{control.objective}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Control Family:</span>
+                <Badge variant="secondary">{control.control_family}</Badge>
+              </div>
 
-          {control.threats?.length > 0 && (
-            <p>
-              <strong>Threats:</strong> {control.threats.join(", ")}
-            </p>
-          )}
+              {control.threats?.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Threats:</span>
+                  <div className="flex flex-wrap gap-2">
+                    {control.threats.map((threat) => (
+                      <Badge key={threat} variant="outline">
+                        {threat}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {control.nist_csf && (
-            <p>
-              <strong>NIST CSF:</strong> {control.nist_csf}
-            </p>
-          )}
-        </section>
+              {control.nist_csf && (
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">NIST CSF:</span>
+                  <Badge variant="outline">{control.nist_csf}</Badge>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         {control.control_mappings && (
-          <section className={styles.section}>
-            <h2>Control Mappings</h2>
-            <ul>
-              {Object.entries(control.control_mappings).map(([framework, values]) => (
-                <li key={framework}>
-                  <strong>{framework}:</strong> {values.join(", ")}
-                </li>
-              ))}
-            </ul>
-          </section>
+          <Card>
+            <CardHeader>
+              <CardTitle>Control Mappings</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {Object.entries(control.control_mappings).map(([framework, values]) => (
+                  <div key={framework} className="flex items-center gap-2">
+                    <span className="font-medium">{framework}:</span>
+                    <div className="flex flex-wrap gap-2">
+                      {values.map((value) => (
+                        <Badge key={value} variant="outline">
+                          {value}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         )}
 
         {control.test_requirements?.length > 0 && (
-          <section className={styles.section}>
-            <h2>Test Requirements</h2>
-            <ul>
-              {control.test_requirements.map((tr) => (
-                <li key={tr.id}>
-                  <p>
-                    <strong>{tr.id}</strong>: {tr.text}
-                  </p>
-                  {tr.tlp_levels?.length > 0 && (
-                    <p>
-                      <em>TLP: {tr.tlp_levels.join(", ")}</em>
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </section>
+          <Card>
+            <CardHeader>
+              <CardTitle>Test Requirements</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {control.test_requirements.map((tr) => (
+                  <div key={tr.id} className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">{tr.id}:</span>
+                      <span>{tr.text}</span>
+                    </div>
+                    {tr.tlp_levels?.length > 0 && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">TLP:</span>
+                        <div className="flex flex-wrap gap-2">
+                          {tr.tlp_levels.map((level) => (
+                            <Badge key={level} variant="outline">
+                              {level}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         )}
       </main>
     </Layout>
