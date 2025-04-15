@@ -1,5 +1,6 @@
 common_threats:
   - CCC.TH01 # Access Control is Misconfigured
+  - CCC.TH04 # Data is Replicated to Untrusted or External Locations
 threats:
   - id: CCC.KeyMgmt.TH01
     title: Deletion or disabling of KMS key versions leading to denial of service or data destruction
