@@ -108,4 +108,3 @@ features:
     title: Key Replication
     description: |
       Supports the ability to securely replicate a key across different regions using automated or manual process.
-      Supports the ability to export keys from the KMS
