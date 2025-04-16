@@ -4,7 +4,7 @@ common_features:
   - CCC.F03 # Access/Activity Logs
   - CCC.F04 # Transaction Rate Limits
   - CCC.F05 # Signed URLs
-  - CCC.F06 # Identity-Based Access Control
+  - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
   - CCC.F09 # Monitoring
   - CCC.F13 # Infrastructure as Code

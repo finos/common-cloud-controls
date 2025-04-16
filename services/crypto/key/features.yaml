@@ -4,7 +4,7 @@ common_features:
   - CCC.F03 # Access/Activity Logs
   - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
-  - CCC.F08 # Multi-zone Deployability
+  - CCC.F08 # Multi-zone Deployment
   - CCC.F09 # Monitoring
   - CCC.F10 # Logging
   - CCC.F13 # Infrastructure as Code

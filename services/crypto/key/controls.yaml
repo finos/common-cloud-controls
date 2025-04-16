@@ -1,6 +1,6 @@
 common_controls:
   - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure data encryption at rest all stored data
+  - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
   - CCC.C03 # Implement multi-factor authentication (MFA) for access
   - CCC.C04 # Log all access and changes
   - CCC.C05 # Prevent access from untrusted entities
@@ -13,7 +13,7 @@ controls:
     objective: |
       Ensure that alerts are generated when key versions are scheduled for deletion or disabled.
     threats:
-      - CCC.KeyMgmt.TH01
+      - CCC.KeyMgmt.TH01 # Deletion or disabling of KMS key versions leading to denial of service or data destruction
     nist_csf: RS.AN-1
     control_mappings:
       NIST_800_53:

@@ -305,7 +305,7 @@ controls:
     nist_csf: DE.AE-1 # A baseline of network operations and expected data
     # flows for users and systems is established and managed
     threats:
-      - CCC.TH15 # Automated Enumeration
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
     control_mappings:
       CCM:
         - LOG-05 # Audit Log Monitoring and Response
@@ -457,7 +457,7 @@ controls:
     control_family: Encryption
     nist_csf: PR.DS-1 # Data-at-rest is protected
     threats:
-      - CCC.TH16 # Non-compliance with Encryption Key Management Policies
+      - CCC.TH06 # Data is Lost or Corrupted
     control_mappings:
       CCM:
         - EKM-02

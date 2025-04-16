@@ -2,7 +2,7 @@ common_features:
   - CCC.F01 # Encryption in Transit Enabled by Default
   - CCC.F02 # Encryption at Rest Enabled by Default
   - CCC.F04 # Transaction Rate Limits
-  - CCC.F06 # Identity-Based Access Control
+  - CCC.F06 # Identity Based Access Control
   - CCC.F07 # Event Notifications
   - CCC.F09 # Monitoring
   - CCC.F10 # Logging

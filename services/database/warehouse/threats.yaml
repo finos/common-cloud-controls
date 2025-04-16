@@ -1,5 +1,5 @@
 common_threats:
-  - CCC.TH01 # Unauthorized access through elevated privileges
+  - CCC.TH01 # Access Control is Misconfigured
   - CCC.TH02 # Data is intercepted in transit
   - CCC.TH03 # Deployment region network is untrusted
   - CCC.TH04 # Data is replicated to untrusted or external locations
@@ -23,7 +23,7 @@ threats:
       either at the dataset level or via IAM policies, allowing unauthorized users to read or modify sensitive data,
       leading to data breaches and compliance violations.
     features:
-      - CCC.DataWar.F01 # Dataset Management
+      - CCC.DataWar.F01 # Centralized Data Repository
     mitre_technique:
       - T1530 # Data from Cloud Storage Object
       - T1078 # Valid Accounts
@@ -34,7 +34,7 @@ threats:
       Attackers may create or exploit unauthorized views to access sensitive data without proper permissions,
       leading to data leakage.
     features:
-      - CCC.DataWar.F02 # Authorized Views
+      - CCC.DataWar.F16 # View Creation and Access
     mitre_technique:
       - T1020 # Automated Exfiltration
       - T1002 # Data Compressed
@@ -45,7 +45,7 @@ threats:
       Lack of proper column-level security can lead to unauthorized users accessing sensitive data fields,
       resulting in data breaches.
     features:
-      - CCC.DataWar.F03 # Column-Level Security
+      - CCC.DataWar.F09 # Column-Level Security
     mitre_technique:
       - T1552 # Unsecured Credentials
       - T1580 # Obtain Capabilities
