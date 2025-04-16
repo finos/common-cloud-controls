@@ -1,17 +1,19 @@
-common_features:
-  - CCC.F03 # Access/Activity Logs
-  - CCC.F06 # Identity Based Access Control
-  - CCC.F08 # Multi-zone Deployment
-  - CCC.F09 # Monitoring
-  - CCC.F10 # Logging
-  - CCC.F14 # API Access
-  - CCC.F15 # Cost Management
-  - CCC.F16 # Budgeting
-  - CCC.F17 # Alerting
-  - CCC.F20 # Tagging
-  - CCC.F23 # Network Access Rules
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F06 # Identity-Based Access Control
+      - CCC.F08 # Multi-zone Deployment
+      - CCC.F09 # Monitoring
+      - CCC.F10 # Logging
+      - CCC.F14 # API Access
+      - CCC.F15 # Cost Management
+      - CCC.F16 # Budgeting
+      - CCC.F17 # Alerting
+      - CCC.F20 # Tagging
+      - CCC.F23 # Network Access Rules
 
-features:
+capabilities:
   - id: CCC.MLDE.F01
     title: Managed Notebook Environments
     description: |
