@@ -1,17 +1,19 @@
-common_features:
-  - CCC.F01 # Encryption in Transit Enabled by Default
-  - CCC.F02 # Encryption at Rest Enabled by Default
-  - CCC.F06 # Identity Based Access Control
-  - CCC.F07 # Event Notifications
-  - CCC.F08 # Multi-zone Deployment
-  - CCC.F09 # Monitoring
-  - CCC.F10 # Logging
-  - CCC.F13 # Infrastructure as Code
-  - CCC.F14 # API Access
-  - CCC.F19 # On-Demand Scaling
-  - CCC.F20 # Tagging
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01 # Encryption in Transit Enabled by Default
+      - CCC.F02 # Encryption at Rest Enabled by Default
+      - CCC.F06 # Identity Based Access Control
+      - CCC.F07 # Event Notifications
+      - CCC.F08 # Multi-zone Deployment
+      - CCC.F09 # Monitoring
+      - CCC.F10 # Logging
+      - CCC.F13 # Infrastructure as Code
+      - CCC.F14 # API Access
+      - CCC.F19 # On-Demand Scaling
+      - CCC.F20 # Tagging
 
-features:
+capabilities:
   - id: CCC.Message.F01
     title: Publish/Subscribe Model
     description: |
