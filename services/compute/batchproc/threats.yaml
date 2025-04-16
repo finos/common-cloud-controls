@@ -1,12 +1,14 @@
-common_threats:
-  - CCC.TH01 # Access control is misconfigured
-  - CCC.TH02 # Data is intercepted in transit
-  - CCC.TH03 # Deployment region network is untrusted
-  - CCC.TH04 # Data is replicated to untrusted or external locations
-  - CCC.TH05 # Data is corrupted during replication
-  - CCC.TH06 # Data is lost or corrupted
-  - CCC.TH07 # Logs are Tampered With or Deleted
-  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-  - CCC.TH11 # Event Notifications are Incorrectly Triggered
-  - CCC.TH12 # Resource constraints are exhausted
-  - CCC.TH14 # Older Resource Versions Are Exploited
+shared-threats:
+  - reference-id: CCC
+    identifiers: 
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH02 # Data is intercepted in transit
+      - CCC.TH03 # Deployment region network is untrusted
+      - CCC.TH04 # Data is replicated to untrusted or external locations
+      - CCC.TH05 # Data is corrupted during replication
+      - CCC.TH06 # Data is lost or corrupted
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - CCC.TH12 # Resource constraints are exhausted
+      - CCC.TH14 # Older Resource Versions Are Exploited
