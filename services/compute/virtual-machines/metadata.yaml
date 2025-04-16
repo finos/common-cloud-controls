@@ -1,18 +1,10 @@
-title: CCC Virtual Machines
-id: CCC.VM
-description: |
-  This documents the minimal set of features that should be present for a
-  virtual machine service to be considered for use in financial services ecosystems.
-release_details:
-  - version: "2025.06"
-    assurance_level: None
-    threat_model_url: None
-    threat_model_author: None
-    red_team: None
-    red_team_exercise_url: None
-    release_manager:
-      name: Damien Burks
-      github_id: damienjburks
-      company: Citi
-      summary: Initial release
-    change_log: []
+metadata:
+  id: CCC.VM
+  title: CCC Virtual Machines
+  description: |
+      This documents the minimal set of features that should be present for a
+      virtual machine service to be considered for use in financial services ecosystems.
+  version: "2025.06"
+  last-modified: "2025-04-15T19:22:54-05:00"
+  applicability-categories: []
+  mapping-references: []
