@@ -107,15 +107,34 @@ type Threat struct {
 	Link           string
 }
 
-func formatList(items []string) string {
-	result := ""
-	for i, item := range items {
-		if i > 0 {
-			result += ", "
-		}
-		result += item
+func getYamlBytes(name string) []byte {
+	directory := getDataDirectory(name)
+	return readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
+}
+
+func readYamlFile(filepath string) (yamlFile []byte) {
+	yamlFile, err := os.ReadFile(filepath)
+	if err != nil {
+		log.Fatalf("error: %v", err)
 	}
-	return result
+	return
+}
+
+func unmarshalData(dataName string, dataSet interface{}) {
+	yamlData := getYamlBytes(dataName)
+	err := yaml.Unmarshal(yamlData, dataSet)
+	if err != nil {
+		log.Fatalf("error reading %s: %v", dataName, err)
+	}
+}
+
+func createLink(id string, title string) string {
+	var buffer bytes.Buffer
+
+	buffer.WriteString(strings.ToLower(strings.ReplaceAll(id, ".", "")))
+	buffer.WriteString("---")
+	buffer.WriteString(strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(title, ",", ""), " ", "-")))
+	return buffer.String()
 }
 
 func getDataDirectory(name string) string {
@@ -143,54 +162,6 @@ func getDataDirectory(name string) string {
 	return ""
 }
 
-func readYamlFile(filepath string) (yamlFile []byte) {
-	yamlFile, err := os.ReadFile(filepath)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	return
-}
-
-func getYaml(name string) []byte {
-	directory := getDataDirectory(name)
-	return readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
-}
-
-func unmarshalData(dataName string, dataSet interface{}) {
-	yamlData := getYaml(dataName)
-	err := yaml.Unmarshal(yamlData, dataSet)
-	if err != nil {
-		log.Fatalf("error reading %s: %v", dataName, err)
-	}
-}
-
-func createLink(id string, title string) string {
-	var buffer bytes.Buffer
-
-	buffer.WriteString(strings.ToLower(strings.ReplaceAll(id, ".", "")))
-	buffer.WriteString("---")
-	buffer.WriteString(strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(title, ",", ""), " ", "-")))
-	return buffer.String()
-}
-
-func addFeatureLink(features []Feature) {
-	for index, element := range features {
-		features[index].Link = createLink(element.ID, element.Title)
-	}
-}
-
-func addThreatLink(threats []Threat) {
-	for index, element := range threats {
-		threats[index].Link = createLink(element.ID, element.Title)
-	}
-}
-
-func addControlLink(controls []Control) {
-	for index, element := range controls {
-		controls[index].Link = createLink(element.ID, element.Title)
-	}
-}
-
 func readAndCompileCatalog() (data CompiledCatalog) {
 	// read controls.yaml, features.yaml, threats.yaml, and metadata.yaml from dir path
 	controlsData := ControlSet{}
@@ -210,12 +181,12 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	commonThreatsData := ThreatSet{}
 	unmarshalData("common-threats", &commonThreatsData)
 
-	addFeatureLink(featuresData.SpecificFeatures)
-	addFeatureLink(commonFeaturesData.SpecificFeatures)
-	addThreatLink(threatsData.SpecificThreats)
-	addThreatLink(commonThreatsData.SpecificThreats)
-	addControlLink(controlsData.SpecificControls)
-	addControlLink(commonControlsData.SpecificControls)
+	// addFeatureLink(featuresData.SpecificFeatures)
+	// addFeatureLink(commonFeaturesData.SpecificFeatures)
+	// addThreatLink(threatsData.SpecificThreats)
+	// addThreatLink(commonThreatsData.SpecificThreats)
+	// addControlLink(controlsData.SpecificControls)
+	// addControlLink(commonControlsData.SpecificControls)
 
 	return CompiledCatalog{
 		Metadata:             metadata,

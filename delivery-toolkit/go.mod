@@ -1,9 +1,12 @@
 module github.com/finos/common-cloud-controls
 
-go 1.22.5
+go 1.23.4
+
+toolchain go1.24.1
 
 require (
 	github.com/google/go-github/v53 v53.2.0
+	github.com/revanite-io/sci v0.3.3
 	golang.org/x/oauth2 v0.24.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -37,3 +40,5 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.19.0
 )
+
+replace github.com/revanite-io/sci => ../../../revanite-io/sci
