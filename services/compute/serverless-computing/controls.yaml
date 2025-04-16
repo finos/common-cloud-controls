@@ -1,53 +1,70 @@
-common_controls:
-  - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure data encryption at rest for all stored data
-  - CCC.C03 # Implement multi-factor authentication (MFA) for access
-  - CCC.C04 # Log all access and changes
-  - CCC.C05 # Prevent access from untrusted entities
-  - CCC.C06 # Prevent deployment in restricted regions
-  - CCC.C07 # Alert on non-human enumeration
-  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-  - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent unencrypted requests
+      - CCC.C02 # Ensure data encryption at rest for all stored data
+      - CCC.C03 # Implement multi-factor authentication (MFA) for access
+      - CCC.C04 # Log all access and changes
+      - CCC.C05 # Prevent access from untrusted entities
+      - CCC.C06 # Prevent deployment in restricted regions
+      - CCC.C07 # Alert on non-human enumeration
+      - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+      - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
-controls:
-  - id: CCC.SvlsComp.C01 # Enforce Virtual Network Integration for Serverless Function
-    title: Enforce Use of Private Endpoints for Serverless Function
-    objective: |
-      Ensure that the serverless function is accessible only through a private endpoint,
-      allowing it to communicate securely within a virtual private network and preventing unauthorized external access.
-    control_family: Network Security
-    threats:
-      - CCC.TH01 # Access control is misconfigured
-    nist_csf: PR.AC-5 # Network integrity is protected
-    control_mappings:
-      NIST_800_53:
-        - SC-7 # Boundary Protection
-        - SC-8 # Transmission Confidentiality and Integrity
-    test_requirements:
-      - id: CCC.SvlsComp.C01.TR01
-        text: |
-          Attempt to access the serverless function over the public internet and verify that access is denied.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
-
-  - id: CCC.SvlsComp.C02 # Implement Function Invocation Rate Limits
-    title: Implement Function Invocation Rate Limits
-    objective: |
-      Ensure that function invocation is limited to a specified threshold from any single entity,
-      preventing resource exhaustion and denial of service attacks.
-    control_family: Availability
-    threats:
-      - CCC.TH12 # Resource constraints are exhausted
-    nist_csf: PR.DS-4 # Adequate capacity to ensure availability
-    control_mappings:
-      NIST_800_53:
-        - SC-5 # Denial of Service Protection
-    test_requirements:
-      - id: CCC.SvlsComp.C02.TR01
-        text: |
-          Send requests to invoke the function up to the allowed threshold and confirm they are successful;
-          then send additional requests exceeding the threshold from the same entity and verify that they are denied.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
+control-families:
+    - name: Network Security
+      description: 'TODO: Describe this control family'
+      controls:
+        - id: CCC.SvlsComp.C01
+          title: Enforce Use of Private Endpoints for Serverless Function
+          objective: |
+            Ensure that the serverless function is accessible only through a private endpoint,
+            allowing it to communicate securely within a virtual private network and preventing unauthorized external access.
+          requirements:
+            - id: CCC.SvlsComp.C01.TR01
+              text: |
+                Attempt to access the serverless function over the public internet and verify that access is denied.
+              applicability:
+                - tlp_red
+                - tlp_amber
+              recommendation: ""
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH01 # Access control is misconfigured
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.AC-5 # Network integrity is protected
+            - reference-id: NIST_800_53
+              identifiers:
+                - SC-7 # Boundary Protection
+                - SC-8 # Transmission Confidentiality and Integrity
+    - name: Availability
+      description: 'TODO: Describe this control family'
+      controls:
+        - id: CCC.SvlsComp.C02
+          title: Implement Function Invocation Rate Limits
+          objective: |
+            Ensure that function invocation is limited to a specified threshold from any single entity,
+            preventing resource exhaustion and denial of service attacks.
+          requirements:
+            - id: CCC.SvlsComp.C02.TR01
+              text: |
+                Send requests to invoke the function up to the allowed threshold and confirm they are successful;
+                then send additional requests exceeding the threshold from the same entity and verify that they are denied.
+              applicability:
+                - tlp_red
+                - tlp_amber
+              recommendation: ""
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH12 # Resource constraints are exhausted
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.DS-4 # Adequate capacity to ensure availability
+            - reference-id: NIST_800_53
+              identifiers:
+                - SC-5 # Denial of Service Protection
