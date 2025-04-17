@@ -15,8 +15,9 @@ common_threats:
   - LBL.TH14 # Automated Scanning Identifies Load Balancer Endpoints
   - LBL.TH15 # Resource Exhaustion via Volumetric Attacks (DoS/DDoS)
 
-  threats:
-    - id: LBL.TH01
+threats:
+  
+  - id: LBL.TH01
     title: Access Control is Misconfigured on Load Balancer
     description: |
       Weak or overly permissive access controls can allow unauthorized users to
