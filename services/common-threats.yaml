@@ -6,22 +6,25 @@ threats:
       restrict unauthorized access to sensitive resources. This could result in
       unintended data exposure or unauthorized actions being performed within
       the system.
-    features:
-      - CCC.F06 # Identity Based Access Control
-    mitre_technique:
-      - T1078 # Valid Accounts
-      - T1548 # Abuse Elevation Control Mechanism
-      - T1203 # Exploitation for Credential Access
-      - T1098 # Account Manipulation
-      - T1484 # Domain or Tenant Policy Modification
-      - T1546 # Event Triggered Execution
-      - T1537 # Transfer Data to Cloud Account
-      - T1567 # Exfiltration Over Web Services
-      - T1048 # Exfiltration Over Alternative Protocol
-      - T1485 # Data Destruction
-      - T1565 # Data Manipulation
-      - T1027 # Obfuscated Files or Information
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F06 # Identity Based Access Control
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078 # Valid Accounts
+          - T1548 # Abuse Elevation Control Mechanism
+          - T1203 # Exploitation for Credential Access
+          - T1098 # Account Manipulation
+          - T1484 # Domain or Tenant Policy Modification
+          - T1546 # Event Triggered Execution
+          - T1537 # Transfer Data to Cloud Account
+          - T1567 # Exfiltration Over Web Services
+          - T1048 # Exfiltration Over Alternative Protocol
+          - T1485 # Data Destruction
+          - T1565 # Data Manipulation
+          - T1027 # Obfuscated Files or Information
   - id: CCC.TH02
     title: Data is Intercepted in Transit
     description: |
@@ -29,12 +32,15 @@ threats:
       interception or modification in transit if encrypted communication is not
       properly implemented. This could result in unauthorized access to
       sensitive information or unintended data alterations.
-    features:
-      - CCC.F01 # Encryption in Transit Enabled by Default
-    mitre_technique:
-      - T1557 # Adversary-in-the-Middle
-      - T1040 # Network Sniffing
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F01 # Encryption in Transit Enabled by Default
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1557 # Adversary-in-the-Middle
+          - T1040 # Network Sniffing
   - id: CCC.TH03
     title: Deployment Region Network is Untrusted
     description: |
@@ -43,16 +49,19 @@ threats:
       interception due to privileged network exposure or physical
       vulnerabilities. This could result in unintended data disclosure or
       compromised system integrity.
-    features:
-      - CCC.F08 # Multi-zone Deployment
-      - CCC.F22 # Location Lock-In
-    mitre_technique:
-      - T1040 # Network Sniffing
-      - T1110 # Brute Force
-      - T1105 # Ingress Tool Transfer
-      - T1583 # Acquire Infrastructure
-      - T1557 # Adversary-in-the-Middle
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F08 # Multi-zone Deployment
+          - CCC.F22 # Location Lock-In
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1040 # Network Sniffing
+          - T1110 # Brute Force
+          - T1105 # Ingress Tool Transfer
+          - T1583 # Acquire Infrastructure
+          - T1557 # Adversary-in-the-Middle
   - id: CCC.TH04
     title: Data is Replicated to Untrusted or External Locations
     description: |
@@ -60,11 +69,14 @@ threats:
       configurations are not properly restricted. This could result
       in unintended data leakage or exposure outside the organization's trusted
       perimeter.
-    features:
-      - CCC.F21 # Replication
-    mitre_technique:
-      - T1565 # Data Manipulation
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F21 # Replication
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1565 # Data Manipulation
   - id: CCC.TH05
     title: Data is Corrupted During Replication
     description: |
@@ -73,31 +85,37 @@ threats:
       or unintended disruptions. This could lead to compromised data integrity
       and availability, potentially affecting recovery processes and system
       reliability.
-    features:
-      - CCC.F08 # Multi-zone Deployment
-      - CCC.F12 # Recovery
-      - CCC.F21 # Replication
-    mitre_technique:
-      - T1485 # Data Destruction
-      - T1565 # Data Manipulation
-      - T1491 # Defacement
-      - T1490 # Inhibit System Recovery
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F08 # Multi-zone Deployment
+          - CCC.F12 # Recovery
+          - CCC.F21 # Replication
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1485 # Data Destruction
+          - T1565 # Data Manipulation
+          - T1491 # Defacement
+          - T1490 # Inhibit System Recovery
   - id: CCC.TH06
     title: Data is Lost or Corrupted
     description: |
       Data loss or corruption may occur due to accidental deletion, or
       misconfiguration. This can result in the loss of critical data, service
       disruption, or unintended exposure of sensitive information.
-    features:
-      - CCC.F11 # Backup
-      - CCC.F18 # Versioning
-    mitre_technique:
-      - T1485 # Data Destruction
-      - T1565 # Data Manipulation
-      - T1491 # Defacement
-      - T1490 # Inhibit System Recovery
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F11 # Backup
+          - CCC.F18 # Versioning
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1485 # Data Destruction
+          - T1565 # Data Manipulation
+          - T1491 # Defacement
+          - T1490 # Inhibit System Recovery
   - id: CCC.TH07
     title: Logs are Tampered With or Deleted
     description: |
@@ -105,14 +123,17 @@ threats:
       or misconfigurations. This can make it difficult to identify security
       incidents, disrupt forensic investigations, and affect the accuracy of
       audit trails.
-    features:
-      - CCC.F03 # Access/Activity Logs
-      - CCC.F10 # Logging
-    mitre_technique:
-      - T1070 # Indicator Removal on Host
-      - T1565 # Data Manipulation (for altering log entries)
-      - T1027 # Obfuscated Files or Information
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F03 # Access/Activity Logs
+          - CCC.F10 # Logging
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1070 # Indicator Removal on Host
+          - T1565 # Data Manipulation (for altering log entries)
+          - T1027 # Obfuscated Files or Information
   - id: CCC.TH08
     title: Cost Management Data is Manipulated
     description: |
@@ -120,12 +141,15 @@ threats:
       unauthorized access. This might result in inaccurate resource usage
       reporting, budget exhaustion, financial losses, and hinder incident
       detection.
-    features:
-      - CCC.F15 # Cost Management
-    mitre_technique:
-      - T1565 # Data Manipulation
-      - T1070 # Indicator Removal on Host
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F15 # Cost Management
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1565 # Data Manipulation
+          - T1070 # Indicator Removal on Host
   - id: CCC.TH09
     title: Logs or Monitoring Data are Read by Unauthorized Users
     description: |
@@ -134,24 +158,27 @@ threats:
       mechanisms. This could allow for the identification of vulnerabilities,
       enable the planning of attacks, or hinder the detection of ongoing
       incidents.
-    features:
-      - CCC.F03 # Access/Activity Logs
-      - CCC.F09 # Monitoring
-    mitre_technique:
-      - T1003 # Credential Dumping
-      - T1007 # System Service Discovery
-      - T1018 # Remote System Discovery
-      - T1033 # System Owner/User Discovery
-      - T1046 # Network Service Discovery
-      - T1057 # Process Discovery
-      - T1069 # Permission Groups Discovery
-      - T1070 # Indicator Removal
-      - T1082 # System Information Discovery
-      - T1120 # Peripheral Device Discovery
-      - T1124 # System Time Discovery
-      - T1497 # Virtualization/Sandbox Evasion
-      - T1518 # Software Discovery
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F03 # Access/Activity Logs
+          - CCC.F09 # Monitoring
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1003 # Credential Dumping
+          - T1007 # System Service Discovery
+          - T1018 # Remote System Discovery
+          - T1033 # System Owner/User Discovery
+          - T1046 # Network Service Discovery
+          - T1057 # Process Discovery
+          - T1069 # Permission Groups Discovery
+          - T1070 # Indicator Removal
+          - T1082 # System Information Discovery
+          - T1120 # Peripheral Device Discovery
+          - T1124 # System Time Discovery
+          - T1497 # Virtualization/Sandbox Evasion
+          - T1518 # Software Discovery
   - id: CCC.TH10
     title: Alerts are Intercepted
     description: |
@@ -159,16 +186,19 @@ threats:
       inadequate security measures, or unauthorized access. This could expose
       information about sensitive operations or access patterns, potentially
       impacting system security and integrity.
-    features:
-      - CCC.F03 # Access/Activity Logs
-      - CCC.F07 # Event Notifications
-      - CCC.F09 # Monitoring
-      - CCC.F17 # Alerting
-    mitre_technique:
-      - T1057 # Process Discovery
-      - T1049 # System Network Connections Discovery
-      - T1083 # File and Directory Discovery
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F03 # Access/Activity Logs
+          - CCC.F07 # Event Notifications
+          - CCC.F09 # Monitoring
+          - CCC.F17 # Alerting
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1057 # Process Discovery
+          - T1049 # System Network Connections Discovery
+          - T1083 # File and Directory Discovery
   - id: CCC.TH11
     title: Event Notifications are Incorrectly Triggered
     description: |
@@ -176,14 +206,17 @@ threats:
       or unauthorized access. This could result in sensitive operations being
       triggered unintentionally, obfuscate other issues, or overwhelm the
       system, potentially disrupting legitimate operations.
-    features:
-      - CCC.F07 # Event Notifications
-      - CCC.F17 # Alerting
-    mitre_technique:
-      - T1205 # Traffic Signaling
-      - T1001.001 # Data Obfuscation: Junk Data
-      - T1491.001 # Defacement: Internal Defacement
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F07 # Event Notifications
+          - CCC.F17 # Alerting
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1205 # Traffic Signaling
+          - T1001.001 # Data Obfuscation: Junk Data
+          - T1491.001 # Defacement: Internal Defacement
   - id: CCC.TH12
     title: Resource Constraints are Exhausted
     description: |
@@ -192,15 +225,18 @@ threats:
       disrupt service availability, deny access to users, or impact other
       systems within the same scope. Exhaustion may occur through repeated
       requests, resource-intensive operations, or lowering rate/budget limits.
-    features:
-      - CCC.F04 # Transaction Rate Limits
-      - CCC.F16 # Budgeting
-      - CCC.F19 # On-demand Scaling
-    mitre_technique:
-      - T1496 # Resource Hijacking
-      - T1499 # Endpoint Denial of Service
-      - T1498 # Network Denial of Service
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F04 # Transaction Rate Limits
+          - CCC.F16 # Budgeting
+          - CCC.F19 # Auto-scaling
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1496 # Resource Hijacking
+          - T1499 # Endpoint Denial of Service
+          - T1498 # Network Denial of Service
   - id: CCC.TH13
     title: Resource Tags are Manipulated
     description: |
@@ -208,11 +244,14 @@ threats:
       policies, billing disruptions, or unintended exposure of sensitive data.
       This could result in mismanaged resources, financial misuse, or security
       vulnerabilities.
-    features:
-      - CCC.F20 # Tagging
-    mitre_technique:
-      - T1565 # Data Manipulation
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F20 # Tagging
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1565 # Data Manipulation
   - id: CCC.TH14
     title: Older Resource Versions are Exploited
     description: |
@@ -220,19 +259,22 @@ threats:
       or insecure configurations. Without proper version control and monitoring,
       outdated versions could lead to security measures bypass, potentially
       leading to security risks or operational disruptions.
-    features:
-      - CCC.F18 # Versioning
-    mitre_technique:
-      - T1027 # Obfuscated Files or Information
-      - T1485 # Data Destruction
-      - T1565 # Data Manipulation
-      - T1489 # Service Stop
-      - T1562.01 # Impair Defenses: Downgrade Attack
-      - T1027 # Obfuscated Files or Information
-      - T1485 # Data Destruction
-      - T1565 # Data Manipulation
-      - T1489 # Service Stop
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F18 # Versioning
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1027 # Obfuscated Files or Information
+          - T1485 # Data Destruction
+          - T1565 # Data Manipulation
+          - T1489 # Service Stop
+          - T1562.01 # Impair Defenses: Downgrade Attack
+          - T1027 # Obfuscated Files or Information
+          - T1485 # Data Destruction
+          - T1565 # Data Manipulation
+          - T1489 # Service Stop
   - id: CCC.TH15
     title: Automated Enumeration and Reconnaissance by Non-human Entities
     description: |
@@ -241,11 +283,14 @@ threats:
       activities can reveal potential vulnerabilities, misconfigurations, or
       unsecured resources, which might result in unauthorized access or data
       exposure.
-    features:
-      - CCC.F14 # API Access
-    mitre_technique:
-      - T1580 # Cloud Infrastructure Discovery
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F14 # API Access
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1580 # Cloud Infrastructure Discovery
   - id: CCC.TH16
     title: Logging and Monitoring are Disabled
     description: |
@@ -253,12 +298,15 @@ threats:
       detection of security events and reducing visibility into system
       activities. This condition can impact the organization's ability
       to investigate incidents and maintain operational integrity.
-    features:
-      - CCC.F10 # Logging
-      - CCC.F09 # Monitoring
-    mitre_technique:
-      - T1562 # Impair Defenses
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F10 # Logging
+          - CCC.F09 # Monitoring
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1562 # Impair Defenses
   - id: CCC.TH17
     title: Unauthorized Network Access via Misconfigured Rules
     description: |
@@ -266,8 +314,12 @@ threats:
       such as security groups can allow unauthorized inbound connections
       to the service. This could result in unauthorized access to sensitive
       resources or data and disruption to service availability.
-    features:
-      - CCC.F23 # Network Access Rules
-    mitre_technique:
-      - T1046 # Network Service Scanning
-      - T1133 # External Remote Services
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F23 # Network Access Rules
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1046 # Network Service Scanning
+          - T1133 # External Remote Services
