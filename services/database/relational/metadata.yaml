@@ -1,8 +1,13 @@
-title: CCC Relational Database Management System Features
-id: CCC.RDMS
-description: |
-  This documents the minimual set of features that should be present for a RDMS
-  service to be considered for use in financial services ecosystems.
+metadata:
+  id: CCC.RDMS
+  title: CCC Relational Database Management System Features
+  description: |
+      This documents the minimual set of features that should be present for a RDMS
+      service to be considered for use in financial services ecosystems.
+  version: "2025.03"
+  last-modified: "2025-04-16T19:30:51-05:00"
+  applicability-categories: []
+  mapping-references: []
 release_details:
   - version: "2025.03"
     assurance_level: None
