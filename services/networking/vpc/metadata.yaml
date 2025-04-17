@@ -1,9 +1,14 @@
-title: CCC Virtual Private Cloud
-id: CCC.VPC
-description: |
-  This documents the minimal set of features that should be present
-  for a virtual private cloud service to be considered for use in financial
-  services ecosystems.
+metadata:
+  id: CCC.VPC
+  title: CCC Virtual Private Cloud
+  description: |
+      This documents the minimal set of features that should be present
+      for a virtual private cloud service to be considered for use in financial
+      services ecosystems.
+  version: "2025.01"
+  last-modified: "2025-04-16T20:28:51-05:00"
+  applicability-categories: []
+  mapping-references: []
 release_details:
   - version: "2025.01"
     assurance_level: None
