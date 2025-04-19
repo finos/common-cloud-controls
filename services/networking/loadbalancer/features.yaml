@@ -14,7 +14,7 @@ shared-capabilities:
   - CCC.F20 # Tagging
   - CCC.F22 # Location Lock-In
 
-features:
+capabilities:
   - id: CCC.LB.F01
     title: Static Load Balancing
     description: |

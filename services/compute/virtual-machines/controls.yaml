@@ -1,5 +1,5 @@
 shared-controls:
-    - reference-id: CCC
-      identifiers: []
+  - reference-id: CCC
+    identifiers: []
 
 control-families: []

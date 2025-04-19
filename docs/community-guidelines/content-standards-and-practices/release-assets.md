@@ -1,10 +1,10 @@
 # Release Assets
 
-Each asset released by the CCC will include a set of features, threats, and controls for a specific cloud service category.
+Each asset released by the CCC will include a set of capabilities, threats, and controls for a specific cloud service category.
 
-For example, a [release] for Object Storage will contain [features] that any compliant cloud service—such as AWS S3, Azure Blob Storage, or Google Cloud Storage—must include. The release will also contain [threats] associated with the common features, informed by the MITRE ATT&CK framework. Finally, a set of [controls] will be provided, detailing the mitigation of these threats, along with mappings to external control frameworks like CCM, ISO 27001, and NIST 800-53.
+For example, a [release] for Object Storage will contain [capabilities] that any compliant cloud service—such as AWS S3, Azure Blob Storage, or Google Cloud Storage—must include. The release will also contain [threats] associated with the common capabilities, informed by the MITRE ATT&CK framework. Finally, a set of [controls] will be provided, detailing the mitigation of these threats, along with mappings to external control frameworks like CCM, ISO 27001, and NIST 800-53.
 
-When creating assets for a new service category, review the content standards for [features], [threats], and [controls].
+When creating assets for a new service category, review the content standards for [capabilities], [threats], and [controls].
 
 In addition to the three YAML files, each release must include a `metadata.yaml` file, which is described below.
 
@@ -13,11 +13,11 @@ In addition to the three YAML files, each release must include a `metadata.yaml`
 Metadata adds critical information about the state and context of the release.
 
 - **Category Title** (`title`): The title of the service category to which this release pertains.
-- **Category Identifier** (`id`): A unique identifier that prefixes all IDs in the release (features, threats, controls, etc.). It should use a category abbreviation (max 8 characters), formatted as `CCC.<Category Abbreviation>`.
+- **Category Identifier** (`id`): A unique identifier that prefixes all IDs in the release (capabilities, threats, controls, etc.). It should use a category abbreviation (max 8 characters), formatted as `CCC.<Category Abbreviation>`.
 - **Category Description** (`description`): A complete description of the service category, detailing its use case, scope, and relevance to cloud security and compliance.
 - **[Assurance Level]** (`assurance_level`): Indicates the level of confidence in the security and reliability of the service. Values include:
   - `None`: Actively under development.
-  - `AL0`: Only features are complete at release time.
+  - `AL0`: Only capabilities are complete at release time.
   - `AL1`: Capabilities, threats, and controls are complete at release time.
   - `AL2`: Threats are based on a threat model for this category.
   - `AL3`: Threats are based on a red team exercise for this category.
@@ -45,7 +45,7 @@ Information about the individual overseeing the release:
 
 Document changes related to the release, providing details of all post-release updates:
 
-- **Change Log** (`change_log`): List of changes, one entry per pull request (PR). This includes added features, improvements, or updates after the initial release.
+- **Change Log** (`change_log`): List of changes, one entry per pull request (PR). This includes added capabilities, improvements, or updates after the initial release.
 
 ## Example Metadata
 
@@ -74,6 +74,6 @@ release_details:
 ```
 
 [release]: ../releases/README.md
-[features]: ./feature-definitions.md
+[capabilities]: ./feature-definitions.md
 [threats]: ./threat-definitions.md
 [controls]: ./control-definitions.md

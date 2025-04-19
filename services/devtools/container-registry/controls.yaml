@@ -50,7 +50,8 @@ control-families:
         requirements:
           - id: CCC.CntrReg.C02.TR01
             text: |
-              Confirm that artifacts older than the specified retention period are automatically deleted from the registry.
+              Confirm that artifacts older than the specified retention period are automatically
+              deleted from the registry.
             applicability:
               - tlp_red
               - tlp_amber

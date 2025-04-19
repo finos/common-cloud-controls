@@ -59,7 +59,7 @@ capabilities:
     title: Data Pipeline Integration
     description: |
       Supports integration with data preparation and feature engineering
-      pipelines, including versioning of datasets and features used in
+      pipelines, including versioning of datasets and capabilities used in
       ML experiments.
 
   - id: CCC.MLDE.F08

@@ -175,11 +175,11 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 
 	// read the common controls, capabilities, and threats from the common entries directory
 	commonControlsData := ControlSet{}
-	unmarshalData("common-controls", &commonControlsData)
+	unmarshalData("shared-controls", &commonControlsData)
 	commonCapabilitiesData := FeatureSet{}
 	unmarshalData("shared-capabilities", &commonCapabilitiesData)
 	commonThreatsData := ThreatSet{}
-	unmarshalData("common-threats", &commonThreatsData)
+	unmarshalData("shared-threats", &commonThreatsData)
 
 	// addFeatureLink(capabilitiesData.SpecificCapabilities)
 	// addFeatureLink(commonCapabilitiesData.SpecificCapabilities)

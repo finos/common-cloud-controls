@@ -83,7 +83,7 @@ capabilities:
     title: Deduplication of Messages
     description: |
       Support for deduplication of messages with use of messaging
-      service features or deduplication IDs.
+      service capabilities or deduplication IDs.
 
   - id: CCC.Message.F14
     title: Dead Letter Topics

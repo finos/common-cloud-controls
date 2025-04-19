@@ -142,7 +142,7 @@ Specific group charters may specify a shorter period for their roles.
 ---
 
 [Linux Foundation Code of Conduct]: https://events.linuxfoundation.org/about/code-of-conduct/
-[CODEOWNERS]: https://github.com/finos/common-cloud-controls/blob/main/.github/CODEOWNERS
+[CODEOWNERS]: /.github/CODEOWNERS
 [community mail group]: mailto:ccc-participants+subscribe@finos.org
 [community groups]: ../governance/community-structure.md
 [SC]: ../governance/community-structure.md#steering-committee

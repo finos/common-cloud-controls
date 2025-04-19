@@ -2,7 +2,7 @@ metadata:
   id: CCC.VPC
   title: CCC Virtual Private Cloud
   description: |
-      This documents the minimal set of features that should be present
+      This documents the minimal set of capabilities that should be present
       for a virtual private cloud service to be considered for use in financial
       services ecosystems.
   version: "2025.01"
@@ -32,7 +32,7 @@ release_details:
     change_log:
       - |
         This initial release contains a variety of commits designed to capture
-        all of the features, threats, and controls for this service category.
+        all of the capabilities, threats, and controls for this service category.
     contributors:
       - name: Michael Lysaght
         github_id: mlysaght2017

@@ -2,7 +2,7 @@ metadata:
   title: Build
   id: CCC.Build
   description: |
-    This documents the minimal set of features that should be present
+    This documents the minimal set of capabilities that should be present
     for a build service to be considered for use in financial
     services ecosystems.
   version: ""

@@ -2,7 +2,7 @@ metadata:
   id: CCC.VM
   title: CCC Virtual Machines
   description: |
-      This documents the minimal set of features that should be present for a
+      This documents the minimal set of capabilities that should be present for a
       virtual machine service to be considered for use in financial services ecosystems.
   version: "2025.06"
   last-modified: "2025-04-15T19:22:54-05:00"

@@ -2,7 +2,7 @@ metadata:
   title: CCC Load Balancer Capabilities
   id: CCC.LB
   description: |
-    This documents the minimual set of features that should be present
+    This documents the minimual set of capabilities that should be present
     for a load balancer service to be considered for use in financial
     services ecosystems.
   version: "2025.01"

@@ -1,6 +1,6 @@
 shared-threats:
   - reference-id: CCC
-    identifiers: 
+    identifiers:
       - CCC.TH01 # Access control is misconfigured
       - CCC.TH02 # Data is intercepted in transit
       - CCC.TH03 # Deployment region network is untrusted

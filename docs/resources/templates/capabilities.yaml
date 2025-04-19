@@ -1,6 +1,6 @@
 shared-capabilities:
-  - <IDs of common features; Omit if not applicable>
-features:
+  - <IDs of common capabilities; Omit if not applicable>
+capabilities:
   - id: CCC.<Service Category Abbreviation>.F<##>
     title: <Shortname of the feature>
     description: <Complete description of the feature>

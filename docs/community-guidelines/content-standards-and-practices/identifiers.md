@@ -1,6 +1,6 @@
 # CCC Taxonomy ID Assignment Guidelines
 
-This document provides a standardized approach for assigning unique identifiers (IDs) to various entities within the CCC Taxonomy, including Service Families, service categories, features, threats, controls, test requirements, and tests. Adhering to this standard ensures consistency and clarity across all related documentation and implementations.
+This document provides a standardized approach for assigning unique identifiers (IDs) to various entities within the CCC Taxonomy, including Service Families, service categories, capabilities, threats, controls, test requirements, and tests. Adhering to this standard ensures consistency and clarity across all related documentation and implementations.
 
 | **ID Type**          | **Format**                                  | **Example**            |
 | -------------------- | ------------------------------------------- | ---------------------- |

@@ -2,7 +2,7 @@ metadata:
   id: CCC.RDMS
   title: CCC Relational Database Management System Capabilities
   description: |
-      This documents the minimual set of features that should be present for a RDMS
+      This documents the minimual set of capabilities that should be present for a RDMS
       service to be considered for use in financial services ecosystems.
   version: "2025.03"
   last-modified: "2025-04-16T19:30:51-05:00"
@@ -31,7 +31,7 @@ release_details:
     change_log:
       - |
         This initial release contains a variety of commits designed to capture
-        all of the features, threats, and controls for this service category.
+        all of the capabilities, threats, and controls for this service category.
     contributors:
       - name: Michael Lysaght
         github_id: mlysaght2017

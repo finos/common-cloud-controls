@@ -54,8 +54,8 @@
 **/threats.yaml @finos/ccc-wg-security
 **/controls.yaml @finos/ccc-wg-security
 **/*.feature @finos/ccc-wg-security
-**/common-controls.yaml @finos/ccc-wg-security
-**/common-threats.yaml @finos/ccc-wg-security
+**/shared-controls.yaml @finos/ccc-wg-security
+**/shared-threats.yaml @finos/ccc-wg-security
 #
 ########
 

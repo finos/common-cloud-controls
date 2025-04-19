@@ -47,7 +47,7 @@ The **Common Cloud Controls (CCC) Catalog** is designed to cover cloud service p
 
 - **Structure**:
   - **CNCF Catalog**: Organized with seven headings, lacking explicit references to testing requirements.
-  - **CCC Catalog**: More detailed structure, including mappings to service features and testing requirements.
+  - **CCC Catalog**: More detailed structure, including mappings to service capabilities and testing requirements.
 
 ### Areas for further CCC consideration
 

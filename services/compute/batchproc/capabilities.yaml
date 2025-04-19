@@ -1,6 +1,6 @@
 shared-capabilities:
   - reference-id: CCC
-    identifiers: 
+    identifiers:
       - CCC.F01 # Encryption in Transit Enabled by Default
       - CCC.F02 # Encryption at Rest Enabled by Default
       - CCC.F04 # Transaction Rate Limits

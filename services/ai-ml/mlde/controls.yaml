@@ -223,13 +223,15 @@ control-families:
         requirements:
           - id: CCC.MLDE.C06.TR01
             text: |
-              Verify that automatic scheduled upgrades are enabled on user-managed MLDE instances containing sensitive data.
+              Verify that automatic scheduled upgrades are enabled on user-managed
+              MLDE instances containing sensitive data.
             applicability:
               - tlp_red
             recommendation: ""
           - id: CCC.MLDE.C06.TR02
             text: |
-              Ensure that the upgrade schedule is appropriately configured and does not interfere with critical operations.
+              Ensure that the upgrade schedule is appropriately configured and
+              does not interfere with critical operations.
             applicability:
               - tlp_red
               - tlp_amber

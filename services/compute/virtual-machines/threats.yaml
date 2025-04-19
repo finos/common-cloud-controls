@@ -1,5 +1,5 @@
 shared-threats:
-    - reference-id: CCC
-      identifiers: []
+  - reference-id: CCC
+    identifiers: []
 
 threats: []

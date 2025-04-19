@@ -16,149 +16,149 @@ shared-capabilities:
       - CCC.F20 # Tagging
 
 capabilities:
-  - id:  CCC.GenAI.F01
+  - id: CCC.GenAI.F01
     title: Text-Based Model Selection
     description: |
       Ability to select a foundation model that excels at natural language
       understanding and generation tasks such as summarization, translation,
       text generation, question answering, and sentiment analysis.
 
-  - id:  CCC.GenAI.F02
+  - id: CCC.GenAI.F02
     title: Code-Based Model Selection
     description: |
       Ability to select a foundation model that focuses on code understanding,
       generation, and transformation tasks.
 
-  - id:  CCC.GenAI.F03
+  - id: CCC.GenAI.F03
     title: Embedding Model Selection
     description: |
       Ability to select a foundation model used for tasks like semantic
       search, clustering, and document similarity by converting text into
       vector embeddings.
 
-  - id:  CCC.GenAI.F04
+  - id: CCC.GenAI.F04
     title: Image-Based Model Selection
     description: |
       Ability to select a foundation model that focuses on tasks related to vision,
       such as image generation, editing, and manipulation.
 
-  - id:  CCC.GenAI.F05
+  - id: CCC.GenAI.F05
     title: Multimodal Model Selection
     description: |
       Ability to select a foundation model that supports more than one modality,
       such as combining text and image.
 
-  - id:  CCC.GenAI.F06
+  - id: CCC.GenAI.F06
     title: Customizable Model Selection
     description: |
       Provide users the ability to fine-tune models with their own data.
 
-  - id:  CCC.GenAI.F07
+  - id: CCC.GenAI.F07
     title: Parameter Tuning - Temperature
     description: |
       Ability to control the randomness and creativity of the response.
 
-  - id:  CCC.GenAI.F08
+  - id: CCC.GenAI.F08
     title: Parameter Tuning - Max Token
     description: |
       Ability to limit the length of the response.
 
-  - id:  CCC.GenAI.F09
+  - id: CCC.GenAI.F09
     title: Parameter Tuning - Top P (Nucleus Sampling)
     description: |
       Ability to adjust the number of likely next tokens to consider based on
       cumulative probability.
 
-  - id:  CCC.GenAI.F10
+  - id: CCC.GenAI.F10
     title: Parameter Tuning - Top K
     description: |
       Ability to limit the number of token choices for the next word.
 
-  - id:  CCC.GenAI.F11
+  - id: CCC.GenAI.F11
     title: Parameter Tuning - Stop Sequences
     description: |
       Ability to halt generation when a predefined sequence is encountered.
 
-  - id:  CCC.GenAI.F12
+  - id: CCC.GenAI.F12
     title: Parameter Tuning - Frequency Penalty
     description: |
       Ability to penalize words that have been used frequently, reducing
       their likelihood of being repeated.
 
-  - id:  CCC.GenAI.F13
+  - id: CCC.GenAI.F13
     title: Parameter Tuning - Presence Penalty
     description: |
       Ability to penalize tokens that have already been used, encouraging
       the model to introduce new tokens.
 
-  - id:  CCC.GenAI.F14
+  - id: CCC.GenAI.F14
     title: Parameter Tuning - Context Length
     description: |
       Ability to control how much prior conversation or input the model will
       use for generating coherent responses.
 
-  - id:  CCC.GenAI.F15
+  - id: CCC.GenAI.F15
     title: Text-Based Prompts
     description: |
       Ability to input prompts in plain text.
 
-  - id:  CCC.GenAI.F16
+  - id: CCC.GenAI.F16
     title: Structured Prompts
     description: |
       Ability to provide structured input such as JSON as prompts.
 
-  - id:  CCC.GenAI.F17
+  - id: CCC.GenAI.F17
     title: Contextual Prompts
     description: |
       Ability to provide context or background information within the prompt
       to guide the response.
 
-  - id:  CCC.GenAI.F18
+  - id: CCC.GenAI.F18
     title: Interactive Prompts
     description: |
       Ability to use conversational prompts to create interactive dialogues.
 
-  - id:  CCC.GenAI.F19
+  - id: CCC.GenAI.F19
     title: Image-Based Prompts
     description: |
       Ability to input an image as a prompt to generate a response.
 
-  - id:  CCC.GenAI.F20
+  - id: CCC.GenAI.F20
     title: Custom Template Prompts
     description: |
       Ability to define custom templates or structures for prompts to
       standardize interactions with the models.
 
-  - id:  CCC.GenAI.F21
+  - id: CCC.GenAI.F21
     title: Generate Content
     description: |
       Ability to generate a response given a foundation model, parameter values,
       and a prompt.
 
-  - id:  CCC.GenAI.F22
+  - id: CCC.GenAI.F22
     title: Data Control
     description: |
       Ensures prompts, model outputs, embeddings, and training data fed by
       customers are not used to train foundation models.
 
-  - id:  CCC.GenAI.F23
+  - id: CCC.GenAI.F23
     title: Data Storage
     description: |
       Ability to retrieve previously generated outputs and prompts for the
       given session.
 
-  - id:  CCC.GenAI.F24
+  - id: CCC.GenAI.F24
     title: Data Residency
     description: |
       Ability to select a region for processing and storing data in the service.
 
-  - id:  CCC.GenAI.F25
+  - id: CCC.GenAI.F25
     title: Content Moderation
     description: |
       Ensure the service detects and filters abusive, harmful, and sensitive
       information to ensure responsible and safe use of the service.
 
-  - id:  CCC.GenAI.F26
+  - id: CCC.GenAI.F26
     title: Plugin Integrations
     description: |
       Ability for the model to use tools to complete a model interaction.

@@ -2,7 +2,7 @@ metadata:
   title: Identity and Access Management
   id: CCC.IAM
   description: |
-    This documents the minimal set of features that should be present
+    This documents the minimal set of capabilities that should be present
     for a identity and access management service to be considered
     for use in financial services ecosystems.
     version: ""

@@ -20,85 +20,85 @@ shared-capabilities:
       - CCC.F23 # Network Access Rules
 
 capabilities:
-  - id:  CCC.RDMS.F01
+  - id: CCC.RDMS.F01
     title: SQL Support
     description: |
       Properly handle queries in the SQL language.
 
-  - id:  CCC.RDMS.F02
+  - id: CCC.RDMS.F02
     title: DB Engine Option - MySQL
     description: |
       Ability to create a MySQL managed relational database.
 
-  - id:  CCC.RDMS.F03
+  - id: CCC.RDMS.F03
     title: DB Engine Option - PostgreSQL
     description: |
       Ability to create a PostgreSQL managed relational database.
 
-  - id:  CCC.RDMS.F04
+  - id: CCC.RDMS.F04
     title: DB Engine Option - MariaDB
     description: |
       Ability to create a MariaDB managed relational database.
 
-  - id:  CCC.RDMS.F05
+  - id: CCC.RDMS.F05
     title: DB Engine Option - SQL Server
     description: |
       Ability to create a Microsoft SQL Server managed relational database.
 
-  - id:  CCC.RDMS.F06
+  - id: CCC.RDMS.F06
     title: DB Managed Credentials
     description: |
       Ability to managed the database credentials using the cloud
       provider's secret management service.
 
-  - id:  CCC.RDMS.F07
+  - id: CCC.RDMS.F07
     title: DB Self Managed Credentials
     description: |
       Ability to manage the database credentials by client managed
       username and passwords.
 
-  - id:  CCC.RDMS.F08
+  - id: CCC.RDMS.F08
     title: Support for IPv4
     description: |
       Ability to connect to the database using IPv4 addresses.
 
-  - id:  CCC.RDMS.F09
+  - id: CCC.RDMS.F09
     title: Support for IPv6
     description: |
       Ability to connect to the database using IPv6 addresses
 
-  - id:  CCC.RDMS.F10
+  - id: CCC.RDMS.F10
     title: Public Access
     description: |
       Allow database to be accessed by public internet.
 
-  - id:  CCC.RDMS.F11
+  - id: CCC.RDMS.F11
     title: Disable Public Access
     description: |
       Prevent database been accessed by public internet.
 
-  - id:  CCC.RDMS.F12
+  - id: CCC.RDMS.F12
     title: Managed Connection Pooling
     description: |
       Ability to configure a managed connection pool for the database.
 
-  - id:  CCC.RDMS.F13
+  - id: CCC.RDMS.F13
     title: Deletion Protection
     description: |
       Protect the database against accidental deletion.
 
-  - id:  CCC.RDMS.F14
+  - id: CCC.RDMS.F14
     title: Dedicated Database Instances
     description: |
       Option to deploy the database on a dedicated instance for
       isolation requirements.
 
-  - id:  CCC.RDMS.F15
+  - id: CCC.RDMS.F15
     title: Horizontal Scaling
     description: |
       Read replicas of the primary database can be created.
 
-  - id:  CCC.RDMS.F16
+  - id: CCC.RDMS.F16
     title: Failover
     description: |
       Standby database can be implemented for failover when the
