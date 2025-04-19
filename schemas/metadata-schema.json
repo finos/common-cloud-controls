@@ -49,7 +49,7 @@
           "additionalProperties": false
         }
       },
-      "required": ["id", "title", "description", "version", "last-modified"],
+      "required": ["id", "title", "description"],
       "additionalProperties": false
     },
     "release_details": {
@@ -92,17 +92,6 @@
             }
           }
         },
-        "required": [
-          "version",
-          "assurance_level",
-          "threat_model_url",
-          "threat_model_author",
-          "red_team",
-          "red_team_exercise_url",
-          "release_manager",
-          "change_log",
-          "contributors"
-        ],
         "additionalProperties": false
       }
     }
