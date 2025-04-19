@@ -16,7 +16,7 @@ service_categories:
       emulate physical servers and run operating systems and applications.
       Users can provision VMs with custom configurations, including CPU,
       memory, storage, and networking resources. Cloud providers offer managed
-      VM services with features such as automated provisioning, scaling,
+      VM services with capabilities such as automated provisioning, scaling,
       monitoring, and pay-as-you-go pricing.
     examples:
       - AWS:
@@ -34,7 +34,7 @@ service_categories:
       different computing environments. Container services provide
       orchestration, management, and scaling capabilities for containerized
       workloads using platforms such as Docker and Kubernetes. Cloud providers
-      offer managed container services with features such as container
+      offer managed container services with capabilities such as container
       registry, cluster management, and auto-scaling.
     examples:
       - AWS:

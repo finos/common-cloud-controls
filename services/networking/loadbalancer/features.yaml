@@ -1,4 +1,4 @@
-common_features:
+shared-capabilities:
   - CCC.F03 # Access/Activity Logs
   - CCC.F04 # Transaction Rate Limits
   - CCC.F06 # Identity Based Access Control
@@ -14,7 +14,7 @@ common_features:
   - CCC.F20 # Tagging
   - CCC.F22 # Location Lock-In
 
-features:
+capabilities:
   - id: CCC.LB.F01
     title: Static Load Balancing
     description: |

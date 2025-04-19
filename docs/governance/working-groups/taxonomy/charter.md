@@ -22,7 +22,7 @@ The mission of the Taxonomy [WG] is to define and maintain a comprehensive taxon
 
 - Identify common cloud service categories, prioritizing those most commonly used within financial service institutions
 - Create and maintain an index of all common service categories each organized by common categorical delineations
-- Create and maintain a list of descriptions for the minimum viable features of each service category
+- Create and maintain a list of descriptions for the minimum viable capabilities of each service category
 - Create and maintain an asset describing the ways to test the presence of each feature for a service
 - Ensure all artifacts comply with requirements documented by the [Delivery WG] prior to release
 - Collaborate with [Delivery WG] to publish each release on the agreed schedule
@@ -42,7 +42,7 @@ The following activities will not be performed by this group:
 
 - Working on assets related to cybersecurity topics
 - Public-facing communications
-- Tracking cloud vendor support of service features
+- Tracking cloud vendor support of service capabilities
 
 ## Governance
 

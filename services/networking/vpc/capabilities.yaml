@@ -1,11 +1,14 @@
-common_features:
-  - CCC.F06 # Identity Based Access Control
-  - CCC.F08 # Multi-zone Deployment
-  - CCC.F09 # Monitoring
-  - CCC.F10 # Logging
-  - CCC.F13 # Infrastructure as Code
-  - CCC.F20 # Tagging
-features:
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F06 # Identity Based Access Control
+      - CCC.F08 # Multi-zone Deployment
+      - CCC.F09 # Monitoring
+      - CCC.F10 # Logging
+      - CCC.F13 # Infrastructure as Code
+      - CCC.F20 # Tagging
+
+capabilities:
   - id: CCC.VPC.F01
     title: Isolated Custom Network Creation
     description: |

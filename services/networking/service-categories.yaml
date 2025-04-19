@@ -82,7 +82,7 @@ service_categories:
       Domain Name System (DNS) services translate human-readable domain names
       into IP addresses, enabling users to access cloud resources using custom
       domain names. Cloud providers offer managed DNS services which provide
-      global scalability, low latency, and advanced DNS management features.
+      global scalability, low latency, and advanced DNS management capabilities.
     examples:
       - AWS:
           - Amazon Route 53

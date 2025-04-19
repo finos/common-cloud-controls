@@ -16,9 +16,9 @@ type CompiledCatalog struct {
 	Metadata Metadata
 
 	// These lists contain the common and specific entries smashed together
-	Controls []Control
-	Features []Feature
-	Threats  []Threat
+	Controls     []Control
+	Capabilities []Feature
+	Threats      []Threat
 
 	LatestReleaseDetails ReleaseDetails
 }
@@ -79,10 +79,10 @@ type Contributors struct {
 	Company  string `yaml:"company"`
 }
 
-// FeatureSet is a struct that represents the features.yaml file
+// FeatureSet is a struct that represents the capabilities.yaml file
 type FeatureSet struct {
-	CommonFeatureIDs []string  `yaml:"common_features"`
-	SpecificFeatures []Feature `yaml:"features"`
+	CommonFeatureIDs     []string  `yaml:"shared-capabilities"`
+	SpecificCapabilities []Feature `yaml:"capabilities"`
 }
 
 type Feature struct {
@@ -102,45 +102,14 @@ type Threat struct {
 	ID             string   `yaml:"id"`
 	Title          string   `yaml:"title"`
 	Description    string   `yaml:"description"`
-	Features       []string `yaml:"features"`
+	Capabilities   []string `yaml:"capabilities"`
 	MITRETechnique []string `yaml:"mitre_technique"`
 	Link           string
 }
 
-func formatList(items []string) string {
-	result := ""
-	for i, item := range items {
-		if i > 0 {
-			result += ", "
-		}
-		result += item
-	}
-	return result
-}
-
-func getDataDirectory(name string) string {
-	buildTarget := filepath.Join(viper.GetString("services-dir"), viper.GetString("build-target"))
-	serviceDir := viper.GetString("services-dir")
-
-	switch name {
-	case "controls":
-		return buildTarget
-	case "features":
-		return buildTarget
-	case "threats":
-		return buildTarget
-	case "metadata":
-		return buildTarget
-	case "common-controls":
-		return serviceDir
-	case "common-features":
-		return serviceDir
-	case "common-threats":
-		return serviceDir
-	default:
-		log.Fatalf("error: %v", "Invalid data type")
-	}
-	return ""
+func getYamlBytes(name string) []byte {
+	directory := getDataDirectory(name)
+	return readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
 }
 
 func readYamlFile(filepath string) (yamlFile []byte) {
@@ -151,13 +120,8 @@ func readYamlFile(filepath string) (yamlFile []byte) {
 	return
 }
 
-func getYaml(name string) []byte {
-	directory := getDataDirectory(name)
-	return readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
-}
-
 func unmarshalData(dataName string, dataSet interface{}) {
-	yamlData := getYaml(dataName)
+	yamlData := getYamlBytes(dataName)
 	err := yaml.Unmarshal(yamlData, dataSet)
 	if err != nil {
 		log.Fatalf("error reading %s: %v", dataName, err)
@@ -173,54 +137,61 @@ func createLink(id string, title string) string {
 	return buffer.String()
 }
 
-func addFeatureLink(features []Feature) {
-	for index, element := range features {
-		features[index].Link = createLink(element.ID, element.Title)
-	}
-}
+func getDataDirectory(name string) string {
+	buildTarget := filepath.Join(viper.GetString("services-dir"), viper.GetString("build-target"))
+	serviceDir := viper.GetString("services-dir")
 
-func addThreatLink(threats []Threat) {
-	for index, element := range threats {
-		threats[index].Link = createLink(element.ID, element.Title)
+	switch name {
+	case "controls":
+		return buildTarget
+	case "capabilities":
+		return buildTarget
+	case "threats":
+		return buildTarget
+	case "metadata":
+		return buildTarget
+	case "shared-controls":
+		return serviceDir
+	case "shared-capabilities":
+		return serviceDir
+	case "shared-threats":
+		return serviceDir
+	default:
+		log.Fatalf("error: %v", "Invalid data type")
 	}
-}
-
-func addControlLink(controls []Control) {
-	for index, element := range controls {
-		controls[index].Link = createLink(element.ID, element.Title)
-	}
+	return ""
 }
 
 func readAndCompileCatalog() (data CompiledCatalog) {
-	// read controls.yaml, features.yaml, threats.yaml, and metadata.yaml from dir path
+	// read controls.yaml, capabilities.yaml, threats.yaml, and metadata.yaml from dir path
 	controlsData := ControlSet{}
 	unmarshalData("controls", &controlsData)
-	featuresData := FeatureSet{}
-	unmarshalData("features", &featuresData)
+	capabilitiesData := FeatureSet{}
+	unmarshalData("capabilities", &capabilitiesData)
 	threatsData := ThreatSet{}
 	unmarshalData("threats", &threatsData)
 	metadata := Metadata{}
 	unmarshalData("metadata", &metadata)
 
-	// read the common controls, features, and threats from the common entries directory
+	// read the common controls, capabilities, and threats from the common entries directory
 	commonControlsData := ControlSet{}
-	unmarshalData("common-controls", &commonControlsData)
-	commonFeaturesData := FeatureSet{}
-	unmarshalData("common-features", &commonFeaturesData)
+	unmarshalData("shared-controls", &commonControlsData)
+	commonCapabilitiesData := FeatureSet{}
+	unmarshalData("shared-capabilities", &commonCapabilitiesData)
 	commonThreatsData := ThreatSet{}
-	unmarshalData("common-threats", &commonThreatsData)
+	unmarshalData("shared-threats", &commonThreatsData)
 
-	addFeatureLink(featuresData.SpecificFeatures)
-	addFeatureLink(commonFeaturesData.SpecificFeatures)
-	addThreatLink(threatsData.SpecificThreats)
-	addThreatLink(commonThreatsData.SpecificThreats)
-	addControlLink(controlsData.SpecificControls)
-	addControlLink(commonControlsData.SpecificControls)
+	// addFeatureLink(capabilitiesData.SpecificCapabilities)
+	// addFeatureLink(commonCapabilitiesData.SpecificCapabilities)
+	// addThreatLink(threatsData.SpecificThreats)
+	// addThreatLink(commonThreatsData.SpecificThreats)
+	// addControlLink(controlsData.SpecificControls)
+	// addControlLink(commonControlsData.SpecificControls)
 
 	return CompiledCatalog{
 		Metadata:             metadata,
 		Controls:             append(commonControlsData.SpecificControls, controlsData.SpecificControls...),
-		Features:             append(commonFeaturesData.SpecificFeatures, featuresData.SpecificFeatures...),
+		Capabilities:         append(commonCapabilitiesData.SpecificCapabilities, capabilitiesData.SpecificCapabilities...),
 		Threats:              append(commonThreatsData.SpecificThreats, threatsData.SpecificThreats...),
 		LatestReleaseDetails: metadata.ReleaseDetails[len(metadata.ReleaseDetails)-1],
 	}

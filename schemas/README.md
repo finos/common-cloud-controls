@@ -1,6 +1,6 @@
 # Yaml Validation Schemas
 
-Yaml validation schemas have been created for controls, features, metadata and threats files, to ensure that contributions follow the approved structure and contain required values.
+Yaml validation schemas have been created for controls, capabilities, metadata and threats files, to ensure that contributions follow the approved structure and contain required values.
 
 ## VSCode integration
 
@@ -14,7 +14,7 @@ If this does not satisfy your use case for some reason, you can update your glob
    ```json
        "yaml.schemas": {
            "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/controls-schema.json": "controls.yaml",
-           "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/features-schema.json": "features.yaml",
+           "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/capabilities-schema.json": "capabilities.yaml",
            "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/metadata-schema.json": "metadata.yaml",
            "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/threats-schema.json": "threats.yaml"
        }

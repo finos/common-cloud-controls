@@ -43,7 +43,7 @@ Further, T1001.002 Steganography is mapped n:m back to 8 NIST 800-53 Controls, i
 
 ### Similar Work
 
-- [M365 Native security features vs Att&ck](https://mitre-engenuity.org/cybersecurity/center-for-threat-informed-defense/our-work/security-stack-mappings-microsoft-365/)
+- [M365 Native security capabilities vs Att&ck](https://mitre-engenuity.org/cybersecurity/center-for-threat-informed-defense/our-work/security-stack-mappings-microsoft-365/)
 
 ## Technique Inference Engine
 

@@ -11,7 +11,7 @@ service_categories:
     description: |
       Service is designed to manage users, groups, roles and policies for controlling
       access to cloud services and resources in a secure manner. It also provides
-      features such as Multi-Factor Authentication (MFA) and identity protection.
+      capabilities such as Multi-Factor Authentication (MFA) and identity protection.
     examples:
       - AWS:
           - AWS Identity and Access Management (IAM)

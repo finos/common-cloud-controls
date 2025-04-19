@@ -16,16 +16,16 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 - {{ . }}
 {{- end }}
 
-## Features
+## Capabilities
 
 |Feature ID|Feature Title|
 |----|----|
-{{- range .Features }}
+{{- range .Capabilities }}
 |[{{ .ID }}](#{{ .Link }})|{{ .Title }}|
 {{- end }}
 
 ---
-{{ range .Features }}
+{{ range .Capabilities }}
 ### {{ .ID }} - {{ .Title }}
 
 {{ .Description }}
@@ -44,8 +44,8 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 ### {{ .ID }} - {{ .Title }}
 
 {{ .Description }}
-**Related Features:**
-{{ range .Features }}
+**Related Capabilities:**
+{{ range .Capabilities }}
 - {{ . }}
 {{- end }}
 

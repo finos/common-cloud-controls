@@ -47,7 +47,7 @@ The release process involves contributors proposing changes through a pull reque
 2. **Working Group Review:** The relevant [WG]s will review the PR.
 
    - **[Security WG]** ensures all controls and threat catalogs are complete and ready for release.
-   - **[Taxonomy WG]** ensures the required fields and features are populated and ready for release.
+   - **[Taxonomy WG]** ensures the required fields and capabilities are populated and ready for release.
    - **[Delivery WG]** ensures that the PR aligns with content development and formatting standards.
 
 3. **Validation:** All [WG]s

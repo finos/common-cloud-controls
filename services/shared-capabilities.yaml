@@ -1,4 +1,4 @@
-features:
+capabilities:
   - id: CCC.F01
     title: Encryption in Transit Enabled by Default
     description: |

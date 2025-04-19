@@ -1,19 +1,21 @@
-common_features:
-  - CCC.F01 # Encryption in Transit Enabled by Default
-  - CCC.F02 # Encryption at Rest Enabled by Default
-  - CCC.F03 # Access/Activity Logs
-  - CCC.F04 # Transaction Rate Limits
-  - CCC.F05 # Signed URLs
-  - CCC.F06 # Identity Based Access Control
-  - CCC.F07 # Event Notifications
-  - CCC.F09 # Monitoring
-  - CCC.F13 # Infrastructure as Code
-  - CCC.F14 # API Access
-  - CCC.F18 # Versioning
-  - CCC.F21 # Replication
-  - CCC.F22 # Location Lock-In
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01 # Encryption in Transit Enabled by Default
+      - CCC.F02 # Encryption at Rest Enabled by Default
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F04 # Transaction Rate Limits
+      - CCC.F05 # Signed URLs
+      - CCC.F06 # Identity Based Access Control
+      - CCC.F07 # Event Notifications
+      - CCC.F09 # Monitoring
+      - CCC.F13 # Infrastructure as Code
+      - CCC.F14 # API Access
+      - CCC.F18 # Versioning
+      - CCC.F21 # Replication
+      - CCC.F22 # Location Lock-In
 
-features:
+capabilities:
   - id: CCC.CntrReg.F01
     title: Image Storage
     description: |
