@@ -1,9 +1,17 @@
-title: Batch Processing
-id: CCC.BatchProc
-description: |
-  This documents the minimal set of features that should be present
-  for a batch processing service to be considered for use in financial
-  services ecosystems.
+metadata:
+  title: Batch Processing
+  id: CCC.BatchProc
+  description: |
+    This documents the minimal set of features that should be present
+    for a batch processing service to be considered for use in financial
+    services ecosystems.
+  version: ""
+  last-modified: "2025-04-19T00:00:00Z"
+  applicability-categories: []
+  mapping-references:
+    reference-id: ""
+    identifiers: []
+
 release_details:
   - version: "2025.06"
     assurance_level: None

@@ -1,9 +1,17 @@
-title: Build
-id: CCC.Build
-description: |
-  This documents the minimal set of features that should be present
-  for a build service to be considered for use in financial
-  services ecosystems.
+metadata:
+  title: Build
+  id: CCC.Build
+  description: |
+    This documents the minimal set of features that should be present
+    for a build service to be considered for use in financial
+    services ecosystems.
+  version: ""
+  last-modified: "2025-04-19T00:00:00Z"
+  applicability-categories: []
+  mapping-references:
+    reference-id: ""
+    identifiers: []
+
 release_details:
   - version: "2025.06"
     assurance_level: None
