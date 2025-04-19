@@ -18,7 +18,7 @@ Metadata adds critical information about the state and context of the release.
 - **[Assurance Level]** (`assurance_level`): Indicates the level of confidence in the security and reliability of the service. Values include:
   - `None`: Actively under development.
   - `AL0`: Only features are complete at release time.
-  - `AL1`: Features, threats, and controls are complete at release time.
+  - `AL1`: Capabilities, threats, and controls are complete at release time.
   - `AL2`: Threats are based on a threat model for this category.
   - `AL3`: Threats are based on a red team exercise for this category.
 

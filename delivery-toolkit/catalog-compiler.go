@@ -16,9 +16,9 @@ type CompiledCatalog struct {
 	Metadata Metadata
 
 	// These lists contain the common and specific entries smashed together
-	Controls []Control
-	Features []Feature
-	Threats  []Threat
+	Controls     []Control
+	Capabilities []Feature
+	Threats      []Threat
 
 	LatestReleaseDetails ReleaseDetails
 }
@@ -79,10 +79,10 @@ type Contributors struct {
 	Company  string `yaml:"company"`
 }
 
-// FeatureSet is a struct that represents the features.yaml file
+// FeatureSet is a struct that represents the capabilities.yaml file
 type FeatureSet struct {
-	CommonFeatureIDs []string  `yaml:"common_features"`
-	SpecificFeatures []Feature `yaml:"features"`
+	CommonFeatureIDs     []string  `yaml:"shared-capabilities"`
+	SpecificCapabilities []Feature `yaml:"capabilities"`
 }
 
 type Feature struct {
@@ -102,7 +102,7 @@ type Threat struct {
 	ID             string   `yaml:"id"`
 	Title          string   `yaml:"title"`
 	Description    string   `yaml:"description"`
-	Features       []string `yaml:"features"`
+	Capabilities   []string `yaml:"capabilities"`
 	MITRETechnique []string `yaml:"mitre_technique"`
 	Link           string
 }
@@ -144,17 +144,17 @@ func getDataDirectory(name string) string {
 	switch name {
 	case "controls":
 		return buildTarget
-	case "features":
+	case "capabilities":
 		return buildTarget
 	case "threats":
 		return buildTarget
 	case "metadata":
 		return buildTarget
-	case "common-controls":
+	case "shared-controls":
 		return serviceDir
-	case "common-features":
+	case "shared-capabilities":
 		return serviceDir
-	case "common-threats":
+	case "shared-threats":
 		return serviceDir
 	default:
 		log.Fatalf("error: %v", "Invalid data type")
@@ -163,26 +163,26 @@ func getDataDirectory(name string) string {
 }
 
 func readAndCompileCatalog() (data CompiledCatalog) {
-	// read controls.yaml, features.yaml, threats.yaml, and metadata.yaml from dir path
+	// read controls.yaml, capabilities.yaml, threats.yaml, and metadata.yaml from dir path
 	controlsData := ControlSet{}
 	unmarshalData("controls", &controlsData)
-	featuresData := FeatureSet{}
-	unmarshalData("features", &featuresData)
+	capabilitiesData := FeatureSet{}
+	unmarshalData("capabilities", &capabilitiesData)
 	threatsData := ThreatSet{}
 	unmarshalData("threats", &threatsData)
 	metadata := Metadata{}
 	unmarshalData("metadata", &metadata)
 
-	// read the common controls, features, and threats from the common entries directory
+	// read the common controls, capabilities, and threats from the common entries directory
 	commonControlsData := ControlSet{}
 	unmarshalData("common-controls", &commonControlsData)
-	commonFeaturesData := FeatureSet{}
-	unmarshalData("common-features", &commonFeaturesData)
+	commonCapabilitiesData := FeatureSet{}
+	unmarshalData("shared-capabilities", &commonCapabilitiesData)
 	commonThreatsData := ThreatSet{}
 	unmarshalData("common-threats", &commonThreatsData)
 
-	// addFeatureLink(featuresData.SpecificFeatures)
-	// addFeatureLink(commonFeaturesData.SpecificFeatures)
+	// addFeatureLink(capabilitiesData.SpecificCapabilities)
+	// addFeatureLink(commonCapabilitiesData.SpecificCapabilities)
 	// addThreatLink(threatsData.SpecificThreats)
 	// addThreatLink(commonThreatsData.SpecificThreats)
 	// addControlLink(controlsData.SpecificControls)
@@ -191,7 +191,7 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	return CompiledCatalog{
 		Metadata:             metadata,
 		Controls:             append(commonControlsData.SpecificControls, controlsData.SpecificControls...),
-		Features:             append(commonFeaturesData.SpecificFeatures, featuresData.SpecificFeatures...),
+		Capabilities:         append(commonCapabilitiesData.SpecificCapabilities, capabilitiesData.SpecificCapabilities...),
 		Threats:              append(commonThreatsData.SpecificThreats, threatsData.SpecificThreats...),
 		LatestReleaseDetails: metadata.ReleaseDetails[len(metadata.ReleaseDetails)-1],
 	}

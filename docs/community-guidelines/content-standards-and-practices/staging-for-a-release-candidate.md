@@ -37,7 +37,7 @@ Perform these tasks in the `threats.yaml` and `controls.yaml` files located unde
 
 ### Key Points
 
-- **Common artifacts** (Features, Threats, Controls) are designed to be reusable across multiple services.
+- **Common artifacts** (Capabilities, Threats, Controls) are designed to be reusable across multiple services.
 - **Service-specific artifacts** build on or refine the common artifacts where the needs of the service differ from the norm.
 - When preparing for a release candidate, **minimize duplication** by referencing the common artifacts whenever possible.
 
@@ -47,7 +47,7 @@ Perform these tasks in the `threats.yaml` and `controls.yaml` files located unde
 
 Threats for a given service typically reside in a `threats.yaml` file (e.g., `services/networking/loadbalancer/threats.yaml`). If none exists, create a new file.
 
-1. **Check Alignment With Service Features**
+1. **Check Alignment With Service Capabilities**
 
    - Open `features.yaml` in the same directory (e.g., `services/networking/loadbalancer/features.yaml`).
    - Ensure existing threats in `threats.yaml` correspond to these features. Confirm IDs, titles, and descriptions are consistent and relevant.

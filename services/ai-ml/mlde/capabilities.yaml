@@ -43,7 +43,7 @@ capabilities:
       deployed directly from the MLDE.
 
   - id: CCC.MLDE.F05
-    title: Automated Machine Learning (AutoML) Features
+    title: Automated Machine Learning (AutoML) Capabilities
     description: |
       Offers AutoML functionalities to automatically build,
       train, and optimize machine learning models with minimal
@@ -82,7 +82,7 @@ capabilities:
       data drift, and concept drift with automated alerting capabilities.
 
   - id: CCC.MLDE.F11
-    title: Reproducibility Features
+    title: Reproducibility Capabilities
     description: |
       Provides capability to capture and version all components needed to
       reproduce an ML experiment, including code, data, and environment

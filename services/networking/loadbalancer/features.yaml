@@ -1,4 +1,4 @@
-common_features:
+shared-capabilities:
   - CCC.F03 # Access/Activity Logs
   - CCC.F04 # Transaction Rate Limits
   - CCC.F06 # Identity Based Access Control

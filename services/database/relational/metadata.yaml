@@ -1,6 +1,6 @@
 metadata:
   id: CCC.RDMS
-  title: CCC Relational Database Management System Features
+  title: CCC Relational Database Management System Capabilities
   description: |
       This documents the minimual set of features that should be present for a RDMS
       service to be considered for use in financial services ecosystems.

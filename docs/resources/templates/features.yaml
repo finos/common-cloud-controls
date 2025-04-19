@@ -1,4 +1,4 @@
-common_features:
+shared-capabilities:
   - <IDs of common features; Omit if not applicable>
 features:
   - id: CCC.<Service Category Abbreviation>.F<##>

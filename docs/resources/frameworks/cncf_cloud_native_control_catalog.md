@@ -18,7 +18,7 @@ The CNCF control catalog is structured with the following headings:
 6. **Assurance Level**: Indicates the level of confidence required for the control's implementation, though not well-documented within the catalog.
 7. **Risk Categories**: Classifies controls based on risk, with descriptions derivable from the SSCP and CNSWP documents.
 
-## Key Features
+## Key Capabilities
 
 - **Kubernetes Focus**: The catalog is specifically tailored to address security concerns within Kubernetes environments.
 - **NIST Alignment**: Provides mappings to NIST 800-53r5 controls, aligning with recognized security standards.

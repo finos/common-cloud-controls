@@ -37,9 +37,9 @@ Each service category ID follows the format `CCC.<ServiceCategory>`.
 - **CCC.RDMS** - Represents the Relational Database Management System service category under `CCC.DB`.
 - **CCC.VM** - Represents the Virtual Machine service category under `CCC.Compute`.
 
-## Features
+## Capabilities
 
-Features are specific functionalities or capabilities that are expected for a service to be portable with other services in that service category.
+Capabilities are specific functionalities or capabilities that are expected for a service to be portable with other services in that service category.
 
 Each feature ID follows the format `CCC.<ServiceCategory>.F<##>`.
 

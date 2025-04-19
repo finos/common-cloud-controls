@@ -4,18 +4,18 @@ A feature definitions document provides a detailed specification of features ass
 
 Each feature definition should be created for a service in the CCC Taxonomy, with each feature mapped to a specific aspect or functionality of that service.
 
-## Common vs. Specific Features
+## Common vs. Specific Capabilities
 
 To streamline maintenance, the CCC project maintains a list of [common features].
 
-Each service category’s `features.yaml` file references common features by listing their IDs under the top-level `common_features` value. During the release pipeline, our [Delivery Toolkit] compiles these common features into the final document alongside any specific features. In the final output, both types of features are presented consistently, with the unique identifier being the only difference.
+Each service category’s `features.yaml` file references common features by listing their IDs under the top-level `shared-capabilities` value. During the release pipeline, our [Delivery Toolkit] compiles these common features into the final document alongside any specific features. In the final output, both types of features are presented consistently, with the unique identifier being the only difference.
 
-### Common Features
+### Common Capabilities
 
 - Common features are reusable across multiple service categories. They are documented once in the [common features] file and referenced where applicable.
 - These features streamline the process by reducing redundancy and providing a consistent baseline across service categories.
 
-### Specific Features
+### Specific Capabilities
 
 - Specific features are unique to a particular service category.
 - If a feature is relevant to multiple categories, consider whether it should be generalized and added to the common features list.
@@ -24,8 +24,8 @@ Each service category’s `features.yaml` file references common features by lis
 
 When creating or updating a `features.yaml` file for a service category, follow these steps:
 
-1. **Review Common Features**: Start by reviewing the [common features] list. If any common features apply to this category, reference them by adding their IDs to the `common_features` list.
-2. **Define Specific Features**: If a feature is unique to the service category, document it in the `specific-features` section of the `features.yaml` file.
+1. **Review Common Capabilities**: Start by reviewing the [common features] list. If any common features apply to this category, reference them by adding their IDs to the `shared-capabilities` list.
+2. **Define Specific Capabilities**: If a feature is unique to the service category, document it in the `specific-features` section of the `features.yaml` file.
 3. **Consider Generalization**: If a specific feature could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common features] list.
 
 ## Feature Definition Format
@@ -45,6 +45,6 @@ When creating a new feature definition, use the following values:
 
 Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
-[common features]: /services/common-features.yaml
+[common features]: /services/common-capabilities.yaml
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [Delivery Toolkit]: /delivery-toolkit
