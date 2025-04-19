@@ -2,105 +2,111 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "title": {
-      "type": "string",
-      "description": "Service Category Name"
-    },
-    "id": {
-      "type": "string",
-      "pattern": "^CCC\\.[A-Za-z]+$",
-      "description": "Control ID in the format CCC.<Service Category Abbreviation>"
-    },
-    "description": {
-      "type": "string",
-      "description": "Complete description of the Service Category"
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the control catalog"
+        },
+        "title": {
+          "type": "string",
+          "description": "Name of the control catalog"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "last-modified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "applicability-categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "description": { "type": "string" }
+            },
+            "required": ["id", "title", "description"],
+            "additionalProperties": false
+          }
+        },
+        "mapping-references": {
+          "type": "object",
+          "properties": {
+            "reference-id": { "type": "string" },
+            "identifiers": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "required": ["reference-id", "identifiers"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["id", "title", "description", "version", "last-modified"],
+      "additionalProperties": false
     },
     "release_details": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "version": {
-            "type": "string",
-            "pattern": "^\\d{4}\\.\\d{2}$",
-            "description": "Version number in CalVer format (YYYY.MM)"
-          },
-          "assurance_level": {
-            "type": "string",
-            "description": "Assurance Level Abbreviation"
-          },
-          "threat_model_url": {
-            "type": "string",
-            "format": "uri",
-            "description": "URL to the threat model document"
-          },
-          "threat_model_author": {
-            "type": "string",
-            "description": "Name of the organization or lead author for the threat model"
-          },
-          "red_team": {
-            "type": "string",
-            "description": "Name of the organization or team lead for the red team exercise"
-          },
-          "red_team_exercise_url": {
-            "type": "string",
-            "format": "uri",
-            "description": "URL to the red team exercise report"
-          },
+          "version": { "type": "string" },
+          "assurance_level": { "type": ["string", "null"] },
+          "threat_model_url": { "type": ["string", "null"] },
+          "threat_model_author": { "type": ["string", "null"] },
+          "red_team": { "type": ["string", "null"] },
+          "red_team_exercise_url": { "type": ["string", "null"] },
           "release_manager": {
             "type": "object",
             "properties": {
-              "name": {
-                "type": "string",
-                "description": "Name of the release manager"
-              },
-              "github_id": {
-                "type": "string",
-                "description": "GitHub ID of the release manager"
-              },
-              "company": {
-                "type": "string",
-                "description": "Company of the release manager"
-              },
-              "summary": {
-                "type": "string",
-                "description": "Summary of the release and the reason for the changes."
-              }
+              "name": { "type": "string" },
+              "github_id": { "type": "string" },
+              "company": { "type": "string" },
+              "summary": { "type": "string" }
             },
-            "required": ["name", "github_id", "summary"]
+            "required": ["name", "github_id", "company", "summary"],
+            "additionalProperties": false
           },
           "change_log": {
             "type": "array",
-            "items": {
-              "type": "string",
-              "description": "Additional notes; one per PR added after release"
-            }
+            "items": { "type": "string" }
           },
           "contributors": {
             "type": "array",
             "items": {
+              "type": "object",
               "properties": {
-                "name": {
-                  "type": "string",
-                  "description": "Name of the contributor"
-                },
-                "github_id": {
-                  "type": "string",
-                  "description": "GitHub ID of the contributor"
-                },
-                "company": {
-                  "type": "string",
-                  "description": "Company of the contributor"
-                }
+                "name": { "type": "string" },
+                "github_id": { "type": "string" },
+                "company": { "type": "string" }
               },
-              "required": ["name", "github_id", "company"]
+              "required": ["name", "github_id", "company"],
+              "additionalProperties": false
             }
           }
         },
-        "required": ["version", "assurance_level", "threat_model_url", "threat_model_author", "red_team", "red_team_exercise_url", "release_manager"]
+        "required": [
+          "version",
+          "assurance_level",
+          "threat_model_url",
+          "threat_model_author",
+          "red_team",
+          "red_team_exercise_url",
+          "release_manager",
+          "change_log",
+          "contributors"
+        ],
+        "additionalProperties": false
       }
     }
   },
-  "required": ["title", "id", "description", "release_details"],
+  "required": ["metadata"],
   "additionalProperties": false
 }
