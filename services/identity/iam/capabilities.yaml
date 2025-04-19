@@ -1,12 +1,12 @@
 shared-capabilities:
-  reference-id: CCC
-  identifiers:
-    - CCC.F03 # Access/Activity Logs
-    - CCC.F07 # Event Notifications
-    - CCC.F13 # Infrastructure as Code
-    - CCC.F14 # API Access
-    - CCC.F17 # Alerting
-    - CCC.F20 # Tagging
+  - reference-id: CCC
+    identifiers:
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F07 # Event Notifications
+      - CCC.F13 # Infrastructure as Code
+      - CCC.F14 # API Access
+      - CCC.F17 # Alerting
+      - CCC.F20 # Tagging
 
 capabilities:
   - id: CCC.IAM.F01

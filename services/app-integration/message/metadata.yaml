@@ -9,7 +9,7 @@ metadata:
   last-modified: "2025-04-19T00:00:00Z"
   applicability-categories: []
   mapping-references:
-    reference-id: ""
-    identifiers: []
+    - reference-id: ""
+      identifiers: []
 
 release_details: []
