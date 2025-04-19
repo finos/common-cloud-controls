@@ -12,14 +12,4 @@ metadata:
     reference-id: ""
     identifiers: []
 
-release_details:
-  - version: "2024.09"
-    assurance_level: None
-    threat_model_url: None
-    threat_model_author: None
-    red_team: None
-    red_team_exercise_url: None
-    release_manager:
-      name: None
-      github_id: None
-      summary: None
+release_details: []

@@ -37,16 +37,19 @@
           }
         },
         "mapping-references": {
-          "type": "object",
-          "properties": {
-            "reference-id": { "type": "string" },
-            "identifiers": {
-              "type": "array",
-              "items": { "type": "string" }
-            }
-          },
-          "required": ["reference-id", "identifiers"],
-          "additionalProperties": false
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "reference-id": { "type": "string" },
+              "identifiers": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            },
+            "required": ["reference-id", "identifiers"],
+            "additionalProperties": false
+          }
         }
       },
       "required": ["id", "title", "description"],
