@@ -22,8 +22,8 @@ control-families:
             text: |
               Attempt to initiate a build using an unauthorized build agent and verify that the build is rejected.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -48,8 +48,8 @@ control-families:
               Attempt to trigger a build from an unauthorized external service or
               repository and verify that the build does not start.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -76,8 +76,8 @@ control-families:
             text: |
               Attempt to access the build environment from an external network and verify that access is denied.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

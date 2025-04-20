@@ -72,7 +72,7 @@
                           "type": "array",
                           "items": {
                             "type": "string",
-                            "enum": ["tlp_clear", "tlp_green", "tlp_amber", "tlp_red"]
+                            "enum": ["tlp-clear", "tlp-green", "tlp-amber", "tlp-red"]
                           }
                         },
                         "recommendation": {

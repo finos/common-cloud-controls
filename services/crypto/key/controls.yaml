@@ -22,49 +22,49 @@ control-families:
             text: |
               Verify that alerts are triggered when the kms key version is scheduled for deletion.
             applicability:
-              - tlp_green
+              - tlp-green
             recommendation: ""
           - id: CCC.KeyMgmt.C01.TR02
             text: |
               Verify that alerts are triggered when the kms key version is disabled.
             applicability:
-              - tlp_green
+              - tlp-green
             recommendation: ""
           - id: CCC.KeyMgmt.C01.TR03
             text: |
               Verify that alerts are triggered when the kms key version is scheduled for deletion.
             applicability:
-              - tlp_amber
+              - tlp-amber
             recommendation: ""
           - id: CCC.KeyMgmt.C01.TR04
             text: |
               Verify that alerts are triggered when the kms key version is disabled.
             applicability:
-              - tlp_amber
+              - tlp-amber
             recommendation: ""
           - id: CCC.KeyMgmt.C01.TR05
             text: |
               Verify that alerts are triggered when the kms key version is scheduled for deletion.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
           - id: CCC.KeyMgmt.C01.TR06
             text: |
               Verify that alerts are triggered when the kms key version is disabled.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
           - id: CCC.KeyMgmt.C01.TR07
             text: |
               Verify that alerts are triggered when the kms key version is scheduled for deletion.
             applicability:
-              - tlp_clear
+              - tlp-clear
             recommendation: ""
           - id: CCC.KeyMgmt.C01.TR08
             text: |
               Verify that alerts are triggered when the kms key version is disabled.
             applicability:
-              - tlp_clear
+              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

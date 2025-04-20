@@ -1,5 +1,5 @@
 <!-- markdownlint-disable -->
-# {{ .Metadata.Title }} - v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.ID }})
+# {{ .Metadata.Title }} - v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.Id }})
 
 ## Summary
 {{ .LatestReleaseDetails.ReleaseManager.Summary }}

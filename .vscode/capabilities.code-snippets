@@ -13,7 +13,7 @@
 		],
 		"description": "Create a blank FINOS CCC Capabilities file"
 	},
-	"Feature": {
+	"Capability": {
 		"scope": "yaml",
 		"prefix": "capability, finosccc:capability",
 		"body": [

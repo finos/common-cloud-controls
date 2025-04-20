@@ -26,8 +26,8 @@ control-families:
             text: |
               Attempt to access the serverless function over the public internet and verify that access is denied.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -56,8 +56,8 @@ control-families:
               are successful; then send additional requests exceeding the threshold from the same
               entity and verify that they are denied.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

@@ -25,10 +25,10 @@ control-families:
               Verify that only authorized users can access MLDE resources,
               and that access modes are properly defined and enforced.
             applicability:
-              - tlp_red
-              - tlp_amber
-              - tlp_green
-              - tlp_clear
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -61,17 +61,17 @@ control-families:
             text: |
               Verify that root access is disabled on MLDE instances containing sensitive data.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
           - id: CCC.MLDE.C03.TR02
             text: |
               For MLDE instances without sensitive data, ensure that root access is only
               enabled when necessary and properly authorized.
             applicability:
-              - tlp_red
-              - tlp_amber
-              - tlp_green
-              - tlp_clear
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -101,17 +101,17 @@ control-families:
             text: |
               Verify that terminal access is disabled on MLDE instances containing sensitive data.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
           - id: CCC.MLDE.C04.TR02
             text: |
               For MLDE instances without sensitive data, ensure that terminal access is only
               enabled when necessary and properly authorized.
             applicability:
-              - tlp_red
-              - tlp_amber
-              - tlp_green
-              - tlp_clear
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -142,16 +142,16 @@ control-families:
             text: |
               Confirm that file download functionality is disabled on MLDE instances containing sensitive data.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
           - id: CCC.MLDE.C02.TR02
             text: |
               For MLDE instances without sensitive data, ensure that file downloads are monitored and logged.
             applicability:
-              - tlp_red
-              - tlp_amber
-              - tlp_green
-              - tlp_clear
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -186,14 +186,14 @@ control-families:
             text: |
               Verify that only approved VM and container images can be selected when creating MLDE instances.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
           - id: CCC.MLDE.C05.TR02
             text: |
               Attempt to create an MLDE instance with an unapproved image and confirm that it is denied.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -226,17 +226,17 @@ control-families:
               Verify that automatic scheduled upgrades are enabled on user-managed
               MLDE instances containing sensitive data.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
           - id: CCC.MLDE.C06.TR02
             text: |
               Ensure that the upgrade schedule is appropriately configured and
               does not interfere with critical operations.
             applicability:
-              - tlp_red
-              - tlp_amber
-              - tlp_green
-              - tlp_clear
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -269,17 +269,17 @@ control-families:
             text: |
               Verify that MLDE instances containing sensitive data cannot be accessed via public IP addresses.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
           - id: CCC.MLDE.C07.TR02
             text: |
               For MLDE instances without sensitive data requiring public access,
               ensure that appropriate security controls are in place and access is approved.
             applicability:
-              - tlp_red
-              - tlp_amber
-              - tlp_green
-              - tlp_clear
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -310,17 +310,17 @@ control-families:
               Verify that MLDE instances containing sensitive data can only be deployed in
               approved virtual networks with appropriate security controls.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
           - id: CCC.MLDE.C08.TR02
             text: |
               Ensure that MLDE instances without sensitive data are deployed in
               networks that meet organizational security standards.
             applicability:
-              - tlp_red
-              - tlp_amber
-              - tlp_green
-              - tlp_clear
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

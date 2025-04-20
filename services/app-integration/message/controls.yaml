@@ -26,10 +26,10 @@ control-families:
               Attempt to publish a message without using a customer-managed encryption key
               and verify that the message is rejected or not stored.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

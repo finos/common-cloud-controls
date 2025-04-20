@@ -24,8 +24,8 @@ control-families:
               Attempt to push an artifact with known vulnerabilities to the registry
               and observe if it is flagged or rejected by the vulnerability scanning process.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -53,8 +53,8 @@ control-families:
               Confirm that artifacts older than the specified retention period are automatically
               deleted from the registry.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

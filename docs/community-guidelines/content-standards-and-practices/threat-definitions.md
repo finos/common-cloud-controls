@@ -77,7 +77,7 @@ When creating a new threat definition, use the following values:
 - **Threat ID** (`id`): A unique identifier for the threat, following the format `<category-id>.TH<#>`.
 - **Threat Title** (`title`): A short name or title using Title Case that succinctly describes the threat.
 - **Threat Description** (`description`): A detailed description of the threat, including its nature and potential impact.
-- **Feature IDs** (`capabilities`): A list of IDs for the corresponding CCC capabilities that this threat is associated with.
+- **Capability IDs** (`capabilities`): A list of IDs for the corresponding CCC capabilities that this threat is associated with.
 - **MITRE ATT&CK Technique** (`mitre_technique`): The unique identifier for the most relevant MITRE ATT&CK Technique.
 - **Threat Models** (`threat_models`): URLs for any threat models used to develop this threat (omit if not applicable).
 

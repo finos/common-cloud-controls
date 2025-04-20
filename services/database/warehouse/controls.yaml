@@ -26,8 +26,8 @@ control-families:
               Attempt to access underlying database tables directly without
               using managed views and verify that access is denied.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -52,8 +52,8 @@ control-families:
               Attempt to query sensitive columns without the necessary permissions and
               verify that access is denied or data is masked.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -78,8 +78,8 @@ control-families:
               Attempt to query data rows that the user should not have access to and verify
               that access is denied or data is not returned.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

@@ -28,8 +28,8 @@ control-families:
               MUST prevent any request using KMS keys not listed as trusted by
               the organization.
             applicability:
-              - tlp_amber
-              - tlp_red
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C01.TR02
             text: |
@@ -37,8 +37,8 @@ control-families:
               MUST prevent any request using KMS keys not listed as trusted by
               the organization.
             applicability:
-              - tlp_amber
-              - tlp_red
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C01.TR03
             text: |
@@ -46,10 +46,10 @@ control-families:
               prevent any request using KMS keys not listed as trusted by the
               organization.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C01.TR04
             text: |
@@ -57,10 +57,10 @@ control-families:
               prevent any request using KMS keys not listed as trusted by the
               organization.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -92,20 +92,20 @@ control-families:
               When an object storage bucket deletion is attempted, the bucket MUST be
               fully recoverable for a set time-frame after deletion is requested.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C03.TR02
             text: |
               When an attempt is made to modify the retention policy for an object
               storage bucket, the service MUST prevent the policy from being modified.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -139,10 +139,10 @@ control-families:
               MUST automatically receive a default retention policy that prevents
               premature deletion or modification.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C04.TR02
             text: |
@@ -150,10 +150,10 @@ control-families:
               to an active retention policy, the service MUST prevent the action
               from being completed.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -185,10 +185,10 @@ control-families:
               When an object is uploaded to the object storage bucket, the object
               MUST be stored with a unique identifier.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C05.TR02
             text: |
@@ -196,30 +196,30 @@ control-families:
               identifier to the modified object to differentiate it from the
               previous version.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C05.TR03
             text: |
               When an object is modified, the service MUST allow for recovery
               of previous versions of the object.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C05.TR04
             text: |
               When an object is deleted, the service MUST retain other versions of
               the object to allow for recovery of previous versions.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -245,15 +245,15 @@ control-families:
           Ensure that access logs for object storage buckets are stored in a
           separate data store to protect against unauthorized access, tampering,
           or deletion of logs (Logbuckets are exempt from this requirement,
-          but must be tlp_red).
+          but must be tlp-red).
         requirements:
           - id: CCC.ObjStor.C06.TR01
             text: |
               When an object storage bucket is accessed, the service MUST store
               access logs in a separate data store.
             applicability:
-              - tlp_amber
-              - tlp_red
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -293,10 +293,10 @@ control-families:
               service MUST allow the same permission set to access all objects
               in the same bucket.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
           - id: CCC.ObjStor.C02.TR02
             text: |
@@ -304,10 +304,10 @@ control-families:
               service MUST deny the same permission set to access all objects
               in the same bucket.
             applicability:
-              - tlp_clear
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

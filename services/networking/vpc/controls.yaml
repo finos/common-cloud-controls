@@ -25,8 +25,8 @@ control-families:
               When a subscription is created, the subscription MUST NOT
               contain default network resources.
             applicability:
-              - tlp_amber
-              - tlp_red
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -56,7 +56,7 @@ control-families:
               When a resource is created in a public subnet, that resource
               MUST NOT be assigned an external IP address by default.
             applicability:
-              - tlp_red
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -88,9 +88,9 @@ control-families:
               prevent connections from VPCs that are not explicitly
               allowed.
             applicability:
-              - tlp_green
-              - tlp_amber
-              - tlp_red
+              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -120,8 +120,8 @@ control-families:
               When any network traffic goes to or from an interface in the VPC,
               the service MUST capture and log all relevant information.
             applicability:
-              - tlp_amber
-              - tlp_red
+              - tlp-amber
+              - tlp-red
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

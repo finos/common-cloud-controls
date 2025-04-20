@@ -44,10 +44,10 @@ When creating a new control definition, use the following values:
 - **NIST CSF** (`nist_csf`): The specific ID from the NIST Cybersecurity Framework that corresponds to the control.
 - **External Control Mappings** (`control_mappings`): Object where keys are other frameworks that map to this control (e.g., CCM, ISO 27001, NIST 800-53). The values will each contain a list of strings, representing the corresponding control mappings.
 - **Validation Test Section** (`test_requirements`): Detailed descriptions of testing requirements necessary to validate the control’s implementation.
-- **TLP Green Test Requirements** (`tlp_green`): A list of validation requirements for systems that intend limited disclosure, restricted to the community. ([ref])
-- **TLP Amber Test Requirements** (`tlp_amber`): A list of validation requirements for systems that intend limited disclosure, recipients can only spread this on a need-to-know basis within their organization and its clients. ([ref])
-- **TLP Red Test Requirements** (`tlp_red`): A list of validation requirements for systems intended for eyes and ears of individual recipients only, no further disclosure. ([ref])
-- **TLP Clear Test Requirements** (`tlp_clear`): A list of validation requirements for systems containing data that recipients can spread this to the world, there is no limit on disclosure. ([ref])
+- **TLP Green Test Requirements** (`tlp-green`): A list of validation requirements for systems that intend limited disclosure, restricted to the community. ([ref])
+- **TLP Amber Test Requirements** (`tlp-amber`): A list of validation requirements for systems that intend limited disclosure, recipients can only spread this on a need-to-know basis within their organization and its clients. ([ref])
+- **TLP Red Test Requirements** (`tlp-red`): A list of validation requirements for systems intended for eyes and ears of individual recipients only, no further disclosure. ([ref])
+- **TLP Clear Test Requirements** (`tlp-clear`): A list of validation requirements for systems containing data that recipients can spread this to the world, there is no limit on disclosure. ([ref])
 
 ### Control Family
 
@@ -84,9 +84,9 @@ test_requirements:
     text: |
       When a subscription is created, the subscription MUST NOT
       contain default network resources.
-    tlp_levels:
-      - tlp_amber
-      - tlp_red
+    tlp-levels:
+      - tlp-amber
+      - tlp-red
 ```
 
 #### Why It’s Good
@@ -103,9 +103,9 @@ test_requirements:
   - id: CCC.VPC.C01.TR01
     text: |
       A subscription MUST NOT have default networks.
-    tlp_levels:
-      - tlp_amber
-      - tlp_red
+    tlp-levels:
+      - tlp-amber
+      - tlp-red
 ```
 
 #### Issues

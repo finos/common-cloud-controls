@@ -1,4 +1,4 @@
-# Feature Definitions
+# Capability Definitions
 
 A feature definitions document provides a detailed specification of capabilities associated with a particular service category within the CCC Taxonomy. It serves as a reference to ensure that all relevant capabilities are properly documented and consistently defined across different services.
 
@@ -20,7 +20,7 @@ Each service category’s `capabilities.yaml` file references common capabilitie
 - Specific capabilities are unique to a particular service category.
 - If a feature is relevant to multiple categories, consider whether it should be generalized and added to the common capabilities list.
 
-## Feature Documentation Process
+## Capability Documentation Process
 
 When creating or updating a `capabilities.yaml` file for a service category, follow these steps:
 
@@ -28,17 +28,17 @@ When creating or updating a `capabilities.yaml` file for a service category, fol
 2. **Define Specific Capabilities**: If a feature is unique to the service category, document it in the `specific-capabilities` section of the `capabilities.yaml` file.
 3. **Consider Generalization**: If a specific feature could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common capabilities] list.
 
-## Feature Definition Format
+## Capability Definition Format
 
 To maintain consistency, all capabilities—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [feature template](../../resources/templates/capabilities.yaml) before release.
 
-### Feature Definition Values
+### Capability Definition Values
 
 When creating a new feature definition, use the following values:
 
-- **Feature ID** (`id`): A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
-- **Feature Title** (`title`): A short name that succinctly describes the feature, preferably 1 to 5 words.
-- **Feature Description** (`description`): A falsifiable description of the feature, detailing its purpose and functionality.
+- **Capability ID** (`id`): A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
+- **Capability Title** (`title`): A short name that succinctly describes the feature, preferably 1 to 5 words.
+- **Capability Description** (`description`): A falsifiable description of the feature, detailing its purpose and functionality.
   - A falsifiable feature includes concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected.
 
 ## Review Process

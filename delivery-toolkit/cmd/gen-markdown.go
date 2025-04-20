@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -77,37 +77,21 @@ ul, ol {
 </style>
 `
 
-// mdCmd represents the md command
-//
-// This variable is used to define the md command and its subcommands.
-// It is used in the init function to add the command to the root command.
-// The Run function is the entry point for the md command.
-// The PersistentPreRun and PersistentPostRun functions are used to print a divider and the logo before and after the command is executed, respectively.
-//
-// Example usage:
-//
-//	mdCmd := &cobra.Command{
-//	  Use:   "md",
-//	  Short: "Generate an Omnibus Markdown file",
-//	  Run: func(cmd *cobra.Command, args []string) {
-//	    // Command logic
-//	  },
-//	}
 var (
 	// baseCmd represents the base command when called without any subcommands
-	mdCmd = &cobra.Command{
+	GenerateMarkdown = &cobra.Command{
 		Use:   "md",
 		Short: "",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			fmt.Print(divider)
-			fmt.Print(logo)
-			fmt.Println(divider)
+			fmt.Print(Divider)
+			fmt.Print(Logo)
+			fmt.Println(Divider)
 		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			fmt.Println(divider)
+			fmt.Println(Divider)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			checkArgs()
+			// checkArgs()
 			initializeOutputDirectory()
 
 			outputPath, err := generateOmnibusMdFile()
@@ -120,44 +104,14 @@ var (
 	}
 )
 
-// init adds the subcommand to the root command
-//
-// This function is called automatically when the package is included in the main.go file.
-// It sets up the command-line arguments and flags for the subcommand.
-//
-// Parameters:
-//   - baseCmd: The root command to which the subcommand should be added.
-//
-// Returns: None
-//
-// No return value is specified since this function does not return a value.
-//
-// Example usage:
-//
-//	init(baseCmd)
-func init() {
-	baseCmd.AddCommand(mdCmd)
-}
-
-// generateFileFromTemplate creates a Markdown file from a template using the provided CompiledCatalog.
-//
-// This function performs the following steps:
-// 1. Constructs the output file name using the service name and version from the CompiledCatalog.
-// 2. Creates the output file in the directory specified by the "output-dir" configuration.
-// 3. Parses the template file specified by the global catalogTemplatePath variable.
-// 4. Executes the template with the provided CompiledCatalog and writes the result to the output file.
-//
-// Returns:
-//   - outputPath: The full path of the generated Markdown file.
-//   - err: An error if any step in the process fails, nil otherwise.
-//
-// The function will return an error if it fails to create the output file,
-// parse the template, or execute the template.
+// generateFileFromTemplate creates a Markdown control catalog from a template
+// uses the values from viper.GetString("services-dir"), viper.GetString("build-target")
+// respectively: --services-dir, --build-target
 func generateOmnibusMdFile() (outputPath string, err error) {
 	data := readAndCompileCatalog()
 
-	serviceName := data.Metadata.ID
-	version := data.Metadata.ReleaseDetails[len(data.Metadata.ReleaseDetails)-1].Version
+	serviceName := data.Metadata.Id
+	version := data.LatestReleaseDetails.Version
 	mdFileName := fmt.Sprintf("%s_%s.md", serviceName, version)
 	outputPath = filepath.Join(viper.GetString("output-dir"), mdFileName)
 

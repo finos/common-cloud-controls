@@ -6,7 +6,7 @@ This document provides a standardized approach for assigning unique identifiers 
 | -------------------- | ------------------------------------------- | ---------------------- |
 | **Service Family**   | `CCC.<ServiceType>`                         | `CCC.Storage`          |
 | **Service Category** | `CCC.<ServiceCategory>`                     | `CCC.ObjStor`          |
-| **Feature**          | `CCC.<ServiceCategory>.F<##>`               | `CCC.ObjStor.F01`      |
+| **Capability**          | `CCC.<ServiceCategory>.F<##>`               | `CCC.ObjStor.F01`      |
 | **Threat**           | `CCC.<ServiceCategory>.TH<##>`              | `CCC.RDMS.TH01`        |
 | **Control**          | `CCC.<ServiceCategory>.C<##>`               | `CCC.VM.C01`           |
 | **Test Requirement** | `CCC.<ServiceCategory>.C<##>.TR<##>`        | `CCC.VM.C01.TR01`      |

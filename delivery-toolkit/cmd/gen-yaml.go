@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -16,19 +16,19 @@ import (
 // The file name is constructed based on the service name and version from the compiled data.
 var (
 	// baseCmd represents the base command when called without any subcommands
-	yamlCmd = &cobra.Command{
+	GenerateYaml = &cobra.Command{
 		Use:   "yaml",
 		Short: "",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			fmt.Print(divider)
-			fmt.Print(logo)
-			fmt.Println(divider)
+			fmt.Print(Divider)
+			fmt.Print(Logo)
+			fmt.Println(Divider)
 		},
 		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			fmt.Println(divider)
+			fmt.Println(Divider)
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			checkArgs()
+			// checkArgs()
 			initializeOutputDirectory()
 
 			outputPath, err := generateOmnibusYamlFile()
@@ -40,15 +40,6 @@ var (
 		},
 	}
 )
-
-// init adds the yaml command to the root command and sets up the necessary flags and configurations.
-//
-// This function is called automatically when the package is initialized.
-// It sets up the yamlCmd with the appropriate configuration and adds it to the root command.
-// The yamlCmd is then executed when the program is run with the 'yaml' command.
-func init() {
-	baseCmd.AddCommand(yamlCmd)
-}
 
 // generateOmnibusYamlFile creates a YAML file containing compiled data and returns its path.
 //
@@ -75,8 +66,8 @@ func generateOmnibusYamlFile() (outputPath string, err error) {
 	outputDir := viper.GetString("output-dir")
 
 	// Extract service name and version from the compiled data
-	serviceName := data.Metadata.ID
-	version := data.Metadata.ReleaseDetails[len(data.Metadata.ReleaseDetails)-1].Version
+	serviceName := data.Metadata.Id
+	version := data.ReleaseDetails[len(data.ReleaseDetails)-1].Version
 
 	// Construct the YAML filename using service name and version
 	yamlFileName := fmt.Sprintf("%s_%s.yaml", serviceName, version)

@@ -19,8 +19,8 @@ controls:
       - id: CCC.<Service Category Abbreviation>.C#.TR##
         text: |
           <REQUIREMENT TEXT>
-        tlp_levels:
-          - tlp_clear
-          - tlp_green
-          - tlp_amber
-          - tlp_red
+        tlp-levels:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red

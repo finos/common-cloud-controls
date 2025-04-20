@@ -30,8 +30,8 @@ control-families:
               default credentials, the authentication attempt must fail and no
               access should be granted.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -57,8 +57,8 @@ control-families:
               the account must be locked out or rate-limited to prevent
               further login attempts.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -86,8 +86,8 @@ control-families:
               credentials or roles that are not explicitly authorized for
               backup/restore functions.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -111,8 +111,8 @@ control-families:
               When an attempt is made to share a snapshot with an unauthorized
               account, the sharing request must be denied.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -141,8 +141,8 @@ control-families:
               When backups are disabled, paused, or fail to run as scheduled,
               an alert must be triggered and logged.
             applicability:
-              - tlp_red
-              - tlp_amber
+              - tlp-red
+              - tlp-amber
             recommendation: ""
         threat-mappings:
           - reference-id: CCC

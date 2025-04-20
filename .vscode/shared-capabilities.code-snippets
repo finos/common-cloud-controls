@@ -5,7 +5,7 @@
 		"body": [
 			"- CCC.F01 # Encryption in Transit Enabled by Default"
 		  ],
-		"description": "Common Feature Encryption in Transit Enabled by Default"
+		"description": "Common Capability Encryption in Transit Enabled by Default"
 	},
 	"Encryption at Rest Enabled by Default": {
 		"scope": "yaml",
@@ -13,7 +13,7 @@
 		"body": [
 			"- CCC.F02 # Encryption at Rest Enabled by Default"
 		  ],
-		"description": "Common Feature Encryption at Rest Enabled by Default"
+		"description": "Common Capability Encryption at Rest Enabled by Default"
 	},
 	"Access/Activity Logs": {
 		"scope": "yaml",
@@ -21,7 +21,7 @@
 		"body": [
 			"- CCC.F03 # Access/Activity Logs"
 		  ],
-		"description": "Common Feature Access/Activity Logs"
+		"description": "Common Capability Access/Activity Logs"
 	},
 	"Transaction Rate Limits": {
 		"scope": "yaml",
@@ -29,7 +29,7 @@
 		"body": [
 			"- CCC.F04 # Transaction Rate Limits"
 		  ],
-		"description": "Common Feature Transaction Rate Limits"
+		"description": "Common Capability Transaction Rate Limits"
 	},
 	"Signed URLs": {
 		"scope": "yaml",
@@ -37,7 +37,7 @@
 		"body": [
 			"- CCC.F05 # Signed URLs"
 		  ],
-		"description": "Common Feature Signed URLs"
+		"description": "Common Capability Signed URLs"
 	},
 	"Identity Based Access Control": {
 		"scope": "yaml",
@@ -45,7 +45,7 @@
 		"body": [
 			"- CCC.F06 # Identity Based Access Control"
 		  ],
-		"description": "Common Feature Identity Based Access Control"
+		"description": "Common Capability Identity Based Access Control"
 	},
 	"Event Notifications": {
 		"scope": "yaml",
@@ -53,7 +53,7 @@
 		"body": [
 			"- CCC.F07 # Event Notifications"
 		  ],
-		"description": "Common Feature Event Notifications"
+		"description": "Common Capability Event Notifications"
 	},
 	"Multi-zone Deployment": {
 		"scope": "yaml",
@@ -61,7 +61,7 @@
 		"body": [
 			"- CCC.F08 # Multi-zone Deployment"
 		  ],
-		"description": "Common Feature Multi-zone Deployment"
+		"description": "Common Capability Multi-zone Deployment"
 	},
 	"Monitoring": {
 		"scope": "yaml",
@@ -69,7 +69,7 @@
 		"body": [
 			"- CCC.F09 # Monitoring"
 		  ],
-		"description": "Common Feature Monitoring"
+		"description": "Common Capability Monitoring"
 	},
 	"Logging": {
 		"scope": "yaml",
@@ -77,7 +77,7 @@
 		"body": [
 			"- CCC.F10 # Logging"
 		  ],
-		"description": "Common Feature Logging"
+		"description": "Common Capability Logging"
 	},
 	"Backup": {
 		"scope": "yaml",
@@ -85,7 +85,7 @@
 		"body": [
 			"- CCC.F11 # Backup"
 		  ],
-		"description": "Common Feature Backup"
+		"description": "Common Capability Backup"
 	},
 	"Recovery": {
 		"scope": "yaml",
@@ -93,7 +93,7 @@
 		"body": [
 			"- CCC.F12 # Recovery"
 		  ],
-		"description": "Common Feature Recovery"
+		"description": "Common Capability Recovery"
 	},
 	"Infrastructure as Code": {
 		"scope": "yaml",
@@ -101,7 +101,7 @@
 		"body": [
 			"- CCC.F13 # Infrastructure as Code"
 		  ],
-		"description": "Common Feature Infrastructure as Code"
+		"description": "Common Capability Infrastructure as Code"
 	},
 	"API Access": {
 		"scope": "yaml",
@@ -109,7 +109,7 @@
 		"body": [
 			"- CCC.F14 # API Access"
 		  ],
-		"description": "Common Feature API Access"
+		"description": "Common Capability API Access"
 	},
 	"Cost Management": {
 		"scope": "yaml",
@@ -117,7 +117,7 @@
 		"body": [
 			"- CCC.F15 # Cost Management"
 		  ],
-		"description": "Common Feature Cost Management"
+		"description": "Common Capability Cost Management"
 	},
 	"Budgeting": {
 		"scope": "yaml",
@@ -125,7 +125,7 @@
 		"body": [
 			"- CCC.F16 # Budgeting"
 		  ],
-		"description": "Common Feature Budgeting"
+		"description": "Common Capability Budgeting"
 	},
 	"Alerting": {
 		"scope": "yaml",
@@ -133,7 +133,7 @@
 		"body": [
 			"- CCC.F17 # Alerting"
 		  ],
-		"description": "Common Feature Alerting"
+		"description": "Common Capability Alerting"
 	},
 	"Versioning": {
 		"scope": "yaml",
@@ -141,7 +141,7 @@
 		"body": [
 			"- CCC.F18 # Versioning"
 		  ],
-		"description": "Common Feature Versioning"
+		"description": "Common Capability Versioning"
 	},
 	"On-demand Scaling": {
 		"scope": "yaml",
@@ -149,7 +149,7 @@
 		"body": [
 			"- CCC.F19 # On-demand Scaling"
 		  ],
-		"description": "Common Feature On-demand Scaling"
+		"description": "Common Capability On-demand Scaling"
 	},
 	"Tagging": {
 		"scope": "yaml",
@@ -157,7 +157,7 @@
 		"body": [
 			"- CCC.F20 # Tagging"
 		  ],
-		"description": "Common Feature Tagging"
+		"description": "Common Capability Tagging"
 	},
 	"Replication": {
 		"scope": "yaml",
@@ -165,7 +165,7 @@
 		"body": [
 			"- CCC.F21 # Replication"
 		  ],
-		"description": "Common Feature Replication"
+		"description": "Common Capability Replication"
 	},
 
 	"Location Lock-In": {
@@ -174,7 +174,7 @@
 		"body": [
 			"- CCC.F22 # Location Lock-In"
 		  ],
-		"description": "Common Feature Location Lock-In"
+		"description": "Common Capability Location Lock-In"
 	},
 
 	"Network Access Rules": {
@@ -183,6 +183,6 @@
 		"body": [
 			"- CCC.F23 # Network Access Rules"
 		  ],
-		"description": "Common Feature Network Access Rules"
+		"description": "Common Capability Network Access Rules"
 	},
 }
