@@ -74,6 +74,6 @@ release_details:
 ```
 
 [release]: ../releases/README.md
-[capabilities]: ./feature-definitions.md
+[capabilities]: ./capabilities-definitions.md
 [threats]: ./threat-definitions.md
 [controls]: ./control-definitions.md
