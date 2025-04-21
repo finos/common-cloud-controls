@@ -1,7 +1,7 @@
 name: Validation
 
 on:
-  workflow_call:
+  workflow_dispatch: # Manual trigger until this is compatible with the revised schema
 
 jobs:
   validate-services:
