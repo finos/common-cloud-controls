@@ -14,7 +14,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var globalSharedCatalog layer2.Catalog
+var globalCommonCatalog layer2.Catalog
 
 // createDirectoryIfNotExists creates a directory if it doesn't exist
 // It takes a filePath string as input and returns an error if any
@@ -101,11 +101,11 @@ func getDataDirectory(name string) string {
 		return buildTarget
 	case "metadata":
 		return buildTarget
-	case "shared-controls":
+	case "common-controls":
 		return serviceDir
-	case "shared-capabilities":
+	case "common-capabilities":
 		return serviceDir
-	case "shared-threats":
+	case "common-threats":
 		return serviceDir
 	default:
 		log.Fatalf("error: %v", "Invalid data type")
@@ -114,6 +114,10 @@ func getDataDirectory(name string) string {
 }
 
 func readAndCompileCatalog() (data CompiledCatalog) {
+	if viper.GetString("build-target") == "" {
+		log.Fatalf("error: %v", "build-target is required")
+	}
+
 	buildTarget := filepath.Join(viper.GetString("services-dir"), viper.GetString("build-target"))
 
 	serviceData, err := loadContent(buildTarget)
@@ -135,9 +139,9 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	// addControlLink(controlsData.SpecificControls)
 	// addControlLink(commonControlsData.SpecificControls)
 
-	err = setGlobalSharedCatalog()
+	err = setGlobalCommonCatalog()
 	if err != nil {
-		log.Fatalf("error loading shared catalog (%v)", err)
+		log.Fatalf("error loading common catalog (%v)", err)
 		return
 	}
 
@@ -145,9 +149,9 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 		Metadata:             catalog.Metadata,
 		ReleaseDetails:       catalog.ReleaseDetails,
 		LatestReleaseDetails: catalog.ReleaseDetails[len(catalog.ReleaseDetails)-1],
-		ControlFamilies:      append(serviceData.ControlFamilies, getSharedControls(serviceData.SharedControls)),
-		Capabilities:         append(serviceData.Capabilities, getSharedCapabilities(serviceData.SharedCapabilities)...),
-		Threats:              append(serviceData.Threats, getSharedThreats(serviceData.SharedThreats)...),
+		ControlFamilies:      append(serviceData.ControlFamilies, getCommonControls(serviceData.SharedControls)),
+		Capabilities:         append(serviceData.Capabilities, getCommonCapabilities(serviceData.SharedCapabilities)...),
+		Threats:              append(serviceData.Threats, getCommonThreats(serviceData.SharedThreats)...),
 	}
 }
 
@@ -209,55 +213,55 @@ func loadContent(directory string) (data layer2.Catalog, err error) {
 	return data, err
 }
 
-func setGlobalSharedCatalog() (err error) {
-	if len(globalSharedCatalog.ControlFamilies) == 0 {
+func setGlobalCommonCatalog() (err error) {
+	if len(globalCommonCatalog.ControlFamilies) == 0 {
 		// read the common controls, capabilities, and threats from the common entries directory
-		sharedDir := filepath.Join(viper.GetString("services-dir"), "shared")
-		globalSharedCatalog, err = loadContent(sharedDir)
+		commonDir := filepath.Join(viper.GetString("services-dir"), "..", "common")
+		globalCommonCatalog, err = loadContent(commonDir)
 		if err != nil {
-			err = fmt.Errorf("error loading %s (%v)", sharedDir, err)
+			err = fmt.Errorf("error loading %s (%v)", commonDir, err)
 		}
 	}
 	return err
 }
 
-func getSharedControls(mappings []layer2.Mapping) (shared layer2.ControlFamily) {
-	for _, family := range globalSharedCatalog.ControlFamilies {
+func getCommonControls(mappings []layer2.Mapping) (common layer2.ControlFamily) {
+	for _, family := range globalCommonCatalog.ControlFamilies {
 		for _, control := range family.Controls {
 			for _, mapping := range mappings {
 				for _, referenceID := range mapping.Identifiers {
 					if control.Id == referenceID {
-						shared.Controls = append(shared.Controls, control)
+						common.Controls = append(common.Controls, control)
 					}
 				}
 			}
 		}
 	}
-	return shared
+	return common
 }
 
-func getSharedCapabilities(mappings []layer2.Mapping) (shared []layer2.Capability) {
-	for _, capability := range globalSharedCatalog.Capabilities {
+func getCommonCapabilities(mappings []layer2.Mapping) (common []layer2.Capability) {
+	for _, capability := range globalCommonCatalog.Capabilities {
 		for _, mapping := range mappings {
 			for _, referenceID := range mapping.Identifiers {
 				if capability.Id == referenceID {
-					shared = append(shared, capability)
+					common = append(common, capability)
 				}
 			}
 		}
 	}
-	return shared
+	return common
 }
 
-func getSharedThreats(mappings []layer2.Mapping) (shared []layer2.Threat) {
-	for _, threat := range globalSharedCatalog.Threats {
+func getCommonThreats(mappings []layer2.Mapping) (common []layer2.Threat) {
+	for _, threat := range globalCommonCatalog.Threats {
 		for _, mapping := range mappings {
 			for _, referenceID := range mapping.Identifiers {
 				if threat.Id == referenceID {
-					shared = append(shared, threat)
+					common = append(common, threat)
 				}
 			}
 		}
 	}
-	return shared
+	return common
 }
