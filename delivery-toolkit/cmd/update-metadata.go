@@ -15,6 +15,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+type cccMetadata struct {
+	Metadata             layer2.Metadata  `yaml:"metadata"`
+	ReleaseDetails       []ReleaseDetails `yaml:"release_details"`
+	LatestReleaseDetails ReleaseDetails   `yaml:"latest_release_details"`
+}
+
 var (
 	BuildDirectoryPath string
 	MetadataFilePath   string
@@ -140,21 +146,19 @@ func updateMetadata() (err error) {
 	return
 }
 
-func getMetadataYaml() layer2.Metadata {
+func getMetadataYaml() cccMetadata {
 	// Read the YAML file
 	yamlFile, err := os.ReadFile(MetadataFilePath)
 	if err != nil {
 		log.Fatalf("Error reading YAML file: %v", err)
 	}
 
-	// Create a ReleaseDetails struct to hold the data
-	var metadata layer2.Metadata
-
+	var data cccMetadata
 	// Unmarshal the YAML into the struct
-	err = yaml.Unmarshal(yamlFile, &metadata)
+	err = yaml.Unmarshal(yamlFile, &data)
 	if err != nil {
 		log.Fatalf("Error unmarshaling YAML: %v", err)
 	}
 
-	return metadata
+	return data
 }

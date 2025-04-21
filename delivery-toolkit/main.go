@@ -63,6 +63,7 @@ func init() {
 	baseCmd.AddCommand(cmd.GenerateMarkdown)
 	baseCmd.AddCommand(cmd.GenerateReleaseNotes)
 	baseCmd.AddCommand(cmd.GenerateYaml)
+	baseCmd.AddCommand(cmd.UpdateMetadata)
 }
 
 // main is the entry point of the application.
