@@ -54,7 +54,7 @@ Threats for a given service typically reside in a `threats.yaml` file (e.g., `se
 
 2. **Add Any Missing Common Threats**
 
-   - Review the [shared-threats.yaml](/services/shared/threats.yaml) to see the full list of common threats.
+   - Review the [shared-threats.yaml](/common/threats.yaml) to see the full list of common threats.
    - In `threats.yaml`, find or create a top-level `common_threats` key.
    - Add references to any relevant common threats not already included.
    - See an example of a fully populated list in the [object storage threats.yaml](/services/storage/object/threats.yaml).
@@ -91,7 +91,7 @@ Controls for a given service typically reside in a `controls.yaml` file (e.g., `
 
 2. **Add Any Missing Common Controls**
 
-   - Review the [shared-controls.yaml](/services/shared/controls.yaml).
+   - Review the [shared-controls.yaml](/common/controls.yaml).
    - In your `controls.yaml`, find or create a top-level `common_controls` key.
    - Add references to any relevant common controls not already included.
    - See the [object storage controls.yaml](/services/storage/object/controls.yaml) for an example.
@@ -144,10 +144,10 @@ Controls for a given service typically reside in a `controls.yaml` file (e.g., `
 ## Additional Resources
 
 - **Common Threats**
-  [services/shared/threats.yaml](/services/shared/threats.yaml)
+  [shared/threats.yaml](/common/threats.yaml)
 
 - **Common Controls**
-  [services/shared/controls.yaml](/services/shared/controls.yaml)
+  [shared/controls.yaml](/common/controls.yaml)
 
 - **Example Completed Service**
 

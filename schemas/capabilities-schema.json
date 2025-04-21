@@ -16,7 +16,7 @@
             "items": {
               "type": "string",
               "pattern": "^CCC\\.F\\d{2,8}$",
-              "description": "Global/shared capability IDs"
+              "description": "Global/common capability IDs"
             }
           }
         },

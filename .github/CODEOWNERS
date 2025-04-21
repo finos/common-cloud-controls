@@ -15,9 +15,9 @@
 # Changes that might impact automation must be reviewed by the Delivery WG
 # Code owners should only be modified by the SteerCo
 /.github @finos/ccc-wg-delivery
-/release @finos/ccc-wg-delivery
-/.vscode @finos/ccc-wg-delivery
 /.github/CODEOWNERS @finos/ccc-steerco
+/.vscode @finos/ccc-wg-delivery
+/delivery-toolkit @finos/ccc-wg-delivery
 #
 ########
 
@@ -45,6 +45,7 @@
 # Changes to the services directory must be reviewed by the Taxonomy WG
 # excluding threats and controls definitions
 /services @finos/ccc-wg-taxonomy
+**/capabilities.yaml @finos/ccc-wg-taxonomy
 #
 ########
 
@@ -54,8 +55,6 @@
 **/threats.yaml @finos/ccc-wg-security
 **/controls.yaml @finos/ccc-wg-security
 **/*.feature @finos/ccc-wg-security
-**/shared-controls.yaml @finos/ccc-wg-security
-**/shared-threats.yaml @finos/ccc-wg-security
 #
 ########
 
