@@ -5,7 +5,7 @@ shared-threats:
       - CCC.TH04 # Data is Replicated to Untrusted or External Locations
 
 threats:
-  - id: CCC.KeyMgmt.TH17
+  - id: CCC.KeyMgmt.TH01
     title: Deletion or disabling of KMS key versions leading to denial of service or data destruction
     description: |
       An attacker with access to the KMS service can delete or disable key versions that are used
