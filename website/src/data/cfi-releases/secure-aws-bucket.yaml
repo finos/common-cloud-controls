@@ -1,0 +1,53 @@
+ccc:
+  id: CCC.ObjStor
+
+cfi_details:
+  name: Secure S3 Bucket Terraform Module
+  description: This module creates a secure S3 bucket with comprehensive security controls and optional supporting resources.
+  url: https://github.com/robmoffat/cfi-s3-module
+  authors:
+    - name: Jared Gore
+      github_id: jlgore
+      company: Paychex
+    - name: Rob Moffat
+      github_id: robmoffat
+      company: FINOS
+
+terraform:
+  source: git::https://github.com/robmoffat/cfi-s3-module.git//modules/s3
+  script: |
+    provider "aws" {
+      region = "us-east-1"
+    }
+
+    data "aws_caller_identity" "current" {}
+
+    module "secure_s3" {
+      source      = "git::https://github.com/robmoffat/cfi-s3-module.git//modules/s3"
+      prefix      = "prod"
+      bucket_name = "my-secure-s3-bucket-20250423"
+
+      kms_key = {
+        create = true
+        deletion_window_in_days = 7
+        enable_key_rotation = true
+        key_administrators = []
+        key_users = ["arn:aws:iam::232348204608:user/terraform-user", "arn:aws:iam::232348204608:root" ]
+      }
+
+
+      logging = {
+        mode = "create_new"
+        enable_cloudwatch_logs = true
+        retention_days = 30
+        encryption_key = "create_new"
+      }
+
+      tags = {
+        Environment = "Production"
+        Owner       = "CFI"
+      }
+    }
+
+result-runs:
+  - test-results/prowler-output-232348204608-20250424120512.ocsf.json
