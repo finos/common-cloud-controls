@@ -31,6 +31,7 @@ interface Release {
     name: string;
   }>;
   link: string;
+  provider: string;
 }
 
 interface Component {
@@ -63,6 +64,7 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
+                    <TableHead>Provider</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead>Source</TableHead>
                     <TableHead>Tests</TableHead>
@@ -76,6 +78,7 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                           {release.title}
                         </Link>
                       </TableCell>
+                      <TableCell>{release.provider}</TableCell>
                       <TableCell>{release.description}</TableCell>
                       <TableCell>
                         <a href={release.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">

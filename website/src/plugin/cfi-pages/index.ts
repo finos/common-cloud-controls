@@ -7,6 +7,7 @@ interface CFIReleaseYaml {
     ccc: {
         version: string;
         id: string;
+        provider: string;
     };
     cfi_details: {
         name: string;
@@ -54,6 +55,7 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
                     title: parsed.cfi_details.name,
                     slug,
                     version: parsed.ccc.version,
+                    provider: parsed.ccc.provider,
                     authors: parsed.cfi_details.authors.map(author => ({
                         name: author.name,
                         githubId: author.github_id,
@@ -82,7 +84,8 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
                     metadata: parsed.cfi_details,
                     ccc_reference: parsed.ccc,
                     terraform: parsed.terraform,
-                    test_results: parsed['result-runs']
+                    test_results: parsed['result-runs'],
+                    provider: parsed.ccc.provider
                 };
 
                 const jsonPath = await createData(
@@ -99,7 +102,7 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
                     exact: true,
                 });
 
-                console.log(`Added route for ${slug}`);
+                console.log(`Added route for /cfi/${slug}`);
 
                 // Create pages for each test result
                 for (const result of parsed['result-runs']) {

@@ -1,7 +1,9 @@
 ccc:
   id: CCC.ObjStor
+  provider: aws
 
 cfi_details:
+  id: secure-aws-bucket
   name: Secure S3 Bucket Terraform Module
   description: This module creates a secure S3 bucket with comprehensive security controls and optional supporting resources.
   url: https://github.com/robmoffat/cfi-s3-module
