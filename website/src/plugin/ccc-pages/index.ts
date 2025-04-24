@@ -15,24 +15,37 @@ interface CCCReleaseYaml {
     threats: any[];
 }
 
-export default function pluginCCCPages(_: LoadContext): Plugin<void> {
+type PluginContent = CCCReleaseYaml[];
+
+export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
     return {
         name: 'ccc-pages',
 
-        async contentLoaded({ actions }) {
-            const { createData, addRoute } = actions;
-
+        async loadContent(): Promise<PluginContent> {
             const dataDir = path.resolve(__dirname, '../../data/ccc-releases');
             const files = fs.readdirSync(dataDir).filter((f) => f.endsWith('.yaml'));
+
+            const releases: CCCReleaseYaml[] = [];
+
+            for (const file of files) {
+                const filePath = path.join(dataDir, file);
+                const raw = fs.readFileSync(filePath, 'utf8');
+                const parsed = yaml.load(raw) as CCCReleaseYaml;
+                releases.push(parsed);
+            }
+
+            return releases;
+        },
+
+        async contentLoaded({ actions, content }) {
+            const { createData, addRoute } = actions;
+            const cccReleases = content as PluginContent;
 
             // Group releases by component
             const components: Record<string, any[]> = {};
 
-            for (const file of files) {
-                const slug = file.replace(/\.yaml$/, '');
-                const filePath = path.join(dataDir, file);
-                const raw = fs.readFileSync(filePath, 'utf8');
-                const parsed = yaml.load(raw) as CCCReleaseYaml;
+            for (const parsed of cccReleases) {
+                const slug = `${parsed.metadata.id}_${parsed.metadata.release_details[0]?.version || 'N/A'}`;
 
                 const componentTitle = parsed.metadata.title;
                 if (!components[componentTitle]) {

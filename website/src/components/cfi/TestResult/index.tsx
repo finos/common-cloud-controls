@@ -1,8 +1,23 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import styles from "./styles.module.css";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
+import { Badge } from "../../ui/badge";
+
+export enum TestResultType {
+  PASS = "pass",
+  FAIL = "fail",
+  NA = "na",
+  ERROR = "error",
+}
+
+export interface TestResultItem {
+  test_requirement_id: string;
+  test_id: string;
+  result: TestResultType;
+  description: string;
+}
 
 interface TestResultPageData {
   slug: string;
@@ -13,41 +28,69 @@ interface TestResultPageData {
     version: string;
     id: string;
   };
+  test_results: TestResultItem[];
 }
 
-export default function CFITestResult(): React.ReactElement {
-  const { siteConfig } = useDocusaurusContext();
-  const data = siteConfig.customFields.pageData as TestResultPageData;
+const resultTypeToBadgeVariant = {
+  [TestResultType.PASS]: "default",
+  [TestResultType.FAIL]: "destructive",
+  [TestResultType.NA]: "secondary",
+  [TestResultType.ERROR]: "destructive",
+} as const;
 
+export default function CFITestResult({ pageData }: { pageData: TestResultPageData }): React.ReactElement {
   return (
-    <Layout title={`Test Result - ${data.result_name}`} description={`Test results for ${data.releaseTitle}`}>
-      <main className={styles.main}>
-        <div className={styles.header}>
-          <h1>Test Results: {data.result_name}</h1>
-          <p>
-            For <Link to={`/cfi/${data.slug}`}>{data.releaseTitle}</Link>
-          </p>
-        </div>
-
-        <div className={styles.content}>
-          <div className={styles.section}>
-            <h2>CCC Reference</h2>
-            <p>
-              <Link to={`/ccc/${data.ccc_reference.id}`}>
-                {data.ccc_reference.id} (v{data.ccc_reference.version})
-              </Link>
+    <Layout title={`Test Result - ${pageData.result_name}`} description={`Test results for ${pageData.releaseTitle}`}>
+      <main className="container margin-vert--lg space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Test Results: {pageData.result_name}</CardTitle>
+            <p className="text-muted-foreground">
+              For <Link to={`/cfi/${pageData.slug}`}>{pageData.releaseTitle}</Link>
             </p>
-          </div>
+          </CardHeader>
+        </Card>
 
-          <div className={styles.section}>
-            <h2>Test Results</h2>
-            <div className={styles.testResults}>
-              {/* TODO: Add actual test results display */}
-              <p>Test results will be displayed here.</p>
-              <p>Path: {data.result_path}</p>
-            </div>
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>CCC Reference</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Link to={`/ccc/${pageData.ccc_reference.id}`} className="text-primary hover:underline">
+              {pageData.ccc_reference.id} (v{pageData.ccc_reference.version})
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Test Results</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Test Requirement ID</TableHead>
+                  <TableHead>Test ID</TableHead>
+                  <TableHead>Result</TableHead>
+                  <TableHead>Description</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {pageData.test_results.map((result, index) => (
+                  <TableRow key={`${result.test_requirement_id}-${index}`}>
+                    <TableCell>{result.test_requirement_id}</TableCell>
+                    <TableCell>{result.test_id}</TableCell>
+                    <TableCell>
+                      <Badge variant={resultTypeToBadgeVariant[result.result]}>{result.result}</Badge>
+                    </TableCell>
+                    <TableCell>{result.description}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </main>
     </Layout>
   );

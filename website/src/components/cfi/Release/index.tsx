@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { Badge } from "../../ui/badge";
 import { User } from "../../ccc/User";
+import { usePluginData } from "@docusaurus/useGlobalData";
 
 interface ReleasePageData {
   slug: string;
@@ -30,7 +31,36 @@ interface ReleasePageData {
   test_results: string[];
 }
 
+interface CCCRelease {
+  metadata: {
+    id: string;
+    release_details: Array<{
+      version: string;
+      assurance_level: string | null;
+      threat_model_url: string | null;
+      threat_model_author: string | null;
+      red_team: string | null;
+      red_team_exercise_url: string | null;
+      release_manager: {
+        name: string;
+        github_id: string;
+        company: string;
+      };
+      change_log: string[];
+      contributors: Array<{
+        name: string;
+        github_id: string;
+        company: string;
+      }>;
+    }>;
+  };
+}
+
 export default function CFIRelease({ pageData }: { pageData: ReleasePageData }): React.ReactElement {
+  const cccReleases = usePluginData("ccc-pages") as CCCRelease[];
+  console.log(JSON.stringify(pageData, null, 2));
+  const matchingCCCReleases = []; //cccReleases.find((release) => release.metadata.id === pageData.ccc_reference.id)?.metadata.release_details || [];
+
   return (
     <Layout title={`CFI - ${pageData.metadata.name}`} description={pageData.metadata.description}>
       <main className="container margin-vert--lg space-y-6">
@@ -46,12 +76,46 @@ export default function CFIRelease({ pageData }: { pageData: ReleasePageData }):
             <CardTitle>CCC Reference</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>
-              This implementation references{" "}
-              <Link to={`/ccc/${pageData.ccc_reference.id}`}>
-                {pageData.ccc_reference.id} (v{pageData.ccc_reference.version})
-              </Link>
-            </p>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Version</TableHead>
+                  <TableHead>Assurance Level</TableHead>
+                  <TableHead>Release Manager</TableHead>
+                  <TableHead>Threat Model</TableHead>
+                  <TableHead>Red Team</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {matchingCCCReleases.map((release) => (
+                  <TableRow key={release.version}>
+                    <TableCell>
+                      <Link to={`/ccc/${pageData.ccc_reference.id}/${release.version}`} className="text-primary hover:underline">
+                        {release.version}
+                      </Link>
+                    </TableCell>
+                    <TableCell>{release.assurance_level && <Badge variant="outline">{release.assurance_level}</Badge>}</TableCell>
+                    <TableCell>
+                      <User name={release.release_manager.name} githubId={release.release_manager.github_id} company={release.release_manager.company} avatarUrl={`https://github.com/${release.release_manager.github_id}.png`} />
+                    </TableCell>
+                    <TableCell>
+                      {release.threat_model_url && (
+                        <a href={release.threat_model_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          {release.threat_model_author || "View"}
+                        </a>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {release.red_team && (
+                        <a href={release.red_team_exercise_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          {release.red_team}
+                        </a>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
 
@@ -81,24 +145,6 @@ export default function CFIRelease({ pageData }: { pageData: ReleasePageData }):
 
         <Card>
           <CardHeader>
-            <CardTitle>Terraform Configuration</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-medium mb-2">Source</h3>
-                <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.terraform.source}</pre>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium mb-2">Example Usage</h3>
-                <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.terraform.script}</pre>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
             <CardTitle>Test Results</CardTitle>
           </CardHeader>
           <CardContent>
@@ -120,6 +166,24 @@ export default function CFIRelease({ pageData }: { pageData: ReleasePageData }):
                 ))}
               </TableBody>
             </Table>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Terraform Configuration</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-medium mb-2">Source</h3>
+                <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.terraform.source}</pre>
+              </div>
+              <div>
+                <h3 className="text-lg font-medium mb-2">Example Usage</h3>
+                <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.terraform.script}</pre>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </main>
