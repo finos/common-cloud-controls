@@ -121,7 +121,7 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
                     metadata: parsed.cfi_details,
                     ccc_reference: parsed.ccc,
                     terraform: parsed.terraform,
-                    test_results: parsed['result-runs'],
+                    test_results: parsed['result-runs'].map(result => result.replace('test-results/', '').replace('.ocsf.json', '')),
                     provider: parsed.ccc.provider
                 };
 

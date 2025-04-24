@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Badge } from "../../ui/badge";
 import { User } from "../../ccc/User";
 import { usePluginData } from "@docusaurus/useGlobalData";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../ui/accordion";
 
 interface ReleasePageData {
   slug: string;
@@ -174,16 +175,23 @@ export default function CFIRelease({ pageData }: { pageData: ReleasePageData }):
             <CardTitle>Terraform Configuration</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-medium mb-2">Source</h3>
-                <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.terraform.source}</pre>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium mb-2">Example Usage</h3>
-                <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.terraform.script}</pre>
-              </div>
-            </div>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="terraform">
+                <AccordionTrigger>View Terraform Configuration</AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-lg font-medium mb-2">Source</h3>
+                      <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.terraform.source}</pre>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-2">Example Usage</h3>
+                      <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.terraform.script}</pre>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </CardContent>
         </Card>
       </main>
