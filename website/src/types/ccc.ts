@@ -73,7 +73,7 @@ export interface Control {
     title: string;
     objective: string;
     control_family: string;
-    threats: stirng[].
+    threats: string[];
     related_threats?: Threat[];
     nist_csf?: string;
     control_mappings?: ControlMappings;
