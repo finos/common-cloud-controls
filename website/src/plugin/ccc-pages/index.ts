@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
+import { Release, Control, Feature, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData } from '@site/src/types/ccc';
 
 interface CCCReleaseYaml {
     metadata: {
@@ -16,6 +17,140 @@ interface CCCReleaseYaml {
 }
 
 type PluginContent = CCCReleaseYaml[];
+
+function parseRelease(parsed: CCCReleaseYaml): Release {
+    const slug = `/ccc/${parsed.metadata.id}.${parsed.metadata.release_details[0]?.version || 'N/A'}`;
+    return {
+        metadata: parsed.metadata,
+        threats: parsed.threats.map(threat => parseThreat(threat, slug)),
+        features: parsed.features.map(feature => parseFeature(feature, slug)),
+        controls: parsed.controls.map(control => parseControl(control, slug)),
+        slug,
+    };
+}
+
+function parseThreat(threat: any, slug: string): Threat {
+    return {
+        ...threat,
+        slug: slug + "/" + threat.id,
+    };
+}
+
+function parseFeature(feature: any, slug: string): Feature {
+    return {
+        ...feature,
+        slug: slug + "/" + feature.id,
+    };
+}
+
+function parseControl(control: any, slug: string): Control {
+    return {
+        ...control,
+        slug: slug + "/" + control.id,
+    };
+}
+
+
+async function createControlPage(controlYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
+    const control = parseControl(controlYaml, release.slug);
+
+    const relatedThreats = controlYaml.threats?.map(threatId => release.threats.find(t => t.id === threatId)
+    ).filter(Boolean) || [];
+
+    const controlPageData: ControlPageData = {
+        control: {
+            ...control,
+            related_threats: relatedThreats,
+        },
+        releaseTitle: parsed.metadata.title,
+        releaseSlug: release.slug,
+    };
+
+    const controlPagePath = await createData(
+        `ccc - ${release.slug} -${control.id}.json`,
+        JSON.stringify(controlPageData, null, 2)
+    );
+
+    addRoute({
+        path: `${release.slug}/${control.id}`,
+        component: '@site/src/components/ccc/Control/index.tsx',
+        modules: {
+            pageData: controlPagePath,
+        },
+        exact: true,
+    });
+
+    console.log(`Added route for ${control.slug}`);
+}
+
+async function createFeaturePage(featureYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
+    const feature = parseFeature(featureYaml, release.slug);
+
+    // Find all threats that reference this feature
+    const relatedThreats = release.threats.filter(threat => threat.features.includes(feature.id))
+
+
+    const featurePageData: FeaturePageData = {
+        feature: {
+            ...feature,
+            related_threats: relatedThreats
+        },
+        releaseTitle: parsed.metadata.title,
+        releaseSlug: release.slug,
+    };
+
+    const featurePagePath = await createData(
+        `ccc-${release.slug}-${feature.id}.json`,
+        JSON.stringify(featurePageData, null, 2)
+    );
+
+    addRoute({
+        path: `${release.slug}/${feature.id}`,
+        component: '@site/src/components/ccc/Feature/index.tsx',
+        modules: {
+            pageData: featurePagePath,
+        },
+        exact: true,
+    });
+
+    console.log(`Added route for ${feature.slug}`);
+
+}
+
+async function createThreatPage(threatYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
+    const threat = parseThreat(threatYaml, release.slug);
+
+    const relatedControls = release.controls.filter(control => control.threats.includes(threat.id))
+
+    const relatedFeatures = threatYaml.features?.map(featureId => release.features.find(f => f.id === featureId)
+    ).filter(Boolean) || [];
+
+    const threatPageData: ThreatPageData = {
+        threat: {
+            ...threat,
+            related_controls: relatedControls,
+            related_features: relatedFeatures
+        },
+        releaseTitle: parsed.metadata.title,
+        releaseSlug: release.slug,
+    };
+
+    const threatPagePath = await createData(
+        `ccc-${release.slug}-${threat.id}.json`,
+        JSON.stringify(threatPageData, null, 2)
+    );
+
+    addRoute({
+        path: `${release.slug}/${threat.id}`,
+        component: '@site/src/components/ccc/Threat/index.tsx',
+        modules: {
+            pageData: threatPagePath,
+        },
+        exact: true,
+    });
+
+    console.log(`Added route for ${threat.slug}`);
+}
 
 export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
     return {
@@ -38,53 +173,39 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
         },
 
         async contentLoaded({ actions, content }) {
-            const { createData, addRoute } = actions;
-            const cccReleases = content as PluginContent;
+            const { setGlobalData, createData, addRoute } = actions;
+            const cccReleases: Release[] = [];
+            setGlobalData({ 'ccc-release-yaml': content });
 
             // Group releases by component
             const components: Record<string, any[]> = {};
 
-            for (const parsed of cccReleases) {
-                const slug = `${parsed.metadata.id}_${parsed.metadata.release_details[0]?.version || 'N/A'}`;
+            for (const parsed of content) {
+
+                const release = parseRelease(parsed);
+                cccReleases.push(release);
+
+                // Create a page data object for the release
+                const cccReleasePageData: ReleasePageData = {
+                    release,
+                    releaseTitle: parsed.metadata.title,
+                    releaseSlug: release.slug,
+                };
 
                 const componentTitle = parsed.metadata.title;
                 if (!components[componentTitle]) {
                     components[componentTitle] = [];
                 }
 
-                components[componentTitle].push({
-                    id: parsed.metadata.id,
-                    title: parsed.metadata.title,
-                    slug,
-                    version: parsed.metadata.release_details[0]?.version || 'N/A',
-                    release_manager: {
-                        name: parsed.metadata.release_details[0]?.release_manager?.name || 'N/A',
-                        githubId: parsed.metadata.release_details[0]?.release_manager?.github_id || 'N/A',
-                        company: parsed.metadata.release_details[0]?.release_manager?.company || 'N/A',
-                        avatarUrl: parsed.metadata.release_details[0]?.release_manager?.avatarUrl
-                    },
-                    authors: parsed.metadata.release_details[0]?.contributors?.map(c => c.name) || [],
-                    controls_count: parsed.controls.length,
-                    threats_count: parsed.threats?.length || 0,
-                    features_count: parsed.features?.length || 0,
-                    link: `/ccc/${slug}`
-                });
-
-                const pageData = {
-                    slug,
-                    metadata: parsed.metadata,
-                    controls: parsed.controls,
-                    features: parsed.features || [],
-                    threats: parsed.threats || [],
-                };
+                components[componentTitle].push(release);
 
                 const jsonPath = await createData(
-                    `ccc-${slug}.json`,
-                    JSON.stringify(pageData, null, 2)
+                    `ccc-${release.slug}.json`,
+                    JSON.stringify(cccReleasePageData, null, 2)
                 );
 
                 addRoute({
-                    path: `/ccc/${slug}`,
+                    path: `${release.slug}`,
                     component: '@site/src/components/ccc/Release/index.tsx',
                     modules: {
                         pageData: jsonPath,
@@ -92,137 +213,23 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
                     exact: true,
                 });
 
-                console.log(`Added route for ${slug}`);
+                console.log(`Added route for ${release.slug}`);
 
-                // Create one page per control
-                for (const control of parsed.controls) {
-                    // Find the full threat objects for this control
-                    const fullThreats = control.threats?.map(threatId =>
-                        parsed.threats.find(t => t.id === threatId)
-                    ).filter(Boolean) || [];
-
-                    const controlPagePath = await createData(
-                        `ccc-${slug}-${control.id}.json`,
-                        JSON.stringify({
-                            slug,
-                            control: {
-                                ...control,
-                                threats: fullThreats
-                            },
-                            releaseTitle: parsed.metadata.title,
-                            releaseId: parsed.metadata.id,
-                        }, null, 2)
-                    );
-
-                    addRoute({
-                        path: `/ccc/${slug}/${control.id}`,
-                        component: '@site/src/components/ccc/Control/index.tsx',
-                        modules: {
-                            pageData: controlPagePath,
-                        },
-                        exact: true,
-                    });
-
-                    console.log(`Added route for /ccc/${slug}/${control.id}`);
+                for (const controlYaml of parsed.controls) {
+                    await createControlPage(controlYaml, release, parsed, createData, addRoute);
                 }
 
-                // Create one page per feature
-                for (const feature of parsed.features || []) {
-                    // Find all controls that reference this feature
-                    const relatedControls = parsed.controls.filter(control =>
-                        control.features?.includes(feature.id)
-                    ).map(control => ({
-                        id: control.id,
-                        title: control.title,
-                        link: control.link
-                    }));
-
-                    // Find all threats that reference this feature
-                    const relatedThreats = parsed.threats.filter(threat =>
-                        threat.features?.includes(feature.id)
-                    ).map(threat => ({
-                        id: threat.id,
-                        title: threat.title,
-                        description: threat.description,
-                        link: threat.link
-                    }));
-
-                    const featurePagePath = await createData(
-                        `ccc-${slug}-${feature.id}.json`,
-                        JSON.stringify({
-                            slug,
-                            feature: {
-                                ...feature,
-                                relatedControls,
-                                relatedThreats
-                            },
-                            releaseTitle: parsed.metadata.title,
-                            releaseId: parsed.metadata.id,
-                        }, null, 2)
-                    );
-
-                    addRoute({
-                        path: `/ccc/${slug}/${feature.id}`,
-                        component: '@site/src/components/ccc/Feature/index.tsx',
-                        modules: {
-                            pageData: featurePagePath,
-                        },
-                        exact: true,
-                    });
-
-                    console.log(`Added route for /ccc/${slug}/${feature.link}`);
+                for (const featureYaml of parsed.features || []) {
+                    await createFeaturePage(featureYaml, release, parsed, createData, addRoute);
                 }
 
-                // Create one page per threat
-                for (const threat of parsed.threats || []) {
-                    // Find all controls that reference this threat
-                    const relatedControls = parsed.controls.filter(control =>
-                        control.threats?.includes(threat.id)
-                    ).map(control => ({
-                        id: control.id,
-                        title: control.title,
-                        link: control.link
-                    }));
-
-                    // Find all features that this threat references
-                    const relatedFeatures = threat.features?.map(featureId =>
-                        parsed.features.find(f => f.id === featureId)
-                    ).filter(Boolean).map(feature => ({
-                        id: feature.id,
-                        title: feature.title,
-                        description: feature.description,
-                        link: feature.link
-                    })) || [];
-
-                    const threatPagePath = await createData(
-                        `ccc-${slug}-${threat.id}.json`,
-                        JSON.stringify({
-                            slug,
-                            threat: {
-                                ...threat,
-                                relatedControls,
-                                relatedFeatures
-                            },
-                            releaseTitle: parsed.metadata.title,
-                            releaseId: parsed.metadata.id,
-                        }, null, 2)
-                    );
-
-                    addRoute({
-                        path: `/ccc/${slug}/${threat.id}`,
-                        component: '@site/src/components/ccc/Threat/index.tsx',
-                        modules: {
-                            pageData: threatPagePath,
-                        },
-                        exact: true,
-                    });
-
-                    console.log(`Added route for /ccc/${slug}/${threat.link}`);
+                for (const threatYaml of parsed.threats || []) {
+                    await createThreatPage(threatYaml, release, parsed, createData, addRoute);
                 }
             }
 
             // Create home page data
-            const homePageData = {
+            const homePageData: HomePageData = {
                 components: Object.entries(components).map(([title, releases]) => ({
                     title,
                     releases: releases.sort((a, b) => b.version.localeCompare(a.version))
@@ -247,3 +254,4 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
         },
     };
 }
+

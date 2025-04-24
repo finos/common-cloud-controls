@@ -3,37 +3,13 @@ import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import Link from "@docusaurus/Link";
+import { HomePageData } from "@site/src/types/ccc";
 import { User } from "../User";
-
-export interface Release {
-  id: string;
-  title: string;
-  slug: string;
-  version: string;
-  release_manager: {
-    name: string;
-    githubId: string;
-    company: string;
-    avatarUrl?: string;
-  };
-  authors: string[];
-  controls_count: number;
-  threats_count: number;
-  features_count: number;
-  link: string;
-}
-
-export interface Component {
-  title: string;
-  releases: Release[];
-}
-
-interface HomePageData {
-  components: Component[];
-}
 
 export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }) {
   const { components } = pageData;
+
+  console.log(JSON.stringify(pageData, null, 2));
 
   return (
     <Layout title="Common Cloud Controls">
@@ -63,20 +39,20 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
                 </TableHeader>
                 <TableBody>
                   {component.releases.map((release) => (
-                    <TableRow key={release.id}>
+                    <TableRow key={release.metadata.id}>
                       <TableCell>
-                        <Link to={release.link} className="text-primary hover:underline">
+                        <Link to={release.slug} className="text-primary hover:underline">
                           <code className="text-sm bg-muted px-1 py-0.5 rounded">{release.slug}</code>
                         </Link>
                       </TableCell>
-                      <TableCell>{release.version}</TableCell>
+                      <TableCell>{release.metadata.release_details[0].version}</TableCell>
                       <TableCell>
-                        <User name={release.release_manager.name} githubId={release.release_manager.githubId} company={release.release_manager.company} avatarUrl={`https://github.com/${release.release_manager.githubId}.png`} />
+                        <User name={release.metadata.release_details[0].release_manager.name} githubId={release.metadata.release_details[0].release_manager.github_id} company={release.metadata.release_details[0].release_manager.company} avatarUrl={`https://github.com/${release.metadata.release_details[0].release_manager.github_id}.png`} />
                       </TableCell>
-                      <TableCell>{release.authors.length}</TableCell>
-                      <TableCell>{release.controls_count}</TableCell>
-                      <TableCell>{release.threats_count}</TableCell>
-                      <TableCell>{release.features_count}</TableCell>
+                      <TableCell>{release.metadata.release_details[0].contributors.length}</TableCell>
+                      <TableCell>{release.controls.length}</TableCell>
+                      <TableCell>{release.threats.length}</TableCell>
+                      <TableCell>{release.features.length}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

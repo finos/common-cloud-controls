@@ -1,70 +1,14 @@
 import React from "react";
 import Layout from "@theme/Layout";
-import { Control } from "../Control";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { Badge } from "../../ui/badge";
 import { User } from "../User";
+import { ReleasePageData } from "@site/src/types/ccc";
 
-interface ReleaseManager {
-  name: string;
-  github_id: string;
-  company: string;
-  summary: string;
-}
-
-interface Contributor {
-  name: string;
-  github_id: string;
-  company: string;
-}
-
-interface ReleaseDetails {
-  version: string;
-  assurance_level: string | null;
-  threat_model_url: string | null;
-  threat_model_author: string | null;
-  red_team: string | null;
-  red_team_exercise_url: string | null;
-  release_manager: ReleaseManager;
-  change_log: string[];
-  contributors: Contributor[];
-}
-
-interface Metadata {
-  title: string;
-  id: string;
-  description: string;
-  release_details: ReleaseDetails[];
-}
-
-interface Feature {
-  id: string;
-  title: string;
-  description: string;
-  link: string;
-}
-
-interface Threat {
-  id: string;
-  title: string;
-  description: string;
-  features: string[];
-  mitre_technique: string[];
-  link: string;
-}
-
-interface CCCPageData {
-  slug: string;
-  metadata: Metadata;
-  controls: Control[];
-  features: Feature[];
-  threats: Threat[];
-}
-
-export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData }) {
-  const { slug, metadata, controls, features, threats } = pageData;
+export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePageData }) {
+  const { slug, metadata, controls, features, threats } = pageData.release;
   const release = metadata.release_details?.[0];
 
   return (
@@ -150,7 +94,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
                 {features.map((feature) => (
                   <TableRow key={feature.id}>
                     <TableCell>
-                      <Link to={`/ccc/${slug}/${feature.id}`} className="text-primary hover:underline">
+                      <Link to={feature.slug} className="text-primary hover:underline">
                         {feature.id}
                       </Link>
                     </TableCell>
@@ -181,7 +125,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
                 {threats.map((threat) => (
                   <TableRow key={threat.id}>
                     <TableCell>
-                      <Link to={`/ccc/${slug}/${threat.id}`} className="text-primary hover:underline">
+                      <Link to={threat.slug} className="text-primary hover:underline">
                         {threat.id}
                       </Link>
                     </TableCell>
@@ -221,7 +165,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: CCCPageData
                 {controls.map((control) => (
                   <TableRow key={control.id}>
                     <TableCell>
-                      <Link to={`/ccc/${slug}/${control.id}`} className="text-primary hover:underline">
+                      <Link to={control.slug} className="text-primary hover:underline">
                         {control.id}
                       </Link>
                     </TableCell>

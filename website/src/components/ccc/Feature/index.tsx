@@ -4,39 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import Link from "@docusaurus/Link";
 import { Badge } from "../../ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-
-export interface Feature {
-  id: string;
-  title: string;
-  description: string;
-  link: string;
-  relatedControls?: {
-    id: string;
-    title: string;
-    link: string;
-  }[];
-  relatedThreats?: {
-    id: string;
-    title: string;
-    description: string;
-    link: string;
-  }[];
-}
-
-interface FeaturePageData {
-  slug: string;
-  feature: Feature;
-  releaseTitle: string;
-  releaseId: string;
-}
+import { FeaturePageData } from "@site/src/types/ccc";
 
 export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePageData }) {
-  const { slug, feature, releaseTitle } = pageData;
+  const { releaseSlug, feature, releaseTitle } = pageData;
 
   return (
     <Layout title={`${feature.id} - ${feature.title}`}>
       <main className="container margin-vert--lg space-y-6">
-        <Link to={`/ccc/${slug}`} className="text-primary hover:underline flex items-center gap-1">
+        <Link to={releaseSlug} className="text-primary hover:underline flex items-center gap-1">
           ← Back to {releaseTitle}
         </Link>
 
@@ -54,7 +30,7 @@ export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePage
               </div>
             </div>
 
-            {feature.relatedControls && feature.relatedControls.length > 0 && (
+            {feature.related_controls && feature.related_controls.length > 0 && (
               <div className="space-y-2">
                 <span className="font-medium">Related Controls:</span>
                 <Table>
@@ -65,10 +41,10 @@ export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePage
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {feature.relatedControls.map((control) => (
+                    {feature.related_controls.map((control) => (
                       <TableRow key={control.id}>
                         <TableCell>
-                          <Link to={`/ccc/${slug}/${control.id}`} className="text-primary hover:underline">
+                          <Link to={control.slug} className="text-primary hover:underline">
                             {control.id}
                           </Link>
                         </TableCell>
@@ -80,7 +56,7 @@ export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePage
               </div>
             )}
 
-            {feature.relatedThreats && feature.relatedThreats.length > 0 && (
+            {feature.related_threats && feature.related_threats.length > 0 && (
               <div className="space-y-2">
                 <span className="font-medium">Related Threats:</span>
                 <Table>
@@ -92,10 +68,10 @@ export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePage
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {feature.relatedThreats.map((threat) => (
+                    {feature.related_threats.map((threat) => (
                       <TableRow key={threat.id}>
                         <TableCell>
-                          <Link to={`/ccc/${slug}/${threat.id}`} className="text-primary hover:underline">
+                          <Link to={threat.slug} className="text-primary hover:underline">
                             {threat.id}
                           </Link>
                         </TableCell>

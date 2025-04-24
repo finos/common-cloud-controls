@@ -4,6 +4,8 @@ import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { Badge } from "../../ui/badge";
+import { usePluginData } from "@docusaurus/useGlobalData";
+import { User } from "../../ccc/User";
 
 export enum TestResultType {
   PASS = "pass",
@@ -31,6 +33,31 @@ interface TestResultPageData {
   test_results: TestResultItem[];
 }
 
+interface CCCRelease {
+  metadata: {
+    id: string;
+    release_details: Array<{
+      version: string;
+      assurance_level: string | null;
+      threat_model_url: string | null;
+      threat_model_author: string | null;
+      red_team: string | null;
+      red_team_exercise_url: string | null;
+      release_manager: {
+        name: string;
+        github_id: string;
+        company: string;
+      };
+      change_log: string[];
+      contributors: Array<{
+        name: string;
+        github_id: string;
+        company: string;
+      }>;
+    }>;
+  };
+}
+
 const resultTypeToBadgeVariant = {
   [TestResultType.PASS]: "default",
   [TestResultType.FAIL]: "destructive",
@@ -39,6 +66,9 @@ const resultTypeToBadgeVariant = {
 } as const;
 
 export default function CFITestResult({ pageData }: { pageData: TestResultPageData }): React.ReactElement {
+  const cccReleases = usePluginData("ccc-pages")["ccc-releases"] as CCCRelease[];
+  const matchingCCCReleases = cccReleases.find((release) => release.metadata.id === pageData.ccc_reference.id)?.metadata.release_details || [];
+
   return (
     <Layout title={`Test Result - ${pageData.result_name}`} description={`Test results for ${pageData.releaseTitle}`}>
       <main className="container margin-vert--lg space-y-6">
@@ -53,12 +83,49 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
 
         <Card>
           <CardHeader>
-            <CardTitle>CCC Reference</CardTitle>
+            <CardTitle>CCC References</CardTitle>
           </CardHeader>
           <CardContent>
-            <Link to={`/ccc/${pageData.ccc_reference.id}`} className="text-primary hover:underline">
-              {pageData.ccc_reference.id} (v{pageData.ccc_reference.version})
-            </Link>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Version</TableHead>
+                  <TableHead>Assurance Level</TableHead>
+                  <TableHead>Release Manager</TableHead>
+                  <TableHead>Threat Model</TableHead>
+                  <TableHead>Red Team</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {matchingCCCReleases.map((release) => (
+                  <TableRow key={release.version}>
+                    <TableCell>
+                      <Link to={release.link} className="text-primary hover:underline">
+                        <code className="text-sm bg-muted px-1 py-0.5 rounded">{release.slug}</code>
+                      </Link>
+                    </TableCell>
+                    <TableCell>{release.assurance_level && <Badge variant="outline">{release.assurance_level}</Badge>}</TableCell>
+                    <TableCell>
+                      <User name={release.release_manager.name} githubId={release.release_manager.github_id} company={release.release_manager.company} avatarUrl={`https://github.com/${release.release_manager.github_id}.png`} />
+                    </TableCell>
+                    <TableCell>
+                      {release.threat_model_url && (
+                        <a href={release.threat_model_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          {release.threat_model_author || "View"}
+                        </a>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {release.red_team && (
+                        <a href={release.red_team_exercise_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                          {release.red_team}
+                        </a>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
 

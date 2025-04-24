@@ -1,41 +1,20 @@
-import { TestRequirement } from "../TestRequirement";
 import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { Threat } from "../Threat";
-export interface Control {
-  id: string;
-  title: string;
-  objective: string;
-  control_family: string;
-  threats?: Threat[];
-  nist_csf?: string;
-  control_mappings?: ControlMappings;
-  test_requirements?: TestRequirement[];
-  link?: string;
-}
+import { ControlPageData } from "@site/src/types/ccc";
 
-interface ControlMappings {
-  [key: string]: string[];
-}
+export default function CCCControlTemplate({ pageData }: { pageData: ControlPageData }) {
+  const { control, releaseTitle, releaseSlug } = pageData;
 
-interface PageData {
-  slug: string;
-  control: Control;
-  releaseTitle: string;
-  releaseId: string;
-}
-
-export default function CCCControlTemplate({ pageData }: { pageData: PageData }) {
-  const { control, slug, releaseTitle } = pageData;
+  console.log(JSON.stringify(pageData, null, 2));
 
   return (
     <Layout title={control.title}>
       <main className="container margin-vert--lg space-y-6">
-        <Link to={`/ccc/${slug}`} className="text-primary hover:underline flex items-center gap-1">
+        <Link to={releaseSlug} className="text-primary hover:underline flex items-center gap-1">
           ← Back to {releaseTitle}
         </Link>
 
@@ -56,7 +35,7 @@ export default function CCCControlTemplate({ pageData }: { pageData: PageData })
                 <Badge variant="secondary">{control.control_family}</Badge>
               </div>
 
-              {control.threats?.length > 0 && (
+              {control.related_threats?.length > 0 && (
                 <div className="space-y-2">
                   <span className="font-medium">Threats:</span>
                   <Table>
@@ -68,10 +47,10 @@ export default function CCCControlTemplate({ pageData }: { pageData: PageData })
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {control.threats.map((threat) => (
+                      {control.related_threats.map((threat) => (
                         <TableRow key={threat.id}>
                           <TableCell>
-                            <Link to={`/ccc/${slug}/${threat.id}`} className="text-primary hover:underline">
+                            <Link to={threat.slug} className="text-primary hover:underline">
                               {threat.id}
                             </Link>
                           </TableCell>
