@@ -4,8 +4,6 @@
 
 MITRE Engenuity is a non-profit organization that operates under the MITRE Corporation, focused on advancing public good by driving innovative solutions and technologies. It collaborates with government, industry, and academia to address critical challenges in areas like cybersecurity, artificial intelligence, and healthcare. MITRE Engenuity is known for its threat-informed defense strategies, particularly its ATT&CK® framework, which enhances cybersecurity through collaborative research and threat intelligence sharing. By fostering cross-sector partnerships, it aims to accelerate the development of cutting-edge tools and methodologies that strengthen global security and innovation.
 
-- [Main Website](https://mitre-engenuity.org)
-
 ## NIST 800-53 CONTROLS TO ATT&CK MAPPINGS
 
 > "This project created a comprehensive set of mappings between MITRE ATT&CK® and NIST Special Publication 800-53 with supporting documentation and resources. These mappings provide a critically important resource for organizations to assess their security control coverage against real-world threats as described in the ATT&CK knowledge base and provide a foundation for integrating ATT&CK-based threat information into the risk management process. With over 6,300 individual mappings between NIST 800-53 and ATT&CK, this resource greatly reduces the burden on the community to do their own baseline mappings– allowing organizations to focus their limited time and resources on understanding how controls map to threats in their specific environment. "
@@ -41,10 +39,6 @@ Further, T1001.002 Steganography is mapped n:m back to 8 NIST 800-53 Controls, i
 - Att&ck 14.1, 12.1, 10.1, 9.0 and 8.2
 - Enterprise Att&ck domain
 
-### Similar Work
-
-- [M365 Native security features vs Att&ck](https://mitre-engenuity.org/cybersecurity/center-for-threat-informed-defense/our-work/security-stack-mappings-microsoft-365/)
-
 ## Technique Inference Engine
 
 > "Know your adversary’s next move with the Technique Inference Engine, a machine learning-powered tool that infers unseen adversary techniques, providing security teams actionable intelligence."
@@ -58,7 +52,3 @@ A model to infer an attacker’s next technique, based on observed adversary ope
 Given an Att&ck, e.g. T1001.002 Steganography (again), what techniques is an attacker likely to employ next? According to this tool, it will be:
 
 ![Screenshot 2024-09-12 at 14 49 06](https://github.com/user-attachments/assets/59835eb4-25ae-4598-838d-4c6facf650a7)
-
-## Resource Links
-
-- [News Page](https://mitre-engenuity.org/news-insights/)
