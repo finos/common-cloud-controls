@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "shared-capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "reference-id": {
+            "type": "string",
+            "description": "Namespace or category for the shared capabilities (e.g., CCC)"
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^CCC\\.F\\d{2,8}$",
+              "description": "Global/common capability IDs"
+            }
+          }
+        },
+        "required": ["reference-id", "identifiers"],
+        "additionalProperties": false
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^CCC\\.[A-Za-z]+\\.F\\d{2,8}$",
+            "description": "Capability ID (e.g., CCC.ObjStor.F01)"
+          },
+          "title": {
+            "type": "string",
+            "description": "Short title of the capability"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed explanation of what the capability enables or enforces"
+          }
+        },
+        "required": ["id", "title", "description"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

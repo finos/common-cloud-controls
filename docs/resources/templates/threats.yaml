@@ -4,7 +4,7 @@ threats:
   - id: CCC.<category-id>.TH01
     title: <Short name of the threat>
     description: <Complete description of the threat>
-    features:
+    capabilities:
       - CCC.<category-id>.F<#>
     mitre_technique:
       - <Mitre ATT&CK tactic ID>

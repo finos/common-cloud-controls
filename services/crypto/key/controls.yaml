@@ -1,61 +1,79 @@
-common_controls:
-  - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
-  - CCC.C03 # Implement multi-factor authentication (MFA) for access
-  - CCC.C04 # Log all access and changes
-  - CCC.C05 # Prevent access from untrusted entities
-  - CCC.C06 # Prevent deployment in restricted regions
-  - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
-controls:
-  - id: CCC.KeyMgmt.C01
-    title: Alert when key versions are deleted or disabled
-    control_family: Logging and Monitoring
-    objective: |
-      Ensure that alerts are generated when key versions are scheduled for deletion or disabled.
-    threats:
-      - CCC.KeyMgmt.TH01 # Deletion or disabling of KMS key versions leading to denial of service or data destruction
-    nist_csf: RS.AN-1
-    control_mappings:
-      NIST_800_53:
-        - IR-5
-    test_requirements:
-      - id: CCC.KeyMgmt.C01.TR01
-        text: |
-          Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        tlp_levels:
-          - tlp_green
-      - id: CCC.KeyMgmt.C01.TR02
-        text: |
-          Verify that alerts are triggered when the kms key version is disabled.
-        tlp_levels:
-          - tlp_green
-      - id: CCC.KeyMgmt.C01.TR03
-        text: |
-          Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        tlp_levels:
-          - tlp_amber
-      - id: CCC.KeyMgmt.C01.TR04
-        text: |
-          Verify that alerts are triggered when the kms key version is disabled.
-        tlp_levels:
-          - tlp_amber
-      - id: CCC.KeyMgmt.C01.TR05
-        text: |
-          Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        tlp_levels:
-          - tlp_red
-      - id: CCC.KeyMgmt.C01.TR06
-        text: |
-          Verify that alerts are triggered when the kms key version is disabled.
-        tlp_levels:
-          - tlp_red
-      - id: CCC.KeyMgmt.C01.TR07
-        text: |
-          Verify that alerts are triggered when the kms key version is scheduled for deletion.
-        tlp_levels:
-          - tlp_clear
-      - id: CCC.KeyMgmt.C01.TR08
-        text: |
-          Verify that alerts are triggered when the kms key version is disabled.
-        tlp_levels:
-          - tlp_clear
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent unencrypted requests
+      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - CCC.C03 # Implement multi-factor authentication (MFA) for access
+      - CCC.C04 # Log all access and changes
+      - CCC.C05 # Prevent access from untrusted entities
+      - CCC.C06 # Prevent deployment in restricted regions
+      - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+
+control-families:
+  - name: Logging and Monitoring
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.KeyMgmt.C01
+        title: Alert when key versions are deleted or disabled
+        objective: |
+          Ensure that alerts are generated when key versions are scheduled for deletion or disabled.
+        requirements:
+          - id: CCC.KeyMgmt.C01.TR01
+            text: |
+              Verify that alerts are triggered when the kms key version is scheduled for deletion.
+            applicability:
+              - tlp-green
+            recommendation: ""
+          - id: CCC.KeyMgmt.C01.TR02
+            text: |
+              Verify that alerts are triggered when the kms key version is disabled.
+            applicability:
+              - tlp-green
+            recommendation: ""
+          - id: CCC.KeyMgmt.C01.TR03
+            text: |
+              Verify that alerts are triggered when the kms key version is scheduled for deletion.
+            applicability:
+              - tlp-amber
+            recommendation: ""
+          - id: CCC.KeyMgmt.C01.TR04
+            text: |
+              Verify that alerts are triggered when the kms key version is disabled.
+            applicability:
+              - tlp-amber
+            recommendation: ""
+          - id: CCC.KeyMgmt.C01.TR05
+            text: |
+              Verify that alerts are triggered when the kms key version is scheduled for deletion.
+            applicability:
+              - tlp-red
+            recommendation: ""
+          - id: CCC.KeyMgmt.C01.TR06
+            text: |
+              Verify that alerts are triggered when the kms key version is disabled.
+            applicability:
+              - tlp-red
+            recommendation: ""
+          - id: CCC.KeyMgmt.C01.TR07
+            text: |
+              Verify that alerts are triggered when the kms key version is scheduled for deletion.
+            applicability:
+              - tlp-clear
+            recommendation: ""
+          - id: CCC.KeyMgmt.C01.TR08
+            text: |
+              Verify that alerts are triggered when the kms key version is disabled.
+            applicability:
+              - tlp-clear
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.KeyMgmt.TH01
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - RS.AN-1
+          - reference-id: NIST_800_53
+            identifiers:
+              - IR-5

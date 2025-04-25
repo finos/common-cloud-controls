@@ -1,72 +1,94 @@
-common_controls:
-  - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure data encryption at rest for all stored data
-  - CCC.C04 # Log all access and changes
-  - CCC.C05 # Prevent access from untrusted entities
-  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-  - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
-controls:
-  - id: CCC.Build.C01
-    title: Restrict Allowed Build Agents
-    objective: |
-      Ensure that builds are executed only on authorized build agents to maintain
-      control over the build environment and prevent unauthorized code execution.
-    control_family: Access Control
-    threats:
-      - CCC.TH01 # Access control is misconfigured
-    nist_csf: PR.AC-4 # Access permissions and authorizations are managed
-    control_mappings:
-      NIST_800_53:
-        - AC-3 # Access Enforcement
-        - AC-6 # Least Privilege
-    test_requirements:
-      - id: CCC.Build.C01.TR01
-        text: |
-          Attempt to initiate a build using an unauthorized build agent and verify that the build is rejected.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent unencrypted requests
+      - CCC.C02 # Ensure data encryption at rest for all stored data
+      - CCC.C04 # Log all access and changes
+      - CCC.C05 # Prevent access from untrusted entities
+      - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+      - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
-  - id: CCC.Build.C02
-    title: Restrict Allowed External Services for Build Triggers
-    objective: |
-      Ensure that builds can only be triggered by authorized external services or
-      repositories to prevent unauthorized code execution or tampering.
-    control_family: Access Control
-    threats:
-      - CCC.TH01 # Access control is misconfigured
-    nist_csf: PR.AC-4 # Access permissions and authorizations are managed
-    control_mappings:
-      NIST_800_53:
-        - AC-3 # Access Enforcement
-        - AC-6 # Least Privilege
-    test_requirements:
-      - id: CCC.Build.C02.TR01
-        text: |
-          Attempt to trigger a build from an unauthorized external service or
-          repository and verify that the build does not start.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
-
-  - id: CCC.Build.C03
-    title: Deny External Network Access for Build Environments
-    objective: |
-      Ensure that build environments do not have external network access to
-      prevent unauthorized external access and data exfiltration.
-    control_family: Network Security
-    threats:
-      - CCC.TH02 # Data is intercepted in transit
-      - CCC.TH05 # Data is corrupted during replication
-    nist_csf: PR.AC-5 # Network integrity is protected
-    control_mappings:
-      NIST_800_53:
-        - SC-7 # Boundary Protection
-        - SC-5 # Denial of Service Protection
-    test_requirements:
-      - id: CCC.Build.C03.TR01
-        text: |
-          Attempt to access the build environment from an external network and verify that access is denied.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
+control-families:
+  - name: Access Control
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.Build.C01
+        title: Restrict Allowed Build Agents
+        objective: |
+          Ensure that builds are executed only on authorized build agents to maintain
+          control over the build environment and prevent unauthorized code execution.
+        requirements:
+          - id: CCC.Build.C01.TR01
+            text: |
+              Attempt to initiate a build using an unauthorized build agent and verify that the build is rejected.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH01
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-4
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-3
+              - AC-6
+      - id: CCC.Build.C02
+        title: Restrict Allowed External Services for Build Triggers
+        objective: |
+          Ensure that builds can only be triggered by authorized external services or
+          repositories to prevent unauthorized code execution or tampering.
+        requirements:
+          - id: CCC.Build.C02.TR01
+            text: |
+              Attempt to trigger a build from an unauthorized external service or
+              repository and verify that the build does not start.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH01
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-4
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-3
+              - AC-6
+  - name: Network Security
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.Build.C03
+        title: Deny External Network Access for Build Environments
+        objective: |
+          Ensure that build environments do not have external network access to
+          prevent unauthorized external access and data exfiltration.
+        requirements:
+          - id: CCC.Build.C03.TR01
+            text: |
+              Attempt to access the build environment from an external network and verify that access is denied.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH02
+              - CCC.TH05
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-5
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-7
+              - SC-5
