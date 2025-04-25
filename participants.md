@@ -43,6 +43,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Vlad Georgescu, LSEG, JAN/16/2025
 - Kris West, NatWest Group, Feb/25/2025
 - James Mcleod, NatWest Group, Feb/25/2025
+- Joel Matthews, Scott Logic, Apr/24/2025
 - Diego Mastroianni, Moody's, Apr/25/2025
 
 ## How to enroll as a participant
