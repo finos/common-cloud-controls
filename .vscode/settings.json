@@ -9,10 +9,10 @@
   },
   "prettier.configPath": "./.config/.prettierrc",
   "yaml.schemas": {
-    "schemas/capabilities-schema.json": "/**/capabilities.yaml",
-    "schemas/threats-schema.json": "/**/threats.yaml",
-    "schemas/controls-schema.json": "/**/controls.yaml",
-    "schemas/metadata-schema.json": "/**/metadata.yaml"
+    "schemas/capabilities-schema.json": "services/**/capabilities.yaml",
+    "schemas/threats-schema.json": "services/**/threats.yaml",
+    "schemas/controls-schema.json": "services/**/controls.yaml",
+    "schemas/metadata-schema.json": "services/**/metadata.yaml"
   },
   "[go]": {
     "editor.defaultFormatter": "golang.go"
