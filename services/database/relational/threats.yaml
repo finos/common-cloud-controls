@@ -27,8 +27,8 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.RDMS.F06
-          - CCC.RDMS.F07
+          - CCC.RDMS.F06 # DB Managed Credentials
+          - CCC.RDMS.F07 # DB Self Managed Credentials'
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -43,7 +43,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.RDMS.F07
+          - CCC.RDMS.F07 # DB Self Managed Credentials'
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -57,7 +57,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.F11
+          - CCC.F11 # Backup
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -72,7 +72,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.F11
+          - CCC.F11 # Backup
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -87,7 +87,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.F11
+          - CCC.F11 # Backup
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:

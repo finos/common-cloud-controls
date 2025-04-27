@@ -27,7 +27,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.DataWar.F01
+          - CCC.DataWar.F01 # Centralized Data Repository
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -41,7 +41,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.DataWar.F02
+          - CCC.DataWar.F02 # Optimized Query Performance
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -55,7 +55,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.DataWar.F03
+          - CCC.DataWar.F03 # Scalability
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:

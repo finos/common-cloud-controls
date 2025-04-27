@@ -27,8 +27,8 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.ObjStor.F08
-          - CCC.F11
+          - CCC.ObjStor.F08 # Lifecycle Policies
+          - CCC.F11 # Backup
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -46,7 +46,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.ObjStor.F09
+          - CCC.ObjStor.F09 # Object Modification Locks
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:

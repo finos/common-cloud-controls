@@ -24,7 +24,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.CntrReg.F05
+          - CCC.CntrReg.F05 # Image Scanning
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -38,8 +38,8 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.CntrReg.F04
-          - CCC.F18
+          - CCC.CntrReg.F04 # Lifecycle Policies
+          - CCC.F18 # Versioning
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:

@@ -14,10 +14,10 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.KeyMgmt.F14
-          - CCC.KeyMgmt.F16
-          - CCC.KeyMgmt.F18
-          - CCC.KeyMgmt.F19
+          - CCC.KeyMgmt.F14 # Key Versioning
+          - CCC.KeyMgmt.F16 # Disable key
+          - CCC.KeyMgmt.F18 # Soft Delete
+          - CCC.KeyMgmt.F19 # Delete Key
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:

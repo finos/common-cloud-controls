@@ -24,8 +24,8 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.Build.F01
-          - CCC.Build.F04
+          - CCC.Build.F01 # Build Automation
+          - CCC.Build.F04 # Artifact Storage
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -38,7 +38,7 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.Build.F03
+          - CCC.Build.F03 # Source Repository Integration
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
