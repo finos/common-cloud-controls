@@ -34,7 +34,7 @@ control-families:
           - reference-id: CCC
             identifiers:
               - CCC.MLDE.TH01
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -157,7 +157,7 @@ control-families:
           - reference-id: CCC
             identifiers:
               - CCC.MLDE.TH02
-              - CCC.TH02
+              - CCC.TH02 # Data is Intercepted in Transit
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -242,7 +242,7 @@ control-families:
           - reference-id: CCC
             identifiers:
               - CCC.MLDE.TH04
-              - CCC.TH06
+              - CCC.TH06 # Data is Lost or Corrupted
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -326,7 +326,7 @@ control-families:
           - reference-id: CCC
             identifiers:
               - CCC.MLDE.TH01
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:

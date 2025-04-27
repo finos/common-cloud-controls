@@ -30,7 +30,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.CntrReg.TH01
+              - CCC.CntrReg.TH01 # Vulnerabilities in Artifacts are Exploited
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -59,7 +59,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH14
+              - CCC.TH14 # Older Resource Versions are Exploited
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:

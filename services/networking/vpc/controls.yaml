@@ -31,7 +31,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.VPC.TH01
+              - CCC.VPC.TH01 # Unauthorized Access via Insecure Default Networks
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -61,7 +61,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.VPC.TH02
+              - CCC.VPC.TH02 # Exposure of Resources to Public Internet
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -95,7 +95,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.VPC.TH03
+              - CCC.VPC.TH03 # Unauthorized Network Access Through VPC Peering
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -126,7 +126,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.VPC.TH04
+              - CCC.VPC.TH04 # Lack of Network Visibility due to Disabled VPC Flow Logs
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:

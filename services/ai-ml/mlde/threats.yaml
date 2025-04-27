@@ -1,5 +1,8 @@
 shared-threats:
   - reference-id: CCC
-    identifiers: []
+    identifiers: 
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH02 # Data is intercepted in transit
+      - CCC.TH06 # Data is lost or corrupted
 
 threats: []

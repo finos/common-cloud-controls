@@ -230,7 +230,7 @@ threats:
         identifiers:
           - CCC.F04 # Transaction Rate Limits
           - CCC.F16 # Budgeting
-          - CCC.F19 # Auto-scaling
+          - CCC.F19 # On-demand scaling
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
