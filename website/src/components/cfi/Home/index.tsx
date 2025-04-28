@@ -3,48 +3,26 @@ import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import Link from "@docusaurus/Link";
-import { User } from "../../ccc/User";
+import { Configuration, HomePageData } from "@site/src/types/cfi";
 
-interface Release {
-  id: string;
-  title: string;
-  slug: string;
-  version: string;
-  description: string;
-  url: string;
-  authors: Array<{
-    name: string;
-    githubId: string;
-    company: string;
-  }>;
-  ccc_reference: {
-    version: string;
-    id: string;
-    link: string;
-  };
-  terraform: {
-    source: string;
-    script: string;
-  };
-  test_results: Array<{
-    path: string;
-    name: string;
-  }>;
-  link: string;
-  provider: string;
-}
+function groupByCCCReference(configurations: Configuration[]): Map<string, Configuration[]> {
+  const map = new Map<string, Configuration[]>();
+  configurations.forEach((configuration) => {
+    configuration.ccc_references.forEach((cccReference) => {
+      if (!map.has(cccReference)) {
+        map.set(cccReference, []);
+      }
 
-interface Component {
-  title: string;
-  releases: Release[];
-}
-
-interface HomePageData {
-  components: Component[];
+      map.get(cccReference)!.push(configuration);
+    });
+  });
+  return map;
 }
 
 export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }) {
-  const { components } = pageData;
+  const { configurations } = pageData;
+  const groupedConfigurations = groupByCCCReference(configurations);
+  console.log(groupedConfigurations);
 
   return (
     <Layout title="Cloud Financial Infrastructure">
@@ -54,38 +32,34 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
           <p className="text-xl text-muted-foreground">Implementation of Common Cloud Controls in Infrastructure as Code</p>
         </div>
 
-        {components.map((component) => (
-          <Card key={component.title}>
+        {Array.from(groupedConfigurations.keys()).map((id) => (
+          <Card key={id}>
             <CardHeader>
-              <CardTitle>{component.title}</CardTitle>
+              <CardTitle>{id}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead>ID</TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Provider</TableHead>
                     <TableHead>Description</TableHead>
-                    <TableHead>Source</TableHead>
-                    <TableHead>Tests</TableHead>
+                    <TableHead>Results</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {component.releases.map((release) => (
-                    <TableRow key={release.id}>
+                  {groupedConfigurations.get(id).map((c: Configuration) => (
+                    <TableRow key={c.cfi_details.id}>
                       <TableCell>
-                        <Link to={release.link} className="text-primary hover:underline">
-                          {release.title}
+                        <Link to={c.slug} className="text-primary hover:underline">
+                          {c.cfi_details.id}
                         </Link>
                       </TableCell>
-                      <TableCell>{release.provider}</TableCell>
-                      <TableCell>{release.description}</TableCell>
-                      <TableCell>
-                        <a href={release.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                          {release.url}
-                        </a>
-                      </TableCell>
-                      <TableCell>{release.test_results.length}</TableCell>
+                      <TableCell>{c.cfi_details.name}</TableCell>
+                      <TableCell>{c.cfi_details.provider}</TableCell>
+                      <TableCell>{c.cfi_details.description}</TableCell>
+                      <TableCell>{c.test_results.length}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

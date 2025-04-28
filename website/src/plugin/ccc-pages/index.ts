@@ -175,7 +175,6 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
         async contentLoaded({ actions, content }) {
             const { setGlobalData, createData, addRoute } = actions;
             const cccReleases: Release[] = [];
-            setGlobalData({ 'ccc-release-yaml': content });
 
             // Group releases by component
             const components: Record<string, any[]> = {};
@@ -249,6 +248,12 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
                 },
                 exact: true,
             });
+
+            setGlobalData({
+                'ccc-releases': cccReleases,
+                'ccc-release-yaml': content
+            });
+
 
             console.log('Added route for /ccc');
         },

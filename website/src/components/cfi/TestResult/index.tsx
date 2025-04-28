@@ -6,57 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Badge } from "../../ui/badge";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { User } from "../../ccc/User";
-
-export enum TestResultType {
-  PASS = "pass",
-  FAIL = "fail",
-  NA = "na",
-  ERROR = "error",
-}
-
-export interface TestResultItem {
-  test_requirement_id: string;
-  test_id: string;
-  result: TestResultType;
-  description: string;
-}
-
-interface TestResultPageData {
-  slug: string;
-  result_name: string;
-  result_path: string;
-  releaseTitle: string;
-  ccc_reference: {
-    version: string;
-    id: string;
-  };
-  test_results: TestResultItem[];
-}
-
-interface CCCRelease {
-  metadata: {
-    id: string;
-    release_details: Array<{
-      version: string;
-      assurance_level: string | null;
-      threat_model_url: string | null;
-      threat_model_author: string | null;
-      red_team: string | null;
-      red_team_exercise_url: string | null;
-      release_manager: {
-        name: string;
-        github_id: string;
-        company: string;
-      };
-      change_log: string[];
-      contributors: Array<{
-        name: string;
-        github_id: string;
-        company: string;
-      }>;
-    }>;
-  };
-}
+import { Release } from "@site/src/types/ccc";
+import { TestResultType } from "@site/src/types/cfi";
 
 const resultTypeToBadgeVariant = {
   [TestResultType.PASS]: "default",
@@ -66,8 +17,13 @@ const resultTypeToBadgeVariant = {
 } as const;
 
 export default function CFITestResult({ pageData }: { pageData: TestResultPageData }): React.ReactElement {
-  const cccReleases = usePluginData("ccc-pages")["ccc-releases"] as CCCRelease[];
-  const matchingCCCReleases = cccReleases.find((release) => release.metadata.id === pageData.ccc_reference.id)?.metadata.release_details || [];
+  const cccData = usePluginData("ccc-pages");
+  console.log("CCC DAta: ", cccData);
+  // const cccReleases: Release[] = (usePluginData("ccc-pages")["ccc-releases"] as Release[]) ?? [];
+  // console.log(cccReleases);
+  // const matchingCCCReleases = cccReleases.find((release) => release.metadata.id === pageData.ccc_reference.id)?.metadata.release_details || [];
+
+  const matchingCCCReleases: Release[] = [];
 
   return (
     <Layout title={`Test Result - ${pageData.result_name}`} description={`Test results for ${pageData.releaseTitle}`}>
@@ -80,7 +36,7 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
             </p>
           </CardHeader>
         </Card>
-
+        {/* 
         <Card>
           <CardHeader>
             <CardTitle>CCC References</CardTitle>
@@ -157,7 +113,7 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
               </TableBody>
             </Table>
           </CardContent>
-        </Card>
+        </Card> */}
       </main>
     </Layout>
   );
