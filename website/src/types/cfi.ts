@@ -55,6 +55,8 @@ export interface Configuration {
 
     test_results: TestResultEntry[];
     slug: string;
+
+    resources: string[];
 }
 
 export interface HomePageData {

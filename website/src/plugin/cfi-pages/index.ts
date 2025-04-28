@@ -29,9 +29,27 @@ export interface CFIReleaseYaml {
         script: string;
     };
     results: string[];
+    resources: string[];
 }
 
-function createTestResultData(resultPath: string): TestResultItem[] {
+function matchesAnySubstring(str: string, substrings: string[]): boolean {
+    return substrings.some(substring => str.includes(substring));
+}
+
+function getComplianceIds(item: any, ccc_references: string[]): string[] {
+    const out = []
+    if (item.unmapped?.compliance) {
+        const entries: { [key: string]: string[] } = item.unmapped.compliance
+        for (const [key, value] of Object.entries(entries)) {
+            if (matchesAnySubstring(key, ccc_references)) {
+                out.push(...value)
+            }
+        }
+    }
+    return out
+}
+
+function createTestResultData(resultPath: string, resources: string[], ccc_references: string[]): TestResultItem[] {
     const dataFile = path.resolve(__dirname, '../../data/test-results/' + resultPath);
 
     const result = fs.readFileSync(dataFile, 'utf8');
@@ -43,22 +61,29 @@ function createTestResultData(resultPath: string): TestResultItem[] {
     };
 
     return parsed.flatMap(item => {
-        const complianceIds = item.unmapped?.compliance?.['CCC-ObjStor-2025.01'] || [];
-        const result = statusCodeToResultType[item.status_code?.toLowerCase()] || TestResultType.NA;
-        return complianceIds.map((id: string) => {
-            const out: TestResultItem = {
-                id: item.finding_info.uid + "_" + id,
-                test_requirement_id: id,
-                test: item.metadata?.event_code || '',
-                result: result,
-                name: item.finding_info.title,
-                message: item.status_detail || '',
-                timestamp: item.time,
-                resources: item.resources.map((r: any) => r.uid) || [],
-                further_info_url: item.unmapped.related_url
-            }
-            return out;
-        });
+        const complianceIds = getComplianceIds(item, ccc_references)
+        const unfilteredResources = item.resources.map((r: any) => r.uid) || []
+        const filteredResources = unfilteredResources.filter((r: string) => matchesAnySubstring(r, resources))
+
+        if (filteredResources.length > 0) {
+            const result = statusCodeToResultType[item.status_code?.toLowerCase()] || TestResultType.NA;
+            return complianceIds.map((id: string) => {
+                const out: TestResultItem = {
+                    id: item.finding_info.uid + "_" + id,
+                    test_requirement_id: id,
+                    test: item.metadata?.event_code || '',
+                    result: result,
+                    name: item.finding_info.title,
+                    message: item.status_detail || '',
+                    timestamp: item.time,
+                    resources: filteredResources,
+                    further_info_url: item.unmapped.related_url
+                }
+                return out;
+            });
+        } else {
+            return []
+        }
     });
 }
 
@@ -68,7 +93,8 @@ function createConfiguration(parsed: CFIReleaseYaml, slug: string): Configuratio
         ccc_references: parsed.ccc_references.map(r => r.id),
         terraform: parsed.terraform,
         test_results: [],
-        slug
+        slug,
+        resources: parsed.resources
     }
 }
 
@@ -90,7 +116,7 @@ async function createResultPage(result: string, configuration: Configuration, cr
         result_path: result,
         releaseTitle: configuration.cfi_details.name,
         configuration,
-        results: createTestResultData(result),
+        results: createTestResultData(result, configuration.resources, configuration.ccc_references),
         parentSlug: configuration.slug
     }
 

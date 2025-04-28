@@ -89,6 +89,8 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
     };
   });
 
+  const untestedRequirements = [...testRequirements].filter((testRequirement) => !ltrs.some((ltr) => ltr.test_requirement.requirement_id === testRequirement.requirement_id));
+
   const sortedLtrs = ltrs.sort((a, b) => a.test_requirement.requirement_id.localeCompare(b.test_requirement.requirement_id));
 
   // Add state for filters
@@ -143,9 +145,41 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
                 <Badge variant="destructive">Error</Badge>
                 <span>{pageData.results.filter((r) => r.result === TestResultType.ERROR).length}</span>
               </div>
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary">Untested Requirements</Badge>
+                <span>{untestedRequirements.length}</span>
+              </div>
             </div>
           </CardContent>
         </Card>
+
+        {untestedRequirements.length > 0 ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Untested Requirements</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Requirement ID</TableHead>
+                    <TableHead>Requirement Description</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {untestedRequirements.map((requirement) => (
+                    <TableRow key={requirement.requirement_id}>
+                      <TableCell>{requirement.requirement_id}</TableCell>
+                      <TableCell>{requirement.requirement_description}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        ) : (
+          ""
+        )}
 
         <Card>
           <CardHeader>
