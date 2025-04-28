@@ -22,6 +22,7 @@ const resultTypeToBadgeVariant = {
 
 interface TestRequirement {
   requirement_id: string;
+  requirement_description: string;
   control_id: string;
   ccc_reference: string;
   description: string;
@@ -49,6 +50,7 @@ function buildTestRequirements(pageData: TestResultPageData): TestRequirement[] 
               } else {
                 out.set(testRequirement.id, {
                   requirement_id: testRequirement.id,
+                  requirement_description: testRequirement.text,
                   control_id: control.id,
                   ccc_reference: release.metadata.id,
                   description: testRequirement.text,
@@ -252,6 +254,7 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
               <TableHeader>
                 <TableRow>
                   <TableHead>Requirement ID</TableHead>
+                  <TableHead>Requirement Description</TableHead>
                   <TableHead>CCC Versions</TableHead>
                   <TableHead>Test</TableHead>
                   <TableHead>Test Result</TableHead>
@@ -263,6 +266,7 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
                 {filteredLtrs.map((ltr) => (
                   <TableRow key={ltr.key}>
                     <TableCell>{ltr.test_requirement.requirement_id}</TableCell>
+                    <TableCell>{ltr.test_requirement.requirement_description}</TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         {ltr.test_requirement.ccc_versions.map((version) => (
