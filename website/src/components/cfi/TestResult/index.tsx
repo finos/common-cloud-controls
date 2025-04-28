@@ -283,7 +283,9 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
                         ))}
                       </div>
                     </TableCell>
-                    <TableCell>{ltr.result.further_info_url ? <Link to={ltr.result.further_info_url}>{ltr.result.message}</Link> : ltr.result.message}</TableCell>
+                    <TableCell>
+                      {ltr.result.message} {ltr.result.further_info_url ? <Link to={ltr.result.further_info_url}>(more)</Link> : ""}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
