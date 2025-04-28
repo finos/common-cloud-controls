@@ -8,11 +8,15 @@ export enum TestResultType {
 }
 
 export interface TestResultItem {
+    id: string,
     test_requirement_id: string;
-    test_id: string;
     result: TestResultType;
-    description: string;
+    name: string;
+    message: string;
+    test: string;
     timestamp: number;
+    further_info_url?: string;
+    resources: string[]
 }
 
 export interface TestResultPageData {

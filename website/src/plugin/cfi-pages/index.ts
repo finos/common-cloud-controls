@@ -38,19 +38,24 @@ function createTestResultData(resultPath: string): TestResultItem[] {
     const parsed = JSON.parse(result) as any[];
 
     const statusCodeToResultType: Record<string, TestResultType> = {
-        'PASS': TestResultType.PASS,
-        'FAIL': TestResultType.FAIL
+        'pass': TestResultType.PASS,
+        'fail': TestResultType.FAIL
     };
 
     return parsed.flatMap(item => {
         const complianceIds = item.unmapped?.compliance?.['CCC-ObjStor-2025.01'] || [];
+        const result = statusCodeToResultType[item.status_code?.toLowerCase()] || TestResultType.NA;
         return complianceIds.map((id: string) => {
             const out: TestResultItem = {
+                id: item.finding_info.uid + "_" + id,
                 test_requirement_id: id,
-                test_id: item.metadata?.event_code || '',
-                result: statusCodeToResultType[item.status_code?.toLowerCase()] || TestResultType.NA,
-                description: item.status_detail || '',
-                timestamp: item.time
+                test: item.metadata?.event_code || '',
+                result: result,
+                name: item.finding_info.title,
+                message: item.status_detail || '',
+                timestamp: item.time,
+                resources: item.resources.map((r: any) => r.uid) || [],
+                further_info_url: item.unmapped.related_url
             }
             return out;
         });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
@@ -7,7 +7,11 @@ import { Badge } from "../../ui/badge";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { User } from "../../ccc/User";
 import { Release } from "@site/src/types/ccc";
-import { TestResultType } from "@site/src/types/cfi";
+import { TestResultItem, TestResultPageData, TestResultType } from "@site/src/types/cfi";
+
+function onlyUnique(value, index, array) {
+  return array.indexOf(value) === index;
+}
 
 const resultTypeToBadgeVariant = {
   [TestResultType.PASS]: "default",
@@ -16,14 +20,92 @@ const resultTypeToBadgeVariant = {
   [TestResultType.ERROR]: "destructive",
 } as const;
 
-export default function CFITestResult({ pageData }: { pageData: TestResultPageData }): React.ReactElement {
-  const cccData = usePluginData("ccc-pages");
-  console.log("CCC DAta: ", cccData);
-  // const cccReleases: Release[] = (usePluginData("ccc-pages")["ccc-releases"] as Release[]) ?? [];
-  // console.log(cccReleases);
-  // const matchingCCCReleases = cccReleases.find((release) => release.metadata.id === pageData.ccc_reference.id)?.metadata.release_details || [];
+interface TestRequirement {
+  requirement_id: string;
+  control_id: string;
+  ccc_reference: string;
+  description: string;
+  ccc_release: string;
+  ccc_versions: string[];
+}
 
-  const matchingCCCReleases: Release[] = [];
+function buildTestRequirements(pageData: TestResultPageData): TestRequirement[] {
+  const cccReleaseData = usePluginData("ccc-pages")["ccc-releases"] as Release[];
+  const out: Map<string, TestRequirement> = new Map();
+  const cccReleaseIds = pageData.configuration.ccc_references;
+  const relevantReleases = cccReleaseData.filter((release) => cccReleaseIds.includes(release.metadata.id));
+
+  pageData.results.forEach((result) => {
+    relevantReleases.forEach((release) => {
+      release.controls.forEach((control) => {
+        if (control.test_requirements) {
+          control.test_requirements.forEach((testRequirement) => {
+            if (testRequirement.id === result.test_requirement_id) {
+              const existingRequirement = out.get(testRequirement.id);
+              if (existingRequirement) {
+                const nv = [...existingRequirement.ccc_versions, release.metadata.release_details[0].version];
+                const nv2 = nv.sort((a, b) => a.localeCompare(b)).filter(onlyUnique);
+                existingRequirement.ccc_versions = nv2;
+              } else {
+                out.set(testRequirement.id, {
+                  requirement_id: testRequirement.id,
+                  control_id: control.id,
+                  ccc_reference: release.metadata.id,
+                  description: testRequirement.text,
+                  ccc_release: release.metadata.id,
+                  ccc_versions: release.metadata.release_details.map((releaseDetail) => releaseDetail.version),
+                });
+              }
+            }
+          });
+        }
+      });
+    });
+  });
+
+  return Array.from(out.values()).sort((a, b) => a.requirement_id.localeCompare(b.requirement_id));
+}
+
+function createBadge(result: TestResultType) {
+  return <Badge variant={resultTypeToBadgeVariant[result]}>{result}</Badge>;
+}
+
+interface LinkedTestResults {
+  test_requirement: TestRequirement;
+  result: TestResultItem;
+  key: string;
+}
+
+export default function CFITestResult({ pageData }: { pageData: TestResultPageData }): React.ReactElement {
+  const testRequirements = buildTestRequirements(pageData);
+  const ltrs: LinkedTestResults[] = pageData.results.map((result) => {
+    const testRequirement = testRequirements.find((testRequirement) => testRequirement.requirement_id === result.test_requirement_id);
+    return {
+      test_requirement: testRequirement,
+      result: result,
+      key: `${testRequirement.requirement_id}-${result.id}`,
+    };
+  });
+
+  const sortedLtrs = ltrs.sort((a, b) => a.test_requirement.requirement_id.localeCompare(b.test_requirement.requirement_id));
+
+  // Add state for filters
+  const [selectedResult, setSelectedResult] = useState<TestResultType | "all">("all");
+  const [selectedVersion, setSelectedVersion] = useState<string>("all");
+  const [selectedResource, setSelectedResource] = useState<string>("all");
+
+  // Get unique versions and resources for filter options
+  const uniqueVersions = Array.from(new Set(ltrs.flatMap((ltr) => ltr.test_requirement.ccc_versions))).sort();
+  const uniqueResources = Array.from(new Set(ltrs.flatMap((ltr) => ltr.result.resources))).sort();
+
+  // Filter the results
+  const filteredLtrs = sortedLtrs.filter((ltr) => {
+    const matchesResult = selectedResult === "all" || ltr.result.result === selectedResult;
+    const matchesVersion = selectedVersion === "all" || ltr.test_requirement.ccc_versions.includes(selectedVersion);
+    const matchesResource = selectedResource === "all" || ltr.result.resources.includes(selectedResource);
+    console.log(ltr.result.result, selectedResult, matchesResult);
+    return matchesResult && matchesVersion && matchesResource;
+  });
 
   return (
     <Layout title={`Test Result - ${pageData.result_name}`} description={`Test results for ${pageData.releaseTitle}`}>
@@ -36,50 +118,90 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
             </p>
           </CardHeader>
         </Card>
-        {/* 
+
         <Card>
           <CardHeader>
-            <CardTitle>CCC References</CardTitle>
+            <CardTitle>Summary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <Badge variant="default">Pass</Badge>
+                <span>{pageData.results.filter((r) => r.result === TestResultType.PASS).length}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge variant="destructive">Fail</Badge>
+                <span>{pageData.results.filter((r) => r.result === TestResultType.FAIL).length}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary">N/A</Badge>
+                <span>{pageData.results.filter((r) => r.result === TestResultType.NA).length}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge variant="destructive">Error</Badge>
+                <span>{pageData.results.filter((r) => r.result === TestResultType.ERROR).length}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Results by CCC Release</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Version</TableHead>
-                  <TableHead>Assurance Level</TableHead>
-                  <TableHead>Release Manager</TableHead>
-                  <TableHead>Threat Model</TableHead>
-                  <TableHead>Red Team</TableHead>
+                  <TableHead>CCC Reference</TableHead>
+                  <TableHead>CCC Version</TableHead>
+                  <TableHead>Passing Tests</TableHead>
+                  <TableHead>Failing Tests</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {matchingCCCReleases.map((release) => (
-                  <TableRow key={release.version}>
-                    <TableCell>
-                      <Link to={release.link} className="text-primary hover:underline">
-                        <code className="text-sm bg-muted px-1 py-0.5 rounded">{release.slug}</code>
-                      </Link>
-                    </TableCell>
-                    <TableCell>{release.assurance_level && <Badge variant="outline">{release.assurance_level}</Badge>}</TableCell>
-                    <TableCell>
-                      <User name={release.release_manager.name} githubId={release.release_manager.github_id} company={release.release_manager.company} avatarUrl={`https://github.com/${release.release_manager.github_id}.png`} />
-                    </TableCell>
-                    <TableCell>
-                      {release.threat_model_url && (
-                        <a href={release.threat_model_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                          {release.threat_model_author || "View"}
-                        </a>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {release.red_team && (
-                        <a href={release.red_team_exercise_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                          {release.red_team}
-                        </a>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {(() => {
+                  // Create a map to group by CCC Reference and Version
+                  const releaseMap = new Map<string, { passing: number; failing: number }>();
+
+                  // Process all test requirements
+                  testRequirements.forEach((req) => {
+                    req.ccc_versions.forEach((version) => {
+                      const key = `${req.ccc_reference}-${version}`;
+                      const current = releaseMap.get(key) || { passing: 0, failing: 0 };
+
+                      // Get results for this requirement
+                      const resultsForRequirement = pageData.results.filter((result) => result.test_requirement_id === req.requirement_id);
+
+                      // Update counts
+                      current.passing += resultsForRequirement.filter((r) => r.result === TestResultType.PASS).length;
+                      current.failing += resultsForRequirement.filter((r) => r.result === TestResultType.FAIL || r.result === TestResultType.ERROR).length;
+
+                      releaseMap.set(key, current);
+                    });
+                  });
+
+                  // Convert map to array of rows
+                  return Array.from(releaseMap.entries()).map(([key, counts]) => {
+                    const [cccReference, version] = key.split("-");
+                    return (
+                      <TableRow key={key}>
+                        <TableCell>{cccReference}</TableCell>
+                        <TableCell>
+                          <Badge variant="secondary" className="text-xs">
+                            {version}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="default">{counts.passing}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="destructive">{counts.failing}</Badge>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  });
+                })()}
               </TableBody>
             </Table>
           </CardContent>
@@ -87,33 +209,87 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
 
         <Card>
           <CardHeader>
-            <CardTitle>Test Results</CardTitle>
+            <CardTitle>Test Results By Control Requirement</CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="flex flex-wrap gap-4 mb-4">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium">Test Result:</label>
+                <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedResult} onChange={(e) => setSelectedResult(e.target.value as TestResultType | "all")}>
+                  <option value="all">All</option>
+                  {Object.values(TestResultType).map((result) => (
+                    <option key={result} value={result}>
+                      {result}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium">CCC Version:</label>
+                <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedVersion} onChange={(e) => setSelectedVersion(e.target.value)}>
+                  <option value="all">All</option>
+                  {uniqueVersions.map((version) => (
+                    <option key={version} value={version}>
+                      {version}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium">Resource:</label>
+                <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedResource} onChange={(e) => setSelectedResource(e.target.value)}>
+                  <option value="all">All</option>
+                  {uniqueResources.map((resource) => (
+                    <option key={resource} value={resource}>
+                      {resource}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Test Requirement ID</TableHead>
-                  <TableHead>Test ID</TableHead>
-                  <TableHead>Result</TableHead>
-                  <TableHead>Description</TableHead>
+                  <TableHead>Requirement ID</TableHead>
+                  <TableHead>CCC Versions</TableHead>
+                  <TableHead>Test</TableHead>
+                  <TableHead>Test Result</TableHead>
+                  <TableHead>Resources</TableHead>
+                  <TableHead>Result Message</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {pageData.test_results.map((result, index) => (
-                  <TableRow key={`${result.test_requirement_id}-${index}`}>
-                    <TableCell>{result.test_requirement_id}</TableCell>
-                    <TableCell>{result.test_id}</TableCell>
+                {filteredLtrs.map((ltr) => (
+                  <TableRow key={ltr.key}>
+                    <TableCell>{ltr.test_requirement.requirement_id}</TableCell>
                     <TableCell>
-                      <Badge variant={resultTypeToBadgeVariant[result.result]}>{result.result}</Badge>
+                      <div className="flex flex-wrap gap-1">
+                        {ltr.test_requirement.ccc_versions.map((version) => (
+                          <Badge key={version} variant="secondary" className="text-xs">
+                            {version}
+                          </Badge>
+                        ))}
+                      </div>
                     </TableCell>
-                    <TableCell>{result.description}</TableCell>
+                    <TableCell>{ltr.result.test}</TableCell>
+                    <TableCell>{createBadge(ltr.result.result)}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {ltr.result.resources.map((resource) => (
+                          <Badge key={resource} variant="outline" className="text-xs">
+                            {resource}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell>{ltr.result.further_info_url ? <Link to={ltr.result.further_info_url}>{ltr.result.message}</Link> : ltr.result.message}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </CardContent>
-        </Card> */}
+        </Card>
       </main>
     </Layout>
   );

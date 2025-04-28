@@ -30,32 +30,6 @@ export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePage
               </div>
             </div>
 
-            {feature.related_controls && feature.related_controls.length > 0 && (
-              <div className="space-y-2">
-                <span className="font-medium">Related Controls:</span>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>ID</TableHead>
-                      <TableHead>Title</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {feature.related_controls.map((control) => (
-                      <TableRow key={control.id}>
-                        <TableCell>
-                          <Link to={control.slug} className="text-primary hover:underline">
-                            {control.id}
-                          </Link>
-                        </TableCell>
-                        <TableCell>{control.title}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            )}
-
             {feature.related_threats && feature.related_threats.length > 0 && (
               <div className="space-y-2">
                 <span className="font-medium">Related Threats:</span>
