@@ -118,7 +118,7 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
           <CardHeader>
             <CardTitle>Test Results: {pageData.result_name}</CardTitle>
             <p className="text-muted-foreground">
-              For <Link to={`/cfi/${pageData.slug}`}>{pageData.releaseTitle}</Link>
+              For <Link to={pageData.parentSlug}>{pageData.releaseTitle}</Link>
             </p>
           </CardHeader>
         </Card>
