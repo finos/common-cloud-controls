@@ -55,5 +55,5 @@ results:
   - prowler-output-232348204608-20250424120512.ocsf.json
 
 resources:
-  - arn:aws:s3
+  - arn:aws:s3:::prod-my-secure-s3-bucket-20250423
   - arn:aws:kms
