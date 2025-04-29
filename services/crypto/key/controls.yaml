@@ -7,7 +7,7 @@ shared-controls:
       - CCC.C04 # Log all access and changes
       - CCC.C05 # Prevent access from untrusted entities
       - CCC.C06 # Prevent deployment in restricted regions
-      - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+      - CCC.C10 # Prevent Data Replication to Destinations Outside Perimeter
 
 control-families:
   - name: Logging and Monitoring
@@ -32,14 +32,14 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.KeyMgmt.TH01  # Deletion or disabling of key versions causing DoS or data loss
+              - CCC.KeyMgmt.TH01 # Deletion or disabling of key versions
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
-              - RS.AN-1  # Notifications from detection systems are investigated
+              - RS.AN-1 # Notifications from detection systems are investigated
           - reference-id: NIST_800_53
             identifiers:
-              - IR-5  # Incident Monitoring
+              - IR-5 # Incident Monitoring
 
   - name: Identity and Access Management
     description: Controls that enforce least-privilege use of KMS operations.
@@ -55,18 +55,76 @@ control-families:
             text: |
               When IAM roles and key policies are reviewed, Decrypt permission
               MUST be granted exclusively to documented authorised principals.
-            applicability: 
+            applicability:
               - tlp-green
             recommendation: Periodically audit policy documents via automated
               tooling and report any deviations.
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.KeyMgmt.TH02  # Unrestricted use of a KMS key to decrypt data
+              - CCC.KeyMgmt.TH02 # Unrestricted use of a KMS key to decrypt data
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
-              - PR.AC-4  # Access to assets is managed
+              - PR.AC-4 # Access to assets is managed
           - reference-id: NIST_800_53
             identifiers:
-              - AC-6  # Least Privilege
+              - AC-6 # Least Privilege
+
+  - name: Key Lifecycle Management
+    description: Controls that govern creation, rotation, import, and retirement
+      of cryptographic keys.
+
+    controls:
+      - id: CCC.KeyMgmt.C03
+        title: Enforce automatic rotation
+        objective: >
+          Ensure symmetric keys rotate automatically within policy intervals to
+          reduce exposure of key material.
+        requirements:
+          - id: CCC.KeyMgmt.C03.TR01
+            text: |
+              When rotation settings are examined, rotation MUST be enabled with
+              an interval not exceeding 365 days.
+            applicability:
+              - tlp-green
+            recommendation: Use cloud-provider rotation features and verify via
+              configuration scanning.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.KeyMgmt.TH03 # Key rotation is disabled or delayed
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-1 # Data at rest is protected
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-12 # Cryptographic Key Establishment and Management
+
+      - id: CCC.KeyMgmt.C04
+        title: Validate imported keys
+        objective: >
+          Accept only externally generated keys that meet approved cryptographic
+          strength and provenance requirements.
+        requirements:
+          - id: CCC.KeyMgmt.C04.TR01
+            text: |
+              When a key import request is processed, the key MUST use an
+              approved algorithm (RSA-2048+, EC-P256+) and originate from a
+              certified HSM.
+            applicability:
+              - tlp-green
+            recommendation: Implement an approval workflow that validates
+              attestation data before import.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.KeyMgmt.TH04 # Weak or compromised key material
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-1 # Data at rest is protected
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-28 # Protection of Information at Rest

@@ -1,14 +1,16 @@
 shared-threats:
   - reference-id: CCC
     identifiers:
-      - CCC.TH01   # Access Control is Misconfigured
-      - CCC.TH04   # Data is Replicated to Untrusted or External Locations
-      - CCC.TH12   # Resource Constraints are Exhausted
-      - CCC.TH13   # Resource Tags are Manipulated
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - CCC.TH12 # Resource Constraints are Exhausted
+      - CCC.TH13 # Resource Tags are Manipulated
 
 threats:
   - id: CCC.KeyMgmt.TH01
-    title: Deletion or disabling of key versions causing denial of service or data loss
+    title: |
+      Deletion or disabling of key versions causing denial of service or
+      data loss
     description: |
       Disabling, scheduling deletion, or permanently purging KMS key versions
       that protect sensitive data can prevent required decryption or signing
@@ -17,10 +19,10 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.KeyMgmt.F14   # Key Versioning
-          - CCC.KeyMgmt.F16   # Disable key
-          - CCC.KeyMgmt.F18   # Soft Delete
-          - CCC.KeyMgmt.F19   # Delete Key
+          - CCC.KeyMgmt.F14 # Key Versioning
+          - CCC.KeyMgmt.F16 # Disable key
+          - CCC.KeyMgmt.F18 # Soft Delete
+          - CCC.KeyMgmt.F19 # Delete Key
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -37,14 +39,14 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.KeyMgmt.F10   # Decrypt data
-          - CCC.KeyMgmt.F17   # Enable key
+          - CCC.KeyMgmt.F10 # Decrypt data
+          - CCC.KeyMgmt.F17 # Enable key
     mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers: 
+        identifiers:
           - T1550 # Use Alternate Authentication Material
 
-  - id: CCC.KeyMgmt.TH05
+  - id: CCC.KeyMgmt.TH03
     title: Key rotation is disabled or delayed beyond policy limits
     description: |
       Modification of automatic or manual rotation settings can keep older key
@@ -53,14 +55,14 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.KeyMgmt.F20   # Automatic Symmetric Key Rotation
-          - CCC.KeyMgmt.F21   # Manual Key Rotation
+          - CCC.KeyMgmt.F20 # Automatic Symmetric Key Rotation
+          - CCC.KeyMgmt.F21 # Manual Key Rotation
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
-          - T1562  # Impair Defenses
-  
-  - id: CCC.KeyMgmt.TH06
+          - T1562 # Impair Defenses
+
+  - id: CCC.KeyMgmt.TH04
     title: Introduction of weak or compromised key material during import
     description: |
       Insufficient validation during the key-import process may allow weak,
@@ -69,8 +71,8 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.KeyMgmt.F22   # Key Import
+          - CCC.KeyMgmt.F22 # Key Import
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
-          - T1600  # Weaken Encryption
+          - T1600 # Weaken Encryption
