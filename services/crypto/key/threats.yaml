@@ -1,8 +1,11 @@
 shared-threats:
   - reference-id: CCC
     identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - CCC.TH01   # Access Control is Misconfigured
+      - CCC.TH04   # Data is Replicated to Untrusted or External Locations
+      - CCC.TH06   # Data is Lost or Corrupted
+      - CCC.TH12   # Resource Constraints are Exhausted
+      - CCC.TH13   # Resource Tags are Manipulated
 
 threats:
   - id: CCC.KeyMgmt.TH01
