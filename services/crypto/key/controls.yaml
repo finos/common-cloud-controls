@@ -25,7 +25,8 @@ control-families:
               When a key version is scheduled for deletion or disabled, an
               alert MUST be generated within five minutes.
             applicability:
-              - tlp-green
+              - tlp-amber
+              - tlp-red
             recommendation: Use native event services (e.g., CloudWatch Events,
               Azure Monitor, Cloud Audit Logs) to route notifications to an
               incident-response channel.
