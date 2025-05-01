@@ -1,17 +1,16 @@
 shared-threats:
   - reference-id: CCC
     identifiers:
-      - CCC.TH01   # Access Control is Misconfigured
-      - CCC.TH02   # Data is Intercepted in Transit
-      - CCC.TH07   # Logs are Tampered With or Deleted
-      - CCC.TH09   # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH12   # Resource Constraints are Exhausted
-      - CCC.TH15   # Automated Enumeration and Reconnaissance by Non-human Entities
-      - CCC.TH16   # Logging and Monitoring are Disabled
-      - CCC.TH17   # Unauthorized Network Access via Misconfigured Rules
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH02 # Data is Intercepted in Transit
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH12 # Resource Constraints are Exhausted
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
+      - CCC.TH16 # Logging and Monitoring are Disabled
+      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 
 threats:
-
   - id: LB.TH01
     title: Malicious Traffic Is Not Filtered or Rate-Limited
     description: |
@@ -19,32 +18,16 @@ threats:
       overload downstream services and facilitates brute-force activity.
     capabilities:
       - reference-id: CCC
-        identifiers: 
-          - CCC.F04          # Transaction Rate Limits
+        identifiers:
+          - CCC.F04 # Transaction Rate Limits
       - reference-id: LB
-        identifiers: 
-          - CCC.LB.F22       # Rate Limiting / Throttling
-    mappings:
-      - reference-id: MITRE-ATT&CK
-        identifiers: 
-          - T1499 # Endpoint DoS
-          - T1110 # Brute Force
-
-  - id: LB.TH02
-    title: Load Balancer Configuration Is Tampered With
-    description: |
-      Unauthorised changes to listeners, routing, or security settings can
-      redirect traffic or disable protective controls.
-    capabilities:
-      - reference-id: CCC
-        identifiers: 
-          - CCC.F06 # Identity BAC
-          - CCC.F13 # Infrastructure as Code
+        identifiers:
+          - CCC.LB.F22 # Rate Limiting / Throttling
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
-          - T1565 
-          - T1098
+          - T1499 # Endpoint DoS
+          - T1110 # Brute Force
 
   - id: LB.TH03
     title: Traffic Distribution Is Manipulated
@@ -59,7 +42,7 @@ threats:
     mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
-          - T1499 
+          - T1499
           - T1557
 
   - id: LB.TH04
@@ -149,7 +132,7 @@ threats:
           - CCC.F04 # Rate Limits
           - CCC.F19 # On-Demand Scaling
       - reference-id: LB
-        identifiers: 
+        identifiers:
           - CCC.LB.F09 # LB Autoscaling
           - CCC.LB.F22 # Throttling
     mappings:
