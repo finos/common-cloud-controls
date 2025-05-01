@@ -79,34 +79,6 @@ control-families:
       Controls that restrict who can change or query load-balancer resources.
 
     controls:
-      - id: CCC.LB.C03
-        title: Protect Configuration Changes
-        objective: >
-          Restrict configuration updates to authorised identities through
-          approved infrastructure-as-code pipelines.
-        requirements:
-          - id: CCC.LB.C03.TR01
-            text: |
-              When a configuration change is committed, it MUST be merged by
-              two approvers and applied through a signed CI/CD job.
-            applicability:
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: Enforce branch-protection rules and use IaC tooling
-              with signed deployments.
-        threat-mappings:
-          - reference-id: LB
-            identifiers:
-              - LB.TH02 # Configuration Tampered
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-4 # Access permissions are managed (least privilege)
-          - reference-id: NIST_800_53
-            identifiers:
-              - AC-6 # Least privilege
-
       - id: CCC.LB.C04
         title: Enforce Distribution Policies
         objective: >
