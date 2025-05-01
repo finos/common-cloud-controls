@@ -69,7 +69,8 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.KeyMgmt.TH01 # Deletion or disabling of KMS key versions leading to denial of service or data destruction
+              - CCC.KeyMgmt.TH01 # Deletion or disabling of KMS key versions leading to denial of |
+                                 # service or data destruction
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
