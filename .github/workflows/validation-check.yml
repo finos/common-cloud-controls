@@ -14,4 +14,4 @@ jobs:
       - name: FINOS CCC Validator
         uses: sshiells-scottlogic/finos-ccc-validator@2.1.0
         with:
-          targetDir: "./services"
+          targetDir: "."
