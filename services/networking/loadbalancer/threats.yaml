@@ -1,198 +1,159 @@
-common_threats:
-  - LBL.TH01 # Access Control is Misconfigured on Load Balancer
-  - LBL.TH02 # Unencrypted Traffic is Forwarded by Load Balancer
-  - LBL.TH03 # Load Balancer Exposes Internal Services to Public Network
-  - LBL.TH04 # Malicious Traffic is Not Filtered or Rate-Limited
-  - LBL.TH05 # Load Balancer Configuration is Tampered With
-  - LBL.TH06 # Load Balancer Logs are Tampered With or Deleted
-  - LBL.TH07 # Traffic Distribution is Manipulated for DoS or Eavesdropping
-  - LBL.TH08 # Session Persistence is Exploited for Session Hijacking
-  - LBL.TH09 # Health Checks are Exploited to Take Services Offline
-  - LBL.TH10 # Sensitive Metadata Exposure via HTTP Headers
-  - LBL.TH11 # TLS Certificates are Expired or Invalid
-  - LBL.TH12 # Insufficient Logging and Monitoring of Load Balancer Activity
-  - LBL.TH13 # Load Balancer API is Exposed and Attacked
-  - LBL.TH14 # Automated Scanning Identifies Load Balancer Endpoints
-  - LBL.TH15 # Resource Exhaustion via Volumetric Attacks (DoS/DDoS)
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01   # Access Control is Misconfigured
+      - CCC.TH02   # Data is Intercepted in Transit
+      - CCC.TH07   # Logs are Tampered With or Deleted
+      - CCC.TH09   # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH12   # Resource Constraints are Exhausted
+      - CCC.TH15   # Automated Enumeration and Reconnaissance by Non-human Entities
+      - CCC.TH16   # Logging and Monitoring are Disabled
+      - CCC.TH17   # Unauthorized Network Access via Misconfigured Rules
 
 threats:
-  
-  - id: LBL.TH01
-    title: Access Control is Misconfigured on Load Balancer
-    description: |
-      Weak or overly permissive access controls can allow unauthorized users to
-      modify load balancer settings or route traffic maliciously.
-    features:
-      - CCC.F01 # Identity and Access Management
-      - CCC.LB.F01 # Load Balancer Access Policies
-    mitre_technique:
-      - T1078 # Valid Accounts
-      - T1098 # Account Manipulation
 
-  - id: LBL.TH02
-    title: Unencrypted Traffic is Forwarded by Load Balancer
+  - id: LB.TH01
+    title: Malicious Traffic Is Not Filtered or Rate-Limited
     description: |
-      Load balancers forwarding traffic without encryption expose sensitive data
-      to interception and compromise during transit.
-    features:
-      - CCC.F02 # Data Encryption In-Transit
-      - CCC.LB.F02 # TLS Enforcement
-    mitre_technique:
-      - T1040 # Network Sniffing
-      - T1557 # Adversary-in-the-Middle
+      Absence of filtering or rate limiting permits malicious traffic to
+      overload downstream services and facilitates brute-force activity.
+    capabilities:
+      - reference-id: CCC
+        identifiers: 
+          - CCC.F04          # Transaction Rate Limits
+      - reference-id: LB
+        identifiers: 
+          - CCC.LB.F22       # Rate Limiting / Throttling
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers: 
+          - T1499 # Endpoint DoS
+          - T1110 # Brute Force
 
-  - id: LBL.TH03
-    title: Load Balancer Exposes Internal Services to Public Network
+  - id: LB.TH02
+    title: Load Balancer Configuration Is Tampered With
     description: |
-      Misconfiguration may lead to exposure of internal services to the public
-      internet, increasing attack surface and risk of exploitation.
-    features:
-      - CCC.F03 # Network Segmentation
-      - CCC.LB.F03 # Private Endpoints
-    mitre_technique:
-      - T1046 # Network Service Discovery
-      - T1190 # Exploit Public-Facing Application
+      Unauthorised changes to listeners, routing, or security settings can
+      redirect traffic or disable protective controls.
+    capabilities:
+      - reference-id: CCC
+        identifiers: 
+          - CCC.F06 # Identity BAC
+          - CCC.F13 # Infrastructure as Code
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1565 
+          - T1098
 
-  - id: LBL.TH04
-    title: Malicious Traffic is Not Filtered or Rate-Limited
+  - id: LB.TH03
+    title: Traffic Distribution Is Manipulated
     description: |
-      Absence of proper filtering allows malicious traffic to overload services,
-      perform reconnaissance, or execute attacks like credential stuffing.
-    features:
-      - CCC.F04 # Network Security Controls
-      - CCC.LB.F04 # Rate Limiting
-    mitre_technique:
-      - T1499 # Endpoint Denial of Service
-      - T1110 # Brute Force
+      Adjusting distribution policies can concentrate traffic on specific nodes
+      (causing DoS) or redirect flows through unwanted paths.
+    capabilities:
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F02 # Dynamic LB
+          - CCC.LB.F20 # Traffic Splitting
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499 
+          - T1557
 
-  - id: LBL.TH05
-    title: Load Balancer Configuration is Tampered With
+  - id: LB.TH04
+    title: Session Persistence Is Exploited
     description: |
-      Unauthorized changes to load balancer configuration can redirect traffic
-      to malicious endpoints or disable critical security controls.
-    features:
-      - CCC.F05 # Configuration Management
-      - CCC.LB.F05 # Configuration Integrity Monitoring
-    mitre_technique:
-      - T1565.001 # Data Manipulation: Stored Data
-      - T1098 # Account Manipulation
+      Improper session-affinity settings can enable session fixation or
+      hijacking across backend targets.
+    capabilities:
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F15 # Session Affinity
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078
+          - T1557
 
-  - id: LBL.TH06
-    title: Load Balancer Logs are Tampered With or Deleted
+  - id: LB.TH05
+    title: Health Checks Are Exploited to Take Services Offline
     description: |
-      Attackers may tamper with or delete logs to cover their tracks and evade
-      detection following malicious activities.
-    features:
-      - CCC.F06 # Logging and Monitoring
-      - CCC.LB.F06 # Immutable Logging
-    mitre_technique:
-      - T1070.001 # Indicator Removal on Host
-      - T1562.002 # Disable or Modify Tools
+      Manipulating health-check endpoints or responses can cause healthy
+      targets to be marked unavailable, leading to denial of service.
+    capabilities:
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F12 # Health Checks
+          - CCC.LB.F13 # Target Removal
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499
+          - T1583
 
-  - id: LBL.TH07
-    title: Traffic Distribution is Manipulated for DoS or Eavesdropping
-    description: |
-      Malicious actors may alter traffic distribution policies to overload
-      certain nodes or reroute traffic through compromised nodes.
-    features:
-      - CCC.F07 # Traffic Engineering
-      - CCC.LB.F07 # Load Distribution Policies
-    mitre_technique:
-      - T1499 # Endpoint Denial of Service
-      - T1557 # Adversary-in-the-Middle
-
-  - id: LBL.TH08
-    title: Session Persistence is Exploited for Session Hijacking
-    description: |
-      Improper session persistence settings can enable attackers to hijack
-      legitimate user sessions and gain unauthorized access.
-    features:
-      - CCC.F08 # Session Management
-      - CCC.LB.F08 # Sticky Sessions Controls
-    mitre_technique:
-      - T1078 # Valid Accounts
-      - T1557 # Adversary-in-the-Middle
-
-  - id: LBL.TH09
-    title: Health Checks are Exploited to Take Services Offline
-    description: |
-      Attackers may abuse health check mechanisms to artificially mark services
-      as unhealthy, leading to denial of service.
-    features:
-      - CCC.F09 # Availability Management
-      - CCC.LB.F09 # Health Check Hardening
-    mitre_technique:
-      - T1499 # Endpoint Denial of Service
-      - T1583.006 # Acquire Infrastructure: Web Services
-
-  - id: LBL.TH10
+  - id: LB.TH06
     title: Sensitive Metadata Exposure via HTTP Headers
     description: |
-      Load balancers may inadvertently expose sensitive metadata through HTTP
-      headers, aiding attackers in reconnaissance.
-    features:
-      - CCC.F10 # Data Minimization
-      - CCC.LB.F10 # Header Sanitization
-    mitre_technique:
-      - T1592 # Gather Victim Host Information
-      - T1530 # Data from Cloud Storage Object
+      Response headers may reveal software versions, internal IPs, or other
+      metadata useful for reconnaissance.
+    capabilities:
+      - reference-id: LBL
+        identifiers:
+          - CCC.LB.F19
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1592
+          - T1530
 
-  - id: LBL.TH11
-    title: TLS Certificates are Expired or Invalid
+  - id: LB.TH07
+    title: TLS Certificates Are Expired or Invalid
     description: |
-      Expired or invalid certificates reduce the security posture of encrypted
-      communication, leading to potential MITM attacks.
-    features:
-      - CCC.F11 # Certificate Management
-      - CCC.LB.F11 # Automated Certificate Rotation
-    mitre_technique:
-      - T1557 # Adversary-in-the-Middle
-      - T1608.002 # Stage Capabilities: Upload Tool
+      Stale or untrusted certificates weaken encrypted-traffic protection.
+    capabilities:
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F11 # SSL/TLS Termination
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1557
+          - T1608
 
-  - id: LBL.TH12
-    title: Insufficient Logging and Monitoring of Load Balancer Activity
+  - id: LB.TH08
+    title: Load Balancer API Is Exposed and Attacked
     description: |
-      Lack of proper logging and monitoring hinders detection and response to
-      incidents involving the load balancer.
-    features:
-      - CCC.F12 # Logging and Monitoring
-      - CCC.LB.F12 # Traffic and Access Logs
-    mitre_technique:
-      - T1087 # Account Discovery
-      - T1070 # Indicator Removal
+      Publicly exposed APIs may be probed or brute-forced to enumerate or alter
+      resources.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F14 # API Access
+          - CCC.F06 # Identity BAC
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1190
+          - T1110
 
-  - id: LBL.TH13
-    title: Load Balancer API is Exposed and Attacked
+  - id: LB.TH09
+    title: Resource Exhaustion via Volumetric Attacks
     description: |
-      Publicly exposed APIs may be targeted by attackers for reconnaissance,
-      brute force attacks, or to modify configurations.
-    features:
-      - CCC.F13 # API Security
-      - CCC.LB.F13 # API Access Control
-    mitre_technique:
-      - T1190 # Exploit Public-Facing Application
-      - T1110 # Brute Force
-
-  - id: LBL.TH14
-    title: Automated Scanning Identifies Load Balancer Endpoints
-    description: |
-      Load balancer endpoints discovered through automated scanning increase
-      exposure to reconnaissance and targeted attacks.
-    features:
-      - CCC.F14 # External Attack Surface Management
-      - CCC.LB.F14 # Endpoint Hardening
-    mitre_technique:
-      - T1595 # Active Scanning
-      - T1592 # Gather Victim Host Information
-
-  - id: LBL.TH15
-    title: Resource Exhaustion via Volumetric Attacks (DoS/DDoS)
-    description: |
-      Attackers flood load balancers with excessive traffic, leading to
-      exhaustion of resources and service outages.
-    features:
-      - CCC.F15 # DDoS Protection
-      - CCC.LB.F15 # Auto Scaling and Rate Limiting
-    mitre_technique:
-      - T1499 # Endpoint Denial of Service
-      - T1583.006 # Acquire Infrastructure: Web Services
+      High-volume traffic floods can exhaust load-balancer capacity, causing
+      service degradation or outage.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F04 # Rate Limits
+          - CCC.F19 # On-Demand Scaling
+      - reference-id: LB
+        identifiers: 
+          - CCC.LB.F09 # LB Autoscaling
+          - CCC.LB.F22 # Throttling
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499
+          - T1583.006
