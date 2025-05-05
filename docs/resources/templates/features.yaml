@@ -1,6 +1,0 @@
-common_features:
-  - <IDs of common features; Omit if not applicable>
-features:
-  - id: CCC.<Service Category Abbreviation>.F<##>
-    title: <Shortname of the feature>
-    description: <Complete description of the feature>
