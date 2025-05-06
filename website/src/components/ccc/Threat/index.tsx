@@ -12,7 +12,7 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
   return (
     <Layout title={`${threat.id} - ${threat.title}`}>
       <main className="container margin-vert--lg space-y-6">
-        <Link to={releaseSlug} className="text-primary hover:underline flex items-center gap-1">
+        <Link to={releaseSlug} className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
           ← Back to {releaseTitle}
         </Link>
 
@@ -52,7 +52,7 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
                       {threat.related_features.map((feature) => (
                         <TableRow key={feature.id}>
                           <TableCell>
-                            <Link to={feature.slug} className="text-primary hover:underline">
+                            <Link to={feature.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
                               {feature.id}
                             </Link>
                           </TableCell>
@@ -68,10 +68,12 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
               {threat.mitre_technique && threat.mitre_technique.length > 0 && (
                 <div className="space-y-2">
                   <span className="font-medium">MITRE ATT&CK Techniques:</span>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 ">
                     {threat.mitre_technique.map((technique) => (
                       <a key={technique} href={`https://attack.mitre.org/techniques/${technique}`} target="_blank" rel="noopener noreferrer">
-                        <Badge variant="outline">{technique}</Badge>
+                        <Badge variant="outline" className="bg-blue-100 text-blue-600 font-medium border border-blue-300 hover:bg-blue-300 hover:border-blue-400 hover:text-blue-900">
+                          {technique}
+                        </Badge>
                       </a>
                     ))}
                   </div>
@@ -92,7 +94,7 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
                       {threat.related_controls.map((control) => (
                         <TableRow key={control.id}>
                           <TableCell>
-                            <Link to={control.slug} className="text-primary hover:underline">
+                            <Link to={control.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
                               {control.id}
                             </Link>
                           </TableCell>

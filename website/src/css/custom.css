@@ -16,7 +16,7 @@
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-color-primary: #eeeeee;
   --ifm-color-primary-dark: #d6d6d6;
   --ifm-color-primary-darker: #cacaca;
@@ -65,7 +65,7 @@
     --radius: 0.5rem;
   }
 
-  [data-theme='dark'] {
+  [data-theme="dark"] {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
@@ -107,3 +107,18 @@
 }
 
 /* Your custom styles below */
+/* Make the navbar sticky on the left */
+.navbar {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  z-index: 1000; /* So it stays above the main content */
+}
+
+/* Optional: Give it a background to avoid overlap artifacts */
+.navbar__inner {
+  background-color: white;
+}
+html[data-theme="dark"] .navbar__inner {
+  background-color: #111;
+}

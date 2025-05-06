@@ -88,7 +88,6 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
       key: `${testRequirement.requirement_id}-${result.id}`,
     };
   });
-
   const untestedRequirements = [...testRequirements].filter((testRequirement) => !ltrs.some((ltr) => ltr.test_requirement.requirement_id === testRequirement.requirement_id));
 
   const sortedLtrs = ltrs.sort((a, b) => a.test_requirement.requirement_id.localeCompare(b.test_requirement.requirement_id));
@@ -110,7 +109,7 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
     console.log(ltr.result.result, selectedResult, matchesResult);
     return matchesResult && matchesVersion && matchesResource;
   });
-
+  console.log("FIltered resutls:", JSON.stringify(pageData, null, 2));
   return (
     <Layout title={`Test Result - ${pageData.result_name}`} description={`Test results for ${pageData.releaseTitle}`}>
       <main className="container margin-vert--lg space-y-6">
@@ -118,7 +117,10 @@ export default function CFITestResult({ pageData }: { pageData: TestResultPageDa
           <CardHeader>
             <CardTitle>Test Results: {pageData.result_name}</CardTitle>
             <p className="text-muted-foreground">
-              For <Link to={pageData.parentSlug}>{pageData.releaseTitle}</Link>
+              For{" "}
+              <Link className="text-blue-600 hover:text-blue-800 hover:underline" to={pageData.parentSlug}>
+                {pageData.releaseTitle}
+              </Link>
             </p>
           </CardHeader>
         </Card>

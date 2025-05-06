@@ -12,7 +12,7 @@ export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePage
   return (
     <Layout title={`${feature.id} - ${feature.title}`}>
       <main className="container margin-vert--lg space-y-6">
-        <Link to={releaseSlug} className="text-primary hover:underline flex items-center gap-1">
+        <Link to={releaseSlug} className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
           ← Back to {releaseTitle}
         </Link>
 
@@ -45,7 +45,7 @@ export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePage
                     {feature.related_threats.map((threat) => (
                       <TableRow key={threat.id}>
                         <TableCell>
-                          <Link to={threat.slug} className="text-primary hover:underline">
+                          <Link to={threat.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
                             {threat.id}
                           </Link>
                         </TableCell>
