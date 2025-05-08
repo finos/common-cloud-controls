@@ -34,8 +34,8 @@ jobs:
       pull-requests: write
       contents: read
 
-  # validation-checker:
-  #   uses: ./.github/workflows/validation-check.yml
-  #   permissions:
-  #     pull-requests: write
-  #     contents: read
+  validation-checker:
+    uses: ./.github/workflows/validation-check.yml
+    permissions:
+      pull-requests: write
+      contents: read
