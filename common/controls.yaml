@@ -31,7 +31,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH02
+              - CCC.TH02 # Data is Intercepted in Transit
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -81,7 +81,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH03
+              - CCC.TH03 # Deployment Region Network is Untrusted
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -126,7 +126,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH06
+              - CCC.TH06 # Data is Lost or Corrupted
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -180,9 +180,9 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH07
-              - CCC.TH09
-              - CCC.TH04
+              - CCC.TH07 # Logs are Tampered With or Deleted
+              - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+              - CCC.TH04 # Data is Replicated to Untrusted or External Locations
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -217,7 +217,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH04
+              - CCC.TH04 # Data is Replicated to Untrusted or External Locations
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -254,7 +254,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -317,7 +317,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH16
+              - CCC.TH16 # Logging and Monitoring are Disabled
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -408,7 +408,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -476,7 +476,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -530,7 +530,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -574,7 +574,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH15
+              - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -612,7 +612,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH17
+              - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:

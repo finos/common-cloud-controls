@@ -65,8 +65,8 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH01
-              - CCC.TH06
+              - CCC.TH01 # Access Control is Misconfigured
+              - CCC.TH06 # Data is Lost or Corrupted
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -110,7 +110,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH06
+              - CCC.TH06 # Data is Lost or Corrupted
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -158,7 +158,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH06
+              - CCC.TH06 # Data is Lost or Corrupted
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -224,7 +224,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH06
+              - CCC.TH06 # Data is Lost or Corrupted
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -258,8 +258,8 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH07
-              - CCC.TH09
+              - CCC.TH07 # Logs are Tampered With or Deleted
+              - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -312,7 +312,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:

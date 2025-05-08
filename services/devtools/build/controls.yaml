@@ -28,7 +28,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -54,7 +54,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH01
+              - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -82,8 +82,8 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.TH02
-              - CCC.TH05
+              - CCC.TH02 # Data is Intercepted in Transit
+              - CCC.TH05 # Data is Corrupted During Replication
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:

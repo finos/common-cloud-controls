@@ -36,7 +36,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.RDMS.TH01
+              - CCC.RDMS.TH01 # Unauthorized Access via Default Credentials
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -63,7 +63,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.RDMS.TH02
+              - CCC.RDMS.TH02 # Brute Force Attempts on Database Authentication
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -92,7 +92,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.RDMS.TH04
+              - CCC.RDMS.TH04 # Unintentional Database Backup Restoration
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -117,7 +117,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.RDMS.TH05
+              - CCC.RDMS.TH05 # Unauthorized Snapshot Sharing
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -147,7 +147,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.RDMS.TH03
+              - CCC.RDMS.TH03 # Database Backups Stopped
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
