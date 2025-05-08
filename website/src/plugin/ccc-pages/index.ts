@@ -51,7 +51,6 @@ function parseControl(control: any, slug: string): Control {
     };
 }
 
-
 function createControlPageData(controlYaml: any, release: Release, parsed: CCCReleaseYaml): ControlPageData {
     const control = parseControl(controlYaml, release.slug);
 
@@ -111,16 +110,11 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             const dataDir = path.resolve(__dirname, '../../data/ccc-releases');
             const files = fs.readdirSync(dataDir).filter((f) => f.endsWith('.yaml'));
 
-            const releases: CCCReleaseYaml[] = [];
-
-            for (const file of files) {
+            return files.map((file) => {
                 const filePath = path.join(dataDir, file);
                 const raw = fs.readFileSync(filePath, 'utf8');
-                const parsed = yaml.load(raw) as CCCReleaseYaml;
-                releases.push(parsed);
-            }
-
-            return releases;
+                return yaml.load(raw) as CCCReleaseYaml;
+            });
         },
 
         async contentLoaded({ actions, content }) {
