@@ -3,6 +3,7 @@ import path from 'path';
 import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
 import { Release, Control, Feature, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData } from '@site/src/types/ccc';
+import { PageCreator } from './PageCreator';
 
 interface CCCReleaseYaml {
     metadata: {
@@ -51,13 +52,13 @@ function parseControl(control: any, slug: string): Control {
 }
 
 
-async function createControlPage(controlYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
+function createControlPageData(controlYaml: any, release: Release, parsed: CCCReleaseYaml): ControlPageData {
     const control = parseControl(controlYaml, release.slug);
 
     const relatedThreats = controlYaml.threats?.map(threatId => release.threats.find(t => t.id === threatId)
     ).filter(Boolean) || [];
 
-    const controlPageData: ControlPageData = {
+    return {
         control: {
             ...control,
             related_threats: relatedThreats,
@@ -65,32 +66,15 @@ async function createControlPage(controlYaml: any, release: Release, parsed: CCC
         releaseTitle: parsed.metadata.title,
         releaseSlug: release.slug,
     };
-
-    const controlPagePath = await createData(
-        `ccc - ${release.slug} -${control.id}.json`,
-        JSON.stringify(controlPageData, null, 2)
-    );
-
-    addRoute({
-        path: `${release.slug}/${control.id}`,
-        component: '@site/src/components/ccc/Control/index.tsx',
-        modules: {
-            pageData: controlPagePath,
-        },
-        exact: true,
-    });
-
-    console.log(`Added route for ${control.slug}`);
 }
 
-async function createFeaturePage(featureYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
+function createFeaturePageData(featureYaml: any, release: Release, parsed: CCCReleaseYaml): FeaturePageData {
     const feature = parseFeature(featureYaml, release.slug);
 
     // Find all threats that reference this feature
     const relatedThreats = release.threats.filter(threat => threat.features.includes(feature.id))
 
-
-    const featurePageData: FeaturePageData = {
+    return {
         feature: {
             ...feature,
             related_threats: relatedThreats
@@ -98,26 +82,9 @@ async function createFeaturePage(featureYaml: any, release: Release, parsed: CCC
         releaseTitle: parsed.metadata.title,
         releaseSlug: release.slug,
     };
-
-    const featurePagePath = await createData(
-        `ccc-${release.slug}-${feature.id}.json`,
-        JSON.stringify(featurePageData, null, 2)
-    );
-
-    addRoute({
-        path: `${release.slug}/${feature.id}`,
-        component: '@site/src/components/ccc/Feature/index.tsx',
-        modules: {
-            pageData: featurePagePath,
-        },
-        exact: true,
-    });
-
-    console.log(`Added route for ${feature.slug}`);
-
 }
 
-async function createThreatPage(threatYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
+function createThreatPageData(threatYaml: any, release: Release, parsed: CCCReleaseYaml): ThreatPageData {
     const threat = parseThreat(threatYaml, release.slug);
 
     const relatedControls = release.controls.filter(control => control.threats.includes(threat.id))
@@ -125,7 +92,7 @@ async function createThreatPage(threatYaml: any, release: Release, parsed: CCCRe
     const relatedFeatures = threatYaml.features?.map(featureId => release.features.find(f => f.id === featureId)
     ).filter(Boolean) || [];
 
-    const threatPageData: ThreatPageData = {
+    return {
         threat: {
             ...threat,
             related_controls: relatedControls,
@@ -134,22 +101,6 @@ async function createThreatPage(threatYaml: any, release: Release, parsed: CCCRe
         releaseTitle: parsed.metadata.title,
         releaseSlug: release.slug,
     };
-
-    const threatPagePath = await createData(
-        `ccc-${release.slug}-${threat.id}.json`,
-        JSON.stringify(threatPageData, null, 2)
-    );
-
-    addRoute({
-        path: `${release.slug}/${threat.id}`,
-        component: '@site/src/components/ccc/Threat/index.tsx',
-        modules: {
-            pageData: threatPagePath,
-        },
-        exact: true,
-    });
-
-    console.log(`Added route for ${threat.slug}`);
 }
 
 export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
@@ -174,13 +125,13 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
 
         async contentLoaded({ actions, content }) {
             const { setGlobalData, createData, addRoute } = actions;
+            const pageCreator: PageCreator = new PageCreator(createData, addRoute);
             const cccReleases: Release[] = [];
 
             // Group releases by component
             const components: Record<string, any[]> = {};
 
             for (const parsed of content) {
-
                 const release = parseRelease(parsed);
                 cccReleases.push(release);
 
@@ -198,36 +149,24 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
 
                 components[componentTitle].push(release);
 
-                const jsonPath = await createData(
-                    `ccc-${release.slug}.json`,
-                    JSON.stringify(cccReleasePageData, null, 2)
-                );
-
-                addRoute({
-                    path: `${release.slug}`,
-                    component: '@site/src/components/ccc/Release/index.tsx',
-                    modules: {
-                        pageData: jsonPath,
-                    },
-                    exact: true,
-                });
-
-                console.log(`Added route for ${release.slug}`);
+                await pageCreator.createPage(cccReleasePageData, release.slug, '@site/src/components/ccc/Release/index.tsx');
 
                 for (const controlYaml of parsed.controls) {
-                    await createControlPage(controlYaml, release, parsed, createData, addRoute);
+                    const pageData: ControlPageData = createControlPageData(controlYaml, release, parsed);
+                    await pageCreator.createPage(pageData, `${pageData.control.slug}`, '@site/src/components/ccc/Control/index.tsx');
                 }
 
                 for (const featureYaml of parsed.features || []) {
-                    await createFeaturePage(featureYaml, release, parsed, createData, addRoute);
+                    const pageData: FeaturePageData = createFeaturePageData(featureYaml, release, parsed);
+                    await pageCreator.createPage(pageData, `${pageData.feature.slug}`, '@site/src/components/ccc/Feature/index.tsx');
                 }
 
                 for (const threatYaml of parsed.threats || []) {
-                    await createThreatPage(threatYaml, release, parsed, createData, addRoute);
+                    const pageData: ThreatPageData = createThreatPageData(threatYaml, release, parsed);
+                    pageCreator.createPage(pageData, `${pageData.threat.slug}`, '@site/src/components/ccc/Threat/index.tsx');
                 }
             }
 
-            // Create home page data
             const homePageData: HomePageData = {
                 components: Object.entries(components).map(([title, releases]) => ({
                     title,
@@ -235,28 +174,12 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
                 }))
             };
 
-            const homePagePath = await createData(
-                'ccc-home.json',
-                JSON.stringify(homePageData, null, 2)
-            );
-
-            addRoute({
-                path: '/ccc',
-                component: '@site/src/components/ccc/Home/index.tsx',
-                modules: {
-                    pageData: homePagePath,
-                },
-                exact: true,
-            });
+            await pageCreator.createPage(homePageData, '/ccc', '@site/src/components/ccc/Home/index.tsx');
 
             setGlobalData({
                 'ccc-releases': cccReleases,
                 'ccc-release-yaml': content
             });
-
-
-            console.log('Added route for /ccc');
         },
     };
 }
-
