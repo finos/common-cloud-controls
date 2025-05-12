@@ -51,7 +51,7 @@ function parseControl(control: any, slug: string): Control {
     };
 }
 
-function createControlPageData(controlYaml: any, release: Release, parsed: CCCReleaseYaml): ControlPageData {
+function createControlPageData(controlYaml: any, release: Release): ControlPageData {
     const control = parseControl(controlYaml, release.slug);
 
     const relatedThreats = controlYaml.threats?.map(threatId => release.threats.find(t => t.id === threatId)
@@ -62,12 +62,12 @@ function createControlPageData(controlYaml: any, release: Release, parsed: CCCRe
             ...control,
             related_threats: relatedThreats,
         },
-        releaseTitle: parsed.metadata.title,
+        releaseTitle: release.metadata.title,
         releaseSlug: release.slug,
     };
 }
 
-function createFeaturePageData(featureYaml: any, release: Release, parsed: CCCReleaseYaml): FeaturePageData {
+function createFeaturePageData(featureYaml: any, release: Release): FeaturePageData {
     const feature = parseFeature(featureYaml, release.slug);
 
     // Find all threats that reference this feature
@@ -78,12 +78,12 @@ function createFeaturePageData(featureYaml: any, release: Release, parsed: CCCRe
             ...feature,
             related_threats: relatedThreats
         },
-        releaseTitle: parsed.metadata.title,
+        releaseTitle: release.metadata.title,
         releaseSlug: release.slug,
     };
 }
 
-function createThreatPageData(threatYaml: any, release: Release, parsed: CCCReleaseYaml): ThreatPageData {
+function createThreatPageData(threatYaml: any, release: Release): ThreatPageData {
     const threat = parseThreat(threatYaml, release.slug);
 
     const relatedControls = release.controls.filter(control => control.threats.includes(threat.id))
@@ -97,7 +97,7 @@ function createThreatPageData(threatYaml: any, release: Release, parsed: CCCRele
             related_controls: relatedControls,
             related_features: relatedFeatures
         },
-        releaseTitle: parsed.metadata.title,
+        releaseTitle: release.metadata.title,
         releaseSlug: release.slug,
     };
 }
@@ -146,17 +146,17 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
                 await pageCreator.createPage(cccReleasePageData, release.slug, '@site/src/components/ccc/Release/index.tsx');
 
                 for (const controlYaml of parsed.controls) {
-                    const pageData: ControlPageData = createControlPageData(controlYaml, release, parsed);
+                    const pageData: ControlPageData = createControlPageData(controlYaml, release);
                     await pageCreator.createPage(pageData, `${pageData.control.slug}`, '@site/src/components/ccc/Control/index.tsx');
                 }
 
                 for (const featureYaml of parsed.features || []) {
-                    const pageData: FeaturePageData = createFeaturePageData(featureYaml, release, parsed);
+                    const pageData: FeaturePageData = createFeaturePageData(featureYaml, release);
                     await pageCreator.createPage(pageData, `${pageData.feature.slug}`, '@site/src/components/ccc/Feature/index.tsx');
                 }
 
                 for (const threatYaml of parsed.threats || []) {
-                    const pageData: ThreatPageData = createThreatPageData(threatYaml, release, parsed);
+                    const pageData: ThreatPageData = createThreatPageData(threatYaml, release);
                     pageCreator.createPage(pageData, `${pageData.threat.slug}`, '@site/src/components/ccc/Threat/index.tsx');
                 }
             }
