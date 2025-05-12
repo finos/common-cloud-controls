@@ -2,8 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { Release, Control, Feature, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData } from '@site/src/types/ccc';
+import { Release, Control, Feature, Component, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData, ComponentPageData } from '@site/src/types/ccc';
 import { PageCreator } from './PageCreator';
+import { title } from 'process';
 
 interface CCCReleaseYaml {
     metadata: {
@@ -20,7 +21,7 @@ interface CCCReleaseYaml {
 type PluginContent = CCCReleaseYaml[];
 
 function parseRelease(parsed: CCCReleaseYaml): Release {
-    const slug = `/ccc/${parsed.metadata.id}.${parsed.metadata.release_details[0]?.version || 'N/A'}`;
+    const slug = `/ccc/${parsed.metadata.id}/${parsed.metadata.release_details[0]?.version || 'N/A'}`;
     return {
         metadata: parsed.metadata,
         threats: parsed.threats.map(threat => parseThreat(threat, slug)),
@@ -96,6 +97,14 @@ function createThreatPageData(threat: Threat, release: Release): ThreatPageData 
     };
 }
 
+function createComponentPageData(component: Component): ComponentPageData {
+    return {
+        component: component,
+        releaseTitle: component.releases[0].metadata.title,
+        releaseSlug: component.releases[0].slug,
+    };
+}
+
 export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
     return {
         name: 'ccc-pages',
@@ -117,18 +126,18 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             const cccReleases: Release[] = [];
 
             // Group releases by component
-            const components: Record<string, any[]> = {};
+            const components: Record<string, Component> = {};
 
             for (const parsed of content) {
                 const release = parseRelease(parsed);
                 cccReleases.push(release);
 
-                const componentTitle = release.metadata.title;
-                if (!components[componentTitle]) {
-                    components[componentTitle] = [];
+                const componentId = release.metadata.id;
+                if (!components[componentId]) {
+                    components[componentId] = {title: release.metadata.title, releases: [], slug: `/ccc/${componentId}`};
                 }
 
-                components[componentTitle].push(release);
+                components[componentId].releases.push(release);
 
                 const cccReleasePageData: ReleasePageData = {
                     release,
@@ -154,11 +163,14 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
                 }
             }
 
+            Object.entries(components).forEach(([componentId, component]) => {
+                component.releases.sort((a, b) => b.metadata.release_details[0].version.localeCompare(a.metadata.release_details[0].version));
+                const componentPageData: ComponentPageData = createComponentPageData(component);
+                pageCreator.createPage(componentPageData, `/ccc/${componentId}`, '@site/src/components/ccc/Component/index.tsx');
+            });
+
             const homePageData: HomePageData = {
-                components: Object.entries(components).map(([title, releases]) => ({
-                    title,
-                    releases: releases.sort((a, b) => b.version.localeCompare(a.version))
-                }))
+                components: Object.entries(components).flatMap(([_, component]) => component),
             };
 
             await pageCreator.createPage(homePageData, '/ccc', '@site/src/components/ccc/Home/index.tsx');

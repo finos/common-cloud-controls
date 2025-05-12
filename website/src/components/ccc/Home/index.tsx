@@ -192,7 +192,7 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
       title: component.title,
       numberOfReleases: component.releases.length,
       latestVersion: latestRelease.version,
-      slug: component.releases[0].slug,
+      slug: component.slug,
     };
   });
 
