@@ -18,20 +18,16 @@ control-families:
       - id: CCC.LB.C01
         title: Enforce Rate Limiting
         objective: >
-          Ensure malicious or excessive requests are throttled to prevent
-          downstream resource exhaustion and brute-force activity.
+          Ensure malicious or excessive requests are throttled to prevent downstream resource exhaustion and brute-force activity.
         requirements:
           - id: CCC.LB.C01.TR01
             text: |
-              When a client exceeds the configured request-rate threshold, the
-              load balancer MUST throttle subsequent requests for at least
-              60 seconds and record the event in the access log.
+              When a client exceeds the configured request-rate threshold, the load balancer MUST throttle subsequent requests for at least 60 seconds and record the event in the access log.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Configure per-IP token-bucket limits with
-              CCC.LB.F22 and verify via synthetic traffic tests.
+            recommendation: Configure per-IP token-bucket limits with CCC.LB.F22 and verify via synthetic traffic tests.
         threat-mappings:
           - reference-id: LB
             identifiers:
@@ -48,20 +44,17 @@ control-families:
       - id: CCC.LB.C06
         title: Secure Health-Check Telemetry
         objective: >
-          Monitor health-check endpoints for tampering and alert on abnormal
-          status changes.
+          Monitor health-check endpoints for tampering and alert on abnormal status changes.
         requirements:
           - id: CCC.LB.C06.TR01
             text: |
-              When more than 10 percent of targets change from healthy to
-              unhealthy within five minutes, an alert MUST be issued.
+              When more than 10 percent of targets change from healthy to unhealthy within five minutes, an alert MUST be issued.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation:
-              Instrument metrics for CCC.LB.F12 and F13 transitions
-              and set monitoring alarms.
+              Instrument metrics for CCC.LB.F12 and F13 transitions and set monitoring alarms.
         threat-mappings:
           - reference-id: LB
             identifiers:
@@ -77,18 +70,15 @@ control-families:
   - name: Identity and Access Management
     description: |
       Controls that restrict who can change or query load-balancer resources.
-
     controls:
       - id: CCC.LB.C04
         title: Enforce Distribution Policies
         objective: >
-          Ensure traffic-splitting weights and algorithms are modified only by
-          trusted identities.
+          Ensure traffic-splitting weights and algorithms are modified only by trusted identities.
         requirements:
           - id: CCC.LB.C04.TR01
             text: |
-              When routing weights change, the request MUST originate from a
-              role tagged "lb-ops" and be logged.
+              When routing weights change, the request MUST originate from a role tagged "lb-ops" and be logged.
             applicability:
               - tlp-green
               - tlp-amber
@@ -114,8 +104,7 @@ control-families:
         requirements:
           - id: CCC.LB.C05.TR01
             text: |
-              When stickiness is enabled, session cookies MUST use
-              SameSite=Lax and expire within 30 minutes of inactivity.
+              When stickiness is enabled, session cookies MUST use SameSite=Lax and expire within 30 minutes of inactivity.
             applicability:
               - tlp-green
               - tlp-amber
@@ -136,13 +125,11 @@ control-families:
       - id: CCC.LB.C09
         title: Restrict Management API Access
         objective: >
-          Limit load-balancer API calls to authorised identities and trusted
-          networks.
+          Limit load-balancer API calls to authorised identities and trusted networks.
         requirements:
           - id: CCC.LB.C09.TR01
             text: |
-              When an API call originates outside the approved CIDR set, the
-              request MUST be denied.
+              When an API call originates outside the approved CIDR set, the request MUST be denied.
             applicability:
               - tlp-green
               - tlp-amber
@@ -162,9 +149,7 @@ control-families:
               - SC-7 # Boundary protection
 
   - name: Data
-    description: Controls that preserve availability and confidentiality of
-      traffic processed by the load balancer.
-
+    description: Controls that preserve availability and confidentiality of traffic processed by the load balancer.
     controls:
       - id: CCC.LB.C02
         title: Auto-Scale Load Balancer Capacity
@@ -174,9 +159,7 @@ control-families:
         requirements:
           - id: CCC.LB.C02.TR01
             text: |
-              When concurrent connections reach 80 percent of capacity, the
-              autoscaling group MUST add at least one instance within five
-              minutes.
+              When concurrent connections reach 80 percent of capacity, the autoscaling group MUST add at least one instance within five minutes.
             applicability:
               - tlp-green
               - tlp-amber
@@ -197,13 +180,11 @@ control-families:
       - id: CCC.LB.C07
         title: Scrub Sensitive Headers
         objective: >
-          Remove headers that disclose internal details or software versions
-          from HTTP responses.
+          Remove headers that disclose internal details or software versions from HTTP responses.
         requirements:
           - id: CCC.LB.C07.TR01
             text: |
-              When responses pass through the load balancer, the "Server"
-              header MUST be replaced with "lb".
+              When responses pass through the load balancer, the "Server" header MUST be replaced with "lb".
             applicability:
               - tlp-green
               - tlp-amber
@@ -223,18 +204,15 @@ control-families:
 
   - name: Encryption
     description: Controls that ensure trustworthy TLS certificates and ciphers.
-
     controls:
       - id: CCC.LB.C08
         title: Automate Certificate Renewal
         objective: >
-          Maintain valid TLS certificates by automating renewal and deployment
-          before expiry.
+          Maintain valid TLS certificates by automating renewal and deployment before expiry.
         requirements:
           - id: CCC.LB.C08.TR01
             text: |
-              When a certificate is within 30 days of expiry, automated renewal
-              MUST complete and deploy a new certificate within 24 hours.
+              When a certificate is within 30 days of expiry, automated renewal MUST complete and deploy a new certificate within 24 hours.
             applicability:
               - tlp-green
               - tlp-amber
