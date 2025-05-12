@@ -51,10 +51,8 @@ function parseControl(control: any, slug: string): Control {
     };
 }
 
-function createControlPageData(controlYaml: any, release: Release): ControlPageData {
-    const control = parseControl(controlYaml, release.slug);
-
-    const relatedThreats = controlYaml.threats?.map(threatId => release.threats.find(t => t.id === threatId)
+function createControlPageData(control: Control, release: Release): ControlPageData {
+    const relatedThreats = control.threats?.map(threatId => release.threats.find(t => t.id === threatId)
     ).filter(Boolean) || [];
 
     return {
@@ -67,9 +65,7 @@ function createControlPageData(controlYaml: any, release: Release): ControlPageD
     };
 }
 
-function createFeaturePageData(featureYaml: any, release: Release): FeaturePageData {
-    const feature = parseFeature(featureYaml, release.slug);
-
+function createFeaturePageData(feature: Feature, release: Release): FeaturePageData {
     // Find all threats that reference this feature
     const relatedThreats = release.threats.filter(threat => threat.features.includes(feature.id))
 
@@ -83,12 +79,10 @@ function createFeaturePageData(featureYaml: any, release: Release): FeaturePageD
     };
 }
 
-function createThreatPageData(threatYaml: any, release: Release): ThreatPageData {
-    const threat = parseThreat(threatYaml, release.slug);
-
+function createThreatPageData(threat: Threat, release: Release): ThreatPageData {
     const relatedControls = release.controls.filter(control => control.threats.includes(threat.id))
 
-    const relatedFeatures = threatYaml.features?.map(featureId => release.features.find(f => f.id === featureId)
+    const relatedFeatures = threat.features?.map(featureId => release.features.find(f => f.id === featureId)
     ).filter(Boolean) || [];
 
     return {
@@ -129,34 +123,33 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
                 const release = parseRelease(parsed);
                 cccReleases.push(release);
 
-                // Create a page data object for the release
-                const cccReleasePageData: ReleasePageData = {
-                    release,
-                    releaseTitle: parsed.metadata.title,
-                    releaseSlug: release.slug,
-                };
-
-                const componentTitle = parsed.metadata.title;
+                const componentTitle = release.metadata.title;
                 if (!components[componentTitle]) {
                     components[componentTitle] = [];
                 }
 
                 components[componentTitle].push(release);
 
+                const cccReleasePageData: ReleasePageData = {
+                    release,
+                    releaseTitle: release.metadata.title,
+                    releaseSlug: release.slug,
+                };
+
                 await pageCreator.createPage(cccReleasePageData, release.slug, '@site/src/components/ccc/Release/index.tsx');
 
-                for (const controlYaml of parsed.controls) {
-                    const pageData: ControlPageData = createControlPageData(controlYaml, release);
+                for (const control of release.controls) {
+                    const pageData: ControlPageData = createControlPageData(control, release);
                     await pageCreator.createPage(pageData, `${pageData.control.slug}`, '@site/src/components/ccc/Control/index.tsx');
                 }
 
-                for (const featureYaml of parsed.features || []) {
-                    const pageData: FeaturePageData = createFeaturePageData(featureYaml, release);
+                for (const feature of release.features || []) {
+                    const pageData: FeaturePageData = createFeaturePageData(feature, release);
                     await pageCreator.createPage(pageData, `${pageData.feature.slug}`, '@site/src/components/ccc/Feature/index.tsx');
                 }
 
-                for (const threatYaml of parsed.threats || []) {
-                    const pageData: ThreatPageData = createThreatPageData(threatYaml, release);
+                for (const threat of release.threats || []) {
+                    const pageData: ThreatPageData = createThreatPageData(threat, release);
                     pageCreator.createPage(pageData, `${pageData.threat.slug}`, '@site/src/components/ccc/Threat/index.tsx');
                 }
             }
