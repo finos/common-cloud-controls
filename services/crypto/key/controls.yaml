@@ -78,7 +78,7 @@ control-families:
 
     controls:
       - id: CCC.KeyMgmt.C03
-        title: Enforce automatic rotation
+        title: Enforce Automatic Rotation
         objective: >
           Ensure symmetric keys rotate automatically within policy intervals to
           reduce exposure of key material.
