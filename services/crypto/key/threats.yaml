@@ -63,7 +63,7 @@ threats:
           - T1562 # Impair Defenses
 
   - id: CCC.KeyMgmt.TH04
-    title: Introduction of weak or compromised key material during import
+    title: Introduction of Weak or Compromised Key Material During Import
     description: |
       Insufficient validation during the key-import process may allow weak,
       back-doored, or otherwise compromised key material to be introduced,
