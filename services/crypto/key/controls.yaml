@@ -15,7 +15,7 @@ control-families:
 
     controls:
       - id: CCC.KeyMgmt.C01
-        title: Alert on key-version changes
+        title: Alert on Key-version Changes
         objective: >
           Generate near-real-time alerts when a KMS key version is disabled or
           scheduled for deletion, enabling rapid investigation and recovery.
