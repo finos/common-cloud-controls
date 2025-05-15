@@ -10,7 +10,7 @@ threats:
   - id: CCC.KeyMgmt.TH01
     title: |
       Deletion or Disabling of Key Versions Causing Denial of Service or
-      data loss
+      Data Loss
     description: |
       Disabling, scheduling deletion, or permanently purging KMS key versions
       that protect sensitive data can prevent required decryption or signing
