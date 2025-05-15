@@ -16,30 +16,59 @@ control-families:
 
     controls:
       - id: CCC.LB.C01
-        title: Enforce Rate Limiting
+        title: Enforce and Detect Rate Limiting
         objective: >
-          Ensure malicious or excessive requests are throttled to prevent downstream resource exhaustion and brute-force activity.
+          Detect and throttle malicious or excessive requests to prevent
+          downstream resource exhaustion and brute-force activity.
         requirements:
           - id: CCC.LB.C01.TR01
             text: |
-              When a client exceeds the configured request-rate threshold, the load balancer MUST throttle subsequent requests for at least 60 seconds and record the event in the access log.
+              **When** a single client (identified by source IP or other
+              configured token) sends more than **2 000 requests within any
+              5-minute sliding window**, **THEN** the load balancer **MUST**
+              throttle all subsequent requests from that client (respond with
+              HTTP 429 or drop the connection) for **at least 60 seconds**.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Configure per-IP token-bucket limits with CCC.LB.F22 and verify via synthetic traffic tests.
+            recommendation: >
+              Implement per-IP token-bucket limits with CCC.LB.F22 (for AWS ALB,
+              use an AWS WAF rate-based rule or Shield Advanced adaptive
+              protection) and verify via synthetic traffic tests.
+          - id: CCC.LB.C01.TR02
+            text: |
+              **When** throttling is invoked, **THEN** the load balancer **MUST**
+              record the event in the access log **and** forward it to the
+              central security-monitoring pipeline within **5 minutes** for
+              alerting and trend analysis.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: >
+              Enable ALB access logging to S3/Kinesis and configure a CloudWatch
+              metric filter on HTTP 429 counts to trigger alerts.
         threat-mappings:
           - reference-id: LB
             identifiers:
               - LB.TH01 # Malicious Traffic
               - LB.TH09 # Resource Exhaustion
+          - reference-id: MITRE-ATT&CK
+            identifiers:
+              - T1499 # Endpoint DoS
+              - T1110 # Brute Force
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
-              - DE.CM-1 # The network is monitored to detect events
+              - DE.CM-1 # Monitor to detect events
+              - PR.AC-7 # Prevent brute-force
+              - PR.PT-4 # Protective technology
           - reference-id: NIST_800_53
             identifiers:
-              - AU-6 # Audit review, analysis, and reporting
+              - AU-6 # Audit review, analysis, reporting
+              - SC-5 # Denial-of-Service protection
+              - AC-7 # Unsuccessful logon attempts
 
       - id: CCC.LB.C06
         title: Secure Health-Check Telemetry
@@ -53,8 +82,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation:
-              Instrument metrics for CCC.LB.F12 and F13 transitions and set monitoring alarms.
+            recommendation: Instrument metrics for CCC.LB.F12 and F13 transitions and set monitoring alarms.
         threat-mappings:
           - reference-id: LB
             identifiers:
