@@ -104,7 +104,7 @@ control-families:
               - SC-12 # Cryptographic Key Establishment and Management
 
       - id: CCC.KeyMgmt.C04
-        title: Validate imported keys
+        title: Validate Imported Keys
         objective: >
           Accept only externally generated keys that meet approved cryptographic
           strength and provenance requirements.
