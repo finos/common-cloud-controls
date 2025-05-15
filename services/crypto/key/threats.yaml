@@ -47,7 +47,7 @@ threats:
           - T1550 # Use Alternate Authentication Material
 
   - id: CCC.KeyMgmt.TH03
-    title: Key rotation is disabled or delayed beyond policy limits
+    title: Key Rotation is Disabled or Delayed Beyond Policy Limits
     description: |
       Modification of automatic or manual rotation settings can keep older key
       material active longer than intended, decreasing cryptographic
