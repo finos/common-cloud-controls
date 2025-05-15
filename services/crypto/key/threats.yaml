@@ -31,7 +31,7 @@ threats:
           - T1490 # Inhibit System Recovery
 
   - id: CCC.KeyMgmt.TH02
-    title: Unrestricted use of a KMS key to decrypt data
+    title: Unrestricted Use of a KMS Key to Decrypt Data
     description: |
       Misconfigured permissions that allow broad invocation of the Decrypt API
       can expose plaintext data, enabling unintended disclosure or exfiltration
