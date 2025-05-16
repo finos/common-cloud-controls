@@ -77,8 +77,8 @@ control-families:
         requirements:
           - id: CCC.LB.C06.TR01
             text: |
-              When more than 10 percent of targets change from healthy to unhealthy 
-              within five minutes, an alert MUST be issued.
+              When more than 10 percent of targets change from healthy to
+              unhealthy within five minutes, an alert MUST be issued.
             applicability:
               - tlp-green
               - tlp-amber
@@ -133,8 +133,8 @@ control-families:
         requirements:
           - id: CCC.LB.C05.TR01
             text: |
-              When stickiness is enabled, session cookies MUST use SameSite=Lax and expire 
-              within 30 minutes of inactivity.
+              When stickiness is enabled, session cookies MUST use
+              SameSite=Lax and expire within 30 minutes of inactivity.
             applicability:
               - tlp-green
               - tlp-amber
@@ -189,8 +189,9 @@ control-families:
         requirements:
           - id: CCC.LB.C02.TR01
             text: |
-              When concurrent connections reach 80 percent of capacity, the autoscaling group 
-              MUST add at least one instance within five minutes.
+              When concurrent connections reach 80 percent of capacity, the
+              autoscaling group MUST add at least one instance within five
+              minutes.
             applicability:
               - tlp-green
               - tlp-amber
@@ -243,7 +244,7 @@ control-families:
         requirements:
           - id: CCC.LB.C08.TR01
             text: |
-              When a certificate is within 30 days of expiry, automated renewal 
+              When a certificate is within 30 days of expiry, automated renewal
               MUST complete and deploy a new certificate within 24 hours.
             applicability:
               - tlp-green
