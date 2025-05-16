@@ -52,8 +52,8 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - LB.TH01 # Malicious Traffic
-              - LB.TH09 # Resource Exhaustion
+              - CCC.LB.TH01 # Malicious Traffic
+              - CCC.LB.TH09 # Resource Exhaustion
           - reference-id: MITRE-ATT&CK
             identifiers:
               - T1499 # Endpoint DoS
@@ -87,7 +87,7 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - LB.TH05 # Health Checks Exploited
+              - CCC.LB.TH05 # Health Checks Exploited
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -116,7 +116,7 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - LB.TH03 # Traffic Distribution Manipulated
+              - CCC.LB.TH03 # Traffic Distribution Manipulated
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -143,7 +143,7 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - LB.TH04 # Session Persistence Exploited
+              - CCC.LB.TH04 # Session Persistence Exploited
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -169,7 +169,7 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - LB.TH08 # API Exposed and Attacked
+              - CCC.LB.TH08 # API Exposed and Attacked
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -200,7 +200,7 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - LB.TH09 # Resource Exhaustion
+              - CCC.LB.TH09 # Resource Exhaustion
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -225,7 +225,7 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - LB.TH06 # Metadata Exposure
+              - CCC.LB.TH06 # Metadata Exposure
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
@@ -254,7 +254,7 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - LB.TH07 # Certificates Expired or Invalid
+              - CCC.LB.TH07 # Certificates Expired or Invalid
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
