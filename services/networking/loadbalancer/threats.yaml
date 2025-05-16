@@ -11,7 +11,7 @@ shared-threats:
       - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 
 threats:
-  - id: LB.TH01
+  - id: CCC.LB.TH01
     title: Malicious Traffic Is Not Filtered or Rate-Limited
     description: |
       Absence of filtering or rate limiting permits malicious traffic to
@@ -29,7 +29,7 @@ threats:
           - T1499 # Endpoint DoS
           - T1110 # Brute Force
 
-  - id: LB.TH03
+  - id: CCC.LB.TH03
     title: Traffic Distribution Is Manipulated
     description: |
       Adjusting distribution policies can concentrate traffic on specific nodes
@@ -45,7 +45,7 @@ threats:
           - T1499
           - T1557
 
-  - id: LB.TH04
+  - id: CCC.LB.TH04
     title: Session Persistence Is Exploited
     description: |
       Improper session-affinity settings can enable session fixation or
@@ -60,7 +60,7 @@ threats:
           - T1078
           - T1557
 
-  - id: LB.TH05
+  - id: CCC.LB.TH05
     title: Health Checks Are Exploited to Take Services Offline
     description: |
       Manipulating health-check endpoints or responses can cause healthy
@@ -76,7 +76,7 @@ threats:
           - T1499
           - T1583
 
-  - id: LB.TH06
+  - id: CCC.LB.TH06
     title: Sensitive Metadata Exposure via HTTP Headers
     description: |
       Response headers may reveal software versions, internal IPs, or other
@@ -91,7 +91,7 @@ threats:
           - T1592
           - T1530
 
-  - id: LB.TH07
+  - id: CCC.LB.TH07
     title: TLS Certificates Are Expired or Invalid
     description: |
       Stale or untrusted certificates weaken encrypted-traffic protection.
@@ -105,7 +105,7 @@ threats:
           - T1557
           - T1608
 
-  - id: LB.TH08
+  - id: CCC.LB.TH08
     title: Load Balancer API Is Exposed and Attacked
     description: |
       Publicly exposed APIs may be probed or brute-forced to enumerate or alter
@@ -121,7 +121,7 @@ threats:
           - T1190
           - T1110
 
-  - id: LB.TH09
+  - id: CCC.LB.TH09
     title: Resource Exhaustion via Volumetric Attacks
     description: |
       High-volume traffic floods can exhaust load-balancer capacity, causing
