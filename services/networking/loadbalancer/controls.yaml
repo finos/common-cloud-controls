@@ -83,7 +83,8 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Instrument metrics for CCC.LB.F12 and F13 transitions and set monitoring alarms.
+            recommendation: Instrument metrics for health check results and target removal events. 
+            Configure monitoring alarms to alert on abnormal spikes in unhealthy targets.
         threat-mappings:
           - reference-id: LB
             identifiers:
@@ -133,8 +134,8 @@ control-families:
         requirements:
           - id: CCC.LB.C05.TR01
             text: |
-              When stickiness is enabled, session cookies MUST use
-              SameSite=Lax and expire within 30 minutes of inactivity.
+              When stickiness is enabled, session cookies MUST expire 
+              within 30 minutes of inactivity.
             applicability:
               - tlp-green
               - tlp-amber
