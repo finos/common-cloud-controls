@@ -226,7 +226,7 @@ control-families:
         threat-mappings:
           - reference-id: LB
             identifiers:
-              - CCC.LB.TH06 # Metadata Exposure
+              - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
