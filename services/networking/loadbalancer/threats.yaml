@@ -12,7 +12,7 @@ shared-threats:
 
 threats:
   - id: CCC.LB.TH01
-    title: Malicious Traffic Is Not Filtered or Rate-Limited
+    title: Lack of Rate Limiting Allows Downstream Service Exhaustion
     description: |
       Absence of filtering or rate limiting permits malicious traffic to
       overload downstream services and facilitates brute-force activity.
