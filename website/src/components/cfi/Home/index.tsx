@@ -52,7 +52,7 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                   {groupedConfigurations.get(id).map((c: Configuration) => (
                     <TableRow key={c.cfi_details.id}>
                       <TableCell>
-                        <Link to={c.slug} className="text-primary hover:underline">
+                        <Link to={c.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
                           {c.cfi_details.id}
                         </Link>
                       </TableCell>

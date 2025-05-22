@@ -25,11 +25,11 @@ export function User({ name, githubId, company, avatarUrl }: UserProps) {
       <div className="flex flex-col">
         <div className="flex items-center gap-2">
           <span className="font-medium">{name}</span>
-          <a href={`https://github.com/${githubId}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+          <a href={`https://github.com/${githubId}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">
             {githubId}
           </a>
         </div>
-        <Badge variant="secondary" className="w-fit">
+        <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300 w-fit">
           {company}
         </Badge>
       </div>

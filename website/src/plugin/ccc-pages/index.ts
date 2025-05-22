@@ -2,7 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { Release, Control, Feature, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData } from '@site/src/types/ccc';
+import { Release, Control, Feature, Component, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData, ComponentPageData } from '@site/src/types/ccc';
+import { PageCreator } from './PageCreator';
+import { title } from 'process';
 
 interface CCCReleaseYaml {
     metadata: {
@@ -19,7 +21,7 @@ interface CCCReleaseYaml {
 type PluginContent = CCCReleaseYaml[];
 
 function parseRelease(parsed: CCCReleaseYaml): Release {
-    const slug = `/ccc/${parsed.metadata.id}.${parsed.metadata.release_details[0]?.version || 'N/A'}`;
+    const slug = `/ccc/${parsed.metadata.id}/${parsed.metadata.release_details[0]?.version || 'N/A'}`;
     return {
         metadata: parsed.metadata,
         threats: parsed.threats.map(threat => parseThreat(threat, slug)),
@@ -50,106 +52,57 @@ function parseControl(control: any, slug: string): Control {
     };
 }
 
-
-async function createControlPage(controlYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
-    const control = parseControl(controlYaml, release.slug);
-
-    const relatedThreats = controlYaml.threats?.map(threatId => release.threats.find(t => t.id === threatId)
+function createControlPageData(control: Control, release: Release): ControlPageData {
+    const relatedThreats = control.threats?.map(threatId => release.threats.find(t => t.id === threatId)
     ).filter(Boolean) || [];
 
-    const controlPageData: ControlPageData = {
+    return {
         control: {
             ...control,
             related_threats: relatedThreats,
         },
-        releaseTitle: parsed.metadata.title,
+        releaseTitle: release.metadata.title,
         releaseSlug: release.slug,
     };
-
-    const controlPagePath = await createData(
-        `ccc - ${release.slug} -${control.id}.json`,
-        JSON.stringify(controlPageData, null, 2)
-    );
-
-    addRoute({
-        path: `${release.slug}/${control.id}`,
-        component: '@site/src/components/ccc/Control/index.tsx',
-        modules: {
-            pageData: controlPagePath,
-        },
-        exact: true,
-    });
-
-    console.log(`Added route for ${control.slug}`);
 }
 
-async function createFeaturePage(featureYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
-    const feature = parseFeature(featureYaml, release.slug);
-
+function createFeaturePageData(feature: Feature, release: Release): FeaturePageData {
     // Find all threats that reference this feature
     const relatedThreats = release.threats.filter(threat => threat.features.includes(feature.id))
 
-
-    const featurePageData: FeaturePageData = {
+    return {
         feature: {
             ...feature,
             related_threats: relatedThreats
         },
-        releaseTitle: parsed.metadata.title,
+        releaseTitle: release.metadata.title,
         releaseSlug: release.slug,
     };
-
-    const featurePagePath = await createData(
-        `ccc-${release.slug}-${feature.id}.json`,
-        JSON.stringify(featurePageData, null, 2)
-    );
-
-    addRoute({
-        path: `${release.slug}/${feature.id}`,
-        component: '@site/src/components/ccc/Feature/index.tsx',
-        modules: {
-            pageData: featurePagePath,
-        },
-        exact: true,
-    });
-
-    console.log(`Added route for ${feature.slug}`);
-
 }
 
-async function createThreatPage(threatYaml: any, release: Release, parsed: CCCReleaseYaml, createData: (name: string, data: string | object) => Promise<string>, addRoute) {
-    const threat = parseThreat(threatYaml, release.slug);
-
+function createThreatPageData(threat: Threat, release: Release): ThreatPageData {
     const relatedControls = release.controls.filter(control => control.threats.includes(threat.id))
 
-    const relatedFeatures = threatYaml.features?.map(featureId => release.features.find(f => f.id === featureId)
+    const relatedFeatures = threat.features?.map(featureId => release.features.find(f => f.id === featureId)
     ).filter(Boolean) || [];
 
-    const threatPageData: ThreatPageData = {
+    return {
         threat: {
             ...threat,
             related_controls: relatedControls,
             related_features: relatedFeatures
         },
-        releaseTitle: parsed.metadata.title,
+        releaseTitle: release.metadata.title,
         releaseSlug: release.slug,
     };
+}
 
-    const threatPagePath = await createData(
-        `ccc-${release.slug}-${threat.id}.json`,
-        JSON.stringify(threatPageData, null, 2)
-    );
-
-    addRoute({
-        path: `${release.slug}/${threat.id}`,
-        component: '@site/src/components/ccc/Threat/index.tsx',
-        modules: {
-            pageData: threatPagePath,
-        },
-        exact: true,
-    });
-
-    console.log(`Added route for ${threat.slug}`);
+function createComponentPageData(component: Component): ComponentPageData {
+    return {
+        component: component,
+        releaseTitle: component.releases[0].metadata.title,
+        releaseSlug: component.releases[0].slug,
+    };
 }
 
 export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
@@ -160,103 +113,72 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             const dataDir = path.resolve(__dirname, '../../data/ccc-releases');
             const files = fs.readdirSync(dataDir).filter((f) => f.endsWith('.yaml'));
 
-            const releases: CCCReleaseYaml[] = [];
-
-            for (const file of files) {
+            return files.map((file) => {
                 const filePath = path.join(dataDir, file);
                 const raw = fs.readFileSync(filePath, 'utf8');
-                const parsed = yaml.load(raw) as CCCReleaseYaml;
-                releases.push(parsed);
-            }
-
-            return releases;
+                return yaml.load(raw) as CCCReleaseYaml;
+            });
         },
 
         async contentLoaded({ actions, content }) {
             const { setGlobalData, createData, addRoute } = actions;
+            const pageCreator: PageCreator = new PageCreator(createData, addRoute);
             const cccReleases: Release[] = [];
 
             // Group releases by component
-            const components: Record<string, any[]> = {};
+            const components: Record<string, Component> = {};
 
             for (const parsed of content) {
-
                 const release = parseRelease(parsed);
                 cccReleases.push(release);
 
-                // Create a page data object for the release
+                const componentId = release.metadata.id;
+                if (!components[componentId]) {
+                    components[componentId] = {title: release.metadata.title, releases: [], slug: `/ccc/${componentId}`};
+                }
+
+                components[componentId].releases.push(release);
+
                 const cccReleasePageData: ReleasePageData = {
                     release,
-                    releaseTitle: parsed.metadata.title,
+                    releaseTitle: release.metadata.title,
                     releaseSlug: release.slug,
                 };
 
-                const componentTitle = parsed.metadata.title;
-                if (!components[componentTitle]) {
-                    components[componentTitle] = [];
+                await pageCreator.createPage(cccReleasePageData, release.slug, '@site/src/components/ccc/Release/index.tsx');
+
+                for (const control of release.controls) {
+                    const pageData: ControlPageData = createControlPageData(control, release);
+                    await pageCreator.createPage(pageData, `${pageData.control.slug}`, '@site/src/components/ccc/Control/index.tsx');
                 }
 
-                components[componentTitle].push(release);
-
-                const jsonPath = await createData(
-                    `ccc-${release.slug}.json`,
-                    JSON.stringify(cccReleasePageData, null, 2)
-                );
-
-                addRoute({
-                    path: `${release.slug}`,
-                    component: '@site/src/components/ccc/Release/index.tsx',
-                    modules: {
-                        pageData: jsonPath,
-                    },
-                    exact: true,
-                });
-
-                console.log(`Added route for ${release.slug}`);
-
-                for (const controlYaml of parsed.controls) {
-                    await createControlPage(controlYaml, release, parsed, createData, addRoute);
+                for (const feature of release.features || []) {
+                    const pageData: FeaturePageData = createFeaturePageData(feature, release);
+                    await pageCreator.createPage(pageData, `${pageData.feature.slug}`, '@site/src/components/ccc/Feature/index.tsx');
                 }
 
-                for (const featureYaml of parsed.features || []) {
-                    await createFeaturePage(featureYaml, release, parsed, createData, addRoute);
-                }
-
-                for (const threatYaml of parsed.threats || []) {
-                    await createThreatPage(threatYaml, release, parsed, createData, addRoute);
+                for (const threat of release.threats || []) {
+                    const pageData: ThreatPageData = createThreatPageData(threat, release);
+                    pageCreator.createPage(pageData, `${pageData.threat.slug}`, '@site/src/components/ccc/Threat/index.tsx');
                 }
             }
 
-            // Create home page data
+            Object.entries(components).forEach(([componentId, component]) => {
+                component.releases.sort((a, b) => b.metadata.release_details[0].version.localeCompare(a.metadata.release_details[0].version));
+                const componentPageData: ComponentPageData = createComponentPageData(component);
+                pageCreator.createPage(componentPageData, `/ccc/${componentId}`, '@site/src/components/ccc/Component/index.tsx');
+            });
+
             const homePageData: HomePageData = {
-                components: Object.entries(components).map(([title, releases]) => ({
-                    title,
-                    releases: releases.sort((a, b) => b.version.localeCompare(a.version))
-                }))
+                components: Object.entries(components).flatMap(([_, component]) => component),
             };
 
-            const homePagePath = await createData(
-                'ccc-home.json',
-                JSON.stringify(homePageData, null, 2)
-            );
-
-            addRoute({
-                path: '/ccc',
-                component: '@site/src/components/ccc/Home/index.tsx',
-                modules: {
-                    pageData: homePagePath,
-                },
-                exact: true,
-            });
+            await pageCreator.createPage(homePageData, '/ccc', '@site/src/components/ccc/Home/index.tsx');
 
             setGlobalData({
                 'ccc-releases': cccReleases,
                 'ccc-release-yaml': content
             });
-
-
-            console.log('Added route for /ccc');
         },
     };
 }
-

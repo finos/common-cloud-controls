@@ -1,0 +1,298 @@
+{
+  "controls": [
+    {
+      "category": "CCM",
+      "id": "IVS-07",
+      "name": "Network Security",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/ivs/ivs-07/"
+    },
+    {
+      "category": "CCM",
+      "id": "IVS-03",
+      "name": "Network Security",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/ivs/ivs-03/"
+    },
+    {
+      "category": "CCM",
+      "id": "IAM-03",
+      "name": "Identity Inventory",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/iam/iam-03/"
+    },
+    {
+      "category": "CCM",
+      "id": "IAM-08",
+      "name": "Identity and Access Management Policy and Procedures",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/iam/iam-08/"
+    },
+    {
+      "category": "CCM",
+      "id": "DS-5",
+      "name": "Data Security and Privacy Policy and Procedures",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/ds/ds-05/"
+    },
+    {
+      "category": "CCM",
+      "id": "DSI-06",
+      "name": "Data Security and Information Lifecycle Management",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dsi/dsi-06/"
+    },
+    {
+      "category": "CCM",
+      "id": "DSI-08",
+      "name": "Data Security and Information Lifecycle Management",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dsi/dsi-08/"
+    },
+    {
+      "category": "CCM",
+      "id": "EKM-02",
+      "name": "Encryption Key Management",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/ekm/ekm-02/"
+    },
+    {
+      "category": "CCM",
+      "id": "EKM-03",
+      "name": "Encryption Key Management",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/ekm/ekm-03/"
+    },
+    {
+      "category": "CCM",
+      "id": "DCS-04",
+      "name": "Data Center Security",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dcs/dcs-04/"
+    },
+    {
+      "category": "CCM",
+      "id": "DCS-06",
+      "name": "Data Center Security",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dcs/dcs-06/"
+    },
+    {
+      "category": "CCM",
+      "id": "DCS-09",
+      "name": "Data Center Security",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dcs/dcs-09/"
+    },
+    {
+      "category": "CCM",
+      "id": "DSP-16",
+      "name": "Data Security and Privacy",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dsp/dsp-16/"
+    },
+    {
+      "category": "CCM",
+      "id": "DSP-07",
+      "name": "Data Security and Privacy",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dsp/dsp-07/"
+    },
+    {
+      "category": "CCM",
+      "id": "DSP-17",
+      "name": "Data Security and Privacy",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dsp/dsp-17/"
+    },
+    {
+      "category": "CCM",
+      "id": "LOG-08",
+      "name": "Logging and Monitoring",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/log/log-08/"
+    },
+    {
+      "category": "CCM",
+      "id": "LOG-05",
+      "name": "Logging and Monitoring",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/log/log-05/"
+    },
+    {
+      "category": "CCM",
+      "id": "BCR-08",
+      "name": "Business Continuity and Resilience",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/bcr/bcr-08/"
+    },
+    {
+      "category": "CCM",
+      "id": "LOG-02",
+      "name": "Logging and Monitoring",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/log/log-02/"
+    },
+    {
+      "category": "CCM",
+      "id": "LOG-04",
+      "name": "Logging and Monitoring",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/log/log-04/"
+    },
+    {
+      "category": "CCM",
+      "id": "LOG-09",
+      "name": "Logging and Monitoring",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/log/log-09/"
+    },
+    {
+      "category": "CCM",
+      "id": "DSP-10",
+      "name": "Data Security and Privacy",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dsp/dsp-10/"
+    },
+    {
+      "category": "CCM",
+      "id": "DSP-19",
+      "name": "Data Security and Privacy",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/dsp/dsp-19/"
+    },
+    {
+      "category": "CCM",
+      "id": "TVM-02",
+      "name": "Threat and Vulnerability Management",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/tvm/tvm-02/"
+    },
+    {
+      "category": "CCM",
+      "id": "SEF-05",
+      "name": "Security and Privacy Governance",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/sef/sef-05/"
+    },
+    {
+      "category": "CCM",
+      "id": "IVS-01",
+      "name": "Network Security",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/ivs/ivs-01/"
+    },
+    {
+      "category": "CCM",
+      "id": "IVS-06",
+      "name": "Network Security",
+      "url": "https://csf.tools/reference/cloud-controls-matrix/v4-0/ivs/ivs-06/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "SC-8",
+      "name": "Transmission Confidentiality and Integrity",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-8/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "SC-13",
+      "name": "Cryptographic Protection",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-13/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "IA-2",
+      "name": "Identification and Authentication (Organizational Users)",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-2/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "AC-3",
+      "name": "Access Enforcement",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-3/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "AC-6",
+      "name": "Least Privilege",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-6/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "SC-12",
+      "name": "Cryptographic Key Establishment and Management",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-12/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "SC-17",
+      "name": "Public Key Infrastructure Certificates",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-17/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "SC-28",
+      "name": "Protection of Information at Rest",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-28/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "CP-10",
+      "name": "System Recovery and Reconstitution",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-10/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "AU-9",
+      "name": "Protection of Audit Information",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-9/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "AU-2",
+      "name": "Audit Events",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-2/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "AU-3",
+      "name": "Content of Audit Records",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-3/"
+    },
+    {
+      "category": "NIST SP 800-53",
+      "id": "AU-12",
+      "name": "Audit Record Generation",
+      "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-12/"
+    },
+    {
+      "category": "ISO_27001",
+      "id": "2013 A.13.1.1",
+      "name": "Network Security Management",
+      "url": "https://www.isms.online/iso-27001/annex-a-13-communications-security/"
+    },
+    {
+      "category": "ISO/IEC 27001:2013",
+      "id": "2013 A.13.1.1",
+      "name": "Network Controls",
+      "url": "https://www.isms.online/iso-27001/annex-a-13-communications-security/"
+    },
+    {
+      "category": "ISO/IEC 27001:2013",
+      "id": "2013 A.9.4.2",
+      "name": "Secure Log-on Procedures",
+      "url": "https://info-savvy.com/iso-27001-annex-a-9-4-system-and-application-access-control/"
+    },
+    {
+      "category": "ISO/IEC 27001:2013",
+      "id": "2013 A.13.1.3",
+      "name": "Segregation in Networks",
+      "url": "https://systemi.se/2023/04/11/checklist-of-iso-iec-27001-a-13-1-3-segregation-in-network-services/"
+    },
+    {
+      "category": "ISO/IEC 27001:2013",
+      "id": "2013 A.11.1.1",
+      "name": "Physical Security Perimeter",
+      "url": "https://info-savvy.com/iso-27001-annex-a-11-physical-and-environmental-security/"
+    },
+    {
+      "category": "ISO/IEC 27001:2013",
+      "id": "2013 A.10.1.2",
+      "name": "Key Management",
+      "url": "https://www.isms.online/iso-27001/annex-a-10-cryptography/"
+    },
+    {
+      "category": "ISO/IEC 27001:2013",
+      "id": "2013 A.9.4.1",
+      "name": "Information Access Restriction",
+      "url": "https://info-savvy.com/iso-27001-annex-a-9-4-system-and-application-access-control/"
+    },
+    {
+      "category": "ISO/IEC 27001:2013",
+      "id": "2013 A.12.3.1",
+      "name": "Information Backup",
+      "url": "https://info-savvy.com/iso-27001-annex-a-12-3-backup/"
+    },
+    {
+      "category": "ISO/IEC 27001:2022",
+      "id": "2013 A.8.1.4",
+      "name": "Access Control",
+      "url": "https://www.isms.online/iso-27001/annex-a/8-1-user-endpoint-devices-2022/"
+    }
+  ]
+}

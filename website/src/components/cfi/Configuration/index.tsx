@@ -40,7 +40,7 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">URL</label>
                   <div className="mt-1">
-                    <Link to={pageData.configuration.cfi_details.url} className="text-primary hover:underline">
+                    <Link to={pageData.configuration.cfi_details.url} className="text-blue-600 hover:text-blue-800 hover:underline">
                       {pageData.configuration.cfi_details.url}
                     </Link>
                   </div>
@@ -75,7 +75,7 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                 {matchingCCCReleases.map((release: Release) => (
                   <TableRow key={release.metadata.release_details[0].version}>
                     <TableCell>
-                      <Link to={release.slug} className="text-primary hover:underline">
+                      <Link to={release.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
                         <code className="text-sm bg-muted px-1 py-0.5 rounded">{release.slug}</code>
                       </Link>
                     </TableCell>
@@ -124,7 +124,7 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                 {pageData.configuration.test_results.map((result) => (
                   <TableRow key={result.id}>
                     <TableCell>
-                      <Link to={result.slug} className="text-primary hover:underline">
+                      <Link to={result.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
                         {result.id}
                       </Link>
                     </TableCell>

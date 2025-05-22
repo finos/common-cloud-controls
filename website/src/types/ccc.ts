@@ -84,6 +84,7 @@ export interface Control {
 export interface Component {
     title: string;
     releases: Release[];
+    slug?: string;
 }
 
 
@@ -108,6 +109,10 @@ export interface ControlPageData extends PageData {
 
 export interface ReleasePageData extends PageData {
     release: Release;
+}
+
+export interface ComponentPageData extends PageData {
+    component: Component;
 }
 
 export interface HomePageData {

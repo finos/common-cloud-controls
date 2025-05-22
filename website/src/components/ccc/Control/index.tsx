@@ -5,16 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { ControlPageData } from "@site/src/types/ccc";
+import controlMappings from "../../../data/control-mappings/controlMappins.json";
 
 export default function CCCControlTemplate({ pageData }: { pageData: ControlPageData }) {
   const { control, releaseTitle, releaseSlug } = pageData;
-
+  const controlIdToUrl = Object.fromEntries(controlMappings.controls.map((ctrl) => [ctrl.id, ctrl.url]));
+  <pre>{JSON.stringify(controlIdToUrl, null, 2)}</pre>;
+  console.log("COntrol mappings", JSON.stringify(controlIdToUrl, null, 2));
   console.log(JSON.stringify(pageData, null, 2));
 
   return (
     <Layout title={control.title}>
       <main className="container margin-vert--lg space-y-6">
-        <Link to={releaseSlug} className="text-primary hover:underline flex items-center gap-1">
+        <Link to={releaseSlug} className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
           ← Back to {releaseTitle}
         </Link>
 
@@ -32,7 +35,9 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-medium">Control Family:</span>
-                <Badge variant="secondary">{control.control_family}</Badge>
+                <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
+                  {control.control_family}
+                </Badge>
               </div>
 
               {control.related_threats?.length > 0 && (
@@ -50,7 +55,7 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
                       {control.related_threats.map((threat) => (
                         <TableRow key={threat.id}>
                           <TableCell>
-                            <Link to={threat.slug} className="text-primary hover:underline">
+                            <Link to={threat.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
                               {threat.id}
                             </Link>
                           </TableCell>
@@ -66,7 +71,9 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
               {control.nist_csf && (
                 <div className="flex items-center gap-2">
                   <span className="font-medium">NIST CSF:</span>
-                  <Badge variant="outline">{control.nist_csf}</Badge>
+                  <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
+                    {control.nist_csf}
+                  </Badge>
                 </div>
               )}
             </div>
@@ -84,11 +91,20 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
                   <div key={framework} className="flex items-center gap-2">
                     <span className="font-medium">{framework}:</span>
                     <div className="flex flex-wrap gap-2">
-                      {values.map((value) => (
-                        <Badge key={value} variant="outline">
-                          {value}
-                        </Badge>
-                      ))}
+                      {values.map((value) => {
+                        const url = controlIdToUrl[value];
+                        return (
+                          <Badge key={value} variant="outline" className="bg-blue-100 text-blue-600 font-medium border border-blue-300 hover:bg-blue-300 hover:border-blue-400 hover:text-blue-900">
+                            {url ? (
+                              <a href={url} target="_blank" rel="noopener noreferrer" className="underline">
+                                {value}
+                              </a>
+                            ) : (
+                              value
+                            )}
+                          </Badge>
+                        );
+                      })}
                     </div>
                   </div>
                 ))}
@@ -115,7 +131,7 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
                         <span className="text-sm text-muted-foreground">TLP:</span>
                         <div className="flex flex-wrap gap-2">
                           {tr.tlp_levels.map((level) => (
-                            <Badge key={level} variant="outline">
+                            <Badge key={level} variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
                               {level}
                             </Badge>
                           ))}
