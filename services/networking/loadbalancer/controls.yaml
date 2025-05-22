@@ -108,7 +108,7 @@ control-families:
         requirements:
           - id: CCC.LB.C04.TR01
             text: |
-              When routing weights change, the request MUST originate from a role tagged "lb-ops" and be logged.
+                        When routing weights change, the request MUST originate from an explicitly defined and trusted identity and MUST be logged.
             applicability:
               - tlp-green
               - tlp-amber
