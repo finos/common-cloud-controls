@@ -24,7 +24,7 @@ control-families:
           - id: CCC.LB.C01.TR01
             text: |
               When a single client (identified by source IP or other
-              configured token) sends more than **2 000 requests within any
+              configured token) sends more than 2 000 requests within any
               5-minute sliding window, the load balancer MUST
               throttle all subsequent requests from that client (respond with
               HTTP 429 or drop the connection) for at least 60 seconds.
