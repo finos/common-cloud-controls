@@ -33,7 +33,7 @@ threats:
     title: Traffic Distribution Is Manipulated
     description: |
       Adjusting distribution policies can concentrate traffic on specific nodes
-      (causing DoS) or redirect flows through unwanted paths.
+      causing DoS or redirect flows through unwanted paths.
     capabilities:
       - reference-id: LB
         identifiers:
