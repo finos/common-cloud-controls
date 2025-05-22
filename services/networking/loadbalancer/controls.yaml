@@ -222,7 +222,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Configure header-transformation rules (CCC.LB.F19).
+            recommendation: Configure header-transformation rules.
         threat-mappings:
           - reference-id: LB
             identifiers:
