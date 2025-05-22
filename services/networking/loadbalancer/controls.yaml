@@ -27,7 +27,7 @@ control-families:
               configured token) sends more than **2 000 requests within any
               5-minute sliding window**, **THEN** the load balancer **MUST**
               throttle all subsequent requests from that client (respond with
-              HTTP 429 or drop the connection) for **at least 60 seconds**.
+              HTTP 429 or drop the connection) for at least 60 seconds.
             applicability:
               - tlp-green
               - tlp-amber
