@@ -40,7 +40,7 @@ control-families:
             text: |
               When throttling is invoked, the load balancer MUST
               record the event in the access log and forward it to the
-              central security-monitoring pipeline within **5 minutes** for
+              central security-monitoring pipeline within 5 minutes for
               alerting and trend analysis.
             applicability:
               - tlp-green
