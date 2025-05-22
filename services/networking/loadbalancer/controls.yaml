@@ -38,7 +38,7 @@ control-families:
               protection) and verify via synthetic traffic tests.
           - id: CCC.LB.C01.TR02
             text: |
-              **When** throttling is invoked, **THEN** the load balancer **MUST**
+              When throttling is invoked, the load balancer MUST
               record the event in the access log **and** forward it to the
               central security-monitoring pipeline within **5 minutes** for
               alerting and trend analysis.
