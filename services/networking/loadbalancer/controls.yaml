@@ -113,7 +113,8 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Use IAM condition keys and audit logging.
+            recommendation: | Define a list of trusted principals allowed to modify routing configurations. Enforce via 
+                                             conditional access policies, and log changes using audit logging.
         threat-mappings:
           - reference-id: LB
             identifiers:
