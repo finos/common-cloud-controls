@@ -23,32 +23,28 @@ control-families:
         requirements:
           - id: CCC.LB.C01.TR01
             text: |
-              When a single client (identified by source IP or other
-              configured token) sends more than 2 000 requests within any
-              5-minute sliding window, the load balancer MUST
-              throttle all subsequent requests from that client (respond with
-              HTTP 429 or drop the connection) for at least 60 seconds.
+              When a single client sends more than 2000 requests within any
+              5-minute sliding window, the load balancer MUST throttle all
+              subsequent requests from that client for at least 60 seconds.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: >
-              Implement per-IP token-bucket limits with CCC.LB.F22 (for AWS ALB,
-              use an AWS WAF rate-based rule or Shield Advanced adaptive
-              protection) and verify via synthetic traffic tests.
+            recommendation: |
+              Implement per-IP token-bucket limits with and verify via
+              synthetic traffic tests.
           - id: CCC.LB.C01.TR02
             text: |
               When throttling is invoked, the load balancer MUST
-              record the event in the access log and forward it to the
-              central security-monitoring pipeline within 5 minutes for
-              alerting and trend analysis.
+              record the event in the access log within 5 minutes
+              for alerting and trend analysis.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: >
-              Enable ALB access logging to S3/Kinesis and configure a CloudWatch
-              metric filter on HTTP 429 counts to trigger alerts.
+            recommendation: |
+              Enable access logging and configure metric filters
+              on HTTP 429 counts to trigger alerts.
         threat-mappings:
           - reference-id: LB
             identifiers:
@@ -72,8 +68,9 @@ control-families:
 
       - id: CCC.LB.C06
         title: Secure Health-Check Telemetry
-        objective: >
-          Monitor health-check endpoints for tampering and alert on abnormal status changes.
+        objective: |
+          Monitor health-check endpoints for tampering and alert on
+          abnormal status changes.
         requirements:
           - id: CCC.LB.C06.TR01
             text: |
@@ -83,8 +80,10 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Instrument metrics for health check results and target removal events. 
-            Configure monitoring alarms to alert on abnormal spikes in unhealthy targets.
+            recommendation: |
+              Instrument metrics for health check results and target
+              removal events. Configure monitoring alarms to alert
+              on abnormal spikes in unhealthy targets.
         threat-mappings:
           - reference-id: LB
             identifiers:
@@ -103,18 +102,23 @@ control-families:
     controls:
       - id: CCC.LB.C04
         title: Enforce Distribution Policies
-        objective: >
-          Ensure traffic-splitting weights and algorithms are modified only by trusted identities.
+        objective: |
+          Ensure traffic-splitting weights and algorithms are modified
+          only by trusted identities.
         requirements:
           - id: CCC.LB.C04.TR01
             text: |
-                        When routing weights change, the request MUST originate from an explicitly defined and trusted identity and MUST be logged.
+              When routing weights change, the request MUST originate
+              from an explicitly defined and trusted identity and MUST
+              be logged.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: | Define a list of trusted principals allowed to modify routing configurations. Enforce via 
-                                             conditional access policies, and log changes using audit logging.
+            recommendation: |
+              Define a list of trusted principals allowed to modify
+              routing configurations. Enforce via conditional access
+              policies, and log changes using audit logging.
         threat-mappings:
           - reference-id: LB
             identifiers:
@@ -129,13 +133,13 @@ control-families:
 
       - id: CCC.LB.C05
         title: Validate Session Affinity
-        objective: >
+        objective: |
           Configure session persistence to minimise fixation and hijacking
           risks.
         requirements:
           - id: CCC.LB.C05.TR01
             text: |
-              When stickiness is enabled, session cookies MUST expire 
+              When stickiness is enabled, session cookies MUST expire
               within 30 minutes of inactivity.
             applicability:
               - tlp-green
@@ -156,18 +160,20 @@ control-families:
 
       - id: CCC.LB.C09
         title: Restrict Management API Access
-        objective: >
-          Limit load-balancer API calls to authorised identities and trusted networks.
+        objective: |
+          Limit load-balancer API calls to authorised identities and
+          trusted networks.
         requirements:
           - id: CCC.LB.C09.TR01
             text: |
-              When an API call originates outside the approved CIDR set, the request MUST be denied.
+              When an API call originates outside the approved CIDR
+              set, the request MUST be denied.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: Combine VPC endpoints with IAM condition-key filters
-              for CCC.F14-protected APIs.
+              for protected APIs.
         threat-mappings:
           - reference-id: LB
             identifiers:
@@ -181,11 +187,13 @@ control-families:
               - SC-7 # Boundary protection
 
   - name: Data
-    description: Controls that preserve availability and confidentiality of traffic processed by the load balancer.
+    description: |
+      Controls that preserve availability and confidentiality of
+      traffic processed by the load balancer.
     controls:
       - id: CCC.LB.C02
         title: Auto-Scale Load Balancer Capacity
-        objective: >
+        objective: |
           Expand load-balancer capacity to maintain availability during traffic
           spikes.
         requirements:
@@ -198,7 +206,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Enable CCC.LB.F09 autoscaling policies.
+            recommendation: Enable autoscaling policies.
         threat-mappings:
           - reference-id: LB
             identifiers:
@@ -213,12 +221,14 @@ control-families:
 
       - id: CCC.LB.C07
         title: Scrub Sensitive Headers
-        objective: >
-          Remove headers that disclose internal details or software versions from HTTP responses.
+        objective: |
+          Remove headers that disclose internal details or software
+          versions from HTTP responses.
         requirements:
           - id: CCC.LB.C07.TR01
             text: |
-              When responses pass through the load balancer, the "Server" header MUST be replaced with "lb".
+              When responses pass through the load balancer, the
+              "Server" header MUST be replaced with "lb".
             applicability:
               - tlp-green
               - tlp-amber
@@ -241,8 +251,9 @@ control-families:
     controls:
       - id: CCC.LB.C08
         title: Automate Certificate Renewal
-        objective: >
-          Maintain valid TLS certificates by automating renewal and deployment before expiry.
+        objective: |
+          Maintain valid TLS certificates by automating renewal and
+          deployment before expiry.
         requirements:
           - id: CCC.LB.C08.TR01
             text: |
