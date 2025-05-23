@@ -50,10 +50,6 @@ control-families:
             identifiers:
               - CCC.LB.TH01 # Malicious Traffic
               - CCC.LB.TH09 # Resource Exhaustion
-          - reference-id: MITRE-ATT&CK
-            identifiers:
-              - T1499 # Endpoint DoS
-              - T1110 # Brute Force
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
