@@ -72,3 +72,31 @@ capabilities:
       access to resources for a limited period of time. These credentials
       are typically issued for a specific session or task and expire
       after a predefined duration.
+  - id: CCC.IAM.F12
+    title: Multi-Factor Authentication (MFA)
+    description: |
+      Support for enforcing MFA on user accounts and roles. Essential
+      for securing root/admin users.
+  - id: CCC.IAM.F13
+    title: Role Assumption / Delegation
+    description: |
+      Ability to temporarily assume another role or delegate access.
+      Commonly used for user impersonation or temporary privilege
+      elevation.
+  - id: CCC.IAM.F14
+    title: Access Boundaries
+    description: |
+      Ability to define a boundary around the maximum effective permissions
+      allowed for an identity at a higher level.
+  - id: CCC.IAM.F15
+    title: Deny Permissions by Default
+    description: |
+      By default, no identity (user, group, role, service) has access to
+      any resource, unless explicit permissions are granted.
+  - id: CCC.IAM.F14
+    title: Audit Tooling
+    description: |
+      Provide tools to simulate or analyze permission used by a roles,
+      and ability to export reports of who has access and whether it's
+      being used, etc. These tools will increase the visibility,
+      auditability and compliance of identities.
