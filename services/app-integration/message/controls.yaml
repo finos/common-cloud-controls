@@ -1,35 +1,45 @@
-common_controls:
-  - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure data encryption at rest for all stored data
-  - CCC.C03 # Implement multi-factor authentication (MFA) for access
-  - CCC.C04 # Log all access and changes
-  - CCC.C05 # Prevent access from untrusted entities
-  - CCC.C06 # Prevent deployment in restricted regions
-  - CCC.C07 # Alert on unusual enumeration activity
-  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-  - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent unencrypted requests
+      - CCC.C02 # Ensure data encryption at rest for all stored data
+      - CCC.C03 # Implement multi-factor authentication (MFA) for access
+      - CCC.C04 # Log all access and changes
+      - CCC.C05 # Prevent access from untrusted entities
+      - CCC.C06 # Prevent deployment in restricted regions
+      - CCC.C07 # Alert on unusual enumeration activity
+      - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+      - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
-controls:
-  - id: CCC.Message.C01 # Use Customer-Managed Encryption Keys (CMEK) for Messages
-    title: Use Customer-Managed Encryption Keys (CMEK) for Messages
-    objective: |
-      Ensure that messages are encrypted using customer-managed encryption keys (CMEK)
-      to provide enhanced control over encryption processes and keys, meeting compliance and security requirements.
-    control_family: Encryption
-    threats:
-      - CCC.TH01 # Access control is misconfigured
-    nist_csf: PR.DS-1 # Data-at-rest is protected
-    control_mappings:
-      NIST_800_53:
-        - SC-12 # Cryptographic Key Establishment and Management
-        - SC-13 # Cryptographic Protection
-    test_requirements:
-      - id: CCC.Message.C01.TR01
-        text: |
-          Attempt to publish a message without using a customer-managed encryption key
-          and verify that the message is rejected or not stored.
-        tlp_levels:
-          - tlp_clear
-          - tlp_green
-          - tlp_amber
-          - tlp_red
+control-families:
+  - name: Encryption
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.Message.C01
+        title: Use Customer-Managed Encryption Keys (CMEK) for Messages
+        objective: |
+          Ensure that messages are encrypted using customer-managed encryption keys (CMEK)
+          to provide enhanced control over encryption processes and keys, meeting compliance and security requirements.
+        requirements:
+          - id: CCC.Message.C01.TR01
+            text: |
+              Attempt to publish a message without using a customer-managed encryption key
+              and verify that the message is rejected or not stored.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH01 # Access control is misconfigured
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-1 # Data-at-rest is protected
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-12 # Cryptographic Key Establishment and Management
+              - SC-13 # Cryptographic Protection

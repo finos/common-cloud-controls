@@ -1,19 +1,21 @@
-common_threats:
-  - CCC.TH01 # Access control is misconfigured
-  - CCC.TH02 # Data is intercepted in transit
-  - CCC.TH03 # Deployment region network is untrusted
-  - CCC.TH04 # Data is Replicated to Untrusted or External Locations
-  - CCC.TH05 # Data is corrupted during replication
-  - CCC.TH06 # Data is lost or corrupted
-  - CCC.TH07 # Logs are tampered with or deleted
-  - CCC.TH09 # Logs or monitoring data are read by unauthorized users
-  - CCC.TH10 # Alerts are Intercepted
-  - CCC.TH11 # Event Notifications are Incorrectly Triggered
-  - CCC.TH12 # Resource constraints are exhausted
-  - CCC.TH13 # Resource tags are manipulated
-  - CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
-  - CCC.TH16 # Logging and Monitoring are Disabled
-  - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH02 # Data is intercepted in transit
+      - CCC.TH03 # Deployment region network is untrusted
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - CCC.TH05 # Data is corrupted during replication
+      - CCC.TH06 # Data is lost or corrupted
+      - CCC.TH07 # Logs are tampered with or deleted
+      - CCC.TH09 # Logs or monitoring data are read by unauthorized users
+      - CCC.TH10 # Alerts are Intercepted
+      - CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - CCC.TH12 # Resource constraints are exhausted
+      - CCC.TH13 # Resource tags are manipulated
+      - CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
+      - CCC.TH16 # Logging and Monitoring are Disabled
+      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 
 threats:
   - id: CCC.RDMS.TH01
@@ -22,12 +24,15 @@ threats:
       If default credentials are not disabled or changed, unauthorized access
       may be gained to the RDMS environment. This may lead to data breaches,
       data manipulation, or overall compromise of the database instance.
-    features:
-      - CCC.RDMS.F06 # DB Managed Credentials
-      - CCC.RDMS.F07 # DB Self Managed Credentials
-    mitre_technique:
-      - T1078 # Valid Accounts
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.RDMS.F06
+          - CCC.RDMS.F07
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078
   - id: CCC.RDMS.TH02
     title: Brute Force Attempts on Database Authentication
     description: |
@@ -35,22 +40,28 @@ threats:
       through brute force techniques. This condition could result in
       unauthorized access if successful, compromising database security
       and sensitive information.
-    features:
-      - CCC.RDMS.F07 # DB Self Managed Credentials
-    mitre_technique:
-      - T1110
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.RDMS.F07
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1110
   - id: CCC.RDMS.TH03
     title: Database Backups Stopped
     description: |
       Database backups may be halted, potentially impairing the organization's
       ability to recover data and maintain business continuity. This condition
       increases the risk of data loss and extended system downtime.
-    features:
-      - CCC.F11 # Backup
-    mitre_technique:
-      - T1490
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F11
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1490
   - id: CCC.RDMS.TH04
     title: Unintentional Database Backup Restoration
     description: |
@@ -58,11 +69,14 @@ threats:
       leading to the loss or overwrite of current data. This condition
       could disrupt operations and result in data inconsistency or
       corruption.
-    features:
-      - CCC.F11 # Backup
-    mitre_technique:
-      - T1485
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F11
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1485
   - id: CCC.RDMS.TH05
     title: Unauthorized Snapshot Sharing
     description: |
@@ -70,7 +84,11 @@ threats:
       unauthorized access and potential data exfiltration. This significantly
       increases the risk of data exposure if sensitive information is contained
       in the snapshots.
-    features:
-      - CCC.F11 # Backup
-    mitre_technique:
-      - T1530 # Data from Cloud Storage Object
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F11
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1530

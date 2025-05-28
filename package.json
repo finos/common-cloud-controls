@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@docusaurus/plugin-content-docs": "^3.7.0",
+    "@docusaurus/tsconfig": "^3.7.0",
+    "typescript": "^5.8.3"
+  }
+}
