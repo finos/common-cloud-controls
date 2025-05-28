@@ -80,7 +80,7 @@ capabilities:
   - id: CCC.IAM.F13
     title: Role Assumption / Delegation
     description: |
-      Ability to temporary assume another role or delegate access.
+      Ability to temporarily assume another role or delegate access.
       Commonly used for user impersonation or temporary privilege
       elevation.
   - id: CCC.IAM.F14
