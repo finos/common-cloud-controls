@@ -4,7 +4,6 @@ import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
 import { Release, Control, Feature, Component, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData, ComponentPageData } from '@site/src/types/ccc';
 import { PageCreator } from './PageCreator';
-import { title } from 'process';
 
 interface CCCReleaseYaml {
     metadata: {
