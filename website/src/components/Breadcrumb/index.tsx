@@ -7,7 +7,7 @@ const Breadcrumb = () => {
 
   return (
     <nav className="text-sm text-gray-500 mb-4 mx-32 py-5">
-      <Link to="/" className="hover:underline text-blue-600">
+      <Link to="/" className="px-3 hover:bg-gray-200 rounded-full hover:no-underline">
         Home
       </Link>
       {pathParts.map((part, index) => {
@@ -15,9 +15,9 @@ const Breadcrumb = () => {
         const isLastPart = index === pathParts.length - 1;
         return (
           <span key={to}>
-            {" / "}
-            <Link to={to} className={` ${isLastPart ? "font-medium text-gray-700" : "text-blue-600"}`}>
-              {part}
+            {" > "}
+            <Link to={isLastPart ? "" : to} className={`px-3 rounded-full hover:no-underline ${isLastPart ? "bg-gray-200" : "hover:bg-gray-200"}`}>
+              {format(part)}
             </Link>
           </span>
         );
@@ -27,3 +27,11 @@ const Breadcrumb = () => {
 };
 
 export default Breadcrumb;
+
+const format = (part: string): string => {
+  if (part === "ccc") {
+    return "Common Cloud Controls";
+  }
+
+  return part;
+}
