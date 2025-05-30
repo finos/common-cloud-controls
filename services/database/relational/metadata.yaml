@@ -33,30 +33,30 @@ release_details:
         This initial release contains a variety of commits designed to capture
         all of the capabilities, threats, and controls for this service category.
     contributors:
-      - name: Michael Lysaght
+      - title: Michael Lysaght
         github_id: mlysaght2017
         company: Citi
-      - name: abikhuil
+      - title: abikhuil
         github_id: abikhuil
         company: LSEG
-      - name: Vlad Georgescu
+      - title: Vlad Georgescu
         github_id: vgeorgescu
         company: Morgan Stanley
-      - name: Ian Walker-Smith
+      - title: Ian Walker-Smith
         github_id: ianwalkersmithciticom
         company: Citi
-      - name: Dave Ogle
+      - title: Dave Ogle
         github_id: dogle-scottlogic
         company: Scott Logic
-      - name: Steve Hoffman
+      - title: Steve Hoffman
         github_id: shoffman-percona
         company: Percona
-      - name: Sonali Mendis
+      - title: Sonali Mendis
         github_id: smendis-scottlogic
         company: Scott Logic
-      - name: Eddie Knight
+      - title: Eddie Knight
         github_id: eddie-knight
         company: Sonatype
-      - name: Damien Burks
+      - title: Damien Burks
         github_id: damienjburks
         company: Citi

@@ -29,7 +29,7 @@ threats:
         identifiers:
           - CCC.ObjStor.F08
           - CCC.F11
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1020
@@ -47,7 +47,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.ObjStor.F09
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1027

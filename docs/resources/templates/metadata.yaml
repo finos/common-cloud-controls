@@ -17,6 +17,6 @@ release_details:
     change_log:
       - <Additional notes; one per PR added after release>
     contributors:
-      - name: <Your First and Last Name>
+      - title: <Your First and Last Name>
         github_id: <Your GitHub Id>
         company: <Your company name>

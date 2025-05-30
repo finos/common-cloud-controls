@@ -8,37 +8,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - title: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - title: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16"
 
-      - name: Install markdownlint-cli
+      - title: Install markdownlint-cli
         run: npm install -g markdownlint-cli
 
-      - name: Run markdownlint
+      - title: Run markdownlint
         run: markdownlint '**/*.md' --config ./.config/.markdownlint.yaml
 
   yaml-lint:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - title: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - title: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.x" # Use any compatible Python 3 version
 
-      - name: Install yamllint
+      - title: Install yamllint
         run: |
           python -m pip install --upgrade pip
           pip install yamllint
 
-      - name: Run yamllint
+      - title: Run yamllint
         run: |
           yamllint -c ./.config/.yamllint .
