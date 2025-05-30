@@ -10,7 +10,7 @@ shared-controls:
       - CCC.C10 # Prevent Data Replication to Destinations Outside Perimeter
 
 control-families:
-  - name: Logging and Monitoring
+  - title: Logging and Monitoring
     description: Controls that collect, alert, and retain key-management events.
 
     controls:
@@ -19,7 +19,7 @@ control-families:
         objective: >
           Generate near-real-time alerts when a KMS key version is disabled or
           scheduled for deletion, enabling rapid investigation and recovery.
-        requirements:
+        assessment-requirements:
           - id: CCC.KeyMgmt.C01.TR01
             text: |
               When a key version is scheduled for deletion or disabled, an
@@ -42,7 +42,7 @@ control-families:
             identifiers:
               - IR-5 # Incident Monitoring
 
-  - name: Identity and Access Management
+  - title: Identity and Access Management
     description: Controls that enforce least-privilege use of KMS operations.
 
     controls:
@@ -51,7 +51,7 @@ control-families:
         objective: >
           Restrict the Decrypt operation to authorised principals only, applying
           the principle of least privilege to protect sensitive data.
-        requirements:
+        assessment-requirements:
           - id: CCC.KeyMgmt.C02.TR01
             text: |
               When IAM roles and key policies are reviewed, Decrypt permission
@@ -72,7 +72,7 @@ control-families:
             identifiers:
               - AC-6 # Least Privilege
 
-  - name: Key Lifecycle Management
+  - title: Key Lifecycle Management
     description: Controls that govern creation, rotation, import, and retirement
       of cryptographic keys.
 
@@ -82,7 +82,7 @@ control-families:
         objective: >
           Ensure symmetric keys rotate automatically within policy intervals to
           reduce exposure of key material.
-        requirements:
+        assessment-requirements:
           - id: CCC.KeyMgmt.C03.TR01
             text: |
               When rotation settings are examined, rotation MUST be enabled with
@@ -108,7 +108,7 @@ control-families:
         objective: >
           Accept only externally generated keys that meet approved cryptographic
           strength and provenance requirements.
-        requirements:
+        assessment-requirements:
           - id: CCC.KeyMgmt.C04.TR01
             text: |
               When a key import request is processed, the key MUST use an

@@ -10,7 +10,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F06 # Identity Based Access Control
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1078 # Valid Accounts
@@ -36,7 +36,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F01 # Encryption in Transit Enabled by Default
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1557 # Adversary-in-the-Middle
@@ -54,7 +54,7 @@ threats:
         identifiers:
           - CCC.F08 # Multi-zone Deployment
           - CCC.F22 # Location Lock-In
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1040 # Network Sniffing
@@ -73,7 +73,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F21 # Replication
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1565 # Data Manipulation
@@ -91,7 +91,7 @@ threats:
           - CCC.F08 # Multi-zone Deployment
           - CCC.F12 # Recovery
           - CCC.F21 # Replication
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1485 # Data Destruction
@@ -109,7 +109,7 @@ threats:
         identifiers:
           - CCC.F11 # Backup
           - CCC.F18 # Versioning
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1485 # Data Destruction
@@ -128,7 +128,7 @@ threats:
         identifiers:
           - CCC.F03 # Access/Activity Logs
           - CCC.F10 # Logging
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1070 # Indicator Removal on Host
@@ -145,7 +145,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F15 # Cost Management
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1565 # Data Manipulation
@@ -163,7 +163,7 @@ threats:
         identifiers:
           - CCC.F03 # Access/Activity Logs
           - CCC.F09 # Monitoring
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1003 # Credential Dumping
@@ -193,7 +193,7 @@ threats:
           - CCC.F07 # Event Notifications
           - CCC.F09 # Monitoring
           - CCC.F17 # Alerting
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1057 # Process Discovery
@@ -211,7 +211,7 @@ threats:
         identifiers:
           - CCC.F07 # Event Notifications
           - CCC.F17 # Alerting
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1205 # Traffic Signaling
@@ -231,7 +231,7 @@ threats:
           - CCC.F04 # Transaction Rate Limits
           - CCC.F16 # Budgeting
           - CCC.F19 # Auto-scaling
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1496 # Resource Hijacking
@@ -248,7 +248,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F20 # Tagging
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1565 # Data Manipulation
@@ -263,7 +263,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F18 # Versioning
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1027 # Obfuscated Files or Information
@@ -287,7 +287,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F14 # API Access
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1580 # Cloud Infrastructure Discovery
@@ -303,7 +303,7 @@ threats:
         identifiers:
           - CCC.F10 # Logging
           - CCC.F09 # Monitoring
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1562 # Impair Defenses
@@ -318,7 +318,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F23 # Network Access Rules
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1046 # Network Service Scanning

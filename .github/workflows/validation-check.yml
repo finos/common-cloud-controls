@@ -8,10 +8,10 @@
 #     runs-on: ubuntu-latest
 
 #     steps:
-#       - name: Checkout code
+#       - title: Checkout code
 #         uses: actions/checkout@v4
 
-#       - name: FINOS CCC Validator
+#       - title: FINOS CCC Validator
 #         uses: sshiells-scottlogic/finos-ccc-validator@1.2.1
 #         with:
 #           targetDir: "./services"

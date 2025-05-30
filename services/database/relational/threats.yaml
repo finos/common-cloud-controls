@@ -29,7 +29,7 @@ threats:
         identifiers:
           - CCC.RDMS.F06
           - CCC.RDMS.F07
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1078
@@ -44,7 +44,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.RDMS.F07
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1110
@@ -58,7 +58,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F11
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1490
@@ -73,7 +73,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F11
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1485
@@ -88,7 +88,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.F11
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1530

@@ -25,7 +25,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.CntrReg.F05
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1190
@@ -40,7 +40,7 @@ threats:
         identifiers:
           - CCC.CntrReg.F04
           - CCC.F18
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1490

@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/google/go-github/v53/github"
-	"github.com/revanite-io/sci/pkg/layer2"
+	"github.com/revanite-io/sci/layer2"
 	"github.com/spf13/cobra"
 	"golang.org/x/oauth2"
 	"gopkg.in/yaml.v3"

@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Sonatype Lifecycle SCA Scan
+      - title: Sonatype Lifecycle SCA Scan
         id: evaluate
         uses: sonatype/actions/evaluate@v1
         with:
@@ -31,7 +31,7 @@ jobs:
           scan-targets: ${{ env.SonatypeScanTarget }}
           module-exclude: ${{ env.ExcludeDirectory }}
 
-      - name: Save Sonatype SBOM
+      - title: Save Sonatype SBOM
         uses: sonatype/actions/fetch-sbom@v1
         if: always() && steps.evaluate.outputs.scan-id
         with:

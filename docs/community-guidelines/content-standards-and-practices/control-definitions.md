@@ -79,7 +79,7 @@ This approach ensures that test requirements are actionable by providing clear i
 #### Good Example
 
 ```yaml
-test_requirements:
+assessment-requirements:
   - id: CCC.VPC.C01.TR01
     text: |
       When a subscription is created, the subscription MUST NOT
@@ -99,7 +99,7 @@ test_requirements:
 #### Bad Example
 
 ```yaml
-test_requirements:
+assessment-requirements:
   - id: CCC.VPC.C01.TR01
     text: |
       A subscription MUST NOT have default networks.

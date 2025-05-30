@@ -34,18 +34,18 @@ release_details:
         This initial release contains a variety of commits designed to capture
         all of the capabilities, threats, and controls for this service category.
     contributors:
-      - name: Michael Lysaght
+      - title: Michael Lysaght
         github_id: mlysaght2017
         company: Citi
-      - name: Sonali Mendis
+      - title: Sonali Mendis
         github_id: smendis-scottlogic
         company: Scott Logic
-      - name: Eddie Knight
+      - title: Eddie Knight
         github_id: eddie-knight
         company: Sonatype
-      - name: Dave Ogle
+      - title: Dave Ogle
         github_id: dogle-scottlogic
         company: Scott Logic
-      - name: kazmik23
+      - title: kazmik23
         github_id: kazmik23
         company: Google

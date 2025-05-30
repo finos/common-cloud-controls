@@ -8,7 +8,7 @@ catalog:
     version: 0.0.1
     oscal-version: 1.1.1
     props:
-      - name: keywords
+      - title: keywords
         value: "control, cloud, security, risk"
     roles:
       - id: publisher
@@ -99,7 +99,7 @@ catalog:
               class: p1-mitigations
               title: Organization level Authorization Origin Policy
               parts:
-                - name: statement
+                - title: statement
                   prose: |
                     Define actions that are allowed for cloud accounts subscribed to an organization.
                     Ensure policy set to enforce MFA for console and API actions for IAM principles.

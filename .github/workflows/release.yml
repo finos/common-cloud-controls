@@ -22,13 +22,13 @@ jobs:
       - uses: actions/checkout@v4
         name: Build
 
-      - name: Configure Go
+      - title: Configure Go
         uses: actions/setup-go@v5
 
-      - name: Install dependencies
+      - title: Install dependencies
         run: go mod download
 
-      - name: Get Build Target
+      - title: Get Build Target
         id: process_target
         run: |
           # Read the input for a single build target
@@ -38,7 +38,7 @@ jobs:
           echo "Build target: $build_target"
           echo "target=$build_target" >> $GITHUB_OUTPUT
 
-      - name: Create Release Artifacts
+      - title: Create Release Artifacts
         run: |
           # Create all artifacts for the specified build target
           build_target="${{ steps.process_target.outputs.target }}"
@@ -61,7 +61,7 @@ jobs:
             fi
           done
 
-      - name: Upload Artifacts
+      - title: Upload Artifacts
         uses: actions/upload-artifact@v4.4.0
         with:
           name: ccc-catalogs
@@ -73,13 +73,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download Artifacts
+      - title: Download Artifacts
         uses: actions/download-artifact@v4.1.8
         with:
           name: ccc-catalogs
 
       # Create a GitHub release
-      - name: Create GitHub Release
+      - title: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         with:
@@ -92,7 +92,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload the artifacts to the release
-      - name: Upload Release Assets
+      - title: Upload Release Assets
         run: |
           for file in ./*
           do

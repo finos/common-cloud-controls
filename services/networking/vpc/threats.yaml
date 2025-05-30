@@ -21,7 +21,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.VPC.F01
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1040
@@ -35,7 +35,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.VPC.F04
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1133
@@ -50,7 +50,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.VPC.F11
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1599
@@ -65,7 +65,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.VPC.F16
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1562
@@ -78,7 +78,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.VPC.F17
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1078

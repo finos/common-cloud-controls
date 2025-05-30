@@ -10,7 +10,7 @@ shared-controls:
       - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 control-families:
-  - name: Risk Management
+  - title: Risk Management
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.CntrReg.C01
@@ -18,7 +18,7 @@ control-families:
         objective: |
           Ensure that container images and artifacts stored in the container registry are scanned for
           vulnerabilities to identify and remediate security issues before deployment.
-        requirements:
+        assessment-requirements:
           - id: CCC.CntrReg.C01.TR01
             text: |
               Attempt to push an artifact with known vulnerabilities to the registry
@@ -39,7 +39,7 @@ control-families:
             identifiers:
               - RA-5
               - SI-5
-  - name: Data Management
+  - title: Data Management
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.CntrReg.C02
@@ -47,7 +47,7 @@ control-families:
         objective: |
           Ensure that unused or outdated artifacts are cleaned up according to defined policies to
           manage storage effectively and reduce security risks associated with outdated versions.
-        requirements:
+        assessment-requirements:
           - id: CCC.CntrReg.C02.TR01
             text: |
               Confirm that artifacts older than the specified retention period are automatically

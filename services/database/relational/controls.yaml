@@ -14,7 +14,7 @@ shared-controls:
       - CCC.C12 # Ensure Secure Network Access Rules
 
 control-families:
-  - name: Identity and Access Management
+  - title: Identity and Access Management
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.RDMS.C01
@@ -23,7 +23,7 @@ control-families:
           Ensure default vendor-supplied DB administrator credentials are replaced
           with strong, unique passwords and that these credentials are properly
           managed using a secure password or secrets management solution.
-        requirements:
+        assessment-requirements:
           - id: CCC.RDMS.C01.TR02
             text: |
               When an attempt is made to authenticate to the database using known
@@ -50,7 +50,7 @@ control-families:
           Ensure the database enforces lockouts or rate-limiting after a specified
           number of failed authentication attempts. This prevents brute force
           or password-guessing attacks from succeeding.
-        requirements:
+        assessment-requirements:
           - id: CCC.RDMS.C02.TR01
             text: |
               When repeated failed login attempts are made in a short timeframe,
@@ -78,7 +78,7 @@ control-families:
           restore operations through strict role-based or least-privilege
           access. Prevents accidental or malicious restorations, protecting
           data integrity and availability.
-        requirements:
+        assessment-requirements:
           - id: CCC.RDMS.C04.TR01
             text: |
               When there is an attempt to perform a backup or restore,
@@ -105,7 +105,7 @@ control-families:
         objective: |
           Ensure database snapshots can only be shared with explicitly authorized
           accounts, thereby minimizing the risk of data exposure or exfiltration.
-        requirements:
+        assessment-requirements:
           - id: CCC.RDMS.C05.TR01
             text: |
               When an attempt is made to share a snapshot with an unauthorized
@@ -125,7 +125,7 @@ control-families:
           - reference-id: NIST_800_53
             identifiers:
               - AC-4
-  - name: Data
+  - title: Data
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.RDMS.C03
@@ -135,7 +135,7 @@ control-families:
           and promptly reported if any disruptions occur. This helps maintain
           data integrity, facilitates disaster recovery, and supports business
           continuity when a system failure or breach occurs.
-        requirements:
+        assessment-requirements:
           - id: CCC.RDMS.C03.TR01
             text: |
               When backups are disabled, paused, or fail to run as scheduled,

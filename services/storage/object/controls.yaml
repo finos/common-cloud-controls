@@ -12,7 +12,7 @@ shared-controls:
       - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 
 control-families:
-  - name: Data
+  - title: Data
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.ObjStor.C01
@@ -21,7 +21,7 @@ control-families:
           Prevent any requests to object storage buckets or objects using
           untrusted KMS keys to protect against unauthorized data encryption
           that can impact data availability and integrity.
-        requirements:
+        assessment-requirements:
           - id: CCC.ObjStor.C01.TR01
             text: |
               When a request is made to read a protected bucket, the service
@@ -86,7 +86,7 @@ control-families:
         objective: |
           Ensure that object storage bucket is not deleted after creation,
           and that the preventative measure cannot be unset.
-        requirements:
+        assessment-requirements:
           - id: CCC.ObjStor.C03.TR01
             text: |
               When an object storage bucket deletion is attempted, the bucket MUST be
@@ -132,7 +132,7 @@ control-families:
           retention policy applied by default, preventing premature deletion
           or modification of objects and ensuring compliance with data retention
           regulations.
-        requirements:
+        assessment-requirements:
           - id: CCC.ObjStor.C04.TR01
             text: |
               When an object is uploaded to the object storage system, the object
@@ -179,7 +179,7 @@ control-families:
           Ensure that versioning is enabled for all objects stored in the object
           storage bucket to enable recovery of previous versions of objects in
           case of loss or corruption.
-        requirements:
+        assessment-requirements:
           - id: CCC.ObjStor.C05.TR01
             text: |
               When an object is uploaded to the object storage bucket, the object
@@ -246,7 +246,7 @@ control-families:
           separate data store to protect against unauthorized access, tampering,
           or deletion of logs (Logbuckets are exempt from this requirement,
           but must be tlp-red).
-        requirements:
+        assessment-requirements:
           - id: CCC.ObjStor.C06.TR01
             text: |
               When an object storage bucket is accessed, the service MUST store
@@ -275,7 +275,7 @@ control-families:
             identifiers:
               - AU-9
               - SC-28
-  - name: Identity and Access Management
+  - title: Identity and Access Management
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.ObjStor.C02
@@ -286,7 +286,7 @@ control-families:
           inconsistent object-level permissions, ensuring centralized,
           consistent, and secure access management in accordance with the
           principle of least privilege.
-        requirements:
+        assessment-requirements:
           - id: CCC.ObjStor.C02.TR01
             text: |
               When a permission set is allowed for an object in a bucket, the
