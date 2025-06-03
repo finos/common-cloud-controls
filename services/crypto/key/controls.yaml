@@ -7,73 +7,125 @@ shared-controls:
       - CCC.C04 # Log all access and changes
       - CCC.C05 # Prevent access from untrusted entities
       - CCC.C06 # Prevent deployment in restricted regions
-      - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+      - CCC.C10 # Prevent Data Replication to Destinations Outside Perimeter
 
 control-families:
   - name: Logging and Monitoring
-    description: 'TODO: Describe this control family'
+    description: Controls that collect, alert, and retain key-management events.
+
     controls:
       - id: CCC.KeyMgmt.C01
-        title: Alert when key versions are deleted or disabled
-        objective: |
-          Ensure that alerts are generated when key versions are scheduled for deletion or disabled.
+        title: Alert on Key-version Changes
+        objective: >
+          Generate near-real-time alerts when a KMS key version is disabled or
+          scheduled for deletion, enabling rapid investigation and recovery.
         requirements:
           - id: CCC.KeyMgmt.C01.TR01
             text: |
-              Verify that alerts are triggered when the kms key version is scheduled for deletion.
-            applicability:
-              - tlp-green
-            recommendation: ""
-          - id: CCC.KeyMgmt.C01.TR02
-            text: |
-              Verify that alerts are triggered when the kms key version is disabled.
-            applicability:
-              - tlp-green
-            recommendation: ""
-          - id: CCC.KeyMgmt.C01.TR03
-            text: |
-              Verify that alerts are triggered when the kms key version is scheduled for deletion.
+              When a key version is scheduled for deletion or disabled, an
+              alert MUST be generated within five minutes.
             applicability:
               - tlp-amber
-            recommendation: ""
-          - id: CCC.KeyMgmt.C01.TR04
-            text: |
-              Verify that alerts are triggered when the kms key version is disabled.
-            applicability:
-              - tlp-amber
-            recommendation: ""
-          - id: CCC.KeyMgmt.C01.TR05
-            text: |
-              Verify that alerts are triggered when the kms key version is scheduled for deletion.
-            applicability:
               - tlp-red
-            recommendation: ""
-          - id: CCC.KeyMgmt.C01.TR06
-            text: |
-              Verify that alerts are triggered when the kms key version is disabled.
-            applicability:
-              - tlp-red
-            recommendation: ""
-          - id: CCC.KeyMgmt.C01.TR07
-            text: |
-              Verify that alerts are triggered when the kms key version is scheduled for deletion.
-            applicability:
-              - tlp-clear
-            recommendation: ""
-          - id: CCC.KeyMgmt.C01.TR08
-            text: |
-              Verify that alerts are triggered when the kms key version is disabled.
-            applicability:
-              - tlp-clear
-            recommendation: ""
+            recommendation: Use native event services (e.g., CloudWatch Events,
+              Azure Monitor, Cloud Audit Logs) to route notifications to an
+              incident-response channel.
         threat-mappings:
           - reference-id: CCC
             identifiers:
-              - CCC.KeyMgmt.TH01
+              - CCC.KeyMgmt.TH01 # Deletion or disabling of key versions
         guideline-mappings:
           - reference-id: NIST-CSF
             identifiers:
-              - RS.AN-1
+              - RS.AN-1 # Notifications from detection systems are investigated
           - reference-id: NIST_800_53
             identifiers:
-              - IR-5
+              - IR-5 # Incident Monitoring
+
+  - name: Identity and Access Management
+    description: Controls that enforce least-privilege use of KMS operations.
+
+    controls:
+      - id: CCC.KeyMgmt.C02
+        title: Limit Decrypt Permissions
+        objective: >
+          Restrict the Decrypt operation to authorised principals only, applying
+          the principle of least privilege to protect sensitive data.
+        requirements:
+          - id: CCC.KeyMgmt.C02.TR01
+            text: |
+              When IAM roles and key policies are reviewed, Decrypt permission
+              MUST be granted exclusively to documented authorised principals.
+            applicability:
+              - tlp-green
+            recommendation: Periodically audit policy documents via automated
+              tooling and report any deviations.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.KeyMgmt.TH02 # Unrestricted use of a KMS key to decrypt data
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-4 # Access to assets is managed
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-6 # Least Privilege
+
+  - name: Key Lifecycle Management
+    description: Controls that govern creation, rotation, import, and retirement
+      of cryptographic keys.
+
+    controls:
+      - id: CCC.KeyMgmt.C03
+        title: Enforce Automatic Rotation
+        objective: >
+          Ensure symmetric keys rotate automatically within policy intervals to
+          reduce exposure of key material.
+        requirements:
+          - id: CCC.KeyMgmt.C03.TR01
+            text: |
+              When rotation settings are examined, rotation MUST be enabled with
+              an interval not exceeding 365 days.
+            applicability:
+              - tlp-green
+            recommendation: Use cloud-provider rotation features and verify via
+              configuration scanning.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.KeyMgmt.TH03 # Key rotation is disabled or delayed
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-1 # Data at rest is protected
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-12 # Cryptographic Key Establishment and Management
+
+      - id: CCC.KeyMgmt.C04
+        title: Validate Imported Keys
+        objective: >
+          Accept only externally generated keys that meet approved cryptographic
+          strength and provenance requirements.
+        requirements:
+          - id: CCC.KeyMgmt.C04.TR01
+            text: |
+              When a key import request is processed, the key MUST use an
+              approved algorithm (RSA-2048+, EC-P256+) and originate from a
+              certified HSM.
+            applicability:
+              - tlp-green
+            recommendation: Implement an approval workflow that validates
+              attestation data before import.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.KeyMgmt.TH04 # Weak or compromised key material
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-1 # Data at rest is protected
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-28 # Protection of Information at Rest
