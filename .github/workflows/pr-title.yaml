@@ -11,7 +11,7 @@ jobs:
       contents: read
       pull-requests: read
       statuses: write
-    uses: jmeridth/reusable-workflows/.github/workflows/pr-title.yaml@d788c4f6994c7b37134a9f592fe5db42fd7a0957
+    uses: amannn/action-semantic-pull-request@v5
     with:
       types: |
         add
