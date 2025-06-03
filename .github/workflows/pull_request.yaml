@@ -2,8 +2,7 @@ name: "PR Workflow"
 
 on:
   pull_request:
-  workflow_call:
-
+    types: [opened, reopened, edited, synchronize]
 jobs:
   run-format-check:
     uses: ./.github/workflows/format-check.yml
@@ -33,9 +32,3 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
-
-  # validation-checker:
-  #   uses: ./.github/workflows/validation-check.yml
-  #   permissions:
-  #     pull-requests: write
-  #     contents: read
