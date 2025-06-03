@@ -6,7 +6,6 @@ on:
 jobs:
   prettier-fmt-check:
     runs-on: ubuntu-latest
-
     steps:
       - title: Checkout repository
         uses: actions/checkout@v3
