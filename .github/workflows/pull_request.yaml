@@ -1,8 +1,7 @@
 name: "PR Workflow"
 
 on:
-  pull_request_target:
-    types: [opened, reopened, edited, synchronize]
+  pull_request:
 jobs:
   run-format-check:
     uses: ./.github/workflows/format-check.yml
