@@ -1,7 +1,7 @@
 name: Release Workflow
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       build_target:
         description: "Build Target (e.g storage/object)"
