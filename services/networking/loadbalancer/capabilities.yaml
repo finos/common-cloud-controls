@@ -1,18 +1,20 @@
 shared-capabilities:
-  - CCC.F03 # Access/Activity Logs
-  - CCC.F04 # Transaction Rate Limits
-  - CCC.F06 # Identity Based Access Control
-  - CCC.F08 # Multi-zone Deployment
-  - CCC.F09 # Monitoring
-  - CCC.F10 # Logging
-  - CCC.F13 # Infrastructure as Code
-  - CCC.F14 # API Access
-  - CCC.F15 # Cost Management
-  - CCC.F16 # Budgeting
-  - CCC.F17 # Alerting
-  - CCC.F19 # On-Demand Scaling
-  - CCC.F20 # Tagging
-  - CCC.F22 # Location Lock-In
+  - reference-id: CCC
+    identifiers:
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F04 # Transaction Rate Limits
+      - CCC.F06 # Identity Based Access Control
+      - CCC.F08 # Multi-zone Deployment
+      - CCC.F09 # Monitoring
+      - CCC.F10 # Logging
+      - CCC.F13 # Infrastructure as Code
+      - CCC.F14 # API Access
+      - CCC.F15 # Cost Management
+      - CCC.F16 # Budgeting
+      - CCC.F17 # Alerting
+      - CCC.F19 # On-Demand Scaling
+      - CCC.F20 # Tagging
+      - CCC.F22 # Location Lock-In
 
 capabilities:
   - id: CCC.LB.F01
