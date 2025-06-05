@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/revanite-io/sci/pkg/layer2"
+	"github.com/revanite-io/sci/layer2"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 )
