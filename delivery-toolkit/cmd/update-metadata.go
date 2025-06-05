@@ -73,6 +73,7 @@ func updateMetadata() (err error) {
 
 	// Fetch the list of commits from the repository
 	cleanedPath := strings.Replace(filepath.ToSlash(BuildDirectoryPath), "../", "", 1)
+
 	opts := &github.CommitsListOptions{
 		Path: cleanedPath,
 	}
