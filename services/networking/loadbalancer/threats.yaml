@@ -1,0 +1,106 @@
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH02 # Data is Intercepted in Transit
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH12 # Resource Constraints are Exhausted
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
+      - CCC.TH16 # Logging and Monitoring are Disabled
+      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+
+threats:
+  - id: CCC.LB.TH01
+    title: Unrestricted Request Traffic Overwhelms Downstream Services
+    description: |
+      Absence of filtering or rate limiting permits malicious traffic to
+      overload downstream services and facilitates brute-force activity.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F04 # Transaction Rate Limits
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F22 # Rate Limiting / Throttling
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499 # Endpoint DoS
+          - T1110 # Brute Force
+
+  - id: CCC.LB.TH03
+    title: Traffic Distribution Is Manipulated
+    description: |
+      Adjusting distribution policies can concentrate traffic on specific nodes
+      causing DoS or redirect flows through unwanted paths.
+    capabilities:
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F02 # Dynamic LB
+          - CCC.LB.F20 # Traffic Splitting
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499
+          - T1557
+
+  - id: CCC.LB.TH04
+    title: Session Persistence Is Exploited
+    description: |
+      Improper session-affinity settings can enable session fixation or
+      hijacking across backend targets.
+    capabilities:
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F15 # Session Affinity
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078
+          - T1557
+
+  - id: CCC.LB.TH05
+    title: Health Checks Are Exploited to Take Services Offline
+    description: |
+      Manipulating health-check endpoints or responses can cause healthy
+      targets to be marked unavailable, leading to denial of service.
+    capabilities:
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F12 # Health Checks
+          - CCC.LB.F13 # Target Removal
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499
+          - T1583
+
+  - id: CCC.LB.TH06
+    title: Sensitive Metadata Exposure via HTTP Headers
+    description: |
+      Response headers may reveal software versions, internal IPs, or other
+      metadata useful for reconnaissance.
+    capabilities:
+      - reference-id: LBL
+        identifiers:
+          - CCC.LB.F19
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1592
+          - T1530
+
+  - id: CCC.LB.TH07
+    title: TLS Certificates Are Expired or Invalid
+    description: |
+      Stale or untrusted certificates weaken encrypted-traffic protection.
+    capabilities:
+      - reference-id: LB
+        identifiers:
+          - CCC.LB.F11 # SSL/TLS Termination
+    mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1557
+          - T1608

@@ -2,17 +2,15 @@ name: "PR Workflow"
 
 on:
   pull_request:
-  workflow_call:
-
 jobs:
   run-format-check:
-    uses: ./.github/workflows/format-check.yml
+    uses: ./.github/workflows/format_check.yml
     permissions:
       pull-requests: write
       contents: read
 
   run-linting-check:
-    uses: ./.github/workflows/linting-check.yml
+    uses: ./.github/workflows/linting_check.yml
     permissions:
       pull-requests: write
 
@@ -23,19 +21,13 @@ jobs:
       contents: read
 
   yaml-checker:
-    uses: ./.github/workflows/yaml-check.yml
+    uses: ./.github/workflows/yaml_check.yml
     permissions:
       pull-requests: write
       contents: read
 
   todo-checker:
-    uses: ./.github/workflows/todo-check.yml
+    uses: ./.github/workflows/todo_check.yml
     permissions:
       pull-requests: write
       contents: read
-
-  # validation-checker:
-  #   uses: ./.github/workflows/validation-check.yml
-  #   permissions:
-  #     pull-requests: write
-  #     contents: read
