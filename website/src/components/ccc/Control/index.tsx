@@ -5,14 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { ControlPageData } from "@site/src/types/ccc";
-import controlMappings from "../../../data/control-mappings/controlMappins.json";
+import { mapToUrl } from "@site/src/plugin/ccc-pages/ControlMapper";
 
 export default function CCCControlTemplate({ pageData }: { pageData: ControlPageData }) {
   const { control, releaseTitle, releaseSlug } = pageData;
-  const controlIdToUrl = Object.fromEntries(controlMappings.controls.map((ctrl) => [ctrl.id, ctrl.url]));
-  <pre>{JSON.stringify(controlIdToUrl, null, 2)}</pre>;
-  console.log("COntrol mappings", JSON.stringify(controlIdToUrl, null, 2));
-  console.log(JSON.stringify(pageData, null, 2));
 
   return (
     <Layout title={control.title}>
@@ -92,7 +88,7 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
                     <span className="font-medium">{framework}:</span>
                     <div className="flex flex-wrap gap-2">
                       {values.map((value) => {
-                        const url = controlIdToUrl[value];
+                        const url = mapToUrl(framework, value);
                         return (
                           <Badge key={value} variant="outline" className="bg-blue-100 text-blue-600 font-medium border border-blue-300 hover:bg-blue-300 hover:border-blue-400 hover:text-blue-900">
                             {url ? (
