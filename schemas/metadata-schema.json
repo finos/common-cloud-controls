@@ -41,13 +41,13 @@
           "items": {
             "type": "object",
             "properties": {
-              "reference-id": { "type": "string" },
-              "identifiers": {
-                "type": "array",
-                "items": { "type": "string" }
-              }
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "version": { "type": "string" },
+              "description": { "type": "string" },
+              "url": { "type": "string" }
             },
-            "required": ["reference-id", "identifiers"],
+            "required": ["id", "version"],
             "additionalProperties": false
           }
         }

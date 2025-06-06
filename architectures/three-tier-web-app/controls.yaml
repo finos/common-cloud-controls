@@ -1,0 +1,19 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers: []
+  - reference-id: CCC.RDMS
+    identifiers: []
+  - reference-id: CCC.LB
+    identifiers: []
+  - reference-id: CCC.VPC
+    identifiers: []
+  - reference-id: CCC.VM
+    identifiers: []
+  - reference-id: CCC.IAM
+    identifiers: []
+  - reference-id: CCC.KMS
+    identifiers: []
+  - reference-id: CCC.ObjStor
+    identifiers: []
+
+control-families: [] # Additional controls have not yet been idenfitied for this architecture
