@@ -10,8 +10,6 @@ on:
         description: "Tag for this release"
         required: true
 
-# TODO: Add in pre-release tag to distinguish whether or not we want to have an official release
-
 jobs:
   build:
     runs-on: ubuntu-latest
