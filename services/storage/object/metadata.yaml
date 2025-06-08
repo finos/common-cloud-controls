@@ -37,21 +37,21 @@ release_details:
         This initial release contains a variety of commits designed to capture
         all of the capabilities, threats, and controls for this service category.
     contributors:
-      - title: Sonali Mendis
+      - name: Sonali Mendis
         github_id: smendis-scottlogic
         company: Scott Logic
-      - title: Eddie Knight
+      - name: Eddie Knight
         github_id: eddie-knight
         company: Sonatype
-      - title: Michael Lysaght
+      - name: Michael Lysaght
         github_id: mlysaght2017
         company: Citi
-      - title: Dave Ogle
+      - name: Dave Ogle
         github_id: dogle-scottlogic
         company: Scott Logic
-      - title: Damien Burks
+      - name: Damien Burks
         github_id: damienjburks
         company: Citi
-      - title: Naseer Mohammad
+      - name: Naseer Mohammad
         github_id: nas-hub
         company: Google
