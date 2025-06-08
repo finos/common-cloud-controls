@@ -7,16 +7,16 @@ jobs:
   prettier-fmt-check:
     runs-on: ubuntu-latest
     steps:
-      - title: Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - title: Set up Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16"
 
-      - title: Install Prettier
+      - name: Install Prettier
         run: npm install --save-dev prettier
 
-      - title: Check formatting with Prettier
+      - name: Check formatting with Prettier
         run: npx prettier --check "**/*.md" --config ./.config/.prettierrc
