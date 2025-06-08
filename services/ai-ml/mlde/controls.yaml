@@ -9,7 +9,7 @@ shared-controls:
       - CCC.C06 # Prevent deployment in restricted regions
 
 control-families:
-  - name: Identity and Access Management
+  - title: Identity and Access Management
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.MLDE.C01
@@ -19,7 +19,7 @@ control-families:
           resources is strictly defined and controlled.
           Only authorized users with appropriate permissions can access these environments,
           mitigating the risk of unauthorized access, data leakage, or service disruption.
-        requirements:
+        assessment-requirements:
           - id: CCC.MLDE.C01.TR01
             text: |
               Verify that only authorized users can access MLDE resources,
@@ -56,7 +56,7 @@ control-families:
         objective: |
           Prevent users from obtaining root access on MLDE instances to reduce the
           risk of unauthorized system modifications and potential security breaches.
-        requirements:
+        assessment-requirements:
           - id: CCC.MLDE.C03.TR01
             text: |
               Verify that root access is disabled on MLDE instances containing sensitive data.
@@ -96,7 +96,7 @@ control-families:
         objective: |
           Prevent users from accessing the terminal on MLDE instances to limit the risk of
           unauthorized commands and potential system compromise.
-        requirements:
+        assessment-requirements:
           - id: CCC.MLDE.C04.TR01
             text: |
               Verify that terminal access is disabled on MLDE instances containing sensitive data.
@@ -130,14 +130,14 @@ control-families:
           - reference-id: ISO_27001
             identifiers:
               - 2013 A.9.2.3
-  - name: Data Protection
+  - title: Data Protection
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.MLDE.C02
         title: Disable File Downloads on MLDE Instances
         objective: |
           Prevent unauthorized file downloads from MLDE instances to protect sensitive data from being exfiltrated.
-        requirements:
+        assessment-requirements:
           - id: CCC.MLDE.C02.TR01
             text: |
               Confirm that file download functionality is disabled on MLDE instances containing sensitive data.
@@ -173,7 +173,7 @@ control-families:
             identifiers:
               - SC-7
               - SC-8
-  - name: Configuration Management
+  - title: Configuration Management
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.MLDE.C05
@@ -181,7 +181,7 @@ control-families:
         objective: |
           Limit the virtual machine and container image options available when creating
           new MLDE instances to approved and secure configurations.
-        requirements:
+        assessment-requirements:
           - id: CCC.MLDE.C05.TR01
             text: |
               Verify that only approved VM and container images can be selected when creating MLDE instances.
@@ -212,7 +212,7 @@ control-families:
           - reference-id: NIST_800_53
             identifiers:
               - CM-2
-  - name: Vulnerability Management
+  - title: Vulnerability Management
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.MLDE.C06
@@ -220,7 +220,7 @@ control-families:
         objective: |
           Ensure that MLDE instances are kept up-to-date with the
           latest security patches by enforcing automatic scheduled upgrades.
-        requirements:
+        assessment-requirements:
           - id: CCC.MLDE.C06.TR01
             text: |
               Verify that automatic scheduled upgrades are enabled on user-managed
@@ -257,14 +257,14 @@ control-families:
           - reference-id: NIST_800_53
             identifiers:
               - SI-2
-  - name: Network Security
+  - title: Network Security
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.MLDE.C07
         title: Restrict Public IP Access on MLDE Instances
         objective: |
           Prevent public IP access to MLDE instances to reduce exposure to the internet and enhance security.
-        requirements:
+        assessment-requirements:
           - id: CCC.MLDE.C07.TR01
             text: |
               Verify that MLDE instances containing sensitive data cannot be accessed via public IP addresses.
@@ -304,7 +304,7 @@ control-families:
         objective: |
           Limit the virtual networks that can be used when creating new MLDE instances to
           ensure they are deployed within approved and secure network environments.
-        requirements:
+        assessment-requirements:
           - id: CCC.MLDE.C08.TR01
             text: |
               Verify that MLDE instances containing sensitive data can only be deployed in

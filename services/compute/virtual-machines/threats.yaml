@@ -1,5 +1,17 @@
 shared-threats:
   - reference-id: CCC
-    identifiers: []
+    identifiers:
+      - CCC.TH01
+      - CCC.TH03
+      - CCC.TH05
+      - CCC.TH06
+      - CCC.TH07
+      - CCC.TH08
+      - CCC.TH09
+      - CCC.TH10
+      - CCC.TH11
+      - CCC.TH13
+      - CCC.TH16
+      - CCC.TH17
 
 threats: []

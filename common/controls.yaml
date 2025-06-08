@@ -1,5 +1,5 @@
 control-families:
-  - name: Data
+  - title: Data
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.C01
@@ -7,7 +7,7 @@ control-families:
         objective: |
           Ensure that all communications are encrypted in transit to protect data
           integrity and confidentiality.
-        requirements:
+        assessment-requirements:
           - id: CCC.C01.TR01
             text: |
               When a port is exposed for non-SSH network traffic, all traffic MUST
@@ -55,7 +55,7 @@ control-families:
           designated as restricted or prohibited, to comply with
           regulatory requirements and reduce exposure to geopolitical
           risks.
-        requirements:
+        assessment-requirements:
           - id: CCC.C06.TR01
             text: |
               When a deployment request is made, the service MUST validate
@@ -102,7 +102,7 @@ control-families:
           Ensure that data is replicated across multiple
           zones or regions to protect against data loss due to hardware
           failures, natural disasters, or other catastrophic events.
-        requirements:
+        assessment-requirements:
           - id: CCC.C08.TR01
             text: |
               When data is stored, the service MUST ensure that data is
@@ -146,7 +146,7 @@ control-families:
           Access logs should always be considered sensitive.
           Ensure that access logs are protected against unauthorized
           access, tampering, or deletion.
-        requirements:
+        assessment-requirements:
           - id: CCC.C09.TR01
             text: |
               When access logs are stored, the service MUST ensure that
@@ -204,7 +204,7 @@ control-families:
           of defined trust perimeter. An untrusted destination is defined
           as a resource that exists outside of a specified trusted
           identity or network or data perimeter.
-        requirements:
+        assessment-requirements:
           - id: CCC.C10.TR01
             text: |
               When data is replicated, the service MUST ensure that
@@ -231,7 +231,7 @@ control-families:
           - reference-id: NIST_800_53
             identifiers:
               - AC-4
-  - name: Encryption
+  - title: Encryption
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.C02
@@ -239,7 +239,7 @@ control-families:
         objective: |
           Ensure that all data stored is encrypted at rest to maintain
           confidentiality and integrity.
-        requirements:
+        assessment-requirements:
           - id: CCC.C02.TR01
             text: |
               When data is stored at rest, the service MUST be configured to
@@ -274,7 +274,7 @@ control-families:
           Ensure that encryption keys are managed securely by enforcing
           the use of approved algorithms, regular key rotation, and
           customer-managed encryption keys (CMEKs).
-        requirements:
+        assessment-requirements:
           - id: CCC.C11.TR01
             text: |
               When encryption keys are used, the service MUST verify that
@@ -333,7 +333,7 @@ control-families:
             identifiers:
               - SC-12
               - SC-17
-  - name: Identity and Access Management
+  - title: Identity and Access Management
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.C03
@@ -344,7 +344,7 @@ control-families:
           something you know, something you have, or something you are. In the
           case of programattically accessible services, such as API endpoints, this
           includes a combination of API keys or tokens and network restrictions.
-        requirements:
+        assessment-requirements:
           - id: CCC.C03.TR01
             text: |
               When an entity attempts to modify the service, the service MUST
@@ -431,7 +431,7 @@ control-families:
           by adversaries. This includes restricting access based on trust
           criteria such as IP allowlists, domain restrictions, and tenant
           isolation.
-        requirements:
+        assessment-requirements:
           - id: CCC.C05.TR01
             text: |
               When access to sensitive resources is attempted, the service MUST
@@ -490,7 +490,7 @@ control-families:
           - reference-id: NIST_800_53
             identifiers:
               - AC-3
-  - name: Logging & Monitoring
+  - title: Logging & Monitoring
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.C04
@@ -498,7 +498,7 @@ control-families:
         objective: |
           Ensure that all access and changes are logged to maintain a
           detailed audit trail for security and compliance purposes.
-        requirements:
+        assessment-requirements:
           - id: CCC.C04.TR01
             text: |
               When any access attempt is made to the service, the service MUST log
@@ -551,7 +551,7 @@ control-families:
           Ensure that logs and associated alerts are generated when
           unusual enumeration activity is detected that may indicate
           reconnaissance activities.
-        requirements:
+        assessment-requirements:
           - id: CCC.C07.TR01
             text: |
               When suspicious enumeration activities are detected, the
@@ -587,7 +587,7 @@ control-families:
           - reference-id: NIST_800_53
             identifiers:
               - AU-6
-  - name: ""
+  - title: ""
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.C12
@@ -600,7 +600,7 @@ control-families:
           attack surface and prevent unauthorized  inbound connections.
           Overly permissive rules such as, 0.0.0.0/0 must be disallowed or
           strictly controlled.
-        requirements:
+        assessment-requirements:
           - id: CCC.C12.TR01
             text: |
               When an unauthorized IP or network attempts to connect
