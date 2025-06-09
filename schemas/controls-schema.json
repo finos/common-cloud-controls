@@ -29,7 +29,7 @@
         "items": {
           "type": "object",
           "properties": {
-            "name": {
+            "title": {
               "type": "string",
               "description": "Name of the control family (e.g., 'Data')"
             },
@@ -55,7 +55,7 @@
                     "type": "string",
                     "description": "Multi-line objective of the control"
                   },
-                  "requirements": {
+                  "assessment-requirements": {
                     "type": "array",
                     "items": {
                       "type": "object",
@@ -124,12 +124,12 @@
                     }
                   }
                 },
-                "required": ["id", "title", "objective", "requirements", "threat-mappings", "guideline-mappings"],
+                "required": ["id", "title", "objective", "assessment-requirements", "threat-mappings", "guideline-mappings"],
                 "additionalProperties": false
               }
             }
           },
-          "required": ["name", "description"],
+          "required": ["title", "description"],
           "additionalProperties": false
         }
       }

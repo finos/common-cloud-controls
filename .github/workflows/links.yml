@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - title: Link Checker
+      - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v1
         with:

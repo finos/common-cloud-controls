@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - title: Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - title: Check for TODOs in services directory
+      - name: Check for TODOs in services directory
         uses: damienjburks/simple-todo-checker@1.0.0
         with:
           path: "./services"
