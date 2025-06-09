@@ -9,7 +9,7 @@ shared-controls:
       - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 control-families:
-  - name: Access Control
+  - title: Access Control
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.Build.C01
@@ -17,7 +17,7 @@ control-families:
         objective: |
           Ensure that builds are executed only on authorized build agents to maintain
           control over the build environment and prevent unauthorized code execution.
-        requirements:
+        assessment-requirements:
           - id: CCC.Build.C01.TR01
             text: |
               Attempt to initiate a build using an unauthorized build agent and verify that the build is rejected.
@@ -42,7 +42,7 @@ control-families:
         objective: |
           Ensure that builds can only be triggered by authorized external services or
           repositories to prevent unauthorized code execution or tampering.
-        requirements:
+        assessment-requirements:
           - id: CCC.Build.C02.TR01
             text: |
               Attempt to trigger a build from an unauthorized external service or
@@ -63,7 +63,7 @@ control-families:
             identifiers:
               - AC-3
               - AC-6
-  - name: Network Security
+  - title: Network Security
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.Build.C03
@@ -71,7 +71,7 @@ control-families:
         objective: |
           Ensure that build environments do not have external network access to
           prevent unauthorized external access and data exfiltration.
-        requirements:
+        assessment-requirements:
           - id: CCC.Build.C03.TR01
             text: |
               Attempt to access the build environment from an external network and verify that access is denied.

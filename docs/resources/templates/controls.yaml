@@ -15,7 +15,7 @@ controls:
         - <ISO 27001 control IDs>
       NIST_800_53:
         - <NIST 800-53 control IDs>
-    test_requirements:
+    assessment-requirements:
       - id: CCC.<Service Category Abbreviation>.C#.TR##
         text: |
           <REQUIREMENT TEXT>

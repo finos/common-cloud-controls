@@ -10,7 +10,7 @@ shared-controls:
       - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
 
 control-families:
-  - name: Network Security
+  - title: Network Security
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.VPC.C01
@@ -19,7 +19,7 @@ control-families:
           Restrict the automatic creation of default virtual networks and related
           resources during subscription initialization to avoid insecure default
           configurations and enforce custom network policies.
-        requirements:
+        assessment-requirements:
           - id: CCC.VPC.C01.TR01
             text: |
               When a subscription is created, the subscription MUST NOT
@@ -50,7 +50,7 @@ control-families:
         objective: |
           Restrict the creation of resources in the public subnet with
           direct access to the internet to minimize attack surfaces.
-        requirements:
+        assessment-requirements:
           - id: CCC.VPC.C02.TR01
             text: |
               When a resource is created in a public subnet, that resource
@@ -81,7 +81,7 @@ control-families:
           Ensure VPC peering connections are only established with explicitly
           authorized destinations to limit network exposure and enforce boundary
           controls.
-        requirements:
+        assessment-requirements:
           - id: CCC.VPC.C03.TR01
             text: |
               When a VPC peering connection is requested, the service MUST
@@ -114,7 +114,7 @@ control-families:
         objective: |
           Ensure VPCs are configured with flow logs enabled to capture traffic
           information.
-        requirements:
+        assessment-requirements:
           - id: CCC.VPC.C04.TR01
             text: |
               When any network traffic goes to or from an interface in the VPC,

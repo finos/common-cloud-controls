@@ -25,10 +25,11 @@ jobs:
             add
             change
             remove
+            fix
           scopes: |
             ci
             docs
-            feature
+            capability
             threat
             control
             category

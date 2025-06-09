@@ -10,7 +10,7 @@ shared-controls:
       - CCC.C10 # Prevent Data Replication Outside Perimeter
 
 control-families:
-  - name: "Logging & Monitoring"
+  - title: "Logging & Monitoring"
     description: |
       Controls that detect anomalous traffic and record load-balancer activity.
 
@@ -20,7 +20,7 @@ control-families:
         objective: >
           Detect and throttle malicious or excessive requests to prevent
           downstream resource exhaustion and brute-force activity.
-        requirements:
+        assessment-requirements:
           - id: CCC.LB.C01.TR01
             text: |
               When a single client sends more than 2000 requests within any
@@ -67,7 +67,7 @@ control-families:
         objective: |
           Monitor health-check endpoints for tampering and alert on
           abnormal status changes.
-        requirements:
+        assessment-requirements:
           - id: CCC.LB.C06.TR01
             text: |
               When more than 10 percent of targets change from healthy to
@@ -92,7 +92,7 @@ control-families:
             identifiers:
               - SI-4 # System monitoring
 
-  - name: Identity and Access Management
+  - title: Identity and Access Management
     description: |
       Controls that restrict who can change or query load-balancer resources.
     controls:
@@ -101,7 +101,7 @@ control-families:
         objective: |
           Ensure traffic-splitting weights and algorithms are modified
           only by trusted identities.
-        requirements:
+        assessment-requirements:
           - id: CCC.LB.C04.TR01
             text: |
               When routing weights change, the request MUST originate
@@ -132,7 +132,7 @@ control-families:
         objective: |
           Configure session persistence to minimise fixation and hijacking
           risks.
-        requirements:
+        assessment-requirements:
           - id: CCC.LB.C05.TR01
             text: |
               When stickiness is enabled, session cookies MUST expire
@@ -159,7 +159,7 @@ control-families:
         objective: |
           Limit load-balancer API calls to authorised identities and
           trusted networks.
-        requirements:
+        assessment-requirements:
           - id: CCC.LB.C09.TR01
             text: |
               When an API call originates outside the approved CIDR
@@ -182,7 +182,7 @@ control-families:
             identifiers:
               - SC-7 # Boundary protection
 
-  - name: Data
+  - title: Data
     description: |
       Controls that preserve availability and confidentiality of
       traffic processed by the load balancer.
@@ -192,7 +192,7 @@ control-families:
         objective: |
           Expand load-balancer capacity to maintain availability during traffic
           spikes.
-        requirements:
+        assessment-requirements:
           - id: CCC.LB.C02.TR01
             text: |
               When concurrent connections reach 80 percent of capacity, the
@@ -220,7 +220,7 @@ control-families:
         objective: |
           Remove headers that disclose internal details or software
           versions from HTTP responses.
-        requirements:
+        assessment-requirements:
           - id: CCC.LB.C07.TR01
             text: |
               When responses pass through the load balancer, the
@@ -242,7 +242,7 @@ control-families:
             identifiers:
               - SC-13 # Cryptographic protection
 
-  - name: Encryption
+  - title: Encryption
     description: Controls that ensure trustworthy TLS certificates and ciphers.
     controls:
       - id: CCC.LB.C08
@@ -250,7 +250,7 @@ control-families:
         objective: |
           Maintain valid TLS certificates by automating renewal and
           deployment before expiry.
-        requirements:
+        assessment-requirements:
           - id: CCC.LB.C08.TR01
             text: |
               When a certificate is within 30 days of expiry, automated renewal
