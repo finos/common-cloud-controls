@@ -30,6 +30,14 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
+                <span className="font-medium">Control ID:</span>
+                <span>{control.id}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Title:</span>
+                <span>{control.title}</span>
+              </div>
+              <div className="flex items-center gap-2">
                 <span className="font-medium">Objective:</span>
                 <span>{control.objective}</span>
               </div>

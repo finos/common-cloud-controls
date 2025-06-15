@@ -25,6 +25,14 @@ export default function CCCFeatureTemplate({ pageData }: { pageData: FeaturePage
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
+                <span className="font-medium">Capability ID:</span>
+                <span>{feature.id}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Title:</span>
+                <span>{feature.title}</span>
+              </div>
+              <div className="flex items-center gap-2">
                 <span className="font-medium">Description:</span>
                 <span>{feature.description}</span>
               </div>

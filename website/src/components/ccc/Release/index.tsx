@@ -83,7 +83,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
 
         <Card>
           <CardHeader>
-            <CardTitle>Features</CardTitle>
+            <CardTitle>Capabilities</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
