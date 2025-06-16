@@ -1,12 +1,12 @@
 # CCC Taxonomy ID Assignment Guidelines
 
-This document provides a standardized approach for assigning unique identifiers (IDs) to various entities within the CCC Taxonomy, including Service Families, service categories, features, threats, controls, test requirements, and tests. Adhering to this standard ensures consistency and clarity across all related documentation and implementations.
+This document provides a standardized approach for assigning unique identifiers (IDs) to various entities within the CCC Taxonomy, including Service Families, service categories, capabilities, threats, controls, test requirements, and tests. Adhering to this standard ensures consistency and clarity across all related documentation and implementations.
 
 | **ID Type**          | **Format**                                  | **Example**            |
 | -------------------- | ------------------------------------------- | ---------------------- |
 | **Service Family**   | `CCC.<ServiceType>`                         | `CCC.Storage`          |
 | **Service Category** | `CCC.<ServiceCategory>`                     | `CCC.ObjStor`          |
-| **Feature**          | `CCC.<ServiceCategory>.F<##>`               | `CCC.ObjStor.F01`      |
+| **Capability**       | `CCC.<ServiceCategory>.F<##>`               | `CCC.ObjStor.F01`      |
 | **Threat**           | `CCC.<ServiceCategory>.TH<##>`              | `CCC.RDMS.TH01`        |
 | **Control**          | `CCC.<ServiceCategory>.C<##>`               | `CCC.VM.C01`           |
 | **Test Requirement** | `CCC.<ServiceCategory>.C<##>.TR<##>`        | `CCC.VM.C01.TR01`      |
@@ -37,9 +37,9 @@ Each service category ID follows the format `CCC.<ServiceCategory>`.
 - **CCC.RDMS** - Represents the Relational Database Management System service category under `CCC.DB`.
 - **CCC.VM** - Represents the Virtual Machine service category under `CCC.Compute`.
 
-## Features
+## Capabilities
 
-Features are specific functionalities or capabilities that are expected for a service to be portable with other services in that service category.
+Capabilities are specific functionalities or capabilities that are expected for a service to be portable with other services in that service category.
 
 Each feature ID follows the format `CCC.<ServiceCategory>.F<##>`.
 

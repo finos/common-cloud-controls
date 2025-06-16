@@ -1,18 +1,78 @@
-common_threats:
-  - CCC.TH01
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - CCC.TH12 # Resource Constraints are Exhausted
+      - CCC.TH13 # Resource Tags are Manipulated
+
 threats:
-  - id: CCC.KeyMgmt.TH17
-    title: Deletion or disabling of KMS key versions leading to denial of service or data destruction
+  - id: CCC.KeyMgmt.TH01
+    title: |
+      Deletion or Disabling of Key Versions Causing Denial of Service or
+      Data Loss
     description: |
-      An attacker with access to the KMS service can delete or disable key versions that are used
-      to encrypt or decrypt sensitive data. This can result in a denial of service by preventing
-      data decryption or, in some cases, lead to permanent data destruction.
-    features:
-      - CCC.KeyMgmt.F14
-      - CCC.KeyMgmt.F16
-      - CCC.KeyMgmt.F18
-      - CCC.KeyMgmt.F19
-    mitre_technique:
-      - T1485
-      - T1489
-      - T1490
+      Disabling, scheduling deletion, or permanently purging KMS key versions
+      that protect sensitive data can prevent required decryption or signing
+      operations.  Service interruption or irreversible data loss may occur if
+      the key material is no longer recoverable.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.KeyMgmt.F14 # Key Versioning
+          - CCC.KeyMgmt.F16 # Disable key
+          - CCC.KeyMgmt.F18 # Soft Delete
+          - CCC.KeyMgmt.F19 # Delete Key
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1485 # Data Destruction
+          - T1489 # Service Stop
+          - T1490 # Inhibit System Recovery
+
+  - id: CCC.KeyMgmt.TH02
+    title: Unrestricted Use of a KMS Key to Decrypt Data
+    description: |
+      Misconfigured permissions that allow broad invocation of the Decrypt API
+      can expose plaintext data, enabling unintended disclosure or exfiltration
+      of sensitive information.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.KeyMgmt.F10 # Decrypt data
+          - CCC.KeyMgmt.F17 # Enable key
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1550 # Use Alternate Authentication Material
+
+  - id: CCC.KeyMgmt.TH03
+    title: Key Rotation is Disabled or Delayed Beyond Policy Limits
+    description: |
+      Modification of automatic or manual rotation settings can keep older key
+      material active longer than intended, decreasing cryptographic
+      resilience and extending exposure in the event of key compromise.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.KeyMgmt.F20 # Automatic Symmetric Key Rotation
+          - CCC.KeyMgmt.F21 # Manual Key Rotation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1562 # Impair Defenses
+
+  - id: CCC.KeyMgmt.TH04
+    title: Introduction of Weak or Compromised Key Material During Import
+    description: |
+      Insufficient validation during the key-import process may allow weak,
+      back-doored, or otherwise compromised key material to be introduced,
+      reducing the overall strength of subsequent cryptographic operations.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.KeyMgmt.F22 # Key Import
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1600 # Weaken Encryption

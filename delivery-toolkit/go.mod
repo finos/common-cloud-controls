@@ -1,9 +1,12 @@
 module github.com/finos/common-cloud-controls
 
-go 1.22.5
+go 1.23.4
+
+toolchain go1.24.1
 
 require (
 	github.com/google/go-github/v53 v53.2.0
+	github.com/revanite-io/sci v0.3.7
 	golang.org/x/oauth2 v0.24.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -12,6 +15,7 @@ require (
 	github.com/ProtonMail/go-crypto v1.1.2 // indirect
 	github.com/cloudflare/circl v1.5.0 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
+	github.com/goccy/go-yaml v1.17.1 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect

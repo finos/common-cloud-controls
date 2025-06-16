@@ -1,6 +1,6 @@
 name: Sonatype SCA Scanning
 on:
-  workflow_dispatch:
+  workflow_call:
   pull_request_target:
     paths:
       - "**.go"

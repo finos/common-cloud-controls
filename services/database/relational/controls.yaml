@@ -1,128 +1,157 @@
-common_controls:
-  - CCC.C01 # Prevent unencrypted requests
-  - CCC.C02 # Ensure data encryption at rest for all stored data
-  - CCC.C03 # Implement multi-factor authentication (MFA) for access
-  - CCC.C04 # Log all access and changes
-  - CCC.C05 # Prevent access from untrusted entities
-  - CCC.C06 # Prevent deployment in restricted regions
-  - CCC.C07 # Alert on non-human enumeration
-  - CCC.C08 # Enable Multi-zone or Multi-region Data Replication
-  - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-  - CCC.C10 # Prevent data replication to destinations outside of perimeter
-  - CCC.C12 # Ensure Secure Network Access Rules
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent unencrypted requests
+      - CCC.C02 # Ensure data encryption at rest for all stored data
+      - CCC.C03 # Implement multi-factor authentication (MFA) for access
+      - CCC.C04 # Log all access and changes
+      - CCC.C05 # Prevent access from untrusted entities
+      - CCC.C06 # Prevent deployment in restricted regions
+      - CCC.C07 # Alert on unusual enumeration activity
+      - CCC.C08 # Enable Multi-zone or Multi-region Data Replication
+      - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+      - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+      - CCC.C12 # Ensure Secure Network Access Rules
 
-controls:
-  - id: CCC.RDMS.C01
-    title: Password Management
-    objective: |
-      Ensure default vendor-supplied DB administrator credentials are replaced
-      with strong, unique passwords and that these credentials are properly
-      managed using a secure password or secrets management solution.
-    control_family: Identity and Access Management
-    threats:
-      - CCC.RDMS.TH01 # Unauthorized Access to Database
-    nist_csf: PR.AA-01
-    control_mappings:
-      NIST_800_53:
-        - AC-2
-    test_requirements:
-      - id: CCC.RDMS.C01.TR02
-        text: |
-          When an attempt is made to authenticate to the database using known
-          default credentials, the authentication attempt must fail and no
-          access should be granted.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
-
-  - id: CCC.RDMS.C02
-    title: Account Lockout and Rate-Limiting
-    objective: |
-      Ensure the database enforces lockouts or rate-limiting after a specified
-      number of failed authentication attempts. This prevents brute force
-      or password-guessing attacks from succeeding.
-    control_family: Identity and Access Management
-    threats:
-      - CCC.RDMS.TH02 # Brute Force Attempts on Database Authentication
-    nist_csf: PR.AC-1
-    control_mappings:
-      NIST_800_53:
-        - AC-7 # Unsuccessful Logon Attempts
-    test_requirements:
-      - id: CCC.RDMS.C02.TR01
-        text: |
-          When repeated failed login attempts are made in a short timeframe,
-          the account must be locked out or rate-limited to prevent
-          further login attempts.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
-
-  - id: CCC.RDMS.C03
-    title: Enforce and Monitor Automated Backups
-    objective: |
-      Ensure database backups are automatically scheduled, actively monitored,
-      and promptly reported if any disruptions occur. This helps maintain
-      data integrity, facilitates disaster recovery, and supports business
-      continuity when a system failure or breach occurs.
-    control_family: Data
-    threats:
-      - CCC.RDMS.TH03 # Database Backups Stopped
-    nist_csf: PR.IP-4
-    control_mappings:
-      NIST_800_53:
-        - CP-9 # System Backup
-    test_requirements:
-      - id: CCC.RDMS.C03.TR01
-        text: |
-          When backups are disabled, paused, or fail to run as scheduled,
-          an alert must be triggered and logged.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
-
-  - id: CCC.RDMS.C04
-    title: Access Control for Backup and Restore Operations
-    objective: |
-      Restrict who can initiate, manage, and validate database backup or
-      restore operations through strict role-based or least-privilege
-      access. Prevents accidental or malicious restorations, protecting
-      data integrity and availability.
-    control_family: Identity and Access Management
-    threats:
-      - CCC.RDMS.TH04 # Unintentional Database Backup Restoration
-    nist_csf: PR.AC-4
-    control_mappings:
-      NIST_800_53:
-        - AC-6
-    test_requirements:
-      - id: CCC.RDMS.C04.TR01
-        text: |
-          When there is an attempt to perform a backup or restore,
-          then the attempt must fail with an access denied message if
-          credentials or roles that are not explicitly authorized for
-          backup/restore functions.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
-
-  - id: CCC.RDMS.C05
-    title: Restrict Snapshot Sharing to Authorized Accounts
-    objective: |
-      Ensure database snapshots can only be shared with explicitly authorized
-      accounts, thereby minimizing the risk of data exposure or exfiltration.
-    control_family: Identity and Access Management
-    threats:
-      - CCC.RDMS.TH05 # Unauthorized Snapshot Sharing
-    nist_csf: PR.DS-10
-    control_mappings:
-      NIST_800_53:
-        - AC-4
-    test_requirements:
-      - id: CCC.RDMS.C05.TR01
-        text: |
-          When an attempt is made to share a snapshot with an unauthorized
-          account, the sharing request must be denied.
-        tlp_levels:
-          - tlp_red
-          - tlp_amber
+control-families:
+  - title: Identity and Access Management
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.RDMS.C01
+        title: Password Management
+        objective: |
+          Ensure default vendor-supplied DB administrator credentials are replaced
+          with strong, unique passwords and that these credentials are properly
+          managed using a secure password or secrets management solution.
+        assessment-requirements:
+          - id: CCC.RDMS.C01.TR02
+            text: |
+              When an attempt is made to authenticate to the database using known
+              default credentials, the authentication attempt must fail and no
+              access should be granted.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.RDMS.TH01
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-01
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+      - id: CCC.RDMS.C02
+        title: Account Lockout and Rate-Limiting
+        objective: |
+          Ensure the database enforces lockouts or rate-limiting after a specified
+          number of failed authentication attempts. This prevents brute force
+          or password-guessing attacks from succeeding.
+        assessment-requirements:
+          - id: CCC.RDMS.C02.TR01
+            text: |
+              When repeated failed login attempts are made in a short timeframe,
+              the account must be locked out or rate-limited to prevent
+              further login attempts.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.RDMS.TH02
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-1
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-7
+      - id: CCC.RDMS.C04
+        title: Access Control for Backup and Restore Operations
+        objective: |
+          Restrict who can initiate, manage, and validate database backup or
+          restore operations through strict role-based or least-privilege
+          access. Prevents accidental or malicious restorations, protecting
+          data integrity and availability.
+        assessment-requirements:
+          - id: CCC.RDMS.C04.TR01
+            text: |
+              When there is an attempt to perform a backup or restore,
+              then the attempt must fail with an access denied message if
+              credentials or roles that are not explicitly authorized for
+              backup/restore functions.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.RDMS.TH04
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-4
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-6
+      - id: CCC.RDMS.C05
+        title: Restrict Snapshot Sharing to Authorized Accounts
+        objective: |
+          Ensure database snapshots can only be shared with explicitly authorized
+          accounts, thereby minimizing the risk of data exposure or exfiltration.
+        assessment-requirements:
+          - id: CCC.RDMS.C05.TR01
+            text: |
+              When an attempt is made to share a snapshot with an unauthorized
+              account, the sharing request must be denied.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.RDMS.TH05
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-10
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-4
+  - title: Data
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.RDMS.C03
+        title: Enforce and Monitor Automated Backups
+        objective: |
+          Ensure database backups are automatically scheduled, actively monitored,
+          and promptly reported if any disruptions occur. This helps maintain
+          data integrity, facilitates disaster recovery, and supports business
+          continuity when a system failure or breach occurs.
+        assessment-requirements:
+          - id: CCC.RDMS.C03.TR01
+            text: |
+              When backups are disabled, paused, or fail to run as scheduled,
+              an alert must be triggered and logged.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.RDMS.TH03
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.IP-4
+          - reference-id: NIST_800_53
+            identifiers:
+              - CP-9

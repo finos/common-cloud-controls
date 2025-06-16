@@ -2,7 +2,7 @@
 @CCC-RDMS-Taxonomy
 Feature: Relational Database Management System Taxonomy
     As a decision-maker or regulator for a financial services organization
-    I want to ensure that an RDMS system contains the minimum features required for the service to be portable with other RDMS systems
+    I want to ensure that an RDMS system contains the minimum capabilities required for the service to be portable with other RDMS systems
     So that I can ensure that the system is not locked into a single vendor
 
     Background:

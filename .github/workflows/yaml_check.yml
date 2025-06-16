@@ -1,0 +1,23 @@
+name: YAML Check
+
+on:
+  workflow_call:
+
+jobs:
+  yaml-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Validate YAML Schema
+        uses: InoUno/yaml-ls-check@develop
+        with:
+          schemaMapping: |
+            {
+              "schemas/controls-schema.json": [ "services/**/controls.yml", "services/**/controls.yaml" ],
+              "schemas/capabilities-schema.json": [ "services/**/capabilities.yml", "services/**/capabilities.yaml" ],
+              "schemas/metadata-schema.json": [ "services/**/metadata.yml", "services/**/metadata.yaml" ],
+              "schemas/threats-schema.json": [ "services/**/threats.yml", "services/**/threats.yaml" ]
+            }

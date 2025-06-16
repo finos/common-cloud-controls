@@ -2,69 +2,96 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "common_threats": {
+    "shared-threats": {
       "type": "array",
       "items": {
-        "type": "string",
-        "pattern": "^CCC\\.TH\\d{2,8}$",
-        "description": "IDs of common threats"
+        "type": "object",
+        "properties": {
+          "reference-id": {
+            "type": "string",
+            "description": "The shared threat namespace or category identifier (e.g., CCC)"
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^CCC\\.TH\\d{2,8}$",
+              "description": "Global threat identifiers"
+            }
+          }
+        },
+        "required": ["reference-id", "identifiers"],
+        "additionalProperties": false
       }
     },
     "threats": {
       "type": "array",
-      "description": "List of all threats in the system; can be omitted if not applicable",
+      "description": "List of service-specific or global threats",
       "items": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "pattern": "^((CCC\\.TH\\d{2,8})|(CCC\\.\\w{1,8}\\.TH\\d{2,8}))$",
-            "description": "Threat ID in the format <category-id>.TH##"
+            "description": "Threat ID (global or service-specific)"
           },
           "title": {
             "type": "string",
-            "description": "Short name of the threat"
+            "description": "Short title of the threat"
           },
           "description": {
             "type": "string",
-            "description": "Complete description of the threat"
+            "description": "Detailed explanation of the threat"
           },
-          "features": {
+          "capabilities": {
             "type": "array",
             "items": {
-              "type": "string",
-              "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.F\\d+$",
-              "description": "Feature ID in the format <category-id>.F<#>"
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "type": "string",
+                  "description": "Capability mapping namespace (e.g., CCC)"
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.F\\d+$",
+                    "description": "Feature/Capability ID"
+                  }
+                }
+              },
+              "required": ["reference-id", "identifiers"],
+              "additionalProperties": false
             }
           },
-          "mitre_technique": {
+          "external-mappings": {
             "type": "array",
             "items": {
-              "type": "string",
-              "description": "Mitre ATT&CK technique ID",
-              "pattern": "^(T|TA)[0-9]+(\\.[0-9]+)?$",
-              "example": "T1486"
-            },
-            "minItems": 1
-          },
-          "threat_mappings": {
-            "type": "object",
-            "properties": {
-              "owasp": {
-                "type": "array",
-                "items": {
+              "type": "object",
+              "properties": {
+                "reference-id": {
                   "type": "string",
-                  "description": "Identifiers from OWASP Top 10 Lists"
+                  "description": "Framework name (e.g., MITRE-ATT&CK)"
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^(T|TA)[0-9]+(\\.[0-9]+)?$",
+                    "description": "Mapping identifier (e.g., MITRE technique ID)"
+                  }
                 }
-              }
+              },
+              "required": ["reference-id", "identifiers"],
+              "additionalProperties": false
             }
           }
         },
-        "required": ["id", "title", "description", "features", "mitre_technique"],
+        "required": ["id", "title", "description", "capabilities", "external-mappings"],
         "additionalProperties": false
       }
     }
   },
-  "required": ["common_threats"],
   "additionalProperties": false
 }

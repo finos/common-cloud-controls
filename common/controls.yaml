@@ -1,0 +1,622 @@
+control-families:
+  - title: Data
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.C01
+        title: Prevent Unencrypted Requests
+        objective: |
+          Ensure that all communications are encrypted in transit to protect data
+          integrity and confidentiality.
+        assessment-requirements:
+          - id: CCC.C01.TR01
+            text: |
+              When a port is exposed for non-SSH network traffic, all traffic MUST
+              include a TLS handshake AND be encrypted using TLS 1.2 or higher.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C01.TR02
+            text: |
+              When a port is exposed for SSH network traffic, all traffic MUST
+              include a SSH handshake AND be encrypted using SSHv2 or higher.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH02
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-02
+          - reference-id: CCM
+            identifiers:
+              - IVS-03
+              - IVS-07
+          - reference-id: ISO_27001
+            identifiers:
+              - 2013 A.13.1.1
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-8
+              - SC-13
+      - id: CCC.C06
+        title: Prevent Deployment in Restricted Regions
+        objective: |
+          Ensure that resources are not provisioned or deployed in
+          geographic regions or cloud availability zones that have been
+          designated as restricted or prohibited, to comply with
+          regulatory requirements and reduce exposure to geopolitical
+          risks.
+        assessment-requirements:
+          - id: CCC.C06.TR01
+            text: |
+              When a deployment request is made, the service MUST validate
+              that the deployment region is not to a restricted or regions
+              or availability zones.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C06.TR02
+            text: |
+              When a deployment request is made, the service MUST validate that
+              replication of data, backups, and disaster recovery operations
+              will not occur in restricted regions or availability zones.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH03
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-1
+          - reference-id: CCM
+            identifiers:
+              - DSI-06
+              - DSI-08
+          - reference-id: ISO_27001
+            identifiers:
+              - 2013 A.11.1.1
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-6
+      - id: CCC.C08
+        title: Enable Multi-zone or Multi-region Data Replication
+        objective: |
+          Ensure that data is replicated across multiple
+          zones or regions to protect against data loss due to hardware
+          failures, natural disasters, or other catastrophic events.
+        assessment-requirements:
+          - id: CCC.C08.TR01
+            text: |
+              When data is stored, the service MUST ensure that data is
+              replicated across multiple availability zones or regions.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C08.TR02
+            text: |
+              When data is replicated across multiple zones or regions,
+              the service MUST be able to verify the replication state,
+              including the replication locations and data synchronization
+              status.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH06
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.PT-5
+          - reference-id: CCM
+            identifiers:
+              - BCR-08
+          - reference-id: ISO_27001
+            identifiers: []
+          - reference-id: NIST_800_53
+            identifiers:
+              - CP-2
+              - CP-10
+      - id: CCC.C09
+        title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        objective: |
+          Access logs should always be considered sensitive.
+          Ensure that access logs are protected against unauthorized
+          access, tampering, or deletion.
+        assessment-requirements:
+          - id: CCC.C09.TR01
+            text: |
+              When access logs are stored, the service MUST ensure that
+              access logs cannot be accessed without proper authorization.
+            applicability:
+              - tlp-amber
+              - tlp-red
+              - tlp-green
+              - tlp-clear
+            recommendation: ""
+          - id: CCC.C09.TR02
+            text: |
+              When access logs are stored, the service MUST ensure that
+              access logs cannot be modified without proper authorization.
+            applicability:
+              - tlp-amber
+              - tlp-red
+              - tlp-green
+              - tlp-clear
+            recommendation: ""
+          - id: CCC.C09.TR03
+            text: |
+              When access logs are stored, the service MUST ensure that
+              access logs cannot be deleted without proper authorization.
+            applicability:
+              - tlp-amber
+              - tlp-red
+              - tlp-green
+              - tlp-clear
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH07
+              - CCC.TH09
+              - CCC.TH04
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-6
+          - reference-id: NIST_800_53
+            identifiers:
+              - AU-9
+          - reference-id: CCM
+            identifiers:
+              - LOG-02
+              - LOG-04
+              - LOG-09
+          - reference-id: ISO_27001
+            identifiers: []
+      - id: CCC.C10
+        title: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+        objective: |
+          Prevent replication of data to untrusted destinations outside
+          of defined trust perimeter. An untrusted destination is defined
+          as a resource that exists outside of a specified trusted
+          identity or network or data perimeter.
+        assessment-requirements:
+          - id: CCC.C10.TR01
+            text: |
+              When data is replicated, the service MUST ensure that
+              replication is restricted to explicitly trusted destinations.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH04
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-5
+          - reference-id: CCM
+            identifiers:
+              - DSP-10
+              - DSP-19
+          - reference-id: ISO_27001
+            identifiers: []
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-4
+  - title: Encryption
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.C02
+        title: Ensure Data Encryption at Rest for All Stored Data
+        objective: |
+          Ensure that all data stored is encrypted at rest to maintain
+          confidentiality and integrity.
+        assessment-requirements:
+          - id: CCC.C02.TR01
+            text: |
+              When data is stored at rest, the service MUST be configured to
+              encrypt data at rest using the latest industry-standard encryption
+              methods.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH01
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-1
+          - reference-id: CCM
+            identifiers:
+              - DSP-17
+          - reference-id: ISO_27001
+            identifiers: []
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-13
+              - SC-28
+      - id: CCC.C11
+        title: Enforce Key Management Policies
+        objective: |
+          Ensure that encryption keys are managed securely by enforcing
+          the use of approved algorithms, regular key rotation, and
+          customer-managed encryption keys (CMEKs).
+        assessment-requirements:
+          - id: CCC.C11.TR01
+            text: |
+              When encryption keys are used, the service MUST verify that
+              all encryption keys use approved cryptographic algorithms as
+              per organizational standards.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C11.TR02
+            text: |
+              When encryption keys are used, the service MUST verify that
+              encryption keys are rotated at a frequency compliant with
+              organizational policies.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C11.TR03
+            text: |
+              When encrypting data, the service MUST verify that
+              customer-managed encryption keys (CMEKs) are used.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C11.TR04
+            text: |
+              When encryption keys are accessed, the service MUST verify that
+              access to encryption keys is restricted to authorized personnel
+              and services, following the principle of least privilege.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH16
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-1
+          - reference-id: CCM
+            identifiers:
+              - EKM-02
+              - EKM-03
+          - reference-id: ISO_27001
+            identifiers:
+              - 2013 A.10.1.2
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-12
+              - SC-17
+  - title: Identity and Access Management
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.C03
+        title: Implement Multi-factor Authentication (MFA) for Access
+        objective: |
+          Ensure that all sensitive activities require two or more identity factors
+          during authentication to prevent unauthorized access. This may include
+          something you know, something you have, or something you are. In the
+          case of programattically accessible services, such as API endpoints, this
+          includes a combination of API keys or tokens and network restrictions.
+        assessment-requirements:
+          - id: CCC.C03.TR01
+            text: |
+              When an entity attempts to modify the service, the service MUST
+              attempt to verify the client's identity through an authentication
+              process.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C03.TR02
+            text: |
+              When an entity attempts to view information presented by the service,
+              service, the service MUST attempt to verify the client's identity
+              through an authentication process.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C03.TR03
+            text: |
+              When an entity attempts to view information on the service through
+              a user interface, the authentication process MUST require multiple
+              identifying factors from the user.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C03.TR04
+            text: |
+              When an entity attempts to modify the service through an API
+              endpoint, the authentication process MUST be limited to a
+              specific allowed network.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C03.TR05
+            text: |
+              When an entity attempts to view information on the service through
+              an API endpoint, the authentication process MUST be limited to a
+              specific allowed network.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C03.TR06
+            text: |
+              When an entity attempts to modify the service through a user
+              interface, the authentication process MUST require multiple
+              identifying factors from the user.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH01
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-7
+          - reference-id: CCM
+            identifiers:
+              - IAM-03
+              - IAM-08
+          - reference-id: ISO_27001
+            identifiers:
+              - 2013 A.9.4.2
+          - reference-id: NIST_800_53
+            identifiers:
+              - IA-2
+      - id: CCC.C05
+        title: Prevent Access from Untrusted Entities
+        objective: |
+          Ensure that secure access controls prevent unauthorized access,
+          mitigate risks of data exfiltration, and block misuse of services
+          by adversaries. This includes restricting access based on trust
+          criteria such as IP allowlists, domain restrictions, and tenant
+          isolation.
+        assessment-requirements:
+          - id: CCC.C05.TR01
+            text: |
+              When access to sensitive resources is attempted, the service MUST
+              block requests from untrusted sources, including IP addresses,
+              domains, or networks that are not explicitly included in a
+              pre-approved allowlist.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C05.TR02
+            text: |
+              When administrative access is attempted, the service MUST validate
+              that the request originates from an explicitly allowed source as
+              defined in the allowlist.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C05.TR03
+            text: |
+              When resources are accessed in a multi-tenant environment, the
+              service MUST enforce isolation by allowing access only to explicitly
+              allowlisted tenants.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C05.TR04
+            text: |
+              When an access attempt from an untrusted source is blocked, the
+              service MUST log the event, including the source details, time,
+              and reason for denial.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH01
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-3
+          - reference-id: CCM
+            identifiers:
+              - DS-5
+          - reference-id: ISO_27001
+            identifiers:
+              - 2013 A.13.1.3
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-3
+  - title: Logging & Monitoring
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.C04
+        title: Log All Access and Changes
+        objective: |
+          Ensure that all access and changes are logged to maintain a
+          detailed audit trail for security and compliance purposes.
+        assessment-requirements:
+          - id: CCC.C04.TR01
+            text: |
+              When any access attempt is made to the service, the service MUST log
+              the client identity, time, and result of the attempt.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C04.TR02
+            text: |
+              When any access attempt is made to the view sensitive information,
+              the service MUST log the client identity, time, and result of the
+              attempt.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C04.TR03
+            text: |
+              When any change is made to the service configuration, the service MUST
+              log the change, including the client, time, previous state, and the
+              new state following the change.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH01
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - DE.AE-3
+          - reference-id: CCM
+            identifiers:
+              - LOG-08
+          - reference-id: ISO_27001
+            identifiers: []
+          - reference-id: NIST_800_53
+            identifiers:
+              - AU-2
+              - AU-3
+              - AU-12
+      - id: CCC.C07
+        title: Alert on Unusual Enumeration Activity
+        objective: |
+          Ensure that logs and associated alerts are generated when
+          unusual enumeration activity is detected that may indicate
+          reconnaissance activities.
+        assessment-requirements:
+          - id: CCC.C07.TR01
+            text: |
+              When suspicious enumeration activities are detected, the
+              service MUST generate real-time alerts to notify security
+              personnel.
+            applicability:
+              - tlp-red
+            recommendation: ""
+          - id: CCC.C07.TR02
+            text: |
+              When suspicious enumeration activities are detected, the
+              service MUST log the event, including the source details,
+              time, and nature of the activity.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH15
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - DE.AE-1
+          - reference-id: CCM
+            identifiers:
+              - LOG-05
+          - reference-id: ISO_27001
+            identifiers: []
+          - reference-id: NIST_800_53
+            identifiers:
+              - AU-6
+  - title: ""
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.C12
+        title: Ensure Secure Network Access Rules
+        objective: |
+          Ensure network access to the service is restricted to explicitly
+          authorized IP addresses, ports, and protocols by properly
+          configuring security group and/or firewall rules. Configuration
+          must follow the principle of least privilege to minimize the
+          attack surface and prevent unauthorized  inbound connections.
+          Overly permissive rules such as, 0.0.0.0/0 must be disallowed or
+          strictly controlled.
+        assessment-requirements:
+          - id: CCC.C12.TR01
+            text: |
+              When an unauthorized IP or network attempts to connect
+              to the service, the request MUST be denied.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH17
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-3
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-4

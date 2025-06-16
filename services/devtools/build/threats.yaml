@@ -1,36 +1,45 @@
-common_threats:
-  - CCC.TH01 # Access control is misconfigured
-  - CCC.TH02 # Data is intercepted in transit
-  - CCC.TH03 # Deployment region network is untrusted
-  - CCC.TH04 # Data is replicated to untrusted or external locations
-  - CCC.TH05 # Data is corrupted during replication
-  - CCC.TH06 # Data is lost or corrupted
-  - CCC.TH07 # Logs are Tampered With or Deleted
-  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-  - CCC.TH11 # Event Notifications are Incorrectly Triggered
-  - CCC.TH12 # Resource constraints are exhausted
-  - CCC.TH14 # Older Resource Versions Are Exploited
-  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
-  - CCC.TH16 # Non-compliance with encryption key management policies
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access control is misconfigured
+      - CCC.TH02 # Data is intercepted in transit
+      - CCC.TH03 # Deployment region network is untrusted
+      - CCC.TH04 # Data is replicated to untrusted or external locations
+      - CCC.TH05 # Data is corrupted during replication
+      - CCC.TH06 # Data is lost or corrupted
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - CCC.TH12 # Resource constraints are exhausted
+      - CCC.TH14 # Older Resource Versions Are Exploited
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+      - CCC.TH16 # Logging and Monitoring are Disabled
 
 threats:
-  - id: CCC.Build.TH01  # Unauthorized Build Execution
+  - id: CCC.Build.TH01
     title: Unauthorized Build Execution
     description: |
       Attackers may trigger builds using unauthorized build agents or external services,
       leading to unauthorized code execution or deployment of malicious code.
-    features:
-      - CCC.Build.F01  # Build Automation
-      - CCC.Build.F04  # Source Repository Integration
-    mitre_technique:
-      - T1195  # Supply Chain Compromise
-
-  - id: CCC.Build.TH02  # External Exposure of Build Environments
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Build.F01
+          - CCC.Build.F04
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1195
+  - id: CCC.Build.TH02
     title: External Exposure of Build Environments
     description: |
       If build environments have external network access, they may be accessed by unauthorized parties,
       leading to data exfiltration or tampering.
-    features:
-      - CCC.Build.F03  # Custom Build Environments
-    mitre_technique:
-      - T1133  # External Remote Services
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Build.F03
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1133

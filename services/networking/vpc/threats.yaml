@@ -1,12 +1,14 @@
-common_threats:
-  - CCC.TH01 # Access Control is Misconfigured
-  - CCC.TH02 # Data is Intercepted in Transit
-  - CCC.TH03 # Deployment Region Network is Untrusted
-  - CCC.TH06 # Data is Lost or Corrupted
-  - CCC.TH07 # Logs are Tampered With or Deleted
-  - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-  - CCC.TH13 # Resource Tags are Manipulated
-  - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH02 # Data is Intercepted in Transit
+      - CCC.TH03 # Deployment Region Network is Untrusted
+      - CCC.TH06 # Data is Lost or Corrupted
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH13 # Resource Tags are Manipulated
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.VPC.TH01
@@ -15,34 +17,43 @@ threats:
       Default network configurations may include insecure settings and open
       firewall rules,leading to unauthorized access and potential data
       breaches.
-    features:
-      - CCC.VPC.F01 # Custom Network Creation
-    mitre_technique:
-      - T1040 # Network Sniffing
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VPC.F01
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1040
   - id: CCC.VPC.TH02
     title: Exposure of Resources to Public Internet
     description: |
       Assignment of external IP addresses to resources exposes resources to the
       public internet, increasing the risk of attacks such as brute force,
       exploitation of vulnerabilities, or unauthorized access.
-    features:
-      - CCC.VPC.F04 # Public Subnet Creation
-    mitre_technique:
-      - T1133 # External Remote Services
-      - T1078 # Valid Accounts
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VPC.F04
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1133
+          - T1078
   - id: CCC.VPC.TH03
     title: Unauthorized Network Access Through VPC Peering
     description: |
       Unauthorized VPC peering connections can allow network traffic between
       untrusted or unapproved subscriptions, leading to potential data
       exposure or exfiltration.
-    features:
-      - CCC.VPC.F11 # Connectivity Options - VPC Peering
-    mitre_technique:
-      - T1599 # Network Boundary Bridging
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VPC.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1599
   - id: CCC.VPC.TH04
     title: Lack of Network Visibility due to Disabled VPC Flow Logs
     description: |
@@ -50,18 +61,25 @@ threats:
       visibility, which can lead to undetected unauthorized access,
       data exfiltration, and network misconfigurations. This lack of
       visibility increases the risk of undetected security incidents.
-    features:
-      - CCC.VPC.F16 # VPC Flow Logs
-    mitre_technique:
-      - T1562 # Impair Defenses
-
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VPC.F16
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1562
   - id: CCC.VPC.TH05
     title: Overly Permissive VPC Endpoint Policies
     description: |
       VPC Endpoint policies that are overly permissive may inadvertently expose
       resources within the VPC to unintended principals or external threats.
-    features:
-      - CCC.VPC.F17 # VPC Endpoints
-    mitre_technique:
-      - T1078 # Valid Accounts
-      - T1071 # Application Layer Protocol
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VPC.F17
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078
+          - T1071

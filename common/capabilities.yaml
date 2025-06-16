@@ -1,0 +1,131 @@
+capabilities:
+  - id: CCC.F01
+    title: Encryption in Transit Enabled by Default
+    description: |
+      Provides default encryption of data in transit through SSL or TLS.
+
+  - id: CCC.F02
+    title: Encryption at Rest Enabled by Default
+    description: |
+      Provides default encryption of data before storage, with the option for
+      clients to maintain control over the encryption keys.
+
+  - id: CCC.F03
+    title: Access/Activity Logs
+    description: |
+      Provides users with the ability to track all requests made to or
+      activities performed on resources for audit purposes.
+
+  - id: CCC.F04
+    title: Transaction Rate Limits
+    description: |
+      Allows the setting of a threshold where industry-standard throughput is
+      achieved up to the specified rate limit.
+
+  - id: CCC.F05
+    title: Signed URLs
+    description: |
+      Provides the ability to grant temporary or restricted access
+      to a resource through a custom URL that contains authentication information.
+
+  - id: CCC.F06
+    title: Identity Based Access Control
+    description: |
+      Provides the ability to determine access to resources based on
+      attributes associated with a user identity.
+
+  - id: CCC.F07
+    title: Event Notifications
+    description: |
+      Publishes events for creation, deletion, and modification of
+      objects in a way that enables users to trigger actions in response.
+
+  - id: CCC.F08
+    title: Multi-zone Deployment
+    description: |
+      Provides the ability for the service to be deployed in multiple availability
+      zones or regions to increase availability and fault tolerance.
+
+  - id: CCC.F09
+    title: Monitoring
+    description: |
+      Provides the ability to continuously observe, track, and analyze
+      the performance, availability, and health of the service resources or
+      applications.
+
+  - id: CCC.F10
+    title: Logging
+    description: |
+      Provides the ability to transmit system events, application activities,
+      and/or user interactions to a logging service
+
+  - id: CCC.F11
+    title: Backup
+    description: |
+      Provides the ability to create copies of associated data or
+      configurations in the form of automated backups, snapshot-based backups,
+      and/or incremental backups.
+
+  - id: CCC.F12
+    title: Recovery
+    description: |
+      Provides the ability to restore data, a system, or an application to a functional state
+      after an incident such as data loss, corruption or a disaster.
+
+  - id: CCC.F13
+    title: Infrastructure as Code
+    description: |
+      Allows for managing and provisioning service resources
+      through machine-readable configuration files, such as templates.
+
+  - id: CCC.F14
+    title: API Access
+    description: |
+      Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+
+  - id: CCC.F15
+    title: Cost Management
+    description: |
+      Provides the ability to filter spending and to detect cost anomalies for the service.
+
+  - id: CCC.F16
+    title: Budgeting
+    description: |
+      Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+
+  - id: CCC.F17
+    title: Alerting
+    description: |
+      Provides the ability to set an alarm based on performance metrics,
+      logs, events or spending thresholds of the service.
+
+  - id: CCC.F18
+    title: Versioning
+    description: |
+      Provides the ability to maintain multiple versions of the same resource.
+
+  - id: CCC.F19
+    title: On-demand Scaling
+    description: |
+      Provide scaling of resources based on demand.
+
+  - id: CCC.F20
+    title: Tagging
+    description: |
+      Provide the ability to tag a resource to effectively manage and gain insights of the resource.
+
+  - id: CCC.F21
+    title: Replication
+    description: |
+      Provides the ability to copy data or resource to multiple locations to ensure
+      availability and durability.
+
+  - id: CCC.F22
+    title: Location Lock-In
+    description: |
+      Provides the ability to control where the resources are created.
+
+  - id: CCC.F23
+    title: Network Access Rules
+    description: |
+      Ability to control access to the resource by defining network access rules.
