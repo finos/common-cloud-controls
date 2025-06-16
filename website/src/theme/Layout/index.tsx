@@ -11,6 +11,7 @@ import Footer from "@theme/Footer";
 import LayoutProvider from "@theme/Layout/Provider";
 import ErrorPageContent from "@theme/ErrorPageContent";
 import type { Props } from "@theme/Layout";
+import { useLocation } from "@docusaurus/router";
 import styles from "./styles.module.css";
 
 export default function Layout(props: Props): ReactNode {
@@ -24,6 +25,8 @@ export default function Layout(props: Props): ReactNode {
   } = props;
 
   useKeyboardNavigation();
+  const path = useLocation().pathname;
+  const nonBreadcrumbPaths = ["/", "/404"];
 
   return (
     <LayoutProvider>
@@ -37,7 +40,7 @@ export default function Layout(props: Props): ReactNode {
         <Navbar />
         <main id={SkipToContentFallbackId} className={clsx(ThemeClassNames.wrapper.main, styles.mainWrapper, wrapperClassName)}>
           <ErrorBoundary fallback={(params) => <ErrorPageContent {...params} />}>
-            <Breadcrumb />
+            {!nonBreadcrumbPaths.includes(path) && <Breadcrumb />}
             {children}
           </ErrorBoundary>
         </main>
