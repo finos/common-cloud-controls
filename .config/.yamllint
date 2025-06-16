@@ -2,6 +2,7 @@ extends: relaxed
 
 ignore:
   - .config
+  - website
   - .gitvote.yml
 
 rules:
