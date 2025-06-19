@@ -14,4 +14,97 @@ shared-threats:
       - CCC.TH16
       - CCC.TH17
 
-threats: []
+threats:
+  - id: CCC.VM.TH01
+    title: Images Contain Embedded Vulnerabilities
+    description: |
+      Virtual machine images may include outdated software, insecure
+      configurations, or embedded secrets. Use of such images can introduce
+      vulnerabilities into environments where they are deployed.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1601
+          - T1584.001
+
+  - id: CCC.VM.TH02
+    title: Instance Metadata is Unprotected
+    description: |
+      Instance metadata services may be exposed within virtual machines without
+      appropriate access controls, allowing unauthorized retrieval of sensitive
+      configuration details or temporary credentials.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F16
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1552.005
+
+  - id: CCC.VM.TH03
+    title: Bootstrap Scripts Introduce Unintended Behavior
+    description: |
+      Bootstrap scripts executed at startup may include unvalidated commands or
+      configuration changes. If not securely managed, these scripts can modify
+      instance behavior in unexpected or insecure ways.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F19
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1204
+          - T1059.004
+
+  - id: CCC.VM.TH04
+    title: Instance Templates Propagate Insecure Defaults
+    description: |
+      Instance templates may contain hardcoded credentials, open ports, or
+      insecure configurations. When reused across deployments, these templates
+      can replicate vulnerabilities at scale.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F18
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1601.002
+
+  - id: CCC.VM.TH05
+    title: Network Access Rules Allow Unintended Communication
+    description: |
+      Inadequately scoped network access rules may permit communication between
+      virtual machines and untrusted networks or services, increasing exposure
+      to unauthorized access and lateral movement.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F23
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1021
+          - T1071
+
+  - id: CCC.VM.TH06
+    title: Remote Access Interfaces Are Insufficiently Restricted
+    description: |
+      Virtual machine instances may expose remote access methods such as SSH or
+      RDP without proper access controls or network restrictions, allowing
+      unintended access to administrative interfaces.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F22
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1021.001
+          - T1078
