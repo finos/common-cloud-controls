@@ -16,10 +16,10 @@ shared-threats:
 
 threats:
   - id: CCC.VM.TH01
-    title: Images Contain Embedded Vulnerabilities
+    title: Images Contain Vulnerabilities
     description: |
       Virtual machine images may include outdated software, insecure
-      configurations, or embedded secrets. Use of such images can introduce
+      configurations, or secrets. Use of such images can introduce
       vulnerabilities into environments where they are deployed.
     capabilities:
       - reference-id: CCC
