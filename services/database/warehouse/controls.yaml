@@ -12,7 +12,7 @@ shared-controls:
       - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 control-families:
-  - name: Data
+  - title: Data
     description: 'TODO: Describe this control family'
     controls:
       - id: CCC.DataWar.C01
@@ -20,7 +20,7 @@ control-families:
         objective: |
           Ensure that data access is provided through managed views, restricting users
           from accessing underlying tables directly and enforcing consistent security policies.
-        requirements:
+        assessment-requirements:
           - id: CCC.DataWar.C01.TR01
             text: |
               Attempt to access underlying database tables directly without
@@ -46,7 +46,7 @@ control-families:
         objective: |
           Ensure that access to sensitive data columns is restricted based on user roles,
           preventing unauthorized access to sensitive information.
-        requirements:
+        assessment-requirements:
           - id: CCC.DataWar.C02.TR01
             text: |
               Attempt to query sensitive columns without the necessary permissions and
@@ -72,7 +72,7 @@ control-families:
         objective: |
           Ensure that access to data rows is restricted based on user roles or attributes,
           preventing unauthorized access to specific subsets of data.
-        requirements:
+        assessment-requirements:
           - id: CCC.DataWar.C03.TR01
             text: |
               Attempt to query data rows that the user should not have access to and verify

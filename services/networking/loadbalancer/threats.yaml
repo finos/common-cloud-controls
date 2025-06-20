@@ -23,7 +23,7 @@ threats:
       - reference-id: LB
         identifiers:
           - CCC.LB.F22 # Rate Limiting / Throttling
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1499 # Endpoint DoS
@@ -39,7 +39,7 @@ threats:
         identifiers:
           - CCC.LB.F02 # Dynamic LB
           - CCC.LB.F20 # Traffic Splitting
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1499
@@ -54,7 +54,7 @@ threats:
       - reference-id: LB
         identifiers:
           - CCC.LB.F15 # Session Affinity
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1078
@@ -70,7 +70,7 @@ threats:
         identifiers:
           - CCC.LB.F12 # Health Checks
           - CCC.LB.F13 # Target Removal
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1499
@@ -85,7 +85,7 @@ threats:
       - reference-id: LBL
         identifiers:
           - CCC.LB.F19
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1592
@@ -99,7 +99,7 @@ threats:
       - reference-id: LB
         identifiers:
           - CCC.LB.F11 # SSL/TLS Termination
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1557

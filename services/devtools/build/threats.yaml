@@ -26,7 +26,7 @@ threats:
         identifiers:
           - CCC.Build.F01
           - CCC.Build.F04
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1195
@@ -39,7 +39,7 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.Build.F03
-    mappings:
+    external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
           - T1133

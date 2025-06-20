@@ -1,0 +1,1193 @@
+metadata:
+    title: CCC Virtual Private Cloud
+    id: CCC.VPC
+    description: |
+        This documents the minimal set of features that should be present
+        for a virtual private cloud service to be considered for use in financial
+        services ecosystems.
+    release_details:
+        - version: "2025.01"
+          assurance_level: None
+          threat_model_url: None
+          threat_model_author: None
+          red_team: None
+          red_team_exercise_url: None
+          release_manager:
+            name: Damien Burks
+            github_id: damienjburks
+            company: Citi
+            summary: |
+                This initial release is part of the first batch of control catalogs
+                produced by the CCC. It is the result of thousands of hours dedicated to
+                exploring different ways of working and collaborating, on top of time
+                spent researching, writing, and reviewing the content. This marks a huge
+                milestone for the CCC and the broader community as further releases will
+                continue to build on this foundation. A huge thanks to everyone who has
+                brought us to this point!
+          change_log:
+            - |
+              This initial release contains a variety of commits designed to capture
+              all of the features, threats, and controls for this service category.
+          contributors:
+            - name: Michael Lysaght
+              github_id: mlysaght2017
+              company: Citi
+            - name: Sonali Mendis
+              github_id: smendis-scottlogic
+              company: Scott Logic
+            - name: Eddie Knight
+              github_id: eddie-knight
+              company: Sonatype
+            - name: Dave Ogle
+              github_id: dogle-scottlogic
+              company: Scott Logic
+            - name: kazmik23
+              github_id: kazmik23
+              company: Google
+controls:
+    - id: CCC.C01
+      title: Prevent Unencrypted Requests
+      objective: |
+        Ensure that all communications are encrypted in transit to protect data
+        integrity and confidentiality.
+      control_family: Data
+      threats:
+        - CCC.TH02
+      nist_csf: PR.DS-02
+      control_mappings:
+        CCM:
+            - IVS-03
+            - IVS-07
+        ISO_27001:
+            - 2013 A.13.1.1
+        NIST_800_53:
+            - SC-8
+            - SC-13
+      test_requirements:
+        - id: CCC.C01.TR01
+          text: |
+            When a port is exposed for non-SSH network traffic, all traffic MUST
+            include a TLS handshake AND be encrypted using TLS 1.2 or higher.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C01.TR02
+          text: |
+            When a port is exposed for SSH network traffic, all traffic MUST
+            include a SSH handshake AND be encrypted using SSHv2 or higher.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc01---prevent-unencrypted-requests
+    - id: CCC.C02
+      title: Ensure Data Encryption at Rest for All Stored Data
+      objective: |
+        Ensure that all data stored is encrypted at rest to maintain
+        confidentiality and integrity.
+      control_family: Encryption
+      threats:
+        - CCC.TH01
+      nist_csf: PR.DS-1
+      control_mappings:
+        CCM: []
+        ISO_27001: []
+        NIST_800_53:
+            - SC-13
+            - SC-28
+      test_requirements:
+        - id: CCC.C02.TR01
+          text: |
+            When data is stored at rest, the service MUST be configured to
+            encrypt data at rest using the latest industry-standard encryption
+            methods.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc02---ensure-data-encryption-at-rest-for-all-stored-data
+    - id: CCC.C03
+      title: Implement Multi-factor Authentication (MFA) for Access
+      objective: |
+        Ensure that all sensitive activities require two or more identity factors
+        during authentication to prevent unauthorized access. This may include
+        something you know, something you have, or something you are. In the
+        case of programattically accessible services, such as API endpoints, this
+        includes a combination of API keys or tokens and network restrictions.
+      control_family: Identity and Access Management
+      threats:
+        - CCC.TH01
+      nist_csf: PR.AC-7
+      control_mappings:
+        CCM:
+            - IAM-03
+            - IAM-08
+        ISO_27001:
+            - 2013 A.9.4.2
+        NIST_800_53:
+            - IA-2
+      test_requirements:
+        - id: CCC.C03.TR01
+          text: |
+            When an entity attempts to modify the service, the service MUST
+            attempt to verify the client's identity through an authentication
+            process.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR02
+          text: |
+            When an entity attempts to view information presented by the service,
+            service, the service MUST attempt to verify the client's identity
+            through an authentication process.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR03
+          text: |
+            When an entity attempts to view information on the service through
+            a user interface, the authentication process MUST require multiple
+            identifying factors from the user.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR04
+          text: |
+            When an entity attempts to modify the service through an API
+            endpoint, the authentication process MUST be limited to a
+            specific allowed network.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR05
+          text: |
+            When an entity attempts to view information on the service through
+            an API endpoint, the authentication process MUST be limited to a
+            specific allowed network.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR06
+          text: |
+            When an entity attempts to modify the service through a user
+            interface, the authentication process MUST require multiple
+            identifying factors from the user.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc03---implement-multi-factor-authentication-(mfa)-for-access
+    - id: CCC.C04
+      title: Log All Access and Changes
+      objective: |
+        Ensure that all access and changes are logged to maintain a
+        detailed audit trail for security and compliance purposes.
+      control_family: Logging & Monitoring
+      threats:
+        - CCC.TH01
+      nist_csf: DE.AE-3
+      control_mappings:
+        CCM: []
+        ISO_27001: []
+        NIST_800_53:
+            - AU-2
+            - AU-3
+            - AU-12
+      test_requirements:
+        - id: CCC.C04.TR01
+          text: |
+            When any access attempt is made to the service, the service MUST log
+            the client identity, time, and result of the attempt.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C04.TR02
+          text: |
+            When any access attempt is made to the view sensitive information,
+            the service MUST log the client identity, time, and result of the
+            attempt.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C04.TR03
+          text: |
+            When any change is made to the service configuration, the service MUST
+            log the change, including the client, time, previous state, and the
+            new state following the change.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc04---log-all-access-and-changes
+    - id: CCC.C05
+      title: Prevent Access from Untrusted Entities
+      objective: |
+        Ensure that secure access controls prevent unauthorized access,
+        mitigate risks of data exfiltration, and block misuse of services
+        by adversaries. This includes restricting access based on trust
+        criteria such as IP allowlists, domain restrictions, and tenant
+        isolation.
+      control_family: Identity and Access Management
+      threats:
+        - CCC.TH01
+      nist_csf: PR.AC-3
+      control_mappings:
+        CCM:
+            - DS-5
+        ISO_27001:
+            - 2013 A.13.1.3
+        NIST_800_53:
+            - AC-3
+      test_requirements:
+        - id: CCC.C05.TR01
+          text: |
+            When access to sensitive resources is attempted, the service MUST
+            block requests from untrusted sources, including IP addresses,
+            domains, or networks that are not explicitly included in a
+            pre-approved allowlist.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C05.TR02
+          text: |
+            When administrative access is attempted, the service MUST validate
+            that the request originates from an explicitly allowed source as
+            defined in the allowlist.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C05.TR03
+          text: |
+            When resources are accessed in a multi-tenant environment, the
+            service MUST enforce isolation by allowing access only to explicitly
+            allowlisted tenants.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C05.TR04
+          text: |
+            When an access attempt from an untrusted source is blocked, the
+            service MUST log the event, including the source details, time,
+            and reason for denial.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc05---prevent-access-from-untrusted-entities
+    - id: CCC.C06
+      title: Prevent Deployment in Restricted Regions
+      objective: |
+        Ensure that resources are not provisioned or deployed in
+        geographic regions or cloud availability zones that have been
+        designated as restricted or prohibited, to comply with
+        regulatory requirements and reduce exposure to geopolitical
+        risks.
+      control_family: Data
+      threats:
+        - CCC.TH03
+      nist_csf: PR.DS-1
+      control_mappings:
+        CCM:
+            - DSI-06
+            - DSI-08
+        ISO_27001:
+            - 2013 A.11.1.1
+        NIST_800_53:
+            - AC-6
+      test_requirements:
+        - id: CCC.C06.TR01
+          text: |
+            When a deployment request is made, the service MUST validate
+            that the deployment region is not to a restricted or regions
+            or availability zones.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C06.TR02
+          text: |
+            When a deployment request is made, the service MUST validate that
+            replication of data, backups, and disaster recovery operations
+            will not occur in restricted regions or availability zones.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc06---prevent-deployment-in-restricted-regions
+    - id: CCC.C07
+      title: Alert on Unusual Enumeration Activity
+      objective: |
+        Ensure that logs and associated alerts are generated when
+        unusual enumeration activity is detected that may indicate
+        reconnaissance activities.
+      control_family: Logging & Monitoring
+      threats:
+        - CCC.TH15
+      nist_csf: DE.AE-1
+      control_mappings:
+        CCM: []
+        ISO_27001: []
+        NIST_800_53:
+            - AU-6
+      test_requirements:
+        - id: CCC.C07.TR01
+          text: |
+            When suspicious enumeration activities are detected, the
+            service MUST generate real-time alerts to notify security
+            personnel.
+          tlp_levels:
+            - tlp_red
+        - id: CCC.C07.TR02
+          text: |
+            When suspicious enumeration activities are detected, the
+            service MUST log the event, including the source details,
+            time, and nature of the activity.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc07---alert-on-unusual-enumeration-activity
+    - id: CCC.C08
+      title: Enable Multi-zone or Multi-region Data Replication
+      objective: |
+        Ensure that data is replicated across multiple
+        zones or regions to protect against data loss due to hardware
+        failures, natural disasters, or other catastrophic events.
+      control_family: Data
+      threats:
+        - CCC.TH06
+      nist_csf: PR.PT-5
+      control_mappings:
+        CCM: []
+        ISO_27001: []
+        NIST_800_53:
+            - CP-2
+            - CP-10
+      test_requirements:
+        - id: CCC.C08.TR01
+          text: |
+            When data is stored, the service MUST ensure that data is
+            replicated across multiple availability zones or regions.
+          tlp_levels:
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C08.TR02
+          text: |
+            When data is replicated across multiple zones or regions,
+            the service MUST be able to verify the replication state,
+            including the replication locations and data synchronization
+            status.
+          tlp_levels:
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc08---enable-multi-zone-or-multi-region-data-replication
+    - id: CCC.C09
+      title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      objective: |
+        Access logs should always be considered sensitive.
+        Ensure that access logs are protected against unauthorized
+        access, tampering, or deletion.
+      control_family: Data
+      threats:
+        - CCC.TH07
+        - CCC.TH09
+        - CCC.TH04
+      nist_csf: PR.DS-6
+      control_mappings:
+        CCM: []
+        ISO_27001: []
+        NIST_800_53:
+            - AU-9
+      test_requirements:
+        - id: CCC.C09.TR01
+          text: |
+            When access logs are stored, the service MUST ensure that
+            access logs cannot be accessed without proper authorization.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+            - tlp_green
+            - tlp_clear
+        - id: CCC.C09.TR02
+          text: |
+            When access logs are stored, the service MUST ensure that
+            access logs cannot be modified without proper authorization.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+            - tlp_green
+            - tlp_clear
+        - id: CCC.C09.TR03
+          text: |
+            When access logs are stored, the service MUST ensure that
+            access logs cannot be deleted without proper authorization.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+            - tlp_green
+            - tlp_clear
+      link: cccc09---prevent-tampering-deletion-or-unauthorized-access-to-access-logs
+    - id: CCC.C10
+      title: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+      objective: |
+        Prevent replication of data to untrusted destinations outside
+        of defined trust perimeter. An untrusted destination is defined
+        as a resource that exists outside of a specified trusted
+        identity or network or data perimeter.
+      control_family: Data
+      threats:
+        - CCC.TH04
+      nist_csf: PR.DS-5
+      control_mappings:
+        CCM: []
+        ISO_27001: []
+        NIST_800_53:
+            - AC-4
+      test_requirements:
+        - id: CCC.C10.TR01
+          text: |
+            When data is replicated, the service MUST ensure that
+            replication is restricted to explicitly trusted destinations.
+          tlp_levels:
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc10---prevent-data-replication-to-destinations-outside-of-defined-trust-perimeter
+    - id: CCC.C11
+      title: Enforce Key Management Policies
+      objective: |
+        Ensure that encryption keys are managed securely by enforcing
+        the use of approved algorithms, regular key rotation, and
+        customer-managed encryption keys (CMEKs).
+      control_family: Encryption
+      threats:
+        - CCC.TH16
+      nist_csf: PR.DS-1
+      control_mappings:
+        CCM:
+            - EKM-02
+            - EKM-03
+        ISO_27001:
+            - 2013 A.10.1.2
+        NIST_800_53:
+            - SC-12
+            - SC-17
+      test_requirements:
+        - id: CCC.C11.TR01
+          text: |
+            When encryption keys are used, the service MUST verify that
+            all encryption keys use approved cryptographic algorithms as
+            per organizational standards.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C11.TR02
+          text: |
+            When encryption keys are used, the service MUST verify that
+            encryption keys are rotated at a frequency compliant with
+            organizational policies.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C11.TR03
+          text: |
+            When encrypting data, the service MUST verify that
+            customer-managed encryption keys (CMEKs) are used.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C11.TR04
+          text: |
+            When encryption keys are accessed, the service MUST verify that
+            access to encryption keys is restricted to authorized personnel
+            and services, following the principle of least privilege.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+      link: cccc11---enforce-key-management-policies
+    - id: CCC.VPC.C01
+      title: Restrict Default Network Creation
+      objective: |
+        Restrict the automatic creation of default virtual networks and related
+        resources during subscription initialization to avoid insecure default
+        configurations and enforce custom network policies.
+      control_family: Network Security
+      threats:
+        - CCC.VPC.TH01
+      nist_csf: PR.AC-5
+      control_mappings:
+        CCM:
+            - TVM-02
+        ISO_27001:
+            - 2013 A.12.3.1
+        NIST_800_53:
+            - SC-7
+      test_requirements:
+        - id: CCC.VPC.C01.TR01
+          text: |
+            When a subscription is created, the subscription MUST NOT
+            contain default network resources.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+      link: cccvpcc01---restrict-default-network-creation
+    - id: CCC.VPC.C02
+      title: Limit Resource Creation in Public Subnet
+      objective: |
+        Restrict the creation of resources in the public subnet with
+        direct access to the internet to minimize attack surfaces.
+      control_family: Network Security
+      threats:
+        - CCC.VPC.TH02
+      nist_csf: PR.AC-3
+      control_mappings:
+        CCM:
+            - SEF-05
+        ISO_27001:
+            - 2013 A.13.1.1
+        NIST_800_53:
+            - AC-4
+      test_requirements:
+        - id: CCC.VPC.C02.TR01
+          text: |
+            When a resource is created in a public subnet, that resource
+            MUST NOT be assigned an external IP address by default.
+          tlp_levels:
+            - tlp_red
+      link: cccvpcc02---limit-resource-creation-in-public-subnet
+    - id: CCC.VPC.C03
+      title: Restrict VPC Peering to Authorized Accounts
+      objective: |
+        Ensure VPC peering connections are only established with explicitly
+        authorized destinations to limit network exposure and enforce boundary
+        controls.
+      control_family: Network Security
+      threats:
+        - CCC.VPC.TH03
+      nist_csf: PR.AC-3
+      control_mappings:
+        CCM:
+            - IVS-01
+        ISO_27001:
+            - 2013 A.13.1.3
+        NIST_800_53:
+            - AC-4
+      test_requirements:
+        - id: CCC.VPC.C03.TR01
+          text: |
+            When a VPC peering connection is requested, the service MUST
+            prevent connections from VPCs that are not explicitly
+            allowed.
+          tlp_levels:
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccvpcc03---restrict-vpc-peering-to-authorized-accounts
+    - id: CCC.VPC.C04
+      title: Enforce VPC Flow Logs on VPCs
+      objective: |
+        Ensure VPCs are configured with flow logs enabled to capture traffic
+        information.
+      control_family: Network Security
+      threats:
+        - CCC.VPC.TH04
+      nist_csf: PR.PT-1
+      control_mappings:
+        CCM:
+            - IVS-06
+        ISO_27001:
+            - 2013 A.12.4.1
+        NIST_800_53:
+            - AU-2
+      test_requirements:
+        - id: CCC.VPC.C04.TR01
+          text: |
+            When any network traffic goes to or from an interface in the VPC,
+            the service MUST capture and log all relevant information.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+      link: cccvpcc04---enforce-vpc-flow-logs-on-vpcs
+features:
+    - id: CCC.F01
+      title: Encryption in Transit Enabled by Default
+      description: |
+        Provides default encryption of data in transit through SSL or TLS.
+      link: cccf01---encryption-in-transit-enabled-by-default
+    - id: CCC.F02
+      title: Encryption at Rest Enabled by Default
+      description: |
+        Provides default encryption of data before storage, with the option for
+        clients to maintain control over the encryption keys.
+      link: cccf02---encryption-at-rest-enabled-by-default
+    - id: CCC.F03
+      title: Access/Activity Logs
+      description: |
+        Provides users with the ability to track all requests made to or
+        activities performed on resources for audit purposes.
+      link: cccf03---access/activity-logs
+    - id: CCC.F04
+      title: Transaction Rate Limits
+      description: |
+        Allows the setting of a threshold where industry-standard throughput is
+        achieved up to the specified rate limit.
+      link: cccf04---transaction-rate-limits
+    - id: CCC.F05
+      title: Signed URLs
+      description: |
+        Provides the ability to grant temporary or restricted access
+        to a resource through a custom URL that contains authentication information.
+      link: cccf05---signed-urls
+    - id: CCC.F06
+      title: Identity Based Access Control
+      description: |
+        Provides the ability to determine access to resources based on
+        attributes associated with a user identity.
+      link: cccf06---identity-based-access-control
+    - id: CCC.F07
+      title: Event Notifications
+      description: |
+        Publishes events for creation, deletion, and modification of
+        objects in a way that enables users to trigger actions in response.
+      link: cccf07---event-notifications
+    - id: CCC.F08
+      title: Multi-zone Deployment
+      description: |
+        Provides the ability for the service to be deployed in multiple availability
+        zones or regions to increase availability and fault tolerance.
+      link: cccf08---multi-zone-deployment
+    - id: CCC.F09
+      title: Monitoring
+      description: |
+        Provides the ability to continuously observe, track, and analyze
+        the performance, availability, and health of the service resources or
+        applications.
+      link: cccf09---monitoring
+    - id: CCC.F10
+      title: Logging
+      description: |
+        Provides the ability to transmit system events, application activities,
+        and/or user interactions to a logging service
+      link: cccf10---logging
+    - id: CCC.F11
+      title: Backup
+      description: |
+        Provides the ability to create copies of associated data or
+        configurations in the form of automated backups, snapshot-based backups,
+        and/or incremental backups.
+      link: cccf11---backup
+    - id: CCC.F12
+      title: Recovery
+      description: |
+        Provides the ability to restore data, a system, or an application to a functional state
+        after an incident such as data loss, corruption or a disaster.
+      link: cccf12---recovery
+    - id: CCC.F13
+      title: Infrastructure as Code
+      description: |
+        Allows for managing and provisioning service resources
+        through machine-readable configuration files, such as templates.
+      link: cccf13---infrastructure-as-code
+    - id: CCC.F14
+      title: API Access
+      description: |
+        Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+      link: cccf14---api-access
+    - id: CCC.F15
+      title: Cost Management
+      description: |
+        Provides the ability to filter spending and to detect cost anomalies for the service.
+      link: cccf15---cost-management
+    - id: CCC.F16
+      title: Budgeting
+      description: |
+        Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+      link: cccf16---budgeting
+    - id: CCC.F17
+      title: Alerting
+      description: |
+        Provides the ability to set an alarm based on performance metrics,
+        logs, events or spending thresholds of the service.
+      link: cccf17---alerting
+    - id: CCC.F18
+      title: Versioning
+      description: |
+        Provides the ability to maintain multiple versions of the same resource.
+      link: cccf18---versioning
+    - id: CCC.F19
+      title: On-demand Scaling
+      description: |
+        Provide scaling of resources based on demand.
+      link: cccf19---on-demand-scaling
+    - id: CCC.F20
+      title: Tagging
+      description: |
+        Provide the ability to tag a resource to effectively manage and gain insights of the resource.
+      link: cccf20---tagging
+    - id: CCC.F21
+      title: Replication
+      description: |
+        Provides the ability to copy data or resource to multiple locations to ensure
+        availability and durability.
+      link: cccf21---replication
+    - id: CCC.F22
+      title: Location Lock-In
+      description: |
+        Provides the ability to control where the resources are created.
+      link: cccf22---location-lock-in
+    - id: CCC.F23
+      title: Network Access Rules
+      description: |
+        Ability to control access to the resource by defining network access rules.
+      link: cccf23---network-access-rules
+    - id: CCC.VPC.F01
+      title: Isolated Custom Network Creation
+      description: |
+        Ability to create a virtual network that is isolated from other users of the same
+        public cloud.
+      link: cccvpcf01---isolated-custom-network-creation
+    - id: CCC.VPC.F02
+      title: IPv4 CIDR Block
+      description: |
+        Ability to specify a IPv4 CIDR block to the virtual network.
+      link: cccvpcf02---ipv4-cidr-block
+    - id: CCC.VPC.F03
+      title: IPv6 CIDR Block
+      description: |
+        Ability to specify a IPv6 CIDR block to the virtual network.
+      link: cccvpcf03---ipv6-cidr-block
+    - id: CCC.VPC.F04
+      title: Public Subnet Creation
+      description: |
+        Ability to create a subnet that allows resources within the subnet to
+        communicate with the public internet.
+      link: cccvpcf04---public-subnet-creation
+    - id: CCC.VPC.F05
+      title: Private Subnet Creation
+      description: |
+        Ability to create a subnet that resources within the subnet cannot directly
+        access the public internet.
+      link: cccvpcf05---private-subnet-creation
+    - id: CCC.VPC.F06
+      title: Multiple Availability Zones for Subnets
+      description: |
+        Ability to spread the subnets in more than one availability zones.
+      link: cccvpcf06---multiple-availability-zones-for-subnets
+    - id: CCC.VPC.F07
+      title: Routing Control
+      description: |
+        Ability to control traffic within the VPC and between the VPC and the
+        internet or on-premises networks using customizable route tables.
+      link: cccvpcf07---routing-control
+    - id: CCC.VPC.F08
+      title: Connectivity Options - Internet Gateway
+      description: |
+        Enables direct internet access for resources within a VPC.
+      link: cccvpcf08---connectivity-options---internet-gateway
+    - id: CCC.VPC.F09
+      title: Connectivity Options - NAT Gateways
+      description: |
+        Allows instances in private subnets to access the internet without
+        exposing them to inbound internet traffic.
+      link: cccvpcf09---connectivity-options---nat-gateways
+    - id: CCC.VPC.F10
+      title: Connectivity Options - Private Connection
+      description: |
+        Dedicated, private, high-speed connections between on-premises
+         networks and cloud VPC.
+      link: cccvpcf10---connectivity-options---private-connection
+    - id: CCC.VPC.F11
+      title: Connectivity Options - VPC Peering
+      description: |
+        Establishing a private connection between two VPCs to
+        communicate seamlessly.
+      link: cccvpcf11---connectivity-options---vpc-peering
+    - id: CCC.VPC.F12
+      title: Connectivity Options - Transit Gateways
+      description: |
+        A hub-and-spoke model for connecting multiple VPCs and
+        on-premises networks.
+      link: cccvpcf12---connectivity-options---transit-gateways
+    - id: CCC.VPC.F13
+      title: Connectivity Options - Site-to-site VPN
+      description: |
+        Provides an encrypted connection over the internet between
+        a VPC and an on-premises network.
+      link: cccvpcf13---connectivity-options---site-to-site-vpn
+    - id: CCC.VPC.F14
+      title: Built-in DNS Resolution
+      description: |
+        Resolves hostnames to IP addresses for instances within the VPC
+         allowing instances to communicate using hostnames instead of IP addresses.
+      link: cccvpcf14---built-in-dns-resolution
+    - id: CCC.VPC.F15
+      title: Built-in DHCP Resolution
+      description: |
+        Automatically assign IP addresses, subnet masks, default gateways
+        and other network configurations to instances within the VPC.
+      link: cccvpcf15---built-in-dhcp-resolution
+    - id: CCC.VPC.F16
+      title: Flow Logs
+      description: |
+        Ability to capture information about the IP traffic going through the VPC.
+      link: cccvpcf16---flow-logs
+    - id: CCC.VPC.F17
+      title: VPC Endpoints
+      description: |
+        Ability to allow secure, private connectivity between resources within a VPC
+        and other services without the need for a public internet.
+      link: cccvpcf17---vpc-endpoints
+threats:
+    - id: CCC.TH01
+      title: Access Control is Misconfigured
+      description: |
+        An attacker can exploit misconfigured access controls to grant excessive
+        privileges or gain unauthorized access to sensitive resources.
+      features:
+        - CCC.F06
+      mitre_technique:
+        - T1078
+        - T1548
+        - T1203
+        - T1098
+        - T1484
+        - T1546
+        - T1537
+        - T1567
+        - T1048
+        - T1485
+        - T1565
+        - T1027
+      link: cccth01---access-control-is-misconfigured
+    - id: CCC.TH02
+      title: Data is Intercepted in Transit
+      description: |
+        In the event that encrypted communication is not properly in effect, an
+        attacker can intercept traffic between clients and the service to read or
+        modify the data during transmission.
+      features:
+        - CCC.F01
+      mitre_technique:
+        - T1557
+        - T1040
+      link: cccth02---data-is-intercepted-in-transit
+    - id: CCC.TH03
+      title: Deployment Region Network is Untrusted
+      description: |
+        If any part of the service is deployed in a hostile, unstable, or
+        insecure location, an attacker may attempt to access the resource or
+        intercept data by exploiting privileged network access or physical
+        vulnerabilities.
+      features:
+        - CCC.F08
+      mitre_technique:
+        - T1040
+        - T1110
+        - T1105
+        - T1583
+        - T1557
+      link: cccth03---deployment-region-network-is-untrusted
+    - id: CCC.TH04
+      title: Data is Replicated to Untrusted or External Locations
+      description: |
+        An attacker could replicate data to untrusted or external locations if replication configurations
+        are not properly restricted. This could result in data leakage or exposure to unauthorized entities
+        outside the organization's trusted perimeter.
+      features:
+        - CCC.F21
+      mitre_technique:
+        - T1565
+      link: cccth04---data-is-replicated-to-untrusted-or-external-locations
+    - id: CCC.TH05
+      title: Data is Corrupted During Replication
+      description: |
+        Malicious actors may attempt to corrupt, delay, or delete data during
+        replication processes across multiple regions or availability zones,
+        affecting the integrity and availability of data.
+      features:
+        - CCC.F08
+        - CCC.F12
+        - CCC.F21
+      mitre_technique:
+        - T1485
+        - T1565
+        - T1491
+        - T1490
+      link: cccth05---data-is-corrupted-during-replication
+    - id: CCC.TH06
+      title: Data is Lost or Corrupted
+      description: |
+        Data loss or corruption can occur due to accidental deletion,
+        misconfiguration, or malicious activity.  This can result in the loss of
+        critical data, service disruption, or unauthorized access to sensitive
+        information.
+      features:
+        - CCC.F11
+        - CCC.F18
+      mitre_technique:
+        - T1485
+        - T1565
+        - T1491
+        - T1490
+      link: cccth06---data-is-lost-or-corrupted
+    - id: CCC.TH07
+      title: Logs are Tampered With or Deleted
+      description: |
+        Attackers may tamper with or delete logs to cover their tracks and evade
+        detection. This prevents security teams from identifying the full scope
+        of an attack and may disrupt forensic investigations.
+      features:
+        - CCC.F03
+        - CCC.F10
+      mitre_technique:
+        - T1070
+        - T1565
+        - T1027
+      link: cccth07---logs-are-tampered-with-or-deleted
+    - id: CCC.TH08
+      title: Cost Management Data is Manipulated
+      description: |
+        Attackers may manipulate cost management data to hide excessive resource
+        consumption or to deceive users about resource usage. This could be used
+        to exhaust budgets, cause financial losses, or evade detection of other attacks.
+      features:
+        - CCC.F15
+      mitre_technique:
+        - T1565
+        - T1070
+      link: cccth08---cost-management-data-is-manipulated
+    - id: CCC.TH09
+      title: Logs or Monitoring Data are Read by Unauthorized Users
+      description: |
+        Unauthorized access to logs or monitoring data can provide attackers with
+        valuable information about the system's configuration, operations, and
+        security mechanisms. This can be used to identify vulnerabilities, plan
+        attacks, or evade detection.
+      features:
+        - CCC.F03
+        - CCC.F09
+      mitre_technique:
+        - T1003
+        - T1007
+        - T1018
+        - T1033
+        - T1046
+        - T1057
+        - T1069
+        - T1070
+        - T1082
+        - T1120
+        - T1124
+        - T1497
+        - T1518
+      link: cccth09---logs-or-monitoring-data-are-read-by-unauthorized-users
+    - id: CCC.TH10
+      title: Alerts are Intercepted
+      description: |
+        Malicious actors may exploit event notifications to monitor and
+        intercept information about sensitive operations or access patterns.
+      features:
+        - CCC.F03
+        - CCC.F07
+        - CCC.F09
+        - CCC.F17
+      mitre_technique:
+        - T1057
+        - T1049
+        - T1083
+      link: cccth10---alerts-are-intercepted
+    - id: CCC.TH11
+      title: Event Notifications are Incorrectly Triggered
+      description: |
+        Malicious actors may exploit event notifications to trigger sensitive
+        operations or access patterns. Alternately, attackers may flood the
+        system with notifications to obfuscate another attack or overwhelm the
+        service to disrupt legitimate operations.
+      features:
+        - CCC.F07
+        - CCC.F17
+      mitre_technique:
+        - T1205
+        - T1001.001
+        - T1491.001
+      link: cccth11---event-notifications-are-incorrectly-triggered
+    - id: CCC.TH12
+      title: Resource Constraints are Exhausted
+      description: |
+        An attack or misconfiguration can consume all available resources, such
+        as memory, CPU, or storage, to disrupt the service or deny access to
+        legitimate users. This can be achieved through repeated requests,
+        resource-intensive operations, or the lowering of rate/budget limits.
+        Through auto-scaling, the attacker may also attempt to exhaust
+        higher-level budget thresholds to impact other systems in the same scope.
+      features:
+        - CCC.F04
+        - CCC.F16
+        - CCC.F19
+      mitre_technique:
+        - T1496
+        - T1499
+        - T1498
+      link: cccth12---resource-constraints-are-exhausted
+    - id: CCC.TH13
+      title: Resource Tags are Manipulated
+      description: |
+        Attackers may manipulate resource tags to alter organizational policies,
+        disrupt billing, or evade detection. This can result in mismanaged
+        resources, unauthorized access, or financial abuse.
+      features:
+        - CCC.F20
+      mitre_technique:
+        - T1565
+      link: cccth13---resource-tags-are-manipulated
+    - id: CCC.TH14
+      title: Older Resource Versions are Exploited
+      description: |
+        Attackers may exploit vulnerabilities in older versions of resources,
+        taking advantage of deprecated or insecure configurations. Without
+        proper version control and monitoring, outdated versions can be used
+        to bypass security measures.
+      features:
+        - CCC.F18
+      mitre_technique:
+        - T1027
+        - T1485
+        - T1565
+        - T1489
+        - T1562.01
+        - T1027
+        - T1485
+        - T1565
+        - T1489
+      link: cccth14---older-resource-versions-are-exploited
+    - id: CCC.TH15
+      title: Automated Enumeration and Reconnaissance by Non-human Entities
+      description: |
+        Attackers may deploy automated processes or bots to perform reconnaissance
+        activities by enumerating resources such as APIs, file systems, or directories.
+        These activities can help attackers identify vulnerabilities, misconfigurations,
+        or unsecured resources, which can then be exploited for unauthorized access
+        or data theft.
+      features:
+        - CCC.F14
+      mitre_technique:
+        - T1580
+      link: cccth15---automated-enumeration-and-reconnaissance-by-non-human-entities
+    - id: CCC.VPC.TH01
+      title: Unauthorized Access via Insecure Default Networks
+      description: |
+        Default network configurations may include insecure settings and open
+        firewall rules,leading to unauthorized access and potential data
+        breaches.
+      features:
+        - CCC.VPC.F01
+      mitre_technique:
+        - T1040
+      link: cccvpcth01---unauthorized-access-via-insecure-default-networks
+    - id: CCC.VPC.TH02
+      title: Exposure of Resources to Public Internet
+      description: |
+        Assignment of external IP addresses to resources exposes resources to the
+        public internet, increasing the risk of attacks such as brute force,
+        exploitation of vulnerabilities, or unauthorized access.
+      features:
+        - CCC.VPC.F04
+      mitre_technique:
+        - T1133
+        - T1078
+      link: cccvpcth02---exposure-of-resources-to-public-internet
+    - id: CCC.VPC.TH03
+      title: Unauthorized Network Access Through VPC Peering
+      description: |
+        Unauthorized VPC peering connections can allow network traffic between
+        untrusted or unapproved subscriptions, leading to potential data
+        exposure or exfiltration.
+      features:
+        - CCC.VPC.F11
+      mitre_technique:
+        - T1599
+      link: cccvpcth03---unauthorized-network-access-through-vpc-peering
+    - id: CCC.VPC.TH04
+      title: Lack of Network Visibility due to Disabled VPC Flow Logs
+      description: |
+        VPC subnets with disabled flow logs lack critical network traffic
+        visibility, which can lead to undetected unauthorized access,
+        data exfiltration, and network misconfigurations. This lack of
+        visibility increases the risk of undetected security incidents.
+      features:
+        - CCC.VPC.F16
+      mitre_technique:
+        - T1562
+      link: cccvpcth04---lack-of-network-visibility-due-to-disabled-vpc-flow-logs
+    - id: CCC.VPC.TH05
+      title: Overly Permissive VPC Endpoint Policies
+      description: |
+        VPC Endpoint policies that are overly permissive may inadvertently expose
+        resources within the VPC to unintended principals or external threats.
+      features:
+        - CCC.VPC.F17
+      mitre_technique:
+        - T1078
+        - T1071
+      link: cccvpcth05---overly-permissive-vpc-endpoint-policies
+latestreleasedetails:
+    version: "2025.01"
+    assurance_level: None
+    threat_model_url: None
+    threat_model_author: None
+    red_team: None
+    red_team_exercise_url: None
+    release_manager:
+        name: Damien Burks
+        github_id: damienjburks
+        company: Citi
+        summary: |
+            This initial release is part of the first batch of control catalogs
+            produced by the CCC. It is the result of thousands of hours dedicated to
+            exploring different ways of working and collaborating, on top of time
+            spent researching, writing, and reviewing the content. This marks a huge
+            milestone for the CCC and the broader community as further releases will
+            continue to build on this foundation. A huge thanks to everyone who has
+            brought us to this point!
+    change_log:
+        - |
+          This initial release contains a variety of commits designed to capture
+          all of the features, threats, and controls for this service category.
+    contributors:
+        - name: Michael Lysaght
+          github_id: mlysaght2017
+          company: Citi
+        - name: Sonali Mendis
+          github_id: smendis-scottlogic
+          company: Scott Logic
+        - name: Eddie Knight
+          github_id: eddie-knight
+          company: Sonatype
+        - name: Dave Ogle
+          github_id: dogle-scottlogic
+          company: Scott Logic
+        - name: kazmik23
+          github_id: kazmik23
+          company: Google

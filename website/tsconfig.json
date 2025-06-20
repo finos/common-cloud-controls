@@ -4,6 +4,13 @@
   "compilerOptions": {
     "baseUrl": "."
   },
+<<<<<<< cfi-tests
+  "exclude": [
+    ".docusaurus",
+    "build"
+  ]
+}
+=======
   "exclude": [".docusaurus", "build"]
 }
 
@@ -33,3 +40,4 @@
 //   ```
 
 // Now, you should have a better development experience in VS Code with the help of this `tsconfig.json`.
+>>>>>>> main
