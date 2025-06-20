@@ -43,6 +43,11 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    './src/plugin/ccc-pages/index.ts',
+    './src/plugin/cfi-pages/index.ts',
+  ],
+
   themeConfig: {
     // Replace with your project's social card
     image: 'img/logo/2023_FinosCCC_Horizontal.png',
@@ -59,12 +64,13 @@ const config: Config = {
           label: 'Primer',
           to: 'https://github.com/finos/common-cloud-controls/blob/main/docs/resources/training/FINOS-CCC-Primer-June-2024.pdf'
         },
-        { to: 'https://github.com/finos/common-cloud-controls/releases', label: 'Releases', position: 'left' },
+        { to: '/ccc', label: 'CCC Catalog', position: 'left' },
+        { to: '/cfi', label: 'CFI Catalog', position: 'left' },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
           position: 'right',
-        },
+        }
       ],
     },
     footer: {
