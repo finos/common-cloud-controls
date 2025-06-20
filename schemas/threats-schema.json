@@ -84,7 +84,6 @@
                   "type": "array",
                   "items": {
                     "type": "string",
-                    "pattern": "^(T|TA|AIR-SEC-|AIR-RC-)[0-9]+(\\.[0-9]+)?$",
                     "description": "Mapping identifier (e.g., MITRE technique ID)"
                   }
                 }
