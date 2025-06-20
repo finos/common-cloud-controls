@@ -22,8 +22,9 @@ control-families:
           before indexing to prevent poisoning or corruption.
         assessment-requirements:
           - id: CCC.Vector.C01.TR01
-            text: When a vector embedding is submitted for indexing, the system MUST validate that it
-            matches expected schema, dimension, and format profiles.
+            text: |
+              When a vector embedding is submitted for indexing, the system MUST validate that it
+              matches expected schema, dimension, and format profiles.
             applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
             recommendation: ""
         threat-mappings:
