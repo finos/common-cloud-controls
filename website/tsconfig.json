@@ -6,3 +6,30 @@
   },
   "exclude": [".docusaurus", "build"]
 }
+
+// To take advantage of this `tsconfig.json` file in VS Code, follow these steps:
+
+// 1. **Ensure TypeScript is Installed**: Make sure you have TypeScript installed in your project or globally. You can install it locally with:
+//   ```bash
+//   npm install typescript --save-dev
+//   ```
+
+// 2. **Open the Project in VS Code**: Open the root folder of your project (`/Users/knight/dev/finos/common-cloud-controls`) in VS Code.
+
+// 3. **Verify VS Code Recognizes the `tsconfig.json`**:
+//   - VS Code automatically detects `tsconfig.json` files in your project and uses them to provide IntelliSense, type checking, and other TypeScript features.
+//   - The `"extends": "@docusaurus/tsconfig"` line ensures that your project inherits settings from the `@docusaurus/tsconfig` package, which likely provides additional configurations for Docusaurus projects.
+
+// 4. **Editor Features**:
+//   - **IntelliSense**: VS Code will now provide better autocompletion and type checking based on the `tsconfig.json` settings.
+//   - **Path Aliases**: The `"baseUrl": "."` setting allows you to use relative imports from the root directory of your project.
+//   - **Error Highlighting**: Any TypeScript errors will be highlighted in the editor.
+
+// 5. **Restart VS Code (if needed)**: If you don't see the TypeScript features working, restart VS Code to ensure it picks up the `tsconfig.json`.
+
+// 6. **Install Dependencies**: Ensure that the `@docusaurus/tsconfig` package is installed in your project. If not, install it with:
+//   ```bash
+//   npm install @docusaurus/tsconfig --save-dev
+//   ```
+
+// Now, you should have a better development experience in VS Code with the help of this `tsconfig.json`.

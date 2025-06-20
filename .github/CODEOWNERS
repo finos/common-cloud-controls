@@ -15,9 +15,9 @@
 # Changes that might impact automation must be reviewed by the Delivery WG
 # Code owners should only be modified by the SteerCo
 /.github @finos/ccc-wg-delivery
-/release @finos/ccc-wg-delivery
-/.vscode @finos/ccc-wg-delivery
 /.github/CODEOWNERS @finos/ccc-steerco
+/.vscode @finos/ccc-wg-delivery
+/delivery-toolkit @finos/ccc-wg-delivery
 #
 ########
 
@@ -34,7 +34,7 @@
 /docs/governance/working-groups/communications @finos/ccc-wg-communications
 /docs/governance/working-groups/community-structure @finos/ccc-wg-community-structure
 /docs/governance/working-groups/delivery @finos/ccc-wg-delivery
-/docs/governance/working-groups/duplication-reduction @finos/ccc-wg-duplication-reduction
+/docs/governance/working-groups/duplication-reduction @finos/ccc-wg-community-structure
 /docs/governance/working-groups/security @finos/ccc-wg-security
 /docs/governance/working-groups/taxonomy @finos/ccc-wg-taxonomy
 #
@@ -45,6 +45,7 @@
 # Changes to the services directory must be reviewed by the Taxonomy WG
 # excluding threats and controls definitions
 /services @finos/ccc-wg-taxonomy
+**/capabilities.yaml @finos/ccc-wg-taxonomy
 #
 ########
 
@@ -54,8 +55,6 @@
 **/threats.yaml @finos/ccc-wg-security
 **/controls.yaml @finos/ccc-wg-security
 **/*.feature @finos/ccc-wg-security
-**/common-controls.yaml @finos/ccc-wg-security
-**/common-threats.yaml @finos/ccc-wg-security
 #
 ########
 
@@ -67,10 +66,7 @@
 ########
 
 ########
-#
-# Resource selection guidance and justifications must be reviewed by the Duplication Reduction WG
-/docs/resources/ @finos/ccc-wg-duplication-reduction
-#
+
 ########
 
 ########

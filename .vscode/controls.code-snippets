@@ -24,11 +24,11 @@
 			"      - id: CCC.<Service Category Abbreviation>.C#.TR##",
 			"        text: |",
 			"          <REQUIREMENT TEXT>",
-			"        tlp_levels:",
-			"          - tlp_clear",
-			"          - tlp_green",
-			"          - tlp_amber",
-			"          - tlp_red",
+			"        tlp-levels:",
+			"          - tlp-clear",
+			"          - tlp-green",
+			"          - tlp-amber",
+			"          - tlp-red",
 			""
 		  ],
 		"description": "Create a blank FINOS CCC Controls file"
@@ -55,11 +55,11 @@
 			"      - id: CCC.<Service Category Abbreviation>.C#.TR##",
 			"        text: |",
 			"          <REQUIREMENT TEXT>",
-			"        tlp_levels:",
-			"          - tlp_clear",
-			"          - tlp_green",
-			"          - tlp_amber",
-			"          - tlp_red",
+			"        tlp-levels:",
+			"          - tlp-clear",
+			"          - tlp-green",
+			"          - tlp-amber",
+			"          - tlp-red",
 			""
 		  ],
 		"description": "Create a blank FINOS CCC Control"
