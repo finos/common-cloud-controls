@@ -1,0 +1,50 @@
+metadata:
+  id: CCC.RDMS
+  title: CCC Relational Database Management System Capabilities
+  description: |
+      This documents the minimual set of capabilities that should be present for a RDMS
+      service to be considered for use in financial services ecosystems.
+  version: "2025.05"
+  last-modified: "2025-05-18T09:14:00-06:00"
+  applicability-categories: []
+  mapping-references:
+    - id: CCC
+      title: Common Entries - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.RDMS
+      title: RDMS - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.LB
+      title: LB - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.VPC
+      title: VPC - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.VM
+      title: VM - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.IAM
+      title: IAM - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.KMS
+      title: KMS - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.ObjStor
+      title: ObjStor - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
