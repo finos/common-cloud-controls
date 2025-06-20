@@ -20,7 +20,10 @@
             }
           }
         },
-        "required": ["reference-id", "identifiers"],
+        "required": [
+          "reference-id",
+          "identifiers"
+        ],
         "additionalProperties": false
       }
     },
@@ -61,7 +64,10 @@
                   }
                 }
               },
-              "required": ["reference-id", "identifiers"],
+              "required": [
+                "reference-id",
+                "identifiers"
+              ],
               "additionalProperties": false
             }
           },
@@ -78,17 +84,26 @@
                   "type": "array",
                   "items": {
                     "type": "string",
-                    "pattern": "^(T|TA)[0-9]+(\\.[0-9]+)?$",
+                    "pattern": "^(T|TA|AIR-SEC)[0-9]+(\\.[0-9]+)?$",
                     "description": "Mapping identifier (e.g., MITRE technique ID)"
                   }
                 }
               },
-              "required": ["reference-id", "identifiers"],
+              "required": [
+                "reference-id",
+                "identifiers"
+              ],
               "additionalProperties": false
             }
           }
         },
-        "required": ["id", "title", "description", "capabilities", "external-mappings"],
+        "required": [
+          "id",
+          "title",
+          "description",
+          "capabilities",
+          "external-mappings"
+        ],
         "additionalProperties": false
       }
     }

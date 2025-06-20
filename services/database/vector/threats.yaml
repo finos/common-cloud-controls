@@ -19,86 +19,86 @@ shared-threats:
       - CCC.TH16 # Logging and Monitoring are Disabled
       - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 threats:
-- id: CCC.Vector.TH01
-  title: Embedding Extraction and Model Inversion
-  description: Attackers may infer or reconstruct original data by probing vector
-    similarity APIs, especially with unrestricted access. This enables model inversion
-    attacks, membership inference, and unauthorized data leakage from stored embeddings.
-  capabilities:
-  - reference-id: CCC
-    identifiers:
-    - CCC.Vector.F01
-    - CCC.Vector.F03
-    - CCC.Vector.F06
-  external-mappings:
-  - reference-id: FINOS-AIR
-    identifiers:
-    - AIR-SEC-002
-- id: CCC.Vector.TH02
-  title: Embedding and Index Poisoning
-  description: Adversaries may insert malicious or adversarial vectors into the index
-    through ingestion endpoints, polluting the dataset and degrading search quality,
-    or subtly steering results toward specific outcomes.
-  capabilities:
-  - reference-id: CCC
-    identifiers:
-    - CCC.Vector.F02
-    - CCC.Vector.F05
-    - CCC.Vector.F07
-  external-mappings:
-  - reference-id: FINOS-AIR
-    identifiers:
-    - AIR-SEC-009
-- id: CCC.Vector.TH03
-  title: Cross-modal or Metadata Leakage
-  description: Attackers may infer sensitive information through metadata filters
-    or by correlating embeddings across modalities (e.g., voice and face), bypassing
-    surface-level access controls.
-  capabilities:
-  - reference-id: CCC
-    identifiers:
-    - CCC.Vector.F04
-    - CCC.Vector.F10
-  external-mappings:
-  - reference-id: FINOS-AIR
-    identifiers:
-    - AIR-RC-022
-- id: CCC.Vector.TH04
-  title: Denial of Service via Query or Ingestion Flooding
-  description: High-volume ingestion or excessive low-latency similarity queries can
-    overwhelm vector indexing services, degrading performance for legitimate users
-    and potentially exhausting system resources.
-  capabilities:
-  - reference-id: CCC
-    identifiers:
-    - CCC.Vector.F05
-    - CCC.Vector.F06
-- id: CCC.Vector.TH05
-  title: Index Corruption or Downgrade
-  description: Attackers with unauthorized access or excessive permissions may tamper
-    with or roll back index versions, potentially restoring poisoned data or breaking
-    downstream integrations.
-  capabilities:
-  - reference-id: CCC
-    identifiers:
-    - CCC.Vector.F07
-    - CCC.Vector.F11
-- id: CCC.Vector.TH06
-  title: Embedding Format or Dimension Attacks
-  description: Poor validation of embedding formats or dimensions can cause service
-    crashes or logic errors. This can result in denial of service or incorrect similarity
-    results.
-  capabilities:
-  - reference-id: CCC
-    identifiers:
-    - CCC.Vector.F08
-    - CCC.Vector.F09
-- id: CCC.Vector.TH07
-  title: Search Result Manipulation via ANN Bias
-  description: Approximate nearest neighbor (ANN) algorithms may yield non-deterministic
-    or biased results. Adversaries may exploit these differences to evade detection
-    or bias AI responses.
-  capabilities:
-  - reference-id: CCC
-    identifiers:
-    - CCC.Vector.F12
+  - id: CCC.Vector.TH01
+    title: Embedding Extraction and Model Inversion
+    description: Attackers may infer or reconstruct original data by probing vector
+      similarity APIs, especially with unrestricted access. This enables model inversion
+      attacks, membership inference, and unauthorized data leakage from stored embeddings.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Vector.F01
+          - CCC.Vector.F03
+          - CCC.Vector.F06
+    external-mappings:
+      - reference-id: FINOS-AIR
+        identifiers:
+          - AIR-SEC-002
+  - id: CCC.Vector.TH02
+    title: Embedding and Index Poisoning
+    description: Adversaries may insert malicious or adversarial vectors into the index
+      through ingestion endpoints, polluting the dataset and degrading search quality,
+      or subtly steering results toward specific outcomes.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Vector.F02
+          - CCC.Vector.F05
+          - CCC.Vector.F07
+    external-mappings:
+      - reference-id: FINOS-AIR
+        identifiers:
+          - AIR-SEC-009
+  - id: CCC.Vector.TH03
+    title: Cross-modal or Metadata Leakage
+    description: Attackers may infer sensitive information through metadata filters
+      or by correlating embeddings across modalities (e.g., voice and face), bypassing
+      surface-level access controls.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Vector.F04
+          - CCC.Vector.F10
+    external-mappings:
+      - reference-id: FINOS-AIR
+        identifiers:
+          - AIR-RC-022
+  - id: CCC.Vector.TH04
+    title: Denial of Service via Query or Ingestion Flooding
+    description: High-volume ingestion or excessive low-latency similarity queries can
+      overwhelm vector indexing services, degrading performance for legitimate users
+      and potentially exhausting system resources.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Vector.F05
+          - CCC.Vector.F06
+  - id: CCC.Vector.TH05
+    title: Index Corruption or Downgrade
+    description: Attackers with unauthorized access or excessive permissions may tamper
+      with or roll back index versions, potentially restoring poisoned data or breaking
+      downstream integrations.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Vector.F07
+          - CCC.Vector.F11
+  - id: CCC.Vector.TH06
+    title: Embedding Format or Dimension Attacks
+    description: Poor validation of embedding formats or dimensions can cause service
+      crashes or logic errors. This can result in denial of service or incorrect similarity
+      results.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Vector.F08
+          - CCC.Vector.F09
+  - id: CCC.Vector.TH07
+    title: Search Result Manipulation via ANN Bias
+    description: Approximate nearest neighbor (ANN) algorithms may yield non-deterministic
+      or biased results. Adversaries may exploit these differences to evade detection
+      or bias AI responses.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Vector.F12
