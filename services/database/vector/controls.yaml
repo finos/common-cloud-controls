@@ -19,7 +19,7 @@ control-families:
         title: Validate Embeddings Before Indexing
         objective: |
           Ensure all incoming embeddings are structurally and statistically validated
-           before indexing to prevent poisoning or corruption.
+          before indexing to prevent poisoning or corruption.
         assessment-requirements:
           - id: CCC.Vector.C01.TR01
             text: When a vector embedding is submitted for indexing, the system MUST validate that it
