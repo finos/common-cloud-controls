@@ -1,0 +1,39 @@
+metadata:
+    id: ""
+    title: vector-store
+    description: ""
+    version: ""
+    last-modified: ""
+    applicability-categories: []
+    mapping-references: []
+control-families: []
+threats: []
+capabilities: []
+shared-controls:
+    - reference-id: CCC
+      identifiers:
+        - CCC.C01
+        - CCC.C06
+        - CCC.C07
+        - CCC.C09
+shared-threats:
+    - reference-id: CCC
+      identifiers:
+        - CCC.TH02
+        - CCC.TH03
+        - CCC.TH07
+        - CCC.TH08
+        - CCC.TH09
+        - CCC.TH10
+        - CCC.TH12
+        - CCC.TH15
+shared-capabilities:
+    - reference-id: CCC
+      identifiers:
+        - CCC.F01
+        - CCC.F02
+        - CCC.F03
+        - CCC.F04
+        - CCC.F14
+        - CCC.F15
+        - CCC.F22
