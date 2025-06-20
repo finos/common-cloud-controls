@@ -62,7 +62,7 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 
 | Source | Mapping |
 | --- | --- |
-{{- range .Mappings }}
+{{- range .ExternalMappings }}
   {{- $referenceId := .ReferenceId }}
   {{- range .Identifiers }}
 | {{ $referenceId }} | {{ . }} |
