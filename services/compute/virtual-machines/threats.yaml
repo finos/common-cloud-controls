@@ -158,7 +158,7 @@ threats:
         identifiers:
           - T1068  # Exploitation for Privilege Escalation
           - T1578.002  # Create or Modify Cloud Compute Infrastructure: Virtual Machine
-     
+
   - id: CCC.VM.TH10
     title: Auto-Scaling Abuse for Resource Exhaustion
     description: |
