@@ -9,13 +9,16 @@ metadata:
   applicability-categories:
     - id: tlp_red
       title: TLP:RED
-      description: Data is not for disclosure, restricted to explicitly authorized participants only.
+      description: |
+        Data is not for disclosure, restricted to explicitly authorized participants only.
     - id: tlp_amber
       title: TLP:AMBER
-      description: Data is for disclosure to members of the recipient's organization and only on a need-to-know basis.
+      description: |
+        Data is for disclosure to members of the recipient's organization and only on a need-to-know basis.
     - id: tlp_green
       title: TLP:GREEN
-      description: Data may be freely distributed through specific channels that do not include unrestricted public access.
+      description: |
+        Data may be freely distributed through specific channels that do not include unrestricted public access.
     - id: tlp_clear
       title: TLP:CLEAR
       description: Data has no distribution restrictions.
