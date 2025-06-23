@@ -108,7 +108,7 @@ threats:
         identifiers:
           - T1021.001
           - T1078
-          
+
   - id: CCC.VM.TH07
     title: Resource Starvation Through Preemptible (spot) VM Termination
     description: |
@@ -141,7 +141,7 @@ threats:
         identifiers:
           - T1040  # Network Sniffing
           - T1203  # Exploitation for Client Execution
-          
+
   - id: CCC.VM.TH09
     title: Misconfigured Vertical Scaling Leads to Privilege Escalation
     description: |
@@ -158,7 +158,7 @@ threats:
         identifiers:
           - T1068  # Exploitation for Privilege Escalation
           - T1578.002  # Create or Modify Cloud Compute Infrastructure: Virtual Machine
-          
+     
   - id: CCC.VM.TH10
     title: Auto-Scaling Abuse for Resource Exhaustion
     description: |
