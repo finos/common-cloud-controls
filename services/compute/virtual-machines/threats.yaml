@@ -108,3 +108,85 @@ threats:
         identifiers:
           - T1021.001
           - T1078
+          
+  - id: CCC.VM.TH07
+    title: Resource Starvation Through Preemptible (spot) VM Termination
+    description: |
+      Workloads running on preemptible (spot) instances may experience unexpected termination
+      by the cloud provider with minimal notice. This can result in workload instability, leading
+      to service degradation or denial-of-service if critical processes are scheduled on such VMs,
+      potentially impacting system reliability and availability.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F06
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499  # Endpoint Denial of Service
+          - T1489  # Service Stop
+
+  - id: CCC.VM.TH08
+    title: Co-Residency Risk on Non-Dedicated Infrastructure
+    description: |
+      Virtual machines operating on shared infrastructure, rather than dedicated instances, may be
+      exposed to increased risk of side-channel or cross-VM activities. This can result in data
+      leakage or memory scraping, potentially compromising data confidentiality and system integrity.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F07
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1040  # Network Sniffing
+          - T1203  # Exploitation for Client Execution
+          
+  - id: CCC.VM.TH09
+    title: Misconfigured Vertical Scaling Leads to Privilege Escalation
+    description: |
+      Inadequate permissions or automation logic in vertical scaling processes may allow unauthorized
+      resource escalation, such as adding CPUs or memory. This can result in elevated access rights,
+      increased computational capacity for unintended actions, or unplanned cost increases, potentially
+      affecting system security and operational control.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F08
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1068  # Exploitation for Privilege Escalation
+          - T1578.002  # Create or Modify Cloud Compute Infrastructure: Virtual Machine
+          
+  - id: CCC.VM.TH10
+    title: Auto-Scaling Abuse for Resource Exhaustion
+    description: |
+      Automated horizontal scaling mechanisms may be manipulated through forced load generation, such
+      as distributed denial-of-service events, triggering excessive VM creation. This can lead to
+      billing anomalies, service instability, or disruption of resource quotas, potentially impacting
+      cost management and service availability.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F09
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1496  # Resource Hijacking
+
+  - id: CCC.VM.TH11
+    title: VM Image Tampering or Poisoning
+    description: |
+      Virtual machine images may be created or modified to include backdoors, malware, or misconfigurations.
+      The deployment of compromised images can propagate threats across cloud infrastructure, potentially
+      affecting data integrity, confidentiality, and system reliability.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.VM.F10
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1584  # Compromise Infrastructure
+          - T1204  # User Execution
