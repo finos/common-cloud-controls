@@ -1,0 +1,18 @@
+shared-threats:
+  - reference-id: CCC
+    identifiers: []
+  - reference-id: CCC.RDMS
+    identifiers: []
+  - reference-id: CCC.LB
+    identifiers: []
+  - reference-id: CCC.VPC
+    identifiers: []
+  - reference-id: CCC.VM
+    identifiers: []
+  - reference-id: CCC.IAM
+    identifiers: []
+  - reference-id: CCC.KMS
+    identifiers: []
+  - reference-id: CCC.ObjStor
+    identifiers: []
+threats: []
