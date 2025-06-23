@@ -65,7 +65,7 @@
               "additionalProperties": false
             }
           },
-          "mappings": {
+          "external-mappings": {
             "type": "array",
             "items": {
               "type": "object",
@@ -88,7 +88,7 @@
             }
           }
         },
-        "required": ["id", "title", "description", "capabilities", "mappings"],
+        "required": ["id", "title", "description", "capabilities", "external-mappings"],
         "additionalProperties": false
       }
     }

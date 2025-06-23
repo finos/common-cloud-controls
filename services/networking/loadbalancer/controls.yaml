@@ -1,0 +1,273 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent Unencrypted Requests
+      - CCC.C02 # Ensure Data Encryption at Rest
+      - CCC.C03 # Enforce Multi-Factor Authentication
+      - CCC.C04 # Log All Access and Changes
+      - CCC.C05 # Prevent Access From Untrusted Entities
+      - CCC.C06 # Prevent Deployment in Restricted Regions
+      - CCC.C10 # Prevent Data Replication Outside Perimeter
+
+control-families:
+  - title: "Logging & Monitoring"
+    description: |
+      Controls that detect anomalous traffic and record load-balancer activity.
+
+    controls:
+      - id: CCC.LB.C01
+        title: Enforce and Detect Rate Limiting
+        objective: >
+          Detect and throttle malicious or excessive requests to prevent
+          downstream resource exhaustion and brute-force activity.
+        assessment-requirements:
+          - id: CCC.LB.C01.TR01
+            text: |
+              When a single client sends more than 2000 requests within any
+              5-minute sliding window, the load balancer MUST throttle all
+              subsequent requests from that client for at least 60 seconds.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Implement per-IP token-bucket limits with and verify via
+              synthetic traffic tests.
+          - id: CCC.LB.C01.TR02
+            text: |
+              When throttling is invoked, the load balancer MUST
+              record the event in the access log within 5 minutes
+              for alerting and trend analysis.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Enable access logging and configure metric filters
+              on HTTP 429 counts to trigger alerts.
+        threat-mappings:
+          - reference-id: LB
+            identifiers:
+              - CCC.LB.TH01 # Malicious Traffic
+              - CCC.LB.TH09 # Resource Exhaustion
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - DE.CM-1 # Monitor to detect events
+              - PR.AC-7 # Prevent brute-force
+              - PR.PT-4 # Protective technology
+          - reference-id: NIST_800_53
+            identifiers:
+              - AU-6 # Audit review, analysis, reporting
+              - SC-5 # Denial-of-Service protection
+              - AC-7 # Unsuccessful logon attempts
+
+      - id: CCC.LB.C06
+        title: Secure Health-Check Telemetry
+        objective: |
+          Monitor health-check endpoints for tampering and alert on
+          abnormal status changes.
+        assessment-requirements:
+          - id: CCC.LB.C06.TR01
+            text: |
+              When more than 10 percent of targets change from healthy to
+              unhealthy within five minutes, an alert MUST be issued.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Instrument metrics for health check results and target
+              removal events. Configure monitoring alarms to alert
+              on abnormal spikes in unhealthy targets.
+        threat-mappings:
+          - reference-id: LB
+            identifiers:
+              - CCC.LB.TH05 # Health Checks Exploited
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - DE.AE-2 # Detected events are analyzed
+          - reference-id: NIST_800_53
+            identifiers:
+              - SI-4 # System monitoring
+
+  - title: Identity and Access Management
+    description: |
+      Controls that restrict who can change or query load-balancer resources.
+    controls:
+      - id: CCC.LB.C04
+        title: Enforce Distribution Policies
+        objective: |
+          Ensure traffic-splitting weights and algorithms are modified
+          only by trusted identities.
+        assessment-requirements:
+          - id: CCC.LB.C04.TR01
+            text: |
+              When routing weights change, the request MUST originate
+              from an explicitly defined and trusted identity and MUST
+              be logged.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Define a list of trusted principals allowed to modify
+              routing configurations. Enforce via conditional access
+              policies, and log changes using audit logging.
+        threat-mappings:
+          - reference-id: LB
+            identifiers:
+              - CCC.LB.TH03 # Traffic Distribution Manipulated
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-1 # Identities and credentials are managed
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-3 # Access enforcement
+
+      - id: CCC.LB.C05
+        title: Validate Session Affinity
+        objective: |
+          Configure session persistence to minimise fixation and hijacking
+          risks.
+        assessment-requirements:
+          - id: CCC.LB.C05.TR01
+            text: |
+              When stickiness is enabled, session cookies MUST expire
+              within 30 minutes of inactivity.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: Audit CCC.LB.F15 parameters via configuration scans.
+        threat-mappings:
+          - reference-id: LB
+            identifiers:
+              - CCC.LB.TH04 # Session Persistence Exploited
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-7 # Least functionality is enforced
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-23 # Session authenticity
+
+      - id: CCC.LB.C09
+        title: Restrict Management API Access
+        objective: |
+          Limit load-balancer API calls to authorised identities and
+          trusted networks.
+        assessment-requirements:
+          - id: CCC.LB.C09.TR01
+            text: |
+              When an API call originates outside the approved CIDR
+              set, the request MUST be denied.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: Combine VPC endpoints with IAM condition-key filters
+              for protected APIs.
+        threat-mappings:
+          - reference-id: LB
+            identifiers:
+              - CCC.LB.TH08 # API Exposed and Attacked
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-5 # Network integrity is protected
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-7 # Boundary protection
+
+  - title: Data
+    description: |
+      Controls that preserve availability and confidentiality of
+      traffic processed by the load balancer.
+    controls:
+      - id: CCC.LB.C02
+        title: Auto-Scale Load Balancer Capacity
+        objective: |
+          Expand load-balancer capacity to maintain availability during traffic
+          spikes.
+        assessment-requirements:
+          - id: CCC.LB.C02.TR01
+            text: |
+              When concurrent connections reach 80 percent of capacity, the
+              autoscaling group MUST add at least one instance within five
+              minutes.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: Enable autoscaling policies.
+        threat-mappings:
+          - reference-id: LB
+            identifiers:
+              - CCC.LB.TH09 # Resource Exhaustion
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - ID.BE-5 # Resilience requirements are established
+          - reference-id: NIST_800_53
+            identifiers:
+              - CP-10 # System recovery and reconstitution
+
+      - id: CCC.LB.C07
+        title: Scrub Sensitive Headers
+        objective: |
+          Remove headers that disclose internal details or software
+          versions from HTTP responses.
+        assessment-requirements:
+          - id: CCC.LB.C07.TR01
+            text: |
+              When responses pass through the load balancer, the
+              "Server" header MUST be replaced with "lb".
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: Configure header-transformation rules.
+        threat-mappings:
+          - reference-id: LB
+            identifiers:
+              - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-2 # Data in transit is protected
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-13 # Cryptographic protection
+
+  - title: Encryption
+    description: Controls that ensure trustworthy TLS certificates and ciphers.
+    controls:
+      - id: CCC.LB.C08
+        title: Automate Certificate Renewal
+        objective: |
+          Maintain valid TLS certificates by automating renewal and
+          deployment before expiry.
+        assessment-requirements:
+          - id: CCC.LB.C08.TR01
+            text: |
+              When a certificate is within 30 days of expiry, automated renewal
+              MUST complete and deploy a new certificate within 24 hours.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: Use certificate-manager auto-renewal workflows.
+        threat-mappings:
+          - reference-id: LB
+            identifiers:
+              - CCC.LB.TH07 # Certificates Expired or Invalid
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-6 # Integrity checking mechanisms are used
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-17 # PKI certificates

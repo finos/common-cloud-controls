@@ -14,22 +14,10 @@ import (
 // baseCmd represents the base command when called without any subcommands.
 // This is the entry point of the CLI application.
 var (
-	// Version is to be replaced at build time by the associated tag
-	Version = "0.0.0"
-
-	// VersionPostfix is a marker for the version such as "dev", "beta", "rc", etc.
-	VersionPostfix = "dev"
-
-	// GitCommitHash is the commit at build time
-	GitCommitHash = ""
-
-	// BuiltAt is the actual build datetime
-	BuiltAt = ""
-
 	// baseCmd represents the base command when called without any subcommands
 	baseCmd = &cobra.Command{
 		Use:   "",
-		Short: "test",
+		Short: "",
 		PersistentPreRun: func(command *cobra.Command, args []string) {
 			fmt.Println(cmd.Divider)
 			fmt.Println(cmd.Logo)
@@ -38,7 +26,7 @@ var (
 			fmt.Println(cmd.Divider)
 		},
 		Run: func(command *cobra.Command, args []string) {
-			fmt.Println("Welcome to the CCC Delivery Toolkit CLI v" + Version)
+			fmt.Println("Welcome to the CCC Delivery Toolkit CLI")
 
 			fmt.Println(cmd.Divider)
 			fmt.Println("You appear to be exploring!")
@@ -68,9 +56,6 @@ func init() {
 
 // main is the entry point of the application.
 func main() {
-	if VersionPostfix != "" {
-		Version = fmt.Sprintf("%s-%s", Version, VersionPostfix)
-	}
 	err := baseCmd.Execute()
 	if err != nil {
 		os.Exit(1)
