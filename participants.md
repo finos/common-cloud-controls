@@ -62,7 +62,6 @@ In order to enroll as a participant in the Common Cloud Controls project, please
    [<img src="https://user-images.githubusercontent.com/51138318/151390757-69ca6d4a-8972-4134-9239-caf02d8fb105.png" width="500" alt="Commit Changes Image">](https://user-images.githubusercontent.com/51138318/151390757-69ca6d4a-8972-4134-9239-caf02d8fb105.png)
 
 1. Create a Pull Request to request that the changes you made to the [participants](#participants) file be added to the "main" branch of the `https://github.com/finos/{project_slug}` repository
-
    1. Click on "Pull Request" in the GitHub navigation bar
       [<img src="https://user-images.githubusercontent.com/51138318/151392066-eea01c80-1722-4545-8eb3-6a5e09fe8a5e.png" width="500" alt="Opening PR">](https://user-images.githubusercontent.com/51138318/151392066-eea01c80-1722-4545-8eb3-6a5e09fe8a5e.png)
 

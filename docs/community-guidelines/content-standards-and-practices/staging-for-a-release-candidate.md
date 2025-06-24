@@ -48,29 +48,24 @@ Perform these tasks in the `threats.yaml` and `controls.yaml` files located unde
 Threats for a given service typically reside in a `threats.yaml` file (e.g., `services/networking/loadbalancer/threats.yaml`). If none exists, create a new file.
 
 1. **Check Alignment With Service Capabilities**
-
    - Open `capabilities.yaml` in the same directory (e.g., `services/networking/loadbalancer/capabilities.yaml`).
    - Ensure existing threats in `threats.yaml` correspond to these capabilities. Confirm IDs, titles, and descriptions are consistent and relevant.
 
 2. **Add Any Missing Common Threats**
-
    - Review the [shared-threats.yaml](/common/threats.yaml) to see the full list of common threats.
    - In `threats.yaml`, find or create a top-level `common_threats` key.
    - Add references to any relevant common threats not already included.
    - See an example of a fully populated list in the [object storage threats.yaml](/services/storage/object/threats.yaml).
 
 3. **Add Any Missing Service-Specific Threats**
-
    - Under the top-level `threats` list, define any threats unique to this service that are not already captured as “common threats.”
    - Use the object storage example (linked above) as a guide.
 
 4. **Remove Duplications**
-
    - If a threat already exists in `shared-threats.yaml` but is also listed separately under `threats`, move or reference it under `common_threats` and remove the duplicate.
    - This step ensures we don’t maintain two versions of the same threat.
 
 5. **Check ID Ordering**
-
    - IDs for threats should be sequential and grouped properly.
    - Make sure newly added items fit into the numerical sequence without breaking existing references.
 
@@ -85,28 +80,23 @@ Threats for a given service typically reside in a `threats.yaml` file (e.g., `se
 Controls for a given service typically reside in a `controls.yaml` file (e.g., `services/networking/loadbalancer/controls.yaml`). If none exists, create a new file.
 
 1. **Check Alignment With Threats**
-
    - Ensure that every threat in `threats.yaml` is appropriately mitigated by at least one control in `controls.yaml` (or by a “common control” reference).
    - Verify IDs, titles, and descriptions match the relevant threats where applicable.
 
 2. **Add Any Missing Common Controls**
-
    - Review the [shared-controls.yaml](/common/controls.yaml).
    - In your `controls.yaml`, find or create a top-level `common_controls` key.
    - Add references to any relevant common controls not already included.
    - See the [object storage controls.yaml](/services/storage/object/controls.yaml) for an example.
 
 3. **Add Any Missing Service-Specific Controls**
-
    - Under the `controls` list, add controls that are specific to your service’s unique threats or capabilities.
    - Ensure each new control has a clear and accurate title, description, and testing requirement if appropriate.
 
 4. **Remove Duplications**
-
    - If a control is already provided in `shared-controls.yaml` but also exists as a service-specific control, migrate or reference it under `common_controls` and remove the duplicate from `controls`.
 
 5. **Check ID Ordering**
-
    - Ensure the IDs are in the correct numerical order and don’t conflict with existing controls.
 
 6. **Final Review Against the Style Guide**
@@ -118,21 +108,17 @@ Controls for a given service typically reside in a `controls.yaml` file (e.g., `
 ## Final Checks and Pull Request
 
 1. **Create or Update the Files**
-
    - Commit your updated or newly created `threats.yaml` and `controls.yaml` to a feature branch.
 
 2. **Self-Review**
-
    - Confirm all the boxes in the [Preparing Threats](#preparing-threats) and [Preparing Controls](#preparing-controls) sections are checked.
    - Ensure the numbering and referencing are accurate.
 
 3. **Open a Pull Request**
-
    - Submit a PR from your feature branch to the main branch of the [finos/common-cloud-controls](https://github.com/finos/common-cloud-controls) repository.
    - Reference the relevant issue (e.g., “resolves #12345”) and summarize your changes.
 
 4. **Request Review**
-
    - Assign members of the Security Working Group or other relevant maintainers.
    - Incorporate feedback where needed.
 
@@ -150,12 +136,10 @@ Controls for a given service typically reside in a `controls.yaml` file (e.g., `
   [shared/controls.yaml](/common/controls.yaml)
 
 - **Example Completed Service**
-
   - Threats: [services/storage/object/threats.yaml](/services/storage/object/threats.yaml)
   - Controls: [services/storage/object/controls.yaml](/services/storage/object/controls.yaml)
 
 - **Style Guides**
-
   - [Threat Definitions](/docs/community-guidelines/content-standards-and-practices/threat-definitions.md)
   - [Control Definitions](/docs/community-guidelines/content-standards-and-practices/control-definitions.md)
 
