@@ -9,9 +9,6 @@ metadata:
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
   applicability-categories: []
-  mapping-references:
-    - reference-id: ""
-      identifiers: []
 
 release_details:
   - version: "2024.09"
