@@ -44,7 +44,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "pattern": "^CCC\\.[A-Za-z]+\\.C\\d{2,8}$",
+                    "pattern": "^CCC\\.[A-Za-z0-9]+\\.C\\d{2,8}$",
                     "description": "Full control ID (e.g., CCC.ObjStor.C01)"
                   },
                   "title": {
