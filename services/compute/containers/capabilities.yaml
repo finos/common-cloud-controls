@@ -1,0 +1,106 @@
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01 # Encryption in Transit Enabled by Default
+      - CCC.F02 # Encryption at Rest Enabled by Default
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F06 # Identity Based Access Control
+      - CCC.F08 # Multi-zone Deployment
+      - CCC.F09 # Monitoring
+      - CCC.F10 # Logging
+      - CCC.F12 # Recovery
+      - CCC.F13 # Infrastructure as Code
+      - CCC.F14 # API Access
+      - CCC.F15 # Cost Management
+      - CCC.F16 # Budgeting
+      - CCC.F17 # Alerting
+      - CCC.F18 # Versioning
+      - CCC.F19 # On-demand Scaling
+      - CCC.F20 # Tagging
+      - CCC.F22 # Location Lock-In
+      - CCC.F23 # Network Access Rules
+
+capabilities:
+  - id: CCC.Container.F01
+    title: Container Image Execution
+    description: |
+      Supports running containerized workloads using OCI-compliant images,
+      providing an isolated execution environment for applications.
+
+  - id: CCC.Container.F02
+    title: Registry Integration
+    description: |
+      Enables integration with public or private container registries to
+      retrieve container images for execution.
+
+  - id: CCC.Container.F03
+    title: Load Balancing
+    description: |
+      Automatically distributes incoming traffic across running container
+      instances to optimize resource usage and availability.
+
+  - id: CCC.Container.F04
+    title: Ingress and Routing
+    description: |
+      Supports configuring ingress, including HTTPS endpoints, custom domains,
+      and traffic routing rules for services running in containers.
+
+  - id: CCC.Container.F05
+    title: Secrets and Configuration Management
+    description: |
+      Supports securely injecting configuration values and secrets into running
+      containers at runtime.
+
+  - id: CCC.Container.F06
+    title: Health Checks and Lifecycle Hooks
+    description: |
+      Provides mechanisms for defining container startup, readiness, and liveness
+      probes, along with lifecycle hooks for graceful startup and shutdown.
+
+  - id: CCC.Container.F07
+    title: Declarative Deployment Support
+    description: |
+      Supports defining and managing container workloads using declarative
+      configuration formats such as YAML or JSON.
+
+  - id: CCC.Container.F08
+    title: Revision Control and Rollback
+    description: |
+      Enables versioning of container deployments with the ability to rollback
+      to a previous revision in case of failures.
+
+  - id: CCC.Container.F09
+    title: Event-driven and Scheduled Execution
+    description: |
+      Supports triggering container workloads in response to events or time-based
+      schedules, such as cron jobs or message queue events.
+
+  - id: CCC.Container.F10
+    title: Outbound Connectivity
+    description: |
+      Allows containers to establish outbound network connections to internal or
+      external services and endpoints.
+
+  - id: CCC.Container.F11
+    title: Service Discovery
+    description: |
+      Provides DNS or environment-based service discovery mechanisms for
+      inter-container communication.
+
+  - id: CCC.Container.F12
+    title: Storage Integration
+    description: |
+      Supports attaching ephemeral or persistent storage volumes to running containers.
+
+  - id: CCC.Container.F13
+    title: Execution Logging
+    description: |
+      Captures container logs (stdout/stderr) and forwards them to a logging backend
+      or integrated observability service.
+
+  - id: CCC.Container.F14
+    title: Audit Logging
+    description: |
+      Maintains records of container operations, API interactions, and access events
+      for auditing and compliance purposes.
+
