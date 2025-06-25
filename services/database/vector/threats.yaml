@@ -73,6 +73,12 @@ threats:
         identifiers:
           - CCC.Vector.F05
           - CCC.Vector.F06
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499 # Endpoint Denial of Service
+          - T1498 # Network Denial of Service
+          - T1496 # Resource Hijacking
   - id: CCC.Vector.TH05
     title: Index Corruption or Downgrade
     description: Attackers with unauthorized access or excessive permissions may tamper
@@ -83,6 +89,13 @@ threats:
         identifiers:
           - CCC.Vector.F07
           - CCC.Vector.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1565 # Data Manipulation
+          - T1485 # Data Destruction
+          - T1490 # Inhibit System Recovery
+          - T1562 # Impair Defenses
   - id: CCC.Vector.TH06
     title: Embedding Format or Dimension Attacks
     description: Poor validation of embedding formats or dimensions can cause service
@@ -93,6 +106,12 @@ threats:
         identifiers:
           - CCC.Vector.F08
           - CCC.Vector.F09
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499 # Endpoint Denial of Service
+          - T1565 # Data Manipulation
+          - T1027 # Obfuscated Files or Information
   - id: CCC.Vector.TH07
     title: Search Result Manipulation via ANN Bias
     description: Approximate nearest neighbor (ANN) algorithms may yield non-deterministic
@@ -102,3 +121,9 @@ threats:
       - reference-id: CCC
         identifiers:
           - CCC.Vector.F12
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1565 # Data Manipulation
+          - T1027 # Obfuscated Files or Information
+          - T1497 # Virtualization/Sandbox Evasion
