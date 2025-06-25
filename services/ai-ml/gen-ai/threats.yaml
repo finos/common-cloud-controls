@@ -1,5 +1,211 @@
 shared-threats:
   - reference-id: CCC
-    identifiers: []
+    identifiers:
+      - CCC.TH16 # Prompt Injection
+      - CCC.TH17 # Embedding Inversion
+      - CCC.TH18 # Cross-Tenant Data Leakage
+      - CCC.TH19 # Unauthorized Logging of Sensitive Inputs
+      - CCC.TH20 # Plugin/Tool Abuse
+      - CCC.TH21 # Model Version Drift
+      - CCC.TH22 # Regional Misrouting of Data
+      - CCC.TH23 # Excessive API Usage or Cost Overrun
+      - CCC.TH24 # Output Format Exfiltration Risk
 
-threats: []
+threats:
+  - id: CCC.GenAI.TH01
+    title: Prompt Injection Attack
+    description: |
+      An adversary crafts malicious or hidden prompts to manipulate the model into
+      revealing unintended information, bypassing safeguards, or misbehaving in workflows.
+      This aligns with AIR‑SEC‑010 (“Prompt Injection”) risks :contentReference[oaicite:1]{index=1}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.GenAI.F15
+          - CCC.GenAI.F17
+          - CCC.GenAI.F18
+          - CCC.GenAI.F21
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1059
+          - T1565.001
+      - reference-id: AIR
+        identifiers:
+          - AIR-SEC-010
+    threats:
+      - CCC.TH16
+
+  - id: CCC.GenAI.TH02
+    title: Embedding Inversion Attack
+    description: |
+      Attackers reverse-engineer embeddings to recover original input text or code,
+      resulting in sensitive data leakage. This is referenced in AIR‑SEC‑002
+      (“Information Leaked to Vector Store”) :contentReference[oaicite:2]{index=2}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.GenAI.F03
+          - CCC.GenAI.F27
+          - CCC.GenAI.F28
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1005
+          - T1020
+          - T1530
+      - reference-id: AIR
+        identifiers:
+          - AIR-SEC-002
+    threats:
+      - CCC.TH17
+
+  - id: CCC.GenAI.TH03
+    title: Cross-Tenant Prompt or Output Leakage
+    description: |
+      Prompts, embeddings, or outputs may leak across tenants via shared cache or
+      storage if tenant isolation isn’t enforced. Matches AIR‑SEC‑022
+      (“Information Leaked To Hosted Model”) :contentReference[oaicite:3]{index=3}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.GenAI.F22
+          - CCC.GenAI.F23
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1081
+          - T1537
+      - reference-id: AIR
+        identifiers:
+          - AIR-RC-022
+    threats:
+      - CCC.TH18
+
+  - id: CCC.GenAI.TH04
+    title: Unauthorized Logging of Prompt Data
+    description: |
+      Prompts or embeddings are logged without proper access controls or consent,
+      violating data privacy. Matches AIR‑OP‑016 (Bias/Discrimination Logging)
+      and AIR‑OP‑019 data drift concerns :contentReference[oaicite:4]{index=4}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.GenAI.F22
+          - CCC.F10
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1552
+          - T1119
+      - reference-id: AIR
+        identifiers:
+          - AIR-OP-016
+          - AIR-OP-019
+    threats:
+      - CCC.TH19
+
+  - id: CCC.GenAI.TH05
+    title: Plugin Abuse for Data Exfiltration or Execution
+    description: |
+      Adversaries exploit integrated tools (e.g., Python, web search) to exfiltrate
+      data or execute unauthorized commands. Aligns with AIR‑PREV‑017 (AI Firewall)
+      warning on tool misuse :contentReference[oaicite:5]{index=5}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.GenAI.F26
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1213
+          - T1055
+          - T1567.002
+      - reference-id: AIR
+        identifiers:
+          - AIR-PREV-017
+    threats:
+      - CCC.TH20
+
+  - id: CCC.GenAI.TH06
+    title: Model Version Drift Causes Output Inconsistency
+    description: |
+      Changing the embedding or model version without pinning can lead to inconsistent
+      outputs. This is covered in AIR‑OP‑005 (“Foundation Model Versioning”) :contentReference[oaicite:6]{index=6}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.GenAI.F29
+          - CCC.F18
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1583
+      - reference-id: AIR
+        identifiers:
+          - AIR-OP-005
+    threats:
+      - CCC.TH21
+
+  - id: CCC.GenAI.TH07
+    title: Regional Misrouting of Embedding Data
+    description: |
+      Embedding requests or outputs stored or processed in wrong regions, violating
+      residency. Corresponds to AIR‑RC‑022’s hosted model leakage concerns :contentReference[oaicite:7]{index=7}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.GenAI.F24
+          - CCC.GenAI.F27
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1567.002
+          - T1030
+      - reference-id: AIR
+        identifiers:
+          - AIR-RC-022
+    threats:
+      - CCC.TH22
+
+  - id: CCC.GenAI.TH08
+    title: Excessive API Usage Causing Cost Overruns
+    description: |
+      Without rate limiting or monitoring, clients may unintentionally or maliciously
+      consume large volumes, causing cost spikes or availability issues. Reinforced
+      by AIR‑DET‑009 (Spend/Denial of Wallet) guidance :contentReference[oaicite:8]{index=8}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F14
+          - CCC.F15
+          - CCC.F16
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1496
+      - reference-id: AIR
+        identifiers:
+          - AIR-DET-009
+    threats:
+      - CCC.TH23
+
+  - id: CCC.GenAI.TH09
+    title: Output Format Enables Covert Exfiltration
+    description: |
+      Embeddings in a permissive format like base64 or binary can be misused to
+      smuggle data covertly. This is referenced indirectly in AIR‑PREV‑017’s
+      data exfiltration concerns :contentReference[oaicite:9]{index=9}.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.GenAI.F28
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1001
+      - reference-id: AIR
+        identifiers:
+          - AIR-PREV-017
+    threats:
+      - CCC.TH24
