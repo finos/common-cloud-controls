@@ -1,0 +1,24 @@
+capabilities:
+  - id: DPS.CORE.F01
+    title: ETL/ELT Processing
+    description: |
+      Provides the ability to extract, transform, and load data between
+      various sources and destinations with built-in transformation functions.
+
+  - id: DPS.CORE.F02
+    title: Serverless Execution
+    description: |
+      Provides serverless execution models where underlying infrastructure
+      is managed automatically with scaling based on workload demands.
+
+  - id: DPS.CORE.F03
+    title: Data Transformation Functions
+    description: |
+      Provides built-in transformation capabilities including filtering,
+      joining, aggregating, and data type conversions.
+
+  - id: DPS.CORE.F04
+    title: Custom Code Support
+    description: |
+      Provides the ability to incorporate custom transformation logic
+      using various programming languages within data pipelines.

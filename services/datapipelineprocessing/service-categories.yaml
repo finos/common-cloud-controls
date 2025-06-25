@@ -1,0 +1,139 @@
+title: CCC Data Pipeline Service
+id: CCC.DPS
+description: |
+  Data Pipeline Service in the context of cloud computing refers to managed
+  services that provide serverless ETL/ELT processing, workflow orchestration,
+  and data transformation capabilities. These services enable developers and
+  data engineers to build, deploy, and maintain scalable data processing
+  workflows without managing underlying infrastructure, supporting the entire
+  data lifecycle from ingestion to transformation and delivery.
+service_categories:
+  - id: CCC.DPS.CORE
+    title: Core Processing
+    description: |
+      Core Processing encompasses the fundamental data processing capabilities
+      including ETL/ELT operations, serverless execution models, and data
+      transformation functions. These services provide the essential building
+      blocks for data pipeline operations with automatic scaling and
+      infrastructure management.
+    examples:
+      - AWS:
+          - AWS Glue
+      - Azure:
+          - Azure Data Factory
+          - Azure Synapse Analytics
+      - Google Cloud:
+          - Google Cloud Dataflow
+          - Google Cloud Dataprep
+
+  - id: CCC.DPS.CONN
+    title: Connectivity & Integration
+    description: |
+      Connectivity & Integration provides capabilities for connecting to various
+      data sources and integrating with cloud ecosystems, on-premises systems,
+      and external APIs. These services enable seamless data movement across
+      hybrid and multi-cloud environments with built-in connectors and
+      integration patterns.
+    examples:
+      - AWS:
+          - AWS Glue Connectors
+          - AWS DataSync
+      - Azure:
+          - Azure Data Factory Connectors
+          - Azure Integration Runtime
+      - Google Cloud:
+          - Google Cloud Data Fusion
+          - Google Cloud Dataflow Connectors
+
+  - id: CCC.DPS.ORCH
+    title: Workflow & Orchestration
+    description: |
+      Workflow & Orchestration provides pipeline design and orchestration
+      capabilities for managing the execution flow of data processing workflows.
+      These services offer visual design interfaces, scheduling, dependency
+      management, and workflow automation for complex data processing scenarios.
+    examples:
+      - AWS:
+          - AWS Glue Workflows
+          - AWS Step Functions
+      - Azure:
+          - Azure Data Factory Pipelines
+          - Azure Logic Apps
+      - Google Cloud:
+          - Google Cloud Composer
+          - Google Cloud Workflows
+
+  - id: CCC.DPS.MGMT
+    title: Management & Schema
+    description: |
+      Management & Schema provides data management capabilities including schema
+      handling, evolution, and data governance features. These services enable
+      automatic schema detection, data cataloging, and metadata management for
+      maintaining data quality and governance across data pipelines.
+    examples:
+      - AWS:
+          - AWS Glue Data Catalog
+          - AWS Lake Formation
+      - Azure:
+          - Azure Purview
+          - Azure Data Factory Data Flow
+      - Google Cloud:
+          - Google Cloud Data Catalog
+          - Google Cloud Dataplex
+
+  - id: CCC.DPS.OBS
+    title: Observability
+    description: |
+      Observability provides monitoring, logging, and alerting capabilities
+      that offer visibility into pipeline operations and performance. These
+      services enable tracking of pipeline execution, performance metrics,
+      resource utilization, and provide troubleshooting capabilities for
+      data processing workflows.
+    examples:
+      - AWS:
+          - AWS CloudWatch
+          - AWS Glue Job Monitoring
+      - Azure:
+          - Azure Monitor
+          - Azure Data Factory Monitoring
+      - Google Cloud:
+          - Google Cloud Monitoring
+          - Google Cloud Logging
+
+  - id: CCC.DPS.SEC
+    title: Security
+    description: |
+      Security provides security-related features including encryption, access
+      controls, and compliance capabilities for data pipeline operations. These
+      services ensure data protection in transit and at rest, identity-based
+      access control, and compliance with regulatory requirements throughout
+      the data processing lifecycle.
+    examples:
+      - AWS:
+          - AWS IAM
+          - AWS KMS
+      - Azure:
+          - Azure Active Directory
+          - Azure Key Vault
+      - Google Cloud:
+          - Google Cloud IAM
+          - Google Cloud KMS
+
+  - id: CCC.DPS.COST
+    title: Cost Management
+    description: |
+      Cost Management provides features related to cost optimization,
+      usage-based pricing, and resource management for data pipeline services.
+      These capabilities enable organizations to monitor, control, and optimize
+      spending on data processing resources through usage tracking, budgeting,
+      and automated resource scaling.
+    examples:
+      - AWS:
+          - AWS Cost Explorer
+          - AWS Budgets
+      - Azure:
+          - Azure Cost Management
+          - Azure Advisor
+      - Google Cloud:
+          - Google Cloud Billing
+          - Google Cloud Recommender

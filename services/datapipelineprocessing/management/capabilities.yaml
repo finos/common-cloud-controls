@@ -1,0 +1,6 @@
+capabilities:
+  - id: DPS.MGMT.F01
+    title: Schema Management
+    description: |
+      Provides automatic schema detection and evolution capabilities
+      for handling changing data structures.
