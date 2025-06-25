@@ -1,0 +1,111 @@
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01  # Encryption in Transit
+      - CCC.F02  # Encryption at Rest
+      - CCC.F03  # Access/Activity Logs
+      - CCC.F04  # Transaction Rate Limits
+      - CCC.F05  # Key Management Integration
+      - CCC.F06  # Identity Based Access Control
+      - CCC.F07  # Network Isolation
+      - CCC.F08  # Multi-zone Deployment
+      - CCC.F09  # Monitoring
+      - CCC.F10  # Logging
+      - CCC.F11  # Backup
+      - CCC.F12  # Recovery
+      - CCC.F13  # Infrastructure as Code
+      - CCC.F14  # API Access
+      - CCC.F15  # Policy Enforcement
+      - CCC.F16  # Data Residency Control
+      - CCC.F17  # Platform Resilience
+      - CCC.F19  # Resource Quota Management
+      - CCC.F20  # Tagging
+      - CCC.F22  # Location Lock-In
+      - CCC.F23  # Portability
+
+capabilities:
+  - id: CCC.K8s.F01
+    title: Managed Control Plane
+    description: |
+      The platform manages the Kubernetes control plane components such as the API server, etcd, and controller manager, ensuring availability, scalability, and security patching.
+
+  - id: CCC.K8s.F02
+    title: Node Pool Management
+    description: |
+      Supports creation and scaling of node pools with configuration options such as autoscaling, OS type, labels, and taints.
+
+  - id: CCC.K8s.F03
+    title: Workload Autoscaling
+    description: |
+      Enables both horizontal pod autoscaling and cluster autoscaler to adjust workload and infrastructure resources based on demand.
+
+  - id: CCC.K8s.F04
+    title: Ingress and Load Balancer Integration
+    description: |
+      Integrates with cloud-native load balancing and ingress controller solutions to expose services externally over L4 and L7 protocols.
+
+  - id: CCC.K8s.F05
+    title: Identity-Aware Access Control
+    description: |
+      Supports Kubernetes RBAC and integrates with cloud-native IAM solutions for authentication and authorization of users and workloads.
+
+  - id: CCC.K8s.F06
+    title: Secrets and Config Management
+    description: |
+      Provides mechanisms to store and manage secrets and application configuration securely, with support for external secret stores.
+
+  - id: CCC.K8s.F07
+    title: Observability Integration
+    description: |
+      Integrates with cloud-native logging, monitoring, and tracing services to provide visibility into cluster and workload health.
+
+  - id: CCC.K8s.F08
+    title: Persistent Storage Support
+    description: |
+      Supports provisioning of persistent volumes using cloud-native block and file storage services for stateful workloads.
+
+  - id: CCC.K8s.F09
+    title: Network Policy Enforcement
+    description: |
+      Supports Kubernetes NetworkPolicy to control traffic between pods and external services, enabling fine-grained network access control.
+
+  - id: CCC.K8s.F10
+    title: Private Cluster Support
+    description: |
+      Provides an option to deploy Kubernetes clusters with private API endpoints and restricted control plane access.
+
+  - id: CCC.K8s.F11
+    title: Multi-Zone Availability
+    description: |
+      Supports scheduling workloads and deploying control plane components across multiple availability zones for high availability.
+
+  - id: CCC.K8s.F12
+    title: Add-on Lifecycle Management
+    description: |
+      Supports declarative installation and lifecycle management of core Kubernetes add-ons and extensions.
+
+  - id: CCC.K8s.F13
+    title: Container Runtime Support
+    description: |
+      Supports container runtimes that conform to the OCI standard, such as containerd or CRI-O.
+
+  - id: CCC.K8s.F14
+    title: Multi-OS Workload Support
+    description: |
+      Supports running both Linux and Windows containers within the same Kubernetes cluster.
+
+  - id: CCC.K8s.F15
+    title: GPU and Specialized Hardware Scheduling
+    description: |
+      Enables scheduling of pods on nodes with GPU or other hardware accelerators for AI/ML or compute-intensive workloads.
+
+  - id: CCC.K8s.F16
+    title: Compliance-Aware Resource Isolation
+    description: |
+      Supports node-level and namespace-level isolation policies to meet security and compliance requirements for multi-tenant workloads.
+
+  - id: CCC.K8s.F17
+    title: Cluster API Access and CLI Compatibility
+    description: |
+      Provides access to the Kubernetes API server and supports compatibility with standard CLI tooling such as `kubectl`, Helm, and Kustomize.
+
