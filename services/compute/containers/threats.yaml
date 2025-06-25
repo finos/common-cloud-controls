@@ -1,0 +1,147 @@
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH02 # Data is Intercepted in Transit
+      - CCC.TH03 # Deployment Region Network is Untrusted
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - CCC.TH05 # Data is Corrupted During Replication
+      - CCC.TH06 # Data is Lost or Corrupted
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH08 # Cost Management Data is Manipulated
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH10 # Alerts are Intercepted
+      - CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - CCC.TH12 # Resource Constraints are Exhausted
+      - CCC.TH13 # Resource Tags are Manipulated
+      - CCC.TH14 # Older Resource Versions are Exploited
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+      - CCC.TH16 # Logging and Monitoring are Disabled
+      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+
+threats:
+  - id: CCC.Container.TH01
+    title: Execution of Malicious or Unverified Container Images
+    description: |
+      Deploying containers from untrusted or unverified image sources may allow
+      attackers to introduce malware, backdoors, or vulnerable binaries into
+      the environment.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Container.F01
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1059
+          - T1543
+          - T1609
+
+  - id: CCC.Container.TH02
+    title: Container Escape via Runtime Vulnerabilities
+    description: |
+      Exploiting vulnerabilities in the container runtime or misconfigurations may allow
+      attackers to break isolation and gain access to the underlying host.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Container.F01
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1611
+          - T1610
+          - T1068
+
+  - id: CCC.Container.TH03
+    title: Registry Compromise and Supply Chain Attack
+    description: |
+      Attackers may tamper with container images in a registry or trick users into using
+      maliciously named images, leading to unintentional code execution.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Container.F02
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1195
+          - T1609
+          - T1584
+
+  - id: CCC.Container.TH04
+    title: Secrets Exposure in Container Configuration
+    description: |
+      Storing secrets in environment variables, plaintext files, or container images can lead
+      to credential leakage and unauthorized access to other services.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Container.F05
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1552
+          - T1555
+          - T1556
+
+  - id: CCC.Container.TH05
+    title: Ingress Misconfiguration Exposing Internal Services
+    description: |
+      Improperly configured ingress policies or routing rules may allow unintended
+      exposure of internal-only endpoints to the public internet.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Container.F04
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1046
+          - T1210
+
+  - id: CCC.Container.TH06
+    title: Denial of Service via Trigger Abuse
+    description: |
+      Attackers may flood event sources or schedule high-frequency executions to cause
+      resource exhaustion and service degradation.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Container.F09
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499
+          - T1498
+
+  - id: CCC.Container.TH07
+    title: Compromise of Observability and Audit Trails
+    description: |
+      Logs, metrics, and audit trails may be altered, deleted, or bypassed to evade
+      detection and hinder incident response.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Container.F13
+          - CCC.Container.F14
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1070
+          - T1565
+
+  - id: CCC.Container.TH08
+    title: Lateral Movement via Over-Permissive Service Discovery
+    description: |
+      Insecure service discovery may enable attackers to enumerate and laterally move
+      to internal services or sensitive resources.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Container.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1018
+          - T1046
