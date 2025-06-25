@@ -1,15 +1,7 @@
 shared-controls:
   - reference-id: CCC
     identifiers:
-      - CCC.C11 # Prevent Prompt Injection
-      - CCC.C12 # Prevent Embedding Inversion and Exposure
-      - CCC.C13 # Enforce Tenant Isolation
-      - CCC.C14 # Prevent Unauthorized Logging
-      - CCC.C15 # Control Plugin and Tool Use
-      - CCC.C16 # Pin Model Versions
-      - CCC.C17 # Enforce Regional Processing
-      - CCC.C18 # Enforce API Usage Limits
-      - CCC.C19 # Restrict Output Format Capabilities
+      - CCC.C01 # Prevent Unencrypted Requests
 
 control-families:
   - title: Prompt and Output Safety
