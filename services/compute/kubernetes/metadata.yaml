@@ -1,0 +1,23 @@
+title: Kubernetes Containers
+id: CCC.K8S
+description: |
+  Kubernetes containers are managed Kubernetes service that simplifies the
+  process of running containerized applications using Kubernetes by abstracting
+  away the complexity of provisioning, configuring, and managing the control plane.
+  It enables teams to deploy, scale, and operate workloads using standard
+  Kubernetes APIs while relying on the cloud provider to handle the underlying
+  infrastructure, upgrades, high availability, and security patches for
+  the Kubernetes control plane.
+release_details:
+  - version: "2025.07"
+    assurance_level: None
+    threat_model_url: None
+    threat_model_author: None
+    red_team: None
+    red_team_exercise_url: None
+    release_manager:
+      name: <RELEASE MANAGER NAME>
+      github_id: <RELEASE MANAGER GITHUB ID>
+      company: <RELEASE MANAGER COMPANY>
+      summary: None
+    change_log: []

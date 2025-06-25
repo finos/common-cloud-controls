@@ -93,3 +93,20 @@ service_categories:
           - Azure IoT Edge
       - Google Cloud:
           - Google Cloud IoT Edge
+  - id: CCC.K8S
+    title: Kubernetes Containers
+    description: |
+      Kubernetes containers are managed Kubernetes service that simplifies the
+      process of running containerized applications using Kubernetes by abstracting
+      away the complexity of provisioning, configuring, and managing the control plane.
+      It enables teams to deploy, scale, and operate workloads using standard
+      Kubernetes APIs while relying on the cloud provider to handle the underlying
+      infrastructure, upgrades, high availability, and security patches for
+      the Kubernetes control plane.
+    examples:
+      - AWS:
+          - Elastic Kubernetes Service (EKS)
+      - Azure:
+          - Azure Kubernetes Service (AKS)
+      - Google Cloud:
+          - Google Kubernetes Engine (GKE)
