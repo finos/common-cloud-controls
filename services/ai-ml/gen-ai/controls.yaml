@@ -1,5 +1,75 @@
 shared-controls:
   - reference-id: CCC
-    identifiers: []
+    identifiers:
+      - CCC.C11 # Prevent Prompt Injection
+      - CCC.C12 # Prevent Embedding Inversion and Exposure
+      - CCC.C13 # Enforce Tenant Isolation
+      - CCC.C14 # Prevent Unauthorized Logging
+      - CCC.C15 # Control Plugin and Tool Use
+      - CCC.C16 # Pin Model Versions
+      - CCC.C17 # Enforce Regional Processing
+      - CCC.C18 # Enforce API Usage Limits
+      - CCC.C19 # Restrict Output Format Capabilities
 
-control-families: []
+control-families:
+  - title: Prompt and Output Safety
+    description: Controls that ensure safe handling of prompt inputs and model outputs, preventing prompt injection, unauthorized reuse, or leakage.
+
+    controls:
+      - id: CCC.GenAI.C01
+        title: Prevent Prompt Injection via Input Filtering and Instruction Isolation
+        objective: |
+          Ensure model prompts are sanitized and validated to prevent adversarial input
+          patterns, and that developer-injected instructions are isolated from user input.
+        assessment-requirements:
+          - id: CCC.GenAI.C01.TR01
+            text: |
+              When prompts are submitted to a model, the service MUST apply filters to
+              remove or escape potentially malicious input patterns.
+            applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
+            recommendation: Enable prompt linting and regex-based sanitization.
+          - id: CCC.GenAI.C01.TR02
+            text: |
+              When system-level instructions are prepended to prompts, the model MUST
+              prevent user prompts from overriding those instructions.
+            applicability: [tlp-green, tlp-amber, tlp-red]
+            recommendation: Use architectural separation between system and user prompt layers.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers: [CCC.GenAI.TH01]
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers: [PR.DS-5]
+          - reference-id: CCM
+            identifiers: [AIS-01]
+          - reference-id: ISO_27001
+            identifiers: [A.14.2.5]
+
+      - id: CCC.GenAI.C02
+        title: Prevent Embedding Exposure or Inversion
+        objective: |
+          Prevent embedding vectors from being exposed or retained without justification,
+          and mitigate the risk of sensitive information reconstruction via inversion attacks.
+        assessment-requirements:
+          - id: CCC.GenAI.C02.TR01
+            text: |
+              When embeddings are generated, the service MUST provide controls to disable
+              logging or storage of those vectors.
+            applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
+            recommendation: Add configuration flag to toggle logging of embeddings.
+          - id: CCC.GenAI.C02.TR02
+            text: |
+              When storing embeddings, the service MUST apply irreversible obfuscation or
+              aggregation if inversion is a concern.
+            applicability: [tlp-amber, tlp-red]
+            recommendation: Apply dimensionality reduction or PCA projection to blur input fidelity.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers: [CCC.GenAI.TH02]
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers: [PR.DS-1]
+          - reference-id: NIST_800_53
+            identifiers: [SC-12, SC-28]
+          - reference-id: CCM
+            identifiers: [DCS-04]
