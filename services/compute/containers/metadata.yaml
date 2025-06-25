@@ -1,0 +1,11 @@
+metadata:
+  id: CCC.Containers
+  title: Container Compute Service
+  description: |
+    A Container Compute Service is a managed platform for deploying and running containerized applications in the cloud. These services abstract away infrastructure management, enabling developers to focus on building and deploying microservices and scalable workloads. Container Compute services typically support features such as load balancing, autoscaling, logging, and integration with container registries and orchestration systems. They provide rapid provisioning, high availability, and secure runtime environments for containerized workloads.
+
+    Common examples include AWS Elastic Container Service (ECS), Azure Container Instances (ACI), and Google Cloud Run. These services may vary in their orchestration model—ranging from fully managed and serverless to orchestrated environments integrated with Kubernetes—but they all deliver a consistent, cloud-native runtime for containers.
+  version: "2025.07"
+  last-modified: "2025-06-25T00:00:00Z"
+  applicability-categories: []
+  mapping-references: []

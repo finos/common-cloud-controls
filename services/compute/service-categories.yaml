@@ -39,11 +39,10 @@ service_categories:
     examples:
       - AWS:
           - Elastic Container Service (ECS)
-          - Elastic Kubernetes Service (EKS)
       - Azure:
-          - Azure Kubernetes Service (AKS)
+          - Azure Container Instances (ACI)
       - Google Cloud:
-          - Google Kubernetes Engine (GKE)
+          - Cloud Run
   - id: CCC.SvlsComp
     title: Serverless Computing
     description: |

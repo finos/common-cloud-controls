@@ -1,0 +1,294 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent Unencrypted Requests
+      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - CCC.C04 # Log All Access and Changes
+      - CCC.C05 # Prevent Access from Untrusted Entities
+      - CCC.C06 # Prevent Deployment in Restricted Regions
+      - CCC.C07 # Alert on Unusual Enumeration Activity
+      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+      - CCC.C12 # Ensure Secure Network Access Rules
+
+control-families:
+  - title: Container Runtime Security
+    description: |
+      Controls that ensure secure execution, isolation, and management of container workloads across all supported environments.
+    controls:
+      - id: CCC.Container.C01
+        title: Validate Container Image Provenance Before Execution
+        objective: |
+          Ensure that all container images deployed to the runtime are signed and originate from verified and trusted sources.
+        assessment-requirements:
+          - id: CCC.Container.C01.TR01
+            text: |
+              When a container image is pulled from a registry, the service MUST validate the image signature against a trusted authority.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Container.C01.TR02
+            text: |
+              When a container is launched, the service MUST prevent execution of images that fail signature verification.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Container.TH01
+              - CCC.Container.TH03
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-6
+          - reference-id: CCM
+            identifiers:
+              - IVS-09
+          - reference-id: ISO_27001
+            identifiers:
+              - 2022 A.8.16
+          - reference-id: NIST_800_53
+            identifiers:
+              - SI-7
+              - SI-4
+
+      - id: CCC.Container.C02
+        title: Isolate Runtime Containers From Host
+        objective: |
+          Prevent containers from escalating privileges or accessing the host system by enforcing strict isolation and sandboxing.
+        assessment-requirements:
+          - id: CCC.Container.C02.TR01
+            text: |
+              When a container is deployed, the service MUST ensure it runs in a non-privileged mode by default.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Container.C02.TR02
+            text: |
+              When a container accesses the filesystem or kernel APIs, the service MUST restrict host access using namespaces or seccomp profiles.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Container.TH02
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-5
+          - reference-id: ISO_27001
+            identifiers:
+              - 2022 A.8.32
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-6
+              - SC-39
+
+      - id: CCC.Container.C03
+        title: Prevent Use of Untrusted or Public Container Registries
+        objective: |
+          Ensure only authorized and organization-controlled container registries are used to retrieve deployment artifacts.
+        assessment-requirements:
+          - id: CCC.Container.C03.TR01
+            text: |
+              When a container is launched, the service MUST validate that the image source is an approved registry.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Container.C03.TR02
+            text: |
+              When access is attempted to a public registry, the service MUST restrict or log the activity.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Container.TH03
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - ID.SC-4
+          - reference-id: CCM
+            identifiers:
+              - SEF-01
+          - reference-id: ISO_27001
+            identifiers:
+              - 2022 A.5.10
+          - reference-id: NIST_800_53
+            identifiers:
+              - SA-12
+
+      - id: CCC.Container.C04
+        title: Mask Secrets from Runtime Environment and Logs
+        objective: |
+          Prevent secrets from being exposed through container environment variables, image layers, or logging output.
+        assessment-requirements:
+          - id: CCC.Container.C04.TR01
+            text: |
+              When secrets are mounted or injected, the service MUST ensure they are not accessible through `env` or `ps` commands.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Container.C04.TR02
+            text: |
+              When logs are captured, the service MUST scan and redact secrets from output prior to log ingestion.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Container.TH04
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.DS-5
+          - reference-id: CCM
+            identifiers:
+              - IAM-12
+              - DSP-05
+          - reference-id: ISO_27001
+            identifiers:
+              - 2022 A.8.10
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-28
+              - AU-9
+
+      - id: CCC.Container.C05
+        title: Restrict Ingress to Known Routes and Endpoints
+        objective: |
+          Restrict ingress access to explicitly defined and validated routes to prevent unauthorized or unintended exposure of services.
+        assessment-requirements:
+          - id: CCC.Container.C05.TR01
+            text: |
+              When an ingress route is created or modified, the service MUST validate that it matches an approved list of routes and target workloads.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Container.TH05
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-4
+          - reference-id: ISO_27001
+            identifiers:
+              - 2022 A.8.29
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-4
+              - SC-7
+
+      - id: CCC.Container.C06
+        title: Enforce Rate Limits on Event and Schedule Triggers
+        objective: |
+          Limit the frequency of container invocations in response to triggers or schedules to prevent denial-of-service attacks.
+        assessment-requirements:
+          - id: CCC.Container.C06.TR01
+            text: |
+              When an event or cron trigger is registered, the service MUST apply a default rate limit.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Container.TH06
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-6
+          - reference-id: CCM
+            identifiers:
+              - IVS-08
+          - reference-id: ISO_27001
+            identifiers:
+              - 2022 A.8.30
+          - reference-id: NIST_800_53
+            identifiers:
+              - SC-5
+
+      - id: CCC.Container.C07
+        title: Harden Log and Audit Infrastructure Against Tampering
+        objective: |
+          Ensure audit logs and telemetry from container services are collected to an immutable location and protected against unauthorized modification.
+        assessment-requirements:
+          - id: CCC.Container.C07.TR01
+            text: |
+              When logs are ingested, the service MUST send them to a remote store with write-once permissions.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Container.C07.TR02
+            text: |
+              When audit data is generated, the service MUST validate integrity using cryptographic checksums.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Container.TH07
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - DE.AE-3
+          - reference-id: ISO_27001
+            identifiers:
+              - 2022 A.8.15
+          - reference-id: CCM
+            identifiers:
+              - LOG-09
+          - reference-id: NIST_800_53
+            identifiers:
+              - AU-9
+
+      - id: CCC.Container.C08
+        title: Limit Service Discovery to Explicitly Authorized Consumers
+        objective: |
+          Prevent internal service metadata and discovery interfaces from being exposed to unauthorized workloads or users.
+        assessment-requirements:
+          - id: CCC.Container.C08.TR01
+            text: |
+              When a container service registers with a discovery endpoint, the service MUST restrict access to authorized identities only.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Container.TH08
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-6
+          - reference-id: CCM
+            identifiers:
+              - IAM-06
+          - reference-id: ISO_27001
+            identifiers:
+              - 2022 A.8.32
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-6
+              - SC-12
