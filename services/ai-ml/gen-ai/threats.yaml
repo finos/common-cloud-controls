@@ -25,7 +25,6 @@ threats:
       - reference-id: AIR
         identifiers:
           - AIR-SEC-010
-    threats:
       - CCC.TH16
 
   - id: CCC.GenAI.TH02
@@ -48,7 +47,6 @@ threats:
       - reference-id: AIR
         identifiers:
           - AIR-SEC-002
-    threats:
       - CCC.TH17
 
   - id: CCC.GenAI.TH03
@@ -69,7 +67,6 @@ threats:
       - reference-id: AIR
         identifiers:
           - AIR-RC-022
-    threats:
       - CCC.TH18
 
   - id: CCC.GenAI.TH04
@@ -91,7 +88,6 @@ threats:
         identifiers:
           - AIR-OP-016
           - AIR-OP-019
-    threats:
       - CCC.TH19
 
   - id: CCC.GenAI.TH05
