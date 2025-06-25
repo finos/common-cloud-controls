@@ -45,6 +45,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - James Mcleod, NatWest Group, Feb/25/2025
 - Joel Matthews, Scott Logic, Apr/24/2025
 - Diego Mastroianni, Moody's, Apr/25/2025
+- Yannis Folias, Controlplane, Jun/25/2025
 
 ## How to enroll as a participant
 
