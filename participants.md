@@ -49,6 +49,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Gabriela Georgieva, ControlPlane, JUN/25/2025
 - Yannis Folias, Controlplane, Jun/25/2025
 - Rob Kenefeck, ControlPlane, Jun/26/2025
+- Zac Rubin, Scott Logic, Jun/26/2025
 
 ## How to enroll as a participant
 
