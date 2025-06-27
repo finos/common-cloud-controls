@@ -1,0 +1,13 @@
+metadata:
+  id: CCC.Tracing
+  title: Tracing & Analysis
+  description: |
+    Tracing and analysis services enable deep observability into distributed applications by
+    correlating, and analyzing trace and span data across microservices and infrastructure layers.
+    These services facilitate root cause analysis, performance tuning, anomaly detection, and system mapping.
+    Modern platforms offer AI/ML-powered insights, live debugging capabilities, and integration with metrics/logging
+    to deliver holistic views into application behavior and health.
+  version: "2025.01"
+  last-modified: "2025-06-25T00:00:00Z"
+  applicability-categories: []
+  mapping-references: []
