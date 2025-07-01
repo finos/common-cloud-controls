@@ -9,8 +9,8 @@
 
 /docs/governance/working-groups/taxonomy @finos/ccc-wg-taxonomy @finos/ccc-steerco
 **/capabilities.yaml @finos/ccc-wg-taxonomy
-**/service-categories.yaml
-services/service-families.yaml
+**/service-categories.yaml @finos/ccc-wg-taxonomy
+services/service-families.yaml @finos/ccc-wg-taxonomy
 
 /docs/governance/working-groups/security @finos/ccc-wg-security @finos/ccc-steerco
 **/threats.yaml @finos/ccc-wg-security
