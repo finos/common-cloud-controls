@@ -47,9 +47,10 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Diego Mastroianni, Moody's, Apr/25/2025
 - Maxime Coquerel, RBC, Jan/13/2025
 - Gabriela Georgieva, ControlPlane, JUN/25/2025
-- Yannis Folias, Controlplane, Jun/25/2025
+- Yannis Folias, ControlPlane, Jun/25/2025
 - Rob Kenefeck, ControlPlane, Jun/26/2025
 - Zac Rubin, Scott Logic, Jun/26/2025
+- Tom Cope, ControlPlane, Jul/03/2025
 
 ## How to enroll as a participant
 
