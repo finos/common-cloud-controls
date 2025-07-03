@@ -1,0 +1,18 @@
+capabilities:
+  - id: DPS.OBS.F01
+    title: Pipeline Monitoring
+    description: |
+      Provides comprehensive monitoring dashboards to track pipeline performance,
+      execution status, and resource utilization.
+
+  - id: DPS.OBS.F02
+    title: Execution Logging
+    description: |
+      Provides detailed execution logs and audit trails for
+      troubleshooting and compliance purposes.
+
+  - id: DPS.OBS.F03
+    title: Pipeline Alerting
+    description: |
+      Provides the ability to set alerts based on pipeline execution status,
+      performance metrics, or failure conditions.
