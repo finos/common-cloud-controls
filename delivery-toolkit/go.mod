@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/google/go-github/v53 v53.2.0
-	github.com/revanite-io/sci v0.3.8
+	github.com/ossf/gemara v0.3.9
 	golang.org/x/oauth2 v0.24.0
 	gopkg.in/yaml.v3 v3.0.1
 )
