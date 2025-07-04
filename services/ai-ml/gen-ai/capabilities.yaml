@@ -163,3 +163,23 @@ capabilities:
     description: |
       Ability for the model to use tools to complete a model interaction.
       For example web search, python code execution or external maths engine.
+
+  - id: CCC.GenAI.F27
+    title: Batch Embedding Support
+    description: |
+      Ability to submit multiple input documents in a single request and receive
+      corresponding embeddings as a batch, improving throughput for vectorization
+      at scale.
+
+  - id: CCC.GenAI.F28
+    title: Embedding Output Format Control
+    description: |
+      Ability to specify or retrieve embeddings in different formats such as
+      JSON arrays, base64-encoded vectors, or binary blobs, depending on downstream
+      integration requirements.
+
+  - id: CCC.GenAI.F29
+    title: Embedding Model Version Control
+    description: |
+      Ability to tag or select specific embedding model versions for use, ensuring
+      reproducibility of vector outputs across time and environments.
