@@ -1,0 +1,11 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - CCC.C04 # Log All Access and Changes
+      - CCC.C05 # Prevent Access from Untrusted Entities
+      - CCC.C07 # Alert on Unusual Enumeration Activity
+      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+
+control-families: []
