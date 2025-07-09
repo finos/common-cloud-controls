@@ -42,7 +42,7 @@ capabilities:
   - id: CCC.AuditLog.F07
     title: Immutable Log Entries
     description: |
-      Audit Log event are immutable and cannot be altered or deleted once generated.
+      Audit Log events are immutable and cannot be altered or deleted once generated.
   - id: CCC.AuditLog.F08
     title: External Sink
     description: |
