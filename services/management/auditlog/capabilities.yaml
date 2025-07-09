@@ -29,7 +29,7 @@ capabilities:
   - id: CCC.AuditLog.F04
     title: Event Types
     description: |
-      Audit events are generated with different data types to provide specific fields for the system 
+      Audit events are generated with different data types to provide specific fields for the system
       which generated the event, such as Management Event, Data Event and  Policy Event.
   - id: CCC.AuditLog.F05
     title: Time Search
@@ -46,6 +46,5 @@ capabilities:
   - id: CCC.AuditLog.F08
     title: External Sink
     description: |
-      Audit log events can be configured to be sent to a external SIEM or data analysis 
+      Audit log events can be configured to be sent to a external SIEM or data analysis
       provider outside of the cloud platform.
-      
