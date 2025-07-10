@@ -1,0 +1,6 @@
+capabilities:
+  - id: DPS.COST.F01
+    title: Usage-Based Pricing
+    description: |
+      Provides pay-per-use pricing models and resource optimization features
+      to manage costs effectively based on actual usage.

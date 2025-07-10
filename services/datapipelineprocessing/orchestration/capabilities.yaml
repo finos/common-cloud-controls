@@ -1,0 +1,12 @@
+capabilities:
+  - id: DPS.ORCH.F01
+    title: Visual Pipeline Design
+    description: |
+      Provides graphical interfaces for designing data workflows and pipelines
+      without requiring extensive coding knowledge.
+
+  - id: DPS.ORCH.F02
+    title: Workflow Orchestration
+    description: |
+      Provides built-in scheduling and dependency management to coordinate
+      multi-step data processing workflows.
