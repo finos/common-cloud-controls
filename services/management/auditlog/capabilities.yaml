@@ -1,0 +1,50 @@
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01 # Encryption in Transit Enabled by Default
+      - CCC.F02 # Encryption at Rest Enabled by Default
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F06 # Identity-Based Access Control
+      - CCC.F07 # Event Notifications
+      - CCC.F08 # Multi-zone Deployment
+      - CCC.F09 # Monitoring
+      - CCC.F10 # Logging
+      - CCC.F13 # Infrastructure as Code
+      - CCC.F14 # API Access
+      - CCC.F17 # Alerting
+      - CCC.F21 # Replication
+capabilities:
+  - id: CCC.AuditLog.F01
+    title: Default Retention Period
+    description: |
+     Cloud providers support a default minimum retention of audit log data.
+  - id: CCC.AuditLog.F02
+    title: Export
+    description: |
+      Support for manual "one off" exporting or downloading of raw log events.
+  - id: CCC.AuditLog.F03
+    title: Sink
+    description: |
+      Ability to continually stream audit log data to a hosted storage bucket or data lake solution.
+  - id: CCC.AuditLog.F04
+    title: Event Types
+    description: |
+      Audit events are generated with different data types to provide specific fields for the system
+      which generated the event, such as Management Event, Data Event and  Policy Event.
+  - id: CCC.AuditLog.F05
+    title: Time Search
+    description: |
+      Ability to search for audit events across a specific time range.
+  - id: CCC.AuditLog.F06
+    title: Filtering
+    description: |
+      Ability to filter audit events based on specific attribute.
+  - id: CCC.AuditLog.F07
+    title: Immutable Log Entries
+    description: |
+      Audit Log events are immutable and cannot be altered or deleted once generated.
+  - id: CCC.AuditLog.F08
+    title: External Sink
+    description: |
+      Audit log events can be configured to be sent to a external SIEM or data analysis
+      provider outside of the cloud platform.
