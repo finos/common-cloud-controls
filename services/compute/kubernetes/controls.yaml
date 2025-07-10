@@ -1,0 +1,124 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent Unencrypted Requests
+      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - CCC.C04 # Log All Access and Changes
+      - CCC.C05 # Prevent Access from Untrusted Entities
+      - CCC.C06 # Prevent Deployment in Restricted Regions
+      - CCC.C07 # Alert on Unusual Enumeration Activity
+      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+
+control-families:
+  - title: Kubernetes Platform Security
+    description: Controls that secure Kubernetes platforms such as EKS, AKS, and GKE by hardening access, observability, data protection, and workload execution environments.
+    controls:
+      - id: CCC.K8s.C01
+        title: Restrict Access to Kubernetes Control Plane
+        objective: |
+          Ensure access to the Kubernetes API and control plane is tightly controlled using identity-aware policies and network restrictions.
+        assessment-requirements:
+          - id: CCC.K8s.C01.TR01
+            text: |
+              The platform MUST enforce authentication via federated identity with MFA enabled.
+            applicability:
+              - tlp-red
+            recommendation: Use IAM-based integration (e.g., AWS IAM for EKS) and restrict control plane access via private endpoints.
+          - id: CCC.K8s.C01.TR02
+            text: |
+              The platform MUST restrict unauthenticated and anonymous API access.
+            applicability:
+              - tlp-red
+            recommendation: Use `--anonymous-auth=false` in API server config and RBAC policies.
+
+      - id: CCC.K8s.C02
+        title: Enforce Network Policies for Workload Isolation
+        objective: |
+          Enforce network segmentation and control communication between workloads using Kubernetes-native or CNI-level network policies.
+        assessment-requirements:
+          - id: CCC.K8s.C02.TR01
+            text: |
+              The platform MUST apply default-deny ingress and egress policies at the namespace level.
+            applicability:
+              - tlp-amber
+            recommendation: Apply Calico or Cilium policies in each namespace.
+
+      - id: CCC.K8s.C03
+        title: Require Encryption in Transit and at Rest
+        objective: |
+          Ensure all communication and data storage within the Kubernetes environment uses encryption mechanisms that meet organizational standards.
+        assessment-requirements:
+          - id: CCC.K8s.C03.TR01
+            text: |
+              All traffic between pods, services, and the control plane MUST use TLS 1.2+.
+            applicability:
+              - tlp-green
+            recommendation: Enable mutual TLS via service mesh or CNI plugins.
+          - id: CCC.K8s.C03.TR02
+            text: |
+              All persistent volumes and secrets MUST be encrypted using customer-managed keys.
+            applicability:
+              - tlp-amber
+            recommendation: Use CSI drivers with KMS support and enable encryption at rest for etcd.
+
+      - id: CCC.K8s.C04
+        title: Monitor and Alert on Suspicious Pod Activity
+        objective: |
+          Detect and alert on anomalies in pod behavior such as unexpected restarts, privilege escalation, or file system access.
+        assessment-requirements:
+          - id: CCC.K8s.C04.TR01
+            text: |
+              The platform MUST integrate audit logs and security events into a centralized SIEM.
+            applicability:
+              - tlp-red
+            recommendation: Use tools like Falco, GuardDuty for EKS, or Azure Defender for AKS.
+
+      - id: CCC.K8s.C05
+        title: Prevent Use of Outdated Add-ons or APIs
+        objective: |
+          Ensure Kubernetes add-ons and API versions are regularly updated and deprecated components are not used in production clusters.
+        assessment-requirements:
+          - id: CCC.K8s.C05.TR01
+            text: |
+              The platform MUST automatically detect deprecated APIs or versions and notify administrators.
+            applicability:
+              - tlp-green
+            recommendation: Use `pluto`, OPA policies, or CSP-native upgrade checks.
+
+      - id: CCC.K8s.C06
+        title: Control Use of GPU and Accelerated Nodes
+        objective: |
+          Restrict usage of GPU-enabled nodes to authorized workloads and enforce cost controls.
+        assessment-requirements:
+          - id: CCC.K8s.C06.TR01
+            text: |
+              The platform MUST only schedule GPU workloads if the workload is labelled and assigned a resource quota.
+            applicability:
+              - tlp-amber
+            recommendation: Use taints/tolerations and limit ranges.
+
+      - id: CCC.K8s.C07
+        title: Secure Secrets Management and Access
+        objective: |
+          Securely store and control access to Kubernetes secrets and configuration data.
+        assessment-requirements:
+          - id: CCC.K8s.C07.TR01
+            text: |
+              The platform MUST restrict secret access via RBAC and prevent mounting secrets in plaintext.
+            applicability:
+              - tlp-red
+            recommendation: Use external secret stores like HashiCorp Vault or AWS Secrets Manager.
+
+      - id: CCC.K8s.C08
+        title: Restrict Workload Execution Based on Compliance Requirements
+        objective: |
+          Ensure sensitive or regulated workloads are deployed only on compliant nodes and configurations.
+        assessment-requirements:
+          - id: CCC.K8s.C08.TR01
+            text: |
+              The platform MUST support workload isolation via labels, node selectors, or placement constraints.
+            applicability:
+              - tlp-amber
+            recommendation: Use Kubernetes `nodeSelector`, `affinity`, and node pools labelled for compliance scope.
