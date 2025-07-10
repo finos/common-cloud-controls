@@ -92,9 +92,10 @@ threats:
   - id: CCC.AUDITLOG.TH05
     title: Insufficient encoding of audit logs
     description: |
-      User-supplied data containing malicious scripts or code may be logged.
-      If these are not correctly encoded or sanitized then it could lead to exploitation
-      of a service upstream reading the audit logs.
+      User-supplied malicious data such as; scripts, code, ASNI escape sequences,
+      Unicode escape characters and CRLF injection can be included in Audit Logs.
+      If not correctly encoded or sanitized then the unexpected log entries can be used
+      as part of a exploit attack chain to effect a service upstream reading the audit logs.
     capabilities:
       - reference-id: CCC
         identifiers:
