@@ -1,12 +1,12 @@
 shared-capabilities:
   - reference-id: CCC
     identifiers:
-      - CCC.F03
-      - CCC.F07
-      - CCC.F09
-      - CCC.F10
-      - CCC.F15
-      - CCC.F17
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F07 # Event Notifications
+      - CCC.F09 # Monitoring
+      - CCC.F10 # Logging
+      - CCC.F15 # Cost Management
+      - CCC.F17 # Alerting
 
 capabilities:
   - id: CCC.Monitoring.F01
@@ -52,3 +52,13 @@ capabilities:
       A visual representation of the health of systems being monitored. Pulling together metrics,
       current alerts, SLO/SLI's, health checks and other monitoring features into a single location
       to enable a view of the health of the overall system.
+  - id: CCC.Monitoring.F10
+    title: Triggering
+    description: |
+      Automatically initiating actions like alerts, notifications or automated workflows based
+      on pre-defined conditions being met.
+  - id: CCC.Monitoring.F11
+    title: Integration with Third-Party Tools
+    description: |
+      Monitoring tools are able to integrate with a number of downstream systems in order to send
+      notifications and alerts, raise tickets and create incident reports.
