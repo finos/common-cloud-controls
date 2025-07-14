@@ -1,0 +1,12 @@
+metadata:
+  title: Logging
+  id: CCC.Logging
+  description: |
+    This document outlines the minimal set of capabilities required for a
+    logging service to be considered suitable for use in financial services
+    ecosystems. It aims to establish a consistent baseline for security, data
+    and operational integrity, and to ensure compliance with industry-specific
+    requirements relevant to financial environments.
+  version: ""
+  last-modified: "2025-07-07T00:00:00Z"
+  applicability-categories: []
