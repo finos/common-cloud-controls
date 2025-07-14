@@ -9,6 +9,7 @@ shared-capabilities:
       - CCC.F11 # Backup
       - CCC.F12 # Recovery
       - CCC.F14 # API Access
+      - CCC.F17 # Alertingq
       - CCC.F18 # Versioning
       - CCC.F20 # Tagging
       - CCC.F21 # Replication
@@ -52,7 +53,7 @@ capabilities:
       to optimise storage and enhance usability.
 
   - id: CCC.Logging.F07
-    title: Imuutable Storage
+    title: Immutable Storage
     description: |
       Ability to prevent unauthorized alteration or deletion of logs, ensuring
       their integrity for auditing and forensic purposes.
@@ -70,33 +71,29 @@ capabilities:
       data residency and sovereignty requirements.
 
   - id: CCC.Logging.F10
-    title: Log Alerting
+    title: Sink
     description: |
-      Ability to configure alerts based on specific log patterns, thresholds,
-      or anomalies, with integration to external notification systems.
+      Ability to continually stream log data to a hosted storage bucket or data lake solution.
 
   - id: CCC.Logging.F11
-    title: Anomaly Detection
+    title: External Sink
     description: |
-      Features to automatically detect unusual or suspicious patterns in log
-      data that might indicate an operational issue or potential security
-      concern.
+      Log events can be configured to be sent to a external SIEM or data analysis
+      provider outside of the cloud platform.
 
   - id: CCC.Logging.F12
-    title: Integration with Security Tools
-    description: |
-      Seamless integration with Security Information and Event Management
-      systems, Security Orchestration, Automation, and Response platforms,
-      and other security tools.
-
-  - id: CCC.Logging.F13
     title: Log-based Metrics
     description: |
       Ability to extract quantitative metrics from log data for performance
       monitoring and operational analysis.
 
-  - id: CCC.Logging.F14
+  - id: CCC.Logging.F13
     title: Automated Log Management
     description: |
       Automation of tasks such as log routing, filtering, archiving, and
       retention policy enforcement.
+
+  - id: CCC.Logging.F14
+    title: Field Indexing
+    description: |
+      Supports field-based indexing to improve log query performace.
