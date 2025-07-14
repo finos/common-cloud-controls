@@ -5,13 +5,13 @@ metadata:
     Key Management Service is a tool provided by cloud service providers
     to securely create, store, and manage cryptographic keys used to
     encrypt and decrypt sensitive data.
-  version: "2025.06"
-  last-modified: "2025-06-05T11:20:00-05:00"
+  version: "2025.07"
+  last-modified: "2025-07-05T11:20:00-05:00"
   applicability-categories: []
   mapping-references: []
 
 release_details:
-  - version: "2025.06"
+  - version: "2025.07"
     assurance_level: None
     threat_model_url: None
     threat_model_author: None
