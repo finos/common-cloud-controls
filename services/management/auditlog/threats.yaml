@@ -29,27 +29,11 @@ threats:
           - CWE-778
           - CWE-223
   - id: CCC.AUDITLOG.TH02
-    title: Insufficient Replication of Audit Logs
-    description: |
-      If audit logs are only kept locally and not replicated to a external system then there is a risk
-      that they can be lost or more easily tampered with.
-    capabilities:
-      - reference-id: CCC
-        identifiers:
-          - CCC.F03
-          - CCC.F10
-    external-mappings:
-      - reference-id: OWASPTOP10
-        identifiers:
-          - A09:2021
-      - reference-id: CWE
-        identifiers:
-          - CWE778
-  - id: CCC.AUDITLOG.TH03
     title: Log Ingestion Latency
     description: |
-      Large spikes or consistent lag in log ingestion can lead to increased time to detect a threat
-      and can increase the difficult of incident investigation.
+      Large spikes or sustained delays in log ingestion may degrade the timeliness and completeness of security telemetry. 
+      This can increase the time required to detect and investigate threats, 
+      potentially impacting incident response effectiveness.
     capabilities:
       - reference-id: CCC
         identifiers:
@@ -66,15 +50,19 @@ threats:
         identifiers:
           - CWE-778
           - CWE-223
-  - id: CCC.AUDITLOG.TH04
+  - id: CCC.AUDITLOG.TH03
     title: Sensitive Data Logged
     description: |
-      Sensitive information such as passwords / env var / PII can be included in audit logs due to human error
-      (such as entering password in the username field) or by developers not sanitizing fields included in audit logs.
-      This information can be misused by authorized or unauthorized parties with access to audit logs.
+      Sensitive information such as  passwords, environment variables, or personally identifiable information (PII) 
+      may be included in audit logs due to a number of reasons such as; 
+      end user human error, developers not sanitizing fields or
+      maliciously by a threat actor attempting to exfil data.
+      This can lead to unauthorized disclosure if logs are accessed by unintended parties or forwarded to external systems.
     capabilities:
       - reference-id: CCC
         identifiers:
+          - CCC.AuditLog.F03 # Sink
+          - CCC.AuditLog.F08 # External Sink
           - CCC.F03
           - CCC.F10
     external-mappings:
@@ -89,7 +77,7 @@ threats:
         identifiers:
           - CWE-532
           - CWE-200
-  - id: CCC.AUDITLOG.TH05
+  - id: CCC.AUDITLOG.TH04
     title: Insufficient encoding of audit logs
     description: |
       User-supplied malicious data such as; scripts, code, ASNI escape sequences,
@@ -99,7 +87,10 @@ threats:
     capabilities:
       - reference-id: CCC
         identifiers:
-          - CCC.RDMS.F06
+          - CCC.AuditLog.F03 # Sink
+          - CCC.AuditLog.F08 # External Sink
+          - CCC.F03
+          - CCC.F10
     external-mappings:
       - reference-id: OWASPTOP10
         identifiers:
