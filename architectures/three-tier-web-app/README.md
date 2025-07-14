@@ -31,16 +31,16 @@ This document maps the services used in a standard 3-tier application architectu
 | **Identity and Access** | Identity and Access Management (IAM) | AWS Identity and Access Management (IAM) | Azure Active Directory + Managed Identities | Identity and Access Management |
 | **Encryption**          | Key Management Service               | AWS KMS                                  | Azure Key Vault                             | Key Management                 |
 | **Firewall Rules**      | VPC Firewall Rules                   | Security Groups and Network ACLs         | Azure Network Security Groups (NSGs)        | Virtual Private Cloud          |
-| **Audit Logging**       | Cloud Logging                        | AWS CloudTrail                           | Azure Activity Logs                         | TBC                            |
 
 ---
 
 ## 📊 Monitoring and Logging
 
-| **Component**  | **Google Cloud** | **Amazon Web Services (AWS)** | **Microsoft Azure**                | **CCC Service**         |
-| -------------- | ---------------- | ----------------------------- | ---------------------------------- | ----------------------- |
-| **Monitoring** | Cloud Monitoring | Amazon CloudWatch             | Azure Monitor                      | Management & Governance |
-| **Logging**    | Cloud Logging    | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | Management & Governance |
+| **Component**     | **Google Cloud**        | **Amazon Web Services (AWS)** | **Microsoft Azure**                | **CCC Service**         |
+| ----------------- | ----------------------- | ----------------------------- | ---------------------------------- | ----------------------- |
+| **Monitoring**    | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | Management & Governance |
+| **Logging**       | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | Management & Governance |
+| **Audit Logging** | Google Cloud Audit Logs | AWS CloudTrail                | Azure Activity Logs                | Management & Governance |
 
 ---
 

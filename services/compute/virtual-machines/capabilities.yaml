@@ -81,7 +81,7 @@ capabilities:
     title: VM Images
     description: |
       Provides templates to create new virtual machines. They usually includes
-      operating syste, configuration settings and installed applications.
+      operating system, configuration settings and installed applications.
 
   - id: CCC.VM.F11
     title: Custom Images

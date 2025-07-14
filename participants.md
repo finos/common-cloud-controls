@@ -45,6 +45,12 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - James Mcleod, NatWest Group, Feb/25/2025
 - Joel Matthews, Scott Logic, Apr/24/2025
 - Diego Mastroianni, Moody's, Apr/25/2025
+- Maxime Coquerel, RBC, Jan/13/2025
+- Gabriela Georgieva, ControlPlane, JUN/25/2025
+- Yannis Folias, ControlPlane, Jun/25/2025
+- Rob Kenefeck, ControlPlane, Jun/26/2025
+- Zac Rubin, Scott Logic, Jun/26/2025
+- Tom Cope, ControlPlane, Jul/03/2025
 
 ## How to enroll as a participant
 
@@ -62,7 +68,6 @@ In order to enroll as a participant in the Common Cloud Controls project, please
    [<img src="https://user-images.githubusercontent.com/51138318/151390757-69ca6d4a-8972-4134-9239-caf02d8fb105.png" width="500" alt="Commit Changes Image">](https://user-images.githubusercontent.com/51138318/151390757-69ca6d4a-8972-4134-9239-caf02d8fb105.png)
 
 1. Create a Pull Request to request that the changes you made to the [participants](#participants) file be added to the "main" branch of the `https://github.com/finos/{project_slug}` repository
-
    1. Click on "Pull Request" in the GitHub navigation bar
       [<img src="https://user-images.githubusercontent.com/51138318/151392066-eea01c80-1722-4545-8eb3-6a5e09fe8a5e.png" width="500" alt="Opening PR">](https://user-images.githubusercontent.com/51138318/151392066-eea01c80-1722-4545-8eb3-6a5e09fe8a5e.png)
 

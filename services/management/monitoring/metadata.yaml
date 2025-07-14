@@ -1,0 +1,11 @@
+metadata:
+  id: CCC.Monitoring
+  title: Monitoring
+  description: |
+    Provides the ability to continuously observe, track, and analyze
+    the performance, availability, and health of the service resources or
+    applications.
+  version: ""
+  last-modified: "2025-07-04T09:00:00Z"
+  applicability-categories: []
+  mapping-references: []

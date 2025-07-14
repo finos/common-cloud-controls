@@ -31,7 +31,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^CCC\\.[A-Za-z]+\\.F\\d{2,8}$",
+            "pattern": "^CCC\\.[A-Za-z0-9]+\\.F\\d{2,8}$",
             "description": "Capability ID (e.g., CCC.ObjStor.F01)"
           },
           "title": {
