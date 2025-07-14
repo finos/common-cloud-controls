@@ -13,7 +13,7 @@ threats:
   - id: CCC.AUDITLOG.TH01
     title: Insufficient Audit Logs
     description: |
-      If security critical audit events are not logged then it increases the difficult to detect threats
+      If security critical audit events are not logged then it increases the difficulty to detect threats
       and perform post incident analysis.
     capabilities:
       - reference-id: CCC
@@ -29,9 +29,9 @@ threats:
           - CWE-778
           - CWE-223
   - id: CCC.AUDITLOG.TH02
-    title: Insufficient replication of audit logs
+    title: Insufficient Replication of Audit Logs
     description: |
-      If Audit logs are only kept locally and not replicated to a external system then there is a risk
+      If audit logs are only kept locally and not replicated to a external system then there is a risk
       that they can be lost or more easily tampered with.
     capabilities:
       - reference-id: CCC
