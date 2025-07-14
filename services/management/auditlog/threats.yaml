@@ -80,10 +80,10 @@ threats:
   - id: CCC.AUDITLOG.TH04
     title: Insufficient encoding of audit logs
     description: |
-      User-supplied malicious data such as; scripts, code, ASNI escape sequences,
-      Unicode escape characters and CRLF injection can be included in Audit Logs.
-      If not correctly encoded or sanitized then the unexpected log entries can be used
-      as part of a exploit attack chain to effect a service upstream reading the audit logs.
+      User-supplied data such as scripts, control characters, escape sequences, or code fragments 
+      may be written to audit logs without proper encoding or sanitization. This can result in malformed
+      or unexpected log entries that could disrupt or compromise systems that process or display these logs,
+      including log viewers or downstream services.
     capabilities:
       - reference-id: CCC
         identifiers:
@@ -101,3 +101,23 @@ threats:
           - CWE-79
           - CWE-117
           - CWE-116
+  - id: CCC.AUDITLOG.TH05
+    title: Logging Evasion via violating size constraints 
+    description: |
+      An attacker can evade detection by intentionally crafting input that violates the size constraints of a clouds audit logging mechanism. 
+      Many systems impose a maximum size limit on individual log entries. By performing an action with oversized data such as whitespace or Unicode injection, 
+      the resulting log event, which often includes the offending data, exceeds this limit, which often is redacted in the audit logs.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F03
+          - CCC.F10
+    external-mappings:
+      - reference-id: OWASPTOP10
+        identifiers:
+          - A09:2021
+      - reference-id: CWE
+        identifiers:
+          - "CWE-778" # Insufficient Logging
+          - "CWE-223" # Omission of Security-Relevant Information
+          - "CWE-20"
