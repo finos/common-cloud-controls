@@ -1,0 +1,102 @@
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01 # Encryption in Transit
+      - CCC.F02 # Encryption at Rest
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F06 # Identity Based Access Control
+      - CCC.F10 # Logging
+      - CCC.F11 # Backup
+      - CCC.F12 # Recovery
+      - CCC.F14 # API Access
+      - CCC.F18 # Versioning
+      - CCC.F20 # Tagging
+      - CCC.F21 # Replication
+      - CCC.F22 # Location Lock-In
+
+capabilities:
+  - id: CCC.Logging.F01
+    title: Service Log Capture
+    description: |
+      Ability to capture logs from all relevant cloud services at varying
+      levels of verbosity.
+
+  - id: CCC.Logging.F02
+    title: Application Log Ingestion
+    description: |
+      Support for ingesting logs from custom applications deployed within the
+      cloud environment.
+
+  - id: CCC.Logging.F03
+    title: Real-Time Log Ingestion
+    description: |
+      Logs should be ingested in near real-time to enable timely detection and
+      response.
+
+  - id: CCC.Logging.F04
+    title: Centralised Log Collection
+    description: |
+      Ability to centralise logs from different resources within a signle
+      logging solution or platform.
+
+  - id: CCC.Logging.F05
+    title: Custom Log Format Support
+    description: |
+      Ability to ingest custom log formats or data from on-premises systems or
+      other cloud environments via agents.
+
+  - id: CCC.Logging.F06
+    title: Log Filtering & Transformation
+    description: |
+      Ability to to filter, normalise, and transform raw log data at ingestion
+      to optimise storage and enhance usability.
+
+  - id: CCC.Logging.F07
+    title: Imuutable Storage
+    description: |
+      Ability to prevent unauthorized alteration or deletion of logs, ensuring
+      their integrity for auditing and forensic purposes.
+
+  - id: CCC.Logging.F08
+    title: Retention Policies
+    description: |
+      Ability to define and enforce granular retention periods for different
+      log types based on regulatory requirements and internal policies.
+
+  - id: CCC.Logging.F09
+    title: Regional Log Residency
+    description: |
+      Support for storing log data in specific geographical regions to meet
+      data residency and sovereignty requirements.
+
+  - id: CCC.Logging.F10
+    title: Log Alerting
+    description: |
+      Ability to configure alerts based on specific log patterns, thresholds,
+      or anomalies, with integration to external notification systems.
+
+  - id: CCC.Logging.F11
+    title: Anomaly Detection
+    description: |
+      Features to automatically detect unusual or suspicious patterns in log
+      data that might indicate an operational issue or potential security
+      concern.
+
+  - id: CCC.Logging.F12
+    title: Integration with Security Tools
+    description: |
+      Seamless integration with Security Information and Event Management
+      systems, Security Orchestration, Automation, and Response platforms,
+      and other security tools.
+
+  - id: CCC.Logging.F13
+    title: Log-based Metrics
+    description: |
+      Ability to extract quantitative metrics from log data for performance
+      monitoring and operational analysis.
+
+  - id: CCC.Logging.F14
+    title: Automated Log Management
+    description: |
+      Automation of tasks such as log routing, filtering, archiving, and
+      retention policy enforcement.
