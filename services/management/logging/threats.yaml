@@ -56,7 +56,6 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
-          - T1041 # Exfiltration Over C2 Channel
           - T1048 # Exfiltration Over Alternative Protocol
           - T1567 # Exfiltration Over Web Service
           - T1020 # Automated Exfiltration
