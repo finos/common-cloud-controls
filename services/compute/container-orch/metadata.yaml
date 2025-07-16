@@ -1,0 +1,12 @@
+metadata:
+  id: CCC.ContOrch
+  title: CCC Container Orchestrator
+  description: |
+      A service that automates running, scaling and managing of containers
+      that are lightweight, portable, and provide isolated environments for
+      package applications and their dependencies for deployment across
+      different computing environments.
+  version: "2025.06"
+  last-modified: None
+  applicability-categories: []
+  mapping-references: []

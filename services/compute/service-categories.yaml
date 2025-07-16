@@ -26,16 +26,13 @@ service_categories:
       - Google Cloud:
           - Compute Engine
     documentation: compute/virtual-machines/taxonomy.md
-  - id: CCC.Cont
-    title: Containers
+  - id: CCC.ContOrch
+    title: Container Orchestrator
     description: |
-      Containers are lightweight, portable, and isolated environments that
+      A service that automates running, scaling and managing of containers
+      that are lightweight, portable, and provide isolated environments for
       package applications and their dependencies for deployment across
-      different computing environments. Container services provide
-      orchestration, management, and scaling capabilities for containerized
-      workloads using platforms such as Docker and Kubernetes. Cloud providers
-      offer managed container services with capabilities such as container
-      registry, cluster management, and auto-scaling.
+      different computing environments.
     examples:
       - AWS:
           - Elastic Container Service (ECS)
