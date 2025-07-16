@@ -8,6 +8,10 @@ export default function LearnMore() {
     <HomeSection title="Learn More">
       <>
         <div className={styles.videoGrid}>
+          <figure classname={styles.item}>
+            <ReactPlayer width="100%" height="16rem" controls url="https://www.finos.org/hubfs/OSFF%202025%20(Open%20Source%20in%20Finance%20Forum)/OSFF%20London%202025/Video/Breakout%20Talks/Mutualizing%20Risk%20and%20Compliance%20in%20the%20Open/Taming%20Multi-Cloud%20Security_%20Progress%20on%20Common%20Cloud%20Controls%20-%20Michael%20Lysaght%20%26%20Sonali%20Mendis.mp4" />
+            <figcaption>Taming Multi-Cloud Security: Progress on Common Cloud Controls - Michael Lysaght &amp; Sonali Mendis</figcaption>
+          </figure>
           <figure className={styles.item}>
             <ReactPlayer width="100%" height="16rem" controls url="https://youtu.be/8hMRahzwK3k?si=1cxugQyDrKfZIeEc" />
             <figcaption>Damien Burks (Citi) and Gupta Rudra (Krumware) discuss CCC at OSFF New York in 2024.</figcaption>
