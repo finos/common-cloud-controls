@@ -2,62 +2,64 @@ shared-capabilities:
   - reference-id: CCC
     identifiers:
       - CCC.F03 # Access/Activity Logs
+      - CCC.F06 # Identity Based Access Controls
       - CCC.F07 # Event Notifications
       - CCC.F09 # Monitoring
       - CCC.F10 # Logging
+      - CCC.F14 # API Access
       - CCC.F15 # Cost Management
       - CCC.F17 # Alerting
 
 capabilities:
-  - id: CCC.Monitoring.F01
+  - id: CCC.Monit.F01
     title: Metric collection
     description: |
       Gathering numerical (quantitative) data points about the performance,
       health, or behaviour of systems, applications or infrastructure.
-  - id: CCC.Monitoring.F02
+  - id: CCC.Monit.F02
     title: Tracing
     description: |
       An observability technique providing an end-to-end view of a request or
       transaction flow through a complex system to enable a single action to
       be linked to resulting events in multiple downstream systems.
-  - id: CCC.Monitoring.F03
+  - id: CCC.Monit.F03
     title: Reporting
     description: |
       Summarised view of metrics in a structured, sharable format.
-  - id: CCC.Monitoring.F04
+  - id: CCC.Monit.F04
     title: Health Checks
     description: |
       A type of monitoring that focuses on the operational status and
       readiness of components or entire systems.
-  - id: CCC.Monitoring.F05
+  - id: CCC.Monit.F05
     title: SLO Monitoring
     description: |
       Define and monitor Service Level Objectives (SLO) using Service Level Indicators (SLI) based on metrics.
-  - id: CCC.Monitoring.F06
+  - id: CCC.Monit.F06
     title: Synthetic Monitoring
     description: |
       Proactively checking sample user interactions to identify issues before real users are impacted.
-  - id: CCC.Monitoring.F07
+  - id: CCC.Monit.F07
     title: Uptime Monitoring
     description: |
       Checking whether a specific service or application is accessible from an external perspective.
-  - id: CCC.Monitoring.F08
+  - id: CCC.Monit.F08
     title: Application Performance Monitoring (APM)
     description: |
       A comprehensive approach to monitoring the performance, availability and user experience of
       an application through multiple levels of data collection
-  - id: CCC.Monitoring.F09
+  - id: CCC.Monit.F09
     title: Dashboard
     description: |
       A visual representation of the health of systems being monitored. Pulling together metrics,
       current alerts, SLO/SLI's, health checks and other monitoring features into a single location
       to enable a view of the health of the overall system.
-  - id: CCC.Monitoring.F10
+  - id: CCC.Monit.F10
     title: Triggering
     description: |
       Automatically initiating actions like alerts, notifications or automated workflows based
       on pre-defined conditions being met.
-  - id: CCC.Monitoring.F11
+  - id: CCC.Monit.F11
     title: Integration with Third-Party Tools
     description: |
       Monitoring tools are able to integrate with a number of downstream systems in order to send

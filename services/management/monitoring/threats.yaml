@@ -1,0 +1,124 @@
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH08 # Cost Management Data is Manipulated
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH10 # Alerts are Intercepted
+      - CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+      - CCC.TH16 # Logging and Monitoring are Disabled
+
+
+threats:
+  - id: CCC.Monit.TH01
+    title: Capture Personal Identifiable Information
+    description: |
+      Unauthorised viewers may get access to PII if it is incorrectly collected by
+      monitoring systems through metrics or tracing.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Monitoring.F01 # Metric collection
+          - CCC.Monitoring.F02 # Tracing
+          - CCC.Monitoring.F08 # Application Performance Monitoring (APM)
+          - CCC.Monitoring.F09 # Dashboard
+          - CCC.Monitoring.F11 # Integration with Third-Party Tools
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1589 #Gather Victim Identity Information
+  - id: CCC.Monit.TH02
+    title: Health Checks Used to Identify Attack Targets
+    description: |
+      Health Checks are used to inform those responsible for maintaining a system that
+      there is a problem, but if that information gets into the hands of a malicious
+      actor, it can be used to target already problematic systems and mask malicious activity.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Monitoring.F04 # Health Checks
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1590 # Gather Victim Network Information
+  - id: CCC.Monit.TH03
+    title: External Monitoring DoS
+    description: |
+      If an external monitoring service is compromised, it can act as a host for
+      instigating denial of service attacks on internal system which otherwise may
+      not be protected against this form of attack.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Monitoring.F06 # Synthetic Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1574 # Hijack Execution Flow
+          - T1498 # Network Denial of Service
+  - id: CCC.Monit.TH04
+    title: External Monitoring Access
+    description: |
+      If an external monitoring system is compromised, it acts as a trusted external
+      remote service and can then access internal services which would otherwise not
+      be accessible directly.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Monitoring.F06 # Synthetic Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1133 # External Remote Services
+  - id: CCC.Monit.TH05
+    title: Data Exfiltration Through Tampered Metrics
+    description: |
+      If a malicious actor is able to make changes to the metrics being collected, it could
+      be used to encrypt and or compress sensitive data and bypass controls preventing
+      exfiltration. The data can then be staged in the monitoring system and exfiltrated in
+      bulk at a later point in time
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Monitoring.F01 # Metric collection
+          - CCC.Monitoring.F11 # Integration with Third-Party Tools
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1560 # Archive Collected Data
+          - T1074 # Data Staged
+          - T1567 # Exfiltration Over Web Service
+  - id: CCC.Monit.TH06
+    title: Cost Exhaustion Through Tampered Alerts or Metrics Collection
+    description: |
+      Monitoring systems are expected to generate traffic, but it a malicious actor were to
+      change alerts that were being fired at an API which charged per requests or generate
+      large volumes of metric data which would then need to be stored and processed, or even
+      triggering resource scaling, this would cause an increase in cloud bill.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Monitoring.F01 # Metric collection
+          - CCC.Monitoring.F11 # Integration with Third-Party Tools
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1565 # Data Manipulation
+  - id: CCC.Monit.TH07
+    title: Trigger Malicious Code
+    description: |
+      If a malicious actor is able to create new triggers, they would be able to use valid
+      metric data to trigger malicious actions and re-compromise a newly replaced container
+      or compute instance.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.Monitoring.F01 # Metric collection
+          - CCC.Monitoring.F10 # Triggering
+          - CCC.Monitoring.F11 # Integration with Third-Party Tools
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1546 # Event Triggered Execution
