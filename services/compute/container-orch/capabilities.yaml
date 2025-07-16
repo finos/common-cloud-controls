@@ -1,0 +1,100 @@
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01 # Encryption in Transit Enabled by Default
+      - CCC.F02 # Encryption at Rest Enabled by Default
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F06 # Identity Based Access Control
+      - CCC.F08 # Multi-zone Deployment
+      - CCC.F09 # Monitoring
+      - CCC.F10 # Logging
+      - CCC.F12 # Recovery
+      - CCC.F13 # Infrastructure as Code
+      - CCC.F14 # API Access
+      - CCC.F15 # Cost Management
+      - CCC.F16 # Budgeting
+      - CCC.F17 # Alerting
+      - CCC.F18 # Versioning
+      - CCC.F19 # On-demand Scaling
+      - CCC.F20 # Tagging
+      - CCC.F22 # Location Lock-In
+      - CCC.F23 # Network Access Rules
+
+
+capabilities:
+  - id: CCC.ContOrch.F01
+    title: Container Image Execution
+    description: |
+      Supports running containerized workloads using images (recommended
+      using OCI-compliant images), providing an isolated execution
+      environment for applications.
+  - id: CCC.ContOrch.F02
+    title: Registry Integration
+    description: |
+      Enables integration with public or private container registries to
+      retrieve container images for execution.
+  - id: CCC.ContOrch.F03
+    title: Load Balancing
+    description: |
+      Automatically distributes incoming traffic across running container
+      instances to optimize resource usage and availability.
+  - id: CCC.ContOrch.F04
+    title: Auto Scaling
+    description: |
+      Ability to automatically scale the number of containers or the
+      underlying infrastructure based on demand.
+  - id: CCC.ContOrch.F05
+    title: Ingress Control
+    description: |
+      Supports configuring ingress, including HTTPS endpoints, custom domains,
+      and traffic routing rules for services running in containers.
+  - id: CCC.ContOrch.F06
+    title: Outbound Connectivity
+    description: |
+      Allows containers to establish outbound network connections to internal or
+      external services and endpoints.
+  - id: CCC.ContOrch.F07
+    title: Secrets and Configuration Management
+    description: |
+      Supports securely injecting configuration values and secrets into running
+      containers at runtime.
+  - id: CCC.ContOrch.F08
+    title: Lifecycle Hooks
+    description: |
+      Provides mechanisms for managing the deployment process of containerized
+      applications, ensuring that specific actions are performed at various stages
+      of the deployment such as startup and shutdown.
+  - id: CCC.ContOrch.F09
+    title: Health Checks
+    description: |
+      Ability to monitor the health and availabilitu of the containerized application
+      to make sure they are live and can handle traffic.
+  - id: CCC.ContOrch.F10
+    title: Task/Deployment Definitions
+    description: |
+      Supports defining and managing container workloads using declarative
+      configuration formats such as YAML or JSON.
+  - id: CCC.ContOrch.F11
+    title: Event-driven and Scheduled Execution
+    description: |
+      Supports triggering container workloads in response to events or time-based
+      schedules, such as cron jobs or message queue events.
+  - id: CCC.ContOrch.F12
+    title: Service Discovery
+    description: |
+      Provides DNS or environment-based service discovery mechanisms for
+      inter-container communication.
+  - id: CCC.ContOrch.F13
+    title: Storage Integration
+    description: |
+      Supports attaching ephemeral or persistent storage volumes to running containers.
+  - id: CCC.ContOrch.F14
+    title: Managed Kubernetes
+    description: |
+      Provide ability to run fully managed Kubernetes cluster which uses open-source
+      API and ecosystem.
+  - id: CCC.ContOrch.F15
+    title: Observability Integration
+    description: |
+      Ability integrate tools and practices that allow you to monitor, trace, and log
+      the behavior and performance of your cluster.
