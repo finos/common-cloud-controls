@@ -2,6 +2,7 @@ shared-capabilities:
   - reference-id: CCC
     identifiers:
       - CCC.F03 # Access/Activity Logs
+      - CCC.F06 # Identity Based Access Control
       - CCC.F07 # Event Notifications
       - CCC.F13 # Infrastructure as Code
       - CCC.F14 # API Access
@@ -18,82 +19,90 @@ capabilities:
     title: IAM Users
     description: |
       Ability to create, manage, list and delete IAM users.
-      IAM user represents a single person or application. Long-term
-      credentials (username/password, access keys).
+      IAM user represents a single person or application.
   - id: CCC.IAM.F03
+    title: Long-Term Credentials
+    description: |
+      Ability to create, manage, list and delete long-term
+      credentials such as access keys and service account keys.
+  - id: CCC.IAM.F04
+    title: Password Management
+    description: |
+      Ability to create, change and delete IAM user passwords.
+  - id: CCC.IAM.F05
     title: IAM Groups
     description: |
       Ability to create, manage, list and delete IAM groups.
-      IMA group is a collection of users, roles or other groups.
-  - id: CCC.IAM.F04
+      IAM group is a collection of users, roles or other groups.
+  - id: CCC.IAM.F06
     title: IAM Roles / Service Principals
     description: |
       Ability to create, manage, list and delete IAM roles.
-      IMA role is an identity for applications or services to
+      IAM role is an identity for applications or services to
       access resources.
-  - id: CCC.IAM.F05
+  - id: CCC.IAM.F07
     title: Managed Identities
     description: |
       Identity assigned to cloud resources (e.g., VMs, Functions) which
       are managed by the cloud vendor.
-  - id: CCC.IAM.F06
+  - id: CCC.IAM.F08
     title: Federated Identity - SAML
     description: |
       Support for user authentication outside the cloud service
       provider using SAML. Authenticated federated identities can
       assume IAM roles.
-  - id: CCC.IAM.F07
+  - id: CCC.IAM.F09
     title: Federated Identity - OIDC
     description: |
       Support for user authentication outside the cloud service
       provider using OIDC. Authenticated federated identities can
       assume IAM roles.
-  - id: CCC.IAM.F08
+  - id: CCC.IAM.F10
     title: Custom Roles
     description: |
       Ability to create, manage, list and delete custom roles.
       Custom roles are user-defined roles that defines what
       actions are allowed.
-  - id: CCC.IAM.F09
+  - id: CCC.IAM.F11
     title: Resource-Level Access
     description: |
       Ability to restrict where actions are allowed, rather than
       the entire service. Defines the scope of the assignment.
-  - id: CCC.IAM.F10
+  - id: CCC.IAM.F12
     title: Policy Conditions
     description: |
       Ability to use conditions to add additional restrictions
       to the permission being granted. Allow access control rules
       to apply only when certain conditions are met.
-  - id: CCC.IAM.F11
+  - id: CCC.IAM.F13
     title: Temporary Credentials
     description: |
       Ability to grant short-lived security credentials that provide
       access to resources for a limited period of time. These credentials
       are typically issued for a specific session or task and expire
       after a predefined duration.
-  - id: CCC.IAM.F12
+  - id: CCC.IAM.F14
     title: Multi-Factor Authentication (MFA)
     description: |
       Support for enforcing MFA on user accounts and roles. Essential
       for securing root/admin users.
-  - id: CCC.IAM.F13
+  - id: CCC.IAM.F15
     title: Role Assumption / Delegation
     description: |
       Ability to temporarily assume another role or delegate access.
       Commonly used for user impersonation or temporary privilege
       elevation.
-  - id: CCC.IAM.F14
+  - id: CCC.IAM.F16
     title: Access Boundaries
     description: |
       Ability to define a boundary around the maximum effective permissions
       allowed for an identity at a higher level.
-  - id: CCC.IAM.F15
+  - id: CCC.IAM.F17
     title: Deny Permissions by Default
     description: |
       By default, no identity (user, group, role, service) has access to
       any resource, unless explicit permissions are granted.
-  - id: CCC.IAM.F14
+  - id: CCC.IAM.F18
     title: Audit Tooling
     description: |
       Provide tools to simulate or analyze permission used by a roles,
