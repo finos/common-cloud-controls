@@ -6,7 +6,6 @@ shared-threats:
       - CCC.TH06 # Data is Lost or Corrupted
       - CCC.TH07 # Logs are Tampered With or Deleted
       - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH10 # Alerts are Intercepted
       - CCC.TH16 # Logging and Monitoring are Disabled
 
 threats:
