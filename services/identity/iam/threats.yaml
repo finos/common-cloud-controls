@@ -14,7 +14,7 @@ threats:
     title: Valid Cloud Credentials Abuse
     description: |
       Valid identity credentials such as access keys, tokens or passwords are misused or
-      compromised, for example, through public exposure, token theft, unprotected
+      compromised. Examples include public exposure, token theft, unprotected
       metadata service of a compromised compute instance or brute-force attacks.
       The use of these credentials can provide unauthorized access to the cloud environment,
       potentially bypassing other security controls and enabling lateral movement across
@@ -40,7 +40,7 @@ threats:
   - id: CCC.IAM.TH02
     title: Overly-Permissive IAM Policy
     description: |
-      An access control policy attached to an identity (e.g., user, role) or a resource is
+      An access control policy attached to an identity or a resource is
       configured with excessive permissions, violating the principle of least privilege.
       This can enable unauthorized data access, privilege escalation, or other unintended
       actions by principals whose credentials might be compromised or who are acting erroneously.
