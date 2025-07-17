@@ -1,0 +1,128 @@
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - CCC.TH06 # Data is Lost or Corrupted
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH16 # Logging and Monitoring are Disabled
+
+threats:
+  - id: CCC.AUDITLOG.TH01
+    title: Insufficient Audit Logs
+    description: |
+      If security critical audit events are not logged then it increases the difficulty to detect threats
+      and perform post incident analysis.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F03
+          - CCC.F10
+    external-mappings:
+      - reference-id: OWASPTOP10
+        identifiers:
+          - A09:2021
+      - reference-id: CWE
+        identifiers:
+          - CWE-778
+          - CWE-223
+  - id: CCC.AUDITLOG.TH02
+    title: Log Ingestion Latency
+    description: |
+      Large spikes or sustained delays in log ingestion may degrade the timeliness
+      and completeness of security telemetry.
+      This can increase the time required to detect and investigate threats,
+      potentially impacting incident response effectiveness.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F03
+          - CCC.F10
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - TA0005
+      - reference-id: OWASPTOP10
+        identifiers:
+          - A09:2021
+      - reference-id: CWE
+        identifiers:
+          - CWE-778
+          - CWE-223
+  - id: CCC.AUDITLOG.TH03
+    title: Sensitive Data Logged
+    description: |
+      Sensitive information such as  passwords, environment variables,
+      or personally identifiable information (PII)
+      may be included in audit logs due to a number of reasons such as;
+      end user human error, developers not sanitizing fields or
+      maliciously by a threat actor attempting to exfil data.
+      This can lead to unauthorized disclosure if logs are accessed by
+      unintended parties or forwarded to external systems.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.AuditLog.F03 # Sink
+          - CCC.AuditLog.F08 # External Sink
+          - CCC.F03
+          - CCC.F10
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - TA0006
+      - reference-id: OWASPTOP10
+        identifiers:
+          - A09:2021
+          - A02:2021
+      - reference-id: CWE
+        identifiers:
+          - CWE-532
+          - CWE-200
+  - id: CCC.AUDITLOG.TH04
+    title: Insufficient encoding of audit logs
+    description: |
+      User-supplied data such as scripts, control characters, escape sequences, or code fragments
+      may be written to audit logs without proper encoding or sanitization. This can result in malformed
+      or unexpected log entries that could disrupt or compromise systems that process or display these logs,
+      including log viewers or downstream services.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.AuditLog.F03 # Sink
+          - CCC.AuditLog.F08 # External Sink
+          - CCC.F03
+          - CCC.F10
+    external-mappings:
+      - reference-id: OWASPTOP10
+        identifiers:
+          - A03:2021
+          - A09:2021
+      - reference-id: CWE
+        identifiers:
+          - CWE-79
+          - CWE-117
+          - CWE-116
+  - id: CCC.AUDITLOG.TH05
+    title: Logging Evasion via violating size constraints
+    description: |
+      An attacker can evade detection by intentionally crafting input that violates
+      the size constraints of a clouds audit logging mechanism.
+      Many systems impose a maximum size limit on individual log entries.
+      By performing an action with oversized data such as whitespace or Unicode injection,
+      the resulting log event, which often includes the offending data,
+      exceeds this limit, which often is redacted in the audit logs.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F03
+          - CCC.F10
+    external-mappings:
+      - reference-id: OWASPTOP10
+        identifiers:
+          - A09:2021
+      - reference-id: CWE
+        identifiers:
+          - "CWE-778" # Insufficient Logging
+          - "CWE-223" # Omission of Security-Relevant Information
+          - "CWE-20"
