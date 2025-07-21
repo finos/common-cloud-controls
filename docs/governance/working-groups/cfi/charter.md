@@ -47,7 +47,7 @@ The following are outside the scope of this working group:
 
 ## Governance
 
-This [WG] will remain compliant with all applicable community [policies]. Under the guidance of the WG Lead, this group will align with the broader framework set by the \[Community Structure WG].
+This [WG] will remain compliant with all applicable community [policies]. Under the guidance of the WG Lead, this group will align with the broader framework set by the [Community Structure WG].
 
 ### Membership
 
@@ -78,4 +78,6 @@ Any functional changes to this charter must be approved through a majority vote 
 [Communications WG]: ../communications/charter.md
 [Delivery WG]: ../delivery/charter.md
 [Security WG]: ../security/charter.md
+[Community Structure WG]: ../community-structure/charter.md
+
 
