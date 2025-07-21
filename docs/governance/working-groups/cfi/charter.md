@@ -64,7 +64,7 @@ The following sub-groups have been created under this WG:
 
 ### Meeting & Communications
 
-* This working group will use the mailing list [ccc-compliant-fininfra@lists.finos.org](mailto:ccc-compliant-fininfra@lists.finos.org) for official communications.
+* This working group will use the mailing list [ccc](mailto:cfi+subscribe@lists.finos.org) for official communications.
 * Regular meetings will be held at least once every three (3) weeks, excluding November and December.
 * The WG Lead or delegate must provide verbal or written updates at each public [SC] meeting.
 
