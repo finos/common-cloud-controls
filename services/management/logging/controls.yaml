@@ -97,8 +97,10 @@ control-families:
       - id: CCC.Logging.C03
         title: Enable Object Lock On Log Bucket
         objective: |
-          Ensure log immutability by enabling object lock on log buckets to prevent
-          objects from being deleted or modified for a set retention period.
+          Ensure log immutability by enabling Write Once, Read Many (WORM) protection
+          using object lock on log storage buckets. This prevents logs from being modified
+          or deleted during the defined retention period, supporting compliance and forensic
+          integrity.
         assessment-requirements:
           - id: CCC.AuditLog.C08.TR01
             text: |
@@ -161,7 +163,8 @@ control-families:
         title: Ensure Log Bucket is Not Publicly Accessible
         objective: |
           Ensure that log storage buckets are not publicly accessible to prevent unauthorized
-          exposure of sensitive log data.
+          access to sensitive log data. In addition, logs should be replicated to another cloud
+          region to enhance availability, durability, and support disaster recovery requirements.
         assessment-requirements:
           - id: CCC.Logging.C05.TR01
             text: |
