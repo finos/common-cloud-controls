@@ -141,8 +141,8 @@ threats:
   - id: CCC.Logging.TH07
     title: Insufficient Logging
     description: |
-      If security critical actions are not logged then it increases the difficulty to
-      detect threats and perform post incident analysis.
+      If security-critical actions are not logged, it becomes more difficult to
+      detect threats and conduct post-incident analysis.
     capabilities:
       - reference-id: CCC.Logging
         identifiers:
