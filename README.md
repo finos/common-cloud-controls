@@ -35,9 +35,9 @@ The CCC project is split into 6 working groups as follows:
 - **Communications / All Hands**: Focused on the overall project communications and community engagement.
 - **Security** - Working to specify the security controls and threats that will be covered by the standard.
 - **Community Structure** - Focused on the governance and structure of the CCC project.
-- **Duplication Reduction** - Focused on ensuring that the CCC standard does not duplicate existing standards.
 - **Taxonomy** - Focused on defining the taxonomy of cloud services that will be covered by the standard.
 - **Delivery** - Focused on the delivery of the CCC standard for use downstream by FS firms and CSPs.
+- **Compliant Financial Infrastructure** - Focused on delivery of actual implemetations of cloud infrastructure meeting CCC standards.
 
 Work is done in the open, with all meetings and decisions documented in the project GitHub repository. Working groups meet on a fortnightly basis:
 
@@ -47,8 +47,8 @@ Work is done in the open, with all meetings and decisions documented in the proj
 | [Delivery](/docs/governance/working-groups/delivery/charter.md)                           | 4:30PM UK, 1st and 3rd Thursday each month | @damienjburks        | [ccc-delivery](mailto:ccc-delivery+subscribe@lists.finos.org)             |
 | [Communications / All Hands](/docs/governance/working-groups/communications/charter.md)   | 5PM UK, 1st and 3rd Thursday each month    | @Alexstpierrework    | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
 | [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                           | 4:30PM UK, 2nd and 4th Thursday each month | @smendis-scottlogic  | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
-| [Community Structure](/docs/governance/working-groups/community-structure/charter.md)     | 5PM UK, 2nd and 4th Thursday each month    | @sshiells-scottlogic | [ccc-structure](mailto:ccc-structure+subscribe@lists.finos.org)           |
-| [Duplication Reduction](/docs/governance/working-groups/duplication-reduction/charter.md) | 5:30PM UK, 2nd and 4th Thursday each month | @jared-lambert       | [ccc-duplication](mailto:ccc-duplication-reduction@lists.finos.org)       |
+| [Community Structure](/docs/governance/working-groups/community-structure/charter.md)     | - async -                                  | @sshiells-scottlogic | [ccc-structure](mailto:ccc-structure+subscribe@lists.finos.org)           |
+| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)       |  5PM UK, 2nd and 4th Thursday each month   | @eddie-knight        | Please use [ccc-participants](mailto:ccc-participants@lists.finos.org)    |
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
