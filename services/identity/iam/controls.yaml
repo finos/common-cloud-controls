@@ -178,7 +178,15 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              When a new cloud account is provisioned, a password policy must be configured for
+              all IAM users to align with the minimum requirements defined in PCI DSS v4.0.1.
+              This includes, at a minimum:
+              - A password length of at least 12 characters.
+              - A mix of upper- and lower-case letters, numbers, and special characters.
+              - Prevention of the use of previously used passwords (password history).
+              - Password expiration at a defined interval (e.g., every 90 days).
+              - Account lockout after a defined number of failed login attempts.
         threat-mappings:
           - reference-id: CCC
             identifiers:
@@ -215,7 +223,14 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              When a static credential such as an access key has existed for 90 days or more,
+              it must be automatically rotated to reduce the risk of compromise due to long-term
+              exposure. Organizations should implement automated checks to identify aging credentials
+              and enforce rotation policies. Additionally, access key usage should be regularly monitored,
+              and credentials that are no longer in use should be deactivated or deleted promptly.
+              Where possible, prefer temporary, short-lived credentials over long-lived static ones
+              to further minimize risk.
         threat-mappings:
           - reference-id: CCC
             identifiers:
@@ -273,7 +288,9 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              IAM user credentials (such as passwords or access keys) that have not been used
+              for 90 days or more must be automatically removed or deactivated.
         threat-mappings:
           - reference-id: CCC
             identifiers:
