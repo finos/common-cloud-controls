@@ -79,5 +79,3 @@ Any functional changes to this charter must be approved through a majority vote 
 [Delivery WG]: ../delivery/charter.md
 [Security WG]: ../security/charter.md
 [Community Structure WG]: ../community-structure/charter.md
-
-
