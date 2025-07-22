@@ -65,35 +65,29 @@ capabilities:
       log types based on regulatory requirements and internal policies.
 
   - id: CCC.Logging.F09
-    title: Regional Log Residency
-    description: |
-      Support for storing log data in specific geographical regions to meet
-      data residency and sovereignty requirements.
-
-  - id: CCC.Logging.F10
     title: Internal Sink
     description: |
       Ability to continuously stream log data to a hosted storage bucket or data lake solution within the cloud service provider.
 
-  - id: CCC.Logging.F11
+  - id: CCC.Logging.F10
     title: External Sink
     description: |
       Log events can be configured to be sent to a external SIEM or data analysis
       provider outside of the cloud platform.
 
-  - id: CCC.Logging.F12
+  - id: CCC.Logging.F11
     title: Log-based Metrics
     description: |
       Ability to extract quantitative metrics from log data for performance
       monitoring and operational analysis.
 
-  - id: CCC.Logging.F13
+  - id: CCC.Logging.F12
     title: Automated Log Management
     description: |
       Automation of tasks such as log routing, filtering, archiving, and
       retention policy enforcement.
 
-  - id: CCC.Logging.F14
+  - id: CCC.Logging.F13
     title: Field Indexing
     description: |
       Supports field-based indexing to improve log query performace.
