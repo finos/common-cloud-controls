@@ -52,7 +52,7 @@ threats:
           - CCC.F14 # API Access
       - reference-id: CCC.Logging
         identifiers:
-          - CCC.Logging.F09 # Regional Log Residency
+          - CCC.F22 # Location Lock-In
     external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -71,7 +71,7 @@ threats:
         identifiers:
           - CCC.Logging.F05 # Custom Log Format Support
           - CCC.Logging.F06 # Log Filtering & Transformation
-          - CCC.Logging.F12 # Log-based Metrics
+          - CCC.Logging.F11 # Log-based Metrics
     external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
@@ -107,7 +107,7 @@ threats:
         identifiers:
           - CCC.Logging.F07 # Immutable Storage
           - CCC.Logging.F08 # Retention Policies
-          - CCC.Logging.F13 # Automated Log Management
+          - CCC.Logging.F12 # Log Archiving
     external-mappings:
       - reference-id: MITRE-ATT&CK
         identifiers:
