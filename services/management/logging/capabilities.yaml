@@ -71,9 +71,9 @@ capabilities:
       data residency and sovereignty requirements.
 
   - id: CCC.Logging.F10
-    title: Sink
+    title: Internal Sink
     description: |
-      Ability to continually stream log data to a hosted storage bucket or data lake solution.
+      Ability to continuously stream log data to a hosted storage bucket or data lake solution within the cloud service provider.
 
   - id: CCC.Logging.F11
     title: External Sink
