@@ -67,7 +67,8 @@ capabilities:
   - id: CCC.Logging.F09
     title: Internal Sink
     description: |
-      Ability to continuously stream log data to a hosted storage bucket or data lake solution within the cloud service provider.
+      Ability to continuously stream log data to a hosted storage bucket or data lake
+      solution within the cloud service provider.
 
   - id: CCC.Logging.F10
     title: External Sink
