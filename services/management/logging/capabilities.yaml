@@ -82,10 +82,9 @@ capabilities:
       monitoring and operational analysis.
 
   - id: CCC.Logging.F12
-    title: Automated Log Management
+    title: Log Archiving
     description: |
-      Automation of tasks such as log routing, filtering, archiving, and
-      retention policy enforcement.
+      Ability to archive logs that are no longer needed but must be retained.
 
   - id: CCC.Logging.F13
     title: Field Indexing
