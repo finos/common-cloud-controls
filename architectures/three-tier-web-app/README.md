@@ -26,11 +26,11 @@ This document maps the services used in a standard 3-tier application architectu
 
 ## 🔐 Security and IAM
 
-| **Component**           | **Google Cloud**                     | **Amazon Web Services (AWS)**            | **Microsoft Azure**                         | **CCC Service**                |
-| ----------------------- | ------------------------------------ | ---------------------------------------- | ------------------------------------------- | ------------------------------ |
-| **Identity and Access** | Identity and Access Management (IAM) | AWS Identity and Access Management (IAM) | Azure Active Directory + Managed Identities | Identity and Access Management |
-| **Encryption**          | Key Management Service               | AWS KMS                                  | Azure Key Vault                             | Key Management                 |
-| **Firewall Rules**      | VPC Firewall Rules                   | Security Groups and Network ACLs         | Azure Network Security Groups (NSGs)        | Virtual Private Cloud          |
+| **Component**                | **Google Cloud**                     | **Amazon Web Services (AWS)**            | **Microsoft Azure**                         | **CCC Service**                |
+| ---------------------------- | ------------------------------------ | ---------------------------------------- | ------------------------------------------- | ------------------------------ |
+| **Identity and Access**      | Identity and Access Management (IAM) | AWS Identity and Access Management (IAM) | Azure Active Directory + Managed Identities | Identity and Access Management |
+| **Encryption**               | Key Management Service               | AWS KMS                                  | Azure Key Vault                             | Key Management                 |
+| **Web Application Firewall** | Google Cloud Armor                   | AWS WAF                                  | Azure WAF                                   | Web Application Firewall       |
 
 ---
 
@@ -38,9 +38,9 @@ This document maps the services used in a standard 3-tier application architectu
 
 | **Component**     | **Google Cloud**        | **Amazon Web Services (AWS)** | **Microsoft Azure**                | **CCC Service**         |
 | ----------------- | ----------------------- | ----------------------------- | ---------------------------------- | ----------------------- |
-| **Monitoring**    | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | Management & Governance |
-| **Logging**       | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | Management & Governance |
-| **Audit Logging** | Google Cloud Audit Logs | AWS CloudTrail                | Azure Activity Logs                | Management & Governance |
+| **Monitoring**    | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | Monitoring              |
+| **Logging**       | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | Logging                 |
+| **Auditing**      | Google Cloud Audit Logs | AWS CloudTrail                | Azure Activity Logs                | Tracing                 |
 
 ---
 
