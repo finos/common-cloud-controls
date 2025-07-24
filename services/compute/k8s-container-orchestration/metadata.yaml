@@ -8,7 +8,6 @@ metadata:
       that package applications and their dependencies for deployment across
       different computing environments.
   version: "2025.10"
-  last-modified: "2025-07-23T1922:20:54+01:00"
+  last-modified: "2025-07-23T22:20:54+01:00"
   applicability-categories: []
   mapping-references: []
-  
