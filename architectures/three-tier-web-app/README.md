@@ -36,11 +36,11 @@ This document maps the services used in a standard 3-tier application architectu
 
 ## 📊 Monitoring and Logging
 
-| **Component**     | **Google Cloud**        | **Amazon Web Services (AWS)** | **Microsoft Azure**                | **CCC Service**         |
-| ----------------- | ----------------------- | ----------------------------- | ---------------------------------- | ----------------------- |
-| **Monitoring**    | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | Monitoring              |
-| **Logging**       | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | Logging                 |
-| **Auditing**      | Google Cloud Audit Logs | AWS CloudTrail                | Azure Activity Logs                | Tracing                 |
+| **Component**  | **Google Cloud**        | **Amazon Web Services (AWS)** | **Microsoft Azure**                | **CCC Service** |
+| -------------- | ----------------------- | ----------------------------- | ---------------------------------- | --------------- |
+| **Monitoring** | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | Monitoring      |
+| **Logging**    | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | Logging         |
+| **Auditing**   | Google Cloud Audit Logs | AWS CloudTrail                | Azure Activity Logs                | Tracing         |
 
 ---
 
