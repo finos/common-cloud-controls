@@ -1,0 +1,6 @@
+capabilities:
+  - id: DPS.SEC.F01
+    title: Security Controls
+    description: |
+      Provides encryption, access controls, and compliance features
+      to secure data processing workflows.

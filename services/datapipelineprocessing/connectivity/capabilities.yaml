@@ -1,0 +1,24 @@
+capabilities:
+  - id: DPS.CONN.F01
+    title: Multi-Source Connectivity
+    description: |
+      Provides the ability to connect to databases, data warehouses, file systems,
+      streaming sources, and cloud storage services across different platforms.
+
+  - id: DPS.CONN.F02
+    title: Cloud-Native Integration
+    description: |
+      Provides deep integration with respective cloud ecosystems and
+      native cloud services for seamless data processing workflows.
+
+  - id: DPS.CONN.F03
+    title: Hybrid Connectivity
+    description: |
+      Provides support for connecting to on-premises data sources
+      through secure connections and gateways.
+
+  - id: DPS.CONN.F04
+    title: Programmatic Access
+    description: |
+      Provides REST APIs and cloud-specific SDKs for automation
+      and custom integrations with the data pipeline service.
