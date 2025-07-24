@@ -97,4 +97,3 @@ capabilities:
     description: |
       Ability integrate with Observability tooling such as Prometheus and Grafana
       to provide comprehensive monitoring, and visualization for Kubernetes clusters.
-
