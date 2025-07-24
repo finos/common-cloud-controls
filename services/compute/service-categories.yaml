@@ -31,7 +31,7 @@ service_categories:
     description: |
       Fully managed platform that provide orchestration, management, and
       scaling capabilities for containerized workloads using Kubernetes.
-      These containers are lightweight, portable, and isolated environments 
+      These containers are lightweight, portable, and isolated environments
       that package applications and their dependencies for deployment across
       different computing environments.
     examples:
