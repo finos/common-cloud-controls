@@ -23,72 +23,78 @@ capabilities:
     description: |
       Provides a fully managed Kubernetes control plane that has
       high availability, with automatic updates and patching.
-  - id: CCC.KubeCont.F01
+  - id: CCC.KubeCont.F02
     title: Managed Node Pool
     description: |
-      S
-  - id: CCC.KubeCont.F01
+      Provides fully managed Kubernetes worker nodes (compute resources).
+      These nodes are provisioned, updated, patched, and monitored for you
+      by the service.
+  - id: CCC.KubeCont.F03
     title: Serverless Nodes
     description: |
-      Offers serverless compute to eliminate the need to manage underlying nodes.
-  - id: CCC.KubeCont.F01
+      Ability to have serverless compute resources to power Kubernetes
+      worker nodes. This will eliminate the need to manage underlying nodes.
+  - id: CCC.KubeCont.F04
     title: GPU Support
     description: |
-      Support for using GPU Instances for pods.
-  - id: CCC.KubeCont.F01
-    title: Ingress Load Balancing
-    description: |
-      Automatically distributes incoming traffic across running container
-      instances to optimize resource usage and availability.
-  - id: CCC.ContOrch.F04
-    title: Cluster Auto Scaling
-    description: |
-      Ability to automatically scale the number of pods based on demand.
-  - id: CCC.KubeCont.F01
-    title: Private Cluster Endpoints
-    description: |
-      Private cluster availability.
-  - id: CCC.KubeCont.F01
-    title: Kubernetes RBAC
-    description: |
-      S
-  - id: CCC.KubeCont.F01
-    title: Kubernetes Tools
-    description: |
-      Support integration of standard Kubernetes tools such askubectl, helm.
-  - id: CCC.KubeCont.F01
-    title: Add-ons/Extentions
-    description: |
-      Ability to plus and play functionality or components.
-  - id: CCC.KubeCont.F01
-    title: Private API Server
-    description: |
-      A
-  - id: CCC.KubeCont.F01
-    title: Secrets Integration
-    description: |
-      A
-  - id: CCC.KubeCont.F01
+      Support for GPU-accelerated workloads through integration of GPUs,
+      enabling high-performance computing.
+  - id: CCC.KubeCont.F05
     title: OCI Container Image Execution
     description: |
-      Supports running containerized workloads using images (recommended
-      using OCI-compliant images), providing an isolated execution
-      environment for applications.
-  - id: CCC.KubeCont.F02
+      Supports running containerized workloads using OCI-compliant images,
+      providing an isolated execution environment for applications.
+  - id: CCC.KubeCont.F06
     title: Container Registry Integration
     description: |
       Enables integration with public or private container registries to
       retrieve container images for execution.
-  - id: CCC.KubeCont.F02
-    title: Image Scanning
-    description: |
-      E
-  - id: CCC.KubeCont.F02
-    title: Observability Tooling Integration
-    description: |
-      Ability integrate tools and practices that allow you to monitor, trace, and log
-      the behavior and performance of your cluster.Ability to integrate with managed promethues and grafana.
-  - id: CCC.ContOrch.F13
+  - id: CCC.ContOrch.F07
     title: Storage Integration
     description: |
-      Supports attaching ephemeral or persistent storage volumes to running containers.
+      Supports attaching ephemeral or persistent storage volumes to running containers
+      in the Kubernetes cluster.
+  - id: CCC.KubeCont.F08
+    title: Built-in Ingress Load Balancing
+    description: |
+      Built-in support for distributes incoming traffic across running container
+      instances to optimize resource usage and availability.
+  - id: CCC.ContOrch.F09
+    title: Cluster Auto Scaling
+    description: |
+      Ability to automatically scale the number of worker nodes in the cluster
+      based on workload demand, ensuring efficient resource utilization.
+  - id: CCC.KubeCont.F10
+    title: Private Cluster Endpoints
+    description: |
+      Ability to restrict access to the Kubernetes API server to private networks,
+      ensuring the control plane is only accessible within your VPC.
+  - id: CCC.KubeCont.F11
+    title: Kubernetes RBAC
+    description: |
+      Ability to define Kubernetes RBAC (Role-Based Access Control) that manages
+      permissions by defining roles and role bindings to control access to cluster
+      resources for users, groups, or service accounts.
+  - id: CCC.KubeCont.F12
+    title: Kubernetes Tools
+    description: |
+      Seamless integration of standard Kubernetes tools such as kubectl, helm,
+      ensuring compatibility with the upstream Kubernetes ecosystem.
+  - id: CCC.KubeCont.F13
+    title: Add-ons/Extentions
+    description: |
+      Enables easy addition and configuration of add-ons, allowing users to
+      deploy and manage Kubernetes extensions like monitoring, logging,
+      and networking tools.
+  - id: CCC.KubeCont.F14
+    title: Secrets Integration
+    description: |
+      Ability to seamlessly integrate with cloud native secret manager service
+      to securely manage and access secrets, such as API keys, database credentials,
+      or certificates, within Kubernetes workloads.
+  - id: CCC.KubeCont.F15
+    title: Observability Tooling Integration
+    description: |
+      Ability integrate with Observability tooling such as Prometheus and Grafana
+      to provide comprehensive monitoring, and visualization for Kubernetes clusters.
+
