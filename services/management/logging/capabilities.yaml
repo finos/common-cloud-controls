@@ -1,0 +1,93 @@
+shared-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01 # Encryption in Transit
+      - CCC.F02 # Encryption at Rest
+      - CCC.F03 # Access/Activity Logs
+      - CCC.F06 # Identity Based Access Control
+      - CCC.F10 # Logging
+      - CCC.F11 # Backup
+      - CCC.F12 # Recovery
+      - CCC.F14 # API Access
+      - CCC.F17 # Alertingq
+      - CCC.F18 # Versioning
+      - CCC.F20 # Tagging
+      - CCC.F21 # Replication
+      - CCC.F22 # Location Lock-In
+
+capabilities:
+  - id: CCC.Logging.F01
+    title: Service Log Capture
+    description: |
+      Ability to capture logs from all relevant cloud services at varying
+      levels of verbosity.
+
+  - id: CCC.Logging.F02
+    title: Application Log Ingestion
+    description: |
+      Support for ingesting logs from custom applications deployed within the
+      cloud environment.
+
+  - id: CCC.Logging.F03
+    title: Real-Time Log Ingestion
+    description: |
+      Logs should be ingested in near real-time to enable timely detection and
+      response.
+
+  - id: CCC.Logging.F04
+    title: Centralised Log Collection
+    description: |
+      Ability to centralise logs from different resources within a signle
+      logging solution or platform.
+
+  - id: CCC.Logging.F05
+    title: Custom Log Format Support
+    description: |
+      Ability to ingest custom log formats or data from on-premises systems or
+      other cloud environments via agents.
+
+  - id: CCC.Logging.F06
+    title: Log Filtering & Transformation
+    description: |
+      Ability to to filter, normalise, and transform raw log data at ingestion
+      to optimise storage and enhance usability.
+
+  - id: CCC.Logging.F07
+    title: Immutable Storage
+    description: |
+      Ability to prevent unauthorized alteration or deletion of logs, ensuring
+      their integrity for auditing and forensic purposes.
+
+  - id: CCC.Logging.F08
+    title: Retention Policies
+    description: |
+      Ability to define and enforce granular retention periods for different
+      log types based on regulatory requirements and internal policies.
+
+  - id: CCC.Logging.F09
+    title: Internal Sink
+    description: |
+      Ability to continuously stream log data to a hosted storage bucket or data lake
+      solution within the cloud service provider.
+
+  - id: CCC.Logging.F10
+    title: External Sink
+    description: |
+      Log events can be configured to be sent to a external SIEM or data analysis
+      provider outside of the cloud platform.
+
+  - id: CCC.Logging.F11
+    title: Log-based Metrics
+    description: |
+      Ability to extract quantitative metrics from log data for performance
+      monitoring and operational analysis.
+
+  - id: CCC.Logging.F12
+    title: Log Archiving
+    description: |
+      Ability to archive logs that are no longer needed but must be retained.
+
+  - id: CCC.Logging.F13
+    title: Field Indexing
+    description: |
+      Supports field-based indexing to improve log query performace.
