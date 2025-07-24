@@ -1,0 +1,13 @@
+metadata:
+  id: CCC.KubeCont
+  title: CCC Kubernetes Based Container Orchestration
+  description: |
+      Fully managed platform that provide orchestration, management, and
+      scaling capabilities for containerized workloads using Kubernetes.
+      These containers are lightweight, portable, and isolated environments 
+      that package applications and their dependencies for deployment across
+      different computing environments.
+  version: "2025.10"
+  last-modified: "2025-07-23T1922:20:54+01:00"
+  applicability-categories: []
+  mapping-references: []

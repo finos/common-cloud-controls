@@ -26,19 +26,16 @@ service_categories:
       - Google Cloud:
           - Compute Engine
     documentation: compute/virtual-machines/taxonomy.md
-  - id: CCC.Cont
-    title: Containers
+  - id: CCC.KubeCont
+    title: Kubernetes Based Container Orchestration
     description: |
-      Containers are lightweight, portable, and isolated environments that
-      package applications and their dependencies for deployment across
-      different computing environments. Container services provide
-      orchestration, management, and scaling capabilities for containerized
-      workloads using platforms such as Docker and Kubernetes. Cloud providers
-      offer managed container services with capabilities such as container
-      registry, cluster management, and auto-scaling.
+      Fully managed platform that provide orchestration, management, and
+      scaling capabilities for containerized workloads using Kubernetes.
+      These containers are lightweight, portable, and isolated environments 
+      that package applications and their dependencies for deployment across
+      different computing environments.
     examples:
       - AWS:
-          - Elastic Container Service (ECS)
           - Elastic Kubernetes Service (EKS)
       - Azure:
           - Azure Kubernetes Service (AKS)
