@@ -148,7 +148,7 @@ threats:
   - id: CCC.IAM.TH08
     title: Privilege Escalation via Indirect Role Usage
     description: |
-      An identity principal possesses specific, powerful permissions, such as the
+      An identity principal possesses specific, highly privileged permissions, such as the
       ability to pass roles or impersonate service accounts, that allow it to leverage
       the permissions of a different, more privileged role. Even without being able
       to directly assume the target role, the principal can attach it to a new resource
