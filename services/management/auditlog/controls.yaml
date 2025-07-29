@@ -14,7 +14,7 @@ shared-controls:
       - CCC.C11 # Enforce Key Management Policies
 control-families:
   - title: Integrity
-    description: 'Controls designed to protected the integrity of Audit Log data.'
+    description: Controls designed to protected the integrity of Audit Log data.
     controls:
       - id: CCC.AuditLog.C01
         title: Implement Digital Signatures With Hash Chaining
@@ -144,7 +144,7 @@ control-families:
               - AU-2
               - AU-3
   - title: Availability
-    description: 'Controls designed to protected the availability of Audit Log data.'
+    description: Controls designed to protected the availability of Audit Log data.
     controls:
       - id: CCC.AuditLog.C05
         title: Export Audit Logs To Bucket
