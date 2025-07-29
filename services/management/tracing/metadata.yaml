@@ -7,7 +7,7 @@ metadata:
     These services facilitate root cause analysis, performance tuning, anomaly detection, and system mapping.
     Modern platforms offer AI/ML-powered insights, live debugging capabilities, and integration with metrics/logging
     to deliver holistic views into application behavior and health.
-  version: "2025.01"
+  version: "2025.06"
   last-modified: "2025-06-25T00:00:00Z"
   applicability-categories: []
   mapping-references: []
