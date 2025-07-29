@@ -17,8 +17,11 @@ jobs:
       run:
         working-directory: ./delivery-toolkit
     steps:
-      - uses: actions/checkout@v4
-        name: Build
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # Needed for branch operations
 
       - name: Configure Go
         uses: actions/setup-go@v5
@@ -66,6 +69,39 @@ jobs:
           path: ./delivery-toolkit/artifacts/*
           if-no-files-found: error
           retention-days: 1 # Maximum Retention
+
+      - name: Copy YAML artifact to website/static/releases
+        run: |
+          yaml_file=$(ls ./artifacts/*.yaml | head -n 1)
+          filename=$(basename "$yaml_file")
+          mkdir -p website/static/releases
+          cp "$yaml_file" "website/static/releases/$filename"
+          echo "YAML file moved to website/static/releases/$filename"
+          echo "filename=$filename" >> $GITHUB_ENV
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "ccc-releaser[bot]"
+          git config --global user.email "ccc-releaser[bot]@users.noreply.github.com"
+
+      - name: Create new branch, commit, and push
+        run: |
+          branch="release-artifact-${{ env.filename }}"
+          git checkout -b "$branch"
+          git add "website/static/releases/${{ env.filename }}"
+          git commit -m "Add release artifact ${{ env.filename }}"
+          git push origin "$branch"
+          echo "branch=$branch" >> $GITHUB_ENV
+
+      - name: Create Pull Request to Update Website
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --title "Add release artifact ${{ env.filename }}" \
+            --body "Automated PR to add release artifact to website content ${{ env.filename }}" \
+            --base main \
+            --head "$branch"
 
   release:
     needs: build
