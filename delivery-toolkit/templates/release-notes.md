@@ -1,19 +1,19 @@
 <!-- markdownlint-disable -->
-# {{ .Metadata.Title }} - v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.Id }})
+# {{ .Metadata.Title }} - v{{ (lastReleaseDetails .ReleaseDetails).Version }} ({{ .Metadata.Id }})
 
 ## Summary
-{{ .LatestReleaseDetails.ReleaseManager.Summary }}
+{{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.Summary }}
 
 ### Release Manager
-- **Name**: {{ .LatestReleaseDetails.ReleaseManager.Name }}
-- **GitHub ID**: [{{ .LatestReleaseDetails.ReleaseManager.GithubId }}](https://github.com/{{ .LatestReleaseDetails.ReleaseManager.GithubId }})
-- **Company**: {{ .LatestReleaseDetails.ReleaseManager.Company }}
+- **Name**: {{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.Name }}
+- **GitHub ID**: [{{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.GithubId }}](https://github.com/{{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.GithubId }})
+- **Company**: {{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.Company }}
 
 ### Change Log
 
 Below is a list of all the changes and updates included in this release. Please review them to stay informed about the latest improvements and bug fixes.
-{{ if .LatestReleaseDetails.ChangeLog }}
-{{ range .LatestReleaseDetails.ChangeLog }}
+{{ if (lastReleaseDetails .ReleaseDetails).ChangeLog }}
+{{ range (lastReleaseDetails .ReleaseDetails).ChangeLog }}
 
 - {{ . }}
   {{ end }}
@@ -22,7 +22,7 @@ Below is a list of all the changes and updates included in this release. Please 
   {{ end }}
 
 ### Contributors
-{{ range .LatestReleaseDetails.Contributors }}
+{{ range (lastReleaseDetails .ReleaseDetails).Contributors }}
 - {{ .Name }}, {{ .Company }} - @{{ .GithubId }}
 {{ end }}
 

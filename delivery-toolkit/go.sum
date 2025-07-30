@@ -35,8 +35,6 @@ github.com/pelletier/go-toml/v2 v2.2.3 h1:YmeHyLY8mFWbdkNWwpr+qIL2bEqT0o95WSdkNH
 github.com/pelletier/go-toml/v2 v2.2.3/go.mod h1:MfCQTFTvCcUyyvvwm1+G6H/jORL20Xlb6rzQu9GuUkc=
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 h1:Jamvg5psRIccs7FGNTlIRMkT8wgtp5eCXdBlqhYGL6U=
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/revanite-io/sci v0.3.8-0.20250620154658-b5d8614adfe3 h1:sRv7fp8h0glpO/ObSS6+srcbfKXEb7tRXK9JJNm5Ilk=
-github.com/revanite-io/sci v0.3.8-0.20250620154658-b5d8614adfe3/go.mod h1:lEK7w8kfwWUXFKYoJYyqzTT74umE4OkOlRYp88uxHhc=
 github.com/revanite-io/sci v0.3.8 h1:XbbUmpGgWgf0VZouZhoMH0P/wntbJ98AydBgewk5kCw=
 github.com/revanite-io/sci v0.3.8/go.mod h1:lEK7w8kfwWUXFKYoJYyqzTT74umE4OkOlRYp88uxHhc=
 github.com/rogpeppe/go-internal v1.9.0 h1:73kH8U+JUqXU8lRuOHeVHaa/SZPifC7BkcraZVejAe8=

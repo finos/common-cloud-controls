@@ -146,12 +146,11 @@ func readAndCompileCatalog() (data CompiledCatalog) {
 	}
 
 	return CompiledCatalog{
-		Metadata:             catalog.Metadata,
-		ReleaseDetails:       catalog.ReleaseDetails,
-		LatestReleaseDetails: catalog.ReleaseDetails[len(catalog.ReleaseDetails)-1],
-		ControlFamilies:      append(serviceData.ControlFamilies, getCommonControls(serviceData.SharedControls)),
-		Capabilities:         append(serviceData.Capabilities, getCommonCapabilities(serviceData.SharedCapabilities)...),
-		Threats:              append(serviceData.Threats, getCommonThreats(serviceData.SharedThreats)...),
+		Metadata:        catalog.Metadata,
+		ReleaseDetails:  catalog.ReleaseDetails,
+		ControlFamilies: append(serviceData.ControlFamilies, getCommonControls(serviceData.SharedControls)),
+		Capabilities:    append(serviceData.Capabilities, getCommonCapabilities(serviceData.SharedCapabilities)...),
+		Threats:         append(serviceData.Threats, getCommonThreats(serviceData.SharedThreats)...),
 	}
 }
 

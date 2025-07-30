@@ -3,37 +3,36 @@ package cmd
 import "github.com/revanite-io/sci/layer2"
 
 type CompiledCatalog struct {
-	Metadata             layer2.Metadata  `yaml:"metadata"`
-	ReleaseDetails       []ReleaseDetails `yaml:"release_details"`
-	LatestReleaseDetails ReleaseDetails
+	Metadata       layer2.Metadata  `yaml:"metadata"`
+	ReleaseDetails []ReleaseDetails `yaml:"release-details"`
 
 	// These lists contain the common and specific entries smashed together
-	ControlFamilies []layer2.ControlFamily
+	ControlFamilies []layer2.ControlFamily `yaml:"control-families"`
 	Capabilities    []layer2.Capability
 	Threats         []layer2.Threat
 }
 
 type ReleaseDetails struct {
 	Version            string         `yaml:"version"`
-	AssuranceLevel     string         `yaml:"assurance_level"`
-	ThreatModelURL     string         `yaml:"threat_model_url"`
-	ThreatModelAuthor  string         `yaml:"threat_model_author"`
-	RedTeam            string         `yaml:"red_team"`
-	RedTeamExerciseURL string         `yaml:"red_team_exercise_url"`
-	ReleaseManager     ReleaseManager `yaml:"release_manager"`
-	ChangeLog          []string       `yaml:"change_log"`
+	AssuranceLevel     string         `yaml:"assurance-level"`
+	ThreatModelURL     string         `yaml:"threat-model-url"`
+	ThreatModelAuthor  string         `yaml:"threat-model-author"`
+	RedTeam            string         `yaml:"red-team"`
+	RedTeamExerciseURL string         `yaml:"red-team-exercise-url"`
+	ReleaseManager     ReleaseManager `yaml:"release-manager"`
+	ChangeLog          []string       `yaml:"change-log"`
 	Contributors       []Contributors `yaml:"contributors"`
 }
 
 type ReleaseManager struct {
 	Name     string `yaml:"name"`
-	GithubId string `yaml:"github_id"`
+	GithubId string `yaml:"github-id"`
 	Company  string `yaml:"company"`
 	Summary  string `yaml:"summary"`
 }
 
 type Contributors struct {
 	Name     string `yaml:"name"`
-	GithubId string `yaml:"github_id"`
+	GithubId string `yaml:"github-id"`
 	Company  string `yaml:"company"`
 }
