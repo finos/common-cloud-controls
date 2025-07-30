@@ -1,5 +1,5 @@
 <!-- markdownlint-disable -->
-# {{ .Metadata.Id }} v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.Title }})
+# {{ .Metadata.Id }} v{{ (lastReleaseDetails .ReleaseDetails).Version }} ({{ .Metadata.Title }})
 
 <img height="250px" src="https://raw.githubusercontent.com/finos/branding/882d52260eb9b85a4097db38b09a52ea9bb68734/project-logos/active-project-logos/Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal_BLK.svg" alt="CCC Logo"/>
 
@@ -7,12 +7,12 @@
 
 ## Release Notes
 
-> {{ .LatestReleaseDetails.ReleaseManager.Summary }}
+> {{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.Summary }}
 
-Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestReleaseDetails.ReleaseManager.Company }}** ([{{ .LatestReleaseDetails.ReleaseManager.GithubId }}](https://github.com/{{ .LatestReleaseDetails.ReleaseManager.GithubId }}))
+Release Manager - **{{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.Name }}, {{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.Company }}** ([{{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.GithubId }}](https://github.com/{{ (lastReleaseDetails .ReleaseDetails).ReleaseManager.GithubId }}))
 
 ## Changes Since Last Release
-{{ range .LatestReleaseDetails.ChangeLog }}
+{{ range (lastReleaseDetails .ReleaseDetails).ChangeLog }}
 - {{ . }}
 {{- end }}
 

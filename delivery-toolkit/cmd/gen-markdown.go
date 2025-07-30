@@ -104,6 +104,14 @@ var (
 	}
 )
 
+// Add this function before the generateOmnibusMdFile function
+func lastReleaseDetails(releases []ReleaseDetails) ReleaseDetails {
+	if len(releases) == 0 {
+		return ReleaseDetails{}
+	}
+	return releases[len(releases)-1]
+}
+
 // generateFileFromTemplate creates a Markdown control catalog from a template
 // uses the values from viper.GetString("services-dir"), viper.GetString("build-target")
 // respectively: --services-dir, --build-target
@@ -111,7 +119,8 @@ func generateOmnibusMdFile() (outputPath string, err error) {
 	data := readAndCompileCatalog()
 
 	serviceName := data.Metadata.Id
-	version := data.LatestReleaseDetails.Version
+	// Update this line to use the helper function
+	version := lastReleaseDetails(data.ReleaseDetails).Version
 	mdFileName := fmt.Sprintf("%s_%s.md", serviceName, version)
 	outputPath = filepath.Join(viper.GetString("output-dir"), mdFileName)
 
@@ -147,6 +156,12 @@ func generateOmnibusMdFile() (outputPath string, err error) {
 	tmpl, err := template.New("catalog").Funcs(template.FuncMap{
 		"insertLogoWall": func() template.HTML {
 			return template.HTML(svgContent)
+		},
+		"lastReleaseDetails": func(releases []ReleaseDetails) ReleaseDetails {
+			if len(releases) == 0 {
+				return ReleaseDetails{}
+			}
+			return releases[len(releases)-1]
 		},
 	}).Parse(string(contentWithPageBreaks))
 	if err != nil {
