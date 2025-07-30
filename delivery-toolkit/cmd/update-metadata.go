@@ -17,7 +17,7 @@ import (
 
 type cccMetadata struct {
 	Metadata       layer2.Metadata  `yaml:"metadata"`
-	ReleaseDetails []ReleaseDetails `yaml:"release_details"`
+	ReleaseDetails []ReleaseDetails `yaml:"release-details"`
 }
 
 var (
