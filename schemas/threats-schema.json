@@ -20,7 +20,10 @@
             }
           }
         },
-        "required": ["reference-id", "identifiers"],
+        "required": [
+          "reference-id",
+          "identifiers"
+        ],
         "additionalProperties": false
       }
     },
@@ -61,7 +64,10 @@
                   }
                 }
               },
-              "required": ["reference-id", "identifiers"],
+              "required": [
+                "reference-id",
+                "identifiers"
+              ],
               "additionalProperties": false
             }
           },
@@ -82,12 +88,21 @@
                   }
                 }
               },
-              "required": ["reference-id", "identifiers"],
+              "required": [
+                "reference-id",
+                "identifiers"
+              ],
               "additionalProperties": false
             }
           }
         },
-        "required": ["id", "title", "description", "capabilities", "external-mappings"],
+        "required": [
+          "id",
+          "title",
+          "description",
+          "capabilities",
+          "external-mappings"
+        ],
         "additionalProperties": false
       }
     }
