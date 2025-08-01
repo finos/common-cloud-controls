@@ -39,7 +39,7 @@ threats:
           - T1498 # Network Denial of Service
           - T1562.008 # Impair Defenses: Disable Cloud Logs
   - id: CCC.Logging.TH02
-    title: Log Data Exfiltration via Query Interfaces
+    title: Unauthorized Data Transfer Out of a Trusted Boundary
     description: |
       Sensitive log data, including PII, financial transaction details,
       or system vulnerabilities, is exfiltrated directly from the
