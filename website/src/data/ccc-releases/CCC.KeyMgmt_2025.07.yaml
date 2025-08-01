@@ -1,0 +1,876 @@
+metadata:
+    id: CCC.KeyMgmt
+    title: Key Management
+    description: |
+        Key Management Service is a tool provided by cloud service providers
+        to securely create, store, and manage cryptographic keys used to
+        encrypt and decrypt sensitive data.
+    version: "2025.07"
+    last-modified: "2025-07-05T11:20:00-05:00"
+release_details:
+    - version: "2025.07"
+      assurance_level: None
+      threat_model_url: None
+      threat_model_author: None
+      red_team: None
+      red_team_exercise_url: None
+      release_manager:
+        name: Damien Burks
+        github_id: damienjburks
+        company: Citi
+        summary: |
+            This initial release is part of the first batch of control catalogs
+            produced by the CCC. It is the result of thousands of hours dedicated to
+            exploring different ways of working and collaborating, on top of time
+            spent researching, writing, and reviewing the content. This marks a huge
+            milestone for the CCC and the broader community as further releases will
+            continue to build on this foundation. A huge thanks to everyone who has
+            brought us to this point!
+      change_log:
+        - |
+          This initial release contains a variety of commits designed to capture
+          all of the capabilities, threats, and controls for this service category.
+      contributors:
+        - name: Eddie Knight
+          github_id: eddie-knight
+          company: Sonatype
+        - name: Damien Burks
+          github_id: damienjburks
+          company: Citi
+        - name: Maxime Coquerel
+          github_id: zigmax
+          company: RBC
+        - name: Sonali Mendis
+          github_id: smendis-scottlogic
+          company: Scott Logic
+        - name: Michael Lysaght
+          github_id: mlysaght2017
+          company: Citi
+        - name: Joel Matthews
+          github_id: jmatthews-scottlogic
+          company: Scott Logic
+        - name: Diego Mastroianni
+          github_id: dmastroianni
+          company: Moody's
+        - name: sshiells-scottlogic
+          github_id: sshiells-scottlogic
+          company: Scott Logic
+        - name: Vladimir Rabotka
+          github_id: vrabotka
+          company: Morgan Stanley
+        - name: Kris West
+          github_id: kriswest
+          company: NatWest Group
+        - name: Rob Moffat
+          github_id: robmoffat
+          company: FINOS
+        - name: abikhuil
+          github_id: abikhuil
+          company: LSEG
+latestreleasedetails:
+    version: "2025.07"
+    assurance_level: None
+    threat_model_url: None
+    threat_model_author: None
+    red_team: None
+    red_team_exercise_url: None
+    release_manager:
+        name: Damien Burks
+        github_id: damienjburks
+        company: Citi
+        summary: |
+            This initial release is part of the first batch of control catalogs
+            produced by the CCC. It is the result of thousands of hours dedicated to
+            exploring different ways of working and collaborating, on top of time
+            spent researching, writing, and reviewing the content. This marks a huge
+            milestone for the CCC and the broader community as further releases will
+            continue to build on this foundation. A huge thanks to everyone who has
+            brought us to this point!
+    change_log:
+        - |
+          This initial release contains a variety of commits designed to capture
+          all of the capabilities, threats, and controls for this service category.
+    contributors:
+        - name: Eddie Knight
+          github_id: eddie-knight
+          company: Sonatype
+        - name: Damien Burks
+          github_id: damienjburks
+          company: Citi
+        - name: Maxime Coquerel
+          github_id: zigmax
+          company: RBC
+        - name: Sonali Mendis
+          github_id: smendis-scottlogic
+          company: Scott Logic
+        - name: Michael Lysaght
+          github_id: mlysaght2017
+          company: Citi
+        - name: Joel Matthews
+          github_id: jmatthews-scottlogic
+          company: Scott Logic
+        - name: Diego Mastroianni
+          github_id: dmastroianni
+          company: Moody's
+        - name: sshiells-scottlogic
+          github_id: sshiells-scottlogic
+          company: Scott Logic
+        - name: Vladimir Rabotka
+          github_id: vrabotka
+          company: Morgan Stanley
+        - name: Kris West
+          github_id: kriswest
+          company: NatWest Group
+        - name: Rob Moffat
+          github_id: robmoffat
+          company: FINOS
+        - name: abikhuil
+          github_id: abikhuil
+          company: LSEG
+controlfamilies:
+    - title: Logging and Monitoring
+      description: Controls that collect, alert, and retain key-management events.
+      controls:
+        - id: CCC.KeyMgmt.C01
+          title: Alert on Key-version Changes
+          objective: |
+            Generate near-real-time alerts when a KMS key version is disabled or scheduled for deletion, enabling rapid investigation and recovery.
+          assessment-requirements:
+            - id: CCC.KeyMgmt.C01.TR01
+              text: |
+                When a key version is scheduled for deletion or disabled, an
+                alert MUST be generated within five minutes.
+              applicability:
+                - tlp-amber
+                - tlp-red
+              recommendation: Use native event services (e.g., CloudWatch Events, Azure Monitor, Cloud Audit Logs) to route notifications to an incident-response channel.
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - RS.AN-1
+            - reference-id: NIST_800_53
+              identifiers:
+                - IR-5
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.KeyMgmt.TH01
+    - title: Identity and Access Management
+      description: Controls that enforce least-privilege use of KMS operations.
+      controls:
+        - id: CCC.KeyMgmt.C02
+          title: Limit Decrypt Permissions
+          objective: |
+            Restrict the Decrypt operation to authorised principals only, applying the principle of least privilege to protect sensitive data.
+          assessment-requirements:
+            - id: CCC.KeyMgmt.C02.TR01
+              text: |
+                When IAM roles and key policies are reviewed, Decrypt permission
+                MUST be granted exclusively to documented authorised principals.
+              applicability:
+                - tlp-green
+              recommendation: Periodically audit policy documents via automated tooling and report any deviations.
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.AC-4
+            - reference-id: NIST_800_53
+              identifiers:
+                - AC-6
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.KeyMgmt.TH02
+    - title: Key Lifecycle Management
+      description: Controls that govern creation, rotation, import, and retirement of cryptographic keys.
+      controls:
+        - id: CCC.KeyMgmt.C03
+          title: Enforce Automatic Rotation
+          objective: |
+            Ensure symmetric keys rotate automatically within policy intervals to reduce exposure of key material.
+          assessment-requirements:
+            - id: CCC.KeyMgmt.C03.TR01
+              text: |
+                When rotation settings are examined, rotation MUST be enabled with
+                an interval not exceeding 365 days.
+              applicability:
+                - tlp-green
+              recommendation: Use cloud-provider rotation features and verify via configuration scanning.
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.DS-1
+            - reference-id: NIST_800_53
+              identifiers:
+                - SC-12
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.KeyMgmt.TH03
+        - id: CCC.KeyMgmt.C04
+          title: Validate Imported Keys
+          objective: |
+            Accept only externally generated keys that meet approved cryptographic strength and provenance requirements.
+          assessment-requirements:
+            - id: CCC.KeyMgmt.C04.TR01
+              text: |
+                When a key import request is processed, the key MUST use an
+                approved algorithm (RSA-2048+, EC-P256+) and originate from a
+                certified HSM.
+              applicability:
+                - tlp-green
+              recommendation: Implement an approval workflow that validates attestation data before import.
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.DS-1
+            - reference-id: NIST_800_53
+              identifiers:
+                - SC-28
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.KeyMgmt.TH04
+    - title: ""
+      description: ""
+      controls:
+        - id: CCC.C01
+          title: Prevent Unencrypted Requests
+          objective: |
+            Ensure that all communications are encrypted in transit to protect data
+            integrity and confidentiality.
+          assessment-requirements:
+            - id: CCC.C01.TR01
+              text: |
+                When a port is exposed for non-SSH network traffic, all traffic MUST
+                include a TLS handshake AND be encrypted using TLS 1.2 or higher.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C01.TR02
+              text: |
+                When a port is exposed for SSH network traffic, all traffic MUST
+                include a SSH handshake AND be encrypted using SSHv2 or higher.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.DS-02
+            - reference-id: CCM
+              identifiers:
+                - IVS-03
+                - IVS-07
+            - reference-id: ISO_27001
+              identifiers:
+                - 2013 A.13.1.1
+            - reference-id: NIST_800_53
+              identifiers:
+                - SC-8
+                - SC-13
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH02
+        - id: CCC.C06
+          title: Prevent Deployment in Restricted Regions
+          objective: |
+            Ensure that resources are not provisioned or deployed in
+            geographic regions or cloud availability zones that have been
+            designated as restricted or prohibited, to comply with
+            regulatory requirements and reduce exposure to geopolitical
+            risks.
+          assessment-requirements:
+            - id: CCC.C06.TR01
+              text: |
+                When a deployment request is made, the service MUST validate
+                that the deployment region is not to a restricted or regions
+                or availability zones.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C06.TR02
+              text: |
+                When a deployment request is made, the service MUST validate that
+                replication of data, backups, and disaster recovery operations
+                will not occur in restricted regions or availability zones.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.DS-1
+            - reference-id: CCM
+              identifiers:
+                - DSI-06
+                - DSI-08
+            - reference-id: ISO_27001
+              identifiers:
+                - 2013 A.11.1.1
+            - reference-id: NIST_800_53
+              identifiers:
+                - AC-6
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH03
+        - id: CCC.C10
+          title: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+          objective: |
+            Prevent replication of data to untrusted destinations outside
+            of defined trust perimeter. An untrusted destination is defined
+            as a resource that exists outside of a specified trusted
+            identity or network or data perimeter.
+          assessment-requirements:
+            - id: CCC.C10.TR01
+              text: |
+                When data is replicated, the service MUST ensure that
+                replication is restricted to explicitly trusted destinations.
+              applicability:
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.DS-5
+            - reference-id: CCM
+              identifiers:
+                - DSP-10
+                - DSP-19
+            - reference-id: ISO_27001
+              identifiers: []
+            - reference-id: NIST_800_53
+              identifiers:
+                - AC-4
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH04
+        - id: CCC.C02
+          title: Ensure Data Encryption at Rest for All Stored Data
+          objective: |
+            Ensure that all data stored is encrypted at rest to maintain
+            confidentiality and integrity.
+          assessment-requirements:
+            - id: CCC.C02.TR01
+              text: |
+                When data is stored at rest, the service MUST be configured to
+                encrypt data at rest using the latest industry-standard encryption
+                methods.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.DS-1
+            - reference-id: CCM
+              identifiers:
+                - DSP-17
+            - reference-id: ISO_27001
+              identifiers: []
+            - reference-id: NIST_800_53
+              identifiers:
+                - SC-13
+                - SC-28
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH01
+        - id: CCC.C03
+          title: Implement Multi-factor Authentication (MFA) for Access
+          objective: |
+            Ensure that all sensitive activities require two or more identity factors
+            during authentication to prevent unauthorized access. This may include
+            something you know, something you have, or something you are. In the
+            case of programattically accessible services, such as API endpoints, this
+            includes a combination of API keys or tokens and network restrictions.
+          assessment-requirements:
+            - id: CCC.C03.TR01
+              text: |
+                When an entity attempts to modify the service, the service MUST
+                attempt to verify the client's identity through an authentication
+                process.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C03.TR02
+              text: |
+                When an entity attempts to view information presented by the service,
+                service, the service MUST attempt to verify the client's identity
+                through an authentication process.
+              applicability:
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C03.TR03
+              text: |
+                When an entity attempts to view information on the service through
+                a user interface, the authentication process MUST require multiple
+                identifying factors from the user.
+              applicability:
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C03.TR04
+              text: |
+                When an entity attempts to modify the service through an API
+                endpoint, the authentication process MUST be limited to a
+                specific allowed network.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C03.TR05
+              text: |
+                When an entity attempts to view information on the service through
+                an API endpoint, the authentication process MUST be limited to a
+                specific allowed network.
+              applicability:
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C03.TR06
+              text: |
+                When an entity attempts to modify the service through a user
+                interface, the authentication process MUST require multiple
+                identifying factors from the user.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.AC-7
+            - reference-id: CCM
+              identifiers:
+                - IAM-03
+                - IAM-08
+            - reference-id: ISO_27001
+              identifiers:
+                - 2013 A.9.4.2
+            - reference-id: NIST_800_53
+              identifiers:
+                - IA-2
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH01
+        - id: CCC.C05
+          title: Prevent Access from Untrusted Entities
+          objective: |
+            Ensure that secure access controls prevent unauthorized access,
+            mitigate risks of data exfiltration, and block misuse of services
+            by adversaries. This includes restricting access based on trust
+            criteria such as IP allowlists, domain restrictions, and tenant
+            isolation.
+          assessment-requirements:
+            - id: CCC.C05.TR01
+              text: |
+                When access to sensitive resources is attempted, the service MUST
+                block requests from untrusted sources, including IP addresses,
+                domains, or networks that are not explicitly included in a
+                pre-approved allowlist.
+              applicability:
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C05.TR02
+              text: |
+                When administrative access is attempted, the service MUST validate
+                that the request originates from an explicitly allowed source as
+                defined in the allowlist.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C05.TR03
+              text: |
+                When resources are accessed in a multi-tenant environment, the
+                service MUST enforce isolation by allowing access only to explicitly
+                allowlisted tenants.
+              applicability:
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C05.TR04
+              text: |
+                When an access attempt from an untrusted source is blocked, the
+                service MUST log the event, including the source details, time,
+                and reason for denial.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - PR.AC-3
+            - reference-id: CCM
+              identifiers:
+                - DS-5
+            - reference-id: ISO_27001
+              identifiers:
+                - 2013 A.13.1.3
+            - reference-id: NIST_800_53
+              identifiers:
+                - AC-3
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH01
+        - id: CCC.C04
+          title: Log All Access and Changes
+          objective: |
+            Ensure that all access and changes are logged to maintain a
+            detailed audit trail for security and compliance purposes.
+          assessment-requirements:
+            - id: CCC.C04.TR01
+              text: |
+                When any access attempt is made to the service, the service MUST log
+                the client identity, time, and result of the attempt.
+              applicability:
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C04.TR02
+              text: |
+                When any access attempt is made to the view sensitive information,
+                the service MUST log the client identity, time, and result of the
+                attempt.
+              applicability:
+                - tlp-amber
+                - tlp-red
+            - id: CCC.C04.TR03
+              text: |
+                When any change is made to the service configuration, the service MUST
+                log the change, including the client, time, previous state, and the
+                new state following the change.
+              applicability:
+                - tlp-clear
+                - tlp-green
+                - tlp-amber
+                - tlp-red
+          guideline-mappings:
+            - reference-id: NIST-CSF
+              identifiers:
+                - DE.AE-3
+            - reference-id: CCM
+              identifiers:
+                - LOG-08
+            - reference-id: ISO_27001
+              identifiers: []
+            - reference-id: NIST_800_53
+              identifiers:
+                - AU-2
+                - AU-3
+                - AU-12
+          threat-mappings:
+            - reference-id: CCC
+              identifiers:
+                - CCC.TH01
+capabilities:
+    - id: CCC.KeyMgmt.F01
+      title: AES-256
+      description: |
+        Support for the AES-256 Advanced Encryption Standard with a 256-bit key for encryption and decryption.
+    - id: CCC.KeyMgmt.F02
+      title: RSA-2048
+      description: |
+        Supports the RSA algorithm with a key size of 2048 bits for encryption and digital signatures.
+    - id: CCC.KeyMgmt.F03
+      title: RSA-3072
+      description: |
+        Supports the RSA algorithm with a key size of 3072 bits for encryption and digital signatures.
+    - id: CCC.KeyMgmt.F04
+      title: RSA-4096
+      description: |
+        Supports the RSA algorithm with a key size of 4096 bits for encryption and digital signatures.
+    - id: CCC.KeyMgmt.F05
+      title: EC-P256
+      description: |
+        Supports the elliptic curve signing algorithm using the P-256 Curve for digital signatures.
+    - id: CCC.KeyMgmt.F06
+      title: EC-P256K
+      description: |
+        Supports the elliptic curve signing algorithm using the Secp256k1 Curve for digital signatures.
+    - id: CCC.KeyMgmt.F07
+      title: EC-P384
+      description: |
+        Supports the elliptic curve signing algorithm using the P-384 Curve for digital signatures.
+    - id: CCC.KeyMgmt.F08
+      title: Key Creation
+      description: |
+        Supports secure key creation within the key management service using the supported algorithms.
+    - id: CCC.KeyMgmt.F09
+      title: Encrypt data
+      description: |
+        Provides the ability to securely encrypt data using a managed key in the supported encryption algorithms.
+    - id: CCC.KeyMgmt.F10
+      title: Decrypt data
+      description: |
+        Provides the ability to securely decrypt data using a managed key in the supported encryption algorithms.
+    - id: CCC.KeyMgmt.F11
+      title: Create Digital Signature
+      description: |
+        Supports the generation of a digital signature for data using the supported signing algorithms.
+    - id: CCC.KeyMgmt.F12
+      title: Verify Digital Signature
+      description: |
+        Supports the verification of the digital signature of some data using the supported signing algorithms.
+    - id: CCC.KeyMgmt.F13
+      title: Supports FIPS 140-2 Level 3
+      description: |
+        Supports FIPS 140-2 Level 3 certified Hardware Security Modules (HSM).
+    - id: CCC.KeyMgmt.F14
+      title: Key Versioning
+      description: |
+        Provides the ability to manage multiple versions of a key.
+    - id: CCC.KeyMgmt.F15
+      title: Key label
+      description: |
+        Supports the ability to tag a managed key with user defined labels.
+    - id: CCC.KeyMgmt.F16
+      title: Disable key
+      description: |
+        Supports the ability to disable a managed key without deletion.
+    - id: CCC.KeyMgmt.F17
+      title: Enable key
+      description: |
+        Supports the ability to re-enable a disabled managed key.
+    - id: CCC.KeyMgmt.F18
+      title: Soft Delete
+      description: |
+        Supports the ability to prevent the immediate deletion of a managed key. This includes the ability
+        to recover accidental deletion of keys within a grace period.
+    - id: CCC.KeyMgmt.F19
+      title: Delete Key
+      description: |
+        Supports the ability to permanently delete a managed key after the grace period defined on soft delete.
+    - id: CCC.KeyMgmt.F20
+      title: Automatic Symmetric Key Rotation
+      description: |
+        Supports the ability to automatically rotate a managed symmetric
+        key as long as the key was generated within the KMS.
+    - id: CCC.KeyMgmt.F21
+      title: Manual Key Rotation
+      description: |
+        Supports the ability to manually rotate a managed key.
+    - id: CCC.KeyMgmt.F22
+      title: Key Import
+      description: |
+        Supports the ability to import externally generated keys into the KMS.
+    - id: CCC.KeyMgmt.F23
+      title: Key Expiry
+      description: |
+        Supports the ability to set an expiration date for a key
+    - id: CCC.KeyMgmt.F24
+      title: Key Replication
+      description: |
+        Supports the ability to securely replicate a key across different regions using automated or manual process.
+    - id: CCC.F01
+      title: Encryption in Transit Enabled by Default
+      description: |
+        Provides default encryption of data in transit through SSL or TLS.
+    - id: CCC.F02
+      title: Encryption at Rest Enabled by Default
+      description: |
+        Provides default encryption of data before storage, with the option for
+        clients to maintain control over the encryption keys.
+    - id: CCC.F03
+      title: Access/Activity Logs
+      description: |
+        Provides users with the ability to track all requests made to or
+        activities performed on resources for audit purposes.
+    - id: CCC.F06
+      title: Identity Based Access Control
+      description: |
+        Provides the ability to determine access to resources based on
+        attributes associated with a user identity.
+    - id: CCC.F07
+      title: Event Notifications
+      description: |
+        Publishes events for creation, deletion, and modification of
+        objects in a way that enables users to trigger actions in response.
+    - id: CCC.F08
+      title: Multi-zone Deployment
+      description: |
+        Provides the ability for the service to be deployed in multiple availability
+        zones or regions to increase availability and fault tolerance.
+    - id: CCC.F09
+      title: Monitoring
+      description: |
+        Provides the ability to continuously observe, track, and analyze
+        the performance, availability, and health of the service resources or
+        applications.
+    - id: CCC.F10
+      title: Logging
+      description: |
+        Provides the ability to transmit system events, application activities,
+        and/or user interactions to a logging service
+    - id: CCC.F13
+      title: Infrastructure as Code
+      description: |
+        Allows for managing and provisioning service resources
+        through machine-readable configuration files, such as templates.
+    - id: CCC.F14
+      title: API Access
+      description: |
+        Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+threats:
+    - id: CCC.KeyMgmt.TH01
+      title: |
+        Deletion or Disabling of Key Versions Causing Denial of Service or
+        Data Loss
+      description: |
+        Disabling, scheduling deletion, or permanently purging KMS key versions
+        that protect sensitive data can prevent required decryption or signing
+        operations.  Service interruption or irreversible data loss may occur if
+        the key material is no longer recoverable.
+      capabilities:
+        - reference-id: CCC
+          identifiers:
+            - CCC.KeyMgmt.F14
+            - CCC.KeyMgmt.F16
+            - CCC.KeyMgmt.F18
+            - CCC.KeyMgmt.F19
+      external-mappings:
+        - reference-id: MITRE-ATT&CK
+          identifiers:
+            - T1485
+            - T1489
+            - T1490
+    - id: CCC.KeyMgmt.TH02
+      title: Unrestricted Use of a KMS Key to Decrypt Data
+      description: |
+        Misconfigured permissions that allow broad invocation of the Decrypt API
+        can expose plaintext data, enabling unintended disclosure or exfiltration
+        of sensitive information.
+      capabilities:
+        - reference-id: CCC
+          identifiers:
+            - CCC.KeyMgmt.F10
+            - CCC.KeyMgmt.F17
+      external-mappings:
+        - reference-id: MITRE-ATT&CK
+          identifiers:
+            - T1550
+    - id: CCC.KeyMgmt.TH03
+      title: Key Rotation is Disabled or Delayed Beyond Policy Limits
+      description: |
+        Modification of automatic or manual rotation settings can keep older key
+        material active longer than intended, decreasing cryptographic
+        resilience and extending exposure in the event of key compromise.
+      capabilities:
+        - reference-id: CCC
+          identifiers:
+            - CCC.KeyMgmt.F20
+            - CCC.KeyMgmt.F21
+      external-mappings:
+        - reference-id: MITRE-ATT&CK
+          identifiers:
+            - T1562
+    - id: CCC.KeyMgmt.TH04
+      title: Introduction of Weak or Compromised Key Material During Import
+      description: |
+        Insufficient validation during the key-import process may allow weak,
+        back-doored, or otherwise compromised key material to be introduced,
+        reducing the overall strength of subsequent cryptographic operations.
+      capabilities:
+        - reference-id: CCC
+          identifiers:
+            - CCC.KeyMgmt.F22
+      external-mappings:
+        - reference-id: MITRE-ATT&CK
+          identifiers:
+            - T1600
+    - id: CCC.TH01
+      title: Access Control is Misconfigured
+      description: |
+        Misconfigured access controls may grant excessive privileges or fail to
+        restrict unauthorized access to sensitive resources. This could result in
+        unintended data exposure or unauthorized actions being performed within
+        the system.
+      capabilities:
+        - reference-id: CCC
+          identifiers:
+            - CCC.F06
+      external-mappings:
+        - reference-id: MITRE-ATT&CK
+          identifiers:
+            - T1078
+            - T1548
+            - T1203
+            - T1098
+            - T1484
+            - T1546
+            - T1537
+            - T1567
+            - T1048
+            - T1485
+            - T1565
+            - T1027
+    - id: CCC.TH04
+      title: Data is Replicated to Untrusted or External Locations
+      description: |
+        Data may be replicated to untrusted or external locations if replication
+        configurations are not properly restricted. This could result
+        in unintended data leakage or exposure outside the organization's trusted
+        perimeter.
+      capabilities:
+        - reference-id: CCC
+          identifiers:
+            - CCC.F21
+      external-mappings:
+        - reference-id: MITRE-ATT&CK
+          identifiers:
+            - T1565
+    - id: CCC.TH12
+      title: Resource Constraints are Exhausted
+      description: |
+        Resource constraints, such as memory, CPU, or storage, may be exhausted
+        due to misconfigurations, or excessive resource consumption. This could
+        disrupt service availability, deny access to users, or impact other
+        systems within the same scope. Exhaustion may occur through repeated
+        requests, resource-intensive operations, or lowering rate/budget limits.
+      capabilities:
+        - reference-id: CCC
+          identifiers:
+            - CCC.F04
+            - CCC.F16
+            - CCC.F19
+      external-mappings:
+        - reference-id: MITRE-ATT&CK
+          identifiers:
+            - T1496
+            - T1499
+            - T1498
+    - id: CCC.TH13
+      title: Resource Tags are Manipulated
+      description: |
+        Resource tags may be altered, leading to changes in organizational
+        policies, billing disruptions, or unintended exposure of sensitive data.
+        This could result in mismanaged resources, financial misuse, or security
+        vulnerabilities.
+      capabilities:
+        - reference-id: CCC
+          identifiers:
+            - CCC.F20
+      external-mappings:
+        - reference-id: MITRE-ATT&CK
+          identifiers:
+            - T1565

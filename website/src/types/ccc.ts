@@ -79,6 +79,7 @@ export interface Control {
     control_mappings?: ControlMappings;
     test_requirements?: TestRequirement[];
     slug?: string;
+    family?: string;
 }
 
 export interface Component {
