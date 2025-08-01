@@ -1,0 +1,414 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - CCC.C04 # Log All Access and Changes
+      - CCC.C05 # Prevent Access from Untrusted Entities
+      - CCC.C07 # Alert on Unusual Enumeration Activity
+      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+
+control-families:
+  - title: Identity and Access Management
+    description: |
+      Controls that restrict who can access and modify IAM resources.
+    controls:
+      - id: CCC.IAM.C01
+        title: Restrict IAM User Credentials Creation
+        objective: |
+          Prevent non-administrative principals from creating new long-lived
+          credentials like access keys or generating temporary session tokens.
+          This blocks a common privilege escalation and persistence vector.
+        assessment-requirements:
+          - id: CCC.IAM.C01.TR01
+            text: |
+              When an identity policy for a non-administrative principal is evaluated,
+              it MUST NOT grant permissions for creating credentials or generating
+              temporary session tokens.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.IAM.C01.TR02
+            text: |
+              When a non-administrative principal attempts to create new credentials or a
+              temporary session token, the service MUST deny the action.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH03 # Additional Cloud Credentials Creation
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-05
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+              - AC-3
+              - AC-5
+              - AC-6
+      - id: CCC.IAM.C02
+        title: Restrict IAM Policies Modification
+        objective: |
+          Ensure that only designated administrative accounts have the ability to create,
+          modify, or attach policies that define permissions for other identities.
+        assessment-requirements:
+          - id: CCC.IAM.C02.TR01
+            text: |
+              When an identity policy for a non-administrative principal is evaluated,
+              it MUST NOT grant permissions for creating, updating, or attaching policies.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.IAM.C02.TR02
+            text: |
+              When a non-administrative principal attempts to create, update, or attach
+              policies, the service MUST deny the action.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH06 # IAM Policies Modification
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-05
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+              - AC-3
+              - AC-5
+              - AC-6
+      - id: CCC.IAM.C03
+        title: Restrict Role Assumption / Delegation
+        objective: |
+          Limit which principals can assume a role or impersonate a service
+          identity to only those required. This prevents unintended cross-account
+          or public access by securing the "who can act as this identity" boundary.
+        assessment-requirements:
+          - id: CCC.IAM.C03.TR01
+            text: |
+              When a policy is created or updated that grants a principal
+              permission to assume a role or impersonate a service identity,
+              the principal MUST NOT contain a wildcard or be public/anonymous.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.IAM.C03.TR02
+            text: |
+              When an external or unauthenticated principal tries to assume a role
+              or impersonate a service identity, the service MUST deny the action.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH02 # Overly-Permissive Identity Trust Policy
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-3
+              - PR.AC-4
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+              - AC-3
+              - AC-6
+      - id: CCC.IAM.C04
+        title: Restrict Wildcard Usage in IAM Policies
+        objective: |
+          Limit the use of wildcard permissions in IAM policies to prevent
+          overly broad access from being granted by default.
+        assessment-requirements:
+          - id: CCC.IAM.C04.TR01
+            text: |
+              When an IAM policy is created or updated, it MUST NOT contain allow statements
+              with wildcard permissions, unless the statement is restricted by a condition.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+              - CCC.IAM.TH02 # Overly-Permissive IAM Policy
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AC-6
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+              - AC-3
+              - AC-6
+      - id: CCC.IAM.C05
+        title: Strong Password Policies for IAM Users
+        objective: |
+          Ensure that the password policies for IAM users have strong configurations.
+        assessment-requirements:
+          - id: CCC.IAM.C05.TR01
+            text: |
+              When a new cloud account is provisioned, a password policy MUST be
+              configured for IAM users following the minimum PCI DSS v4.0.1 configurations.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              When a new cloud account is provisioned, a password policy must be configured for
+              all IAM users to align with the minimum requirements defined in PCI DSS v4.0.1.
+              This includes, at a minimum:
+              - A password length of at least 12 characters.
+              - A mix of upper- and lower-case letters, numbers, and special characters.
+              - Prevention of the use of previously used passwords (password history).
+              - Password expiration at a defined interval (e.g., every 90 days).
+              - Account lockout after a defined number of failed login attempts.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-05
+          - reference-id: NIST_800_53
+            identifiers:
+              - IA-5
+          - reference-id: PCI-DSS
+            identifiers:
+              - 8.3.9
+              - 8.6.3
+
+  - title: Identity Provisioning and Lifecycle
+    description: |
+      Controls related to the provisioning and lifecycle of IAM identities.
+    controls:
+      - id: CCC.IAM.C06
+        title: Maximum Age for Long-Term Static Credentials
+        objective: |
+          Ensure that long-lived static credentials like access keys are
+          programmatically rotated within a defined time period to limit the
+          window of opportunity if compromised.
+        assessment-requirements:
+          - id: CCC.IAM.C06.TR01
+            text: |
+              When a static credential such as an access key has existed for 90 days
+              or more, it MUST be rotated.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              When a static credential such as an access key has existed for 90 days or more,
+              it must be automatically rotated to reduce the risk of compromise due to long-term
+              exposure. Organizations should implement automated checks to identify aging credentials
+              and enforce rotation policies. Additionally, access key usage should be regularly monitored,
+              and credentials that are no longer in use should be deactivated or deleted promptly.
+              Where possible, prefer temporary, short-lived credentials over long-lived static ones
+              to further minimize risk.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH09 # Long-Lived Static Credentials
+              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-01
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+      - id: CCC.IAM.C07
+        title: Automate Identity De-provisioning
+        objective: |
+          Ensure that when an identity is terminated in the central Identity Provider
+          (IdP), ts corresponding access to cloud resources is revoked automatically.
+        assessment-requirements:
+          - id: CCC.IAM.C07.TR01
+            text: |
+              When a user account is disabled or deleted in the organization's IdP, the
+              corresponding cloud identity and its access policies MUST be disabled or
+              deleted within 24 hours.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH10 # Orphaned Federated Identity Retains Access
+              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-01
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+      - id: CCC.IAM.C08
+        title: Maximum Age for Unused Credentials
+        objective: |
+          Ensure that unused IAM credentals are removed to reduce exposure
+          in the event of potential compromise.
+        assessment-requirements:
+          - id: CCC.IAM.C08.TR01
+            text: |
+              When an IAM user has credentials, such as passwords or access keys,
+              that have not been used for 90 days or more, the unused credentials
+              MUST be removed or deactivated.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              IAM user credentials (such as passwords or access keys) that have not been used
+              for 90 days or more must be automatically removed or deactivated.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH11 # Unused Credentials
+              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-01
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+      - id: CCC.IAM.C09
+        title: Enforce Federated Single Sign-On (SSO) for Human Users
+        objective: |
+          Ensure that all human users must authenticate through a central, federated
+          Identity Provider (IdP) to access the cloud environment. This eliminates
+          cloud-native user accounts with long-lived passwords, centralizes authentication
+          controls, and simplifies lifecycle management.
+        assessment-requirements:
+          - id: CCC.IAM.C09.TR01
+            text: |
+              When a human user accesses the cloud environment, they MUST authenticate through
+              the organization's federated IdP via a standard protocol (e.g., SAML, OIDC).
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+              - CCC.IAM.TH09 # Long-Lived Static Credentials
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-01
+          - reference-id: NIST_800_53
+            identifiers:
+              - IA-2
+
+  - title: Logging and Monitoring
+    description: Controls that collect, alert, and retain IAM-related events.
+    controls:
+      - id: CCC.IAM.C10
+        title: Alert On Anomalous Behaviour
+        objective: |
+          Ensure that logs and associated alerts are generated when anomalous
+          API requests are made by a single identity, such as API requests
+          commonly associated with privilege escalation tactics, originating
+          from an external or malicious IP address or performed by a previously
+          dormant identity, which may indicate that credentals may be compromised,
+          as well as for password brute-force attempts and account lockouts.
+        assessment-requirements:
+          - id: CCC.IAM.C10.TR01
+            text: |
+              When suspicious API requests are detected, real time alerts MUST
+              be generated to notify security personnel.
+            applicability:
+              - tlp-red
+            recommendation: ""
+          - id: CCC.IAM.C09.TR02
+            text: |
+              When suspicious API requests are detected, the associated events MUST
+              be logged, including the source details, time, and nature of the activity.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - DE.CM-03
+              - DE.CM-06
+              - DE.CM-09
+          - reference-id: NIST_800_53
+            identifiers:
+              - SI-4
+              - SI-5
+              - AC-2
+      - id: CCC.IAM.C11
+        title: Enable Continuous IAM Access and Usage Analysis
+        objective: |
+          Enable and configure the cloud provider's native access and
+          usage analysis services to continuously monitor for external
+          access paths and internal unused access.
+        assessment-requirements:
+          - id: CCC.IAM.C11.TR01
+            text: |
+              When a cloud account or organization is provisioned, the native automated
+              access and usage analysis services MUST be enabled to continuously monitor
+              for external or public access to resources, and unused access.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.IAM.TH02 # Overly-Permissive Identity Trust Policy
+              - CCC.IAM.TH10 # Orphaned Federated Identity Retains Access
+              - CCC.IAM.TH11 # Unused Credentials
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - ID.RA-01
+              - ID.IM-01
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-2
+              - CA-7
+              - RA-5
