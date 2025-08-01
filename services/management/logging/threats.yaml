@@ -1,0 +1,159 @@
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH02 # Data is Intercepted in Transit
+      - CCC.TH03 # Deployment Region Network is Untrusted
+      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - CCC.TH05 # Data is Corrupted During Replication
+      - CCC.TH06 # Data is Lost or Corrupted
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH10 # Alerts are Intercepted
+      - CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - CCC.TH12 # Resource Constraints are Exhausted
+      - CCC.TH13 # Resource Tags are Manipulated
+      - CCC.TH14 # Older Resource Versions are Exploited
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+      - CCC.TH16 # Logging and Monitoring are Disabled
+      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+
+threats:
+  - id: CCC.Logging.TH01
+    title: Log Ingestion Performance Degradation
+    description: |
+      The logging service's ingestion pipeline experiences performance
+      degradation due to overwhelming log volumes, network bottlenecks, or
+      inefficient processing, leading to delayed availability of log data for
+      analysis and potential log loss if buffers overflow.
+    capabilities:
+      - reference-id: CCC.Logging
+        identifiers:
+          - CCC.Logging.F03 # Real-Time Log Ingestion
+          - CCC.Logging.F04 # Centralised Log Collection
+          - CCC.Logging.F06 # Log Filtering & Transformation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1499 # Endpoint Denial of Service
+          - T1498 # Network Denial of Service
+          - T1562.008 # Impair Defenses: Disable Cloud Logs
+  - id: CCC.Logging.TH02
+    title: Unauthorized Data Transfer Out of a Trusted Boundary
+    description: |
+      Sensitive log data, including PII, financial transaction details,
+      or system vulnerabilities, is exfiltrated directly from the
+      logging service's query or API interfaces by authorized but malicious
+      insiders or compromised accounts exploiting legitimate access.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.F06 # Identity Based Access Control
+          - CCC.F14 # API Access
+      - reference-id: CCC.Logging
+        identifiers:
+          - CCC.F22 # Location Lock-In
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1048 # Exfiltration Over Alternative Protocol
+          - T1567 # Exfiltration Over Web Service
+          - T1020 # Automated Exfiltration
+  - id: CCC.Logging.TH03
+    title: Log Schema or Format Drift
+    description: |
+      Changes in source application or cloud service log formats, schemas,
+      or underlying data structures lead to parsing failures, incomplete
+      log ingestion, or render existing queries and dashboards ineffective,
+      hindering comprehensive analysis.
+    capabilities:
+      - reference-id: CCC.Logging
+        identifiers:
+          - CCC.Logging.F05 # Custom Log Format Support
+          - CCC.Logging.F06 # Log Filtering & Transformation
+          - CCC.Logging.F11 # Log-based Metrics
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1562 # Impair Defenses (indirectly, by breaking detections)
+          - T1562.008 # Impair Defenses: Disable Cloud Logs (can lead to effective disablement)
+  - id: CCC.Logging.TH04
+    title: Inadequate Log Anonymization/Masking
+    description: |
+      Sensitive data (e.g., PII, secrets, authentication tokens) is ingested
+      into logs without proper anonymization, masking, or redaction at source
+      or during ingestion. This creates a significant data exposure risk,
+      particularly for data not intended for broad log access.
+    capabilities:
+      - reference-id: CCC.Logging
+        identifiers:
+          - CCC.Logging.F06 # Log Filtering & Transformation
+          - CCC.Logging.F08 # Retention Policies
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1530 # Data from Local System
+          - T1537 # Transfer Data to Cloud Account
+          - T1565 # Data Manipulation (if attacker is masking their own activity)
+  - id: CCC.Logging.TH05
+    title: Log Retention Policy Evasion or Misconfiguration
+    description: |
+      Log data is deleted prematurely or retained longer than legally required
+      due to misconfigured retention policies, manual overrides, or evasion
+      tactics. This can lead to non-compliance with regulatory requirements
+      or loss of critical forensic evidence.
+    capabilities:
+      - reference-id: CCC.Logging
+        identifiers:
+          - CCC.Logging.F07 # Immutable Storage
+          - CCC.Logging.F08 # Retention Policies
+          - CCC.Logging.F12 # Log Archiving
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1070.004 # Indicator Removal on Host: File Deletion
+          - T1485 # Data Destruction
+          - T1562.008 # Impair Defenses: Disable Cloud Logs
+  - id: CCC.Logging.TH06
+    title: Log Injection
+    description: |
+      User-supplied data such as scripts, control characters, escape sequences,
+      or code fragments may be written to logs without proper encoding or sanitization.
+      This can result in malformed or unexpected log entries that could disrupt or
+      compromise systems that process or display these logs, including log viewers
+      or downstream services.
+    capabilities:
+      - reference-id: CCC.Logging
+        identifiers:
+          - CCC.F10 # Logging
+          - CCC.Logging.F01 # Service Log Capture
+          - CCC.Logging.F02 # Application Log Ingestion
+    external-mappings:
+      - reference-id: OWASPTOP10
+        identifiers:
+          - A03:2021
+          - A09:2021
+      - reference-id: CWE
+        identifiers:
+          - CWE-79
+          - CWE-117
+          - CWE-116
+  - id: CCC.Logging.TH07
+    title: Insufficient Logging
+    description: |
+      If security-critical actions are not logged, it becomes more difficult to
+      detect threats and conduct post-incident analysis.
+    capabilities:
+      - reference-id: CCC.Logging
+        identifiers:
+          - CCC.F10 # Logging
+          - CCC.Logging.F01 # Service Log Capture
+          - CCC.Logging.F02 # Application Log Ingestion
+    external-mappings:
+      - reference-id: OWASPTOP10
+        identifiers:
+          - A09:2021
+      - reference-id: CWE
+        identifiers:
+          - CWE-223
+          - CWE-778
