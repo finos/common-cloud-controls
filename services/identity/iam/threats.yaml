@@ -216,3 +216,21 @@ threats:
         identifiers:
           - T1078.004 # Valid Accounts: Cloud Accounts
           - T1552 # Unsecured Credentials
+
+  - id: CCC.IAM.TH12
+    title: IAM Role is Coerced into Unauthorized Cross-Account Actions (Confused Deputy)
+    description: |
+      An external actor tricks a legitimate, authorized third-party application into making requests
+      to the cloud environment. A role in the cloud account (the "deputy"), which trusts that third-party
+      application, then performs unauthorized actions on behalf of the actor.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F06 # IAM Roles / Service Principals
+          - CCC.IAM.F10 # Custom Roles
+          - CCC.IAM.F15 # Role Assumption / Delegation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1199 # Trusted Relationship
+          - T1548.005 # Abuse Elevation Control Mechanism: Temporary Elevated Cloud Access
