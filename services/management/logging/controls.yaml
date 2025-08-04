@@ -1,0 +1,267 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers:
+      - CCC.C01 # Prevent Unencrypted Requests
+      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - CCC.C04 # Log All Access and Changes
+      - CCC.C05 # Prevent Access from Untrusted Entities
+      - CCC.C06 # Prevent Deployment in Restricted Regions
+      - CCC.C07 # Alert on Unusual Enumeration Activity
+      - CCC.C08 # Enable Multi-zone or Multi-region Data Replication
+      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+      - CCC.C11 # Enforce Key Management Policies
+
+control-families:
+  - title: Data
+    description: |
+      Controls related to the confidentiality, integrity and availability of log data.
+    controls:
+      - id: CCC.Logging.C01
+        title: Centralized and Comprehensive Log Aggregation
+        objective: |
+          Ensure all operational and security logs from across the cloud environment, including
+          applications, operating systems, network traffic, and cloud service activity, are captured
+          automatically and streamed to a central, secure log management service.
+        assessment-requirements:
+          - id: CCC.Logging.C01.TR01
+            text: |
+              When a new cloud account is created, provider-level audit and network flow logging MUST be
+              enabled by default and directed to the central sink.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.Logging.C01.TR02
+            text: |
+              When a new cloud compute resource is deployed, it MUST be configured to forward all relevant
+              logs (e.g., OS, application, service logs) to the central log sink.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Logging.TH07 # Insufficient Logging
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.PS-04
+          - reference-id: NIST_800_53
+            identifiers:
+              - AU-2
+              - AU-3
+      - id: CCC.Logging.C02
+        title: Enforce Data Retention Policy for Logs
+        objective: |
+          Ensure that the retention period configured for logs aligns with the organization's
+          data retention policy.
+        assessment-requirements:
+          - id: CCC.Logging.C02.TR01
+            text: |
+              When a new log bucket or stream is created, its retention policy MUST be configured
+              in accordance with organisation's data retention policy.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.Logging.C02.TR02
+            text: |
+              When a query is performed to retrieve log events older than the number of days defined
+              in the organisation's data retention policy, it MUST return an empty result.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Logging.TH05 # Log Retention Policy Evasion or Misconfiguration
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - GV.PO-01
+          - reference-id: NIST_800_53
+            identifiers:
+              - AU-11
+      - id: CCC.Logging.C03
+        title: Enable Object Lock On Log Bucket
+        objective: |
+          Ensure log immutability by enabling Write Once, Read Many (WORM) protection
+          using object lock on log storage buckets. This prevents logs from being modified
+          or deleted during the defined retention period, supporting compliance and forensic
+          integrity.
+        assessment-requirements:
+          - id: CCC.AuditLog.C08.TR01
+            text: |
+              When an attempt is made to modify or delete data before the object
+              lock period expires, then the action MUST be denied.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: |
+              Configure object lock policy.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH07 # Logs are Tampered With or Deleted
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.PS-04
+          - reference-id: NIST_800_53
+            identifiers:
+              - AU-9
+              - AU-11
+
+  - title: Identity and Access Management
+    description: |
+      Controls that restrict who can access and modify logs.
+    controls:
+      - id: CCC.Logging.C04
+        title: Restrict Field And Log Type Access
+        objective: |
+          Configure access to logs to follow the principle of least privilege in particular where technically
+          possible limit the log fields users have access to to prevent accidental exposure to sensitive
+          information such as PII.
+        assessment-requirements:
+          - id: CCC.AuditLog.C04.TR01
+            text: |
+              When restricted fields are accessed by unauthorized users, then those fields MUST remain masked.
+            applicability:
+              - tlp-red
+              - tlp-amber
+            recommendation: |
+              Review field level access controls on log data.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Logging.TH04 # Inadequate Log Anonymization/Masking
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.PS-04
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-6
+              - AU-9
+              - AC-3
+              - PT-2
+              - PT-3
+              - PT-3
+      - id: CCC.Logging.C05
+        title: Ensure Log Bucket is Not Publicly Accessible
+        objective: |
+          Ensure that log storage buckets are not publicly accessible to prevent unauthorized
+          access to sensitive log data. In addition, logs should be replicated to another cloud
+          region to enhance availability, durability, and support disaster recovery requirements.
+        assessment-requirements:
+          - id: CCC.Logging.C05.TR01
+            text: |
+              When a log storage bucket is created, the bucket's access control settings MUST
+              explicitly deny public read and write access.
+            applicability:
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+            recommendation: |
+              Configure bucket policies and access control lists (ACLs) to restrict public access.
+              Regularly review bucket permissions to ensure no public access has been inadvertently granted.
+          - id: CCC.Logging.C05.TR02
+            text: |
+              When the URL of a log storage bucket's object is accessed publicly, the action MUST be denied
+              by bucket policy.
+            applicability:
+              - tlp-red
+              - tlp-amber
+              - tlp-green
+            recommendation: |
+              Configure bucket policies and access control lists (ACLs) to restrict public access.
+              Regularly review bucket permissions to ensure no public access has been inadvertently granted.
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH01 # Access Control is Misconfigured
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - PR.AA-05
+          - reference-id: NIST_800_53
+            identifiers:
+              - AC-3
+              - SC-7
+
+  - title: Logging and Monitoring
+    description: |
+      Controls that collect, alert, and retain logging-related events.
+    controls:
+      - id: CCC.Logging.C06
+        title: Detect and Alert on Potential Log Exfiltration
+        objective: |
+          Identify and alert on anomalous data access patterns that may indicate an attempt
+          to exfiltrate log data.
+        assessment-requirements:
+          - id: CCC.Logging.C06.TR01
+            text: |
+              When a single principal executes an anomalously high number of log queries,
+              an alert MUST be generated.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.Logging.TH02 # Log Data Exfiltration via Query Interfaces
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - DE.CM-03
+              - DE.CM-09
+          - reference-id: NIST_800_53
+            identifiers:
+              - SI-4
+              - CA-7
+              - AU-6
+      - id: CCC.Logging.C07
+        title: Detect and Alert on Log Service Tampering
+        objective: |
+          Alert when any component of the critical logging infrastructure is disabled, modified,
+          or deleted, indicating a defense evasion attempt.
+        assessment-requirements:
+          - id: CCC.Logging.C07.TR01
+            text: |
+              When an audit log event is recorded that corresponds to a modification of the logging service
+              configuration such as disabling a log trail, deleting a log sink, or altering a log forwarding rule,
+              an alert MUST be generated.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            identifiers:
+              - CCC.TH16 # Logging and Monitoring are Disabled
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            identifiers:
+              - DE.CM-03
+              - DE.CM-09
+          - reference-id: NIST_800_53
+            identifiers:
+              - SI-4
+              - CA-7
+              - AU-6
