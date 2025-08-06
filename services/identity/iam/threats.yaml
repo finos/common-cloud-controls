@@ -1,0 +1,236 @@
+shared-threats:
+  - reference-id: CCC
+    identifiers:
+      - CCC.TH01 # Access Control is Misconfigured
+      - CCC.TH07 # Logs are Tampered With or Deleted
+      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - CCC.TH10 # Alerts are Intercepted
+      - CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - CCC.TH13 # Resource Tags are Manipulated
+      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+
+threats:
+  - id: CCC.IAM.TH01
+    title: Valid Cloud Credentials Abuse
+    description: |
+      Valid identity credentials such as access keys, tokens or passwords are misused or
+      compromised. Examples include public exposure, token theft, unprotected
+      metadata service of a compromised compute instance or brute-force attacks.
+      The use of these credentials can provide unauthorized access to the cloud environment,
+      potentially bypassing other security controls and enabling lateral movement across
+      cloud resources.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F02 # IAM Users
+          - CCC.IAM.F03 # Long-Term Credentials
+          - CCC.IAM.F04 # Password Management
+          - CCC.IAM.F07 # Managed Identities
+          - CCC.IAM.F08 # Federated Identity - SAML
+          - CCC.IAM.F09 # Federated Identity - OIDC
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078.004 # Valid Accounts: Cloud Accounts
+          - T1552 # Unsecured Credentials
+          - T1552.005 # Unsecured Credentials: Cloud Instance Metadata API
+          - T1528 # Steal Application Access Token
+          - T1110 # Brute Force
+
+  - id: CCC.IAM.TH02
+    title: Overly-Permissive IAM Policy
+    description: |
+      An access control policy attached to an identity or a resource is
+      configured with excessive permissions, violating the principle of least privilege.
+      This can enable unauthorized data access, privilege escalation, or other unintended
+      actions by principals whose credentials might be compromised or who are acting erroneously.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F02 # IAM Users
+          - CCC.IAM.F05 # IAM Groups
+          - CCC.IAM.F06 # IAM Roles / Service Principals
+          - CCC.IAM.F07 # Managed Identities
+          - CCC.IAM.F10 # Custom Roles
+          - CCC.IAM.F12 # Policy Conditions
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078.004 # Valid Accounts: Cloud Accounts
+
+  - id: CCC.IAM.TH03
+    title: Overly-Permissive Identity Trust Policy
+    description: |
+      An IAM role or service principal's trust policy is configured to allow principals
+      from untrusted or overly broad scopes, such as any identity in any account, to assume
+      or impersonate it. This can allow an external or unauthorized identity to gain access
+      to the cloud environment, completely bypassing internal identity controls.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F06 # IAM Roles / Service Principals
+          - CCC.IAM.F12 # Policy Conditions
+          - CCC.IAM.F15 # Role Assumption / Delegation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078.004 # Valid Accounts: Cloud Accounts
+
+  - id: CCC.IAM.TH04
+    title: Additional Cloud Credentials Creation
+    description: |
+      An adversary with access to a sufficiently privileged cloud account may create
+      additional credentials such as access keys, service accounts and
+      temporary credentials to establish persistance or elevate their privileges.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F02 # IAM Users
+          - CCC.IAM.F03 # Long-Term Credentials
+          - CCC.IAM.F04 # Password Management
+          - CCC.IAM.F08 # Federated Identity - SAML
+          - CCC.IAM.F09 # Federated Identity - OIDC
+          - CCC.IAM.F11 # Temporary Credentials
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1098.001 # Account Manipulation: Additional Cloud Credentials
+
+  - id: CCC.IAM.TH05
+    title: Additional IAM Roles Creation
+    description: |
+      An adversary with access to a sufficiently privileged cloud account may create
+      additional IAM roles to establish persistance or elevate their privileges.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F06 # IAM Roles / Service Principals
+          - CCC.IAM.F10 # Custom Roles
+          - CCC.IAM.F15 # Role Assumption / Delegation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1098.003 # Account Manipulation: Additional Cloud Roles
+
+  - id: CCC.IAM.TH06
+    title: IAM Policies Modification
+    description: |
+      An adversary with access to a sufficiently privileged cloud account may modify
+      IAM policies to establish persistance or elevate their privileges.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F02 # IAM Users
+          - CCC.IAM.F06 # IAM Roles / Service Principals
+          - CCC.IAM.F10 # Custom Roles
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1098.003 # Account Manipulation: Additional Cloud Roles
+          - T1556.009 # Modify Authentication Process: Conditional Access Policies
+
+  - id: CCC.IAM.TH07
+    title: Identity Inherits Excessive Permissions Through Group Membership
+    description: |
+      An identity principal becomes a member of one or more IAM groups, and the combined
+      policies of these groups grant permissions beyond what is necessary for the principal's
+      function. This "privilege creep" through group inheritance complicates auditing and can
+      lead to an identity having standing access to sensitive resources.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F05 # IAM Groups
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1098 # Account Manipulation
+
+  - id: CCC.IAM.TH08
+    title: Privilege Escalation via Indirect Role Usage
+    description: |
+      An identity principal possesses specific, highly privileged permissions, such as the
+      ability to pass roles or impersonate service accounts, that allow it to leverage
+      the permissions of a different, more privileged role. Even without being able
+      to directly assume the target role, the principal can attach it to a new resource
+      they control and then use that resource to perform unauthorized actions.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F02 # IAM Users
+          - CCC.IAM.F06 # IAM Roles / Service Principals
+          - CCC.IAM.F15 # Role Assumption / Delegation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1548.006 # Abuse Elevation Control Mechanism: Temporary Elevated Cloud Access
+
+  - id: CCC.IAM.TH09
+    title: Long-Lived Static Credentials
+    description: |
+      Long-lived static credentials such as access keys for an identity are used and
+      not rotated periodically according to security best practices, extending exposure
+      in the event of credentials compromise.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F02 # IAM Users
+          - CCC.IAM.F03 # Long-Term Credentials
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078.004 # Valid Accounts: Cloud Accounts
+          - T1552 # Unsecured Credentials
+
+  - id: CCC.IAM.TH10
+    title: Orphaned Federated Identity Retains Access
+    description: |
+      A federated identity is de-provisioned from the external Identity Provider (IdP),
+      but its corresponding cloud identity remains active within the cloud environment.
+      This orphaned identity creates a latent access path that could be exploited if the
+      original username is reactivated or reassigned in the IdP, granting unintended
+      access to a new principal.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F08 # Federated Identity - SAML
+          - CCC.IAM.F09 # Federated Identity - OIDC
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078 # Valid Accounts
+
+  - id: CCC.IAM.TH11
+    title: Unused Credentials
+    description: |
+      Unused IAM identity that is no longer needed or monitored remains active. Its compromise
+      is less likely to be detected, and it represents a persistent, unnecessary attack surface.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F02 # IAM Users
+          - CCC.IAM.F03 # Long-Term Credentials
+          - CCC.IAM.F04 # Password Management
+          - CCC.IAM.F06 # IAM Roles / Service Principals
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1078.004 # Valid Accounts: Cloud Accounts
+          - T1552 # Unsecured Credentials
+
+  - id: CCC.IAM.TH12
+    title: IAM Role is Coerced into Unauthorized Cross-Account Actions (Confused Deputy)
+    description: |
+      An external actor tricks a legitimate, authorized third-party application into making requests
+      to the cloud environment. A role in the cloud account (the "deputy"), which trusts that third-party
+      application, then performs unauthorized actions on behalf of the actor.
+    capabilities:
+      - reference-id: CCC
+        identifiers:
+          - CCC.IAM.F06 # IAM Roles / Service Principals
+          - CCC.IAM.F10 # Custom Roles
+          - CCC.IAM.F15 # Role Assumption / Delegation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        identifiers:
+          - T1199 # Trusted Relationship
+          - T1548.005 # Abuse Elevation Control Mechanism: Temporary Elevated Cloud Access
