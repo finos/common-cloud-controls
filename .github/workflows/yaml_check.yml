@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Validate YAML Schema
+      - name: Validate Catalogs Against Schemas
         uses: InoUno/yaml-ls-check@develop
         with:
           schemaMapping: |
@@ -20,4 +20,19 @@ jobs:
               "schemas/capabilities-schema.json": [ "services/**/capabilities.yml", "services/**/capabilities.yaml" ],
               "schemas/metadata-schema.json": [ "services/**/metadata.yml", "services/**/metadata.yaml" ],
               "schemas/threats-schema.json": [ "services/**/threats.yml", "services/**/threats.yaml" ]
+            }
+          excludeFiles: |
+            [
+              "services/core/reusable/*",
+            ]
+
+      - name: Validate Core/Reusable Against Schemas
+        uses: InoUno/yaml-ls-check@develop
+        with:
+          schemaMapping: |
+            {
+              "schemas/core-controls-schema.json": [ "services/core/reusable/controls.yml", "services/core/reusable/controls.yaml" ],
+              "schemas/core-capabilities-schema.json": [ "services/core/reusable/capabilities.yml", "services/core/reusable/capabilities.yaml" ],
+              "schemas/core-metadata-schema.json": [ "services/core/reusable/metadata.yml", "services/core/reusable/metadata.yaml" ],
+              "schemas/core-threats-schema.json": [ "services/core/reusable/threats.yml", "services/core/reusable/threats.yaml" ]
             }
