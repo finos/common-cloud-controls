@@ -8,7 +8,7 @@ Each threat definition corresponds to a service in the CCC Taxonomy, with every 
 
 To streamline maintenance, the CCC project maintains a list of [common threats].
 
-Each service category’s `threats.yaml` file references these common threats by listing their IDs under the top-level `common_threats` value. During the release pipeline, our [Delivery Toolkit] compiles these common threats into the final document alongside any service-specific threats. In the final output, both types of threats are presented consistently, with the unique identifier being the only difference.
+Each service category’s `threats.yaml` file references these common threats by listing their IDs under the top-level `shared-threats` value. During the release pipeline, our [Delivery Toolkit] compiles these common threats into the final document alongside any service-specific threats. In the final output, both types of threats are presented consistently, with the unique identifier being the only difference.
 
 ### Common Threats
 
@@ -24,7 +24,7 @@ Each service category’s `threats.yaml` file references these common threats by
 
 When creating or updating a `threats.yaml` file for a service category, follow these steps:
 
-1. **Review Common Threats**: Start by reviewing the [common threats] list. If any common threats apply to this category, reference them by adding their IDs to the `common_threats` list.
+1. **Review Common Threats**: Start by reviewing the [common threats] list. If any common threats apply to this category, reference them by adding their IDs to the `shared-threats` list.
 2. **Define Specific Threats**: If a threat is unique to the service category, document it in the `threats` section of the `threats.yaml` file.
 3. **Consider Generalization**: If a specific threat could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common threats] list.
 

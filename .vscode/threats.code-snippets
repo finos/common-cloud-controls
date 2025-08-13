@@ -3,7 +3,7 @@
 		"scope": "yaml",
 		"prefix": "threats-file, finosccc:threats-file",
 		"body": [
-			"common_threats:",
+			"shared-threats:",
 			"  - <IDs of common threats; Omit if not applicable>",
 			"threats:",
 			"  - id: CCC.<category-id>.TH01",
