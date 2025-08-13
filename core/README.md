@@ -16,13 +16,13 @@ metadata:
   title: Some New Cloud Service Category
   version: ""
   description: ""
-  last-modified: "" 
+  last-modified: ""
   mapping-references:
-  - id: CCC
-    title: Common Cloud Controls Core
-    version: v2025.08
-    url: https://github.com/finos/common-cloud-controls/releases/tag/v2025.08.Core
-    description: ""
+    - id: CCC
+      title: Common Cloud Controls Core
+      version: v2025.08
+      url: https://github.com/finos/common-cloud-controls/releases/tag/v2025.08.Core
+      description: ""
 ```
 
 ## Reuse a capability from this catalog

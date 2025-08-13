@@ -28,7 +28,7 @@ jobs:
           schemaMapping: |
             {
               "schemas/core-controls-schema.json": [ "services/core/controls.yml", "services/core/controls.yaml" ],
-              "schemas/core-capabilities-schema.json": [ 
+              "schemas/core-capabilities-schema.json": [
                 "services/core/capabilities.yml",
                 "services/core/capabilities.yaml"
               ],
