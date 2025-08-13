@@ -914,7 +914,7 @@ threats:
         the system.
       features:
         - CCC.F06
-      mitre_technique:
+      external-mappings:
         - T1078
         - T1548
         - T1203
@@ -937,7 +937,7 @@ threats:
         sensitive information or unintended data alterations.
       features:
         - CCC.F01
-      mitre_technique:
+      external-mappings:
         - T1557
         - T1040
       link: cccth02---data-is-intercepted-in-transit
@@ -952,7 +952,7 @@ threats:
       features:
         - CCC.F08
         - CCC.F22
-      mitre_technique:
+      external-mappings:
         - T1040
         - T1110
         - T1105
@@ -968,7 +968,7 @@ threats:
         perimeter.
       features:
         - CCC.F21
-      mitre_technique:
+      external-mappings:
         - T1565
       link: cccth04---data-is-replicated-to-untrusted-or-external-locations
     - id: CCC.TH05
@@ -983,7 +983,7 @@ threats:
         - CCC.F08
         - CCC.F12
         - CCC.F21
-      mitre_technique:
+      external-mappings:
         - T1485
         - T1565
         - T1491
@@ -998,7 +998,7 @@ threats:
       features:
         - CCC.F11
         - CCC.F18
-      mitre_technique:
+      external-mappings:
         - T1485
         - T1565
         - T1491
@@ -1014,7 +1014,7 @@ threats:
       features:
         - CCC.F03
         - CCC.F10
-      mitre_technique:
+      external-mappings:
         - T1070
         - T1565
         - T1027
@@ -1028,7 +1028,7 @@ threats:
         detection.
       features:
         - CCC.F15
-      mitre_technique:
+      external-mappings:
         - T1565
         - T1070
       link: cccth08---cost-management-data-is-manipulated
@@ -1043,7 +1043,7 @@ threats:
       features:
         - CCC.F03
         - CCC.F09
-      mitre_technique:
+      external-mappings:
         - T1003
         - T1007
         - T1018
@@ -1070,7 +1070,7 @@ threats:
         - CCC.F07
         - CCC.F09
         - CCC.F17
-      mitre_technique:
+      external-mappings:
         - T1057
         - T1049
         - T1083
@@ -1085,7 +1085,7 @@ threats:
       features:
         - CCC.F07
         - CCC.F17
-      mitre_technique:
+      external-mappings:
         - T1205
         - T1001.001
         - T1491.001
@@ -1102,7 +1102,7 @@ threats:
         - CCC.F04
         - CCC.F16
         - CCC.F19
-      mitre_technique:
+      external-mappings:
         - T1496
         - T1499
         - T1498
@@ -1116,7 +1116,7 @@ threats:
         vulnerabilities.
       features:
         - CCC.F20
-      mitre_technique:
+      external-mappings:
         - T1565
       link: cccth13---resource-tags-are-manipulated
     - id: CCC.TH14
@@ -1128,7 +1128,7 @@ threats:
         leading to security risks or operational disruptions.
       features:
         - CCC.F18
-      mitre_technique:
+      external-mappings:
         - T1027
         - T1485
         - T1565
@@ -1149,7 +1149,7 @@ threats:
         exposure.
       features:
         - CCC.F14
-      mitre_technique:
+      external-mappings:
         - T1580
       link: cccth15---automated-enumeration-and-reconnaissance-by-non-human-entities
     - id: CCC.TH16
@@ -1162,7 +1162,7 @@ threats:
       features:
         - CCC.F10
         - CCC.F09
-      mitre_technique:
+      external-mappings:
         - T1562
       link: cccth16---logging-and-monitoring-are-disabled
     - id: CCC.TH17
@@ -1174,7 +1174,7 @@ threats:
         resources or data and disruption to service availability.
       features:
         - CCC.F23
-      mitre_technique:
+      external-mappings:
         - T1046
         - T1133
       link: cccth17---unauthorized-network-access-via-misconfigured-rules
@@ -1187,7 +1187,7 @@ threats:
       features:
         - CCC.RDMS.F06
         - CCC.RDMS.F07
-      mitre_technique:
+      external-mappings:
         - T1078
       link: cccrdmsth01---unauthorized-access-via-default-credentials
     - id: CCC.RDMS.TH02
@@ -1199,7 +1199,7 @@ threats:
         and sensitive information.
       features:
         - CCC.RDMS.F07
-      mitre_technique:
+      external-mappings:
         - T1110
       link: cccrdmsth02---brute-force-attempts-on-database-authentication
     - id: CCC.RDMS.TH03
@@ -1210,7 +1210,7 @@ threats:
         increases the risk of data loss and extended system downtime.
       features:
         - CCC.F11
-      mitre_technique:
+      external-mappings:
         - T1490
       link: cccrdmsth03---database-backups-stopped
     - id: CCC.RDMS.TH04
@@ -1222,7 +1222,7 @@ threats:
         corruption.
       features:
         - CCC.F11
-      mitre_technique:
+      external-mappings:
         - T1485
       link: cccrdmsth04---unintentional-database-backup-restoration
     - id: CCC.RDMS.TH05
@@ -1234,7 +1234,7 @@ threats:
         in the snapshots.
       features:
         - CCC.F11
-      mitre_technique:
+      external-mappings:
         - T1530
       link: cccrdmsth05---unauthorized-snapshot-sharing
 latestreleasedetails:

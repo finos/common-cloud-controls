@@ -1003,7 +1003,7 @@ threats:
         privileges or gain unauthorized access to sensitive resources.
       features:
         - CCC.F06
-      mitre_technique:
+      external-mappings:
         - T1078
         - T1548
         - T1203
@@ -1025,7 +1025,7 @@ threats:
         modify the data during transmission.
       features:
         - CCC.F01
-      mitre_technique:
+      external-mappings:
         - T1557
         - T1040
       link: cccth02---data-is-intercepted-in-transit
@@ -1038,7 +1038,7 @@ threats:
         vulnerabilities.
       features:
         - CCC.F08
-      mitre_technique:
+      external-mappings:
         - T1040
         - T1110
         - T1105
@@ -1053,7 +1053,7 @@ threats:
         outside the organization's trusted perimeter.
       features:
         - CCC.F21
-      mitre_technique:
+      external-mappings:
         - T1565
       link: cccth04---data-is-replicated-to-untrusted-or-external-locations
     - id: CCC.TH05
@@ -1066,7 +1066,7 @@ threats:
         - CCC.F08
         - CCC.F12
         - CCC.F21
-      mitre_technique:
+      external-mappings:
         - T1485
         - T1565
         - T1491
@@ -1082,7 +1082,7 @@ threats:
       features:
         - CCC.F11
         - CCC.F18
-      mitre_technique:
+      external-mappings:
         - T1485
         - T1565
         - T1491
@@ -1097,7 +1097,7 @@ threats:
       features:
         - CCC.F03
         - CCC.F10
-      mitre_technique:
+      external-mappings:
         - T1070
         - T1565
         - T1027
@@ -1110,7 +1110,7 @@ threats:
         to exhaust budgets, cause financial losses, or evade detection of other attacks.
       features:
         - CCC.F15
-      mitre_technique:
+      external-mappings:
         - T1565
         - T1070
       link: cccth08---cost-management-data-is-manipulated
@@ -1124,7 +1124,7 @@ threats:
       features:
         - CCC.F03
         - CCC.F09
-      mitre_technique:
+      external-mappings:
         - T1003
         - T1007
         - T1018
@@ -1149,7 +1149,7 @@ threats:
         - CCC.F07
         - CCC.F09
         - CCC.F17
-      mitre_technique:
+      external-mappings:
         - T1057
         - T1049
         - T1083
@@ -1164,7 +1164,7 @@ threats:
       features:
         - CCC.F07
         - CCC.F17
-      mitre_technique:
+      external-mappings:
         - T1205
         - T1001.001
         - T1491.001
@@ -1182,7 +1182,7 @@ threats:
         - CCC.F04
         - CCC.F16
         - CCC.F19
-      mitre_technique:
+      external-mappings:
         - T1496
         - T1499
         - T1498
@@ -1195,7 +1195,7 @@ threats:
         resources, unauthorized access, or financial abuse.
       features:
         - CCC.F20
-      mitre_technique:
+      external-mappings:
         - T1565
       link: cccth13---resource-tags-are-manipulated
     - id: CCC.TH14
@@ -1207,7 +1207,7 @@ threats:
         to bypass security measures.
       features:
         - CCC.F18
-      mitre_technique:
+      external-mappings:
         - T1027
         - T1485
         - T1565
@@ -1228,7 +1228,7 @@ threats:
         or data theft.
       features:
         - CCC.F14
-      mitre_technique:
+      external-mappings:
         - T1580
       link: cccth15---automated-enumeration-and-reconnaissance-by-non-human-entities
     - id: CCC.ObjStor.TH01
@@ -1240,7 +1240,7 @@ threats:
       features:
         - CCC.ObjStor.F08
         - CCC.F11
-      mitre_technique:
+      external-mappings:
         - T1020
         - T1537
         - T1567
@@ -1255,7 +1255,7 @@ threats:
         loss or tampering.
       features:
         - CCC.ObjStor.F09
-      mitre_technique:
+      external-mappings:
         - T1027
         - T1485
         - T1490
