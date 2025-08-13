@@ -84,7 +84,7 @@ Controls for a given service typically reside in a `controls.yaml` file (e.g., `
    - Verify IDs, titles, and descriptions match the relevant threats where applicable.
 
 2. **Add Any Missing Common Controls**
-   - Review the [shared-controls.yaml](/common/controls.yaml).
+   - Review the [core controls](/core/controls.yaml).
    - In your `controls.yaml`, find or create a top-level `common_controls` key.
    - Add references to any relevant common controls not already included.
    - See the [object storage controls.yaml](/services/storage/object/controls.yaml) for an example.
@@ -133,7 +133,7 @@ Controls for a given service typically reside in a `controls.yaml` file (e.g., `
   [core/threats.yaml](/core/threats.yaml)
 
 - **Common Controls**
-  [core/controls.yaml](/common/controls.yaml)
+  [core/controls.yaml](/core/controls.yaml)
 
 - **Example Completed Service**
   - Threats: [services/storage/object/threats.yaml](/services/storage/object/threats.yaml)
