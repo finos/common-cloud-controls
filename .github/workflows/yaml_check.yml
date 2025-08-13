@@ -21,18 +21,14 @@ jobs:
               "schemas/metadata-schema.json": [ "services/**/metadata.yml", "services/**/metadata.yaml" ],
               "schemas/threats-schema.json": [ "services/**/threats.yml", "services/**/threats.yaml" ]
             }
-          excludeFiles: |
-            [
-              "services/core/reusable/*",
-            ]
 
-      - name: Validate Core/Reusable Against Schemas
+      - name: Validate core Catalog
         uses: InoUno/yaml-ls-check@develop
         with:
           schemaMapping: |
             {
-              "schemas/core-controls-schema.json": [ "services/core/reusable/controls.yml", "services/core/reusable/controls.yaml" ],
-              "schemas/core-capabilities-schema.json": [ "services/core/reusable/capabilities.yml", "services/core/reusable/capabilities.yaml" ],
-              "schemas/core-metadata-schema.json": [ "services/core/reusable/metadata.yml", "services/core/reusable/metadata.yaml" ],
-              "schemas/core-threats-schema.json": [ "services/core/reusable/threats.yml", "services/core/reusable/threats.yaml" ]
+              "schemas/core-controls-schema.json": [ "services/core/controls.yml", "services/core/controls.yaml" ],
+              "schemas/core-capabilities-schema.json": [ "services/core/capabilities.yml", "services/core/capabilities.yaml" ],
+              "schemas/core-metadata-schema.json": [ "services/core/metadata.yml", "services/core/metadata.yaml" ],
+              "schemas/core-threats-schema.json": [ "services/core/threats.yml", "services/core/threats.yaml" ]
             }
