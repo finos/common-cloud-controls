@@ -6,13 +6,13 @@ Each feature definition should be created for a service in the CCC Taxonomy, wit
 
 ## Common vs. Specific Capabilities
 
-To streamline maintenance, the CCC project maintains a list of [common capabilities].
+To streamline maintenance, the CCC project maintains a catalog of [core capabilities] that can be imported into other files.
 
 Each service category’s `capabilities.yaml` file references common capabilities by listing their IDs under the top-level `shared-capabilities` value. During the release pipeline, our [Delivery Toolkit] compiles these common capabilities into the final document alongside any specific capabilities. In the final output, both types of capabilities are presented consistently, with the unique identifier being the only difference.
 
 ### Common Capabilities
 
-- Common capabilities are reusable across multiple service categories. They are documented once in the [common capabilities] file and referenced where applicable.
+- Common capabilities are reusable across multiple service categories. They are documented once in the [core capabilities] file and referenced where applicable.
 - These capabilities streamline the process by reducing redundancy and providing a consistent baseline across service categories.
 
 ### Specific Capabilities
@@ -24,9 +24,9 @@ Each service category’s `capabilities.yaml` file references common capabilitie
 
 When creating or updating a `capabilities.yaml` file for a service category, follow these steps:
 
-1. **Review Common Capabilities**: Start by reviewing the [common capabilities] list. If any common capabilities apply to this category, reference them by adding their IDs to the `shared-capabilities` list.
+1. **Review Common Capabilities**: Start by reviewing the latest released version of the [core capabilities]. If any common capabilities apply to this category, reference them by adding their IDs to the `shared-capabilities` list.
 2. **Define Specific Capabilities**: If a feature is unique to the service category, document it in the `specific-capabilities` section of the `capabilities.yaml` file.
-3. **Consider Generalization**: If a specific feature could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common capabilities] list.
+3. **Consider Generalization**: If a specific feature could apply to at least three other service categories, evaluate whether it can be generalized and added to the [core capabilities] list.
 
 ## Capability Definition Format
 
@@ -45,6 +45,6 @@ When creating a new feature definition, use the following values:
 
 Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
-[common capabilities]: /common/capabilities.yaml
+[core capabilities]: /common/capabilities.yaml
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [Delivery Toolkit]: /delivery-toolkit
