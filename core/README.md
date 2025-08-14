@@ -2,7 +2,7 @@
 
 This catalog is not intended for end user adoption, but rather acts as a central mechanism for all other catalogs to reference. By maintaining this as a standalone version-controlled catalog, we can increase clarity as to the source of the controls when elements from this directory are brought in as shared entries to service-specific catalogs.
 
-This catalog may be imported ot other catalogs by adding the catalog data in a mapping reference entry, then targeting the relevant elements each by ID.
+This catalog may be imported to other catalogs by adding the catalog data in a mapping reference entry, then targeting the relevant elements each by ID.
 
 ## Add this catalog to your metadata
 
