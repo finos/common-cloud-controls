@@ -51,6 +51,7 @@ Below is the list of participants in the {standard_name}, who have committed to 
 - Rob Kenefeck, ControlPlane, Jun/26/2025
 - Zac Rubin, Scott Logic, Jun/26/2025
 - Tom Cope, ControlPlane, Jul/03/2025
+- Owen Corey, Scott Logic, Aug/06/2025
 
 ## How to enroll as a participant
 
