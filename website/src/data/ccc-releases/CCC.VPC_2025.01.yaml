@@ -867,7 +867,7 @@ threats:
         privileges or gain unauthorized access to sensitive resources.
       features:
         - CCC.F06
-      mitre_technique:
+      external-mappings:
         - T1078
         - T1548
         - T1203
@@ -889,7 +889,7 @@ threats:
         modify the data during transmission.
       features:
         - CCC.F01
-      mitre_technique:
+      external-mappings:
         - T1557
         - T1040
       link: cccth02---data-is-intercepted-in-transit
@@ -902,7 +902,7 @@ threats:
         vulnerabilities.
       features:
         - CCC.F08
-      mitre_technique:
+      external-mappings:
         - T1040
         - T1110
         - T1105
@@ -917,7 +917,7 @@ threats:
         outside the organization's trusted perimeter.
       features:
         - CCC.F21
-      mitre_technique:
+      external-mappings:
         - T1565
       link: cccth04---data-is-replicated-to-untrusted-or-external-locations
     - id: CCC.TH05
@@ -930,7 +930,7 @@ threats:
         - CCC.F08
         - CCC.F12
         - CCC.F21
-      mitre_technique:
+      external-mappings:
         - T1485
         - T1565
         - T1491
@@ -946,7 +946,7 @@ threats:
       features:
         - CCC.F11
         - CCC.F18
-      mitre_technique:
+      external-mappings:
         - T1485
         - T1565
         - T1491
@@ -961,7 +961,7 @@ threats:
       features:
         - CCC.F03
         - CCC.F10
-      mitre_technique:
+      external-mappings:
         - T1070
         - T1565
         - T1027
@@ -974,7 +974,7 @@ threats:
         to exhaust budgets, cause financial losses, or evade detection of other attacks.
       features:
         - CCC.F15
-      mitre_technique:
+      external-mappings:
         - T1565
         - T1070
       link: cccth08---cost-management-data-is-manipulated
@@ -988,7 +988,7 @@ threats:
       features:
         - CCC.F03
         - CCC.F09
-      mitre_technique:
+      external-mappings:
         - T1003
         - T1007
         - T1018
@@ -1013,7 +1013,7 @@ threats:
         - CCC.F07
         - CCC.F09
         - CCC.F17
-      mitre_technique:
+      external-mappings:
         - T1057
         - T1049
         - T1083
@@ -1028,7 +1028,7 @@ threats:
       features:
         - CCC.F07
         - CCC.F17
-      mitre_technique:
+      external-mappings:
         - T1205
         - T1001.001
         - T1491.001
@@ -1046,7 +1046,7 @@ threats:
         - CCC.F04
         - CCC.F16
         - CCC.F19
-      mitre_technique:
+      external-mappings:
         - T1496
         - T1499
         - T1498
@@ -1059,7 +1059,7 @@ threats:
         resources, unauthorized access, or financial abuse.
       features:
         - CCC.F20
-      mitre_technique:
+      external-mappings:
         - T1565
       link: cccth13---resource-tags-are-manipulated
     - id: CCC.TH14
@@ -1071,7 +1071,7 @@ threats:
         to bypass security measures.
       features:
         - CCC.F18
-      mitre_technique:
+      external-mappings:
         - T1027
         - T1485
         - T1565
@@ -1092,7 +1092,7 @@ threats:
         or data theft.
       features:
         - CCC.F14
-      mitre_technique:
+      external-mappings:
         - T1580
       link: cccth15---automated-enumeration-and-reconnaissance-by-non-human-entities
     - id: CCC.VPC.TH01
@@ -1103,7 +1103,7 @@ threats:
         breaches.
       features:
         - CCC.VPC.F01
-      mitre_technique:
+      external-mappings:
         - T1040
       link: cccvpcth01---unauthorized-access-via-insecure-default-networks
     - id: CCC.VPC.TH02
@@ -1114,7 +1114,7 @@ threats:
         exploitation of vulnerabilities, or unauthorized access.
       features:
         - CCC.VPC.F04
-      mitre_technique:
+      external-mappings:
         - T1133
         - T1078
       link: cccvpcth02---exposure-of-resources-to-public-internet
@@ -1126,7 +1126,7 @@ threats:
         exposure or exfiltration.
       features:
         - CCC.VPC.F11
-      mitre_technique:
+      external-mappings:
         - T1599
       link: cccvpcth03---unauthorized-network-access-through-vpc-peering
     - id: CCC.VPC.TH04
@@ -1138,7 +1138,7 @@ threats:
         visibility increases the risk of undetected security incidents.
       features:
         - CCC.VPC.F16
-      mitre_technique:
+      external-mappings:
         - T1562
       link: cccvpcth04---lack-of-network-visibility-due-to-disabled-vpc-flow-logs
     - id: CCC.VPC.TH05
@@ -1148,7 +1148,7 @@ threats:
         resources within the VPC to unintended principals or external threats.
       features:
         - CCC.VPC.F17
-      mitre_technique:
+      external-mappings:
         - T1078
         - T1071
       link: cccvpcth05---overly-permissive-vpc-endpoint-policies

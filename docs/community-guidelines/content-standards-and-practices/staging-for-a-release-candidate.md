@@ -53,7 +53,7 @@ Threats for a given service typically reside in a `threats.yaml` file (e.g., `se
 
 2. **Add Any Missing Common Threats**
    - Review the [shared-threats.yaml](/common/threats.yaml) to see the full list of common threats.
-   - In `threats.yaml`, find or create a top-level `common_threats` key.
+   - In `threats.yaml`, find or create a top-level `shared-threats` key.
    - Add references to any relevant common threats not already included.
    - See an example of a fully populated list in the [object storage threats.yaml](/services/storage/object/threats.yaml).
 
@@ -62,7 +62,7 @@ Threats for a given service typically reside in a `threats.yaml` file (e.g., `se
    - Use the object storage example (linked above) as a guide.
 
 4. **Remove Duplications**
-   - If a threat already exists in `shared-threats.yaml` but is also listed separately under `threats`, move or reference it under `common_threats` and remove the duplicate.
+   - If a threat already exists in `shared-threats.yaml` but is also listed separately under `threats`, move or reference it under `shared-threats` and remove the duplicate.
    - This step ensures we don’t maintain two versions of the same threat.
 
 5. **Check ID Ordering**

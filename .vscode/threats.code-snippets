@@ -3,7 +3,7 @@
 		"scope": "yaml",
 		"prefix": "threats-file, finosccc:threats-file",
 		"body": [
-			"common_threats:",
+			"shared-threats:",
 			"  - <IDs of common threats; Omit if not applicable>",
 			"threats:",
 			"  - id: CCC.<category-id>.TH01",
@@ -11,7 +11,7 @@
 			"    description: <Complete description of the threat>",
 			"    capabilities:",
 			"      - <category-id>.F<#>",
-			"    mitre_technique: ",
+			"    external-mappings: ",
 			"      - <Mitre ATT&CK tactic ID>",
 			"      - <Mitre ATT&CK technique ID>",
 			""
@@ -27,7 +27,7 @@
 			"    description: <Complete description of the threat>",
 			"    capabilities:",
 			"      - CCC.<category-id>.F<#>",
-			"    mitre_technique: ",
+			"    external-mappings: ",
 			"      - <Mitre ATT&CK tactic ID>",
 			"      - <Mitre ATT&CK technique ID>",
 			""
