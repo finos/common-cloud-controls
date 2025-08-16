@@ -1,0 +1,173 @@
+participants:
+  Citi:
+    - name: Michael Lysaght
+      enrollment_date: Mar/07/2024
+      github_id: mlysaght2017
+    - name: Damien Burks
+      enrollment_date: Mar/07/2024
+      github_id: damienjburks
+    - name: Ian Walker-Smith
+      enrollment_date: Nov/10/2024
+      github_id: ianwalkersmithciticom
+
+  ControlPlane:
+    - name: Rowan Baker
+      enrollment_date: Nov/10/2023
+      github_id: 
+    - name: Henry Mortimer
+      enrollment_date: Jan/26/2024
+      github_id: 
+    - name: Gabriela Georgieva
+      enrollment_date: Jun/25/2025
+      github_id: gabriellavengeo
+    - name: Yannis Folias
+      enrollment_date: Jun/25/2025
+      github_id: yfolias
+    - name: Rob Kenefeck
+      enrollment_date: Jun/26/2025
+      github_id: rkenefeck
+    - name: Tom Cope
+      enrollment_date: Jul/03/2025
+      github_id: copethomas
+    - name: Vicente Herrera Garcia
+      enrollment_date: Nov/09/2023
+      github_id: 
+
+  FINOS:
+    - name: Rob Moffat
+      enrollment_date: Feb/01/2024
+      github_id: robmoffat
+
+  Google:
+    - name: Naseer Mohammad
+      enrollment_date: Sep/14/2023
+      github_id: nas-hub
+    - name: Valentin Mihai
+      enrollment_date: Sep/22/2023
+      github_id: valmihai
+    - name: Rachel Kim
+      enrollment_date: Sep/22/2023
+      github_id: rachkim00
+    - name: Aaron Sutton
+      enrollment_date: Nov/07/2023
+      github_id: aaronsutton
+    - name: Kamran Kazmi
+      enrollment_date: Sep/20/2024
+      github_id: kazmik23
+
+  JupiterOne:
+    - name: Zeal Somani
+      enrollment_date: Mar/07/2024
+      github_id: zeal-somani
+
+  LSEG:
+    - name: Leroy Abikhui
+      enrollment_date: Jul/16/2024
+      github_id: abikhuil
+    - name: Akin Akinbobola
+      enrollment_date: Jan/16/2025
+      github_id: avafolz
+    - name: Vlad Georgescu
+      enrollment_date: Jan/16/2025
+      github_id: vgeorgescu
+
+  Microsoft:
+    - name: Jared Lambert
+      enrollment_date: Apr/01/2024
+      github_id: jared-lambert
+
+  Moody's:
+    - name: Diego Mastroianni
+      enrollment_date: Apr/25/2025
+      github_id: dmastroianni
+
+  NatWest Group:
+    - name: Ted Newman
+      enrollment_date: Jul/17/2024
+      github_id: vCTO
+    - name: Kris West
+      enrollment_date: Feb/25/2025
+      github_id: kriswest
+    - name: James Mcleod
+      enrollment_date: Sep/26/2025
+      github_id: mcleo-d
+    - name: Chris Plank
+      enrollment_date: Jul/17/2024
+      github_id: ChrisPlank
+
+  Percona:
+    - name: Steve Hoffman
+      enrollment_date: Oct/16/2024
+      github_id: shoffman-percona
+
+  RBC:
+    - name: Maxime Coquerel
+      enrollment_date: Jan/13/2025
+      github_id: zigmax
+
+  Red Hat:
+    - name: Emily Fox
+      enrollment_date: Sep/14/2023
+      github_id: TheFoxAtWork
+    - name: Adrian Hammond
+      enrollment_date: Oct/05/2023
+      github_id: AdrianHammond
+
+  Scott Logic:
+    - name: Euthyme Ziogas
+      enrollment_date: Sep/14/2023
+      github_id: eziogas-scottlogic
+    - name: Sonali Mendis
+      enrollment_date: Sep/14/2023
+      github_id: smendis-scottlogic
+    - name: Robert Griffiths
+      enrollment_date: Oct/06/2023
+      github_id: rgriffiths-scottlogic
+    - name: Charlotte Hayes
+      enrollment_date: Oct/19/2023
+      github_id: chayes-scottlogic
+    - name: Steven Shiells
+      enrollment_date: Oct/19/2023
+      github_id: sshiells-scottlogic
+    - name: Joshua Isted
+      enrollment_date: Mar/06/2024
+      github_id: jisted-scottlogic
+    - name: Ivan Mladjenovic
+      enrollment_date: Jun/28/2024
+      github_id: IMladjenovic
+    - name: Dave Ogle
+      enrollment_date: Jun/28/2024
+      github_id: dogle-scottlogic
+    - name: Mike Smith
+      enrollment_date: Sep/11/2024
+      github_id: mic-smith
+    - name: Daniel Moorhouse
+      enrollment_date: Sep/16/2024
+      github_id: dmoorhouse-scottlogic
+    - name: Gordon Campbell
+      enrollment_date: Jan/14/2025
+      github_id: gcampbell-sl
+    - name: Joel Matthews
+      enrollment_date: Apr/24/2025
+      github_id: jmatthews-scottlogic
+    - name: Zac Rubin
+      enrollment_date: Jun/26/2025
+      github_id: zrubin-scottlogic
+    - name: Owen Corey
+      enrollment_date: Aug/06/2025
+      github_id: ocorey-scottlogic
+
+  Sonatype:
+    - name: Eddie Knight
+      enrollment_date: Sep/14/2023
+      github_id: eddie-knight
+
+  Symphony:
+    - name: Mitch Hibbs
+      enrollment_date: Oct/05/2023
+      github_id: speedwater
+
+  Weaver:
+    - name: Eric Peeters
+      enrollment_date: Jun/12/2024
+      github_id: fossil-creek 

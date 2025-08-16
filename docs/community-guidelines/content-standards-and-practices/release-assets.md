@@ -56,7 +56,7 @@ title: Object Storage
 id: CCC.OBJSTG
 description: |
   Object Storage services allow the storage of unstructured data in scalable, high-availability, and high-durability systems. Examples include AWS S3, Azure Blob Storage, and Google Cloud Storage.
-release_details:
+release-details:
   - version: 2024.09
     assurance_level: AL2
     threat_model_url: https://example.com/threat-model

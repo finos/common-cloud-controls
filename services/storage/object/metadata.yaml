@@ -1,57 +1,118 @@
 metadata:
-  id: CCC.ObjStor
-  title: Object Storage
-  description: |
-      Object storage is a data storage architecture that manages data as objects,
-      rather than as files or blocks. Each object contains the data itself,
-      metadata, and a unique identifier, making it ideal for storing large amounts
-      of unstructured data such as multimedia files, backups, and archives. It is
-      highly scalable and often used in cloud environments due to its flexibility
-      and accessibility.
-  version: "2025.01"
-  last-modified: "2025-04-16T20:50:00-05:00"
-  applicability-categories: []
-  mapping-references: []
-
-release_details:
-  - version: "2025.01"
-    assurance_level: None
-    threat_model_url: None
-    threat_model_author: None
-    red_team: None
-    red_team_exercise_url: None
-    release_manager:
-      name: Damien Burks
-      github_id: damienjburks
-      company: Citi
-      summary: |
-        This initial release is part of the first batch of control catalogs
-        produced by the CCC. It is the result of thousands of hours dedicated to
-        exploring different ways of working and collaborating, on top of time
-        spent researching, writing, and reviewing the content. This marks a huge
-        milestone for the CCC and the broader community as further releases will
-        continue to build on this foundation. A huge thanks to everyone who has
-        brought us to this point!
-    change_log:
-      - |
-        This initial release contains a variety of commits designed to capture
-        all of the capabilities, threats, and controls for this service category.
-    contributors:
-      - name: Sonali Mendis
-        github_id: smendis-scottlogic
-        company: Scott Logic
-      - name: Eddie Knight
-        github_id: eddie-knight
+    id: CCC.ObjStor
+    title: Object Storage
+    description: |
+        Object storage is a data storage architecture that manages data as objects,
+        rather than as files or blocks. Each object contains the data itself,
+        metadata, and a unique identifier, making it ideal for storing large amounts
+        of unstructured data such as multimedia files, backups, and archives. It is
+        highly scalable and often used in cloud environments due to its flexibility
+        and accessibility.
+    version: "2025.01"
+    last-modified: "2025-04-16T20:50:00-05:00"
+release-details:
+    - version: "2025.08"
+      assurance-level: ""
+      threat-model-url: ""
+      threat-model-author: ""
+      red-team: ""
+      red-team-exercise-url: ""
+      release-manager:
+        name: Eddie Knight
+        github-id: eddie-knight
         company: Sonatype
-      - name: Michael Lysaght
-        github_id: mlysaght2017
+        summary: TODO
+      change-log:
+        - 'change(ci): Fixing All Workflows (#771)'
+        - 'change(docs): Updated to clearer field names based on SCI v0.3.6 (#757)'
+        - 'feat: Convert everything to revised schema (#719)'
+        - Add validator workflow (#664)
+        - 'change(docs): Object Storage Release Fixes (#647)'
+        - 'change(control): add in missing controls mappings for object storage (#622)'
+        - 'docs(add): Delivery Toolkit Documentation & Changes (#621)'
+        - VPC Networking Release - 2025.01 (#584)
+        - Object Storage Release - 2025.01 (#581)
+        - Formatting changes for VPC and Object Storage (#578)
+        - Polished ObjStor Test Requirements (#577)
+        - Add in fixes to control definitions (#570)
+        - '#534: Add yaml linter (#543)'
+        - Add in updates to soft and hard delete bucket controls (#528)
+        - October Release Candidate - Object Storage (#445)
+        - Add in fixes to object storage threats, controls, features (#436)
+        - Typofix on control IDs (#432)
+        - Object storage final polish (#419)
+        - Adding Contributors key to metadata schema (#409)
+        - Object Storage Controls Revision (#394)
+        - GenAI taxonomy (#393)
+        - Updates to the structure of the metadata yaml (#383)
+        - Schema updates (#377)
+        - Handling common entries for features, threats, & controls (#327)
+        - Convert Object Storage development files from MD to YAML (#325)
+        - Add in new object storage controls on encryption for impact and replication to untrusted destinations (#305)
+        - Convert existing taxonomies to the new yaml format (#319)
+        - Fix broken links (#317)
+        - Added CCC.OS.C6 Control (#298)Looks good
+        - Extend Object Storage Controls (#263)
+      contributors:
+        - name: Damien Burks
+          github-id: damienjburks
+          company: Citi
+        - name: Eddie Knight
+          github-id: eddie-knight
+          company: Sonatype
+        - name: sshiells-scottlogic
+          github-id: sshiells-scottlogic
+          company: Scott Logic
+        - name: Michael Lysaght
+          github-id: mlysaght2017
+          company: Citi
+        - name: Sonali Mendis
+          github-id: smendis-scottlogic
+          company: Scott Logic
+        - name: Dave Ogle
+          github-id: dogle-scottlogic
+          company: Scott Logic
+        - name: Naseer Mohammad
+          github-id: nas-hub
+          company: Google
+    - version: "2025.01"
+      assurance-level: ""
+      threat-model-url: ""
+      threat-model-author: ""
+      red-team: ""
+      red-team-exercise-url: ""
+      release-manager:
+        name: Damien Burks
+        github-id: damienjburks
         company: Citi
-      - name: Dave Ogle
-        github_id: dogle-scottlogic
-        company: Scott Logic
-      - name: Damien Burks
-        github_id: damienjburks
-        company: Citi
-      - name: Naseer Mohammad
-        github_id: nas-hub
-        company: Google
+        summary: |
+            This initial release is part of the first batch of control catalogs
+            produced by the CCC. It is the result of thousands of hours dedicated to
+            exploring different ways of working and collaborating, on top of time
+            spent researching, writing, and reviewing the content. This marks a huge
+            milestone for the CCC and the broader community as further releases will
+            continue to build on this foundation. A huge thanks to everyone who has
+            brought us to this point!
+      change-log:
+        - |
+          This initial release contains a variety of commits designed to capture
+          all of the capabilities, threats, and controls for this service category.
+      contributors:
+        - name: Sonali Mendis
+          github-id: smendis-scottlogic
+          company: Scott Logic
+        - name: Eddie Knight
+          github-id: eddie-knight
+          company: Sonatype
+        - name: Michael Lysaght
+          github-id: mlysaght2017
+          company: Citi
+        - name: Dave Ogle
+          github-id: dogle-scottlogic
+          company: Scott Logic
+        - name: Damien Burks
+          github-id: damienjburks
+          company: Citi
+        - name: Naseer Mohammad
+          github-id: nas-hub
+          company: Google

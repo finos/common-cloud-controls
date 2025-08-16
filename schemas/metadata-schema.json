@@ -55,7 +55,7 @@
       "required": ["id", "title", "description"],
       "additionalProperties": false
     },
-    "release_details": {
+    "release-details": {
       "type": "array",
       "items": {
         "type": "object",

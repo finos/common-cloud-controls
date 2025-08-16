@@ -7,7 +7,7 @@
 			"id: CCC.<IDENTIFIER>",
 			"description: |",
 			" <DESCRIPTION>",
-			"release_details:",
+			"release-details:",
 			"  - version: \"<CALVER>\"",
 			"    assurance_level: None",
 			"    threat_model_url: None",

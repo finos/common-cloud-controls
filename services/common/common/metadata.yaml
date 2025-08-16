@@ -1,0 +1,26 @@
+metadata:
+  id: CCC
+  title: Common Cloud Controls
+  description: |
+    Common Cloud Controls defines the foundational set of security controls
+    and capabilities that are applicable across all cloud service categories.
+    These controls establish baseline security requirements that should be
+    considered for any cloud service deployment in financial services ecosystems.
+  version: ""
+  last-modified: "2025-07-24T22:00:00Z"
+  applicability-categories: []
+  mapping-references: []
+
+release_details:
+  - version: ""
+    assurance_level: None
+    threat_model_url: None
+    threat_model_author: None
+    red_team: None
+    red_team_exercise_url: None
+    release_manager:
+      name: ""
+      github_id: ""
+      company: ""
+      summary: None
+    change_log: []

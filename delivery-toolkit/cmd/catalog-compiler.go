@@ -1,266 +1,157 @@
 package cmd
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
-	"regexp"
-	"strings"
 
-	"github.com/revanite-io/sci/layer2"
+	"github.com/revanite-io/gemara/layer2"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 )
 
 var globalCommonCatalog layer2.Catalog
 
-// createDirectoryIfNotExists creates a directory if it doesn't exist
-// It takes a filePath string as input and returns an error if any
-func createDirectoryIfNotExists(filePath string) error {
-	err := os.MkdirAll(filePath, 0755)
-	if err != nil {
-		return fmt.Errorf("failed to create directory: %v", err)
-	}
-	return nil
-}
-
-func addPageBreaksBeforeH2(content []byte) []byte {
-	// Regular expression to match H2 headers
-	re := regexp.MustCompile(`(?m)^## `)
-
-	// Page break div
-	pageBreak := []byte("<div style=\"page-break-after: always;\"></div>\n\n")
-
-	// Replace each H2 header with a page break followed by the header
-	return re.ReplaceAllFunc(content, func(match []byte) []byte {
-		return append(pageBreak, match...)
-	})
-}
-
-func removeDuplicates[T comparable](slice []T) []T {
-	uniqueMap := make(map[T]bool)
-	var result []T
-
-	for _, item := range slice {
-		if _, exists := uniqueMap[item]; !exists {
-			uniqueMap[item] = true
-			result = append(result, item)
-		}
-	}
-
-	return result
-}
-
-func initializeOutputDirectory() {
-	viper.SetDefault("output-dir", "./artifacts")
-	createDirectoryIfNotExists(viper.GetString("output-dir"))
-}
-
-func getYamlBytes(name string) []byte {
-	directory := getDataDirectory(name)
-	return readYamlFile(fmt.Sprintf("%s/%s.yaml", directory, name))
-}
-
-func readYamlFile(filepath string) (yamlFile []byte) {
-	yamlFile, err := os.ReadFile(filepath)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-	return
-}
-
-func unmarshalData(dataName string, dataSet interface{}) {
-	yamlData := getYamlBytes(dataName)
-	err := yaml.Unmarshal(yamlData, dataSet)
-	if err != nil {
-		log.Fatalf("error reading %s.yaml >>> %v <<<", dataName, err)
-	}
-}
-
-func createLink(id string, title string) string {
-	var buffer bytes.Buffer
-
-	buffer.WriteString(strings.ToLower(strings.ReplaceAll(id, ".", "")))
-	buffer.WriteString("---")
-	buffer.WriteString(strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(title, ",", ""), " ", "-")))
-	return buffer.String()
-}
-
-func getDataDirectory(name string) string {
-	buildTarget := filepath.Join(viper.GetString("services-dir"), viper.GetString("build-target"))
-	serviceDir := viper.GetString("services-dir")
-
-	switch name {
-	case "controls":
-		return buildTarget
-	case "capabilities":
-		return buildTarget
-	case "threats":
-		return buildTarget
-	case "metadata":
-		return buildTarget
-	case "common-controls":
-		return serviceDir
-	case "common-capabilities":
-		return serviceDir
-	case "common-threats":
-		return serviceDir
-	default:
-		log.Fatalf("error: %v", "Invalid data type")
-	}
-	return ""
-}
-
-func readAndCompileCatalog() (data CompiledCatalog) {
+func readAndCompileCatalog() *CompiledCatalog {
 	if viper.GetString("build-target") == "" {
-		log.Fatalf("error: %v", "build-target is required")
+		log.Fatalf("error: build-target is required")
 	}
 
 	buildTarget := filepath.Join(viper.GetString("services-dir"), viper.GetString("build-target"))
 
 	serviceData, err := loadContent(buildTarget)
 	if err != nil {
-		log.Fatalf("error loading content for %s (%v)", buildTarget, err)
-		return
+		log.Fatalf("error loading content for %s: %v", buildTarget, err)
 	}
 
 	catalog, err := loadMetadata(buildTarget)
 	if err != nil {
-		log.Fatalf("error loading metadata for %s (%v)", buildTarget, err)
-		return
+		log.Fatalf("error loading metadata for %s: %v", buildTarget, err)
 	}
 
-	// addCapabilityLink(capabilitiesData.SpecificCapabilities)
-	// addCapabilityLink(commonCapabilitiesData.SpecificCapabilities)
-	// addThreatLink(threatsData.SpecificThreats)
-	// addThreatLink(commonThreatsData.SpecificThreats)
-	// addControlLink(controlsData.SpecificControls)
-	// addControlLink(commonControlsData.SpecificControls)
-
-	err = setGlobalCommonCatalog()
-	if err != nil {
-		log.Fatalf("error loading common catalog (%v)", err)
-		return
+	if err := setGlobalCommonCatalog(); err != nil {
+		log.Fatalf("error loading common catalog: %v", err)
 	}
 
-	return CompiledCatalog{
+	return &CompiledCatalog{
 		Metadata:        catalog.Metadata,
 		ReleaseDetails:  catalog.ReleaseDetails,
-		ControlFamilies: append(serviceData.ControlFamilies, getCommonControls(serviceData.SharedControls)),
+		ControlFamilies: append(serviceData.ControlFamilies, getCommonControls(serviceData.SharedControls)...),
 		Capabilities:    append(serviceData.Capabilities, getCommonCapabilities(serviceData.SharedCapabilities)...),
 		Threats:         append(serviceData.Threats, getCommonThreats(serviceData.SharedThreats)...),
 	}
 }
 
-func loadMetadata(directory string) (catalog CompiledCatalog, err error) {
+func loadMetadata(directory string) (*CompiledCatalog, error) {
 	sourcePath := filepath.Join(directory, "metadata.yaml")
-
-	_, err = os.Stat(sourcePath)
-	if err != nil {
-		return catalog, fmt.Errorf("missing metadata.yaml")
+	if _, err := os.Stat(sourcePath); err != nil {
+		return nil, fmt.Errorf("missing metadata.yaml")
 	}
 
 	file, err := os.Open(sourcePath)
 	if err != nil {
-		return catalog, fmt.Errorf("error opening file: %w", err)
+		return nil, fmt.Errorf("error opening file: %w", err)
 	}
+	defer file.Close()
 
-	defer func() {
-		_ = file.Close()
-	}()
+	var catalog CompiledCatalog
 	decoder := yaml.NewDecoder(file)
 	decoder.KnownFields(true)
-
-	err = decoder.Decode(&catalog)
-	if err != nil {
-		return catalog, fmt.Errorf("error decoding YAML: %w (%s)", err, sourcePath)
+	if err := decoder.Decode(&catalog); err != nil {
+		return nil, fmt.Errorf("error decoding YAML: %w (%s)", err, sourcePath)
 	}
 
-	return catalog, err
+	return &catalog, nil
 }
 
-func loadContent(directory string) (data layer2.Catalog, err error) {
-	_, err = os.Stat(directory)
-	if err != nil {
-		return
+func loadContent(directory string) (*layer2.Catalog, error) {
+	if _, err := os.Stat(directory); err != nil {
+		return nil, err
 	}
+
 	var missing []string
-	_, err = os.Stat(filepath.Join(directory, "controls.yaml"))
-	if err != nil {
-		missing = append(missing, "controls.yaml")
+	for _, file := range []string{"controls.yaml", "capabilities.yaml", "threats.yaml"} {
+		if _, err := os.Stat(filepath.Join(directory, file)); err != nil {
+			missing = append(missing, file)
+		}
 	}
-	_, err = os.Stat(filepath.Join(directory, "capabilities.yaml"))
-	if err != nil {
-		missing = append(missing, "capabilities.yaml")
-	}
-	_, err = os.Stat(filepath.Join(directory, "threats.yaml"))
-	if err != nil {
-		missing = append(missing, "threats.yaml")
-	}
+
 	if len(missing) >= 3 {
-		return data, fmt.Errorf("skipping: %s", directory)
-	} else if len(missing) > 0 {
-		return data, fmt.Errorf("missing %v", missing)
+		return nil, fmt.Errorf("no relevant files found: %s", directory)
 	}
-	err = data.LoadFiles([]string{
+	if len(missing) > 0 {
+		return nil, fmt.Errorf("missing %v in %s", missing, directory)
+	}
+
+	var data layer2.Catalog
+	err := data.LoadFiles([]string{
 		filepath.Join(directory, "controls.yaml"),
 		filepath.Join(directory, "capabilities.yaml"),
 		filepath.Join(directory, "threats.yaml"),
 	})
-	return data, err
+	return &data, err
 }
 
-func setGlobalCommonCatalog() (err error) {
+// I'm not sure about this.... I want to get a standard release of the common catalog. Then we can reference the release YAML to ingest it.
+// should we mov it to the services dir? or keep it here? maybe that's irrelevant.
+// do we have an existing mechanism for ingesting compiled catalogs from the release path? I think rob had something in the website directory.
+// we need to make sure each catalog we release iincludes a mapping to the appropriate release of the common entries catalog.
+// the common entries catalog also needss a better NAME.
+// Common Cloud Controls: Common  DUMB AF
+
+func setGlobalCommonCatalog() error {
 	if len(globalCommonCatalog.ControlFamilies) == 0 {
-		// read the common controls, capabilities, and threats from the common entries directory
 		commonDir := filepath.Join(viper.GetString("services-dir"), "..", "common")
-		globalCommonCatalog, err = loadContent(commonDir)
+		commonCatalog, err := loadContent(commonDir)
 		if err != nil {
-			err = fmt.Errorf("error loading %s (%v)", commonDir, err)
+			return fmt.Errorf("error loading %s: %v", commonDir, err)
 		}
+		globalCommonCatalog = *commonCatalog
 	}
-	return err
+	return nil
 }
 
-func getCommonControls(mappings []layer2.Mapping) (common layer2.ControlFamily) {
+func getCommonControls(mappings []layer2.Mapping) []layer2.ControlFamily {
+	var commonControls []layer2.ControlFamily
 	for _, family := range globalCommonCatalog.ControlFamilies {
 		for _, control := range family.Controls {
 			for _, mapping := range mappings {
 				for _, referenceID := range mapping.Identifiers {
 					if control.Id == referenceID {
-						common.Controls = append(common.Controls, control)
+						commonControls = append(commonControls, layer2.ControlFamily{Controls: []layer2.Control{control}})
 					}
 				}
 			}
 		}
 	}
-	return common
+	return commonControls
 }
 
-func getCommonCapabilities(mappings []layer2.Mapping) (common []layer2.Capability) {
+func getCommonCapabilities(mappings []layer2.Mapping) []layer2.Capability {
+	var commonCapabilities []layer2.Capability
 	for _, capability := range globalCommonCatalog.Capabilities {
 		for _, mapping := range mappings {
 			for _, referenceID := range mapping.Identifiers {
 				if capability.Id == referenceID {
-					common = append(common, capability)
+					commonCapabilities = append(commonCapabilities, capability)
 				}
 			}
 		}
 	}
-	return common
+	return commonCapabilities
 }
 
-func getCommonThreats(mappings []layer2.Mapping) (common []layer2.Threat) {
+func getCommonThreats(mappings []layer2.Mapping) []layer2.Threat {
+	var commonThreats []layer2.Threat
 	for _, threat := range globalCommonCatalog.Threats {
 		for _, mapping := range mappings {
 			for _, referenceID := range mapping.Identifiers {
 				if threat.Id == referenceID {
-					common = append(common, threat)
+					commonThreats = append(commonThreats, threat)
 				}
 			}
 		}
 	}
-	return common
+	return commonThreats
 }

@@ -5,19 +5,15 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/finos/common-cloud-controls/cmd"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-
-	"github.com/finos/common-cloud-controls/cmd"
 )
 
-// baseCmd represents the base command when called without any subcommands.
-// This is the entry point of the CLI application.
 var (
-	// baseCmd represents the base command when called without any subcommands
 	baseCmd = &cobra.Command{
 		Use:   "",
-		Short: "",
+		Short: "A CLI for the Common Cloud Controls project",
 		PersistentPreRun: func(command *cobra.Command, args []string) {
 			fmt.Println(cmd.Divider)
 			fmt.Println(cmd.Logo)
@@ -27,7 +23,6 @@ var (
 		},
 		Run: func(command *cobra.Command, args []string) {
 			fmt.Println("Welcome to the CCC Delivery Toolkit CLI")
-
 			fmt.Println(cmd.Divider)
 			fmt.Println("You appear to be exploring!")
 			fmt.Println("We suggest you begin by running the 'help' command via -h to review the available options.")
@@ -35,7 +30,6 @@ var (
 	}
 )
 
-// init configures the base command and initializes the Viper configuration for various flags.
 func init() {
 	// Set & Bind Flags
 	baseCmd.PersistentFlags().StringP("build-target", "t", "", "Name of the category and service (eg. storage/object)")
@@ -46,18 +40,17 @@ func init() {
 	viper.BindPFlag("services-dir", baseCmd.PersistentFlags().Lookup("services-dir"))
 
 	// Add subcommands
-	baseCmd.AddCommand(cmd.VerifyContent)
-	// baseCmd.AddCommand(cmd.UpdateMetadata)
-	baseCmd.AddCommand(cmd.GenerateMarkdown)
-	baseCmd.AddCommand(cmd.GenerateReleaseNotes)
-	baseCmd.AddCommand(cmd.GenerateYaml)
-	baseCmd.AddCommand(cmd.UpdateMetadata)
+	baseCmd.AddCommand(
+		cmd.VerifyContent,
+		cmd.GenerateMarkdown,
+		cmd.GenerateReleaseNotes,
+		cmd.GenerateYaml,
+		cmd.UpdateMetadata,
+	)
 }
 
-// main is the entry point of the application.
 func main() {
-	err := baseCmd.Execute()
-	if err != nil {
+	if err := baseCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
 }

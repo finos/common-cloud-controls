@@ -1,6 +1,6 @@
 package cmd
 
-import "github.com/revanite-io/sci/layer2"
+import "github.com/revanite-io/gemara/layer2"
 
 type CompiledCatalog struct {
 	Metadata       layer2.Metadata  `yaml:"metadata"`

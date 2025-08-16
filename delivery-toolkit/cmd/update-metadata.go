@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/google/go-github/v53/github"
-	"github.com/revanite-io/sci/layer2"
+	"github.com/revanite-io/gemara/layer2"
 	"github.com/spf13/cobra"
 	"golang.org/x/oauth2"
 	"gopkg.in/yaml.v3"
@@ -21,9 +21,6 @@ type cccMetadata struct {
 }
 
 var (
-	BuildDirectoryPath string
-	MetadataFilePath   string
-
 	// baseCmd represents the base command when called without any subcommands
 	UpdateMetadata = &cobra.Command{
 		Use:   "update-metadata",
@@ -42,19 +39,17 @@ var (
 				return
 			}
 
-			MetadataFilePath = filepath.Join(args[0], "metadata.yaml")
-
-			err := updateMetadata()
+			err := updateMetadata(args[0])
 			if err != nil {
 				fmt.Println(err)
 			} else {
-				fmt.Printf("Metadata has been updated successfully: %s\n", MetadataFilePath)
+				fmt.Printf("Metadata has been updated successfully: %s\n", args[0])
 			}
 		},
 	}
 )
 
-func updateMetadata() (err error) {
+func updateMetadata(path string) (err error) {
 	// Replace with your GitHub personal access token
 	accessToken := os.Getenv("GITHUB_TOKEN")
 	repoOwner := "finos"
@@ -71,23 +66,46 @@ func updateMetadata() (err error) {
 	client := github.NewClient(tc)
 
 	// Fetch the list of commits from the repository
-	cleanedPath := strings.Replace(filepath.ToSlash(BuildDirectoryPath), "../", "", 1)
+	cleanedPath := strings.Replace(filepath.ToSlash(path), "../", "", 1)
 
 	opts := &github.CommitsListOptions{
 		Path: cleanedPath,
 	}
 	commits, _, err := client.Repositories.ListCommits(ctx, repoOwner, repoName, opts)
 	if err != nil {
-		log.Fatalf("Error fetching commits: %v", err)
+		log.Fatal("Error fetching commits: ", err)
 	}
 
-	// Store unique contributors
-	var contributors []Contributors
+	metadata := getMetadataYaml(filepath.Join(path, "metadata.yaml"))
 
-	// Collect the changelog information
+	if len(metadata.ReleaseDetails) == 0 {
+		log.Fatal("Release details not provided: ", metadata)
+	}
+
+	changelog, contributors := parseCommits(commits)
+
+	metadata.ReleaseDetails[0].ChangeLog = changelog
+	metadata.ReleaseDetails[0].Contributors = removeDuplicates(contributors)
+
+	// Marshal the updated struct back to YAML
+	metadataData, err := yaml.Marshal(&metadata)
+	if err != nil {
+		log.Fatal("Error marshaling YAML: ", err)
+	}
+
+	err = os.WriteFile(filepath.Join(path, "metadata.yaml"), metadataData, os.FileMode(0666))
+	if err != nil {
+		log.Fatal("Error writing to the YAML file: ", err)
+	}
+
+	fmt.Println("Contributors and Change Log has been updated.")
+	return
+}
+
+func parseCommits(commits []*github.RepositoryCommit) ([]string, []Contributors) {
+	var contributors []Contributors
 	changelog := []string{}
 
-	// Process commits to extract contributors and changelog details
 	for _, commit := range commits {
 		if commit.Commit != nil {
 			// Get the commit author's name and GitHub username
@@ -98,11 +116,20 @@ func updateMetadata() (err error) {
 			} else {
 				log.Fatalf("No GitHub username found for commit: %s", commit.Commit.GetSHA())
 			}
+
+			// Get the company for this GitHub ID
+			company, err := GetCompanyByGithubID(commitAuthorLogin)
+			if err != nil {
+				// If we can't find the company, use a fallback value
+				company = "Unknown"
+				fmt.Printf("Warning: Could not find company for GitHub ID '%s': %v\n", commitAuthorLogin, err)
+			}
+
 			// Add the contributor to the map (set-like behavior)
 			newContributor := Contributors{
 				Name:     commitAuthorName,
 				GithubId: commitAuthorLogin,
-				Company:  "REPLACE_ME",
+				Company:  company,
 			}
 			contributors = append(contributors, newContributor)
 
@@ -123,42 +150,5 @@ func updateMetadata() (err error) {
 			changelog = append(changelog, filteredMessage)
 		}
 	}
-
-	// Read YAML
-	metadata := getMetadataYaml()
-
-	// Update metadata struct to include change log and contributors
-	metadata.ReleaseDetails[0].ChangeLog = changelog
-	metadata.ReleaseDetails[0].Contributors = removeDuplicates(contributors)
-
-	// Marshal the updated struct back to YAML
-	metadataData, err := yaml.Marshal(&metadata)
-	if err != nil {
-		log.Fatalf("Error marshaling YAML: %v", err)
-	}
-
-	err = os.WriteFile(MetadataFilePath, metadataData, os.FileMode(0666))
-	if err != nil {
-		log.Fatalf("Error writing to the YAML file: %v", err)
-	}
-
-	fmt.Println("Contributors and Change Log has been updated.")
-	return
-}
-
-func getMetadataYaml() cccMetadata {
-	// Read the YAML file
-	yamlFile, err := os.ReadFile(MetadataFilePath)
-	if err != nil {
-		log.Fatalf("Error reading YAML file: %v", err)
-	}
-
-	var data cccMetadata
-	// Unmarshal the YAML into the struct
-	err = yaml.Unmarshal(yamlFile, &data)
-	if err != nil {
-		log.Fatalf("Error unmarshaling YAML: %v", err)
-	}
-
-	return data
+	return changelog, contributors
 }
