@@ -1,0 +1,117 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "control-families": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Name of the control family (e.g., 'Data')"
+            },
+            "description": {
+              "type": "string",
+              "description": "Short description of the control family"
+            },
+            "controls": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^CCC\\.C\\d{2,8}$",
+                    "description": "Full control ID (e.g., CCC.C01)"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the control"
+                  },
+                  "objective": {
+                    "type": "string",
+                    "description": "Multi-line objective of the control"
+                  },
+                  "assessment-requirements": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Test requirement ID"
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "Detailed description of the requirement"
+                        },
+                        "applicability": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": ["tlp-clear", "tlp-green", "tlp-amber", "tlp-red"]
+                          }
+                        },
+                        "recommendation": {
+                          "type": "string",
+                          "description": "Optional recommendation to satisfy this requirement"
+                        }
+                      },
+                      "required": ["id", "text", "applicability", "recommendation"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "threat-mappings": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reference-id": {
+                          "type": "string"
+                        },
+                        "identifiers": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^((CCC\\.TH\\d{2,8})|(CCC\\.\\w{1,8}\\.TH\\d{2,8}))$"
+                          }
+                        }
+                      },
+                      "required": ["reference-id", "identifiers"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "guideline-mappings": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reference-id": {
+                          "type": "string"
+                        },
+                        "identifiers": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": ["reference-id", "identifiers"],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": ["id", "title", "objective", "assessment-requirements", "threat-mappings", "guideline-mappings"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": ["title", "description"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["control-families"],
+    "additionalProperties": false
+}

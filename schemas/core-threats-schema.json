@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "threats": {
+      "type": "array",
+      "description": "List of service-specific or global threats",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^((CCC\\.TH\\d{2,8})|(CCC\\.\\w{1,8}\\.TH\\d{2,8}))$",
+            "description": "Threat ID (global or service-specific)"
+          },
+          "title": {
+            "type": "string",
+            "description": "Short title of the threat"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed explanation of the threat"
+          },
+          "controls": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "type": "string",
+                  "description": "Control mapping namespace (e.g., CCC)"
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.C\\d+$",
+                    "description": "Control ID"
+                  }
+                }
+              },
+              "required": ["reference-id", "identifiers"],
+              "additionalProperties": false
+            }
+          },
+          "external-mappings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "type": "string",
+                  "description": "Framework name (e.g., MITRE-ATT&CK)"
+                },
+                "identifiers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Mapping identifier (e.g., MITRE technique ID)"
+                  }
+                }
+              },
+              "required": ["reference-id", "identifiers"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["id", "title", "description", "controls", "external-mappings"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -6,13 +6,13 @@ Each service category in the CCC Taxonomy should have its own set of control def
 
 ## Common vs. Specific Controls
 
-To streamline maintenance, the CCC project maintains a list of [common controls].
+To streamline maintenance, the CCC project maintains a list of [core controls].
 
 Each service category’s `controls.yaml` file references these by listing their IDs under the top-level `common_controls` value. During the release pipeline, our [Delivery Toolkit] compiles these common controls into the final document alongside any specific controls. In the final output, both types of controls are presented consistently, with the unique identifier being the only difference.
 
 ### Common Controls
 
-- Common controls are reusable across multiple service categories. They are documented once in the [common controls] file and referenced where applicable.
+- Common controls are reusable across multiple service categories. They are documented once in the [core controls] file and referenced where applicable.
 - These controls streamline the process by reducing redundancy and ensuring consistency across service categories.
 
 ### Specific Controls
@@ -24,9 +24,9 @@ Each service category’s `controls.yaml` file references these by listing their
 
 When creating or updating a `controls.yaml` file for a service category, follow these steps:
 
-1. **Review Common Controls**: Start by reviewing the [common controls] list. If any common controls apply to this category, reference them by adding their IDs to the `common_controls` list.
+1. **Review Common Controls**: Start by reviewing the [core controls] list. If any common controls apply to this category, reference them by adding their IDs to the `common_controls` list.
 2. **Define Specific Controls**: If a control is unique to the service category, document it in the `specific_controls` section of the `controls.yaml` file.
-3. **Consider Generalization**: If a specific control could apply to at least three other service categories, evaluate whether it can be generalized and added to the [common controls] list.
+3. **Consider Generalization**: If a specific control could apply to at least three other service categories, evaluate whether it can be generalized and added to the [core controls] list.
 
 ## Control Definition Format
 
@@ -53,9 +53,9 @@ When creating a new control definition, use the following values:
 
 A control family refers to a group of related security controls that are organized together based on their similar functions or objectives. Each control family addresses a particular aspect of information security.
 
-The list of control families is maintained in the [common controls] data.
+The list of control families is maintained in the [core controls] data.
 
-[common controls]: /common/controls.yaml
+[core controls]: /core/controls.yaml
 [Delivery Toolkit]: /delivery-toolkit
 [threats]: ./threat-definitions.md
 [ref]: https://www.cisa.gov/sites/default/files/2023-02/tlp-2-0-user-guide_508c.pdf
