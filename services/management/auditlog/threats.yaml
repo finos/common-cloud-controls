@@ -34,11 +34,11 @@ threats:
     external-mappings:
       - reference-id: OWASPTOP10
         entries:
-          - A09:2021
+          - reference-id: A09:2021
       - reference-id: CWE
         entries:
-          - CWE-778
-          - CWE-223
+          - reference-id: CWE-778
+          - reference-id: CWE-223
   - id: CCC.AUDITLOG.TH02
     title: Log Ingestion Latency
     description: |
@@ -57,11 +57,11 @@ threats:
           - reference-id: TA0005
       - reference-id: OWASPTOP10
         entries:
-          - A09:2021
+          - reference-id: A09:2021
       - reference-id: CWE
         entries:
-          - CWE-778
-          - CWE-223
+          - reference-id: CWE-778
+          - reference-id: CWE-223
   - id: CCC.AUDITLOG.TH03
     title: Sensitive Data Logged
     description: |
@@ -76,11 +76,11 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.AuditLog.F03
-        strength: 0 # not specified yet
-        remarks: Sink
+            strength: 0 # not specified yet
+            remarks: Sink
           - reference-id: CCC.AuditLog.F08
-        strength: 0 # not specified yet
-        remarks: External Sink
+            strength: 0 # not specified yet
+            remarks: External Sink
           - reference-id: CCC.Core.F03
           - reference-id: CCC.Core.F10
     external-mappings:
@@ -89,12 +89,12 @@ threats:
           - reference-id: TA0006
       - reference-id: OWASPTOP10
         entries:
-          - A09:2021
-          - A02:2021
+          - reference-id: A09:2021
+          - reference-id: A02:2021
       - reference-id: CWE
         entries:
-          - CWE-532
-          - CWE-200
+          - reference-id: CWE-532
+          - reference-id: CWE-200
   - id: CCC.AUDITLOG.TH04
     title: Insufficient encoding of audit logs
     description: |
@@ -106,23 +106,23 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.AuditLog.F03
-        strength: 0 # not specified yet
-        remarks: Sink
+            strength: 0 # not specified yet
+            remarks: Sink
           - reference-id: CCC.AuditLog.F08
-        strength: 0 # not specified yet
-        remarks: External Sink
+            strength: 0 # not specified yet
+            remarks: External Sink
           - reference-id: CCC.Core.F03
           - reference-id: CCC.Core.F10
     external-mappings:
       - reference-id: OWASPTOP10
         entries:
-          - A03:2021
-          - A09:2021
+          - reference-id: A03:2021
+          - reference-id: A09:2021
       - reference-id: CWE
         entries:
-          - CWE-79
-          - CWE-117
-          - CWE-116
+          - reference-id: CWE-79
+          - reference-id: CWE-117
+          - reference-id: CWE-116
   - id: CCC.AUDITLOG.TH05
     title: Logging Evasion via violating size constraints
     description: |
@@ -140,13 +140,13 @@ threats:
     external-mappings:
       - reference-id: OWASPTOP10
         entries:
-          - A09:2021
+          - reference-id: A09:2021
       - reference-id: CWE
         entries:
-          - "CWE-778"
-        strength: 0 # not specified yet
-        remarks: Insufficient Logging
-          - "CWE-223"
-        strength: 0 # not specified yet
-        remarks: Omission of Security-Relevant Information
-          - "CWE-20"
+          - reference-id: CWE-778
+            strength: 0 # not specified yet
+            remarks: Insufficient Logging
+          - reference-id: CWE-223
+            strength: 0 # not specified yet
+            remarks: Omission of Security-Relevant Information
+          - reference-id: CWE-20

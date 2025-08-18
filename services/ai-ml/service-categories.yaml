@@ -11,9 +11,9 @@ service_categories:
       using large language models and deep learning frameworks.
     examples:
       - AWS:
-          - AWS Bedrock
+          - reference-id: AWS Bedrock
       - Azure:
-          - Azure OpenAI
+          - reference-id: Azure OpenAI
       - Google Cloud:
           - Google Vertex AI
   - id: CCC.AIAssist
@@ -24,7 +24,7 @@ service_categories:
       summarizing documents, and offering insights based on enterprise data.
     examples:
       - AWS:
-          - Amazon Q
+          - reference-id: Amazon Q
       - Azure:
           - Microsoft Copilot
       - Google Cloud:
@@ -36,7 +36,7 @@ service_categories:
       suggestions from within the integrated development environments (IDEs).
     examples:
       - AWS:
-          - AWS CodeWhisperer
+          - reference-id: AWS CodeWhisperer
       - Azure:
           - Github Copilot for Azure
       - Google Cloud:
@@ -49,8 +49,8 @@ service_categories:
       the machine learning lifecycle.
     examples:
       - AWS:
-          - Amazon SageMaker
+          - reference-id: Amazon SageMaker
       - Azure:
-          - Azure Machine Learning
+          - reference-id: Azure Machine Learning
       - Google Cloud:
           - Google Vertex AI

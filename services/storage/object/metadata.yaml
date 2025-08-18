@@ -13,7 +13,7 @@ metadata:
   applicability-categories: []
   mapping-references: []
 
-release_details:
+release-details:
   - version: "2025.01"
     assurance_level: None
     threat_model_url: None

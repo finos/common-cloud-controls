@@ -14,11 +14,11 @@ service_categories:
       querying.
     examples:
       - AWS:
-          - Amazon RDS
+          - reference-id: Amazon RDS
       - Azure:
-          - Azure SQL Database
+          - reference-id: Azure SQL Database
       - Google Cloud:
-          - Cloud SQL
+          - reference-id: Cloud SQL
     documentation: database/relational/taxonomy.md
   - id: CCC.NoSQL
     title: NoSQL Databases
@@ -27,12 +27,12 @@ service_categories:
       and are suitable for semi-structured or unstructured data.
     examples:
       - AWS:
-          - Amazon DynamoDB
+          - reference-id: Amazon DynamoDB
       - Azure:
-          - Azure Cosmos DB
+          - reference-id: Azure Cosmos DB
       - Google Cloud:
           - Firestore
-          - Cloud Bigtable
+          - reference-id: Cloud Bigtable
   - id: CCC.InMemDB
     title: In-Memory Databases
     description: |
@@ -40,9 +40,9 @@ service_categories:
       operations, making them ideal for high-performance applications.
     examples:
       - AWS:
-          - Amazon ElastiCache (Redis, Memcached)
+          - reference-id: Amazon ElastiCache (Redis, Memcached)
       - Azure:
-          - Azure Cache for Redis
+          - reference-id: Azure Cache for Redis
       - Google Cloud:
           - Google Cloud Memorystore (Redis)
   - id: CCC.DataWar
@@ -52,8 +52,8 @@ service_categories:
       of structured data for business intelligence and analytics purposes.
     examples:
       - AWS:
-          - Amazon Redshift
+          - reference-id: Amazon Redshift
       - Azure:
-          - Azure Synapse Analytics
+          - reference-id: Azure Synapse Analytics
       - Google Cloud:
           - BigQuery

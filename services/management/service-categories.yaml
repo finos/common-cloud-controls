@@ -11,9 +11,9 @@ service_categories:
       in your infrastructure or application layer.
     examples:
       - AWS:
-          - Amazon CloudWatch Logs
+          - reference-id: Amazon CloudWatch Logs
       - Azure:
-          - Azure Monitor Logs (Log Analytics)
+          - reference-id: Azure Monitor Logs (Log Analytics)
       - Google Cloud:
           - Google Cloud Logging
   - id: CCC.Monitoring
@@ -24,9 +24,9 @@ service_categories:
       applications.
     examples:
       - AWS:
-          - Amazon CloudWatch
+          - reference-id: Amazon CloudWatch
       - Azure:
-          - Azure Monitor
+          - reference-id: Azure Monitor
       - Google Cloud:
           - Google Cloud Monitoring
   - id: CCC.AuditLog
@@ -36,8 +36,8 @@ service_categories:
       and/or user interactions to a logging service
     examples:
       - AWS:
-          - AWS CloudTrail
+          - reference-id: AWS CloudTrail
       - Azure:
-          - Azure Activity Logs
+          - reference-id: Azure Activity Logs
       - Google Cloud:
           - Google Cloud Audit Logs

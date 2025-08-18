@@ -13,9 +13,9 @@ service_categories:
       encrypt and decrypt sensitive data in the cloud.
     examples:
       - AWS:
-          - AWS Key Management Service (KMS)
+          - reference-id: AWS Key Management Service (KMS)
       - Azure:
-          - Azure Key Vault
+          - reference-id: Azure Key Vault
       - Google Cloud:
           - Google Cloud Key Management Service (Cloud KMS)
   - id: CCC.SecMgmt
@@ -26,9 +26,9 @@ service_categories:
       and makes them accessible only to authorized users or applications.
     examples:
       - AWS:
-          - AWS Secrets Manager
+          - reference-id: AWS Secrets Manager
       - Azure:
-          - Azure Key Vault
+          - reference-id: Azure Key Vault
       - Google Cloud:
           - Google Secret Manager
   - id: CCC.CertMgmt
@@ -39,8 +39,8 @@ service_categories:
       used to secure communication and authenticate identities over a network.
     examples:
       - AWS:
-          - AWS Certificate Manager
+          - reference-id: AWS Certificate Manager
       - Azure:
-          - Azure Key Vault
+          - reference-id: Azure Key Vault
       - Google Cloud:
           - Google Cloud Certificate Manager

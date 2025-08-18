@@ -36,22 +36,22 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.F04
-        strength: 0 # not specified yet
-        remarks: Transaction Rate Limits
+            strength: 0 # not specified yet
+            remarks: Transaction Rate Limits
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.F22
-        strength: 0 # not specified yet
-        remarks: Rate Limiting / Throttling
+            strength: 0 # not specified yet
+            remarks: Rate Limiting / Throttling
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1499
-        strength: 0 # not specified yet
-        remarks: Endpoint DoS
+            strength: 0 # not specified yet
+            remarks: Endpoint DoS
           - reference-id: T1110
-        strength: 0 # not specified yet
-        remarks: Brute Force
+            strength: 0 # not specified yet
+            remarks: Brute Force
 
   - id: CCC.LB.TH03
     title: Traffic Distribution Is Manipulated
@@ -62,11 +62,11 @@ threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.F02
-        strength: 0 # not specified yet
-        remarks: Dynamic LB
+            strength: 0 # not specified yet
+            remarks: Dynamic LB
           - reference-id: CCC.LB.F20
-        strength: 0 # not specified yet
-        remarks: Traffic Splitting
+            strength: 0 # not specified yet
+            remarks: Traffic Splitting
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -82,8 +82,8 @@ threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.F15
-        strength: 0 # not specified yet
-        remarks: Session Affinity
+            strength: 0 # not specified yet
+            remarks: Session Affinity
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -99,11 +99,11 @@ threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.F12
-        strength: 0 # not specified yet
-        remarks: Health Checks
+            strength: 0 # not specified yet
+            remarks: Health Checks
           - reference-id: CCC.LB.F13
-        strength: 0 # not specified yet
-        remarks: Target Removal
+            strength: 0 # not specified yet
+            remarks: Target Removal
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -133,8 +133,8 @@ threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.F11
-        strength: 0 # not specified yet
-        remarks: SSL/TLS Termination
+            strength: 0 # not specified yet
+            remarks: SSL/TLS Termination
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

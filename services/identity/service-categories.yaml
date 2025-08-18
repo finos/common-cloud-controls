@@ -14,8 +14,8 @@ service_categories:
       capabilities such as Multi-Factor Authentication (MFA) and identity protection.
     examples:
       - AWS:
-          - AWS Identity and Access Management (IAM)
+          - reference-id: AWS Identity and Access Management (IAM)
       - Azure:
-          - Azure Role-Based Access Control (RBAC)
+          - reference-id: Azure Role-Based Access Control (RBAC)
       - Google Cloud:
           - Google Cloud Identity and Access Management (IAM)

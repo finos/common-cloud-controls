@@ -7,7 +7,7 @@ metadata:
     services ecosystems.
   version: "2025.07"
   last-modified: "2025-07-14T00:00:00-05:00"
-release_details:
+release-details:
   - version: "2025.07"
     assurance_level: None
     threat_model_url: None

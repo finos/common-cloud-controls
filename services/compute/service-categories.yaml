@@ -20,11 +20,11 @@ service_categories:
       monitoring, and pay-as-you-go pricing.
     examples:
       - AWS:
-          - Amazon Elastic Compute Cloud (EC2)
+          - reference-id: Amazon Elastic Compute Cloud (EC2)
       - Azure:
           - Virtual Machines
       - Google Cloud:
-          - Compute Engine
+          - reference-id: Compute Engine
     documentation: compute/virtual-machines/taxonomy.md
   - id: CCC.Cont
     title: Containers
@@ -41,7 +41,7 @@ service_categories:
           - Elastic Container Service (ECS)
           - Elastic Kubernetes Service (EKS)
       - Azure:
-          - Azure Kubernetes Service (AKS)
+          - reference-id: Azure Kubernetes Service (AKS)
       - Google Cloud:
           - Google Kubernetes Engine (GKE)
   - id: CCC.SvlsComp
@@ -56,11 +56,11 @@ service_categories:
       function execution.
     examples:
       - AWS:
-          - AWS Lambda
+          - reference-id: AWS Lambda
       - Azure:
-          - Azure Functions
+          - reference-id: Azure Functions
       - Google Cloud:
-          - Cloud Functions
+          - reference-id: Cloud Functions
   - id: CCC.BatchProc
     title: Batch Processing
     description: |
@@ -72,9 +72,9 @@ service_categories:
       to optimize job execution.
     examples:
       - AWS:
-          - AWS Batch
+          - reference-id: AWS Batch
       - Azure:
-          - Azure Batch
+          - reference-id: Azure Batch
       - Google Cloud:
           - Google Cloud Batch
   - id: CCC.EdgeComp
@@ -88,8 +88,8 @@ service_categories:
       network appliances.
     examples:
       - AWS:
-          - AWS IoT Greengrass and AWS Outposts
+          - reference-id: AWS IoT Greengrass and AWS Outposts
       - Azure:
-          - Azure IoT Edge
+          - reference-id: Azure IoT Edge
       - Google Cloud:
           - Google Cloud IoT Edge

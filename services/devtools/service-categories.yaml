@@ -16,9 +16,9 @@ service_categories:
       and securely.
     examples:
       - AWS:
-          - AWS Elastic Container Registry (ECR)
+          - reference-id: AWS Elastic Container Registry (ECR)
       - Azure:
-          - Azure Container Registry (ACR)
+          - reference-id: Azure Container Registry (ACR)
       - Google Cloud:
           - Google Container Registry (GCR)
   - id: CCC.Build
@@ -30,8 +30,8 @@ service_categories:
       setup, manage or scale your own infrastructure for running build servers.
     examples:
       - AWS:
-          - AWS Code Build
+          - reference-id: AWS Code Build
       - Azure:
-          - Azure Pipelines
+          - reference-id: Azure Pipelines
       - Google Cloud:
           - Google Cloud Build

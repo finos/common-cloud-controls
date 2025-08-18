@@ -17,9 +17,9 @@ service_categories:
       through VPN or dedicated connections.
     examples:
       - AWS:
-          - AWS Virtual Private Cloud (VPC)
+          - reference-id: AWS Virtual Private Cloud (VPC)
       - Azure:
-          - Azure Virtual Network (VNet)
+          - reference-id: Azure Virtual Network (VNet)
       - Google Cloud:
           - Google Cloud Virtual Private Cloud (VPC)
   - id: CCC.VPN
@@ -30,11 +30,11 @@ service_categories:
       connectivity, and secure data transmission over public networks.
     examples:
       - AWS:
-          - AWS VPN
+          - reference-id: AWS VPN
       - Azure:
-          - Azure VPN
+          - reference-id: Azure VPN
       - Google Cloud:
-          - Cloud VPN
+          - reference-id: Cloud VPN
   - id: CCC.LoadBal
     title: Load Balancing
     description: |
@@ -45,9 +45,9 @@ service_categories:
       - AWS:
           - Elastic Load Balancer
       - Azure:
-          - Azure Load Balancer
+          - reference-id: Azure Load Balancer
       - Google Cloud:
-          - Cloud Load Balancing
+          - reference-id: Cloud Load Balancing
     documentation: networking/loadbalancer/taxonomy.md
   - id: CCC.CDN
     title: Content Delivery Network (CDN)
@@ -58,9 +58,9 @@ service_categories:
       offload origin server traffic.
     examples:
       - AWS:
-          - Amazon CloudFront
+          - reference-id: Amazon CloudFront
       - Azure:
-          - Azure CDN
+          - reference-id: Azure CDN
       - Google Cloud:
           - Google Cloud CDN
   - id: CCC.DirConn
@@ -71,11 +71,11 @@ service_categories:
       internet to achieve higher bandwidth, lower latency, and improved security.
     examples:
       - AWS:
-          - AWS Direct Connect
+          - reference-id: AWS Direct Connect
       - Azure:
-          - Azure ExpressRoute
+          - reference-id: Azure ExpressRoute
       - Google Cloud:
-          - Cloud Interconnect
+          - reference-id: Cloud Interconnect
   - id: CCC.DNS
     title: Domain Name System (DNS)
     description: |
@@ -85,8 +85,8 @@ service_categories:
       global scalability, low latency, and advanced DNS management capabilities.
     examples:
       - AWS:
-          - Amazon Route 53
+          - reference-id: Amazon Route 53
       - Azure:
-          - Azure DNS
+          - reference-id: Azure DNS
       - Google Cloud:
           - Google Cloud DNS

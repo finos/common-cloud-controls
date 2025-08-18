@@ -62,26 +62,26 @@ threats:
       - reference-id: CCC.Logging
         entries:
           - reference-id: CCC.Logging.F03
-        strength: 0 # not specified yet
-        remarks: Real-Time Log Ingestion
+            strength: 0 # not specified yet
+            remarks: Real-Time Log Ingestion
           - reference-id: CCC.Logging.F04
-        strength: 0 # not specified yet
-        remarks: Centralised Log Collection
+            strength: 0 # not specified yet
+            remarks: Centralised Log Collection
           - reference-id: CCC.Logging.F06
-        strength: 0 # not specified yet
-        remarks: Log Filtering & Transformation
+            strength: 0 # not specified yet
+            remarks: Log Filtering & Transformation
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1499
-        strength: 0 # not specified yet
-        remarks: Endpoint Denial of Service
+            strength: 0 # not specified yet
+            remarks: Endpoint Denial of Service
           - reference-id: T1498
-        strength: 0 # not specified yet
-        remarks: Network Denial of Service
+            strength: 0 # not specified yet
+            remarks: Network Denial of Service
           - reference-id: T1562.008
-        strength: 0 # not specified yet
-        remarks: Impair Defenses: Disable Cloud Logs
+            strength: 0 # not specified yet
+            remarks: "Impair Defenses: Disable Cloud Logs"
   - id: CCC.Logging.TH02
     title: Unauthorized Data Transfer Out of a Trusted Boundary
     description: |
@@ -93,28 +93,28 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.F06
-        strength: 0 # not specified yet
-        remarks: Identity Based Access Control
+            strength: 0 # not specified yet
+            remarks: Identity Based Access Control
           - reference-id: CCC.Core.F14
-        strength: 0 # not specified yet
-        remarks: API Access
+            strength: 0 # not specified yet
+            remarks: API Access
       - reference-id: CCC.Logging
         entries:
           - reference-id: CCC.Core.F22
-        strength: 0 # not specified yet
-        remarks: Location Lock-In
+            strength: 0 # not specified yet
+            remarks: Location Lock-In
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1048
-        strength: 0 # not specified yet
-        remarks: Exfiltration Over Alternative Protocol
+            strength: 0 # not specified yet
+            remarks: Exfiltration Over Alternative Protocol
           - reference-id: T1567
-        strength: 0 # not specified yet
-        remarks: Exfiltration Over Web Service
+            strength: 0 # not specified yet
+            remarks: Exfiltration Over Web Service
           - reference-id: T1020
-        strength: 0 # not specified yet
-        remarks: Automated Exfiltration
+            strength: 0 # not specified yet
+            remarks: Automated Exfiltration
   - id: CCC.Logging.TH03
     title: Log Schema or Format Drift
     description: |
@@ -126,23 +126,23 @@ threats:
       - reference-id: CCC.Logging
         entries:
           - reference-id: CCC.Logging.F05
-        strength: 0 # not specified yet
-        remarks: Custom Log Format Support
+            strength: 0 # not specified yet
+            remarks: Custom Log Format Support
           - reference-id: CCC.Logging.F06
-        strength: 0 # not specified yet
-        remarks: Log Filtering & Transformation
+            strength: 0 # not specified yet
+            remarks: Log Filtering & Transformation
           - reference-id: CCC.Logging.F11
-        strength: 0 # not specified yet
-        remarks: Log-based Metrics
+            strength: 0 # not specified yet
+            remarks: Log-based Metrics
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1562
-        strength: 0 # not specified yet
-        remarks: Impair Defenses (indirectly, by breaking detections)
+            strength: 0 # not specified yet
+            remarks: Impair Defenses (indirectly, by breaking detections)
           - reference-id: T1562.008
-        strength: 0 # not specified yet
-        remarks: Impair Defenses: Disable Cloud Logs (can lead to effective disablement)
+            strength: 0 # not specified yet
+            remarks: "Impair Defenses: Disable Cloud Logs (can lead to effective disablement)"
   - id: CCC.Logging.TH04
     title: Inadequate Log Anonymization/Masking
     description: |
@@ -154,23 +154,23 @@ threats:
       - reference-id: CCC.Logging
         entries:
           - reference-id: CCC.Logging.F06
-        strength: 0 # not specified yet
-        remarks: Log Filtering & Transformation
+            strength: 0 # not specified yet
+            remarks: Log Filtering & Transformation
           - reference-id: CCC.Logging.F08
-        strength: 0 # not specified yet
-        remarks: Retention Policies
+            strength: 0 # not specified yet
+            remarks: Retention Policies
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1530
-        strength: 0 # not specified yet
-        remarks: Data from Local System
+            strength: 0 # not specified yet
+            remarks: Data from Local System
           - reference-id: T1537
-        strength: 0 # not specified yet
-        remarks: Transfer Data to Cloud Account
+            strength: 0 # not specified yet
+            remarks: Transfer Data to Cloud Account
           - reference-id: T1565
-        strength: 0 # not specified yet
-        remarks: Data Manipulation (if attacker is masking their own activity)
+            strength: 0 # not specified yet
+            remarks: Data Manipulation (if attacker is masking their own activity)
   - id: CCC.Logging.TH05
     title: Log Retention Policy Evasion or Misconfiguration
     description: |
@@ -182,26 +182,26 @@ threats:
       - reference-id: CCC.Logging
         entries:
           - reference-id: CCC.Logging.F07
-        strength: 0 # not specified yet
-        remarks: Immutable Storage
+            strength: 0 # not specified yet
+            remarks: Immutable Storage
           - reference-id: CCC.Logging.F08
-        strength: 0 # not specified yet
-        remarks: Retention Policies
+            strength: 0 # not specified yet
+            remarks: Retention Policies
           - reference-id: CCC.Logging.F12
-        strength: 0 # not specified yet
-        remarks: Log Archiving
+            strength: 0 # not specified yet
+            remarks: Log Archiving
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1070.004
-        strength: 0 # not specified yet
-        remarks: Indicator Removal on Host: File Deletion
+            strength: 0 # not specified yet
+            remarks: "Indicator Removal on Host: File Deletion"
           - reference-id: T1485
-        strength: 0 # not specified yet
-        remarks: Data Destruction
+            strength: 0 # not specified yet
+            remarks: Data Destruction
           - reference-id: T1562.008
-        strength: 0 # not specified yet
-        remarks: Impair Defenses: Disable Cloud Logs
+            strength: 0 # not specified yet
+            remarks: "Impair Defenses: Disable Cloud Logs"
   - id: CCC.Logging.TH06
     title: Log Injection
     description: |
@@ -214,24 +214,24 @@ threats:
       - reference-id: CCC.Logging
         entries:
           - reference-id: CCC.Core.F10
-        strength: 0 # not specified yet
-        remarks: Logging
+            strength: 0 # not specified yet
+            remarks: Logging
           - reference-id: CCC.Logging.F01
-        strength: 0 # not specified yet
-        remarks: Service Log Capture
+            strength: 0 # not specified yet
+            remarks: Service Log Capture
           - reference-id: CCC.Logging.F02
-        strength: 0 # not specified yet
-        remarks: Application Log Ingestion
+            strength: 0 # not specified yet
+            remarks: Application Log Ingestion
     external-mappings:
       - reference-id: OWASPTOP10
         entries:
-          - A03:2021
-          - A09:2021
+          - reference-id: A03:2021
+          - reference-id: A09:2021
       - reference-id: CWE
         entries:
-          - CWE-79
-          - CWE-117
-          - CWE-116
+          - reference-id: CWE-79
+          - reference-id: CWE-117
+          - reference-id: CWE-116
   - id: CCC.Logging.TH07
     title: Insufficient Logging
     description: |
@@ -241,19 +241,19 @@ threats:
       - reference-id: CCC.Logging
         entries:
           - reference-id: CCC.Core.F10
-        strength: 0 # not specified yet
-        remarks: Logging
+            strength: 0 # not specified yet
+            remarks: Logging
           - reference-id: CCC.Logging.F01
-        strength: 0 # not specified yet
-        remarks: Service Log Capture
+            strength: 0 # not specified yet
+            remarks: Service Log Capture
           - reference-id: CCC.Logging.F02
-        strength: 0 # not specified yet
-        remarks: Application Log Ingestion
+            strength: 0 # not specified yet
+            remarks: Application Log Ingestion
     external-mappings:
       - reference-id: OWASPTOP10
         entries:
-          - A09:2021
+          - reference-id: A09:2021
       - reference-id: CWE
         entries:
-          - CWE-223
-          - CWE-778
+          - reference-id: CWE-223
+          - reference-id: CWE-778

@@ -14,8 +14,8 @@ service_categories:
       a reliable and scalable manner.
     examples:
       - AWS:
-          - Amazon SQS (Simple Queue Service)
+          - reference-id: Amazon SQS (Simple Queue Service)
       - Azure:
-          - Azure Service Bus
+          - reference-id: Azure Service Bus
       - Google Cloud:
           - Google Cloud Pub/Sub
