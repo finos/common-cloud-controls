@@ -1,12 +1,12 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C01 # Prevent unencrypted requests
-      - CCC.C02 # Ensure data encryption at rest for all stored data
-      - CCC.C03 # Implement multi-factor authentication (MFA) for access
-      - CCC.C04 # Log all access and changes
-      - CCC.C05 # Prevent access from untrusted entities
-      - CCC.C06 # Prevent deployment in restricted regions
+    entries:
+      - reference-id: CCC.C01 # Prevent unencrypted requests
+      - reference-id: CCC.C02 # Ensure data encryption at rest for all stored data
+      - reference-id: CCC.C03 # Implement multi-factor authentication (MFA) for access
+      - reference-id: CCC.C04 # Log all access and changes
+      - reference-id: CCC.C05 # Prevent access from untrusted entities
+      - reference-id: CCC.C06 # Prevent deployment in restricted regions
 
 control-families:
   - title: Identity and Access Management
@@ -32,25 +32,25 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.MLDE.TH01
-              - CCC.TH01
+            entries:
+              - reference-id: CCC.MLDE.TH01
+              - reference-id: CCC.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-3
+            entries:
+              - reference-id: PR.AC-3
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.9.1.1
-              - 2013 A.9.2.1
+            entries:
+              - reference-id: 2013 A.9.1.1
+              - reference-id: 2013 A.9.2.1
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
-              - AC-3
+            entries:
+              - reference-id: AC-2
+              - reference-id: AC-3
           - reference-id: CCM
-            identifiers:
-              - IAM-01
-              - IAM-02
+            entries:
+              - reference-id: IAM-01
+              - reference-id: IAM-02
       - id: CCC.MLDE.C03
         title: Disable Root Access on MLDE Instances
         objective: |
@@ -75,22 +75,22 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.MLDE.TH01
+            entries:
+              - reference-id: CCC.MLDE.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-4
+            entries:
+              - reference-id: PR.AC-4
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-6
+            entries:
+              - reference-id: AC-6
           - reference-id: CCM
-            identifiers:
-              - IAM-08
-              - IAM-12
+            entries:
+              - reference-id: IAM-08
+              - reference-id: IAM-12
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.9.2.3
+            entries:
+              - reference-id: 2013 A.9.2.3
       - id: CCC.MLDE.C04
         title: Disable Terminal Access on MLDE Instances
         objective: |
@@ -115,21 +115,21 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.MLDE.TH01
+            entries:
+              - reference-id: CCC.MLDE.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-4
+            entries:
+              - reference-id: PR.AC-4
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-6
+            entries:
+              - reference-id: AC-6
           - reference-id: CCM
-            identifiers:
-              - IAM-08
+            entries:
+              - reference-id: IAM-08
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.9.2.3
+            entries:
+              - reference-id: 2013 A.9.2.3
   - title: Data Protection
     description: 'TODO: Describe this control family'
     controls:
@@ -155,24 +155,24 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.MLDE.TH02
-              - CCC.TH02
+            entries:
+              - reference-id: CCC.MLDE.TH02
+              - reference-id: CCC.TH02
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-5
+            entries:
+              - reference-id: PR.DS-5
           - reference-id: CCM
-            identifiers:
-              - DSI-05
-              - DSI-07
+            entries:
+              - reference-id: DSI-05
+              - reference-id: DSI-07
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.13.2.1
+            entries:
+              - reference-id: 2013 A.13.2.1
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-7
-              - SC-8
+            entries:
+              - reference-id: SC-7
+              - reference-id: SC-8
   - title: Configuration Management
     description: 'TODO: Describe this control family'
     controls:
@@ -197,21 +197,21 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.MLDE.TH04
+            entries:
+              - reference-id: CCC.MLDE.TH04
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.IP-1
+            entries:
+              - reference-id: PR.IP-1
           - reference-id: CCM
-            identifiers:
-              - TVM-02
+            entries:
+              - reference-id: TVM-02
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.12.5.1
+            entries:
+              - reference-id: 2013 A.12.5.1
           - reference-id: NIST_800_53
-            identifiers:
-              - CM-2
+            entries:
+              - reference-id: CM-2
   - title: Vulnerability Management
     description: 'TODO: Describe this control family'
     controls:
@@ -240,23 +240,23 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.MLDE.TH04
-              - CCC.TH06
+            entries:
+              - reference-id: CCC.MLDE.TH04
+              - reference-id: CCC.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.IP-12
+            entries:
+              - reference-id: PR.IP-12
           - reference-id: CCM
-            identifiers:
-              - TVM-01
-              - TVM-02
+            entries:
+              - reference-id: TVM-01
+              - reference-id: TVM-02
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.12.6.1
+            entries:
+              - reference-id: 2013 A.12.6.1
           - reference-id: NIST_800_53
-            identifiers:
-              - SI-2
+            entries:
+              - reference-id: SI-2
   - title: Network Security
     description: 'TODO: Describe this control family'
     controls:
@@ -283,22 +283,22 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.MLDE.TH02
-              - CCC.VPC.TH02
+            entries:
+              - reference-id: CCC.MLDE.TH02
+              - reference-id: CCC.VPC.TH02
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-3
+            entries:
+              - reference-id: PR.AC-3
           - reference-id: CCM
-            identifiers:
-              - SEF-05
+            entries:
+              - reference-id: SEF-05
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.13.1.1
+            entries:
+              - reference-id: 2013 A.13.1.1
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-7
+            entries:
+              - reference-id: SC-7
       - id: CCC.MLDE.C08
         title: Restrict Virtual Networks for MLDE Instances
         objective: |
@@ -324,19 +324,19 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.MLDE.TH01
-              - CCC.TH01
+            entries:
+              - reference-id: CCC.MLDE.TH01
+              - reference-id: CCC.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-4
+            entries:
+              - reference-id: PR.AC-4
           - reference-id: CCM
-            identifiers:
-              - IAM-12
+            entries:
+              - reference-id: IAM-12
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.9.1.2
+            entries:
+              - reference-id: 2013 A.9.1.2
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-6
+            entries:
+              - reference-id: AC-6

@@ -1,12 +1,12 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - CCC.TH06 # Data is Lost or Corrupted
-      - CCC.TH07 # Logs are Tampered With or Deleted
-      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH16 # Logging and Monitoring are Disabled
+    entries:
+      - reference-id: CCC.TH01 # Access Control is Misconfigured
+      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.TH06 # Data is Lost or Corrupted
+      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
+      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
 
 threats:
   - id: CCC.AUDITLOG.TH01
@@ -16,15 +16,15 @@ threats:
       and perform post incident analysis.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F03
-          - CCC.F10
+        entries:
+          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.F10
     external-mappings:
       - reference-id: OWASPTOP10
-        identifiers:
+        entries:
           - A09:2021
       - reference-id: CWE
-        identifiers:
+        entries:
           - CWE-778
           - CWE-223
   - id: CCC.AUDITLOG.TH02
@@ -36,18 +36,18 @@ threats:
       potentially impacting incident response effectiveness.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F03
-          - CCC.F10
+        entries:
+          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.F10
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - TA0005
       - reference-id: OWASPTOP10
-        identifiers:
+        entries:
           - A09:2021
       - reference-id: CWE
-        identifiers:
+        entries:
           - CWE-778
           - CWE-223
   - id: CCC.AUDITLOG.TH03
@@ -62,21 +62,21 @@ threats:
       unintended parties or forwarded to external systems.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.AuditLog.F03 # Sink
-          - CCC.AuditLog.F08 # External Sink
-          - CCC.F03
-          - CCC.F10
+        entries:
+          - reference-id: CCC.AuditLog.F03 # Sink
+          - reference-id: CCC.AuditLog.F08 # External Sink
+          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.F10
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - TA0006
       - reference-id: OWASPTOP10
-        identifiers:
+        entries:
           - A09:2021
           - A02:2021
       - reference-id: CWE
-        identifiers:
+        entries:
           - CWE-532
           - CWE-200
   - id: CCC.AUDITLOG.TH04
@@ -88,18 +88,18 @@ threats:
       including log viewers or downstream services.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.AuditLog.F03 # Sink
-          - CCC.AuditLog.F08 # External Sink
-          - CCC.F03
-          - CCC.F10
+        entries:
+          - reference-id: CCC.AuditLog.F03 # Sink
+          - reference-id: CCC.AuditLog.F08 # External Sink
+          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.F10
     external-mappings:
       - reference-id: OWASPTOP10
-        identifiers:
+        entries:
           - A03:2021
           - A09:2021
       - reference-id: CWE
-        identifiers:
+        entries:
           - CWE-79
           - CWE-117
           - CWE-116
@@ -114,15 +114,15 @@ threats:
       exceeds this limit, which often is redacted in the audit logs.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F03
-          - CCC.F10
+        entries:
+          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.F10
     external-mappings:
       - reference-id: OWASPTOP10
-        identifiers:
+        entries:
           - A09:2021
       - reference-id: CWE
-        identifiers:
+        entries:
           - "CWE-778" # Insufficient Logging
           - "CWE-223" # Omission of Security-Relevant Information
           - "CWE-20"

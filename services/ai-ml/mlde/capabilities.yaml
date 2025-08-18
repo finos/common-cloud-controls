@@ -1,17 +1,17 @@
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
-    identifiers:
-      - CCC.F03 # Access/Activity Logs
-      - CCC.F06 # Identity-Based Access Control
-      - CCC.F08 # Multi-zone Deployment
-      - CCC.F09 # Monitoring
-      - CCC.F10 # Logging
-      - CCC.F14 # API Access
-      - CCC.F15 # Cost Management
-      - CCC.F16 # Budgeting
-      - CCC.F17 # Alerting
-      - CCC.F20 # Tagging
-      - CCC.F23 # Network Access Rules
+    entries:
+      - reference-id: CCC.Core.F03 # Access/Activity Logs
+      - reference-id: CCC.Core.F06 # Identity-Based Access Control
+      - reference-id: CCC.Core.F08 # Multi-zone Deployment
+      - reference-id: CCC.Core.F09 # Monitoring
+      - reference-id: CCC.Core.F10 # Logging
+      - reference-id: CCC.Core.F14 # API Access
+      - reference-id: CCC.Core.F15 # Cost Management
+      - reference-id: CCC.Core.F16 # Budgeting
+      - reference-id: CCC.Core.F17 # Alerting
+      - reference-id: CCC.Core.F20 # Tagging
+      - reference-id: CCC.Core.F23 # Network Access Rules
 
 capabilities:
   - id: CCC.MLDE.F01

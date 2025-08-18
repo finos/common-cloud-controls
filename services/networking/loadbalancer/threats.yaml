@@ -1,14 +1,14 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH02 # Data is Intercepted in Transit
-      - CCC.TH07 # Logs are Tampered With or Deleted
-      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH12 # Resource Constraints are Exhausted
-      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
-      - CCC.TH16 # Logging and Monitoring are Disabled
-      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+    entries:
+      - reference-id: CCC.TH01 # Access Control is Misconfigured
+      - reference-id: CCC.TH02 # Data is Intercepted in Transit
+      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
+      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.TH12 # Resource Constraints are Exhausted
+      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
+      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
+      - reference-id: CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 
 threats:
   - id: CCC.LB.TH01
@@ -18,14 +18,14 @@ threats:
       overload downstream services and facilitates brute-force activity.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F04 # Transaction Rate Limits
+        entries:
+          - reference-id: CCC.Core.F04 # Transaction Rate Limits
       - reference-id: LB
-        identifiers:
-          - CCC.LB.F22 # Rate Limiting / Throttling
+        entries:
+          - reference-id: CCC.LB.F22 # Rate Limiting / Throttling
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1499 # Endpoint DoS
           - T1110 # Brute Force
 
@@ -36,12 +36,12 @@ threats:
       causing DoS or redirect flows through unwanted paths.
     capabilities:
       - reference-id: LB
-        identifiers:
-          - CCC.LB.F02 # Dynamic LB
-          - CCC.LB.F20 # Traffic Splitting
+        entries:
+          - reference-id: CCC.LB.F02 # Dynamic LB
+          - reference-id: CCC.LB.F20 # Traffic Splitting
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1499
           - T1557
 
@@ -52,11 +52,11 @@ threats:
       hijacking across backend targets.
     capabilities:
       - reference-id: LB
-        identifiers:
-          - CCC.LB.F15 # Session Affinity
+        entries:
+          - reference-id: CCC.LB.F15 # Session Affinity
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078
           - T1557
 
@@ -67,12 +67,12 @@ threats:
       targets to be marked unavailable, leading to denial of service.
     capabilities:
       - reference-id: LB
-        identifiers:
-          - CCC.LB.F12 # Health Checks
-          - CCC.LB.F13 # Target Removal
+        entries:
+          - reference-id: CCC.LB.F12 # Health Checks
+          - reference-id: CCC.LB.F13 # Target Removal
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1499
           - T1583
 
@@ -83,11 +83,11 @@ threats:
       metadata useful for reconnaissance.
     capabilities:
       - reference-id: LBL
-        identifiers:
-          - CCC.LB.F19
+        entries:
+          - reference-id: CCC.LB.F19
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1592
           - T1530
 
@@ -97,10 +97,10 @@ threats:
       Stale or untrusted certificates weaken encrypted-traffic protection.
     capabilities:
       - reference-id: LB
-        identifiers:
-          - CCC.LB.F11 # SSL/TLS Termination
+        entries:
+          - reference-id: CCC.LB.F11 # SSL/TLS Termination
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1557
           - T1608

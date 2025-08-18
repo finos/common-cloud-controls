@@ -1,13 +1,13 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C01 # Prevent Unencrypted Requests
-      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
-      - CCC.C04 # Log All Access and Changes
-      - CCC.C05 # Prevent Access from Untrusted Entities
-      - CCC.C06 # Prevent Deployment in Restricted Regions
-      - CCC.C07 # Alert on Unusual Enumeration Activity
-      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+    entries:
+      - reference-id: CCC.C01 # Prevent Unencrypted Requests
+      - reference-id: CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.C04 # Log All Access and Changes
+      - reference-id: CCC.C05 # Prevent Access from Untrusted Entities
+      - reference-id: CCC.C06 # Prevent Deployment in Restricted Regions
+      - reference-id: CCC.C07 # Alert on Unusual Enumeration Activity
+      - reference-id: CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
 
 control-families:
   - title: Network Security
@@ -30,21 +30,21 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.VPC.TH01
+            entries:
+              - reference-id: CCC.VPC.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-5
+            entries:
+              - reference-id: PR.AC-5
           - reference-id: CCM
-            identifiers:
-              - TVM-02
+            entries:
+              - reference-id: TVM-02
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.12.3.1
+            entries:
+              - reference-id: 2013 A.12.3.1
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-7
+            entries:
+              - reference-id: SC-7
       - id: CCC.VPC.C02
         title: Limit Resource Creation in Public Subnet
         objective: |
@@ -60,21 +60,21 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.VPC.TH02
+            entries:
+              - reference-id: CCC.VPC.TH02
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-3
+            entries:
+              - reference-id: PR.AC-3
           - reference-id: CCM
-            identifiers:
-              - SEF-05
+            entries:
+              - reference-id: SEF-05
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.13.1.1
+            entries:
+              - reference-id: 2013 A.13.1.1
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-4
+            entries:
+              - reference-id: AC-4
       - id: CCC.VPC.C03
         title: Restrict VPC Peering to Authorized Accounts
         objective: |
@@ -94,21 +94,21 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.VPC.TH03
+            entries:
+              - reference-id: CCC.VPC.TH03
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-3
+            entries:
+              - reference-id: PR.AC-3
           - reference-id: CCM
-            identifiers:
-              - IVS-01
+            entries:
+              - reference-id: IVS-01
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.13.1.3
+            entries:
+              - reference-id: 2013 A.13.1.3
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-4
+            entries:
+              - reference-id: AC-4
       - id: CCC.VPC.C04
         title: Enforce VPC Flow Logs on VPCs
         objective: |
@@ -125,18 +125,18 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.VPC.TH04
+            entries:
+              - reference-id: CCC.VPC.TH04
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.PT-1
+            entries:
+              - reference-id: PR.PT-1
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.12.4.1
+            entries:
+              - reference-id: 2013 A.12.4.1
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-2
+            entries:
+              - reference-id: AU-2
           - reference-id: CCM
-            identifiers:
-              - IVS-06
+            entries:
+              - reference-id: IVS-06

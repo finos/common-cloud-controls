@@ -1,12 +1,12 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
-      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
-      - CCC.C04 # Log All Access and Changes
-      - CCC.C05 # Prevent Access from Untrusted Entities
-      - CCC.C07 # Alert on Unusual Enumeration Activity
-      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+    entries:
+      - reference-id: CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.C04 # Log All Access and Changes
+      - reference-id: CCC.C05 # Prevent Access from Untrusted Entities
+      - reference-id: CCC.C07 # Alert on Unusual Enumeration Activity
+      - reference-id: CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
 
 control-families:
   - title: Identity and Access Management
@@ -43,18 +43,18 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH03 # Additional Cloud Credentials Creation
+            entries:
+              - reference-id: CCC.IAM.TH03 # Additional Cloud Credentials Creation
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AA-05
+            entries:
+              - reference-id: PR.AA-05
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
-              - AC-3
-              - AC-5
-              - AC-6
+            entries:
+              - reference-id: AC-2
+              - reference-id: AC-3
+              - reference-id: AC-5
+              - reference-id: AC-6
       - id: CCC.IAM.C02
         title: Restrict IAM Policies Modification
         objective: |
@@ -83,18 +83,18 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH06 # IAM Policies Modification
+            entries:
+              - reference-id: CCC.IAM.TH06 # IAM Policies Modification
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AA-05
+            entries:
+              - reference-id: PR.AA-05
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
-              - AC-3
-              - AC-5
-              - AC-6
+            entries:
+              - reference-id: AC-2
+              - reference-id: AC-3
+              - reference-id: AC-5
+              - reference-id: AC-6
       - id: CCC.IAM.C03
         title: Restrict Role Assumption / Delegation
         objective: |
@@ -123,18 +123,18 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH02 # Overly-Permissive Identity Trust Policy
+            entries:
+              - reference-id: CCC.IAM.TH02 # Overly-Permissive Identity Trust Policy
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-3
-              - PR.AC-4
+            entries:
+              - reference-id: PR.AC-3
+              - reference-id: PR.AC-4
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
-              - AC-3
-              - AC-6
+            entries:
+              - reference-id: AC-2
+              - reference-id: AC-3
+              - reference-id: AC-6
       - id: CCC.IAM.C04
         title: Restrict Wildcard Usage in IAM Policies
         objective: |
@@ -152,18 +152,18 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
-              - CCC.IAM.TH02 # Overly-Permissive IAM Policy
+            entries:
+              - reference-id: CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+              - reference-id: CCC.IAM.TH02 # Overly-Permissive IAM Policy
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-6
+            entries:
+              - reference-id: PR.AC-6
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
-              - AC-3
-              - AC-6
+            entries:
+              - reference-id: AC-2
+              - reference-id: AC-3
+              - reference-id: AC-6
       - id: CCC.IAM.C05
         title: Strong Password Policies for IAM Users
         objective: |
@@ -182,26 +182,26 @@ control-families:
               When a new cloud account is provisioned, a password policy must be configured for
               all IAM users to align with the minimum requirements defined in PCI DSS v4.0.1.
               This includes, at a minimum:
-              - A password length of at least 12 characters.
-              - A mix of upper- and lower-case letters, numbers, and special characters.
-              - Prevention of the use of previously used passwords (password history).
-              - Password expiration at a defined interval (e.g., every 90 days).
-              - Account lockout after a defined number of failed login attempts.
+              - reference-id: A password length of at least 12 characters.
+              - reference-id: A mix of upper- and lower-case letters, numbers, and special characters.
+              - reference-id: Prevention of the use of previously used passwords (password history).
+              - reference-id: Password expiration at a defined interval (e.g., every 90 days).
+              - reference-id: Account lockout after a defined number of failed login attempts.
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+            entries:
+              - reference-id: CCC.IAM.TH01 # Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AA-05
+            entries:
+              - reference-id: PR.AA-05
           - reference-id: NIST_800_53
-            identifiers:
-              - IA-5
+            entries:
+              - reference-id: IA-5
           - reference-id: PCI-DSS
-            identifiers:
-              - 8.3.9
-              - 8.6.3
+            entries:
+              - reference-id: 8.3.9
+              - reference-id: 8.6.3
 
   - title: Identity Provisioning and Lifecycle
     description: |
@@ -233,16 +233,16 @@ control-families:
               to further minimize risk.
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH09 # Long-Lived Static Credentials
-              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+            entries:
+              - reference-id: CCC.IAM.TH09 # Long-Lived Static Credentials
+              - reference-id: CCC.IAM.TH01 # Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AA-01
+            entries:
+              - reference-id: PR.AA-01
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
+            entries:
+              - reference-id: AC-2
       - id: CCC.IAM.C07
         title: Automate Identity De-provisioning
         objective: |
@@ -262,16 +262,16 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH10 # Orphaned Federated Identity Retains Access
-              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+            entries:
+              - reference-id: CCC.IAM.TH10 # Orphaned Federated Identity Retains Access
+              - reference-id: CCC.IAM.TH01 # Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AA-01
+            entries:
+              - reference-id: PR.AA-01
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
+            entries:
+              - reference-id: AC-2
       - id: CCC.IAM.C08
         title: Maximum Age for Unused Credentials
         objective: |
@@ -293,16 +293,16 @@ control-families:
               for 90 days or more must be automatically removed or deactivated.
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH11 # Unused Credentials
-              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+            entries:
+              - reference-id: CCC.IAM.TH11 # Unused Credentials
+              - reference-id: CCC.IAM.TH01 # Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AA-01
+            entries:
+              - reference-id: PR.AA-01
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
+            entries:
+              - reference-id: AC-2
       - id: CCC.IAM.C09
         title: Enforce Federated Single Sign-On (SSO) for Human Users
         objective: |
@@ -323,16 +323,16 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
-              - CCC.IAM.TH09 # Long-Lived Static Credentials
+            entries:
+              - reference-id: CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+              - reference-id: CCC.IAM.TH09 # Long-Lived Static Credentials
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AA-01
+            entries:
+              - reference-id: PR.AA-01
           - reference-id: NIST_800_53
-            identifiers:
-              - IA-2
+            entries:
+              - reference-id: IA-2
 
   - title: Logging and Monitoring
     description: Controls that collect, alert, and retain IAM-related events.
@@ -365,19 +365,19 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH01 # Valid Cloud Credentials Abuse
+            entries:
+              - reference-id: CCC.IAM.TH01 # Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - DE.CM-03
-              - DE.CM-06
-              - DE.CM-09
+            entries:
+              - reference-id: DE.CM-03
+              - reference-id: DE.CM-06
+              - reference-id: DE.CM-09
           - reference-id: NIST_800_53
-            identifiers:
-              - SI-4
-              - SI-5
-              - AC-2
+            entries:
+              - reference-id: SI-4
+              - reference-id: SI-5
+              - reference-id: AC-2
       - id: CCC.IAM.C11
         title: Enable Continuous IAM Access and Usage Analysis
         objective: |
@@ -398,17 +398,17 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.IAM.TH02 # Overly-Permissive Identity Trust Policy
-              - CCC.IAM.TH10 # Orphaned Federated Identity Retains Access
-              - CCC.IAM.TH11 # Unused Credentials
+            entries:
+              - reference-id: CCC.IAM.TH02 # Overly-Permissive Identity Trust Policy
+              - reference-id: CCC.IAM.TH10 # Orphaned Federated Identity Retains Access
+              - reference-id: CCC.IAM.TH11 # Unused Credentials
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - ID.RA-01
-              - ID.IM-01
+            entries:
+              - reference-id: ID.RA-01
+              - reference-id: ID.IM-01
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-2
-              - CA-7
-              - RA-5
+            entries:
+              - reference-id: AC-2
+              - reference-id: CA-7
+              - reference-id: RA-5

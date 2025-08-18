@@ -1,15 +1,15 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C01 # Prevent unencrypted requests
-      - CCC.C02 # Ensure data encryption at rest for all stored data
-      - CCC.C03 # Implement multi-factor authentication (MFA) for access
-      - CCC.C04 # Log all access and changes
-      - CCC.C05 # Prevent access from untrusted entities
-      - CCC.C06 # Prevent deployment in restricted regions
-      - CCC.C07 # Alert on unusual enumeration activity
-      - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-      - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+    entries:
+      - reference-id: CCC.C01 # Prevent unencrypted requests
+      - reference-id: CCC.C02 # Ensure data encryption at rest for all stored data
+      - reference-id: CCC.C03 # Implement multi-factor authentication (MFA) for access
+      - reference-id: CCC.C04 # Log all access and changes
+      - reference-id: CCC.C05 # Prevent access from untrusted entities
+      - reference-id: CCC.C06 # Prevent deployment in restricted regions
+      - reference-id: CCC.C07 # Alert on unusual enumeration activity
+      - reference-id: CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+      - reference-id: CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 control-families:
   - title: Encryption
@@ -33,13 +33,13 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH01 # Access control is misconfigured
+            entries:
+              - reference-id: CCC.TH01 # Access control is misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-1 # Data-at-rest is protected
+            entries:
+              - reference-id: PR.DS-1 # Data-at-rest is protected
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-12 # Cryptographic Key Establishment and Management
-              - SC-13 # Cryptographic Protection
+            entries:
+              - reference-id: SC-12 # Cryptographic Key Establishment and Management
+              - reference-id: SC-13 # Cryptographic Protection

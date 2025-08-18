@@ -1,17 +1,17 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C01 # Prevent Unencrypted Requests
-      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
-      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
-      - CCC.C04 # Log All Access and Changes
-      - CCC.C05 # Prevent Access from Untrusted Entities
-      - CCC.C06 # Prevent Deployment in Restricted Regions
-      - CCC.C07 # Alert on Unusual Enumeration Activity
-      - CCC.C08 # Enable Multi-zone or Multi-region Data Replication
-      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
-      - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
-      - CCC.C11 # Enforce Key Management Policies
+    entries:
+      - reference-id: CCC.C01 # Prevent Unencrypted Requests
+      - reference-id: CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.C04 # Log All Access and Changes
+      - reference-id: CCC.C05 # Prevent Access from Untrusted Entities
+      - reference-id: CCC.C06 # Prevent Deployment in Restricted Regions
+      - reference-id: CCC.C07 # Alert on Unusual Enumeration Activity
+      - reference-id: CCC.C08 # Enable Multi-zone or Multi-region Data Replication
+      - reference-id: CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - reference-id: CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+      - reference-id: CCC.C11 # Enforce Key Management Policies
 
 control-families:
   - title: Data
@@ -47,16 +47,16 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.Logging.TH07 # Insufficient Logging
+            entries:
+              - reference-id: CCC.Logging.TH07 # Insufficient Logging
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.PS-04
+            entries:
+              - reference-id: PR.PS-04
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-2
-              - AU-3
+            entries:
+              - reference-id: AU-2
+              - reference-id: AU-3
       - id: CCC.Logging.C02
         title: Enforce Data Retention Policy for Logs
         objective: |
@@ -85,15 +85,15 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.Logging.TH05 # Log Retention Policy Evasion or Misconfiguration
+            entries:
+              - reference-id: CCC.Logging.TH05 # Log Retention Policy Evasion or Misconfiguration
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - GV.PO-01
+            entries:
+              - reference-id: GV.PO-01
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-11
+            entries:
+              - reference-id: AU-11
       - id: CCC.Logging.C03
         title: Enable Object Lock On Log Bucket
         objective: |
@@ -113,16 +113,16 @@ control-families:
               Configure object lock policy.
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH07 # Logs are Tampered With or Deleted
+            entries:
+              - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.PS-04
+            entries:
+              - reference-id: PR.PS-04
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-9
-              - AU-11
+            entries:
+              - reference-id: AU-9
+              - reference-id: AU-11
 
   - title: Identity and Access Management
     description: |
@@ -145,20 +145,20 @@ control-families:
               Review field level access controls on log data.
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.Logging.TH04 # Inadequate Log Anonymization/Masking
+            entries:
+              - reference-id: CCC.Logging.TH04 # Inadequate Log Anonymization/Masking
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.PS-04
+            entries:
+              - reference-id: PR.PS-04
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-6
-              - AU-9
-              - AC-3
-              - PT-2
-              - PT-3
-              - PT-3
+            entries:
+              - reference-id: AC-6
+              - reference-id: AU-9
+              - reference-id: AC-3
+              - reference-id: PT-2
+              - reference-id: PT-3
+              - reference-id: PT-3
       - id: CCC.Logging.C05
         title: Ensure Log Bucket is Not Publicly Accessible
         objective: |
@@ -190,16 +190,16 @@ control-families:
               Regularly review bucket permissions to ensure no public access has been inadvertently granted.
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH01 # Access Control is Misconfigured
+            entries:
+              - reference-id: CCC.TH01 # Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AA-05
+            entries:
+              - reference-id: PR.AA-05
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-3
-              - SC-7
+            entries:
+              - reference-id: AC-3
+              - reference-id: SC-7
 
   - title: Logging and Monitoring
     description: |
@@ -222,18 +222,18 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.Logging.TH02 # Log Data Exfiltration via Query Interfaces
+            entries:
+              - reference-id: CCC.Logging.TH02 # Log Data Exfiltration via Query Interfaces
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - DE.CM-03
-              - DE.CM-09
+            entries:
+              - reference-id: DE.CM-03
+              - reference-id: DE.CM-09
           - reference-id: NIST_800_53
-            identifiers:
-              - SI-4
-              - CA-7
-              - AU-6
+            entries:
+              - reference-id: SI-4
+              - reference-id: CA-7
+              - reference-id: AU-6
       - id: CCC.Logging.C07
         title: Detect and Alert on Log Service Tampering
         objective: |
@@ -253,15 +253,15 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH16 # Logging and Monitoring are Disabled
+            entries:
+              - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - DE.CM-03
-              - DE.CM-09
+            entries:
+              - reference-id: DE.CM-03
+              - reference-id: DE.CM-09
           - reference-id: NIST_800_53
-            identifiers:
-              - SI-4
-              - CA-7
-              - AU-6
+            entries:
+              - reference-id: SI-4
+              - reference-id: CA-7
+              - reference-id: AU-6

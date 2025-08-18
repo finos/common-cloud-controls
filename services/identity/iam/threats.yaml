@@ -1,13 +1,13 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH07 # Logs are Tampered With or Deleted
-      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH10 # Alerts are Intercepted
-      - CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - CCC.TH13 # Resource Tags are Manipulated
-      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+    entries:
+      - reference-id: CCC.TH01 # Access Control is Misconfigured
+      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
+      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.TH10 # Alerts are Intercepted
+      - reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.TH13 # Resource Tags are Manipulated
+      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.IAM.TH01
@@ -21,16 +21,16 @@ threats:
       cloud resources.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F02 # IAM Users
-          - CCC.IAM.F03 # Long-Term Credentials
-          - CCC.IAM.F04 # Password Management
-          - CCC.IAM.F07 # Managed Identities
-          - CCC.IAM.F08 # Federated Identity - SAML
-          - CCC.IAM.F09 # Federated Identity - OIDC
+        entries:
+          - reference-id: CCC.IAM.F02 # IAM Users
+          - reference-id: CCC.IAM.F03 # Long-Term Credentials
+          - reference-id: CCC.IAM.F04 # Password Management
+          - reference-id: CCC.IAM.F07 # Managed Identities
+          - reference-id: CCC.IAM.F08 # Federated Identity - SAML
+          - reference-id: CCC.IAM.F09 # Federated Identity - OIDC
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078.004 # Valid Accounts: Cloud Accounts
           - T1552 # Unsecured Credentials
           - T1552.005 # Unsecured Credentials: Cloud Instance Metadata API
@@ -46,16 +46,16 @@ threats:
       actions by principals whose credentials might be compromised or who are acting erroneously.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F02 # IAM Users
-          - CCC.IAM.F05 # IAM Groups
-          - CCC.IAM.F06 # IAM Roles / Service Principals
-          - CCC.IAM.F07 # Managed Identities
-          - CCC.IAM.F10 # Custom Roles
-          - CCC.IAM.F12 # Policy Conditions
+        entries:
+          - reference-id: CCC.IAM.F02 # IAM Users
+          - reference-id: CCC.IAM.F05 # IAM Groups
+          - reference-id: CCC.IAM.F06 # IAM Roles / Service Principals
+          - reference-id: CCC.IAM.F07 # Managed Identities
+          - reference-id: CCC.IAM.F10 # Custom Roles
+          - reference-id: CCC.IAM.F12 # Policy Conditions
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078.004 # Valid Accounts: Cloud Accounts
 
   - id: CCC.IAM.TH03
@@ -67,13 +67,13 @@ threats:
       to the cloud environment, completely bypassing internal identity controls.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F06 # IAM Roles / Service Principals
-          - CCC.IAM.F12 # Policy Conditions
-          - CCC.IAM.F15 # Role Assumption / Delegation
+        entries:
+          - reference-id: CCC.IAM.F06 # IAM Roles / Service Principals
+          - reference-id: CCC.IAM.F12 # Policy Conditions
+          - reference-id: CCC.IAM.F15 # Role Assumption / Delegation
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078.004 # Valid Accounts: Cloud Accounts
 
   - id: CCC.IAM.TH04
@@ -84,16 +84,16 @@ threats:
       temporary credentials to establish persistance or elevate their privileges.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F02 # IAM Users
-          - CCC.IAM.F03 # Long-Term Credentials
-          - CCC.IAM.F04 # Password Management
-          - CCC.IAM.F08 # Federated Identity - SAML
-          - CCC.IAM.F09 # Federated Identity - OIDC
-          - CCC.IAM.F11 # Temporary Credentials
+        entries:
+          - reference-id: CCC.IAM.F02 # IAM Users
+          - reference-id: CCC.IAM.F03 # Long-Term Credentials
+          - reference-id: CCC.IAM.F04 # Password Management
+          - reference-id: CCC.IAM.F08 # Federated Identity - SAML
+          - reference-id: CCC.IAM.F09 # Federated Identity - OIDC
+          - reference-id: CCC.IAM.F11 # Temporary Credentials
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1098.001 # Account Manipulation: Additional Cloud Credentials
 
   - id: CCC.IAM.TH05
@@ -103,13 +103,13 @@ threats:
       additional IAM roles to establish persistance or elevate their privileges.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F06 # IAM Roles / Service Principals
-          - CCC.IAM.F10 # Custom Roles
-          - CCC.IAM.F15 # Role Assumption / Delegation
+        entries:
+          - reference-id: CCC.IAM.F06 # IAM Roles / Service Principals
+          - reference-id: CCC.IAM.F10 # Custom Roles
+          - reference-id: CCC.IAM.F15 # Role Assumption / Delegation
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1098.003 # Account Manipulation: Additional Cloud Roles
 
   - id: CCC.IAM.TH06
@@ -119,13 +119,13 @@ threats:
       IAM policies to establish persistance or elevate their privileges.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F02 # IAM Users
-          - CCC.IAM.F06 # IAM Roles / Service Principals
-          - CCC.IAM.F10 # Custom Roles
+        entries:
+          - reference-id: CCC.IAM.F02 # IAM Users
+          - reference-id: CCC.IAM.F06 # IAM Roles / Service Principals
+          - reference-id: CCC.IAM.F10 # Custom Roles
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1098.003 # Account Manipulation: Additional Cloud Roles
           - T1556.009 # Modify Authentication Process: Conditional Access Policies
 
@@ -138,11 +138,11 @@ threats:
       lead to an identity having standing access to sensitive resources.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F05 # IAM Groups
+        entries:
+          - reference-id: CCC.IAM.F05 # IAM Groups
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1098 # Account Manipulation
 
   - id: CCC.IAM.TH08
@@ -155,13 +155,13 @@ threats:
       they control and then use that resource to perform unauthorized actions.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F02 # IAM Users
-          - CCC.IAM.F06 # IAM Roles / Service Principals
-          - CCC.IAM.F15 # Role Assumption / Delegation
+        entries:
+          - reference-id: CCC.IAM.F02 # IAM Users
+          - reference-id: CCC.IAM.F06 # IAM Roles / Service Principals
+          - reference-id: CCC.IAM.F15 # Role Assumption / Delegation
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1548.006 # Abuse Elevation Control Mechanism: Temporary Elevated Cloud Access
 
   - id: CCC.IAM.TH09
@@ -172,12 +172,12 @@ threats:
       in the event of credentials compromise.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F02 # IAM Users
-          - CCC.IAM.F03 # Long-Term Credentials
+        entries:
+          - reference-id: CCC.IAM.F02 # IAM Users
+          - reference-id: CCC.IAM.F03 # Long-Term Credentials
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078.004 # Valid Accounts: Cloud Accounts
           - T1552 # Unsecured Credentials
 
@@ -191,12 +191,12 @@ threats:
       access to a new principal.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F08 # Federated Identity - SAML
-          - CCC.IAM.F09 # Federated Identity - OIDC
+        entries:
+          - reference-id: CCC.IAM.F08 # Federated Identity - SAML
+          - reference-id: CCC.IAM.F09 # Federated Identity - OIDC
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078 # Valid Accounts
 
   - id: CCC.IAM.TH11
@@ -206,14 +206,14 @@ threats:
       is less likely to be detected, and it represents a persistent, unnecessary attack surface.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F02 # IAM Users
-          - CCC.IAM.F03 # Long-Term Credentials
-          - CCC.IAM.F04 # Password Management
-          - CCC.IAM.F06 # IAM Roles / Service Principals
+        entries:
+          - reference-id: CCC.IAM.F02 # IAM Users
+          - reference-id: CCC.IAM.F03 # Long-Term Credentials
+          - reference-id: CCC.IAM.F04 # Password Management
+          - reference-id: CCC.IAM.F06 # IAM Roles / Service Principals
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078.004 # Valid Accounts: Cloud Accounts
           - T1552 # Unsecured Credentials
 
@@ -225,12 +225,12 @@ threats:
       application, then performs unauthorized actions on behalf of the actor.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.IAM.F06 # IAM Roles / Service Principals
-          - CCC.IAM.F10 # Custom Roles
-          - CCC.IAM.F15 # Role Assumption / Delegation
+        entries:
+          - reference-id: CCC.IAM.F06 # IAM Roles / Service Principals
+          - reference-id: CCC.IAM.F10 # Custom Roles
+          - reference-id: CCC.IAM.F15 # Role Assumption / Delegation
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1199 # Trusted Relationship
           - T1548.005 # Abuse Elevation Control Mechanism: Temporary Elevated Cloud Access

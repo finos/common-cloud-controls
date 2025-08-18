@@ -1,13 +1,13 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C01 # Prevent unencrypted requests
-      - CCC.C02 # Ensure data encryption at rest for all stored data
-      - CCC.C04 # Log all access and changes
-      - CCC.C05 # Prevent access from untrusted entities
-      - CCC.C06 # Prevent deployment in restricted regions
-      - CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-      - CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+    entries:
+      - reference-id: CCC.C01 # Prevent unencrypted requests
+      - reference-id: CCC.C02 # Ensure data encryption at rest for all stored data
+      - reference-id: CCC.C04 # Log all access and changes
+      - reference-id: CCC.C05 # Prevent access from untrusted entities
+      - reference-id: CCC.C06 # Prevent deployment in restricted regions
+      - reference-id: CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
+      - reference-id: CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
 
 control-families:
   - title: Risk Management
@@ -29,16 +29,16 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.CntrReg.TH01
+            entries:
+              - reference-id: CCC.CntrReg.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - ID.RA-1
+            entries:
+              - reference-id: ID.RA-1
           - reference-id: NIST_800_53
-            identifiers:
-              - RA-5
-              - SI-5
+            entries:
+              - reference-id: RA-5
+              - reference-id: SI-5
   - title: Data Management
     description: 'TODO: Describe this control family'
     controls:
@@ -58,12 +58,12 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH14
+            entries:
+              - reference-id: CCC.TH14
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.IP-6
+            entries:
+              - reference-id: PR.IP-6
           - reference-id: NIST_800_53
-            identifiers:
-              - SI-12
+            entries:
+              - reference-id: SI-12

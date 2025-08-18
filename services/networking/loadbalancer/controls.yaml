@@ -1,13 +1,13 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C01 # Prevent Unencrypted Requests
-      - CCC.C02 # Ensure Data Encryption at Rest
-      - CCC.C03 # Enforce Multi-Factor Authentication
-      - CCC.C04 # Log All Access and Changes
-      - CCC.C05 # Prevent Access From Untrusted Entities
-      - CCC.C06 # Prevent Deployment in Restricted Regions
-      - CCC.C10 # Prevent Data Replication Outside Perimeter
+    entries:
+      - reference-id: CCC.C01 # Prevent Unencrypted Requests
+      - reference-id: CCC.C02 # Ensure Data Encryption at Rest
+      - reference-id: CCC.C03 # Enforce Multi-Factor Authentication
+      - reference-id: CCC.C04 # Log All Access and Changes
+      - reference-id: CCC.C05 # Prevent Access From Untrusted Entities
+      - reference-id: CCC.C06 # Prevent Deployment in Restricted Regions
+      - reference-id: CCC.C10 # Prevent Data Replication Outside Perimeter
 
 control-families:
   - title: "Logging & Monitoring"
@@ -47,20 +47,20 @@ control-families:
               on HTTP 429 counts to trigger alerts.
         threat-mappings:
           - reference-id: LB
-            identifiers:
-              - CCC.LB.TH01 # Malicious Traffic
-              - CCC.LB.TH09 # Resource Exhaustion
+            entries:
+              - reference-id: CCC.LB.TH01 # Malicious Traffic
+              - reference-id: CCC.LB.TH09 # Resource Exhaustion
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - DE.CM-1 # Monitor to detect events
-              - PR.AC-7 # Prevent brute-force
-              - PR.PT-4 # Protective technology
+            entries:
+              - reference-id: DE.CM-1 # Monitor to detect events
+              - reference-id: PR.AC-7 # Prevent brute-force
+              - reference-id: PR.PT-4 # Protective technology
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-6 # Audit review, analysis, reporting
-              - SC-5 # Denial-of-Service protection
-              - AC-7 # Unsuccessful logon attempts
+            entries:
+              - reference-id: AU-6 # Audit review, analysis, reporting
+              - reference-id: SC-5 # Denial-of-Service protection
+              - reference-id: AC-7 # Unsuccessful logon attempts
 
       - id: CCC.LB.C06
         title: Secure Health-Check Telemetry
@@ -82,15 +82,15 @@ control-families:
               on abnormal spikes in unhealthy targets.
         threat-mappings:
           - reference-id: LB
-            identifiers:
-              - CCC.LB.TH05 # Health Checks Exploited
+            entries:
+              - reference-id: CCC.LB.TH05 # Health Checks Exploited
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - DE.AE-2 # Detected events are analyzed
+            entries:
+              - reference-id: DE.AE-2 # Detected events are analyzed
           - reference-id: NIST_800_53
-            identifiers:
-              - SI-4 # System monitoring
+            entries:
+              - reference-id: SI-4 # System monitoring
 
   - title: Identity and Access Management
     description: |
@@ -117,15 +117,15 @@ control-families:
               policies, and log changes using audit logging.
         threat-mappings:
           - reference-id: LB
-            identifiers:
-              - CCC.LB.TH03 # Traffic Distribution Manipulated
+            entries:
+              - reference-id: CCC.LB.TH03 # Traffic Distribution Manipulated
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-1 # Identities and credentials are managed
+            entries:
+              - reference-id: PR.AC-1 # Identities and credentials are managed
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-3 # Access enforcement
+            entries:
+              - reference-id: AC-3 # Access enforcement
 
       - id: CCC.LB.C05
         title: Validate Session Affinity
@@ -144,15 +144,15 @@ control-families:
             recommendation: Audit CCC.LB.F15 parameters via configuration scans.
         threat-mappings:
           - reference-id: LB
-            identifiers:
-              - CCC.LB.TH04 # Session Persistence Exploited
+            entries:
+              - reference-id: CCC.LB.TH04 # Session Persistence Exploited
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-7 # Least functionality is enforced
+            entries:
+              - reference-id: PR.AC-7 # Least functionality is enforced
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-23 # Session authenticity
+            entries:
+              - reference-id: SC-23 # Session authenticity
 
       - id: CCC.LB.C09
         title: Restrict Management API Access
@@ -172,15 +172,15 @@ control-families:
               for protected APIs.
         threat-mappings:
           - reference-id: LB
-            identifiers:
-              - CCC.LB.TH08 # API Exposed and Attacked
+            entries:
+              - reference-id: CCC.LB.TH08 # API Exposed and Attacked
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-5 # Network integrity is protected
+            entries:
+              - reference-id: PR.AC-5 # Network integrity is protected
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-7 # Boundary protection
+            entries:
+              - reference-id: SC-7 # Boundary protection
 
   - title: Data
     description: |
@@ -205,15 +205,15 @@ control-families:
             recommendation: Enable autoscaling policies.
         threat-mappings:
           - reference-id: LB
-            identifiers:
-              - CCC.LB.TH09 # Resource Exhaustion
+            entries:
+              - reference-id: CCC.LB.TH09 # Resource Exhaustion
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - ID.BE-5 # Resilience requirements are established
+            entries:
+              - reference-id: ID.BE-5 # Resilience requirements are established
           - reference-id: NIST_800_53
-            identifiers:
-              - CP-10 # System recovery and reconstitution
+            entries:
+              - reference-id: CP-10 # System recovery and reconstitution
 
       - id: CCC.LB.C07
         title: Scrub Sensitive Headers
@@ -232,15 +232,15 @@ control-families:
             recommendation: Configure header-transformation rules.
         threat-mappings:
           - reference-id: LB
-            identifiers:
-              - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
+            entries:
+              - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-2 # Data in transit is protected
+            entries:
+              - reference-id: PR.DS-2 # Data in transit is protected
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-13 # Cryptographic protection
+            entries:
+              - reference-id: SC-13 # Cryptographic protection
 
   - title: Encryption
     description: Controls that ensure trustworthy TLS certificates and ciphers.
@@ -262,12 +262,12 @@ control-families:
             recommendation: Use certificate-manager auto-renewal workflows.
         threat-mappings:
           - reference-id: LB
-            identifiers:
-              - CCC.LB.TH07 # Certificates Expired or Invalid
+            entries:
+              - reference-id: CCC.LB.TH07 # Certificates Expired or Invalid
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-6 # Integrity checking mechanisms are used
+            entries:
+              - reference-id: PR.DS-6 # Integrity checking mechanisms are used
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-17 # PKI certificates
+            entries:
+              - reference-id: SC-17 # PKI certificates

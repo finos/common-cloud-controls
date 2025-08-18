@@ -1,14 +1,14 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH02 # Data is Intercepted in Transit
-      - CCC.TH03 # Deployment Region Network is Untrusted
-      - CCC.TH06 # Data is Lost or Corrupted
-      - CCC.TH07 # Logs are Tampered With or Deleted
-      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH13 # Resource Tags are Manipulated
-      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+    entries:
+      - reference-id: CCC.TH01 # Access Control is Misconfigured
+      - reference-id: CCC.TH02 # Data is Intercepted in Transit
+      - reference-id: CCC.TH03 # Deployment Region Network is Untrusted
+      - reference-id: CCC.TH06 # Data is Lost or Corrupted
+      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
+      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.TH13 # Resource Tags are Manipulated
+      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.VPC.TH01
@@ -19,11 +19,11 @@ threats:
       breaches.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VPC.F01
+        entries:
+          - reference-id: CCC.VPC.F01
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1040
   - id: CCC.VPC.TH02
     title: Exposure of Resources to Public Internet
@@ -33,11 +33,11 @@ threats:
       exploitation of vulnerabilities, or unauthorized access.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VPC.F04
+        entries:
+          - reference-id: CCC.VPC.F04
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1133
           - T1078
   - id: CCC.VPC.TH03
@@ -48,11 +48,11 @@ threats:
       exposure or exfiltration.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VPC.F11
+        entries:
+          - reference-id: CCC.VPC.F11
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1599
   - id: CCC.VPC.TH04
     title: Lack of Network Visibility due to Disabled VPC Flow Logs
@@ -63,11 +63,11 @@ threats:
       visibility increases the risk of undetected security incidents.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VPC.F16
+        entries:
+          - reference-id: CCC.VPC.F16
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1562
   - id: CCC.VPC.TH05
     title: Overly Permissive VPC Endpoint Policies
@@ -76,10 +76,10 @@ threats:
       resources within the VPC to unintended principals or external threats.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VPC.F17
+        entries:
+          - reference-id: CCC.VPC.F17
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078
           - T1071

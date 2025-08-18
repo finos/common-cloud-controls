@@ -1,14 +1,14 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C02
-      - CCC.C03
-      - CCC.C04
-      - CCC.C05
-      - CCC.C06
-      - CCC.C08
-      - CCC.C09
-      - CCC.C11
-      - CCC.C12
+    entries:
+      - reference-id: CCC.C02
+      - reference-id: CCC.C03
+      - reference-id: CCC.C04
+      - reference-id: CCC.C05
+      - reference-id: CCC.C06
+      - reference-id: CCC.C08
+      - reference-id: CCC.C09
+      - reference-id: CCC.C11
+      - reference-id: CCC.C12
 
 control-families: []

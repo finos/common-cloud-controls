@@ -1,21 +1,21 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access control is misconfigured
-      - CCC.TH02 # Data is intercepted in transit
-      - CCC.TH03 # Deployment region network is untrusted
-      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - CCC.TH05 # Data is corrupted during replication
-      - CCC.TH06 # Data is lost or corrupted
-      - CCC.TH07 # Logs are tampered with or deleted
-      - CCC.TH09 # Logs or monitoring data are read by unauthorized users
-      - CCC.TH10 # Alerts are Intercepted
-      - CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - CCC.TH12 # Resource constraints are exhausted
-      - CCC.TH13 # Resource tags are manipulated
-      - CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
-      - CCC.TH16 # Logging and Monitoring are Disabled
-      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+    entries:
+      - reference-id: CCC.TH01 # Access control is misconfigured
+      - reference-id: CCC.TH02 # Data is intercepted in transit
+      - reference-id: CCC.TH03 # Deployment region network is untrusted
+      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.TH05 # Data is corrupted during replication
+      - reference-id: CCC.TH06 # Data is lost or corrupted
+      - reference-id: CCC.TH07 # Logs are tampered with or deleted
+      - reference-id: CCC.TH09 # Logs or monitoring data are read by unauthorized users
+      - reference-id: CCC.TH10 # Alerts are Intercepted
+      - reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.TH12 # Resource constraints are exhausted
+      - reference-id: CCC.TH13 # Resource tags are manipulated
+      - reference-id: CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
+      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
+      - reference-id: CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 
 threats:
   - id: CCC.RDMS.TH01
@@ -26,12 +26,12 @@ threats:
       data manipulation, or overall compromise of the database instance.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.RDMS.F06
-          - CCC.RDMS.F07
+        entries:
+          - reference-id: CCC.RDMS.F06
+          - reference-id: CCC.RDMS.F07
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1078
   - id: CCC.RDMS.TH02
     title: Brute Force Attempts on Database Authentication
@@ -42,11 +42,11 @@ threats:
       and sensitive information.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.RDMS.F07
+        entries:
+          - reference-id: CCC.RDMS.F07
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1110
   - id: CCC.RDMS.TH03
     title: Database Backups Stopped
@@ -56,11 +56,11 @@ threats:
       increases the risk of data loss and extended system downtime.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F11
+        entries:
+          - reference-id: CCC.Core.F11
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1490
   - id: CCC.RDMS.TH04
     title: Unintentional Database Backup Restoration
@@ -71,11 +71,11 @@ threats:
       corruption.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F11
+        entries:
+          - reference-id: CCC.Core.F11
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1485
   - id: CCC.RDMS.TH05
     title: Unauthorized Snapshot Sharing
@@ -86,9 +86,9 @@ threats:
       in the snapshots.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F11
+        entries:
+          - reference-id: CCC.Core.F11
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1530

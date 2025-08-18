@@ -1,15 +1,15 @@
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.C01 # Prevent Unencrypted Requests
-      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
-      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
-      - CCC.C04 # Log All Access and Changes
-      - CCC.C05 # Prevent Access from Untrusted Entities
-      - CCC.C06 # Prevent Deployment in Restricted Regions
-      - CCC.C07 # Alert on Unusual Enumeration Activity
-      - CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
-      - CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+    entries:
+      - reference-id: CCC.C01 # Prevent Unencrypted Requests
+      - reference-id: CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.C04 # Log All Access and Changes
+      - reference-id: CCC.C05 # Prevent Access from Untrusted Entities
+      - reference-id: CCC.C06 # Prevent Deployment in Restricted Regions
+      - reference-id: CCC.C07 # Alert on Unusual Enumeration Activity
+      - reference-id: CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - reference-id: CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 
 control-families:
   - title: Data
@@ -64,23 +64,23 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH01
-              - CCC.TH06
+            entries:
+              - reference-id: CCC.TH01
+              - reference-id: CCC.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-1
+            entries:
+              - reference-id: PR.DS-1
           - reference-id: CCM
-            identifiers:
-              - DCS-04
-              - DCS-06
+            entries:
+              - reference-id: DCS-04
+              - reference-id: DCS-06
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.10.1.1
+            entries:
+              - reference-id: 2013 A.10.1.1
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-28
+            entries:
+              - reference-id: SC-28
       - id: CCC.ObjStor.C03
         title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
         objective: |
@@ -109,22 +109,22 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH06
+            entries:
+              - reference-id: CCC.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-1
+            entries:
+              - reference-id: PR.DS-1
           - reference-id: CCM
-            identifiers:
-              - DSP-16
+            entries:
+              - reference-id: DSP-16
           - reference-id: ISO_27001
-            identifiers:
-              - 2022 A.8.1.4
+            entries:
+              - reference-id: 2022 A.8.1.4
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-28
-              - CP-10
+            entries:
+              - reference-id: SC-28
+              - reference-id: CP-10
       - id: CCC.ObjStor.C04
         title: Objects have an Effective Retention Policy by Default
         objective: |
@@ -157,22 +157,22 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH06
+            entries:
+              - reference-id: CCC.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-1
+            entries:
+              - reference-id: PR.DS-1
           - reference-id: CCM
-            identifiers:
-              - DSP-16
+            entries:
+              - reference-id: DSP-16
           - reference-id: ISO_27001
-            identifiers:
-              - 2022 A.8.1.4
+            entries:
+              - reference-id: 2022 A.8.1.4
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-28
-              - CP-10
+            entries:
+              - reference-id: SC-28
+              - reference-id: CP-10
       - id: CCC.ObjStor.C05
         title: Versioning is Enabled for All Objects in the Bucket
         objective: |
@@ -223,22 +223,22 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH06
+            entries:
+              - reference-id: CCC.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-1
+            entries:
+              - reference-id: PR.DS-1
           - reference-id: ISO_27001
-            identifiers:
-              - 2022 A.8.1.4
+            entries:
+              - reference-id: 2022 A.8.1.4
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-28
-              - CP-10
+            entries:
+              - reference-id: SC-28
+              - reference-id: CP-10
           - reference-id: CCM
-            identifiers:
-              - DSP-16
+            entries:
+              - reference-id: DSP-16
       - id: CCC.ObjStor.C06
         title: Access Logs are Stored in a Separate Data Store
         objective: |
@@ -257,24 +257,24 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH07
-              - CCC.TH09
+            entries:
+              - reference-id: CCC.TH07
+              - reference-id: CCC.TH09
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-6
+            entries:
+              - reference-id: PR.DS-6
           - reference-id: CCM
-            identifiers:
-              - DSP-07
-              - DSP-17
+            entries:
+              - reference-id: DSP-07
+              - reference-id: DSP-17
           - reference-id: ISO_27001
-            identifiers:
-              - 2022 A.8.15.0
+            entries:
+              - reference-id: 2022 A.8.15.0
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-9
-              - SC-28
+            entries:
+              - reference-id: AU-9
+              - reference-id: SC-28
   - title: Identity and Access Management
     description: 'TODO: Describe this control family'
     controls:
@@ -311,19 +311,19 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH01
+            entries:
+              - reference-id: CCC.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-4
+            entries:
+              - reference-id: PR.AC-4
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.9.4.1
+            entries:
+              - reference-id: 2013 A.9.4.1
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-3
-              - AC-6
+            entries:
+              - reference-id: AC-3
+              - reference-id: AC-6
           - reference-id: CCM
-            identifiers:
-              - DCS-09
+            entries:
+              - reference-id: DCS-09

@@ -1,21 +1,21 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH02 # Data is Intercepted in Transit
-      - CCC.TH03 # Deployment Region Network is Untrusted
-      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - CCC.TH05 # Data is Corrupted During Replication
-      - CCC.TH06 # Data is Lost or Corrupted
-      - CCC.TH07 # Logs are Tampered With or Deleted
-      - CCC.TH08 # Cost Management Data is Manipulated
-      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH10 # Alerts are Intercepted
-      - CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - CCC.TH12 # Resource Constraints are Exhausted
-      - CCC.TH13 # Resource Tags are Manipulated
-      - CCC.TH14 # Older Resource Versions are Exploited
-      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+    entries:
+      - reference-id: CCC.TH01 # Access Control is Misconfigured
+      - reference-id: CCC.TH02 # Data is Intercepted in Transit
+      - reference-id: CCC.TH03 # Deployment Region Network is Untrusted
+      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.TH05 # Data is Corrupted During Replication
+      - reference-id: CCC.TH06 # Data is Lost or Corrupted
+      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
+      - reference-id: CCC.TH08 # Cost Management Data is Manipulated
+      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.TH10 # Alerts are Intercepted
+      - reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.TH12 # Resource Constraints are Exhausted
+      - reference-id: CCC.TH13 # Resource Tags are Manipulated
+      - reference-id: CCC.TH14 # Older Resource Versions are Exploited
+      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.ObjStor.TH01
@@ -26,12 +26,12 @@ threats:
       and potential exposure of sensitive data.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.ObjStor.F08
-          - CCC.F11
+        entries:
+          - reference-id: CCC.ObjStor.F08
+          - reference-id: CCC.Core.F11
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1020
           - T1537
           - T1567
@@ -45,11 +45,11 @@ threats:
       loss or tampering.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.ObjStor.F09
+        entries:
+          - reference-id: CCC.ObjStor.F09
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1027
           - T1485
           - T1490

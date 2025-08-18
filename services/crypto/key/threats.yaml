@@ -1,10 +1,10 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - CCC.TH12 # Resource Constraints are Exhausted
-      - CCC.TH13 # Resource Tags are Manipulated
+    entries:
+      - reference-id: CCC.TH01 # Access Control is Misconfigured
+      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.TH12 # Resource Constraints are Exhausted
+      - reference-id: CCC.TH13 # Resource Tags are Manipulated
 
 threats:
   - id: CCC.KeyMgmt.TH01
@@ -18,14 +18,14 @@ threats:
       the key material is no longer recoverable.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.KeyMgmt.F14 # Key Versioning
-          - CCC.KeyMgmt.F16 # Disable key
-          - CCC.KeyMgmt.F18 # Soft Delete
-          - CCC.KeyMgmt.F19 # Delete Key
+        entries:
+          - reference-id: CCC.KeyMgmt.F14 # Key Versioning
+          - reference-id: CCC.KeyMgmt.F16 # Disable key
+          - reference-id: CCC.KeyMgmt.F18 # Soft Delete
+          - reference-id: CCC.KeyMgmt.F19 # Delete Key
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1485 # Data Destruction
           - T1489 # Service Stop
           - T1490 # Inhibit System Recovery
@@ -38,12 +38,12 @@ threats:
       of sensitive information.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.KeyMgmt.F10 # Decrypt data
-          - CCC.KeyMgmt.F17 # Enable key
+        entries:
+          - reference-id: CCC.KeyMgmt.F10 # Decrypt data
+          - reference-id: CCC.KeyMgmt.F17 # Enable key
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1550 # Use Alternate Authentication Material
 
   - id: CCC.KeyMgmt.TH03
@@ -54,12 +54,12 @@ threats:
       resilience and extending exposure in the event of key compromise.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.KeyMgmt.F20 # Automatic Symmetric Key Rotation
-          - CCC.KeyMgmt.F21 # Manual Key Rotation
+        entries:
+          - reference-id: CCC.KeyMgmt.F20 # Automatic Symmetric Key Rotation
+          - reference-id: CCC.KeyMgmt.F21 # Manual Key Rotation
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1562 # Impair Defenses
 
   - id: CCC.KeyMgmt.TH04
@@ -70,9 +70,9 @@ threats:
       reducing the overall strength of subsequent cryptographic operations.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.KeyMgmt.F22 # Key Import
+        entries:
+          - reference-id: CCC.KeyMgmt.F22 # Key Import
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1600 # Weaken Encryption

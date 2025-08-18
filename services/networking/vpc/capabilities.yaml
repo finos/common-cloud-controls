@@ -1,12 +1,12 @@
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
-    identifiers:
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F08 # Multi-zone Deployment
-      - CCC.F09 # Monitoring
-      - CCC.F10 # Logging
-      - CCC.F13 # Infrastructure as Code
-      - CCC.F20 # Tagging
+    entries:
+      - reference-id: CCC.Core.F06 # Identity Based Access Control
+      - reference-id: CCC.Core.F08 # Multi-zone Deployment
+      - reference-id: CCC.Core.F09 # Monitoring
+      - reference-id: CCC.Core.F10 # Logging
+      - reference-id: CCC.Core.F13 # Infrastructure as Code
+      - reference-id: CCC.Core.F20 # Tagging
 
 capabilities:
   - id: CCC.VPC.F01

@@ -1,19 +1,19 @@
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
-    identifiers:
-      - CCC.F02 # Encryption at Rest Enabled by Default
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F07 # Event Notifications
-      - CCC.F09 # Monitoring
-      - CCC.F10 # Logging
-      - CCC.F11 # Backup
-      - CCC.F12 # Recovery
-      - CCC.F13 # Infrastructure as Code
-      - CCC.F15 # Cost Management
-      - CCC.F17 # Alerting
-      - CCC.F20 # Tagging
-      - CCC.F22 # Location Lock-In
-      - CCC.F23 # Network Access Rules
+    entries:
+      - reference-id: CCC.Core.F02 # Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.F06 # Identity Based Access Control
+      - reference-id: CCC.Core.F07 # Event Notifications
+      - reference-id: CCC.Core.F09 # Monitoring
+      - reference-id: CCC.Core.F10 # Logging
+      - reference-id: CCC.Core.F11 # Backup
+      - reference-id: CCC.Core.F12 # Recovery
+      - reference-id: CCC.Core.F13 # Infrastructure as Code
+      - reference-id: CCC.Core.F15 # Cost Management
+      - reference-id: CCC.Core.F17 # Alerting
+      - reference-id: CCC.Core.F20 # Tagging
+      - reference-id: CCC.Core.F22 # Location Lock-In
+      - reference-id: CCC.Core.F23 # Network Access Rules
 
 capabilities:
   - id: CCC.VM.F01

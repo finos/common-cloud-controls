@@ -1,16 +1,16 @@
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
-    identifiers:
-      - CCC.F01 # Encryption in Transit Enabled by Default
-      - CCC.F02 # Encryption at Rest Enabled by Default
-      - CCC.F03 # Access/Activity Logs
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F07 # Event Notifications
-      - CCC.F08 # Multi-zone Deployment
-      - CCC.F09 # Monitoring
-      - CCC.F10 # Logging
-      - CCC.F13 # Infrastructure as Code
-      - CCC.F14 # API Access
+    entries:
+      - reference-id: CCC.Core.F01 # Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.F02 # Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.F03 # Access/Activity Logs
+      - reference-id: CCC.Core.F06 # Identity Based Access Control
+      - reference-id: CCC.Core.F07 # Event Notifications
+      - reference-id: CCC.Core.F08 # Multi-zone Deployment
+      - reference-id: CCC.Core.F09 # Monitoring
+      - reference-id: CCC.Core.F10 # Logging
+      - reference-id: CCC.Core.F13 # Infrastructure as Code
+      - reference-id: CCC.Core.F14 # API Access
 capabilities:
   - id: CCC.KeyMgmt.F01
     title: AES-256

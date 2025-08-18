@@ -1,19 +1,19 @@
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
-    identifiers:
-      - CCC.F01 # Encryption in Transit
-      - CCC.F02 # Encryption at Rest
-      - CCC.F03 # Access/Activity Logs
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F10 # Logging
-      - CCC.F11 # Backup
-      - CCC.F12 # Recovery
-      - CCC.F14 # API Access
-      - CCC.F17 # Alertingq
-      - CCC.F18 # Versioning
-      - CCC.F20 # Tagging
-      - CCC.F21 # Replication
-      - CCC.F22 # Location Lock-In
+    entries:
+      - reference-id: CCC.Core.F01 # Encryption in Transit
+      - reference-id: CCC.Core.F02 # Encryption at Rest
+      - reference-id: CCC.Core.F03 # Access/Activity Logs
+      - reference-id: CCC.Core.F06 # Identity Based Access Control
+      - reference-id: CCC.Core.F10 # Logging
+      - reference-id: CCC.Core.F11 # Backup
+      - reference-id: CCC.Core.F12 # Recovery
+      - reference-id: CCC.Core.F14 # API Access
+      - reference-id: CCC.Core.F17 # Alertingq
+      - reference-id: CCC.Core.F18 # Versioning
+      - reference-id: CCC.Core.F20 # Tagging
+      - reference-id: CCC.Core.F21 # Replication
+      - reference-id: CCC.Core.F22 # Location Lock-In
 
 capabilities:
   - id: CCC.Logging.F01

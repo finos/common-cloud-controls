@@ -25,7 +25,7 @@ There are several ways to contribute to FINOS Common Cloud Controls.
 FINOS CCC is maintained and run through GitHub.
 
 - Check [the issues](https://github.com/finos/common-cloud-controls/issues) to see if there's anything you'd like to work on.
-- CCC follows an iterative process, so you can suggest changes to the standard at any time. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions.
+- reference-id: CCC follows an iterative process, so you can suggest changes to the standard at any time. Simply [Raise a GitHub Issue](https://github.com/finos/common-cloud-controls/issues/new/choose) to ask questions or make suggestions.
 - If you see something in the repo that you'd like to improve, Pull Requests are always welcome - the main branch of the repo is considered an iterative development branch.
 
 ### 2. Join FINOS CCC Project Meetings

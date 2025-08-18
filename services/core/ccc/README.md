@@ -11,29 +11,29 @@ This file is a summary of the common capabilities, threats, and controls used in
 
 | ID      | Title                                    |
 | ------- | ---------------------------------------- |
-| CCC.F01 | Encryption in Transit Enabled by Default |
-| CCC.F02 | Encryption at Rest Enabled by Default    |
-| CCC.F03 | Access/Activity Logs                     |
-| CCC.F04 | Transaction Rate Limits                  |
-| CCC.F05 | Signed URLs                              |
-| CCC.F06 | Identity Based Access Control            |
-| CCC.F07 | Event Notifications                      |
-| CCC.F08 | Multi-zone Deployment                    |
-| CCC.F09 | Monitoring                               |
-| CCC.F10 | Logging                                  |
-| CCC.F11 | Backup                                   |
-| CCC.F12 | Recovery                                 |
-| CCC.F13 | Infrastructure as Code                   |
-| CCC.F14 | API Access                               |
-| CCC.F15 | Cost Management                          |
-| CCC.F16 | Budgeting                                |
-| CCC.F17 | Alerting                                 |
-| CCC.F18 | Versioning                               |
-| CCC.F19 | On-demand Scaling                        |
-| CCC.F20 | Tagging                                  |
-| CCC.F21 | Replication                              |
-| CCC.F22 | Location Lock-In                         |
-| CCC.F23 | Network Access Rules                     |
+| CCC.Core.F01 | Encryption in Transit Enabled by Default |
+| CCC.Core.F02 | Encryption at Rest Enabled by Default    |
+| CCC.Core.F03 | Access/Activity Logs                     |
+| CCC.Core.F04 | Transaction Rate Limits                  |
+| CCC.Core.F05 | Signed URLs                              |
+| CCC.Core.F06 | Identity Based Access Control            |
+| CCC.Core.F07 | Event Notifications                      |
+| CCC.Core.F08 | Multi-zone Deployment                    |
+| CCC.Core.F09 | Monitoring                               |
+| CCC.Core.F10 | Logging                                  |
+| CCC.Core.F11 | Backup                                   |
+| CCC.Core.F12 | Recovery                                 |
+| CCC.Core.F13 | Infrastructure as Code                   |
+| CCC.Core.F14 | API Access                               |
+| CCC.Core.F15 | Cost Management                          |
+| CCC.Core.F16 | Budgeting                                |
+| CCC.Core.F17 | Alerting                                 |
+| CCC.Core.F18 | Versioning                               |
+| CCC.Core.F19 | On-demand Scaling                        |
+| CCC.Core.F20 | Tagging                                  |
+| CCC.Core.F21 | Replication                              |
+| CCC.Core.F22 | Location Lock-In                         |
+| CCC.Core.F23 | Network Access Rules                     |
 
 ## Threats
 

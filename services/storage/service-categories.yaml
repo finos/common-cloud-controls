@@ -30,7 +30,7 @@ service_categories:
           - Azure Managed Disks
       - Google Cloud:
           - Google Persistent Disk
-  - id: CCC.FileStor
+  - id: CCC.Core.FileStor
     title: File Storage
     description: |
       File storage services offer shared network storage accessible via standard

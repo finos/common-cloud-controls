@@ -1,19 +1,19 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access control is misconfigured
-      - CCC.TH02 # Data is intercepted in transit
-      - CCC.TH03 # Deployment region network is untrusted
-      - CCC.TH04 # Data is replicated to untrusted or external locations
-      - CCC.TH05 # Data is corrupted during replication
-      - CCC.TH06 # Data is lost or corrupted
-      - CCC.TH07 # Logs are Tampered With or Deleted
-      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - CCC.TH12 # Resource constraints are exhausted
-      - CCC.TH14 # Older Resource Versions Are Exploited
-      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
-      - CCC.TH16 # Logging and Monitoring are Disabled
+    entries:
+      - reference-id: CCC.TH01 # Access control is misconfigured
+      - reference-id: CCC.TH02 # Data is intercepted in transit
+      - reference-id: CCC.TH03 # Deployment region network is untrusted
+      - reference-id: CCC.TH04 # Data is replicated to untrusted or external locations
+      - reference-id: CCC.TH05 # Data is corrupted during replication
+      - reference-id: CCC.TH06 # Data is lost or corrupted
+      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
+      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.TH12 # Resource constraints are exhausted
+      - reference-id: CCC.TH14 # Older Resource Versions Are Exploited
+      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
 
 threats:
   - id: CCC.CntrReg.TH01
@@ -23,11 +23,11 @@ threats:
       the registry, leading to unauthorized access, data breaches, or system compromise.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.CntrReg.F05
+        entries:
+          - reference-id: CCC.CntrReg.F05
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1190
           - T1195
   - id: CCC.CntrReg.TH02
@@ -37,11 +37,11 @@ threats:
       costs and the risk of deploying vulnerable or untested versions.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.CntrReg.F04
-          - CCC.F18
+        entries:
+          - reference-id: CCC.CntrReg.F04
+          - reference-id: CCC.Core.F18
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1490
           - T1485

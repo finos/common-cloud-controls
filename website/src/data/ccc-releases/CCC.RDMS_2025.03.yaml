@@ -63,7 +63,7 @@ controls:
         integrity and confidentiality.
       control_family: Data
       threats:
-        - CCC.TH02
+        - reference-id: CCC.TH02
       nist_csf: PR.DS-02
       control_mappings:
         CCM:
@@ -101,7 +101,7 @@ controls:
         confidentiality and integrity.
       control_family: Encryption
       threats:
-        - CCC.TH01
+        - reference-id: CCC.TH01
       nist_csf: PR.DS-1
       control_mappings:
         CCM:
@@ -132,7 +132,7 @@ controls:
         includes a combination of API keys or tokens and network restrictions.
       control_family: Identity and Access Management
       threats:
-        - CCC.TH01
+        - reference-id: CCC.TH01
       nist_csf: PR.AC-7
       control_mappings:
         CCM:
@@ -205,7 +205,7 @@ controls:
         detailed audit trail for security and compliance purposes.
       control_family: Logging & Monitoring
       threats:
-        - CCC.TH01
+        - reference-id: CCC.TH01
       nist_csf: DE.AE-3
       control_mappings:
         CCM:
@@ -252,7 +252,7 @@ controls:
         isolation.
       control_family: Identity and Access Management
       threats:
-        - CCC.TH01
+        - reference-id: CCC.TH01
       nist_csf: PR.AC-3
       control_mappings:
         CCM:
@@ -310,7 +310,7 @@ controls:
         risks.
       control_family: Data
       threats:
-        - CCC.TH03
+        - reference-id: CCC.TH03
       nist_csf: PR.DS-1
       control_mappings:
         CCM:
@@ -350,7 +350,7 @@ controls:
         reconnaissance activities.
       control_family: Logging & Monitoring
       threats:
-        - CCC.TH15
+        - reference-id: CCC.TH15
       nist_csf: DE.AE-1
       control_mappings:
         CCM:
@@ -385,7 +385,7 @@ controls:
         failures, natural disasters, or other catastrophic events.
       control_family: Data
       threats:
-        - CCC.TH06
+        - reference-id: CCC.TH06
       nist_csf: PR.PT-5
       control_mappings:
         CCM:
@@ -422,9 +422,9 @@ controls:
         access, tampering, or deletion.
       control_family: Data
       threats:
-        - CCC.TH07
-        - CCC.TH09
-        - CCC.TH04
+        - reference-id: CCC.TH07
+        - reference-id: CCC.TH09
+        - reference-id: CCC.TH04
       nist_csf: PR.DS-6
       control_mappings:
         CCM:
@@ -472,7 +472,7 @@ controls:
         identity or network or data perimeter.
       control_family: Data
       threats:
-        - CCC.TH04
+        - reference-id: CCC.TH04
       nist_csf: PR.DS-5
       control_mappings:
         CCM:
@@ -499,7 +499,7 @@ controls:
         customer-managed encryption keys (CMEKs).
       control_family: Encryption
       threats:
-        - CCC.TH16
+        - reference-id: CCC.TH16
       nist_csf: PR.DS-1
       control_mappings:
         CCM:
@@ -559,7 +559,7 @@ controls:
         strictly controlled.
       control_family: ""
       threats:
-        - CCC.TH17
+        - reference-id: CCC.TH17
       nist_csf: PR.AC-3
       control_mappings:
         NIST_800_53:
@@ -581,7 +581,7 @@ controls:
         managed using a secure password or secrets management solution.
       control_family: Identity and Access Management
       threats:
-        - CCC.RDMS.TH01
+        - reference-id: CCC.RDMS.TH01
       nist_csf: PR.AA-01
       control_mappings:
         NIST_800_53:
@@ -604,7 +604,7 @@ controls:
         or password-guessing attacks from succeeding.
       control_family: Identity and Access Management
       threats:
-        - CCC.RDMS.TH02
+        - reference-id: CCC.RDMS.TH02
       nist_csf: PR.AC-1
       control_mappings:
         NIST_800_53:
@@ -628,7 +628,7 @@ controls:
         continuity when a system failure or breach occurs.
       control_family: Data
       threats:
-        - CCC.RDMS.TH03
+        - reference-id: CCC.RDMS.TH03
       nist_csf: PR.IP-4
       control_mappings:
         NIST_800_53:
@@ -651,7 +651,7 @@ controls:
         data integrity and availability.
       control_family: Identity and Access Management
       threats:
-        - CCC.RDMS.TH04
+        - reference-id: CCC.RDMS.TH04
       nist_csf: PR.AC-4
       control_mappings:
         NIST_800_53:
@@ -674,7 +674,7 @@ controls:
         accounts, thereby minimizing the risk of data exposure or exfiltration.
       control_family: Identity and Access Management
       threats:
-        - CCC.RDMS.TH05
+        - reference-id: CCC.RDMS.TH05
       nist_csf: PR.DS-10
       control_mappings:
         NIST_800_53:
@@ -689,133 +689,133 @@ controls:
             - tlp_amber
       link: cccrdmsc05---restrict-snapshot-sharing-to-authorized-accounts
 features:
-    - id: CCC.F01
+    - id: CCC.Core.F01
       title: Encryption in Transit Enabled by Default
       description: |
         Provides default encryption of data in transit through SSL or TLS.
       link: cccf01---encryption-in-transit-enabled-by-default
-    - id: CCC.F02
+    - id: CCC.Core.F02
       title: Encryption at Rest Enabled by Default
       description: |
         Provides default encryption of data before storage, with the option for
         clients to maintain control over the encryption keys.
       link: cccf02---encryption-at-rest-enabled-by-default
-    - id: CCC.F03
+    - id: CCC.Core.F03
       title: Access/Activity Logs
       description: |
         Provides users with the ability to track all requests made to or
         activities performed on resources for audit purposes.
       link: cccf03---access/activity-logs
-    - id: CCC.F04
+    - id: CCC.Core.F04
       title: Transaction Rate Limits
       description: |
         Allows the setting of a threshold where industry-standard throughput is
         achieved up to the specified rate limit.
       link: cccf04---transaction-rate-limits
-    - id: CCC.F05
+    - id: CCC.Core.F05
       title: Signed URLs
       description: |
         Provides the ability to grant temporary or restricted access
         to a resource through a custom URL that contains authentication information.
       link: cccf05---signed-urls
-    - id: CCC.F06
+    - id: CCC.Core.F06
       title: Identity Based Access Control
       description: |
         Provides the ability to determine access to resources based on
         attributes associated with a user identity.
       link: cccf06---identity-based-access-control
-    - id: CCC.F07
+    - id: CCC.Core.F07
       title: Event Notifications
       description: |
         Publishes events for creation, deletion, and modification of
         objects in a way that enables users to trigger actions in response.
       link: cccf07---event-notifications
-    - id: CCC.F08
+    - id: CCC.Core.F08
       title: Multi-zone Deployment
       description: |
         Provides the ability for the service to be deployed in multiple availability
         zones or regions to increase availability and fault tolerance.
       link: cccf08---multi-zone-deployment
-    - id: CCC.F09
+    - id: CCC.Core.F09
       title: Monitoring
       description: |
         Provides the ability to continuously observe, track, and analyze
         the performance, availability, and health of the service resources or
         applications.
       link: cccf09---monitoring
-    - id: CCC.F10
+    - id: CCC.Core.F10
       title: Logging
       description: |
         Provides the ability to transmit system events, application activities,
         and/or user interactions to a logging service
       link: cccf10---logging
-    - id: CCC.F11
+    - id: CCC.Core.F11
       title: Backup
       description: |
         Provides the ability to create copies of associated data or
         configurations in the form of automated backups, snapshot-based backups,
         and/or incremental backups.
       link: cccf11---backup
-    - id: CCC.F12
+    - id: CCC.Core.F12
       title: Recovery
       description: |
         Provides the ability to restore data, a system, or an application to a functional state
         after an incident such as data loss, corruption or a disaster.
       link: cccf12---recovery
-    - id: CCC.F13
+    - id: CCC.Core.F13
       title: Infrastructure as Code
       description: |
         Allows for managing and provisioning service resources
         through machine-readable configuration files, such as templates.
       link: cccf13---infrastructure-as-code
-    - id: CCC.F14
+    - id: CCC.Core.F14
       title: API Access
       description: |
         Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
       link: cccf14---api-access
-    - id: CCC.F15
+    - id: CCC.Core.F15
       title: Cost Management
       description: |
         Provides the ability to filter spending and to detect cost anomalies for the service.
       link: cccf15---cost-management
-    - id: CCC.F16
+    - id: CCC.Core.F16
       title: Budgeting
       description: |
         Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
       link: cccf16---budgeting
-    - id: CCC.F17
+    - id: CCC.Core.F17
       title: Alerting
       description: |
         Provides the ability to set an alarm based on performance metrics,
         logs, events or spending thresholds of the service.
       link: cccf17---alerting
-    - id: CCC.F18
+    - id: CCC.Core.F18
       title: Versioning
       description: |
         Provides the ability to maintain multiple versions of the same resource.
       link: cccf18---versioning
-    - id: CCC.F19
+    - id: CCC.Core.F19
       title: On-demand Scaling
       description: |
         Provide scaling of resources based on demand.
       link: cccf19---on-demand-scaling
-    - id: CCC.F20
+    - id: CCC.Core.F20
       title: Tagging
       description: |
         Provide the ability to tag a resource to effectively manage and gain insights of the resource.
       link: cccf20---tagging
-    - id: CCC.F21
+    - id: CCC.Core.F21
       title: Replication
       description: |
         Provides the ability to copy data or resource to multiple locations to ensure
         availability and durability.
       link: cccf21---replication
-    - id: CCC.F22
+    - id: CCC.Core.F22
       title: Location Lock-In
       description: |
         Provides the ability to control where the resources are created.
       link: cccf22---location-lock-in
-    - id: CCC.F23
+    - id: CCC.Core.F23
       title: Network Access Rules
       description: |
         Ability to control access to the resource by defining network access rules.
@@ -913,7 +913,7 @@ threats:
         unintended data exposure or unauthorized actions being performed within
         the system.
       features:
-        - CCC.F06
+        - reference-id: CCC.Core.F06
       mitre_technique:
         - T1078
         - T1548
@@ -936,7 +936,7 @@ threats:
         properly implemented. This could result in unauthorized access to
         sensitive information or unintended data alterations.
       features:
-        - CCC.F01
+        - reference-id: CCC.Core.F01
       mitre_technique:
         - T1557
         - T1040
@@ -950,8 +950,8 @@ threats:
         vulnerabilities. This could result in unintended data disclosure or
         compromised system integrity.
       features:
-        - CCC.F08
-        - CCC.F22
+        - reference-id: CCC.Core.F08
+        - reference-id: CCC.Core.F22
       mitre_technique:
         - T1040
         - T1110
@@ -967,7 +967,7 @@ threats:
         in unintended data leakage or exposure outside the organization's trusted
         perimeter.
       features:
-        - CCC.F21
+        - reference-id: CCC.Core.F21
       mitre_technique:
         - T1565
       link: cccth04---data-is-replicated-to-untrusted-or-external-locations
@@ -980,9 +980,9 @@ threats:
         and availability, potentially affecting recovery processes and system
         reliability.
       features:
-        - CCC.F08
-        - CCC.F12
-        - CCC.F21
+        - reference-id: CCC.Core.F08
+        - reference-id: CCC.Core.F12
+        - reference-id: CCC.Core.F21
       mitre_technique:
         - T1485
         - T1565
@@ -996,8 +996,8 @@ threats:
         misconfiguration. This can result in the loss of critical data, service
         disruption, or unintended exposure of sensitive information.
       features:
-        - CCC.F11
-        - CCC.F18
+        - reference-id: CCC.Core.F11
+        - reference-id: CCC.Core.F18
       mitre_technique:
         - T1485
         - T1565
@@ -1012,8 +1012,8 @@ threats:
         incidents, disrupt forensic investigations, and affect the accuracy of
         audit trails.
       features:
-        - CCC.F03
-        - CCC.F10
+        - reference-id: CCC.Core.F03
+        - reference-id: CCC.Core.F10
       mitre_technique:
         - T1070
         - T1565
@@ -1027,7 +1027,7 @@ threats:
         reporting, budget exhaustion, financial losses, and hinder incident
         detection.
       features:
-        - CCC.F15
+        - reference-id: CCC.Core.F15
       mitre_technique:
         - T1565
         - T1070
@@ -1041,8 +1041,8 @@ threats:
         enable the planning of attacks, or hinder the detection of ongoing
         incidents.
       features:
-        - CCC.F03
-        - CCC.F09
+        - reference-id: CCC.Core.F03
+        - reference-id: CCC.Core.F09
       mitre_technique:
         - T1003
         - T1007
@@ -1066,10 +1066,10 @@ threats:
         information about sensitive operations or access patterns, potentially
         impacting system security and integrity.
       features:
-        - CCC.F03
-        - CCC.F07
-        - CCC.F09
-        - CCC.F17
+        - reference-id: CCC.Core.F03
+        - reference-id: CCC.Core.F07
+        - reference-id: CCC.Core.F09
+        - reference-id: CCC.Core.F17
       mitre_technique:
         - T1057
         - T1049
@@ -1083,8 +1083,8 @@ threats:
         triggered unintentionally, obfuscate other issues, or overwhelm the
         system, potentially disrupting legitimate operations.
       features:
-        - CCC.F07
-        - CCC.F17
+        - reference-id: CCC.Core.F07
+        - reference-id: CCC.Core.F17
       mitre_technique:
         - T1205
         - T1001.001
@@ -1099,9 +1099,9 @@ threats:
         systems within the same scope. Exhaustion may occur through repeated
         requests, resource-intensive operations, or lowering rate/budget limits.
       features:
-        - CCC.F04
-        - CCC.F16
-        - CCC.F19
+        - reference-id: CCC.Core.F04
+        - reference-id: CCC.Core.F16
+        - reference-id: CCC.Core.F19
       mitre_technique:
         - T1496
         - T1499
@@ -1115,7 +1115,7 @@ threats:
         This could result in mismanaged resources, financial misuse, or security
         vulnerabilities.
       features:
-        - CCC.F20
+        - reference-id: CCC.Core.F20
       mitre_technique:
         - T1565
       link: cccth13---resource-tags-are-manipulated
@@ -1127,7 +1127,7 @@ threats:
         outdated versions could lead to security measures bypass, potentially
         leading to security risks or operational disruptions.
       features:
-        - CCC.F18
+        - reference-id: CCC.Core.F18
       mitre_technique:
         - T1027
         - T1485
@@ -1148,7 +1148,7 @@ threats:
         unsecured resources, which might result in unauthorized access or data
         exposure.
       features:
-        - CCC.F14
+        - reference-id: CCC.Core.F14
       mitre_technique:
         - T1580
       link: cccth15---automated-enumeration-and-reconnaissance-by-non-human-entities
@@ -1160,8 +1160,8 @@ threats:
         activities. This condition can impact the organization's ability
         to investigate incidents and maintain operational integrity.
       features:
-        - CCC.F10
-        - CCC.F09
+        - reference-id: CCC.Core.F10
+        - reference-id: CCC.Core.F09
       mitre_technique:
         - T1562
       link: cccth16---logging-and-monitoring-are-disabled
@@ -1173,7 +1173,7 @@ threats:
         to the service. This could result in unauthorized access to sensitive
         resources or data and disruption to service availability.
       features:
-        - CCC.F23
+        - reference-id: CCC.Core.F23
       mitre_technique:
         - T1046
         - T1133
@@ -1185,8 +1185,8 @@ threats:
         may be gained to the RDMS environment. This may lead to data breaches,
         data manipulation, or overall compromise of the database instance.
       features:
-        - CCC.RDMS.F06
-        - CCC.RDMS.F07
+        - reference-id: CCC.RDMS.F06
+        - reference-id: CCC.RDMS.F07
       mitre_technique:
         - T1078
       link: cccrdmsth01---unauthorized-access-via-default-credentials
@@ -1198,7 +1198,7 @@ threats:
         unauthorized access if successful, compromising database security
         and sensitive information.
       features:
-        - CCC.RDMS.F07
+        - reference-id: CCC.RDMS.F07
       mitre_technique:
         - T1110
       link: cccrdmsth02---brute-force-attempts-on-database-authentication
@@ -1209,7 +1209,7 @@ threats:
         ability to recover data and maintain business continuity. This condition
         increases the risk of data loss and extended system downtime.
       features:
-        - CCC.F11
+        - reference-id: CCC.Core.F11
       mitre_technique:
         - T1490
       link: cccrdmsth03---database-backups-stopped
@@ -1221,7 +1221,7 @@ threats:
         could disrupt operations and result in data inconsistency or
         corruption.
       features:
-        - CCC.F11
+        - reference-id: CCC.Core.F11
       mitre_technique:
         - T1485
       link: cccrdmsth04---unintentional-database-backup-restoration
@@ -1233,7 +1233,7 @@ threats:
         increases the risk of data exposure if sensitive information is contained
         in the snapshots.
       features:
-        - CCC.F11
+        - reference-id: CCC.Core.F11
       mitre_technique:
         - T1530
       link: cccrdmsth05---unauthorized-snapshot-sharing

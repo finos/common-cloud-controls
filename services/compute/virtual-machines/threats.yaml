@@ -1,18 +1,18 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01
-      - CCC.TH03
-      - CCC.TH05
-      - CCC.TH06
-      - CCC.TH07
-      - CCC.TH08
-      - CCC.TH09
-      - CCC.TH10
-      - CCC.TH11
-      - CCC.TH13
-      - CCC.TH16
-      - CCC.TH17
+    entries:
+      - reference-id: CCC.TH01
+      - reference-id: CCC.TH03
+      - reference-id: CCC.TH05
+      - reference-id: CCC.TH06
+      - reference-id: CCC.TH07
+      - reference-id: CCC.TH08
+      - reference-id: CCC.TH09
+      - reference-id: CCC.TH10
+      - reference-id: CCC.TH11
+      - reference-id: CCC.TH13
+      - reference-id: CCC.TH16
+      - reference-id: CCC.TH17
 
 threats:
   - id: CCC.VM.TH01
@@ -23,11 +23,11 @@ threats:
       vulnerabilities into environments where they are deployed.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F11
+        entries:
+          - reference-id: CCC.VM.F11
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1601
           - T1584.001
 
@@ -39,11 +39,11 @@ threats:
       configuration details or temporary credentials.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F16
+        entries:
+          - reference-id: CCC.VM.F16
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1552.005
 
   - id: CCC.VM.TH03
@@ -54,11 +54,11 @@ threats:
       instance behavior in unexpected or insecure ways.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F19
+        entries:
+          - reference-id: CCC.VM.F19
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1204
           - T1059.004
 
@@ -70,11 +70,11 @@ threats:
       can replicate vulnerabilities at scale.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F18
+        entries:
+          - reference-id: CCC.VM.F18
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1601.002
 
   - id: CCC.VM.TH05
@@ -85,11 +85,11 @@ threats:
       to unauthorized access and lateral movement.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F23
+        entries:
+          - reference-id: CCC.Core.F23
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1021
           - T1071
 
@@ -101,11 +101,11 @@ threats:
       unintended access to administrative interfaces.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F22
+        entries:
+          - reference-id: CCC.VM.F22
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1021.001
           - T1078
 
@@ -118,11 +118,11 @@ threats:
       potentially impacting system reliability and availability.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F06
+        entries:
+          - reference-id: CCC.VM.F06
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1499  # Endpoint Denial of Service
           - T1489  # Service Stop
 
@@ -134,11 +134,11 @@ threats:
       leakage or memory scraping, potentially compromising data confidentiality and system integrity.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F07
+        entries:
+          - reference-id: CCC.VM.F07
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1040  # Network Sniffing
           - T1203  # Exploitation for Client Execution
 
@@ -151,11 +151,11 @@ threats:
       affecting system security and operational control.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F08
+        entries:
+          - reference-id: CCC.VM.F08
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1068  # Exploitation for Privilege Escalation
           - T1578.002  # Create or Modify Cloud Compute Infrastructure: Virtual Machine
 
@@ -168,11 +168,11 @@ threats:
       cost management and service availability.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F09
+        entries:
+          - reference-id: CCC.VM.F09
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1496  # Resource Hijacking
 
   - id: CCC.VM.TH11
@@ -183,10 +183,10 @@ threats:
       affecting data integrity, confidentiality, and system reliability.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.VM.F10
+        entries:
+          - reference-id: CCC.VM.F10
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1584  # Compromise Infrastructure
           - T1204  # User Execution

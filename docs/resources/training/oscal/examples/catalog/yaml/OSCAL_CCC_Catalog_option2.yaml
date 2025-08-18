@@ -23,7 +23,7 @@ catalog:
         name: FINOS
         addresses:
           - addr-lines:
-              - FINOS
+              - reference-id: FINOS
               - some address
               - more address
             country: UK

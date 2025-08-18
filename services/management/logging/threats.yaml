@@ -1,22 +1,22 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH02 # Data is Intercepted in Transit
-      - CCC.TH03 # Deployment Region Network is Untrusted
-      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - CCC.TH05 # Data is Corrupted During Replication
-      - CCC.TH06 # Data is Lost or Corrupted
-      - CCC.TH07 # Logs are Tampered With or Deleted
-      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH10 # Alerts are Intercepted
-      - CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - CCC.TH12 # Resource Constraints are Exhausted
-      - CCC.TH13 # Resource Tags are Manipulated
-      - CCC.TH14 # Older Resource Versions are Exploited
-      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
-      - CCC.TH16 # Logging and Monitoring are Disabled
-      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+    entries:
+      - reference-id: CCC.TH01 # Access Control is Misconfigured
+      - reference-id: CCC.TH02 # Data is Intercepted in Transit
+      - reference-id: CCC.TH03 # Deployment Region Network is Untrusted
+      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.TH05 # Data is Corrupted During Replication
+      - reference-id: CCC.TH06 # Data is Lost or Corrupted
+      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
+      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.TH10 # Alerts are Intercepted
+      - reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.TH12 # Resource Constraints are Exhausted
+      - reference-id: CCC.TH13 # Resource Tags are Manipulated
+      - reference-id: CCC.TH14 # Older Resource Versions are Exploited
+      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-Human Entities
+      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
+      - reference-id: CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
 
 threats:
   - id: CCC.Logging.TH01
@@ -28,13 +28,13 @@ threats:
       analysis and potential log loss if buffers overflow.
     capabilities:
       - reference-id: CCC.Logging
-        identifiers:
-          - CCC.Logging.F03 # Real-Time Log Ingestion
-          - CCC.Logging.F04 # Centralised Log Collection
-          - CCC.Logging.F06 # Log Filtering & Transformation
+        entries:
+          - reference-id: CCC.Logging.F03 # Real-Time Log Ingestion
+          - reference-id: CCC.Logging.F04 # Centralised Log Collection
+          - reference-id: CCC.Logging.F06 # Log Filtering & Transformation
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1499 # Endpoint Denial of Service
           - T1498 # Network Denial of Service
           - T1562.008 # Impair Defenses: Disable Cloud Logs
@@ -47,15 +47,15 @@ threats:
       insiders or compromised accounts exploiting legitimate access.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.F06 # Identity Based Access Control
-          - CCC.F14 # API Access
+        entries:
+          - reference-id: CCC.Core.F06 # Identity Based Access Control
+          - reference-id: CCC.Core.F14 # API Access
       - reference-id: CCC.Logging
-        identifiers:
-          - CCC.F22 # Location Lock-In
+        entries:
+          - reference-id: CCC.Core.F22 # Location Lock-In
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1048 # Exfiltration Over Alternative Protocol
           - T1567 # Exfiltration Over Web Service
           - T1020 # Automated Exfiltration
@@ -68,13 +68,13 @@ threats:
       hindering comprehensive analysis.
     capabilities:
       - reference-id: CCC.Logging
-        identifiers:
-          - CCC.Logging.F05 # Custom Log Format Support
-          - CCC.Logging.F06 # Log Filtering & Transformation
-          - CCC.Logging.F11 # Log-based Metrics
+        entries:
+          - reference-id: CCC.Logging.F05 # Custom Log Format Support
+          - reference-id: CCC.Logging.F06 # Log Filtering & Transformation
+          - reference-id: CCC.Logging.F11 # Log-based Metrics
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1562 # Impair Defenses (indirectly, by breaking detections)
           - T1562.008 # Impair Defenses: Disable Cloud Logs (can lead to effective disablement)
   - id: CCC.Logging.TH04
@@ -86,12 +86,12 @@ threats:
       particularly for data not intended for broad log access.
     capabilities:
       - reference-id: CCC.Logging
-        identifiers:
-          - CCC.Logging.F06 # Log Filtering & Transformation
-          - CCC.Logging.F08 # Retention Policies
+        entries:
+          - reference-id: CCC.Logging.F06 # Log Filtering & Transformation
+          - reference-id: CCC.Logging.F08 # Retention Policies
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1530 # Data from Local System
           - T1537 # Transfer Data to Cloud Account
           - T1565 # Data Manipulation (if attacker is masking their own activity)
@@ -104,13 +104,13 @@ threats:
       or loss of critical forensic evidence.
     capabilities:
       - reference-id: CCC.Logging
-        identifiers:
-          - CCC.Logging.F07 # Immutable Storage
-          - CCC.Logging.F08 # Retention Policies
-          - CCC.Logging.F12 # Log Archiving
+        entries:
+          - reference-id: CCC.Logging.F07 # Immutable Storage
+          - reference-id: CCC.Logging.F08 # Retention Policies
+          - reference-id: CCC.Logging.F12 # Log Archiving
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
+        entries:
           - T1070.004 # Indicator Removal on Host: File Deletion
           - T1485 # Data Destruction
           - T1562.008 # Impair Defenses: Disable Cloud Logs
@@ -124,17 +124,17 @@ threats:
       or downstream services.
     capabilities:
       - reference-id: CCC.Logging
-        identifiers:
-          - CCC.F10 # Logging
-          - CCC.Logging.F01 # Service Log Capture
-          - CCC.Logging.F02 # Application Log Ingestion
+        entries:
+          - reference-id: CCC.Core.F10 # Logging
+          - reference-id: CCC.Logging.F01 # Service Log Capture
+          - reference-id: CCC.Logging.F02 # Application Log Ingestion
     external-mappings:
       - reference-id: OWASPTOP10
-        identifiers:
+        entries:
           - A03:2021
           - A09:2021
       - reference-id: CWE
-        identifiers:
+        entries:
           - CWE-79
           - CWE-117
           - CWE-116
@@ -145,15 +145,15 @@ threats:
       detect threats and conduct post-incident analysis.
     capabilities:
       - reference-id: CCC.Logging
-        identifiers:
-          - CCC.F10 # Logging
-          - CCC.Logging.F01 # Service Log Capture
-          - CCC.Logging.F02 # Application Log Ingestion
+        entries:
+          - reference-id: CCC.Core.F10 # Logging
+          - reference-id: CCC.Logging.F01 # Service Log Capture
+          - reference-id: CCC.Logging.F02 # Application Log Ingestion
     external-mappings:
       - reference-id: OWASPTOP10
-        identifiers:
+        entries:
           - A09:2021
       - reference-id: CWE
-        identifiers:
+        entries:
           - CWE-223
           - CWE-778
