@@ -30,23 +30,30 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH02
+            entries:
+              - reference-id: CCC.TH02
+                strength: 1
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-02
+            entries:
+              - reference-id: PR.DS-02
+                strength: 1
           - reference-id: CCM
-            identifiers:
-              - IVS-03
-              - IVS-07
+            entries:
+              - reference-id: IVS-03
+                strength: 1
+              - reference-id: IVS-07
+                strength: 1
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.13.1.1
+            entries:
+              - reference-id: 2013 A.13.1.1
+                strength: 1
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-8
-              - SC-13
+            entries:
+              - reference-id: SC-8
+                strength: 1
+              - reference-id: SC-13
+                strength: 1
       - id: CCC.C06
         title: Prevent Deployment in Restricted Regions
         objective: |
@@ -80,22 +87,28 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH03
+            entries:
+              - reference-id: CCC.TH03
+                strength: 1
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-1
+            entries:
+              - reference-id: PR.DS-1
+                strength: 1
           - reference-id: CCM
-            identifiers:
-              - DSI-06
-              - DSI-08
+            entries:
+              - reference-id: DSI-06
+                strength: 1
+              - reference-id: DSI-08
+                strength: 1
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.11.1.1
+            entries:
+              - reference-id: 2013 A.11.1.1
+                strength: 1
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-6
+            entries:
+              - reference-id: AC-6
+                strength: 1
       - id: CCC.C08
         title: Enable Multi-zone or Multi-region Data Replication
         objective: |
@@ -125,21 +138,26 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH06
+            entries:
+              - reference-id: CCC.TH06
+                strength: 1
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.PT-5
+            entries:
+              - reference-id: PR.PT-5
+                strength: 1
           - reference-id: CCM
-            identifiers:
-              - BCR-08
+            entries:
+              - reference-id: BCR-08
+                strength: 1
           - reference-id: ISO_27001
-            identifiers: []
+            entries: []
           - reference-id: NIST_800_53
-            identifiers:
-              - CP-2
-              - CP-10
+            entries:
+              - reference-id: CP-2
+                strength: 1
+              - reference-id: CP-10
+                strength: 1
       - id: CCC.C09
         title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
         objective: |
@@ -179,24 +197,32 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH07
-              - CCC.TH09
-              - CCC.TH04
+            entries:
+              - reference-id: CCC.TH07
+                strength: 1
+              - reference-id: CCC.TH09
+                strength: 1
+              - reference-id: CCC.TH04
+                strength: 1
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-6
+            entries:
+              - reference-id: PR.DS-6
+                strength: 1
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-9
+            entries:
+              - reference-id: AU-9
+                strength: 1
           - reference-id: CCM
-            identifiers:
-              - LOG-02
-              - LOG-04
-              - LOG-09
+            entries:
+              - reference-id: LOG-02
+                strength: 1
+              - reference-id: LOG-04
+                strength: 1
+              - reference-id: LOG-09
+                strength: 1
           - reference-id: ISO_27001
-            identifiers: []
+            entries: []
       - id: CCC.C10
         title: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
         objective: |
@@ -216,21 +242,21 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH04
+            entries:
+              - reference-id: CCC.TH04
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-5
+            entries:
+              - reference-id: PR.DS-5
           - reference-id: CCM
-            identifiers:
-              - DSP-10
-              - DSP-19
+            entries:
+              - reference-id: DSP-10
+              - reference-id: DSP-19
           - reference-id: ISO_27001
-            identifiers: []
+            entries: []
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-4
+            entries:
+              - reference-id: AC-4
   - title: Encryption
     description: 'TODO: Describe this control family'
     controls:
@@ -253,21 +279,21 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH01
+            entries:
+              - reference-id: CCC.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-1
+            entries:
+              - reference-id: PR.DS-1
           - reference-id: CCM
-            identifiers:
-              - DSP-17
+            entries:
+              - reference-id: DSP-17
           - reference-id: ISO_27001
-            identifiers: []
+            entries: []
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-13
-              - SC-28
+            entries:
+              - reference-id: SC-13
+              - reference-id: SC-28
       - id: CCC.C11
         title: Enforce Key Management Policies
         objective: |
@@ -316,23 +342,23 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH16
+            entries:
+              - reference-id: CCC.TH16
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.DS-1
+            entries:
+              - reference-id: PR.DS-1
           - reference-id: CCM
-            identifiers:
-              - EKM-02
-              - EKM-03
+            entries:
+              - reference-id: EKM-02
+              - reference-id: EKM-03
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.10.1.2
+            entries:
+              - reference-id: 2013 A.10.1.2
           - reference-id: NIST_800_53
-            identifiers:
-              - SC-12
-              - SC-17
+            entries:
+              - reference-id: SC-12
+              - reference-id: SC-17
   - title: Identity and Access Management
     description: 'TODO: Describe this control family'
     controls:
@@ -407,22 +433,22 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH01
+            entries:
+              - reference-id: CCC.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-7
+            entries:
+              - reference-id: PR.AC-7
           - reference-id: CCM
-            identifiers:
-              - IAM-03
-              - IAM-08
+            entries:
+              - reference-id: IAM-03
+              - reference-id: IAM-08
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.9.4.2
+            entries:
+              - reference-id: 2013 A.9.4.2
           - reference-id: NIST_800_53
-            identifiers:
-              - IA-2
+            entries:
+              - reference-id: IA-2
       - id: CCC.C05
         title: Prevent Access from Untrusted Entities
         objective: |
@@ -475,21 +501,21 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH01
+            entries:
+              - reference-id: CCC.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-3
+            entries:
+              - reference-id: PR.AC-3
           - reference-id: CCM
-            identifiers:
-              - DS-5
+            entries:
+              - reference-id: DS-5
           - reference-id: ISO_27001
-            identifiers:
-              - 2013 A.13.1.3
+            entries:
+              - reference-id: 2013 A.13.1.3
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-3
+            entries:
+              - reference-id: AC-3
   - title: Logging & Monitoring
     description: 'TODO: Describe this control family'
     controls:
@@ -529,22 +555,22 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH01
+            entries:
+              - reference-id: CCC.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - DE.AE-3
+            entries:
+              - reference-id: DE.AE-3
           - reference-id: CCM
-            identifiers:
-              - LOG-08
+            entries:
+              - reference-id: LOG-08
           - reference-id: ISO_27001
-            identifiers: []
+            entries: []
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-2
-              - AU-3
-              - AU-12
+            entries:
+              - reference-id: AU-2
+              - reference-id: AU-3
+              - reference-id: AU-12
       - id: CCC.C07
         title: Alert on Unusual Enumeration Activity
         objective: |
@@ -573,20 +599,20 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH15
+            entries:
+              - reference-id: CCC.TH15
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - DE.AE-1
+            entries:
+              - reference-id: DE.AE-1
           - reference-id: CCM
-            identifiers:
-              - LOG-05
+            entries:
+              - reference-id: LOG-05
           - reference-id: ISO_27001
-            identifiers: []
+            entries: []
           - reference-id: NIST_800_53
-            identifiers:
-              - AU-6
+            entries:
+              - reference-id: AU-6
   - title: ""
     description: 'TODO: Describe this control family'
     controls:
@@ -611,12 +637,12 @@ control-families:
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
-            identifiers:
-              - CCC.TH17
+            entries:
+              - reference-id: CCC.TH17
         guideline-mappings:
           - reference-id: NIST-CSF
-            identifiers:
-              - PR.AC-3
+            entries:
+              - reference-id: PR.AC-3
           - reference-id: NIST_800_53
-            identifiers:
-              - AC-4
+            entries:
+              - reference-id: AC-4
