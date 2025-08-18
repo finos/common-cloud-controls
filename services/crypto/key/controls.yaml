@@ -48,19 +48,19 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.KeyMgmt.TH01
-        strength: 0 # not specified yet
-        remarks: Deletion or disabling of key versions
+                strength: 0 # not specified yet
+                remarks: Deletion or disabling of key versions
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: RS.AN-1
-        strength: 0 # not specified yet
-        remarks: Notifications from detection systems are investigated
+                strength: 0 # not specified yet
+                remarks: Notifications from detection systems are investigated
           - reference-id: NIST_800_53
             entries:
               - reference-id: IR-5
-        strength: 0 # not specified yet
-        remarks: Incident Monitoring
+                strength: 0 # not specified yet
+                remarks: Incident Monitoring
 
   - title: Identity and Access Management
     description: Controls that enforce least-privilege use of KMS operations.
@@ -84,19 +84,19 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.KeyMgmt.TH02
-        strength: 0 # not specified yet
-        remarks: Unrestricted use of a KMS key to decrypt data
+                strength: 0 # not specified yet
+                remarks: Unrestricted use of a KMS key to decrypt data
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-4
-        strength: 0 # not specified yet
-        remarks: Access to assets is managed
+                strength: 0 # not specified yet
+                remarks: Access to assets is managed
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-6
-        strength: 0 # not specified yet
-        remarks: Least Privilege
+                strength: 0 # not specified yet
+                remarks: Least Privilege
 
   - title: Key Lifecycle Management
     description: Controls that govern creation, rotation, import, and retirement
@@ -121,19 +121,19 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.KeyMgmt.TH03
-        strength: 0 # not specified yet
-        remarks: Key rotation is disabled or delayed
+                strength: 0 # not specified yet
+                remarks: Key rotation is disabled or delayed
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-        strength: 0 # not specified yet
-        remarks: Data at rest is protected
+                strength: 0 # not specified yet
+                remarks: Data at rest is protected
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-12
-        strength: 0 # not specified yet
-        remarks: Cryptographic Key Establishment and Management
+                strength: 0 # not specified yet
+                remarks: Cryptographic Key Establishment and Management
 
       - id: CCC.KeyMgmt.C04
         title: Validate Imported Keys
@@ -154,16 +154,16 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.KeyMgmt.TH04
-        strength: 0 # not specified yet
-        remarks: Weak or compromised key material
+                strength: 0 # not specified yet
+                remarks: Weak or compromised key material
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-        strength: 0 # not specified yet
-        remarks: Data at rest is protected
+                strength: 0 # not specified yet
+                remarks: Data at rest is protected
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-28
-        strength: 0 # not specified yet
-        remarks: Protection of Information at Rest
+                strength: 0 # not specified yet
+                remarks: Protection of Information at Rest

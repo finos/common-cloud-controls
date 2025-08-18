@@ -53,20 +53,19 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
-        strength: 0 # not specified yet
-        remarks: Access control is misconfigured
+                strength: 0 # not specified yet
+                remarks: Access control is misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-        strength: 0 # not specified yet
-        remarks: Data-at-rest is protected
+                strength: 0 # not specified yet
+                remarks: Data-at-rest is protected
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-12
-        strength: 0 # not specified yet
-        remarks: Cryptographic Key Establishment and Management
-                strength: 0 # Not yet specified
+                strength: 0 # not specified yet
+                remarks: Cryptographic Key Establishment and Management
               - reference-id: SC-13
-        strength: 0 # not specified yet
-        remarks: Cryptographic Protection
+                strength: 0 # not specified yet
+                remarks: Cryptographic Protection

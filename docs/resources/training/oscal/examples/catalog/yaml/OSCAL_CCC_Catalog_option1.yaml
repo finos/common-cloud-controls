@@ -22,7 +22,7 @@ catalog:
         type: organization
         name: FINOS
         addresses:
-          - addr-lines:
+          - reference-id: Addr-lines:
               - reference-id: FINOS
               - some address
               - more address

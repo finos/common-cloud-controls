@@ -51,23 +51,22 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
-        strength: 0 # not specified yet
-        remarks: Access control is misconfigured
+                strength: 0 # not specified yet
+                remarks: Access control is misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-5
-        strength: 0 # not specified yet
-        remarks: Network integrity is protected
+                strength: 0 # not specified yet
+                remarks: Network integrity is protected
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-7
-        strength: 0 # not specified yet
-        remarks: Boundary Protection
-                strength: 0 # Not yet specified
+                strength: 0 # not specified yet
+                remarks: Boundary Protection
               - reference-id: SC-8
-        strength: 0 # not specified yet
-        remarks: Transmission Confidentiality and Integrity
+                strength: 0 # not specified yet
+                remarks: Transmission Confidentiality and Integrity
   - title: Availability
     description: 'TODO: Describe this control family'
     controls:
@@ -90,16 +89,16 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH12
-        strength: 0 # not specified yet
-        remarks: Resource constraints are exhausted
+                strength: 0 # not specified yet
+                remarks: Resource constraints are exhausted
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-4
-        strength: 0 # not specified yet
-        remarks: Adequate capacity to ensure availability
+                strength: 0 # not specified yet
+                remarks: Adequate capacity to ensure availability
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-5
-        strength: 0 # not specified yet
-        remarks: Denial of Service Protection
+                strength: 0 # not specified yet
+                remarks: Denial of Service Protection

@@ -28,29 +28,29 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.F14
-        strength: 0 # not specified yet
-        remarks: Key Versioning
+            strength: 0 # not specified yet
+            remarks: Key Versioning
           - reference-id: CCC.KeyMgmt.F16
-        strength: 0 # not specified yet
-        remarks: Disable key
+            strength: 0 # not specified yet
+            remarks: Disable key
           - reference-id: CCC.KeyMgmt.F18
-        strength: 0 # not specified yet
-        remarks: Soft Delete
+            strength: 0 # not specified yet
+            remarks: Soft Delete
           - reference-id: CCC.KeyMgmt.F19
-        strength: 0 # not specified yet
-        remarks: Delete Key
+            strength: 0 # not specified yet
+            remarks: Delete Key
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1485
-        strength: 0 # not specified yet
-        remarks: Data Destruction
+            strength: 0 # not specified yet
+            remarks: Data Destruction
           - reference-id: T1489
-        strength: 0 # not specified yet
-        remarks: Service Stop
+            strength: 0 # not specified yet
+            remarks: Service Stop
           - reference-id: T1490
-        strength: 0 # not specified yet
-        remarks: Inhibit System Recovery
+            strength: 0 # not specified yet
+            remarks: Inhibit System Recovery
 
   - id: CCC.KeyMgmt.TH02
     title: Unrestricted Use of a KMS Key to Decrypt Data
@@ -62,17 +62,17 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.F10
-        strength: 0 # not specified yet
-        remarks: Decrypt data
+            strength: 0 # not specified yet
+            remarks: Decrypt data
           - reference-id: CCC.KeyMgmt.F17
-        strength: 0 # not specified yet
-        remarks: Enable key
+            strength: 0 # not specified yet
+            remarks: Enable key
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1550
-        strength: 0 # not specified yet
-        remarks: Use Alternate Authentication Material
+            strength: 0 # not specified yet
+            remarks: Use Alternate Authentication Material
 
   - id: CCC.KeyMgmt.TH03
     title: Key Rotation is Disabled or Delayed Beyond Policy Limits
@@ -84,17 +84,17 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.F20
-        strength: 0 # not specified yet
-        remarks: Automatic Symmetric Key Rotation
+            strength: 0 # not specified yet
+            remarks: Automatic Symmetric Key Rotation
           - reference-id: CCC.KeyMgmt.F21
-        strength: 0 # not specified yet
-        remarks: Manual Key Rotation
+            strength: 0 # not specified yet
+            remarks: Manual Key Rotation
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1562
-        strength: 0 # not specified yet
-        remarks: Impair Defenses
+            strength: 0 # not specified yet
+            remarks: Impair Defenses
 
   - id: CCC.KeyMgmt.TH04
     title: Introduction of Weak or Compromised Key Material During Import
@@ -106,11 +106,11 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.F22
-        strength: 0 # not specified yet
-        remarks: Key Import
+            strength: 0 # not specified yet
+            remarks: Key Import
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1600
-        strength: 0 # not specified yet
-        remarks: Weaken Encryption
+            strength: 0 # not specified yet
+            remarks: Weaken Encryption

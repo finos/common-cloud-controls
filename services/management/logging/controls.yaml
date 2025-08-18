@@ -71,8 +71,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Logging.TH07
-        strength: 0 # not specified yet
-        remarks: Insufficient Logging
+                strength: 0 # not specified yet
+                remarks: Insufficient Logging
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -112,8 +112,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Logging.TH05
-        strength: 0 # not specified yet
-        remarks: Log Retention Policy Evasion or Misconfiguration
+                strength: 0 # not specified yet
+                remarks: Log Retention Policy Evasion or Misconfiguration
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -142,8 +142,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH07
-        strength: 0 # not specified yet
-        remarks: Logs are Tampered With or Deleted
+                strength: 0 # not specified yet
+                remarks: Logs are Tampered With or Deleted
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -177,8 +177,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Logging.TH04
-        strength: 0 # not specified yet
-        remarks: Inadequate Log Anonymization/Masking
+                strength: 0 # not specified yet
+                remarks: Inadequate Log Anonymization/Masking
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -229,8 +229,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
-        strength: 0 # not specified yet
-        remarks: Access Control is Misconfigured
+                strength: 0 # not specified yet
+                remarks: Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -264,8 +264,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Logging.TH02
-        strength: 0 # not specified yet
-        remarks: Log Data Exfiltration via Query Interfaces
+                strength: 0 # not specified yet
+                remarks: Log Data Exfiltration via Query Interfaces
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -300,8 +300,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH16
-        strength: 0 # not specified yet
-        remarks: Logging and Monitoring are Disabled
+                strength: 0 # not specified yet
+                remarks: Logging and Monitoring are Disabled
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:

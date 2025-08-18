@@ -2,7 +2,7 @@ title: <Service Category Name>
 id: CCC.<Service Category Abbreviation>
 description: |
   <Complete description of the Service Category>
-release_details:
+release-details:
   - version: <Version Number in CalVer Format>
     assurance_level: <Assurance Level Abbreviation>
     threat_model_url: <URL to the threat model document>
