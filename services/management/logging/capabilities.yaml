@@ -1,19 +1,45 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01 # Encryption in Transit
-      - reference-id: CCC.Core.F02 # Encryption at Rest
-      - reference-id: CCC.Core.F03 # Access/Activity Logs
-      - reference-id: CCC.Core.F06 # Identity Based Access Control
-      - reference-id: CCC.Core.F10 # Logging
-      - reference-id: CCC.Core.F11 # Backup
-      - reference-id: CCC.Core.F12 # Recovery
-      - reference-id: CCC.Core.F14 # API Access
-      - reference-id: CCC.Core.F17 # Alertingq
-      - reference-id: CCC.Core.F18 # Versioning
-      - reference-id: CCC.Core.F20 # Tagging
-      - reference-id: CCC.Core.F21 # Replication
-      - reference-id: CCC.Core.F22 # Location Lock-In
+      - reference-id: CCC.Core.F01
+        strength: 0 # not specified yet
+        remarks: Encryption in Transit
+      - reference-id: CCC.Core.F02
+        strength: 0 # not specified yet
+        remarks: Encryption at Rest
+      - reference-id: CCC.Core.F03
+        strength: 0 # not specified yet
+        remarks: Access/Activity Logs
+      - reference-id: CCC.Core.F06
+        strength: 0 # not specified yet
+        remarks: Identity Based Access Control
+      - reference-id: CCC.Core.F10
+        strength: 0 # not specified yet
+        remarks: Logging
+      - reference-id: CCC.Core.F11
+        strength: 0 # not specified yet
+        remarks: Backup
+      - reference-id: CCC.Core.F12
+        strength: 0 # not specified yet
+        remarks: Recovery
+      - reference-id: CCC.Core.F14
+        strength: 0 # not specified yet
+        remarks: API Access
+      - reference-id: CCC.Core.F17
+        strength: 0 # not specified yet
+        remarks: Alertingq
+      - reference-id: CCC.Core.F18
+        strength: 0 # not specified yet
+        remarks: Versioning
+      - reference-id: CCC.Core.F20
+        strength: 0 # not specified yet
+        remarks: Tagging
+      - reference-id: CCC.Core.F21
+        strength: 0 # not specified yet
+        remarks: Replication
+      - reference-id: CCC.Core.F22
+        strength: 0 # not specified yet
+        remarks: Location Lock-In
 
 capabilities:
   - id: CCC.Logging.F01

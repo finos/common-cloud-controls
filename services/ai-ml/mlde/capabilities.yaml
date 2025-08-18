@@ -1,17 +1,39 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F03 # Access/Activity Logs
-      - reference-id: CCC.Core.F06 # Identity-Based Access Control
-      - reference-id: CCC.Core.F08 # Multi-zone Deployment
-      - reference-id: CCC.Core.F09 # Monitoring
-      - reference-id: CCC.Core.F10 # Logging
-      - reference-id: CCC.Core.F14 # API Access
-      - reference-id: CCC.Core.F15 # Cost Management
-      - reference-id: CCC.Core.F16 # Budgeting
-      - reference-id: CCC.Core.F17 # Alerting
-      - reference-id: CCC.Core.F20 # Tagging
-      - reference-id: CCC.Core.F23 # Network Access Rules
+      - reference-id: CCC.Core.F03
+        strength: 0 # not specified yet
+        remarks: Access/Activity Logs
+      - reference-id: CCC.Core.F06
+        strength: 0 # not specified yet
+        remarks: Identity-Based Access Control
+      - reference-id: CCC.Core.F08
+        strength: 0 # not specified yet
+        remarks: Multi-zone Deployment
+      - reference-id: CCC.Core.F09
+        strength: 0 # not specified yet
+        remarks: Monitoring
+      - reference-id: CCC.Core.F10
+        strength: 0 # not specified yet
+        remarks: Logging
+      - reference-id: CCC.Core.F14
+        strength: 0 # not specified yet
+        remarks: API Access
+      - reference-id: CCC.Core.F15
+        strength: 0 # not specified yet
+        remarks: Cost Management
+      - reference-id: CCC.Core.F16
+        strength: 0 # not specified yet
+        remarks: Budgeting
+      - reference-id: CCC.Core.F17
+        strength: 0 # not specified yet
+        remarks: Alerting
+      - reference-id: CCC.Core.F20
+        strength: 0 # not specified yet
+        remarks: Tagging
+      - reference-id: CCC.Core.F23
+        strength: 0 # not specified yet
+        remarks: Network Access Rules
 
 capabilities:
   - id: CCC.MLDE.F01

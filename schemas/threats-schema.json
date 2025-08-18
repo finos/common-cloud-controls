@@ -18,7 +18,7 @@
               "properties": {
                 "reference-id": {
                   "type": "string",
-                  "pattern": "^CCC\\.TH\\d{2,8}$",
+                  "pattern": "^CCC\\.Core.TH\\d{2,8}$",
                   "description": "Global threat identifiers"
                 },
                 "strength": {
@@ -85,7 +85,7 @@
                         "type": "string"
                       }
                     },
-                    "required": ["reference-id", "strength"],
+                    "required": ["reference-id"],
                     "additionalProperties": false
                   }
                 },
@@ -122,7 +122,7 @@
                         "type": "string"
                       }
                     },
-                    "required": ["reference-id", "strength"],
+                    "required": ["reference-id"],
                     "additionalProperties": false
                   }
                 },

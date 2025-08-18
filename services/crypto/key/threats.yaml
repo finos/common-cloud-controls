@@ -1,10 +1,18 @@
 imported-threats:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.TH01 # Access Control is Misconfigured
-      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - reference-id: CCC.TH12 # Resource Constraints are Exhausted
-      - reference-id: CCC.TH13 # Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH01
+        strength: 0 # not specified yet
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH04
+        strength: 0 # not specified yet
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH12
+        strength: 0 # not specified yet
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0 # not specified yet
+        remarks: Resource Tags are Manipulated
 
 threats:
   - id: CCC.KeyMgmt.TH01
@@ -19,16 +27,30 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F14 # Key Versioning
-          - reference-id: CCC.KeyMgmt.F16 # Disable key
-          - reference-id: CCC.KeyMgmt.F18 # Soft Delete
-          - reference-id: CCC.KeyMgmt.F19 # Delete Key
+          - reference-id: CCC.KeyMgmt.F14
+        strength: 0 # not specified yet
+        remarks: Key Versioning
+          - reference-id: CCC.KeyMgmt.F16
+        strength: 0 # not specified yet
+        remarks: Disable key
+          - reference-id: CCC.KeyMgmt.F18
+        strength: 0 # not specified yet
+        remarks: Soft Delete
+          - reference-id: CCC.KeyMgmt.F19
+        strength: 0 # not specified yet
+        remarks: Delete Key
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1485 # Data Destruction
-          - T1489 # Service Stop
-          - T1490 # Inhibit System Recovery
+          - reference-id: T1485
+        strength: 0 # not specified yet
+        remarks: Data Destruction
+          - reference-id: T1489
+        strength: 0 # not specified yet
+        remarks: Service Stop
+          - reference-id: T1490
+        strength: 0 # not specified yet
+        remarks: Inhibit System Recovery
 
   - id: CCC.KeyMgmt.TH02
     title: Unrestricted Use of a KMS Key to Decrypt Data
@@ -39,12 +61,18 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F10 # Decrypt data
-          - reference-id: CCC.KeyMgmt.F17 # Enable key
+          - reference-id: CCC.KeyMgmt.F10
+        strength: 0 # not specified yet
+        remarks: Decrypt data
+          - reference-id: CCC.KeyMgmt.F17
+        strength: 0 # not specified yet
+        remarks: Enable key
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1550 # Use Alternate Authentication Material
+          - reference-id: T1550
+        strength: 0 # not specified yet
+        remarks: Use Alternate Authentication Material
 
   - id: CCC.KeyMgmt.TH03
     title: Key Rotation is Disabled or Delayed Beyond Policy Limits
@@ -55,12 +83,18 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F20 # Automatic Symmetric Key Rotation
-          - reference-id: CCC.KeyMgmt.F21 # Manual Key Rotation
+          - reference-id: CCC.KeyMgmt.F20
+        strength: 0 # not specified yet
+        remarks: Automatic Symmetric Key Rotation
+          - reference-id: CCC.KeyMgmt.F21
+        strength: 0 # not specified yet
+        remarks: Manual Key Rotation
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1562 # Impair Defenses
+          - reference-id: T1562
+        strength: 0 # not specified yet
+        remarks: Impair Defenses
 
   - id: CCC.KeyMgmt.TH04
     title: Introduction of Weak or Compromised Key Material During Import
@@ -71,8 +105,12 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F22 # Key Import
+          - reference-id: CCC.KeyMgmt.F22
+        strength: 0 # not specified yet
+        remarks: Key Import
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1600 # Weaken Encryption
+          - reference-id: T1600
+        strength: 0 # not specified yet
+        remarks: Weaken Encryption

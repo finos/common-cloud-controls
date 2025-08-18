@@ -18,7 +18,7 @@
               "properties": {
                 "reference-id": {
                   "type": "string",
-                  "pattern": "^CCC\\.F\\d{2,8}$",
+                  "pattern": "^CCC\\.Core.F\\d{2,8}$",
                   "description": "Global/common capability IDs"
                 },
                 "strength": {

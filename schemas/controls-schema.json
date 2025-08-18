@@ -18,7 +18,7 @@
                 "properties": {
                   "reference-id": {
                     "type": "string",
-                    "pattern": "^CCC\\.C\\d{2,8}$",
+                    "pattern": "^CCC\\.Core.C\\d{2,8}$",
                     "description": "ID of a generic control that is designed to be shared by multiple catalogs"
                   },
                   "strength": {
@@ -124,7 +124,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["reference-id", "strength"],
+                            "required": ["reference-id"],
                             "additionalProperties": false
                           }
                         },
@@ -159,7 +159,7 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["reference-id", "strength"],
+                            "required": ["reference-id"],
                             "additionalProperties": false
                           }
                         },

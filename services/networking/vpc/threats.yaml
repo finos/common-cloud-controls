@@ -1,14 +1,30 @@
 imported-threats:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.TH01 # Access Control is Misconfigured
-      - reference-id: CCC.TH02 # Data is Intercepted in Transit
-      - reference-id: CCC.TH03 # Deployment Region Network is Untrusted
-      - reference-id: CCC.TH06 # Data is Lost or Corrupted
-      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
-      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - reference-id: CCC.TH13 # Resource Tags are Manipulated
-      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH01
+        strength: 0 # not specified yet
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # not specified yet
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # not specified yet
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH06
+        strength: 0 # not specified yet
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # not specified yet
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # not specified yet
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH13
+        strength: 0 # not specified yet
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH15
+        strength: 0 # not specified yet
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.VPC.TH01
@@ -24,7 +40,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1040
+          - reference-id: T1040
   - id: CCC.VPC.TH02
     title: Exposure of Resources to Public Internet
     description: |
@@ -38,8 +54,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1133
-          - T1078
+          - reference-id: T1133
+          - reference-id: T1078
   - id: CCC.VPC.TH03
     title: Unauthorized Network Access Through VPC Peering
     description: |
@@ -53,7 +69,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1599
+          - reference-id: T1599
   - id: CCC.VPC.TH04
     title: Lack of Network Visibility due to Disabled VPC Flow Logs
     description: |
@@ -68,7 +84,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1562
+          - reference-id: T1562
   - id: CCC.VPC.TH05
     title: Overly Permissive VPC Endpoint Policies
     description: |
@@ -81,5 +97,5 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1078
-          - T1071
+          - reference-id: T1078
+          - reference-id: T1071

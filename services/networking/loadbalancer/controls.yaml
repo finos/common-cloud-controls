@@ -1,13 +1,27 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.C01 # Prevent Unencrypted Requests
-      - reference-id: CCC.C02 # Ensure Data Encryption at Rest
-      - reference-id: CCC.C03 # Enforce Multi-Factor Authentication
-      - reference-id: CCC.C04 # Log All Access and Changes
-      - reference-id: CCC.C05 # Prevent Access From Untrusted Entities
-      - reference-id: CCC.C06 # Prevent Deployment in Restricted Regions
-      - reference-id: CCC.C10 # Prevent Data Replication Outside Perimeter
+      - reference-id: CCC.Core.C01
+        strength: 0 # not specified yet
+        remarks: Prevent Unencrypted Requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # not specified yet
+        remarks: Ensure Data Encryption at Rest
+      - reference-id: CCC.Core.C03
+        strength: 0 # not specified yet
+        remarks: Enforce Multi-Factor Authentication
+      - reference-id: CCC.Core.C04
+        strength: 0 # not specified yet
+        remarks: Log All Access and Changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # not specified yet
+        remarks: Prevent Access From Untrusted Entities
+      - reference-id: CCC.Core.C06
+        strength: 0 # not specified yet
+        remarks: Prevent Deployment in Restricted Regions
+      - reference-id: CCC.Core.C10
+        strength: 0 # not specified yet
+        remarks: Prevent Data Replication Outside Perimeter
 
 control-families:
   - title: "Logging & Monitoring"
@@ -48,19 +62,35 @@ control-families:
         threat-mappings:
           - reference-id: LB
             entries:
-              - reference-id: CCC.LB.TH01 # Malicious Traffic
-              - reference-id: CCC.LB.TH09 # Resource Exhaustion
+              - reference-id: CCC.LB.TH01
+                strength: 0 # not specified yet
+                remarks: Malicious Traffic
+              - reference-id: CCC.LB.TH09
+                strength: 0 # not specified yet
+                remarks: Resource Exhaustion
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CM-1 # Monitor to detect events
-              - reference-id: PR.AC-7 # Prevent brute-force
-              - reference-id: PR.PT-4 # Protective technology
+              - reference-id: DE.CM-1
+                strength: 0 # not specified yet
+                remarks: Monitor to detect events
+              - reference-id: PR.AC-7
+                strength: 0 # not specified yet
+                remarks: Prevent brute-force
+              - reference-id: PR.PT-4
+                strength: 0 # not specified yet
+                remarks: Protective technology
           - reference-id: NIST_800_53
             entries:
-              - reference-id: AU-6 # Audit review, analysis, reporting
-              - reference-id: SC-5 # Denial-of-Service protection
-              - reference-id: AC-7 # Unsuccessful logon attempts
+              - reference-id: AU-6
+                strength: 0 # not specified yet
+                remarks: Audit review, analysis, reporting
+              - reference-id: SC-5
+                strength: 0 # not specified yet
+                remarks: Denial-of-Service protection
+              - reference-id: AC-7
+                strength: 0 # not specified yet
+                remarks: Unsuccessful logon attempts
 
       - id: CCC.LB.C06
         title: Secure Health-Check Telemetry
@@ -83,14 +113,20 @@ control-families:
         threat-mappings:
           - reference-id: LB
             entries:
-              - reference-id: CCC.LB.TH05 # Health Checks Exploited
+              - reference-id: CCC.LB.TH05
+                strength: 0 # not specified yet
+                remarks: Health Checks Exploited
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.AE-2 # Detected events are analyzed
+              - reference-id: DE.AE-2
+                strength: 0 # not specified yet
+                remarks: Detected events are analyzed
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SI-4 # System monitoring
+              - reference-id: SI-4
+                strength: 0 # not specified yet
+                remarks: System monitoring
 
   - title: Identity and Access Management
     description: |
@@ -118,14 +154,20 @@ control-families:
         threat-mappings:
           - reference-id: LB
             entries:
-              - reference-id: CCC.LB.TH03 # Traffic Distribution Manipulated
+              - reference-id: CCC.LB.TH03
+                strength: 0 # not specified yet
+                remarks: Traffic Distribution Manipulated
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.AC-1 # Identities and credentials are managed
+              - reference-id: PR.AC-1
+                strength: 0 # not specified yet
+                remarks: Identities and credentials are managed
           - reference-id: NIST_800_53
             entries:
-              - reference-id: AC-3 # Access enforcement
+              - reference-id: AC-3
+                strength: 0 # not specified yet
+                remarks: Access enforcement
 
       - id: CCC.LB.C05
         title: Validate Session Affinity
@@ -145,14 +187,20 @@ control-families:
         threat-mappings:
           - reference-id: LB
             entries:
-              - reference-id: CCC.LB.TH04 # Session Persistence Exploited
+              - reference-id: CCC.LB.TH04
+                strength: 0 # not specified yet
+                remarks: Session Persistence Exploited
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.AC-7 # Least functionality is enforced
+              - reference-id: PR.AC-7
+                strength: 0 # not specified yet
+                remarks: Least functionality is enforced
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-23 # Session authenticity
+              - reference-id: SC-23
+                strength: 0 # not specified yet
+                remarks: Session authenticity
 
       - id: CCC.LB.C09
         title: Restrict Management API Access
@@ -173,14 +221,20 @@ control-families:
         threat-mappings:
           - reference-id: LB
             entries:
-              - reference-id: CCC.LB.TH08 # API Exposed and Attacked
+              - reference-id: CCC.LB.TH08
+                strength: 0 # not specified yet
+                remarks: API Exposed and Attacked
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.AC-5 # Network integrity is protected
+              - reference-id: PR.AC-5
+                strength: 0 # not specified yet
+                remarks: Network integrity is protected
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-7 # Boundary protection
+              - reference-id: SC-7
+                strength: 0 # not specified yet
+                remarks: Boundary protection
 
   - title: Data
     description: |
@@ -206,14 +260,20 @@ control-families:
         threat-mappings:
           - reference-id: LB
             entries:
-              - reference-id: CCC.LB.TH09 # Resource Exhaustion
+              - reference-id: CCC.LB.TH09
+                strength: 0 # not specified yet
+                remarks: Resource Exhaustion
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: ID.BE-5 # Resilience requirements are established
+              - reference-id: ID.BE-5
+                strength: 0 # not specified yet
+                remarks: Resilience requirements are established
           - reference-id: NIST_800_53
             entries:
-              - reference-id: CP-10 # System recovery and reconstitution
+              - reference-id: CP-10
+                strength: 0 # not specified yet
+                remarks: System recovery and reconstitution
 
       - id: CCC.LB.C07
         title: Scrub Sensitive Headers
@@ -233,14 +293,20 @@ control-families:
         threat-mappings:
           - reference-id: LB
             entries:
-              - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
+              - reference-id: CCC.Core.TH15
+                strength: 0 # not specified yet
+                remarks: Automated Enumeration and Reconnaissance by Non-human
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.DS-2 # Data in transit is protected
+              - reference-id: PR.DS-2
+                strength: 0 # not specified yet
+                remarks: Data in transit is protected
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-13 # Cryptographic protection
+              - reference-id: SC-13
+                strength: 0 # not specified yet
+                remarks: Cryptographic protection
 
   - title: Encryption
     description: Controls that ensure trustworthy TLS certificates and ciphers.
@@ -263,11 +329,17 @@ control-families:
         threat-mappings:
           - reference-id: LB
             entries:
-              - reference-id: CCC.LB.TH07 # Certificates Expired or Invalid
+              - reference-id: CCC.LB.TH07
+                strength: 0 # not specified yet
+                remarks: Certificates Expired or Invalid
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.DS-6 # Integrity checking mechanisms are used
+              - reference-id: PR.DS-6
+                strength: 0 # not specified yet
+                remarks: Integrity checking mechanisms are used
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-17 # PKI certificates
+              - reference-id: SC-17
+                strength: 0 # not specified yet
+                remarks: PKI certificates

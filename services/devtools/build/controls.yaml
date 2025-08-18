@@ -1,12 +1,24 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.C01 # Prevent unencrypted requests
-      - reference-id: CCC.C02 # Ensure data encryption at rest for all stored data
-      - reference-id: CCC.C04 # Log all access and changes
-      - reference-id: CCC.C05 # Prevent access from untrusted entities
-      - reference-id: CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-      - reference-id: CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+      - reference-id: CCC.Core.C01
+        strength: 0 # not specified yet
+        remarks: Prevent unencrypted requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # not specified yet
+        remarks: Ensure data encryption at rest for all stored data
+      - reference-id: CCC.Core.C04
+        strength: 0 # not specified yet
+        remarks: Log all access and changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # not specified yet
+        remarks: Prevent access from untrusted entities
+      - reference-id: CCC.Core.C09
+        strength: 0 # not specified yet
+        remarks: Prevent tampering, deletion, or unauthorized access to access logs
+      - reference-id: CCC.Core.C10
+        strength: 0 # not specified yet
+        remarks: Prevent data replication to destinations outside of defined trust perimeter
 
 control-families:
   - title: Access Control
@@ -28,14 +40,16 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-4
+                strength: 0 # Not yet specified
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-3
+                strength: 0 # Not yet specified
               - reference-id: AC-6
       - id: CCC.Build.C02
         title: Restrict Allowed External Services for Build Triggers
@@ -54,14 +68,16 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-4
+                strength: 0 # Not yet specified
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-3
+                strength: 0 # Not yet specified
               - reference-id: AC-6
   - title: Network Security
     description: 'TODO: Describe this control family'
@@ -82,8 +98,9 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH02
-              - reference-id: CCC.TH05
+              - reference-id: CCC.Core.TH02
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH05
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -91,4 +108,5 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-7
+                strength: 0 # Not yet specified
               - reference-id: SC-5

@@ -1,12 +1,24 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.C01 # Prevent unencrypted requests
-      - reference-id: CCC.C02 # Ensure data encryption at rest for all stored data
-      - reference-id: CCC.C03 # Implement multi-factor authentication (MFA) for access
-      - reference-id: CCC.C04 # Log all access and changes
-      - reference-id: CCC.C05 # Prevent access from untrusted entities
-      - reference-id: CCC.C06 # Prevent deployment in restricted regions
+      - reference-id: CCC.Core.C01
+        strength: 0 # not specified yet
+        remarks: Prevent unencrypted requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # not specified yet
+        remarks: Ensure data encryption at rest for all stored data
+      - reference-id: CCC.Core.C03
+        strength: 0 # not specified yet
+        remarks: Implement multi-factor authentication (MFA) for access
+      - reference-id: CCC.Core.C04
+        strength: 0 # not specified yet
+        remarks: Log all access and changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # not specified yet
+        remarks: Prevent access from untrusted entities
+      - reference-id: CCC.Core.C06
+        strength: 0 # not specified yet
+        remarks: Prevent deployment in restricted regions
 
 control-families:
   - title: Identity and Access Management
@@ -34,7 +46,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.MLDE.TH01
-              - reference-id: CCC.TH01
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -42,14 +55,17 @@ control-families:
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.9.1.1
+                strength: 0 # Not yet specified
               - reference-id: 2013 A.9.2.1
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-2
+                strength: 0 # Not yet specified
               - reference-id: AC-3
           - reference-id: CCM
             entries:
               - reference-id: IAM-01
+                strength: 0 # Not yet specified
               - reference-id: IAM-02
       - id: CCC.MLDE.C03
         title: Disable Root Access on MLDE Instances
@@ -81,12 +97,14 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-4
+                strength: 0 # Not yet specified
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-6
           - reference-id: CCM
             entries:
               - reference-id: IAM-08
+                strength: 0 # Not yet specified
               - reference-id: IAM-12
           - reference-id: ISO_27001
             entries:
@@ -121,6 +139,7 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-4
+                strength: 0 # Not yet specified
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-6
@@ -157,7 +176,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.MLDE.TH02
-              - reference-id: CCC.TH02
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH02
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -165,6 +185,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: DSI-05
+                strength: 0 # Not yet specified
               - reference-id: DSI-07
           - reference-id: ISO_27001
             entries:
@@ -172,6 +193,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-7
+                strength: 0 # Not yet specified
               - reference-id: SC-8
   - title: Configuration Management
     description: 'TODO: Describe this control family'
@@ -242,7 +264,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.MLDE.TH04
-              - reference-id: CCC.TH06
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -250,6 +273,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: TVM-01
+                strength: 0 # Not yet specified
               - reference-id: TVM-02
           - reference-id: ISO_27001
             entries:
@@ -285,6 +309,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.MLDE.TH02
+                strength: 0 # Not yet specified
               - reference-id: CCC.VPC.TH02
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -326,11 +351,13 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.MLDE.TH01
-              - reference-id: CCC.TH01
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-4
+                strength: 0 # Not yet specified
           - reference-id: CCM
             entries:
               - reference-id: IAM-12

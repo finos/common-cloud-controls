@@ -1,14 +1,30 @@
 imported-threats:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.TH01 # Access Control is Misconfigured
-      - reference-id: CCC.TH02 # Data is Intercepted in Transit
-      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
-      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - reference-id: CCC.TH12 # Resource Constraints are Exhausted
-      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human
-      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
-      - reference-id: CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+      - reference-id: CCC.Core.TH01
+        strength: 0 # not specified yet
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # not specified yet
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH07
+        strength: 0 # not specified yet
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # not specified yet
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH12
+        strength: 0 # not specified yet
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH15
+        strength: 0 # not specified yet
+        remarks: Automated Enumeration and Reconnaissance by Non-human
+      - reference-id: CCC.Core.TH16
+        strength: 0 # not specified yet
+        remarks: Logging and Monitoring are Disabled
+      - reference-id: CCC.Core.TH17
+        strength: 0 # not specified yet
+        remarks: Unauthorized Network Access via Misconfigured Rules
 
 threats:
   - id: CCC.LB.TH01
@@ -19,15 +35,23 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04 # Transaction Rate Limits
+          - reference-id: CCC.Core.F04
+        strength: 0 # not specified yet
+        remarks: Transaction Rate Limits
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F22 # Rate Limiting / Throttling
+          - reference-id: CCC.LB.F22
+        strength: 0 # not specified yet
+        remarks: Rate Limiting / Throttling
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1499 # Endpoint DoS
-          - T1110 # Brute Force
+          - reference-id: T1499
+        strength: 0 # not specified yet
+        remarks: Endpoint DoS
+          - reference-id: T1110
+        strength: 0 # not specified yet
+        remarks: Brute Force
 
   - id: CCC.LB.TH03
     title: Traffic Distribution Is Manipulated
@@ -37,13 +61,17 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F02 # Dynamic LB
-          - reference-id: CCC.LB.F20 # Traffic Splitting
+          - reference-id: CCC.LB.F02
+        strength: 0 # not specified yet
+        remarks: Dynamic LB
+          - reference-id: CCC.LB.F20
+        strength: 0 # not specified yet
+        remarks: Traffic Splitting
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1499
-          - T1557
+          - reference-id: T1499
+          - reference-id: T1557
 
   - id: CCC.LB.TH04
     title: Session Persistence Is Exploited
@@ -53,12 +81,14 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F15 # Session Affinity
+          - reference-id: CCC.LB.F15
+        strength: 0 # not specified yet
+        remarks: Session Affinity
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1078
-          - T1557
+          - reference-id: T1078
+          - reference-id: T1557
 
   - id: CCC.LB.TH05
     title: Health Checks Are Exploited to Take Services Offline
@@ -68,13 +98,17 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F12 # Health Checks
-          - reference-id: CCC.LB.F13 # Target Removal
+          - reference-id: CCC.LB.F12
+        strength: 0 # not specified yet
+        remarks: Health Checks
+          - reference-id: CCC.LB.F13
+        strength: 0 # not specified yet
+        remarks: Target Removal
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1499
-          - T1583
+          - reference-id: T1499
+          - reference-id: T1583
 
   - id: CCC.LB.TH06
     title: Sensitive Metadata Exposure via HTTP Headers
@@ -88,8 +122,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1592
-          - T1530
+          - reference-id: T1592
+          - reference-id: T1530
 
   - id: CCC.LB.TH07
     title: TLS Certificates Are Expired or Invalid
@@ -98,9 +132,11 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F11 # SSL/TLS Termination
+          - reference-id: CCC.LB.F11
+        strength: 0 # not specified yet
+        remarks: SSL/TLS Termination
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1557
-          - T1608
+          - reference-id: T1557
+          - reference-id: T1608

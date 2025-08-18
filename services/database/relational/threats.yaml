@@ -1,21 +1,51 @@
 imported-threats:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.TH01 # Access control is misconfigured
-      - reference-id: CCC.TH02 # Data is intercepted in transit
-      - reference-id: CCC.TH03 # Deployment region network is untrusted
-      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - reference-id: CCC.TH05 # Data is corrupted during replication
-      - reference-id: CCC.TH06 # Data is lost or corrupted
-      - reference-id: CCC.TH07 # Logs are tampered with or deleted
-      - reference-id: CCC.TH09 # Logs or monitoring data are read by unauthorized users
-      - reference-id: CCC.TH10 # Alerts are Intercepted
-      - reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - reference-id: CCC.TH12 # Resource constraints are exhausted
-      - reference-id: CCC.TH13 # Resource tags are manipulated
-      - reference-id: CCC.TH15 # Automated enumeration and reconnaissance by non-human entities
-      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
-      - reference-id: CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+      - reference-id: CCC.Core.TH01
+        strength: 0 # not specified yet
+        remarks: Access control is misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # not specified yet
+        remarks: Data is intercepted in transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # not specified yet
+        remarks: Deployment region network is untrusted
+      - reference-id: CCC.Core.TH04
+        strength: 0 # not specified yet
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH05
+        strength: 0 # not specified yet
+        remarks: Data is corrupted during replication
+      - reference-id: CCC.Core.TH06
+        strength: 0 # not specified yet
+        remarks: Data is lost or corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # not specified yet
+        remarks: Logs are tampered with or deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # not specified yet
+        remarks: Logs or monitoring data are read by unauthorized users
+      - reference-id: CCC.Core.TH10
+        strength: 0 # not specified yet
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH11
+        strength: 0 # not specified yet
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0 # not specified yet
+        remarks: Resource constraints are exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0 # not specified yet
+        remarks: Resource tags are manipulated
+      - reference-id: CCC.Core.TH15
+        strength: 0 # not specified yet
+        remarks: Automated enumeration and reconnaissance by non-human entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # not specified yet
+        remarks: Logging and Monitoring are Disabled
+      - reference-id: CCC.Core.TH17
+        strength: 0 # not specified yet
+        remarks: Unauthorized Network Access via Misconfigured Rules
 
 threats:
   - id: CCC.RDMS.TH01
@@ -32,7 +62,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1078
+          - reference-id: T1078
   - id: CCC.RDMS.TH02
     title: Brute Force Attempts on Database Authentication
     description: |
@@ -47,7 +77,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1110
+          - reference-id: T1110
   - id: CCC.RDMS.TH03
     title: Database Backups Stopped
     description: |
@@ -61,7 +91,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1490
+          - reference-id: T1490
   - id: CCC.RDMS.TH04
     title: Unintentional Database Backup Restoration
     description: |
@@ -76,7 +106,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1485
+          - reference-id: T1485
   - id: CCC.RDMS.TH05
     title: Unauthorized Snapshot Sharing
     description: |
@@ -91,4 +121,4 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1530
+          - reference-id: T1530

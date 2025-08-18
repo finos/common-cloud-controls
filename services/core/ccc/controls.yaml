@@ -31,7 +31,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH02
+              - reference-id: CCC.Core.TH02
                 strength: 1
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -42,6 +42,7 @@ control-families:
             entries:
               - reference-id: IVS-03
                 strength: 1
+                strength: 0 # Not yet specified
               - reference-id: IVS-07
                 strength: 1
           - reference-id: ISO_27001
@@ -52,6 +53,7 @@ control-families:
             entries:
               - reference-id: SC-8
                 strength: 1
+                strength: 0 # Not yet specified
               - reference-id: SC-13
                 strength: 1
       - id: CCC.C06
@@ -88,7 +90,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH03
+              - reference-id: CCC.Core.TH03
                 strength: 1
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -99,6 +101,7 @@ control-families:
             entries:
               - reference-id: DSI-06
                 strength: 1
+                strength: 0 # Not yet specified
               - reference-id: DSI-08
                 strength: 1
           - reference-id: ISO_27001
@@ -139,7 +142,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH06
+              - reference-id: CCC.Core.TH06
                 strength: 1
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -156,6 +159,7 @@ control-families:
             entries:
               - reference-id: CP-2
                 strength: 1
+                strength: 0 # Not yet specified
               - reference-id: CP-10
                 strength: 1
       - id: CCC.C09
@@ -198,11 +202,13 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH07
+              - reference-id: CCC.Core.TH07
                 strength: 1
-              - reference-id: CCC.TH09
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH09
                 strength: 1
-              - reference-id: CCC.TH04
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH04
                 strength: 1
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -217,8 +223,10 @@ control-families:
             entries:
               - reference-id: LOG-02
                 strength: 1
+                strength: 0 # Not yet specified
               - reference-id: LOG-04
                 strength: 1
+                strength: 0 # Not yet specified
               - reference-id: LOG-09
                 strength: 1
           - reference-id: ISO_27001
@@ -243,7 +251,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH04
+              - reference-id: CCC.Core.TH04
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -251,6 +259,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: DSP-10
+                strength: 0 # Not yet specified
               - reference-id: DSP-19
           - reference-id: ISO_27001
             entries: []
@@ -280,7 +289,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -293,6 +302,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-13
+                strength: 0 # Not yet specified
               - reference-id: SC-28
       - id: CCC.C11
         title: Enforce Key Management Policies
@@ -343,7 +353,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH16
+              - reference-id: CCC.Core.TH16
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -351,6 +361,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: EKM-02
+                strength: 0 # Not yet specified
               - reference-id: EKM-03
           - reference-id: ISO_27001
             entries:
@@ -358,6 +369,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-12
+                strength: 0 # Not yet specified
               - reference-id: SC-17
   - title: Identity and Access Management
     description: 'TODO: Describe this control family'
@@ -434,7 +446,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -442,6 +454,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: IAM-03
+                strength: 0 # Not yet specified
               - reference-id: IAM-08
           - reference-id: ISO_27001
             entries:
@@ -502,7 +515,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -556,7 +569,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -569,7 +582,9 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-2
+                strength: 0 # Not yet specified
               - reference-id: AU-3
+                strength: 0 # Not yet specified
               - reference-id: AU-12
       - id: CCC.C07
         title: Alert on Unusual Enumeration Activity
@@ -600,7 +615,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH15
+              - reference-id: CCC.Core.TH15
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -638,7 +653,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH17
+              - reference-id: CCC.Core.TH17
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:

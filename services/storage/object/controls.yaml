@@ -1,15 +1,33 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.C01 # Prevent Unencrypted Requests
-      - reference-id: CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
-      - reference-id: CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
-      - reference-id: CCC.C04 # Log All Access and Changes
-      - reference-id: CCC.C05 # Prevent Access from Untrusted Entities
-      - reference-id: CCC.C06 # Prevent Deployment in Restricted Regions
-      - reference-id: CCC.C07 # Alert on Unusual Enumeration Activity
-      - reference-id: CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
-      - reference-id: CCC.C10 # Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+      - reference-id: CCC.Core.C01
+        strength: 0 # not specified yet
+        remarks: Prevent Unencrypted Requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # not specified yet
+        remarks: Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.Core.C03
+        strength: 0 # not specified yet
+        remarks: Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.Core.C04
+        strength: 0 # not specified yet
+        remarks: Log All Access and Changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # not specified yet
+        remarks: Prevent Access from Untrusted Entities
+      - reference-id: CCC.Core.C06
+        strength: 0 # not specified yet
+        remarks: Prevent Deployment in Restricted Regions
+      - reference-id: CCC.Core.C07
+        strength: 0 # not specified yet
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.C09
+        strength: 0 # not specified yet
+        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - reference-id: CCC.Core.C10
+        strength: 0 # not specified yet
+        remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 
 control-families:
   - title: Data
@@ -65,8 +83,9 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
-              - reference-id: CCC.TH06
+              - reference-id: CCC.Core.TH01
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -74,6 +93,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: DCS-04
+                strength: 0 # Not yet specified
               - reference-id: DCS-06
           - reference-id: ISO_27001
             entries:
@@ -110,7 +130,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH06
+              - reference-id: CCC.Core.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -124,6 +144,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-28
+                strength: 0 # Not yet specified
               - reference-id: CP-10
       - id: CCC.ObjStor.C04
         title: Objects have an Effective Retention Policy by Default
@@ -158,7 +179,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH06
+              - reference-id: CCC.Core.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -172,6 +193,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-28
+                strength: 0 # Not yet specified
               - reference-id: CP-10
       - id: CCC.ObjStor.C05
         title: Versioning is Enabled for All Objects in the Bucket
@@ -224,7 +246,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH06
+              - reference-id: CCC.Core.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -235,6 +257,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-28
+                strength: 0 # Not yet specified
               - reference-id: CP-10
           - reference-id: CCM
             entries:
@@ -258,8 +281,9 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH07
-              - reference-id: CCC.TH09
+              - reference-id: CCC.Core.TH07
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH09
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -267,6 +291,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: DSP-07
+                strength: 0 # Not yet specified
               - reference-id: DSP-17
           - reference-id: ISO_27001
             entries:
@@ -274,6 +299,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
+                strength: 0 # Not yet specified
               - reference-id: SC-28
   - title: Identity and Access Management
     description: 'TODO: Describe this control family'
@@ -312,17 +338,20 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-4
+                strength: 0 # Not yet specified
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.9.4.1
+                strength: 0 # Not yet specified
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-3
+                strength: 0 # Not yet specified
               - reference-id: AC-6
           - reference-id: CCM
             entries:

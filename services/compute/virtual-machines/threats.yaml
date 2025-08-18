@@ -1,18 +1,18 @@
 imported-threats:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.TH01
-      - reference-id: CCC.TH03
-      - reference-id: CCC.TH05
-      - reference-id: CCC.TH06
-      - reference-id: CCC.TH07
-      - reference-id: CCC.TH08
-      - reference-id: CCC.TH09
-      - reference-id: CCC.TH10
-      - reference-id: CCC.TH11
-      - reference-id: CCC.TH13
-      - reference-id: CCC.TH16
-      - reference-id: CCC.TH17
+      - reference-id: CCC.Core.TH01
+      - reference-id: CCC.Core.TH03
+      - reference-id: CCC.Core.TH05
+      - reference-id: CCC.Core.TH06
+      - reference-id: CCC.Core.TH07
+      - reference-id: CCC.Core.TH08
+      - reference-id: CCC.Core.TH09
+      - reference-id: CCC.Core.TH10
+      - reference-id: CCC.Core.TH11
+      - reference-id: CCC.Core.TH13
+      - reference-id: CCC.Core.TH16
+      - reference-id: CCC.Core.TH17
 
 threats:
   - id: CCC.VM.TH01
@@ -28,8 +28,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1601
-          - T1584.001
+          - reference-id: T1601
+          - reference-id: T1584.001
 
   - id: CCC.VM.TH02
     title: Instance Metadata is Unprotected
@@ -44,7 +44,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1552.005
+          - reference-id: T1552.005
 
   - id: CCC.VM.TH03
     title: Bootstrap Scripts Introduce Unintended Behavior
@@ -59,8 +59,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1204
-          - T1059.004
+          - reference-id: T1204
+          - reference-id: T1059.004
 
   - id: CCC.VM.TH04
     title: Instance Templates Propagate Insecure Defaults
@@ -75,7 +75,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1601.002
+          - reference-id: T1601.002
 
   - id: CCC.VM.TH05
     title: Network Access Rules Allow Unintended Communication
@@ -90,8 +90,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1021
-          - T1071
+          - reference-id: T1021
+          - reference-id: T1071
 
   - id: CCC.VM.TH06
     title: Remote Access Interfaces Are Insufficiently Restricted
@@ -106,8 +106,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1021.001
-          - T1078
+          - reference-id: T1021.001
+          - reference-id: T1078
 
   - id: CCC.VM.TH07
     title: Resource Starvation Through Preemptible (spot) VM Termination
@@ -123,8 +123,12 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1499  # Endpoint Denial of Service
-          - T1489  # Service Stop
+          - reference-id: T1499 
+        strength: 0 # not specified yet
+        remarks: Endpoint Denial of Service
+          - reference-id: T1489 
+        strength: 0 # not specified yet
+        remarks: Service Stop
 
   - id: CCC.VM.TH08
     title: Co-Residency Risk on Non-Dedicated Infrastructure
@@ -139,8 +143,12 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1040  # Network Sniffing
-          - T1203  # Exploitation for Client Execution
+          - reference-id: T1040 
+        strength: 0 # not specified yet
+        remarks: Network Sniffing
+          - reference-id: T1203 
+        strength: 0 # not specified yet
+        remarks: Exploitation for Client Execution
 
   - id: CCC.VM.TH09
     title: Misconfigured Vertical Scaling Leads to Privilege Escalation
@@ -156,8 +164,12 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1068  # Exploitation for Privilege Escalation
-          - T1578.002  # Create or Modify Cloud Compute Infrastructure: Virtual Machine
+          - reference-id: T1068 
+        strength: 0 # not specified yet
+        remarks: Exploitation for Privilege Escalation
+          - reference-id: T1578.002 
+        strength: 0 # not specified yet
+        remarks: Create or Modify Cloud Compute Infrastructure: Virtual Machine
 
   - id: CCC.VM.TH10
     title: Auto-Scaling Abuse for Resource Exhaustion
@@ -173,7 +185,9 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1496  # Resource Hijacking
+          - reference-id: T1496 
+        strength: 0 # not specified yet
+        remarks: Resource Hijacking
 
   - id: CCC.VM.TH11
     title: VM Image Tampering or Poisoning
@@ -188,5 +202,9 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1584  # Compromise Infrastructure
-          - T1204  # User Execution
+          - reference-id: T1584 
+        strength: 0 # not specified yet
+        remarks: Compromise Infrastructure
+          - reference-id: T1204 
+        strength: 0 # not specified yet
+        remarks: User Execution

@@ -1,17 +1,39 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.C01 # Prevent unencrypted requests
-      - reference-id: CCC.C02 # Ensure data encryption at rest for all stored data
-      - reference-id: CCC.C03 # Implement multi-factor authentication (MFA) for access
-      - reference-id: CCC.C04 # Log all access and changes
-      - reference-id: CCC.C05 # Prevent access from untrusted entities
-      - reference-id: CCC.C06 # Prevent deployment in restricted regions
-      - reference-id: CCC.C07 # Alert on Unusual Enumeration Activity
-      - reference-id: CCC.C08 # Enable Multi-zone or Multi-region Data Replication
-      - reference-id: CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-      - reference-id: CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
-      - reference-id: CCC.C11 # Enforce Key Management Policies
+      - reference-id: CCC.Core.C01
+        strength: 0 # not specified yet
+        remarks: Prevent unencrypted requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # not specified yet
+        remarks: Ensure data encryption at rest for all stored data
+      - reference-id: CCC.Core.C03
+        strength: 0 # not specified yet
+        remarks: Implement multi-factor authentication (MFA) for access
+      - reference-id: CCC.Core.C04
+        strength: 0 # not specified yet
+        remarks: Log all access and changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # not specified yet
+        remarks: Prevent access from untrusted entities
+      - reference-id: CCC.Core.C06
+        strength: 0 # not specified yet
+        remarks: Prevent deployment in restricted regions
+      - reference-id: CCC.Core.C07
+        strength: 0 # not specified yet
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.C08
+        strength: 0 # not specified yet
+        remarks: Enable Multi-zone or Multi-region Data Replication
+      - reference-id: CCC.Core.C09
+        strength: 0 # not specified yet
+        remarks: Prevent tampering, deletion, or unauthorized access to access logs
+      - reference-id: CCC.Core.C10
+        strength: 0 # not specified yet
+        remarks: Prevent data replication to destinations outside of defined trust perimeter
+      - reference-id: CCC.Core.C11
+        strength: 0 # not specified yet
+        remarks: Enforce Key Management Policies
 control-families:
   - title: Integrity
     description: Controls designed to protected the integrity of Audit Log data.
@@ -39,8 +61,9 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH06
-              - reference-id: CCC.TH07
+              - reference-id: CCC.Core.TH06
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH07
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -65,7 +88,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH06
+              - reference-id: CCC.Core.TH06
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -73,7 +96,9 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-2
+                strength: 0 # Not yet specified
               - reference-id: AU-3
+                strength: 0 # Not yet specified
               - reference-id: AU-12
       - id: CCC.AuditLog.C03
         title: Alert On Audit Log Changes And Access
@@ -103,7 +128,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH07
+              - reference-id: CCC.Core.TH07
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -111,6 +136,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-5
+                strength: 0 # Not yet specified
               - reference-id: AU-6
       - id: CCC.AuditLog.C04
         title: Ensure Access Logging Is Enabled on the Audit Log Bucket
@@ -133,8 +159,9 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
-              - reference-id: CCC.TH09
+              - reference-id: CCC.Core.TH01
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH09
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -142,6 +169,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-2
+                strength: 0 # Not yet specified
               - reference-id: AU-3
   - title: Availability
     description: Controls designed to protected the availability of Audit Log data.
@@ -163,7 +191,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH07
+              - reference-id: CCC.Core.TH07
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -171,7 +199,9 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
+                strength: 0 # Not yet specified
               - reference-id: AU-11
+                strength: 0 # Not yet specified
               - reference-id: AU-4
       - id: CCC.AuditLog.C06
         title: Enforce Retention Policy on Audit Log Bucket
@@ -193,8 +223,9 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH06
-              - reference-id: CCC.TH07
+              - reference-id: CCC.Core.TH06
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH07
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -202,6 +233,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
+                strength: 0 # Not yet specified
               - reference-id: AU-11
       - id: CCC.AuditLog.C07
         title: Enforce MFA Delete on Audit Log Bucket
@@ -223,8 +255,9 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH06
-              - reference-id: CCC.TH07
+              - reference-id: CCC.Core.TH06
+                strength: 0 # Not yet specified
+              - reference-id: CCC.Core.TH07
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -232,6 +265,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
+                strength: 0 # Not yet specified
               - reference-id: AU-11
       - id: CCC.AuditLog.C08
         title: Enable Object Lock On Audit Log Bucket
@@ -252,7 +286,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH07
+              - reference-id: CCC.Core.TH07
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -260,6 +294,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
+                strength: 0 # Not yet specified
               - reference-id: AU-11
   - title: Confidentiality
     description: 'Controls designed to protected the confidentiality of Audit Log data.'
@@ -282,7 +317,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH07
+              - reference-id: CCC.Core.TH07
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -290,10 +325,15 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-6
+                strength: 0 # Not yet specified
               - reference-id: AU-9
+                strength: 0 # Not yet specified
               - reference-id: AC-3
+                strength: 0 # Not yet specified
               - reference-id: PT-2
+                strength: 0 # Not yet specified
               - reference-id: PT-3
+                strength: 0 # Not yet specified
               - reference-id: PT-3
       - id: CCC.AuditLog.C10
         title: Ensure Audit Bucket is Not Publicly Accessible
@@ -326,7 +366,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01
+              - reference-id: CCC.Core.TH01
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -334,4 +374,5 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-3
+                strength: 0 # Not yet specified
               - reference-id: SC-7

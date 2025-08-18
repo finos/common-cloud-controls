@@ -1,14 +1,14 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.C02
-      - reference-id: CCC.C03
-      - reference-id: CCC.C04
-      - reference-id: CCC.C05
-      - reference-id: CCC.C06
-      - reference-id: CCC.C08
-      - reference-id: CCC.C09
-      - reference-id: CCC.C11
-      - reference-id: CCC.C12
+      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.C08
+      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.C11
+      - reference-id: CCC.Core.C12
 
 control-families: []

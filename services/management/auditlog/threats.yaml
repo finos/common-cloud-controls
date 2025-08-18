@@ -1,12 +1,24 @@
 imported-threats:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.TH01 # Access Control is Misconfigured
-      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - reference-id: CCC.TH06 # Data is Lost or Corrupted
-      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
-      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
+      - reference-id: CCC.Core.TH01
+        strength: 0 # not specified yet
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH04
+        strength: 0 # not specified yet
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH06
+        strength: 0 # not specified yet
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # not specified yet
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # not specified yet
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH16
+        strength: 0 # not specified yet
+        remarks: Logging and Monitoring are Disabled
 
 threats:
   - id: CCC.AUDITLOG.TH01
@@ -42,7 +54,7 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - TA0005
+          - reference-id: TA0005
       - reference-id: OWASPTOP10
         entries:
           - A09:2021
@@ -63,14 +75,18 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.AuditLog.F03 # Sink
-          - reference-id: CCC.AuditLog.F08 # External Sink
+          - reference-id: CCC.AuditLog.F03
+        strength: 0 # not specified yet
+        remarks: Sink
+          - reference-id: CCC.AuditLog.F08
+        strength: 0 # not specified yet
+        remarks: External Sink
           - reference-id: CCC.Core.F03
           - reference-id: CCC.Core.F10
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - TA0006
+          - reference-id: TA0006
       - reference-id: OWASPTOP10
         entries:
           - A09:2021
@@ -89,8 +105,12 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.AuditLog.F03 # Sink
-          - reference-id: CCC.AuditLog.F08 # External Sink
+          - reference-id: CCC.AuditLog.F03
+        strength: 0 # not specified yet
+        remarks: Sink
+          - reference-id: CCC.AuditLog.F08
+        strength: 0 # not specified yet
+        remarks: External Sink
           - reference-id: CCC.Core.F03
           - reference-id: CCC.Core.F10
     external-mappings:
@@ -123,6 +143,10 @@ threats:
           - A09:2021
       - reference-id: CWE
         entries:
-          - "CWE-778" # Insufficient Logging
-          - "CWE-223" # Omission of Security-Relevant Information
+          - "CWE-778"
+        strength: 0 # not specified yet
+        remarks: Insufficient Logging
+          - "CWE-223"
+        strength: 0 # not specified yet
+        remarks: Omission of Security-Relevant Information
           - "CWE-20"

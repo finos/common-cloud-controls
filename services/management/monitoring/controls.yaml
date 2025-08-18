@@ -1,13 +1,27 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
-      - reference-id: CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
-      - reference-id: CCC.C04 # Log All Access and Changes
-      - reference-id: CCC.C05 # Prevent Access from Untrusted Entities
-      - reference-id: CCC.C07 # Alert on Unusual Enumeration Activity
-      - reference-id: CCC.C09 # Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
-      - reference-id: CCC.C11 # Enforce Key Management Policies
+      - reference-id: CCC.Core.C02
+        strength: 0 # not specified yet
+        remarks: Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.Core.C03
+        strength: 0 # not specified yet
+        remarks: Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.Core.C04
+        strength: 0 # not specified yet
+        remarks: Log All Access and Changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # not specified yet
+        remarks: Prevent Access from Untrusted Entities
+      - reference-id: CCC.Core.C07
+        strength: 0 # not specified yet
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.C09
+        strength: 0 # not specified yet
+        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - reference-id: CCC.Core.C11
+        strength: 0 # not specified yet
+        remarks: Enforce Key Management Policies
 control-families:
   - title: Logging & Monitoring
     description: Controls that collect, alert, and retain events from other monitoring services.
@@ -35,10 +49,12 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.IR-01
+                strength: 0 # Not yet specified
               - reference-id: DE.CM-01
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-5
+                strength: 0 # Not yet specified
               - reference-id: SC-7
       - id: CCC.Monit.C02
         title: Rate Limiting on Metric Generation
@@ -66,7 +82,9 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-5(2)
+                strength: 0 # Not yet specified
               - reference-id: CA-7
+                strength: 0 # Not yet specified
               - reference-id: SI-4
   - title: Identity and Access Management
     description: Controls designed to prevent unauthorised access to monitoring features.
@@ -97,7 +115,9 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: DE.CM-06
+                strength: 0 # Not yet specified
               - reference-id: PR.IR-01
+                strength: 0 # Not yet specified
               - reference-id: PR.AA-05
           - reference-id: NIST_800_53
             entries:
@@ -125,10 +145,12 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: DE.CM-09
+                strength: 0 # Not yet specified
               - reference-id: DE.AE-03
           - reference-id: NIST_800_53
             entries:
               - reference-id: SI-4
+                strength: 0 # Not yet specified
               - reference-id: AC-3
       - id: CCC.Monit.C05
         title: Restrict access to silence or acknowledge an alert
@@ -148,11 +170,12 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH10
+              - reference-id: CCC.Core.TH10
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.IR-01
+                strength: 0 # Not yet specified
               - reference-id: PR.AA-05
           - reference-id: NIST_800_53
             entries:

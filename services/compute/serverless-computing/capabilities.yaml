@@ -1,16 +1,36 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F06 # Identity-Based Access Control
-      - reference-id: CCC.Core.F07 # Event Notifications
-      - reference-id: CCC.Core.F08 # Multi-zone Deployment
-      - reference-id: CCC.Core.F09 # Monitoring
-      - reference-id: CCC.Core.F10 # Logging
-      - reference-id: CCC.Core.F14 # API Access
-      - reference-id: CCC.Core.F18 # Versioning
-      - reference-id: CCC.Core.F19 # On-Demand Scaling
-      - reference-id: CCC.Core.F20 # Tagging
-      - reference-id: CCC.Core.F22 # Location Lock-In
+      - reference-id: CCC.Core.F06
+        strength: 0 # not specified yet
+        remarks: Identity-Based Access Control
+      - reference-id: CCC.Core.F07
+        strength: 0 # not specified yet
+        remarks: Event Notifications
+      - reference-id: CCC.Core.F08
+        strength: 0 # not specified yet
+        remarks: Multi-zone Deployment
+      - reference-id: CCC.Core.F09
+        strength: 0 # not specified yet
+        remarks: Monitoring
+      - reference-id: CCC.Core.F10
+        strength: 0 # not specified yet
+        remarks: Logging
+      - reference-id: CCC.Core.F14
+        strength: 0 # not specified yet
+        remarks: API Access
+      - reference-id: CCC.Core.F18
+        strength: 0 # not specified yet
+        remarks: Versioning
+      - reference-id: CCC.Core.F19
+        strength: 0 # not specified yet
+        remarks: On-Demand Scaling
+      - reference-id: CCC.Core.F20
+        strength: 0 # not specified yet
+        remarks: Tagging
+      - reference-id: CCC.Core.F22
+        strength: 0 # not specified yet
+        remarks: Location Lock-In
 
 capabilities:
   - id: CCC.SvlsComp.F01

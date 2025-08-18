@@ -1,21 +1,51 @@
 imported-threats:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.TH01 # Access Control is Misconfigured
-      - reference-id: CCC.TH02 # Data is Intercepted in Transit
-      - reference-id: CCC.TH03 # Deployment Region Network is Untrusted
-      - reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - reference-id: CCC.TH05 # Data is Corrupted During Replication
-      - reference-id: CCC.TH06 # Data is Lost or Corrupted
-      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
-      - reference-id: CCC.TH08 # Cost Management Data is Manipulated
-      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - reference-id: CCC.TH10 # Alerts are Intercepted
-      - reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - reference-id: CCC.TH12 # Resource Constraints are Exhausted
-      - reference-id: CCC.TH13 # Resource Tags are Manipulated
-      - reference-id: CCC.TH14 # Older Resource Versions are Exploited
-      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH01
+        strength: 0 # not specified yet
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # not specified yet
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # not specified yet
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH04
+        strength: 0 # not specified yet
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH05
+        strength: 0 # not specified yet
+        remarks: Data is Corrupted During Replication
+      - reference-id: CCC.Core.TH06
+        strength: 0 # not specified yet
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # not specified yet
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0 # not specified yet
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0 # not specified yet
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH10
+        strength: 0 # not specified yet
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH11
+        strength: 0 # not specified yet
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0 # not specified yet
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0 # not specified yet
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH14
+        strength: 0 # not specified yet
+        remarks: Older Resource Versions are Exploited
+      - reference-id: CCC.Core.TH15
+        strength: 0 # not specified yet
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:
   - id: CCC.ObjStor.TH01
@@ -32,11 +62,11 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1020
-          - T1537
-          - T1567
-          - T1048
-          - T1485
+          - reference-id: T1020
+          - reference-id: T1537
+          - reference-id: T1567
+          - reference-id: T1048
+          - reference-id: T1485
   - id: CCC.ObjStor.TH02
     title: Improper Enforcement of Object Modification Locks
     description: |
@@ -50,8 +80,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1027
-          - T1485
-          - T1490
-          - T1491
-          - T1565
+          - reference-id: T1027
+          - reference-id: T1485
+          - reference-id: T1490
+          - reference-id: T1491
+          - reference-id: T1565

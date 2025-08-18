@@ -1,15 +1,33 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.C01 # Prevent unencrypted requests
-      - reference-id: CCC.C02 # Ensure data encryption at rest for all stored data
-      - reference-id: CCC.C03 # Implement multi-factor authentication (MFA) for access
-      - reference-id: CCC.C04 # Log all access and changes
-      - reference-id: CCC.C05 # Prevent access from untrusted entities
-      - reference-id: CCC.C06 # Prevent deployment in restricted regions
-      - reference-id: CCC.C07 # Alert on non-human enumeration
-      - reference-id: CCC.C09 # Prevent tampering, deletion, or unauthorized access to access logs
-      - reference-id: CCC.C10 # Prevent data replication to destinations outside of defined trust perimeter
+      - reference-id: CCC.Core.C01
+        strength: 0 # not specified yet
+        remarks: Prevent unencrypted requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # not specified yet
+        remarks: Ensure data encryption at rest for all stored data
+      - reference-id: CCC.Core.C03
+        strength: 0 # not specified yet
+        remarks: Implement multi-factor authentication (MFA) for access
+      - reference-id: CCC.Core.C04
+        strength: 0 # not specified yet
+        remarks: Log all access and changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # not specified yet
+        remarks: Prevent access from untrusted entities
+      - reference-id: CCC.Core.C06
+        strength: 0 # not specified yet
+        remarks: Prevent deployment in restricted regions
+      - reference-id: CCC.Core.C07
+        strength: 0 # not specified yet
+        remarks: Alert on non-human enumeration
+      - reference-id: CCC.Core.C09
+        strength: 0 # not specified yet
+        remarks: Prevent tampering, deletion, or unauthorized access to access logs
+      - reference-id: CCC.Core.C10
+        strength: 0 # not specified yet
+        remarks: Prevent data replication to destinations outside of defined trust perimeter
 
 control-families:
   - title: Network Security
@@ -32,15 +50,24 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH01 # Access control is misconfigured
+              - reference-id: CCC.Core.TH01
+        strength: 0 # not specified yet
+        remarks: Access control is misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.AC-5 # Network integrity is protected
+              - reference-id: PR.AC-5
+        strength: 0 # not specified yet
+        remarks: Network integrity is protected
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-7 # Boundary Protection
-              - reference-id: SC-8 # Transmission Confidentiality and Integrity
+              - reference-id: SC-7
+        strength: 0 # not specified yet
+        remarks: Boundary Protection
+                strength: 0 # Not yet specified
+              - reference-id: SC-8
+        strength: 0 # not specified yet
+        remarks: Transmission Confidentiality and Integrity
   - title: Availability
     description: 'TODO: Describe this control family'
     controls:
@@ -62,11 +89,17 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.TH12 # Resource constraints are exhausted
+              - reference-id: CCC.Core.TH12
+        strength: 0 # not specified yet
+        remarks: Resource constraints are exhausted
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.DS-4 # Adequate capacity to ensure availability
+              - reference-id: PR.DS-4
+        strength: 0 # not specified yet
+        remarks: Adequate capacity to ensure availability
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-5 # Denial of Service Protection
+              - reference-id: SC-5
+        strength: 0 # not specified yet
+        remarks: Denial of Service Protection

@@ -1,19 +1,45 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01 # Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02 # Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03 # Access/Activity Logs
-      - reference-id: CCC.Core.F06 # Identity-Based Access Control
-      - reference-id: CCC.Core.F09 # Monitoring
-      - reference-id: CCC.Core.F10 # Logging
-      - reference-id: CCC.Core.F13 # Infrastructure as Code
-      - reference-id: CCC.Core.F14 # API Access
-      - reference-id: CCC.Core.F15 # Cost Management
-      - reference-id: CCC.Core.F16 # Budgeting
-      - reference-id: CCC.Core.F18 # Versioning
-      - reference-id: CCC.Core.F19 # On-Demand Scaling
-      - reference-id: CCC.Core.F20 # Tagging
+      - reference-id: CCC.Core.F01
+        strength: 0 # not specified yet
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.F02
+        strength: 0 # not specified yet
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.F03
+        strength: 0 # not specified yet
+        remarks: Access/Activity Logs
+      - reference-id: CCC.Core.F06
+        strength: 0 # not specified yet
+        remarks: Identity-Based Access Control
+      - reference-id: CCC.Core.F09
+        strength: 0 # not specified yet
+        remarks: Monitoring
+      - reference-id: CCC.Core.F10
+        strength: 0 # not specified yet
+        remarks: Logging
+      - reference-id: CCC.Core.F13
+        strength: 0 # not specified yet
+        remarks: Infrastructure as Code
+      - reference-id: CCC.Core.F14
+        strength: 0 # not specified yet
+        remarks: API Access
+      - reference-id: CCC.Core.F15
+        strength: 0 # not specified yet
+        remarks: Cost Management
+      - reference-id: CCC.Core.F16
+        strength: 0 # not specified yet
+        remarks: Budgeting
+      - reference-id: CCC.Core.F18
+        strength: 0 # not specified yet
+        remarks: Versioning
+      - reference-id: CCC.Core.F19
+        strength: 0 # not specified yet
+        remarks: On-Demand Scaling
+      - reference-id: CCC.Core.F20
+        strength: 0 # not specified yet
+        remarks: Tagging
 
 capabilities:
   - id: CCC.GenAI.F01

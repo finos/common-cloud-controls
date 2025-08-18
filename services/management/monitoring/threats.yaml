@@ -1,14 +1,30 @@
 imported-threats:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.TH01 # Access Control is Misconfigured
-      - reference-id: CCC.TH07 # Logs are Tampered With or Deleted
-      - reference-id: CCC.TH08 # Cost Management Data is Manipulated
-      - reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - reference-id: CCC.TH10 # Alerts are Intercepted
-      - reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - reference-id: CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
-      - reference-id: CCC.TH16 # Logging and Monitoring are Disabled
+      - reference-id: CCC.Core.TH01
+        strength: 0 # not specified yet
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH07
+        strength: 0 # not specified yet
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0 # not specified yet
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0 # not specified yet
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH10
+        strength: 0 # not specified yet
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH11
+        strength: 0 # not specified yet
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH15
+        strength: 0 # not specified yet
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # not specified yet
+        remarks: Logging and Monitoring are Disabled
 
 
 threats:
@@ -20,15 +36,25 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F01 # Metric collection
-          - reference-id: CCC.Monitoring.F02 # Tracing
-          - reference-id: CCC.Monitoring.F08 # Application Performance Monitoring (APM)
-          - reference-id: CCC.Monitoring.F09 # Dashboard
-          - reference-id: CCC.Monitoring.F11 # Integration with Third-Party Tools
+          - reference-id: CCC.Monitoring.F01
+        strength: 0 # not specified yet
+        remarks: Metric collection
+          - reference-id: CCC.Monitoring.F02
+        strength: 0 # not specified yet
+        remarks: Tracing
+          - reference-id: CCC.Monitoring.F08
+        strength: 0 # not specified yet
+        remarks: Application Performance Monitoring (APM)
+          - reference-id: CCC.Monitoring.F09
+        strength: 0 # not specified yet
+        remarks: Dashboard
+          - reference-id: CCC.Monitoring.F11
+        strength: 0 # not specified yet
+        remarks: Integration with Third-Party Tools
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1589 #Gather Victim Identity Information
+          - reference-id: T1589 #Gather Victim Identity Information
   - id: CCC.Monit.TH02
     title: Health Checks Used to Identify Attack Targets
     description: |
@@ -38,11 +64,15 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F04 # Health Checks
+          - reference-id: CCC.Monitoring.F04
+        strength: 0 # not specified yet
+        remarks: Health Checks
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1590 # Gather Victim Network Information
+          - reference-id: T1590
+        strength: 0 # not specified yet
+        remarks: Gather Victim Network Information
   - id: CCC.Monit.TH03
     title: External Monitoring DoS
     description: |
@@ -52,12 +82,18 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F06 # Synthetic Monitoring
+          - reference-id: CCC.Monitoring.F06
+        strength: 0 # not specified yet
+        remarks: Synthetic Monitoring
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1574 # Hijack Execution Flow
-          - T1498 # Network Denial of Service
+          - reference-id: T1574
+        strength: 0 # not specified yet
+        remarks: Hijack Execution Flow
+          - reference-id: T1498
+        strength: 0 # not specified yet
+        remarks: Network Denial of Service
   - id: CCC.Monit.TH04
     title: External Monitoring Access
     description: |
@@ -67,11 +103,15 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F06 # Synthetic Monitoring
+          - reference-id: CCC.Monitoring.F06
+        strength: 0 # not specified yet
+        remarks: Synthetic Monitoring
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1133 # External Remote Services
+          - reference-id: T1133
+        strength: 0 # not specified yet
+        remarks: External Remote Services
   - id: CCC.Monit.TH05
     title: Data Exfiltration Through Tampered Metrics
     description: |
@@ -82,14 +122,24 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F01 # Metric collection
-          - reference-id: CCC.Monitoring.F11 # Integration with Third-Party Tools
+          - reference-id: CCC.Monitoring.F01
+        strength: 0 # not specified yet
+        remarks: Metric collection
+          - reference-id: CCC.Monitoring.F11
+        strength: 0 # not specified yet
+        remarks: Integration with Third-Party Tools
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1560 # Archive Collected Data
-          - T1074 # Data Staged
-          - T1567 # Exfiltration Over Web Service
+          - reference-id: T1560
+        strength: 0 # not specified yet
+        remarks: Archive Collected Data
+          - reference-id: T1074
+        strength: 0 # not specified yet
+        remarks: Data Staged
+          - reference-id: T1567
+        strength: 0 # not specified yet
+        remarks: Exfiltration Over Web Service
   - id: CCC.Monit.TH06
     title: Cost Exhaustion Through Tampered Alerts or Metrics Collection
     description: |
@@ -100,12 +150,18 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F01 # Metric collection
-          - reference-id: CCC.Monitoring.F11 # Integration with Third-Party Tools
+          - reference-id: CCC.Monitoring.F01
+        strength: 0 # not specified yet
+        remarks: Metric collection
+          - reference-id: CCC.Monitoring.F11
+        strength: 0 # not specified yet
+        remarks: Integration with Third-Party Tools
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1565 # Data Manipulation
+          - reference-id: T1565
+        strength: 0 # not specified yet
+        remarks: Data Manipulation
   - id: CCC.Monit.TH07
     title: Trigger Malicious Code
     description: |
@@ -115,10 +171,18 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F01 # Metric collection
-          - reference-id: CCC.Monitoring.F10 # Triggering
-          - reference-id: CCC.Monitoring.F11 # Integration with Third-Party Tools
+          - reference-id: CCC.Monitoring.F01
+        strength: 0 # not specified yet
+        remarks: Metric collection
+          - reference-id: CCC.Monitoring.F10
+        strength: 0 # not specified yet
+        remarks: Triggering
+          - reference-id: CCC.Monitoring.F11
+        strength: 0 # not specified yet
+        remarks: Integration with Third-Party Tools
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - T1546 # Event Triggered Execution
+          - reference-id: T1546
+        strength: 0 # not specified yet
+        remarks: Event Triggered Execution
