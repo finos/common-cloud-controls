@@ -359,10 +359,10 @@ threats:
             remarks: Traffic Signaling
           - reference-id: T1001.001
             strength: 0 # Not yet specified
-            remarks: Data Obfuscation: Junk Data
+            remarks: "Data Obfuscation: Junk Data"
           - reference-id: T1491.001
             strength: 0 # Not yet specified
-            remarks: Defacement: Internal Defacement
+            remarks: "Defacement: Internal Defacement"
   - id: CCC.Core.TH12
     title: Resource Constraints are Exhausted
     description: |
@@ -444,7 +444,7 @@ threats:
             remarks: Service Stop
           - reference-id: T1562.01
             strength: 0 # Not yet specified
-            remarks: Impair Defenses: Downgrade Attack
+            remarks: "Impair Defenses: Downgrade Attack"
           - reference-id: T1027
             strength: 0 # Not yet specified
             remarks: Obfuscated Files or Information
