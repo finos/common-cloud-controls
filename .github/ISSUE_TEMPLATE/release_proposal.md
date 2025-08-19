@@ -24,7 +24,7 @@ assignees: "damienjburks"
 
   ```text
   cd delivery-toolkit
-  go run . release-notes -t /services/storage/object
+  go run . release-notes -t /catalogs/storage/object
   ```
 
 - [ ] Raise a PR and tag this issue number. The approver will be someone from the Delivery WG.
