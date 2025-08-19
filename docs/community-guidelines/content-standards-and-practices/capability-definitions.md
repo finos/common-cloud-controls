@@ -45,6 +45,6 @@ When creating a new feature definition, use the following values:
 
 Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
-[core capabilities]: /catalogs/core/ccc/controls.yamlcontrols.yaml
+[core capabilities]: /catalogs/core/ccc/controls.yaml
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [Delivery Toolkit]: /delivery-toolkit
