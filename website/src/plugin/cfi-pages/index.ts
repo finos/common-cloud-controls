@@ -34,22 +34,31 @@ function createTestResultData(resultPath: string, resources: string[], ccc_refer
 
     return parsed.flatMap(item => {
         const complianceIds = getComplianceIds(item, ccc_references)
-        const unfilteredResources = item.resources.map((r: any) => r.uid) || []
+
+        // Handle new OCSF format - resources might have different structure
+        let unfilteredResources: string[] = [];
+        if (item.resources && Array.isArray(item.resources)) {
+            unfilteredResources = item.resources.map((r: any) => {
+                // Try different possible resource ID fields
+                return r.uid || r.id || r.name || '';
+            }).filter(Boolean);
+        }
+
         const filteredResources = unfilteredResources.filter((r: string) => matchesAnySubstring(r, resources))
 
         if (filteredResources.length > 0) {
             const result = statusCodeToResultType[item.status_code?.toLowerCase()] || TestResultType.NA;
             return complianceIds.map((id: string) => {
                 const out: TestResultItem = {
-                    id: item.finding_info.uid + "_" + id,
+                    id: item.finding_info?.uid + "_" + id,
                     test_requirement_id: id,
                     test: item.metadata?.event_code || '',
                     result: result,
-                    name: item.finding_info.title,
-                    message: item.status_detail || '',
-                    timestamp: item.time,
+                    name: item.finding_info?.title || item.title || 'Unknown',
+                    message: item.status_detail || item.message || '',
+                    timestamp: item.finding_info?.created_time || item.time || Date.now(),
                     resources: filteredResources,
-                    further_info_url: item.unmapped.related_url
+                    further_info_url: item.unmapped?.related_url
                 }
                 return out;
             });
@@ -59,21 +68,7 @@ function createTestResultData(resultPath: string, resources: string[], ccc_refer
     });
 }
 
-function createConfiguration(config: CFIConfigJson, slug: string): Configuration {
-    // Add URL if not present
-    const configWithUrl = {
-        ...config,
-        url: config.url || `https://github.com/robmoffat/cfi-s3-module` // TODO: make this dynamic
-    };
 
-    return {
-        cfi_details: configWithUrl,
-        ccc_references: config.specifications,
-        test_results: [],
-        slug,
-        resources: config.resources
-    }
-}
 
 function aggregateResultStatus(results: TestResultItem[]): TestResultType {
     return results.reduce((acc, result) => {
@@ -93,7 +88,7 @@ async function createResultPage(resultPath: string, configuration: Configuration
         result_path: resultPath,
         releaseTitle: configuration.cfi_details.name,
         configuration,
-        results: createTestResultData(resultPath, configuration.resources, configuration.ccc_references),
+        results: createTestResultData(resultPath, configuration.cfi_details.resources, configuration.ccc_references),
         parentSlug: configuration.slug
     }
 
@@ -115,35 +110,47 @@ async function createResultPage(resultPath: string, configuration: Configuration
 
     return {
         id: resultName,
-        date: new Date(resultPage.results[0].timestamp).toISOString(),
-        status: aggregateResultStatus(resultPage.results),
+        date: resultPage.results.length > 0 ? new Date(resultPage.results[0].timestamp).toISOString() : new Date().toISOString(),
+        status: resultPage.results.length > 0 ? aggregateResultStatus(resultPage.results) : TestResultType.NA,
         slug
     }
 }
 
-async function createConfigurationPage(config: CFIConfigJson, slug: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
-    const configuration: Configuration = createConfiguration(config, slug)
+async function createConfigurationPage(configDir: string, slug: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
+    // Read the repository.json file to get repository info
+    const repositoryPath = path.join(configDir, 'config', 'repository.json');
+    const repositoryData = JSON.parse(fs.readFileSync(repositoryPath, 'utf8'));
+
+    // Read the configuration file
+    const configPath = path.join(configDir, 'config', `${path.basename(configDir)}.json`);
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf8')) as CFIConfigJson;
+
+    // Create configuration with repository info
+    const configuration: Configuration = {
+        cfi_details: config,
+        repository: repositoryData,
+        ccc_references: config.specifications,
+        test_results: [],
+        slug
+    };
 
     // Find the results directory for this configuration
-    const testResultsDir = path.resolve(__dirname, '../../data/test-results');
-    const configDirs = fs.readdirSync(testResultsDir)
-        .filter(dir => dir.startsWith(`cfi-results-${config.id}-`))
-        .sort((a, b) => b.localeCompare(a)); // Sort by timestamp, newest first
+    const resultsDir = path.join(configDir, 'results');
+    console.log(`Looking for results in: ${resultsDir}`);
 
-    if (configDirs.length > 0) {
-        const latestDir = configDirs[0];
-        const resultsDir = path.join(testResultsDir, latestDir, 'results');
+    if (fs.existsSync(resultsDir)) {
+        const resultFiles = fs.readdirSync(resultsDir).filter(f => f.endsWith('_ocsf.json'));
+        console.log(`Found ${resultFiles.length} result files in ${resultsDir}:`, resultFiles);
 
-        if (fs.existsSync(resultsDir)) {
-            const resultFiles = fs.readdirSync(resultsDir).filter(f => f.endsWith('.ocsf.json'));
-
-            // Create pages for each test result
-            for (const resultFile of resultFiles) {
-                const resultPath = path.join(resultsDir, resultFile);
-                const resultEntry = await createResultPage(resultPath, configuration, createData, addRoute)
-                configuration.test_results.push(resultEntry)
-            }
+        // Create pages for each test result
+        for (const resultFile of resultFiles) {
+            const resultPath = path.join(resultsDir, resultFile);
+            console.log(`Processing result file: ${resultPath}`);
+            const resultEntry = await createResultPage(resultPath, configuration, createData, addRoute)
+            configuration.test_results.push(resultEntry)
         }
+    } else {
+        console.log(`Results directory does not exist: ${resultsDir}`);
     }
 
     // create release page 
@@ -179,35 +186,32 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
             const { createData, addRoute } = actions;
 
             const testResultsDir = path.resolve(__dirname, '../../data/test-results');
-            const configDirs = fs.readdirSync(testResultsDir)
-                .filter(dir => dir.startsWith('cfi-results-'))
-                .map(dir => {
-                    const match = dir.match(/cfi-results-([^-]+)-/);
-                    return match ? match[1] : null;
-                })
-                .filter(Boolean)
-                .filter((value, index, self) => self.indexOf(value) === index); // Remove duplicates
+
+            // Find all directories that contain a repository.json file
+            const allDirs = fs.readdirSync(testResultsDir);
+            console.log(`All directories in test-results:`, allDirs);
+
+            const configDirs = allDirs.filter(dir => {
+                const repositoryPath = path.join(testResultsDir, dir, 'config', 'repository.json');
+                const exists = fs.existsSync(repositoryPath);
+                console.log(`Checking ${dir}: ${repositoryPath} exists = ${exists}`);
+                return exists;
+            });
+
+            console.log(`Found ${configDirs.length} configuration directories with repository.json files:`, configDirs);
 
             // Group releases by configuration ID
             const components: Configuration[] = [];
 
-            for (const configId of configDirs) {
-                const slug = '/cfi/' + configId;
+            for (const configDir of configDirs) {
+                const slug = '/cfi/' + configDir;
+                const fullConfigDir = path.join(testResultsDir, configDir);
 
-                // Find the latest config file for this configuration
-                const configDirsForId = fs.readdirSync(testResultsDir)
-                    .filter(dir => dir.startsWith(`cfi-results-${configId}-`))
-                    .sort((a, b) => b.localeCompare(a)); // Sort by timestamp, newest first
-
-                if (configDirsForId.length > 0) {
-                    const latestDir = configDirsForId[0];
-                    const configPath = path.join(testResultsDir, latestDir, 'config', `${configId}.json`);
-
-                    if (fs.existsSync(configPath)) {
-                        const raw = fs.readFileSync(configPath, 'utf8');
-                        const config = JSON.parse(raw) as CFIConfigJson;
-                        components.push(await createConfigurationPage(config, slug, createData, addRoute))
-                    }
+                try {
+                    const configuration = await createConfigurationPage(fullConfigDir, slug, createData, addRoute);
+                    components.push(configuration);
+                } catch (error) {
+                    console.error(`Error processing configuration in ${configDir}:`, error);
                 }
             }
 

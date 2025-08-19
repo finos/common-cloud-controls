@@ -37,14 +37,6 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                   <label className="text-sm font-medium text-muted-foreground">Name</label>
                   <div className="mt-1">{pageData.configuration.cfi_details.name}</div>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">URL</label>
-                  <div className="mt-1">
-                    <Link to={pageData.configuration.cfi_details.url} className="text-blue-600 hover:text-blue-800 hover:underline">
-                      {pageData.configuration.cfi_details.url}
-                    </Link>
-                  </div>
-                </div>
               </div>
               <div>
                 <label className="text-sm font-medium text-muted-foreground">Description</label>
@@ -96,6 +88,38 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
 
         <Card>
           <CardHeader>
+            <CardTitle>Repository Information</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Repository Name</label>
+                  <div className="mt-1">{pageData.configuration.repository.name}</div>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Downloaded At</label>
+                  <div className="mt-1">{new Date(pageData.configuration.repository.downloaded_at).toLocaleString()}</div>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Repository URL</label>
+                  <div className="mt-1">
+                    <Link to={pageData.configuration.repository.url} className="text-blue-600 hover:text-blue-800 hover:underline">
+                      {pageData.configuration.repository.url}
+                    </Link>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Description</label>
+                  <div className="mt-1">{pageData.configuration.repository.description}</div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
             <CardTitle>Authors</CardTitle>
           </CardHeader>
           <CardContent>
@@ -112,50 +136,41 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
             <CardTitle>Test Results</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Test Result</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pageData.configuration.test_results.map((result) => (
-                  <TableRow key={result.id}>
-                    <TableCell>
-                      <Link to={result.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
-                        {result.id}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{result.date}</TableCell>
-                    <TableCell>{result.status}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent>
-            <Accordion type="single" collapsible>
-              <AccordionItem value="terraform">
-                <AccordionTrigger>View Terraform Configuration</AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="text-lg font-medium mb-2">Source</h3>
-                      <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.configuration.terraform.source}</pre>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium mb-2">Example Usage</h3>
-                      <pre className="bg-muted p-4 rounded-md overflow-auto">{pageData.configuration.terraform.script}</pre>
+            <div className="space-y-6">
+              {pageData.configuration.test_results.map((result) => (
+                <div key={result.id} className="border rounded-lg p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-medium">{result.id}</h3>
+                    <div className="flex items-center space-x-2">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        result.status === 'pass' ? 'bg-green-100 text-green-800' :
+                        result.status === 'fail' ? 'bg-red-100 text-red-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {result.status.toUpperCase()}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {new Date(result.date).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                  
+                  {/* Display the actual test results here */}
+                  <div className="bg-muted p-3 rounded">
+                    <p className="text-sm text-muted-foreground">
+                      Test results will be displayed here when the data is available.
+                    </p>
+                  </div>
+                </div>
+              ))}
+              
+              {pageData.configuration.test_results.length === 0 && (
+                <div className="text-center py-8 text-muted-foreground">
+                  <p>No test results available yet.</p>
+                  <p className="text-sm">Test results will appear here after the next CFI scan.</p>
+                </div>
+              )}
+            </div>
           </CardContent>
         </Card>
       </main>
