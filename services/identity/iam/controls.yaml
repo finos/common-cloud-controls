@@ -2,22 +2,22 @@ imported-controls:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.C02
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Ensure Data Encryption at Rest for All Stored Data
       - reference-id: CCC.Core.C03
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.C04
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Log All Access and Changes
       - reference-id: CCC.Core.C05
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.C07
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.C09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
 
 control-families:
@@ -57,7 +57,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH03
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Additional Cloud Credentials Creation
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -102,7 +102,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH06
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: IAM Policies Modification
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -147,7 +147,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH02
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Overly-Permissive Identity Trust Policy
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -182,10 +182,10 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Valid Cloud Credentials Abuse
               - reference-id: CCC.IAM.TH02
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Overly-Permissive IAM Policy
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -230,7 +230,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -277,10 +277,10 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH09
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Long-Lived Static Credentials
               - reference-id: CCC.IAM.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -310,10 +310,10 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH10
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Orphaned Federated Identity Retains Access
               - reference-id: CCC.IAM.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -345,10 +345,10 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH11
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Unused Credentials
               - reference-id: CCC.IAM.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -379,10 +379,10 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Valid Cloud Credentials Abuse
               - reference-id: CCC.IAM.TH09
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Long-Lived Static Credentials
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -425,7 +425,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Valid Cloud Credentials Abuse
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -464,13 +464,13 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.IAM.TH02
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Overly-Permissive Identity Trust Policy
               - reference-id: CCC.IAM.TH10
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Orphaned Federated Identity Retains Access
               - reference-id: CCC.IAM.TH11
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Unused Credentials
         guideline-mappings:
           - reference-id: NIST-CSF

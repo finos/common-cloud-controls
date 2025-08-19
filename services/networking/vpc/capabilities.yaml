@@ -2,22 +2,22 @@ imported-capabilities:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.F06
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Identity Based Access Control
       - reference-id: CCC.Core.F08
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Multi-zone Deployment
       - reference-id: CCC.Core.F09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Monitoring
       - reference-id: CCC.Core.F10
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logging
       - reference-id: CCC.Core.F13
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Infrastructure as Code
       - reference-id: CCC.Core.F20
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Tagging
 
 capabilities:

@@ -2,28 +2,28 @@ imported-threats:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.TH01
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Access Control is Misconfigured
       - reference-id: CCC.Core.TH02
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Data is Intercepted in Transit
       - reference-id: CCC.Core.TH03
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Deployment Region Network is Untrusted
       - reference-id: CCC.Core.TH06
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logs or Monitoring Data are Read by Unauthorized Users
       - reference-id: CCC.Core.TH13
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Resource Tags are Manipulated
       - reference-id: CCC.Core.TH15
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
 
 threats:

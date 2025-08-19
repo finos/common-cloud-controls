@@ -2,37 +2,37 @@ imported-controls:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.C01
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent Unencrypted Requests
       - reference-id: CCC.Core.C02
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Ensure Data Encryption at Rest for All Stored Data
       - reference-id: CCC.Core.C03
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.C04
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Log All Access and Changes
       - reference-id: CCC.Core.C05
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.C06
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent Deployment in Restricted Regions
       - reference-id: CCC.Core.C07
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.C08
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Enable Multi-zone or Multi-region Data Replication
       - reference-id: CCC.Core.C09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
       - reference-id: CCC.Core.C10
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
       - reference-id: CCC.Core.C11
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Enforce Key Management Policies
 
 control-families:
@@ -71,7 +71,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Logging.TH07
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Insufficient Logging
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -112,7 +112,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Logging.TH05
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Log Retention Policy Evasion or Misconfiguration
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -142,7 +142,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH07
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Logs are Tampered With or Deleted
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -177,7 +177,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Logging.TH04
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Inadequate Log Anonymization/Masking
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -229,7 +229,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Access Control is Misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -264,7 +264,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Logging.TH02
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Log Data Exfiltration via Query Interfaces
         guideline-mappings:
           - reference-id: NIST-CSF
@@ -300,7 +300,7 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH16
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Logging and Monitoring are Disabled
         guideline-mappings:
           - reference-id: NIST-CSF

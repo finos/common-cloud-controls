@@ -2,22 +2,22 @@ imported-threats:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.TH01
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Access Control is Misconfigured
       - reference-id: CCC.Core.TH04
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Data is Replicated to Untrusted or External Locations
       - reference-id: CCC.Core.TH06
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logs or Monitoring Data are Read by Unauthorized Users
       - reference-id: CCC.Core.TH16
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logging and Monitoring are Disabled
 
 threats:
@@ -76,10 +76,10 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.AuditLog.F03
-            strength: 0 # not specified yet
+            strength: 0 # Not yet specified
             remarks: Sink
           - reference-id: CCC.AuditLog.F08
-            strength: 0 # not specified yet
+            strength: 0 # Not yet specified
             remarks: External Sink
           - reference-id: CCC.Core.F03
           - reference-id: CCC.Core.F10
@@ -106,10 +106,10 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.AuditLog.F03
-            strength: 0 # not specified yet
+            strength: 0 # Not yet specified
             remarks: Sink
           - reference-id: CCC.AuditLog.F08
-            strength: 0 # not specified yet
+            strength: 0 # Not yet specified
             remarks: External Sink
           - reference-id: CCC.Core.F03
           - reference-id: CCC.Core.F10
@@ -144,9 +144,9 @@ threats:
       - reference-id: CWE
         entries:
           - reference-id: CWE-778
-            strength: 0 # not specified yet
+            strength: 0 # Not yet specified
             remarks: Insufficient Logging
           - reference-id: CWE-223
-            strength: 0 # not specified yet
+            strength: 0 # Not yet specified
             remarks: Omission of Security-Relevant Information
           - reference-id: CWE-20

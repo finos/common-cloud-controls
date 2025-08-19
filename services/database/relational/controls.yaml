@@ -2,37 +2,37 @@ imported-controls:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.C01
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent unencrypted requests
       - reference-id: CCC.Core.C02
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Ensure data encryption at rest for all stored data
       - reference-id: CCC.Core.C03
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Implement multi-factor authentication (MFA) for access
       - reference-id: CCC.Core.C04
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Log all access and changes
       - reference-id: CCC.Core.C05
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent access from untrusted entities
       - reference-id: CCC.Core.C06
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent deployment in restricted regions
       - reference-id: CCC.Core.C07
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Alert on unusual enumeration activity
       - reference-id: CCC.Core.C08
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Enable Multi-zone or Multi-region Data Replication
       - reference-id: CCC.Core.C09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent tampering, deletion, or unauthorized access to access logs
       - reference-id: CCC.Core.C10
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent data replication to destinations outside of defined trust perimeter
       - reference-id: CCC.Core.C12
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Ensure Secure Network Access Rules
 
 control-families:

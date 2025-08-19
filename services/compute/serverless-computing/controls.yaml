@@ -2,31 +2,31 @@ imported-controls:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.C01
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent unencrypted requests
       - reference-id: CCC.Core.C02
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Ensure data encryption at rest for all stored data
       - reference-id: CCC.Core.C03
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Implement multi-factor authentication (MFA) for access
       - reference-id: CCC.Core.C04
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Log all access and changes
       - reference-id: CCC.Core.C05
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent access from untrusted entities
       - reference-id: CCC.Core.C06
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent deployment in restricted regions
       - reference-id: CCC.Core.C07
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Alert on non-human enumeration
       - reference-id: CCC.Core.C09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent tampering, deletion, or unauthorized access to access logs
       - reference-id: CCC.Core.C10
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Prevent data replication to destinations outside of defined trust perimeter
 
 control-families:
@@ -51,21 +51,21 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Access control is misconfigured
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-5
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Network integrity is protected
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-7
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Boundary Protection
               - reference-id: SC-8
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Transmission Confidentiality and Integrity
   - title: Availability
     description: 'TODO: Describe this control family'
@@ -89,16 +89,16 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH12
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Resource constraints are exhausted
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-4
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Adequate capacity to ensure availability
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-5
-                strength: 0 # not specified yet
+                strength: 0 # Not yet specified
                 remarks: Denial of Service Protection

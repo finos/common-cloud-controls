@@ -2,46 +2,46 @@ imported-capabilities:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.F03
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Access/Activity Logs
       - reference-id: CCC.Core.F04
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Transaction Rate Limits
       - reference-id: CCC.Core.F06
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Identity Based Access Control
       - reference-id: CCC.Core.F08
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Multi-zone Deployment
       - reference-id: CCC.Core.F09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Monitoring
       - reference-id: CCC.Core.F10
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logging
       - reference-id: CCC.Core.F13
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Infrastructure as Code
       - reference-id: CCC.Core.F14
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: API Access
       - reference-id: CCC.Core.F15
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Cost Management
       - reference-id: CCC.Core.F16
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Budgeting
       - reference-id: CCC.Core.F17
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Alerting
       - reference-id: CCC.Core.F19
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: On-Demand Scaling
       - reference-id: CCC.Core.F20
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Tagging
       - reference-id: CCC.Core.F22
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Location Lock-In
 
 capabilities:

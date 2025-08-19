@@ -2,17 +2,29 @@ imported-threats:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH03
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH05
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH08
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH10
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH11
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH13
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
       - reference-id: CCC.Core.TH17
+        strength: 0 # Not yet specified
 
 threats:
   - id: CCC.VM.TH01
@@ -124,11 +136,11 @@ threats:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1499 
-        strength: 0 # not specified yet
-        remarks: Endpoint Denial of Service
+            strength: 0 # Not yet specified
+            remarks: Endpoint Denial of Service
           - reference-id: T1489 
-        strength: 0 # not specified yet
-        remarks: Service Stop
+            strength: 0 # Not yet specified
+            remarks: Service Stop
 
   - id: CCC.VM.TH08
     title: Co-Residency Risk on Non-Dedicated Infrastructure
@@ -144,11 +156,11 @@ threats:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1040 
-        strength: 0 # not specified yet
-        remarks: Network Sniffing
+            strength: 0 # Not yet specified
+            remarks: Network Sniffing
           - reference-id: T1203 
-        strength: 0 # not specified yet
-        remarks: Exploitation for Client Execution
+            strength: 0 # Not yet specified
+            remarks: Exploitation for Client Execution
 
   - id: CCC.VM.TH09
     title: Misconfigured Vertical Scaling Leads to Privilege Escalation
@@ -165,11 +177,11 @@ threats:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1068 
-        strength: 0 # not specified yet
-        remarks: Exploitation for Privilege Escalation
+            strength: 0 # Not yet specified
+            remarks: Exploitation for Privilege Escalation
           - reference-id: T1578.002 
-        strength: 0 # not specified yet
-        remarks: Create or Modify Cloud Compute Infrastructure: Virtual Machine
+            strength: 0 # Not yet specified
+            remarks: "Create or Modify Cloud Compute Infrastructure: Virtual Machine"
 
   - id: CCC.VM.TH10
     title: Auto-Scaling Abuse for Resource Exhaustion
@@ -185,9 +197,9 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1496 
-        strength: 0 # not specified yet
-        remarks: Resource Hijacking
+          - reference-id: T1496
+            strength: 0 # Not yet specified
+            remarks: Resource Hijacking
 
   - id: CCC.VM.TH11
     title: VM Image Tampering or Poisoning
@@ -203,8 +215,8 @@ threats:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1584 
-        strength: 0 # not specified yet
-        remarks: Compromise Infrastructure
+            strength: 0 # Not yet specified
+            remarks: Compromise Infrastructure
           - reference-id: T1204 
-        strength: 0 # not specified yet
-        remarks: User Execution
+            strength: 0 # Not yet specified
+            remarks: User Execution

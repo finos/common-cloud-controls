@@ -2,49 +2,49 @@ imported-threats:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.TH01
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Access control is misconfigured
       - reference-id: CCC.Core.TH02
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Data is intercepted in transit
       - reference-id: CCC.Core.TH03
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Deployment region network is untrusted
       - reference-id: CCC.Core.TH04
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Data is Replicated to Untrusted or External Locations
       - reference-id: CCC.Core.TH05
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Data is corrupted during replication
       - reference-id: CCC.Core.TH06
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Data is lost or corrupted
       - reference-id: CCC.Core.TH07
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logs are tampered with or deleted
       - reference-id: CCC.Core.TH09
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logs or monitoring data are read by unauthorized users
       - reference-id: CCC.Core.TH10
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Alerts are Intercepted
       - reference-id: CCC.Core.TH11
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Event Notifications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Resource constraints are exhausted
       - reference-id: CCC.Core.TH13
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Resource tags are manipulated
       - reference-id: CCC.Core.TH15
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Automated enumeration and reconnaissance by non-human entities
       - reference-id: CCC.Core.TH16
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Logging and Monitoring are Disabled
       - reference-id: CCC.Core.TH17
-        strength: 0 # not specified yet
+        strength: 0 # Not yet specified
         remarks: Unauthorized Network Access via Misconfigured Rules
 
 threats:
