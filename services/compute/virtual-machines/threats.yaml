@@ -135,10 +135,10 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1499 
+          - reference-id: T1499
             strength: 0 # Not yet specified
             remarks: Endpoint Denial of Service
-          - reference-id: T1489 
+          - reference-id: T1489
             strength: 0 # Not yet specified
             remarks: Service Stop
 
@@ -155,10 +155,10 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1040 
+          - reference-id: T1040
             strength: 0 # Not yet specified
             remarks: Network Sniffing
-          - reference-id: T1203 
+          - reference-id: T1203
             strength: 0 # Not yet specified
             remarks: Exploitation for Client Execution
 
@@ -176,10 +176,10 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1068 
+          - reference-id: T1068
             strength: 0 # Not yet specified
             remarks: Exploitation for Privilege Escalation
-          - reference-id: T1578.002 
+          - reference-id: T1578.002
             strength: 0 # Not yet specified
             remarks: "Create or Modify Cloud Compute Infrastructure: Virtual Machine"
 
@@ -214,9 +214,9 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1584 
+          - reference-id: T1584
             strength: 0 # Not yet specified
             remarks: Compromise Infrastructure
-          - reference-id: T1204 
+          - reference-id: T1204
             strength: 0 # Not yet specified
             remarks: User Execution
