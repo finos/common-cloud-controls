@@ -1,5 +1,5 @@
 threats:
-  - id: CCC.TH01
+  - id: CCC.Core.TH01
     title: Access Control is Misconfigured
     description: |
       Misconfigured access controls may grant excessive privileges or fail to
@@ -9,7 +9,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F06
+          - reference-id: CCC.Core.F06
             strength: 0 # Not yet specified
             remarks: Identity Based Access Control
     external-mappings:
@@ -51,7 +51,7 @@ threats:
           - reference-id: T1027
             strength: 0 # Not yet specified
             remarks: Obfuscated Files or Information
-  - id: CCC.TH02
+  - id: CCC.Core.TH02
     title: Data is Intercepted in Transit
     description: |
       Data transmitted between clients and the service may be susceptible to
@@ -61,7 +61,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F01
+          - reference-id: CCC.Core.F01
             strength: 0 # Not yet specified
             remarks: Encryption in Transit Enabled by Default
     external-mappings:
@@ -73,7 +73,7 @@ threats:
           - reference-id: T1040
             strength: 0 # Not yet specified
             remarks: Network Sniffing
-  - id: CCC.TH03
+  - id: CCC.Core.TH03
     title: Deployment Region Network is Untrusted
     description: |
       Deploying a service in an untrusted, unstable, or insecure location,
@@ -84,10 +84,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F08
+          - reference-id: CCC.Core.F08
             strength: 0 # Not yet specified
             remarks: Multi-zone Deployment
-          - reference-id: CCC.F22
+          - reference-id: CCC.Core.F22
             strength: 0 # Not yet specified
             remarks: Location Lock-In
     external-mappings:
@@ -108,7 +108,7 @@ threats:
           - reference-id: T1557
             strength: 0 # Not yet specified
             remarks: Adversary-in-the-Middle
-  - id: CCC.TH04
+  - id: CCC.Core.TH04
     title: Data is Replicated to Untrusted or External Locations
     description: |
       Data may be replicated to untrusted or external locations if replication
@@ -118,7 +118,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F21
+          - reference-id: CCC.Core.F21
             strength: 0 # Not yet specified
             remarks: Replication
     external-mappings:
@@ -127,7 +127,7 @@ threats:
           - reference-id: T1565
             strength: 0 # Not yet specified
             remarks: Data Manipulation
-  - id: CCC.TH05
+  - id: CCC.Core.TH05
     title: Data is Corrupted During Replication
     description: |
       Data may become corrupted, delayed, or deleted during replication
@@ -138,13 +138,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F08
+          - reference-id: CCC.Core.F08
             strength: 0 # Not yet specified
             remarks: Multi-zone Deployment
-          - reference-id: CCC.F12
+          - reference-id: CCC.Core.F12
             strength: 0 # Not yet specified
             remarks: Recovery
-          - reference-id: CCC.F21
+          - reference-id: CCC.Core.F21
             strength: 0 # Not yet specified
             remarks: Replication
     external-mappings:
@@ -162,7 +162,7 @@ threats:
           - reference-id: T1490
             strength: 0 # Not yet specified
             remarks: Inhibit System Recovery
-  - id: CCC.TH06
+  - id: CCC.Core.TH06
     title: Data is Lost or Corrupted
     description: |
       Data loss or corruption may occur due to accidental deletion, or
@@ -171,10 +171,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F11
+          - reference-id: CCC.Core.F11
             strength: 0 # Not yet specified
             remarks: Backup
-          - reference-id: CCC.F18
+          - reference-id: CCC.Core.F18
             strength: 0 # Not yet specified
             remarks: Versioning
     external-mappings:
@@ -192,7 +192,7 @@ threats:
           - reference-id: T1490
             strength: 0 # Not yet specified
             remarks: Inhibit System Recovery
-  - id: CCC.TH07
+  - id: CCC.Core.TH07
     title: Logs are Tampered With or Deleted
     description: |
       Logs may be tampered with or deleted due to inadequate access controls,
@@ -202,10 +202,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F03
+          - reference-id: CCC.Core.F03
             strength: 0 # Not yet specified
             remarks: Access/Activity Logs
-          - reference-id: CCC.F10
+          - reference-id: CCC.Core.F10
             strength: 0 # Not yet specified
             remarks: Logging
     external-mappings:
@@ -220,7 +220,7 @@ threats:
           - reference-id: T1027
             strength: 0 # Not yet specified
             remarks: Obfuscated Files or Information
-  - id: CCC.TH08
+  - id: CCC.Core.TH08
     title: Cost Management Data is Manipulated
     description: |
       Cost management data may be changed due to misconfigurations, or
@@ -230,7 +230,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F15
+          - reference-id: CCC.Core.F15
             strength: 0 # Not yet specified
             remarks: Cost Management
     external-mappings:
@@ -242,7 +242,7 @@ threats:
           - reference-id: T1070
             strength: 0 # Not yet specified
             remarks: Indicator Removal on Host
-  - id: CCC.TH09
+  - id: CCC.Core.TH09
     title: Logs or Monitoring Data are Read by Unauthorized Users
     description: |
       Unauthorized access to logs or monitoring data may expose valuable
@@ -253,10 +253,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F03
+          - reference-id: CCC.Core.F03
             strength: 0 # Not yet specified
             remarks: Access/Activity Logs
-          - reference-id: CCC.F09
+          - reference-id: CCC.Core.F09
             strength: 0 # Not yet specified
             remarks: Monitoring
     external-mappings:
@@ -301,7 +301,7 @@ threats:
           - reference-id: T1518
             strength: 0 # Not yet specified
             remarks: Software Discovery
-  - id: CCC.TH10
+  - id: CCC.Core.TH10
     title: Alerts are Intercepted
     description: |
       Event notifications may be intercepted due to misconfigurations,
@@ -311,16 +311,16 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F03
+          - reference-id: CCC.Core.F03
             strength: 0 # Not yet specified
             remarks: Access/Activity Logs
-          - reference-id: CCC.F07
+          - reference-id: CCC.Core.F07
             strength: 0 # Not yet specified
             remarks: Event Notifications
-          - reference-id: CCC.F09
+          - reference-id: CCC.Core.F09
             strength: 0 # Not yet specified
             remarks: Monitoring
-          - reference-id: CCC.F17
+          - reference-id: CCC.Core.F17
             strength: 0 # Not yet specified
             remarks: Alerting
     external-mappings:
@@ -335,7 +335,7 @@ threats:
           - reference-id: T1083
             strength: 0 # Not yet specified
             remarks: File and Directory Discovery
-  - id: CCC.TH11
+  - id: CCC.Core.TH11
     title: Event Notifications are Incorrectly Triggered
     description: |
       Event notifications may be triggered incorrectly due to misconfigurations,
@@ -345,10 +345,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F07
+          - reference-id: CCC.Core.F07
             strength: 0 # Not yet specified
             remarks: Event Notifications
-          - reference-id: CCC.F17
+          - reference-id: CCC.Core.F17
             strength: 0 # Not yet specified
             remarks: Alerting
     external-mappings:
@@ -363,7 +363,7 @@ threats:
           - reference-id: T1491.001
             strength: 0 # Not yet specified
             remarks: Defacement: Internal Defacement
-  - id: CCC.TH12
+  - id: CCC.Core.TH12
     title: Resource Constraints are Exhausted
     description: |
       Resource constraints, such as memory, CPU, or storage, may be exhausted
@@ -374,13 +374,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F04
+          - reference-id: CCC.Core.F04
             strength: 0 # Not yet specified
             remarks: Transaction Rate Limits
-          - reference-id: CCC.F16
+          - reference-id: CCC.Core.F16
             strength: 0 # Not yet specified
             remarks: Budgeting
-          - reference-id: CCC.F19
+          - reference-id: CCC.Core.F19
             strength: 0 # Not yet specified
             remarks: Auto-scaling
     external-mappings:
@@ -395,7 +395,7 @@ threats:
           - reference-id: T1498
             strength: 0 # Not yet specified
             remarks: Network Denial of Service
-  - id: CCC.TH13
+  - id: CCC.Core.TH13
     title: Resource Tags are Manipulated
     description: |
       Resource tags may be altered, leading to changes in organizational
@@ -405,7 +405,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F20
+          - reference-id: CCC.Core.F20
             strength: 0 # Not yet specified
             remarks: Tagging
     external-mappings:
@@ -414,7 +414,7 @@ threats:
           - reference-id: T1565
             strength: 0 # Not yet specified
             remarks: Data Manipulation
-  - id: CCC.TH14
+  - id: CCC.Core.TH14
     title: Older Resource Versions are Exploited
     description: |
       Older versions of resources may contain vulnerabilities due to deprecated
@@ -424,7 +424,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F18
+          - reference-id: CCC.Core.F18
             strength: 0 # Not yet specified
             remarks: Versioning
     external-mappings:
@@ -457,7 +457,7 @@ threats:
           - reference-id: T1489
             strength: 0 # Not yet specified
             remarks: Service Stop
-  - id: CCC.TH15
+  - id: CCC.Core.TH15
     title: Automated Enumeration and Reconnaissance by Non-human Entities
     description: |
       Automated processes or bots may be used to perform reconnaissance by
@@ -468,7 +468,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F14
+          - reference-id: CCC.Core.F14
             strength: 0 # Not yet specified
             remarks: API Access
     external-mappings:
@@ -477,7 +477,7 @@ threats:
           - reference-id: T1580
             strength: 0 # Not yet specified
             remarks: Cloud Infrastructure Discovery
-  - id: CCC.TH16
+  - id: CCC.Core.TH16
     title: Logging and Monitoring are Disabled
     description: |
       Logging and monitoring may be disabled, potentially hindering the
@@ -487,10 +487,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F10
+          - reference-id: CCC.Core.F10
             strength: 0 # Not yet specified
             remarks: Logging
-          - reference-id: CCC.F09
+          - reference-id: CCC.Core.F09
             strength: 0 # Not yet specified
             remarks: Monitoring
     external-mappings:
@@ -499,7 +499,7 @@ threats:
           - reference-id: T1562
             strength: 0 # Not yet specified
             remarks: Impair Defenses
-  - id: CCC.TH17
+  - id: CCC.Core.TH17
     title: Unauthorized Network Access via Misconfigured Rules
     description: |
       Improperly configured or overly permissive network access rules
@@ -509,7 +509,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.F23
+          - reference-id: CCC.Core.F23
             strength: 0 # Not yet specified
             remarks: Network Access Rules
     external-mappings:

@@ -34,9 +34,9 @@ This block will list every imported capability by the ID, directing parsers to p
 shared-capabilities:
   - reference-id: CCC
     identifiers:
-      - CCC.F01 # Encryption in Transit Enabled by Default
-      - CCC.F02 # Encryption at Rest Enabled by Default
-      - CCC.F03 # Access/Activity Logs
+      - CCC.Core.F01 # Encryption in Transit Enabled by Default
+      - CCC.Core.F02 # Encryption at Rest Enabled by Default
+      - CCC.Core.F03 # Access/Activity Logs
 ```
 
 > [!NOTE]
@@ -64,7 +64,7 @@ Similar to capabilities, add a block like the following to the top level of your
 shared-controls:
   - reference-id: CCC
     identifiers:
-      - CCC.C01 # Prevent Unencrypted Requests
-      - CCC.C02 # Ensure Data Encryption at Rest for All Stored Data
-      - CCC.C03 # Implement Multi-factor Authentication (MFA) for Access
+      - CCC.Core.C01 # Prevent Unencrypted Requests
+      - CCC.Core.C02 # Ensure Data Encryption at Rest for All Stored Data
+      - CCC.Core.C03 # Implement Multi-factor Authentication (MFA) for Access
 ```

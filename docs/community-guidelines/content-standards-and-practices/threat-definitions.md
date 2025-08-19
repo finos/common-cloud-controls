@@ -87,7 +87,7 @@ Although a review from the [Communications WG] is optional, it may be useful if 
 
 This structure ensures that threats are standardized and can be consistently identified and addressed across all services within the CCC Taxonomy.
 
-[core threats]: /core/ccc/controls.yaml
+[core threats]: /services/core/ccc/controls.yamlcontrols.yaml
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [Delivery Toolkit]: /delivery-toolkit
 [threats template]: ../../resources/templates/threats.yaml

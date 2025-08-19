@@ -55,7 +55,7 @@ A control family refers to a group of related security controls that are organiz
 
 The list of control families is maintained in the [core controls] data.
 
-[core controls]: /core/ccc/controls.yaml
+[core controls]: /services/core/ccc/controls.yamlcontrols.yaml
 [Delivery Toolkit]: /delivery-toolkit
 [threats]: ./threat-definitions.md
 [ref]: https://www.cisa.gov/sites/default/files/2023-02/tlp-2-0-user-guide_508c.pdf
