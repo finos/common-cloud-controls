@@ -1,0 +1,2685 @@
+[{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has shared key access enabled.",
+    "metadata": {
+        "event_code": "storage_account_key_access_disabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has shared key access enabled.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/shared-key-authorization-prevent",
+        "categories": [
+            "e3"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.3.1.3"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensures that access to Azure Storage Accounts using account keys is disabled, enforcing the use of Microsoft Entra ID (formerly Azure AD) for authentication.",
+        "title": "Ensure allow storage account key access is disabled",
+        "types": [],
+        "uid": "prowler-azure-storage_account_key_access_disabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Disable Shared Key authorization on storage accounts to enforce the use of Microsoft Entra ID for secure, auditable access.",
+        "references": [
+            "az storage account update --name <storage-account-name> --resource-group <resource-group> --allow-shared-key-access false",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/disable-shared-key-authorization.html",
+            "https://learn.microsoft.com/en-us/azure/storage/common/shared-key-authorization-prevent"
+        ]
+    },
+    "risk_details": "Using Shared Key authorization poses a security risk due to the high privileges associated with storage account keys and the difficulty in auditing such access. Disabling Shared Key access helps enforce identity-based authentication via Microsoft Entra ID, enhancing security and traceability.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has allow blob public access disabled.",
+    "metadata": {
+        "event_code": "storage_blob_public_access_level_is_disabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has allow blob public access disabled.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "ProwlerThreatScore-1.0": [
+                "2.2.6"
+            ],
+            "CIS-4.0": [
+                "10.3.9",
+                "10.3.2.2"
+            ],
+            "CIS-2.1": [
+                "3.7"
+            ],
+            "ENS-RD2022": [
+                "op.mon.3.r5.az.1"
+            ],
+            "NIS2": [
+                "12.2.2.a"
+            ],
+            "CIS-3.0": [
+                "4.6"
+            ],
+            "SOC2": [
+                "cc_6_1"
+            ],
+            "CIS-2.0": [
+                "3.7"
+            ],
+            "PCI-4.0": [
+                "1.2.8.30",
+                "1.2.8.31",
+                "1.2.8.32",
+                "1.2.8.33",
+                "1.2.8.34",
+                "1.2.8.35",
+                "1.3.1.34",
+                "1.3.1.35",
+                "1.3.1.36",
+                "1.3.1.37",
+                "1.3.1.38",
+                "1.3.1.39",
+                "1.3.2.34",
+                "1.3.2.35",
+                "1.3.2.36",
+                "1.3.2.37",
+                "1.3.2.38",
+                "1.3.2.39",
+                "1.4.2.32",
+                "1.4.2.33",
+                "1.4.2.34",
+                "1.4.2.35",
+                "1.4.2.36",
+                "1.4.2.37",
+                "1.5.1.30",
+                "1.5.1.31",
+                "1.5.1.32",
+                "1.5.1.33",
+                "1.5.1.34",
+                "1.5.1.35",
+                "10.3.2.18",
+                "10.3.2.19",
+                "10.3.2.20",
+                "10.3.2.21",
+                "10.3.2.23",
+                "10.3.2.24",
+                "10.3.3.23",
+                "10.3.4.8",
+                "10.6.3.33",
+                "3.5.1.3.23",
+                "3.5.1.3.24",
+                "3.5.1.3.25",
+                "3.5.1.3.26",
+                "3.5.1.3.28",
+                "3.5.1.3.29",
+                "7.2.1.25",
+                "7.2.2.25",
+                "7.2.5.19",
+                "7.2.6.4",
+                "7.3.1.19",
+                "7.3.2.19",
+                "7.3.3.19",
+                "8.2.7.19",
+                "8.2.8.21",
+                "8.3.4.19",
+                "A1.1.2.14",
+                "A1.1.2.15",
+                "A1.1.2.16",
+                "A1.1.2.17",
+                "A1.1.2.19",
+                "A1.1.2.20",
+                "A1.1.3.30",
+                "A1.1.3.31",
+                "A1.1.3.32",
+                "A1.1.3.33",
+                "A1.1.3.34",
+                "A1.1.3.35",
+                "A1.2.1.31",
+                "A3.4.1.16",
+                "A3.4.1.17",
+                "A3.4.1.18",
+                "A3.4.1.19",
+                "A3.4.1.21",
+                "A3.4.1.22"
+            ],
+            "ISO27001-2022": [
+                "A.8.1"
+            ],
+            "MITRE-ATTACK": [
+                "T1530"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that the 'Public access level' configuration setting is set to 'Private (no anonymous access)' for all blob containers in your storage account in order to block anonymous access to these Microsoft Azure resources.",
+        "title": "Ensure that the 'Public access level' is set to 'Private (no anonymous access)' for all blob containers in your storage account",
+        "types": [],
+        "uid": "prowler-azure-storage_blob_public_access_level_is_disabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Set 'Public access level' configuration setting to 'Private (no anonymous access)'",
+        "references": [
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/ensure-that-storage-accounts-disallow-public-access#terraform",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/disable-blob-anonymous-access-for-storage-accounts.html"
+        ]
+    },
+    "risk_details": "A user that accesses blob containers anonymously can use constructors that do not require credentials such as shared access signatures.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has blob versioning enabled.",
+    "metadata": {
+        "event_code": "storage_blob_versioning_is_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has blob versioning enabled.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.2.2"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that blob versioning is enabled on Azure Blob Storage accounts to automatically retain previous versions of objects.",
+        "title": "Ensure Blob Versioning is Enabled on Azure Blob Storage Accounts",
+        "types": [],
+        "uid": "prowler-azure-storage_blob_versioning_is_enabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Enable blob versioning for all Azure Storage accounts that store critical or sensitive data.",
+        "references": [
+            "resource \"azurerm_storage_account\" \"example\" {\n  name                     = \"examplestorageacct\"\n  resource_group_name      = azurerm_resource_group.example.name\n  location                 = azurerm_resource_group.example.location\n  account_tier             = \"Standard\"\n  account_replication_type = \"LRS\"\n\n  blob_properties {\n    versioning_enabled = true\n  }\n}\n",
+            "az storage account blob-service-properties update --resource-group <resource_group> --account-name <storage-account> --enable-versioning true",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/enable-versioning-for-blobs.html",
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable"
+        ]
+    },
+    "risk_details": "Without blob versioning, accidental or malicious changes to blobs cannot be easily recovered, leading to potential data loss.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has cross-tenant replication enabled.",
+    "metadata": {
+        "event_code": "storage_cross_tenant_replication_disabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has cross-tenant replication enabled.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/object-replication-prevent-cross-tenant-policies?tabs=portal",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.3.8"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that cross-tenant replication is not enabled on Azure Storage Accounts to prevent unintended replication of data across tenant boundaries.",
+        "title": "Ensure cross-tenant replication is disabled",
+        "types": [],
+        "uid": "prowler-azure-storage_cross_tenant_replication_disabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Disable Cross Tenant Replication on storage accounts to ensure that data remains within tenant boundaries unless explicitly shared, reducing the risk of data leakage and unauthorized access.",
+        "references": [
+            "az storage account update --name <storage-account-name> --resource-group <resource-group> --default-to-oauth-authentication true --allow-cross-tenant-replication false",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/disable-cross-tenant-replication.html",
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/object-replication-prevent-cross-tenant-policies?tabs=portal"
+        ]
+    },
+    "risk_details": "If cross-tenant replication is enabled, sensitive data could be inadvertently replicated across tenants, increasing the risk of data leakage, unauthorized access, or non-compliance with data governance and privacy policies.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has network access rule set to Allow.",
+    "metadata": {
+        "event_code": "storage_default_network_access_rule_is_denied",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has network access rule set to Allow.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "All allowed networks will need to be whitelisted on each specific network, creating administrative overhead. This may result in loss of network connectivity, so do not turn on for critical resources during business hours.",
+        "compliance": {
+            "ProwlerThreatScore-1.0": [
+                "2.2.7"
+            ],
+            "CIS-4.0": [
+                "2.2.1.2",
+                "10.3.2.3"
+            ],
+            "CIS-2.1": [
+                "3.8"
+            ],
+            "ENS-RD2022": [
+                "op.exp.8.r4.az.sa.2"
+            ],
+            "NIS2": [
+                "1.2.1",
+                "2.3.1",
+                "6.7.2.b",
+                "11.1.1",
+                "11.2.1",
+                "12.2.2.a"
+            ],
+            "CIS-3.0": [
+                "4.7"
+            ],
+            "CIS-2.0": [
+                "3.8"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Restricting default network access helps to provide a new layer of security, since storage accounts accept connections from clients on any network. To limit access toselected networks, the default action must be changed.",
+        "title": "Ensure Default Network Access Rule for Storage Accounts is Set to Deny",
+        "types": [],
+        "uid": "prowler-azure-storage_default_network_access_rule_is_denied-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "1. Go to Storage Accounts 2. For each storage account, Click on the Networking blade 3. Click the Firewalls and virtual networks heading. 4. Ensure that you have elected to allow access from Selected networks 5. Add rules to allow traffic from specific network. 6. Click Save to apply your changes.",
+        "references": [
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/set-default-network-access-rule-for-storage-accounts-to-deny#terraform",
+            "az storage account update --name <StorageAccountName> --resource-group <resourceGroupName> --default-action Deny",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/restrict-default-network-access.html"
+        ]
+    },
+    "risk_details": "Storage accounts should be configured to deny access to traffic from all networks (including internet traffic). Access can be granted to traffic from specific Azure Virtualnetworks, allowing a secure network boundary for specific applications to be built.Access can also be granted to public internet IP address ranges to enable connectionsfrom specific internet or on-premises clients. When network rules are configured, onlyapplications from allowed networks can access a storage account. When calling from anallowed network, applications continue to require proper authorization (a valid accesskey or SAS token) to access the storage account.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Default to Microsoft Entra authorization is not enabled for storage account stcfistorage270ace3b.",
+    "metadata": {
+        "event_code": "storage_default_to_entra_authorization_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Default to Microsoft Entra authorization is not enabled for storage account stcfistorage270ace3b.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-access-azure-active-directory",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.3.3.1"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that the Azure Storage Account setting 'Default to Microsoft Entra authorization in the Azure portal' is enabled to enforce the use of Microsoft Entra ID for accessing blobs, files, queues, and tables.",
+        "title": "Ensure Microsoft Entra authorization is enabled by default for Azure Storage Accounts",
+        "types": [],
+        "uid": "prowler-azure-storage_default_to_entra_authorization_enabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Enable Microsoft Entra authorization by default in the Azure portal to enhance security and avoid reliance on Shared Key authentication.",
+        "references": [
+            "az storage account update --name <storage-account-name> --resource-group <resource-group-name> --default-to-AzAd-auth true",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/enable-microsoft-entra-authorization-by-default.html",
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-access-azure-active-directory"
+        ]
+    },
+    "risk_details": "If this setting is not enabled, the Azure portal may authorize access using less secure methods such as Shared Key, increasing the risk of unauthorized data access.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 allows trusted Microsoft services to access this storage account.",
+    "metadata": {
+        "event_code": "storage_ensure_azure_services_are_trusted_to_access_is_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 allows trusted Microsoft services to access this storage account.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "ProwlerThreatScore-1.0": [
+                "2.2.8"
+            ],
+            "CIS-4.0": [
+                "10.3.5"
+            ],
+            "CIS-2.1": [
+                "3.9"
+            ],
+            "ENS-RD2022": [
+                "mp.info.6.r2.az.sa.1"
+            ],
+            "NIS2": [
+                "12.2.2.a"
+            ],
+            "CIS-3.0": [
+                "4.8"
+            ],
+            "CIS-2.0": [
+                "3.9"
+            ],
+            "PCI-4.0": [
+                "10.6.3.35",
+                "11.5.2.5",
+                "11.6.1.5",
+                "12.10.5.5",
+                "7.2.1.27",
+                "7.2.2.27",
+                "7.2.5.21",
+                "7.2.6.5",
+                "7.3.1.21",
+                "7.3.2.21",
+                "7.3.3.21",
+                "8.2.7.21",
+                "8.2.8.23",
+                "8.3.4.21",
+                "A3.3.1.8",
+                "A3.5.1.8"
+            ],
+            "ISO27001-2022": [
+                "A.8.3"
+            ],
+            "MITRE-ATTACK": [
+                "T1530"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that 'Allow trusted Microsoft services to access this storage account' is enabled within your Azure Storage account configuration settings to grant access to trusted cloud services.",
+        "title": "Ensure that 'Allow trusted Microsoft services to access this storage account' is enabled for storage accounts",
+        "types": [],
+        "uid": "prowler-azure-storage_ensure_azure_services_are_trusted_to_access_is_enabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "To allow these Azure services to work as intended and be able to access your storage account resources, you have to add an exception so that the trusted Microsoft Azure services can bypass your network rules",
+        "references": [
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/enable-trusted-microsoft-services-for-storage-account-access#terraform",
+            "az storage account update --name <StorageAccountName> --resource-group <resourceGroupName> --bypass AzureServices",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/enable-trusted-microsoft-services.html"
+        ]
+    },
+    "risk_details": "Not allowing to access storage account by Azure services the following services: Azure Backup, Azure Event Grid, Azure Site Recovery, Azure DevTest Labs, Azure Event Hubs, Azure Networking, Azure Monitor and Azure SQL Data Warehouse (when registered in the subscription), are not granted access to your storage account",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 does not encrypt with CMKs.",
+    "metadata": {
+        "event_code": "storage_ensure_encryption_with_customer_managed_keys",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 does not encrypt with CMKs.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "encryption"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "ProwlerThreatScore-1.0": [
+                "4.2.1"
+            ],
+            "CIS-4.0": [
+                "2.1.1.2.1"
+            ],
+            "CIS-2.1": [
+                "3.12"
+            ],
+            "ENS-RD2022": [
+                "op.exp.10.az.kv.2"
+            ],
+            "NIS2": [
+                "9.2.a",
+                "9.2.c.iv",
+                "12.2.2.a",
+                "12.2.2.b"
+            ],
+            "CIS-3.0": [
+                "4.11"
+            ],
+            "SOC2": [
+                "cc_6_7",
+                "cc_7_5"
+            ],
+            "CIS-2.0": [
+                "3.12"
+            ],
+            "PCI-4.0": [
+                "3.5.1.34",
+                "8.3.2.53"
+            ],
+            "ISO27001-2022": [
+                "A.8.5",
+                "A.8.11",
+                "A.8.24"
+            ],
+            "MITRE-ATTACK": [
+                "T1530"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that your Microsoft Azure Storage accounts are using Customer Managed Keys (CMKs) instead of Microsoft Managed Keys",
+        "title": "Ensure that your Microsoft Azure Storage accounts are using Customer Managed Keys (CMKs) instead of Microsoft Managed Keys",
+        "types": [],
+        "uid": "prowler-azure-storage_ensure_encryption_with_customer_managed_keys-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Enable sensitive data encryption at rest using Customer Managed Keys rather than Microsoft Managed keys.",
+        "references": [
+            "https://docs.prowler.com/checks/azure/azure-general-policies/ensure-that-storage-accounts-use-customer-managed-key-for-encryption#terraform",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/cmk-encryption.html"
+        ]
+    },
+    "risk_details": "If you want to control and manage storage account contents encryption key yourself you must specify a customer-managed key",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "File share soft delete is enabled for storage account stcfistorage270ace3b with a retention period of 7 days.",
+    "metadata": {
+        "event_code": "storage_ensure_file_shares_soft_delete_is_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "File share soft delete is enabled for storage account stcfistorage270ace3b with a retention period of 7 days.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-prevent-file-share-deletion?tabs=azure-portal",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.1.1"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that soft delete is enabled for Azure File Shares to protect against accidental or malicious deletion of important data. This feature allows deleted file shares to be retained for a specified period, during which they can be recovered before permanent deletion occurs.",
+        "title": "Ensure soft delete for Azure File Shares is enabled",
+        "types": [],
+        "uid": "prowler-azure-storage_ensure_file_shares_soft_delete_is_enabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                    "name": "default",
+                    "type": "Microsoft.Storage/storageAccounts/fileServices",
+                    "share_delete_retention_policy": {
+                        "enabled": true,
+                        "days": 7
+                    },
+                    "smb_protocol_settings": {
+                        "channel_encryption": [],
+                        "supported_versions": []
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Enable soft delete for file shares on your Azure Storage Account to allow recovery of deleted shares within a configured retention period.",
+        "references": [
+            "az storage account file-service-properties update --account-name <storage-account-name> --enable-delete-retention true --delete-retention-days <number-of-days>",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/enable-soft-delete-for-file-shares.html",
+            "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-prevent-file-share-deletion?tabs=azure-portal"
+        ]
+    },
+    "risk_details": "Without soft delete enabled, accidental or malicious deletions of file shares result in permanent data loss, making recovery impossible unless a separate backup mechanism is in place.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has TLS version set to 1.2.",
+    "metadata": {
+        "event_code": "storage_ensure_minimum_tls_version_12",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has TLS version set to 1.2.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "encryption"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "ProwlerThreatScore-1.0": [
+                "4.1.3"
+            ],
+            "CIS-4.0": [
+                "10.3.7"
+            ],
+            "CIS-2.1": [
+                "3.15"
+            ],
+            "ENS-RD2022": [
+                "mp.com.3.r2.az.tls.3"
+            ],
+            "NIS2": [
+                "6.7.2.i",
+                "6.7.2.l",
+                "12.2.2.a",
+                "12.2.2.c"
+            ],
+            "CIS-3.0": [
+                "4.15"
+            ],
+            "SOC2": [
+                "cc_6_6"
+            ],
+            "CIS-2.0": [
+                "3.15"
+            ],
+            "MITRE-ATTACK": [
+                "T1040"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure the 'Minimum TLS version' for storage accounts is set to 'Version 1.2'",
+        "title": "Ensure the 'Minimum TLS version' for storage accounts is set to 'Version 1.2'",
+        "types": [],
+        "uid": "prowler-azure-storage_ensure_minimum_tls_version_12-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Ensure that all your Microsoft Azure Storage accounts are using the latest available version of the TLS protocol.",
+        "references": [
+            "https://docs.prowler.com/checks/azure/azure-storage-policies/bc_azr_storage_2#terraform",
+            "https://docs.prowler.com/checks/azure/azure-storage-policies/bc_azr_storage_2",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/minimum-tls-version.html"
+        ]
+    },
+    "risk_details": "TLS versions 1.0 and 1.1 are known to be susceptible to certain Common Vulnerabilities and Exposures (CVE) weaknesses and attacks such as POODLE and BEAST",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 does not have private endpoint connections.",
+    "metadata": {
+        "event_code": "storage_ensure_private_endpoints_in_storage_accounts",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 does not have private endpoint connections.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-private-endpoints",
+        "categories": [
+            "encryption"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "ProwlerThreatScore-1.0": [
+                "2.2.9"
+            ],
+            "CIS-4.0": [
+                "2.2.2.1",
+                "10.3.2.1"
+            ],
+            "CIS-2.1": [
+                "3.10"
+            ],
+            "ENS-RD2022": [
+                "mp.com.4.r2..az.sa.1"
+            ],
+            "NIS2": [
+                "1.1.1.a",
+                "1.1.1.c",
+                "6.7.2.i",
+                "6.7.2.l",
+                "11.2.2.d",
+                "12.2.2.a"
+            ],
+            "CIS-3.0": [
+                "4.9"
+            ],
+            "SOC2": [
+                "cc_3_3"
+            ],
+            "CIS-2.0": [
+                "3.10"
+            ],
+            "ISO27001-2022": [
+                "A.8.14"
+            ],
+            "MITRE-ATTACK": [
+                "T1530"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data located over a network via an encrypted Private Link. To do this, the private endpoint uses an IP address from the VNet for each service. Network traffic between disparate services securely traverses encrypted over the VNet. This VNet can also link addressing space, extending your network and accessing resources on it. Similarly, it can be a tunnel through public networks to connect remote infrastructures together. This creates further security through segmenting network traffic and preventing outside sources from accessing it.",
+        "title": "Ensure Private Endpoints are used to access Storage Accounts",
+        "types": [],
+        "uid": "prowler-azure-storage_ensure_private_endpoints_in_storage_accounts-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Use Private Endpoints to access Storage Accounts",
+        "references": [
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/private-endpoints.html#",
+            "https://docs.microsoft.com/en-us/azure/storage/common/storage-private-endpoints"
+        ]
+    },
+    "risk_details": "Storage accounts that are not configured to use Private Endpoints are accessible over the public internet. This can lead to data exfiltration and other security issues.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has soft delete enabled.",
+    "metadata": {
+        "event_code": "storage_ensure_soft_delete_is_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has soft delete enabled.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-enable?tabs=azure-portal",
+        "categories": [
+            "encryption"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "Additional storage costs may be incurred as snapshots are retained.",
+        "compliance": {
+            "CIS-4.0": [
+                "10.2.1",
+                "10.3.6"
+            ],
+            "CIS-2.1": [
+                "3.11"
+            ],
+            "NIS2": [
+                "4.2.2.f",
+                "12.2.2.a",
+                "12.2.2.b"
+            ],
+            "CIS-3.0": [
+                "4.10"
+            ],
+            "SOC2": [
+                "cc_7_4",
+                "cc_c_1_1",
+                "cc_c_1_2"
+            ],
+            "CIS-2.0": [
+                "3.11"
+            ],
+            "PCI-4.0": [
+                "10.3.2.22",
+                "3.5.1.3.27",
+                "8.4.1.5",
+                "8.4.2.5",
+                "8.4.3.5",
+                "A1.1.2.18",
+                "A3.4.1.20"
+            ],
+            "ISO27001-2022": [
+                "A.8.10"
+            ],
+            "MITRE-ATTACK": [
+                "T1485"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal. Data that is erroneously modified or deleted by an application or other storage account user will cause data loss or unavailability.",
+        "title": "Ensure Soft Delete is Enabled for Azure Containers and Blob Storage",
+        "types": [],
+        "uid": "prowler-azure-storage_ensure_soft_delete_is_enabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "From the Azure home page, open the hamburger menu in the top left or click on the arrow pointing right with 'More services' underneath. 2. Select Storage. 3. Select Storage Accounts. 4. For each Storage Account, navigate to Data protection in the left scroll column. 5. Check soft delete for both blobs and containers. Set the retention period to a sufficient length for your organization",
+        "references": [
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/enable-soft-delete.html#",
+            "https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-soft-delete"
+        ]
+    },
+    "risk_details": "Containers and Blob Storage data can be incorrectly deleted. An attacker/malicious user may do this deliberately in order to cause disruption. Deleting an Azure Storage blob causes immediate data loss. Enabling this configuration for Azure storage ensures that even if blobs/data were deleted from the storage account, Blobs/data objects are recoverable for a particular time which is set in the Retention policies ranging from 7 days to 365 days.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has Geo-redundant storage Standard_GRS enabled.",
+    "metadata": {
+        "event_code": "storage_geo_redundant_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has Geo-redundant storage Standard_GRS enabled.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.3.12"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Geo-redundant storage (GRS) must be enabled on critical Azure Storage Accounts to ensure data durability and availability in the event of a regional outage. GRS replicates data within the primary region and asynchronously to a secondary region, offering enhanced resilience and supporting disaster recovery strategies.",
+        "title": "Ensure geo-redundant storage (GRS) is enabled on critical Azure Storage Accounts",
+        "types": [],
+        "uid": "prowler-azure-storage_geo_redundant_enabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Enable geo-redundant storage (GRS) for critical Azure Storage Accounts to ensure data durability and availability across regional failures.",
+        "references": [
+            "az storage account update --name <storage-account-name> --resource-group <resource-group-name> --sku Standard_GRS",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/enable-geo-redundant-storage.html",
+            "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy"
+        ]
+    },
+    "risk_details": "Without GRS, critical data may be lost or become unavailable during a regional outage, compromising data durability and disaster recovery efforts.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has infrastructure encryption disabled.",
+    "metadata": {
+        "event_code": "storage_infrastructure_encryption_is_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 2,
+    "severity": "Low",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has infrastructure encryption disabled.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "encryption"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.3.1.1"
+            ],
+            "CIS-2.1": [
+                "3.2"
+            ],
+            "ENS-RD2022": [
+                "op.exp.10.az.kv.2"
+            ],
+            "NIS2": [
+                "9.2.a",
+                "12.2.2.a",
+                "12.2.2.b"
+            ],
+            "CIS-3.0": [
+                "4.3"
+            ],
+            "SOC2": [
+                "cc_6_7",
+                "cc_7_5"
+            ],
+            "CIS-2.0": [
+                "3.2"
+            ],
+            "PCI-4.0": [
+                "3.5.1.22",
+                "8.3.2.37"
+            ],
+            "ISO27001-2022": [
+                "A.8.5",
+                "A.8.11",
+                "A.8.24"
+            ],
+            "MITRE-ATTACK": [
+                "T1530"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that 'Enable Infrastructure Encryption' for Each Storage Account in Azure Storage is Set to 'enabled' ",
+        "title": "Ensure that 'Enable Infrastructure Encryption' for Each Storage Account in Azure Storage is Set to 'enabled' ",
+        "types": [],
+        "uid": "prowler-azure-storage_infrastructure_encryption_is_enabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureRole",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Enabling double encryption at the hardware level on top of the default software encryption for Storage Accounts accessing Azure storage solutions.",
+        "references": []
+    },
+    "risk_details": "Double encryption of Azure Storage data protects against a scenario where one of the encryption algorithms or keys may be compromised",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has no key expiration period set.",
+    "metadata": {
+        "event_code": "storage_key_rotation_90_days",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has no key expiration period set.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal",
+        "categories": [
+            "encryption"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.3.1.2"
+            ],
+            "CIS-2.1": [
+                "3.4"
+            ],
+            "ENS-RD2022": [
+                "op.acc.6.r1.az.eid.2"
+            ],
+            "NIS2": [
+                "9.2.c.iii",
+                "9.2.c.iv",
+                "11.6.2.c",
+                "12.2.2.a"
+            ],
+            "CIS-3.0": [
+                "4.4"
+            ],
+            "CIS-2.0": [
+                "3.4"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that Storage Account Access Keys are Periodically Regenerated",
+        "title": "Ensure that Storage Account Access Keys are Periodically Regenerated",
+        "types": [],
+        "uid": "prowler-azure-storage_key_rotation_90_days-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Ensure that Azure Storage account access keys are regenerated every 90 days in order to decrease the likelihood of accidental exposures and protect your storage account resources against unauthorized access.",
+        "references": [
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/regenerate-storage-account-access-keys-periodically.html#",
+            "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal#regenerate-storage-access-keys"
+        ]
+    },
+    "risk_details": "If the access keys are not regenerated periodically, the likelihood of accidental exposures increases, which can lead to unauthorized access to your storage account resources.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has secure transfer required enabled.",
+    "metadata": {
+        "event_code": "storage_secure_transfer_required_is_enabled",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 has secure transfer required enabled.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "",
+        "categories": [
+            "encryption"
+        ],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "CIS-4.0": [
+                "10.3.4"
+            ],
+            "CIS-2.1": [
+                "3.1"
+            ],
+            "ENS-RD2022": [
+                "mp.com.3.az.sa.1"
+            ],
+            "NIS2": [
+                "6.7.2.i",
+                "6.7.2.l",
+                "9.2.a",
+                "12.2.2.a",
+                "12.2.2.b",
+                "12.2.2.c"
+            ],
+            "CIS-3.0": [
+                "4.1"
+            ],
+            "SOC2": [
+                "cc_6_2",
+                "cc_6_7"
+            ],
+            "CIS-2.0": [
+                "3.1"
+            ],
+            "PCI-4.0": [
+                "1.2.5.15",
+                "2.2.5.15",
+                "2.2.7.19",
+                "3.5.1.30",
+                "4.2.1.1.27",
+                "4.2.1.19",
+                "8.3.2.48",
+                "8.3.2.49"
+            ],
+            "ISO27001-2022": [
+                "A.8.12",
+                "A.8.14",
+                "A.8.24"
+            ],
+            "MITRE-ATTACK": [
+                "T1040"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Ensure that all data transferred between clients and your Azure Storage account is encrypted using the HTTPS protocol.",
+        "title": "Ensure that all data transferred between clients and your Azure Storage account is encrypted using the HTTPS protocol.",
+        "types": [],
+        "uid": "prowler-azure-storage_secure_transfer_required_is_enabled-c6c000b3-e17d-464f-855e-1dd57dc2cf31-eastus-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "eastus",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b",
+                    "name": "stcfistorage270ace3b",
+                    "location": "eastus",
+                    "resouce_group_name": "rg-cfi-storage",
+                    "enable_https_traffic_only": true,
+                    "infrastructure_encryption": null,
+                    "allow_blob_public_access": false,
+                    "network_rule_set": {
+                        "bypass": "AzureServices",
+                        "default_action": "Allow"
+                    },
+                    "encryption_type": "Microsoft.Storage",
+                    "minimum_tls_version": "TLS1_2",
+                    "private_endpoint_connections": [],
+                    "key_expiration_period_in_days": null,
+                    "replication_settings": "Standard_GRS",
+                    "allow_cross_tenant_replication": true,
+                    "allow_shared_key_access": true,
+                    "blob_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/blobServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/blobServices",
+                        "container_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "default_service_version": null,
+                        "versioning_enabled": true
+                    },
+                    "default_to_entra_authorization": false,
+                    "file_service_properties": {
+                        "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                        "name": "default",
+                        "type": "Microsoft.Storage/storageAccounts/fileServices",
+                        "share_delete_retention_policy": {
+                            "enabled": true,
+                            "days": 7
+                        },
+                        "smb_protocol_settings": {
+                            "channel_encryption": [],
+                            "supported_versions": []
+                        }
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "eastus"
+    },
+    "remediation": {
+        "desc": "Enable data encryption in transit.",
+        "references": [
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/ensure-that-storage-account-enables-secure-transfer",
+            "az storage account update --name <STORAGE_ACCOUNT_NAME> --https-only true",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/secure-transfer-required.html"
+        ]
+    },
+    "risk_details": "Requests to the storage account sent outside of a secure connection can be eavesdropped",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+},{
+    "message": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 does not have SMB channel encryption enabled for file shares.",
+    "metadata": {
+        "event_code": "storage_smb_channel_encryption_with_secure_algorithm",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.11.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "445c1fc6-7e1e-46dd-8835-9075a151049a",
+        "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Storage account stcfistorage270ace3b from subscription Azure subscription 1 does not have SMB channel encryption enabled for file shares.",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://learn.microsoft.com/en-us/azure/well-architected/service-guides/azure-files#recommendations-for-smb-file-shares",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "This check passes if SMB channel encryption is set to a secure algorithm.",
+        "compliance": {
+            "CIS-4.0": [
+                "10.1.3"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1755594903,
+        "created_time_dt": "2025-08-19T09:15:03.063485",
+        "desc": "Implement SMB channel encryption with a secure algorithm for SMB file shares to ensure data confidentiality and integrity in transit.",
+        "title": "Ensure SMB channel encryption uses a secure algorithm for SMB file shares",
+        "types": [],
+        "uid": "prowler-azure-storage_smb_channel_encryption_with_secure_algorithm-c6c000b3-e17d-464f-855e-1dd57dc2cf31-global-stcfistorage270ace3b"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "global",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default",
+                    "name": "default",
+                    "type": "Microsoft.Storage/storageAccounts/fileServices",
+                    "share_delete_retention_policy": {
+                        "enabled": true,
+                        "days": 7
+                    },
+                    "smb_protocol_settings": {
+                        "channel_encryption": [],
+                        "supported_versions": []
+                    }
+                }
+            },
+            "group": {
+                "name": "storage"
+            },
+            "labels": [],
+            "name": "stcfistorage270ace3b",
+            "type": "AzureStorageAccount",
+            "uid": "/subscriptions/c6c000b3-e17d-464f-855e-1dd57dc2cf31/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage270ace3b/fileServices/default"
+        }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "c6c000b3-e17d-464f-855e-1dd57dc2cf31",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "445c1fc6-7e1e-46dd-8835-9075a151049a"
+        },
+        "provider": "azure",
+        "region": "global"
+    },
+    "remediation": {
+        "desc": "Use the portal, CLI or PowerShell to set the SMB channel encryption to a secure algorithm.",
+        "references": [
+            "az storage account file-service-properties update --resource-group <resource-group> --account-name <storage-account> --channel-encryption AES-256-GCM",
+            "https://learn.microsoft.com/en-us/azure/storage/files/files-smb-protocol?tabs=azure-portal#smb-security-settings"
+        ]
+    },
+    "risk_details": "Not using the recommended SMB channel encryption may expose data transmitted over SMB channels to unauthorized interception and tampering.",
+    "time": 1755594903,
+    "time_dt": "2025-08-19T09:15:03.063485",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+}]

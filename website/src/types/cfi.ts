@@ -36,27 +36,36 @@ export interface TestResultEntry {
     status: TestResultType;
 }
 
-export interface Configuration {
-    cfi_details: {
-        id: string;
+export interface CFIConfigJson {
+    id: string;
+    provider: string;
+    service: string;
+    name: string;
+    description: string;
+    path: string;
+    authors: Array<{
         name: string;
-        description: string;
-        url: string;
-        authors: Contributor[];
-        provider: string;
-    };
+        github_id: string;
+        company: string;
+    }>;
+    resources: string[];
+    specifications: string[];
+}
 
+export interface CFIRepository {
+    name: string;
+    url: string;
+    description: string;
+    downloaded_at: string;
+    artifact_name: string;
+}
+
+export interface Configuration {
+    cfi_details: CFIConfigJson;
+    repository: CFIRepository;
     ccc_references: string[];
-
-    terraform: {
-        source: string;
-        script: string;
-    };
-
     test_results: TestResultEntry[];
     slug: string;
-
-    resources: string[];
 }
 
 export interface HomePageData {

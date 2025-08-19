@@ -1,0 +1,7 @@
+{
+  "name": "cfi-s3-module",
+  "url": "https://github.com/robmoffat/cfi-s3-module",
+  "description": "A module for creating a secure S3 bucket with encryption and logging enabled.",
+  "downloaded_at": "2025-08-19T10:38:38.379Z",
+  "artifact_name": "secure-gcp-storage"
+}

@@ -1,63 +1,91 @@
-# CCC Releases Pre-Build Script
+# Website Scripts
 
-This directory contains scripts for fetching CCC releases from GitHub before building the website.
+This directory contains scripts for the Common Cloud Controls website.
 
 ## Scripts
 
 ### DownloadCCCReleases.ts
 
-Fetches YAML files from GitHub releases and saves them to `src/data/ccc-releases/`.
+Downloads YAML assets from GitHub releases in the `finos/common-cloud-controls` repository.
 
-#### Features
-
-- Downloads all `.yaml` and `.yml` files from GitHub releases
-- Supports GitHub token authentication for higher rate limits
-- Creates output directory if it doesn't exist
-- Provides detailed logging and error handling
-- Exits with error code 1 on failure (useful for CI/CD)
-
-#### Usage
+**Usage:**
 
 ```bash
-# Run manually
 npm run fetch:ccc
-
-# Or run directly with ts-node
-ts-node --compiler-options '{"module":"CommonJS"}' scripts/DownloadCCCReleases.ts
 ```
 
-#### Environment Variables
+**Requirements:**
 
-- `GITHUB_TOKEN` (optional): GitHub personal access token for higher API rate limits
+- `GITHUB_TOKEN` environment variable (optional, for private repos)
 
-#### Integration
+**Output:**
 
-The script is automatically run as part of the build process:
+- Downloads YAML files to `src/data/ccc-releases/`
 
-- `npm run start` - Runs fetch:ccc before starting dev server
-- `npm run build` - Runs fetch:ccc before building for production
-- `npm run prebuild` - Runs fetch:ccc (can be called manually)
+### DownloadCFIArtifacts.ts
 
-#### Output
+Downloads artifacts from CFI project GitHub Actions workflow runs.
 
-YAML files are downloaded to `src/data/ccc-releases/` and can be used by the website's plugins and components.
+**Usage:**
 
-## Troubleshooting
+```bash
+npm run fetch:cfi
+```
 
-### Rate Limiting
+**Requirements:**
 
-If you encounter rate limiting errors:
+- `GITHUB_TOKEN` environment variable (required for accessing GitHub Actions artifacts)
+- `cfi-repositories.json` configuration file in `src/data/`
 
-1. Set a GitHub token: `export GITHUB_TOKEN=your_token_here`
-2. Or wait for the rate limit to reset (1 hour for unauthenticated requests)
+**Output:**
 
-### Network Issues
+- Downloads artifacts to `src/data/cfi-configurations/{repository-name}/`
 
-- Check your internet connection
-- Verify the GitHub API is accessible
-- Ensure the repository exists and has releases
+**Configuration:**
+The script reads from `src/data/cfi-repositories.json` to determine which repositories to process:
 
-### File Permission Issues
+```json
+{
+  "repositories": [
+    {
+      "name": "cfi-s3-module",
+      "url": "https://github.com/robmoffat/cfi-s3-module",
+      "description": "A module for creating a secure S3 bucket with encryption and logging enabled."
+    }
+  ]
+}
+```
 
-- Ensure the script has write permissions to `src/data/ccc-releases/`
-- Check that the parent directories exist and are writable
+## Setup
+
+1. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+2. **Set GitHub token (for CFI artifacts):**
+
+   ```bash
+   export GITHUB_TOKEN=your_github_token_here
+   ```
+
+3. **Run scripts:**
+
+   ```bash
+   # Download CCC releases
+   npm run fetch:ccc
+
+   # Download CFI artifacts
+   npm run fetch:cfi
+
+   # Download both (runs before build)
+   npm run prebuild
+   ```
+
+## Notes
+
+- The `prebuild` script automatically runs both fetch scripts before building the website
+- CFI artifacts are only downloaded from successful workflow runs
+- Artifacts are filtered to only download those starting with `cfi-results-`
+- Each repository gets its own subdirectory in the output

@@ -1,36 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { HomePageData, Configuration, ConfigurationPageData, TestResultItem, TestResultPageData, TestResultType, TestResultEntry } from '../../types/cfi';
+import { HomePageData, Configuration, ConfigurationPageData, TestResultItem, TestResultPageData, TestResultType, TestResultEntry, CFIConfigJson } from '../../types/cfi';
 
-export interface CCIReferenceYaml {
-    id: string;
-}
 
-export interface CFIReleaseYaml {
-    ccc_references: CCIReferenceYaml[];
-
-    cfi_details: {
-        id: string;
-        provider: string;
-        name: string;
-        description: string;
-        url: string;
-        authors: Array<{
-            name: string;
-            github_id: string;
-            company: string;
-        }>;
-    };
-
-    terraform: {
-        source: string;
-        script: string;
-    };
-    results: string[];
-    resources: string[];
-}
 
 function matchesAnySubstring(str: string, substrings: string[]): boolean {
     return substrings.some(substring => str.includes(substring));
@@ -50,9 +23,8 @@ function getComplianceIds(item: any, ccc_references: string[]): string[] {
 }
 
 function createTestResultData(resultPath: string, resources: string[], ccc_references: string[]): TestResultItem[] {
-    const dataFile = path.resolve(__dirname, '../../data/test-results/' + resultPath);
-
-    const result = fs.readFileSync(dataFile, 'utf8');
+    // resultPath is now the full absolute path to the result file
+    const result = fs.readFileSync(resultPath, 'utf8');
     const parsed = JSON.parse(result) as any[];
 
     const statusCodeToResultType: Record<string, TestResultType> = {
@@ -87,14 +59,19 @@ function createTestResultData(resultPath: string, resources: string[], ccc_refer
     });
 }
 
-function createConfiguration(parsed: CFIReleaseYaml, slug: string): Configuration {
+function createConfiguration(config: CFIConfigJson, slug: string): Configuration {
+    // Add URL if not present
+    const configWithUrl = {
+        ...config,
+        url: config.url || `https://github.com/robmoffat/cfi-s3-module` // TODO: make this dynamic
+    };
+
     return {
-        cfi_details: parsed.cfi_details,
-        ccc_references: parsed.ccc_references.map(r => r.id),
-        terraform: parsed.terraform,
+        cfi_details: configWithUrl,
+        ccc_references: config.specifications,
         test_results: [],
         slug,
-        resources: parsed.resources
+        resources: config.resources
     }
 }
 
@@ -107,16 +84,16 @@ function aggregateResultStatus(results: TestResultItem[]): TestResultType {
     }, TestResultType.PASS);
 }
 
-async function createResultPage(result: string, configuration: Configuration, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<TestResultEntry> {
-    const resultName = path.basename(result).replace('.ocsf.json', '').replace('test-results/', '');
+async function createResultPage(resultPath: string, configuration: Configuration, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<TestResultEntry> {
+    const resultName = path.basename(resultPath).replace('.ocsf.json', '');
     const slug = configuration.slug + "/" + resultName
     const resultPage: TestResultPageData = {
         slug,
         result_name: resultName,
-        result_path: result,
+        result_path: resultPath,
         releaseTitle: configuration.cfi_details.name,
         configuration,
-        results: createTestResultData(result, configuration.resources, configuration.ccc_references),
+        results: createTestResultData(resultPath, configuration.resources, configuration.ccc_references),
         parentSlug: configuration.slug
     }
 
@@ -144,13 +121,29 @@ async function createResultPage(result: string, configuration: Configuration, cr
     }
 }
 
-async function createConfigurationPage(parsed: CFIReleaseYaml, slug: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
-    const configuration: Configuration = createConfiguration(parsed, slug)
+async function createConfigurationPage(config: CFIConfigJson, slug: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
+    const configuration: Configuration = createConfiguration(config, slug)
 
-    // Create pages for each test result
-    for (const result of parsed['results']) {
-        const resultEntry = await createResultPage(result, configuration, createData, addRoute)
-        configuration.test_results.push(resultEntry)
+    // Find the results directory for this configuration
+    const testResultsDir = path.resolve(__dirname, '../../data/test-results');
+    const configDirs = fs.readdirSync(testResultsDir)
+        .filter(dir => dir.startsWith(`cfi-results-${config.id}-`))
+        .sort((a, b) => b.localeCompare(a)); // Sort by timestamp, newest first
+
+    if (configDirs.length > 0) {
+        const latestDir = configDirs[0];
+        const resultsDir = path.join(testResultsDir, latestDir, 'results');
+
+        if (fs.existsSync(resultsDir)) {
+            const resultFiles = fs.readdirSync(resultsDir).filter(f => f.endsWith('.ocsf.json'));
+
+            // Create pages for each test result
+            for (const resultFile of resultFiles) {
+                const resultPath = path.join(resultsDir, resultFile);
+                const resultEntry = await createResultPage(resultPath, configuration, createData, addRoute)
+                configuration.test_results.push(resultEntry)
+            }
+        }
     }
 
     // create release page 
@@ -185,18 +178,37 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
         async contentLoaded({ actions }) {
             const { createData, addRoute } = actions;
 
-            const dataDir = path.resolve(__dirname, '../../data/cfi-configurations');
-            const files = fs.readdirSync(dataDir).filter((f) => f.endsWith('.yaml'));
+            const testResultsDir = path.resolve(__dirname, '../../data/test-results');
+            const configDirs = fs.readdirSync(testResultsDir)
+                .filter(dir => dir.startsWith('cfi-results-'))
+                .map(dir => {
+                    const match = dir.match(/cfi-results-([^-]+)-/);
+                    return match ? match[1] : null;
+                })
+                .filter(Boolean)
+                .filter((value, index, self) => self.indexOf(value) === index); // Remove duplicates
 
-            // Group releases by CCC ID
+            // Group releases by configuration ID
             const components: Configuration[] = [];
 
-            for (const file of files) {
-                const slug = '/cfi/' + file.replace(/\.yaml$/, '');
-                const filePath = path.join(dataDir, file);
-                const raw = fs.readFileSync(filePath, 'utf8');
-                const parsed = yaml.load(raw) as CFIReleaseYaml;
-                components.push(await createConfigurationPage(parsed, slug, createData, addRoute))
+            for (const configId of configDirs) {
+                const slug = '/cfi/' + configId;
+
+                // Find the latest config file for this configuration
+                const configDirsForId = fs.readdirSync(testResultsDir)
+                    .filter(dir => dir.startsWith(`cfi-results-${configId}-`))
+                    .sort((a, b) => b.localeCompare(a)); // Sort by timestamp, newest first
+
+                if (configDirsForId.length > 0) {
+                    const latestDir = configDirsForId[0];
+                    const configPath = path.join(testResultsDir, latestDir, 'config', `${configId}.json`);
+
+                    if (fs.existsSync(configPath)) {
+                        const raw = fs.readFileSync(configPath, 'utf8');
+                        const config = JSON.parse(raw) as CFIConfigJson;
+                        components.push(await createConfigurationPage(config, slug, createData, addRoute))
+                    }
+                }
             }
 
             // Create home page data
