@@ -3,7 +3,7 @@
 		"scope": "yaml",
 		"prefix": "CF1, CF Encryption in Transit Enabled by Default",
 		"body": [
-			"- CCC.F01 # Encryption in Transit Enabled by Default"
+			"- reference-id: CCC.Core.F01 # Encryption in Transit Enabled by Default"
 		  ],
 		"description": "Common Capability Encryption in Transit Enabled by Default"
 	},
@@ -11,7 +11,7 @@
 		"scope": "yaml",
 		"prefix": "CF2, CF Encryption at Rest Enabled by Default",
 		"body": [
-			"- CCC.F02 # Encryption at Rest Enabled by Default"
+			"- reference-id: CCC.Core.F02 # Encryption at Rest Enabled by Default"
 		  ],
 		"description": "Common Capability Encryption at Rest Enabled by Default"
 	},
@@ -19,7 +19,7 @@
 		"scope": "yaml",
 		"prefix": "CF3, CF Access/Activity Logs",
 		"body": [
-			"- CCC.F03 # Access/Activity Logs"
+			"- reference-id: CCC.Core.F03 # Access/Activity Logs"
 		  ],
 		"description": "Common Capability Access/Activity Logs"
 	},
@@ -27,7 +27,7 @@
 		"scope": "yaml",
 		"prefix": "CF4, CF Transaction Rate Limits",
 		"body": [
-			"- CCC.F04 # Transaction Rate Limits"
+			"- reference-id: CCC.Core.F04 # Transaction Rate Limits"
 		  ],
 		"description": "Common Capability Transaction Rate Limits"
 	},
@@ -35,7 +35,7 @@
 		"scope": "yaml",
 		"prefix": "CF5, CF Signed URLs",
 		"body": [
-			"- CCC.F05 # Signed URLs"
+			"- reference-id: CCC.Core.F05 # Signed URLs"
 		  ],
 		"description": "Common Capability Signed URLs"
 	},
@@ -43,7 +43,7 @@
 		"scope": "yaml",
 		"prefix": "CF6, CF Identity Based Access Control",
 		"body": [
-			"- CCC.F06 # Identity Based Access Control"
+			"- reference-id: CCC.Core.F06 # Identity Based Access Control"
 		  ],
 		"description": "Common Capability Identity Based Access Control"
 	},
@@ -51,7 +51,7 @@
 		"scope": "yaml",
 		"prefix": "CF7, CF Event Notifications",
 		"body": [
-			"- CCC.F07 # Event Notifications"
+			"- reference-id: CCC.Core.F07 # Event Notifications"
 		  ],
 		"description": "Common Capability Event Notifications"
 	},
@@ -59,7 +59,7 @@
 		"scope": "yaml",
 		"prefix": "CF8, CF Multi-zone Deployment",
 		"body": [
-			"- CCC.F08 # Multi-zone Deployment"
+			"- reference-id: CCC.Core.F08 # Multi-zone Deployment"
 		  ],
 		"description": "Common Capability Multi-zone Deployment"
 	},
@@ -67,7 +67,7 @@
 		"scope": "yaml",
 		"prefix": "CF9, CF Monitoring",
 		"body": [
-			"- CCC.F09 # Monitoring"
+			"- reference-id: CCC.Core.F09 # Monitoring"
 		  ],
 		"description": "Common Capability Monitoring"
 	},
@@ -75,7 +75,7 @@
 		"scope": "yaml",
 		"prefix": "CF10, CF Logging",
 		"body": [
-			"- CCC.F10 # Logging"
+			"- reference-id: CCC.Core.F10 # Logging"
 		  ],
 		"description": "Common Capability Logging"
 	},
@@ -83,7 +83,7 @@
 		"scope": "yaml",
 		"prefix": "CF11, CF Backup",
 		"body": [
-			"- CCC.F11 # Backup"
+			"- reference-id: CCC.Core.F11 # Backup"
 		  ],
 		"description": "Common Capability Backup"
 	},
@@ -91,7 +91,7 @@
 		"scope": "yaml",
 		"prefix": "CF12, CF Recovery",
 		"body": [
-			"- CCC.F12 # Recovery"
+			"- reference-id: CCC.Core.F12 # Recovery"
 		  ],
 		"description": "Common Capability Recovery"
 	},
@@ -99,7 +99,7 @@
 		"scope": "yaml",
 		"prefix": "CF13, CF Infrastructure as Code",
 		"body": [
-			"- CCC.F13 # Infrastructure as Code"
+			"- reference-id: CCC.Core.F13 # Infrastructure as Code"
 		  ],
 		"description": "Common Capability Infrastructure as Code"
 	},
@@ -107,7 +107,7 @@
 		"scope": "yaml",
 		"prefix": "CF14, CF API Access",
 		"body": [
-			"- CCC.F14 # API Access"
+			"- reference-id: CCC.Core.F14 # API Access"
 		  ],
 		"description": "Common Capability API Access"
 	},
@@ -115,7 +115,7 @@
 		"scope": "yaml",
 		"prefix": "CF15, CF Cost Management",
 		"body": [
-			"- CCC.F15 # Cost Management"
+			"- reference-id: CCC.Core.F15 # Cost Management"
 		  ],
 		"description": "Common Capability Cost Management"
 	},
@@ -123,7 +123,7 @@
 		"scope": "yaml",
 		"prefix": "CF16, CF Budgeting",
 		"body": [
-			"- CCC.F16 # Budgeting"
+			"- reference-id: CCC.Core.F16 # Budgeting"
 		  ],
 		"description": "Common Capability Budgeting"
 	},
@@ -131,7 +131,7 @@
 		"scope": "yaml",
 		"prefix": "CF17, CF Alerting",
 		"body": [
-			"- CCC.F17 # Alerting"
+			"- reference-id: CCC.Core.F17 # Alerting"
 		  ],
 		"description": "Common Capability Alerting"
 	},
@@ -139,7 +139,7 @@
 		"scope": "yaml",
 		"prefix": "CF18, CF Versioning",
 		"body": [
-			"- CCC.F18 # Versioning"
+			"- reference-id: CCC.Core.F18 # Versioning"
 		  ],
 		"description": "Common Capability Versioning"
 	},
@@ -147,7 +147,7 @@
 		"scope": "yaml",
 		"prefix": "CF19, CF On-demand Scaling",
 		"body": [
-			"- CCC.F19 # On-demand Scaling"
+			"- reference-id: CCC.Core.F19 # On-demand Scaling"
 		  ],
 		"description": "Common Capability On-demand Scaling"
 	},
@@ -155,7 +155,7 @@
 		"scope": "yaml",
 		"prefix": "CF20, CF Tagging",
 		"body": [
-			"- CCC.F20 # Tagging"
+			"- reference-id: CCC.Core.F20 # Tagging"
 		  ],
 		"description": "Common Capability Tagging"
 	},
@@ -163,7 +163,7 @@
 		"scope": "yaml",
 		"prefix": "CF21, CF Replication",
 		"body": [
-			"- CCC.F21 # Replication"
+			"- reference-id: CCC.Core.F21 # Replication"
 		  ],
 		"description": "Common Capability Replication"
 	},
@@ -172,7 +172,7 @@
 		"scope": "yaml",
 		"prefix": "CF22, CF Location Lock-In",
 		"body": [
-			"- CCC.F22 # Location Lock-In"
+			"- reference-id: CCC.Core.F22 # Location Lock-In"
 		  ],
 		"description": "Common Capability Location Lock-In"
 	},
@@ -181,7 +181,7 @@
 		"scope": "yaml",
 		"prefix": "CF23, CF Network Access Rules",
 		"body": [
-			"- CCC.F23 # Network Access Rules"
+			"- reference-id: CCC.Core.F23 # Network Access Rules"
 		  ],
 		"description": "Common Capability Network Access Rules"
 	},

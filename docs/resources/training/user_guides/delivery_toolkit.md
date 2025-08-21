@@ -94,7 +94,7 @@ Here are some example commands for testing the toolkit locally:
 - **Generate an Omnibus Markdown File**
 
   ```bash
-  go run . "md" -t ../services/storage/object/
+  go run . "md" -t ../catalogs/storage/object/
   ```
 
   **Output Example**:
@@ -106,7 +106,7 @@ Here are some example commands for testing the toolkit locally:
 - **Generate a YAML File**
 
   ```bash
-  go run . "yaml" -t ../services/storage/object/
+  go run . "yaml" -t ../catalogs/storage/object/
   ```
 
   **Output Example**:
@@ -118,7 +118,7 @@ Here are some example commands for testing the toolkit locally:
 - **Generate Release Notes**
 
   ```bash
-  go run . "release-notes" -t ../services/storage/object/
+  go run . "release-notes" -t ../catalogs/storage/object/
   ```
 
   **Output Example**:
@@ -130,13 +130,13 @@ Here are some example commands for testing the toolkit locally:
 - **Update Metadata**
 
   ```bash
-  go run . "update-metadata" -t ../services/storage/object/
+  go run . "update-metadata" -t ../catalogs/storage/object/
   ```
 
   **Output Example**:
 
   ```text
-  Metadata updated successfully: ../services/storage/object/metadata.yaml
+  Metadata updated successfully: ../catalogs/storage/object/metadata.yaml
   ```
 
   > **NOTE**: This command modifies metadata files and should only be used during release preparation.

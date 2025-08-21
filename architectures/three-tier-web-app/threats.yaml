@@ -1,18 +1,18 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers: []
+    entries: []
   - reference-id: CCC.RDMS
-    identifiers: []
+    entries: []
   - reference-id: CCC.LB
-    identifiers: []
+    entries: []
   - reference-id: CCC.VPC
-    identifiers: []
+    entries: []
   - reference-id: CCC.VM
-    identifiers: []
+    entries: []
   - reference-id: CCC.IAM
-    identifiers: []
+    entries: []
   - reference-id: CCC.KMS
-    identifiers: []
+    entries: []
   - reference-id: CCC.ObjStor
-    identifiers: []
+    entries: []
 threats: []

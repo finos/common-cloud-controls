@@ -40,7 +40,7 @@ func init() {
 	// Set & Bind Flags
 	baseCmd.PersistentFlags().StringP("build-target", "t", "", "Name of the category and service (eg. storage/object)")
 	baseCmd.PersistentFlags().StringP("output-dir", "o", ".", "Path to the directory where the compiled assets will be stored")
-	baseCmd.PersistentFlags().StringP("services-dir", "", filepath.Join("..", "services"), "Path to the top level of the services directory")
+	baseCmd.PersistentFlags().StringP("services-dir", "", filepath.Join("..", "services"), "Path to the top level of the catalogs directory")
 	viper.BindPFlag("build-target", baseCmd.PersistentFlags().Lookup("build-target"))
 	viper.BindPFlag("output-dir", baseCmd.PersistentFlags().Lookup("output-dir"))
 	viper.BindPFlag("services-dir", baseCmd.PersistentFlags().Lookup("services-dir"))
