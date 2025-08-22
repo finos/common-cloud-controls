@@ -6,14 +6,14 @@
             "name": "Prowler",
             "uid": "prowler",
             "vendor_name": "Prowler",
-            "version": "5.11.0"
+            "version": "5.8.0"
         },
         "profiles": [
             "cloud",
             "datetime"
         ],
         "tenant_uid": "1037025541745",
-        "version": "1.5.0"
+        "version": "1.4.0"
     },
     "severity_id": 4,
     "severity": "High",
@@ -170,8 +170,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1755594818,
-        "created_time_dt": "2025-08-19T09:13:38.389931",
+        "created_time": 1755850725,
+        "created_time_dt": "2025-08-22T08:18:45.469064",
         "desc": "Ensure That Cloud Storage Bucket Is Not Anonymously or Publicly Accessible",
         "title": "Ensure That Cloud Storage Bucket Is Not Anonymously or Publicly Accessible",
         "types": [],
@@ -202,7 +202,9 @@
         }
     ],
     "category_name": "Findings",
+    "category_uid": 2,
     "class_name": "Detection Finding",
+    "class_uid": 2004,
     "cloud": {
         "account": {
             "name": "My Project 95250",
@@ -226,34 +228,32 @@
         ]
     },
     "risk_details": "Allowing anonymous or public access grants permissions to anyone to access bucket content. Such access might not be desired if you are storing any sensitive data. Hence, ensure that anonymous or public access to a bucket is not allowed.",
-    "time": 1755594818,
-    "time_dt": "2025-08-19T09:13:38.389931",
+    "time": 1755850725,
+    "time_dt": "2025-08-22T08:18:45.469064",
     "type_uid": 200401,
-    "type_name": "Detection Finding: Create",
-    "category_uid": 2,
-    "class_uid": 2004
+    "type_name": "Detection Finding: Create"
 },{
-    "message": "Bucket cfi-logs-bucket-d279ee40 is not publicly accessible.",
+    "message": "Bucket cfi-logs-bucket-e9bdbe79 is not publicly accessible.",
     "metadata": {
         "event_code": "cloudstorage_bucket_public_access",
         "product": {
             "name": "Prowler",
             "uid": "prowler",
             "vendor_name": "Prowler",
-            "version": "5.11.0"
+            "version": "5.8.0"
         },
         "profiles": [
             "cloud",
             "datetime"
         ],
         "tenant_uid": "1037025541745",
-        "version": "1.5.0"
+        "version": "1.4.0"
     },
     "severity_id": 4,
     "severity": "High",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Bucket cfi-logs-bucket-d279ee40 is not publicly accessible.",
+    "status_detail": "Bucket cfi-logs-bucket-e9bdbe79 is not publicly accessible.",
     "status_id": 1,
     "unmapped": {
         "related_url": "https://www.trendmicro.com/cloudoneconformity/knowledge-base/gcp/CloudStorage/publicly-accessible-storage-buckets.html",
@@ -404,12 +404,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1755594818,
-        "created_time_dt": "2025-08-19T09:13:38.389931",
+        "created_time": 1755850725,
+        "created_time_dt": "2025-08-22T08:18:45.469064",
         "desc": "Ensure That Cloud Storage Bucket Is Not Anonymously or Publicly Accessible",
         "title": "Ensure That Cloud Storage Bucket Is Not Anonymously or Publicly Accessible",
         "types": [],
-        "uid": "prowler-gcp-cloudstorage_bucket_public_access-woven-precept-353210-US-CENTRAL1-cfi-logs-bucket-d279ee40"
+        "uid": "prowler-gcp-cloudstorage_bucket_public_access-woven-precept-353210-US-CENTRAL1-cfi-logs-bucket-e9bdbe79"
     },
     "resources": [
         {
@@ -417,8 +417,8 @@
             "data": {
                 "details": "",
                 "metadata": {
-                    "name": "cfi-logs-bucket-d279ee40",
-                    "id": "cfi-logs-bucket-d279ee40",
+                    "name": "cfi-logs-bucket-e9bdbe79",
+                    "id": "cfi-logs-bucket-e9bdbe79",
                     "region": "US-CENTRAL1",
                     "uniform_bucket_level_access": true,
                     "public": false,
@@ -430,13 +430,15 @@
                 "name": "cloudstorage"
             },
             "labels": [],
-            "name": "cfi-logs-bucket-d279ee40",
+            "name": "cfi-logs-bucket-e9bdbe79",
             "type": "Bucket",
-            "uid": "cfi-logs-bucket-d279ee40"
+            "uid": "cfi-logs-bucket-e9bdbe79"
         }
     ],
     "category_name": "Findings",
+    "category_uid": 2,
     "class_name": "Detection Finding",
+    "class_uid": 2004,
     "cloud": {
         "account": {
             "name": "My Project 95250",
@@ -460,34 +462,32 @@
         ]
     },
     "risk_details": "Allowing anonymous or public access grants permissions to anyone to access bucket content. Such access might not be desired if you are storing any sensitive data. Hence, ensure that anonymous or public access to a bucket is not allowed.",
-    "time": 1755594818,
-    "time_dt": "2025-08-19T09:13:38.389931",
+    "time": 1755850725,
+    "time_dt": "2025-08-22T08:18:45.469064",
     "type_uid": 200401,
-    "type_name": "Detection Finding: Create",
-    "category_uid": 2,
-    "class_uid": 2004
+    "type_name": "Detection Finding: Create"
 },{
-    "message": "Bucket cfi-secure-bucket-d279ee40 is not publicly accessible.",
+    "message": "Bucket cfi-secure-bucket-e9bdbe79 is not publicly accessible.",
     "metadata": {
         "event_code": "cloudstorage_bucket_public_access",
         "product": {
             "name": "Prowler",
             "uid": "prowler",
             "vendor_name": "Prowler",
-            "version": "5.11.0"
+            "version": "5.8.0"
         },
         "profiles": [
             "cloud",
             "datetime"
         ],
         "tenant_uid": "1037025541745",
-        "version": "1.5.0"
+        "version": "1.4.0"
     },
     "severity_id": 4,
     "severity": "High",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Bucket cfi-secure-bucket-d279ee40 is not publicly accessible.",
+    "status_detail": "Bucket cfi-secure-bucket-e9bdbe79 is not publicly accessible.",
     "status_id": 1,
     "unmapped": {
         "related_url": "https://www.trendmicro.com/cloudoneconformity/knowledge-base/gcp/CloudStorage/publicly-accessible-storage-buckets.html",
@@ -638,12 +638,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1755594818,
-        "created_time_dt": "2025-08-19T09:13:38.389931",
+        "created_time": 1755850725,
+        "created_time_dt": "2025-08-22T08:18:45.469064",
         "desc": "Ensure That Cloud Storage Bucket Is Not Anonymously or Publicly Accessible",
         "title": "Ensure That Cloud Storage Bucket Is Not Anonymously or Publicly Accessible",
         "types": [],
-        "uid": "prowler-gcp-cloudstorage_bucket_public_access-woven-precept-353210-US-CENTRAL1-cfi-secure-bucket-d279ee40"
+        "uid": "prowler-gcp-cloudstorage_bucket_public_access-woven-precept-353210-US-CENTRAL1-cfi-secure-bucket-e9bdbe79"
     },
     "resources": [
         {
@@ -651,8 +651,8 @@
             "data": {
                 "details": "",
                 "metadata": {
-                    "name": "cfi-secure-bucket-d279ee40",
-                    "id": "cfi-secure-bucket-d279ee40",
+                    "name": "cfi-secure-bucket-e9bdbe79",
+                    "id": "cfi-secure-bucket-e9bdbe79",
                     "region": "US-CENTRAL1",
                     "uniform_bucket_level_access": true,
                     "public": false,
@@ -664,13 +664,15 @@
                 "name": "cloudstorage"
             },
             "labels": [],
-            "name": "cfi-secure-bucket-d279ee40",
+            "name": "cfi-secure-bucket-e9bdbe79",
             "type": "Bucket",
-            "uid": "cfi-secure-bucket-d279ee40"
+            "uid": "cfi-secure-bucket-e9bdbe79"
         }
     ],
     "category_name": "Findings",
+    "category_uid": 2,
     "class_name": "Detection Finding",
+    "class_uid": 2004,
     "cloud": {
         "account": {
             "name": "My Project 95250",
@@ -694,12 +696,10 @@
         ]
     },
     "risk_details": "Allowing anonymous or public access grants permissions to anyone to access bucket content. Such access might not be desired if you are storing any sensitive data. Hence, ensure that anonymous or public access to a bucket is not allowed.",
-    "time": 1755594818,
-    "time_dt": "2025-08-19T09:13:38.389931",
+    "time": 1755850725,
+    "time_dt": "2025-08-22T08:18:45.469064",
     "type_uid": 200401,
-    "type_name": "Detection Finding: Create",
-    "category_uid": 2,
-    "class_uid": 2004
+    "type_name": "Detection Finding: Create"
 },{
     "message": "Bucket cfi-logs-bucket-137c6036 has uniform Bucket Level Access enabled.",
     "metadata": {
@@ -708,14 +708,14 @@
             "name": "Prowler",
             "uid": "prowler",
             "vendor_name": "Prowler",
-            "version": "5.11.0"
+            "version": "5.8.0"
         },
         "profiles": [
             "cloud",
             "datetime"
         ],
         "tenant_uid": "1037025541745",
-        "version": "1.5.0"
+        "version": "1.4.0"
     },
     "severity_id": 3,
     "severity": "Medium",
@@ -837,8 +837,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1755594818,
-        "created_time_dt": "2025-08-19T09:13:38.389931",
+        "created_time": 1755850725,
+        "created_time_dt": "2025-08-22T08:18:45.469064",
         "desc": "Ensure That Cloud Storage Buckets Have Uniform Bucket-Level Access Enabled",
         "title": "Ensure That Cloud Storage Buckets Have Uniform Bucket-Level Access Enabled",
         "types": [],
@@ -869,7 +869,9 @@
         }
     ],
     "category_name": "Findings",
+    "category_uid": 2,
     "class_name": "Detection Finding",
+    "class_uid": 2004,
     "cloud": {
         "account": {
             "name": "My Project 95250",
@@ -894,34 +896,32 @@
         ]
     },
     "risk_details": "Enabling uniform bucket-level access guarantees that if a Storage bucket is not publicly accessible, no object in the bucket is publicly accessible either.",
-    "time": 1755594818,
-    "time_dt": "2025-08-19T09:13:38.389931",
+    "time": 1755850725,
+    "time_dt": "2025-08-22T08:18:45.469064",
     "type_uid": 200401,
-    "type_name": "Detection Finding: Create",
-    "category_uid": 2,
-    "class_uid": 2004
+    "type_name": "Detection Finding: Create"
 },{
-    "message": "Bucket cfi-logs-bucket-d279ee40 has uniform Bucket Level Access enabled.",
+    "message": "Bucket cfi-logs-bucket-e9bdbe79 has uniform Bucket Level Access enabled.",
     "metadata": {
         "event_code": "cloudstorage_bucket_uniform_bucket_level_access",
         "product": {
             "name": "Prowler",
             "uid": "prowler",
             "vendor_name": "Prowler",
-            "version": "5.11.0"
+            "version": "5.8.0"
         },
         "profiles": [
             "cloud",
             "datetime"
         ],
         "tenant_uid": "1037025541745",
-        "version": "1.5.0"
+        "version": "1.4.0"
     },
     "severity_id": 3,
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Bucket cfi-logs-bucket-d279ee40 has uniform Bucket Level Access enabled.",
+    "status_detail": "Bucket cfi-logs-bucket-e9bdbe79 has uniform Bucket Level Access enabled.",
     "status_id": 1,
     "unmapped": {
         "related_url": "",
@@ -1037,12 +1037,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1755594818,
-        "created_time_dt": "2025-08-19T09:13:38.389931",
+        "created_time": 1755850725,
+        "created_time_dt": "2025-08-22T08:18:45.469064",
         "desc": "Ensure That Cloud Storage Buckets Have Uniform Bucket-Level Access Enabled",
         "title": "Ensure That Cloud Storage Buckets Have Uniform Bucket-Level Access Enabled",
         "types": [],
-        "uid": "prowler-gcp-cloudstorage_bucket_uniform_bucket_level_access-woven-precept-353210-US-CENTRAL1-cfi-logs-bucket-d279ee40"
+        "uid": "prowler-gcp-cloudstorage_bucket_uniform_bucket_level_access-woven-precept-353210-US-CENTRAL1-cfi-logs-bucket-e9bdbe79"
     },
     "resources": [
         {
@@ -1050,8 +1050,8 @@
             "data": {
                 "details": "",
                 "metadata": {
-                    "name": "cfi-logs-bucket-d279ee40",
-                    "id": "cfi-logs-bucket-d279ee40",
+                    "name": "cfi-logs-bucket-e9bdbe79",
+                    "id": "cfi-logs-bucket-e9bdbe79",
                     "region": "US-CENTRAL1",
                     "uniform_bucket_level_access": true,
                     "public": false,
@@ -1063,13 +1063,15 @@
                 "name": "cloudstorage"
             },
             "labels": [],
-            "name": "cfi-logs-bucket-d279ee40",
+            "name": "cfi-logs-bucket-e9bdbe79",
             "type": "Bucket",
-            "uid": "cfi-logs-bucket-d279ee40"
+            "uid": "cfi-logs-bucket-e9bdbe79"
         }
     ],
     "category_name": "Findings",
+    "category_uid": 2,
     "class_name": "Detection Finding",
+    "class_uid": 2004,
     "cloud": {
         "account": {
             "name": "My Project 95250",
@@ -1094,34 +1096,32 @@
         ]
     },
     "risk_details": "Enabling uniform bucket-level access guarantees that if a Storage bucket is not publicly accessible, no object in the bucket is publicly accessible either.",
-    "time": 1755594818,
-    "time_dt": "2025-08-19T09:13:38.389931",
+    "time": 1755850725,
+    "time_dt": "2025-08-22T08:18:45.469064",
     "type_uid": 200401,
-    "type_name": "Detection Finding: Create",
-    "category_uid": 2,
-    "class_uid": 2004
+    "type_name": "Detection Finding: Create"
 },{
-    "message": "Bucket cfi-secure-bucket-d279ee40 has uniform Bucket Level Access enabled.",
+    "message": "Bucket cfi-secure-bucket-e9bdbe79 has uniform Bucket Level Access enabled.",
     "metadata": {
         "event_code": "cloudstorage_bucket_uniform_bucket_level_access",
         "product": {
             "name": "Prowler",
             "uid": "prowler",
             "vendor_name": "Prowler",
-            "version": "5.11.0"
+            "version": "5.8.0"
         },
         "profiles": [
             "cloud",
             "datetime"
         ],
         "tenant_uid": "1037025541745",
-        "version": "1.5.0"
+        "version": "1.4.0"
     },
     "severity_id": 3,
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Bucket cfi-secure-bucket-d279ee40 has uniform Bucket Level Access enabled.",
+    "status_detail": "Bucket cfi-secure-bucket-e9bdbe79 has uniform Bucket Level Access enabled.",
     "status_id": 1,
     "unmapped": {
         "related_url": "",
@@ -1237,12 +1237,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1755594818,
-        "created_time_dt": "2025-08-19T09:13:38.389931",
+        "created_time": 1755850725,
+        "created_time_dt": "2025-08-22T08:18:45.469064",
         "desc": "Ensure That Cloud Storage Buckets Have Uniform Bucket-Level Access Enabled",
         "title": "Ensure That Cloud Storage Buckets Have Uniform Bucket-Level Access Enabled",
         "types": [],
-        "uid": "prowler-gcp-cloudstorage_bucket_uniform_bucket_level_access-woven-precept-353210-US-CENTRAL1-cfi-secure-bucket-d279ee40"
+        "uid": "prowler-gcp-cloudstorage_bucket_uniform_bucket_level_access-woven-precept-353210-US-CENTRAL1-cfi-secure-bucket-e9bdbe79"
     },
     "resources": [
         {
@@ -1250,8 +1250,8 @@
             "data": {
                 "details": "",
                 "metadata": {
-                    "name": "cfi-secure-bucket-d279ee40",
-                    "id": "cfi-secure-bucket-d279ee40",
+                    "name": "cfi-secure-bucket-e9bdbe79",
+                    "id": "cfi-secure-bucket-e9bdbe79",
                     "region": "US-CENTRAL1",
                     "uniform_bucket_level_access": true,
                     "public": false,
@@ -1263,13 +1263,15 @@
                 "name": "cloudstorage"
             },
             "labels": [],
-            "name": "cfi-secure-bucket-d279ee40",
+            "name": "cfi-secure-bucket-e9bdbe79",
             "type": "Bucket",
-            "uid": "cfi-secure-bucket-d279ee40"
+            "uid": "cfi-secure-bucket-e9bdbe79"
         }
     ],
     "category_name": "Findings",
+    "category_uid": 2,
     "class_name": "Detection Finding",
+    "class_uid": 2004,
     "cloud": {
         "account": {
             "name": "My Project 95250",
@@ -1294,10 +1296,8 @@
         ]
     },
     "risk_details": "Enabling uniform bucket-level access guarantees that if a Storage bucket is not publicly accessible, no object in the bucket is publicly accessible either.",
-    "time": 1755594818,
-    "time_dt": "2025-08-19T09:13:38.389931",
+    "time": 1755850725,
+    "time_dt": "2025-08-22T08:18:45.469064",
     "type_uid": 200401,
-    "type_name": "Detection Finding: Create",
-    "category_uid": 2,
-    "class_uid": 2004
+    "type_name": "Detection Finding: Create"
 }]

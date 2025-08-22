@@ -2,6 +2,6 @@
   "name": "cfi-s3-module",
   "url": "https://github.com/robmoffat/cfi-s3-module",
   "description": "A module for creating a secure S3 bucket with encryption and logging enabled.",
-  "downloaded_at": "2025-08-19T10:38:38.894Z",
+  "downloaded_at": "2025-08-22T08:29:54.752Z",
   "artifact_name": "secure-aws-bucket"
 }

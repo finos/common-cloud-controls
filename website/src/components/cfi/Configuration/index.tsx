@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
+import { Badge } from "../../ui/badge";
 import { User } from "../../ccc/User";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../ui/accordion";
-import { ConfigurationPageData } from "@site/src/types/cfi";
+import { ConfigurationPageData, TestResultType } from "@site/src/types/cfi";
 import { Release } from "@site/src/types/ccc";
 
 export default function CFIConfiguration({ pageData }: { pageData: ConfigurationPageData }): React.ReactElement {
@@ -14,6 +15,27 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
   const cccReleases = cccData["ccc-releases"] as Release[];
 
   const matchingCCCReleases = cccReleases.filter((release) => pageData.configuration.ccc_references.includes(release.metadata.id));
+
+  // Add state for filters
+  const [selectedResult, setSelectedResult] = useState<TestResultType | "all">("all");
+  const [selectedVersion, setSelectedVersion] = useState<string>("all");
+  const [selectedResource, setSelectedResource] = useState<string>("all");
+
+  // Get unique versions and resources for filter options
+  const uniqueVersions = Array.from(new Set(pageData.configuration.test_results.flatMap((result) => (result as any).testData?.map((td: any) => td.test_requirement_id?.split("-")[0]).filter(Boolean) || []))).sort();
+
+  const uniqueResources = Array.from(new Set(pageData.configuration.test_results.flatMap((result) => (result as any).testData?.flatMap((td: any) => td.resources || []).filter(Boolean) || []))).sort();
+
+  // Filter the test results
+  const filteredTestResults = pageData.configuration.test_results.flatMap(
+    (result) =>
+      (result as any).testData?.filter((testData: any) => {
+        const matchesResult = selectedResult === "all" || testData.result === selectedResult;
+        const matchesVersion = selectedVersion === "all" || testData.test_requirement_id?.includes(selectedVersion);
+        const matchesResource = selectedResource === "all" || (testData.resources && testData.resources.some((r: string) => r.includes(selectedResource)));
+        return matchesResult && matchesVersion && matchesResource;
+      }) || []
+  );
 
   return (
     <Layout title={`CFI - ${pageData.configuration.cfi_details.name}`} description={pageData.configuration.cfi_details.description}>
@@ -136,41 +158,189 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
             <CardTitle>Test Results</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
-              {pageData.configuration.test_results.map((result) => (
-                <div key={result.id} className="border rounded-lg p-4 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">{result.id}</h3>
-                    <div className="flex items-center space-x-2">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        result.status === 'pass' ? 'bg-green-100 text-green-800' :
-                        result.status === 'fail' ? 'bg-red-100 text-red-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
-                        {result.status.toUpperCase()}
-                      </span>
-                      <span className="text-sm text-muted-foreground">
-                        {new Date(result.date).toLocaleDateString()}
-                      </span>
+            {pageData.configuration.test_results.length > 0 ? (
+              <div className="space-y-6">
+                {/* Summary Section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Summary</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex gap-4">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="default">Pass</Badge>
+                        <span>{pageData.configuration.test_results.filter((r) => (r as any).testData?.some((td: any) => td.result === TestResultType.PASS)).length}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="destructive">Fail</Badge>
+                        <span>{pageData.configuration.test_results.filter((r) => (r as any).testData?.some((td: any) => td.result === TestResultType.FAIL)).length}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="secondary">N/A</Badge>
+                        <span>{pageData.configuration.test_results.filter((r) => (r as any).testData?.some((td: any) => td.result === TestResultType.NA)).length}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="destructive">Error</Badge>
+                        <span>{pageData.configuration.test_results.filter((r) => (r as any).testData?.some((td: any) => td.result === TestResultType.ERROR)).length}</span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  {/* Display the actual test results here */}
-                  <div className="bg-muted p-3 rounded">
-                    <p className="text-sm text-muted-foreground">
-                      Test results will be displayed here when the data is available.
-                    </p>
-                  </div>
-                </div>
-              ))}
-              
-              {pageData.configuration.test_results.length === 0 && (
-                <div className="text-center py-8 text-muted-foreground">
-                  <p>No test results available yet.</p>
-                  <p className="text-sm">Test results will appear here after the next CFI scan.</p>
-                </div>
-              )}
-            </div>
+                  </CardContent>
+                </Card>
+
+                {/* Results by CCC Release Section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Results by CCC Release</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>CCC Reference</TableHead>
+                          <TableHead>CCC Version</TableHead>
+                          <TableHead>Passing Tests</TableHead>
+                          <TableHead>Failing Tests</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {(() => {
+                          // Create a map to group by CCC Reference and Version
+                          const releaseMap = new Map<string, { passing: number; failing: number }>();
+
+                          // Process all test results
+                          pageData.configuration.test_results.forEach((result) => {
+                            if ((result as any).testData) {
+                              (result as any).testData.forEach((testData: any) => {
+                                // Find the CCC reference for this test requirement
+                                const cccRef = pageData.configuration.ccc_references.find((ref) => testData.test_requirement_id?.includes(ref));
+                                if (cccRef) {
+                                  const key = `${cccRef}-v1`; // Assuming single version for now
+                                  const current = releaseMap.get(key) || { passing: 0, failing: 0 };
+
+                                  if (testData.result === TestResultType.PASS) {
+                                    current.passing++;
+                                  } else if (testData.result === TestResultType.FAIL || testData.result === TestResultType.ERROR) {
+                                    current.failing++;
+                                  }
+
+                                  releaseMap.set(key, current);
+                                }
+                              });
+                            }
+                          });
+
+                          // Convert map to array of rows
+                          return Array.from(releaseMap.entries()).map(([key, counts]) => {
+                            const [cccReference, version] = key.split("-");
+                            return (
+                              <TableRow key={key}>
+                                <TableCell>{cccReference}</TableCell>
+                                <TableCell>
+                                  <Badge variant="secondary" className="text-xs">
+                                    {version}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell>
+                                  <Badge variant="default">{counts.passing}</Badge>
+                                </TableCell>
+                                <TableCell>
+                                  <Badge variant="destructive">{counts.failing}</Badge>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          });
+                        })()}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
+
+                {/* Results By Control Requirement Section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Results By Control Requirement</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {/* Filter Controls */}
+                    <div className="flex flex-wrap gap-4 mb-4">
+                      <div className="flex items-center gap-2">
+                        <label className="text-sm font-medium">Test Result:</label>
+                        <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedResult} onChange={(e) => setSelectedResult(e.target.value as TestResultType | "all")}>
+                          <option value="all">All</option>
+                          {Object.values(TestResultType).map((result) => (
+                            <option key={result} value={result}>
+                              {result}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <label className="text-sm font-medium">CCC Version:</label>
+                        <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedVersion} onChange={(e) => setSelectedVersion(e.target.value)}>
+                          <option value="all">All</option>
+                          {uniqueVersions.map((version) => (
+                            <option key={version} value={version}>
+                              {version}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <label className="text-sm font-medium">Resource:</label>
+                        <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedResource} onChange={(e) => setSelectedResource(e.target.value)}>
+                          <option value="all">All</option>
+                          {uniqueResources.map((resource) => (
+                            <option key={resource} value={resource}>
+                              {resource}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Requirement ID</TableHead>
+                          <TableHead>Test</TableHead>
+                          <TableHead>Test Result</TableHead>
+                          <TableHead>Resources</TableHead>
+                          <TableHead>Result Message</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {filteredTestResults.map((testData: any, index: number) => (
+                          <TableRow key={`${testData.id || index}`}>
+                            <TableCell>{testData.test_requirement_id}</TableCell>
+                            <TableCell>{testData.test}</TableCell>
+                            <TableCell>
+                              <Badge variant={testData.result === TestResultType.PASS ? "default" : testData.result === TestResultType.FAIL ? "destructive" : testData.result === TestResultType.ERROR ? "destructive" : "secondary"}>{testData.result}</Badge>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex flex-wrap gap-1">
+                                {testData.resources?.map((resource: string, resIndex: number) => (
+                                  <Badge key={resIndex} variant="outline" className="text-xs">
+                                    {resource}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              {testData.message} {testData.further_info_url ? <Link to={testData.further_info_url}>(more)</Link> : ""}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                <p>No test results available yet.</p>
+                <p className="text-sm">Test results will appear here after the next CFI scan.</p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </main>

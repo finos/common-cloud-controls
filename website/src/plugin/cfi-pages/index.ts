@@ -27,6 +27,10 @@ function createTestResultData(resultPath: string, resources: string[], ccc_refer
     const result = fs.readFileSync(resultPath, 'utf8');
     const parsed = JSON.parse(result) as any[];
 
+    console.log(`📊 Processing ${parsed.length} OCSF items from ${resultPath}`);
+    console.log(`🔍 Looking for resources matching:`, resources);
+    console.log(`🔍 Looking for compliance IDs matching:`, ccc_references);
+
     const statusCodeToResultType: Record<string, TestResultType> = {
         'pass': TestResultType.PASS,
         'fail': TestResultType.FAIL
@@ -34,6 +38,7 @@ function createTestResultData(resultPath: string, resources: string[], ccc_refer
 
     return parsed.flatMap(item => {
         const complianceIds = getComplianceIds(item, ccc_references)
+        console.log(`📋 Item ${item.finding_info?.uid || 'unknown'}: found ${complianceIds.length} compliance IDs`);
 
         // Handle new OCSF format - resources might have different structure
         let unfilteredResources: string[] = [];
@@ -44,7 +49,9 @@ function createTestResultData(resultPath: string, resources: string[], ccc_refer
             }).filter(Boolean);
         }
 
+        console.log(`🔍 Item resources:`, unfilteredResources);
         const filteredResources = unfilteredResources.filter((r: string) => matchesAnySubstring(r, resources))
+        console.log(`✅ Filtered resources:`, filteredResources);
 
         if (filteredResources.length > 0) {
             const result = statusCodeToResultType[item.status_code?.toLowerCase()] || TestResultType.NA;
@@ -63,6 +70,7 @@ function createTestResultData(resultPath: string, resources: string[], ccc_refer
                 return out;
             });
         } else {
+            console.log(`❌ No matching resources found for item ${item.finding_info?.uid || 'unknown'}`);
             return []
         }
     });
@@ -117,12 +125,16 @@ async function createResultPage(resultPath: string, configuration: Configuration
 }
 
 async function createConfigurationPage(configDir: string, slug: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
+    console.log(`🔍 Processing configuration directory: ${configDir}`);
+
     // Read the repository.json file to get repository info
     const repositoryPath = path.join(configDir, 'config', 'repository.json');
+    console.log(`📁 Repository path: ${repositoryPath}`);
     const repositoryData = JSON.parse(fs.readFileSync(repositoryPath, 'utf8'));
 
     // Read the configuration file
     const configPath = path.join(configDir, 'config', `${path.basename(configDir)}.json`);
+    console.log(`📁 Config path: ${configPath}`);
     const config = JSON.parse(fs.readFileSync(configPath, 'utf8')) as CFIConfigJson;
 
     // Create configuration with repository info
@@ -139,16 +151,38 @@ async function createConfigurationPage(configDir: string, slug: string, createDa
     console.log(`Looking for results in: ${resultsDir}`);
 
     if (fs.existsSync(resultsDir)) {
-        const resultFiles = fs.readdirSync(resultsDir).filter(f => f.endsWith('_ocsf.json'));
+        const allFiles = fs.readdirSync(resultsDir);
+        console.log(`All files in results directory:`, allFiles);
+
+        const resultFiles = allFiles.filter(f => f.endsWith('_ocsf.json'));
         console.log(`Found ${resultFiles.length} result files in ${resultsDir}:`, resultFiles);
 
-        // Create pages for each test result
+        // Process test results but don't create separate pages
+        let totalFindings = 0;
         for (const resultFile of resultFiles) {
             const resultPath = path.join(resultsDir, resultFile);
             console.log(`Processing result file: ${resultPath}`);
-            const resultEntry = await createResultPage(resultPath, configuration, createData, addRoute)
-            configuration.test_results.push(resultEntry)
+
+            // Create a result entry with actual test data
+            const testData = createTestResultData(resultPath, configuration.cfi_details.resources, configuration.ccc_references);
+
+            if (testData.length > 0) {
+                const resultEntry: TestResultEntry = {
+                    id: path.basename(resultFile, '_ocsf.json'),
+                    date: new Date(testData[0].timestamp).toISOString(),
+                    status: aggregateResultStatus(testData),
+                    slug: configuration.slug + "/" + path.basename(resultFile, '_ocsf.json')
+                };
+
+                // Store the actual test data for display
+                (resultEntry as any).testData = testData;
+
+                configuration.test_results.push(resultEntry)
+                totalFindings += testData.length;
+            }
         }
+
+        console.log(`📊 Configuration ${configuration.cfi_details.id}: ${configuration.test_results.length} test result files with ${totalFindings} total findings`);
     } else {
         console.log(`Results directory does not exist: ${resultsDir}`);
     }
