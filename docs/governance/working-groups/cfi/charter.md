@@ -6,13 +6,13 @@ This document outlines the mission, scope, and objectives of the Common Cloud Co
 
 1. [Mission](#mission)
 2. [Approach & Responsibilities](#approach--responsibilities)
-   * [Output / Deliverables](#output--deliverables)
+   - [Output / Deliverables](#output--deliverables)
 3. [Out of Scope](#out-of-scope)
 4. [Governance](#governance)
-   * [Membership](#membership)
-   * [Sub-Groups](#sub-groups)
-   * [Meeting & Communications](#meeting--communications)
-   * [Changes](#changes)
+   - [Membership](#membership)
+   - [Sub-Groups](#sub-groups)
+   - [Meeting & Communications](#meeting--communications)
+   - [Changes](#changes)
 
 ## Mission
 
@@ -22,28 +22,28 @@ The mission of the Compliant Financial Infrastructure (CFI) Working Group is to 
 
 This group will:
 
-* Define and maintain a standardized approach for implementing CCC standards across infrastructure platforms
-* Ensure that all implementations are discoverable, version-controlled, and testable
-* Establish and maintain automated compliance testing tools and validation frameworks
-* Collaborate with the [Delivery WG] to publish implementations and testing results
-* Work with the [Security WG] to ensure consistency and non-overlap of controls
-* Integrate feedback from the community gathered by the [Communications WG]
+- Define and maintain a standardized approach for implementing CCC standards across infrastructure platforms
+- Ensure that all implementations are discoverable, version-controlled, and testable
+- Establish and maintain automated compliance testing tools and validation frameworks
+- Collaborate with the [Delivery WG] to publish implementations and testing results
+- Work with the [Security WG] to ensure consistency and non-overlap of controls
+- Integrate feedback from the community gathered by the [Communications WG]
 
 ### Output / Deliverables
 
 Artifacts created by this group will be made publicly available in the project’s GitHub repository and will include:
 
-* Reference implementations of CCC standards for various infrastructure types
-* Automated test suites for compliance validation
-* Documentation and deployment guides for contributors and adopters
-* Dashboard or reporting tools for compliance visibility
+- Reference implementations of CCC standards for various infrastructure types
+- Automated test suites for compliance validation
+- Documentation and deployment guides for contributors and adopters
+- Dashboard or reporting tools for compliance visibility
 
 ## Out of Scope
 
 The following are outside the scope of this working group:
 
-* Implementation of CCC standards for application-level controls not related to infrastructure
-* Manual validation processes or proprietary/non-open implementations
+- Implementation of CCC standards for application-level controls not related to infrastructure
+- Manual validation processes or proprietary/non-open implementations
 
 ## Governance
 
@@ -51,8 +51,8 @@ This [WG] will remain compliant with all applicable community [policies]. Under 
 
 ### Membership
 
-* WG Lead: @eddie-knight
-* SC Sponsor: *\[To be appointed]*
+- WG Lead: @eddie-knight
+- SC Sponsor: _\[To be appointed]_
 
 ### Sub-Groups
 
@@ -60,13 +60,13 @@ This group is authorized to create sub-groups as necessary. Sub-groups must be d
 
 The following sub-groups have been created under this WG:
 
-* None
+- None
 
 ### Meeting & Communications
 
-* This working group will use the [CFI mailing list](mailto:cfi+subscribe@lists.finos.org) for official communications.
-* Regular meetings will be held at least once every three (3) weeks, excluding November and December.
-* The WG Lead or delegate must provide verbal or written updates at each public [SC] meeting.
+- This working group will use the [CFI mailing list](mailto:cfi+subscribe@lists.finos.org) for official communications.
+- Regular meetings will be held at least once every three (3) weeks, excluding November and December.
+- The WG Lead or delegate must provide verbal or written updates at each public [SC] meeting.
 
 ### Changes
 
