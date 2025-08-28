@@ -1,8 +1,23 @@
 title: Management and Governance Services
 id: CCC.Management
 description: |
-      Logging, monitoring, tracing, debugging, auditing, and cost optimization services.
+  Logging, monitoring, tracing, debugging, auditing, and cost optimization services.
 service_categories:
+  - id: CCC.Tracing
+    title: Tracing & Analysis
+    description: |
+      Tracing and analysis services enable deep observability into distributed applications by
+      correlating, and analyzing trace and span data across microservices and infrastructure layers.
+      These services facilitate root cause analysis, performance tuning, anomaly detection, and system mapping.
+      Modern platforms offer AI/ML-powered insights, live debugging capabilities, and integration with metrics/logging
+      to deliver holistic views into application behavior and health.
+    examples:
+      - AWS:
+          - reference-id: AWS X-Ray
+      - Azure:
+          - reference-id: Azure Application Insights
+      - Google Cloud:
+          - reference-id: Google Cloud Trace
   - id: CCC.Logging
     title: Logging
     description: |
