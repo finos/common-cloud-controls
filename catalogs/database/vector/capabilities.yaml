@@ -1,4 +1,4 @@
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
     identifiers:
       - CCC.F01 # Encryption in Transit Enabled by Default
