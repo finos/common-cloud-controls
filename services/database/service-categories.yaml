@@ -6,6 +6,20 @@ description: |
   store, manage, and access structured data in a scalable, reliable, and
   cost-effective manner.
 service_categories:
+  - id: CCC.Vector
+    title: Vector Databases
+    description: |
+      Vector databases are specialized databases designed to efficiently store,
+      query, and analyze high-dimensional vectors. They are optimized for
+      similarity search, clustering, and machine learning applications.
+    examples:
+      - AWS:
+          - Amazon OpenSearch
+      - Azure:
+          - Azure AI Search
+      - Google Cloud:
+          - Vertex AI Search
+
   - id: CCC.RDMS
     title: Relational Database Management Systems
     description: |
