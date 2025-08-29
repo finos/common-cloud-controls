@@ -16,7 +16,7 @@ service_categories:
           - reference-id: Azure Monitor Logs (Log Analytics)
       - Google Cloud:
           - Google Cloud Logging
-  - id: CCC.Monitoring
+  - id: CCC.Monitor
     title: Monitoring
     description: |
       Provides the ability to continuously observe, track, and analyze
