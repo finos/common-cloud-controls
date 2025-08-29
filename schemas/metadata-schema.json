@@ -7,6 +7,7 @@
       "properties": {
         "id": {
           "type": "string",
+          "pattern":"^CCC\\.\\w{1,8}$",
           "description": "Unique identifier for the control catalog"
         },
         "title": {
