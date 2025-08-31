@@ -24,7 +24,7 @@ capabilities:
     description: |
       Supports filtering and search on traces using enriched metadata fields such as user ID, region, or status code.
 
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
     identifiers:
       - CCC.F01 # Encryption in Transit
