@@ -1,0 +1,9 @@
+{
+    "repositories": [
+        {
+            "name": "cfi-s3-module",
+            "url": "https://github.com/robmoffat/cfi-s3-module",
+            "description": "A module for creating a secure S3 bucket with encryption and logging enabled."
+        }
+    ]
+}

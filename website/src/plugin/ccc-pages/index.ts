@@ -12,20 +12,28 @@ interface CCCReleaseYaml {
         description: string;
         release_details: any[];
     };
+    release_details: any[];
+    controlfamilies: any[];
     controls: any[];
     features: any[];
+    capabilities: any[];
     threats: any[];
 }
 
 type PluginContent = CCCReleaseYaml[];
 
 function parseRelease(parsed: CCCReleaseYaml): Release {
-    const slug = `/ccc/${parsed.metadata.id}/${parsed.metadata.release_details[0]?.version || 'N/A'}`;
+    const releaseDetailsArray = parsed.metadata.release_details ?? parsed.release_details;
+    const slug = `/ccc/${parsed.metadata.id}/${releaseDetailsArray[0]?.version || 'N/A'}`;
+    console.log(`Processing ${slug}`);
     return {
         metadata: parsed.metadata,
         threats: parsed.threats.map(threat => parseThreat(threat, slug)),
-        features: parsed.features.map(feature => parseFeature(feature, slug)),
-        controls: parsed.controls.map(control => parseControl(control, slug)),
+        features: [
+            ...(parsed.features ?? []).map(feature => parseFeature(feature, slug)),
+            ...(parsed.capabilities ?? []).map(capability => parseFeature(capability, slug))],
+        controls: (parsed.controlfamilies ?? []).flatMap(controlFamily => parseControlFamily(controlFamily, slug))
+            .concat((parsed.controls ?? []).map(control => parseControl(control, slug))),
         slug,
     };
 }
@@ -49,6 +57,18 @@ function parseControl(control: any, slug: string): Control {
         ...control,
         slug: slug + "/" + control.id,
     };
+}
+
+function parseControlFamily(controlFamily: any, slug: string): Control {
+    const controls = controlFamily.controls
+        .map(control => parseControl(control, slug))
+        .map(control => {
+            return {
+                ...control,
+                family: controlFamily.title
+            }
+        });
+    return controls;
 }
 
 function createControlPageData(control: Control, release: Release): ControlPageData {
@@ -133,7 +153,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
 
                 const componentId = release.metadata.id;
                 if (!components[componentId]) {
-                    components[componentId] = {title: release.metadata.title, releases: [], slug: `/ccc/${componentId}`};
+                    components[componentId] = { title: release.metadata.title, releases: [], slug: `/ccc/${componentId}` };
                 }
 
                 components[componentId].releases.push(release);
