@@ -37,7 +37,7 @@ assigned to them and assist or scribe on community calls.
   demonstrate an **ongoing and long-term commitment** to the project.
 - Subscribed to the [community mail group]
 - Applied, sponsored, and approved for member status.
-  1. Open an pull request against the CCC repo [`participants.md`](/participants.md):
+  1. Open an pull request against the CCC repo [`participants.yaml`](/participants.yaml):
   - The PR description should contain a list or summary of your work on the project to date.
   1. Sponsoring reviewers mark the PR as ready to merge:
   - Must be sponsored by 2 approvers from 2 employers.
@@ -65,7 +65,7 @@ These include, but are not limited to:
 - Scribe on community calls when necessary.
 - Can have issues and PRs assigned to them.
 - Can be invited to review and advise on PR approvals.
-- Participation publicly documented in [`participants.md`](/participants.md).
+- Participation publicly documented in [`participants.yaml`](/participants.yaml).
 
 ## Approver
 
@@ -111,7 +111,7 @@ and excellent technical judgement for the subproject.
 - Demonstrated responsibility and excellent technical judgement for the [WG] topic as an
   _Approver_ for at least (3) months.
 - Appointed by a [SC] vote.
-  - A [SC] sponsor must create a PR to update [`participants.md`](/participants.md): with the new appointment.
+  - A [SC] sponsor must create a PR to update [`participants.yaml`](/participants.yaml): with the new appointment.
   - Extending [CODEOWNERS] scope for an individual must follow the approver nomination process.
   - When appointment is confirmed, the sponsor must work with a repo admin to add appointee to the appropriate GitHub team(s)
 - Adhere to relevant [community groups] guidelines, such as:
