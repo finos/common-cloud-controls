@@ -60,7 +60,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "pattern": "^CCC\\.[A-Za-z0-9]+\\.C\\d{2,8}$",
+                    "pattern": "^((CCC\\.C\\d{2,8})|(CCC\\.\\w{1,8}\\.C\\d{2,8}))$",
                     "description": "Full control ID (e.g., CCC.ObjStor.C01)"
                   },
                   "title": {
@@ -78,6 +78,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
+                          "pattern": "^((CCC\\.C\\d{2,8})|(CCC\\.\\w{1,8}\\.C\\d{2,8}\\.TR\\d{2,8}))$",
                           "description": "Test requirement ID"
                         },
                         "text": {
