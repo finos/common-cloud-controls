@@ -39,7 +39,7 @@ Information about the individual overseeing the release:
 - **Name** (`name`): The name of the release manager.
 - **GitHub ID** (`github_id`): The GitHub handle of the release manager for issue tracking, PR review, and contribution attribution.
 - **Company** (`company`): The company or organization the release manager is associated with.
-- **Summary** (`summary`): Summary of the release and the reason for the changes.
+- **Quote** (`quote`): Text provided by the release manager containing a summary of the release and the reason for the changes.
 
 ### Change Log
 

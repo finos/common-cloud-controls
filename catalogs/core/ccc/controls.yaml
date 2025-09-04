@@ -89,7 +89,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: DSI-06
-              - DSI-08
+              - reference-id: DSI-08
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.11.1.1
@@ -139,7 +139,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: CP-2
-              - CP-10
+              - reference-id: CP-10
       - id: CCC.Core.C09
         title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
         objective: |
@@ -181,8 +181,8 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH07
-              - CCC.Core.TH09
-              - CCC.Core.TH04
+              - reference-id: CCC.Core.TH09
+              - reference-id: CCC.Core.TH04
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -193,8 +193,8 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: LOG-02
-              - LOG-04
-              - LOG-09
+              - reference-id: LOG-04
+              - reference-id: LOG-09
           - reference-id: ISO_27001
             entries: []
       - id: CCC.Core.C10
@@ -225,7 +225,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: DSP-10
-              - DSP-19
+              - reference-id: DSP-19
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
@@ -325,7 +325,7 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: EKM-02
-              - EKM-03
+              - reference-id: EKM-03
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.10.1.2
@@ -543,8 +543,8 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-2
-              - AU-3
-              - AU-12
+              - reference-id: AU-3
+              - reference-id: AU-12
       - id: CCC.Core.C07
         title: Alert on Unusual Enumeration Activity
         objective: |
