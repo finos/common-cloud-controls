@@ -98,11 +98,14 @@ func updateMetadata() (err error) {
 			} else {
 				log.Fatalf("No GitHub username found for commit: %s", commit.Commit.GetSHA())
 			}
-			// Add the contributor to the map (set-like behavior)
+			company, err := GetCompanyByGithubID(commitAuthorLogin)
+			if err != nil {
+				company = ""
+			}
 			newContributor := Contributors{
 				Name:     commitAuthorName,
 				GithubId: commitAuthorLogin,
-				Company:  "REPLACE_ME",
+				Company:  company,
 			}
 			contributors = append(contributors, newContributor)
 
@@ -127,6 +130,21 @@ func updateMetadata() (err error) {
 	// Read YAML
 	metadata := getMetadataYaml()
 
+	if len(metadata.ReleaseDetails) == 0 {
+		metadata.ReleaseDetails = []ReleaseDetails{
+			{
+				Version:   "REPLACE_ME",
+				ChangeLog: []string{},
+				Contributors: []Contributors{
+					{
+						Name:     "REPLACE_ME",
+						GithubId: "REPLACE_ME",
+						Company:  "REPLACE_ME",
+					},
+				},
+			},
+		}
+	}
 	// Update metadata struct to include change log and contributors
 	metadata.ReleaseDetails[0].ChangeLog = changelog
 	metadata.ReleaseDetails[0].Contributors = removeDuplicates(contributors)

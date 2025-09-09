@@ -1,4 +1,3 @@
-<!-- markdownlint-disable -->
 
 <style>
 body {
@@ -97,7 +96,7 @@ and accessibility.
 | ---- | ------- | ------ |
 | Damien Burks | Citi | [damienjburks](https://github.com/damienjburks) |
 | Eddie Knight | Sonatype | [eddie-knight](https://github.com/eddie-knight) |
-| sshiells-scottlogic | Scott Logic | [sshiells-scottlogic](https://github.com/sshiells-scottlogic) |
+| Steven Shiells | Scott Logic | [sshiells-scottlogic](https://github.com/sshiells-scottlogic) |
 | Michael Lysaght | Citi | [mlysaght2017](https://github.com/mlysaght2017) |
 | Sonali Mendis | Scott Logic | [smendis-scottlogic](https://github.com/smendis-scottlogic) |
 | Dave Ogle | Scott Logic | [dogle-scottlogic](https://github.com/dogle-scottlogic) |
