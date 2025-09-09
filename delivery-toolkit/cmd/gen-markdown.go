@@ -7,8 +7,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-
-	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
@@ -17,25 +15,9 @@ const (
 	logoPath            = "./logos/logo_wall.svg"
 )
 
-var (
-	// GenerateMarkdown represents the command to generate the markdown catalog
-	GenerateMarkdown = &cobra.Command{
-		Use:   "md",
-		Short: "Generate a markdown catalog from the compiled data",
-		Run:   runGenerateMarkdown,
-	}
-)
+// (GenerateMarkdown command removed; replaced by GenerateReleaseArtifacts)
 
-func runGenerateMarkdown(cmd *cobra.Command, args []string) {
-	initializeOutputDirectory()
-
-	outputPath, err := generateOmnibusMdFile()
-	if err != nil {
-		fmt.Printf("Error generating markdown file: %v\n", err)
-	} else {
-		fmt.Printf("File generated successfully: %s\n", outputPath)
-	}
-}
+// (runGenerateMarkdown removed; replaced by GenerateReleaseArtifacts)
 
 var (
 	htmlRegex  = regexp.MustCompile(`<[^>]*>`)
@@ -63,6 +45,12 @@ func generateOmnibusMdFile() (string, error) {
 
 	mdFileName := fmt.Sprintf("%s_%s.md", data.Metadata.Id, data.Metadata.Version)
 	outputPath := filepath.Join(viper.GetString("output-dir"), mdFileName)
+
+	releaseDetails := getReleaseDetails(filepath.Join(viper.GetString("catalogs-dir"), viper.GetString("build-target")))
+	compiledCatalog := CompiledCatalog{
+		Catalog:        *data,
+		ReleaseDetails: releaseDetails,
+	}
 
 	outputFile, err := os.Create(outputPath)
 	if err != nil {
@@ -95,7 +83,7 @@ func generateOmnibusMdFile() (string, error) {
 		return "", fmt.Errorf("error parsing template: %w", err)
 	}
 
-	if err := tmpl.Execute(outputFile, data); err != nil {
+	if err := tmpl.Execute(outputFile, compiledCatalog); err != nil {
 		return "", fmt.Errorf("error executing template: %w", err)
 	}
 

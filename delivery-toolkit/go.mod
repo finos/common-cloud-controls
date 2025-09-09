@@ -39,7 +39,7 @@ require (
 
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/ossf/gemara v0.5.0
+	github.com/ossf/gemara v0.7.1
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/spf13/viper v1.19.0

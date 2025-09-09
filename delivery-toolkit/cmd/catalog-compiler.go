@@ -10,9 +10,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var globalCommonCatalog layer2.Catalog
-
-func readAndCompileCatalog() *CompiledCatalog {
+func readAndCompileCatalog() *layer2.Catalog {
 	if viper.GetString("build-target") == "" {
 		log.Fatalf("error: build-target is required")
 	}
@@ -23,39 +21,48 @@ func readAndCompileCatalog() *CompiledCatalog {
 		log.Fatalf("error: build target directory does not exist: %s", buildTarget)
 	}
 
-	releaseDetailsData := getReleaseDetails(filepath.Join(buildTarget, "release-details.yaml"))
-
-	serviceData, err := loadContent(buildTarget)
+	catalog, err := loadCatalog(buildTarget)
 	if err != nil {
 		log.Fatalf("error loading content for %s: %v", buildTarget, err)
 	}
 
-	var catalog CompiledCatalog
-
-	catalog.ReleaseDetails = releaseDetailsData
-	catalog.Metadata = serviceData.Metadata
-
-	catalog.ControlFamilies = serviceData.ControlFamilies
-	catalog.Capabilities = serviceData.Capabilities
-	catalog.Threats = serviceData.Threats
-
-	catalog.ImportedCapabilities = serviceData.ImportedCapabilities
-	catalog.ImportedThreats = serviceData.ImportedThreats
-	catalog.ImportedControls = serviceData.ImportedControls
-
-	return &catalog
-}
-
-func loadContent(directory string) (*layer2.Catalog, error) {
-	if _, err := os.Stat(directory); err != nil {
-		return nil, err
+	err = validateMetadata(catalog)
+	if err != nil {
+		log.Fatalf("error validating metadata: %v", err)
 	}
 
+	return catalog
+}
+
+func validateMetadata(catalog *layer2.Catalog) error {
+	if catalog.Metadata.Id == "" {
+		return fmt.Errorf("metadata.id is required")
+	}
+	if catalog.Metadata.Version == "" {
+		return fmt.Errorf("metadata.version is required")
+	}
+	if catalog.Metadata.Title == "" {
+		return fmt.Errorf("metadata.title is required")
+	}
+	if catalog.Metadata.Description == "" {
+		return fmt.Errorf("metadata.description is required")
+	}
+	return nil
+}
+
+func loadCatalog(directory string) (*layer2.Catalog, error) {
+	metadata := filepath.Join(directory, "metadata.yaml")
+	controls := filepath.Join(directory, "controls.yaml")
+	capabilities := filepath.Join(directory, "capabilities.yaml")
+	threats := filepath.Join(directory, "threats.yaml")
+
 	var missing []string
-	for _, file := range []string{"metadata.yaml", "controls.yaml", "capabilities.yaml", "threats.yaml"} {
-		if _, err := os.Stat(filepath.Join(directory, file)); err != nil {
+	var targets []string
+	for _, file := range []string{metadata, controls, capabilities, threats} {
+		if _, err := os.Stat(file); err != nil {
 			missing = append(missing, file)
 		}
+		targets = append(targets, "file://"+file)
 	}
 
 	if len(missing) > 3 {
@@ -66,16 +73,12 @@ func loadContent(directory string) (*layer2.Catalog, error) {
 	}
 
 	var data layer2.Catalog
-	err := data.LoadFiles([]string{
-		filepath.Join(directory, "metadata.yaml"),
-		filepath.Join(directory, "controls.yaml"),
-		filepath.Join(directory, "capabilities.yaml"),
-		filepath.Join(directory, "threats.yaml"),
-	})
+	err := data.LoadFiles(targets)
 	return &data, err
 }
 
 // The following three functions might be useful when generating the markdown/pdf
+var globalCommonCatalog layer2.Catalog
 
 func getCommonControls(mappings []layer2.Mapping) []layer2.Control {
 	var commonControls []layer2.Control

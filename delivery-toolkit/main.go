@@ -42,10 +42,8 @@ func init() {
 	// Add subcommands
 	baseCmd.AddCommand(
 		cmd.VerifyContent,
-		cmd.GenerateMarkdown,
-		cmd.GenerateReleaseNotes,
-		cmd.GenerateYaml,
 		cmd.UpdateMetadata,
+		cmd.GenerateReleaseArtifacts,
 	)
 }
 

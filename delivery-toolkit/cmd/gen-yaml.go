@@ -5,29 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 )
-
-var (
-	GenerateYaml = &cobra.Command{
-		Use:   "yaml",
-		Short: "Generate a YAML file containing compiled data",
-		Run:   runGenerateYaml,
-	}
-)
-
-func runGenerateYaml(cmd *cobra.Command, args []string) {
-	initializeOutputDirectory()
-
-	outputPath, err := generateOmnibusYamlFile()
-	if err != nil {
-		fmt.Printf("Error generating YAML file: %v\n", err)
-	} else {
-		fmt.Printf("File generated successfully: %s\n", outputPath)
-	}
-}
 
 func generateOmnibusYamlFile() (string, error) {
 	data := readAndCompileCatalog()

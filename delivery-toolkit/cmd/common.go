@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -22,8 +23,9 @@ func createDirectoryIfNotExists(filePath string) error {
 	return nil
 }
 
-func getReleaseDetails(filePath string) []ReleaseDetails {
-	// Read the YAML file
+func getReleaseDetails(buildPath string) []ReleaseDetails {
+	filePath := filepath.Join(buildPath, "release-details.yaml")
+
 	yamlFile, err := os.ReadFile(filePath)
 	if err != nil {
 		log.Fatalf("Error reading YAML file: %v", err)
