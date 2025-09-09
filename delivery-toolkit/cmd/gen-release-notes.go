@@ -6,13 +6,13 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/ossf/gemara/layer2"
 	"github.com/spf13/viper"
 )
 
 var releaseNotesTemplatePath = "templates/release-notes.md"
 
-func generateReleaseNotes() (string, error) {
-	catalog := readAndCompileCatalog()
+func generateReleaseNotes(catalog *layer2.Catalog) (string, error) {
 	releaseDetails := getReleaseDetails(filepath.Join(viper.GetString("catalogs-dir"), viper.GetString("build-target")))
 	data := CompiledCatalog{
 		Catalog:        *catalog,

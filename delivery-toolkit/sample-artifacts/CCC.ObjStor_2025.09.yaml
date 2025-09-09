@@ -15,44 +15,25 @@ control-families:
     title: Data
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.ObjStor.C01
-        title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
+      - id: CCC.Core.C01
+        title: Prevent Unencrypted Requests
         objective: |
-          Prevent any requests to object storage buckets or objects using
-          untrusted KMS keys to protect against unauthorized data encryption
-          that can impact data availability and integrity.
+          Ensure that all communications are encrypted in transit to protect data
+          integrity and confidentiality.
         assessment-requirements:
-          - id: CCC.ObjStor.C01.TR01
+          - id: CCC.Core.C01.TR01
             text: |
-              When a request is made to read a protected bucket, the service
-              MUST prevent any request using KMS keys not listed as trusted by
-              the organization.
-            applicability:
-              - tlp-amber
-              - tlp-red
-          - id: CCC.ObjStor.C01.TR02
-            text: |
-              When a request is made to read a protected object, the service
-              MUST prevent any request using KMS keys not listed as trusted by
-              the organization.
-            applicability:
-              - tlp-amber
-              - tlp-red
-          - id: CCC.ObjStor.C01.TR03
-            text: |
-              When a request is made to write to a bucket, the service MUST
-              prevent any request using KMS keys not listed as trusted by the
-              organization.
+              When a port is exposed for non-SSH network traffic, all traffic MUST
+              include a TLS handshake AND be encrypted using TLS 1.2 or higher.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C01.TR04
+          - id: CCC.Core.C01.TR02
             text: |
-              When a request is made to write to an object, the service MUST
-              prevent any request using KMS keys not listed as trusted by the
-              organization.
+              When a port is exposed for SSH network traffic, all traffic MUST
+              include a SSH handshake AND be encrypted using SSHv2 or higher.
             applicability:
               - tlp-clear
               - tlp-green
@@ -61,48 +42,53 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.DS-1
+              - reference-id: PR.DS-02
                 strength: 0
           - reference-id: CCM
             entries:
-              - reference-id: DCS-04
+              - reference-id: IVS-03
                 strength: 0
-              - reference-id: DCS-06
+              - reference-id: IVS-07
                 strength: 0
           - reference-id: ISO_27001
             entries:
-              - reference-id: 2013 A.10.1.1
+              - reference-id: 2013 A.13.1.1
                 strength: 0
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-28
+              - reference-id: SC-8
+                strength: 0
+              - reference-id: SC-13
                 strength: 0
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.Core.TH01
+              - reference-id: CCC.Core.TH02
                 strength: 0
-              - reference-id: CCC.Core.TH06
-                strength: 0
-      - id: CCC.ObjStor.C03
-        title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
+      - id: CCC.Core.C06
+        title: Prevent Deployment in Restricted Regions
         objective: |
-          Ensure that object storage bucket is not deleted after creation,
-          and that the preventative measure cannot be unset.
+          Ensure that resources are not provisioned or deployed in
+          geographic regions or cloud availability zones that have been
+          designated as restricted or prohibited, to comply with
+          regulatory requirements and reduce exposure to geopolitical
+          risks.
         assessment-requirements:
-          - id: CCC.ObjStor.C03.TR01
+          - id: CCC.Core.C06.TR01
             text: |
-              When an object storage bucket deletion is attempted, the bucket MUST be
-              fully recoverable for a set time-frame after deletion is requested.
+              When a deployment request is made, the service MUST validate
+              that the deployment region is not to a restricted or regions
+              or availability zones.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C03.TR02
+          - id: CCC.Core.C06.TR02
             text: |
-              When an attempt is made to modify the retention policy for an object
-              storage bucket, the service MUST prevent the policy from being modified.
+              When a deployment request is made, the service MUST validate that
+              replication of data, backups, and disaster recovery operations
+              will not occur in restricted regions or availability zones.
             applicability:
               - tlp-clear
               - tlp-green
@@ -115,15 +101,62 @@ control-families:
                 strength: 0
           - reference-id: CCM
             entries:
-              - reference-id: DSP-16
+              - reference-id: DSI-06
+                strength: 0
+              - reference-id: DSI-08
                 strength: 0
           - reference-id: ISO_27001
             entries:
-              - reference-id: 2022 A.8.1.4
+              - reference-id: 2013 A.11.1.1
                 strength: 0
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-28
+              - reference-id: AC-6
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH03
+                strength: 0
+      - id: CCC.Core.C08
+        title: Enable Multi-zone or Multi-region Data Replication
+        objective: |
+          Ensure that data is replicated across multiple
+          zones or regions to protect against data loss due to hardware
+          failures, natural disasters, or other catastrophic events.
+        assessment-requirements:
+          - id: CCC.Core.C08.TR01
+            text: |
+              When data is stored, the service MUST ensure that data is
+              replicated across multiple availability zones or regions.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C08.TR02
+            text: |
+              When data is replicated across multiple zones or regions,
+              the service MUST be able to verify the replication state,
+              including the replication locations and data synchronization
+              status.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.PT-5
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: BCR-08
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: CP-2
                 strength: 0
               - reference-id: CP-10
                 strength: 0
@@ -132,162 +165,59 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
                 strength: 0
-      - id: CCC.ObjStor.C04
-        title: Objects have an Effective Retention Policy by Default
+      - id: CCC.Core.C09
+        title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
         objective: |
-          Ensure that all objects stored in the object storage system have a
-          retention policy applied by default, preventing premature deletion
-          or modification of objects and ensuring compliance with data retention
-          regulations.
+          Access logs should always be considered sensitive.
+          Ensure that access logs are protected against unauthorized
+          access, tampering, or deletion.
         assessment-requirements:
-          - id: CCC.ObjStor.C04.TR01
+          - id: CCC.Core.C09.TR01
             text: |
-              When an object is uploaded to the object storage system, the object
-              MUST automatically receive a default retention policy that prevents
-              premature deletion or modification.
+              When access logs are stored, the service MUST ensure that
+              access logs cannot be accessed without proper authorization.
             applicability:
-              - tlp-clear
+              - tlp-amber
+              - tlp-red
               - tlp-green
-              - tlp-amber
-              - tlp-red
-          - id: CCC.ObjStor.C04.TR02
-            text: |
-              When an attempt is made to delete or modify an object that is subject
-              to an active retention policy, the service MUST prevent the action
-              from being completed.
-            applicability:
               - tlp-clear
-              - tlp-green
+          - id: CCC.Core.C09.TR02
+            text: |
+              When access logs are stored, the service MUST ensure that
+              access logs cannot be modified without proper authorization.
+            applicability:
               - tlp-amber
               - tlp-red
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: DSP-16
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.1.4
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
-                strength: 0
-              - reference-id: CP-10
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH06
-                strength: 0
-      - id: CCC.ObjStor.C05
-        title: Versioning is Enabled for All Objects in the Bucket
-        objective: |
-          Ensure that versioning is enabled for all objects stored in the object
-          storage bucket to enable recovery of previous versions of objects in
-          case of loss or corruption.
-        assessment-requirements:
-          - id: CCC.ObjStor.C05.TR01
-            text: |
-              When an object is uploaded to the object storage bucket, the object
-              MUST be stored with a unique identifier.
-            applicability:
+              - tlp-green
               - tlp-clear
-              - tlp-green
+          - id: CCC.Core.C09.TR03
+            text: |
+              When access logs are stored, the service MUST ensure that
+              access logs cannot be deleted without proper authorization.
+            applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C05.TR02
-            text: |
-              When an object is modified, the service MUST assign a new unique
-              identifier to the modified object to differentiate it from the
-              previous version.
-            applicability:
+              - tlp-green
               - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-          - id: CCC.ObjStor.C05.TR03
-            text: |
-              When an object is modified, the service MUST allow for recovery
-              of previous versions of the object.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-          - id: CCC.ObjStor.C05.TR04
-            text: |
-              When an object is deleted, the service MUST retain other versions of
-              the object to allow for recovery of previous versions.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.1.4
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
-                strength: 0
-              - reference-id: CP-10
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: DSP-16
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH06
-                strength: 0
-      - id: CCC.ObjStor.C06
-        title: Access Logs are Stored in a Separate Data Store
-        objective: |
-          Ensure that access logs for object storage buckets are stored in a
-          separate data store to protect against unauthorized access, tampering,
-          or deletion of logs (Logbuckets are exempt from this requirement,
-          but must be tlp-red).
-        assessment-requirements:
-          - id: CCC.ObjStor.C06.TR01
-            text: |
-              When an object storage bucket is accessed, the service MUST store
-              access logs in a separate data store.
-            applicability:
-              - tlp-amber
-              - tlp-red
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-6
                 strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: DSP-07
-                strength: 0
-              - reference-id: DSP-17
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.15.0
-                strength: 0
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
                 strength: 0
-              - reference-id: SC-28
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-02
                 strength: 0
+              - reference-id: LOG-04
+                strength: 0
+              - reference-id: LOG-09
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -295,34 +225,61 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH09
                 strength: 0
-  - id: ""
-    title: Identity and Access Management
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.ObjStor.C02
-        title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
+              - reference-id: CCC.Core.TH04
+                strength: 0
+      - id: CCC.Core.C10
+        title: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
         objective: |
-          Ensure that uniform bucket-level access is enforced across all
-          object storage buckets. This prevents the use of ad-hoc or
-          inconsistent object-level permissions, ensuring centralized,
-          consistent, and secure access management in accordance with the
-          principle of least privilege.
+          Prevent replication of data to untrusted destinations outside
+          of defined trust perimeter. An untrusted destination is defined
+          as a resource that exists outside of a specified trusted
+          identity or network or data perimeter.
         assessment-requirements:
-          - id: CCC.ObjStor.C02.TR01
+          - id: CCC.Core.C10.TR01
             text: |
-              When a permission set is allowed for an object in a bucket, the
-              service MUST allow the same permission set to access all objects
-              in the same bucket.
+              When data is replicated, the service MUST ensure that
+              replication is restricted to explicitly trusted destinations.
             applicability:
-              - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C02.TR02
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-5
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-10
+                strength: 0
+              - reference-id: DSP-19
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-4
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH04
+                strength: 0
+  - id: ""
+    title: Encryption
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.Core.C02
+        title: Ensure Data Encryption at Rest for All Stored Data
+        objective: |
+          Ensure that all data stored is encrypted at rest to maintain
+          confidentiality and integrity.
+        assessment-requirements:
+          - id: CCC.Core.C02.TR01
             text: |
-              When a permission set is denied for an object in a bucket, the
-              service MUST deny the same permission set to access all objects
-              in the same bucket.
+              When data is stored at rest, the service MUST be configured to
+              encrypt data at rest using the latest industry-standard encryption
+              methods.
             applicability:
               - tlp-clear
               - tlp-green
@@ -331,130 +288,1020 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.AC-4
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.4.1
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-3
-                strength: 0
-              - reference-id: AC-6
+              - reference-id: PR.DS-1
                 strength: 0
           - reference-id: CCM
             entries:
-              - reference-id: DCS-09
+              - reference-id: DSP-17
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-13
+                strength: 0
+              - reference-id: SC-28
                 strength: 0
         threat-mappings:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
+      - id: CCC.Core.C11
+        title: Enforce Key Management Policies
+        objective: |
+          Ensure that encryption keys are managed securely by enforcing
+          the use of approved algorithms, regular key rotation, and
+          customer-managed encryption keys (CMEKs).
+        assessment-requirements:
+          - id: CCC.Core.C11.TR01
+            text: |
+              When encryption keys are used, the service MUST verify that
+              all encryption keys use approved cryptographic algorithms as
+              per organizational standards.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C11.TR02
+            text: |
+              When encryption keys are used, the service MUST verify that
+              encryption keys are rotated at a frequency compliant with
+              organizational policies.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C11.TR03
+            text: |
+              When encrypting data, the service MUST verify that
+              customer-managed encryption keys (CMEKs) are used.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C11.TR04
+            text: |
+              When encryption keys are accessed, the service MUST verify that
+              access to encryption keys is restricted to authorized personnel
+              and services, following the principle of least privilege.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: EKM-02
+                strength: 0
+              - reference-id: EKM-03
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2013 A.10.1.2
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-12
+                strength: 0
+              - reference-id: SC-17
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH16
+                strength: 0
+  - id: ""
+    title: Identity and Access Management
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.Core.C03
+        title: Implement Multi-factor Authentication (MFA) for Access
+        objective: |
+          Ensure that all sensitive activities require two or more identity factors
+          during authentication to prevent unauthorized access. This may include
+          something you know, something you have, or something you are. In the
+          case of programattically accessible services, such as API endpoints, this
+          includes a combination of API keys or tokens and network restrictions.
+        assessment-requirements:
+          - id: CCC.Core.C03.TR01
+            text: |
+              When an entity attempts to modify the service, the service MUST
+              attempt to verify the client's identity through an authentication
+              process.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C03.TR02
+            text: |
+              When an entity attempts to view information presented by the service,
+              service, the service MUST attempt to verify the client's identity
+              through an authentication process.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C03.TR03
+            text: |
+              When an entity attempts to view information on the service through
+              a user interface, the authentication process MUST require multiple
+              identifying factors from the user.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C03.TR04
+            text: |
+              When an entity attempts to modify the service through an API
+              endpoint, the authentication process MUST be limited to a
+              specific allowed network.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C03.TR05
+            text: |
+              When an entity attempts to view information on the service through
+              an API endpoint, the authentication process MUST be limited to a
+              specific allowed network.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C03.TR06
+            text: |
+              When an entity attempts to modify the service through a user
+              interface, the authentication process MUST require multiple
+              identifying factors from the user.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AC-7
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: IAM-03
+                strength: 0
+              - reference-id: IAM-08
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2013 A.9.4.2
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: IA-2
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.C05
+        title: Prevent Access from Untrusted Entities
+        objective: |
+          Ensure that secure access controls prevent unauthorized access,
+          mitigate risks of data exfiltration, and block misuse of services
+          by adversaries. This includes restricting access based on trust
+          criteria such as IP allowlists, domain restrictions, and tenant
+          isolation.
+        assessment-requirements:
+          - id: CCC.Core.C05.TR01
+            text: |
+              When access to sensitive resources is attempted, the service MUST
+              block requests from untrusted sources, including IP addresses,
+              domains, or networks that are not explicitly included in a
+              pre-approved allowlist.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR02
+            text: |
+              When administrative access is attempted, the service MUST validate
+              that the request originates from an explicitly allowed source as
+              defined in the allowlist.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR03
+            text: |
+              When resources are accessed in a multi-tenant environment, the
+              service MUST enforce isolation by allowing access only to explicitly
+              allowlisted tenants.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR04
+            text: |
+              When an access attempt from an untrusted source is blocked, the
+              service MUST log the event, including the source details, time,
+              and reason for denial.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AC-3
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DS-5
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2013 A.13.1.3
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-3
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+  - id: ""
+    title: Logging & Monitoring
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.Core.C04
+        title: Log All Access and Changes
+        objective: |
+          Ensure that all access and changes are logged to maintain a
+          detailed audit trail for security and compliance purposes.
+        assessment-requirements:
+          - id: CCC.Core.C04.TR01
+            text: |
+              When any access attempt is made to the service, the service MUST log
+              the client identity, time, and result of the attempt.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C04.TR02
+            text: |
+              When any access attempt is made to the view sensitive information,
+              the service MUST log the client identity, time, and result of the
+              attempt.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C04.TR03
+            text: |
+              When any change is made to the service configuration, the service MUST
+              log the change, including the client, time, previous state, and the
+              new state following the change.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.AE-3
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-08
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AU-2
+                strength: 0
+              - reference-id: AU-3
+                strength: 0
+              - reference-id: AU-12
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.C07
+        title: Alert on Unusual Enumeration Activity
+        objective: |
+          Ensure that logs and associated alerts are generated when
+          unusual enumeration activity is detected that may indicate
+          reconnaissance activities.
+        assessment-requirements:
+          - id: CCC.Core.C07.TR01
+            text: |
+              When suspicious enumeration activities are detected, the
+              service MUST generate real-time alerts to notify security
+              personnel.
+            applicability:
+              - tlp-red
+          - id: CCC.Core.C07.TR02
+            text: |
+              When suspicious enumeration activities are detected, the
+              service MUST log the event, including the source details,
+              time, and nature of the activity.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.AE-1
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-05
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AU-6
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH15
+                strength: 0
+  - id: ""
+    title: ""
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.Core.C12
+        title: Ensure Secure Network Access Rules
+        objective: |
+          Ensure network access to the service is restricted to explicitly
+          authorized IP addresses, ports, and protocols by properly
+          configuring security group and/or firewall rules. Configuration
+          must follow the principle of least privilege to minimize the
+          attack surface and prevent unauthorized  inbound connections.
+          Overly permissive rules such as, 0.0.0.0/0 must be disallowed or
+          strictly controlled.
+        assessment-requirements:
+          - id: CCC.Core.C12.TR01
+            text: |
+              When an unauthorized IP or network attempts to connect
+              to the service, the request MUST be denied.
+            applicability:
+              - tlp-red
+              - tlp-amber
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AC-3
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-4
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH17
+                strength: 0
 threats:
-  - id: CCC.ObjStor.TH01
-    title: Data Exfiltration via Insecure Lifecycle Policies
+  - id: CCC.Core.TH01
+    title: Access Control is Misconfigured
     description: |
-      Misconfigured lifecycle policies may unintentionally allow data to be
-      exfiltrated or destroyed prematurely, resulting in a loss of availability
-      and potential exposure of sensitive data.
+      Misconfigured access controls may grant excessive privileges or fail to
+      restrict unauthorized access to sensitive resources. This could result in
+      unintended data exposure or unauthorized actions being performed within
+      the system.
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.ObjStor.F08
+          - reference-id: CCC.Core.F06
             strength: 0
-          - reference-id: CCC.Core.F11
-            strength: 0
+            remarks: Identity Based Access Control
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1020
+          - reference-id: T1078
             strength: 0
+            remarks: Valid Accounts
+          - reference-id: T1548
+            strength: 0
+            remarks: Abuse Elevation Control Mechanism
+          - reference-id: T1203
+            strength: 0
+            remarks: Exploitation for Credential Access
+          - reference-id: T1098
+            strength: 0
+            remarks: Account Manipulation
+          - reference-id: T1484
+            strength: 0
+            remarks: Domain or Tenant Policy Modification
+          - reference-id: T1546
+            strength: 0
+            remarks: Event Triggered Execution
           - reference-id: T1537
             strength: 0
+            remarks: Transfer Data to Cloud Account
           - reference-id: T1567
             strength: 0
+            remarks: Exfiltration Over Web Services
           - reference-id: T1048
             strength: 0
+            remarks: Exfiltration Over Alternative Protocol
           - reference-id: T1485
             strength: 0
-  - id: CCC.ObjStor.TH02
-    title: Improper Enforcement of Object Modification Locks
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH02
+    title: Data is Intercepted in Transit
     description: |
-      Attackers may exploit vulnerabilities in object modification locks to
-      delete or alter objects despite the lock being in place, leading to data
-      loss or tampering.
+      Data transmitted between clients and the service may be susceptible to
+      interception or modification in transit if encrypted communication is not
+      properly implemented. This could result in unauthorized access to
+      sensitive information or unintended data alterations.
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.ObjStor.F09
+          - reference-id: CCC.Core.F01
             strength: 0
+            remarks: Encryption in Transit Enabled by Default
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1557
+            strength: 0
+            remarks: Adversary-in-the-Middle
+          - reference-id: T1040
+            strength: 0
+            remarks: Network Sniffing
+  - id: CCC.Core.TH03
+    title: Deployment Region Network is Untrusted
+    description: |
+      Deploying a service in an untrusted, unstable, or insecure location,
+      the network may be susceptible to unauthorized access or data
+      interception due to privileged network exposure or physical
+      vulnerabilities. This could result in unintended data disclosure or
+      compromised system integrity.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F08
+            strength: 0
+            remarks: Multi-zone Deployment
+          - reference-id: CCC.Core.F22
+            strength: 0
+            remarks: Location Lock-In
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1040
+            strength: 0
+            remarks: Network Sniffing
+          - reference-id: T1110
+            strength: 0
+            remarks: Brute Force
+          - reference-id: T1105
+            strength: 0
+            remarks: Ingress Tool Transfer
+          - reference-id: T1583
+            strength: 0
+            remarks: Acquire Infrastructure
+          - reference-id: T1557
+            strength: 0
+            remarks: Adversary-in-the-Middle
+  - id: CCC.Core.TH04
+    title: Data is Replicated to Untrusted or External Locations
+    description: |
+      Data may be replicated to untrusted or external locations if replication
+      configurations are not properly restricted. This could result
+      in unintended data leakage or exposure outside the organization's trusted
+      perimeter.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F21
+            strength: 0
+            remarks: Replication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+  - id: CCC.Core.TH05
+    title: Data is Corrupted During Replication
+    description: |
+      Data may become corrupted, delayed, or deleted during replication
+      processes across regions or availability zones due to misconfigurations
+      or unintended disruptions. This could lead to compromised data integrity
+      and availability, potentially affecting recovery processes and system
+      reliability.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F08
+            strength: 0
+            remarks: Multi-zone Deployment
+          - reference-id: CCC.Core.F12
+            strength: 0
+            remarks: Recovery
+          - reference-id: CCC.Core.F21
+            strength: 0
+            remarks: Replication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1491
+            strength: 0
+            remarks: Defacement
+          - reference-id: T1490
+            strength: 0
+            remarks: Inhibit System Recovery
+  - id: CCC.Core.TH06
+    title: Data is Lost or Corrupted
+    description: |
+      Data loss or corruption may occur due to accidental deletion, or
+      misconfiguration. This can result in the loss of critical data, service
+      disruption, or unintended exposure of sensitive information.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F11
+            strength: 0
+            remarks: Backup
+          - reference-id: CCC.Core.F18
+            strength: 0
+            remarks: Versioning
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1491
+            strength: 0
+            remarks: Defacement
+          - reference-id: T1490
+            strength: 0
+            remarks: Inhibit System Recovery
+  - id: CCC.Core.TH07
+    title: Logs are Tampered With or Deleted
+    description: |
+      Logs may be tampered with or deleted due to inadequate access controls,
+      or misconfigurations. This can make it difficult to identify security
+      incidents, disrupt forensic investigations, and affect the accuracy of
+      audit trails.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F10
+            strength: 0
+            remarks: Logging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal on Host
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation (for altering log entries)
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH08
+    title: Cost Management Data is Manipulated
+    description: |
+      Cost management data may be changed due to misconfigurations, or
+      unauthorized access. This might result in inaccurate resource usage
+      reporting, budget exhaustion, financial losses, and hinder incident
+      detection.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F15
+            strength: 0
+            remarks: Cost Management
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal on Host
+  - id: CCC.Core.TH09
+    title: Logs or Monitoring Data are Read by Unauthorized Users
+    description: |
+      Unauthorized access to logs or monitoring data may expose valuable
+      information about the system's configuration, operations, and security
+      mechanisms. This could allow for the identification of vulnerabilities,
+      enable the planning of attacks, or hinder the detection of ongoing
+      incidents.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F09
+            strength: 0
+            remarks: Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1003
+            strength: 0
+            remarks: Credential Dumping
+          - reference-id: T1007
+            strength: 0
+            remarks: System Service Discovery
+          - reference-id: T1018
+            strength: 0
+            remarks: Remote System Discovery
+          - reference-id: T1033
+            strength: 0
+            remarks: System Owner/User Discovery
+          - reference-id: T1046
+            strength: 0
+            remarks: Network Service Discovery
+          - reference-id: T1057
+            strength: 0
+            remarks: Process Discovery
+          - reference-id: T1069
+            strength: 0
+            remarks: Permission Groups Discovery
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal
+          - reference-id: T1082
+            strength: 0
+            remarks: System Information Discovery
+          - reference-id: T1120
+            strength: 0
+            remarks: Peripheral Device Discovery
+          - reference-id: T1124
+            strength: 0
+            remarks: System Time Discovery
+          - reference-id: T1497
+            strength: 0
+            remarks: Virtualization/Sandbox Evasion
+          - reference-id: T1518
+            strength: 0
+            remarks: Software Discovery
+  - id: CCC.Core.TH10
+    title: Alerts are Intercepted
+    description: |
+      Event notifications may be intercepted due to misconfigurations,
+      inadequate security measures, or unauthorized access. This could expose
+      information about sensitive operations or access patterns, potentially
+      impacting system security and integrity.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F07
+            strength: 0
+            remarks: Event Notifications
+          - reference-id: CCC.Core.F09
+            strength: 0
+            remarks: Monitoring
+          - reference-id: CCC.Core.F17
+            strength: 0
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1057
+            strength: 0
+            remarks: Process Discovery
+          - reference-id: T1049
+            strength: 0
+            remarks: System Network Connections Discovery
+          - reference-id: T1083
+            strength: 0
+            remarks: File and Directory Discovery
+  - id: CCC.Core.TH11
+    title: Event Notifications are Incorrectly Triggered
+    description: |
+      Event notifications may be triggered incorrectly due to misconfigurations,
+      or unauthorized access. This could result in sensitive operations being
+      triggered unintentionally, obfuscate other issues, or overwhelm the
+      system, potentially disrupting legitimate operations.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F07
+            strength: 0
+            remarks: Event Notifications
+          - reference-id: CCC.Core.F17
+            strength: 0
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1205
+            strength: 0
+            remarks: Traffic Signaling
+          - reference-id: T1001.001
+            strength: 0
+            remarks: 'Data Obfuscation: Junk Data'
+          - reference-id: T1491.001
+            strength: 0
+            remarks: 'Defacement: Internal Defacement'
+  - id: CCC.Core.TH12
+    title: Resource Constraints are Exhausted
+    description: |
+      Resource constraints, such as memory, CPU, or storage, may be exhausted
+      due to misconfigurations, or excessive resource consumption. This could
+      disrupt service availability, deny access to users, or impact other
+      systems within the same scope. Exhaustion may occur through repeated
+      requests, resource-intensive operations, or lowering rate/budget limits.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F04
+            strength: 0
+            remarks: Transaction Rate Limits
+          - reference-id: CCC.Core.F16
+            strength: 0
+            remarks: Budgeting
+          - reference-id: CCC.Core.F19
+            strength: 0
+            remarks: Auto-scaling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1496
+            strength: 0
+            remarks: Resource Hijacking
+          - reference-id: T1499
+            strength: 0
+            remarks: Endpoint Denial of Service
+          - reference-id: T1498
+            strength: 0
+            remarks: Network Denial of Service
+  - id: CCC.Core.TH13
+    title: Resource Tags are Manipulated
+    description: |
+      Resource tags may be altered, leading to changes in organizational
+      policies, billing disruptions, or unintended exposure of sensitive data.
+      This could result in mismanaged resources, financial misuse, or security
+      vulnerabilities.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F20
+            strength: 0
+            remarks: Tagging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+  - id: CCC.Core.TH14
+    title: Older Resource Versions are Exploited
+    description: |
+      Older versions of resources may contain vulnerabilities due to deprecated
+      or insecure configurations. Without proper version control and monitoring,
+      outdated versions could lead to security measures bypass, potentially
+      leading to security risks or operational disruptions.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F18
+            strength: 0
+            remarks: Versioning
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1027
             strength: 0
+            remarks: Obfuscated Files or Information
           - reference-id: T1485
             strength: 0
-          - reference-id: T1490
-            strength: 0
-          - reference-id: T1491
-            strength: 0
+            remarks: Data Destruction
           - reference-id: T1565
             strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
+          - reference-id: T1562.01
+            strength: 0
+            remarks: 'Impair Defenses: Downgrade Attack'
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
+  - id: CCC.Core.TH15
+    title: Automated Enumeration and Reconnaissance by Non-human Entities
+    description: |
+      Automated processes or bots may be used to perform reconnaissance by
+      enumerating resources such as APIs, file systems, or directories. These
+      activities can reveal potential vulnerabilities, misconfigurations, or
+      unsecured resources, which might result in unauthorized access or data
+      exposure.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F14
+            strength: 0
+            remarks: API Access
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1580
+            strength: 0
+            remarks: Cloud Infrastructure Discovery
+  - id: CCC.Core.TH16
+    title: Logging and Monitoring are Disabled
+    description: |
+      Logging and monitoring may be disabled, potentially hindering the
+      detection of security events and reducing visibility into system
+      activities. This condition can impact the organization's ability
+      to investigate incidents and maintain operational integrity.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F10
+            strength: 0
+            remarks: Logging
+          - reference-id: CCC.Core.F09
+            strength: 0
+            remarks: Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1562
+            strength: 0
+            remarks: Impair Defenses
+  - id: CCC.Core.TH17
+    title: Unauthorized Network Access via Misconfigured Rules
+    description: |
+      Improperly configured or overly permissive network access rules
+      such as security groups can allow unauthorized inbound connections
+      to the service. This could result in unauthorized access to sensitive
+      resources or data and disruption to service availability.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F23
+            strength: 0
+            remarks: Network Access Rules
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1046
+            strength: 0
+            remarks: Network Service Scanning
+          - reference-id: T1133
+            strength: 0
+            remarks: External Remote Services
 capabilities:
-  - id: CCC.ObjStor.F01
-    title: Storage Buckets
+  - id: CCC.Core.F01
+    title: Encryption in Transit Enabled by Default
     description: |
-      Provides uniquely identifiable segmentations in which data elements may
-      be stored.
-  - id: CCC.ObjStor.F02
-    title: Storage Objects
+      Provides default encryption of data in transit through SSL or TLS.
+  - id: CCC.Core.F02
+    title: Encryption at Rest Enabled by Default
     description: |
-      Supports storing, accessing, and managing data elements which contain
-      both data and metadata.
-  - id: CCC.ObjStor.F03
-    title: Bucket Capacity Limit
+      Provides default encryption of data before storage, with the option for
+      clients to maintain control over the encryption keys.
+  - id: CCC.Core.F03
+    title: Access/Activity Logs
     description: |
-      Provides the ability to set a maximum total capacity for objects within
-      a bucket.
-  - id: CCC.ObjStor.F04
-    title: Object Size Limit
+      Provides users with the ability to track all requests made to or
+      activities performed on resources for audit purposes.
+  - id: CCC.Core.F04
+    title: Transaction Rate Limits
     description: |
-      Supports setting a maximum object size for storing objects.
-  - id: CCC.ObjStor.F05
-    title: Store New Objects
+      Allows the setting of a threshold where industry-standard throughput is
+      achieved up to the specified rate limit.
+  - id: CCC.Core.F05
+    title: Signed URLs
     description: |
-      Supports for storing a new object in the bucket.
-  - id: CCC.ObjStor.F06
-    title: Replace Stored Objects
+      Provides the ability to grant temporary or restricted access
+      to a resource through a custom URL that contains authentication information.
+  - id: CCC.Core.F06
+    title: Identity Based Access Control
     description: |
-      Supports for replacing an object in the bucket with a new object for the same key.
-  - id: CCC.ObjStor.F07
-    title: Delete Stored Objects
+      Provides the ability to determine access to resources based on
+      attributes associated with a user identity.
+  - id: CCC.Core.F07
+    title: Event Notifications
     description: |
-      Supports for deleting objects from the bucket given the object key.
-  - id: CCC.ObjStor.F08
-    title: Lifecycle Policies
+      Publishes events for creation, deletion, and modification of
+      objects in a way that enables users to trigger actions in response.
+  - id: CCC.Core.F08
+    title: Multi-zone Deployment
     description: |
-      Supports defining policies to automate data management tasks.
-  - id: CCC.ObjStor.F09
-    title: Object Modification Locks
+      Provides the ability for the service to be deployed in multiple availability
+      zones or regions to increase availability and fault tolerance.
+  - id: CCC.Core.F09
+    title: Monitoring
     description: |
-      Allows locking of objects to disable modification and/or deletion of an
-      object for a defined period of time.
-  - id: CCC.ObjStor.F10
-    title: Object Level Access Control
+      Provides the ability to continuously observe, track, and analyze
+      the performance, availability, and health of the service resources or
+      applications.
+  - id: CCC.Core.F10
+    title: Logging
     description: |
-      Supports controlling access to specific objects within the object store.
-  - id: CCC.ObjStor.F11
-    title: Querying
+      Provides the ability to transmit system events, application activities,
+      and/or user interactions to a logging service
+  - id: CCC.Core.F11
+    title: Backup
     description: |
-      Supports performing simple select queries to retrieve only a subset of
-      objects from the bucket.
-  - id: CCC.ObjStor.F12
-    title: Storage Classes
+      Provides the ability to create copies of associated data or
+      configurations in the form of automated backups, snapshot-based backups,
+      and/or incremental backups.
+  - id: CCC.Core.F12
+    title: Recovery
     description: |
-      Provides different storage classes for frequently and infrequently
-      accessed objects.
+      Provides the ability to restore data, a system, or an application to a functional state
+      after an incident such as data loss, corruption or a disaster.
+  - id: CCC.Core.F13
+    title: Infrastructure as Code
+    description: |
+      Allows for managing and provisioning service resources
+      through machine-readable configuration files, such as templates.
+  - id: CCC.Core.F14
+    title: API Access
+    description: |
+      Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+  - id: CCC.Core.F15
+    title: Cost Management
+    description: |
+      Provides the ability to filter spending and to detect cost anomalies for the service.
+  - id: CCC.Core.F16
+    title: Budgeting
+    description: |
+      Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+  - id: CCC.Core.F17
+    title: Alerting
+    description: |
+      Provides the ability to set an alarm based on performance metrics,
+      logs, events or spending thresholds of the service.
+  - id: CCC.Core.F18
+    title: Versioning
+    description: |
+      Provides the ability to maintain multiple versions of the same resource.
+  - id: CCC.Core.F19
+    title: On-demand Scaling
+    description: |
+      Provide scaling of resources based on demand.
+  - id: CCC.Core.F20
+    title: Tagging
+    description: |
+      Provide the ability to tag a resource to effectively manage and gain insights of the resource.
+  - id: CCC.Core.F21
+    title: Replication
+    description: |
+      Provides the ability to copy data or resource to multiple locations to ensure
+      availability and durability.
+  - id: CCC.Core.F22
+    title: Location Lock-In
+    description: |
+      Provides the ability to control where the resources are created.
+  - id: CCC.Core.F23
+    title: Network Access Rules
+    description: |
+      Ability to control access to the resource by defining network access rules.

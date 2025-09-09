@@ -72,7 +72,7 @@ th, td {
 
 <img width="50%" src="https://raw.githubusercontent.com/finos/branding/882d52260eb9b85a4097db38b09a52ea9bb68734/project-logos/active-project-logos/Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal_BLK.svg" alt="CCC Logo"/>
 
-# CCC.ObjStor v2025.09 (Object Storage)
+# CCC.ObjStor v (Object Storage)
 
 Object storage is a data storage architecture that manages data as objects,
 rather than as files or blocks. Each object contains the data itself,
@@ -86,21 +86,14 @@ and accessibility.
 
 ## Release Details
 
-> TODO
+> 
 >
-> _- Eddie Knight, Sonatype ([eddie-knight](https://github.com/eddie-knight))_
+> _- ,  ([](https://github.com/))_
 
 ### Contributors to this Release
 
 | Name | Company | GitHub ID |
 | ---- | ------- | ------ |
-| Damien Burks | Citi | [damienjburks](https://github.com/damienjburks) |
-| Eddie Knight | Sonatype | [eddie-knight](https://github.com/eddie-knight) |
-| Steven Shiells | Scott Logic | [sshiells-scottlogic](https://github.com/sshiells-scottlogic) |
-| Michael Lysaght | Citi | [mlysaght2017](https://github.com/mlysaght2017) |
-| Sonali Mendis | Scott Logic | [smendis-scottlogic](https://github.com/smendis-scottlogic) |
-| Dave Ogle | Scott Logic | [dogle-scottlogic](https://github.com/dogle-scottlogic) |
-| Naseer Mohammad | Google | [nas-hub](https://github.com/nas-hub) |
 
 <div style="page-break-after: always;"></div>
 
@@ -108,53 +101,97 @@ and accessibility.
 
 The following capabilities are required to be present on a resource for it to be considered a Object Storage service. Threats outlined later in this catalog are assesssed based on the presence of these capabilities.
 
-- **CCC.ObjStor.F01: Storage Buckets**
+- **CCC.Core.F01: Encryption in Transit Enabled by Default**
   
-  Provides uniquely identifiable segmentations in which data elements may be stored.
+  Provides default encryption of data in transit through SSL or TLS.
 
-- **CCC.ObjStor.F02: Storage Objects**
+- **CCC.Core.F02: Encryption at Rest Enabled by Default**
   
-  Supports storing, accessing, and managing data elements which contain both data and metadata.
+  Provides default encryption of data before storage, with the option for clients to maintain control over the encryption keys.
 
-- **CCC.ObjStor.F03: Bucket Capacity Limit**
+- **CCC.Core.F03: Access/Activity Logs**
   
-  Provides the ability to set a maximum total capacity for objects within a bucket.
+  Provides users with the ability to track all requests made to or activities performed on resources for audit purposes.
 
-- **CCC.ObjStor.F04: Object Size Limit**
+- **CCC.Core.F04: Transaction Rate Limits**
   
-  Supports setting a maximum object size for storing objects.
+  Allows the setting of a threshold where industry-standard throughput is achieved up to the specified rate limit.
 
-- **CCC.ObjStor.F05: Store New Objects**
+- **CCC.Core.F05: Signed URLs**
   
-  Supports for storing a new object in the bucket.
+  Provides the ability to grant temporary or restricted access to a resource through a custom URL that contains authentication information.
 
-- **CCC.ObjStor.F06: Replace Stored Objects**
+- **CCC.Core.F06: Identity Based Access Control**
   
-  Supports for replacing an object in the bucket with a new object for the same key.
+  Provides the ability to determine access to resources based on attributes associated with a user identity.
 
-- **CCC.ObjStor.F07: Delete Stored Objects**
+- **CCC.Core.F07: Event Notifications**
   
-  Supports for deleting objects from the bucket given the object key.
+  Publishes events for creation, deletion, and modification of objects in a way that enables users to trigger actions in response.
 
-- **CCC.ObjStor.F08: Lifecycle Policies**
+- **CCC.Core.F08: Multi-zone Deployment**
   
-  Supports defining policies to automate data management tasks.
+  Provides the ability for the service to be deployed in multiple availability zones or regions to increase availability and fault tolerance.
 
-- **CCC.ObjStor.F09: Object Modification Locks**
+- **CCC.Core.F09: Monitoring**
   
-  Allows locking of objects to disable modification and/or deletion of an object for a defined period of time.
+  Provides the ability to continuously observe, track, and analyze the performance, availability, and health of the service resources or applications.
 
-- **CCC.ObjStor.F10: Object Level Access Control**
+- **CCC.Core.F10: Logging**
   
-  Supports controlling access to specific objects within the object store.
+  Provides the ability to transmit system events, application activities, and/or user interactions to a logging service
 
-- **CCC.ObjStor.F11: Querying**
+- **CCC.Core.F11: Backup**
   
-  Supports performing simple select queries to retrieve only a subset of objects from the bucket.
+  Provides the ability to create copies of associated data or configurations in the form of automated backups, snapshot-based backups, and/or incremental backups.
 
-- **CCC.ObjStor.F12: Storage Classes**
+- **CCC.Core.F12: Recovery**
   
-  Provides different storage classes for frequently and infrequently accessed objects.
+  Provides the ability to restore data, a system, or an application to a functional state after an incident such as data loss, corruption or a disaster.
+
+- **CCC.Core.F13: Infrastructure as Code**
+  
+  Allows for managing and provisioning service resources through machine-readable configuration files, such as templates.
+
+- **CCC.Core.F14: API Access**
+  
+  Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+
+- **CCC.Core.F15: Cost Management**
+  
+  Provides the ability to filter spending and to detect cost anomalies for the service.
+
+- **CCC.Core.F16: Budgeting**
+  
+  Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+
+- **CCC.Core.F17: Alerting**
+  
+  Provides the ability to set an alarm based on performance metrics, logs, events or spending thresholds of the service.
+
+- **CCC.Core.F18: Versioning**
+  
+  Provides the ability to maintain multiple versions of the same resource.
+
+- **CCC.Core.F19: On-demand Scaling**
+  
+  Provide scaling of resources based on demand.
+
+- **CCC.Core.F20: Tagging**
+  
+  Provide the ability to tag a resource to effectively manage and gain insights of the resource.
+
+- **CCC.Core.F21: Replication**
+  
+  Provides the ability to copy data or resource to multiple locations to ensure availability and durability.
+
+- **CCC.Core.F22: Location Lock-In**
+  
+  Provides the ability to control where the resources are created.
+
+- **CCC.Core.F23: Network Access Rules**
+  
+  Ability to control access to the resource by defining network access rules.
 
 
 <div style="page-break-after: always;"></div>
@@ -167,18 +204,34 @@ Below is a summary table of the identified threats, which is then followed by an
 
 |Threat ID|Threat Title|
 |----|----|
-|CCC.ObjStor.TH01|Data Exfiltration via Insecure Lifecycle Policies|
-|CCC.ObjStor.TH02|Improper Enforcement of Object Modification Locks|
+|CCC.Core.TH01|Access Control is Misconfigured|
+|CCC.Core.TH02|Data is Intercepted in Transit|
+|CCC.Core.TH03|Deployment Region Network is Untrusted|
+|CCC.Core.TH04|Data is Replicated to Untrusted or External Locations|
+|CCC.Core.TH05|Data is Corrupted During Replication|
+|CCC.Core.TH06|Data is Lost or Corrupted|
+|CCC.Core.TH07|Logs are Tampered With or Deleted|
+|CCC.Core.TH08|Cost Management Data is Manipulated|
+|CCC.Core.TH09|Logs or Monitoring Data are Read by Unauthorized Users|
+|CCC.Core.TH10|Alerts are Intercepted|
+|CCC.Core.TH11|Event Notifications are Incorrectly Triggered|
+|CCC.Core.TH12|Resource Constraints are Exhausted|
+|CCC.Core.TH13|Resource Tags are Manipulated|
+|CCC.Core.TH14|Older Resource Versions are Exploited|
+|CCC.Core.TH15|Automated Enumeration and Reconnaissance by Non-human Entities|
+|CCC.Core.TH16|Logging and Monitoring are Disabled|
+|CCC.Core.TH17|Unauthorized Network Access via Misconfigured Rules|
 
 ---
 
-### CCC.ObjStor.TH01
+### CCC.Core.TH01
 
-**Data Exfiltration via Insecure Lifecycle Policies**
+**Access Control is Misconfigured**
 
-**Description:** Misconfigured lifecycle policies may unintentionally allow data to be
-exfiltrated or destroyed prematurely, resulting in a loss of availability
-and potential exposure of sensitive data.
+**Description:** Misconfigured access controls may grant excessive privileges or fail to
+restrict unauthorized access to sensitive resources. This could result in
+unintended data exposure or unauthorized actions being performed within
+the system.
 
 
 <div class="flex-container">
@@ -187,8 +240,7 @@ and potential exposure of sensitive data.
   <ul>
     
       
-  <li>CCC.ObjStor.F08</li>
-  <li>CCC.Core.F11</li>
+  <li>CCC.Core.F06</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -201,7 +253,27 @@ and potential exposure of sensitive data.
       </thead>
       <tbody>
         <tr>
-          <td>T1020</td>
+          <td>T1078</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1548</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1203</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1098</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1484</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1546</td>
           <td>MITRE-ATT&amp;CK</td>
         </tr>
         <tr>
@@ -220,18 +292,27 @@ and potential exposure of sensitive data.
           <td>T1485</td>
           <td>MITRE-ATT&amp;CK</td>
         </tr>
+        <tr>
+          <td>T1565</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1027</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-### CCC.ObjStor.TH02
+### CCC.Core.TH02
 
-**Improper Enforcement of Object Modification Locks**
+**Data is Intercepted in Transit**
 
-**Description:** Attackers may exploit vulnerabilities in object modification locks to
-delete or alter objects despite the lock being in place, leading to data
-loss or tampering.
+**Description:** Data transmitted between clients and the service may be susceptible to
+interception or modification in transit if encrypted communication is not
+properly implemented. This could result in unauthorized access to
+sensitive information or unintended data alterations.
 
 
 <div class="flex-container">
@@ -240,7 +321,594 @@ loss or tampering.
   <ul>
     
       
-  <li>CCC.ObjStor.F09</li>
+  <li>CCC.Core.F01</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1557</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1040</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH03
+
+**Deployment Region Network is Untrusted**
+
+**Description:** Deploying a service in an untrusted, unstable, or insecure location,
+the network may be susceptible to unauthorized access or data
+interception due to privileged network exposure or physical
+vulnerabilities. This could result in unintended data disclosure or
+compromised system integrity.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F08</li>
+  <li>CCC.Core.F22</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1040</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1110</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1105</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1583</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1557</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH04
+
+**Data is Replicated to Untrusted or External Locations**
+
+**Description:** Data may be replicated to untrusted or external locations if replication
+configurations are not properly restricted. This could result
+in unintended data leakage or exposure outside the organization&#39;s trusted
+perimeter.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F21</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1565</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH05
+
+**Data is Corrupted During Replication**
+
+**Description:** Data may become corrupted, delayed, or deleted during replication
+processes across regions or availability zones due to misconfigurations
+or unintended disruptions. This could lead to compromised data integrity
+and availability, potentially affecting recovery processes and system
+reliability.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F08</li>
+  <li>CCC.Core.F12</li>
+  <li>CCC.Core.F21</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1485</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1565</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1491</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1490</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH06
+
+**Data is Lost or Corrupted**
+
+**Description:** Data loss or corruption may occur due to accidental deletion, or
+misconfiguration. This can result in the loss of critical data, service
+disruption, or unintended exposure of sensitive information.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F11</li>
+  <li>CCC.Core.F18</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1485</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1565</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1491</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1490</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH07
+
+**Logs are Tampered With or Deleted**
+
+**Description:** Logs may be tampered with or deleted due to inadequate access controls,
+or misconfigurations. This can make it difficult to identify security
+incidents, disrupt forensic investigations, and affect the accuracy of
+audit trails.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F03</li>
+  <li>CCC.Core.F10</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1070</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1565</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1027</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH08
+
+**Cost Management Data is Manipulated**
+
+**Description:** Cost management data may be changed due to misconfigurations, or
+unauthorized access. This might result in inaccurate resource usage
+reporting, budget exhaustion, financial losses, and hinder incident
+detection.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F15</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1565</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1070</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH09
+
+**Logs or Monitoring Data are Read by Unauthorized Users**
+
+**Description:** Unauthorized access to logs or monitoring data may expose valuable
+information about the system&#39;s configuration, operations, and security
+mechanisms. This could allow for the identification of vulnerabilities,
+enable the planning of attacks, or hinder the detection of ongoing
+incidents.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F03</li>
+  <li>CCC.Core.F09</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1003</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1007</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1018</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1033</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1046</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1057</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1069</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1070</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1082</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1120</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1124</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1497</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1518</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH10
+
+**Alerts are Intercepted**
+
+**Description:** Event notifications may be intercepted due to misconfigurations,
+inadequate security measures, or unauthorized access. This could expose
+information about sensitive operations or access patterns, potentially
+impacting system security and integrity.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F03</li>
+  <li>CCC.Core.F07</li>
+  <li>CCC.Core.F09</li>
+  <li>CCC.Core.F17</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1057</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1049</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1083</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH11
+
+**Event Notifications are Incorrectly Triggered**
+
+**Description:** Event notifications may be triggered incorrectly due to misconfigurations,
+or unauthorized access. This could result in sensitive operations being
+triggered unintentionally, obfuscate other issues, or overwhelm the
+system, potentially disrupting legitimate operations.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F07</li>
+  <li>CCC.Core.F17</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1205</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1001.001</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1491.001</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH12
+
+**Resource Constraints are Exhausted**
+
+**Description:** Resource constraints, such as memory, CPU, or storage, may be exhausted
+due to misconfigurations, or excessive resource consumption. This could
+disrupt service availability, deny access to users, or impact other
+systems within the same scope. Exhaustion may occur through repeated
+requests, resource-intensive operations, or lowering rate/budget limits.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F04</li>
+  <li>CCC.Core.F16</li>
+  <li>CCC.Core.F19</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1496</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1499</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1498</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH13
+
+**Resource Tags are Manipulated**
+
+**Description:** Resource tags may be altered, leading to changes in organizational
+policies, billing disruptions, or unintended exposure of sensitive data.
+This could result in mismanaged resources, financial misuse, or security
+vulnerabilities.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F20</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1565</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH14
+
+**Older Resource Versions are Exploited**
+
+**Description:** Older versions of resources may contain vulnerabilities due to deprecated
+or insecure configurations. Without proper version control and monitoring,
+outdated versions could lead to security measures bypass, potentially
+leading to security risks or operational disruptions.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F18</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -261,15 +929,148 @@ loss or tampering.
           <td>MITRE-ATT&amp;CK</td>
         </tr>
         <tr>
-          <td>T1490</td>
+          <td>T1565</td>
           <td>MITRE-ATT&amp;CK</td>
         </tr>
         <tr>
-          <td>T1491</td>
+          <td>T1489</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1562.01</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1027</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1485</td>
           <td>MITRE-ATT&amp;CK</td>
         </tr>
         <tr>
           <td>T1565</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1489</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH15
+
+**Automated Enumeration and Reconnaissance by Non-human Entities**
+
+**Description:** Automated processes or bots may be used to perform reconnaissance by
+enumerating resources such as APIs, file systems, or directories. These
+activities can reveal potential vulnerabilities, misconfigurations, or
+unsecured resources, which might result in unauthorized access or data
+exposure.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F14</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1580</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH16
+
+**Logging and Monitoring are Disabled**
+
+**Description:** Logging and monitoring may be disabled, potentially hindering the
+detection of security events and reducing visibility into system
+activities. This condition can impact the organization&#39;s ability
+to investigate incidents and maintain operational integrity.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F10</li>
+  <li>CCC.Core.F09</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1562</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.TH17
+
+**Unauthorized Network Access via Misconfigured Rules**
+
+**Description:** Improperly configured or overly permissive network access rules
+such as security groups can allow unauthorized inbound connections
+to the service. This could result in unauthorized access to sensitive
+resources or data and disruption to service availability.
+
+
+<div class="flex-container">
+  <div class="flex-item-left">
+  Applies to these capabilities:
+  <ul>
+    
+      
+  <li>CCC.Core.F23</li>
+  </ul>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T1046</td>
+          <td>MITRE-ATT&amp;CK</td>
+        </tr>
+        <tr>
+          <td>T1133</td>
           <td>MITRE-ATT&amp;CK</td>
         </tr>
       </tbody>
@@ -288,28 +1089,31 @@ Below is a summary table of the controls, which is then followed by an elucidati
 
 |Control ID|Control Title|
 |----|----|
-|CCC.ObjStor.C01|Prevent Requests to Buckets or Objects with Untrusted KMS Keys|
-|CCC.ObjStor.C03|Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy|
-|CCC.ObjStor.C04|Objects have an Effective Retention Policy by Default|
-|CCC.ObjStor.C05|Versioning is Enabled for All Objects in the Bucket|
-|CCC.ObjStor.C06|Access Logs are Stored in a Separate Data Store|
-|CCC.ObjStor.C02|Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions|
+|CCC.Core.C01|Prevent Unencrypted Requests|
+|CCC.Core.C06|Prevent Deployment in Restricted Regions|
+|CCC.Core.C08|Enable Multi-zone or Multi-region Data Replication|
+|CCC.Core.C09|Prevent Tampering, Deletion, or Unauthorized Access to Access Logs|
+|CCC.Core.C10|Prevent Data Replication to Destinations Outside of Defined Trust Perimeter|
+|CCC.Core.C02|Ensure Data Encryption at Rest for All Stored Data|
+|CCC.Core.C11|Enforce Key Management Policies|
+|CCC.Core.C03|Implement Multi-factor Authentication (MFA) for Access|
+|CCC.Core.C05|Prevent Access from Untrusted Entities|
+|CCC.Core.C04|Log All Access and Changes|
+|CCC.Core.C07|Alert on Unusual Enumeration Activity|
+|CCC.Core.C12|Ensure Secure Network Access Rules|
 
-### CCC.ObjStor.C01
+### CCC.Core.C01
 
-**Prevent Requests to Buckets or Objects with Untrusted KMS Keys**
+**Prevent Unencrypted Requests**
 
-**Objective:** Prevent any requests to object storage buckets or objects using
-untrusted KMS keys to protect against unauthorized data encryption
-that can impact data availability and integrity.
+**Objective:** Ensure that all communications are encrypted in transit to protect data
+integrity and confidentiality.
 
 
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When a request is made to read a protected bucket, the service MUST prevent any request using KMS keys not listed as trusted by the organization. |tlp-amber<br />tlp-red<br /> |
-| When a request is made to read a protected object, the service MUST prevent any request using KMS keys not listed as trusted by the organization. |tlp-amber<br />tlp-red<br /> |
-| When a request is made to write to a bucket, the service MUST prevent any request using KMS keys not listed as trusted by the organization. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When a request is made to write to an object, the service MUST prevent any request using KMS keys not listed as trusted by the organization. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When a port is exposed for non-SSH network traffic, all traffic MUST include a TLS handshake AND be encrypted using TLS 1.2 or higher. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When a port is exposed for SSH network traffic, all traffic MUST include a SSH handshake AND be encrypted using SSHv2 or higher. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -323,11 +1127,7 @@ that can impact data availability and integrity.
       <tbody>
         <tr>
           <td>CCC</td>
-          <td>CCC.Core.TH01</td>
-        </tr>
-        <tr>
-          <td>CCC</td>
-          <td>CCC.Core.TH06</td>
+          <td>CCC.Core.TH02</td>
         </tr>
       </tbody>
     </table>
@@ -343,41 +1143,113 @@ that can impact data availability and integrity.
       <tbody>
         <tr>
           <td>NIST-CSF</td>
-          <td>PR.DS-1</td>
+          <td>PR.DS-02</td>
         </tr>
         <tr>
           <td>CCM</td>
-          <td>DCS-04</td>
+          <td>IVS-03</td>
         </tr>
         <tr>
           <td>CCM</td>
-          <td>DCS-06</td>
+          <td>IVS-07</td>
         </tr>
         <tr>
           <td>ISO_27001</td>
-          <td>2013 A.10.1.1</td>
+          <td>2013 A.13.1.1</td>
         </tr>
         <tr>
           <td>NIST_800_53</td>
-          <td>SC-28</td>
+          <td>SC-8</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>SC-13</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-### CCC.ObjStor.C03
+### CCC.Core.C06
 
-**Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy**
+**Prevent Deployment in Restricted Regions**
 
-**Objective:** Ensure that object storage bucket is not deleted after creation,
-and that the preventative measure cannot be unset.
+**Objective:** Ensure that resources are not provisioned or deployed in
+geographic regions or cloud availability zones that have been
+designated as restricted or prohibited, to comply with
+regulatory requirements and reduce exposure to geopolitical
+risks.
 
 
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When an object storage bucket deletion is attempted, the bucket MUST be fully recoverable for a set time-frame after deletion is requested. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When an attempt is made to modify the retention policy for an object storage bucket, the service MUST prevent the policy from being modified. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When a deployment request is made, the service MUST validate that the deployment region is not to a restricted or regions or availability zones. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When a deployment request is made, the service MUST validate that replication of data, backups, and disaster recovery operations will not occur in restricted regions or availability zones. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH03</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NIST-CSF</td>
+          <td>PR.DS-1</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>DSI-06</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>DSI-08</td>
+        </tr>
+        <tr>
+          <td>ISO_27001</td>
+          <td>2013 A.11.1.1</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>AC-6</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.C08
+
+**Enable Multi-zone or Multi-region Data Replication**
+
+**Objective:** Ensure that data is replicated across multiple
+zones or regions to protect against data loss due to hardware
+failures, natural disasters, or other catastrophic events.
+
+
+| Assessment Requirement | Applicability |
+| --- | --- |
+| When data is stored, the service MUST ensure that data is replicated across multiple availability zones or regions. |tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When data is replicated across multiple zones or regions, the service MUST be able to verify the replication state, including the replication locations and data synchronization status. |tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -407,19 +1279,15 @@ and that the preventative measure cannot be unset.
       <tbody>
         <tr>
           <td>NIST-CSF</td>
-          <td>PR.DS-1</td>
+          <td>PR.PT-5</td>
         </tr>
         <tr>
           <td>CCM</td>
-          <td>DSP-16</td>
-        </tr>
-        <tr>
-          <td>ISO_27001</td>
-          <td>2022 A.8.1.4</td>
+          <td>BCR-08</td>
         </tr>
         <tr>
           <td>NIST_800_53</td>
-          <td>SC-28</td>
+          <td>CP-2</td>
         </tr>
         <tr>
           <td>NIST_800_53</td>
@@ -430,152 +1298,20 @@ and that the preventative measure cannot be unset.
   </div>
 </div>
 
-### CCC.ObjStor.C04
+### CCC.Core.C09
 
-**Objects have an Effective Retention Policy by Default**
+**Prevent Tampering, Deletion, or Unauthorized Access to Access Logs**
 
-**Objective:** Ensure that all objects stored in the object storage system have a
-retention policy applied by default, preventing premature deletion
-or modification of objects and ensuring compliance with data retention
-regulations.
-
-
-| Assessment Requirement | Applicability |
-| --- | --- |
-| When an object is uploaded to the object storage system, the object MUST automatically receive a default retention policy that prevents premature deletion or modification. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When an attempt is made to delete or modify an object that is subject to an active retention policy, the service MUST prevent the action from being completed. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-
-<div class="flex-container">
-  <div class="flex-item-left">
-    <table cellpadding="5">
-      <thead>
-        <tr>
-          <th>Threat Catalog</th>
-          <th>Related Threat</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>CCC</td>
-          <td>CCC.Core.TH06</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="flex-item-right">
-    <table cellpadding="5">
-      <thead>
-        <tr>
-          <th>Guideline</th>
-          <th>Related Guidance</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>NIST-CSF</td>
-          <td>PR.DS-1</td>
-        </tr>
-        <tr>
-          <td>CCM</td>
-          <td>DSP-16</td>
-        </tr>
-        <tr>
-          <td>ISO_27001</td>
-          <td>2022 A.8.1.4</td>
-        </tr>
-        <tr>
-          <td>NIST_800_53</td>
-          <td>SC-28</td>
-        </tr>
-        <tr>
-          <td>NIST_800_53</td>
-          <td>CP-10</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-### CCC.ObjStor.C05
-
-**Versioning is Enabled for All Objects in the Bucket**
-
-**Objective:** Ensure that versioning is enabled for all objects stored in the object
-storage bucket to enable recovery of previous versions of objects in
-case of loss or corruption.
+**Objective:** Access logs should always be considered sensitive.
+Ensure that access logs are protected against unauthorized
+access, tampering, or deletion.
 
 
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When an object is uploaded to the object storage bucket, the object MUST be stored with a unique identifier. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When an object is modified, the service MUST assign a new unique identifier to the modified object to differentiate it from the previous version. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When an object is modified, the service MUST allow for recovery of previous versions of the object. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When an object is deleted, the service MUST retain other versions of the object to allow for recovery of previous versions. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-
-<div class="flex-container">
-  <div class="flex-item-left">
-    <table cellpadding="5">
-      <thead>
-        <tr>
-          <th>Threat Catalog</th>
-          <th>Related Threat</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>CCC</td>
-          <td>CCC.Core.TH06</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="flex-item-right">
-    <table cellpadding="5">
-      <thead>
-        <tr>
-          <th>Guideline</th>
-          <th>Related Guidance</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>NIST-CSF</td>
-          <td>PR.DS-1</td>
-        </tr>
-        <tr>
-          <td>ISO_27001</td>
-          <td>2022 A.8.1.4</td>
-        </tr>
-        <tr>
-          <td>NIST_800_53</td>
-          <td>SC-28</td>
-        </tr>
-        <tr>
-          <td>NIST_800_53</td>
-          <td>CP-10</td>
-        </tr>
-        <tr>
-          <td>CCM</td>
-          <td>DSP-16</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-### CCC.ObjStor.C06
-
-**Access Logs are Stored in a Separate Data Store**
-
-**Objective:** Ensure that access logs for object storage buckets are stored in a
-separate data store to protect against unauthorized access, tampering,
-or deletion of logs (Logbuckets are exempt from this requirement,
-but must be tlp-red).
-
-
-| Assessment Requirement | Applicability |
-| --- | --- |
-| When an object storage bucket is accessed, the service MUST store access logs in a separate data store. |tlp-amber<br />tlp-red<br /> |
+| When access logs are stored, the service MUST ensure that access logs cannot be accessed without proper authorization. |tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
+| When access logs are stored, the service MUST ensure that access logs cannot be modified without proper authorization. |tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
+| When access logs are stored, the service MUST ensure that access logs cannot be deleted without proper authorization. |tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -595,6 +1331,10 @@ but must be tlp-red).
           <td>CCC</td>
           <td>CCC.Core.TH09</td>
         </tr>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH04</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -612,45 +1352,98 @@ but must be tlp-red).
           <td>PR.DS-6</td>
         </tr>
         <tr>
-          <td>CCM</td>
-          <td>DSP-07</td>
-        </tr>
-        <tr>
-          <td>CCM</td>
-          <td>DSP-17</td>
-        </tr>
-        <tr>
-          <td>ISO_27001</td>
-          <td>2022 A.8.15.0</td>
-        </tr>
-        <tr>
           <td>NIST_800_53</td>
           <td>AU-9</td>
         </tr>
         <tr>
-          <td>NIST_800_53</td>
-          <td>SC-28</td>
+          <td>CCM</td>
+          <td>LOG-02</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>LOG-04</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>LOG-09</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-### CCC.ObjStor.C02
+### CCC.Core.C10
 
-**Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions**
+**Prevent Data Replication to Destinations Outside of Defined Trust Perimeter**
 
-**Objective:** Ensure that uniform bucket-level access is enforced across all
-object storage buckets. This prevents the use of ad-hoc or
-inconsistent object-level permissions, ensuring centralized,
-consistent, and secure access management in accordance with the
-principle of least privilege.
+**Objective:** Prevent replication of data to untrusted destinations outside
+of defined trust perimeter. An untrusted destination is defined
+as a resource that exists outside of a specified trusted
+identity or network or data perimeter.
 
 
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When a permission set is allowed for an object in a bucket, the service MUST allow the same permission set to access all objects in the same bucket. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When a permission set is denied for an object in a bucket, the service MUST deny the same permission set to access all objects in the same bucket. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When data is replicated, the service MUST ensure that replication is restricted to explicitly trusted destinations. |tlp-green<br />tlp-amber<br />tlp-red<br /> |
+
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH04</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NIST-CSF</td>
+          <td>PR.DS-5</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>DSP-10</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>DSP-19</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>AC-4</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.C02
+
+**Ensure Data Encryption at Rest for All Stored Data**
+
+**Objective:** Ensure that all data stored is encrypted at rest to maintain
+confidentiality and integrity.
+
+
+| Assessment Requirement | Applicability |
+| --- | --- |
+| When data is stored at rest, the service MUST be configured to encrypt data at rest using the latest industry-standard encryption methods. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -680,23 +1473,404 @@ principle of least privilege.
       <tbody>
         <tr>
           <td>NIST-CSF</td>
-          <td>PR.AC-4</td>
+          <td>PR.DS-1</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>DSP-17</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>SC-13</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>SC-28</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.C11
+
+**Enforce Key Management Policies**
+
+**Objective:** Ensure that encryption keys are managed securely by enforcing
+the use of approved algorithms, regular key rotation, and
+customer-managed encryption keys (CMEKs).
+
+
+| Assessment Requirement | Applicability |
+| --- | --- |
+| When encryption keys are used, the service MUST verify that all encryption keys use approved cryptographic algorithms as per organizational standards. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When encryption keys are used, the service MUST verify that encryption keys are rotated at a frequency compliant with organizational policies. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When encrypting data, the service MUST verify that customer-managed encryption keys (CMEKs) are used. |tlp-amber<br />tlp-red<br /> |
+| When encryption keys are accessed, the service MUST verify that access to encryption keys is restricted to authorized personnel and services, following the principle of least privilege. |tlp-amber<br />tlp-red<br /> |
+
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH16</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NIST-CSF</td>
+          <td>PR.DS-1</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>EKM-02</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>EKM-03</td>
         </tr>
         <tr>
           <td>ISO_27001</td>
-          <td>2013 A.9.4.1</td>
+          <td>2013 A.10.1.2</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>SC-12</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>SC-17</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.C03
+
+**Implement Multi-factor Authentication (MFA) for Access**
+
+**Objective:** Ensure that all sensitive activities require two or more identity factors
+during authentication to prevent unauthorized access. This may include
+something you know, something you have, or something you are. In the
+case of programattically accessible services, such as API endpoints, this
+includes a combination of API keys or tokens and network restrictions.
+
+
+| Assessment Requirement | Applicability |
+| --- | --- |
+| When an entity attempts to modify the service, the service MUST attempt to verify the client&#39;s identity through an authentication process. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to view information presented by the service, service, the service MUST attempt to verify the client&#39;s identity through an authentication process. |tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to view information on the service through a user interface, the authentication process MUST require multiple identifying factors from the user. |tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to modify the service through an API endpoint, the authentication process MUST be limited to a specific allowed network. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to view information on the service through an API endpoint, the authentication process MUST be limited to a specific allowed network. |tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to modify the service through a user interface, the authentication process MUST require multiple identifying factors from the user. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH01</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NIST-CSF</td>
+          <td>PR.AC-7</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>IAM-03</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>IAM-08</td>
+        </tr>
+        <tr>
+          <td>ISO_27001</td>
+          <td>2013 A.9.4.2</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>IA-2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.C05
+
+**Prevent Access from Untrusted Entities**
+
+**Objective:** Ensure that secure access controls prevent unauthorized access,
+mitigate risks of data exfiltration, and block misuse of services
+by adversaries. This includes restricting access based on trust
+criteria such as IP allowlists, domain restrictions, and tenant
+isolation.
+
+
+| Assessment Requirement | Applicability |
+| --- | --- |
+| When access to sensitive resources is attempted, the service MUST block requests from untrusted sources, including IP addresses, domains, or networks that are not explicitly included in a pre-approved allowlist. |tlp-amber<br />tlp-red<br /> |
+| When administrative access is attempted, the service MUST validate that the request originates from an explicitly allowed source as defined in the allowlist. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When resources are accessed in a multi-tenant environment, the service MUST enforce isolation by allowing access only to explicitly allowlisted tenants. |tlp-amber<br />tlp-red<br /> |
+| When an access attempt from an untrusted source is blocked, the service MUST log the event, including the source details, time, and reason for denial. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH01</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NIST-CSF</td>
+          <td>PR.AC-3</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>DS-5</td>
+        </tr>
+        <tr>
+          <td>ISO_27001</td>
+          <td>2013 A.13.1.3</td>
         </tr>
         <tr>
           <td>NIST_800_53</td>
           <td>AC-3</td>
         </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.C04
+
+**Log All Access and Changes**
+
+**Objective:** Ensure that all access and changes are logged to maintain a
+detailed audit trail for security and compliance purposes.
+
+
+| Assessment Requirement | Applicability |
+| --- | --- |
+| When any access attempt is made to the service, the service MUST log the client identity, time, and result of the attempt. |tlp-amber<br />tlp-red<br /> |
+| When any access attempt is made to the view sensitive information, the service MUST log the client identity, time, and result of the attempt. |tlp-amber<br />tlp-red<br /> |
+| When any change is made to the service configuration, the service MUST log the change, including the client, time, previous state, and the new state following the change. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table cellpadding="5">
+      <thead>
         <tr>
-          <td>NIST_800_53</td>
-          <td>AC-6</td>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH01</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NIST-CSF</td>
+          <td>DE.AE-3</td>
         </tr>
         <tr>
           <td>CCM</td>
-          <td>DCS-09</td>
+          <td>LOG-08</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>AU-2</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>AU-3</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>AU-12</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.C07
+
+**Alert on Unusual Enumeration Activity**
+
+**Objective:** Ensure that logs and associated alerts are generated when
+unusual enumeration activity is detected that may indicate
+reconnaissance activities.
+
+
+| Assessment Requirement | Applicability |
+| --- | --- |
+| When suspicious enumeration activities are detected, the service MUST generate real-time alerts to notify security personnel. |tlp-red<br /> |
+| When suspicious enumeration activities are detected, the service MUST log the event, including the source details, time, and nature of the activity. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH15</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NIST-CSF</td>
+          <td>DE.AE-1</td>
+        </tr>
+        <tr>
+          <td>CCM</td>
+          <td>LOG-05</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>AU-6</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+### CCC.Core.C12
+
+**Ensure Secure Network Access Rules**
+
+**Objective:** Ensure network access to the service is restricted to explicitly
+authorized IP addresses, ports, and protocols by properly
+configuring security group and/or firewall rules. Configuration
+must follow the principle of least privilege to minimize the
+attack surface and prevent unauthorized  inbound connections.
+Overly permissive rules such as, 0.0.0.0/0 must be disallowed or
+strictly controlled.
+
+
+| Assessment Requirement | Applicability |
+| --- | --- |
+| When an unauthorized IP or network attempts to connect to the service, the request MUST be denied. |tlp-red<br />tlp-amber<br /> |
+
+<div class="flex-container">
+  <div class="flex-item-left">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CCC</td>
+          <td>CCC.Core.TH17</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-item-right">
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>NIST-CSF</td>
+          <td>PR.AC-3</td>
+        </tr>
+        <tr>
+          <td>NIST_800_53</td>
+          <td>AC-4</td>
         </tr>
       </tbody>
     </table>
