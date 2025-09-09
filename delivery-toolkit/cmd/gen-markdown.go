@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/spf13/cobra"
+	"github.com/ossf/gemara/layer2"
 	"github.com/spf13/viper"
 )
 
@@ -17,25 +17,9 @@ const (
 	logoPath            = "./logos/logo_wall.svg"
 )
 
-var (
-	// GenerateMarkdown represents the command to generate the markdown catalog
-	GenerateMarkdown = &cobra.Command{
-		Use:   "md",
-		Short: "Generate a markdown catalog from the compiled data",
-		Run:   runGenerateMarkdown,
-	}
-)
+// (GenerateMarkdown command removed; replaced by GenerateReleaseArtifacts)
 
-func runGenerateMarkdown(cmd *cobra.Command, args []string) {
-	initializeOutputDirectory()
-
-	outputPath, err := generateOmnibusMdFile()
-	if err != nil {
-		fmt.Printf("Error generating markdown file: %v\n", err)
-	} else {
-		fmt.Printf("File generated successfully: %s\n", outputPath)
-	}
-}
+// (runGenerateMarkdown removed; replaced by GenerateReleaseArtifacts)
 
 var (
 	htmlRegex  = regexp.MustCompile(`<[^>]*>`)
@@ -55,14 +39,15 @@ func safe(s string) string {
 	return strings.TrimSpace(s)
 }
 
-func generateOmnibusMdFile() (string, error) {
-	data := readAndCompileCatalog()
-	if data == nil {
-		return "", fmt.Errorf("no data available to generate markdown")
-	}
-
-	mdFileName := fmt.Sprintf("%s_%s.md", data.Metadata.Id, data.Metadata.Version)
+func generateOmnibusMdFile(catalog *layer2.Catalog) (string, error) {
+	mdFileName := fmt.Sprintf("%s_%s.md", catalog.Metadata.Id, catalog.Metadata.Version)
 	outputPath := filepath.Join(viper.GetString("output-dir"), mdFileName)
+
+	releaseDetails := getReleaseDetails(filepath.Join(viper.GetString("catalogs-dir"), viper.GetString("build-target")))
+	compiledCatalog := CompiledCatalog{
+		Catalog:        *catalog,
+		ReleaseDetails: releaseDetails,
+	}
 
 	outputFile, err := os.Create(outputPath)
 	if err != nil {
@@ -95,7 +80,7 @@ func generateOmnibusMdFile() (string, error) {
 		return "", fmt.Errorf("error parsing template: %w", err)
 	}
 
-	if err := tmpl.Execute(outputFile, data); err != nil {
+	if err := tmpl.Execute(outputFile, compiledCatalog); err != nil {
 		return "", fmt.Errorf("error executing template: %w", err)
 	}
 

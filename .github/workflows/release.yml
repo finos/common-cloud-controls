@@ -41,9 +41,7 @@ jobs:
           # Create all artifacts for the specified build target
           build_target="${{ steps.process_target.outputs.target }}"
           echo "Creating Artifacts for: $build_target"
-          go run . "yaml" --build-target $build_target
-          go run . "md" --build-target $build_target
-          go run . "release-notes" --build-target $build_target
+          go run . generate-release-artifacts --build-target $build_target
 
           # Create PDF files from MD files
           echo "Converting MD file to PDF"

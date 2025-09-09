@@ -36,7 +36,7 @@ func verifyAllDirectories(directory string) {
 			return err
 		}
 		if info.IsDir() {
-			if _, err := loadContent(path); err != nil {
+			if _, err := loadCatalog(path); err != nil {
 				if strings.Contains(err.Error(), "missing") || !strings.Contains(err.Error(), "skipping") {
 					log.Printf("error: %s: %v <<<", path, err)
 				}

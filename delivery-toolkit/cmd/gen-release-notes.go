@@ -6,35 +6,17 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/spf13/cobra"
+	"github.com/ossf/gemara/layer2"
 	"github.com/spf13/viper"
 )
 
-var (
-	releaseNotesTemplatePath = "templates/release-notes.md"
+var releaseNotesTemplatePath = "templates/release-notes.md"
 
-	GenerateReleaseNotes = &cobra.Command{
-		Use:   "release-notes",
-		Short: "Generate release notes from the compiled data",
-		Run:   runGenerateReleaseNotes,
-	}
-)
-
-func runGenerateReleaseNotes(cmd *cobra.Command, args []string) {
-	initializeOutputDirectory()
-
-	outputPath, err := generateReleaseNotes()
-	if err != nil {
-		fmt.Printf("Error generating release notes: %v\n", err)
-	} else {
-		fmt.Printf("File generated successfully: %s\n", outputPath)
-	}
-}
-
-func generateReleaseNotes() (string, error) {
-	data := readAndCompileCatalog()
-	if data == nil {
-		return "", fmt.Errorf("no data available to generate release notes")
+func generateReleaseNotes(catalog *layer2.Catalog) (string, error) {
+	releaseDetails := getReleaseDetails(filepath.Join(viper.GetString("catalogs-dir"), viper.GetString("build-target")))
+	data := CompiledCatalog{
+		Catalog:        *catalog,
+		ReleaseDetails: releaseDetails,
 	}
 
 	mdFileName := "release_notes.md"
