@@ -1,9 +1,12 @@
 control-families:
   - title: Data
-    description: 'TODO: Describe this control family'
+    description: |-
+      Controls that ensure the confidentiality, integrity, and availability of
+      data throughout its lifecycle, including storage, transmission, replication,
+      and access.
     controls:
       - id: CCC.Core.C01
-        title: Prevent Unencrypted Requests
+        title: Prevent Unencrypted Data Transmission
         objective: |
           Ensure that all communications are encrypted in transit to protect data
           integrity and confidentiality.
@@ -11,13 +14,15 @@ control-families:
           - id: CCC.Core.C01.TR01
             text: |
               When a port is exposed for non-SSH network traffic, all traffic MUST
-              include a TLS handshake AND be encrypted using TLS 1.2 or higher.
+              include a TLS handshake AND be encrypted using TLS 1.3 or higher.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              Most cloud services enable TLS 1.3 by default. Where it is not already set,
+              ensure that your services are configured or updated accordingly.
           - id: CCC.Core.C01.TR02
             text: |
               When a port is exposed for SSH network traffic, all traffic MUST
@@ -27,7 +32,36 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              Any time port 22 is exposed, ensure that it has a properly set up SSH server
+              with SSHv2 enabled and configured with strong ciphers.
+          - id: CCC.Core.C01.TR03
+            text: |
+              The service MUST block clear text traffic or automatically redirect it to a secure equivalent.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Review firewall, load balancer, and application configurations to ensure insecure protocols
+              such as HTTP, FTP, and Telnet are not exposed. Where possible, implement automatic redirection
+              to secure protocols such as HTTPS, SFTP, SSH, and regularly scan for protocol drift.
+          - id: CCC.Core.C01.TR07
+            text: |
+              When a port is exposed, the service MUST ensure that the protocol
+              and service officially assigned to that port number by the IANA Service
+              Name and Transport Protocol Port Number Registry, and no other,
+              is run on that port.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Reference the IANA Service Name and Transport Protocol Port Number Registry
+              for more information about correct protocol-to-port assignments. Avoid
+              running non-standard or custom services on well-known ports to reduce
+              confusion and security risk.
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -47,6 +81,56 @@ control-families:
             entries:
               - reference-id: SC-8
               - reference-id: SC-13
+      - id: CCC.Core.C13
+        title: Minimize lifetime of encryption and authentication certificates
+        objective: |
+          Ensure that encryption and authentication certificates have a limited
+          lifetime to reduce the risk of compromise and ensure the use of
+          up-to-date security practices.
+        assessment-requirements:
+          - id: CCC.Core.C13.TR01
+            text: |
+              When a port is exposed that uses certificate-based encryption, the service
+              MUST only use valid, unexpired certificates issued by a trusted
+              certificate authority.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Regularly monitor certificate expiration dates and automate certificate renewal
+              where possible. Use certificate management tools to ensure only certificates
+              from trusted authorities are deployed.
+          - id: CCC.Core.C13.TR02
+            text: |
+              When a port is exposed that uses certificate-based encryption, the service
+              MUST rotate the certificates within 180 days of issuance.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Regularly monitor certificate expiration dates and automate certificate renewal
+              where possible. Use certificate management tools to ensure only certificates
+              from trusted authorities are deployed.
+          - id: CCC.Core.C13.TR03
+            text: |
+              When a service transmits data, mutual TLS (mTLS) MUST be implemented
+              to require both client and server certificate authentication for all connections.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Configure mTLS for all endpoints that process or transmit sensitive
+              data. Ensure both client and server certificates are validated and
+              managed securely. Regularly review certificate authorities and automate
+              certificate rotation where possible.
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH18
       - id: CCC.Core.C06
         title: Prevent Deployment in Restricted Regions
         objective: |
@@ -232,7 +316,10 @@ control-families:
             entries:
               - reference-id: AC-4
   - title: Encryption
-    description: 'TODO: Describe this control family'
+    description: |
+      Controls that require the use of strong encryption methods and effective
+      key management to protect data at rest and in transit, ensuring only
+      authorized access.
     controls:
       - id: CCC.Core.C02
         title: Ensure Data Encryption at Rest for All Stored Data
@@ -334,7 +421,10 @@ control-families:
               - reference-id: SC-12
               - reference-id: SC-17
   - title: Identity and Access Management
-    description: 'TODO: Describe this control family'
+    description: |
+      Controls that govern authentication, authorization, and access
+      restrictions to ensure that only trusted and verified entities
+      can access sensitive resources.
     controls:
       - id: CCC.Core.C03
         title: Implement Multi-factor Authentication (MFA) for Access
@@ -491,7 +581,9 @@ control-families:
             entries:
               - reference-id: AC-3
   - title: Logging & Monitoring
-    description: 'TODO: Describe this control family'
+    description: |
+      Controls that require comprehensive logging of access and changes,
+      as well as monitoring and alerting for suspicious or unauthorized activities.
     controls:
       - id: CCC.Core.C04
         title: Log All Access and Changes
@@ -587,9 +679,6 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-6
-  - title: ""
-    description: 'TODO: Describe this control family'
-    controls:
       - id: CCC.Core.C12
         title: Ensure Secure Network Access Rules
         objective: |

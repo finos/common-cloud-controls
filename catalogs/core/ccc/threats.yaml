@@ -521,3 +521,18 @@ threats:
           - reference-id: T1133
             strength: 0 # Not yet specified
             remarks: External Remote Services
+  - id: CCC.Core.TH18
+    title: Encryption Keys are Compromised
+    description: |
+      Encryption keys may be misused due to inadequate key management practices 
+      or the compromise of a connected system. This could lead to disruptions or
+      unauthorized access to encrypted data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F01
+            strength: 0 # Not yet specified
+            remarks: Encryption in Transit Enabled by Default
+          - reference-id: CCC.Core.F02
+            strength: 0 # Not yet specified
+            remarks: Encryption at Rest Enabled by Default

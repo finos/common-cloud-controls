@@ -1,131 +1,191 @@
+##
+# Capabilities Style Guide
+#
+# - Use a formal, objective, and standardized tone.
+# - Begin each description with "The service..."
+# - Specify whether a feature is one or more of the following: 
+#    - default ("always" if a state or "automatically" if an action)
+#    - configurable ("may be configured")
+#    - ad hoc ("can")
+# - Use present tense and active voice.
+# - State what the service does.
+# - Use precise technical terms and consistent terminology
+#    - user: an individual or entity that interacts with the service
+#    - component: an actor within the scope of the service itself
+#    - child resource: an actor that is created, managed, or contained outside the bounds of the service
+# - Structure each capability with: id, title, description.
+# - Titles should be concise and use title case.
+# - Descriptions should be clear, complete sentences.
+#
 capabilities:
   - id: CCC.Core.F01
     title: Encryption in Transit Enabled by Default
     description: |
-      Provides default encryption of data in transit through SSL or TLS.
+      The service automatically encrypts all data using industry-standard
+      cryptographic protocols prior to transmission via a network interface.
 
   - id: CCC.Core.F02
     title: Encryption at Rest Enabled by Default
     description: |
-      Provides default encryption of data before storage, with the option for
-      clients to maintain control over the encryption keys.
+      The service automatically encrypts all data using industry-standard
+      cryptographic protocols prior to being written to a storage medium.
 
   - id: CCC.Core.F03
-    title: Access/Activity Logs
+    title: Access Log Publication
     description: |
-      Provides users with the ability to track all requests made to or
-      activities performed on resources for audit purposes.
+      The service automatically publishes structured, verbose records of
+      activities performed within the scope of the service by external actors.
 
   - id: CCC.Core.F04
     title: Transaction Rate Limits
     description: |
-      Allows the setting of a threshold where industry-standard throughput is
-      achieved up to the specified rate limit.
+      The service always provides industry-standard network throughput
+      up to a user-specified rate limit, beyond which excess requests
+      may be throttled, delayed, or rejected.
 
   - id: CCC.Core.F05
     title: Signed URLs
     description: |
-      Provides the ability to grant temporary or restricted access
-      to a resource through a custom URL that contains authentication information.
+      The service automatically enforces user-configured permissions to access
+      a specific component or a child resource via an ad hoc URL containing
+      authentication information.
 
   - id: CCC.Core.F06
-    title: Identity Based Access Control
+    title: Access Control
     description: |
-      Provides the ability to determine access to resources based on
-      attributes associated with a user identity.
+      The service automatically enforces user configurations to
+      restrict or allow access to a specific component or
+      a child resource based on factors such as user identities, roles,
+      groups, or attributes.
 
   - id: CCC.Core.F07
-    title: Event Notifications
+    title: Event Publication
     description: |
-      Publishes events for creation, deletion, and modification of
-      objects in a way that enables users to trigger actions in response.
+      The service automatically publishes a structured state-change record
+      upon creation, deletion, or modification of data, configuration,
+      components, or child resources.
 
   - id: CCC.Core.F08
-    title: Multi-zone Deployment
+    title: Data Replication
     description: |
-      Provides the ability for the service to be deployed in multiple availability
-      zones or regions to increase availability and fault tolerance.
+      The service automatically will or can be configured to
+      replicate data across multiple deployments simultaneously with parity.
 
   - id: CCC.Core.F09
-    title: Monitoring
+    title: Metrics Publication
     description: |
-      Provides the ability to continuously observe, track, and analyze
-      the performance, availability, and health of the service resources or
-      applications.
+      The service automatically publishes structured, numeric, time-series data points related to
+      the performance, availability, and health of the service or its child resources.
 
   - id: CCC.Core.F10
-    title: Logging
+    title: Log Publication
     description: |
-      Provides the ability to transmit system events, application activities,
-      and/or user interactions to a logging service
+      The service automatically publishes structured, verbose records of activities,
+      operations, or events that occur within the service.
 
   - id: CCC.Core.F11
-    title: Backup
+    title: Data or Configuration Backup
     description: |
-      Provides the ability to create copies of associated data or
-      configurations in the form of automated backups, snapshot-based backups,
-      and/or incremental backups.
+      The service can generate copies of its data or configurations
+      in the form of automated backups, snapshot-based backups, or incremental backups.
 
   - id: CCC.Core.F12
-    title: Recovery
+    title: State Recovery
     description: |
-      Provides the ability to restore data, a system, or an application to a functional state
-      after an incident such as data loss, corruption or a disaster.
-
-  - id: CCC.Core.F13
-    title: Infrastructure as Code
-    description: |
-      Allows for managing and provisioning service resources
-      through machine-readable configuration files, such as templates.
+      The service can be reverted to a previous state
+      by providing a compatible backup or snapshot identifier.
 
   - id: CCC.Core.F14
     title: API Access
     description: |
-      Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+      The service exposes a port enabling external actors to interact
+      programmatically with the service and its resources using HTTP
+      protocol methods such as GET, POST, PUT, and DELETE.
 
   - id: CCC.Core.F15
     title: Cost Management
     description: |
-      Provides the ability to filter spending and to detect cost anomalies for the service.
+      The service monitors data published by child or networked resources to infer
+      usage patterns and generate cost reports for the service.
 
   - id: CCC.Core.F16
     title: Budgeting
     description: |
-      Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+      The service may be configured to take a user-specified action when a
+      spending threshold is met or exceeded on a child or networked resource.
 
   - id: CCC.Core.F17
     title: Alerting
     description: |
-      Provides the ability to set an alarm based on performance metrics,
-      logs, events or spending thresholds of the service.
+      The service may be configured to emit a notification based on a user-defined
+      condition related to the data published by a child or networked resource.
 
   - id: CCC.Core.F18
-    title: Versioning
+    title: Resource Versioning
     description: |
-      Provides the ability to maintain multiple versions of the same resource.
+      The service assigns versions to child resources to preserve, retrieve,
+      and restore past iterations.
 
   - id: CCC.Core.F19
-    title: On-demand Scaling
+    title: Resource Scaling
     description: |
-      Provide scaling of resources based on demand.
+      The service may be configured to scale child resources automatically
+      or on-demand.
 
   - id: CCC.Core.F20
-    title: Tagging
+    title: Resource Tagging
     description: |
-      Provide the ability to tag a resource to effectively manage and gain insights of the resource.
+      The service provides users with the ability to tag a child resource with metadata
+      that can be reviewed or queried.
 
   - id: CCC.Core.F21
-    title: Replication
+    title: Resource Replication
     description: |
-      Provides the ability to copy data or resource to multiple locations to ensure
-      availability and durability.
+      The service may be configured to replicate child resources
+      across multiple deployments.
 
   - id: CCC.Core.F22
     title: Location Lock-In
     description: |
-      Provides the ability to control where the resources are created.
+      The service may be configured to restrict the deployment of child resources
+      to specific geographic locations.
 
   - id: CCC.Core.F23
     title: Network Access Rules
     description: |
-      Ability to control access to the resource by defining network access rules.
+      The service restricts access to child or networked resources based on
+      user-defined network parameters such as IP address,
+      protocol, port, or source.
+
+  - id: CCC.Core.F24
+    title: Core Processing Units
+    description: |
+      The service provides users and child resources with access to
+      core processing units (CPUs) for executing instructions and
+      performing computations.
+
+  - id: CCC.Core.F25
+    title: Random Access Memory Allocation
+    description: |
+      The service provides users and child resources with access to
+      random access memory (RAM) for temporary data storage and
+      fast data retrieval during processing tasks.
+
+  - id: CCC.Core.F26
+    title: Persistent Storage
+    description: |
+      The service provides users and child resources with access to
+      persistent storage for saving and retrieving data reliably over time.
+
+  - id: CCC.Core.F27
+    title: Configurable Network Ports
+    description: |
+      The service allows users to configure network ports for
+      communication, enabling flexibility in network management
+      and integration with other services.
+
+  - id: CCC.Core.F28
+    title: Command-line Interface
+    description: |
+      The service includes a component that reads and translates
+      text into commands that can be executed by the service.
