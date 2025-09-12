@@ -1,17 +1,23 @@
 control-families:
   - title: Data
-    description: 'TODO: Describe this control family'
+    description: |
+      The Data control family ensures the confidentiality, integrity,
+      availability, and sovereignty of data across its lifecycle.
+      These controls govern how data is transmitted, stored,
+      replicated, and protected from unauthorized access, tampering,
+      or exposure beyond defined trust perimeters.
     controls:
       - id: CCC.Core.C01
         title: Prevent Unencrypted Requests
         objective: |
-          Ensure that all communications are encrypted in transit to protect data
-          integrity and confidentiality.
+          Ensure that all communications are encrypted in transit to
+          protect data integrity and confidentiality.
         assessment-requirements:
           - id: CCC.Core.C01.TR01
             text: |
-              When a port is exposed for non-SSH network traffic, all traffic MUST
-              include a TLS handshake AND be encrypted using TLS 1.2 or higher.
+              When a port is exposed for non-SSH network traffic, all
+              traffic MUST include a TLS handshake AND be encrypted
+              using TLS 1.2 or higher.
             applicability:
               - tlp-clear
               - tlp-green
@@ -141,7 +147,9 @@ control-families:
               - reference-id: CP-2
               - reference-id: CP-10
       - id: CCC.Core.C09
-        title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        title: |
+          Prevent Tampering, Deletion, or Unauthorized Access to
+          Access Logs
         objective: |
           Access logs should always be considered sensitive.
           Ensure that access logs are protected against unauthorized
@@ -198,7 +206,9 @@ control-families:
           - reference-id: ISO_27001
             entries: []
       - id: CCC.Core.C10
-        title: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+        title: |
+          Prevent Data Replication to Destinations Outside of
+          Defined Trust Perimeter
         objective: |
           Prevent replication of data to untrusted destinations outside
           of defined trust perimeter. An untrusted destination is defined
@@ -232,7 +242,13 @@ control-families:
             entries:
               - reference-id: AC-4
   - title: Encryption
-    description: 'TODO: Describe this control family'
+    description: |
+      The Encryption control family ensures that sensitive data is protected
+      through robust encryption practices both at rest and in transit.
+      These controls mandate the use of industry-standard encryption algorithms,
+      secure key management practices, and the enforcement of encryption
+      policies to safeguard data from unauthorized access, tampering, or
+      exposure.
     controls:
       - id: CCC.Core.C02
         title: Ensure Data Encryption at Rest for All Stored Data
@@ -334,16 +350,23 @@ control-families:
               - reference-id: SC-12
               - reference-id: SC-17
   - title: Identity and Access Management
-    description: 'TODO: Describe this control family'
+    description: |
+      The Identity and Access Management control family ensures
+      that only trusted and authenticated entities can access
+      resources. These controls establish strong authentication,
+      enforce multi-factor verification, and restrict access to
+      approved sources to prevent unauthorized use or data exfiltration.
     controls:
       - id: CCC.Core.C03
         title: Implement Multi-factor Authentication (MFA) for Access
         objective: |
-          Ensure that all sensitive activities require two or more identity factors
-          during authentication to prevent unauthorized access. This may include
-          something you know, something you have, or something you are. In the
-          case of programattically accessible services, such as API endpoints, this
-          includes a combination of API keys or tokens and network restrictions.
+          Ensure that all sensitive activities require two or more
+          identity factors during authentication to prevent
+          unauthorized access. This may include something you know,
+          something you have, or something you are. In the case of
+          programattically accessible services, such as API endpoints,
+          this includes a combination of API keys or tokens and
+          network restrictions.
         assessment-requirements:
           - id: CCC.Core.C03.TR01
             text: |
@@ -358,9 +381,10 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C03.TR02
             text: |
-              When an entity attempts to view information presented by the service,
-              service, the service MUST attempt to verify the client's identity
-              through an authentication process.
+              When an entity attempts to view information presented
+              by the service, service, the service MUST attempt to
+              verify the client's identity through an authentication
+              process.
             applicability:
               - tlp-amber
               - tlp-red
@@ -456,8 +480,8 @@ control-families:
           - id: CCC.Core.C05.TR03
             text: |
               When resources are accessed in a multi-tenant environment, the
-              service MUST enforce isolation by allowing access only to explicitly
-              allowlisted tenants.
+              service MUST enforce isolation by allowing access only
+              to explicitly allowlisted tenants.
             applicability:
               - tlp-amber
               - tlp-red
@@ -491,7 +515,11 @@ control-families:
             entries:
               - reference-id: AC-3
   - title: Logging & Monitoring
-    description: 'TODO: Describe this control family'
+    description: |
+      The Logging & Monitoring control family ensures that access,
+      changes, and security-relevant events are captured, monitored,
+      and alerted on in order to provide visibility, support
+      incident response, and meet compliance requirements.
     controls:
       - id: CCC.Core.C04
         title: Log All Access and Changes
@@ -501,8 +529,9 @@ control-families:
         assessment-requirements:
           - id: CCC.Core.C04.TR01
             text: |
-              When any access attempt is made to the service, the service MUST log
-              the client identity, time, and result of the attempt.
+              When any access attempt is made to the service, the
+              service MUST log the client identity, time, and result
+              of the attempt.
             applicability:
               - tlp-amber
               - tlp-red
@@ -518,9 +547,9 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C04.TR03
             text: |
-              When any change is made to the service configuration, the service MUST
-              log the change, including the client, time, previous state, and the
-              new state following the change.
+              When any change is made to the service configuration,
+              the service MUST log the change, including the client,
+              time, previous state, and the new state following the change.
             applicability:
               - tlp-clear
               - tlp-green
@@ -587,8 +616,14 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-6
-  - title: ""
-    description: 'TODO: Describe this control family'
+  - title: Network Security
+    description: |
+      The Network Security control family ensures that access
+      to services is restricted to authorized sources through
+      least-privilege network rules. These controls minimize
+      the attack surface by enforcing secure firewall and
+      security group configurations and preventing overly
+      permissive access.
     controls:
       - id: CCC.Core.C12
         title: Ensure Secure Network Access Rules
