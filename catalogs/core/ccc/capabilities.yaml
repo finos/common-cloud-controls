@@ -1,21 +1,21 @@
 ##
 # Capabilities Style Guide
 #
-# - Use a formal, objective, and standardized tone.
+# - Titles should be concise and use title case.
+# - Descriptions should be clear, complete sentences.
 # - Begin each description with "The service..."
 # - Specify whether a feature is one or more of the following: 
 #    - default ("always" if a state or "automatically" if an action)
 #    - configurable ("may be configured")
 #    - ad hoc ("can")
+# - Use a formal, objective, tone.
 # - Use present tense and active voice.
-# - State what the service does.
-# - Use precise technical terms and consistent terminology
+# - State what the service does — not what it enables, prevents, avoids, or lacks.
+# - Use precise technical terms and consistent terminology. Update this list where possible:
 #    - user: an individual or entity that interacts with the service
 #    - component: an actor within the scope of the service itself
 #    - child resource: an actor that is created, managed, or contained outside the bounds of the service
 # - Structure each capability with: id, title, description.
-# - Titles should be concise and use title case.
-# - Descriptions should be clear, complete sentences.
 #
 capabilities:
   - id: CCC.Core.F01
