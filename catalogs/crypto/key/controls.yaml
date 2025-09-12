@@ -1,0 +1,169 @@
+imported-controls:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.C01
+        strength: 0 # Not yet specified
+        remarks: Prevent unencrypted requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # Not yet specified
+        remarks: Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.Core.C03
+        strength: 0 # Not yet specified
+        remarks: Implement multi-factor authentication (MFA) for access
+      - reference-id: CCC.Core.C04
+        strength: 0 # Not yet specified
+        remarks: Log all access and changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # Not yet specified
+        remarks: Prevent access from untrusted entities
+      - reference-id: CCC.Core.C06
+        strength: 0 # Not yet specified
+        remarks: Prevent deployment in restricted regions
+      - reference-id: CCC.Core.C10
+        strength: 0 # Not yet specified
+        remarks: Prevent Data Replication to Destinations Outside Perimeter
+
+control-families:
+  - title: Logging and Monitoring
+    description: Controls that collect, alert, and retain key-management events.
+
+    controls:
+      - id: CCC.KeyMgmt.C01
+        title: Alert on Key-version Changes
+        objective: >
+          Generate near-real-time alerts when a KMS key version is disabled or
+          scheduled for deletion, enabling rapid investigation and recovery.
+        assessment-requirements:
+          - id: CCC.KeyMgmt.C01.TR01
+            text: |
+              When a key version is scheduled for deletion or disabled, an
+              alert MUST be generated within five minutes.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: Use native event services (e.g., CloudWatch Events,
+              Azure Monitor, Cloud Audit Logs) to route notifications to an
+              incident-response channel.
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.KeyMgmt.TH01
+                strength: 0 # Not yet specified
+                remarks: Deletion or disabling of key versions
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: RS.AN-1
+                strength: 0 # Not yet specified
+                remarks: Notifications from detection systems are investigated
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: IR-5
+                strength: 0 # Not yet specified
+                remarks: Incident Monitoring
+
+  - title: Identity and Access Management
+    description: Controls that enforce least-privilege use of KMS operations.
+
+    controls:
+      - id: CCC.KeyMgmt.C02
+        title: Limit Decrypt Permissions
+        objective: >
+          Restrict the Decrypt operation to authorised principals only, applying
+          the principle of least privilege to protect sensitive data.
+        assessment-requirements:
+          - id: CCC.KeyMgmt.C02.TR01
+            text: |
+              When IAM roles and key policies are reviewed, Decrypt permission
+              MUST be granted exclusively to documented authorised principals.
+            applicability:
+              - tlp-green
+            recommendation: Periodically audit policy documents via automated
+              tooling and report any deviations.
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.KeyMgmt.TH02
+                strength: 0 # Not yet specified
+                remarks: Unrestricted use of a KMS key to decrypt data
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AC-4
+                strength: 0 # Not yet specified
+                remarks: Access to assets is managed
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-6
+                strength: 0 # Not yet specified
+                remarks: Least Privilege
+
+  - title: Key Lifecycle Management
+    description: Controls that govern creation, rotation, import, and retirement
+      of cryptographic keys.
+
+    controls:
+      - id: CCC.KeyMgmt.C03
+        title: Enforce Automatic Rotation
+        objective: >
+          Ensure symmetric keys rotate automatically within policy intervals to
+          reduce exposure of key material.
+        assessment-requirements:
+          - id: CCC.KeyMgmt.C03.TR01
+            text: |
+              When rotation settings are examined, rotation MUST be enabled with
+              an interval not exceeding 365 days.
+            applicability:
+              - tlp-green
+            recommendation: Use cloud-provider rotation features and verify via
+              configuration scanning.
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.KeyMgmt.TH03
+                strength: 0 # Not yet specified
+                remarks: Key rotation is disabled or delayed
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0 # Not yet specified
+                remarks: Data at rest is protected
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-12
+                strength: 0 # Not yet specified
+                remarks: Cryptographic Key Establishment and Management
+
+      - id: CCC.KeyMgmt.C04
+        title: Validate Imported Keys
+        objective: >
+          Accept only externally generated keys that meet approved cryptographic
+          strength and provenance requirements.
+        assessment-requirements:
+          - id: CCC.KeyMgmt.C04.TR01
+            text: |
+              When a key import request is processed, the key MUST use an
+              approved algorithm (RSA-2048+, EC-P256+) and originate from a
+              certified HSM.
+            applicability:
+              - tlp-green
+            recommendation: Implement an approval workflow that validates
+              attestation data before import.
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.KeyMgmt.TH04
+                strength: 0 # Not yet specified
+                remarks: Weak or compromised key material
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0 # Not yet specified
+                remarks: Data at rest is protected
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-28
+                strength: 0 # Not yet specified
+                remarks: Protection of Information at Rest

@@ -1,0 +1,101 @@
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # Not yet specified
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH13
+        strength: 0 # Not yet specified
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH15
+        strength: 0 # Not yet specified
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+
+threats:
+  - id: CCC.VPC.TH01
+    title: Unauthorized Access via Insecure Default Networks
+    description: |
+      Default network configurations may include insecure settings and open
+      firewall rules,leading to unauthorized access and potential data
+      breaches.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.F01
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1040
+  - id: CCC.VPC.TH02
+    title: Exposure of Resources to Public Internet
+    description: |
+      Assignment of external IP addresses to resources exposes resources to the
+      public internet, increasing the risk of attacks such as brute force,
+      exploitation of vulnerabilities, or unauthorized access.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.F04
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1133
+          - reference-id: T1078
+  - id: CCC.VPC.TH03
+    title: Unauthorized Network Access Through VPC Peering
+    description: |
+      Unauthorized VPC peering connections can allow network traffic between
+      untrusted or unapproved subscriptions, leading to potential data
+      exposure or exfiltration.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1599
+  - id: CCC.VPC.TH04
+    title: Lack of Network Visibility due to Disabled VPC Flow Logs
+    description: |
+      VPC subnets with disabled flow logs lack critical network traffic
+      visibility, which can lead to undetected unauthorized access,
+      data exfiltration, and network misconfigurations. This lack of
+      visibility increases the risk of undetected security incidents.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.F16
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1562
+  - id: CCC.VPC.TH05
+    title: Overly Permissive VPC Endpoint Policies
+    description: |
+      VPC Endpoint policies that are overly permissive may inadvertently expose
+      resources within the VPC to unintended principals or external threats.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.F17
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+          - reference-id: T1071

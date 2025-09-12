@@ -1,0 +1,208 @@
+imported-controls:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.C02
+        strength: 0 # Not yet specified
+        remarks: Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.Core.C03
+        strength: 0 # Not yet specified
+        remarks: Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.Core.C04
+        strength: 0 # Not yet specified
+        remarks: Log All Access and Changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # Not yet specified
+        remarks: Prevent Access from Untrusted Entities
+      - reference-id: CCC.Core.C07
+        strength: 0 # Not yet specified
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.C09
+        strength: 0 # Not yet specified
+        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - reference-id: CCC.Core.C11
+        strength: 0 # Not yet specified
+        remarks: Enforce Key Management Policies
+control-families:
+  - title: Logging & Monitoring
+    description: Controls that collect, alert, and retain events from other monitoring services.
+    controls:
+      - id: CCC.Monitor.C01
+        title: Rate Limiting on External Monitoring
+        objective: |
+          Prevent DoS attacks using External Monitoring tools.
+        assessment-requirements:
+          - id: CCC.Monitor.C01.TR01
+            text: |
+              When an External Monitoring system exceeds the anticipated rate of monitoring checks then
+              Rate Limiting MUST be applied and an Audit Alert MUST be generated.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH03
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.IR-01
+                strength: 0 # Not yet specified
+              - reference-id: DE.CM-01
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-5
+                strength: 0 # Not yet specified
+              - reference-id: SC-7
+      - id: CCC.Monitor.C02
+        title: Rate Limiting on Metric Generation
+        objective: |
+          Prevent Malicious Actor or misconfiguration from flooding services with metric data.
+        assessment-requirements:
+          - id: CCC.Monitor.C02.TR01
+            text: |
+              When an Custom or User-Defined Metric starts to flood a collector, then a rate limit MUST be applied
+              to reduce the network impact of traffic and an alert must triggered.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH06
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.CM-01
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-5(2)
+                strength: 0 # Not yet specified
+              - reference-id: CA-7
+                strength: 0 # Not yet specified
+              - reference-id: SI-4
+  - title: Identity and Access Management
+    description: Controls designed to prevent unauthorised access to monitoring features.
+    controls:
+      - id: CCC.Monitor.C03
+        title: Access External Monitoring
+        objective: |
+          Control access to Synthetic monitoring solutions using API keys or Certificate based authentication to
+          ensure they don't become an attack path, preventing monitoring systems from forging network requests to
+          gain access to internal systems.
+        assessment-requirements:
+          - id: CCC.Monitor.C03.TR01
+            text: |
+              When external systems have approved access to internal systems not normally available for public access
+              then they MUST be secured to prevent unauthorised access jumping through to the internal systems and
+              only allow access to specific internal services.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH04
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.CM-06
+                strength: 0 # Not yet specified
+              - reference-id: PR.IR-01
+                strength: 0 # Not yet specified
+              - reference-id: PR.AA-05
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-3
+      - id: CCC.Monitor.C04
+        title: Restrict access to Monitoring Dashboards
+        objective: |
+          Control access to Monitoring Dashboards and reports to ensure they don't highlight an attack path.
+        assessment-requirements:
+          - id: CCC.Monitor.C04.TR01
+            text: |
+              When monitoring dashboards display degraded services which may become potential targets then the
+              dashboard MUST be protected from unauthorised access.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH02
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.CM-09
+                strength: 0 # Not yet specified
+              - reference-id: DE.AE-03
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SI-4
+                strength: 0 # Not yet specified
+              - reference-id: AC-3
+      - id: CCC.Monitor.C05
+        title: Restrict access to silence or acknowledge an alert
+        objective: |
+          Ensure only a subset of users can silence or acknowledge alerts to prevent attackers hiding their activity.
+        assessment-requirements:
+          - id: CCC.Monitor.C05.TR01
+            text: |
+              When monitoring services have generated an alert, the service MUST ensure only authorised
+              responders silence or acknowledge the alert.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH10
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.IR-01
+                strength: 0 # Not yet specified
+              - reference-id: PR.AA-05
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-3
+      - id: CCC.Monitor.C06
+        title: Metrics pushed for authorised services only
+        objective: |
+          Use IAM to control which types of metrics or traces can be pushed by different system to avoid a compromised
+          system pushing fabricated metrics about a different service
+        assessment-requirements:
+          - id: CCC.Monitor.C06.TR01
+            text: |
+              When systems push metrics or traces they MUST be authenticated for that particular type of metric or trace
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH05
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AA-05
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-5

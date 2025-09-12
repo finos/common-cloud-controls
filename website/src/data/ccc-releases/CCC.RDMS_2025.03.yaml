@@ -1,0 +1,1290 @@
+metadata:
+    title: CCC Relational Database Management System Features
+    id: CCC.RDMS
+    description: |
+        This documents the minimual set of features that should be present for a RDMS
+        service to be considered for use in financial services ecosystems.
+    release_details:
+        - version: "2025.03"
+          assurance_level: None
+          threat_model_url: None
+          threat_model_author: None
+          red_team: None
+          red_team_exercise_url: None
+          release_manager:
+            name: Damien Burks
+            github_id: damienjburks
+            company: Citi
+            summary: |
+                This initial release is part of the first batch of control catalogs
+                produced by the CCC. It is the result of thousands of hours dedicated to
+                exploring different ways of working and collaborating, on top of time
+                spent researching, writing, and reviewing the content. This marks a huge
+                milestone for the CCC and the broader community as further releases will
+                continue to build on this foundation. A huge thanks to everyone who has
+                brought us to this point!
+          change_log:
+            - |
+              This initial release contains a variety of commits designed to capture
+              all of the features, threats, and controls for this service category.
+          contributors:
+            - name: Michael Lysaght
+              github_id: mlysaght2017
+              company: Citi
+            - name: abikhuil
+              github_id: abikhuil
+              company: LSEG
+            - name: Vlad Georgescu
+              github_id: vgeorgescu
+              company: Morgan Stanley
+            - name: Ian Walker-Smith
+              github_id: ianwalkersmithciticom
+              company: Citi
+            - name: Dave Ogle
+              github_id: dogle-scottlogic
+              company: Scott Logic
+            - name: Steve Hoffman
+              github_id: shoffman-percona
+              company: Percona
+            - name: Sonali Mendis
+              github_id: smendis-scottlogic
+              company: Scott Logic
+            - name: Eddie Knight
+              github_id: eddie-knight
+              company: Sonatype
+            - name: Damien Burks
+              github_id: damienjburks
+              company: Citi
+controls:
+    - id: CCC.C01
+      title: Prevent Unencrypted Requests
+      objective: |
+        Ensure that all communications are encrypted in transit to protect data
+        integrity and confidentiality.
+      control_family: Data
+      threats:
+        - reference-id: CCC.TH02
+      nist_csf: PR.DS-02
+      control_mappings:
+        CCM:
+            - IVS-03
+            - IVS-07
+        ISO_27001:
+            - 2013 A.13.1.1
+        NIST_800_53:
+            - SC-8
+            - SC-13
+      test_requirements:
+        - id: CCC.C01.TR01
+          text: |
+            When a port is exposed for non-SSH network traffic, all traffic MUST
+            include a TLS handshake AND be encrypted using TLS 1.2 or higher.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C01.TR02
+          text: |
+            When a port is exposed for SSH network traffic, all traffic MUST
+            include a SSH handshake AND be encrypted using SSHv2 or higher.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc01---prevent-unencrypted-requests
+    - id: CCC.C02
+      title: Ensure Data Encryption at Rest for All Stored Data
+      objective: |
+        Ensure that all data stored is encrypted at rest to maintain
+        confidentiality and integrity.
+      control_family: Encryption
+      threats:
+        - reference-id: CCC.TH01
+      nist_csf: PR.DS-1
+      control_mappings:
+        CCM:
+            - DSP-17
+        ISO_27001: []
+        NIST_800_53:
+            - SC-13
+            - SC-28
+      test_requirements:
+        - id: CCC.C02.TR01
+          text: |
+            When data is stored at rest, the service MUST be configured to
+            encrypt data at rest using the latest industry-standard encryption
+            methods.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc02---ensure-data-encryption-at-rest-for-all-stored-data
+    - id: CCC.C03
+      title: Implement Multi-factor Authentication (MFA) for Access
+      objective: |
+        Ensure that all sensitive activities require two or more identity factors
+        during authentication to prevent unauthorized access. This may include
+        something you know, something you have, or something you are. In the
+        case of programattically accessible services, such as API endpoints, this
+        includes a combination of API keys or tokens and network restrictions.
+      control_family: Identity and Access Management
+      threats:
+        - reference-id: CCC.TH01
+      nist_csf: PR.AC-7
+      control_mappings:
+        CCM:
+            - IAM-03
+            - IAM-08
+        ISO_27001:
+            - 2013 A.9.4.2
+        NIST_800_53:
+            - IA-2
+      test_requirements:
+        - id: CCC.C03.TR01
+          text: |
+            When an entity attempts to modify the service, the service MUST
+            attempt to verify the client's identity through an authentication
+            process.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR02
+          text: |
+            When an entity attempts to view information presented by the service,
+            service, the service MUST attempt to verify the client's identity
+            through an authentication process.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR03
+          text: |
+            When an entity attempts to view information on the service through
+            a user interface, the authentication process MUST require multiple
+            identifying factors from the user.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR04
+          text: |
+            When an entity attempts to modify the service through an API
+            endpoint, the authentication process MUST be limited to a
+            specific allowed network.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR05
+          text: |
+            When an entity attempts to view information on the service through
+            an API endpoint, the authentication process MUST be limited to a
+            specific allowed network.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C03.TR06
+          text: |
+            When an entity attempts to modify the service through a user
+            interface, the authentication process MUST require multiple
+            identifying factors from the user.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc03---implement-multi-factor-authentication-(mfa)-for-access
+    - id: CCC.C04
+      title: Log All Access and Changes
+      objective: |
+        Ensure that all access and changes are logged to maintain a
+        detailed audit trail for security and compliance purposes.
+      control_family: Logging & Monitoring
+      threats:
+        - reference-id: CCC.TH01
+      nist_csf: DE.AE-3
+      control_mappings:
+        CCM:
+            - LOG-08
+        ISO_27001: []
+        NIST_800_53:
+            - AU-2
+            - AU-3
+            - AU-12
+      test_requirements:
+        - id: CCC.C04.TR01
+          text: |
+            When any access attempt is made to the service, the service MUST log
+            the client identity, time, and result of the attempt.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C04.TR02
+          text: |
+            When any access attempt is made to the view sensitive information,
+            the service MUST log the client identity, time, and result of the
+            attempt.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C04.TR03
+          text: |
+            When any change is made to the service configuration, the service MUST
+            log the change, including the client, time, previous state, and the
+            new state following the change.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc04---log-all-access-and-changes
+    - id: CCC.C05
+      title: Prevent Access from Untrusted Entities
+      objective: |
+        Ensure that secure access controls prevent unauthorized access,
+        mitigate risks of data exfiltration, and block misuse of services
+        by adversaries. This includes restricting access based on trust
+        criteria such as IP allowlists, domain restrictions, and tenant
+        isolation.
+      control_family: Identity and Access Management
+      threats:
+        - reference-id: CCC.TH01
+      nist_csf: PR.AC-3
+      control_mappings:
+        CCM:
+            - DS-5
+        ISO_27001:
+            - 2013 A.13.1.3
+        NIST_800_53:
+            - AC-3
+      test_requirements:
+        - id: CCC.C05.TR01
+          text: |
+            When access to sensitive resources is attempted, the service MUST
+            block requests from untrusted sources, including IP addresses,
+            domains, or networks that are not explicitly included in a
+            pre-approved allowlist.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C05.TR02
+          text: |
+            When administrative access is attempted, the service MUST validate
+            that the request originates from an explicitly allowed source as
+            defined in the allowlist.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C05.TR03
+          text: |
+            When resources are accessed in a multi-tenant environment, the
+            service MUST enforce isolation by allowing access only to explicitly
+            allowlisted tenants.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C05.TR04
+          text: |
+            When an access attempt from an untrusted source is blocked, the
+            service MUST log the event, including the source details, time,
+            and reason for denial.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc05---prevent-access-from-untrusted-entities
+    - id: CCC.C06
+      title: Prevent Deployment in Restricted Regions
+      objective: |
+        Ensure that resources are not provisioned or deployed in
+        geographic regions or cloud availability zones that have been
+        designated as restricted or prohibited, to comply with
+        regulatory requirements and reduce exposure to geopolitical
+        risks.
+      control_family: Data
+      threats:
+        - reference-id: CCC.TH03
+      nist_csf: PR.DS-1
+      control_mappings:
+        CCM:
+            - DSI-06
+            - DSI-08
+        ISO_27001:
+            - 2013 A.11.1.1
+        NIST_800_53:
+            - AC-6
+      test_requirements:
+        - id: CCC.C06.TR01
+          text: |
+            When a deployment request is made, the service MUST validate
+            that the deployment region is not to a restricted or regions
+            or availability zones.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C06.TR02
+          text: |
+            When a deployment request is made, the service MUST validate that
+            replication of data, backups, and disaster recovery operations
+            will not occur in restricted regions or availability zones.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc06---prevent-deployment-in-restricted-regions
+    - id: CCC.C07
+      title: Alert on Unusual Enumeration Activity
+      objective: |
+        Ensure that logs and associated alerts are generated when
+        unusual enumeration activity is detected that may indicate
+        reconnaissance activities.
+      control_family: Logging & Monitoring
+      threats:
+        - reference-id: CCC.TH15
+      nist_csf: DE.AE-1
+      control_mappings:
+        CCM:
+            - LOG-05
+        ISO_27001: []
+        NIST_800_53:
+            - AU-6
+      test_requirements:
+        - id: CCC.C07.TR01
+          text: |
+            When suspicious enumeration activities are detected, the
+            service MUST generate real-time alerts to notify security
+            personnel.
+          tlp_levels:
+            - tlp_red
+        - id: CCC.C07.TR02
+          text: |
+            When suspicious enumeration activities are detected, the
+            service MUST log the event, including the source details,
+            time, and nature of the activity.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc07---alert-on-unusual-enumeration-activity
+    - id: CCC.C08
+      title: Enable Multi-zone or Multi-region Data Replication
+      objective: |
+        Ensure that data is replicated across multiple
+        zones or regions to protect against data loss due to hardware
+        failures, natural disasters, or other catastrophic events.
+      control_family: Data
+      threats:
+        - reference-id: CCC.TH06
+      nist_csf: PR.PT-5
+      control_mappings:
+        CCM:
+            - BCR-08
+        ISO_27001: []
+        NIST_800_53:
+            - CP-2
+            - CP-10
+      test_requirements:
+        - id: CCC.C08.TR01
+          text: |
+            When data is stored, the service MUST ensure that data is
+            replicated across multiple availability zones or regions.
+          tlp_levels:
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C08.TR02
+          text: |
+            When data is replicated across multiple zones or regions,
+            the service MUST be able to verify the replication state,
+            including the replication locations and data synchronization
+            status.
+          tlp_levels:
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc08---enable-multi-zone-or-multi-region-data-replication
+    - id: CCC.C09
+      title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      objective: |
+        Access logs should always be considered sensitive.
+        Ensure that access logs are protected against unauthorized
+        access, tampering, or deletion.
+      control_family: Data
+      threats:
+        - reference-id: CCC.TH07
+        - reference-id: CCC.TH09
+        - reference-id: CCC.TH04
+      nist_csf: PR.DS-6
+      control_mappings:
+        CCM:
+            - LOG-02
+            - LOG-04
+            - LOG-09
+        ISO_27001: []
+        NIST_800_53:
+            - AU-9
+      test_requirements:
+        - id: CCC.C09.TR01
+          text: |
+            When access logs are stored, the service MUST ensure that
+            access logs cannot be accessed without proper authorization.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+            - tlp_green
+            - tlp_clear
+        - id: CCC.C09.TR02
+          text: |
+            When access logs are stored, the service MUST ensure that
+            access logs cannot be modified without proper authorization.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+            - tlp_green
+            - tlp_clear
+        - id: CCC.C09.TR03
+          text: |
+            When access logs are stored, the service MUST ensure that
+            access logs cannot be deleted without proper authorization.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+            - tlp_green
+            - tlp_clear
+      link: cccc09---prevent-tampering-deletion-or-unauthorized-access-to-access-logs
+    - id: CCC.C10
+      title: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+      objective: |
+        Prevent replication of data to untrusted destinations outside
+        of defined trust perimeter. An untrusted destination is defined
+        as a resource that exists outside of a specified trusted
+        identity or network or data perimeter.
+      control_family: Data
+      threats:
+        - reference-id: CCC.TH04
+      nist_csf: PR.DS-5
+      control_mappings:
+        CCM:
+            - DSP-10
+            - DSP-19
+        ISO_27001: []
+        NIST_800_53:
+            - AC-4
+      test_requirements:
+        - id: CCC.C10.TR01
+          text: |
+            When data is replicated, the service MUST ensure that
+            replication is restricted to explicitly trusted destinations.
+          tlp_levels:
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+      link: cccc10---prevent-data-replication-to-destinations-outside-of-defined-trust-perimeter
+    - id: CCC.C11
+      title: Enforce Key Management Policies
+      objective: |
+        Ensure that encryption keys are managed securely by enforcing
+        the use of approved algorithms, regular key rotation, and
+        customer-managed encryption keys (CMEKs).
+      control_family: Encryption
+      threats:
+        - reference-id: CCC.TH16
+      nist_csf: PR.DS-1
+      control_mappings:
+        CCM:
+            - EKM-02
+            - EKM-03
+        ISO_27001:
+            - 2013 A.10.1.2
+        NIST_800_53:
+            - SC-12
+            - SC-17
+      test_requirements:
+        - id: CCC.C11.TR01
+          text: |
+            When encryption keys are used, the service MUST verify that
+            all encryption keys use approved cryptographic algorithms as
+            per organizational standards.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C11.TR02
+          text: |
+            When encryption keys are used, the service MUST verify that
+            encryption keys are rotated at a frequency compliant with
+            organizational policies.
+          tlp_levels:
+            - tlp_clear
+            - tlp_green
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C11.TR03
+          text: |
+            When encrypting data, the service MUST verify that
+            customer-managed encryption keys (CMEKs) are used.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+        - id: CCC.C11.TR04
+          text: |
+            When encryption keys are accessed, the service MUST verify that
+            access to encryption keys is restricted to authorized personnel
+            and services, following the principle of least privilege.
+          tlp_levels:
+            - tlp_amber
+            - tlp_red
+      link: cccc11---enforce-key-management-policies
+    - id: CCC.C12
+      title: Ensure Secure Network Access Rules
+      objective: |
+        Ensure network access to the service is restricted to explicitly
+        authorized IP addresses, ports, and protocols by properly
+        configuring security group and/or firewall rules. Configuration
+        must follow the principle of least privilege to minimize the
+        attack surface and prevent unauthorized  inbound connections.
+        Overly permissive rules such as, 0.0.0.0/0 must be disallowed or
+        strictly controlled.
+      control_family: ""
+      threats:
+        - reference-id: CCC.TH17
+      nist_csf: PR.AC-3
+      control_mappings:
+        NIST_800_53:
+            - AC-4
+      test_requirements:
+        - id: CCC.C12.TR01
+          text: |
+            When an unauthorized IP or network attempts to connect
+            to the service, the request MUST be denied.
+          tlp_levels:
+            - tlp_red
+            - tlp_amber
+      link: cccc12---ensure-secure-network-access-rules
+    - id: CCC.RDMS.C01
+      title: Password Management
+      objective: |
+        Ensure default vendor-supplied DB administrator credentials are replaced
+        with strong, unique passwords and that these credentials are properly
+        managed using a secure password or secrets management solution.
+      control_family: Identity and Access Management
+      threats:
+        - reference-id: CCC.RDMS.TH01
+      nist_csf: PR.AA-01
+      control_mappings:
+        NIST_800_53:
+            - AC-2
+      test_requirements:
+        - id: CCC.RDMS.C01.TR02
+          text: |
+            When an attempt is made to authenticate to the database using known
+            default credentials, the authentication attempt must fail and no
+            access should be granted.
+          tlp_levels:
+            - tlp_red
+            - tlp_amber
+      link: cccrdmsc01---password-management
+    - id: CCC.RDMS.C02
+      title: Account Lockout and Rate-Limiting
+      objective: |
+        Ensure the database enforces lockouts or rate-limiting after a specified
+        number of failed authentication attempts. This prevents brute force
+        or password-guessing attacks from succeeding.
+      control_family: Identity and Access Management
+      threats:
+        - reference-id: CCC.RDMS.TH02
+      nist_csf: PR.AC-1
+      control_mappings:
+        NIST_800_53:
+            - AC-7
+      test_requirements:
+        - id: CCC.RDMS.C02.TR01
+          text: |
+            When repeated failed login attempts are made in a short timeframe,
+            the account must be locked out or rate-limited to prevent
+            further login attempts.
+          tlp_levels:
+            - tlp_red
+            - tlp_amber
+      link: cccrdmsc02---account-lockout-and-rate-limiting
+    - id: CCC.RDMS.C03
+      title: Enforce and Monitor Automated Backups
+      objective: |
+        Ensure database backups are automatically scheduled, actively monitored,
+        and promptly reported if any disruptions occur. This helps maintain
+        data integrity, facilitates disaster recovery, and supports business
+        continuity when a system failure or breach occurs.
+      control_family: Data
+      threats:
+        - reference-id: CCC.RDMS.TH03
+      nist_csf: PR.IP-4
+      control_mappings:
+        NIST_800_53:
+            - CP-9
+      test_requirements:
+        - id: CCC.RDMS.C03.TR01
+          text: |
+            When backups are disabled, paused, or fail to run as scheduled,
+            an alert must be triggered and logged.
+          tlp_levels:
+            - tlp_red
+            - tlp_amber
+      link: cccrdmsc03---enforce-and-monitor-automated-backups
+    - id: CCC.RDMS.C04
+      title: Access Control for Backup and Restore Operations
+      objective: |
+        Restrict who can initiate, manage, and validate database backup or
+        restore operations through strict role-based or least-privilege
+        access. Prevents accidental or malicious restorations, protecting
+        data integrity and availability.
+      control_family: Identity and Access Management
+      threats:
+        - reference-id: CCC.RDMS.TH04
+      nist_csf: PR.AC-4
+      control_mappings:
+        NIST_800_53:
+            - AC-6
+      test_requirements:
+        - id: CCC.RDMS.C04.TR01
+          text: |
+            When there is an attempt to perform a backup or restore,
+            then the attempt must fail with an access denied message if
+            credentials or roles that are not explicitly authorized for
+            backup/restore functions.
+          tlp_levels:
+            - tlp_red
+            - tlp_amber
+      link: cccrdmsc04---access-control-for-backup-and-restore-operations
+    - id: CCC.RDMS.C05
+      title: Restrict Snapshot Sharing to Authorized Accounts
+      objective: |
+        Ensure database snapshots can only be shared with explicitly authorized
+        accounts, thereby minimizing the risk of data exposure or exfiltration.
+      control_family: Identity and Access Management
+      threats:
+        - reference-id: CCC.RDMS.TH05
+      nist_csf: PR.DS-10
+      control_mappings:
+        NIST_800_53:
+            - AC-4
+      test_requirements:
+        - id: CCC.RDMS.C05.TR01
+          text: |
+            When an attempt is made to share a snapshot with an unauthorized
+            account, the sharing request must be denied.
+          tlp_levels:
+            - tlp_red
+            - tlp_amber
+      link: cccrdmsc05---restrict-snapshot-sharing-to-authorized-accounts
+features:
+    - id: CCC.Core.F01
+      title: Encryption in Transit Enabled by Default
+      description: |
+        Provides default encryption of data in transit through SSL or TLS.
+      link: cccf01---encryption-in-transit-enabled-by-default
+    - id: CCC.Core.F02
+      title: Encryption at Rest Enabled by Default
+      description: |
+        Provides default encryption of data before storage, with the option for
+        clients to maintain control over the encryption keys.
+      link: cccf02---encryption-at-rest-enabled-by-default
+    - id: CCC.Core.F03
+      title: Access/Activity Logs
+      description: |
+        Provides users with the ability to track all requests made to or
+        activities performed on resources for audit purposes.
+      link: cccf03---access/activity-logs
+    - id: CCC.Core.F04
+      title: Transaction Rate Limits
+      description: |
+        Allows the setting of a threshold where industry-standard throughput is
+        achieved up to the specified rate limit.
+      link: cccf04---transaction-rate-limits
+    - id: CCC.Core.F05
+      title: Signed URLs
+      description: |
+        Provides the ability to grant temporary or restricted access
+        to a resource through a custom URL that contains authentication information.
+      link: cccf05---signed-urls
+    - id: CCC.Core.F06
+      title: Identity Based Access Control
+      description: |
+        Provides the ability to determine access to resources based on
+        attributes associated with a user identity.
+      link: cccf06---identity-based-access-control
+    - id: CCC.Core.F07
+      title: Event Notifications
+      description: |
+        Publishes events for creation, deletion, and modification of
+        objects in a way that enables users to trigger actions in response.
+      link: cccf07---event-notifications
+    - id: CCC.Core.F08
+      title: Multi-zone Deployment
+      description: |
+        Provides the ability for the service to be deployed in multiple availability
+        zones or regions to increase availability and fault tolerance.
+      link: cccf08---multi-zone-deployment
+    - id: CCC.Core.F09
+      title: Monitoring
+      description: |
+        Provides the ability to continuously observe, track, and analyze
+        the performance, availability, and health of the service resources or
+        applications.
+      link: cccf09---monitoring
+    - id: CCC.Core.F10
+      title: Logging
+      description: |
+        Provides the ability to transmit system events, application activities,
+        and/or user interactions to a logging service
+      link: cccf10---logging
+    - id: CCC.Core.F11
+      title: Backup
+      description: |
+        Provides the ability to create copies of associated data or
+        configurations in the form of automated backups, snapshot-based backups,
+        and/or incremental backups.
+      link: cccf11---backup
+    - id: CCC.Core.F12
+      title: Recovery
+      description: |
+        Provides the ability to restore data, a system, or an application to a functional state
+        after an incident such as data loss, corruption or a disaster.
+      link: cccf12---recovery
+    - id: CCC.Core.F13
+      title: Infrastructure as Code
+      description: |
+        Allows for managing and provisioning service resources
+        through machine-readable configuration files, such as templates.
+      link: cccf13---infrastructure-as-code
+    - id: CCC.Core.F14
+      title: API Access
+      description: |
+        Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
+      link: cccf14---api-access
+    - id: CCC.Core.F15
+      title: Cost Management
+      description: |
+        Provides the ability to filter spending and to detect cost anomalies for the service.
+      link: cccf15---cost-management
+    - id: CCC.Core.F16
+      title: Budgeting
+      description: |
+        Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
+      link: cccf16---budgeting
+    - id: CCC.Core.F17
+      title: Alerting
+      description: |
+        Provides the ability to set an alarm based on performance metrics,
+        logs, events or spending thresholds of the service.
+      link: cccf17---alerting
+    - id: CCC.Core.F18
+      title: Versioning
+      description: |
+        Provides the ability to maintain multiple versions of the same resource.
+      link: cccf18---versioning
+    - id: CCC.Core.F19
+      title: On-demand Scaling
+      description: |
+        Provide scaling of resources based on demand.
+      link: cccf19---on-demand-scaling
+    - id: CCC.Core.F20
+      title: Tagging
+      description: |
+        Provide the ability to tag a resource to effectively manage and gain insights of the resource.
+      link: cccf20---tagging
+    - id: CCC.Core.F21
+      title: Replication
+      description: |
+        Provides the ability to copy data or resource to multiple locations to ensure
+        availability and durability.
+      link: cccf21---replication
+    - id: CCC.Core.F22
+      title: Location Lock-In
+      description: |
+        Provides the ability to control where the resources are created.
+      link: cccf22---location-lock-in
+    - id: CCC.Core.F23
+      title: Network Access Rules
+      description: |
+        Ability to control access to the resource by defining network access rules.
+      link: cccf23---network-access-rules
+    - id: CCC.RDMS.F01
+      title: SQL Support
+      description: |
+        Properly handle queries in the SQL language.
+      link: cccrdmsf01---sql-support
+    - id: CCC.RDMS.F02
+      title: DB Engine Option - MySQL
+      description: |
+        Ability to create a MySQL managed relational database.
+      link: cccrdmsf02---db-engine-option---mysql
+    - id: CCC.RDMS.F03
+      title: DB Engine Option - PostgreSQL
+      description: |
+        Ability to create a PostgreSQL managed relational database.
+      link: cccrdmsf03---db-engine-option---postgresql
+    - id: CCC.RDMS.F04
+      title: DB Engine Option - MariaDB
+      description: |
+        Ability to create a MariaDB managed relational database.
+      link: cccrdmsf04---db-engine-option---mariadb
+    - id: CCC.RDMS.F05
+      title: DB Engine Option - SQL Server
+      description: |
+        Ability to create a Microsoft SQL Server managed relational database.
+      link: cccrdmsf05---db-engine-option---sql-server
+    - id: CCC.RDMS.F06
+      title: DB Managed Credentials
+      description: |
+        Ability to managed the database credentials using the cloud
+        provider's secret management service.
+      link: cccrdmsf06---db-managed-credentials
+    - id: CCC.RDMS.F07
+      title: DB Self Managed Credentials
+      description: |
+        Ability to manage the database credentials by client managed
+        username and passwords.
+      link: cccrdmsf07---db-self-managed-credentials
+    - id: CCC.RDMS.F08
+      title: Support for IPv4
+      description: |
+        Ability to connect to the database using IPv4 addresses.
+      link: cccrdmsf08---support-for-ipv4
+    - id: CCC.RDMS.F09
+      title: Support for IPv6
+      description: |
+        Ability to connect to the database using IPv6 addresses
+      link: cccrdmsf09---support-for-ipv6
+    - id: CCC.RDMS.F10
+      title: Public Access
+      description: |
+        Allow database to be accessed by public internet.
+      link: cccrdmsf10---public-access
+    - id: CCC.RDMS.F11
+      title: Disable Public Access
+      description: |
+        Prevent database been accessed by public internet.
+      link: cccrdmsf11---disable-public-access
+    - id: CCC.RDMS.F12
+      title: Managed Connection Pooling
+      description: |
+        Ability to configure a managed connection pool for the database.
+      link: cccrdmsf12---managed-connection-pooling
+    - id: CCC.RDMS.F13
+      title: Deletion Protection
+      description: |
+        Protect the database against accidental deletion.
+      link: cccrdmsf13---deletion-protection
+    - id: CCC.RDMS.F14
+      title: Dedicated Database Instances
+      description: |
+        Option to deploy the database on a dedicated instance for
+        isolation requirements.
+      link: cccrdmsf14---dedicated-database-instances
+    - id: CCC.RDMS.F15
+      title: Horizontal Scaling
+      description: |
+        Read replicas of the primary database can be created.
+      link: cccrdmsf15---horizontal-scaling
+    - id: CCC.RDMS.F16
+      title: Failover
+      description: |
+        Standby database can be implemented for failover when the
+        primary can't be reached.
+      link: cccrdmsf16---failover
+threats:
+    - id: CCC.TH01
+      title: Access Control is Misconfigured
+      description: |
+        Misconfigured access controls may grant excessive privileges or fail to
+        restrict unauthorized access to sensitive resources. This could result in
+        unintended data exposure or unauthorized actions being performed within
+        the system.
+      features:
+        - reference-id: CCC.Core.F06
+      mitre_technique:
+        - T1078
+        - T1548
+        - T1203
+        - T1098
+        - T1484
+        - T1546
+        - T1537
+        - T1567
+        - T1048
+        - T1485
+        - T1565
+        - T1027
+      link: cccth01---access-control-is-misconfigured
+    - id: CCC.TH02
+      title: Data is Intercepted in Transit
+      description: |
+        Data transmitted between clients and the service may be susceptible to
+        interception or modification in transit if encrypted communication is not
+        properly implemented. This could result in unauthorized access to
+        sensitive information or unintended data alterations.
+      features:
+        - reference-id: CCC.Core.F01
+      mitre_technique:
+        - T1557
+        - T1040
+      link: cccth02---data-is-intercepted-in-transit
+    - id: CCC.TH03
+      title: Deployment Region Network is Untrusted
+      description: |
+        Deploying a service in an untrusted, unstable, or insecure location,
+        the network may be susceptible to unauthorized access or data
+        interception due to privileged network exposure or physical
+        vulnerabilities. This could result in unintended data disclosure or
+        compromised system integrity.
+      features:
+        - reference-id: CCC.Core.F08
+        - reference-id: CCC.Core.F22
+      mitre_technique:
+        - T1040
+        - T1110
+        - T1105
+        - T1583
+        - T1557
+      link: cccth03---deployment-region-network-is-untrusted
+    - id: CCC.TH04
+      title: Data is Replicated to Untrusted or External Locations
+      description: |
+        Data may be replicated to untrusted or external locations if replication
+        configurations are not properly restricted. This could result
+        in unintended data leakage or exposure outside the organization's trusted
+        perimeter.
+      features:
+        - reference-id: CCC.Core.F21
+      mitre_technique:
+        - T1565
+      link: cccth04---data-is-replicated-to-untrusted-or-external-locations
+    - id: CCC.TH05
+      title: Data is Corrupted During Replication
+      description: |
+        Data may become corrupted, delayed, or deleted during replication
+        processes across regions or availability zones due to misconfigurations
+        or unintended disruptions. This could lead to compromised data integrity
+        and availability, potentially affecting recovery processes and system
+        reliability.
+      features:
+        - reference-id: CCC.Core.F08
+        - reference-id: CCC.Core.F12
+        - reference-id: CCC.Core.F21
+      mitre_technique:
+        - T1485
+        - T1565
+        - T1491
+        - T1490
+      link: cccth05---data-is-corrupted-during-replication
+    - id: CCC.TH06
+      title: Data is Lost or Corrupted
+      description: |
+        Data loss or corruption may occur due to accidental deletion, or
+        misconfiguration. This can result in the loss of critical data, service
+        disruption, or unintended exposure of sensitive information.
+      features:
+        - reference-id: CCC.Core.F11
+        - reference-id: CCC.Core.F18
+      mitre_technique:
+        - T1485
+        - T1565
+        - T1491
+        - T1490
+      link: cccth06---data-is-lost-or-corrupted
+    - id: CCC.TH07
+      title: Logs are Tampered With or Deleted
+      description: |
+        Logs may be tampered with or deleted due to inadequate access controls,
+        or misconfigurations. This can make it difficult to identify security
+        incidents, disrupt forensic investigations, and affect the accuracy of
+        audit trails.
+      features:
+        - reference-id: CCC.Core.F03
+        - reference-id: CCC.Core.F10
+      mitre_technique:
+        - T1070
+        - T1565
+        - T1027
+      link: cccth07---logs-are-tampered-with-or-deleted
+    - id: CCC.TH08
+      title: Cost Management Data is Manipulated
+      description: |
+        Cost management data may be changed due to misconfigurations, or
+        unauthorized access. This might result in inaccurate resource usage
+        reporting, budget exhaustion, financial losses, and hinder incident
+        detection.
+      features:
+        - reference-id: CCC.Core.F15
+      mitre_technique:
+        - T1565
+        - T1070
+      link: cccth08---cost-management-data-is-manipulated
+    - id: CCC.TH09
+      title: Logs or Monitoring Data are Read by Unauthorized Users
+      description: |
+        Unauthorized access to logs or monitoring data may expose valuable
+        information about the system's configuration, operations, and security
+        mechanisms. This could allow for the identification of vulnerabilities,
+        enable the planning of attacks, or hinder the detection of ongoing
+        incidents.
+      features:
+        - reference-id: CCC.Core.F03
+        - reference-id: CCC.Core.F09
+      mitre_technique:
+        - T1003
+        - T1007
+        - T1018
+        - T1033
+        - T1046
+        - T1057
+        - T1069
+        - T1070
+        - T1082
+        - T1120
+        - T1124
+        - T1497
+        - T1518
+      link: cccth09---logs-or-monitoring-data-are-read-by-unauthorized-users
+    - id: CCC.TH10
+      title: Alerts are Intercepted
+      description: |
+        Event notifications may be intercepted due to misconfigurations,
+        inadequate security measures, or unauthorized access. This could expose
+        information about sensitive operations or access patterns, potentially
+        impacting system security and integrity.
+      features:
+        - reference-id: CCC.Core.F03
+        - reference-id: CCC.Core.F07
+        - reference-id: CCC.Core.F09
+        - reference-id: CCC.Core.F17
+      mitre_technique:
+        - T1057
+        - T1049
+        - T1083
+      link: cccth10---alerts-are-intercepted
+    - id: CCC.TH11
+      title: Event Notifications are Incorrectly Triggered
+      description: |
+        Event notifications may be triggered incorrectly due to misconfigurations,
+        or unauthorized access. This could result in sensitive operations being
+        triggered unintentionally, obfuscate other issues, or overwhelm the
+        system, potentially disrupting legitimate operations.
+      features:
+        - reference-id: CCC.Core.F07
+        - reference-id: CCC.Core.F17
+      mitre_technique:
+        - T1205
+        - T1001.001
+        - T1491.001
+      link: cccth11---event-notifications-are-incorrectly-triggered
+    - id: CCC.TH12
+      title: Resource Constraints are Exhausted
+      description: |
+        Resource constraints, such as memory, CPU, or storage, may be exhausted
+        due to misconfigurations, or excessive resource consumption. This could
+        disrupt service availability, deny access to users, or impact other
+        systems within the same scope. Exhaustion may occur through repeated
+        requests, resource-intensive operations, or lowering rate/budget limits.
+      features:
+        - reference-id: CCC.Core.F04
+        - reference-id: CCC.Core.F16
+        - reference-id: CCC.Core.F19
+      mitre_technique:
+        - T1496
+        - T1499
+        - T1498
+      link: cccth12---resource-constraints-are-exhausted
+    - id: CCC.TH13
+      title: Resource Tags are Manipulated
+      description: |
+        Resource tags may be altered, leading to changes in organizational
+        policies, billing disruptions, or unintended exposure of sensitive data.
+        This could result in mismanaged resources, financial misuse, or security
+        vulnerabilities.
+      features:
+        - reference-id: CCC.Core.F20
+      mitre_technique:
+        - T1565
+      link: cccth13---resource-tags-are-manipulated
+    - id: CCC.TH14
+      title: Older Resource Versions are Exploited
+      description: |
+        Older versions of resources may contain vulnerabilities due to deprecated
+        or insecure configurations. Without proper version control and monitoring,
+        outdated versions could lead to security measures bypass, potentially
+        leading to security risks or operational disruptions.
+      features:
+        - reference-id: CCC.Core.F18
+      mitre_technique:
+        - T1027
+        - T1485
+        - T1565
+        - T1489
+        - T1562.01
+        - T1027
+        - T1485
+        - T1565
+        - T1489
+      link: cccth14---older-resource-versions-are-exploited
+    - id: CCC.TH15
+      title: Automated Enumeration and Reconnaissance by Non-human Entities
+      description: |
+        Automated processes or bots may be used to perform reconnaissance by
+        enumerating resources such as APIs, file systems, or directories. These
+        activities can reveal potential vulnerabilities, misconfigurations, or
+        unsecured resources, which might result in unauthorized access or data
+        exposure.
+      features:
+        - reference-id: CCC.Core.F14
+      mitre_technique:
+        - T1580
+      link: cccth15---automated-enumeration-and-reconnaissance-by-non-human-entities
+    - id: CCC.TH16
+      title: Logging and Monitoring are Disabled
+      description: |
+        Logging and monitoring may be disabled, potentially hindering the
+        detection of security events and reducing visibility into system
+        activities. This condition can impact the organization's ability
+        to investigate incidents and maintain operational integrity.
+      features:
+        - reference-id: CCC.Core.F10
+        - reference-id: CCC.Core.F09
+      mitre_technique:
+        - T1562
+      link: cccth16---logging-and-monitoring-are-disabled
+    - id: CCC.TH17
+      title: Unauthorized Network Access via Misconfigured Rules
+      description: |
+        Improperly configured or overly permissive network access rules
+        such as security groups can allow unauthorized inbound connections
+        to the service. This could result in unauthorized access to sensitive
+        resources or data and disruption to service availability.
+      features:
+        - reference-id: CCC.Core.F23
+      mitre_technique:
+        - T1046
+        - T1133
+      link: cccth17---unauthorized-network-access-via-misconfigured-rules
+    - id: CCC.RDMS.TH01
+      title: Unauthorized Access via Default Credentials
+      description: |
+        If default credentials are not disabled or changed, unauthorized access
+        may be gained to the RDMS environment. This may lead to data breaches,
+        data manipulation, or overall compromise of the database instance.
+      features:
+        - reference-id: CCC.RDMS.F06
+        - reference-id: CCC.RDMS.F07
+      mitre_technique:
+        - T1078
+      link: cccrdmsth01---unauthorized-access-via-default-credentials
+    - id: CCC.RDMS.TH02
+      title: Brute Force Attempts on Database Authentication
+      description: |
+        Repeated attempts to guess database user passwords may be made
+        through brute force techniques. This condition could result in
+        unauthorized access if successful, compromising database security
+        and sensitive information.
+      features:
+        - reference-id: CCC.RDMS.F07
+      mitre_technique:
+        - T1110
+      link: cccrdmsth02---brute-force-attempts-on-database-authentication
+    - id: CCC.RDMS.TH03
+      title: Database Backups Stopped
+      description: |
+        Database backups may be halted, potentially impairing the organization's
+        ability to recover data and maintain business continuity. This condition
+        increases the risk of data loss and extended system downtime.
+      features:
+        - reference-id: CCC.Core.F11
+      mitre_technique:
+        - T1490
+      link: cccrdmsth03---database-backups-stopped
+    - id: CCC.RDMS.TH04
+      title: Unintentional Database Backup Restoration
+      description: |
+        A database backup may be restored unintentionally, potentially
+        leading to the loss or overwrite of current data. This condition
+        could disrupt operations and result in data inconsistency or
+        corruption.
+      features:
+        - reference-id: CCC.Core.F11
+      mitre_technique:
+        - T1485
+      link: cccrdmsth04---unintentional-database-backup-restoration
+    - id: CCC.RDMS.TH05
+      title: Unauthorized Snapshot Sharing
+      description: |
+        Snapshots may be shared with untrusted accounts, which can lead to
+        unauthorized access and potential data exfiltration. This significantly
+        increases the risk of data exposure if sensitive information is contained
+        in the snapshots.
+      features:
+        - reference-id: CCC.Core.F11
+      mitre_technique:
+        - T1530
+      link: cccrdmsth05---unauthorized-snapshot-sharing
+latestreleasedetails:
+    version: "2025.03"
+    assurance_level: None
+    threat_model_url: None
+    threat_model_author: None
+    red_team: None
+    red_team_exercise_url: None
+    release_manager:
+        name: Damien Burks
+        github_id: damienjburks
+        company: Citi
+        summary: |
+            This initial release is part of the first batch of control catalogs
+            produced by the CCC. It is the result of thousands of hours dedicated to
+            exploring different ways of working and collaborating, on top of time
+            spent researching, writing, and reviewing the content. This marks a huge
+            milestone for the CCC and the broader community as further releases will
+            continue to build on this foundation. A huge thanks to everyone who has
+            brought us to this point!
+    change_log:
+        - |
+          This initial release contains a variety of commits designed to capture
+          all of the features, threats, and controls for this service category.
+    contributors:
+        - name: Michael Lysaght
+          github_id: mlysaght2017
+          company: Citi
+        - name: abikhuil
+          github_id: abikhuil
+          company: LSEG
+        - name: Vlad Georgescu
+          github_id: vgeorgescu
+          company: Morgan Stanley
+        - name: Ian Walker-Smith
+          github_id: ianwalkersmithciticom
+          company: Citi
+        - name: Dave Ogle
+          github_id: dogle-scottlogic
+          company: Scott Logic
+        - name: Steve Hoffman
+          github_id: shoffman-percona
+          company: Percona
+        - name: Sonali Mendis
+          github_id: smendis-scottlogic
+          company: Scott Logic
+        - name: Eddie Knight
+          github_id: eddie-knight
+          company: Sonatype
+        - name: Damien Burks
+          github_id: damienjburks
+          company: Citi

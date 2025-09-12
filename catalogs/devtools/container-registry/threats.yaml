@@ -1,0 +1,73 @@
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access control is misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is intercepted in transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # Not yet specified
+        remarks: Deployment region network is untrusted
+      - reference-id: CCC.Core.TH04
+        strength: 0 # Not yet specified
+        remarks: Data is replicated to untrusted or external locations
+      - reference-id: CCC.Core.TH05
+        strength: 0 # Not yet specified
+        remarks: Data is corrupted during replication
+      - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
+        remarks: Data is lost or corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH11
+        strength: 0 # Not yet specified
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0 # Not yet specified
+        remarks: Resource constraints are exhausted
+      - reference-id: CCC.Core.TH14
+        strength: 0 # Not yet specified
+        remarks: Older Resource Versions Are Exploited
+      - reference-id: CCC.Core.TH15
+        strength: 0 # Not yet specified
+        remarks: Automated Enumeration and Reconnaissance by Non-Human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Logging and Monitoring are Disabled
+
+threats:
+  - id: CCC.CntrReg.TH01
+    title: Vulnerabilities in Artifacts are Exploited
+    description: |
+      Attackers exploit known vulnerabilities in container images or artifacts stored in
+      the registry, leading to unauthorized access, data breaches, or system compromise.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.CntrReg.F05
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1190
+          - reference-id: T1195
+  - id: CCC.CntrReg.TH02
+    title: Accumulation of Unused Artifacts
+    description: |
+      The registry accumulates outdated or unused artifacts, increasing storage
+      costs and the risk of deploying vulnerable or untested versions.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.CntrReg.F04
+          - reference-id: CCC.Core.F18
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1490
+          - reference-id: T1485

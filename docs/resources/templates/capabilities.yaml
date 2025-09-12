@@ -1,4 +1,4 @@
-shared-capabilities:
+imported-capabilities:
   - <IDs of common capabilities; Omit if not applicable>
 capabilities:
   - id: CCC.<Service Category Abbreviation>.F<##>

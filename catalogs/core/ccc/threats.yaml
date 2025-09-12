@@ -1,0 +1,523 @@
+threats:
+  - id: CCC.Core.TH01
+    title: Access Control is Misconfigured
+    description: |
+      Misconfigured access controls may grant excessive privileges or fail to
+      restrict unauthorized access to sensitive resources. This could result in
+      unintended data exposure or unauthorized actions being performed within
+      the system.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F06
+            strength: 0 # Not yet specified
+            remarks: Identity Based Access Control
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+            strength: 0 # Not yet specified
+            remarks: Valid Accounts
+          - reference-id: T1548
+            strength: 0 # Not yet specified
+            remarks: Abuse Elevation Control Mechanism
+          - reference-id: T1203
+            strength: 0 # Not yet specified
+            remarks: Exploitation for Credential Access
+          - reference-id: T1098
+            strength: 0 # Not yet specified
+            remarks: Account Manipulation
+          - reference-id: T1484
+            strength: 0 # Not yet specified
+            remarks: Domain or Tenant Policy Modification
+          - reference-id: T1546
+            strength: 0 # Not yet specified
+            remarks: Event Triggered Execution
+          - reference-id: T1537
+            strength: 0 # Not yet specified
+            remarks: Transfer Data to Cloud Account
+          - reference-id: T1567
+            strength: 0 # Not yet specified
+            remarks: Exfiltration Over Web Services
+          - reference-id: T1048
+            strength: 0 # Not yet specified
+            remarks: Exfiltration Over Alternative Protocol
+          - reference-id: T1485
+            strength: 0 # Not yet specified
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+          - reference-id: T1027
+            strength: 0 # Not yet specified
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH02
+    title: Data is Intercepted in Transit
+    description: |
+      Data transmitted between clients and the service may be susceptible to
+      interception or modification in transit if encrypted communication is not
+      properly implemented. This could result in unauthorized access to
+      sensitive information or unintended data alterations.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F01
+            strength: 0 # Not yet specified
+            remarks: Encryption in Transit Enabled by Default
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1557
+            strength: 0 # Not yet specified
+            remarks: Adversary-in-the-Middle
+          - reference-id: T1040
+            strength: 0 # Not yet specified
+            remarks: Network Sniffing
+  - id: CCC.Core.TH03
+    title: Deployment Region Network is Untrusted
+    description: |
+      Deploying a service in an untrusted, unstable, or insecure location,
+      the network may be susceptible to unauthorized access or data
+      interception due to privileged network exposure or physical
+      vulnerabilities. This could result in unintended data disclosure or
+      compromised system integrity.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F08
+            strength: 0 # Not yet specified
+            remarks: Multi-zone Deployment
+          - reference-id: CCC.Core.F22
+            strength: 0 # Not yet specified
+            remarks: Location Lock-In
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1040
+            strength: 0 # Not yet specified
+            remarks: Network Sniffing
+          - reference-id: T1110
+            strength: 0 # Not yet specified
+            remarks: Brute Force
+          - reference-id: T1105
+            strength: 0 # Not yet specified
+            remarks: Ingress Tool Transfer
+          - reference-id: T1583
+            strength: 0 # Not yet specified
+            remarks: Acquire Infrastructure
+          - reference-id: T1557
+            strength: 0 # Not yet specified
+            remarks: Adversary-in-the-Middle
+  - id: CCC.Core.TH04
+    title: Data is Replicated to Untrusted or External Locations
+    description: |
+      Data may be replicated to untrusted or external locations if replication
+      configurations are not properly restricted. This could result
+      in unintended data leakage or exposure outside the organization's trusted
+      perimeter.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F21
+            strength: 0 # Not yet specified
+            remarks: Replication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+  - id: CCC.Core.TH05
+    title: Data is Corrupted During Replication
+    description: |
+      Data may become corrupted, delayed, or deleted during replication
+      processes across regions or availability zones due to misconfigurations
+      or unintended disruptions. This could lead to compromised data integrity
+      and availability, potentially affecting recovery processes and system
+      reliability.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F08
+            strength: 0 # Not yet specified
+            remarks: Multi-zone Deployment
+          - reference-id: CCC.Core.F12
+            strength: 0 # Not yet specified
+            remarks: Recovery
+          - reference-id: CCC.Core.F21
+            strength: 0 # Not yet specified
+            remarks: Replication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+            strength: 0 # Not yet specified
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+          - reference-id: T1491
+            strength: 0 # Not yet specified
+            remarks: Defacement
+          - reference-id: T1490
+            strength: 0 # Not yet specified
+            remarks: Inhibit System Recovery
+  - id: CCC.Core.TH06
+    title: Data is Lost or Corrupted
+    description: |
+      Data loss or corruption may occur due to accidental deletion, or
+      misconfiguration. This can result in the loss of critical data, service
+      disruption, or unintended exposure of sensitive information.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F11
+            strength: 0 # Not yet specified
+            remarks: Backup
+          - reference-id: CCC.Core.F18
+            strength: 0 # Not yet specified
+            remarks: Versioning
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+            strength: 0 # Not yet specified
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+          - reference-id: T1491
+            strength: 0 # Not yet specified
+            remarks: Defacement
+          - reference-id: T1490
+            strength: 0 # Not yet specified
+            remarks: Inhibit System Recovery
+  - id: CCC.Core.TH07
+    title: Logs are Tampered With or Deleted
+    description: |
+      Logs may be tampered with or deleted due to inadequate access controls,
+      or misconfigurations. This can make it difficult to identify security
+      incidents, disrupt forensic investigations, and affect the accuracy of
+      audit trails.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0 # Not yet specified
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F10
+            strength: 0 # Not yet specified
+            remarks: Logging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1070
+            strength: 0 # Not yet specified
+            remarks: Indicator Removal on Host
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation (for altering log entries)
+          - reference-id: T1027
+            strength: 0 # Not yet specified
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH08
+    title: Cost Management Data is Manipulated
+    description: |
+      Cost management data may be changed due to misconfigurations, or
+      unauthorized access. This might result in inaccurate resource usage
+      reporting, budget exhaustion, financial losses, and hinder incident
+      detection.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F15
+            strength: 0 # Not yet specified
+            remarks: Cost Management
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+          - reference-id: T1070
+            strength: 0 # Not yet specified
+            remarks: Indicator Removal on Host
+  - id: CCC.Core.TH09
+    title: Logs or Monitoring Data are Read by Unauthorized Users
+    description: |
+      Unauthorized access to logs or monitoring data may expose valuable
+      information about the system's configuration, operations, and security
+      mechanisms. This could allow for the identification of vulnerabilities,
+      enable the planning of attacks, or hinder the detection of ongoing
+      incidents.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0 # Not yet specified
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F09
+            strength: 0 # Not yet specified
+            remarks: Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1003
+            strength: 0 # Not yet specified
+            remarks: Credential Dumping
+          - reference-id: T1007
+            strength: 0 # Not yet specified
+            remarks: System Service Discovery
+          - reference-id: T1018
+            strength: 0 # Not yet specified
+            remarks: Remote System Discovery
+          - reference-id: T1033
+            strength: 0 # Not yet specified
+            remarks: System Owner/User Discovery
+          - reference-id: T1046
+            strength: 0 # Not yet specified
+            remarks: Network Service Discovery
+          - reference-id: T1057
+            strength: 0 # Not yet specified
+            remarks: Process Discovery
+          - reference-id: T1069
+            strength: 0 # Not yet specified
+            remarks: Permission Groups Discovery
+          - reference-id: T1070
+            strength: 0 # Not yet specified
+            remarks: Indicator Removal
+          - reference-id: T1082
+            strength: 0 # Not yet specified
+            remarks: System Information Discovery
+          - reference-id: T1120
+            strength: 0 # Not yet specified
+            remarks: Peripheral Device Discovery
+          - reference-id: T1124
+            strength: 0 # Not yet specified
+            remarks: System Time Discovery
+          - reference-id: T1497
+            strength: 0 # Not yet specified
+            remarks: Virtualization/Sandbox Evasion
+          - reference-id: T1518
+            strength: 0 # Not yet specified
+            remarks: Software Discovery
+  - id: CCC.Core.TH10
+    title: Alerts are Intercepted
+    description: |
+      Event notifications may be intercepted due to misconfigurations,
+      inadequate security measures, or unauthorized access. This could expose
+      information about sensitive operations or access patterns, potentially
+      impacting system security and integrity.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0 # Not yet specified
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F07
+            strength: 0 # Not yet specified
+            remarks: Event Notifications
+          - reference-id: CCC.Core.F09
+            strength: 0 # Not yet specified
+            remarks: Monitoring
+          - reference-id: CCC.Core.F17
+            strength: 0 # Not yet specified
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1057
+            strength: 0 # Not yet specified
+            remarks: Process Discovery
+          - reference-id: T1049
+            strength: 0 # Not yet specified
+            remarks: System Network Connections Discovery
+          - reference-id: T1083
+            strength: 0 # Not yet specified
+            remarks: File and Directory Discovery
+  - id: CCC.Core.TH11
+    title: Event Notifications are Incorrectly Triggered
+    description: |
+      Event notifications may be triggered incorrectly due to misconfigurations,
+      or unauthorized access. This could result in sensitive operations being
+      triggered unintentionally, obfuscate other issues, or overwhelm the
+      system, potentially disrupting legitimate operations.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F07
+            strength: 0 # Not yet specified
+            remarks: Event Notifications
+          - reference-id: CCC.Core.F17
+            strength: 0 # Not yet specified
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1205
+            strength: 0 # Not yet specified
+            remarks: Traffic Signaling
+          - reference-id: T1001.001
+            strength: 0 # Not yet specified
+            remarks: "Data Obfuscation: Junk Data"
+          - reference-id: T1491.001
+            strength: 0 # Not yet specified
+            remarks: "Defacement: Internal Defacement"
+  - id: CCC.Core.TH12
+    title: Resource Constraints are Exhausted
+    description: |
+      Resource constraints, such as memory, CPU, or storage, may be exhausted
+      due to misconfigurations, or excessive resource consumption. This could
+      disrupt service availability, deny access to users, or impact other
+      systems within the same scope. Exhaustion may occur through repeated
+      requests, resource-intensive operations, or lowering rate/budget limits.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F04
+            strength: 0 # Not yet specified
+            remarks: Transaction Rate Limits
+          - reference-id: CCC.Core.F16
+            strength: 0 # Not yet specified
+            remarks: Budgeting
+          - reference-id: CCC.Core.F19
+            strength: 0 # Not yet specified
+            remarks: Auto-scaling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1496
+            strength: 0 # Not yet specified
+            remarks: Resource Hijacking
+          - reference-id: T1499
+            strength: 0 # Not yet specified
+            remarks: Endpoint Denial of Service
+          - reference-id: T1498
+            strength: 0 # Not yet specified
+            remarks: Network Denial of Service
+  - id: CCC.Core.TH13
+    title: Resource Tags are Manipulated
+    description: |
+      Resource tags may be altered, leading to changes in organizational
+      policies, billing disruptions, or unintended exposure of sensitive data.
+      This could result in mismanaged resources, financial misuse, or security
+      vulnerabilities.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F20
+            strength: 0 # Not yet specified
+            remarks: Tagging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+  - id: CCC.Core.TH14
+    title: Older Resource Versions are Exploited
+    description: |
+      Older versions of resources may contain vulnerabilities due to deprecated
+      or insecure configurations. Without proper version control and monitoring,
+      outdated versions could lead to security measures bypass, potentially
+      leading to security risks or operational disruptions.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F18
+            strength: 0 # Not yet specified
+            remarks: Versioning
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1027
+            strength: 0 # Not yet specified
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0 # Not yet specified
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0 # Not yet specified
+            remarks: Service Stop
+          - reference-id: T1562.01
+            strength: 0 # Not yet specified
+            remarks: "Impair Defenses: Downgrade Attack"
+          - reference-id: T1027
+            strength: 0 # Not yet specified
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0 # Not yet specified
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0 # Not yet specified
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0 # Not yet specified
+            remarks: Service Stop
+  - id: CCC.Core.TH15
+    title: Automated Enumeration and Reconnaissance by Non-human Entities
+    description: |
+      Automated processes or bots may be used to perform reconnaissance by
+      enumerating resources such as APIs, file systems, or directories. These
+      activities can reveal potential vulnerabilities, misconfigurations, or
+      unsecured resources, which might result in unauthorized access or data
+      exposure.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F14
+            strength: 0 # Not yet specified
+            remarks: API Access
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1580
+            strength: 0 # Not yet specified
+            remarks: Cloud Infrastructure Discovery
+  - id: CCC.Core.TH16
+    title: Logging and Monitoring are Disabled
+    description: |
+      Logging and monitoring may be disabled, potentially hindering the
+      detection of security events and reducing visibility into system
+      activities. This condition can impact the organization's ability
+      to investigate incidents and maintain operational integrity.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F10
+            strength: 0 # Not yet specified
+            remarks: Logging
+          - reference-id: CCC.Core.F09
+            strength: 0 # Not yet specified
+            remarks: Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1562
+            strength: 0 # Not yet specified
+            remarks: Impair Defenses
+  - id: CCC.Core.TH17
+    title: Unauthorized Network Access via Misconfigured Rules
+    description: |
+      Improperly configured or overly permissive network access rules
+      such as security groups can allow unauthorized inbound connections
+      to the service. This could result in unauthorized access to sensitive
+      resources or data and disruption to service availability.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F23
+            strength: 0 # Not yet specified
+            remarks: Network Access Rules
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1046
+            strength: 0 # Not yet specified
+            remarks: Network Service Scanning
+          - reference-id: T1133
+            strength: 0 # Not yet specified
+            remarks: External Remote Services

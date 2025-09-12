@@ -1,0 +1,130 @@
+imported-capabilities:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.F01
+        strength: 0 # Not yet specified
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.F02
+        strength: 0 # Not yet specified
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.F06
+        strength: 0 # Not yet specified
+        remarks: Identity Based Access Control
+      - reference-id: CCC.Core.F07
+        strength: 0 # Not yet specified
+        remarks: Event Notifications
+      - reference-id: CCC.Core.F08
+        strength: 0 # Not yet specified
+        remarks: Multi-zone Deployment
+      - reference-id: CCC.Core.F09
+        strength: 0 # Not yet specified
+        remarks: Monitoring
+      - reference-id: CCC.Core.F10
+        strength: 0 # Not yet specified
+        remarks: Logging
+      - reference-id: CCC.Core.F13
+        strength: 0 # Not yet specified
+        remarks: Infrastructure as Code
+      - reference-id: CCC.Core.F14
+        strength: 0 # Not yet specified
+        remarks: API Access
+      - reference-id: CCC.Core.F19
+        strength: 0 # Not yet specified
+        remarks: On-Demand Scaling
+      - reference-id: CCC.Core.F20
+        strength: 0 # Not yet specified
+        remarks: Tagging
+
+capabilities:
+  - id: CCC.Message.F01
+    title: Publish/Subscribe Model
+    description: |
+      Uses publish/subscribe (pub/sub) messaging service model for
+      fan-out distribution of messages to multiple subscribers.
+
+  - id: CCC.Message.F02
+    title: Message Storage Policies
+    description: |
+      Ability to control the region where messages are stored.
+
+  - id: CCC.Message.F03
+    title: Creating Topics and Publish Messages
+    description: |
+      Ability to create new topics and publish messages to topics
+
+  - id: CCC.Message.F04
+    title: List Topics
+    description: |
+      Ability to to list all existing topics.
+
+  - id: CCC.Message.F05
+    title: Edit Topics
+    description: |
+      Ability to to edit properties of existing topics other than
+      the topic name and ordering preference.
+
+  - id: CCC.Message.F06
+    title: Delete Topics
+    description: |
+      Ability to to delete existing topics.
+
+  - id: CCC.Message.F07
+    title: Subscribe to Topics and Receive messages
+    description: |
+      Ability to subscribe to topics and receive messages.
+
+  - id: CCC.Message.F08
+    title: List Subscribers
+    description: |
+      Ability to list all subscribers for a given topics.
+
+  - id: CCC.Message.F09
+    title: Edit Subscriber
+    description: |
+      Ability to edit subscriber properties such as subscription
+      filter policies after subscriber is created.
+
+  - id: CCC.Message.F10
+    title: Delete Subscribers
+    description: |
+      Ability to delete subscriber from a given topic.
+
+  - id: CCC.Message.F11
+    title: FIFO Message Ordering
+    description: |
+      Support for first-in, first-out strictly preserved message
+      ordering with exactly one message delivered.
+
+  - id: CCC.Message.F12
+    title: Best Effort Message Ordering
+    description: |
+      Support for best-effort message ordering with at-least one
+      message delivered.
+
+  - id: CCC.Message.F13
+    title: Deduplication of Messages
+    description: |
+      Support for deduplication of messages with use of messaging
+      service capabilities or deduplication IDs.
+
+  - id: CCC.Message.F14
+    title: Dead Letter Topics
+    description: |
+      Supports dead-letter topics for handling messages that cannot be
+      delivered or processed.
+
+  - id: CCC.Message.F15
+    title: Access Policies
+    description: |
+      Ability to specify access policies on publishers and subscribers.
+
+  - id: CCC.Message.F16
+    title: Message Filtering
+    description: |
+      Allows subscribers to receive subset of messages published to the
+      subscribed topic based on attributes or content.
+
+  - id: CCC.Message.F17
+    title: Message Retention
+    description: |
+      Ability to set message retention durations per topic.
