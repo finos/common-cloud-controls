@@ -5,27 +5,29 @@ shared-threats:
     identifiers: []
   - reference-id: CCC.RDMS
     identifiers: []
-  - reference-id: CCC.LB
+  - reference-id: CCC.LoadBal
     identifiers: []
   - reference-id: CCC.VPC
     identifiers: []
   - reference-id: CCC.IAM
     identifiers: []
-  - reference-id: CCC.KMS
+  - reference-id: CCC.KeyMgmt
+    identifiers: []
+  - reference-id: CCC.SecMgmt
     identifiers: []
   - reference-id: CCC.ObjStor
     identifiers: []
-  - reference-id: CCC.AI-ML
+  - reference-id: CCC.GenAI
     identifiers: []
-  - reference-id: CCC.VectorDB # Service not yet defined in CCC
+  - reference-id: CCC.Vector
     identifiers: []
-  - reference-id: CCC.DataProc # Service not yet defined in CCC
+  - reference-id: CCC.Monitoring
     identifiers: []
-  - reference-id: CCC.WorkflowOrch # Service not yet defined in CCC
+  - reference-id: CCC.Logging
     identifiers: []
-  - reference-id: CCC.APIMgmt # Service not yet defined in CCC
+  - reference-id: CCC.AuditLog
     identifiers: []
-  - reference-id: CCC.MgmtGov # Should be CCC.Management to match service definition
+  - reference-id: CCC.Tracing
     identifiers: []
 
 threats: [] # Additional threats have not yet been identified for this architecture
