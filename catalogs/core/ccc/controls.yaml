@@ -364,7 +364,7 @@ control-families:
           identity factors during authentication to prevent
           unauthorized access. This may include something you know,
           something you have, or something you are. In the case of
-          programattically accessible services, such as API endpoints,
+          programmatically accessible services, such as API endpoints,
           this includes a combination of API keys or tokens and
           network restrictions.
         assessment-requirements:
@@ -382,7 +382,7 @@ control-families:
           - id: CCC.Core.C03.TR02
             text: |
               When an entity attempts to view information presented
-              by the service, service, the service MUST attempt to
+              by the service, the service MUST attempt to
               verify the client's identity through an authentication
               process.
             applicability:
