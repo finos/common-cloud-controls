@@ -1,0 +1,71 @@
+imported-controls:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.C01
+        strength: 0 # Not yet specified
+        remarks: Prevent unencrypted requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # Not yet specified
+        remarks: Ensure data encryption at rest for all stored data
+      - reference-id: CCC.Core.C03
+        strength: 0 # Not yet specified
+        remarks: Implement multi-factor authentication (MFA) for access
+      - reference-id: CCC.Core.C04
+        strength: 0 # Not yet specified
+        remarks: Log all access and changes
+      - reference-id: CCC.Core.C05
+        strength: 0 # Not yet specified
+        remarks: Prevent access from untrusted entities
+      - reference-id: CCC.Core.C06
+        strength: 0 # Not yet specified
+        remarks: Prevent deployment in restricted regions
+      - reference-id: CCC.Core.C07
+        strength: 0 # Not yet specified
+        remarks: Alert on unusual enumeration activity
+      - reference-id: CCC.Core.C09
+        strength: 0 # Not yet specified
+        remarks: Prevent tampering, deletion, or unauthorized access to access logs
+      - reference-id: CCC.Core.C10
+        strength: 0 # Not yet specified
+        remarks: Prevent data replication to destinations outside of defined trust perimeter
+
+control-families:
+  - title: Encryption
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.Message.C01
+        title: Use Customer-Managed Encryption Keys (CMEK) for Messages
+        objective: |
+          Ensure that messages are encrypted using customer-managed encryption keys (CMEK)
+          to provide enhanced control over encryption processes and keys, meeting compliance and security requirements.
+        assessment-requirements:
+          - id: CCC.Message.C01.TR01
+            text: |
+              Attempt to publish a message without using a customer-managed encryption key
+              and verify that the message is rejected or not stored.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0 # Not yet specified
+                remarks: Access control is misconfigured
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0 # Not yet specified
+                remarks: Data-at-rest is protected
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-12
+                strength: 0 # Not yet specified
+                remarks: Cryptographic Key Establishment and Management
+              - reference-id: SC-13
+                strength: 0 # Not yet specified
+                remarks: Cryptographic Protection

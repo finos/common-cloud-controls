@@ -1,0 +1,124 @@
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access control is misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is intercepted in transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # Not yet specified
+        remarks: Deployment region network is untrusted
+      - reference-id: CCC.Core.TH04
+        strength: 0 # Not yet specified
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH05
+        strength: 0 # Not yet specified
+        remarks: Data is corrupted during replication
+      - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
+        remarks: Data is lost or corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
+        remarks: Logs are tampered with or deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
+        remarks: Logs or monitoring data are read by unauthorized users
+      - reference-id: CCC.Core.TH10
+        strength: 0 # Not yet specified
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH11
+        strength: 0 # Not yet specified
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0 # Not yet specified
+        remarks: Resource constraints are exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0 # Not yet specified
+        remarks: Resource tags are manipulated
+      - reference-id: CCC.Core.TH15
+        strength: 0 # Not yet specified
+        remarks: Automated enumeration and reconnaissance by non-human entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Logging and Monitoring are Disabled
+      - reference-id: CCC.Core.TH17
+        strength: 0 # Not yet specified
+        remarks: Unauthorized Network Access via Misconfigured Rules
+
+threats:
+  - id: CCC.RDMS.TH01
+    title: Unauthorized Access via Default Credentials
+    description: |
+      If default credentials are not disabled or changed, unauthorized access
+      may be gained to the RDMS environment. This may lead to data breaches,
+      data manipulation, or overall compromise of the database instance.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.F06
+          - reference-id: CCC.RDMS.F07
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+  - id: CCC.RDMS.TH02
+    title: Brute Force Attempts on Database Authentication
+    description: |
+      Repeated attempts to guess database user passwords may be made
+      through brute force techniques. This condition could result in
+      unauthorized access if successful, compromising database security
+      and sensitive information.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.F07
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1110
+  - id: CCC.RDMS.TH03
+    title: Database Backups Stopped
+    description: |
+      Database backups may be halted, potentially impairing the organization's
+      ability to recover data and maintain business continuity. This condition
+      increases the risk of data loss and extended system downtime.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1490
+  - id: CCC.RDMS.TH04
+    title: Unintentional Database Backup Restoration
+    description: |
+      A database backup may be restored unintentionally, potentially
+      leading to the loss or overwrite of current data. This condition
+      could disrupt operations and result in data inconsistency or
+      corruption.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+  - id: CCC.RDMS.TH05
+    title: Unauthorized Snapshot Sharing
+    description: |
+      Snapshots may be shared with untrusted accounts, which can lead to
+      unauthorized access and potential data exfiltration. This significantly
+      increases the risk of data exposure if sensitive information is contained
+      in the snapshots.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1530

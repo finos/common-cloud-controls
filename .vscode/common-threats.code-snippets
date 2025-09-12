@@ -3,7 +3,7 @@
 		"scope": "yaml",
 		"prefix": "CT1, CT Access Control is Misconfigured",
 		"body": [
-			"- CCC.TH01 # Access Control is Misconfigured"
+			"- reference-id: CCC.TH01 # Access Control is Misconfigured"
 		  ],
 		"description": "Common Threat Access Control is Misconfigured"
 	},
@@ -11,7 +11,7 @@
 		"scope": "yaml",
 		"prefix": "CT2, CT Data is Intercepted in Transit",
 		"body": [
-			"- CCC.TH02 # Data is Intercepted in Transit"
+			"- reference-id: CCC.TH02 # Data is Intercepted in Transit"
 		  ],
 		"description": "Common Threat Data is Intercepted in Transit"
 	},
@@ -19,7 +19,7 @@
 		"scope": "yaml",
 		"prefix": "CT3, CT Deployment Region Network is Untrusted",
 		"body": [
-			"- CCC.TH03 # Deployment Region Network is Untrusted"
+			"- reference-id: CCC.TH03 # Deployment Region Network is Untrusted"
 		  ],
 		"description": "Common Threat Deployment Region Network is Untrusted"
 	},
@@ -27,7 +27,7 @@
 		"scope": "yaml",
 		"prefix": "CT4, CT Data is Replicated to Untrusted or External Locations",
 		"body": [
-			"- CCC.TH04 # Data is Replicated to Untrusted or External Locations"
+			"- reference-id: CCC.TH04 # Data is Replicated to Untrusted or External Locations"
 		  ],
 		"description": "Common Threat Data is Replicated to Untrusted or External Locations"
 	},
@@ -35,7 +35,7 @@
 		"scope": "yaml",
 		"prefix": "CT5, CT Data is Corrupted During Replication",
 		"body": [
-			"- CCC.TH05 # Data is Corrupted During Replication"
+			"- reference-id: CCC.TH05 # Data is Corrupted During Replication"
 		  ],
 		"description": "Common Threat Data is Corrupted During Replication"
 	},
@@ -43,7 +43,7 @@
 		"scope": "yaml",
 		"prefix": "CT6, CT Data is Lost or Corrupted",
 		"body": [
-			"- CCC.TH06 # Data is Lost or Corrupted"
+			"- reference-id: CCC.TH06 # Data is Lost or Corrupted"
 		  ],
 		"description": "Common Threat Data is Lost or Corrupted"
 	},
@@ -51,7 +51,7 @@
 		"scope": "yaml",
 		"prefix": "CT7, CT Logs are Tampered With or Deleted",
 		"body": [
-			"- CCC.TH07 # Logs are Tampered With or Deleted"
+			"- reference-id: CCC.TH07 # Logs are Tampered With or Deleted"
 		  ],
 		"description": "Common Threat Logs are Tampered With or Deleted"
 	},
@@ -59,7 +59,7 @@
 		"scope": "yaml",
 		"prefix": "CT8, CT Cost Management Data is Manipulated",
 		"body": [
-			"- CCC.TH08 # Cost Management Data is Manipulated"
+			"- reference-id: CCC.TH08 # Cost Management Data is Manipulated"
 		  ],
 		"description": "Common Threat Cost Management Data is Manipulated"
 	},
@@ -67,7 +67,7 @@
 		"scope": "yaml",
 		"prefix": "CT9, CT Logs or Monitoring Data are Read by Unauthorized Users",
 		"body": [
-			"- CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users"
+			"- reference-id: CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users"
 		  ],
 		"description": "Common Threat Logs or Monitoring Data are Read by Unauthorized Users"
 	},
@@ -75,7 +75,7 @@
 		"scope": "yaml",
 		"prefix": "CT10, CT Alerts are Intercepted",
 		"body": [
-			"- CCC.TH10 # Alerts are Intercepted"
+			"- reference-id: CCC.TH10 # Alerts are Intercepted"
 		  ],
 		"description": "Common Threat Alerts are Intercepted"
 	},
@@ -83,7 +83,7 @@
 		"scope": "yaml",
 		"prefix": "CT11, CT Event Notifications are Incorrectly Triggered",
 		"body": [
-			"- CCC.TH11 # Event Notifications are Incorrectly Triggered"
+			"- reference-id: CCC.TH11 # Event Notifications are Incorrectly Triggered"
 		  ],
 		"description": "Common Threat Event Notifications are Incorrectly Triggered"
 	},
@@ -91,7 +91,7 @@
 		"scope": "yaml",
 		"prefix": "CT12, CT Resource Constraints are Exhausted",
 		"body": [
-			"- CCC.TH12 # Resource Constraints are Exhausted"
+			"- reference-id: CCC.TH12 # Resource Constraints are Exhausted"
 		  ],
 		"description": "Common Threat Resource Constraints are Exhausted"
 	},
@@ -99,7 +99,7 @@
 		"scope": "yaml",
 		"prefix": "CT13, CT Resource Tags are Manipulated",
 		"body": [
-			"- CCC.TH13 # Resource Tags are Manipulated"
+			"- reference-id: CCC.TH13 # Resource Tags are Manipulated"
 		  ],
 		"description": "Common Threat Resource Tags are Manipulated"
 	},
@@ -107,7 +107,7 @@
 		"scope": "yaml",
 		"prefix": "CT14, CT Older Resource Versions are Exploited",
 		"body": [
-			"- CCC.TH14 # Older Resource Versions are Exploited"
+			"- reference-id: CCC.TH14 # Older Resource Versions are Exploited"
 		  ],
 		"description": "Common Threat Older Resource Versions are Exploited"
 	},
@@ -115,7 +115,7 @@
 		"scope": "yaml",
 		"prefix": "CT14, CT Automated Enumeration and Reconnaissance by Non-human Entities",
 		"body": [
-			"- CCC.TH14 # Automated Enumeration and Reconnaissance by Non-human Entities"
+			"- reference-id: CCC.TH14 # Automated Enumeration and Reconnaissance by Non-human Entities"
 		  ],
 		"description": "Common Threat Automated Enumeration and Reconnaissance by Non-human Entities"
 	},

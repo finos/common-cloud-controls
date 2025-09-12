@@ -1,15 +1,10 @@
 package cmd
 
-import "github.com/revanite-io/sci/layer2"
+import "github.com/ossf/gemara/layer2"
 
 type CompiledCatalog struct {
-	Metadata       layer2.Metadata  `yaml:"metadata"`
+	layer2.Catalog
 	ReleaseDetails []ReleaseDetails `yaml:"release-details"`
-
-	// These lists contain the common and specific entries smashed together
-	ControlFamilies []layer2.ControlFamily `yaml:"control-families"`
-	Capabilities    []layer2.Capability
-	Threats         []layer2.Threat
 }
 
 type ReleaseDetails struct {
@@ -28,7 +23,7 @@ type ReleaseManager struct {
 	Name     string `yaml:"name"`
 	GithubId string `yaml:"github-id"`
 	Company  string `yaml:"company"`
-	Summary  string `yaml:"summary"`
+	Quote    string `yaml:"quote"`
 }
 
 type Contributors struct {
