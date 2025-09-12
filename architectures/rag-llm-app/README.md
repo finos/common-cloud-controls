@@ -6,7 +6,7 @@ This document maps the services used in a Retrieval-Augmented Generation (RAG) L
 
 ## 🧠 AI/ML Services
 
-| **Component**                 | **Google Cloud**                      | **Amazon Web Services (AWS)**                           | **Microsoft Azure**                          | **CCC Service**                          |
+| **Component**                 | **Google Cloud**                      | **Amazon Web Services (AWS)**                           | **Microsoft Azure**                          | **CCC Catalog**                          |
 | ----------------------------- | ------------------------------------- | ------------------------------------------------------- | -------------------------------------------- | ---------------------------------------- |
 | **Vector Database**           | Vertex AI Search, AlloyDB w/ pgvector | Amazon OpenSearch Serverless w/ k-NN, Neptune Analytics | Azure AI Search (vector), Cosmos DB w/ index | [CCC.Vector](/catalogs/database/vector/) |
 | **Generative Model Endpoint** | Vertex AI Gemma, GPT-4o               | Bedrock (Claude, GPT-4o, Mistral)                       | Azure OpenAI GPT-4o/4-Turbo                  | [CCC.GenAI](/catalogs/ai-ml/gen-ai/)     |
@@ -15,7 +15,7 @@ This document maps the services used in a Retrieval-Augmented Generation (RAG) L
 
 ## 🌐 Networking and Load Balancing
 
-| **Component**              | **Google Cloud**                      | **Amazon Web Services (AWS)**                            | **Microsoft Azure**            | **CCC Service**                                   |
+| **Component**              | **Google Cloud**                      | **Amazon Web Services (AWS)**                            | **Microsoft Azure**            | **CCC Catalog**                                   |
 | -------------------------- | ------------------------------------- | -------------------------------------------------------- | ------------------------------ | ------------------------------------------------- |
 | **External Load Balancer** | Global External HTTP(S) Load Balancer | Elastic Load Balancing – Application Load Balancer (ALB) | Azure Application Gateway      | [CCC.LoadBal](/catalogs/networking/loadbalancer/) |
 | **Internal Load Balancer** | Internal TCP/UDP Load Balancer        | Elastic Load Balancing – Network Load Balancer (NLB)     | Azure Load Balancer (Internal) | [CCC.LoadBal](/catalogs/networking/loadbalancer/) |
@@ -26,7 +26,7 @@ This document maps the services used in a Retrieval-Augmented Generation (RAG) L
 
 ## 🔐 Security and IAM
 
-| **Component**           | **Google Cloud**                     | **Amazon Web Services (AWS)**            | **Microsoft Azure**                         | **CCC Service**                          |
+| **Component**           | **Google Cloud**                     | **Amazon Web Services (AWS)**            | **Microsoft Azure**                         | **CCC Catalog**                          |
 | ----------------------- | ------------------------------------ | ---------------------------------------- | ------------------------------------------- | ---------------------------------------- |
 | **Identity and Access** | Identity and Access Management (IAM) | AWS Identity and Access Management (IAM) | Azure Active Directory + Managed Identities | [CCC.IAM](/catalogs/identity/iam/)       |
 | **Encryption**          | Key Management Service               | AWS KMS                                  | Azure Key Vault                             | [CCC.KeyMgmt](/catalogs/crypto/key/)     |
@@ -37,7 +37,7 @@ This document maps the services used in a Retrieval-Augmented Generation (RAG) L
 
 ## 📊 Monitoring and Observability
 
-| **Component**     | **Google Cloud**        | **Amazon Web Services (AWS)** | **Microsoft Azure**                | **CCC Service**                                    |
+| **Component**     | **Google Cloud**        | **Amazon Web Services (AWS)** | **Microsoft Azure**                | **CCC Catalog**                                    |
 | ----------------- | ----------------------- | ----------------------------- | ---------------------------------- | -------------------------------------------------- |
 | **Monitoring**    | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | [CCC.Monitoring](/catalogs/management/monitoring/) |
 | **Logging**       | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | [CCC.Logging](/catalogs/management/logging/)       |
@@ -48,16 +48,15 @@ This document maps the services used in a Retrieval-Augmented Generation (RAG) L
 
 ## 🗄️ Storage Services
 
-| **Component**      | **Google Cloud** | **Amazon Web Services (AWS)**             | **Microsoft Azure** | **CCC Service Family**                    |
-| ------------------ | ---------------- | ----------------------------------------- | ------------------- | ----------------------------------------- |
-| **Object Storage** | Cloud Storage    | Amazon Simple Storage Service (Amazon S3) | Azure Blob Storage  | [CCC.ObjStor](/catalogs/storage/object/)  |
-| **Vector Storage** | Vertex AI Search | Amazon OpenSearch Serverless w/ k-NN      | Azure AI Search     | Vector Database (Service not yet defined) |
+| **Component**      | **Google Cloud** | **Amazon Web Services (AWS)**             | **Microsoft Azure** | **CCC Catalog**                          |
+| ------------------ | ---------------- | ----------------------------------------- | ------------------- | ---------------------------------------- |
+| **Object Storage** | Cloud Storage    | Amazon Simple Storage Service (Amazon S3) | Azure Blob Storage  | [CCC.ObjStor](/catalogs/storage/object/) |
 
 ---
 
 ## 🔄 Data Pipeline Services
 
-| **Component**              | **Google Cloud**          | **Amazon Web Services (AWS)** | **Microsoft Azure**             | **CCC Service**                                  |
+| **Component**              | **Google Cloud**          | **Amazon Web Services (AWS)** | **Microsoft Azure**             | **CCC Catalog**                                  |
 | -------------------------- | ------------------------- | ----------------------------- | ------------------------------- | ------------------------------------------------ |
 | **ETL/Data Processing**    | Dataflow                  | Glue, Lambda                  | Azure Data Factory              | Data Processing (Service not yet defined)        |
 | **Workflow Orchestration** | Cloud Composer (Airflow)  | Step Functions                | Durable Functions, Logic Apps   | Workflow Orchestration (Service not yet defined) |
@@ -67,7 +66,7 @@ This document maps the services used in a Retrieval-Augmented Generation (RAG) L
 
 ## 🧱 Application Tiers
 
-| **Application Tier**    | **Google Cloud**                      | **Amazon Web Services (AWS)**                 | **Microsoft Azure**                                   | **CCC Service**                               |
+| **Application Tier**    | **Google Cloud**                      | **Amazon Web Services (AWS)**                 | **Microsoft Azure**                                   | **CCC Catalog**                               |
 | ----------------------- | ------------------------------------- | --------------------------------------------- | ----------------------------------------------------- | --------------------------------------------- |
 | **Web Tier**            | Compute Engine Managed Instance Group | Amazon EC2 Auto Scaling with Launch Templates | Azure Virtual Machine Scale Sets                      | [CCC.VM](/catalogs/compute/virtual-machines/) |
 | **Application Tier**    | Compute Engine Managed Instance Group | Amazon EC2 Auto Scaling with Launch Templates | Azure Virtual Machine Scale Sets                      | [CCC.VM](/catalogs/compute/virtual-machines/) |
