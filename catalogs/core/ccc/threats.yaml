@@ -98,7 +98,7 @@ threats:
   - id: CCC.Core.TH03
     title: Deployment Region Network is Untrusted
     description: |
-      Deploying a service in an untrusted, unstable, or insecure location,
+      Deploying a system in an untrusted, unstable, or insecure location,
       or one that does not comply with organizational security policies, may
       expose the network to unauthorized access or data interception due to
       privileged network exposure or physical vulnerabilities. This could
@@ -134,7 +134,7 @@ threats:
   - id: CCC.Core.TH04
     title: Data is Replicated to Untrusted or External Locations
     description: |
-      Replicating a service in an untrusted, unstable, or insecure location,
+      Replicating data into an untrusted, unstable, or insecure location,
       or one that does not comply with organizational security policies, may
       expose the network to unauthorized access or data
       interception due to privileged network exposure or physical
@@ -342,9 +342,9 @@ threats:
       This could jeopardize system availability by supporting the planning of
       attacks on the system or network.
   - id: CCC.Core.TH10
-    title: Alerts are Read by Unauthorized Entities
+    title: Events are Read by Unauthorized Entities
     description: |
-      Event notifications may be intercepted due to misconfigurations or
+      State-change events may be intercepted due to misconfigurations or
       read by unauthorized entities. This could impact data confidentiality by
       exposing information about sensitive operations, and open the system up to
       attacks of opportunity.
@@ -376,12 +376,13 @@ threats:
             strength: 0 # Not yet specified
             remarks: File and Directory Discovery
   - id: CCC.Core.TH11
-    title: Event Notifications are Incorrectly Triggered
+    title: Publications are Incorrectly Triggered
     description: |
-      Event notifications may be triggered incorrectly due to misconfigurations,
-      or unauthorized access. This could result in sensitive operations being
-      triggered unintentionally, obfuscate other issues, or overwhelm the
-      system, potentially disrupting legitimate operations.
+      The publication of logs, metrics, or events may be triggered incorrectly
+      due to misconfigurations or unauthorized access. This data integrity
+      problem could result in sensitive operations being initiated, it can
+      obfuscate other issues, and it may disrupt the availability of the system
+      or its data.
     capabilities:
       - reference-id: CCC
         entries:
@@ -406,11 +407,13 @@ threats:
   - id: CCC.Core.TH12
     title: Resource Constraints are Exhausted
     description: |
-      Resource constraints, such as memory, CPU, or storage, may be exhausted
-      due to misconfigurations, or excessive resource consumption. This could
-      disrupt service availability, deny access to users, or impact other
-      systems within the same scope. Exhaustion may occur through repeated
-      requests, resource-intensive operations, or lowering rate/budget limits.
+      Constraints on resources such as memory, CPU, or storage may be exhausted
+      due to misconfigurations or excessive consumption. Exhaustion may occur
+      through repeated requests, resource-intensive operations, or lowering of
+      rate-limit thresholds. This could disrupt availability of the system or
+      child resources by denying functionality to users. If the impacted system
+      is not properly vetted or isolated from other network resources, the
+      effect could cascade to those other systems.
     capabilities:
       - reference-id: CCC
         entries:
@@ -439,9 +442,9 @@ threats:
     title: Resource Tags are Manipulated
     description: |
       Resource tags may be altered, leading to changes in organizational
-      policies, billing disruptions, or unintended exposure of sensitive data.
-      This could result in mismanaged resources, financial misuse, or security
-      vulnerabilities.
+      policies, billing rules, or network access rules. This could result in
+      compromised confidentiality, integrity, or availability of the system and
+      its data.
     capabilities:
       - reference-id: CCC
         entries:
@@ -544,8 +547,8 @@ threats:
     description: |
       Improperly configured or overly permissive network access rules
       such as security groups can allow unauthorized inbound connections
-      to the service. This could result in unauthorized access to sensitive
-      resources or data and disruption to service availability.
+      to the system. This could result in unauthorized access to sensitive
+      resources or data and disruption to system availability.
     capabilities:
       - reference-id: CCC
         entries:
