@@ -1,3 +1,21 @@
+##
+# Threats Style Guide
+#
+# - Use a formal, objective, and precise tone
+# - Each threat must have: id, title, description, capabilities, and external-mappings
+# - Titles should be concise, use title case, and clearly state the threat
+# - Descriptions should:
+#   - Begin with a clear statement of the risk or condition
+#   - Explain the potential impact or consequence
+#   - Use complete sentences
+#   - Avoid subjective or speculative language
+#   - Reference specific misconfigurations, vulnerabilities, or attack scenarios
+# - External mappings and capabilities should reference guidance entries with its title written in the remarks field
+# - The reference-id for mappings should be an ID defined in metadata.mapping-references[]
+# - Use consistent terminology for resources, data, users, and system components
+# - Avoid vague phrases; be specific about what could go wrong
+# - Remember that many threats may stem from both mistakes and malicious actions, so avoid language that implies intent
+#
 threats:
   - id: CCC.Core.TH01
     title: Access Control is Misconfigured
