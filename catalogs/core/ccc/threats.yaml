@@ -8,27 +8,30 @@
 #   - Use title case
 #   - Clearly state an action that should be prevented
 # - Descriptions should:
-#   - Begin with a clear statement of the risk or condition
-#   - Explain the potential impact or consequence
+#   - Begin with the circumstances that could lead to the threat occurring
+#   - Describe the effect on the system if the threat occurs
+#   - Include a description of the impact to the confidentiality, integrity, or availability of resources or data
 #   - Use complete sentences
 #   - Avoid subjective or speculative language
-#   - Reference specific misconfigurations, vulnerabilities, or attack scenarios
-#   - Include a description of the impact to the confidentiality, integrity, or availability of resources or data
-#   - Avoid phrases like "accidental" or "malicious" in favor of non-responsibility terms such as "unauthorized"
-# - External mappings and capabilities should reference guidance entries with its title written in the remarks field
-# - The reference-id for mappings should be an ID defined in metadata.mapping-references[]
-# - Use consistent terminology for resources, data, entities, and system components
-# - Avoid vague phrases; be specific about what could go wrong
-# - Remember that many threats may stem from both mistakes and malicious actions, so avoid language that implies intent
-#
+#   - Avoid intent-based phrases like "accidental" or "malicious"
+# - Use consistent terminology:
+#   - service: the resource being assessed
+#   - child resource: an actor that is created and/or managed by the service
+#   - system: the broader architecture that the service operates within
+#   - entity: a human or machine that interacts with the service
+# - Mappings should:
+#   - Reference guidance entries with its title written in the remarks field
+#   - The reference-id for mappings should be an ID defined in metadata.mapping-references[]
+
 threats:
   - id: CCC.Core.TH01
     title: Access Control is Misconfigured
     description: |
       Misconfigured access controls may grant excessive privileges or fail to
-      restrict unauthorized access to system resources. This could result in
-      a loss of data confidentiality or tolerance of unauthorized actions which
-      impact the integrity and availability of resources and data.
+      restrict unauthorized access to the service and its child resources.
+      This could result in a loss of data confidentiality or tolerance of
+      unauthorized actions which impact the integrity and availability of
+      resources and data.
     capabilities:
       - reference-id: CCC
         entries:
@@ -77,12 +80,12 @@ threats:
   - id: CCC.Core.TH02
     title: Data is Intercepted in Transit
     description: |
-      Data transmitted by the system to other network devices can be used to
-      support the planning of attacks by profiling the endpoints and
-      usage patterns, which could jeopardize system availability. The data may
-      also be vulnerable to interception or modification in transit if not
-      properly encrypted. This could result in a loss of confidentiality or
-      integrity of the transmitted data.
+      Data transmitted by the service to child resources or other parts of the
+      system can be used to support the planning of attacks by profiling the
+      endpoints and usage patterns, which could jeopardize system availability.
+      The data may also be vulnerable to interception or modification in transit
+      if not properly encrypted. This could result in a loss of confidentiality
+      or integrity of the transmitted data.
     capabilities:
       - reference-id: CCC
         entries: []
@@ -98,12 +101,12 @@ threats:
   - id: CCC.Core.TH03
     title: Deployment Region Network is Untrusted
     description: |
-      Deploying a system in an untrusted, unstable, or insecure location,
-      or one that does not comply with organizational security policies, may
-      expose the network to unauthorized access or data interception due to
-      privileged network exposure or physical vulnerabilities. This could
-      result in a loss of data confidentiality, compromised system integrity,
-      or impacted availability.
+      Deploying the service or a child resource to an untrusted, unstable, or
+      insecure location, or one that does not comply with organizational
+      security policies, may expose the network to unauthorized access or data
+      interception due to privileged network exposure or physical
+      vulnerabilities. This could result in a loss of data confidentiality,
+      compromised system integrity, or impacted availability.
     capabilities:
       - reference-id: CCC
         entries:
@@ -136,9 +139,9 @@ threats:
     description: |
       Replicating data into an untrusted, unstable, or insecure location,
       or one that does not comply with organizational security policies, may
-      expose the network to unauthorized access or data
-      interception due to privileged network exposure or physical
-      vulnerabilities. This could result in a loss of data confidentiality.
+      expose the network to data interception due to privileged network
+      exposure or physical vulnerabilities. This could result in a loss of
+      data confidentiality.
     capabilities:
       - reference-id: CCC
         entries:
@@ -408,12 +411,11 @@ threats:
     title: Resource Constraints are Exhausted
     description: |
       Constraints on resources such as memory, CPU, or storage may be exhausted
-      due to misconfigurations or excessive consumption. Exhaustion may occur
-      through repeated requests, resource-intensive operations, or lowering of
-      rate-limit thresholds. This could disrupt availability of the system or
+      due to excessive consumption, resource-intensive operations, or lowering
+      of rate-limit thresholds. This could disrupt availability of the service or
       child resources by denying functionality to users. If the impacted system
-      is not properly vetted or isolated from other network resources, the
-      effect could cascade to those other systems.
+      is not designed to expect such a failure the effect could also cascade to
+      those other systems.
     capabilities:
       - reference-id: CCC
         entries:
@@ -506,7 +508,7 @@ threats:
       Automated processes or bots may be used to perform reconnaissance by
       enumerating resources such as APIs, file systems, or directories. These
       activities can reveal potential vulnerabilities, misconfigurations, or
-      unsecured resources, which might result in unauthorized access or data
+      unsecured resources, which` might result in unauthorized access or data
       exposure.
     capabilities:
       - reference-id: CCC
@@ -521,12 +523,13 @@ threats:
             strength: 0 # Not yet specified
             remarks: Cloud Infrastructure Discovery
   - id: CCC.Core.TH16
-    title: Logging and Monitoring are Disabled
+    title: Publications are Disabled
     description: |
-      Logging and monitoring may be disabled, potentially hindering the
-      detection of security events and reducing visibility into system
-      activities. This condition can impact the organization's ability
-      to investigate incidents and maintain operational integrity.
+      Publication of events, metrics, and runtime logs may be disabled, leading
+      to a lack of critical security and operational information being recorded
+      or shared. This can impact system availability by delaying the
+      detection of and response to incidents, as well as affecting informed
+      system design and enforcement of operational thresholds.
     capabilities:
       - reference-id: CCC
         entries:
