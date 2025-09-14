@@ -155,11 +155,10 @@ threats:
   - id: CCC.Core.TH05
     title: Interference with Replication Processes
     description: |
-      Data replicated to another location may become corrupted, delayed, or
-      deleted during replication processes due to misconfigurations or
-      disruptions. This could lead to compromised data integrity and
-      availability, potentially affecting recovery processes and overall
-      system reliability.
+      Misconfigured or manipulated replication processes may lead to data being
+      copied to unintended locations, delayed, modified, or not being copied
+      at all. This could lead to compromised data confidentiality and integrity,
+      potentially also affecting recovery processes and data availability.
     capabilities:
       - reference-id: CCC
         entries:
@@ -190,10 +189,10 @@ threats:
   - id: CCC.Core.TH06
     title: Data is Lost or Corrupted
     description: |
-      Data loss or corruption may occur due to misconfiguration or unauthorized
-      manipulation. This could lead to compromised data integrity and
-      availability, potentially affecting recovery processes and overall
-      system reliability.
+      Services that rely on accurate data are susceptible to disruption in the
+      event of data loss or corruption. Any actions that lead to the unintended
+      deletion, alteration, or limited access to data can impact the
+      availability of the service and the system it is part of.
     capabilities:
       - reference-id: CCC
         entries:
@@ -221,10 +220,11 @@ threats:
   - id: CCC.Core.TH07
     title: Logs are Tampered With or Deleted
     description: |
-      Logs may be tampered with or deleted due to misconfiguration or
-      unauthorized manipulation. This impacts the integrity and availability of
-      system logs, while also disrupting forensic investigations and reducing
-      the accuracy of audit trails.
+      Tampering or deletion of service logs will reduce the system's ability to
+      maintain an accurate record of events. Any actions that compromise the
+      integrity of logs could disrupt system availability by disrupting
+      monitoring, hindering forensic investigations, and reducing the accuracy
+      of audit trails.
     capabilities:
       - reference-id: CCC
         entries:
@@ -249,11 +249,11 @@ threats:
   - id: CCC.Core.TH08
     title: Runtime Metrics are Manipulated
     description: |
-      Runtime metrics may be tampered with or deleted due to misconfiguration
-      or unauthorized access. This compromised data integrity or availability
-      related to resource usage may also impact system availability through
-      misinformed scaling decisions, budget exhaustion, financial losses, and
-      hindered incident detection.
+      Manipulation of runtime metrics can lead to inaccurate representations of
+      system performance and resource utilization. This compromised data
+      integrity may also impact system availability through misinformed scaling
+      decisions, budget exhaustion, financial losses, and hindered incident
+      detection.
     capabilities:
       - reference-id: CCC
         entries:
@@ -268,21 +268,14 @@ threats:
             remarks: Data Manipulation
           - reference-id: T1070
             remarks: Indicator Removal on Host
-  - id: CCC.Core.TH##
-    title: Runtime Logs are Manipulated
-    description: |
-      Runtime logs may be tampered with or deleted due to misconfiguration or
-      unauthorized access. This impacts the integrity and availability of
-      system data, while also disrupting forensic investigations and reducing
-      the accuracy of audit trails.
   - id: CCC.Core.TH09
     title: Runtime Logs are Read by Unauthorized Entities
     description: |
       Unauthorized access to logs may expose valuable information about the
       system's configuration, operations, and security mechanisms. This could
       jeopardize system availability through the exposure of vulnerabilities
-      and by supporting the planning of attacks on the system or network. If
-      logs are not adequately sanitized, this may also directly impact the
+      and support the planning of attacks on the service, system, or network.
+      If logs are not adequately sanitized, this may also directly impact the
       confidentiality of sensitive data.
     capabilities:
       - reference-id: CCC
@@ -339,16 +332,15 @@ threats:
     title: Metrics are Read by Unauthorized Entities
     description: |
       Unauthorized access to runtime metrics may expose valuable information
-      about the system's performance, resource consumption, and usage patterns.
-      This could jeopardize system availability by supporting the planning of
-      attacks on the system or network.
+      about the system's design, performance, and usage patterns. This can
+      support the planning of attacks on the service, system, or network.
   - id: CCC.Core.TH10
     title: Events are Read by Unauthorized Entities
     description: |
-      State-change events may be intercepted due to misconfigurations or
-      read by unauthorized entities. This could impact data confidentiality by
-      exposing information about sensitive operations, and open the system up to
-      attacks of opportunity.
+      Unauthorized access to state-change events can reveal information about
+      the system's design and usage patterns. This opens the system up to
+      attacks of opportunity and support the planning of attacks on the
+      service, system, or network.
     capabilities:
       - reference-id: CCC
         entries:
