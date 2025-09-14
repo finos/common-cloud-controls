@@ -335,7 +335,7 @@ threats:
       about the system's design, performance, and usage patterns. This can
       support the planning of attacks on the service, system, or network.
   - id: CCC.Core.TH10
-    title: Events are Read by Unauthorized Entities
+    title: State-change Events are Read by Unauthorized Entities
     description: |
       Unauthorized access to state-change events can reveal information about
       the system's design and usage patterns. This opens the system up to
@@ -371,11 +371,10 @@ threats:
   - id: CCC.Core.TH11
     title: Publications are Incorrectly Triggered
     description: |
-      The publication of logs, metrics, or events may be triggered incorrectly
-      due to misconfigurations or unauthorized access. This data integrity
-      problem could result in sensitive operations being initiated, it can
-      obfuscate other issues, and it may disrupt the availability of the system
-      or its data.
+      Incorrectly triggered publications may lead to the dissemination of
+      inaccurate or misleading information. This data integrity problem could
+      result in sensitive operations being initiated, it can obfuscate other
+      issues, and it may disrupt the availability of the system or its data.
     capabilities:
       - reference-id: CCC
         entries:
@@ -400,12 +399,13 @@ threats:
   - id: CCC.Core.TH12
     title: Resource Constraints are Exhausted
     description: |
-      Constraints on resources such as memory, CPU, or storage may be exhausted
-      due to excessive consumption, resource-intensive operations, or lowering
-      of rate-limit thresholds. This could disrupt availability of the service or
-      child resources by denying functionality to users. If the impacted system
-      is not designed to expect such a failure the effect could also cascade to
-      those other systems.
+      Exceeding the resource constraints through excessive consumption,
+      resource-intensive operations, or lowering of rate-limit thresholds
+      can impact the availability of elements such as memory, CPU, or storage.
+      This may disrupt availability of the service or child resources by
+      denying the associated functionality to users. If the impacted system is
+      not designed to expect such a failure, the effect could also cascade to
+      other services and resources.
     capabilities:
       - reference-id: CCC
         entries:
@@ -433,8 +433,9 @@ threats:
   - id: CCC.Core.TH13
     title: Resource Tags are Manipulated
     description: |
-      Resource tags may be altered, leading to changes in organizational
-      policies, billing rules, or network access rules. This could result in
+      When resource tags are altered, it can lead to misclassification or
+      mismanagement of resources. This can reduce the efficacy of organizational
+      policies, billing rules, or network access rules. Such changes could cause
       compromised confidentiality, integrity, or availability of the system and
       its data.
     capabilities:
@@ -450,12 +451,13 @@ threats:
             strength: 0 # Not yet specified
             remarks: Data Manipulation
   - id: CCC.Core.TH14
-    title: Older Resource Versions are Exploited
+    title: Older Resource Versions are Used
     description: |
-      Older versions of resources may contain vulnerabilities due to deprecated
-      or insecure configurations. Without proper version control and monitoring,
-      outdated versions could lead to security measures bypass, potentially
-      leading to security risks or operational disruptions.
+      Running older versions of child resources can expose the system to known
+      vulnerabilities that have been addressed in more recent versions. If the
+      version identifier is detected by an attacker, it may be possible to
+      exploit these vulnerabilities to compromise the confidentiality,
+      integrity, or availability of the system and its data.
     capabilities:
       - reference-id: CCC
         entries:
@@ -498,7 +500,7 @@ threats:
       Automated processes or bots may be used to perform reconnaissance by
       enumerating resources such as APIs, file systems, or directories. These
       activities can reveal potential vulnerabilities, misconfigurations, or
-      unsecured resources, which` might result in unauthorized access or data
+      unsecured resources, which might result in unauthorized access or data
       exposure.
     capabilities:
       - reference-id: CCC
