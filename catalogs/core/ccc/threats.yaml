@@ -9,7 +9,7 @@
 #   - Clearly state an action that should be prevented
 # - Descriptions should:
 #   - Begin with the circumstances that could lead to the threat occurring
-#   - Describe the effect on the system if the threat occurs
+#   - Describe the effect on the system if the threat manifests
 #   - Include a description of the impact to the confidentiality, integrity, or availability of resources or data
 #   - Use complete sentences
 #   - Avoid subjective or speculative language
@@ -80,12 +80,12 @@ threats:
   - id: CCC.Core.TH02
     title: Data is Intercepted in Transit
     description: |
-      Data transmitted by the service to child resources or other parts of the
-      system can be used to support the planning of attacks by profiling the
-      endpoints and usage patterns, which could jeopardize system availability.
-      The data may also be vulnerable to interception or modification in transit
-      if not properly encrypted. This could result in a loss of confidentiality
-      or integrity of the transmitted data.
+      Data transmitted by the service is susceptible to collection by any entity
+      with access to any part of the transmission path. Packet observations can
+      be used to support the planning of attacks by profiling origin points,
+      destinations, and usage patterns. The data may also be vulnerable to
+      interception or modification in transit if not properly encrypted,
+      impacting the confidentiality or integrity of the transmitted data.
     capabilities:
       - reference-id: CCC
         entries: []
@@ -101,12 +101,11 @@ threats:
   - id: CCC.Core.TH03
     title: Deployment Region Network is Untrusted
     description: |
-      Deploying the service or a child resource to an untrusted, unstable, or
-      insecure location, or one that does not comply with organizational
-      security policies, may expose the network to unauthorized access or data
-      interception due to privileged network exposure or physical
-      vulnerabilities. This could result in a loss of data confidentiality,
-      compromised system integrity, or impacted availability.
+      Systems are susceptible to unauthorized access or interception by actors
+      with political or physical control over the network in which they are
+      deployed. If the geopolitical status of the deployment network is
+      untrusted, unstable, or insecure, this could result in a loss of
+      confidentiality, integrity, or availability of the service and its data.
     capabilities:
       - reference-id: CCC
         entries:
@@ -137,11 +136,10 @@ threats:
   - id: CCC.Core.TH04
     title: Data is Replicated to Untrusted or External Locations
     description: |
-      Replicating data into an untrusted, unstable, or insecure location,
-      or one that does not comply with organizational security policies, may
-      expose the network to data interception due to privileged network
-      exposure or physical vulnerabilities. This could result in a loss of
-      data confidentiality.
+      Systems are susceptible to unauthorized access or interception by actors
+      with political or physical control over the network in which they are
+      deployed. Confidentiality may be impacted if the data is replicated to a
+      network where the geopolitical status is untrusted, unstable, or insecure.
     capabilities:
       - reference-id: CCC
         entries:
