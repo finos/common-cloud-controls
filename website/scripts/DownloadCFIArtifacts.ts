@@ -266,6 +266,14 @@ async function downloadCFIArtifacts(): Promise<void> {
         }
     }
 
+    // Phase 3: Clean up temporary cfi-configurations directory
+    console.log('\n🧹 Phase 3: Cleaning up temporary directories...');
+    const cfiConfigDir = path.join(OUTPUT_DIR, 'cfi-configurations');
+    if (fs.existsSync(cfiConfigDir)) {
+        fs.rmSync(cfiConfigDir, { recursive: true, force: true });
+        console.log('🗑️  Removed cfi-configurations directory');
+    }
+
     console.log('\n✅ CFI artifacts download completed.');
 }
 

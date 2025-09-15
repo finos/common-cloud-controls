@@ -1,8 +1,8 @@
 {
   "name": "cfi-s3-module",
   "url": "https://github.com/robmoffat/cfi-s3-module",
-  "description": "A module for creating a secure S3 bucket with encryption and logging enabled.",
-  "downloaded_at": "2025-09-12T10:59:10.895Z",
+  "description": "Various CFI artifacts for AI, Object Storage, VPN, Databases etc.",
+  "downloaded_at": "2025-09-15T15:01:39.959Z",
   "workflow_run_id": 17438391095,
   "workflow_status": "completed",
   "workflow_conclusion": "failure"
