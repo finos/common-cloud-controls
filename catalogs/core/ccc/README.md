@@ -21,7 +21,7 @@ metadata:
     - id: CCC
       title: Common Cloud Controls Core
       version: v2025.08
-      url: https://github.com/finos/common-cloud-controls/releases/tag/v2025.08.Core
+      url: https://github.com/finos/common-cloud-controls/releases/tag/v2025.09.Core
       description: ""
 ```
 
@@ -31,7 +31,7 @@ Simply add a block like the one below at the top level of your catalog's YAML, p
 This block will list every imported capability by the ID, directing parsers to pull the rest of the data from the mapping reference that you provided in the Metadata.
 
 ```yaml
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
     identifiers:
       - CCC.Core.F01 # Encryption in Transit Enabled by Default
@@ -48,7 +48,7 @@ shared-capabilities:
 Similar to capabilities, add a block like the following to the top level of your catalog's YAML:
 
 ```yaml
-shared-threats:
+imported-threats:
   - reference-id: CCC
     identifiers:
       - CCC.TH01 # Access Control is Misconfigured
@@ -61,7 +61,7 @@ shared-threats:
 Similar to capabilities, add a block like the following to the top level of your catalog's YAML:
 
 ```yaml
-shared-controls:
+imported-controls:
   - reference-id: CCC
     identifiers:
       - CCC.Core.C01 # Prevent Unencrypted Requests
