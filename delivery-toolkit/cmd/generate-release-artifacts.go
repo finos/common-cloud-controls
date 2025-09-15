@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var GenerateReleaseArtifacts = &cobra.Command{
@@ -16,6 +18,11 @@ var GenerateReleaseArtifacts = &cobra.Command{
 			log.Print("error: no catalog data available to generate release artifacts")
 		}
 
+		releaseDetails := getReleaseDetails(filepath.Join(viper.GetString("catalogs-dir"), viper.GetString("build-target")))
+		if len(releaseDetails) == 0 {
+			log.Print("error: no release details available to generate release artifacts")
+		}
+
 		initializeOutputDirectory()
 
 		if _, err := generateOmnibusYamlFile(catalog); err != nil {
@@ -23,12 +30,17 @@ var GenerateReleaseArtifacts = &cobra.Command{
 			return
 		}
 
-		if _, err := generateOmnibusMdFile(catalog); err != nil {
+		if _, err := generateReleaseDetailsYamlFile(releaseDetails); err != nil {
+			log.Printf("Error generating release details YAML: %v\n", err)
+			return
+		}
+
+		if _, err := generateOmnibusMdFile(catalog, releaseDetails); err != nil {
 			log.Printf("Error generating Markdown: %v\n", err)
 			return
 		}
 
-		if _, err := generateReleaseNotes(catalog); err != nil {
+		if _, err := generateReleaseNotes(catalog, releaseDetails); err != nil {
 			log.Printf("Error generating release notes: %v\n", err)
 			return
 		}

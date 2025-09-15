@@ -12,8 +12,7 @@ import (
 
 var releaseNotesTemplatePath = "templates/release-notes.md"
 
-func generateReleaseNotes(catalog *layer2.Catalog) (string, error) {
-	releaseDetails := getReleaseDetails(filepath.Join(viper.GetString("catalogs-dir"), viper.GetString("build-target")))
+func generateReleaseNotes(catalog *layer2.Catalog, releaseDetails []ReleaseDetails) (string, error) {
 	data := CompiledCatalog{
 		Catalog:        *catalog,
 		ReleaseDetails: releaseDetails,
