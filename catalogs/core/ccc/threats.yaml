@@ -102,7 +102,7 @@ threats:
     title: Deployment Region Network is Untrusted
     description: |
       Systems are susceptible to unauthorized access or interception by actors
-      with political or physical control over the network in which they are
+      with social or physical control over the network in which they are
       deployed. If the geopolitical status of the deployment network is
       untrusted, unstable, or insecure, this could result in a loss of
       confidentiality, integrity, or availability of the service and its data.
@@ -497,11 +497,11 @@ threats:
   - id: CCC.Core.TH15
     title: Automated Enumeration and Reconnaissance by Non-human Entities
     description: |
-      Automated processes or bots may be used to perform reconnaissance by
-      enumerating resources such as APIs, file systems, or directories. These
-      activities can reveal potential vulnerabilities, misconfigurations, or
-      unsecured resources, which might result in unauthorized access or data
-      exposure.
+      Automated processes may be used to gather details about service and
+      child resource elements such as APIs, file systems, or directories.
+      This information can reveal vulnerabilities, misconfigurations,
+      and the network topology, which can be used to plan an attack against
+      the system, the service, or its child resources.
     capabilities:
       - reference-id: CCC
         entries:
@@ -518,10 +518,10 @@ threats:
     title: Publications are Disabled
     description: |
       Publication of events, metrics, and runtime logs may be disabled, leading
-      to a lack of critical security and operational information being recorded
-      or shared. This can impact system availability by delaying the
-      detection of and response to incidents, as well as affecting informed
-      system design and enforcement of operational thresholds.
+      to a lack of expected security and operational information being shared.
+      This can impact system availability by delaying the detection of
+      incidents while also impacting system design decisions and enforcement of
+      operational thresholds, such as autoscaling or cost management.
     capabilities:
       - reference-id: CCC
         entries:
@@ -537,34 +537,13 @@ threats:
           - reference-id: T1562
             strength: 0 # Not yet specified
             remarks: Impair Defenses
-  - id: CCC.Core.TH17
-    title: Unauthorized Network Access via Misconfigured Rules
-    description: |
-      Improperly configured or overly permissive network access rules
-      such as security groups can allow unauthorized inbound connections
-      to the system. This could result in unauthorized access to sensitive
-      resources or data and disruption to system availability.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.F23
-            strength: 0 # Not yet specified
-            remarks: Network Access Rules
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1046
-            strength: 0 # Not yet specified
-            remarks: Network Service Scanning
-          - reference-id: T1133
-            strength: 0 # Not yet specified
-            remarks: External Remote Services
   - id: CCC.Core.TH18
-    title: Encryption Keys are Compromised
+    title: Encryption Key is Misused
     description: |
-      Encryption keys may be misused due to inadequate key management practices 
-      or the compromise of a connected system. This could lead to disruptions or
-      unauthorized access to encrypted data.
+      Encryption keys may be used by an unauthorized entity due to inadequate
+      key management practices or the compromise of a connected system. This
+      could lead to the decryption of sensitive data, impacting its
+      confidentiality and integrity.
     capabilities:
       - reference-id: CCC
         entries:
