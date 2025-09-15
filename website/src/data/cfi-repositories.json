@@ -3,7 +3,8 @@
         {
             "name": "cfi-s3-module",
             "url": "https://github.com/robmoffat/cfi-s3-module",
-            "description": "A module for creating a secure S3 bucket with encryption and logging enabled."
+            "description": "Various CFI artifacts for AI, Object Storage, VPN, Databases etc.",
+            "destination": "robmoffat-cfi-s3-module"
         }
     ]
 }

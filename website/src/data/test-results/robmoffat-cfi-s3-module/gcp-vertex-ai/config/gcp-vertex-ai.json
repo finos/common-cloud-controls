@@ -1,0 +1,36 @@
+{
+    "id": "gcp-vertex-ai",
+    "provider": "gcp",
+    "service": "ai",
+    "name": "CCC Google Cloud Vertex AI Terraform Module",
+    "description": "This module creates secure Google Cloud Vertex AI resources with machine learning models, pipelines, and advanced AI capabilities.",
+    "path": "remote/gcp/vertexai",
+    "authors": [
+        {
+            "name": "Google Cloud",
+            "github_id": "GoogleCloudPlatform",
+            "company": "Google"
+        }
+    ],
+    "resources": [
+        "google_vertex_ai_dataset",
+        "google_vertex_ai_endpoint",
+        "google_vertex_ai_featurestore",
+        "google_vertex_ai_featurestore_entitytype",
+        "google_vertex_ai_featurestore_feature",
+        "google_vertex_ai_index",
+        "google_vertex_ai_index_endpoint",
+        "google_vertex_ai_model",
+        "google_vertex_ai_pipeline",
+        "google_vertex_ai_tensorboard",
+        "google_vertex_ai_training_job",
+        "google_vertex_ai_workbench_instance"
+    ],
+    "specifications": [
+        "CCC.AI",
+        "CCC.Encryption",
+        "CCC.Networking",
+        "CCC.Monitoring"
+    ],
+    "git": "https://github.com/GoogleCloudPlatform/terraform-google-vertex-ai"
+}

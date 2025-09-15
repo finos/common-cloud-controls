@@ -14,6 +14,7 @@ interface CFIRepository {
     name: string;
     url: string;
     description: string;
+    destination: string;
 }
 
 interface CFIRepositories {
@@ -114,16 +115,12 @@ async function unzipArtifact(zipPath: string, artifactName: string, repositoryIn
 
         // Remove 'cfi-results-' prefix and create clean directory name
         const cleanName = artifactName.replace(/^cfi-results-/, '');
-        const extractDir = path.join(OUTPUT_DIR, 'test-results', cleanName);
+        const repoDir = path.join(OUTPUT_DIR, 'test-results', repositoryInfo.destination);
+        const extractDir = path.join(repoDir, cleanName);
 
-        // Clear out old directory if it exists
-        if (fs.existsSync(extractDir)) {
-            fs.rmSync(extractDir, { recursive: true, force: true });
-            console.log(`🗑️  Cleared old directory: ${extractDir}`);
-        }
-
-        // Ensure the test-results directory exists
+        // Ensure the test-results directory and repo directory exist
         fs.mkdirSync(path.join(OUTPUT_DIR, 'test-results'), { recursive: true });
+        fs.mkdirSync(repoDir, { recursive: true });
 
         // Extract the zip file using system unzip command
         try {
@@ -132,22 +129,6 @@ async function unzipArtifact(zipPath: string, artifactName: string, repositoryIn
         } catch (error) {
             console.error(`❌ Extraction failed for ${cleanName}:`, error);
             throw error;
-        }
-
-        // Create repository.json file in the config directory
-        const configDir = path.join(extractDir, 'config');
-        if (fs.existsSync(configDir)) {
-            const repositoryJsonPath = path.join(configDir, 'repository.json');
-            const repositoryData = {
-                name: repositoryInfo.name,
-                url: repositoryInfo.url,
-                description: repositoryInfo.description,
-                downloaded_at: new Date().toISOString(),
-                artifact_name: cleanName
-            };
-
-            fs.writeFileSync(repositoryJsonPath, JSON.stringify(repositoryData, null, 2));
-            console.log(`📝 Created repository.json in ${configDir}`);
         }
 
         // Verify that OCSF files were extracted correctly
@@ -181,6 +162,22 @@ async function unzipArtifact(zipPath: string, artifactName: string, repositoryIn
     }
 }
 
+async function clearDestinationDirectories(repositories: CFIRepository[]): Promise<void> {
+    console.log('🧹 Phase 1: Clearing destination directories...');
+
+    for (const repo of repositories) {
+        const repoDir = path.join(OUTPUT_DIR, 'test-results', repo.destination);
+        if (fs.existsSync(repoDir)) {
+            fs.rmSync(repoDir, { recursive: true, force: true });
+            console.log(`🗑️  Cleared directory: ${repo.destination}`);
+        } else {
+            console.log(`📁 Directory doesn't exist (will be created): ${repo.destination}`);
+        }
+    }
+
+    console.log('✅ Phase 1 completed: All destination directories cleared');
+}
+
 async function downloadCFIArtifacts(): Promise<void> {
     // Check if unzip command is available
     try {
@@ -201,6 +198,12 @@ async function downloadCFIArtifacts(): Promise<void> {
     const config: CFIRepositories = JSON.parse(fs.readFileSync(configPath, 'utf8'));
     console.log(`📦 Found ${config.repositories.length} CFI repositories to process`);
 
+    // Phase 1: Clear all destination directories first
+    await clearDestinationDirectories(config.repositories);
+
+    // Phase 2: Download and process artifacts
+    console.log('\n📥 Phase 2: Downloading and processing artifacts...');
+
     for (const repo of config.repositories) {
         try {
             console.log(`\n🔍 Processing repository: ${repo.name}`);
@@ -217,12 +220,6 @@ async function downloadCFIArtifacts(): Promise<void> {
 
             console.log(`📋 Latest workflow run: ${workflowRun.name} (ID: ${workflowRun.id})`);
             console.log(`📊 Status: ${workflowRun.status}, Conclusion: ${workflowRun.conclusion}`);
-
-            // Only process successful runs
-            if (workflowRun.conclusion !== 'success') {
-                console.log(`⚠️  Skipping ${repo.name} - workflow not successful`);
-                continue;
-            }
 
             // Get artifacts from this run
             const artifacts = await getArtifacts(owner, repoName, workflowRun.id);
@@ -247,6 +244,22 @@ async function downloadCFIArtifacts(): Promise<void> {
                     await unzipArtifact(outputPath, artifact.name, repo);
                 }
             }
+
+            // Create repository.json file at the repo level
+            const repoDir = path.join(OUTPUT_DIR, 'test-results', repo.destination);
+            const repositoryJsonPath = path.join(repoDir, 'repository.json');
+            const repositoryData = {
+                name: repo.name,
+                url: repo.url,
+                description: repo.description,
+                downloaded_at: new Date().toISOString(),
+                workflow_run_id: workflowRun.id,
+                workflow_status: workflowRun.status,
+                workflow_conclusion: workflowRun.conclusion
+            };
+
+            fs.writeFileSync(repositoryJsonPath, JSON.stringify(repositoryData, null, 2));
+            console.log(`📝 Created repository.json at ${repositoryJsonPath}`);
 
         } catch (error) {
             console.error(`❌ Error processing ${repo.name}: ${error}`);
