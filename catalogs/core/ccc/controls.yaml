@@ -138,38 +138,39 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH18
       - id: CCC.Core.C06
-        title: Prevent Deployment in Restricted Regions
+        title: Restrict Deployments to Trust Perimeter
         objective: |
-          Ensure that the service and its child resources are never deployed on
-          infrastructure that has been designated as restricted or prohibited.
+          Ensure that the service and its child resources are only deployed on
+          infrastructure that is explicitly included within a defined trust perimeter.
         assessment-requirements:
           - id: CCC.Core.C06.TR01
             text: |
               When the service is running, the region and availability zone MUST
-              NOT be included in a list of restricted or prohibited regions.
+              be included in a list of explicitly trusted or approved locations
+              within the trust perimeter.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: |
-              Maintain an up-to-date list of restricted and prohibited regions
-              based on organizational policies. Validate the service's
-              deployment location is not included on this list.
+              Maintain an up-to-date list of trusted and approved regions based
+              on organizational policies. Validate the service's deployment
+              location is included in this list.
           - id: CCC.Core.C06.TR02
             text: |
               When a child resource is deployed, the region and availability
-              zone MUST NOT be included in a list of restricted or prohibited
-              regions.
+              zone MUST be included in a list of explicitly trusted or approved
+              locations within the trust perimeter.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: |
-              Maintain an up-to-date list of restricted and prohibited regions
-              based on organizational policies. Validate that child resources
-              cannot be deployed to locations included on this list.
+              Maintain an up-to-date list of trusted and approved regions based
+              on organizational policies. Validate that child resources can only
+              be deployed to locations included in this list.
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -290,17 +291,16 @@ control-families:
           - reference-id: ISO_27001
             entries: []
       - id: CCC.Core.C10
-        title: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+        title: Restrict Data Replication to Trust Perimeter
         objective: |
-          Prevent replication of data to untrusted destinations outside
-          of defined trust perimeter. An untrusted destination is defined
-          as a resource that exists outside of a specified trusted
-          identity or network or data perimeter.
+          Ensure that data is only replicated to destinations that are
+          explicitly included within a defined trust perimeter. A trusted
+          destination is defined as a resource that exists within a specified
+          trusted identity, network, or data perimeter.
         assessment-requirements:
           - id: CCC.Core.C10.TR01
             text: |
-              When data is replicated, the service MUST ensure that
-              replication is restricted to explicitly trusted destinations.
+              When data is replicated, the service MUST ensure that replication only occurs to destinations that are explicitly included within the defined trust perimeter.
             applicability:
               - tlp-green
               - tlp-amber
