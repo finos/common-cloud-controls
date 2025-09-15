@@ -30,7 +30,7 @@ var GenerateReleaseArtifacts = &cobra.Command{
 			return
 		}
 
-		if _, err := generateReleaseDetailsYamlFile(releaseDetails); err != nil {
+		if _, err := generateReleaseDetailsYamlFile(catalog, releaseDetails); err != nil {
 			log.Printf("Error generating release details YAML: %v\n", err)
 			return
 		}

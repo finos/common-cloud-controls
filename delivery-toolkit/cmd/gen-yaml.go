@@ -30,7 +30,7 @@ func generateOmnibusYamlFile(catalog *layer2.Catalog) (string, error) {
 	return outputPath, nil
 }
 
-func generateReleaseDetailsYamlFile(releaseDetails []ReleaseDetails) (string, error) {
+func generateReleaseDetailsYamlFile(catalog *layer2.Catalog, releaseDetails []ReleaseDetails) (string, error) {
 	var b bytes.Buffer
 	yamlEncoder := yaml.NewEncoder(&b)
 	yamlEncoder.SetIndent(2) // this is the line that sets the indentation
@@ -40,7 +40,7 @@ func generateReleaseDetailsYamlFile(releaseDetails []ReleaseDetails) (string, er
 	}
 
 	outputDir := viper.GetString("output-dir")
-	yamlFileName := "release-details.yaml"
+	yamlFileName := fmt.Sprintf("%s_%s-release-details.yaml", catalog.Metadata.Id, catalog.Metadata.Version)
 	outputPath := fmt.Sprintf("%s/%s", outputDir, yamlFileName)
 
 	if err := os.WriteFile(outputPath, b.Bytes(), 0644); err != nil {
