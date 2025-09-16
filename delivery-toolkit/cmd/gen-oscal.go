@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	oscal "github.com/defenseunicorns/go-oscal/src/types/oscal-1-1-3"
 	"github.com/ossf/gemara/layer2"
 	"github.com/spf13/viper"
 )
@@ -18,11 +19,17 @@ func generateOmnibusOSCALFile(catalog *layer2.Catalog) (string, error) {
 		return "", fmt.Errorf("error converting to OSCAL: %w", err)
 	}
 
+	// Wrapping in the models struct to produce a
+	// schema valid artifact.
+	oscalModels := oscal.OscalModels{
+		Catalog: &oscalCatalog,
+	}
+
 	outputDir := viper.GetString("output-dir")
 	oscalFileName := fmt.Sprintf("%s_%s.oscal.json", catalog.Metadata.Id, catalog.Metadata.Version)
 	outputPath := filepath.Join(outputDir, oscalFileName)
 
-	oscalBytes, err := json.MarshalIndent(oscalCatalog, "", "  ")
+	oscalBytes, err := json.MarshalIndent(oscalModels, "", "  ")
 	if err != nil {
 		return "", fmt.Errorf("error marshaling OSCAL JSON: %w", err)
 	}
