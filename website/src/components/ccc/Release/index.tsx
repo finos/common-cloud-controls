@@ -8,12 +8,25 @@ import { User } from "../User";
 import { ReleasePageData } from "@site/src/types/ccc";
 
 export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePageData }) {
-  const { slug, metadata, controls, features, threats } = pageData.release;
+  const { slug, metadata, controls, capabilities, threats } = pageData.release;
   const release = metadata.release_details?.[0];
 
   return (
     <Layout title={metadata.title}>
       <main className="container margin-vert--lg space-y-6">
+        {/* Breadcrumbs */}
+        <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <Link to="/ccc" className="hover:text-foreground">
+            Common Cloud Controls
+          </Link>
+          <span>/</span>
+          <Link to={`/ccc/${metadata.id}`} className="hover:text-foreground">
+            {metadata.title}
+          </Link>
+          <span>/</span>
+          <span className="text-foreground">{metadata.version}</span>
+        </nav>
+
         <Card>
           <CardHeader>
             <CardTitle>{metadata.title}</CardTitle>
@@ -95,15 +108,15 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {features.map((feature) => (
-                  <TableRow key={feature.id}>
+                {capabilities.map((capability) => (
+                  <TableRow key={capability.id}>
                     <TableCell>
-                      <Link to={feature.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
-                        {feature.id}
+                      <Link to={`${pageData.slug}/${capability.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                        {capability.id}
                       </Link>
                     </TableCell>
-                    <TableCell>{feature.title}</TableCell>
-                    <TableCell>{feature.description}</TableCell>
+                    <TableCell>{capability.title}</TableCell>
+                    <TableCell>{capability.description}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -137,11 +150,13 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                     <TableCell>{threat.description}</TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
-                        {threat.mitre_technique?.map((technique) => (
-                          <a key={technique} href={`https://attack.mitre.org/techniques/${technique}`} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 hover:underline">
-                            {technique}
-                          </a>
-                        ))}
+                        {threat.capabilities
+                          ?.find((cap) => cap["reference-id"] === "MITRE-ATT&CK")
+                          ?.entries?.map((entry) => (
+                            <a key={entry["reference-id"]} href={`https://attack.mitre.org/techniques/${entry["reference-id"]}`} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 hover:underline">
+                              {entry["reference-id"]}
+                            </a>
+                          ))}
                       </div>
                     </TableCell>
                   </TableRow>
@@ -177,7 +192,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                     <TableCell>{control.objective}</TableCell>
                     <TableCell>
                       <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
-                        {control.control_family}
+                        {control.family.title}
                       </Badge>
                     </TableCell>
                   </TableRow>

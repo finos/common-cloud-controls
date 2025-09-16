@@ -23,7 +23,7 @@ export interface ReleaseManager extends Contributor {
 
 export interface Contributor {
     name: string;
-    github_id: string;
+    'github-id': string;
     company: string;
 }
 

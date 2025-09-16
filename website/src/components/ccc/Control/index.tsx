@@ -40,7 +40,7 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
               <div className="flex items-center gap-2">
                 <span className="font-medium">Control Family:</span>
                 <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
-                  {control.control_family}
+                  {control.family.title}
                 </Badge>
               </div>
 

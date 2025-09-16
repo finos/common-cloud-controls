@@ -14,21 +14,25 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
     component.releases.map((release) => ({
       ...release,
       componentTitle: component.title,
+      slug: `/ccc/${release.metadata.id}/${release.metadata.version}`,
     }))
   );
   // Transform components into a summary list
   const componentSummaries = components.map((component) => {
-    const allDetails = component.releases.flatMap((r) => r.metadata.release_details);
-    const latestRelease = allDetails.reduce((latest, current) => {
-      return current.version > latest.version ? current : latest;
-    }, allDetails[0]);
+    const allDetails = component.releases.flatMap((r) => r.metadata.release_details || []);
+    const latestRelease =
+      allDetails.length > 0
+        ? allDetails.reduce((latest, current) => {
+            return current.version > latest.version ? current : latest;
+          }, allDetails[0])
+        : { version: component.releases[0]?.metadata.version || "N/A" };
 
     return {
       id: component.releases[0].metadata.id,
       title: component.title,
       numberOfReleases: component.releases.length,
       latestVersion: latestRelease.version,
-      slug: component.slug,
+      slug: `/ccc/${component.id}`,
     };
   });
 
@@ -96,7 +100,7 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
                   <TableHead>Authors</TableHead>
                   <TableHead>Controls</TableHead>
                   <TableHead>Threats</TableHead>
-                  <TableHead>Features</TableHead>
+                  <TableHead>Capabilities</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -110,15 +114,14 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
                     </TableCell> */}
                     <TableCell>
                       <Link to={release.slug} className="text-blue-600  hover:text-blue-800 hover:underline">
-                        {release.slug.split("/").pop()}
+                        {release.metadata.version}
                       </Link>
                     </TableCell>
-                    <TableCell>{release.metadata.version}</TableCell>
-                    <TableCell>{release.metadata.release_details?.[0]?.release_manager ? <User name={release.metadata.release_details[0].release_manager.name} githubId={release.metadata.release_details[0].release_manager.github_id} company={release.metadata.release_details[0].release_manager.company} avatarUrl={`https://github.com/${release.metadata.release_details[0].release_manager.github_id}.png`} /> : <span>N/A</span>}</TableCell>
+                    <TableCell>{release.metadata.release_details?.[0]?.["release-manager"] ? <User name={release.metadata.release_details[0]["release-manager"].name} githubId={release.metadata.release_details[0]["release-manager"]["github-id"]} company={release.metadata.release_details[0]["release-manager"].company} avatarUrl={`https://github.com/${release.metadata.release_details[0]["release-manager"]["github-id"]}.png`} /> : <span>N/A</span>}</TableCell>
                     <TableCell>{release.metadata.release_details?.[0]?.contributors?.length || 0}</TableCell>
                     <TableCell>{release.controls.length}</TableCell>
                     <TableCell>{release.threats.length}</TableCell>
-                    <TableCell>{release.features.length}</TableCell>
+                    <TableCell>{release.capabilities.length}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
