@@ -3,152 +3,92 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Badge } from "../../ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { ControlPageData } from "@site/src/types/ccc";
-import { mapToUrl } from "@site/src/plugin/ccc-pages/ControlMapper";
+import { ThreatsTable } from "../ThreatsTable";
+import { CapabilitiesTable } from "../CapabilitiesTable";
+import { ExternalMappingsTable } from "../ExternalMappingsTable";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 
 export default function CCCControlTemplate({ pageData }: { pageData: ControlPageData }) {
-  const { control, releaseTitle, releaseSlug } = pageData;
+  const { control, releaseTitle, releaseSlug, related_threats, related_capabilities } = pageData;
 
   return (
     <Layout title={control.title}>
-      <main className="container margin-vert--lg space-y-6">
-        <Link to={releaseSlug} className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
-          ← Back to {releaseTitle}
-        </Link>
+      <Card>
+        <CardHeader>
+          <CardTitle>
+            {control.id}: {control.title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-[120px_1fr] gap-4 items-start">
+              <span className="font-medium text-muted-foreground">Control ID:</span>
+              <span className="font-mono font-medium">{control.id}</span>
+            </div>
+            <div className="grid grid-cols-[120px_1fr] gap-4 items-start">
+              <span className="font-medium text-muted-foreground">Title:</span>
+              <span>{control.title}</span>
+            </div>
+            <div className="grid grid-cols-[120px_1fr] gap-4 items-start">
+              <span className="font-medium text-muted-foreground">Objective:</span>
+              <span className="text-sm leading-relaxed">{control.objective}</span>
+            </div>
+            <div className="grid grid-cols-[120px_1fr] gap-4 items-center">
+              <span className="font-medium text-muted-foreground">Control Family:</span>
+              <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300 w-fit">
+                {control.family.title}
+              </Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
+      <ThreatsTable threats={related_threats || []} releaseSlug={releaseSlug} title="Related Threats" />
+
+      <CapabilitiesTable capabilities={related_capabilities || []} releaseSlug={releaseSlug} title="Related Capabilities" />
+
+      <ExternalMappingsTable mappings={control.guideline_mappings || []} title="Guideline Mappings" />
+
+      {control.test_requirements?.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>
-              {control.id}: {control.title}
-            </CardTitle>
+            <CardTitle>Assessment Requirements</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Control ID:</span>
-                <span>{control.id}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Title:</span>
-                <span>{control.title}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Objective:</span>
-                <span>{control.objective}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">Control Family:</span>
-                <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
-                  {control.family.title}
-                </Badge>
-              </div>
-
-              {control.related_threats?.length > 0 && (
-                <div className="space-y-2">
-                  <span className="font-medium">Threats:</span>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>ID</TableHead>
-                        <TableHead>Title</TableHead>
-                        <TableHead>Description</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {control.related_threats.map((threat) => (
-                        <TableRow key={threat.id}>
-                          <TableCell>
-                            <Link to={threat.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
-                              {threat.id}
-                            </Link>
-                          </TableCell>
-                          <TableCell>{threat.title}</TableCell>
-                          <TableCell>{threat.description}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              )}
-
-              {control.nist_csf && (
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">NIST CSF:</span>
-                  <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
-                    {control.nist_csf}
-                  </Badge>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {control.control_mappings && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Control Mappings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {Object.entries(control.control_mappings).map(([framework, values]) => (
-                  <div key={framework} className="flex items-center gap-2">
-                    <span className="font-medium">{framework}:</span>
-                    <div className="flex flex-wrap gap-2">
-                      {values.map((value) => {
-                        const url = mapToUrl(framework, value);
-                        return (
-                          <Badge key={value} variant="outline" className="bg-blue-100 text-blue-600 font-medium border border-blue-300 hover:bg-blue-300 hover:border-blue-400 hover:text-blue-900">
-                            {url ? (
-                              <a href={url} target="_blank" rel="noopener noreferrer" className="underline">
-                                {value}
-                              </a>
-                            ) : (
-                              value
-                            )}
-                          </Badge>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {control.test_requirements?.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Test Requirements</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Applicability</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {control.test_requirements.map((tr) => (
-                  <div key={tr.id} className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{tr.id}:</span>
-                      <span>{tr.text}</span>
-                    </div>
-                    {tr.tlp_levels?.length > 0 && (
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">TLP:</span>
-                        <div className="flex flex-wrap gap-2">
-                          {tr.tlp_levels.map((level) => (
-                            <Badge key={level} variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
+                  <TableRow key={tr.id}>
+                    <TableCell className="font-mono font-medium">{tr.id}</TableCell>
+                    <TableCell className="max-w-md">{tr.text}</TableCell>
+                    <TableCell>
+                      {tr.applicability?.length > 0 ? (
+                        <div className="flex flex-wrap gap-1">
+                          {tr.applicability.map((level) => (
+                            <Badge key={level} variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300 text-xs">
                               {level}
                             </Badge>
                           ))}
                         </div>
-                      </div>
-                    )}
-                  </div>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </main>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      )}
     </Layout>
   );
 }
