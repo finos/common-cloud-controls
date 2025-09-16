@@ -61,6 +61,7 @@ export interface Threat {
     title: string;
     description: string;
     capabilities?: Mapping[];
+    'external-mappings'?: Mapping[];
 }
 
 export interface Control {

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { Badge } from "../../ui/badge";
 import { User } from "../User";
+import { MappingCountBadge } from "../MappingCountBadge";
 import { ReleasePageData } from "@site/src/types/ccc";
 
 export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePageData }) {
@@ -105,6 +106,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                   <TableHead>ID</TableHead>
                   <TableHead>Title</TableHead>
                   <TableHead>Description</TableHead>
+                  <TableHead>Threat Mappings</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -117,6 +119,9 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                     </TableCell>
                     <TableCell>{capability.title}</TableCell>
                     <TableCell>{capability.description}</TableCell>
+                    <TableCell>
+                      <MappingCountBadge count={threats.filter((threat) => threat.capabilities?.some((cap) => cap.entries?.some((entry) => entry["reference-id"] === capability.id))).length} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -135,7 +140,8 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                   <TableHead>ID</TableHead>
                   <TableHead>Title</TableHead>
                   <TableHead>Description</TableHead>
-                  <TableHead>MITRE ATT&CK</TableHead>
+                  <TableHead>External Mappings</TableHead>
+                  <TableHead>Capability Mappings</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -149,15 +155,10 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                     <TableCell>{threat.title}</TableCell>
                     <TableCell>{threat.description}</TableCell>
                     <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {threat.capabilities
-                          ?.find((cap) => cap["reference-id"] === "MITRE-ATT&CK")
-                          ?.entries?.map((entry) => (
-                            <a key={entry["reference-id"]} href={`https://attack.mitre.org/techniques/${entry["reference-id"]}`} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 hover:underline">
-                              {entry["reference-id"]}
-                            </a>
-                          ))}
-                      </div>
+                      <MappingCountBadge count={threat["external-mappings"]?.length || 0} />
+                    </TableCell>
+                    <TableCell>
+                      <MappingCountBadge count={threat.capabilities?.length || 0} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -178,6 +179,9 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                   <TableHead>Title</TableHead>
                   <TableHead>Objective</TableHead>
                   <TableHead>Control Family</TableHead>
+                  <TableHead>Threat Mappings</TableHead>
+                  <TableHead>Guideline Mappings</TableHead>
+                  <TableHead>Assessment Requirements</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -190,10 +194,15 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                     </TableCell>
                     <TableCell>{control.title}</TableCell>
                     <TableCell>{control.objective}</TableCell>
+                    <TableCell>{control.family.title}</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
-                        {control.family.title}
-                      </Badge>
+                      <MappingCountBadge count={control.threat_mappings?.length || 0} />
+                    </TableCell>
+                    <TableCell>
+                      <MappingCountBadge count={control.guideline_mappings?.length || 0} />
+                    </TableCell>
+                    <TableCell>
+                      <MappingCountBadge count={control.test_requirements?.length || 0} />
                     </TableCell>
                   </TableRow>
                 ))}
