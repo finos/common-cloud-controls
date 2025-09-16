@@ -116,7 +116,7 @@ export interface ThreatPageData extends PageData {
 }
 
 export interface CapabilityPageData extends PageData {
-    feature: Capability;
+    capability: Capability;
     related_threats?: Threat[];
 }
 

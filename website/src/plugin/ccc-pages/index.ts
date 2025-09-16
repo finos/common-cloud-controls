@@ -21,7 +21,6 @@ function parseRelease(releaseData: { mainCatalog: any; releaseDetails: any }): R
         metadata,
         threats: mainCatalog.threats.map(threat => parseThreat(threat)),
         capabilities: [
-            ...(mainCatalog.features ?? []).map(feature => parseCapability(feature)),
             ...(mainCatalog.capabilities ?? []).map(capability => parseCapability(capability))
         ],
         controls: (mainCatalog['control-families'] ?? []).flatMap(controlFamily => parseControlFamily(controlFamily))
@@ -114,7 +113,7 @@ function createControlPageData(control: Control, release: Release, allReleases: 
     };
 }
 
-function createFeaturePageData(capability: Capability, release: Release, allReleases: Release[]): CapabilityPageData {
+function createCapabilityPageData(capability: Capability, release: Release, allReleases: Release[]): CapabilityPageData {
     const releaseSlug = `/ccc/${release.metadata.id}/${release.metadata.version}`;
     const capabilitySlug = `${releaseSlug}/${capability.id}`;
 
@@ -128,7 +127,7 @@ function createFeaturePageData(capability: Capability, release: Release, allRele
         );
 
     return {
-        feature: capability,
+        capability: capability,
         related_threats: relatedThreats,
         releaseTitle: release.metadata.title,
         releaseSlug,
@@ -300,8 +299,8 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             // Create capability pages
             for (const release of cccReleases) {
                 for (const capability of release.capabilities) {
-                    const capabilityPageData = createFeaturePageData(capability, release, cccReleases);
-                    await pageCreator.createPage(capabilityPageData, capabilityPageData.slug, '@site/src/components/ccc/Feature/index.tsx');
+                    const capabilityPageData = createCapabilityPageData(capability, release, cccReleases);
+                    await pageCreator.createPage(capabilityPageData, capabilityPageData.slug, '@site/src/components/ccc/Capability/index.tsx');
                 }
             }
 

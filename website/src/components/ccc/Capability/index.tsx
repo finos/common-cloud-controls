@@ -2,35 +2,34 @@ import React from "react";
 import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import Link from "@docusaurus/Link";
-import { Badge } from "../../ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { CapabilityPageData } from "@site/src/types/ccc";
 import { MappingCountBadge } from "../MappingCountBadge";
 
 export default function CCCCapabilityTemplate({ pageData }: { pageData: CapabilityPageData }) {
-  const { releaseSlug, feature, releaseTitle, related_threats } = pageData;
+  const { releaseSlug, capability, related_threats } = pageData;
 
   return (
-    <Layout title={`${feature.id} - ${feature.title}`}>
+    <Layout title={`${capability.id} - ${capability.title}`}>
       <Card>
         <CardHeader>
           <CardTitle>
-            {feature.id}: {feature.title}
+            {capability.id}: {capability.title}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="font-medium">Capability ID:</span>
-              <span>{feature.id}</span>
+              <span>{capability.id}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-medium">Title:</span>
-              <span>{feature.title}</span>
+              <span>{capability.title}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-medium">Description:</span>
-              <span>{feature.description}</span>
+              <span>{capability.description}</span>
             </div>
           </div>
 
