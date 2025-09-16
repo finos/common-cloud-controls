@@ -1,3 +1,5 @@
+# a features, a/m configuration (all), a/m data
+# access (amber/red), modify (all)
 control-families:
   - title: Data
     description: |-
@@ -17,7 +19,6 @@ control-families:
               MUST include a TLS handshake AND be encrypted using TLS 1.3 or
               higher.
             applicability:
-              - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
@@ -40,7 +41,7 @@ control-families:
               strong ciphers.
           - id: CCC.Core.C01.TR03
             text: |
-              The service MUST block clear text traffic or automatically
+              The service MUST block unencrypted traffic or automatically
               redirect it to a secure equivalent.
             applicability:
               - tlp-green
@@ -128,6 +129,16 @@ control-families:
               issuance.
             applicability:
               - tlp-amber
+            recommendation: |
+              Track certificate expiration dates and automate certificate
+              renewal where possible. Use certificate management tools to ensure
+              only certificates from trusted authorities are deployed.
+          - id: CCC.Core.C13.TR03
+            text: |
+              When a port is exposed that uses certificate-based encryption,
+              the service MUST rotate active certificates within 90 days of
+              issuance.
+            applicability:
               - tlp-red
             recommendation: |
               Track certificate expiration dates and automate certificate
@@ -141,11 +152,12 @@ control-families:
         title: Restrict Deployments to Trust Perimeter
         objective: |
           Ensure that the service and its child resources are only deployed on
-          infrastructure that is explicitly included within a defined trust perimeter.
+          infrastructure in locations that are explicitly included within a
+          defined trust perimeter.
         assessment-requirements:
           - id: CCC.Core.C06.TR01
             text: |
-              When the service is running, the region and availability zone MUST
+              When the service is running, its region and availability zone MUST
               be included in a list of explicitly trusted or approved locations
               within the trust perimeter.
             applicability:
@@ -159,7 +171,7 @@ control-families:
               location is included in this list.
           - id: CCC.Core.C06.TR02
             text: |
-              When a child resource is deployed, the region and availability
+              When a child resource is deployed, its region and availability
               zone MUST be included in a list of explicitly trusted or approved
               locations within the trust perimeter.
             applicability:
@@ -190,27 +202,31 @@ control-families:
             entries:
               - reference-id: AC-6
       - id: CCC.Core.C08
-        title: Enable Multi-zone or Multi-region Data Replication
+        title: Enable Multi-location Data Replication
         objective: |
-          Ensure that data is replicated across multiple
-          zones or regions to protect against data loss due to hardware
-          failures, natural disasters, or other catastrophic events.
+          Ensure that data is replicated across multiple physical locations to
+          protect against data loss due to hardware failures, natural disasters,
+          or other catastrophic events.
         assessment-requirements:
           - id: CCC.Core.C08.TR01
             text: |
-              When data is stored, the service MUST ensure that data is
-              replicated across multiple availability zones or regions.
+              When data is created or modified, the data MUST have a complete
+              and recoverable duplicate that is stored in a physically separate
+              data center.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              Implement automated data replication processes to ensure that
+              data is consistently duplicated in another region or availability
+              zone. Regularly test data recovery from the replicated location to
+              ensure integrity and availability.
           - id: CCC.Core.C08.TR02
             text: |
-              When data is replicated across multiple zones or regions,
-              the service MUST be able to verify the replication state,
-              including the replication locations and data synchronization
-              status.
+              When data is replicated into a second location, the service MUST
+              be able to accurately represent the replication locations,
+              replication status, and data synchronization status.
             applicability:
               - tlp-green
               - tlp-amber
@@ -234,41 +250,20 @@ control-families:
               - reference-id: CP-2
               - reference-id: CP-10
       - id: CCC.Core.C09
-        title: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        title: Protect Access Logs
         objective: |
-          Access logs should always be considered sensitive.
           Ensure that access logs are protected against unauthorized
           access, tampering, or deletion.
         assessment-requirements:
           - id: CCC.Core.C09.TR01
             text: |
               When access logs are stored, the service MUST ensure that
-              access logs cannot be accessed without proper authorization.
+              they cannot be read or modified without proper authorization.
             applicability:
+              - tlp-clear
+              - tlp-green
               - tlp-amber
               - tlp-red
-              - tlp-green
-              - tlp-clear
-            recommendation: ""
-          - id: CCC.Core.C09.TR02
-            text: |
-              When access logs are stored, the service MUST ensure that
-              access logs cannot be modified without proper authorization.
-            applicability:
-              - tlp-amber
-              - tlp-red
-              - tlp-green
-              - tlp-clear
-            recommendation: ""
-          - id: CCC.Core.C09.TR03
-            text: |
-              When access logs are stored, the service MUST ensure that
-              access logs cannot be deleted without proper authorization.
-            applicability:
-              - tlp-amber
-              - tlp-red
-              - tlp-green
-              - tlp-clear
             recommendation: ""
         threat-mappings:
           - reference-id: CCC
@@ -293,14 +288,14 @@ control-families:
       - id: CCC.Core.C10
         title: Restrict Data Replication to Trust Perimeter
         objective: |
-          Ensure that data is only replicated to destinations that are
-          explicitly included within a defined trust perimeter. A trusted
-          destination is defined as a resource that exists within a specified
-          trusted identity, network, or data perimeter.
+          Ensure that data is only replicated on infrastructure in locations
+          that are explicitly included within a defined trust perimeter.
         assessment-requirements:
           - id: CCC.Core.C10.TR01
             text: |
-              When data is replicated, the service MUST ensure that replication only occurs to destinations that are explicitly included within the defined trust perimeter.
+              When data is replicated, the service MUST ensure that replication
+              only occurs to destinations that are explicitly included within
+              the defined trust perimeter.
             applicability:
               - tlp-green
               - tlp-amber
@@ -326,16 +321,14 @@ control-families:
       - id: CCC.Core.C02
         title: Ensure Data Encryption at Rest for All Stored Data
         objective: |
-          Ensure that all data stored is encrypted at rest to maintain
-          confidentiality and integrity.
+          Ensure that all data stored is encrypted at rest using strong
+          encryption algorithms.
         assessment-requirements:
           - id: CCC.Core.C02.TR01
             text: |
-              When data is stored at rest, the service MUST be configured to
-              encrypt data at rest using the latest industry-standard encryption
-              methods.
+              When data is stored, it MUST be encrypted using the latest
+              industry-standard encryption methods.
             applicability:
-              - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
@@ -367,24 +360,18 @@ control-families:
           - id: CCC.Core.C11.TR01
             text: |
               When encryption keys are used, the service MUST verify that
-              all encryption keys use approved cryptographic algorithms as
-              per organizational standards.
+              all encryption keys use the latest industry-standard cryptographic
+              algorithms.
             applicability:
-              - tlp-clear
-              - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: ""
           - id: CCC.Core.C11.TR02
             text: |
-              When encryption keys are used, the service MUST verify that
-              encryption keys are rotated at a frequency compliant with
-              organizational policies.
+              When encryption keys are used, the service MUST rotate active keys
+              within 180 days of issuance.
             applicability:
-              - tlp-clear
-              - tlp-green
               - tlp-amber
-              - tlp-red
             recommendation: ""
           - id: CCC.Core.C11.TR03
             text: |
@@ -400,9 +387,24 @@ control-families:
               access to encryption keys is restricted to authorized personnel
               and services, following the principle of least privilege.
             applicability:
+              - tlp-clear
+              - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: ""
+          - id: CCC.Core.C11.TR05
+            text: |
+              When encryption keys are used, the service MUST rotate active keys
+              within 365 days of issuance.
+            applicability:
+              - tlp-clear
+              - tlp-green
+          - id: CCC.Core.C11.TR06
+            text: |
+              When encryption keys are used, the service MUST rotate active keys
+              within 90 days of issuance.
+            applicability:
+              - tlp-red
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -431,17 +433,13 @@ control-families:
       - id: CCC.Core.C03
         title: Implement Multi-factor Authentication (MFA) for Access
         objective: |
-          Ensure that all sensitive activities require two or more identity factors
-          during authentication to prevent unauthorized access. This may include
-          something you know, something you have, or something you are. In the
-          case of programattically accessible services, such as API endpoints, this
-          includes a combination of API keys or tokens and network restrictions.
+          Ensure that all sensitive activities require two or more identity
+          factors during authentication to prevent unauthorized access.
         assessment-requirements:
           - id: CCC.Core.C03.TR01
             text: |
-              When an entity attempts to modify the service, the service MUST
-              attempt to verify the client's identity through an authentication
-              process.
+              When an entity attempts to modify the service, an automated
+              mechanism MUST refuse access to unauthorized users.
             applicability:
               - tlp-clear
               - tlp-green
@@ -450,9 +448,8 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C03.TR02
             text: |
-              When an entity attempts to view information presented by the service,
-              service, the service MUST attempt to verify the client's identity
-              through an authentication process.
+              When an entity attempts to view data presented by the service, an
+              automated mechanism MUST refuse access to unauthorized users.
             applicability:
               - tlp-amber
               - tlp-red
@@ -497,6 +494,15 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
+          - id: CCC.Core.C03.TR07
+            text: |
+              When an entity attempts to view information on the service through
+              an API endpoint, the authentication process MUST require a
+              credential such as an API key or token.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -526,19 +532,18 @@ control-families:
         assessment-requirements:
           - id: CCC.Core.C05.TR01
             text: |
-              When access to sensitive resources is attempted, the service MUST
-              block requests from untrusted sources, including IP addresses,
-              domains, or networks that are not explicitly included in a
-              pre-approved allowlist.
+              When data is read or manipulated, the service MUST block requests
+              from sources that are not explicitly included in a pre-approved
+              allowlist.
             applicability:
               - tlp-amber
               - tlp-red
             recommendation: ""
           - id: CCC.Core.C05.TR02
             text: |
-              When administrative access is attempted, the service MUST validate
-              that the request originates from an explicitly allowed source as
-              defined in the allowlist.
+              When administrative access is attempted, the service MUST block
+              requests from sources that are not explicitly included in a
+              pre-approved allowlist.
             applicability:
               - tlp-clear
               - tlp-green
@@ -548,20 +553,9 @@ control-families:
           - id: CCC.Core.C05.TR03
             text: |
               When resources are accessed in a multi-tenant environment, the
-              service MUST enforce isolation by allowing access only to explicitly
-              allowlisted tenants.
+              service MUST NOT allow access across tenant boundaries unless
+              explicitly included in a pre-approved allowlist.
             applicability:
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.Core.C05.TR04
-            text: |
-              When an access attempt from an untrusted source is blocked, the
-              service MUST log the event, including the source details, time,
-              and reason for denial.
-            applicability:
-              - tlp-clear
-              - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: ""
@@ -590,31 +584,33 @@ control-families:
       - id: CCC.Core.C04
         title: Log All Access and Changes
         objective: |
-          Ensure that all access and changes are logged to maintain a
-          detailed audit trail for security and compliance purposes.
+          Ensure that all access attempts are logged to maintain a detailed
+          audit trail for security and compliance purposes.
         assessment-requirements:
           - id: CCC.Core.C04.TR01
             text: |
-              When any access attempt is made to the service, the service MUST log
-              the client identity, time, and result of the attempt.
+              When any access attempt is made to the service, the service MUST
+              log the client identity, time, and result of the attempt.
             applicability:
+              - tlp-clear
+              - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: ""
           - id: CCC.Core.C04.TR02
             text: |
-              When any access attempt is made to the view sensitive information,
-              the service MUST log the client identity, time, and result of the
-              attempt.
+              When any attempt is made to access data on the service or child
+              resources, the service MUST log the client identity, time, and
+              result of the attempt.
             applicability:
               - tlp-amber
               - tlp-red
             recommendation: ""
           - id: CCC.Core.C04.TR03
             text: |
-              When any change is made to the service configuration, the service MUST
-              log the change, including the client, time, previous state, and the
-              new state following the change.
+              When any request is made to modify the service's configuration,
+              the service MUST log the client identity, time, and result of the
+              attempt.
             applicability:
               - tlp-clear
               - tlp-green
