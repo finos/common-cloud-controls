@@ -3,6 +3,7 @@ export type TLPLevel = "tlp-clear" | "tlp-green" | "tlp-amber" | "tlp-red";
 export interface Reference {
     'reference-id': string;
     strength: number;
+    remarks?: string;
 }
 
 export interface Mapping {
@@ -13,11 +14,11 @@ export interface Mapping {
 export interface AssessmentRequirement {
     id: string;
     text: string;
-    tlp_levels: TLPLevel[];
+    applicability: TLPLevel[];
 }
 
 export interface ReleaseManager extends Contributor {
-    summary: string;
+    quote: string;
 }
 
 export interface Contributor {
@@ -28,14 +29,14 @@ export interface Contributor {
 
 export interface ReleaseDetails {
     version: string;
-    assurance_level: string | null;
-    threat_model_url: string | null;
-    threat_model_author: string | null;
-    red_team: string | null;
-    red_team_exercise_url: string | null;
-    release_manager: ReleaseManager;
-    change_log: string[];
-    contributors: Contributor[];
+    'assurance-level': string | null;
+    'threat-model-url': string | null;
+    'threat-model-author': string | null;
+    'red-team': string | null;
+    'red-team-exercise-url': string | null;
+    'release-manager': ReleaseManager;
+    'change-log': string[];
+    'contributors': Contributor[];
 }
 
 export interface Metadata {
@@ -52,8 +53,6 @@ export interface Capability {
     id: string;
     title: string;
     description: string;
-    slug: string;
-    related_threats?: Threat[];
 }
 
 // Threat Types
