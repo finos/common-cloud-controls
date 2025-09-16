@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import Link from "@docusaurus/Link";
 import { HomePageData } from "@site/src/types/ccc";
-import { User } from "../User";
 
 export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }) {
   const { components } = pageData;
@@ -38,43 +37,37 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
 
   return (
     <Layout title="Common Cloud Controls">
-      <main className="container margin-vert--lg space-y-8">
-        <div className="text-center">
-          <h1>Common Cloud Controls</h1>
-          <p className="text-xl text-muted-foreground">All Components</p>
-        </div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Components Overview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Component Title</TableHead>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Number of Releases</TableHead>
-                  <TableHead>Latest Version</TableHead>
+      <Card>
+        <CardHeader>
+          <CardTitle>Components Overview</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Component Title</TableHead>
+                <TableHead>ID</TableHead>
+                <TableHead>Number of Releases</TableHead>
+                <TableHead>Latest Version</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {componentSummaries.map((comp) => (
+                <TableRow key={comp.id}>
+                  <TableCell>
+                    <Link to={comp.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
+                      {comp.title}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{comp.id}</TableCell>
+                  <TableCell>{comp.numberOfReleases}</TableCell>
+                  <TableCell>{comp.latestVersion}</TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {componentSummaries.map((comp) => (
-                  <TableRow key={comp.id}>
-                    <TableCell>
-                      <Link to={comp.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
-                        {comp.title}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{comp.id}</TableCell>
-                    <TableCell>{comp.numberOfReleases}</TableCell>
-                    <TableCell>{comp.latestVersion}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </main>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </Layout>
   );
 }

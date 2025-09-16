@@ -8,7 +8,7 @@ import { User } from "../User";
 import { ReleasePageData } from "@site/src/types/ccc";
 
 export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePageData }) {
-  const { slug, metadata, controls, capabilities, threats } = pageData.release;
+  const { metadata, controls, capabilities, threats } = pageData.release;
   const release = metadata.release_details?.[0];
 
   return (
@@ -55,12 +55,12 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
               <div className="flex items-center gap-2">
                 <span className="font-medium">Assurance Level:</span>
                 <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300">
-                  {release?.assurance_level}
+                  {release?.["assurance-level"]}
                 </Badge>
               </div>
               <div className="space-y-2">
                 <span className="font-medium">Release Manager:</span>
-                {release?.release_manager && <User name={release.release_manager.name} githubId={release.release_manager.github_id} company={release.release_manager.company} avatarUrl={`https://github.com/${release.release_manager.github_id}.png`} />}
+                {release?.["release-manager"] && release["release-manager"].name && <User contributor={release["release-manager"]} />}
               </div>
             </div>
           </CardContent>
@@ -72,21 +72,21 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {release?.contributors?.map((contributor) => (
-                <User key={contributor.github_id} name={contributor.name} githubId={contributor.github_id} company={contributor.company} avatarUrl={`https://github.com/${contributor.github_id}.png`} />
+              {release?.contributors?.map((contributor, index) => (
+                <User key={index} contributor={contributor} />
               ))}
             </div>
           </CardContent>
         </Card>
 
-        {release?.change_log && (
+        {release?.["change-log"] && (
           <Card>
             <CardHeader>
               <CardTitle>Change Log</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="list-disc pl-4 space-y-1">
-                {release.change_log.map((log, idx) => (
+                {release["change-log"].map((log, idx) => (
                   <li key={idx}>{log}</li>
                 ))}
               </ul>
@@ -142,7 +142,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                 {threats.map((threat) => (
                   <TableRow key={threat.id}>
                     <TableCell>
-                      <Link to={threat.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
+                      <Link to={`${pageData.slug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
                         {threat.id}
                       </Link>
                     </TableCell>
@@ -184,7 +184,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
                 {controls.map((control) => (
                   <TableRow key={control.id}>
                     <TableCell>
-                      <Link to={control.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
+                      <Link to={`${pageData.slug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
                         {control.id}
                       </Link>
                     </TableCell>

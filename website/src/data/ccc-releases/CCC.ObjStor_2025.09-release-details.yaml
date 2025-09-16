@@ -5,14 +5,14 @@
   red-team: ""
   red-team-exercise-url: ""
   release-manager:
-    name: ""
-    github-id: ""
-    company: ""
+    name: "Damien Burks"
+    github-id: "damienjburks"
+    company: "Citi"
     quote: ""
   change-log: []
   contributors:
     - name: Michael Lysaght
-      github-id: ""
+      github-id: "mlysaght2017"
       company: Citi
     - name: abikhuil
       github-id: ""
@@ -30,11 +30,11 @@
       github-id: ""
       company: Percona
     - name: Sonali Mendis
-      github-id: ""
+      github-id: "smendis-scottlogic"
       company: Scott Logic
     - name: Eddie Knight
-      github-id: ""
+      github-id: "eddie-knight"
       company: Sonatype
     - name: Damien Burks
-      github-id: ""
+      github-id: "damienjburks"
       company: Citi
