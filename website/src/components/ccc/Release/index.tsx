@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Badge } from "../../ui/badge";
 import { User } from "../User";
 import { MappingCountBadge } from "../MappingCountBadge";
+import { ThreatsTable } from "../ThreatsTable";
+import { ControlsTable } from "../ControlsTable";
 import { ReleasePageData } from "@site/src/types/ccc";
 
 export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePageData }) {
@@ -129,87 +131,9 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Threats</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>External Mappings</TableHead>
-                  <TableHead>Capability Mappings</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {threats.map((threat) => (
-                  <TableRow key={threat.id}>
-                    <TableCell>
-                      <Link to={`${pageData.slug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
-                        {threat.id}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{threat.title}</TableCell>
-                    <TableCell>{threat.description}</TableCell>
-                    <TableCell>
-                      <MappingCountBadge count={threat["external-mappings"]?.length || 0} />
-                    </TableCell>
-                    <TableCell>
-                      <MappingCountBadge count={threat.capabilities?.length || 0} />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <ThreatsTable threats={threats} releaseSlug={pageData.slug} />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Controls</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Objective</TableHead>
-                  <TableHead>Control Family</TableHead>
-                  <TableHead>Threat Mappings</TableHead>
-                  <TableHead>Guideline Mappings</TableHead>
-                  <TableHead>Assessment Requirements</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {controls.map((control) => (
-                  <TableRow key={control.id}>
-                    <TableCell>
-                      <Link to={`${pageData.slug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
-                        {control.id}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{control.title}</TableCell>
-                    <TableCell>{control.objective}</TableCell>
-                    <TableCell>{control.family.title}</TableCell>
-                    <TableCell>
-                      <MappingCountBadge count={control.threat_mappings?.length || 0} />
-                    </TableCell>
-                    <TableCell>
-                      <MappingCountBadge count={control.guideline_mappings?.length || 0} />
-                    </TableCell>
-                    <TableCell>
-                      <MappingCountBadge count={control.test_requirements?.length || 0} />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <ControlsTable controls={controls} releaseSlug={pageData.slug} />
       </main>
     </Layout>
   );
