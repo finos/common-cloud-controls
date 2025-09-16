@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { Release, Control, Capability, Component, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData, ComponentPageData } from '@site/src/types/ccc';
+import { Release, Control, Capability, Component, ReleasePageData, Threat, ControlPageData, CapabilityPageData, ThreatPageData, HomePageData, ComponentPageData } from '@site/src/types/ccc';
 import { PageCreator } from './PageCreator';
 
 type PluginContent = any[];
@@ -35,6 +35,7 @@ function parseThreat(threat: any): Threat {
         title: threat.title,
         description: threat.description,
         capabilities: threat.capabilities || [],
+        'external-mappings': threat['external-mappings'] || [],
     };
 }
 
@@ -113,15 +114,17 @@ function createControlPageData(control: Control, release: Release, allReleases: 
     };
 }
 
-function createFeaturePageData(capability: Capability, release: Release, allReleases: Release[]): FeaturePageData {
+function createFeaturePageData(capability: Capability, release: Release, allReleases: Release[]): CapabilityPageData {
     const releaseSlug = `/ccc/${release.metadata.id}/${release.metadata.version}`;
     const capabilitySlug = `${releaseSlug}/${capability.id}`;
 
     // Find related threats that reference this capability
     const relatedThreats = allReleases.flatMap(r => r.threats)
         .filter(threat =>
-            threat.capabilities?.find(cap => cap['reference-id'] === 'CCC')
-                ?.entries?.some(entry => entry['reference-id'] === capability.id)
+            threat.capabilities?.some(cap =>
+                cap['reference-id'] === 'CCC' &&
+                cap.entries?.some(entry => entry['reference-id'] === capability.id)
+            )
         );
 
     return {
