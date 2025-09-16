@@ -44,7 +44,7 @@ const config: Config = {
   ],
 
   plugins: [
-    './src/plugin/ccc-pages/index.ts',
+    //'./src/plugin/ccc-pages/index.ts',
     './src/plugin/cfi-pages/index.ts',
   ],
 

@@ -34,13 +34,11 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ComponentPa
                   <TableRow key={release.metadata.id}>
                     <TableCell>
                       <Link to={release.slug} className="text-blue-600  hover:text-blue-800 hover:underline">
-                        {release.metadata.release_details[0].version}
+                        {release.metadata.version}
                       </Link>
                     </TableCell>
-                    <TableCell>
-                      <User name={release.metadata.release_details[0].release_manager.name} githubId={release.metadata.release_details[0].release_manager.github_id} company={release.metadata.release_details[0].release_manager.company} avatarUrl={`https://github.com/${release.metadata.release_details[0].release_manager.github_id}.png`} />
-                    </TableCell>
-                    <TableCell>{release.metadata.release_details[0].contributors.length}</TableCell>
+                    <TableCell>{release.metadata.release_details?.[0]?.release_manager ? <User name={release.metadata.release_details[0].release_manager.name} githubId={release.metadata.release_details[0].release_manager.github_id} company={release.metadata.release_details[0].release_manager.company} avatarUrl={`https://github.com/${release.metadata.release_details[0].release_manager.github_id}.png`} /> : <span>N/A</span>}</TableCell>
+                    <TableCell>{release.metadata.release_details?.[0]?.contributors?.length || 0}</TableCell>
                     <TableCell>{release.controls.length}</TableCell>
                     <TableCell>{release.threats.length}</TableCell>
                     <TableCell>{release.features.length}</TableCell>

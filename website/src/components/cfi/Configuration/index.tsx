@@ -87,17 +87,15 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
               </TableHeader>
               <TableBody>
                 {matchingCCCReleases.map((release: Release) => (
-                  <TableRow key={release.metadata.release_details[0].version}>
+                  <TableRow key={release.metadata.version}>
                     <TableCell>
                       <Link to={release.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
                         <code className="text-sm bg-muted px-1 py-0.5 rounded">{release.slug}</code>
                       </Link>
                     </TableCell>
-                    <TableCell>{release.metadata.release_details[0].version}</TableCell>
-                    <TableCell>
-                      <User name={release.metadata.release_details[0].release_manager.name} githubId={release.metadata.release_details[0].release_manager.github_id} company={release.metadata.release_details[0].release_manager.company} avatarUrl={`https://github.com/${release.metadata.release_details[0].release_manager.github_id}.png`} />
-                    </TableCell>
-                    <TableCell>{release.metadata.release_details[0].contributors.length}</TableCell>
+                    <TableCell>{release.metadata.version}</TableCell>
+                    <TableCell>{release.metadata.release_details?.[0]?.release_manager ? <User name={release.metadata.release_details[0].release_manager.name} githubId={release.metadata.release_details[0].release_manager.github_id} company={release.metadata.release_details[0].release_manager.company} avatarUrl={`https://github.com/${release.metadata.release_details[0].release_manager.github_id}.png`} /> : <span>N/A</span>}</TableCell>
+                    <TableCell>{release.metadata.release_details?.[0]?.contributors?.length || 0}</TableCell>
                     <TableCell>{release.controls.length}</TableCell>
                     <TableCell>{release.threats.length}</TableCell>
                     <TableCell>{release.features.length}</TableCell>

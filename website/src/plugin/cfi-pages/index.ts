@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { HomePageData, Configuration, ConfigurationPageData, TestResultItem, TestResultPageData, TestResultType, TestResultEntry, CFIConfigJson } from '../../types/cfi';
+import { HomePageData, Configuration, ConfigurationPageData, TestResultItem, TestResultPageData, TestResultType, TestResultEntry, CFIConfigJson, CFIResultSummary } from '../../types/cfi';
 
 
 
@@ -124,13 +124,8 @@ async function createResultPage(resultPath: string, configuration: Configuration
     }
 }
 
-async function createConfigurationPage(configDir: string, slug: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
+async function createConfigurationPage(configDir: string, slug: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void, repositoryData: any): Promise<Configuration> {
     console.log(`🔍 Processing configuration directory: ${configDir}`);
-
-    // Read the repository.json file to get repository info
-    const repositoryPath = path.join(configDir, 'config', 'repository.json');
-    console.log(`📁 Repository path: ${repositoryPath}`);
-    const repositoryData = JSON.parse(fs.readFileSync(repositoryPath, 'utf8'));
 
     // Read the configuration file
     const configPath = path.join(configDir, 'config', `${path.basename(configDir)}.json`);
@@ -211,6 +206,34 @@ async function createConfigurationPage(configDir: string, slug: string, createDa
     return configuration
 }
 
+function createResultsSummary(configurations: Configuration[]): CFIResultSummary[] {
+    const summary: CFIResultSummary[] = [];
+
+    for (const config of configurations) {
+        for (const testResult of config.test_results) {
+            // Get the test data from the result entry
+            const testData = (testResult as any).testData as TestResultItem[] || [];
+
+            const passingTests = testData.filter(t => t.result === TestResultType.PASS).length;
+            const failingTests = testData.filter(t => t.result === TestResultType.FAIL).length;
+            const totalTests = testData.length;
+
+            summary.push({
+                name: config.cfi_details.name,
+                description: config.cfi_details.description,
+                provider: config.cfi_details.provider,
+                date: testResult.date,
+                repositoryUrl: config.repository.url,
+                passingTests,
+                failingTests,
+                totalTests,
+                configurationSlug: testResult.slug
+            });
+        }
+    }
+
+    return summary;
+}
 
 export default function pluginCFIPages(_: LoadContext): Plugin<void> {
     return {
@@ -221,37 +244,55 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
 
             const testResultsDir = path.resolve(__dirname, '../../data/test-results');
 
-            // Find all directories that contain a repository.json file
+            // Find all repository directories and their configurations
             const allDirs = fs.readdirSync(testResultsDir);
             console.log(`All directories in test-results:`, allDirs);
 
-            const configDirs = allDirs.filter(dir => {
-                const repositoryPath = path.join(testResultsDir, dir, 'config', 'repository.json');
-                const exists = fs.existsSync(repositoryPath);
-                console.log(`Checking ${dir}: ${repositoryPath} exists = ${exists}`);
-                return exists;
-            });
-
-            console.log(`Found ${configDirs.length} configuration directories with repository.json files:`, configDirs);
-
-            // Group releases by configuration ID
             const components: Configuration[] = [];
 
-            for (const configDir of configDirs) {
-                const slug = '/cfi/' + configDir;
-                const fullConfigDir = path.join(testResultsDir, configDir);
+            for (const repoDir of allDirs) {
+                const repoPath = path.join(testResultsDir, repoDir);
+                const repositoryJsonPath = path.join(repoPath, 'repository.json');
 
-                try {
-                    const configuration = await createConfigurationPage(fullConfigDir, slug, createData, addRoute);
-                    components.push(configuration);
-                } catch (error) {
-                    console.error(`Error processing configuration in ${configDir}:`, error);
+                if (!fs.existsSync(repositoryJsonPath)) {
+                    console.log(`No repository.json found in ${repoDir}, skipping`);
+                    continue;
+                }
+
+                console.log(`Processing repository: ${repoDir}`);
+
+                // Read repository info
+                const repositoryData = JSON.parse(fs.readFileSync(repositoryJsonPath, 'utf8'));
+
+                // Find all configuration directories within this repository
+                const configDirs = fs.readdirSync(repoPath).filter(dir => {
+                    const configPath = path.join(repoPath, dir, 'config');
+                    return fs.existsSync(configPath) && fs.statSync(configPath).isDirectory();
+                });
+
+                console.log(`Found ${configDirs.length} configurations in ${repoDir}:`, configDirs);
+
+                for (const configDir of configDirs) {
+                    const slug = '/cfi/' + repoDir + '/' + configDir;
+                    const fullConfigDir = path.join(repoPath, configDir);
+
+                    try {
+                        const configuration = await createConfigurationPage(fullConfigDir, slug, createData, addRoute, repositoryData);
+                        components.push(configuration);
+                    } catch (error) {
+                        console.error(`Error processing configuration ${configDir} in ${repoDir}:`, error);
+                    }
                 }
             }
 
+            // Create results summary
+            const resultsSummary = createResultsSummary(components);
+            console.log(`📊 Created summary for ${resultsSummary.length} CFI results`);
+
             // Create home page data
             const homePageData: HomePageData = {
-                configurations: components
+                configurations: components,
+                resultsSummary: resultsSummary
             };
 
             const homePagePath = await createData(

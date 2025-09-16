@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { Release, Control, Feature, Component, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData, ComponentPageData } from '@site/src/types/ccc';
+import { Release, Control, Capability, Component, ReleasePageData, Threat, ControlPageData, FeaturePageData, ThreatPageData, HomePageData, ComponentPageData } from '@site/src/types/ccc';
 import { PageCreator } from './PageCreator';
 
 interface CCCReleaseYaml {
@@ -10,12 +10,14 @@ interface CCCReleaseYaml {
         title: string;
         id: string;
         description: string;
-        release_details: any[];
+        version: string;
+        'last-modified': string;
+        release_details?: any[];
     };
-    release_details: any[];
-    controlfamilies: any[];
-    controls: any[];
-    features: any[];
+    release_details?: any[];
+    'control-families': any[];
+    controls?: any[];
+    features?: any[];
     capabilities: any[];
     threats: any[];
 }
@@ -24,7 +26,8 @@ type PluginContent = CCCReleaseYaml[];
 
 function parseRelease(parsed: CCCReleaseYaml): Release {
     const releaseDetailsArray = parsed.metadata.release_details ?? parsed.release_details;
-    const slug = `/ccc/${parsed.metadata.id}/${releaseDetailsArray[0]?.version || 'N/A'}`;
+    const version = parsed.metadata.version || releaseDetailsArray?.[0]?.version || 'N/A';
+    const slug = `/ccc/${parsed.metadata.id}/${version}`;
     console.log(`Processing ${slug}`);
     return {
         metadata: parsed.metadata,
@@ -32,40 +35,83 @@ function parseRelease(parsed: CCCReleaseYaml): Release {
         features: [
             ...(parsed.features ?? []).map(feature => parseFeature(feature, slug)),
             ...(parsed.capabilities ?? []).map(capability => parseFeature(capability, slug))],
-        controls: (parsed.controlfamilies ?? []).flatMap(controlFamily => parseControlFamily(controlFamily, slug))
+        controls: (parsed['control-families'] ?? []).flatMap(controlFamily => parseControlFamily(controlFamily, slug))
             .concat((parsed.controls ?? []).map(control => parseControl(control, slug))),
         slug,
     };
 }
 
 function parseThreat(threat: any, slug: string): Threat {
+    // Extract feature IDs from capabilities
+    const featureIds = threat.capabilities?.find((cap: any) => cap['reference-id'] === 'CCC')?.entries?.map((entry: any) => entry['reference-id']) || [];
+
+    // Extract MITRE techniques from external-mappings
+    const mitreTechniques = threat['external-mappings']?.find((mapping: any) => mapping['reference-id'] === 'MITRE-ATT&CK')?.entries?.map((entry: any) => entry['reference-id']) || [];
+
     return {
-        ...threat,
+        id: threat.id,
+        title: threat.title,
+        description: threat.description,
+        features: featureIds,
+        mitre_technique: mitreTechniques,
         slug: slug + "/" + threat.id,
+        related_controls: [],
+        related_features: []
     };
 }
 
-function parseFeature(feature: any, slug: string): Feature {
+function parseFeature(feature: any, slug: string): Capability {
     return {
-        ...feature,
+        id: feature.id,
+        title: feature.title,
+        description: feature.description,
         slug: slug + "/" + feature.id,
+        threats: [],
+        related_threats: []
     };
 }
 
 function parseControl(control: any, slug: string): Control {
+    // Extract threat IDs from threat-mappings
+    const threatIds = control['threat-mappings']?.find((mapping: any) => mapping['reference-id'] === 'CCC')?.entries?.map((entry: any) => entry['reference-id']) || [];
+
+    // Extract test requirements from assessment-requirements
+    const testRequirements = control['assessment-requirements']?.map((req: any) => ({
+        id: req.id,
+        text: req.text,
+        tlp_levels: req.applicability || []
+    })) || [];
+
+    // Extract control mappings from guideline-mappings
+    const controlMappings: { [key: string]: string[] } = {};
+    control['guideline-mappings']?.forEach((mapping: any) => {
+        const referenceId = mapping['reference-id'];
+        controlMappings[referenceId] = mapping.entries?.map((entry: any) => entry['reference-id']) || [];
+    });
+
     return {
-        ...control,
+        id: control.id,
+        title: control.title,
+        objective: control.objective,
+        control_family: control.control_family || '',
+        threats: threatIds,
+        related_threats: [],
+        nist_csf: controlMappings['NIST-CSF']?.[0],
+        control_mappings: controlMappings,
+        test_requirements: testRequirements,
         slug: slug + "/" + control.id,
+        family: control.family || control.control_family || ''
     };
 }
 
-function parseControlFamily(controlFamily: any, slug: string): Control {
+function parseControlFamily(controlFamily: any, slug: string): Control[] {
     const controls = controlFamily.controls
         .map(control => parseControl(control, slug))
         .map(control => {
             return {
                 ...control,
-                family: controlFamily.title
+                family: controlFamily.title,
+                control_family: controlFamily.title
             }
         });
     return controls;
@@ -85,7 +131,7 @@ function createControlPageData(control: Control, release: Release): ControlPageD
     };
 }
 
-function createFeaturePageData(feature: Feature, release: Release): FeaturePageData {
+function createFeaturePageData(feature: Capability, release: Release): FeaturePageData {
     // Find all threats that reference this feature
     const relatedThreats = release.threats.filter(threat => threat.features.includes(feature.id))
 
@@ -183,7 +229,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             }
 
             Object.entries(components).forEach(([componentId, component]) => {
-                component.releases.sort((a, b) => b.metadata.release_details[0].version.localeCompare(a.metadata.release_details[0].version));
+                component.releases.sort((a, b) => b.metadata.version.localeCompare(a.metadata.version));
                 const componentPageData: ComponentPageData = createComponentPageData(component);
                 pageCreator.createPage(componentPageData, `/ccc/${componentId}`, '@site/src/components/ccc/Component/index.tsx');
             });

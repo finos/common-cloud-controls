@@ -1,0 +1,40 @@
+- version: "2025.09"
+  assurance-level: ""
+  threat-model-url: ""
+  threat-model-author: ""
+  red-team: ""
+  red-team-exercise-url: ""
+  release-manager:
+    name: ""
+    github-id: ""
+    company: ""
+    quote: ""
+  change-log: []
+  contributors:
+    - name: Michael Lysaght
+      github-id: ""
+      company: Citi
+    - name: abikhuil
+      github-id: ""
+      company: LSEG
+    - name: Vlad Georgescu
+      github-id: ""
+      company: Morgan Stanley
+    - name: Ian Walker-Smith
+      github-id: ""
+      company: Citi
+    - name: Dave Ogle
+      github-id: ""
+      company: Scott Logic
+    - name: Steve Hoffman
+      github-id: ""
+      company: Percona
+    - name: Sonali Mendis
+      github-id: ""
+      company: Scott Logic
+    - name: Eddie Knight
+      github-id: ""
+      company: Sonatype
+    - name: Damien Burks
+      github-id: ""
+      company: Citi

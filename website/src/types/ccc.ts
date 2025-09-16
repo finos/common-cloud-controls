@@ -1,12 +1,19 @@
-// Core Types
-export interface ControlMappings {
-    [key: string]: string[];
+export type TLPLevel = "tlp-clear" | "tlp-green" | "tlp-amber" | "tlp-red";
+
+export interface Reference {
+    'reference-id': string;
+    strength: number;
 }
 
-export interface TestRequirement {
+export interface Mapping {
+    'reference-id': string
+    entries: Reference[]
+}
+
+export interface AssessmentRequirement {
     id: string;
     text: string;
-    tlp_levels: string[];
+    tlp_levels: TLPLevel[];
 }
 
 export interface ReleaseManager extends Contributor {
@@ -35,24 +42,17 @@ export interface Metadata {
     title: string;
     id: string;
     description: string;
-    release_details: ReleaseDetails[];
-}
-
-export interface Release {
-    metadata: Metadata;
-    controls: Control[];
-    threats: Threat[];
-    features: Feature[];
-    slug: string;
+    version: string;
+    'last-modified': string;
+    release_details?: ReleaseDetails[];
 }
 
 // Feature Types
-export interface Feature {
+export interface Capability {
     id: string;
     title: string;
     description: string;
     slug: string;
-    threats: Threat[];
     related_threats?: Threat[];
 }
 
@@ -61,31 +61,43 @@ export interface Threat {
     id: string;
     title: string;
     description: string;
-    features: string[];
-    mitre_technique: string[];
-    slug: string;
-    related_controls?: Control[];
-    related_features?: Feature[];
+    capabilities?: Mapping[];
 }
 
 export interface Control {
     id: string;
     title: string;
     objective: string;
-    control_family: string;
-    threats: string[];
-    related_threats?: Threat[];
-    nist_csf?: string;
-    control_mappings?: ControlMappings;
-    test_requirements?: TestRequirement[];
-    slug?: string;
-    family?: string;
+    threat_mappings: Mapping[];
+    guideline_mappings: Mapping[];
+    test_requirements: AssessmentRequirement[];
+    family: ControlFamily;
 }
 
+export interface ControlFamily {
+    id: string;
+    title: string;
+    description: string;
+}
+
+
+/**
+ * Maps the entire YAML file containing the ccc-release information.
+ */
+export interface Release {
+    metadata: Metadata;
+    controls: Control[];
+    threats: Threat[];
+    capabilities: Capability[];
+}
+
+/**
+ * There can be multiple releases for a single component.
+ */
 export interface Component {
+    id: string;
     title: string;
     releases: Release[];
-    slug?: string;
 }
 
 
@@ -94,26 +106,34 @@ export interface Component {
 interface PageData {
     releaseTitle: string;
     releaseSlug: string;
+    slug: string;
 }
 
 export interface ThreatPageData extends PageData {
     threat: Threat;
+    related_capabilities?: Capability[];
+    related_controls?: Control[];
 }
 
 export interface FeaturePageData extends PageData {
-    feature: Feature;
+    feature: Capability;
+    related_threats?: Threat[];
 }
 
 export interface ControlPageData extends PageData {
     control: Control;
+    related_threats?: Threat[];
+    related_capabilities?: Capability[];
 }
 
 export interface ReleasePageData extends PageData {
     release: Release;
+    release_details: ReleaseDetails;
 }
 
 export interface ComponentPageData extends PageData {
     component: Component;
+    related_releases: Release[];
 }
 
 export interface HomePageData {

@@ -29,6 +29,7 @@ export interface TestResultPageData {
     parentSlug: string
 }
 
+
 export interface TestResultEntry {
     id: string;
     date: string;
@@ -36,6 +37,9 @@ export interface TestResultEntry {
     status: TestResultType;
 }
 
+/**
+ * Populated from the json file inside the config directory of each test result.
+ */
 export interface CFIConfigJson {
     id: string;
     provider: string;
@@ -43,15 +47,12 @@ export interface CFIConfigJson {
     name: string;
     description: string;
     path: string;
-    authors: Array<{
-        name: string;
-        github_id: string;
-        company: string;
-    }>;
-    resources: string[];
-    specifications: string[];
+    authors: Array<Contributor>;
 }
 
+/** 
+ * Populated from repository.json file in test-results.
+ */
 export interface CFIRepository {
     name: string;
     url: string;
@@ -60,19 +61,19 @@ export interface CFIRepository {
     artifact_name: string;
 }
 
+/**
+ * 
+ */
 export interface Configuration {
     cfi_details: CFIConfigJson;
-    repository: CFIRepository;
-    ccc_references: string[];
     test_results: TestResultEntry[];
+    cfi_repository: CFIRepository;
     slug: string;
 }
 
 export interface HomePageData {
     configurations: Configuration[];
 }
-
-
 
 export interface ConfigurationPageData {
     configuration: Configuration;

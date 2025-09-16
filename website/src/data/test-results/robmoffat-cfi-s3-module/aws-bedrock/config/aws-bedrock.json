@@ -5,30 +5,5 @@
     "name": "CCC AWS Bedrock Terraform Module",
     "description": "This module creates secure AWS Bedrock resources with foundation models, inference endpoints, and advanced AI capabilities.",
     "path": "remote/aws/bedrock",
-    "authors": [
-        {
-            "name": "AWS",
-            "github_id": "aws-ia",
-            "company": "Amazon"
-        }
-    ],
-    "resources": [
-        "aws_bedrock_model_invocation_logging_configuration",
-        "aws_bedrock_model_customization_job",
-        "aws_bedrock_model_invocation_logging_configuration",
-        "aws_bedrock_provisioned_model_throughput",
-        "aws_bedrock_agent",
-        "aws_bedrock_agent_alias",
-        "aws_bedrock_knowledge_base",
-        "aws_bedrock_data_source",
-        "aws_bedrock_agent_action_group",
-        "aws_bedrock_agent_environment"
-    ],
-    "specifications": [
-        "CCC.AI",
-        "CCC.Encryption",
-        "CCC.Security",
-        "CCC.Monitoring"
-    ],
     "git": "https://github.com/aws-ia/terraform-aws-bedrock"
 }
