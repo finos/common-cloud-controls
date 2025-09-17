@@ -1,11 +1,11 @@
-# a features, a/m configuration (all), a/m data
-# access (amber/red), modify (all)
 control-families:
   - title: Data
-    description: |-
-      Controls that ensure the confidentiality, integrity, and availability of
-      data throughout its lifecycle, including storage, transmission,
-      replication, and access.
+    description: |
+      The Data control family ensures the confidentiality, integrity,
+      availability, and sovereignty of data across its lifecycle.
+      These controls govern how data is transmitted, stored,
+      replicated, and protected from unauthorized access, tampering,
+      or exposure beyond defined trust perimeters.
     controls:
       - id: CCC.Core.C01
         title: Encrypt Data for Transmission
@@ -457,9 +457,11 @@ control-families:
               - reference-id: SC-17
   - title: Identity and Access Management
     description: |
-      Controls that govern authentication, authorization, and access
-      restrictions to ensure that only trusted and verified entities
-      can access sensitive resources.
+      The Identity and Access Management control family ensures
+      that only trusted and authenticated entities can access
+      resources. These controls establish strong authentication,
+      enforce multi-factor verification, and restrict access to
+      approved sources to prevent unauthorized use or data exfiltration.
     controls:
       - id: CCC.Core.C03
         title: Implement Multi-factor Authentication (MFA) for Access
@@ -612,9 +614,10 @@ control-families:
               - reference-id: AC-3
   - title: Logging & Monitoring
     description: |
-      Controls that require comprehensive logging of access and changes,
-      as well as monitoring and alerting for suspicious or unauthorized
-      activities.
+      The Logging & Monitoring control family ensures that access,
+      changes, and security-relevant events are captured, monitored,
+      and alerted on in order to provide visibility, support
+      incident response, and meet compliance requirements.
     controls:
       - id: CCC.Core.C04
         title: Log All Access and Changes
