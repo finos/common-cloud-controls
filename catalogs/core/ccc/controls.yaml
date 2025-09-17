@@ -8,7 +8,7 @@ control-families:
       replication, and access.
     controls:
       - id: CCC.Core.C01
-        title: Prevent Unencrypted Data Transmission
+        title: Encrypt Data for Transmission
         objective: |
           Ensure that all communications are encrypted in transit to protect
           data integrity and confidentiality.
@@ -102,7 +102,7 @@ control-families:
               - reference-id: SC-8
               - reference-id: SC-13
       - id: CCC.Core.C13
-        title: Minimize lifetime of encryption and authentication certificates
+        title: Minimize Lifetime of Encryption and Authentication Certificates
         objective: |
           Ensure that encryption and authentication certificates have a limited
           lifetime to reduce the risk of compromise and ensure the use of
@@ -202,7 +202,7 @@ control-families:
             entries:
               - reference-id: AC-6
       - id: CCC.Core.C08
-        title: Enable Multi-location Data Replication
+        title: Replicate Data to Multiple Locations
         objective: |
           Ensure that data is replicated across multiple physical locations to
           protect against data loss due to hardware failures, natural disasters,
@@ -250,21 +250,52 @@ control-families:
               - reference-id: CP-2
               - reference-id: CP-10
       - id: CCC.Core.C09
-        title: Protect Access Logs
+        title: Ensure Integrity of Access Logs
         objective: |
-          Ensure that access logs are protected against unauthorized
-          access, tampering, or deletion.
+          Ensure that access logs are always recorded to an external location.
         assessment-requirements:
           - id: CCC.Core.C09.TR01
             text: |
-              When access logs are stored, the service MUST ensure that
-              they cannot be read or modified without proper authorization.
+              When the service is operational, its logs and any child resource
+              logs MUST NOT be accessible from the resource they record access
+              to.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: ""
+          - id: CCC.Core.C09.TR02
+            text: |
+              When the service is operational, halting the logs for the service
+              or its child resources MUST NOT be possible without also halting
+              the corresponding resource.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              No normal business operations should result in the halting of
+              logs, as this could indicate an attempt to cover up unauthorized
+              access. Ensure that logging mechanisms are tightly integrated with
+              service operations, so that logging cannot be disabled without
+              stopping the service itself.
+          - id: CCC.Core.C09.TR03
+            text: |
+              When the service is operational, any attempt to redirect logs for
+              the service or its child resources MUST NOT be possible without
+              halting operation of the corresponding resource and publishing
+              corresponding events to monitored channels.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              No normal business operations should result in the redirection of
+              logs, as this could indicate an attempt to cover up unauthorized
+              access. Ensure that logging configurations are immutable during
+              service operation so that any changes require stopping the service
+              and publishing corresponding events to monitored channels.
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -319,7 +350,7 @@ control-families:
             entries:
               - reference-id: AC-4
       - id: CCC.Core.C02
-        title: Ensure Data Encryption at Rest for All Stored Data
+        title: Encrypt Data for Storage
         objective: |
           Ensure that all data stored is encrypted at rest using strong
           encryption algorithms.
@@ -351,7 +382,7 @@ control-families:
               - reference-id: SC-13
               - reference-id: SC-28
       - id: CCC.Core.C11
-        title: Enforce Key Management Policies
+        title: Protect Encryption Keys
         objective: |
           Ensure that encryption keys are managed securely by enforcing
           the use of approved algorithms, regular key rotation, and
@@ -438,8 +469,9 @@ control-families:
         assessment-requirements:
           - id: CCC.Core.C03.TR01
             text: |
-              When an entity attempts to modify the service, an automated
-              mechanism MUST refuse access to unauthorized users.
+              When an entity attempts to modify the service through a user
+              interface, the authentication process MUST require multiple
+              identifying factors for authentication.
             applicability:
               - tlp-clear
               - tlp-green
@@ -448,9 +480,13 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C03.TR02
             text: |
-              When an entity attempts to view data presented by the service, an
-              automated mechanism MUST refuse access to unauthorized users.
+              When an entity attempts to modify the service through an API
+              endpoint, the authentication process MUST require a credential
+              such as an API key or token AND originate from within the trust
+              perimeter.
             applicability:
+              - tlp-clear
+              - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: ""
@@ -465,40 +501,10 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C03.TR04
             text: |
-              When an entity attempts to modify the service through an API
-              endpoint, the authentication process MUST be limited to a
-              specific allowed network.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.Core.C03.TR05
-            text: |
-              When an entity attempts to view information on the service through
-              an API endpoint, the authentication process MUST be limited to a
-              specific allowed network.
-            applicability:
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.Core.C03.TR06
-            text: |
-              When an entity attempts to modify the service through a user
-              interface, the authentication process MUST require multiple
-              identifying factors from the user.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.Core.C03.TR07
-            text: |
               When an entity attempts to view information on the service through
               an API endpoint, the authentication process MUST require a
-              credential such as an API key or token.
+              credential such as an API key or token AND originate from within
+              the trust perimeter.
             applicability:
               - tlp-amber
               - tlp-red
@@ -524,26 +530,26 @@ control-families:
       - id: CCC.Core.C05
         title: Prevent Access from Untrusted Entities
         objective: |
-          Ensure that secure access controls prevent unauthorized access,
-          mitigate risks of data exfiltration, and block misuse of services
-          by adversaries. This includes restricting access based on trust
-          criteria such as IP allowlists, domain restrictions, and tenant
-          isolation.
+          Ensure that secure access controls enforce the principle of least
+          privilege to restrict access to authorized entities from explicitly
+          trusted sources only.
         assessment-requirements:
           - id: CCC.Core.C05.TR01
             text: |
-              When data is read or manipulated, the service MUST block requests
-              from sources that are not explicitly included in a pre-approved
-              allowlist.
+              When an attempt is made to modify data on the service or a child
+              resource, the service MUST block requests from unauthorized
+              entities.
             applicability:
+              - tlp-clear
+              - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: ""
           - id: CCC.Core.C05.TR02
             text: |
-              When administrative access is attempted, the service MUST block
-              requests from sources that are not explicitly included in a
-              pre-approved allowlist.
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST refuse requests
+              from unauthorized entities.
             applicability:
               - tlp-clear
               - tlp-green
@@ -552,10 +558,38 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C05.TR03
             text: |
-              When resources are accessed in a multi-tenant environment, the
-              service MUST NOT allow access across tenant boundaries unless
-              explicitly included in a pre-approved allowlist.
+              When administrative access or configuration change is attempted on
+              the service or a child resource in a multi-tenant environment, the
+              service MUST refuse requests across tenant boundaries unless the
+              origin is explicitly included in a pre-approved allowlist.
             applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.Core.C05.TR04
+            text: |
+              When data is requested from outside the trust perimeter, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.Core.C05.TR05
+            text: |
+              When any request is made from outside the trust perimeter,
+              the service MUST NOT provide any response that may indicate the
+              service exists.
+            applicability:
+              - tlp-red
+            recommendation: ""
+          - id: CCC.Core.C05.TR06
+            text: |
+              When any request is made to the service or a child resource, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: ""
@@ -579,7 +613,8 @@ control-families:
   - title: Logging & Monitoring
     description: |
       Controls that require comprehensive logging of access and changes,
-      as well as monitoring and alerting for suspicious or unauthorized activities.
+      as well as monitoring and alerting for suspicious or unauthorized
+      activities.
     controls:
       - id: CCC.Core.C04
         title: Log All Access and Changes
@@ -589,8 +624,9 @@ control-families:
         assessment-requirements:
           - id: CCC.Core.C04.TR01
             text: |
-              When any access attempt is made to the service, the service MUST
-              log the client identity, time, and result of the attempt.
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST log the client
+              identity, time, and result of the attempt.
             applicability:
               - tlp-clear
               - tlp-green
@@ -599,8 +635,8 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C04.TR02
             text: |
-              When any attempt is made to access data on the service or child
-              resources, the service MUST log the client identity, time, and
+              When any attempt is made to modify data on the service or a child
+              resource, the service MUST log the client identity, time, and
               result of the attempt.
             applicability:
               - tlp-amber
@@ -608,15 +644,11 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C04.TR03
             text: |
-              When any request is made to modify the service's configuration,
-              the service MUST log the client identity, time, and result of the
-              attempt.
+              When any attempt is made to read data on the service or a child
+              resource, the service MUST log the client identity, time, and
+              result of the attempt.
             applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
               - tlp-red
-            recommendation: ""
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -644,23 +676,32 @@ control-families:
         assessment-requirements:
           - id: CCC.Core.C07.TR01
             text: |
-              When suspicious enumeration activities are detected, the
-              service MUST generate real-time alerts to notify security
-              personnel.
+              When enumeration activities are detected, the service MUST publish
+              an event to a monitored channel which includes the client
+              identity, time, and nature of the activity.
             applicability:
+              - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              Implement event publication mechanisms and alerts for patterns
+              indicative of enumeration activities, such as repeated access
+              attempts, requests, or liveness probes. Configure alerts to notify
+              security teams of any activities that merit further investigation.
           - id: CCC.Core.C07.TR02
             text: |
-              When suspicious enumeration activities are detected, the
-              service MUST log the event, including the source details,
-              time, and nature of the activity.
+              When enumeration activities are detected, the service MUST log the
+              client identity, time, and nature of the activity.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              Implement logging mechanisms to capture details of enumeration
+              activities, including client identity, timestamps, and activity
+              nature. Retain logs according to organizational policies, and
+              occasionally review them for patterns that may indicate
+              reconnaissance activities.
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -677,33 +718,3 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-6
-      - id: CCC.Core.C12
-        title: Ensure Secure Network Access Rules
-        objective: |
-          Ensure network access to the service is restricted to explicitly
-          authorized IP addresses, ports, and protocols by properly
-          configuring security group and/or firewall rules. Configuration
-          must follow the principle of least privilege to minimize the
-          attack surface and prevent unauthorized  inbound connections.
-          Overly permissive rules such as, 0.0.0.0/0 must be disallowed or
-          strictly controlled.
-        assessment-requirements:
-          - id: CCC.Core.C12.TR01
-            text: |
-              When an unauthorized IP or network attempts to connect
-              to the service, the request MUST be denied.
-            applicability:
-              - tlp-red
-              - tlp-amber
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH17
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-3
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-4
