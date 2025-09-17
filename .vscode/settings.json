@@ -17,8 +17,4 @@
   "[go]": {
     "editor.defaultFormatter": "golang.go"
   },
-  // Show vertical ruler at 80 characters for files in the catalogs/ directory
-  "[yaml]": {
-    "editor.rulers": [80]
-  }
 }

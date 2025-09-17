@@ -1,0 +1,37 @@
+{
+	"Threats File": {
+		"scope": "yaml",
+		"prefix": "threats-file, finosccc:threats-file",
+		"body": [
+			"common_threats:",
+			"  - <IDs of common threats; Omit if not applicable>",
+			"threats:",
+			"  - id: CCC.<category-id>.TH01",
+			"    title: <Short name of the threat>",
+			"    description: <Complete description of the threat>",
+			"    capabilities:",
+			"      - <category-id>.F<#>",
+			"    mitre_technique: ",
+			"      - <Mitre ATT&CK tactic ID>",
+			"      - <Mitre ATT&CK technique ID>",
+			""
+		  ],
+		"description": "Create a blank FINOS CCC Threats file"
+	},
+	"Threat": {
+		"scope": "yaml",
+		"prefix": "threat, finosccc:threat",
+		"body": [
+			"  - id: CCC.<category-id>.TH01",
+			"    title: <Short name of the threat>",
+			"    description: <Complete description of the threat>",
+			"    capabilities:",
+			"      - reference-id: CCC.<category-id>.F<#>",
+			"    mitre_technique: ",
+			"      - <Mitre ATT&CK tactic ID>",
+			"      - <Mitre ATT&CK technique ID>",
+			""
+		  ],
+		"description": "Create a blank FINOS CCC Threat"
+	}
+}
