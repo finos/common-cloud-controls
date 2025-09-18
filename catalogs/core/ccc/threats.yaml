@@ -328,7 +328,7 @@ threats:
           - reference-id: T1518
             strength: 0 # Not yet specified
             remarks: Software Discovery
-  - id: CCC.Core.TH##
+  - id: CCC.Core.TH19
     title: Metrics are Read by Unauthorized Entities
     description: |
       Unauthorized access to runtime metrics may expose valuable information
