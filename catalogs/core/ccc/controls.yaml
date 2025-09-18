@@ -267,8 +267,8 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C09.TR02
             text: |
-              When the service is operational, halting the logs for the service
-              or its child resources MUST NOT be possible without also halting
+              When the service is operational, disabling the logs for the service
+              or its child resources MUST NOT be possible without also disabling
               the corresponding resource.
             applicability:
               - tlp-clear
@@ -276,7 +276,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: |
-              No normal business operations should result in the halting of
+              No normal business operations should disable
               logs, as this could indicate an attempt to cover up unauthorized
               access. Ensure that logging mechanisms are tightly integrated with
               service operations, so that logging cannot be disabled without
