@@ -1,0 +1,23 @@
+imported-controls:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.C02
+        strength: 0 # Not yet specified
+      - reference-id: CCC.Core.C03
+        strength: 0 # Not yet specified
+      - reference-id: CCC.Core.C04
+        strength: 0 # Not yet specified
+      - reference-id: CCC.Core.C05
+        strength: 0 # Not yet specified
+      - reference-id: CCC.Core.C06
+        strength: 0 # Not yet specified
+      - reference-id: CCC.Core.C08
+        strength: 0 # Not yet specified
+      - reference-id: CCC.Core.C09
+        strength: 0 # Not yet specified
+      - reference-id: CCC.Core.C11
+        strength: 0 # Not yet specified
+      - reference-id: CCC.Core.C12
+        strength: 0 # Not yet specified
+
+control-families: []

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "shared-capabilities": {
+    "imported-capabilities": {
       "type": "array",
       "items": {
         "type": "object",
@@ -11,16 +11,32 @@
             "type": "string",
             "description": "Namespace or category for the shared capabilities (e.g., CCC)"
           },
-          "identifiers": {
+          "entries": {
             "type": "array",
             "items": {
-              "type": "string",
-              "pattern": "^CCC\\.F\\d{2,8}$",
-              "description": "Global/common capability IDs"
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "type": "string",
+                  "pattern": "^CCC\\.Core.F\\d{2,8}$",
+                  "description": "Global/common capability IDs"
+                },
+                "strength": {
+                  "type": "integer"
+                },
+                "remarks": {
+                  "type": "string"
+                }
+              },
+              "required": ["reference-id", "strength"],
+              "additionalProperties": false
             }
+          },
+          "remarks": {
+            "type": "string"
           }
         },
-        "required": ["reference-id", "identifiers"],
+        "required": ["reference-id", "entries"],
         "additionalProperties": false
       }
     },
@@ -31,7 +47,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^CCC\\.[A-Za-z]+\\.F\\d{2,8}$",
+            "pattern": "^CCC\\.\\w{1,8}\\.F\\d{2,8}$",
             "description": "Capability ID (e.g., CCC.ObjStor.F01)"
           },
           "title": {

@@ -1,37 +1,40 @@
 <!-- markdownlint-disable -->
-# {{ .Metadata.Id }} v{{ .LatestReleaseDetails.Version }} ({{ .Metadata.Title }})
+{{ $latestRelease := latestReleaseDetails .ReleaseDetails }}
 
-<img height="250px" src="https://raw.githubusercontent.com/finos/branding/882d52260eb9b85a4097db38b09a52ea9bb68734/project-logos/active-project-logos/Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal_BLK.svg" alt="CCC Logo"/>
+<img width="50%" src="https://raw.githubusercontent.com/finos/branding/882d52260eb9b85a4097db38b09a52ea9bb68734/project-logos/active-project-logos/Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal_BLK.svg" alt="CCC Logo"/>
+
+# {{ .Metadata.Id }} v{{ (latestReleaseDetails .ReleaseDetails).Version }} ({{ .Metadata.Title }})
 
 {{ .Metadata.Description }}
 
-## Release Notes
+## Release Details
 
-> {{ .LatestReleaseDetails.ReleaseManager.Summary }}
+> {{ $latestRelease.ReleaseManager.Quote | safe }}
+>
+> _- {{ $latestRelease.ReleaseManager.Name }}, {{ $latestRelease.ReleaseManager.Company }} ([{{ $latestRelease.ReleaseManager.GithubId }}](https://github.com/{{ $latestRelease.ReleaseManager.GithubId }}))_
 
-Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestReleaseDetails.ReleaseManager.Company }}** ([{{ .LatestReleaseDetails.ReleaseManager.GithubId }}](https://github.com/{{ .LatestReleaseDetails.ReleaseManager.GithubId }}))
+### Contributors to this Release
 
-## Changes Since Last Release
-{{ range .LatestReleaseDetails.ChangeLog }}
-- {{ . }}
+| Name | Company | GitHub ID |
+| ---- | ------- | ------ |
+{{- range $latestRelease.Contributors }}
+| {{ .Name }} | {{ .Company }} | [{{ .GithubId }}](https://github.com/{{ .GithubId }}) |
 {{- end }}
 
 ## Capabilities
 
-|Capability ID|Capability Title|
-|----|----|
-{{- range .Capabilities }}
-|{{ .Id }}|{{ .Title }}|
-{{- end }}
-
----
+The following capabilities are required to be present on a resource for it to be considered a {{ .Metadata.Title }} service. Threats outlined later in this catalog are assesssed based on the presence of these capabilities.
 {{ range .Capabilities }}
-### {{ .Id }} - {{ .Title }}
-
-{{ .Description }}
-{{- end }}
+- **{{ .Id }}: {{ .Title }}**
+  
+  {{.Description|safe}}
+{{ end }}
 
 ## Threats
+
+The following threats have been identified based upon {{ .Metadata.Title }} service capabilities. Controls outlined later in this catalog are designed to mitigate these threats. If you are aware of threats to {{ .Metadata.Title }} services that are not captured here, please refer to the Common Cloud Controls contributing guide for information about how you can help improve this catalog.
+
+Below is a summary table of the identified threats, which is then followed by an elucidation of each threat and relevant mappings.
 
 |Threat ID|Threat Title|
 |----|----|
@@ -41,36 +44,56 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 
 ---
 {{ range .Threats }}
-### {{ .Id }} - {{ .Title }}
+### {{ .Id }}
 
-{{ .Description }}
+**{{ .Title }}**
 
-{{ if .Capabilities -}}
-**Impacted Capabilities:**
+**Description:** {{ .Description }}
 
-| Source | Capability |
-| --- | --- |
-{{- range .Capabilities }}
-  {{- $referenceId := .ReferenceId }}
-  {{- range .Identifiers }}
-| {{ $referenceId }} | {{ . }} |
+<div class="flex-container">
+  <div class="flex-item-left">
+  {{ if .Capabilities -}}
+  Applies to these capabilities:
+  <ul>
+    {{ range .Capabilities }}
+      {{ range .Entries }}
+  <li>{{ .ReferenceId }}</li>
+      {{- end }}
+    {{- end }}
+  </ul>
   {{- end }}
-{{- end }}
-{{- end }}
-
-**Related Mappings:**
-
-| Source | Mapping |
-| --- | --- |
-{{- range .Mappings }}
-  {{- $referenceId := .ReferenceId }}
-  {{- range .Identifiers }}
-| {{ $referenceId }} | {{ . }} |
-  {{- end }}
-{{- end }}
+  </div>
+  <div class="flex-item-right">
+    {{ if .ExternalMappings -}}
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Relevant External Item</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{- range .ExternalMappings }}
+          {{- $catalogReferenceId := .ReferenceId }}
+          {{- range .Entries }}
+        <tr>
+          <td>{{ .ReferenceId }}</td>
+          <td>{{ $catalogReferenceId }}</td>
+        </tr>
+          {{- end }}
+        {{- end }}
+      </tbody>
+    </table>
+    {{- end }}
+  </div>
+</div>
 {{ end }}
 
 ## Controls
+
+The following controls have been designed to mitigate the aforementioned threats that have been identified for {{ .Metadata.Id }}. Each control includes one or more Assessment Requirements that should always pass for a service to be considered compliant with this control catalog. If your experience can help improve these controls, please refer to the Common Cloud Controls contributing guide for information about how you can help improve this catalog.
+
+Below is a summary table of the controls, which is then followed by an elucidation of each control and relevant mappings.
 
 |Control ID|Control Title|
 |----|----|
@@ -80,49 +103,69 @@ Release Manager - **{{ .LatestReleaseDetails.ReleaseManager.Name }}, {{ .LatestR
 {{- end }}
 {{- end }}
 
----
-
 {{- range .ControlFamilies }}
-{{ $family := .Title }}
+
 {{- range .Controls }}
 
-### {{ .Id }} - {{ .Title }}
+### {{ .Id }}
 
-{{ .Objective }}
+**{{ .Title }}**
 
-**Control Family:** {{ $family }}
+**Objective:** {{ .Objective }}
 
-{{ if .ThreatMappings -}}
-#### Mitigated Threats
-
-| Threat Catalog | Mapped Threats |
+| Assessment Requirement | Applicability |
 | --- | --- |
-{{- range .ThreatMappings }}
-  {{- $referenceId := .ReferenceId }}
-  {{- range .Identifiers }}
-| {{ $referenceId }} | {{ . }} |
-  {{- end }}
-{{- end }}
+{{- range .AssessmentRequirements }}
+| {{ .Text | safe }} | {{- range .Applicability }}{{ . }}<br />{{ end }} |
 {{- end }}
 
-{{ if .GuidelineMappings -}}
-#### Associated Guidelines
-
-| Guideline | Mapped Controls |
-| --- | --- |
-{{- range .GuidelineMappings }}
-  {{- $referenceId := .ReferenceId }}
-  {{- range .Identifiers }}
-| {{ $referenceId }} | {{ . }} |
-  {{- end }}
+<div class="flex-container">
+  <div class="flex-item-left">
+    {{ if .ThreatMappings -}}
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Threat Catalog</th>
+          <th>Related Threat</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{- range .ThreatMappings }}
+          {{- $catalogReferenceId := .ReferenceId }}
+          {{- range .Entries }}
+        <tr>
+          <td>{{ $catalogReferenceId }}</td>
+          <td>{{ .ReferenceId }}</td>
+        </tr>
+          {{- end }}
+        {{- end }}
+      </tbody>
+    </table>
+    {{- end }}
+  </div>
+  <div class="flex-item-right">
+    {{ if .GuidelineMappings -}}
+    <table cellpadding="5">
+      <thead>
+        <tr>
+          <th>Guideline</th>
+          <th>Related Guidance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{- range .GuidelineMappings }}
+          {{- $catalogReferenceId := .ReferenceId }}
+          {{- range .Entries }}
+        <tr>
+          <td>{{ $catalogReferenceId }}</td>
+          <td>{{ .ReferenceId }}</td>
+        </tr>
+          {{- end }}
+        {{- end }}
+      </tbody>
+    </table>
+    {{- end }}
+  </div>
+</div>
 {{- end }}
 {{- end }}
-{{- end }}
-{{- end }}
-
-## Contributing Organizations
-
-We would like to acknowledge the following organizations for their valuable contributions to this project:
-
-{{ insertLogoWall }}
-<!-- markdownlint-enable -->

@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
     "properties": {
-      "shared-controls": {
+      "imported-controls": {
         "type": "array",
         "items": {
           "type": "object",
@@ -11,16 +11,32 @@
               "type": "string",
               "description": "Reference ID for the shared control set, e.g., 'CCC'"
             },
-            "identifiers": {
+            "entries": {
               "type": "array",
               "items": {
-                "type": "string",
-                "pattern": "^CCC\\.C\\d{2,8}$",
-                "description": "ID of a generic control that is designed to be shared by multiple catalogs"
+                "type": "object",
+                "properties": {
+                  "reference-id": {
+                    "type": "string",
+                    "pattern": "^CCC\\.Core.C\\d{2,8}$",
+                    "description": "ID of a generic control that is designed to be shared by multiple catalogs"
+                  },
+                  "strength": {
+                    "type": "integer"
+                  },
+                  "remarks": {
+                    "type": "string"
+                  }
+                },
+                "required": ["reference-id", "strength"],
+                "additionalProperties": false
               }
+            },
+            "remarks": {
+              "type": "string"
             }
           },
-          "required": ["reference-id", "identifiers"],
+          "required": ["reference-id", "entries"],
           "additionalProperties": false
         }
       },
@@ -44,7 +60,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "pattern": "^CCC\\.[A-Za-z]+\\.C\\d{2,8}$",
+                    "pattern": "^((CCC\\.C\\d{2,8})|(CCC\\.\\w{1,8}\\.C\\d{2,8}))$",
                     "description": "Full control ID (e.g., CCC.ObjStor.C01)"
                   },
                   "title": {
@@ -62,6 +78,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
+                          "pattern": "^((CCC\\.C\\d{2,8})|(CCC\\.\\w{1,8}\\.C\\d{2,8}\\.TR\\d{2,8}))$",
                           "description": "Test requirement ID"
                         },
                         "text": {
@@ -92,15 +109,31 @@
                         "reference-id": {
                           "type": "string"
                         },
-                        "identifiers": {
+                        "entries": {
                           "type": "array",
                           "items": {
-                            "type": "string",
-                            "pattern": "^((CCC\\.TH\\d{2,8})|(CCC\\.\\w{1,8}\\.TH\\d{2,8}))$"
+                            "type": "object",
+                            "properties": {
+                              "reference-id": {
+                                "type": "string",
+                                "pattern": "^((CCC\\.TH\\d{2,8})|(CCC\\.\\w{1,8}\\.TH\\d{2,8}))$"
+                              },
+                              "strength": {
+                                "type": "integer"
+                              },
+                              "remarks": {
+                                "type": "string"
+                              }
+                            },
+                            "required": ["reference-id"],
+                            "additionalProperties": false
                           }
+                        },
+                        "remarks": {
+                          "type": "string"
                         }
                       },
-                      "required": ["reference-id", "identifiers"],
+                      "required": ["reference-id", "entries"],
                       "additionalProperties": false
                     }
                   },
@@ -112,14 +145,30 @@
                         "reference-id": {
                           "type": "string"
                         },
-                        "identifiers": {
+                        "entries": {
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                              "reference-id": {
+                                "type": "string"
+                              },
+                              "strength": {
+                                "type": "integer"
+                              },
+                              "remarks": {
+                                "type": "string"
+                              }
+                            },
+                            "required": ["reference-id"],
+                            "additionalProperties": false
                           }
+                        },
+                        "remarks": {
+                          "type": "string"
                         }
                       },
-                      "required": ["reference-id", "identifiers"],
+                      "required": ["reference-id", "entries"],
                       "additionalProperties": false
                     }
                   }

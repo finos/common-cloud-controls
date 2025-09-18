@@ -1,0 +1,19 @@
+imported-controls:
+  - reference-id: CCC
+    entries: []
+  - reference-id: CCC.RDMS
+    entries: []
+  - reference-id: CCC.LB
+    entries: []
+  - reference-id: CCC.VPC
+    entries: []
+  - reference-id: CCC.VM
+    entries: []
+  - reference-id: CCC.IAM
+    entries: []
+  - reference-id: CCC.KMS
+    entries: []
+  - reference-id: CCC.ObjStor
+    entries: []
+
+control-families: [] # Additional controls have not yet been idenfitied for this architecture

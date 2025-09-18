@@ -5,7 +5,7 @@ threats:
     title: <Short name of the threat>
     description: <Complete description of the threat>
     capabilities:
-      - CCC.<category-id>.F<#>
+      - reference-id: CCC.<category-id>.F<#>
     mitre_technique:
       - <Mitre ATT&CK tactic ID>
       - <Mitre ATT&CK technique ID>
