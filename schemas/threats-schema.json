@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "shared-threats": {
+    "imported-threats": {
       "type": "array",
       "items": {
         "type": "object",
@@ -11,18 +11,37 @@
             "type": "string",
             "description": "The shared threat namespace or category identifier (e.g., CCC)"
           },
-          "identifiers": {
+          "entries": {
             "type": "array",
             "items": {
-              "type": "string",
-              "pattern": "^CCC\\.TH\\d{2,8}$",
-              "description": "Global threat identifiers"
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "type": "string",
+                  "pattern": "^CCC\\.Core.TH\\d{2,8}$",
+                  "description": "Global threat identifiers"
+                },
+                "strength": {
+                  "type": "integer"
+                },
+                "remarks": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "reference-id",
+                "strength"
+              ],
+              "additionalProperties": false
             }
+          },
+          "remarks": {
+            "type": "string"
           }
         },
         "required": [
           "reference-id",
-          "identifiers"
+          "entries"
         ],
         "additionalProperties": false
       }
@@ -55,7 +74,7 @@
                   "type": "string",
                   "description": "Capability mapping namespace (e.g., CCC)"
                 },
-                "identifiers": {
+                "entries": {
                   "type": "array",
                   "items": {
                     "type": "string",
@@ -80,10 +99,11 @@
                   "type": "string",
                   "description": "Framework name (e.g., MITRE-ATT&CK)"
                 },
-                "identifiers": {
+                "entries": {
                   "type": "array",
                   "items": {
                     "type": "string",
+                    "pattern": "^(T|TA)[0-9]+(\\.[0-9]+)?$",
                     "description": "Mapping identifier (e.g., MITRE technique ID)"
                   }
                 }
