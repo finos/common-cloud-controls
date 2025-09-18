@@ -1,0 +1,33 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers: []
+  - reference-id: CCC.VM
+    identifiers: []
+  - reference-id: CCC.RDMS
+    identifiers: []
+  - reference-id: CCC.LoadBal
+    identifiers: []
+  - reference-id: CCC.VPC
+    identifiers: []
+  - reference-id: CCC.IAM
+    identifiers: []
+  - reference-id: CCC.KeyMgmt
+    identifiers: []
+  - reference-id: CCC.SecMgmt
+    identifiers: []
+  - reference-id: CCC.ObjStor
+    identifiers: []
+  - reference-id: CCC.GenAI
+    identifiers: []
+  - reference-id: CCC.Vector
+    identifiers: []
+  - reference-id: CCC.Monitoring
+    identifiers: []
+  - reference-id: CCC.Logging
+    identifiers: []
+  - reference-id: CCC.AuditLog
+    identifiers: []
+  - reference-id: CCC.Tracing
+    identifiers: []
+
+control-families: [] # Additional controls have not yet been identified for this architecture
