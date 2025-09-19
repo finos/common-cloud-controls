@@ -371,10 +371,11 @@ threats:
   - id: CCC.Core.TH11
     title: Publications are Incorrectly Triggered
     description: |
-      Incorrectly triggered publications may lead to the dissemination of
-      inaccurate or misleading information. This data integrity problem could
-      result in sensitive operations being initiated, it can obfuscate other
-      issues, and it may disrupt the availability of the system or its data.
+      Incorrectly triggered publications may disseminate inaccurate
+      or misleading information, creating a data integrity risk. Such
+      misinformation can cause unintended operations to be initiated,
+      conceal legitimate issues, and disrupt the availability or reliability
+      of systems and their data.
     capabilities:
       - reference-id: CCC
         entries:
