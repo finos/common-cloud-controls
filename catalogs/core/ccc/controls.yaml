@@ -41,8 +41,9 @@ control-families:
               strong ciphers.
           - id: CCC.Core.C01.TR03
             text: |
-              The service MUST block unencrypted traffic or automatically
-              redirect it to a secure equivalent.
+              When the service receives unencrypted traffic, 
+              then it MUST either block the request or automatically
+              redirect it to the secure equivalent.
             applicability:
               - tlp-green
               - tlp-amber
