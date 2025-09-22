@@ -65,9 +65,10 @@ threats:
           - reference-id: CCC.Vector.F03
           - reference-id: CCC.Vector.F06
     external-mappings:
-      - reference-id: FINOS-AIR
+      - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-SEC-002
+            remarks: Information Leaked to Vector Store
   - id: CCC.Vector.TH02
     title: Embedding and Index Poisoning
     description: Adversaries may insert malicious or adversarial vectors into the index
@@ -80,9 +81,12 @@ threats:
           - reference-id: CCC.Vector.F05
           - reference-id: CCC.Vector.F07
     external-mappings:
-      - reference-id: FINOS-AIR
+      - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-SEC-009
+            remarks: Data Poisoning
+          - reference-id: AIR-OP-014
+            remarks: Inadequate System Alignment
   - id: CCC.Vector.TH03
     title: Cross-modal or Metadata Leakage
     description: Attackers may infer sensitive information through metadata filters
@@ -93,7 +97,11 @@ threats:
         entries:
           - reference-id: CCC.Vector.F04
           - reference-id: CCC.Vector.F10
-    external-mappings: []
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-002
+            remarks: Information Leaked to Vector Store
   - id: CCC.Vector.TH04
     title: Index Corruption or Downgrade
     description: Attackers with unauthorized access or excessive permissions may tamper
@@ -150,3 +158,7 @@ threats:
             remarks: Data Manipulation
           - reference-id: T1027
             remarks: Obfuscated Files or Information
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-014
+            remarks: Inadequate System Alignment
