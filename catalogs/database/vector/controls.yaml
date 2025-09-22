@@ -4,6 +4,9 @@ imported-controls:
       - reference-id: CCC.Core.C01
         strength: 0 # Not yet specified # Not yet specified
         remarks: Prevent Unencrypted Requests
+      - reference-id: CCC.Core.C02
+        strength: 0 # Not yet specified # Not yet specified
+        remarks: Ensure data encryption at rest for all stored data
       - reference-id: CCC.Core.C03
         strength: 0 # Not yet specified # Not yet specified
         remarks: Require MFA for Access
