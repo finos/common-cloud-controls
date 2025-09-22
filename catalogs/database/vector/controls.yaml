@@ -50,7 +50,7 @@ control-families:
             entries:
               - reference-id: CCC.Vector.TH02
                 remarks: Embedding and Index Poisoning
-              - reference-id: CCC.Vector.TH06
+              - reference-id: CCC.Vector.TH05
                 remarks: Embedding Format or Dimension Attacks
               - reference-id: CCC.Core.TH12
                 remarks: Resource Constraints are Exhausted
@@ -72,7 +72,7 @@ control-families:
             entries:
               - reference-id: CCC.Vector.TH02
                 remarks: Embedding and Index Poisoning
-              - reference-id: CCC.Vector.TH05
+              - reference-id: CCC.Vector.TH04
                 remarks: Index Corruption or Downgrade
               - reference-id: CCC.Core.TH01
                 remarks: Access Control is Misconfigured
@@ -114,8 +114,6 @@ control-families:
             entries:
               - reference-id: CCC.Vector.TH02
                 remarks: Embedding and Index Poisoning
-              - reference-id: CCC.Vector.TH04
-                remarks: Denial of Service via Query or Ingestion Flooding
               - reference-id: CCC.Core.TH12
                 remarks: Resource Constraints are Exhausted
         guideline-mappings: []
@@ -134,7 +132,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.Vector.TH05
+              - reference-id: CCC.Vector.TH04
                 remarks: Index Corruption or Downgrade
               - reference-id: CCC.Core.TH09
                 remarks: Logs or Monitoring Data are Read by Unauthorized Users
@@ -156,7 +154,7 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.Vector.TH06
+              - reference-id: CCC.Vector.TH05
                 remarks: Embedding Format or Dimension Attacks
               - reference-id: CCC.Core.TH06
                 remarks: Data is Lost or Corrupted
@@ -176,6 +174,6 @@ control-families:
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.Vector.TH07
+              - reference-id: CCC.Vector.TH06
                 remarks: Search Result Manipulation via ANN Bias
         guideline-mappings: []

@@ -98,25 +98,6 @@ threats:
         entries:
           - reference-id: AIR-RC-022
   - id: CCC.Vector.TH04
-    title: Denial of Service via Query or Ingestion Flooding
-    description: High-volume ingestion or excessive low-latency similarity queries can
-      overwhelm vector indexing services, degrading performance for legitimate users
-      and potentially exhausting system resources.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Vector.F05
-          - reference-id: CCC.Vector.F06
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1499
-            remarks: Endpoint Denial of Service
-          - reference-id: T1498
-            remarks: Network Denial of Service
-          - reference-id: T1496
-            remarks: Resource Hijacking
-  - id: CCC.Vector.TH05
     title: Index Corruption or Downgrade
     description: Attackers with unauthorized access or excessive permissions may tamper
       with or roll back index versions, potentially restoring poisoned data or breaking
@@ -137,7 +118,7 @@ threats:
             remarks: Inhibit System Recovery
           - reference-id: T1562
             remarks: Impair Defenses
-  - id: CCC.Vector.TH06
+  - id: CCC.Vector.TH05
     title: Embedding Format or Dimension Attacks
     description: Poor validation of embedding formats or dimensions can cause service
       crashes or logic errors. This can result in denial of service or incorrect similarity
@@ -156,7 +137,7 @@ threats:
             remarks: Data Manipulation
           - reference-id: T1027
             remarks: Obfuscated Files or Information
-  - id: CCC.Vector.TH07
+  - id: CCC.Vector.TH06
     title: Search Result Manipulation via ANN Bias
     description: Approximate nearest neighbor (ANN) algorithms may yield non-deterministic
       or biased results. Adversaries may exploit these differences to evade detection
