@@ -1,23 +1,57 @@
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH02 # Data is Intercepted in Transit
-      - CCC.TH03 # Deployment Region Network is Untrusted
-      - CCC.TH04 # Data is Replicated to Untrusted or External Locations
-      - CCC.TH05 # Data is Corrupted During Replication
-      - CCC.TH06 # Data is Lost or Corrupted
-      - CCC.TH07 # Logs are Tampered With or Deleted
-      - CCC.TH08 # Cost Management Data is Manipulated
-      - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
-      - CCC.TH10 # Alerts are Intercepted
-      - CCC.TH11 # Event Notifications are Incorrectly Triggered
-      - CCC.TH12 # Resource Constraints are Exhausted
-      - CCC.TH13 # Resource Tags are Manipulated
-      - CCC.TH14 # Older Resource Versions are Exploited
-      - CCC.TH15 # Automated Enumeration and Reconnaissance by Non-human Entities
-      - CCC.TH16 # Logging and Monitoring are Disabled
-      - CCC.TH17 # Unauthorized Network Access via Misconfigured Rules
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH04
+        strength: 0
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH05
+        strength: 0
+        remarks: Data is Corrupted During Replication
+      - reference-id: CCC.Core.TH06
+        strength: 0
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH10
+        strength: 0
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH11
+        strength: 0
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH14
+        strength: 0
+        remarks: Older Resource Versions are Exploited
+      - reference-id: CCC.Core.TH15
+        strength: 0
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0
+        remarks: Logging and Monitoring are Disabled
+      - reference-id: CCC.Core.TH17
+        strength: 0
+        remarks: Unauthorized Network Access via Misconfigured Rules
 threats:
   - id: CCC.Vector.TH01
     title: Embedding Extraction and Model Inversion
@@ -26,14 +60,14 @@ threats:
       attacks, membership inference, and unauthorized data leakage from stored embeddings.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.Vector.F01
-          - CCC.Vector.F03
-          - CCC.Vector.F06
+        entries:
+          - reference-id: CCC.Vector.F01
+          - reference-id: CCC.Vector.F03
+          - reference-id: CCC.Vector.F06
     external-mappings:
       - reference-id: FINOS-AIR
-        identifiers:
-          - AIR-SEC-002
+        entries:
+          - reference-id: AIR-SEC-002
   - id: CCC.Vector.TH02
     title: Embedding and Index Poisoning
     description: Adversaries may insert malicious or adversarial vectors into the index
@@ -41,14 +75,14 @@ threats:
       or subtly steering results toward specific outcomes.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.Vector.F02
-          - CCC.Vector.F05
-          - CCC.Vector.F07
+        entries:
+          - reference-id: CCC.Vector.F02
+          - reference-id: CCC.Vector.F05
+          - reference-id: CCC.Vector.F07
     external-mappings:
       - reference-id: FINOS-AIR
-        identifiers:
-          - AIR-SEC-009
+        entries:
+          - reference-id: AIR-SEC-009
   - id: CCC.Vector.TH03
     title: Cross-modal or Metadata Leakage
     description: Attackers may infer sensitive information through metadata filters
@@ -56,13 +90,13 @@ threats:
       surface-level access controls.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.Vector.F04
-          - CCC.Vector.F10
+        entries:
+          - reference-id: CCC.Vector.F04
+          - reference-id: CCC.Vector.F10
     external-mappings:
       - reference-id: FINOS-AIR
-        identifiers:
-          - AIR-RC-022
+        entries:
+          - reference-id: AIR-RC-022
   - id: CCC.Vector.TH04
     title: Denial of Service via Query or Ingestion Flooding
     description: High-volume ingestion or excessive low-latency similarity queries can
@@ -70,15 +104,18 @@ threats:
       and potentially exhausting system resources.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.Vector.F05
-          - CCC.Vector.F06
+        entries:
+          - reference-id: CCC.Vector.F05
+          - reference-id: CCC.Vector.F06
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
-          - T1499 # Endpoint Denial of Service
-          - T1498 # Network Denial of Service
-          - T1496 # Resource Hijacking
+        entries:
+          - reference-id: T1499
+            remarks: Endpoint Denial of Service
+          - reference-id: T1498
+            remarks: Network Denial of Service
+          - reference-id: T1496
+            remarks: Resource Hijacking
   - id: CCC.Vector.TH05
     title: Index Corruption or Downgrade
     description: Attackers with unauthorized access or excessive permissions may tamper
@@ -86,16 +123,20 @@ threats:
       downstream integrations.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.Vector.F07
-          - CCC.Vector.F11
+        entries:
+          - reference-id: CCC.Vector.F07
+          - reference-id: CCC.Vector.F11
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
-          - T1565 # Data Manipulation
-          - T1485 # Data Destruction
-          - T1490 # Inhibit System Recovery
-          - T1562 # Impair Defenses
+        entries:
+          - reference-id: T1565
+            remarks: Data Manipulation
+          - reference-id: T1485
+            remarks: Data Destruction
+          - reference-id: T1490
+            remarks: Inhibit System Recovery
+          - reference-id: T1562
+            remarks: Impair Defenses
   - id: CCC.Vector.TH06
     title: Embedding Format or Dimension Attacks
     description: Poor validation of embedding formats or dimensions can cause service
@@ -103,15 +144,18 @@ threats:
       results.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.Vector.F08
-          - CCC.Vector.F09
+        entries:
+          - reference-id: CCC.Vector.F08
+          - reference-id: CCC.Vector.F09
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
-          - T1499 # Endpoint Denial of Service
-          - T1565 # Data Manipulation
-          - T1027 # Obfuscated Files or Information
+        entries:
+          - reference-id: T1499
+            remarks: Endpoint Denial of Service
+          - reference-id: T1565
+            remarks: Data Manipulation
+          - reference-id: T1027
+            remarks: Obfuscated Files or Information
   - id: CCC.Vector.TH07
     title: Search Result Manipulation via ANN Bias
     description: Approximate nearest neighbor (ANN) algorithms may yield non-deterministic
@@ -119,11 +163,14 @@ threats:
       or bias AI responses.
     capabilities:
       - reference-id: CCC
-        identifiers:
-          - CCC.Vector.F12
+        entries:
+          - reference-id: CCC.Vector.F12
     external-mappings:
       - reference-id: MITRE-ATT&CK
-        identifiers:
-          - T1565 # Data Manipulation
-          - T1027 # Obfuscated Files or Information
-          - T1497 # Virtualization/Sandbox Evasion
+        entries:
+          - reference-id: T1565
+            remarks: Data Manipulation
+          - reference-id: T1027
+            remarks: Obfuscated Files or Information
+          - reference-id: T1497
+            remarks: Virtualization/Sandbox Evasion
