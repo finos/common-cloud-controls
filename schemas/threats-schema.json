@@ -28,10 +28,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "reference-id",
-                "strength"
-              ],
+              "required": ["reference-id", "strength"],
               "additionalProperties": false
             }
           },
@@ -39,10 +36,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "reference-id",
-          "entries"
-        ],
+        "required": ["reference-id", "entries"],
         "additionalProperties": false
       }
     },
@@ -77,16 +71,29 @@
                 "entries": {
                   "type": "array",
                   "items": {
-                    "type": "string",
-                    "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.F\\d+$",
-                    "description": "Feature/Capability ID"
+                    "type": "object",
+                    "properties": {
+                      "reference-id": {
+                        "type": "string",
+                        "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.F\\d+$",
+                        "description": "Feature/Capability ID"
+                      },
+                      "strength": {
+                        "type": "integer"
+                      },
+                      "remarks": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["reference-id"],
+                    "additionalProperties": false
                   }
+                },
+                "remarks": {
+                  "type": "string"
                 }
               },
-              "required": [
-                "reference-id",
-                "identifiers"
-              ],
+              "required": ["reference-id", "entries"],
               "additionalProperties": false
             }
           },
@@ -102,27 +109,33 @@
                 "entries": {
                   "type": "array",
                   "items": {
-                    "type": "string",
-                    "pattern": "^(T|TA)[0-9]+(\\.[0-9]+)?$",
-                    "description": "Mapping identifier (e.g., MITRE technique ID)"
+                    "type": "object",
+                    "properties": {
+                      "reference-id": {
+                        "type": "string",
+                        "description": "Mapping identifier (e.g., MITRE technique ID)"
+                      },
+                      "strength": {
+                        "type": "integer"
+                      },
+                      "remarks": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["reference-id"],
+                    "additionalProperties": false
                   }
+                },
+                "remarks": {
+                  "type": "string"
                 }
               },
-              "required": [
-                "reference-id",
-                "identifiers"
-              ],
+              "required": ["reference-id", "entries"],
               "additionalProperties": false
             }
           }
         },
-        "required": [
-          "id",
-          "title",
-          "description",
-          "capabilities",
-          "external-mappings"
-        ],
+        "required": ["id", "title", "description", "capabilities", "external-mappings"],
         "additionalProperties": false
       }
     }
