@@ -93,10 +93,7 @@ threats:
         entries:
           - reference-id: CCC.Vector.F04
           - reference-id: CCC.Vector.F10
-    external-mappings:
-      - reference-id: FINOS-AIR
-        entries:
-          - reference-id: AIR-RC-022
+    external-mappings: []
   - id: CCC.Vector.TH04
     title: Index Corruption or Downgrade
     description: Attackers with unauthorized access or excessive permissions may tamper
@@ -153,5 +150,3 @@ threats:
             remarks: Data Manipulation
           - reference-id: T1027
             remarks: Obfuscated Files or Information
-          - reference-id: T1497
-            remarks: Virtualization/Sandbox Evasion
