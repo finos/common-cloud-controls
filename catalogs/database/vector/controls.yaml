@@ -57,7 +57,11 @@ control-families:
                 remarks: Embedding Format or Dimension Attacks
               - reference-id: CCC.Core.TH12
                 remarks: Resource Constraints are Exhausted
-        guideline-mappings: []
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-002
+                remarks: Data Filtering From External Knowledge Bases
       - id: CCC.Vector.C02
         title: Enforce Role-Based Index Lifecycle Management
         objective: |
@@ -79,7 +83,11 @@ control-families:
                 remarks: Index Corruption or Downgrade
               - reference-id: CCC.Core.TH01
                 remarks: Access Control is Misconfigured
-        guideline-mappings: []
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-012
+                remarks: Role-Based Access Control for AI Data
       - id: CCC.Vector.C03
         title: Enforce Metadata-Level Access Controls
         objective: |
@@ -99,7 +107,15 @@ control-families:
                 remarks: Cross-modal or Metadata Leakage
               - reference-id: CCC.Core.TH01
                 remarks: Access Control is Misconfigured
-        guideline-mappings: []
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-DET-001
+                remarks: AI Data Leakage Prevention and Detection
+              - reference-id: AIR-PREV-012
+                remarks: Role-Based Access Control for AI Data
+              - reference-id: AIR-DET-016
+                remarks: Preserving Source Data Access Controls in AI Systems
       - id: CCC.Vector.C04
         title: Enforce Ingestion Quotas and Throttling
         objective: |
@@ -119,7 +135,11 @@ control-families:
                 remarks: Embedding and Index Poisoning
               - reference-id: CCC.Core.TH12
                 remarks: Resource Constraints are Exhausted
-        guideline-mappings: []
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-008
+                remarks: Quality of Service (QoS) and DDoS Prevention for AI Systems
       - id: CCC.Vector.C05
         title: Enforce Index Versioning with Rollback Protection
         objective: |
@@ -141,7 +161,11 @@ control-families:
                 remarks: Logs or Monitoring Data are Read by Unauthorized Users
               - reference-id: CCC.Core.TH04
                 remarks: Data is Replicated to Untrusted or External Locations
-        guideline-mappings: []
+        guideline-mappings:
+          - reference-id: AIR-DET-004
+            entries:
+              - reference-id: AIR-PREV-008
+                remarks: AI System Observability
       - id: CCC.Vector.C06
         title: Enforce Dimensional and Format Constraints
         objective: |
@@ -161,7 +185,11 @@ control-families:
                 remarks: Embedding Format or Dimension Attacks
               - reference-id: CCC.Core.TH06
                 remarks: Data is Lost or Corrupted
-        guideline-mappings: []
+        guideline-mappings:
+            - reference-id: FINOS-AIGF
+              entries:
+              - reference-id: AIR-PREV-002
+                remarks: Data Filtering From External Knowledge Bases
       - id: CCC.Vector.C07
         title: Support Explicit ANN vs. Exact Search Configuration
         objective: |
