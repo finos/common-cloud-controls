@@ -1,5 +1,48 @@
 imported-threats:
   - reference-id: CCC
-    entries: []
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0 # Not yet specified
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH10
+        strength: 0 # Not yet specified
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH12
+        strength: 0 # Not yet specified
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0 # Not yet specified
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH14
+        strength: 0 # Not yet specified
+        remarks: Older Resource Versions are Exploited
+      - reference-id: CCC.Core.TH15
+        strength: 0 # Not yet specified
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Logging and Monitoring are Disabled
 
 threats: []
+# Prompt Injection - AIR-SEC-010, LLM01:2025
+# Model DoS - AIR-OP-007, LLM10:2025
+# Data Poisoning - AIR-SEC-009, LLM04:2025
+# Information Disclosure - AIR-RC-001, LLM02:2025
+# Model Overreach - AIR-OP-018, LLM06:2025
+# Hallucinations / Inaccurate Output - AIR-OP-004, AIR-OP-006, AIR-OP-019, LLM09:2025
+# Lack of Explainability - AIR-OP-017
