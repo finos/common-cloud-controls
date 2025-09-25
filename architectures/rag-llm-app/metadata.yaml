@@ -1,0 +1,97 @@
+metadata:
+  id: CCC.RAG-LLM
+  title: CCC RAG-LLM Application Architecture
+  description: |
+    This documents the minimal set of capabilities that should be present for a RAG-LLM
+    application architecture to be considered for use in financial services ecosystems.
+    This includes AI/ML services, vector databases, data pipelines, and traditional
+    infrastructure components needed for Retrieval-Augmented Generation applications.
+  version: "2025.05"
+  last-modified: "2025-05-18T09:14:00-06:00"
+  applicability-categories:
+    - id: tlp_red
+      title: TLP:RED
+      description: |
+        Data is not for disclosure, restricted to explicitly authorized participants only.
+    - id: tlp_amber
+      title: TLP:AMBER
+      description: |
+        Data is for disclosure to members of the recipient's organization and only on a need-to-know basis.
+    - id: tlp_green
+      title: TLP:GREEN
+      description: |
+        Data may be freely distributed through specific channels that do not include unrestricted public access.
+    - id: tlp_clear
+      title: TLP:CLEAR
+      description: Data has no distribution restrictions.
+  mapping-references:
+    - id: CCC
+      title: Common Entries - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.VM
+      title: VM - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.RDMS
+      title: RDMS - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.LB
+      title: LB - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.VPC
+      title: VPC - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.IAM
+      title: IAM - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.KMS
+      title: KMS - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.ObjStor
+      title: ObjStor - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.AI-ML
+      title: AI-ML - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.VectorDB # Service not yet defined in CCC
+      title: VectorDB - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.DataProc # Service not yet defined in CCC
+      title: DataProc - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.WorkflowOrch # Service not yet defined in CCC
+      title: WorkflowOrch - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.APIMgmt # Service not yet defined in CCC
+      title: APIMgmt - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
+    - id: CCC.MgmtGov # Should be CCC.Management to match service definition
+      title: MgmtGov - FINOS Common Cloud Controls
+      version: v2025.06.15
+      url: ""
+      description: ""
