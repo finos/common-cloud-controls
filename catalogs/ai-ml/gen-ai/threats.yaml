@@ -41,11 +41,422 @@ imported-threats:
         strength: 0 # Not yet specified
         remarks: Logging and Monitoring are Disabled
 
-threats: []
-# Prompt Injection - AIR-SEC-010, LLM01:2025
-# Model DoS - AIR-OP-007, LLM10:2025
-# Data Poisoning - AIR-SEC-009, LLM04:2025
-# Information Disclosure - AIR-RC-001, LLM02:2025
-# Model Overreach - AIR-OP-018, LLM06:2025
-# Hallucinations / Inaccurate Output - AIR-OP-004, AIR-OP-006, AIR-OP-019, LLM09:2025
-# Lack of Explainability - AIR-OP-017
+threats:
+  - id: CCC.GenAI.TH01
+    title: Prompt Injection
+    description: |
+      Prompt injection may occur when crafted input is used to manipulate the
+      GenAI model's behaviour, resulting in the generation of harmful or 
+      unintended outputs. Prompt injection can be either direct (performed via
+      direct interaction with the model) or indirect (performed via external
+      sources ingested by the model). Both text-based and multi-modal prompt
+      injection is possible.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F14
+            strength: 0 # Not yet specified
+            remarks: API Access
+          - reference-id: CCC.GenAI.F15
+            strength: 0 # Not yet specified
+            remarks: Text-Based Prompts
+          - reference-id: CCC.GenAI.F16
+            strength: 0 # Not yet specified
+            remarks: Structured Prompts
+          - reference-id: CCC.GenAI.F17
+            strength: 0 # Not yet specified
+            remarks: Contextual Prompts
+          - reference-id: CCC.GenAI.F18
+            strength: 0 # Not yet specified
+            remarks: Interactive Prompts
+          - reference-id: CCC.GenAI.F19
+            strength: 0 # Not yet specified
+            remarks: Image-Based Prompts
+          - reference-id: CCC.GenAI.F20
+            strength: 0 # Not yet specified
+            remarks: Custom Template Prompts
+          - reference-id: CCC.GenAI.F21
+            strength: 0 # Not yet specified
+            remarks: Generate Content
+          - reference-id: CCC.GenAI.F24
+            strength: 0 # Not yet specified
+            remarks: Content Moderation
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-010
+            strength: 0 # Not yet specified
+            remarks: Prompt Injection
+      - reference-id: SAIF
+        entries:
+          - reference-id: PIJ
+            strength: 0 # Not yet specified
+            remarks: Prompt Injection
+          - reference-id: MEV
+            strength: 0 # Not yet specified
+            remarks: Model Evasion
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM01:2025
+            strength: 0 # Not yet specified
+            remarks: Prompt Injection
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0051
+            strength: 0 # Not yet specified
+            remarks: LLM Prompt Injection
+
+  - id: CCC.GenAI.TH02
+    title: Data Poisoning
+    description: |
+      Data poisoning occurs when training, fine-tuning or embedding data is
+      tampered with in order to modify the model's behaviour, for example 
+      steering it towards specific outputs, degrading performance or 
+      introducing backdoors.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F02
+            strength: 0 # Not yet specified
+            remarks: Encryption at Rest Enabled by Default
+          - reference-id: CCC.Core.F06
+            strength: 0 # Not yet specified
+            remarks: Identity-Based Access Control
+          - reference-id: CCC.GenAI.F03
+            strength: 0 # Not yet specified
+            remarks: Embedding Model Selection
+          - reference-id: CCC.GenAI.F06
+            strength: 0 # Not yet specified
+            remarks: Customizable Model Selection
+          - reference-id: CCC.GenAI.F21
+            strength: 0 # Not yet specified
+            remarks: Generate Content
+          - reference-id: CCC.GenAI.F22
+            strength: 0 # Not yet specified
+            remarks: Data Control
+          - reference-id: CCC.GenAI.F24
+            strength: 0 # Not yet specified
+            remarks: Content Moderation
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-009
+            strength: 0 # Not yet specified
+            remarks: Data Poisoning
+      - reference-id: SAIF
+        entries:
+          - reference-id: DP
+            strength: 0 # Not yet specified
+            remarks: Data Poisoning
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM04:2025
+            strength: 0 # Not yet specified
+            remarks: Data and Model Poisoning
+
+  - id: CCC.GenAI.TH03
+    title: Sensitive Information Disclosure
+    description: |
+      Sensitive data can be memorised by the model from user interaction or
+      training and may then be leaked to unintended and unauthorised parties 
+      by querying the model, for example through crafted prompts.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F02
+            strength: 0 # Not yet specified
+            remarks: Encryption at Rest Enabled by Default
+          - reference-id: CCC.Core.F06
+            strength: 0 # Not yet specified
+            remarks: Identity-Based Access Control
+          - reference-id: CCC.GenAI.F22
+            strength: 0 # Not yet specified
+            remarks: Data Control
+          - reference-id: CCC.GenAI.F22
+            strength: 0 # Not yet specified
+            remarks: Plugin Integrations
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-RC-001
+            strength: 0 # Not yet specified
+            remarks: Information Leaked To Hosted Model
+          - reference-id: AIR-SEC-002
+            strength: 0 # Not yet specified
+            remarks: Information Leaked to Vector Store
+          - reference-id: AIR-RC-023
+            strength: 0 # Not yet specified
+            remarks: Intellectual Property (IP) and Copyright
+      - reference-id: SAIF
+        entries:
+          - reference-id: SDD
+            strength: 0 # Not yet specified
+            remarks: Sensitive Data Disclosure
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM02:2025
+            strength: 0 # Not yet specified
+            remarks: Sensitive Information Disclosure
+
+  - id: CCC.GenAI.TH04
+    title: Insecure / Unreliable Model Output
+    description: |
+      A GenAI model may generate content that is incorrect, misleading or
+      harmful, such as convincing misinformation (hallucinations) or vulnerable
+      or malicious code, due to its reliance on statistical patterns rather
+      than factual understanding. Directly using this flawed output without
+      validation can lead to system compromises, poor decision-making, and
+      legal or reputational damage.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.F03
+            strength: 0 # Not yet specified
+            remarks: Embedding Model Selection
+          - reference-id: CCC.GenAI.F06
+            strength: 0 # Not yet specified
+            remarks: Customizable Model Selection
+          - reference-id: CCC.GenAI.F07
+            strength: 0 # Not yet specified
+            remarks: Parameter Tuning - Temperature
+          - reference-id: CCC.GenAI.F08
+            strength: 0 # Not yet specified
+            remarks: Parameter Tuning - Max Token
+          - reference-id: CCC.GenAI.F09
+            strength: 0 # Not yet specified
+            remarks: Parameter Tuning - Top P (Nucleus Sampling)
+          - reference-id: CCC.GenAI.F10
+            strength: 0 # Not yet specified
+            remarks: Parameter Tuning - Top K
+          - reference-id: CCC.GenAI.F11
+            strength: 0 # Not yet specified
+            remarks: Parameter Tuning - Stop Sequences
+          - reference-id: CCC.GenAI.F12
+            strength: 0 # Not yet specified
+            remarks: Parameter Tuning - Frequency Penalty
+          - reference-id: CCC.GenAI.F13
+            strength: 0 # Not yet specified
+            remarks: Parameter Tuning - Temperature
+          - reference-id: CCC.GenAI.F14
+            strength: 0 # Not yet specified
+            remarks: Parameter Tuning - Context Length
+          - reference-id: CCC.GenAI.F21
+            strength: 0 # Not yet specified
+            remarks: Generate Content
+          - reference-id: CCC.GenAI.F25
+            strength: 0 # Not yet specified
+            remarks: Content Moderation
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-004
+            strength: 0 # Not yet specified
+            remarks: Hallucination and Inaccurate Outputs
+          - reference-id: AIR-OP-006
+            strength: 0 # Not yet specified
+            remarks: Non-Deterministic Behaviour
+          - reference-id: AIR-OP-020
+            strength: 0 # Not yet specified
+            remarks: Reputational Risk
+      - reference-id: SAIF
+        entries:
+          - reference-id: IMO
+            strength: 0 # Not yet specified
+            remarks: Insecure Model Output
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM09:2025
+            strength: 0 # Not yet specified
+            remarks: Misinformation
+          - reference-id: LLM05:2025
+            strength: 0 # Not yet specified
+            remarks: Improper Output Handling
+
+  - id: CCC.GenAI.TH05
+    title: Model Overreliance
+    description: |
+      Model overreliance and misplaced implicit trust in the output of
+      a GenAI model may lead to the acceptance of inaccurate, biased or
+      insecure outputs without proper validation or oversight, potentially
+      resulting in operational failueres, compliance breaches and flawed
+      decision making.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.F21
+            strength: 0 # Not yet specified
+            remarks: Generate Content
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-018
+            strength: 0 # Not yet specified
+            remarks: Model Overreach / Expanded Use
+          - reference-id: AIR-RC-022
+            strength: 0 # Not yet specified
+            remarks: Regulatory Compliance and Oversight
+      - reference-id: SAIF
+        entries:
+          - reference-id: IMO
+            remarks: Insecure Model Output
+            strength: 0 # Not yet specified
+          - reference-id: RA
+            strength: 0 # Not yet specified
+            remarks: Rogue Actions
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM06:2025
+            strength: 0 # Not yet specified
+            remarks: Excessive Agency
+          - reference-id: LLM09
+            strength: 0 # Not yet specified
+            remarks: Overreliance
+
+  - id: CCC.GenAI.TH06
+    title: Unintended Action by a Model-Based Agent
+    description: |
+      A model-based agent, given the authority to execute tools or interact
+      with APIs, may perform an action that is harmful, incorrect, or not
+      aligned with the user's true intent in response to a prompt. This can
+      be caused by the model misinterpreting an ambiguous prompt or being
+      manipulated by an adversary into misusing its delegated authority.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.F21
+            strength: 0 # Not yet specified
+            remarks: Plugin Integrations
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-018
+            strength: 0 # Not yet specified
+            remarks: Model Overreach / Expanded Use
+      - reference-id: SAIF
+        entries:
+          - reference-id: RA
+            strength: 0 # Not yet specified
+            remarks: Rogue Actions
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM06:2025
+            strength: 0 # Not yet specified
+            remarks: Excessive Agency
+
+  - id: CCC.GenAI.TH07
+    title: Insecure Plugin
+    description: |
+      A plugin integrated with a GenAI model may contain vulnerabilities
+      such as poor input validation or improper access control. An adversary
+      may exploit these flaws by crafting a prompt that causes the model to
+      pass a malicious payload to the plugin, potentially leading to system
+      compromise, data exfiltration or privilege escalation.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.F25
+            strength: 0 # Not yet specified
+            remarks: Plugin Integrations
+    external-mappings:
+      - reference-id: SAIF
+        entries:
+          - reference-id: IIC
+            strength: 0 # Not yet specified
+            remarks: Insecure Integrated Component
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLLM07
+            strength: 0 # Not yet specified
+            remarks: Insecure Plugin Design
+
+  - id: CCC.GenAI.TH08
+    title: Model Tampering
+    description: |
+      Supply chain risks, including tampering with a model's core components
+      at any stage of its lifecycle—from its source code and training data to
+      the final deployable artifact—may result in embedding backdoors or
+      adversarial triggers altering model behaviour under certain conditions.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.F01
+            strength: 0 # Not yet specified
+            remarks: Text-Based Model Selection
+          - reference-id: CCC.GenAI.F02
+            strength: 0 # Not yet specified
+            remarks: Code-Based Model Selection
+          - reference-id: CCC.GenAI.F03
+            strength: 0 # Not yet specified
+            remarks: Embedding Model Selection
+          - reference-id: CCC.GenAI.F04
+            strength: 0 # Not yet specified
+            remarks: Image-Based Model Selection
+          - reference-id: CCC.GenAI.F04
+            strength: 0 # Not yet specified
+            remarks: Multimodal Model Selection
+          - reference-id: CCC.GenAI.F04
+            strength: 0 # Not yet specified
+            remarks: Customizable Model Selection
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-008
+            strength: 0 # Not yet specified
+            remarks: Tampering With the Foundational Model
+      - reference-id: SAIF
+        entries:
+          - reference-id: MST
+            strength: 0 # Not yet specified
+            remarks: Model Source Tampering
+          - reference-id: MDT
+            strength: 0 # Not yet specified
+            remarks: Model Deployment Tampering
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM03:2025
+            strength: 0 # Not yet specified
+            remarks: Supply Chain
+
+  - id: CCC.GenAI.TH09
+    title: Lack of Explainability
+    description: |
+      The "black box" nature of GenAI models makes it difficult or impossible
+      to understand the specific reasoning behind a given output. This opacity
+      makes it challenging to diagnose failures, detect hidden biases, and meet
+      regulatory requirements for decision transparency.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.F21
+            strength: 0 # Not yet specified
+            remarks: Generate Content
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-017
+            strength: 0 # Not yet specified
+            remarks: Lack of Explainability
+          - reference-id: AIR-RC-022
+            strength: 0 # Not yet specified
+            remarks: Regulatory Compliance and Oversight
+
+  - id: CCC.GenAI.TH10
+    title: Model Version Drift
+    description: |
+      An update to a managed GenAI model may cause unpredictable and
+      breaking changes in its outputs, alignment, and performance. Systems
+      built and tested against the previous version's specific behavior can
+      suddenly fail or become insecure, as their functional and safety
+      assumptions are no longer valid.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F18
+            strength: 0 # Not yet specified
+            remarks: Versioning
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-005
+            strength: 0 # Not yet specified
+            remarks: Foundation Model Versioning
