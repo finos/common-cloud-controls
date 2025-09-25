@@ -7,6 +7,9 @@ imported-threats:
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
         remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # Not yet specified
+        remarks: Deployment Region Network is Untrusted
       - reference-id: CCC.Core.TH06
         strength: 0 # Not yet specified
         remarks: Data is Lost or Corrupted

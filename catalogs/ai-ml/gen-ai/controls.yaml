@@ -16,6 +16,9 @@ imported-controls:
       - reference-id: CCC.Core.C05
         strength: 0 # Not yet specified
         remarks: Prevent Access from Untrusted Entities
+      - reference-id: CCC.Core.C06
+        strength: 0 # Not yet specified
+        remarks: Prevent Deployment in Restricted Regions
       - reference-id: CCC.Core.C07
         strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
