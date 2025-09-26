@@ -1,0 +1,164 @@
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH04
+        strength: 0
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH05
+        strength: 0
+        remarks: Data is Corrupted During Replication
+      - reference-id: CCC.Core.TH06
+        strength: 0
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH10
+        strength: 0
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH11
+        strength: 0
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH14
+        strength: 0
+        remarks: Older Resource Versions are Exploited
+      - reference-id: CCC.Core.TH15
+        strength: 0
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0
+        remarks: Logging and Monitoring are Disabled
+      - reference-id: CCC.Core.TH17
+        strength: 0
+        remarks: Unauthorized Network Access via Misconfigured Rules
+threats:
+  - id: CCC.Vector.TH01
+    title: Embedding Extraction and Model Inversion
+    description: Attackers may infer or reconstruct original data by probing vector
+      similarity APIs, especially with unrestricted access. This enables model inversion
+      attacks, membership inference, and unauthorized data leakage from stored embeddings.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.F01
+          - reference-id: CCC.Vector.F03
+          - reference-id: CCC.Vector.F06
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-002
+            remarks: Information Leaked to Vector Store
+  - id: CCC.Vector.TH02
+    title: Embedding and Index Poisoning
+    description: Adversaries may insert malicious or adversarial vectors into the index
+      through ingestion endpoints, polluting the dataset and degrading search quality,
+      or subtly steering results toward specific outcomes.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.F02
+          - reference-id: CCC.Vector.F05
+          - reference-id: CCC.Vector.F07
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-009
+            remarks: Data Poisoning
+          - reference-id: AIR-OP-014
+            remarks: Inadequate System Alignment
+  - id: CCC.Vector.TH03
+    title: Cross-modal or Metadata Leakage
+    description: Attackers may infer sensitive information through metadata filters
+      or by correlating embeddings across modalities (e.g., voice and face), bypassing
+      surface-level access controls.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.F04
+          - reference-id: CCC.Vector.F10
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-002
+            remarks: Information Leaked to Vector Store
+  - id: CCC.Vector.TH04
+    title: Index Corruption or Downgrade
+    description: Attackers with unauthorized access or excessive permissions may tamper
+      with or roll back index versions, potentially restoring poisoned data or breaking
+      downstream integrations.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.F07
+          - reference-id: CCC.Vector.F11
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            remarks: Data Manipulation
+          - reference-id: T1485
+            remarks: Data Destruction
+          - reference-id: T1490
+            remarks: Inhibit System Recovery
+          - reference-id: T1562
+            remarks: Impair Defenses
+  - id: CCC.Vector.TH05
+    title: Embedding Format or Dimension Attacks
+    description: Poor validation of embedding formats or dimensions can cause service
+      crashes or logic errors. This can result in denial of service or incorrect similarity
+      results.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.F08
+          - reference-id: CCC.Vector.F09
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1499
+            remarks: Endpoint Denial of Service
+          - reference-id: T1565
+            remarks: Data Manipulation
+          - reference-id: T1027
+            remarks: Obfuscated Files or Information
+  - id: CCC.Vector.TH06
+    title: Search Result Manipulation via ANN Bias
+    description: Approximate nearest neighbor (ANN) algorithms may yield non-deterministic
+      or biased results. Adversaries may exploit these differences to evade detection
+      or bias AI responses.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.F12
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            remarks: Data Manipulation
+          - reference-id: T1027
+            remarks: Obfuscated Files or Information
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-014
+            remarks: Inadequate System Alignment
