@@ -105,6 +105,21 @@ threats:
           - reference-id: AML.T0051
             strength: 0 # Not yet specified
             remarks: LLM Prompt Injection
+          - reference-id: AML.T0051.000
+            strength: 0 # Not yet specified
+            remarks: "LLM Prompt Injection: Direct"
+          - reference-id: AML.T0051.001
+            strength: 0 # Not yet specified
+            remarks: "LLM Prompt Injection: Indirect"
+          - reference-id: AML.T0065
+            strength: 0 # Not yet specified
+            remarks: LLM Prompt Crafting
+          - reference-id: AML.T0068
+            strength: 0 # Not yet specified
+            remarks: LLM Prompt Obfuscation
+          - reference-id: AML.T0054
+            strength: 0 # Not yet specified
+            remarks: LLM Jailbreak
 
   - id: CCC.GenAI.TH02
     title: Data Poisoning
@@ -153,6 +168,14 @@ threats:
           - reference-id: LLM04:2025
             strength: 0 # Not yet specified
             remarks: Data and Model Poisoning
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0020
+            strength: 0 # Not yet specified
+            remarks: Poison Training Data
+          - reference-id: AML.T0070
+            strength: 0 # Not yet specified
+            remarks: RAG Poisoning
 
   - id: CCC.GenAI.TH03
     title: Sensitive Information Disclosure
@@ -197,6 +220,11 @@ threats:
           - reference-id: LLM02:2025
             strength: 0 # Not yet specified
             remarks: Sensitive Information Disclosure
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0057
+            strength: 0 # Not yet specified
+            remarks: LLM Data Leakage
 
   - id: CCC.GenAI.TH04
     title: Insecure / Unreliable Model Output
@@ -271,6 +299,17 @@ threats:
           - reference-id: LLM05:2025
             strength: 0 # Not yet specified
             remarks: Improper Output Handling
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0062
+            strength: 0 # Not yet specified
+            remarks: Discover LLM Hallucinations
+          - reference-id: AML.T0060
+            strength: 0 # Not yet specified
+            remarks: Publish Hallucinated Entities
+          - reference-id: AML.T0077
+            strength: 0 # Not yet specified
+            remarks: LLM Response Rendering
 
   - id: CCC.GenAI.TH05
     title: Model Overreliance
@@ -311,6 +350,11 @@ threats:
           - reference-id: LLM09
             strength: 0 # Not yet specified
             remarks: Overreliance
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0062
+            strength: 0 # Not yet specified
+            remarks: LLM Trusted Output Components Manipulation
 
   - id: CCC.GenAI.TH06
     title: Unintended Action by a Model-Based Agent
@@ -342,6 +386,11 @@ threats:
           - reference-id: LLM06:2025
             strength: 0 # Not yet specified
             remarks: Excessive Agency
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0065
+            strength: 0 # Not yet specified
+            remarks: LLM Prompt Crafting
 
   - id: CCC.GenAI.TH07
     title: Insecure Plugin
@@ -368,6 +417,11 @@ threats:
           - reference-id: LLLM07
             strength: 0 # Not yet specified
             remarks: Insecure Plugin Design
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0053
+            strength: 0 # Not yet specified
+            remarks: LLM Plugin Compromise
 
   - id: CCC.GenAI.TH08
     title: Model Tampering
@@ -416,6 +470,11 @@ threats:
           - reference-id: LLM03:2025
             strength: 0 # Not yet specified
             remarks: Supply Chain
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0010
+            strength: 0 # Not yet specified
+            remarks: AI Supply Chain Compromise
 
   - id: CCC.GenAI.TH09
     title: Lack of Explainability
@@ -439,6 +498,11 @@ threats:
           - reference-id: AIR-RC-022
             strength: 0 # Not yet specified
             remarks: Regulatory Compliance and Oversight
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0062.000
+            strength: 0 # Not yet specified
+            remarks: "LLM Trusted Output Components Manipulation: Citations"
 
   - id: CCC.GenAI.TH10
     title: Model Version Drift
