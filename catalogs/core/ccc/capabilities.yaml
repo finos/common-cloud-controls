@@ -90,7 +90,7 @@ capabilities:
       in the form of automated backups, snapshot-based backups, or incremental backups.
 
   - id: CCC.Core.F12
-    title: State Recovery
+    title: Recovery
     description: |
       The service can be reverted to a previous state
       by providing a compatible backup or snapshot identifier.
