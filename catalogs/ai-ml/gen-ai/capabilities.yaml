@@ -40,6 +40,9 @@ imported-capabilities:
       - reference-id: CCC.Core.F20
         strength: 0 # Not yet specified
         remarks: Tagging
+      - reference-id: CCC.Core.F22
+        strength: 0 # Not yet specified
+        remarks: Location Lock-In
 
 capabilities:
   - id: CCC.GenAI.F01
@@ -174,17 +177,12 @@ capabilities:
       given session.
 
   - id: CCC.GenAI.F24
-    title: Data Residency
-    description: |
-      Ability to select a region for processing and storing data in the service.
-
-  - id: CCC.GenAI.F25
     title: Content Moderation
     description: |
       Ensure the service detects and filters abusive, harmful, and sensitive
       information to ensure responsible and safe use of the service.
 
-  - id: CCC.GenAI.F26
+  - id: CCC.GenAI.F25
     title: Plugin Integrations
     description: |
       Ability for the model to use tools to complete a model interaction.
