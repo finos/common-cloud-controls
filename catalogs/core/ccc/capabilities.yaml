@@ -189,3 +189,11 @@ capabilities:
     description: |
       The service includes a component that reads and translates
       text into commands that can be executed by the service.
+
+  - id: CCC.Core.F29
+    title: Active Ingestion
+    description: |
+      While running, the service can receive inputs, commands, or data streams
+      from external sources such as dedicated APIs, exposed network
+      ports, message queues, and persistent data ingestion channels.
+
