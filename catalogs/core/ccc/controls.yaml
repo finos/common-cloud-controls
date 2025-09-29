@@ -536,6 +536,11 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
         guideline-mappings:
+          - reference-id: CCMv4
+            entries:
+              - reference-id: IAM-14
+                remarks: Strong Authentication (Define, implement and evaluate processes - including MFA)
+                strength: 3
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-7
