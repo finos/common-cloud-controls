@@ -252,9 +252,17 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.PT-5
-          - reference-id: CCM
+          - reference-id: CCMv4
             entries:
               - reference-id: BCR-08
+                remarks: Backup
+                strength: 10
+              - reference-id: BCR-10
+                remarks: Disaster Response Plan
+                strength: 1
+              - reference-id: BCR-11
+                remarks: Equipment Redundancy
+                strength: 1
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
