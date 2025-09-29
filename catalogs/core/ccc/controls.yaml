@@ -628,9 +628,22 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-3
-          - reference-id: CCM
+          - reference-id: CCMv4
             entries:
-              - reference-id: DS-5
+              - reference-id: DSP-01
+                remarks: Security and Privacy Policy and Proceduress
+                strength: 1
+              - reference-id: DSP-07
+                remarks: Data Protection by Design and Default
+                strength: 1
+              - reference-id: DSP-08
+                remarks: Data Privacy by Design and Default
+                strength: 1
+              - reference-id: DSP-10
+                remarks: Sensitive Data Transfer
+                strength: 1
+              - reference-id: DSP-17
+                remarks: Sensitive Data Protection
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.13.1.3
