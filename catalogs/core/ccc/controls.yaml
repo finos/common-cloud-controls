@@ -685,9 +685,11 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: DE.AE-3
-          - reference-id: CCM
+          - reference-id: CCMv4
             entries:
               - reference-id: LOG-08
+                remarks: Log Records (Generate audit records containing relevant security information)
+                strength: 5
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
