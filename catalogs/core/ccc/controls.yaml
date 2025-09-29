@@ -485,10 +485,17 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-          - reference-id: CCM
+          - reference-id: CCMv4
             entries:
-              - reference-id: EKM-02
-              - reference-id: EKM-03
+              - reference-id: CEK-08
+                remarks: CSC Key Management Capability (must provide the capability to self-manage keys)
+                strength: 3
+              - reference-id: CEK-10
+                remarks: Key Generation (using industry accepted cryptographic libraries)
+                strength: 10
+              - reference-id: CEK-12
+                remarks: Key Rotation
+                strength: 10
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.10.1.2
