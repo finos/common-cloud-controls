@@ -754,9 +754,15 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: DE.AE-1
-          - reference-id: CCM
+          - reference-id: CCMv4
             entries:
               - reference-id: LOG-05
+                remarks: Audit Logs Monitoring and Response (take action on detected anomalies)
+                strength: 3
+              - reference-id: SEF-05
+                remarks: Incident Response Metrics (establish and monitor metrics)
+                strength: 3
+              - reference-id: 
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
