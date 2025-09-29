@@ -88,13 +88,23 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH02
         guideline-mappings:
+          - reference-id: CCMv4
+            entries:
+              - reference-id: CEK-03
+                remarks: Data Encryption (in transit and at rest)
+                strength: 5
+              - reference-id: CEK-04
+                remarks: Key Management (use strong encryption)
+                strength: 10
+              - reference-id: IVS-03
+                remarks: Network Security (monitor, encrypt, restrict)
+                strength: 2
+              - reference-id: IVS-07
+                remarks: Migration to Cloud Environments (encrypt when migrating servers)
+                strength: 2
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-02
-          - reference-id: CCM
-            entries:
-              - reference-id: IVS-03
-              - reference-id: IVS-07
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.13.1.1
