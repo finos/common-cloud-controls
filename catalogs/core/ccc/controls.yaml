@@ -88,7 +88,7 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH02
         guideline-mappings:
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: CEK-03
                 remarks: Data Encryption (in transit and at rest)
@@ -202,7 +202,7 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: DSP-19
                 remarks: Data Location (specify and document processing and backup locations)
@@ -252,7 +252,7 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.PT-5
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: BCR-08
                 remarks: Backup
@@ -331,7 +331,7 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: LOG-02
                 remarks: Audit Logs Protection (security and retention)
@@ -404,7 +404,7 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: CEK-03
                 remarks: Data Encryption (in transit and at rest)
@@ -485,7 +485,7 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: CEK-08
                 remarks: CSC Key Management Capability (must provide the capability to self-manage keys)
@@ -564,7 +564,7 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
         guideline-mappings:
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: IAM-14
                 remarks: Strong Authentication (Define, implement and evaluate processes - including MFA)
@@ -656,7 +656,7 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-3
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: DSP-01
                 remarks: Security and Privacy Policy and Proceduress
@@ -726,7 +726,7 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: DE.AE-3
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: LOG-08
                 remarks: Log Records (Generate audit records containing relevant security information)
@@ -781,7 +781,7 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: DE.AE-1
-          - reference-id: CCMv4
+          - reference-id: CCM
             entries:
               - reference-id: LOG-05
                 remarks: Audit Logs Monitoring and Response (take action on detected anomalies)
@@ -789,7 +789,6 @@ control-families:
               - reference-id: SEF-05
                 remarks: Incident Response Metrics (establish and monitor metrics)
                 strength: 3
-              - reference-id: 
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
