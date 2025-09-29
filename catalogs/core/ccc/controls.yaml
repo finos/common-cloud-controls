@@ -371,7 +371,11 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: DSP-10
+                remarks: Sensitive Data Transfer (only processed within scope as permitted)
+                strength: 8
               - reference-id: DSP-19
+                remarks: Data Location (specify and document the physical locations of data)
+                strength: 10
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
