@@ -383,8 +383,17 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-          - reference-id: CCM
+          - reference-id: CCMv4
             entries:
+              - reference-id: CEK-03
+                remarks: Data Encryption (in transit and at rest)
+                strength: 5
+              - reference-id: CEK-04
+                remarks: Key Management (use strong encryption)
+                strength: 10
+              - reference-id: UEM-08
+                remarks: Storage Encryption (on managed endpoint devices)
+                strength: 10
               - reference-id: DSP-17
           - reference-id: ISO_27001
             entries: []
