@@ -272,7 +272,9 @@ control-families:
       - id: CCC.Core.C09
         title: Ensure Integrity of Access Logs
         objective: |
-          Ensure that access logs are always recorded to an external location.
+          Ensure that access logs are always recorded to an external location
+          that cannot be manipulated from the context of the service(s) it
+          contains logs for.
         assessment-requirements:
           - id: CCC.Core.C09.TR01
             text: |
@@ -329,11 +331,17 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
-          - reference-id: CCM
+          - reference-id: CCMv4
             entries:
               - reference-id: LOG-02
+                remarks: Audit Logs Protection (security and retention)
+                strength: 5
               - reference-id: LOG-04
+                remarks: Audit Logs Access and Accountability (Restrict audit logs access to authorized personnel)
+                strength: 5
               - reference-id: LOG-09
+                remarks: Log Protection (protects audit records from unauthorized access)
+                strength: 5
           - reference-id: ISO_27001
             entries: []
       - id: CCC.Core.C10
