@@ -202,10 +202,11 @@ control-families:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
-          - reference-id: CCM
+          - reference-id: CCMv4
             entries:
-              - reference-id: DSI-06
-              - reference-id: DSI-08
+              - reference-id: DSP-19
+                remarks: Data Location (specify and document processing and backup locations)
+                strength: 10
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.11.1.1
