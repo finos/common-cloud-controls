@@ -6,25 +6,22 @@ imported-capabilities:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.F06
         strength: 0 # Not yet specified
-        remarks: Identity Based Access Control
+        remarks: Access Control
       - reference-id: CCC.Core.F07
         strength: 0 # Not yet specified
-        remarks: Event Notifications
+        remarks: Event Publication
       - reference-id: CCC.Core.F09
         strength: 0 # Not yet specified
-        remarks: Monitoring
+        remarks: Metrics Publication
       - reference-id: CCC.Core.F10
         strength: 0 # Not yet specified
-        remarks: Logging
+        remarks: Log Publication
       - reference-id: CCC.Core.F11
         strength: 0 # Not yet specified
         remarks: Backup
       - reference-id: CCC.Core.F12
         strength: 0 # Not yet specified
         remarks: Recovery
-      - reference-id: CCC.Core.F13
-        strength: 0 # Not yet specified
-        remarks: Infrastructure as Code
       - reference-id: CCC.Core.F15
         strength: 0 # Not yet specified
         remarks: Cost Management
@@ -33,7 +30,7 @@ imported-capabilities:
         remarks: Alerting
       - reference-id: CCC.Core.F20
         strength: 0 # Not yet specified
-        remarks: Tagging
+        remarks: Resource Tagging
       - reference-id: CCC.Core.F22
         strength: 0 # Not yet specified
         remarks: Location Lock-In

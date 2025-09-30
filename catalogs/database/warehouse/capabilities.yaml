@@ -9,19 +9,19 @@ imported-capabilities:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.F03
         strength: 0 # Not yet specified
-        remarks: Access/Activity Logs
+        remarks: Access Log Publication
       - reference-id: CCC.Core.F04
         strength: 0 # Not yet specified
         remarks: Transaction Rate Limits
       - reference-id: CCC.Core.F06
         strength: 0 # Not yet specified
-        remarks: Identity Based Access Control
+        remarks: Access Control
       - reference-id: CCC.Core.F07
         strength: 0 # Not yet specified
-        remarks: Event Notifications
+        remarks: Event Publication
       - reference-id: CCC.Core.F08
         strength: 0 # Not yet specified
-        remarks: Multi-zone Deployment
+        remarks: Data Replication
       - reference-id: CCC.Core.F11
         strength: 0 # Not yet specified
         remarks: Backup
@@ -33,10 +33,8 @@ imported-capabilities:
         remarks: API Access
       - reference-id: CCC.Core.F19
         strength: 0 # Not yet specified
-        remarks: On-demand Scaling
-      - reference-id: CCC.Core.F21
-        strength: 0 # Not yet specified
-        remarks: Replication
+        remarks: Resource Scaling
+
 
 capabilities:
   - id: CCC.DataWar.F01
@@ -124,7 +122,7 @@ capabilities:
       in data cleansing and transformation for improved data quality as well.
 
   - id: CCC.DataWar.F14
-    title: Real-time Monitoring
+    title: Real-time Metrics Publication
     description: |
       Ability to continuously track and analyze data as it is ingested,
       processed and stored to ensure data quality, operational efficiency,

@@ -94,7 +94,7 @@ threats:
         entries:
           - reference-id: CCC.Core.F06
             strength: 0 # Not yet specified
-            remarks: Identity Based Access Control
+            remarks: Access Control
           - reference-id: CCC.Core.F14
             strength: 0 # Not yet specified
             remarks: API Access

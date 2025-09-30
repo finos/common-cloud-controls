@@ -3,17 +3,17 @@ imported-capabilities:
     identifiers:
       - CCC.F01 # Encryption in Transit Enabled by Default
       - CCC.F02 # Encryption at Rest Enabled by Default
-      - CCC.F03 # Access/Activity Logs
+      - CCC.F03 # Access Log Publication
       - CCC.F04 # Transaction Rate Limits
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F08 # Multi-zone Deployment
-      - CCC.F09 # Monitoring
-      - CCC.F10 # Logging
+      - CCC.F06 # Access Control
+      - CCC.F08 # Data Replication
+      - CCC.F09 # Metrics Publication
+      - CCC.F10 # Log Publication
       - CCC.F11 # Backup
       - CCC.F12 # Recovery
       - CCC.F14 # API Access
-      - CCC.F18 # Versioning
-      - CCC.F20 # Tagging
+      - CCC.F18 # Resource Versioning
+      - CCC.F20 # Resource Tagging
       - CCC.F21 # Replication
       - CCC.F22 # Location Lock-In
 
