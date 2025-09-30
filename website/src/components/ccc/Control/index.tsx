@@ -66,7 +66,7 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
               </TableHeader>
               <TableBody>
                 {control.test_requirements.map((tr) => (
-                  <TableRow key={tr.id}>
+                  <TableRow key={tr.id} id={tr.id}>
                     <TableCell className="font-mono font-medium">{tr.id}</TableCell>
                     <TableCell className="max-w-md">{tr.text}</TableCell>
                     <TableCell>

@@ -4,10 +4,12 @@ import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { ConfigurationPageData } from "@site/src/types/cfi";
+import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
 
 export default function CFIConfiguration({ pageData }: { pageData: ConfigurationPageData }): React.ReactElement {
   const { configuration } = pageData;
   const { cfi_details, repository } = configuration;
+  const { releases } = useCCCData();
 
   // Generate Terraform file URL by combining repository URL with the path
   const terraformUrl = repository.url && cfi_details.path ? `${repository.url}/tree/main/${cfi_details.path}` : null;
@@ -167,7 +169,7 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                       <TableHead>Resource Name</TableHead>
                       <TableHead>Resource Type</TableHead>
                       <TableHead>Message</TableHead>
-                      <TableHead>CCC Objects</TableHead>
+                      <TableHead>Test Requirements</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -199,11 +201,25 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-wrap gap-1">
-                            {result.ccc_objects?.map((obj, index) => (
-                              <span key={index} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono">
-                                {obj}
-                              </span>
-                            ))}
+                            {result.test_requirements?.map((requirementId, index) => {
+                              const requirementData = findAssessmentRequirements(releases, [requirementId])[0];
+                              if (requirementData) {
+                                const { requirement, control, release } = requirementData;
+                                const linkUrl = getControlUrl(release, control, requirement.id);
+                                return (
+                                  <Link key={index} to={linkUrl} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono hover:bg-blue-200 hover:text-blue-900 transition-colors" title={`${control.title}: ${requirement.text}`}>
+                                    {requirementId}
+                                  </Link>
+                                );
+                              } else {
+                                // Fallback for requirements not found in CCC data
+                                return (
+                                  <span key={index} className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-mono">
+                                    {requirementId}
+                                  </span>
+                                );
+                              }
+                            })}
                           </div>
                         </TableCell>
                       </TableRow>

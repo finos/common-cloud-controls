@@ -25,7 +25,7 @@ function processOCSFResults(resultPath: string): TestResultItem[] {
 
             const testResult: TestResultItem = {
                 id: `${item.finding_info?.uid || 'unknown'}-${index}`,
-                test_requirement_id: item.unmapped.compliance['CCC-Objects'].join(','),
+                test_requirements: item.unmapped.compliance['CCC-Objects'],
                 result: item.status_code === 'PASS' ? TestResultType.PASS :
                     item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
                 name: item.finding_info?.title || 'Unknown Finding',

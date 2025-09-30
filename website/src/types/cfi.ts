@@ -9,7 +9,7 @@ export enum TestResultType {
 
 export interface TestResultItem {
     id: string,
-    test_requirement_id: string;
+    test_requirements: string[];
     result: TestResultType;
     name: string;
     message: string;
