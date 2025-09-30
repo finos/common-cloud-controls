@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { HomePageData, Configuration, ConfigurationPageData, CFIConfigJson, TestResultItem, TestResultType } from '../../types/cfi';
+import { HomePageData, Configuration, ConfigurationPageData, RepositoryPageData, CFIConfigJson, TestResultItem, TestResultType } from '../../types/cfi';
 
 function processOCSFResults(resultPath: string): TestResultItem[] {
     if (!fs.existsSync(resultPath)) {
@@ -188,6 +188,8 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
 
                 console.log(`Found ${configDirs.length} configurations in ${repoDir}:`, configDirs);
 
+                const repositoryConfigurations: Configuration[] = [];
+
                 for (const configDir of configDirs) {
                     const slug = '/cfi/' + repoDir + '/' + configDir;
                     const fullConfigDir = path.join(repoPath, configDir);
@@ -195,9 +197,35 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
                     try {
                         const configuration = await createConfiguration(fullConfigDir, slug, repositoryData, createData, addRoute);
                         components.push(configuration);
+                        repositoryConfigurations.push(configuration);
                     } catch (error) {
                         console.error(`Error processing configuration ${configDir} in ${repoDir}:`, error);
                     }
+                }
+
+                // Create repository page
+                if (repositoryConfigurations.length > 0) {
+                    const repositoryPageData: RepositoryPageData = {
+                        repository: repositoryData,
+                        configurations: repositoryConfigurations,
+                        repositorySlug: repoDir
+                    };
+
+                    const repositoryPagePath = await createData(
+                        `cfi-repository-${repoDir}.json`,
+                        JSON.stringify(repositoryPageData, null, 2)
+                    );
+
+                    addRoute({
+                        path: `/cfi/${repoDir}`,
+                        component: '@site/src/components/cfi/Repository/index.tsx',
+                        modules: {
+                            pageData: repositoryPagePath,
+                        },
+                        exact: true,
+                    });
+
+                    console.log(`✅ Created repository page for ${repoDir} at /cfi/${repoDir}`);
                 }
             }
 

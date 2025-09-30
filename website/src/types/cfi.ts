@@ -105,6 +105,12 @@ export interface ConfigurationPageData {
     configuration: Configuration;
 }
 
+export interface RepositoryPageData {
+    repository: CFIRepository;
+    configurations: Configuration[];
+    repositorySlug: string;
+}
+
 export interface ControlCatalogSummary {
     catalogId: string;
     catalogUrl: string;
