@@ -19,18 +19,26 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
   // Transform components into a summary list
   const componentSummaries = components.map((component) => {
     const allDetails = component.releases.flatMap((r) => r.metadata.release_details || []);
-    const latestRelease =
-      allDetails.length > 0
-        ? allDetails.reduce((latest, current) => {
-            return current.version > latest.version ? current : latest;
-          }, allDetails[0])
-        : { version: component.releases[0]?.metadata.version || "N/A" };
+    // Filter out DEV versions from release details and prefer actual release versions
+    const realReleaseDetails = allDetails.filter((detail) => detail.version !== "DEV");
+
+    let latestVersion;
+    if (realReleaseDetails.length > 0) {
+      // Use the latest real release version
+      const latestRelease = realReleaseDetails.reduce((latest, current) => {
+        return current.version > latest.version ? current : latest;
+      }, realReleaseDetails[0]);
+      latestVersion = latestRelease.version;
+    } else {
+      // Fall back to metadata version (the real version from the catalog)
+      latestVersion = component.releases[0]?.metadata.version || "N/A";
+    }
 
     return {
       id: component.releases[0].metadata.id,
       title: component.title,
       numberOfReleases: component.releases.length,
-      latestVersion: latestRelease.version,
+      latestVersion: latestVersion,
       slug: `/ccc/${component.id}`,
     };
   });
