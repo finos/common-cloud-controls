@@ -103,3 +103,22 @@ export interface HomePageData {
 export interface ConfigurationPageData {
     configuration: Configuration;
 }
+
+export interface ControlCatalogSummary {
+    catalogId: string;
+    catalogUrl: string;
+    resources: string[];
+    totalTests: number;
+    passingTests: number;
+    failingTests: number;
+    testedRequirements: Array<{
+        id: string;
+        url: string;
+        title: string;
+    }>;
+    missingRequirements: Array<{
+        id: string;
+        url: string;
+        title: string;
+    }>;
+}

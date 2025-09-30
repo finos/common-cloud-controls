@@ -3,8 +3,156 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { ConfigurationPageData } from "@site/src/types/cfi";
+import { ConfigurationPageData, ControlCatalogSummary, TestResultItem } from "@site/src/types/cfi";
 import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
+
+// Helper function to extract catalog ID from test requirement
+function extractCatalogId(testRequirement: string): string {
+  // Extract catalog from format like "CCC.ObjStor.C01.TR01" -> "CCC.ObjStor"
+  const parts = testRequirement.split(".");
+  return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : testRequirement;
+}
+
+// Helper function to generate catalog component URL
+function getCatalogComponentUrl(catalogId: string): string {
+  // Catalog IDs like "CCC.ObjStor" map to component URLs like "/ccc/CCC.ObjStor"
+  return `/ccc/${catalogId}`;
+}
+
+// Helper function to generate catalog summary data
+function generateCatalogSummary(testResults: TestResultItem[], releases: any[]): ControlCatalogSummary[] {
+  const summaryMap = new Map<string, ControlCatalogSummary>();
+
+  // First, collect all tested requirements by catalog
+  const testedRequirementsByCatalog = new Map<string, Set<string>>();
+
+  testResults.forEach((result) => {
+    // Get unique catalog IDs for this test result to avoid double counting
+    const catalogsInThisResult = new Set<string>();
+
+    result.test_requirements?.forEach((testReq) => {
+      const catalogId = extractCatalogId(testReq);
+      catalogsInThisResult.add(catalogId);
+
+      // Track which requirements are actually tested for this catalog
+      if (!testedRequirementsByCatalog.has(catalogId)) {
+        testedRequirementsByCatalog.set(catalogId, new Set());
+      }
+      testedRequirementsByCatalog.get(catalogId)!.add(testReq);
+    });
+
+    // Now for each unique catalog ID, count this test result once and collect all resources
+    catalogsInThisResult.forEach((catalogId) => {
+      if (!summaryMap.has(catalogId)) {
+        // Generate URL to the catalog component page
+        const catalogUrl = getCatalogComponentUrl(catalogId);
+
+        summaryMap.set(catalogId, {
+          catalogId,
+          catalogUrl,
+          resources: [],
+          totalTests: 0,
+          passingTests: 0,
+          failingTests: 0,
+          testedRequirements: [],
+          missingRequirements: [],
+        });
+      }
+
+      const summary = summaryMap.get(catalogId)!;
+      summary.totalTests++;
+
+      // Add all resources from this test result to the catalog's resource list
+      result.resources?.forEach((resource) => {
+        if (!summary.resources.includes(resource)) {
+          summary.resources.push(resource);
+        }
+      });
+
+      if (result.status_code === "PASS") {
+        summary.passingTests++;
+      } else if (result.status_code === "FAIL") {
+        summary.failingTests++;
+      }
+    });
+  });
+
+  // Now find missing requirements for each catalog
+  summaryMap.forEach((summary, catalogId) => {
+    const testedRequirements = testedRequirementsByCatalog.get(catalogId) || new Set();
+
+    // Find all requirements in this catalog from the releases data
+    const allRequirementsInCatalog = new Set<string>();
+    releases.forEach((release) => {
+      release.controls.forEach((control) => {
+        // Check if this control belongs to the catalog by matching the release metadata ID
+        if (release.metadata.id === catalogId) {
+          control.test_requirements?.forEach((req) => {
+            allRequirementsInCatalog.add(req.id);
+          });
+        }
+      });
+    });
+
+    // Find missing requirements
+    const missingRequirements = Array.from(allRequirementsInCatalog).filter((reqId) => !testedRequirements.has(reqId));
+
+    // Convert tested requirements to objects with URLs and titles
+    const testedRequirementsArray = Array.from(testedRequirements);
+    summary.testedRequirements = testedRequirementsArray.map((reqId) => {
+      // Find the requirement data to get title and generate URL
+      let title = reqId;
+      let url = "#";
+
+      for (const release of releases) {
+        if (release.metadata.id === catalogId) {
+          for (const control of release.controls) {
+            const requirement = control.test_requirements?.find((req) => req.id === reqId);
+            if (requirement) {
+              title = requirement.text || reqId;
+              url = getControlUrl(release, control, reqId);
+              break;
+            }
+          }
+        }
+      }
+
+      return { id: reqId, url, title };
+    });
+
+    // Convert missing requirements to objects with URLs and titles
+    summary.missingRequirements = missingRequirements.map((reqId) => {
+      // Find the requirement data to get title and generate URL
+      let title = reqId;
+      let url = "#";
+
+      for (const release of releases) {
+        if (release.metadata.id === catalogId) {
+          for (const control of release.controls) {
+            const requirement = control.test_requirements?.find((req) => req.id === reqId);
+            if (requirement) {
+              title = requirement.text || reqId;
+              url = getControlUrl(release, control, reqId);
+              break;
+            }
+          }
+        }
+      }
+
+      return { id: reqId, url, title };
+    });
+  });
+
+  // Sort resources within each summary and sort summaries by catalog ID
+  const summaries = Array.from(summaryMap.values());
+  summaries.forEach((summary) => {
+    summary.resources.sort();
+    summary.testedRequirements.sort((a, b) => a.id.localeCompare(b.id));
+    summary.missingRequirements.sort((a, b) => a.id.localeCompare(b.id));
+  });
+
+  return summaries.sort((a, b) => a.catalogId.localeCompare(b.catalogId));
+}
 
 export default function CFIConfiguration({ pageData }: { pageData: ConfigurationPageData }): React.ReactElement {
   const { configuration } = pageData;
@@ -13,6 +161,9 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
 
   // Generate Terraform file URL by combining repository URL with the path
   const terraformUrl = repository.url && cfi_details.path ? `${repository.url}/tree/main/${cfi_details.path}` : null;
+
+  // Generate catalog summary data
+  const catalogSummary = configuration.test_results ? generateCatalogSummary(configuration.test_results, releases) : [];
 
   return (
     <Layout title={`CFI - ${cfi_details.name}`} description={cfi_details.description}>
@@ -149,6 +300,90 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                 )}
               </TableBody>
             </Table>
+          </CardContent>
+        </Card>
+
+        {/* Control Catalog Summary */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Control Catalog Summary</CardTitle>
+            <p className="text-sm text-muted-foreground">Summary of test results grouped by control catalog and resource</p>
+          </CardHeader>
+          <CardContent>
+            {catalogSummary && catalogSummary.length > 0 ? (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Control Catalog</TableHead>
+                      <TableHead>Resources</TableHead>
+                      <TableHead>Total Tests</TableHead>
+                      <TableHead>Passing</TableHead>
+                      <TableHead>Failing</TableHead>
+                      <TableHead>Tested Requirements</TableHead>
+                      <TableHead>Missing Requirements</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {catalogSummary.map((summary, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Link to={summary.catalogUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
+                            {summary.catalogId}
+                          </Link>
+                        </TableCell>
+                        <TableCell className="font-mono text-sm">
+                          <div className="flex flex-wrap gap-1">
+                            {summary.resources.map((resource, resourceIndex) => (
+                              <span key={resourceIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800" title={resource}>
+                                {resource.length > 20 ? `${resource.substring(0, 20)}...` : resource}
+                              </span>
+                            ))}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
+                        </TableCell>
+                        <TableCell>
+                          <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
+                        </TableCell>
+                        <TableCell>
+                          <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-wrap gap-1">
+                            {summary.testedRequirements.length > 0 ? (
+                              summary.testedRequirements.map((tested, testedIndex) => (
+                                <Link key={testedIndex} to={tested.url} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors" title={tested.title}>
+                                  {tested.id}
+                                </Link>
+                              ))
+                            ) : (
+                              <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">None tested</span>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-wrap gap-1">
+                            {summary.missingRequirements.length > 0 ? (
+                              summary.missingRequirements.map((missing, missingIndex) => (
+                                <Link key={missingIndex} to={missing.url} className="px-2 py-1 text-xs rounded-full bg-orange-100 text-orange-800 hover:bg-orange-200 hover:text-orange-900 transition-colors" title={missing.title}>
+                                  {missing.id}
+                                </Link>
+                              ))
+                            ) : (
+                              <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">All covered</span>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">No control catalog data available for summarization.</div>
+            )}
           </CardContent>
         </Card>
 
