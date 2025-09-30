@@ -27,7 +27,7 @@ imported-threats:
         remarks: Cost Management Data is Manipulated
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Logs or Metrics Publication Data are Read by Unauthorized Users
       - reference-id: CCC.Core.TH10
         strength: 0 # Not yet specified
         remarks: Alerts are Intercepted

@@ -36,7 +36,7 @@ shared-capabilities:
     identifiers:
       - CCC.Core.F01 # Encryption in Transit Enabled by Default
       - CCC.Core.F02 # Encryption at Rest Enabled by Default
-      - CCC.Core.F03 # Access/Activity Logs
+      - CCC.Core.F03 # Access Log Publication
 ```
 
 > [!NOTE]

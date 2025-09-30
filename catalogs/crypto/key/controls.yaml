@@ -24,7 +24,7 @@ imported-controls:
         remarks: Prevent Data Replication to Destinations Outside Perimeter
 
 control-families:
-  - title: Logging and Monitoring
+  - title: Logging and Metrics Publication
     description: Controls that collect, alert, and retain key-management events.
 
     controls:

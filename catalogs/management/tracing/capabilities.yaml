@@ -29,11 +29,11 @@ imported-capabilities:
     identifiers:
       - CCC.F01 # Encryption in Transit
       - CCC.F02 # Encryption at Rest
-      - CCC.F03 # Access/Activity Logs
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F09 # Monitoring
-      - CCC.F10 # Logging
+      - CCC.F03 # Access Log Publication
+      - CCC.F06 # Access Control
+      - CCC.F09 # Metrics Publication
+      - CCC.F10 # Log Publication
       - CCC.F14 # API Access
       - CCC.F17 # Alerting
-      - CCC.F20 # Tagging
+      - CCC.F20 # Resource Tagging
       - CCC.F22 # Location Lock-In
