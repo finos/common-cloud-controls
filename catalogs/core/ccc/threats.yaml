@@ -570,4 +570,9 @@ threats:
         entries:
           - reference-id: CCC.Core.F29
             remarks: Active Ingestion
-    external-mappings: []
+    external-mappings:
+      - reference-id: CCMv4
+        entries:
+          - reference-id: IVS-09
+            strength: 1
+            remarks: Network Defense (techniques for protection, detection, and timely response)
