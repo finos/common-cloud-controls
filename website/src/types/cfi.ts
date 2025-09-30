@@ -16,8 +16,18 @@ export interface TestResultItem {
     test: string;
     timestamp: number;
     further_info_url?: string;
-    resources: string[]
+    resources: string[];
+    // OCSF-specific fields for CCC compliance mappings
+    status_code?: string;
+    status_detail?: string;
+    resource_name?: string;
+    resource_type?: string;
+    resource_uid?: string;
+    ccc_objects?: string[];
+    finding_title?: string;
+    finding_uid?: string;
 }
+
 
 export interface TestResultPageData {
     slug: string;
@@ -58,7 +68,10 @@ export interface CFIRepository {
     url: string;
     description: string;
     downloaded_at: string;
-    artifact_name: string;
+    artifact_name?: string;
+    workflow_run_id?: number;
+    workflow_status?: string;
+    workflow_conclusion?: string;
 }
 
 /**
@@ -68,6 +81,7 @@ export interface Configuration {
     cfi_details: CFIConfigJson;
     repository: CFIRepository;
     slug: string;
+    test_results?: TestResultItem[];
 }
 
 export interface CFIResultSummary {

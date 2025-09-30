@@ -1,343 +1,218 @@
-import React, { useState } from "react";
+import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { Badge } from "../../ui/badge";
-import { User } from "../../ccc/User";
-import { usePluginData } from "@docusaurus/useGlobalData";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../ui/accordion";
-import { ConfigurationPageData, TestResultType } from "@site/src/types/cfi";
-import { Release } from "@site/src/types/ccc";
+import { ConfigurationPageData } from "@site/src/types/cfi";
 
 export default function CFIConfiguration({ pageData }: { pageData: ConfigurationPageData }): React.ReactElement {
-  const cccData = usePluginData("ccc-pages");
-  const cccReleases = cccData["ccc-releases"] as Release[];
+  const { configuration } = pageData;
+  const { cfi_details, repository } = configuration;
 
-  const matchingCCCReleases = cccReleases.filter((release) => pageData.configuration.ccc_references.includes(release.metadata.id));
-
-  // Add state for filters
-  const [selectedResult, setSelectedResult] = useState<TestResultType | "all">("all");
-  const [selectedVersion, setSelectedVersion] = useState<string>("all");
-  const [selectedResource, setSelectedResource] = useState<string>("all");
-
-  // Get unique versions and resources for filter options
-  const uniqueVersions = Array.from(new Set(pageData.configuration.test_results.flatMap((result) => (result as any).testData?.map((td: any) => td.test_requirement_id?.split("-")[0]).filter(Boolean) || []))).sort();
-
-  const uniqueResources = Array.from(new Set(pageData.configuration.test_results.flatMap((result) => (result as any).testData?.flatMap((td: any) => td.resources || []).filter(Boolean) || []))).sort();
-
-  // Filter the test results
-  const filteredTestResults = pageData.configuration.test_results.flatMap(
-    (result) =>
-      (result as any).testData?.filter((testData: any) => {
-        const matchesResult = selectedResult === "all" || testData.result === selectedResult;
-        const matchesVersion = selectedVersion === "all" || testData.test_requirement_id?.includes(selectedVersion);
-        const matchesResource = selectedResource === "all" || (testData.resources && testData.resources.some((r: string) => r.includes(selectedResource)));
-        return matchesResult && matchesVersion && matchesResource;
-      }) || []
-  );
+  // Generate Terraform file URL by combining repository URL with the path
+  const terraformUrl = repository.url && cfi_details.path ? `${repository.url}/tree/main/${cfi_details.path}` : null;
 
   return (
-    <Layout title={`CFI - ${pageData.configuration.cfi_details.name}`} description={pageData.configuration.cfi_details.description}>
+    <Layout title={`CFI - ${cfi_details.name}`} description={cfi_details.description}>
       <main className="container margin-vert--lg space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>CFI Details</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">ID</label>
-                  <div className="mt-1">{pageData.configuration.cfi_details.id}</div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Provider</label>
-                  <div className="mt-1">{pageData.configuration.cfi_details.provider}</div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Name</label>
-                  <div className="mt-1">{pageData.configuration.cfi_details.name}</div>
-                </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Description</label>
-                <div className="mt-1">{pageData.configuration.cfi_details.description}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Breadcrumbs */}
+        <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <Link to="/cfi" className="hover:text-foreground">
+            CFI
+          </Link>
+          <span>/</span>
+          <span className="text-foreground">{cfi_details.id}</span>
+        </nav>
 
+        {/* Configuration Summary */}
         <Card>
           <CardHeader>
-            <CardTitle>CCC References</CardTitle>
+            <CardTitle>Configuration Summary</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Version</TableHead>
-                  <TableHead>Release Manager</TableHead>
-                  <TableHead>Authors</TableHead>
-                  <TableHead>Controls</TableHead>
-                  <TableHead>Threats</TableHead>
-                  <TableHead>Features</TableHead>
-                </TableRow>
-              </TableHeader>
               <TableBody>
-                {matchingCCCReleases.map((release: Release) => (
-                  <TableRow key={release.metadata.version}>
+                <TableRow>
+                  <TableCell className="font-medium w-32">ID</TableCell>
+                  <TableCell>{cfi_details.id}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Provider</TableCell>
+                  <TableCell>
+                    <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 uppercase">{cfi_details.provider}</span>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Name</TableCell>
+                  <TableCell>{cfi_details.name}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Description</TableCell>
+                  <TableCell>{cfi_details.description}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Service</TableCell>
+                  <TableCell>
+                    <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 capitalize">{cfi_details.service}</span>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Path</TableCell>
+                  <TableCell>
+                    <code className="bg-gray-100 px-2 py-1 rounded text-sm">{cfi_details.path}</code>
+                  </TableCell>
+                </TableRow>
+                {cfi_details.git && (
+                  <TableRow>
+                    <TableCell className="font-medium">GitHub Link</TableCell>
                     <TableCell>
-                      <Link to={release.slug} className="text-blue-600 hover:text-blue-800 hover:underline">
-                        <code className="text-sm bg-muted px-1 py-0.5 rounded">{release.slug}</code>
-                      </Link>
+                      <a href={cfi_details.git} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        View GitHub Repository
+                      </a>
                     </TableCell>
-                    <TableCell>{release.metadata.version}</TableCell>
-                    <TableCell>{release.metadata.release_details?.[0]?.release_manager ? <User name={release.metadata.release_details[0].release_manager.name} githubId={release.metadata.release_details[0].release_manager.github_id} company={release.metadata.release_details[0].release_manager.company} avatarUrl={`https://github.com/${release.metadata.release_details[0].release_manager.github_id}.png`} /> : <span>N/A</span>}</TableCell>
-                    <TableCell>{release.metadata.release_details?.[0]?.contributors?.length || 0}</TableCell>
-                    <TableCell>{release.controls.length}</TableCell>
-                    <TableCell>{release.threats.length}</TableCell>
-                    <TableCell>{release.features.length}</TableCell>
                   </TableRow>
-                ))}
+                )}
+                {terraformUrl && (
+                  <TableRow>
+                    <TableCell className="font-medium">Terraform Files</TableCell>
+                    <TableCell>
+                      <a href={terraformUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        View Terraform Files
+                      </a>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </CardContent>
         </Card>
 
+        {/* Repository Information */}
         <Card>
           <CardHeader>
             <CardTitle>Repository Information</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Repository Name</label>
-                  <div className="mt-1">{pageData.configuration.repository.name}</div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Downloaded At</label>
-                  <div className="mt-1">{new Date(pageData.configuration.repository.downloaded_at).toLocaleString()}</div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Repository URL</label>
-                  <div className="mt-1">
-                    <Link to={pageData.configuration.repository.url} className="text-blue-600 hover:text-blue-800 hover:underline">
-                      {pageData.configuration.repository.url}
-                    </Link>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Description</label>
-                  <div className="mt-1">{pageData.configuration.repository.description}</div>
-                </div>
-              </div>
-            </div>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium w-32">Repository Name</TableCell>
+                  <TableCell>{repository.name}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Description</TableCell>
+                  <TableCell>{repository.description}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">Repository URL</TableCell>
+                  <TableCell>
+                    <a href={repository.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1">
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                      </svg>
+                      {repository.url}
+                    </a>
+                  </TableCell>
+                </TableRow>
+                {repository.downloaded_at && (
+                  <TableRow>
+                    <TableCell className="font-medium">Downloaded At</TableCell>
+                    <TableCell>
+                      {new Date(repository.downloaded_at).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </TableCell>
+                  </TableRow>
+                )}
+                {repository.workflow_run_id && (
+                  <TableRow>
+                    <TableCell className="font-medium">Workflow Status</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2 py-1 text-xs rounded-full ${repository.workflow_conclusion === "success" ? "bg-green-100 text-green-800" : repository.workflow_conclusion === "failure" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}>{repository.workflow_conclusion || repository.workflow_status}</span>
+                        <span className="text-sm text-gray-500">Run #{repository.workflow_run_id}</span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Authors</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {pageData.configuration.cfi_details.authors.map((author) => (
-                <User key={author.github_id} name={author.name} githubId={author.github_id} company={author.company} avatarUrl={`https://github.com/${author.github_id}.png`} />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
+        {/* OCSF Test Results */}
         <Card>
           <CardHeader>
             <CardTitle>Test Results</CardTitle>
+            <p className="text-sm text-muted-foreground">OCSF test results filtered for entries with CCC compliance mappings</p>
           </CardHeader>
           <CardContent>
-            {pageData.configuration.test_results.length > 0 ? (
-              <div className="space-y-6">
-                {/* Summary Section */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Summary</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex gap-4">
-                      <div className="flex items-center gap-2">
-                        <Badge variant="default">Pass</Badge>
-                        <span>{pageData.configuration.test_results.filter((r) => (r as any).testData?.some((td: any) => td.result === TestResultType.PASS)).length}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="destructive">Fail</Badge>
-                        <span>{pageData.configuration.test_results.filter((r) => (r as any).testData?.some((td: any) => td.result === TestResultType.FAIL)).length}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="secondary">N/A</Badge>
-                        <span>{pageData.configuration.test_results.filter((r) => (r as any).testData?.some((td: any) => td.result === TestResultType.NA)).length}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="destructive">Error</Badge>
-                        <span>{pageData.configuration.test_results.filter((r) => (r as any).testData?.some((td: any) => td.result === TestResultType.ERROR)).length}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Results by CCC Release Section */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Results by CCC Release</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>CCC Reference</TableHead>
-                          <TableHead>CCC Version</TableHead>
-                          <TableHead>Passing Tests</TableHead>
-                          <TableHead>Failing Tests</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {(() => {
-                          // Create a map to group by CCC Reference and Version
-                          const releaseMap = new Map<string, { passing: number; failing: number }>();
-
-                          // Process all test results
-                          pageData.configuration.test_results.forEach((result) => {
-                            if ((result as any).testData) {
-                              (result as any).testData.forEach((testData: any) => {
-                                // Find the CCC reference for this test requirement
-                                const cccRef = pageData.configuration.ccc_references.find((ref) => testData.test_requirement_id?.includes(ref));
-                                if (cccRef) {
-                                  const key = `${cccRef}-v1`; // Assuming single version for now
-                                  const current = releaseMap.get(key) || { passing: 0, failing: 0 };
-
-                                  if (testData.result === TestResultType.PASS) {
-                                    current.passing++;
-                                  } else if (testData.result === TestResultType.FAIL || testData.result === TestResultType.ERROR) {
-                                    current.failing++;
-                                  }
-
-                                  releaseMap.set(key, current);
-                                }
-                              });
-                            }
-                          });
-
-                          // Convert map to array of rows
-                          return Array.from(releaseMap.entries()).map(([key, counts]) => {
-                            const [cccReference, version] = key.split("-");
-                            return (
-                              <TableRow key={key}>
-                                <TableCell>{cccReference}</TableCell>
-                                <TableCell>
-                                  <Badge variant="secondary" className="text-xs">
-                                    {version}
-                                  </Badge>
-                                </TableCell>
-                                <TableCell>
-                                  <Badge variant="default">{counts.passing}</Badge>
-                                </TableCell>
-                                <TableCell>
-                                  <Badge variant="destructive">{counts.failing}</Badge>
-                                </TableCell>
-                              </TableRow>
-                            );
-                          });
-                        })()}
-                      </TableBody>
-                    </Table>
-                  </CardContent>
-                </Card>
-
-                {/* Results By Control Requirement Section */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Results By Control Requirement</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {/* Filter Controls */}
-                    <div className="flex flex-wrap gap-4 mb-4">
-                      <div className="flex items-center gap-2">
-                        <label className="text-sm font-medium">Test Result:</label>
-                        <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedResult} onChange={(e) => setSelectedResult(e.target.value as TestResultType | "all")}>
-                          <option value="all">All</option>
-                          {Object.values(TestResultType).map((result) => (
-                            <option key={result} value={result}>
-                              {result}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <label className="text-sm font-medium">CCC Version:</label>
-                        <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedVersion} onChange={(e) => setSelectedVersion(e.target.value)}>
-                          <option value="all">All</option>
-                          {uniqueVersions.map((version) => (
-                            <option key={version} value={version}>
-                              {version}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <label className="text-sm font-medium">Resource:</label>
-                        <select className="rounded-md border border-input bg-background px-3 py-1 text-sm" value={selectedResource} onChange={(e) => setSelectedResource(e.target.value)}>
-                          <option value="all">All</option>
-                          {uniqueResources.map((resource) => (
-                            <option key={resource} value={resource}>
-                              {resource}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Requirement ID</TableHead>
-                          <TableHead>Test</TableHead>
-                          <TableHead>Test Result</TableHead>
-                          <TableHead>Resources</TableHead>
-                          <TableHead>Result Message</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {filteredTestResults.map((testData: any, index: number) => (
-                          <TableRow key={`${testData.id || index}`}>
-                            <TableCell>{testData.test_requirement_id}</TableCell>
-                            <TableCell>{testData.test}</TableCell>
-                            <TableCell>
-                              <Badge variant={testData.result === TestResultType.PASS ? "default" : testData.result === TestResultType.FAIL ? "destructive" : testData.result === TestResultType.ERROR ? "destructive" : "secondary"}>{testData.result}</Badge>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex flex-wrap gap-1">
-                                {testData.resources?.map((resource: string, resIndex: number) => (
-                                  <Badge key={resIndex} variant="outline" className="text-xs">
-                                    {resource}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              {testData.message} {testData.further_info_url ? <Link to={testData.further_info_url}>(more)</Link> : ""}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </CardContent>
-                </Card>
+            {configuration.test_results && configuration.test_results.length > 0 ? (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Finding</TableHead>
+                      <TableHead>Resource Name</TableHead>
+                      <TableHead>Resource Type</TableHead>
+                      <TableHead>Message</TableHead>
+                      <TableHead>CCC Objects</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {configuration.test_results.map((result) => (
+                      <TableRow key={result.id}>
+                        <TableCell>
+                          <span className={`px-2 py-1 text-xs rounded-full font-medium ${result.status_code === "PASS" ? "bg-green-100 text-green-800" : result.status_code === "FAIL" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}>{result.status_code}</span>
+                        </TableCell>
+                        <TableCell className="max-w-md">
+                          <div className="font-medium text-sm">{result.finding_title || result.name}</div>
+                          {result.status_detail && (
+                            <div className="text-xs text-gray-600 mt-1 truncate" title={result.status_detail}>
+                              {result.status_detail}
+                            </div>
+                          )}
+                        </TableCell>
+                        <TableCell className="font-mono text-sm">
+                          <div className="truncate max-w-xs" title={result.resource_name}>
+                            {result.resource_name}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{result.resource_type}</span>
+                        </TableCell>
+                        <TableCell className="max-w-md">
+                          <div className="text-sm truncate" title={result.message}>
+                            {result.message}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-wrap gap-1">
+                            {result.ccc_objects?.map((obj, index) => (
+                              <span key={index} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono">
+                                {obj}
+                              </span>
+                            ))}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </div>
             ) : (
-              <div className="text-center py-8 text-muted-foreground">
-                <p>No test results available yet.</p>
-                <p className="text-sm">Test results will appear here after the next CFI scan.</p>
-              </div>
+              <div className="text-center py-8 text-gray-500">No test results found with CCC compliance mappings.</div>
             )}
           </CardContent>
         </Card>
