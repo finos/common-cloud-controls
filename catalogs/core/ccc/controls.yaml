@@ -456,6 +456,56 @@ control-families:
             entries:
               - reference-id: SC-12
               - reference-id: SC-17
+      - id: CCC.Core.C14
+        title: Maintain Recent Backups
+        objective: |
+          Ensure that all backups used for disaster recovery are recent and
+          subject to a retention policy that limits deletion.
+        assessment-requirements:
+          - id: CCC.Core.C14.TR01
+            text: |
+              When backups are created for disaster recovery purposes, the
+              storage mechanism MUST NOT allow modification or deletion
+              within 30 days of creation.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Use immutable storage solutions where possible. Implement backup
+              retention policies that enforce a minimum retention period of 30
+              days.
+          - id: CCC.Core.C14.TR02
+            text: |
+              When backups are created for disaster recovery purposes, the
+              most recent backup MUST have a creation date within the past
+              30 days.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+            recommendation: |
+              Implement automated backup processes to ensure that backups are
+              created regularly. Monitor backup schedules and verify that the
+              most recent backup creation date is within the last 30 days.
+          - id: CCC.Core.C14.TR02
+            text: |
+              When backups are created for disaster recovery purposes, the
+              most recent backup MUST have a creation date within the past
+              14 days.
+            applicability:
+              - tlp-red
+            recommendation: |
+              Implement automated backup processes to ensure that backups are
+              created regularly. Monitor backup schedules and verify that the
+              most recent backup creation date is within the last 14 days.
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH06
+                remarks: Data is Lost or Corrupted
+        guideline-mappings: []
   - title: Identity and Access Management
     description: |
       The Identity and Access Management control family ensures
