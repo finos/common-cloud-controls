@@ -7,7 +7,7 @@ metadata:
       These containers are lightweight, portable, and isolated environments
       that package applications and their dependencies for deployment across
       different computing environments.
-  version: "2025.10"
-  last-modified: "2025-07-23T22:20:54+01:00"
+  version: ""
+  last-modified: "2025-09-30T10:06:00-05:00"
   applicability-categories: []
   mapping-references: []
