@@ -3,7 +3,7 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { ConfigurationPageData, ControlCatalogSummary, TestResultItem } from "@site/src/types/cfi";
+import { ConfigurationPageData, ControlCatalogSummary, ResourceSummary, TestResultItem } from "@site/src/types/cfi";
 import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
 
 // Helper function to extract catalog ID from test requirement
@@ -154,6 +154,53 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
   return summaries.sort((a, b) => a.catalogId.localeCompare(b.catalogId));
 }
 
+// Helper function to generate resource summary data from all OCSF results
+function generateResourceSummary(allOcsfResults: TestResultItem[]): ResourceSummary[] {
+  const resourceMap = new Map<string, ResourceSummary>();
+
+  allOcsfResults.forEach((result) => {
+    const resourceName = result.resource_name || "Unknown Resource";
+    const resourceType = result.resource_type || "Unknown Type";
+    const key = `${resourceName}-${resourceType}`;
+
+    if (!resourceMap.has(key)) {
+      resourceMap.set(key, {
+        resourceName,
+        resourceType,
+        catalogs: [],
+        totalTests: 0,
+        passingTests: 0,
+        failingTests: 0,
+      });
+    }
+
+    const summary = resourceMap.get(key)!;
+    summary.totalTests++;
+
+    // Collect unique catalogs for this resource
+    result.test_requirements?.forEach((testReq) => {
+      const catalogId = extractCatalogId(testReq);
+      if (!summary.catalogs.includes(catalogId)) {
+        summary.catalogs.push(catalogId);
+      }
+    });
+
+    if (result.status_code === "PASS") {
+      summary.passingTests++;
+    } else if (result.status_code === "FAIL") {
+      summary.failingTests++;
+    }
+  });
+
+  // Sort catalogs within each summary and sort summaries by resource name
+  const summaries = Array.from(resourceMap.values());
+  summaries.forEach((summary) => {
+    summary.catalogs.sort();
+  });
+
+  return summaries.sort((a, b) => a.resourceName.localeCompare(b.resourceName));
+}
+
 export default function CFIConfiguration({ pageData }: { pageData: ConfigurationPageData }): React.ReactElement {
   const { configuration } = pageData;
   const { cfi_details, repository } = configuration;
@@ -164,6 +211,9 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
 
   // Generate catalog summary data
   const catalogSummary = configuration.test_results ? generateCatalogSummary(configuration.test_results, releases) : [];
+
+  // Generate resource summary data from all OCSF results
+  const resourceSummary = configuration.all_ocsf_results ? generateResourceSummary(configuration.all_ocsf_results) : [];
 
   return (
     <Layout title={`CFI - ${cfi_details.name}`} description={cfi_details.description}>
@@ -387,6 +437,70 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
           </CardContent>
         </Card>
 
+        {/* Resource Summary */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Resource Summary</CardTitle>
+            <p className="text-sm text-muted-foreground">Summary of all resources mentioned in OCSF results</p>
+          </CardHeader>
+          <CardContent>
+            {resourceSummary && resourceSummary.length > 0 ? (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Resource Name</TableHead>
+                      <TableHead>Resource Type</TableHead>
+                      <TableHead>Control Catalogs</TableHead>
+                      <TableHead>Total Tests</TableHead>
+                      <TableHead>Passing</TableHead>
+                      <TableHead>Failing</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {resourceSummary.map((summary, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-mono text-sm">
+                          <div className="truncate max-w-xs" title={summary.resourceName}>
+                            {summary.resourceName}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{summary.resourceType}</span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-wrap gap-1">
+                            {summary.catalogs.length > 0 ? (
+                              summary.catalogs.map((catalog, catalogIndex) => (
+                                <Link key={catalogIndex} to={getCatalogComponentUrl(catalog)} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors">
+                                  {catalog}
+                                </Link>
+                              ))
+                            ) : (
+                              <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
+                        </TableCell>
+                        <TableCell>
+                          <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
+                        </TableCell>
+                        <TableCell>
+                          <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">No resource data available.</div>
+            )}
+          </CardContent>
+        </Card>
+
         {/* OCSF Test Results */}
         <Card>
           <CardHeader>
@@ -414,12 +528,8 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                           <span className={`px-2 py-1 text-xs rounded-full font-medium ${result.status_code === "PASS" ? "bg-green-100 text-green-800" : result.status_code === "FAIL" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}>{result.status_code}</span>
                         </TableCell>
                         <TableCell className="max-w-md">
-                          <div className="font-medium text-sm">{result.finding_title || result.name}</div>
-                          {result.status_detail && (
-                            <div className="text-xs text-gray-600 mt-1 truncate" title={result.status_detail}>
-                              {result.status_detail}
-                            </div>
-                          )}
+                          <div className="font-medium text-sm whitespace-normal break-words">{result.finding_title || result.name}</div>
+                          {result.status_detail && <div className="text-xs text-gray-600 mt-1 whitespace-normal break-words">{result.status_detail}</div>}
                         </TableCell>
                         <TableCell className="font-mono text-sm">
                           <div className="truncate max-w-xs" title={result.resource_name}>
@@ -430,9 +540,7 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{result.resource_type}</span>
                         </TableCell>
                         <TableCell className="max-w-md">
-                          <div className="text-sm truncate" title={result.message}>
-                            {result.message}
-                          </div>
+                          <div className="text-sm whitespace-normal break-words">{result.message}</div>
                         </TableCell>
                         <TableCell>
                           <div className="flex flex-wrap gap-1">

@@ -82,6 +82,7 @@ export interface Configuration {
     repository: CFIRepository;
     slug: string;
     test_results?: TestResultItem[];
+    all_ocsf_results?: TestResultItem[];
 }
 
 export interface CFIResultSummary {
@@ -121,4 +122,13 @@ export interface ControlCatalogSummary {
         url: string;
         title: string;
     }>;
+}
+
+export interface ResourceSummary {
+    resourceName: string;
+    resourceType: string;
+    catalogs: string[];
+    totalTests: number;
+    passingTests: number;
+    failingTests: number;
 }
