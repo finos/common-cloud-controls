@@ -132,3 +132,12 @@ export interface ResourceSummary {
     passingTests: number;
     failingTests: number;
 }
+
+export interface TestSummary {
+    resourceName: string;
+    resourceType: string;
+    totalTests: number;
+    passingTests: number;
+    failingTests: number;
+    catalogsTested: string[];
+}

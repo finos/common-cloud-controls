@@ -3,7 +3,7 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { ConfigurationPageData, ControlCatalogSummary, ResourceSummary, TestResultItem } from "@site/src/types/cfi";
+import { ConfigurationPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary } from "@site/src/types/cfi";
 import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
 
 // Helper function to extract catalog ID from test requirement
@@ -201,6 +201,45 @@ function generateResourceSummary(allOcsfResults: TestResultItem[]): ResourceSumm
   return summaries.sort((a, b) => a.resourceName.localeCompare(b.resourceName));
 }
 
+// Helper function to generate aggregate test summary data from test results
+function generateTestSummary(testResults: TestResultItem[]) {
+  const uniqueResources = new Set<string>();
+  const uniqueCatalogs = new Set<string>();
+  let totalTests = 0;
+  let passingTests = 0;
+  let failingTests = 0;
+
+  testResults.forEach((result) => {
+    // Count unique resources
+    const resourceName = result.resource_name || "Unknown Resource";
+    const resourceType = result.resource_type || "Unknown Type";
+    const resourceKey = `${resourceName}-${resourceType}`;
+    uniqueResources.add(resourceKey);
+
+    // Count tests
+    totalTests++;
+    if (result.status_code === "PASS") {
+      passingTests++;
+    } else if (result.status_code === "FAIL") {
+      failingTests++;
+    }
+
+    // Collect unique catalogs
+    result.test_requirements?.forEach((testReq) => {
+      const catalogId = extractCatalogId(testReq);
+      uniqueCatalogs.add(catalogId);
+    });
+  });
+
+  return {
+    resourcesInConfiguration: uniqueResources.size,
+    countOfTests: totalTests,
+    passingTests,
+    failingTests,
+    catalogsTested: Array.from(uniqueCatalogs).sort(),
+  };
+}
+
 export default function CFIConfiguration({ pageData }: { pageData: ConfigurationPageData }): React.ReactElement {
   const { configuration } = pageData;
   const { cfi_details, repository } = configuration;
@@ -214,6 +253,9 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
 
   // Generate resource summary data from all OCSF results
   const resourceSummary = configuration.all_ocsf_results ? generateResourceSummary(configuration.all_ocsf_results) : [];
+
+  // Generate test summary data from configuration test results (aggregate summary)
+  const testSummary = configuration.test_results ? generateTestSummary(configuration.test_results) : null;
 
   return (
     <Layout title={`CFI - ${cfi_details.name}`} description={cfi_details.description}>
@@ -293,6 +335,64 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                 )}
               </TableBody>
             </Table>
+          </CardContent>
+        </Card>
+
+        {/* Test Summary */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Test Summary</CardTitle>
+            <p className="text-sm text-muted-foreground">Aggregate summary of all tests in this configuration</p>
+          </CardHeader>
+          <CardContent>
+            {testSummary ? (
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-medium w-48">Resources In Configuration</TableCell>
+                    <TableCell>
+                      <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-medium">{testSummary.resourcesInConfiguration}</span>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Count of Tests</TableCell>
+                    <TableCell>
+                      <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{testSummary.countOfTests}</span>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Passing Tests</TableCell>
+                    <TableCell>
+                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{testSummary.passingTests}</span>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Failing Tests</TableCell>
+                    <TableCell>
+                      <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{testSummary.failingTests}</span>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium">Catalogs Tested</TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {testSummary.catalogsTested.length > 0 ? (
+                          testSummary.catalogsTested.map((catalog, catalogIndex) => (
+                            <Link key={catalogIndex} to={getCatalogComponentUrl(catalog)} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors">
+                              {catalog}
+                            </Link>
+                          ))
+                        ) : (
+                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            ) : (
+              <div className="text-center py-8 text-gray-500">No test summary data available.</div>
+            )}
           </CardContent>
         </Card>
 
