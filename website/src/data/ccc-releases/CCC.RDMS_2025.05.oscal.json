@@ -1,0 +1,891 @@
+{
+  "catalog": {
+    "groups": [
+      {
+        "class": "family",
+        "controls": [
+          {
+            "class": "Identity and Access Management",
+            "id": "CCC.RDMS.C01",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.rdms.c01",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.RDMS.C01",
+                "id": "CCC.RDMS.C01.TR02",
+                "name": "CCC.RDMS.C01.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.RDMS.C01.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.RDMS.C01.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an attempt is made to authenticate to the database using known\ndefault credentials, the authentication attempt must fail and no\naccess should be granted.\n"
+              }
+            ],
+            "title": "Password Management"
+          },
+          {
+            "class": "Identity and Access Management",
+            "id": "CCC.RDMS.C02",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.rdms.c02",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.RDMS.C02",
+                "id": "CCC.RDMS.C02.TR01",
+                "name": "CCC.RDMS.C02.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.RDMS.C02.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.RDMS.C02.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When repeated failed login attempts are made in a short timeframe,\nthe account must be locked out or rate-limited to prevent\nfurther login attempts.\n"
+              }
+            ],
+            "title": "Account Lockout and Rate-Limiting"
+          },
+          {
+            "class": "Identity and Access Management",
+            "id": "CCC.RDMS.C04",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.rdms.c04",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.RDMS.C04",
+                "id": "CCC.RDMS.C04.TR01",
+                "name": "CCC.RDMS.C04.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.RDMS.C04.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.RDMS.C04.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When there is an attempt to perform a backup or restore,\nthen the attempt must fail with an access denied message if\ncredentials or roles that are not explicitly authorized for\nbackup/restore functions.\n"
+              }
+            ],
+            "title": "Access Control for Backup and Restore Operations"
+          },
+          {
+            "class": "Identity and Access Management",
+            "id": "CCC.RDMS.C05",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.rdms.c05",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.RDMS.C05",
+                "id": "CCC.RDMS.C05.TR01",
+                "name": "CCC.RDMS.C05.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.RDMS.C05.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.RDMS.C05.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an attempt is made to share a snapshot with an unauthorized\naccount, the sharing request must be denied.\n"
+              }
+            ],
+            "title": "Restrict Snapshot Sharing to Authorized Accounts"
+          },
+          {
+            "class": "Identity and Access Management",
+            "id": "CCC.Core.C03",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c03",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C03",
+                "id": "CCC.Core.C03.TR01",
+                "name": "CCC.Core.C03.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C03.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C03.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an entity attempts to modify the service through a user\ninterface, the authentication process MUST require multiple\nidentifying factors for authentication.\n"
+              },
+              {
+                "class": "CCC.Core.C03",
+                "id": "CCC.Core.C03.TR02",
+                "name": "CCC.Core.C03.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C03.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C03.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an entity attempts to modify the service through an API\nendpoint, the authentication process MUST require a credential\nsuch as an API key or token AND originate from within the trust\nperimeter.\n"
+              },
+              {
+                "class": "CCC.Core.C03",
+                "id": "CCC.Core.C03.TR03",
+                "name": "CCC.Core.C03.TR03",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C03.TR03.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C03.TR03",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an entity attempts to view information on the service through\na user interface, the authentication process MUST require multiple\nidentifying factors from the user.\n"
+              },
+              {
+                "class": "CCC.Core.C03",
+                "id": "CCC.Core.C03.TR04",
+                "name": "CCC.Core.C03.TR04",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C03.TR04.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C03.TR04",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an entity attempts to view information on the service through\nan API endpoint, the authentication process MUST require a\ncredential such as an API key or token AND originate from within\nthe trust perimeter.\n"
+              }
+            ],
+            "title": "Implement Multi-factor Authentication (MFA) for Access"
+          },
+          {
+            "class": "Identity and Access Management",
+            "id": "CCC.Core.C05",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c05",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C05",
+                "id": "CCC.Core.C05.TR01",
+                "name": "CCC.Core.C05.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C05.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C05.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an attempt is made to modify data on the service or a child\nresource, the service MUST block requests from unauthorized\nentities.\n"
+              },
+              {
+                "class": "CCC.Core.C05",
+                "id": "CCC.Core.C05.TR02",
+                "name": "CCC.Core.C05.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C05.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C05.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When administrative access or configuration change is attempted on\nthe service or a child resource, the service MUST refuse requests\nfrom unauthorized entities.\n"
+              },
+              {
+                "class": "CCC.Core.C05",
+                "id": "CCC.Core.C05.TR03",
+                "name": "CCC.Core.C05.TR03",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C05.TR03.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C05.TR03",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When administrative access or configuration change is attempted on\nthe service or a child resource in a multi-tenant environment, the\nservice MUST refuse requests across tenant boundaries unless the\norigin is explicitly included in a pre-approved allowlist.\n"
+              },
+              {
+                "class": "CCC.Core.C05",
+                "id": "CCC.Core.C05.TR04",
+                "name": "CCC.Core.C05.TR04",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C05.TR04.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C05.TR04",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When data is requested from outside the trust perimeter, the\nservice MUST refuse requests from unauthorized entities.\n"
+              },
+              {
+                "class": "CCC.Core.C05",
+                "id": "CCC.Core.C05.TR05",
+                "name": "CCC.Core.C05.TR05",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C05.TR05.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C05.TR05",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When any request is made from outside the trust perimeter,\nthe service MUST NOT provide any response that may indicate the\nservice exists.\n"
+              },
+              {
+                "class": "CCC.Core.C05",
+                "id": "CCC.Core.C05.TR06",
+                "name": "CCC.Core.C05.TR06",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C05.TR06.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C05.TR06",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When any request is made to the service or a child resource, the\nservice MUST refuse requests from unauthorized entities.\n"
+              }
+            ],
+            "title": "Prevent Access from Untrusted Entities"
+          }
+        ],
+        "title": "TODO: Describe this control family"
+      },
+      {
+        "class": "family",
+        "controls": [
+          {
+            "class": "Data",
+            "id": "CCC.RDMS.C03",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.rdms.c03",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.RDMS.C03",
+                "id": "CCC.RDMS.C03.TR01",
+                "name": "CCC.RDMS.C03.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.RDMS.C03.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.RDMS.C03.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When backups are disabled, paused, or fail to run as scheduled,\nan alert must be triggered and logged.\n"
+              }
+            ],
+            "title": "Enforce and Monitor Automated Backups"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.Core.C01",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c01",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C01",
+                "id": "CCC.Core.C01.TR01",
+                "name": "CCC.Core.C01.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C01.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C01.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Most cloud services enable TLS 1.3 by default. Where it is not\nalready set, ensure that your services are configured or updated\naccordingly.\n"
+                  }
+                ],
+                "prose": "When a port is exposed for non-SSH network traffic, all traffic\nMUST include a TLS handshake AND be encrypted using TLS 1.3 or\nhigher.\n"
+              },
+              {
+                "class": "CCC.Core.C01",
+                "id": "CCC.Core.C01.TR02",
+                "name": "CCC.Core.C01.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C01.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C01.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Any time port 22 is exposed, ensure that it has a properly\nimplemented SSH server with SSHv2 enabled and configured with\nstrong ciphers.\n"
+                  }
+                ],
+                "prose": "When a port is exposed for SSH network traffic, all traffic MUST\ninclude a SSH handshake AND be encrypted using SSHv2 or higher.\n"
+              },
+              {
+                "class": "CCC.Core.C01",
+                "id": "CCC.Core.C01.TR03",
+                "name": "CCC.Core.C01.TR03",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C01.TR03.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C01.TR03",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Review firewall, load balancer, and application configurations to\nensure insecure protocols such as HTTP, FTP, and Telnet are not\nexposed. Where possible, implement automatic redirection to secure\nprotocols such as HTTPS, SFTP, SSH, and regularly scan for\nprotocol drift.\n"
+                  }
+                ],
+                "prose": "When the service receives unencrypted traffic, \nthen it MUST either block the request or automatically\nredirect it to the secure equivalent.\n"
+              },
+              {
+                "class": "CCC.Core.C01",
+                "id": "CCC.Core.C01.TR07",
+                "name": "CCC.Core.C01.TR07",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C01.TR07.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C01.TR07",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Reference the IANA Service Name and Transport Protocol Port Number\nRegistry for more information about correct protocol-to-port\nassignments. Avoid running non-standard services on well-known\nports.\n"
+                  }
+                ],
+                "prose": "When a port is exposed, the service MUST ensure that the protocol\nand service officially assigned to that port number by the IANA\nService Name and Transport Protocol Port Number Registry, and no\nother, is run on that port.\n"
+              },
+              {
+                "class": "CCC.Core.C01",
+                "id": "CCC.Core.C01.TR08",
+                "name": "CCC.Core.C01.TR08",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C01.TR08.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C01.TR08",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Configure mTLS for all endpoints that process or transmit\nsensitive data. Ensure both client and server certificates are\nvalidated and managed securely. Regularly review certificate\nauthorities and automate certificate rotation where possible.\n"
+                  }
+                ],
+                "prose": "When a service transmits data using TLS, mutual TLS (mTLS) MUST be\nimplemented to require both client and server certificate\nauthentication for all connections.\n"
+              }
+            ],
+            "title": "Encrypt Data for Transmission"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.Core.C02",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c02",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C02",
+                "id": "CCC.Core.C02.TR01",
+                "name": "CCC.Core.C02.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C02.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C02.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When data is stored, it MUST be encrypted using the latest\nindustry-standard encryption methods.\n"
+              }
+            ],
+            "title": "Encrypt Data for Storage"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.Core.C06",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c06",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C06",
+                "id": "CCC.Core.C06.TR01",
+                "name": "CCC.Core.C06.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C06.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C06.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Maintain an up-to-date list of trusted and approved regions based\non organizational policies. Validate the service's deployment\nlocation is included in this list.\n"
+                  }
+                ],
+                "prose": "When the service is running, its region and availability zone MUST\nbe included in a list of explicitly trusted or approved locations\nwithin the trust perimeter.\n"
+              },
+              {
+                "class": "CCC.Core.C06",
+                "id": "CCC.Core.C06.TR02",
+                "name": "CCC.Core.C06.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C06.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C06.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Maintain an up-to-date list of trusted and approved regions based\non organizational policies. Validate that child resources can only\nbe deployed to locations included in this list.\n"
+                  }
+                ],
+                "prose": "When a child resource is deployed, its region and availability\nzone MUST be included in a list of explicitly trusted or approved\nlocations within the trust perimeter.\n"
+              }
+            ],
+            "title": "Restrict Deployments to Trust Perimeter"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.Core.C08",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c08",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C08",
+                "id": "CCC.Core.C08.TR01",
+                "name": "CCC.Core.C08.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C08.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C08.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Implement automated data replication processes to ensure that\ndata is consistently duplicated in another region or availability\nzone. Regularly test data recovery from the replicated location to\nensure integrity and availability.\n"
+                  }
+                ],
+                "prose": "When data is created or modified, the data MUST have a complete\nand recoverable duplicate that is stored in a physically separate\ndata center.\n"
+              },
+              {
+                "class": "CCC.Core.C08",
+                "id": "CCC.Core.C08.TR02",
+                "name": "CCC.Core.C08.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C08.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C08.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When data is replicated into a second location, the service MUST\nbe able to accurately represent the replication locations,\nreplication status, and data synchronization status.\n"
+              }
+            ],
+            "title": "Replicate Data to Multiple Locations"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.Core.C09",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c09",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C09",
+                "id": "CCC.Core.C09.TR01",
+                "name": "CCC.Core.C09.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C09.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C09.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When the service is operational, its logs and any child resource\nlogs MUST NOT be accessible from the resource they record access\nto.\n"
+              },
+              {
+                "class": "CCC.Core.C09",
+                "id": "CCC.Core.C09.TR02",
+                "name": "CCC.Core.C09.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C09.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C09.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "No normal business operations should disable\nlogs, as this could indicate an attempt to cover up unauthorized\naccess. Ensure that logging mechanisms are tightly integrated with\nservice operations, so that logging cannot be disabled without\nstopping the service itself.\n"
+                  }
+                ],
+                "prose": "When the service is operational, disabling the logs for the service\nor its child resources MUST NOT be possible without also disabling\nthe corresponding resource.\n"
+              },
+              {
+                "class": "CCC.Core.C09",
+                "id": "CCC.Core.C09.TR03",
+                "name": "CCC.Core.C09.TR03",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C09.TR03.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C09.TR03",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "No normal business operations should result in the redirection of\nlogs, as this could indicate an attempt to cover up unauthorized\naccess. Ensure that logging configurations are immutable during\nservice operation so that any changes require stopping the service\nand publishing corresponding events to monitored channels.\n"
+                  }
+                ],
+                "prose": "When the service is operational, any attempt to redirect logs for\nthe service or its child resources MUST NOT be possible without\nhalting operation of the corresponding resource and publishing\ncorresponding events to monitored channels.\n"
+              }
+            ],
+            "title": "Ensure Integrity of Access Logs"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.Core.C10",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c10",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C10",
+                "id": "CCC.Core.C10.TR01",
+                "name": "CCC.Core.C10.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C10.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C10.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When data is replicated, the service MUST ensure that replication\nonly occurs to destinations that are explicitly included within\nthe defined trust perimeter.\n"
+              }
+            ],
+            "title": "Restrict Data Replication to Trust Perimeter"
+          }
+        ],
+        "title": "TODO: Describe this control family"
+      },
+      {
+        "class": "family",
+        "controls": [
+          {
+            "class": "Logging \u0026 Monitoring",
+            "id": "CCC.Core.C04",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c04",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C04",
+                "id": "CCC.Core.C04.TR01",
+                "name": "CCC.Core.C04.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C04.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C04.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When administrative access or configuration change is attempted on\nthe service or a child resource, the service MUST log the client\nidentity, time, and result of the attempt.\n"
+              },
+              {
+                "class": "CCC.Core.C04",
+                "id": "CCC.Core.C04.TR02",
+                "name": "CCC.Core.C04.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C04.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C04.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When any attempt is made to modify data on the service or a child\nresource, the service MUST log the client identity, time, and\nresult of the attempt.\n"
+              },
+              {
+                "class": "CCC.Core.C04",
+                "id": "CCC.Core.C04.TR03",
+                "name": "CCC.Core.C04.TR03",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C04.TR03.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C04.TR03",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When any attempt is made to read data on the service or a child\nresource, the service MUST log the client identity, time, and\nresult of the attempt.\n"
+              }
+            ],
+            "title": "Log All Access and Changes"
+          },
+          {
+            "class": "Logging \u0026 Monitoring",
+            "id": "CCC.Core.C07",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.05#ccc.core.c07",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.Core.C07",
+                "id": "CCC.Core.C07.TR01",
+                "name": "CCC.Core.C07.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C07.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C07.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Implement event publication mechanisms and alerts for patterns\nindicative of enumeration activities, such as repeated access\nattempts, requests, or liveness probes. Configure alerts to notify\nsecurity teams of any activities that merit further investigation.\n"
+                  }
+                ],
+                "prose": "When enumeration activities are detected, the service MUST publish\nan event to a monitored channel which includes the client\nidentity, time, and nature of the activity.\n"
+              },
+              {
+                "class": "CCC.Core.C07",
+                "id": "CCC.Core.C07.TR02",
+                "name": "CCC.Core.C07.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.Core.C07.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.05#CCC.Core.C07.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal",
+                    "prose": "Implement logging mechanisms to capture details of enumeration\nactivities, including client identity, timestamps, and activity\nnature. Retain logs according to organizational policies, and\noccasionally review them for patterns that may indicate\nreconnaissance activities.\n"
+                  }
+                ],
+                "prose": "When enumeration activities are detected, the service MUST log the\nclient identity, time, and nature of the activity.\n"
+              }
+            ],
+            "title": "Alert on Unusual Enumeration Activity"
+          }
+        ],
+        "title": "The Logging \u0026 Monitoring control family ensures that access,\nchanges, and security-relevant events are captured, monitored,\nand alerted on in order to provide visibility, support\nincident response, and meet compliance requirements.\n"
+      }
+    ],
+    "metadata": {
+      "last-modified": "2023-10-05T10:06:00-05:00",
+      "links": [
+        {
+          "href": "https://example.com/releases/2025.05#",
+          "rel": "canonical"
+        }
+      ],
+      "oscal-version": "1.1.3",
+      "published": "2025-09-30T11:58:46.910532+01:00",
+      "title": "CCC Relational Database Management System Capabilities",
+      "version": "2025.05"
+    },
+    "uuid": "c999e50e-8b6a-4b5a-9ce8-70e3e52b2cb3"
+  }
+}

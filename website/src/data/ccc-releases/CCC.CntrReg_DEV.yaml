@@ -1,315 +1,86 @@
 metadata:
-  id: CCC.RDMS
-  title: CCC Relational Database Management System Capabilities
+  id: CCC.CntrReg
+  title: CCC Container Registry
   description: |
-    This documents the minimual set of capabilities that should be present for a RDMS
-    service to be considered for use in financial services ecosystems.
-  version: "2025.05"
-  last-modified: "2023-10-05T10:06:00-05:00"
+    This documents the minimal set of capabilities that should be present
+    for a container registry service to be considered for use in financial
+    services ecosystems.
+  version: DEV
+  last-modified: "2025-04-16T20:21:44-05:00"
 control-families:
   - id: ""
-    title: Identity and Access Management
+    title: Risk Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.RDMS.C01
-        title: Password Management
+      - id: CCC.CntrReg.C01
+        title: Implement Vulnerability Scanning for Artifacts
         objective: |
-          Ensure default vendor-supplied DB administrator credentials are replaced
-          with strong, unique passwords and that these credentials are properly
-          managed using a secure password or secrets management solution.
+          Ensure that container images and artifacts stored in the container registry are scanned for
+          vulnerabilities to identify and remediate security issues before deployment.
         assessment-requirements:
-          - id: CCC.RDMS.C01.TR02
+          - id: CCC.CntrReg.C01.TR01
             text: |
-              When an attempt is made to authenticate to the database using known
-              default credentials, the authentication attempt must fail and no
-              access should be granted.
+              Attempt to push an artifact with known vulnerabilities to the registry
+              and observe if it is flagged or rejected by the vulnerability scanning process.
             applicability:
               - tlp-red
               - tlp-amber
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.AA-01
+              - reference-id: ID.RA-1
                 strength: 0
           - reference-id: NIST_800_53
             entries:
-              - reference-id: AC-2
+              - reference-id: RA-5
+                strength: 0
+              - reference-id: SI-5
                 strength: 0
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.RDMS.TH01
+              - reference-id: CCC.CntrReg.TH01
                 strength: 0
-      - id: CCC.RDMS.C02
-        title: Account Lockout and Rate-Limiting
+  - id: ""
+    title: Data Management
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.CntrReg.C02
+        title: Implement Cleanup Policies for Artifacts
         objective: |
-          Ensure the database enforces lockouts or rate-limiting after a specified
-          number of failed authentication attempts. This prevents brute force
-          or password-guessing attacks from succeeding.
+          Ensure that unused or outdated artifacts are cleaned up according to defined policies to
+          manage storage effectively and reduce security risks associated with outdated versions.
         assessment-requirements:
-          - id: CCC.RDMS.C02.TR01
+          - id: CCC.CntrReg.C02.TR01
             text: |
-              When repeated failed login attempts are made in a short timeframe,
-              the account must be locked out or rate-limited to prevent
-              further login attempts.
+              Confirm that artifacts older than the specified retention period are automatically
+              deleted from the registry.
             applicability:
               - tlp-red
               - tlp-amber
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.AC-1
+              - reference-id: PR.IP-6
                 strength: 0
           - reference-id: NIST_800_53
             entries:
-              - reference-id: AC-7
+              - reference-id: SI-12
                 strength: 0
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.RDMS.TH02
-                strength: 0
-      - id: CCC.RDMS.C04
-        title: Access Control for Backup and Restore Operations
-        objective: |
-          Restrict who can initiate, manage, and validate database backup or
-          restore operations through strict role-based or least-privilege
-          access. Prevents accidental or malicious restorations, protecting
-          data integrity and availability.
-        assessment-requirements:
-          - id: CCC.RDMS.C04.TR01
-            text: |
-              When there is an attempt to perform a backup or restore,
-              then the attempt must fail with an access denied message if
-              credentials or roles that are not explicitly authorized for
-              backup/restore functions.
-            applicability:
-              - tlp-red
-              - tlp-amber
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-4
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-6
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.RDMS.TH04
-                strength: 0
-      - id: CCC.RDMS.C05
-        title: Restrict Snapshot Sharing to Authorized Accounts
-        objective: |
-          Ensure database snapshots can only be shared with explicitly authorized
-          accounts, thereby minimizing the risk of data exposure or exfiltration.
-        assessment-requirements:
-          - id: CCC.RDMS.C05.TR01
-            text: |
-              When an attempt is made to share a snapshot with an unauthorized
-              account, the sharing request must be denied.
-            applicability:
-              - tlp-red
-              - tlp-amber
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-10
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-4
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.RDMS.TH05
-                strength: 0
-      - id: CCC.Core.C03
-        title: Implement Multi-factor Authentication (MFA) for Access
-        objective: |
-          Ensure that all sensitive activities require two or more identity
-          factors during authentication to prevent unauthorized access.
-        assessment-requirements:
-          - id: CCC.Core.C03.TR01
-            text: |
-              When an entity attempts to modify the service through a user
-              interface, the authentication process MUST require multiple
-              identifying factors for authentication.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-          - id: CCC.Core.C03.TR02
-            text: |
-              When an entity attempts to modify the service through an API
-              endpoint, the authentication process MUST require a credential
-              such as an API key or token AND originate from within the trust
-              perimeter.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-          - id: CCC.Core.C03.TR03
-            text: |
-              When an entity attempts to view information on the service through
-              a user interface, the authentication process MUST require multiple
-              identifying factors from the user.
-            applicability:
-              - tlp-amber
-              - tlp-red
-          - id: CCC.Core.C03.TR04
-            text: |
-              When an entity attempts to view information on the service through
-              an API endpoint, the authentication process MUST require a
-              credential such as an API key or token AND originate from within
-              the trust perimeter.
-            applicability:
-              - tlp-amber
-              - tlp-red
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-7
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: IAM-03
-                strength: 0
-              - reference-id: IAM-08
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.4.2
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: IA-2
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH01
-                strength: 0
-      - id: CCC.Core.C05
-        title: Prevent Access from Untrusted Entities
-        objective: |
-          Ensure that secure access controls enforce the principle of least
-          privilege to restrict access to authorized entities from explicitly
-          trusted sources only.
-        assessment-requirements:
-          - id: CCC.Core.C05.TR01
-            text: |
-              When an attempt is made to modify data on the service or a child
-              resource, the service MUST block requests from unauthorized
-              entities.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-          - id: CCC.Core.C05.TR02
-            text: |
-              When administrative access or configuration change is attempted on
-              the service or a child resource, the service MUST refuse requests
-              from unauthorized entities.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-          - id: CCC.Core.C05.TR03
-            text: |
-              When administrative access or configuration change is attempted on
-              the service or a child resource in a multi-tenant environment, the
-              service MUST refuse requests across tenant boundaries unless the
-              origin is explicitly included in a pre-approved allowlist.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-          - id: CCC.Core.C05.TR04
-            text: |
-              When data is requested from outside the trust perimeter, the
-              service MUST refuse requests from unauthorized entities.
-            applicability:
-              - tlp-amber
-              - tlp-red
-          - id: CCC.Core.C05.TR05
-            text: |
-              When any request is made from outside the trust perimeter,
-              the service MUST NOT provide any response that may indicate the
-              service exists.
-            applicability:
-              - tlp-red
-          - id: CCC.Core.C05.TR06
-            text: |
-              When any request is made to the service or a child resource, the
-              service MUST refuse requests from unauthorized entities.
-            applicability:
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-3
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: DS-5
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.13.1.3
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-3
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH01
+              - reference-id: CCC.Core.TH14
                 strength: 0
   - id: ""
     title: Data
-    description: 'TODO: Describe this control family'
+    description: |
+      The Data control family ensures the confidentiality, integrity,
+      availability, and sovereignty of data across its lifecycle.
+      These controls govern how data is transmitted, stored,
+      replicated, and protected from unauthorized access, tampering,
+      or exposure beyond defined trust perimeters.
     controls:
-      - id: CCC.RDMS.C03
-        title: Enforce and Monitor Automated Backups
-        objective: |
-          Ensure database backups are automatically scheduled, actively monitored,
-          and promptly reported if any disruptions occur. This helps maintain
-          data integrity, facilitates disaster recovery, and supports business
-          continuity when a system failure or breach occurs.
-        assessment-requirements:
-          - id: CCC.RDMS.C03.TR01
-            text: |
-              When backups are disabled, paused, or fail to run as scheduled,
-              an alert must be triggered and logged.
-            applicability:
-              - tlp-red
-              - tlp-amber
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.IP-4
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: CP-9
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.RDMS.TH03
-                strength: 0
       - id: CCC.Core.C01
         title: Encrypt Data for Transmission
         objective: |
@@ -504,58 +275,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH03
                 strength: 0
-      - id: CCC.Core.C08
-        title: Replicate Data to Multiple Locations
-        objective: |
-          Ensure that data is replicated across multiple physical locations to
-          protect against data loss due to hardware failures, natural disasters,
-          or other catastrophic events.
-        assessment-requirements:
-          - id: CCC.Core.C08.TR01
-            text: |
-              When data is created or modified, the data MUST have a complete
-              and recoverable duplicate that is stored in a physically separate
-              data center.
-            applicability:
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: |
-              Implement automated data replication processes to ensure that
-              data is consistently duplicated in another region or availability
-              zone. Regularly test data recovery from the replicated location to
-              ensure integrity and availability.
-          - id: CCC.Core.C08.TR02
-            text: |
-              When data is replicated into a second location, the service MUST
-              be able to accurately represent the replication locations,
-              replication status, and data synchronization status.
-            applicability:
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.PT-5
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: BCR-08
-                strength: 0
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: CP-2
-                strength: 0
-              - reference-id: CP-10
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH06
-                strength: 0
       - id: CCC.Core.C09
         title: Ensure Integrity of Access Logs
         objective: |
@@ -730,146 +449,133 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C07
-        title: Alert on Unusual Enumeration Activity
+  - id: ""
+    title: Identity and Access Management
+    description: |
+      The Identity and Access Management control family ensures
+      that only trusted and authenticated entities can access
+      resources. These controls establish strong authentication,
+      enforce multi-factor verification, and restrict access to
+      approved sources to prevent unauthorized use or data exfiltration.
+    controls:
+      - id: CCC.Core.C05
+        title: Prevent Access from Untrusted Entities
         objective: |
-          Ensure that logs and associated alerts are generated when
-          unusual enumeration activity is detected that may indicate
-          reconnaissance activities.
+          Ensure that secure access controls enforce the principle of least
+          privilege to restrict access to authorized entities from explicitly
+          trusted sources only.
         assessment-requirements:
-          - id: CCC.Core.C07.TR01
+          - id: CCC.Core.C05.TR01
             text: |
-              When enumeration activities are detected, the service MUST publish
-              an event to a monitored channel which includes the client
-              identity, time, and nature of the activity.
-            applicability:
-              - tlp-amber
-              - tlp-red
-            recommendation: |
-              Implement event publication mechanisms and alerts for patterns
-              indicative of enumeration activities, such as repeated access
-              attempts, requests, or liveness probes. Configure alerts to notify
-              security teams of any activities that merit further investigation.
-          - id: CCC.Core.C07.TR02
-            text: |
-              When enumeration activities are detected, the service MUST log the
-              client identity, time, and nature of the activity.
+              When an attempt is made to modify data on the service or a child
+              resource, the service MUST block requests from unauthorized
+              entities.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: |
-              Implement logging mechanisms to capture details of enumeration
-              activities, including client identity, timestamps, and activity
-              nature. Retain logs according to organizational policies, and
-              occasionally review them for patterns that may indicate
-              reconnaissance activities.
+          - id: CCC.Core.C05.TR02
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST refuse requests
+              from unauthorized entities.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR03
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource in a multi-tenant environment, the
+              service MUST refuse requests across tenant boundaries unless the
+              origin is explicitly included in a pre-approved allowlist.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR04
+            text: |
+              When data is requested from outside the trust perimeter, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR05
+            text: |
+              When any request is made from outside the trust perimeter,
+              the service MUST NOT provide any response that may indicate the
+              service exists.
+            applicability:
+              - tlp-red
+          - id: CCC.Core.C05.TR06
+            text: |
+              When any request is made to the service or a child resource, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.AE-1
+              - reference-id: PR.AC-3
                 strength: 0
           - reference-id: CCM
             entries:
-              - reference-id: LOG-05
+              - reference-id: DS-5
                 strength: 0
           - reference-id: ISO_27001
-            entries: []
+            entries:
+              - reference-id: 2013 A.13.1.3
+                strength: 0
           - reference-id: NIST_800_53
             entries:
-              - reference-id: AU-6
+              - reference-id: AC-3
                 strength: 0
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.Core.TH15
+              - reference-id: CCC.Core.TH01
                 strength: 0
 threats:
-  - id: CCC.RDMS.TH01
-    title: Unauthorized Access via Default Credentials
+  - id: CCC.CntrReg.TH01
+    title: Vulnerabilities in Artifacts are Exploited
     description: |
-      If default credentials are not disabled or changed, unauthorized access
-      may be gained to the RDMS environment. This may lead to data breaches,
-      data manipulation, or overall compromise of the database instance.
+      Attackers exploit known vulnerabilities in container images or artifacts stored in
+      the registry, leading to unauthorized access, data breaches, or system compromise.
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.RDMS.F06
-            strength: 0
-          - reference-id: CCC.RDMS.F07
+          - reference-id: CCC.CntrReg.F05
             strength: 0
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1078
+          - reference-id: T1190
             strength: 0
-  - id: CCC.RDMS.TH02
-    title: Brute Force Attempts on Database Authentication
+          - reference-id: T1195
+            strength: 0
+  - id: CCC.CntrReg.TH02
+    title: Accumulation of Unused Artifacts
     description: |
-      Repeated attempts to guess database user passwords may be made
-      through brute force techniques. This condition could result in
-      unauthorized access if successful, compromising database security
-      and sensitive information.
+      The registry accumulates outdated or unused artifacts, increasing storage
+      costs and the risk of deploying vulnerable or untested versions.
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.RDMS.F07
+          - reference-id: CCC.CntrReg.F04
             strength: 0
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1110
-            strength: 0
-  - id: CCC.RDMS.TH03
-    title: Database Backups Stopped
-    description: |
-      Database backups may be halted, potentially impairing the organization's
-      ability to recover data and maintain business continuity. This condition
-      increases the risk of data loss and extended system downtime.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.F18
             strength: 0
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1490
             strength: 0
-  - id: CCC.RDMS.TH04
-    title: Unintentional Database Backup Restoration
-    description: |
-      A database backup may be restored unintentionally, potentially
-      leading to the loss or overwrite of current data. This condition
-      could disrupt operations and result in data inconsistency or
-      corruption.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.F11
-            strength: 0
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
           - reference-id: T1485
-            strength: 0
-  - id: CCC.RDMS.TH05
-    title: Unauthorized Snapshot Sharing
-    description: |
-      Snapshots may be shared with untrusted accounts, which can lead to
-      unauthorized access and potential data exfiltration. This significantly
-      increases the risk of data exposure if sensitive information is contained
-      in the snapshots.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.F11
-            strength: 0
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1530
             strength: 0
   - id: CCC.Core.TH01
     title: Access Control is Misconfigured
@@ -1153,40 +859,6 @@ threats:
           - reference-id: T1518
             strength: 0
             remarks: Software Discovery
-  - id: CCC.Core.TH10
-    title: State-change Events are Read by Unauthorized Entities
-    description: |
-      Unauthorized access to state-change events can reveal information about
-      the system's design and usage patterns. This opens the system up to
-      attacks of opportunity and support the planning of attacks on the
-      service, system, or network.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.F03
-            strength: 0
-            remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F07
-            strength: 0
-            remarks: Event Notifications
-          - reference-id: CCC.Core.F09
-            strength: 0
-            remarks: Monitoring
-          - reference-id: CCC.Core.F17
-            strength: 0
-            remarks: Alerting
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1057
-            strength: 0
-            remarks: Process Discovery
-          - reference-id: T1049
-            strength: 0
-            remarks: System Network Connections Discovery
-          - reference-id: T1083
-            strength: 0
-            remarks: File and Directory Discovery
   - id: CCC.Core.TH11
     title: Publications are Incorrectly Triggered
     description: |
@@ -1250,26 +922,50 @@ threats:
           - reference-id: T1498
             strength: 0
             remarks: Network Denial of Service
-  - id: CCC.Core.TH13
-    title: Resource Tags are Manipulated
+  - id: CCC.Core.TH14
+    title: Older Resource Versions are Used
     description: |
-      When resource tags are altered, it can lead to misclassification or
-      mismanagement of resources. This can reduce the efficacy of organizational
-      policies, billing rules, or network access rules. Such changes could cause
-      compromised confidentiality, integrity, or availability of the system and
-      its data.
+      Running older versions of child resources can expose the system to known
+      vulnerabilities that have been addressed in more recent versions. If the
+      version identifier is detected by an attacker, it may be possible to
+      exploit these vulnerabilities to compromise the confidentiality,
+      integrity, or availability of the system and its data.
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F20
+          - reference-id: CCC.Core.F18
             strength: 0
-            remarks: Tagging
+            remarks: Versioning
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
           - reference-id: T1565
             strength: 0
             remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
+          - reference-id: T1562.01
+            strength: 0
+            remarks: 'Impair Defenses: Downgrade Attack'
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
   - id: CCC.Core.TH15
     title: Automated Enumeration and Reconnaissance by Non-human Entities
     description: |
@@ -1314,74 +1010,91 @@ threats:
             strength: 0
             remarks: Impair Defenses
 capabilities:
-  - id: CCC.RDMS.F01
-    title: SQL Support
+  - id: CCC.CntrReg.F01
+    title: Image Storage
     description: |
-      Properly handle queries in the SQL language.
-  - id: CCC.RDMS.F02
-    title: DB Engine Option - MySQL
+      Ability to upload and securely store container images and image metadata.
+  - id: CCC.CntrReg.F02
+    title: Private Repositories
     description: |
-      Ability to create a MySQL managed relational database.
-  - id: CCC.RDMS.F03
-    title: DB Engine Option - PostgreSQL
+      Support for creating container image repositories that are restricted and
+      only accessible by authorized users or services.
+  - id: CCC.CntrReg.F03
+    title: Public Repositories
     description: |
-      Ability to create a PostgreSQL managed relational database.
-  - id: CCC.RDMS.F04
-    title: DB Engine Option - MariaDB
+      Support for creating container image repositories that are open to the public.
+      These repositories are used mainly for sharing container images.
+  - id: CCC.CntrReg.F04
+    title: Lifecycle Policies
     description: |
-      Ability to create a MariaDB managed relational database.
-  - id: CCC.RDMS.F05
-    title: DB Engine Option - SQL Server
+      Supports defining of policies for automatic expiry of
+      unused or outdated images to manage storage effectively.
+  - id: CCC.CntrReg.F05
+    title: Image Scanning
     description: |
-      Ability to create a Microsoft SQL Server managed relational database.
-  - id: CCC.RDMS.F06
-    title: DB Managed Credentials
+      Provides vulnerability scanning for container images (built-in
+      or through integration to scanning services) to detect security
+      issues and generate reports for known CVEs (Common Vulnerabilities
+      and Exposures).
+  - id: CCC.CntrReg.F06
+    title: Integration with CI/CD Tooling
     description: |
-      Ability to managed the database credentials using the cloud
-      provider's secret management service.
-  - id: CCC.RDMS.F07
-    title: DB Self Managed Credentials
+      Seamlessly integrates with CI/CD pipelines to automate pushing and pulling of
+      container images.
+  - id: CCC.CntrReg.F07
+    title: Caching of Images
     description: |
-      Ability to manage the database credentials by client managed
-      username and passwords.
-  - id: CCC.RDMS.F08
-    title: Support for IPv4
+      Provides caching for faster access to frequently used images.
+  - id: CCC.CntrReg.F08
+    title: Multi-platform Support
     description: |
-      Ability to connect to the database using IPv4 addresses.
-  - id: CCC.RDMS.F09
-    title: Support for IPv6
+      Ability to store images built for different CPU architectures such as
+      x86_64 (AMD/Intel), ARM64, and others within the same container image
+      repository.
+  - id: CCC.CntrReg.F09
+    title: Immutable Tags
     description: |
-      Ability to connect to the database using IPv6 addresses
-  - id: CCC.RDMS.F10
-    title: Public Access
+      Prevent tags from being overwritten or deleted once they have been
+      assigned to an image. This ensures that once a container image is tagged
+      with a specific version or identifier, that tag remains associated with
+      the same image throughout its lifetime.
+  - id: CCC.CntrReg.F10
+    title: List Repositories
     description: |
-      Allow database to be accessed by public internet.
-  - id: CCC.RDMS.F11
-    title: Disable Public Access
+      Ability to list all public and private repositories in the container
+      image registry.
+  - id: CCC.CntrReg.F11
+    title: Edit Repository
     description: |
-      Prevent database been accessed by public internet.
-  - id: CCC.RDMS.F12
-    title: Managed Connection Pooling
+      Ability to edit a public or private container image repository properties
+      after being created.
+  - id: CCC.CntrReg.F12
+    title: Delete Repository
     description: |
-      Ability to configure a managed connection pool for the database.
-  - id: CCC.RDMS.F13
-    title: Deletion Protection
+      Ability to delete a public or private container image repository after
+      being created.
+  - id: CCC.CntrReg.F13
+    title: List Images
     description: |
-      Protect the database against accidental deletion.
-  - id: CCC.RDMS.F14
-    title: Dedicated Database Instances
+      Ability to list container images in a public or private container image
+      repository.
+  - id: CCC.CntrReg.F14
+    title: Delete Image
     description: |
-      Option to deploy the database on a dedicated instance for
-      isolation requirements.
-  - id: CCC.RDMS.F15
-    title: Horizontal Scaling
+      Ability to delete a container image after being created.
+  - id: CCC.CntrReg.F15
+    title: List Lifecycle Policies
     description: |
-      Read replicas of the primary database can be created.
-  - id: CCC.RDMS.F16
-    title: Failover
+      Ability to list lifecycle policies for container images in a public or private
+      container repository.
+  - id: CCC.CntrReg.F16
+    title: Edit Lifecycle Policy
     description: |
-      Standby database can be implemented for failover when the
-      primary can't be reached.
+      Ability to edit a lifecycle policy after being created.
+  - id: CCC.CntrReg.F17
+    title: Delete Lifecycle Policy
+    description: |
+      Ability to delete a lifecycle policy after being created.
   - id: CCC.Core.F01
     title: Encryption in Transit Enabled by Default
     description: |
@@ -1397,6 +1110,18 @@ capabilities:
     description: |
       The service automatically publishes structured, verbose records of
       activities performed within the scope of the service by external actors.
+  - id: CCC.Core.F04
+    title: Transaction Rate Limits
+    description: |
+      The service always provides industry-standard network throughput
+      up to a user-specified rate limit, beyond which excess requests
+      may be throttled, delayed, or rejected.
+  - id: CCC.Core.F05
+    title: Signed URLs
+    description: |
+      The service automatically enforces user-configured permissions to access
+      a specific component or a child resource via an ad hoc URL containing
+      authentication information.
   - id: CCC.Core.F06
     title: Access Control
     description: |
@@ -1410,46 +1135,22 @@ capabilities:
       The service automatically publishes a structured state-change record
       upon creation, deletion, or modification of data, configuration,
       components, or child resources.
-  - id: CCC.Core.F08
-    title: Data Replication
-    description: |
-      The service automatically will or can be configured to
-      replicate data across multiple deployments simultaneously with parity.
   - id: CCC.Core.F09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.F10
-    title: Log Publication
+  - id: CCC.Core.F14
+    title: API Access
     description: |
-      The service automatically publishes structured, verbose records of activities,
-      operations, or events that occur within the service.
-  - id: CCC.Core.F11
-    title: Backup
+      The service exposes a port enabling external actors to interact
+      programmatically with the service and its resources using HTTP
+      protocol methods such as GET, POST, PUT, and DELETE.
+  - id: CCC.Core.F18
+    title: Resource Versioning
     description: |
-      The service can generate copies of its data or configurations
-      in the form of automated backups, snapshot-based backups, or incremental backups.
-  - id: CCC.Core.F12
-    title: Recovery
-    description: |
-      The service can be reverted to a previous state
-      by providing a compatible backup or snapshot identifier.
-  - id: CCC.Core.F17
-    title: Alerting
-    description: |
-      The service may be configured to emit a notification based on a user-defined
-      condition related to the data published by a child or networked resource.
-  - id: CCC.Core.F19
-    title: Resource Scaling
-    description: |
-      The service may be configured to scale child resources automatically
-      or on-demand.
-  - id: CCC.Core.F20
-    title: Resource Tagging
-    description: |
-      The service provides users with the ability to tag a child resource with metadata
-      that can be reviewed or queried.
+      The service assigns versions to child resources to preserve, retrieve,
+      and restore past iterations.
   - id: CCC.Core.F21
     title: Resource Replication
     description: |
@@ -1460,12 +1161,6 @@ capabilities:
     description: |
       The service may be configured to restrict the deployment of child resources
       to specific geographic locations.
-  - id: CCC.Core.F23
-    title: Network Access Rules
-    description: |
-      The service restricts access to child or networked resources based on
-      user-defined network parameters such as IP address,
-      protocol, port, or source.
 imported-controls:
   - reference-id: CCC
     entries:
@@ -1475,9 +1170,6 @@ imported-controls:
       - reference-id: CCC.Core.C02
         strength: 0
         remarks: Ensure data encryption at rest for all stored data
-      - reference-id: CCC.Core.C03
-        strength: 0
-        remarks: Implement multi-factor authentication (MFA) for access
       - reference-id: CCC.Core.C04
         strength: 0
         remarks: Log all access and changes
@@ -1487,21 +1179,12 @@ imported-controls:
       - reference-id: CCC.Core.C06
         strength: 0
         remarks: Prevent deployment in restricted regions
-      - reference-id: CCC.Core.C07
-        strength: 0
-        remarks: Alert on unusual enumeration activity
-      - reference-id: CCC.Core.C08
-        strength: 0
-        remarks: Enable Multi-zone or Multi-region Data Replication
       - reference-id: CCC.Core.C09
         strength: 0
         remarks: Prevent tampering, deletion, or unauthorized access to access logs
       - reference-id: CCC.Core.C10
         strength: 0
         remarks: Prevent data replication to destinations outside of defined trust perimeter
-      - reference-id: CCC.Core.C12
-        strength: 0
-        remarks: Ensure Secure Network Access Rules
 imported-threats:
   - reference-id: CCC
     entries:
@@ -1516,7 +1199,7 @@ imported-threats:
         remarks: Deployment region network is untrusted
       - reference-id: CCC.Core.TH04
         strength: 0
-        remarks: Data is Replicated to Untrusted or External Locations
+        remarks: Data is replicated to untrusted or external locations
       - reference-id: CCC.Core.TH05
         strength: 0
         remarks: Data is corrupted during replication
@@ -1525,31 +1208,25 @@ imported-threats:
         remarks: Data is lost or corrupted
       - reference-id: CCC.Core.TH07
         strength: 0
-        remarks: Logs are tampered with or deleted
+        remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH09
         strength: 0
-        remarks: Logs or monitoring data are read by unauthorized users
-      - reference-id: CCC.Core.TH10
-        strength: 0
-        remarks: Alerts are Intercepted
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
       - reference-id: CCC.Core.TH11
         strength: 0
         remarks: Event Notifications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
         strength: 0
         remarks: Resource constraints are exhausted
-      - reference-id: CCC.Core.TH13
+      - reference-id: CCC.Core.TH14
         strength: 0
-        remarks: Resource tags are manipulated
+        remarks: Older Resource Versions Are Exploited
       - reference-id: CCC.Core.TH15
         strength: 0
-        remarks: Automated enumeration and reconnaissance by non-human entities
+        remarks: Automated Enumeration and Reconnaissance by Non-Human Entities
       - reference-id: CCC.Core.TH16
         strength: 0
         remarks: Logging and Monitoring are Disabled
-      - reference-id: CCC.Core.TH17
-        strength: 0
-        remarks: Unauthorized Network Access via Misconfigured Rules
 imported-capabilities:
   - reference-id: CCC
     entries:
@@ -1562,45 +1239,33 @@ imported-capabilities:
       - reference-id: CCC.Core.F03
         strength: 0
         remarks: Access/Activity Logs
+      - reference-id: CCC.Core.F04
+        strength: 0
+        remarks: Transaction Rate Limits
+      - reference-id: CCC.Core.F05
+        strength: 0
+        remarks: Signed URLs
       - reference-id: CCC.Core.F06
         strength: 0
         remarks: Identity Based Access Control
       - reference-id: CCC.Core.F07
         strength: 0
         remarks: Event Notifications
-      - reference-id: CCC.Core.F08
-        strength: 0
-        remarks: Multi-zone Deployment
       - reference-id: CCC.Core.F09
         strength: 0
         remarks: Monitoring
-      - reference-id: CCC.Core.F10
-        strength: 0
-        remarks: Logging
-      - reference-id: CCC.Core.F11
-        strength: 0
-        remarks: Backup
-      - reference-id: CCC.Core.F12
-        strength: 0
-        remarks: Recovery
       - reference-id: CCC.Core.F13
         strength: 0
         remarks: Infrastructure as Code
-      - reference-id: CCC.Core.F17
+      - reference-id: CCC.Core.F14
         strength: 0
-        remarks: Alerting
-      - reference-id: CCC.Core.F19
+        remarks: API Access
+      - reference-id: CCC.Core.F18
         strength: 0
-        remarks: On-Demand Scaling
-      - reference-id: CCC.Core.F20
-        strength: 0
-        remarks: Tagging
+        remarks: Versioning
       - reference-id: CCC.Core.F21
         strength: 0
         remarks: Replication
       - reference-id: CCC.Core.F22
         strength: 0
         remarks: Location Lock-In
-      - reference-id: CCC.Core.F23
-        strength: 0
-        remarks: Network Access Rules

@@ -4,7 +4,7 @@ metadata:
   description: |
     This documents the minimual set of capabilities that should be present for a RDMS
     service to be considered for use in financial services ecosystems.
-  version: "2025.05"
+  version: DEV
   last-modified: "2023-10-05T10:06:00-05:00"
 control-families:
   - id: ""

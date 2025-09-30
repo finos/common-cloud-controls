@@ -1,0 +1,19 @@
+{
+  "catalog": {
+    "groups": [],
+    "metadata": {
+      "last-modified": "2025-04-19T00:00:00Z",
+      "links": [
+        {
+          "href": "https://example.com/releases/DEV#",
+          "rel": "canonical"
+        }
+      ],
+      "oscal-version": "1.1.3",
+      "published": "2025-09-30T11:53:31.314459+01:00",
+      "title": "Batch Processing",
+      "version": "DEV"
+    },
+    "uuid": "4d06b5ff-325d-4493-98b6-fe8dd8a18c4f"
+  }
+}

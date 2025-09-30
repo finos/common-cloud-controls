@@ -1,0 +1,90 @@
+{
+  "catalog": {
+    "groups": [
+      {
+        "class": "family",
+        "controls": [
+          {
+            "class": "Data Protection",
+            "id": "CCC.SecMgmt.C01",
+            "links": [
+              {
+                "href": "https://example.com/releases/DEV#ccc.secmgmt.c01",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.SecMgmt.C01",
+                "id": "CCC.SecMgmt.C01.TR01",
+                "name": "CCC.SecMgmt.C01.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.SecMgmt.C01.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/DEV#CCC.SecMgmt.C01.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "Attempt to use an outdated version of a secret after its rotation period\nhas passed and verify that access is denied.\n"
+              }
+            ],
+            "title": "Enforce Automatic Secret Rotation"
+          },
+          {
+            "class": "Data Protection",
+            "id": "CCC.SecMgmt.C02",
+            "links": [
+              {
+                "href": "https://example.com/releases/DEV#ccc.secmgmt.c02",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.SecMgmt.C02",
+                "id": "CCC.SecMgmt.C02.TR01",
+                "name": "CCC.SecMgmt.C02.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.SecMgmt.C02.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/DEV#CCC.SecMgmt.C02.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "Attempt to retrieve a secret from an unauthorized region and verify that access is denied.\n"
+              }
+            ],
+            "title": "Enforce Secret Replication Policies"
+          }
+        ],
+        "title": "TODO: Describe this control family"
+      }
+    ],
+    "metadata": {
+      "last-modified": "2025-04-16T19:13:21-05:00",
+      "links": [
+        {
+          "href": "https://example.com/releases/DEV#",
+          "rel": "canonical"
+        }
+      ],
+      "oscal-version": "1.1.3",
+      "published": "2025-09-30T11:53:31.946668+01:00",
+      "title": "Secret Management",
+      "version": "DEV"
+    },
+    "uuid": "845a7772-96f9-47d3-9019-fae34adfe17b"
+  }
+}

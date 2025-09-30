@@ -19,7 +19,7 @@ function parseRelease(releaseData: { mainCatalog: any; releaseDetails: any }): R
 
     return {
         metadata,
-        threats: mainCatalog.threats.map(threat => parseThreat(threat)),
+        threats: (mainCatalog.threats ?? []).map(threat => parseThreat(threat)),
         capabilities: [
             ...(mainCatalog.capabilities ?? []).map(capability => parseCapability(capability))
         ],
