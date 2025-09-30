@@ -1,0 +1,142 @@
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH12
+        strength: 0 # Not yet specified
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH15
+        strength: 0 # Not yet specified
+        remarks: Automated Enumeration and Reconnaissance by Non-human
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Logging and Monitoring are Disabled
+      - reference-id: CCC.Core.TH17
+        strength: 0 # Not yet specified
+        remarks: Unauthorized Network Access via Misconfigured Rules
+
+threats:
+  - id: CCC.LB.TH01
+    title: Unrestricted Request Traffic Overwhelms Downstream Services
+    description: |
+      Absence of filtering or rate limiting permits malicious traffic to
+      overload downstream services and facilitates brute-force activity.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F04
+            strength: 0 # Not yet specified
+            remarks: Transaction Rate Limits
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.F22
+            strength: 0 # Not yet specified
+            remarks: Rate Limiting / Throttling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1499
+            strength: 0 # Not yet specified
+            remarks: Endpoint DoS
+          - reference-id: T1110
+            strength: 0 # Not yet specified
+            remarks: Brute Force
+
+  - id: CCC.LB.TH03
+    title: Traffic Distribution Is Manipulated
+    description: |
+      Adjusting distribution policies can concentrate traffic on specific nodes
+      causing DoS or redirect flows through unwanted paths.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.F02
+            strength: 0 # Not yet specified
+            remarks: Dynamic LB
+          - reference-id: CCC.LB.F20
+            strength: 0 # Not yet specified
+            remarks: Traffic Splitting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1499
+          - reference-id: T1557
+
+  - id: CCC.LB.TH04
+    title: Session Persistence Is Exploited
+    description: |
+      Improper session-affinity settings can enable session fixation or
+      hijacking across backend targets.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.F15
+            strength: 0 # Not yet specified
+            remarks: Session Affinity
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+          - reference-id: T1557
+
+  - id: CCC.LB.TH05
+    title: Health Checks Are Exploited to Take Services Offline
+    description: |
+      Manipulating health-check endpoints or responses can cause healthy
+      targets to be marked unavailable, leading to denial of service.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.F12
+            strength: 0 # Not yet specified
+            remarks: Health Checks
+          - reference-id: CCC.LB.F13
+            strength: 0 # Not yet specified
+            remarks: Target Removal
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1499
+          - reference-id: T1583
+
+  - id: CCC.LB.TH06
+    title: Sensitive Metadata Exposure via HTTP Headers
+    description: |
+      Response headers may reveal software versions, internal IPs, or other
+      metadata useful for reconnaissance.
+    capabilities:
+      - reference-id: LBL
+        entries:
+          - reference-id: CCC.LB.F19
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1592
+          - reference-id: T1530
+
+  - id: CCC.LB.TH07
+    title: TLS Certificates Are Expired or Invalid
+    description: |
+      Stale or untrusted certificates weaken encrypted-traffic protection.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.F11
+            strength: 0 # Not yet specified
+            remarks: SSL/TLS Termination
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1557
+          - reference-id: T1608

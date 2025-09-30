@@ -1,0 +1,116 @@
+imported-capabilities:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.F01
+        strength: 0 # Not yet specified
+        remarks: Encryption in Transit
+      - reference-id: CCC.Core.F02
+        strength: 0 # Not yet specified
+        remarks: Encryption at Rest
+      - reference-id: CCC.Core.F03
+        strength: 0 # Not yet specified
+        remarks: Access Log Publication
+      - reference-id: CCC.Core.F06
+        strength: 0 # Not yet specified
+        remarks: Access Control
+      - reference-id: CCC.Core.F10
+        strength: 0 # Not yet specified
+        remarks: Log Publication
+      - reference-id: CCC.Core.F11
+        strength: 0 # Not yet specified
+        remarks: Backup
+      - reference-id: CCC.Core.F12
+        strength: 0 # Not yet specified
+        remarks: Recovery
+      - reference-id: CCC.Core.F14
+        strength: 0 # Not yet specified
+        remarks: API Access
+      - reference-id: CCC.Core.F17
+        strength: 0 # Not yet specified
+        remarks: Alerting
+      - reference-id: CCC.Core.F18
+        strength: 0 # Not yet specified
+        remarks: Resource Versioning
+      - reference-id: CCC.Core.F20
+        strength: 0 # Not yet specified
+        remarks: Resource Tagging
+      - reference-id: CCC.Core.F22
+        strength: 0 # Not yet specified
+        remarks: Location Lock-In
+
+capabilities:
+  - id: CCC.Logging.F01
+    title: Service Log Capture
+    description: |
+      Ability to capture logs from all relevant cloud services at varying
+      levels of verbosity.
+
+  - id: CCC.Logging.F02
+    title: Application Log Ingestion
+    description: |
+      Support for ingesting logs from custom applications deployed within the
+      cloud environment.
+
+  - id: CCC.Logging.F03
+    title: Real-Time Log Ingestion
+    description: |
+      Logs should be ingested in near real-time to enable timely detection and
+      response.
+
+  - id: CCC.Logging.F04
+    title: Centralised Log Collection
+    description: |
+      Ability to centralise logs from different resources within a signle
+      logging solution or platform.
+
+  - id: CCC.Logging.F05
+    title: Custom Log Format Support
+    description: |
+      Ability to ingest custom log formats or data from on-premises systems or
+      other cloud environments via agents.
+
+  - id: CCC.Logging.F06
+    title: Log Filtering & Transformation
+    description: |
+      Ability to to filter, normalise, and transform raw log data at ingestion
+      to optimise storage and enhance usability.
+
+  - id: CCC.Logging.F07
+    title: Immutable Storage
+    description: |
+      Ability to prevent unauthorized alteration or deletion of logs, ensuring
+      their integrity for auditing and forensic purposes.
+
+  - id: CCC.Logging.F08
+    title: Retention Policies
+    description: |
+      Ability to define and enforce granular retention periods for different
+      log types based on regulatory requirements and internal policies.
+
+  - id: CCC.Logging.F09
+    title: Internal Sink
+    description: |
+      Ability to continuously stream log data to a hosted storage bucket or data lake
+      solution within the cloud service provider.
+
+  - id: CCC.Logging.F10
+    title: External Sink
+    description: |
+      Log events can be configured to be sent to a external SIEM or data analysis
+      provider outside of the cloud platform.
+
+  - id: CCC.Logging.F11
+    title: Log-based Metrics
+    description: |
+      Ability to extract quantitative metrics from log data for performance
+      monitoring and operational analysis.
+
+  - id: CCC.Logging.F12
+    title: Log Archiving
+    description: |
+      Ability to archive logs that are no longer needed but must be retained.
+
+  - id: CCC.Logging.F13
+    title: Field Indexing
+    description: |
+      Supports field-based indexing to improve log query performace.

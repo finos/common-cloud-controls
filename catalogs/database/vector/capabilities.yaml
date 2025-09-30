@@ -1,0 +1,91 @@
+imported-capabilities:
+  - reference-id: CCC
+    identifiers:
+      - CCC.F01 # Encryption in Transit Enabled by Default
+      - CCC.F02 # Encryption at Rest Enabled by Default
+      - CCC.F03 # Access Log Publication
+      - CCC.F04 # Transaction Rate Limits
+      - CCC.F06 # Access Control
+      - CCC.F08 # Data Replication
+      - CCC.F09 # Metrics Publication
+      - CCC.F10 # Log Publication
+      - CCC.F11 # Backup
+      - CCC.F12 # Recovery
+      - CCC.F14 # API Access
+      - CCC.F18 # Resource Versioning
+      - CCC.F20 # Resource Tagging
+      - CCC.F21 # Replication
+      - CCC.F22 # Location Lock-In
+
+capabilities:
+  - id: CCC.Vector.F01
+    title: Embedding Storage
+    description: |
+      Supports storage of high-dimensional vector embeddings derived
+      from raw input data such as text, images, or audio.
+
+  - id: CCC.Vector.F02
+    title: Vector Indexing
+    description: |
+      Provides creation and management of indexes optimized for similarity
+      search, such as HNSW, IVF, or PQ.
+
+  - id: CCC.Vector.F03
+    title: Similarity Search
+    description: |
+      Enables nearest-neighbor queries using a query embedding to return
+      the most similar vectors from the store.
+
+  - id: CCC.Vector.F04
+    title: Metadata Filtering
+    description: |
+      Supports structured filtering on metadata fields alongside vector
+      similarity search queries.
+
+  - id: CCC.Vector.F05
+    title: Batch Ingestion
+    description: |
+      Allows for high-throughput batch upload and deletion of vectors and
+      associated metadata.
+
+  - id: CCC.Vector.F06
+    title: Real-Time Querying
+    description: |
+      Provides low-latency response to vector similarity queries suitable
+      for interactive applications.
+
+  - id: CCC.Vector.F07
+    title: Index Lifecycle Management
+    description: |
+      Enables automated or manual creation, optimization, and removal of
+      vector indexes.
+
+  - id: CCC.Vector.F08
+    title: Embedding Format Compatibility
+    description: |
+      Supports standard vector formats and integrates with common embedding
+      generators (e.g., OpenAI, HuggingFace, TensorFlow).
+
+  - id: CCC.Vector.F09
+    title: Vector Dimension Management
+    description: |
+      Supports storing and managing vectors of specific or dynamic
+      dimensionality, depending on model needs.
+
+  - id: CCC.Vector.F10
+    title: Multi-modal Vector Support
+    description: |
+      Supports storing and searching across vectors derived from multiple
+      modalities (e.g., text, image, audio).
+
+  - id: CCC.Vector.F11
+    title: Query Access Control
+    description: |
+      Provides the ability to restrict who can run vector similarity or
+      metadata filter queries, separate from data modification rights.
+
+  - id: CCC.Vector.F12
+    title: Approximate or Exact Search Modes
+    description: |
+      Supports both approximate nearest neighbor (ANN) algorithms for speed
+      and exact search modes for precision-critical applications.

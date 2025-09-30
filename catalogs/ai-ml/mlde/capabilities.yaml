@@ -1,0 +1,125 @@
+imported-capabilities:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.F03
+        strength: 0 # Not yet specified
+        remarks: Access Log Publication
+      - reference-id: CCC.Core.F06
+        strength: 0 # Not yet specified
+        remarks: Access Control
+      - reference-id: CCC.Core.F08
+        strength: 0 # Not yet specified
+        remarks: Data Replication
+      - reference-id: CCC.Core.F09
+        strength: 0 # Not yet specified
+        remarks: Metrics Publication
+      - reference-id: CCC.Core.F10
+        strength: 0 # Not yet specified
+        remarks: Log Publication
+      - reference-id: CCC.Core.F14
+        strength: 0 # Not yet specified
+        remarks: API Access
+      - reference-id: CCC.Core.F15
+        strength: 0 # Not yet specified
+        remarks: Cost Management
+      - reference-id: CCC.Core.F16
+        strength: 0 # Not yet specified
+        remarks: Budgeting
+      - reference-id: CCC.Core.F17
+        strength: 0 # Not yet specified
+        remarks: Alerting
+      - reference-id: CCC.Core.F20
+        strength: 0 # Not yet specified
+        remarks: Resource Tagging
+      - reference-id: CCC.Core.F23
+        strength: 0 # Not yet specified
+        remarks: Network Access Rules
+
+capabilities:
+  - id: CCC.MLDE.F01
+    title: Managed Notebook Environments
+    description: |
+      Provides fully managed notebook instances specifically designed
+      for machine learning development, eliminating the need to manage
+      underlying infrastructure.
+
+  - id: CCC.MLDE.F02
+    title: Pre-configured Machine Learning Libraries
+    description: |
+      Offers environments pre-installed with popular machine
+      learning libraries and frameworks such as TensorFlow, PyTorch,
+      and Scikit-learn, optimized for ML tasks.
+
+  - id: CCC.MLDE.F03
+    title: Integrated Experiment Management
+    description: |
+      Facilitates tracking and management of machine learning
+      experiments, including parameters, metrics, and artifacts,
+      within the development environment.
+
+  - id: CCC.MLDE.F04
+    title: Model Training and Deployment Integration
+    description: |
+      Supports seamless transition from model development to
+      training and deployment, allowing models to be trained and
+      deployed directly from the MLDE.
+
+  - id: CCC.MLDE.F05
+    title: Automated Machine Learning (AutoML) Capabilities
+    description: |
+      Offers AutoML functionalities to automatically build,
+      train, and optimize machine learning models with minimal
+      manual intervention.
+
+  - id: CCC.MLDE.F06
+    title: GPU/Specialized Hardware Support
+    description: |
+      Provides access to GPU instances and specialized ML acceleration
+      hardware (TPUs, FPGAs) with automated driver and runtime management.
+
+  - id: CCC.MLDE.F07
+    title: Data Pipeline Integration
+    description: |
+      Supports integration with data preparation and feature engineering
+      pipelines, including versioning of datasets and capabilities used in
+      ML experiments.
+
+  - id: CCC.MLDE.F08
+    title: Model Registry
+    description: |
+      Provides centralized storage and versioning for trained models,
+      including metadata about training runs, model artifacts, and
+      deployment history.
+
+  - id: CCC.MLDE.F09
+    title: Collaborative Development Support
+    description: |
+      Enables multiple data scientists to work on the same project with
+      version control integration, shared notebooks, and resource management.
+
+  - id: CCC.MLDE.F10
+    title: Model Monitoring and Drift Detection
+    description: |
+      Supports monitoring of deployed models for performance degradation,
+      data drift, and concept drift with automated alerting capabilities.
+
+  - id: CCC.MLDE.F11
+    title: Reproducibility Capabilities
+    description: |
+      Provides capability to capture and version all components needed to
+      reproduce an ML experiment, including code, data, and environment
+      configurations.
+
+  - id: CCC.MLDE.F12
+    title: Resource Scheduling and Optimization
+    description: |
+      Supports scheduling and optimization of compute resources for
+      training jobs, including spot instance usage and auto-scaling
+      capabilities.
+
+  - id: CCC.MLDE.F13
+    title: Security and Compliance Controls
+    description: |
+      Provides specific controls for ML workflows including model
+      governance, bias detection, and compliance documentation for
+      regulated industries.

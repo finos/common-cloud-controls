@@ -6,67 +6,37 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/spf13/cobra"
+	"github.com/ossf/gemara/layer2"
 	"github.com/spf13/viper"
 )
 
-// Global Variables
-var (
-	releaseNotesTemplatePath = "templates/release-notes.md"
-)
+var releaseNotesTemplatePath = "templates/release-notes.md"
 
-var (
-	// baseCmd represents the base command when called without any subcommands
-	GenerateReleaseNotes = &cobra.Command{
-		Use:   "release-notes",
-		Short: "",
-		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			fmt.Print(Divider)
-			fmt.Print(Logo)
-			fmt.Println(Divider)
-		},
-		PersistentPostRun: func(cmd *cobra.Command, args []string) {
-			fmt.Println(Divider)
-		},
-		Run: func(cmd *cobra.Command, args []string) {
-			// checkArgs()
-			initializeOutputDirectory()
-
-			outputPath, err := generateReleaseNotes()
-			if err != nil {
-				fmt.Println(err)
-			} else {
-				fmt.Printf("File generated successfully: %s\n", outputPath)
-			}
-		},
+func generateReleaseNotes(catalog *layer2.Catalog, releaseDetails []ReleaseDetails) (string, error) {
+	data := CompiledCatalog{
+		Catalog:        *catalog,
+		ReleaseDetails: releaseDetails,
 	}
-)
-
-// generateReleaseNotes generates the release notes based on the provided template
-func generateReleaseNotes() (outputPath string, err error) {
-	data := readAndCompileCatalog()
 
 	mdFileName := "release_notes.md"
-	outputPath = filepath.Join(viper.GetString("output-dir"), mdFileName)
+	outputPath := filepath.Join(viper.GetString("output-dir"), mdFileName)
 
 	outputFile, err := os.Create(outputPath)
 	if err != nil {
-		err = fmt.Errorf("error creating output file %s: %w", outputPath, err)
-		return
+		return "", fmt.Errorf("error creating output file %s: %w", outputPath, err)
 	}
 	defer outputFile.Close()
 
-	tmpl, err := template.ParseFiles(releaseNotesTemplatePath)
+	tmpl, err := template.New(filepath.Base(releaseNotesTemplatePath)).Funcs(template.FuncMap{
+		"latestReleaseDetails": latestReleaseDetails,
+	}).ParseFiles(releaseNotesTemplatePath)
 	if err != nil {
-		err = fmt.Errorf("error parsing template file %s: %w", releaseNotesTemplatePath, err)
-		return
+		return "", fmt.Errorf("error parsing template file %s: %w", releaseNotesTemplatePath, err)
 	}
 
-	err = tmpl.Execute(outputFile, data)
-	if err != nil {
-		err = fmt.Errorf("error executing template for file %s: %w", outputPath, err)
-		return
+	if err := tmpl.Execute(outputFile, data); err != nil {
+		return "", fmt.Errorf("error executing template for file %s: %w", outputPath, err)
 	}
 
-	return
+	return outputPath, nil
 }

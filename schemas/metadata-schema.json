@@ -7,6 +7,7 @@
       "properties": {
         "id": {
           "type": "string",
+          "pattern":"^CCC\\.\\w{1,8}$",
           "description": "Unique identifier for the control catalog"
         },
         "title": {
@@ -55,7 +56,7 @@
       "required": ["id", "title", "description"],
       "additionalProperties": false
     },
-    "release_details": {
+    "release-details": {
       "type": "array",
       "items": {
         "type": "object",

@@ -39,7 +39,7 @@ Information about the individual overseeing the release:
 - **Name** (`name`): The name of the release manager.
 - **GitHub ID** (`github_id`): The GitHub handle of the release manager for issue tracking, PR review, and contribution attribution.
 - **Company** (`company`): The company or organization the release manager is associated with.
-- **Summary** (`summary`): Summary of the release and the reason for the changes.
+- **Quote** (`quote`): Text provided by the release manager containing a summary of the release and the reason for the changes.
 
 ### Change Log
 
@@ -56,7 +56,7 @@ title: Object Storage
 id: CCC.OBJSTG
 description: |
   Object Storage services allow the storage of unstructured data in scalable, high-availability, and high-durability systems. Examples include AWS S3, Azure Blob Storage, and Google Cloud Storage.
-release_details:
+release-details:
   - version: 2024.09
     assurance_level: AL2
     threat_model_url: https://example.com/threat-model

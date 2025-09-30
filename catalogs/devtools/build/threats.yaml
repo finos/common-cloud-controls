@@ -1,0 +1,71 @@
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access control is misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is intercepted in transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # Not yet specified
+        remarks: Deployment region network is untrusted
+      - reference-id: CCC.Core.TH04
+        strength: 0 # Not yet specified
+        remarks: Data is replicated to untrusted or external locations
+      - reference-id: CCC.Core.TH05
+        strength: 0 # Not yet specified
+        remarks: Data is corrupted during replication
+      - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
+        remarks: Data is lost or corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH11
+        strength: 0 # Not yet specified
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0 # Not yet specified
+        remarks: Resource constraints are exhausted
+      - reference-id: CCC.Core.TH14
+        strength: 0 # Not yet specified
+        remarks: Older Resource Versions Are Exploited
+      - reference-id: CCC.Core.TH15
+        strength: 0 # Not yet specified
+        remarks: Automated Enumeration and Reconnaissance by Non-Human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Logging and Monitoring are Disabled
+
+threats:
+  - id: CCC.Build.TH01
+    title: Unauthorized Build Execution
+    description: |
+      Attackers may trigger builds using unauthorized build agents or external services,
+      leading to unauthorized code execution or deployment of malicious code.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Build.F01
+          - reference-id: CCC.Build.F04
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1195
+  - id: CCC.Build.TH02
+    title: External Exposure of Build Environments
+    description: |
+      If build environments have external network access, they may be accessed by unauthorized parties,
+      leading to data exfiltration or tampering.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Build.F03
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1133

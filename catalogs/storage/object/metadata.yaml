@@ -1,0 +1,12 @@
+metadata:
+  id: CCC.ObjStor
+  title: Object Storage
+  description: |
+      Object storage is a data storage architecture that manages data as objects,
+      rather than as files or blocks. Each object contains the data itself,
+      metadata, and a unique identifier, making it ideal for storing large amounts
+      of unstructured data such as multimedia files, backups, and archives. It is
+      highly scalable and often used in cloud environments due to its flexibility
+      and accessibility.
+  version: "2025.09"
+  last-modified: "2025-04-16T20:50:00-05:00"

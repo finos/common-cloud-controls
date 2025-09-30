@@ -52,10 +52,10 @@ Threats for a given service typically reside in a `threats.yaml` file (e.g., `se
    - Ensure existing threats in `threats.yaml` correspond to these capabilities. Confirm IDs, titles, and descriptions are consistent and relevant.
 
 2. **Add Any Missing Common Threats**
-   - Review the [shared-threats.yaml](/common/threats.yaml) to see the full list of common threats.
+   - Review the [shared-threats.yaml](/catalogs/core/ccc/threats.yaml) to see the full list of common threats.
    - In `threats.yaml`, find or create a top-level `common_threats` key.
    - Add references to any relevant common threats not already included.
-   - See an example of a fully populated list in the [object storage threats.yaml](/services/storage/object/threats.yaml).
+   - See an example of a fully populated list in the [object storage threats.yaml](/catalogs/storage/object/threats.yaml).
 
 3. **Add Any Missing Service-Specific Threats**
    - Under the top-level `threats` list, define any threats unique to this service that are not already captured as “common threats.”
@@ -84,10 +84,10 @@ Controls for a given service typically reside in a `controls.yaml` file (e.g., `
    - Verify IDs, titles, and descriptions match the relevant threats where applicable.
 
 2. **Add Any Missing Common Controls**
-   - Review the [shared-controls.yaml](/common/controls.yaml).
+   - Review the [core controls](/catalogs/core/ccc/controls.yaml).
    - In your `controls.yaml`, find or create a top-level `common_controls` key.
    - Add references to any relevant common controls not already included.
-   - See the [object storage controls.yaml](/services/storage/object/controls.yaml) for an example.
+   - See the [object storage controls.yaml](/catalogs/storage/object/controls.yaml) for an example.
 
 3. **Add Any Missing Service-Specific Controls**
    - Under the `controls` list, add controls that are specific to your service’s unique threats or capabilities.
@@ -130,14 +130,14 @@ Controls for a given service typically reside in a `controls.yaml` file (e.g., `
 ## Additional Resources
 
 - **Common Threats**
-  [shared/threats.yaml](/common/threats.yaml)
+  [core/threats.yaml](/catalogs/core/ccc/threats.yaml)
 
 - **Common Controls**
-  [shared/controls.yaml](/common/controls.yaml)
+  [core/controls.yaml](/catalogs/core/ccc/controls.yaml)
 
 - **Example Completed Service**
-  - Threats: [services/storage/object/threats.yaml](/services/storage/object/threats.yaml)
-  - Controls: [services/storage/object/controls.yaml](/services/storage/object/controls.yaml)
+  - Threats: [services/storage/object/threats.yaml](/catalogs/storage/object/threats.yaml)
+  - Controls: [services/storage/object/controls.yaml](/catalogs/storage/object/controls.yaml)
 
 - **Style Guides**
   - [Threat Definitions](/docs/community-guidelines/content-standards-and-practices/threat-definitions.md)
