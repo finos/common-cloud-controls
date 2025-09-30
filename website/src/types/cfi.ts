@@ -47,7 +47,7 @@ export interface CFIConfigJson {
     name: string;
     description: string;
     path: string;
-    authors: Array<Contributor>;
+    git?: string;
 }
 
 /** 
@@ -66,9 +66,20 @@ export interface CFIRepository {
  */
 export interface Configuration {
     cfi_details: CFIConfigJson;
-    test_results: TestResultEntry[];
-    cfi_repository: CFIRepository;
+    repository: CFIRepository;
     slug: string;
+}
+
+export interface CFIResultSummary {
+    name: string;
+    description: string;
+    provider: string;
+    date: string;
+    repositoryUrl: string;
+    passingTests: number;
+    failingTests: number;
+    totalTests: number;
+    configurationSlug: string;
 }
 
 export interface HomePageData {
