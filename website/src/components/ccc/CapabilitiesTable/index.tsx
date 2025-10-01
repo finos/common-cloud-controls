@@ -33,9 +33,23 @@ export function CapabilitiesTable({ capabilities, releaseSlug, title = "Related 
             {capabilities.map((capability) => (
               <TableRow key={capability.id}>
                 <TableCell>
-                  <Link to={`${releaseSlug}/${capability.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
-                    {capability.id}
-                  </Link>
+                  {(() => {
+                    // Check if this is a cross-catalog reference (e.g., CCC.Core.* referenced from another catalog)
+                    const capabilityCatalog = capability.id.split(".").slice(0, 2).join(".");
+                    const currentCatalog = releaseSlug.split("/")[2]; // Extract catalog from /ccc/CCC.AuditLog/DEV
+
+                    if (capabilityCatalog === currentCatalog) {
+                      // Same catalog - create a link
+                      return (
+                        <Link to={`${releaseSlug}/${capability.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                          {capability.id}
+                        </Link>
+                      );
+                    } else {
+                      // Cross-catalog reference - just show as text
+                      return <span className="font-mono">{capability.id}</span>;
+                    }
+                  })()}
                 </TableCell>
                 <TableCell>{capability.title}</TableCell>
                 <TableCell>{capability.description}</TableCell>

@@ -38,9 +38,23 @@ export function ControlsTable({ controls, releaseSlug, title = "Controls" }: Con
             {controls.map((control) => (
               <TableRow key={control.id}>
                 <TableCell>
-                  <Link to={`${releaseSlug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
-                    {control.id}
-                  </Link>
+                  {(() => {
+                    // Check if this is a cross-catalog reference (e.g., CCC.Core.* referenced from another catalog)
+                    const controlCatalog = control.id.split(".").slice(0, 2).join(".");
+                    const currentCatalog = releaseSlug.split("/")[2]; // Extract catalog from /ccc/CCC.AuditLog/DEV
+
+                    if (controlCatalog === currentCatalog) {
+                      // Same catalog - create a link
+                      return (
+                        <Link to={`${releaseSlug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                          {control.id}
+                        </Link>
+                      );
+                    } else {
+                      // Cross-catalog reference - just show as text
+                      return <span className="font-mono">{control.id}</span>;
+                    }
+                  })()}
                 </TableCell>
                 <TableCell>{control.title}</TableCell>
                 <TableCell>{control.objective}</TableCell>

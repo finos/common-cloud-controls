@@ -289,6 +289,7 @@ function findGeneratedFiles(artifactsDir: string, catalog: CatalogDirectory): st
 
 /**
  * Copies generated files to the website data directory
+ * Filters out OSCAL JSON and Markdown files to keep only YAML files
  */
 async function copyFilesToWebsite(generatedFiles: string[]): Promise<void> {
     console.log('\n📁 Copying files to website directory...');
@@ -296,7 +297,21 @@ async function copyFilesToWebsite(generatedFiles: string[]): Promise<void> {
     // Ensure output directory exists
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
-    for (const sourceFile of generatedFiles) {
+    // Filter to only include YAML files (exclude .oscal.json and .md files)
+    const yamlFiles = generatedFiles.filter(file => {
+        const fileName = path.basename(file);
+        return fileName.endsWith('.yaml') && !fileName.includes('.oscal.');
+    });
+
+    console.log(`  📋 Filtering ${generatedFiles.length} generated files to ${yamlFiles.length} YAML files`);
+
+    const skippedFiles = generatedFiles.filter(file => !yamlFiles.includes(file));
+    if (skippedFiles.length > 0) {
+        console.log(`  ⏭️  Skipping non-YAML files:`);
+        skippedFiles.forEach(file => console.log(`    - ${path.basename(file)}`));
+    }
+
+    for (const sourceFile of yamlFiles) {
         const fileName = path.basename(sourceFile);
         const targetFile = path.join(OUTPUT_DIR, fileName);
 
@@ -374,8 +389,16 @@ async function generateAllReleaseCatalogs(): Promise<void> {
             }
         }
 
-        // Copy all generated files to website
+        // Copy all generated files to website (filtered to YAML only)
+        let copiedFileCount = 0;
         if (allGeneratedFiles.length > 0) {
+            // Count YAML files that will be copied
+            const yamlFiles = allGeneratedFiles.filter(file => {
+                const fileName = path.basename(file);
+                return fileName.endsWith('.yaml') && !fileName.includes('.oscal.');
+            });
+            copiedFileCount = yamlFiles.length;
+
             await copyFilesToWebsite(allGeneratedFiles);
         }
 
@@ -397,7 +420,8 @@ async function generateAllReleaseCatalogs(): Promise<void> {
             failed.forEach(r => console.log(`  - ${r.catalogPath}: ${r.error}`));
         }
 
-        console.log(`📁 Total files copied: ${allGeneratedFiles.length}`);
+        console.log(`📁 Total files generated: ${allGeneratedFiles.length}`);
+        console.log(`📁 YAML files copied to website: ${copiedFileCount}`);
         console.log('✅ Release catalog generation completed!');
 
     } catch (error) {

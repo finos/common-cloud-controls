@@ -5,5 +5,30 @@
     "name": "CCC AWS RDS Terraform Module",
     "description": "This module creates secure AWS RDS databases with encryption, networking, monitoring, and advanced security features.",
     "path": "remote/aws/rds",
+    "authors": [
+        {
+            "name": "AWS",
+            "github_id": "terraform-aws-modules",
+            "company": "Amazon"
+        }
+    ],
+    "resources": [
+        "aws_db_instance",
+        "aws_db_subnet_group",
+        "aws_db_parameter_group",
+        "aws_db_option_group",
+        "aws_db_security_group",
+        "aws_db_instance_role_association",
+        "aws_db_proxy",
+        "aws_db_proxy_default_target_group",
+        "aws_db_proxy_target",
+        "aws_db_snapshot"
+    ],
+    "specifications": [
+        "CCC.RDBMS",
+        "CCC.Encryption",
+        "CCC.Networking",
+        "CCC.Monitoring"
+    ],
     "git": "https://github.com/terraform-aws-modules/terraform-aws-rds"
 }

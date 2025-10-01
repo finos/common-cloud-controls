@@ -1,0 +1,5 @@
+# Ignore list for CCC release downloads
+# Files matching these patterns will be skipped during download
+# One pattern per line, comments start with #
+
+CCC.RDMS_2025.05

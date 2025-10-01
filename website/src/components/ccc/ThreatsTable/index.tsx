@@ -36,9 +36,23 @@ export function ThreatsTable({ threats, releaseSlug, title = "Threats" }: Threat
             {threats.map((threat) => (
               <TableRow key={threat.id}>
                 <TableCell>
-                  <Link to={`${releaseSlug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
-                    {threat.id}
-                  </Link>
+                  {(() => {
+                    // Check if this is a cross-catalog reference (e.g., CCC.Core.* referenced from another catalog)
+                    const threatCatalog = threat.id.split(".").slice(0, 2).join(".");
+                    const currentCatalog = releaseSlug.split("/")[2]; // Extract catalog from /ccc/CCC.AuditLog/DEV
+
+                    if (threatCatalog === currentCatalog) {
+                      // Same catalog - create a link
+                      return (
+                        <Link to={`${releaseSlug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                          {threat.id}
+                        </Link>
+                      );
+                    } else {
+                      // Cross-catalog reference - just show as text
+                      return <span className="font-mono">{threat.id}</span>;
+                    }
+                  })()}
                 </TableCell>
                 <TableCell>{threat.title}</TableCell>
                 <TableCell>{threat.description}</TableCell>

@@ -179,6 +179,15 @@ async function clearDestinationDirectories(repositories: CFIRepository[]): Promi
 }
 
 async function downloadCFIArtifacts(): Promise<void> {
+    // Check if GITHUB_TOKEN is available
+    if (!GITHUB_TOKEN) {
+        console.warn('⚠️  GITHUB_TOKEN environment variable is not set.');
+        console.warn('⚠️  GitHub requires authentication to download workflow artifacts.');
+        console.warn('⚠️  Please set GITHUB_TOKEN environment variable with a valid GitHub personal access token.');
+        console.warn('⚠️  Skipping CFI artifacts download.');
+        return;
+    }
+
     // Check if unzip command is available
     try {
         await execAsync('which unzip');

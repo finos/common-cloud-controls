@@ -5,6 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { RepositoryPageData } from "@site/src/types/cfi";
 
+// Helper function to extract catalog ID from test requirement
+function extractCatalogId(testRequirement: string): string {
+  // Extract catalog from format like "CCC.ObjStor.C01.TR01" -> "CCC.ObjStor"
+  const parts = testRequirement.split(".");
+  return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : testRequirement;
+}
+
+// Helper function to generate catalog component URL
+function getCatalogComponentUrl(catalogId: string): string {
+  // Catalog IDs like "CCC.ObjStor" map to component URLs like "/ccc/CCC.ObjStor"
+  return `/ccc/${catalogId}`;
+}
+
 export default function CFIRepository({ pageData }: { pageData: RepositoryPageData }): React.ReactElement {
   const { repository, configurations, repositorySlug } = pageData;
 
@@ -29,7 +42,7 @@ export default function CFIRepository({ pageData }: { pageData: RepositoryPageDa
   configurations.forEach((config) => {
     config.test_results?.forEach((result) => {
       result.test_requirements?.forEach((req) => {
-        const catalogId = req.split(".").slice(0, 2).join(".");
+        const catalogId = extractCatalogId(req);
         if (catalogId) allCatalogs.add(catalogId);
       });
     });
@@ -150,9 +163,9 @@ export default function CFIRepository({ pageData }: { pageData: RepositoryPageDa
                       {Array.from(allCatalogs)
                         .sort()
                         .map((catalog, index) => (
-                          <Link key={index} to={`/ccc/${catalog}`} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors">
+                          <span key={index} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
                             {catalog}
-                          </Link>
+                          </span>
                         ))}
                     </div>
                   </TableCell>
