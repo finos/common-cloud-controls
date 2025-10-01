@@ -9,7 +9,7 @@ metadata:
     stores support operations like nearest neighbor search using approximate or exact
     methods and integrate with model-serving and ingestion pipelines. They are
     optimized for performance, scale, and integration with cloud-native tools.
-  version: "2025.07"
+  version: "DEV"
   last-modified: "2025-06-20T00:00:00Z"
   applicability-categories: []
   mapping-references: []

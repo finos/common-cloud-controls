@@ -151,11 +151,11 @@ async function discoverCatalogDirectories(): Promise<CatalogDirectory[]> {
                     service,
                     fullPath: servicePath,
                     hasReleaseDetails,
-                    needsDevReleaseDetails: !hasReleaseDetails
+                    needsDevReleaseDetails: true  // Always create DEV version
                 });
 
                 if (hasReleaseDetails) {
-                    console.log(`  ✅ Found: ${category}/${service}`);
+                    console.log(`  ✅ Found with release details: ${category}/${service} (will also create DEV version)`);
                 } else {
                     console.log(`  🔧 Will create DEV version: ${category}/${service}`);
                 }
@@ -171,7 +171,7 @@ async function discoverCatalogDirectories(): Promise<CatalogDirectory[]> {
 
     console.log(`\n📦 Found ${validCatalogs} valid catalogs:`);
     console.log(`  - ${catalogsWithReleases} with existing release details`);
-    console.log(`  - ${catalogsNeedingDev} will use DEV version`);
+    console.log(`  - ${catalogsNeedingDev} will generate DEV versions (all catalogs)`);
 
     return catalogs;
 }
