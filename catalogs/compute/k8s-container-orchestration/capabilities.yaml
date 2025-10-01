@@ -85,11 +85,11 @@ capabilities:
       Ability to restrict access to the Kubernetes API server to private networks,
       ensuring the control plane is only accessible within your VPC.
   - id: CCC.KubeCont.F11
-    title: Add-ons/Extentions
+    title: Service Mesh Integration
     description: |
-      Enables easy addition and configuration of add-ons, allowing users to
-      deploy and manage Kubernetes extensions like monitoring, logging,
-      and networking tools.
+      Ability to integrate with managed service mesh offering by the cloud
+      service provider for service discovery, traffic routing, observability,
+      and security.
   - id: CCC.KubeCont.F12
     title: Secrets Integration
     description: |
