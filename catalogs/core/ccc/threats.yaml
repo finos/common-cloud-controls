@@ -24,11 +24,12 @@
 #   - The reference-id for mappings should be an ID defined in metadata.mapping-references[]
 
 threats:
-  - title: Access Control is Misconfigured
+  - title: Access is Granted to Unauthorized Users
     id: CCC.Core.TH01
     description: |
-      Misconfigured access controls may grant excessive privileges or fail to
-      restrict unauthorized access to the service and its child resources.
+      Logic designed to give different permissions to different entities may
+      be misconfigured or manipulated, allowing unauthorized entities to access
+      restricted parts of the service, its data, or its child resources.
       This could result in a loss of data confidentiality or tolerance of
       unauthorized actions which impact the integrity and availability of
       resources and data.
@@ -37,6 +38,8 @@ threats:
         entries:
           - reference-id: CCC.Core.F06
             remarks: Access Control
+          - reference-id: CCC.Core.F29
+            remarks: Active Ingestion
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -458,3 +461,23 @@ threats:
             remarks: Encryption in Transit Enabled by Default
           - reference-id: CCC.Core.F02
             remarks: Encryption at Rest Enabled by Default
+  - title: Responses are Generated for Unauthorized Requests
+    id: CCC.Core.TH17
+    description: |
+      The service may generate responses to requests from unauthorized entities.
+      This could lead to the exposure of system details, which may be used to
+      plan an attack against the service, system, or network. Additionally,
+      allocating resources to service the request could lead to a denial of
+      service for legitimate users, leading to a loss of availability anywhere
+      in the system.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F29
+            remarks: Active Ingestion
+    external-mappings:
+      - reference-id: CCMv4
+        entries:
+          - reference-id: IVS-09
+            strength: 1
+            remarks: Network Defense (techniques for protection, detection, and timely response)
