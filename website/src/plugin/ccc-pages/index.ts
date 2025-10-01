@@ -84,23 +84,23 @@ function parseControlFamily(controlFamily: any): Control[] {
 }
 
 // Step 2: Create PageData objects with relationships and slugs
-function createControlPageData(control: Control, release: Release, allReleases: Release[]): ControlPageData {
+function createControlPageData(control: Control, release: Release): ControlPageData {
     const releaseSlug = `/ccc/${release.metadata.id}/${release.metadata.version}`;
     const controlSlug = `${releaseSlug}/${control.id}`;
 
-    // Find related threats by looking at threat_mappings
+    // Find related threats by looking at threat_mappings - only from current catalog
     const relatedThreats = control.threat_mappings
         ?.find(mapping => mapping['reference-id'] === 'CCC')
         ?.entries?.map(entry =>
-            allReleases.flatMap(r => r.threats).find(t => t.id === entry['reference-id'])
+            release.threats.find(t => t.id === entry['reference-id'])
         ).filter(Boolean) || [];
 
-    // Find related capabilities by looking at which threats reference them
+    // Find related capabilities by looking at which threats reference them - only from current catalog
     const relatedCapabilities = relatedThreats
         .flatMap(threat => threat.capabilities)
         ?.find(cap => cap['reference-id'] === 'CCC')
         ?.entries?.map(entry =>
-            allReleases.flatMap(r => r.capabilities).find(c => c.id === entry['reference-id'])
+            release.capabilities.find(c => c.id === entry['reference-id'])
         ).filter(Boolean) || [];
 
     return {
@@ -113,12 +113,12 @@ function createControlPageData(control: Control, release: Release, allReleases: 
     };
 }
 
-function createCapabilityPageData(capability: Capability, release: Release, allReleases: Release[]): CapabilityPageData {
+function createCapabilityPageData(capability: Capability, release: Release): CapabilityPageData {
     const releaseSlug = `/ccc/${release.metadata.id}/${release.metadata.version}`;
     const capabilitySlug = `${releaseSlug}/${capability.id}`;
 
-    // Find related threats that reference this capability
-    const relatedThreats = allReleases.flatMap(r => r.threats)
+    // Find related threats that reference this capability - only from current catalog
+    const relatedThreats = release.threats
         .filter(threat =>
             threat.capabilities?.some(cap =>
                 cap['reference-id'] === 'CCC' &&
@@ -135,23 +135,23 @@ function createCapabilityPageData(capability: Capability, release: Release, allR
     };
 }
 
-function createThreatPageData(threat: Threat, release: Release, allReleases: Release[]): ThreatPageData {
+function createThreatPageData(threat: Threat, release: Release): ThreatPageData {
     const releaseSlug = `/ccc/${release.metadata.id}/${release.metadata.version}`;
     const threatSlug = `${releaseSlug}/${threat.id}`;
 
-    // Find related controls by looking at threat_mappings
-    const relatedControls = allReleases.flatMap(r => r.controls)
+    // Find related controls by looking at threat_mappings - only from current catalog
+    const relatedControls = release.controls
         .filter(control =>
             control.threat_mappings
                 ?.find(mapping => mapping['reference-id'] === 'CCC')
                 ?.entries?.some(entry => entry['reference-id'] === threat.id)
         );
 
-    // Find related capabilities
+    // Find related capabilities - only from current catalog
     const relatedCapabilities = threat.capabilities
         ?.find(cap => cap['reference-id'] === 'CCC')
         ?.entries?.map(entry =>
-            allReleases.flatMap(r => r.capabilities).find(c => c.id === entry['reference-id'])
+            release.capabilities.find(c => c.id === entry['reference-id'])
         ).filter(Boolean) || [];
 
     return {

@@ -38,32 +38,18 @@ export function ControlsTable({ controls, releaseSlug, title = "Controls" }: Con
             {controls.map((control) => (
               <TableRow key={control.id}>
                 <TableCell>
-                  {(() => {
-                    // Check if this is a cross-catalog reference (e.g., CCC.Core.* referenced from another catalog)
-                    const controlCatalog = control.id.split(".").slice(0, 2).join(".");
-                    const currentCatalog = releaseSlug.split("/")[2]; // Extract catalog from /ccc/CCC.AuditLog/DEV
-
-                    if (controlCatalog === currentCatalog) {
-                      // Same catalog - create a link
-                      return (
-                        <Link to={`${releaseSlug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
-                          {control.id}
-                        </Link>
-                      );
-                    } else {
-                      // Cross-catalog reference - just show as text
-                      return <span className="font-mono">{control.id}</span>;
-                    }
-                  })()}
+                  <Link to={`${releaseSlug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                    {control.id}
+                  </Link>
                 </TableCell>
                 <TableCell>{control.title}</TableCell>
                 <TableCell>{control.objective}</TableCell>
                 <TableCell>{control.family.title}</TableCell>
                 <TableCell>
-                  <MappingCountBadge count={control.threat_mappings?.length || 0} />
+                  <MappingCountBadge count={control.threat_mappings?.reduce((total, mapping) => total + (mapping.entries?.length || 0), 0) || 0} />
                 </TableCell>
                 <TableCell>
-                  <MappingCountBadge count={control.guideline_mappings?.length || 0} />
+                  <MappingCountBadge count={control.guideline_mappings?.reduce((total, mapping) => total + (mapping.entries?.length || 0), 0) || 0} />
                 </TableCell>
                 <TableCell>
                   <MappingCountBadge count={control.test_requirements?.length || 0} />

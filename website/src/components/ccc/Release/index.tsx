@@ -133,7 +133,7 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
           </CardContent>
         </Card>
 
-        <ThreatsTable threats={threats} releaseSlug={pageData.slug} />
+        <ThreatsTable threats={threats} releaseSlug={pageData.slug} controls={controls} />
 
         <ControlsTable controls={controls} releaseSlug={pageData.slug} />
       </main>

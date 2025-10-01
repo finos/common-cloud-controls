@@ -3,15 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import Link from "@docusaurus/Link";
 import { MappingCountBadge } from "../MappingCountBadge";
-import { Threat } from "@site/src/types/ccc";
+import { Threat, Control } from "@site/src/types/ccc";
 
 interface ThreatsTableProps {
   threats: Threat[];
   releaseSlug: string;
   title?: string;
+  controls?: Control[]; // Optional controls array to count control mappings
 }
 
-export function ThreatsTable({ threats, releaseSlug, title = "Threats" }: ThreatsTableProps) {
+export function ThreatsTable({ threats, releaseSlug, title = "Threats", controls }: ThreatsTableProps) {
   if (!threats || threats.length === 0) {
     return null;
   }
@@ -30,29 +31,16 @@ export function ThreatsTable({ threats, releaseSlug, title = "Threats" }: Threat
               <TableHead>Description</TableHead>
               <TableHead>External Mappings</TableHead>
               <TableHead>Capability Mappings</TableHead>
+              <TableHead>Control Mappings</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {threats.map((threat) => (
               <TableRow key={threat.id}>
                 <TableCell>
-                  {(() => {
-                    // Check if this is a cross-catalog reference (e.g., CCC.Core.* referenced from another catalog)
-                    const threatCatalog = threat.id.split(".").slice(0, 2).join(".");
-                    const currentCatalog = releaseSlug.split("/")[2]; // Extract catalog from /ccc/CCC.AuditLog/DEV
-
-                    if (threatCatalog === currentCatalog) {
-                      // Same catalog - create a link
-                      return (
-                        <Link to={`${releaseSlug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
-                          {threat.id}
-                        </Link>
-                      );
-                    } else {
-                      // Cross-catalog reference - just show as text
-                      return <span className="font-mono">{threat.id}</span>;
-                    }
-                  })()}
+                  <Link to={`${releaseSlug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                    {threat.id}
+                  </Link>
                 </TableCell>
                 <TableCell>{threat.title}</TableCell>
                 <TableCell>{threat.description}</TableCell>
@@ -61,6 +49,9 @@ export function ThreatsTable({ threats, releaseSlug, title = "Threats" }: Threat
                 </TableCell>
                 <TableCell>
                   <MappingCountBadge count={threat.capabilities?.length || 0} />
+                </TableCell>
+                <TableCell>
+                  <MappingCountBadge count={controls ? controls.filter((control) => control.threat_mappings?.find((mapping) => mapping["reference-id"] === "CCC")?.entries?.some((entry) => entry["reference-id"] === threat.id)).length : 0} />
                 </TableCell>
               </TableRow>
             ))}
