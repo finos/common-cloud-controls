@@ -53,5 +53,10 @@ export function findAssessmentRequirements(
  */
 export function getControlUrl(release: Release, control: Control, requirementId?: string): string {
     const baseUrl = `/ccc/${release.metadata.id}/${release.metadata.version}/${control.id}`;
-    return requirementId ? `${baseUrl}#${requirementId}` : baseUrl;
+    if (requirementId) {
+        // Extract just the TR part (e.g., "tr01" from "CCC.ObjStor.C01.TR01")
+        const shortAnchor = requirementId.split('.').pop()?.toLowerCase();
+        return `${baseUrl}#${shortAnchor}`;
+    }
+    return baseUrl;
 }
