@@ -1,0 +1,76 @@
+- version: 2025.09-BETA
+  assurance-level: ""
+  threat-model-url: ""
+  threat-model-author: ""
+  red-team: ""
+  red-team-exercise-url: ""
+  release-manager:
+    name: Rob Moffat
+    github-id: robmoffat
+    company: Sonatype
+    quote: TODO
+  change-log:
+    - beta release for website
+  contributors:
+    - name: Damien Burks
+      github-id: damienjburks
+      company: Citi
+    - name: Eddie Knight
+      github-id: eddie-knight
+      company: Sonatype
+    - name: Steven Shiells
+      github-id: sshiells-scottlogic
+      company: Scott Logic
+    - name: Michael Lysaght
+      github-id: mlysaght2017
+      company: Citi
+    - name: Sonali Mendis
+      github-id: smendis-scottlogic
+      company: Scott Logic
+    - name: Dave Ogle
+      github-id: dogle-scottlogic
+      company: Scott Logic
+    - name: Naseer Mohammad
+      github-id: nas-hub
+      company: Google
+- version: "2025.01"
+  assurance-level: ""
+  threat-model-url: ""
+  threat-model-author: ""
+  red-team: ""
+  red-team-exercise-url: ""
+  release-manager:
+    name: Damien Burks
+    github-id: damienjburks
+    company: Citi
+    quote: |
+      This initial release is part of the first batch of control catalogs
+      produced by the CCC. It is the result of thousands of hours dedicated to
+      exploring different ways of working and collaborating, on top of time
+      spent researching, writing, and reviewing the content. This marks a huge
+      milestone for the CCC and the broader community as further releases will
+      continue to build on this foundation. A huge thanks to everyone who has
+      brought us to this point!
+  change-log:
+    - |
+      This initial release contains a variety of commits designed to capture
+      all of the capabilities, threats, and controls for this service category.
+  contributors:
+    - name: Sonali Mendis
+      github-id: smendis-scottlogic
+      company: Scott Logic
+    - name: Eddie Knight
+      github-id: eddie-knight
+      company: Sonatype
+    - name: Michael Lysaght
+      github-id: mlysaght2017
+      company: Citi
+    - name: Dave Ogle
+      github-id: dogle-scottlogic
+      company: Scott Logic
+    - name: Damien Burks
+      github-id: damienjburks
+      company: Citi
+    - name: Naseer Mohammad
+      github-id: nas-hub
+      company: Google

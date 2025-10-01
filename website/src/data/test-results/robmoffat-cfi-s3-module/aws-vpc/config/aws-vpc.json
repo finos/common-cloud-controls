@@ -1,0 +1,33 @@
+{
+    "id": "aws-vpc",
+    "provider": "aws",
+    "service": "networking",
+    "name": "CCC AWS VPC Terraform Module",
+    "description": "This module creates a secure AWS VPC with subnets, NAT gateways, routing, and advanced networking capabilities.",
+    "path": "remote/aws/vpc",
+    "authors": [
+        {
+            "name": "AWS",
+            "github_id": "terraform-aws-modules",
+            "company": "Amazon"
+        }
+    ],
+    "resources": [
+        "aws_vpc",
+        "aws_subnet",
+        "aws_internet_gateway",
+        "aws_nat_gateway",
+        "aws_route_table",
+        "aws_route",
+        "aws_route_table_association",
+        "aws_eip",
+        "aws_network_acl",
+        "aws_security_group"
+    ],
+    "specifications": [
+        "CCC.Networking",
+        "CCC.Security",
+        "CCC.Monitoring"
+    ],
+    "git": "https://github.com/terraform-aws-modules/terraform-aws-vpc"
+}
