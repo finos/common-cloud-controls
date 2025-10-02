@@ -39,11 +39,10 @@ func safe(s string) string {
 	return strings.TrimSpace(s)
 }
 
-func generateOmnibusMdFile(catalog *layer2.Catalog) (string, error) {
+func generateOmnibusMdFile(catalog *layer2.Catalog, releaseDetails []ReleaseDetails) (string, error) {
 	mdFileName := fmt.Sprintf("%s_%s.md", catalog.Metadata.Id, catalog.Metadata.Version)
 	outputPath := filepath.Join(viper.GetString("output-dir"), mdFileName)
 
-	releaseDetails := getReleaseDetails(filepath.Join(viper.GetString("catalogs-dir"), viper.GetString("build-target")))
 	compiledCatalog := CompiledCatalog{
 		Catalog:        *catalog,
 		ReleaseDetails: releaseDetails,

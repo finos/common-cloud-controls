@@ -1,792 +1,395 @@
 {
-  "groups": [
-    {
-      "class": "family",
-      "controls": [
-        {
-          "class": "Data",
-          "id": "CCC.Core.C01",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c01",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C01",
-              "id": "CCC.Core.C01.TR01",
-              "name": "CCC.Core.C01.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C01.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C01.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When a port is exposed for non-SSH network traffic, all traffic MUST\ninclude a TLS handshake AND be encrypted using TLS 1.2 or higher.\n"
-            },
-            {
-              "class": "CCC.Core.C01",
-              "id": "CCC.Core.C01.TR02",
-              "name": "CCC.Core.C01.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C01.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C01.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When a port is exposed for SSH network traffic, all traffic MUST\ninclude a SSH handshake AND be encrypted using SSHv2 or higher.\n"
-            }
-          ],
-          "title": "Prevent Unencrypted Requests"
-        },
-        {
-          "class": "Data",
-          "id": "CCC.Core.C06",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c06",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C06",
-              "id": "CCC.Core.C06.TR01",
-              "name": "CCC.Core.C06.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C06.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C06.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When a deployment request is made, the service MUST validate\nthat the deployment region is not to a restricted or regions\nor availability zones.\n"
-            },
-            {
-              "class": "CCC.Core.C06",
-              "id": "CCC.Core.C06.TR02",
-              "name": "CCC.Core.C06.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C06.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C06.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When a deployment request is made, the service MUST validate that\nreplication of data, backups, and disaster recovery operations\nwill not occur in restricted regions or availability zones.\n"
-            }
-          ],
-          "title": "Prevent Deployment in Restricted Regions"
-        },
-        {
-          "class": "Data",
-          "id": "CCC.Core.C08",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c08",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C08",
-              "id": "CCC.Core.C08.TR01",
-              "name": "CCC.Core.C08.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C08.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C08.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When data is stored, the service MUST ensure that data is\nreplicated across multiple availability zones or regions.\n"
-            },
-            {
-              "class": "CCC.Core.C08",
-              "id": "CCC.Core.C08.TR02",
-              "name": "CCC.Core.C08.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C08.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C08.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When data is replicated across multiple zones or regions,\nthe service MUST be able to verify the replication state,\nincluding the replication locations and data synchronization\nstatus.\n"
-            }
-          ],
-          "title": "Enable Multi-zone or Multi-region Data Replication"
-        },
-        {
-          "class": "Data",
-          "id": "CCC.Core.C09",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c09",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C09",
-              "id": "CCC.Core.C09.TR01",
-              "name": "CCC.Core.C09.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C09.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C09.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When access logs are stored, the service MUST ensure that\naccess logs cannot be accessed without proper authorization.\n"
-            },
-            {
-              "class": "CCC.Core.C09",
-              "id": "CCC.Core.C09.TR02",
-              "name": "CCC.Core.C09.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C09.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C09.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When access logs are stored, the service MUST ensure that\naccess logs cannot be modified without proper authorization.\n"
-            },
-            {
-              "class": "CCC.Core.C09",
-              "id": "CCC.Core.C09.TR03",
-              "name": "CCC.Core.C09.TR03",
-              "parts": [
-                {
-                  "id": "CCC.Core.C09.TR03.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C09.TR03",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When access logs are stored, the service MUST ensure that\naccess logs cannot be deleted without proper authorization.\n"
-            }
-          ],
-          "title": "Prevent Tampering, Deletion, or Unauthorized Access to Access Logs"
-        },
-        {
-          "class": "Data",
-          "id": "CCC.Core.C10",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c10",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C10",
-              "id": "CCC.Core.C10.TR01",
-              "name": "CCC.Core.C10.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C10.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C10.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When data is replicated, the service MUST ensure that\nreplication is restricted to explicitly trusted destinations.\n"
-            }
-          ],
-          "title": "Prevent Data Replication to Destinations Outside of Defined Trust Perimeter"
-        }
-      ],
-      "title": "TODO: Describe this control family"
-    },
-    {
-      "class": "family",
-      "controls": [
-        {
-          "class": "Encryption",
-          "id": "CCC.Core.C02",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c02",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C02",
-              "id": "CCC.Core.C02.TR01",
-              "name": "CCC.Core.C02.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C02.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C02.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When data is stored at rest, the service MUST be configured to\nencrypt data at rest using the latest industry-standard encryption\nmethods.\n"
-            }
-          ],
-          "title": "Ensure Data Encryption at Rest for All Stored Data"
-        },
-        {
-          "class": "Encryption",
-          "id": "CCC.Core.C11",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c11",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C11",
-              "id": "CCC.Core.C11.TR01",
-              "name": "CCC.Core.C11.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C11.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C11.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When encryption keys are used, the service MUST verify that\nall encryption keys use approved cryptographic algorithms as\nper organizational standards.\n"
-            },
-            {
-              "class": "CCC.Core.C11",
-              "id": "CCC.Core.C11.TR02",
-              "name": "CCC.Core.C11.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C11.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C11.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When encryption keys are used, the service MUST verify that\nencryption keys are rotated at a frequency compliant with\norganizational policies.\n"
-            },
-            {
-              "class": "CCC.Core.C11",
-              "id": "CCC.Core.C11.TR03",
-              "name": "CCC.Core.C11.TR03",
-              "parts": [
-                {
-                  "id": "CCC.Core.C11.TR03.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C11.TR03",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When encrypting data, the service MUST verify that\ncustomer-managed encryption keys (CMEKs) are used.\n"
-            },
-            {
-              "class": "CCC.Core.C11",
-              "id": "CCC.Core.C11.TR04",
-              "name": "CCC.Core.C11.TR04",
-              "parts": [
-                {
-                  "id": "CCC.Core.C11.TR04.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C11.TR04",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When encryption keys are accessed, the service MUST verify that\naccess to encryption keys is restricted to authorized personnel\nand services, following the principle of least privilege.\n"
-            }
-          ],
-          "title": "Enforce Key Management Policies"
-        }
-      ],
-      "title": "TODO: Describe this control family"
-    },
-    {
-      "class": "family",
-      "controls": [
-        {
-          "class": "Identity and Access Management",
-          "id": "CCC.Core.C03",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c03",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C03",
-              "id": "CCC.Core.C03.TR01",
-              "name": "CCC.Core.C03.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C03.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C03.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When an entity attempts to modify the service, the service MUST\nattempt to verify the client's identity through an authentication\nprocess.\n"
-            },
-            {
-              "class": "CCC.Core.C03",
-              "id": "CCC.Core.C03.TR02",
-              "name": "CCC.Core.C03.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C03.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C03.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When an entity attempts to view information presented by the service,\nservice, the service MUST attempt to verify the client's identity\nthrough an authentication process.\n"
-            },
-            {
-              "class": "CCC.Core.C03",
-              "id": "CCC.Core.C03.TR03",
-              "name": "CCC.Core.C03.TR03",
-              "parts": [
-                {
-                  "id": "CCC.Core.C03.TR03.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C03.TR03",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When an entity attempts to view information on the service through\na user interface, the authentication process MUST require multiple\nidentifying factors from the user.\n"
-            },
-            {
-              "class": "CCC.Core.C03",
-              "id": "CCC.Core.C03.TR04",
-              "name": "CCC.Core.C03.TR04",
-              "parts": [
-                {
-                  "id": "CCC.Core.C03.TR04.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C03.TR04",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When an entity attempts to modify the service through an API\nendpoint, the authentication process MUST be limited to a\nspecific allowed network.\n"
-            },
-            {
-              "class": "CCC.Core.C03",
-              "id": "CCC.Core.C03.TR05",
-              "name": "CCC.Core.C03.TR05",
-              "parts": [
-                {
-                  "id": "CCC.Core.C03.TR05.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C03.TR05",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When an entity attempts to view information on the service through\nan API endpoint, the authentication process MUST be limited to a\nspecific allowed network.\n"
-            },
-            {
-              "class": "CCC.Core.C03",
-              "id": "CCC.Core.C03.TR06",
-              "name": "CCC.Core.C03.TR06",
-              "parts": [
-                {
-                  "id": "CCC.Core.C03.TR06.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C03.TR06",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When an entity attempts to modify the service through a user\ninterface, the authentication process MUST require multiple\nidentifying factors from the user.\n"
-            }
-          ],
-          "title": "Implement Multi-factor Authentication (MFA) for Access"
-        },
-        {
-          "class": "Identity and Access Management",
-          "id": "CCC.Core.C05",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c05",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C05",
-              "id": "CCC.Core.C05.TR01",
-              "name": "CCC.Core.C05.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C05.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C05.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When access to sensitive resources is attempted, the service MUST\nblock requests from untrusted sources, including IP addresses,\ndomains, or networks that are not explicitly included in a\npre-approved allowlist.\n"
-            },
-            {
-              "class": "CCC.Core.C05",
-              "id": "CCC.Core.C05.TR02",
-              "name": "CCC.Core.C05.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C05.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C05.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When administrative access is attempted, the service MUST validate\nthat the request originates from an explicitly allowed source as\ndefined in the allowlist.\n"
-            },
-            {
-              "class": "CCC.Core.C05",
-              "id": "CCC.Core.C05.TR03",
-              "name": "CCC.Core.C05.TR03",
-              "parts": [
-                {
-                  "id": "CCC.Core.C05.TR03.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C05.TR03",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When resources are accessed in a multi-tenant environment, the\nservice MUST enforce isolation by allowing access only to explicitly\nallowlisted tenants.\n"
-            },
-            {
-              "class": "CCC.Core.C05",
-              "id": "CCC.Core.C05.TR04",
-              "name": "CCC.Core.C05.TR04",
-              "parts": [
-                {
-                  "id": "CCC.Core.C05.TR04.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C05.TR04",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When an access attempt from an untrusted source is blocked, the\nservice MUST log the event, including the source details, time,\nand reason for denial.\n"
-            }
-          ],
-          "title": "Prevent Access from Untrusted Entities"
-        }
-      ],
-      "title": "TODO: Describe this control family"
-    },
-    {
-      "class": "family",
-      "controls": [
-        {
-          "class": "Logging \u0026 Monitoring",
-          "id": "CCC.Core.C04",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c04",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C04",
-              "id": "CCC.Core.C04.TR01",
-              "name": "CCC.Core.C04.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C04.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C04.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When any access attempt is made to the service, the service MUST log\nthe client identity, time, and result of the attempt.\n"
-            },
-            {
-              "class": "CCC.Core.C04",
-              "id": "CCC.Core.C04.TR02",
-              "name": "CCC.Core.C04.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C04.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C04.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When any access attempt is made to the view sensitive information,\nthe service MUST log the client identity, time, and result of the\nattempt.\n"
-            },
-            {
-              "class": "CCC.Core.C04",
-              "id": "CCC.Core.C04.TR03",
-              "name": "CCC.Core.C04.TR03",
-              "parts": [
-                {
-                  "id": "CCC.Core.C04.TR03.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C04.TR03",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When any change is made to the service configuration, the service MUST\nlog the change, including the client, time, previous state, and the\nnew state following the change.\n"
-            }
-          ],
-          "title": "Log All Access and Changes"
-        },
-        {
-          "class": "Logging \u0026 Monitoring",
-          "id": "CCC.Core.C07",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c07",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C07",
-              "id": "CCC.Core.C07.TR01",
-              "name": "CCC.Core.C07.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C07.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C07.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When suspicious enumeration activities are detected, the\nservice MUST generate real-time alerts to notify security\npersonnel.\n"
-            },
-            {
-              "class": "CCC.Core.C07",
-              "id": "CCC.Core.C07.TR02",
-              "name": "CCC.Core.C07.TR02",
-              "parts": [
-                {
-                  "id": "CCC.Core.C07.TR02.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C07.TR02",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When suspicious enumeration activities are detected, the\nservice MUST log the event, including the source details,\ntime, and nature of the activity.\n"
-            }
-          ],
-          "title": "Alert on Unusual Enumeration Activity"
-        }
-      ],
-      "title": "TODO: Describe this control family"
-    },
-    {
-      "class": "family",
-      "controls": [
-        {
-          "id": "CCC.Core.C12",
-          "links": [
-            {
-              "href": "https://example.com/releases/2025.09#ccc.core.c12",
-              "rel": "canonical"
-            }
-          ],
-          "parts": [
-            {
-              "class": "CCC.Core.C12",
-              "id": "CCC.Core.C12.TR01",
-              "name": "CCC.Core.C12.TR01",
-              "parts": [
-                {
-                  "id": "CCC.Core.C12.TR01.R",
-                  "links": [
-                    {
-                      "href": "https://example.com/releases/2025.09#CCC.Core.C12.TR01",
-                      "rel": "canonical"
-                    }
-                  ],
-                  "name": "recommendation",
-                  "ns": "https://github.com/ossf/gemara/ns/oscal"
-                }
-              ],
-              "prose": "When an unauthorized IP or network attempts to connect\nto the service, the request MUST be denied.\n"
-            }
-          ],
-          "title": "Ensure Secure Network Access Rules"
-        }
-      ],
-      "title": "TODO: Describe this control family"
-    }
-  ],
-  "metadata": {
-    "last-modified": "2025-04-16T20:50:00-05:00",
-    "links": [
+  "catalog": {
+    "groups": [
       {
-        "href": "https://example.com/releases/2025.09#",
-        "rel": "canonical"
+        "class": "family",
+        "controls": [
+          {
+            "class": "Data",
+            "id": "CCC.ObjStor.C01",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.09#ccc.objstor.c01",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.ObjStor.C01",
+                "id": "CCC.ObjStor.C01.TR01",
+                "name": "CCC.ObjStor.C01.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C01.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C01.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When a request is made to read a protected bucket, the service\nMUST prevent any request using KMS keys not listed as trusted by\nthe organization.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C01",
+                "id": "CCC.ObjStor.C01.TR02",
+                "name": "CCC.ObjStor.C01.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C01.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C01.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When a request is made to read a protected object, the service\nMUST prevent any request using KMS keys not listed as trusted by\nthe organization.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C01",
+                "id": "CCC.ObjStor.C01.TR03",
+                "name": "CCC.ObjStor.C01.TR03",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C01.TR03.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C01.TR03",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When a request is made to write to a bucket, the service MUST\nprevent any request using KMS keys not listed as trusted by the\norganization.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C01",
+                "id": "CCC.ObjStor.C01.TR04",
+                "name": "CCC.ObjStor.C01.TR04",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C01.TR04.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C01.TR04",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When a request is made to write to an object, the service MUST\nprevent any request using KMS keys not listed as trusted by the\norganization.\n"
+              }
+            ],
+            "title": "Prevent Requests to Buckets or Objects with Untrusted KMS Keys"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.ObjStor.C03",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.09#ccc.objstor.c03",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.ObjStor.C03",
+                "id": "CCC.ObjStor.C03.TR01",
+                "name": "CCC.ObjStor.C03.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C03.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C03.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an object storage bucket deletion is attempted, the bucket MUST be\nfully recoverable for a set time-frame after deletion is requested.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C03",
+                "id": "CCC.ObjStor.C03.TR02",
+                "name": "CCC.ObjStor.C03.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C03.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C03.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an attempt is made to modify the retention policy for an object\nstorage bucket, the service MUST prevent the policy from being modified.\n"
+              }
+            ],
+            "title": "Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.ObjStor.C04",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.09#ccc.objstor.c04",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.ObjStor.C04",
+                "id": "CCC.ObjStor.C04.TR01",
+                "name": "CCC.ObjStor.C04.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C04.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C04.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an object is uploaded to the object storage system, the object\nMUST automatically receive a default retention policy that prevents\npremature deletion or modification.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C04",
+                "id": "CCC.ObjStor.C04.TR02",
+                "name": "CCC.ObjStor.C04.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C04.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C04.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an attempt is made to delete or modify an object that is subject\nto an active retention policy, the service MUST prevent the action\nfrom being completed.\n"
+              }
+            ],
+            "title": "Objects have an Effective Retention Policy by Default"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.ObjStor.C05",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.09#ccc.objstor.c05",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.ObjStor.C05",
+                "id": "CCC.ObjStor.C05.TR01",
+                "name": "CCC.ObjStor.C05.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C05.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C05.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an object is uploaded to the object storage bucket, the object\nMUST be stored with a unique identifier.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C05",
+                "id": "CCC.ObjStor.C05.TR02",
+                "name": "CCC.ObjStor.C05.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C05.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C05.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an object is modified, the service MUST assign a new unique\nidentifier to the modified object to differentiate it from the\nprevious version.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C05",
+                "id": "CCC.ObjStor.C05.TR03",
+                "name": "CCC.ObjStor.C05.TR03",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C05.TR03.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C05.TR03",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an object is modified, the service MUST allow for recovery\nof previous versions of the object.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C05",
+                "id": "CCC.ObjStor.C05.TR04",
+                "name": "CCC.ObjStor.C05.TR04",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C05.TR04.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C05.TR04",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an object is deleted, the service MUST retain other versions of\nthe object to allow for recovery of previous versions.\n"
+              }
+            ],
+            "title": "Versioning is Enabled for All Objects in the Bucket"
+          },
+          {
+            "class": "Data",
+            "id": "CCC.ObjStor.C06",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.09#ccc.objstor.c06",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.ObjStor.C06",
+                "id": "CCC.ObjStor.C06.TR01",
+                "name": "CCC.ObjStor.C06.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C06.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C06.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When an object storage bucket is accessed, the service MUST store\naccess logs in a separate data store.\n"
+              }
+            ],
+            "title": "Access Logs are Stored in a Separate Data Store"
+          }
+        ],
+        "title": "TODO: Describe this control family"
+      },
+      {
+        "class": "family",
+        "controls": [
+          {
+            "class": "Identity and Access Management",
+            "id": "CCC.ObjStor.C02",
+            "links": [
+              {
+                "href": "https://example.com/releases/2025.09#ccc.objstor.c02",
+                "rel": "canonical"
+              }
+            ],
+            "parts": [
+              {
+                "class": "CCC.ObjStor.C02",
+                "id": "CCC.ObjStor.C02.TR01",
+                "name": "CCC.ObjStor.C02.TR01",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C02.TR01.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C02.TR01",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When a permission set is allowed for an object in a bucket, the\nservice MUST allow the same permission set to access all objects\nin the same bucket.\n"
+              },
+              {
+                "class": "CCC.ObjStor.C02",
+                "id": "CCC.ObjStor.C02.TR02",
+                "name": "CCC.ObjStor.C02.TR02",
+                "parts": [
+                  {
+                    "id": "CCC.ObjStor.C02.TR02.R",
+                    "links": [
+                      {
+                        "href": "https://example.com/releases/2025.09#CCC.ObjStor.C02.TR02",
+                        "rel": "canonical"
+                      }
+                    ],
+                    "name": "recommendation",
+                    "ns": "https://github.com/ossf/gemara/ns/oscal"
+                  }
+                ],
+                "prose": "When a permission set is denied for an object in a bucket, the\nservice MUST deny the same permission set to access all objects\nin the same bucket.\n"
+              }
+            ],
+            "title": "Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions"
+          }
+        ],
+        "title": "TODO: Describe this control family"
       }
     ],
-    "oscal-version": "1.1.3",
-    "published": "2025-09-09T10:42:13.38277-05:00",
-    "title": "Object Storage",
-    "version": "2025.09"
-  },
-  "uuid": "05bc8311-fd18-4922-940f-6a36d7c35ea2"
+    "metadata": {
+      "last-modified": "2025-04-16T20:50:00-05:00",
+      "links": [
+        {
+          "href": "https://example.com/releases/2025.09#",
+          "rel": "canonical"
+        }
+      ],
+      "oscal-version": "1.1.3",
+      "published": "2025-09-16T13:55:30.424646736-04:00",
+      "title": "Object Storage",
+      "version": "2025.09"
+    },
+    "uuid": "65ed2951-cd06-4c0f-9696-4c8aa96b974a"
+  }
 }

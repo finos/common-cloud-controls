@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'CCC',
   tagline: 'Common Cloud Controls',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/logo/2023_FinosCCC_Icon.svg',
 
   // Set the production url of your site here
   url: 'https://ccc.finos.org',

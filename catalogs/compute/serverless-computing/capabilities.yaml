@@ -3,31 +3,31 @@ imported-capabilities:
     entries:
       - reference-id: CCC.Core.F06
         strength: 0 # Not yet specified
-        remarks: Identity-Based Access Control
+        remarks: Access Control
       - reference-id: CCC.Core.F07
         strength: 0 # Not yet specified
-        remarks: Event Notifications
+        remarks: Event Publication
       - reference-id: CCC.Core.F08
         strength: 0 # Not yet specified
-        remarks: Multi-zone Deployment
+        remarks: Data Replication
       - reference-id: CCC.Core.F09
         strength: 0 # Not yet specified
-        remarks: Monitoring
+        remarks: Metrics Publication
       - reference-id: CCC.Core.F10
         strength: 0 # Not yet specified
-        remarks: Logging
+        remarks: Log Publication
       - reference-id: CCC.Core.F14
         strength: 0 # Not yet specified
         remarks: API Access
       - reference-id: CCC.Core.F18
         strength: 0 # Not yet specified
-        remarks: Versioning
+        remarks: Resource Versioning
       - reference-id: CCC.Core.F19
         strength: 0 # Not yet specified
-        remarks: On-Demand Scaling
+        remarks: Resource Scaling
       - reference-id: CCC.Core.F20
         strength: 0 # Not yet specified
-        remarks: Tagging
+        remarks: Resource Tagging
       - reference-id: CCC.Core.F22
         strength: 0 # Not yet specified
         remarks: Location Lock-In

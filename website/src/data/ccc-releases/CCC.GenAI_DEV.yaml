@@ -1,0 +1,244 @@
+metadata:
+  id: CCC.GenAI
+  title: Generative AI Platform
+  description: |
+    Generative AI Platform consist of set of tools provided by the cloud service providers
+    that use large language models (LLMs) and deep learning frameworks to
+    understand, generate, and manipulate natural language, images, code, or audio to
+    create new content, and insights base on patterns and data.
+  version: DEV
+  last-modified: "2025-04-19T00:00:00Z"
+capabilities:
+  - id: CCC.GenAI.F01
+    title: Text-Based Model Selection
+    description: |
+      Ability to select a foundation model that excels at natural language
+      understanding and generation tasks such as summarization, translation,
+      text generation, question answering, and sentiment analysis.
+  - id: CCC.GenAI.F02
+    title: Code-Based Model Selection
+    description: |
+      Ability to select a foundation model that focuses on code understanding,
+      generation, and transformation tasks.
+  - id: CCC.GenAI.F03
+    title: Embedding Model Selection
+    description: |
+      Ability to select a foundation model used for tasks like semantic
+      search, clustering, and document similarity by converting text into
+      vector embeddings.
+  - id: CCC.GenAI.F04
+    title: Image-Based Model Selection
+    description: |
+      Ability to select a foundation model that focuses on tasks related to vision,
+      such as image generation, editing, and manipulation.
+  - id: CCC.GenAI.F05
+    title: Multimodal Model Selection
+    description: |
+      Ability to select a foundation model that supports more than one modality,
+      such as combining text and image.
+  - id: CCC.GenAI.F06
+    title: Customizable Model Selection
+    description: |
+      Provide users the ability to fine-tune models with their own data.
+  - id: CCC.GenAI.F07
+    title: Parameter Tuning - Temperature
+    description: |
+      Ability to control the randomness and creativity of the response.
+  - id: CCC.GenAI.F08
+    title: Parameter Tuning - Max Token
+    description: |
+      Ability to limit the length of the response.
+  - id: CCC.GenAI.F09
+    title: Parameter Tuning - Top P (Nucleus Sampling)
+    description: |
+      Ability to adjust the number of likely next tokens to consider based on
+      cumulative probability.
+  - id: CCC.GenAI.F10
+    title: Parameter Tuning - Top K
+    description: |
+      Ability to limit the number of token choices for the next word.
+  - id: CCC.GenAI.F11
+    title: Parameter Tuning - Stop Sequences
+    description: |
+      Ability to halt generation when a predefined sequence is encountered.
+  - id: CCC.GenAI.F12
+    title: Parameter Tuning - Frequency Penalty
+    description: |
+      Ability to penalize words that have been used frequently, reducing
+      their likelihood of being repeated.
+  - id: CCC.GenAI.F13
+    title: Parameter Tuning - Presence Penalty
+    description: |
+      Ability to penalize tokens that have already been used, encouraging
+      the model to introduce new tokens.
+  - id: CCC.GenAI.F14
+    title: Parameter Tuning - Context Length
+    description: |
+      Ability to control how much prior conversation or input the model will
+      use for generating coherent responses.
+  - id: CCC.GenAI.F15
+    title: Text-Based Prompts
+    description: |
+      Ability to input prompts in plain text.
+  - id: CCC.GenAI.F16
+    title: Structured Prompts
+    description: |
+      Ability to provide structured input such as JSON as prompts.
+  - id: CCC.GenAI.F17
+    title: Contextual Prompts
+    description: |
+      Ability to provide context or background information within the prompt
+      to guide the response.
+  - id: CCC.GenAI.F18
+    title: Interactive Prompts
+    description: |
+      Ability to use conversational prompts to create interactive dialogues.
+  - id: CCC.GenAI.F19
+    title: Image-Based Prompts
+    description: |
+      Ability to input an image as a prompt to generate a response.
+  - id: CCC.GenAI.F20
+    title: Custom Template Prompts
+    description: |
+      Ability to define custom templates or structures for prompts to
+      standardize interactions with the models.
+  - id: CCC.GenAI.F21
+    title: Generate Content
+    description: |
+      Ability to generate a response given a foundation model, parameter values,
+      and a prompt.
+  - id: CCC.GenAI.F22
+    title: Data Control
+    description: |
+      Ensures prompts, model outputs, embeddings, and training data fed by
+      customers are not used to train foundation models.
+  - id: CCC.GenAI.F23
+    title: Data Storage
+    description: |
+      Ability to retrieve previously generated outputs and prompts for the
+      given session.
+  - id: CCC.GenAI.F24
+    title: Data Residency
+    description: |
+      Ability to select a region for processing and storing data in the service.
+  - id: CCC.GenAI.F25
+    title: Content Moderation
+    description: |
+      Ensure the service detects and filters abusive, harmful, and sensitive
+      information to ensure responsible and safe use of the service.
+  - id: CCC.GenAI.F26
+    title: Plugin Integrations
+    description: |
+      Ability for the model to use tools to complete a model interaction.
+      For example web search, python code execution or external maths engine.
+  - id: CCC.Core.F01
+    title: Encryption in Transit Enabled by Default
+    description: |
+      The service automatically encrypts all data using industry-standard
+      cryptographic protocols prior to transmission via a network interface.
+  - id: CCC.Core.F02
+    title: Encryption at Rest Enabled by Default
+    description: |
+      The service automatically encrypts all data using industry-standard
+      cryptographic protocols prior to being written to a storage medium.
+  - id: CCC.Core.F03
+    title: Access Log Publication
+    description: |
+      The service automatically publishes structured, verbose records of
+      activities performed within the scope of the service by external actors.
+  - id: CCC.Core.F06
+    title: Access Control
+    description: |
+      The service automatically enforces user configurations to
+      restrict or allow access to a specific component or
+      a child resource based on factors such as user identities, roles,
+      groups, or attributes.
+  - id: CCC.Core.F09
+    title: Metrics Publication
+    description: |
+      The service automatically publishes structured, numeric, time-series data points related to
+      the performance, availability, and health of the service or its child resources.
+  - id: CCC.Core.F10
+    title: Log Publication
+    description: |
+      The service automatically publishes structured, verbose records of activities,
+      operations, or events that occur within the service.
+  - id: CCC.Core.F14
+    title: API Access
+    description: |
+      The service exposes a port enabling external actors to interact
+      programmatically with the service and its resources using HTTP
+      protocol methods such as GET, POST, PUT, and DELETE.
+  - id: CCC.Core.F15
+    title: Cost Management
+    description: |
+      The service monitors data published by child or networked resources to infer
+      usage patterns and generate cost reports for the service.
+  - id: CCC.Core.F16
+    title: Budgeting
+    description: |
+      The service may be configured to take a user-specified action when a
+      spending threshold is met or exceeded on a child or networked resource.
+  - id: CCC.Core.F18
+    title: Resource Versioning
+    description: |
+      The service assigns versions to child resources to preserve, retrieve,
+      and restore past iterations.
+  - id: CCC.Core.F19
+    title: Resource Scaling
+    description: |
+      The service may be configured to scale child resources automatically
+      or on-demand.
+  - id: CCC.Core.F20
+    title: Resource Tagging
+    description: |
+      The service provides users with the ability to tag a child resource with metadata
+      that can be reviewed or queried.
+imported-controls:
+  - reference-id: CCC
+    entries: []
+imported-threats:
+  - reference-id: CCC
+    entries: []
+imported-capabilities:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.F01
+        strength: 0
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.F02
+        strength: 0
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.F03
+        strength: 0
+        remarks: Access/Activity Logs
+      - reference-id: CCC.Core.F06
+        strength: 0
+        remarks: Identity-Based Access Control
+      - reference-id: CCC.Core.F09
+        strength: 0
+        remarks: Monitoring
+      - reference-id: CCC.Core.F10
+        strength: 0
+        remarks: Logging
+      - reference-id: CCC.Core.F13
+        strength: 0
+        remarks: Infrastructure as Code
+      - reference-id: CCC.Core.F14
+        strength: 0
+        remarks: API Access
+      - reference-id: CCC.Core.F15
+        strength: 0
+        remarks: Cost Management
+      - reference-id: CCC.Core.F16
+        strength: 0
+        remarks: Budgeting
+      - reference-id: CCC.Core.F18
+        strength: 0
+        remarks: Versioning
+      - reference-id: CCC.Core.F19
+        strength: 0
+        remarks: On-Demand Scaling
+      - reference-id: CCC.Core.F20
+        strength: 0
+        remarks: Tagging
