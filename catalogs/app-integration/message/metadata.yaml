@@ -10,7 +10,7 @@ metadata:
       name: CCC Application Integration
   version: ""
   last-modified: "2025-04-19T20:11:36-05:00"
-  mapping-csp-services:
+  example-csp-services:
     - provider: AWS
       service: Amazon Simple Queue Service
       url: https://docs.aws.amazon.com/sqs/

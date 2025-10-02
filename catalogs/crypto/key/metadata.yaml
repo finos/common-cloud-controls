@@ -10,7 +10,7 @@ metadata:
       name: CCC Cryptographic Services
   version: "2025.07"
   last-modified: "2025-07-05T11:20:00-05:00"
-  mapping-csp-services:
+  example-csp-services:
     - provider: AWS
       service: AWS Key Management Service
       url: https://docs.aws.amazon.com/kms/

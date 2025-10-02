@@ -10,7 +10,7 @@ metadata:
       name: CCC Database Services
   version: "2025.05"
   last-modified: "2023-10-05T10:06:00-05:00"
-  mapping-csp-services:
+  example-csp-services:
     - provider: AWS
       service: Amazon RDS
       url: https://docs.aws.amazon.com/rds/

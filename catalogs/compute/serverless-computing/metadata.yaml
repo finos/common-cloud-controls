@@ -12,7 +12,7 @@ metadata:
       name: CCC Compute
   version: ""
   last-modified: "2025-04-14T20:11:36-05:00"
-  mapping-csp-services:
+  example-csp-services:
     - provider: AWS
       service: AWS Lambda
       url: https://docs.aws.amazon.com/lambda/

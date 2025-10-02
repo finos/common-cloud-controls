@@ -14,7 +14,7 @@ metadata:
       name: CCC Database Services
   version: ""
   last-modified: "2025-06-20T00:00:00Z"
-  mapping-csp-services:
+  example-csp-services:
     - provider: AWS
       service: Amazon OpenSearch Service
       url: https://docs.aws.amazon.com/opensearch-service/

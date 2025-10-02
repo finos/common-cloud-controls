@@ -13,7 +13,7 @@ metadata:
       name: CCC Compute
   version: "2025.06"
   last-modified: "2025-04-15T19:22:54-05:00"
-  mapping-csp-services:
+  example-csp-services:
     - provider: AWS
       service: Amazon Elastic Compute Cloud (EC2)
       url: https://docs.aws.amazon.com/ec2/

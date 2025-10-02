@@ -63,7 +63,7 @@
             "additionalProperties": false
           }
         },
-        "mapping-csp-services": {
+        "example-csp-services": {
           "type": "array",
           "items": {
             "type": "object",
@@ -72,6 +72,7 @@
               "service": { "type": "string" },
               "url": { "type": "string" }
             },
+            "description": "Provides non-normative references to CSP-native servicesls. Inclusion in this list does not imply compliance with CCC.",
             "required": ["provider", "service"],
             "additionalProperties": false
           }

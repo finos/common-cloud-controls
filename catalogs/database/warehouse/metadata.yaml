@@ -10,7 +10,7 @@ metadata:
       name: CCC Database Services
   version: ""
   last-modified: "2025-04-16T19:57:11-05:00"
-  mapping-csp-services:
+  example-csp-services:
     - provider: AWS
       service: Amazon Redshift
       url: https://docs.aws.amazon.com/redshift/

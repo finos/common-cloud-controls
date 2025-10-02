@@ -13,7 +13,7 @@ metadata:
       name: CCC Compute
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
-  mapping-csp-services:
+  example-csp-services:
     - provider: AWS
       service: AWS Batch
       url: https://docs.aws.amazon.com/batch/
