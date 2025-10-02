@@ -2,19 +2,14 @@ imported-capabilities:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.F06
-        strength: 0 # Not yet specified
         remarks: Access Control
       - reference-id: CCC.Core.F08
-        strength: 0 # Not yet specified
         remarks: Data Replication
       - reference-id: CCC.Core.F09
-        strength: 0 # Not yet specified
         remarks: Metrics Publication
       - reference-id: CCC.Core.F10
-        strength: 0 # Not yet specified
         remarks: Log Publication
       - reference-id: CCC.Core.F20
-        strength: 0 # Not yet specified
         remarks: Resource Tagging
 
 capabilities:

@@ -1,3 +1,27 @@
+imported-capabilities:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.F01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.F02
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.F03
+        remarks: Access Log Publication
+      - reference-id: CCC.Core.F06
+        remarks: Access Control
+      - reference-id: CCC.Core.F09
+        remarks: Metrics Publication
+      - reference-id: CCC.Core.F10
+        remarks: Log Publication
+      - reference-id: CCC.Core.F14
+        remarks: API Access
+      - reference-id: CCC.Core.F17
+        remarks: Alerting
+      - reference-id: CCC.Core.F20
+        remarks: Resource Tagging
+      - reference-id: CCC.Core.F22
+        remarks: Location Lock-In
+
 capabilities:
   - id: CCC.Tracing.F01
     title: Distributed Trace Analysis
@@ -23,17 +47,3 @@ capabilities:
     title: Trace Filtering and Tagging
     description: |
       Supports filtering and search on traces using enriched metadata fields such as user ID, region, or status code.
-
-imported-capabilities:
-  - reference-id: CCC
-    identifiers:
-      - CCC.F01 # Encryption in Transit
-      - CCC.F02 # Encryption at Rest
-      - CCC.F03 # Access Log Publication
-      - CCC.F06 # Access Control
-      - CCC.F09 # Metrics Publication
-      - CCC.F10 # Log Publication
-      - CCC.F14 # API Access
-      - CCC.F17 # Alerting
-      - CCC.F20 # Resource Tagging
-      - CCC.F22 # Location Lock-In
