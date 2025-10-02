@@ -1,5 +1,5 @@
 metadata:
-  id: CCC.VectorStore
+  id: CCC.Vector
   title: Managed Vector Store
   description: |
     A Managed Vector Store is a specialized data service designed to store, index, and
