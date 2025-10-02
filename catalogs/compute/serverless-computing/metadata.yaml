@@ -1,8 +1,25 @@
 metadata:
   id: CCC.SvlsComp
-  title: Serverless Computing
-  description: ""
+  title: CCC Serverless Computing
+  description: |
+    Serverless computing, also known as Function as a Service (FaaS), allows
+    users to deploy and run code functions without provisioning or managing
+    servers. Cloud providers abstract infrastructure management tasks, such
+    server provisioning, scaling, and maintenance, enabling users to focus
+    on writing and deploying code.
+  category:
+    - id: CCC.Compute
+      name: CCC Compute
   version: ""
   last-modified: "2025-04-14T20:11:36-05:00"
+  mapping-csp-services:
+    - provider: AWS
+      service: AWS Lambda
+      url: https://docs.aws.amazon.com/lambda/
+    - provider: Azure
+      service: Azure Functions
+      url: https://learn.microsoft.com/azure/azure-functions/
+    - provider: GCP
+      service: Cloud Run Functions
+      url: https://cloud.google.com/functions/docs/
   applicability-categories: []
-  mapping-references: []

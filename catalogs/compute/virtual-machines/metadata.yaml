@@ -2,9 +2,25 @@ metadata:
   id: CCC.VM
   title: CCC Virtual Machines
   description: |
-      This documents the minimal set of capabilities that should be present for a
-      virtual machine service to be considered for use in financial services ecosystems.
+    Virtual machines are virtualized instances of computer hardware that
+    emulate physical servers and run operating systems and applications.
+    Users can provision VMs with custom configurations, including CPU,
+    memory, storage, and networking resources. Cloud providers offer managed
+    VM services with capabilities such as automated provisioning, scaling,
+    monitoring, and pay-as-you-go pricing.
+  category:
+    - id: CCC.Compute
+      name: CCC Compute
   version: "2025.06"
   last-modified: "2025-04-15T19:22:54-05:00"
+  mapping-csp-services:
+    - provider: AWS
+      service: Amazon Elastic Compute Cloud (EC2)
+      url: https://docs.aws.amazon.com/ec2/
+    - provider: Azure
+      service: Virtual Machines
+      url: https://learn.microsoft.com/azure/virtual-machines/
+    - provider: GCP
+      service: Compute Engine
+      url: https://cloud.google.com/compute/docs/
   applicability-categories: []
-  mapping-references: []
