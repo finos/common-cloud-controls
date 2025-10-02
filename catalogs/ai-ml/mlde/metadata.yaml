@@ -1,13 +1,26 @@
 metadata:
-  title: Machine Learning Development Environment
   id: CCC.MLDE
+  title: CCC Machine Learning Development Environment
   description: |
     Machine Learning Development Environment refers to the suite of tools,
     infrastructure, and processes that facilitate the development, testing,
     deployment, and maintenance of machine learning models.
+  category:
+    - id: CCC.AIML
+      name: CCC Artificial Intelligence and Machine Learning
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
   applicability-categories: []
+  mapping-csp-services:
+    - provider: AWS
+      service: Amazon SageMaker
+      url: https://docs.aws.amazon.com/sagemaker/
+    - provider: Azure
+      service: Azure Machine Learning
+      url: https://learn.microsoft.com/en-us/azure/machine-learning
+    - provider: GCP
+      service: Google Vertex AI
+      url: https://cloud.google.com/vertex-ai/docs
 
 release-details:
   - version: "2025.06"

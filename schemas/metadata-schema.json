@@ -24,6 +24,17 @@
           "type": "string",
           "format": "date-time"
         },
+        "category": {
+          "id": {
+            "type": "string",
+            "pattern":"^CCC\\.\\w{1,8}$",
+            "description": "Unique identifier for the category of the control catalog"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the category of the control catalog"
+          }
+        },
         "applicability-categories": {
           "type": "array",
           "items": {
@@ -49,6 +60,19 @@
               "url": { "type": "string" }
             },
             "required": ["id", "version"],
+            "additionalProperties": false
+          }
+        },
+        "mapping-csp-services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "provider": { "type": "string" },
+              "service": { "type": "string" },
+              "url": { "type": "string" }
+            },
+            "required": ["provider", "service"],
             "additionalProperties": false
           }
         }
