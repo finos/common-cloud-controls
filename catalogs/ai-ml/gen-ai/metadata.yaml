@@ -6,9 +6,8 @@ metadata:
     that use large language models (LLMs) and deep learning frameworks to
     understand, generate, and manipulate natural language, images, code, or audio to
     create new content, and insights base on patterns and data.
-  category:
-    - id: CCC.AIML
-      name: CCC Artificial Intelligence and Machine Learning
+  category-ids: 
+    -  CCC.AIML
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
   example-csp-services:

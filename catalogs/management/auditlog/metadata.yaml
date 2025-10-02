@@ -4,9 +4,8 @@ metadata:
   description: |
     Provides the ability to transmit system events, application activities,
     and/or user interactions to a logging service.
-  category:
-    - id: CCC.Management
-      name: CCC Management and Governance Services
+  category-ids: 
+    - CCC.Management
   version: ""
   last-modified: "2025-07-04T10:35:00-00:00"
   example-csp-services:

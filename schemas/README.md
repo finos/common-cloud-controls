@@ -16,7 +16,8 @@ If this does not satisfy your use case for some reason, you can update your glob
            "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/controls-schema.json": "controls.yaml",
            "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/capabilities-schema.json": "capabilities.yaml",
            "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/metadata-schema.json": "metadata.yaml",
-           "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/threats-schema.json": "threats.yaml"
+           "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/threats-schema.json": "threats.yaml",
+           "file:///<PATH_TO_CCC_REPO>/common-cloud-controls/schemas/categories-schema.json": "categories.yaml"
        }
    ```
 

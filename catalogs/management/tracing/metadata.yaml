@@ -7,9 +7,8 @@ metadata:
     These services facilitate root cause analysis, performance tuning, anomaly detection, and system mapping.
     Modern platforms offer AI/ML-powered insights, live debugging capabilities, and integration with metrics/logging
     to deliver holistic views into application behavior and health.
-  category:
-    - id: CCC.Management
-      name: CCC Management and Governance Services
+  category-ids: 
+    - CCC.Management
   version: ""
   last-modified: "2025-06-25T00:00:00Z"
   example-csp-services:

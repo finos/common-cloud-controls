@@ -5,9 +5,8 @@ metadata:
     Load balancing services distribute incoming network traffic across multiple
     instances or servers to ensure high availability, scalability, and
     reliability of applications.
-  category:
-    - id: CCC.Network
-      name: CCC Networking Services
+  category-ids: 
+    - CCC.Network
   version: "2025.07"
   last-modified: "2025-07-14T00:00:00-05:00"
   example-csp-services:

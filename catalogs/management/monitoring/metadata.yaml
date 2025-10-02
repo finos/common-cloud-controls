@@ -5,9 +5,8 @@ metadata:
     Provides the ability to continuously observe, track, and analyze
     the performance, availability, and health of the service resources or
     applications.
-  category:
-    - id: CCC.Management
-      name: CCC Management and Governance Services
+  category-ids: 
+    - CCC.Management
   version: ""
   last-modified: "2025-07-04T09:00:00Z"
   example-csp-services:

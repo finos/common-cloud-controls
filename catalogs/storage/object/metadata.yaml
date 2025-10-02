@@ -8,9 +8,8 @@ metadata:
     of unstructured data such as multimedia files, backups, and archives. It is
     highly scalable and often used in cloud environments due to its flexibility
       and accessibility.
-  category:
-    - id: CCC.Storage
-      name: CCC Storage Services
+  category-ids: 
+    - CCC.Storage
   version: "2025.01"
   last-modified: "2025-04-16T20:50:00-05:00"
   example-csp-services:

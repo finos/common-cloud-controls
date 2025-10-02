@@ -24,15 +24,17 @@
           "type": "string",
           "format": "date-time"
         },
-        "category": {
-          "id": {
-            "type": "string",
-            "pattern":"^CCC\\.\\w{1,8}$",
-            "description": "Unique identifier for the category of the control catalog"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the category of the control catalog"
+        "category-ids": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern":"^CCC\\.\\w{1,8}$",
+                "description": "Unique identifier for the category of the control catalog"
+              }
+            }
           }
         },
         "applicability-categories": {

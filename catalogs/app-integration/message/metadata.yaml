@@ -5,9 +5,8 @@ metadata:
     Messaging services facilitate communication between distributed applications
     and services by enabling the exchange of messages using pub/sub model in
     a reliable and scalable manner.
-  category:
-    - id: CCC.AppInt
-      name: CCC Application Integration
+  category-ids: 
+    -  CCC.AppInt
   version: ""
   last-modified: "2025-04-19T20:11:36-05:00"
   example-csp-services:

@@ -9,9 +9,8 @@ metadata:
     stores support operations like nearest neighbor search using approximate or exact
     methods and integrate with model-serving and ingestion pipelines. They are
     optimized for performance, scale, and integration with cloud-native tools.
-  category:
-    - id: CCC.Database
-      name: CCC Database Services
+  category-ids: 
+    - CCC.Database
   version: ""
   last-modified: "2025-06-20T00:00:00Z"
   example-csp-services:

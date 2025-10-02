@@ -5,9 +5,8 @@ metadata:
     Relational database services support structured data models and SQL
     (Structured Query Language) for data definition, manipulation, and
     querying.
-  category:
-    - id: CCC.Database
-      name: CCC Database Services
+  category-ids: 
+    -  CCC.Database
   version: "2025.05"
   last-modified: "2023-10-05T10:06:00-05:00"
   example-csp-services:

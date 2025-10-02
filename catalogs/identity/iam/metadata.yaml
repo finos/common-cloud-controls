@@ -5,9 +5,8 @@ metadata:
     Service is designed to manage users, groups, roles and policies for controlling
     access to cloud services and resources in a secure manner. It also provides
     capabilities such as Multi-Factor Authentication (MFA) and identity protection.
-  category:
-    - id: CCC.Identity
-      name: CCC Identity
+  category-ids: 
+    - CCC.Identity
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
   example-csp-services:

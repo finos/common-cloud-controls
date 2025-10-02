@@ -1,0 +1,77 @@
+categories:
+  - id: CCC.AIML
+    name: CCC Artificial Intelligence and Machine Learning
+    description: |
+      In cloud computing, AI & ML services refer to cloud-based tools that
+      building, training, and deploying machine learning models and AI solutions.
+  - id: CCC.AppInt
+    name: CCC Application Integration
+    description: |
+      Application integration services enable the connection and interoperability of
+      disparate software applications and systems to facilitate data exchange and
+      communication. These services help organizations streamline business processes,
+      improve operational efficiency, and enhance customer experiences.
+  - id: CCC.Compute
+    name: CCC Compute Services
+    description: |
+      Compute services in the context of cloud computing refer to the resources and
+      capabilities provided by cloud service providers to run and manage
+      applications, workloads, and virtualized computing environments in a
+      scalable, flexible, and cost-effective manner. These services enable users to
+      provision, configure, and manage virtual servers, containers, serverless
+      functions, and other computing resources without the need for physical
+      hardware procurement or management.
+  - id: CCC.Crypto
+    name: CCC Cryptographic Services
+    description: |
+      In cloud computing, cryptographic services refer to cloud-based tools that protect
+      data and communications through encryption and decryption. They also provide secure
+      methods for storing and managing keys, secrets, and certificates. These services
+      ensure the confidentiality, integrity, and authenticity of data in both storage and transmission.
+  - id: CCC.RDMS
+    name: CCC Database Services
+    description: |
+      Database services in the context of cloud computing refer to managed database
+      solutions provided by cloud service providers. These services enable users to
+      store, manage, and access structured data in a scalable, reliable, and
+  - id: CCC.DevTools
+    name: CCC Developer Tools
+    description: |
+      Developer Tools in the context of cloud computing refer to a suite of tools
+      and services provided by cloud service providers to help developers
+      build, test, deploy, and maintain applications efficiently. These tools
+      are designed to support the DevOps lifecycle by enabling collaboration,
+      automation, and scalability for development workflows in the cloud.
+  - id: CCC.Identity
+    name: CCC Identity Services
+    description: |
+      Identity services in the context of cloud computing refer to the set of essential
+      tooling to provide authentication and authorization to protect cloud resources.
+      This service provides user and device management and permission management in a
+      scalable and secure manner.
+  - id: CCC.Management
+    name: CCC Management and Governance Services
+    description: |
+      anagement and governance services in the context of cloud computing refer to
+      the tools and resources provided by cloud service providers to oversee,
+      monitor, and optimize the use of cloud resources. These services enable users
+      to implement logging, monitoring, tracing, debugging, auditing, and cost
+      management practices to ensure secure, efficient, and compliant operations
+      across cloud environments. They provide visibility, control, and accountability
+      for cloud-based workloads in a scalable and consistent manner.
+  - id: CCC.Network
+    name: CCC Networking Services
+    description: |
+      Networking services in the context of cloud computing refer to the set of tools
+      and resources provided by cloud service providers to facilitate communication,
+      connectivity, and security within and between cloud environments, data centers,
+      and end-users. These services enable users to build, manage, and optimize
+      network infrastructure in a flexible, scalable, and cost-effective manner.
+  - id: CCC.Storage
+    name: Storage Services
+    description: |
+      Storage services in the context of cloud computing refer to the provision of
+      storage resources over the internet that users can access and utilize remotely.
+      These services allow users to store, retrieve, and manage their data in a
+      scalable, reliable, and cost-effective manner.
+  

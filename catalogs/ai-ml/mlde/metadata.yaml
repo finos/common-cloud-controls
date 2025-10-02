@@ -5,9 +5,8 @@ metadata:
     Machine Learning Development Environment refers to the suite of tools,
     infrastructure, and processes that facilitate the development, testing,
     deployment, and maintenance of machine learning models.
-  category:
-    - id: CCC.AIML
-      name: CCC Artificial Intelligence and Machine Learning
+  category-ids: 
+    -  CCC.AIML
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
   example-csp-services:

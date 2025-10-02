@@ -8,9 +8,8 @@ metadata:
     to execute batch jobs efficiently and cost-effectively. Users
     can specify job requirements, dependencies, and scheduling preferences
     to optimize job execution.
-  category:
-    - id: CCC.Compute
-      name: CCC Compute
+  category-ids: 
+    -  CCC.Compute
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
   example-csp-services:

@@ -8,9 +8,8 @@ metadata:
     memory, storage, and networking resources. Cloud providers offer managed
     VM services with capabilities such as automated provisioning, scaling,
     monitoring, and pay-as-you-go pricing.
-  category:
-    - id: CCC.Compute
-      name: CCC Compute
+  category-ids: 
+    -  CCC.Compute
   version: "2025.06"
   last-modified: "2025-04-15T19:22:54-05:00"
   example-csp-services:

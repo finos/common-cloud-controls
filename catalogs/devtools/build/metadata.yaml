@@ -6,9 +6,8 @@ metadata:
     cloud service providers for build automation. It is designed to compile
     source code, run tests, and produce deployable artifacts without having to
     setup, manage or scale your own infrastructure for running build servers.
-  category:
-    - id: CCC.DevTools
-      name: CCC Dev Tools
+  category-ids: 
+    - CCC.DevTools
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
   example-csp-services:

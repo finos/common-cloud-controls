@@ -6,9 +6,8 @@ metadata:
     container images. It acts as a hub in the container ecosystem, enabling
     developers to push, pull, version, and share container images efficiently
     and securely.
-  category:
-    - id: CCC.DevTools
-      name: CCC Dev Tools
+  category-ids: 
+    - CCC.DevTools
   version: ""
   last-modified: "2025-04-16T20:21:44-05:00"
   example-csp-services:
