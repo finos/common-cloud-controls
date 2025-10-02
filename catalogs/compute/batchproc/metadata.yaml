@@ -24,4 +24,5 @@ metadata:
       service: Google Cloud Batch
       url: https://cloud.google.com/batch/docs
   applicability-categories: []
+  mapping-references: []
 

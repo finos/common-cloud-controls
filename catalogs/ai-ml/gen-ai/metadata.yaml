@@ -22,3 +22,4 @@ metadata:
       service: Google Vertex AI
       url: https://cloud.google.com/vertex-ai/docs
   applicability-categories: []
+  mapping-references: []
