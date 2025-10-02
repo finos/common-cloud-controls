@@ -1,168 +1,142 @@
 import fs from 'fs';
 import path from 'path';
-import yaml from 'js-yaml';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { HomePageData, Configuration, ConfigurationPageData, TestResultItem, TestResultPageData, TestResultType, TestResultEntry } from '../../types/cfi';
+import { HomePageData, Configuration, ConfigurationPageData, RepositoryPageData, CFIConfigJson, TestResultItem, TestResultType } from '../../types/cfi';
 
-export interface CCIReferenceYaml {
-    id: string;
-}
-
-export interface CFIReleaseYaml {
-    ccc_references: CCIReferenceYaml[];
-
-    cfi_details: {
-        id: string;
-        provider: string;
-        name: string;
-        description: string;
-        url: string;
-        authors: Array<{
-            name: string;
-            github_id: string;
-            company: string;
-        }>;
-    };
-
-    terraform: {
-        source: string;
-        script: string;
-    };
-    results: string[];
-    resources: string[];
-}
-
-function matchesAnySubstring(str: string, substrings: string[]): boolean {
-    return substrings.some(substring => str.includes(substring));
-}
-
-function getComplianceIds(item: any, ccc_references: string[]): string[] {
-    const out = []
-    if (item.unmapped?.compliance) {
-        const entries: { [key: string]: string[] } = item.unmapped.compliance
-        for (const [key, value] of Object.entries(entries)) {
-            if (matchesAnySubstring(key, ccc_references)) {
-                out.push(...value)
-            }
-        }
+function processOCSFResults(resultPath: string): TestResultItem[] {
+    if (!fs.existsSync(resultPath)) {
+        return [];
     }
-    return out
-}
 
-function createTestResultData(resultPath: string, resources: string[], ccc_references: string[]): TestResultItem[] {
-    const dataFile = path.resolve(__dirname, '../../data/test-results/' + resultPath);
-
-    const result = fs.readFileSync(dataFile, 'utf8');
+    const result = fs.readFileSync(resultPath, 'utf8');
     const parsed = JSON.parse(result) as any[];
 
-    const statusCodeToResultType: Record<string, TestResultType> = {
-        'pass': TestResultType.PASS,
-        'fail': TestResultType.FAIL
+    console.log(`📊 Processing ${parsed.length} OCSF items from ${resultPath}`);
+
+    return parsed
+        .filter(item => {
+            // Only include items that have CCC-Objects in compliance
+            return item.unmapped?.compliance?.['CCC-Objects'] &&
+                Array.isArray(item.unmapped.compliance['CCC-Objects']) &&
+                item.unmapped.compliance['CCC-Objects'].length > 0;
+        })
+        .map((item, index) => {
+            const resource = item.resources?.[0] || {};
+
+            const testResult: TestResultItem = {
+                id: `${item.finding_info?.uid || 'unknown'}-${index}`,
+                test_requirements: item.unmapped.compliance['CCC-Objects'],
+                result: item.status_code === 'PASS' ? TestResultType.PASS :
+                    item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
+                name: item.finding_info?.title || 'Unknown Finding',
+                message: item.message || '',
+                test: item.metadata?.event_code || '',
+                timestamp: item.finding_info?.created_time || Date.now(),
+                further_info_url: item.unmapped?.related_url,
+                resources: [resource.name || resource.uid || 'Unknown Resource'],
+                // OCSF-specific fields
+                status_code: item.status_code || 'UNKNOWN',
+                status_detail: item.status_detail || '',
+                resource_name: resource.name || resource.uid || 'Unknown Resource',
+                resource_type: resource.type || 'Unknown Type',
+                resource_uid: resource.uid,
+                ccc_objects: item.unmapped.compliance['CCC-Objects'],
+                finding_title: item.finding_info?.title || 'Unknown Finding',
+                finding_uid: item.finding_info?.uid || ''
+            };
+
+            return testResult;
+        });
+}
+
+function processAllOCSFResults(resultPath: string): TestResultItem[] {
+    if (!fs.existsSync(resultPath)) {
+        return [];
+    }
+
+    const result = fs.readFileSync(resultPath, 'utf8');
+    const parsed = JSON.parse(result) as any[];
+
+    console.log(`📊 Processing ALL ${parsed.length} OCSF items from ${resultPath}`);
+
+    return parsed.map((item, index) => {
+        const resource = item.resources?.[0] || {};
+
+        const testResult: TestResultItem = {
+            id: `${item.finding_info?.uid || 'unknown'}-${index}`,
+            test_requirements: item.unmapped?.compliance?.['CCC-Objects'] || [],
+            result: item.status_code === 'PASS' ? TestResultType.PASS :
+                item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
+            name: item.finding_info?.title || 'Unknown Finding',
+            message: item.message || '',
+            test: item.metadata?.event_code || '',
+            timestamp: item.finding_info?.created_time || Date.now(),
+            further_info_url: item.unmapped?.related_url,
+            resources: [resource.name || resource.uid || 'Unknown Resource'],
+            // OCSF-specific fields
+            status_code: item.status_code || 'UNKNOWN',
+            status_detail: item.status_detail || '',
+            resource_name: resource.name || resource.uid || 'Unknown Resource',
+            resource_type: resource.type || 'Unknown Type',
+            resource_uid: resource.uid,
+            ccc_objects: item.unmapped?.compliance?.['CCC-Objects'] || [],
+            finding_title: item.finding_info?.title || 'Unknown Finding',
+            finding_uid: item.finding_info?.uid || ''
+        };
+
+        return testResult;
+    });
+}
+
+
+async function createConfiguration(configDir: string, slug: string, repositoryData: any, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
+    console.log(`🔍 Processing configuration directory: ${configDir}`);
+
+    // Read the configuration file
+    const configPath = path.join(configDir, 'config', `${path.basename(configDir)}.json`);
+    console.log(`📁 Config path: ${configPath}`);
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf8')) as CFIConfigJson;
+
+    // Process OCSF results if they exist
+    const resultsDir = path.join(configDir, 'results');
+    let testResults: TestResultItem[] = [];
+    let allOcsfResults: TestResultItem[] = [];
+
+    if (fs.existsSync(resultsDir)) {
+        const resultFiles = fs.readdirSync(resultsDir).filter(f => f.endsWith('_ocsf.json'));
+        console.log(`Found ${resultFiles.length} OCSF result files in ${resultsDir}`);
+
+        for (const resultFile of resultFiles) {
+            const resultPath = path.join(resultsDir, resultFile);
+            const fileResults = processOCSFResults(resultPath);
+            const allFileResults = processAllOCSFResults(resultPath);
+            testResults.push(...fileResults);
+            allOcsfResults.push(...allFileResults);
+        }
+
+        console.log(`📊 Configuration ${config.id}: processed ${testResults.length} OCSF results with CCC-Objects and ${allOcsfResults.length} total OCSF results`);
+    }
+
+    // Create configuration with repository info and test results
+    const configuration: Configuration = {
+        cfi_details: config,
+        repository: repositoryData,
+        slug,
+        test_results: testResults,
+        all_ocsf_results: allOcsfResults
     };
 
-    return parsed.flatMap(item => {
-        const complianceIds = getComplianceIds(item, ccc_references)
-        const unfilteredResources = item.resources.map((r: any) => r.uid) || []
-        const filteredResources = unfilteredResources.filter((r: string) => matchesAnySubstring(r, resources))
-
-        if (filteredResources.length > 0) {
-            const result = statusCodeToResultType[item.status_code?.toLowerCase()] || TestResultType.NA;
-            return complianceIds.map((id: string) => {
-                const out: TestResultItem = {
-                    id: item.finding_info.uid + "_" + id,
-                    test_requirement_id: id,
-                    test: item.metadata?.event_code || '',
-                    result: result,
-                    name: item.finding_info.title,
-                    message: item.status_detail || '',
-                    timestamp: item.time,
-                    resources: filteredResources,
-                    further_info_url: item.unmapped.related_url
-                }
-                return out;
-            });
-        } else {
-            return []
-        }
-    });
-}
-
-function createConfiguration(parsed: CFIReleaseYaml, slug: string): Configuration {
-    return {
-        cfi_details: parsed.cfi_details,
-        ccc_references: parsed.ccc_references.map(r => r.id),
-        terraform: parsed.terraform,
-        test_results: [],
-        slug,
-        resources: parsed.resources
-    }
-}
-
-function aggregateResultStatus(results: TestResultItem[]): TestResultType {
-    return results.reduce((acc, result) => {
-        if (result.result === TestResultType.FAIL) {
-            return TestResultType.FAIL;
-        }
-        return acc;
-    }, TestResultType.PASS);
-}
-
-async function createResultPage(result: string, configuration: Configuration, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<TestResultEntry> {
-    const resultName = path.basename(result).replace('.ocsf.json', '').replace('test-results/', '');
-    const slug = configuration.slug + "/" + resultName
-    const resultPage: TestResultPageData = {
-        slug,
-        result_name: resultName,
-        result_path: result,
-        releaseTitle: configuration.cfi_details.name,
-        configuration,
-        results: createTestResultData(result, configuration.resources, configuration.ccc_references),
-        parentSlug: configuration.slug
-    }
-
-    const resultPagePath = await createData(
-        `cfi-${slug}-${resultName}.json`,
-        JSON.stringify(resultPage, null, 2)
-    );
-
-    addRoute({
-        path: slug,
-        component: '@site/src/components/cfi/TestResult/index.tsx',
-        modules: {
-            pageData: resultPagePath,
-        },
-        exact: true,
-    });
-
-    console.log(`Added route for ${slug}`);
-
-    return {
-        id: resultName,
-        date: new Date(resultPage.results[0].timestamp).toISOString(),
-        status: aggregateResultStatus(resultPage.results),
-        slug
-    }
-}
-
-async function createConfigurationPage(parsed: CFIReleaseYaml, slug: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
-    const configuration: Configuration = createConfiguration(parsed, slug)
-
-    // Create pages for each test result
-    for (const result of parsed['results']) {
-        const resultEntry = await createResultPage(result, configuration, createData, addRoute)
-        configuration.test_results.push(resultEntry)
-    }
-
-    // create release page 
+    // Create configuration page data
     const pageData: ConfigurationPageData = {
         configuration
     };
 
     const jsonPath = await createData(
-        `cfi-${slug}.json`,
+        `cfi-config-${config.id}.json`,
         JSON.stringify(pageData, null, 2)
     );
 
+    // Add route for this configuration page
     addRoute({
         path: slug,
         component: '@site/src/components/cfi/Configuration/index.tsx',
@@ -172,9 +146,8 @@ async function createConfigurationPage(parsed: CFIReleaseYaml, slug: string, cre
         exact: true,
     });
 
-    console.log(`Added route for ${slug}`);
-
-    return configuration
+    console.log(`✅ Created configuration page for ${configuration.cfi_details.id} at ${slug}`);
+    return configuration;
 }
 
 
@@ -185,18 +158,75 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
         async contentLoaded({ actions }) {
             const { createData, addRoute } = actions;
 
-            const dataDir = path.resolve(__dirname, '../../data/cfi-configurations');
-            const files = fs.readdirSync(dataDir).filter((f) => f.endsWith('.yaml'));
+            const testResultsDir = path.resolve(__dirname, '../../data/test-results');
 
-            // Group releases by CCC ID
+            // Find all repository directories and their configurations
+            const allDirs = fs.readdirSync(testResultsDir);
+            console.log(`All directories in test-results:`, allDirs);
+
             const components: Configuration[] = [];
 
-            for (const file of files) {
-                const slug = '/cfi/' + file.replace(/\.yaml$/, '');
-                const filePath = path.join(dataDir, file);
-                const raw = fs.readFileSync(filePath, 'utf8');
-                const parsed = yaml.load(raw) as CFIReleaseYaml;
-                components.push(await createConfigurationPage(parsed, slug, createData, addRoute))
+            for (const repoDir of allDirs) {
+                const repoPath = path.join(testResultsDir, repoDir);
+                const repositoryJsonPath = path.join(repoPath, 'repository.json');
+
+                if (!fs.existsSync(repositoryJsonPath)) {
+                    console.log(`No repository.json found in ${repoDir}, skipping`);
+                    continue;
+                }
+
+                console.log(`Processing repository: ${repoDir}`);
+
+                // Read repository info
+                const repositoryData = JSON.parse(fs.readFileSync(repositoryJsonPath, 'utf8'));
+
+                // Find all configuration directories within this repository
+                const configDirs = fs.readdirSync(repoPath).filter(dir => {
+                    const configPath = path.join(repoPath, dir, 'config');
+                    return fs.existsSync(configPath) && fs.statSync(configPath).isDirectory();
+                });
+
+                console.log(`Found ${configDirs.length} configurations in ${repoDir}:`, configDirs);
+
+                const repositoryConfigurations: Configuration[] = [];
+
+                for (const configDir of configDirs) {
+                    const slug = '/cfi/' + repoDir + '/' + configDir;
+                    const fullConfigDir = path.join(repoPath, configDir);
+
+                    try {
+                        const configuration = await createConfiguration(fullConfigDir, slug, repositoryData, createData, addRoute);
+                        components.push(configuration);
+                        repositoryConfigurations.push(configuration);
+                    } catch (error) {
+                        console.error(`Error processing configuration ${configDir} in ${repoDir}:`, error);
+                    }
+                }
+
+                // Create repository page
+                if (repositoryConfigurations.length > 0) {
+                    const repositoryPageData: RepositoryPageData = {
+                        repository: repositoryData,
+                        configurations: repositoryConfigurations,
+                        repositorySlug: repoDir
+                    };
+
+                    const repositoryPagePath = await createData(
+                        `cfi-repository-${repoDir}.json`,
+                        JSON.stringify(repositoryPageData, null, 2)
+                    );
+
+                    addRoute({
+                        path: `/cfi/${repoDir}`,
+                        component: '@site/src/components/cfi/Repository/index.tsx',
+                        modules: {
+                            pageData: repositoryPagePath,
+                        },
+                        exact: true,
+                    });
+
+                    console.log(`✅ Created repository page for ${repoDir} at /cfi/${repoDir}`);
+                }
             }
 
             // Create home page data

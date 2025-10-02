@@ -39,16 +39,16 @@ capabilities:
   - id: CCC.Core.F04
     title: Transaction Rate Limits
     description: |
-      The service always provides industry-standard network throughput
-      up to a user-specified rate limit, beyond which excess requests
-      may be throttled, delayed, or rejected.
+      The service can throttle, delay, or reject excess requests when
+      transactions exceed a user-specified rate limit, and always
+      provides industry-standard throughput up to that limit.
 
   - id: CCC.Core.F05
     title: Signed URLs
     description: |
-      The service automatically enforces user-configured permissions to access
-      a specific component or a child resource via an ad hoc URL containing
-      authentication information.
+      The service can generate an ad hoc URL containing authentication
+      information to enforce user-configured permissions for accessing
+      a specific component or a child resource.
 
   - id: CCC.Core.F06
     title: Access Control
@@ -68,8 +68,8 @@ capabilities:
   - id: CCC.Core.F08
     title: Data Replication
     description: |
-      The service automatically will or can be configured to
-      replicate data across multiple deployments simultaneously with parity.
+      The service automatically replicates data across multiple deployments
+      simultaneously with parity, or may be configured to do so.
 
   - id: CCC.Core.F09
     title: Metrics Publication
@@ -123,8 +123,8 @@ capabilities:
   - id: CCC.Core.F18
     title: Resource Versioning
     description: |
-      The service assigns versions to child resources to preserve, retrieve,
-      and restore past iterations.
+      The service automatically assigns versions to child resources which can be used
+      to preserve, retrieve, and restore past iterations.
 
   - id: CCC.Core.F19
     title: Resource Scaling
@@ -189,3 +189,11 @@ capabilities:
     description: |
       The service includes a component that reads and translates
       text into commands that can be executed by the service.
+
+  - id: CCC.Core.F29
+    title: Active Ingestion
+    description: |
+      While running, the service can receive inputs, commands, or data streams
+      from external sources such as dedicated APIs, exposed network
+      ports, message queues, and persistent data ingestion channels.
+

@@ -1,0 +1,10 @@
+{
+    "repositories": [
+        {
+            "name": "cfi-s3-module",
+            "url": "https://github.com/robmoffat/cfi-s3-module",
+            "description": "Various CFI artifacts for AI, Object Storage, VPN, Databases etc.",
+            "destination": "robmoffat-cfi-s3-module"
+        }
+    ]
+}

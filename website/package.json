@@ -13,7 +13,10 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "fetch:ccc": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/DownloadCCCReleases.ts"
+    "fetch:ccc": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/DownloadCCCReleases.ts",
+    "fetch:cfi": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/DownloadCFIArtifacts.ts",
+    "generate:catalogs": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/GenerateReleaseCatalogs.ts",
+    "prebuild": "npm run fetch:ccc && npm run fetch:cfi && npm run generate:catalogs"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",

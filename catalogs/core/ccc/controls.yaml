@@ -88,13 +88,23 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH02
         guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: CEK-03
+                remarks: Data Encryption (in transit and at rest)
+                strength: 5
+              - reference-id: CEK-04
+                remarks: Key Management (use strong encryption)
+                strength: 10
+              - reference-id: IVS-03
+                remarks: Network Security (monitor, encrypt, restrict)
+                strength: 2
+              - reference-id: IVS-07
+                remarks: Migration to Cloud Environments (encrypt when migrating servers)
+                strength: 2
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-02
-          - reference-id: CCM
-            entries:
-              - reference-id: IVS-03
-              - reference-id: IVS-07
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.13.1.1
@@ -194,8 +204,9 @@ control-families:
               - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
-              - reference-id: DSI-06
-              - reference-id: DSI-08
+              - reference-id: DSP-19
+                remarks: Data Location (specify and document processing and backup locations)
+                strength: 10
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.11.1.1
@@ -244,6 +255,14 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: BCR-08
+                remarks: Backup
+                strength: 10
+              - reference-id: BCR-10
+                remarks: Disaster Response Plan
+                strength: 1
+              - reference-id: BCR-11
+                remarks: Equipment Redundancy
+                strength: 1
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
@@ -253,7 +272,9 @@ control-families:
       - id: CCC.Core.C09
         title: Ensure Integrity of Access Logs
         objective: |
-          Ensure that access logs are always recorded to an external location.
+          Ensure that access logs are always recorded to an external location
+          that cannot be manipulated from the context of the service(s) it
+          contains logs for.
         assessment-requirements:
           - id: CCC.Core.C09.TR01
             text: |
@@ -313,8 +334,14 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: LOG-02
+                remarks: Audit Logs Protection (security and retention)
+                strength: 5
               - reference-id: LOG-04
+                remarks: Audit Logs Access and Accountability (Restrict audit logs access to authorized personnel)
+                strength: 5
               - reference-id: LOG-09
+                remarks: Log Protection (protects audit records from unauthorized access)
+                strength: 5
           - reference-id: ISO_27001
             entries: []
       - id: CCC.Core.C10
@@ -344,7 +371,11 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: DSP-10
+                remarks: Sensitive Data Transfer (only processed within scope as permitted)
+                strength: 8
               - reference-id: DSP-19
+                remarks: Data Location (specify and document the physical locations of data)
+                strength: 10
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
@@ -375,6 +406,15 @@ control-families:
               - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
+              - reference-id: CEK-03
+                remarks: Data Encryption (in transit and at rest)
+                strength: 5
+              - reference-id: CEK-04
+                remarks: Key Management (use strong encryption)
+                strength: 10
+              - reference-id: UEM-08
+                remarks: Storage Encryption (on managed endpoint devices)
+                strength: 10
               - reference-id: DSP-17
           - reference-id: ISO_27001
             entries: []
@@ -447,8 +487,15 @@ control-families:
               - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
-              - reference-id: EKM-02
-              - reference-id: EKM-03
+              - reference-id: CEK-08
+                remarks: CSC Key Management Capability (must provide the capability to self-manage keys)
+                strength: 3
+              - reference-id: CEK-10
+                remarks: Key Generation (using industry accepted cryptographic libraries)
+                strength: 10
+              - reference-id: CEK-12
+                remarks: Key Rotation
+                strength: 10
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.10.1.2
@@ -456,6 +503,56 @@ control-families:
             entries:
               - reference-id: SC-12
               - reference-id: SC-17
+      - id: CCC.Core.C14
+        title: Maintain Recent Backups
+        objective: |
+          Ensure that all backups used for disaster recovery are recent and
+          subject to a retention policy that limits deletion.
+        assessment-requirements:
+          - id: CCC.Core.C14.TR01
+            text: |
+              When backups are created for disaster recovery purposes, the
+              storage mechanism MUST NOT allow modification or deletion
+              within 30 days of creation.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Use immutable storage solutions where possible. Implement backup
+              retention policies that enforce a minimum retention period of 30
+              days.
+          - id: CCC.Core.C14.TR02
+            text: |
+              When backups are created for disaster recovery purposes, the
+              most recent backup MUST have a creation date within the past
+              30 days.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+            recommendation: |
+              Implement automated backup processes to ensure that backups are
+              created regularly. Monitor backup schedules and verify that the
+              most recent backup creation date is within the last 30 days.
+          - id: CCC.Core.C14.TR02
+            text: |
+              When backups are created for disaster recovery purposes, the
+              most recent backup MUST have a creation date within the past
+              14 days.
+            applicability:
+              - tlp-red
+            recommendation: |
+              Implement automated backup processes to ensure that backups are
+              created regularly. Monitor backup schedules and verify that the
+              most recent backup creation date is within the last 14 days.
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH06
+                remarks: Data is Lost or Corrupted
+        guideline-mappings: []
   - title: Identity and Access Management
     description: |
       The Identity and Access Management control family ensures
@@ -517,6 +614,11 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
         guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: IAM-14
+                remarks: Strong Authentication (Define, implement and evaluate processes - including MFA)
+                strength: 3
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-7
@@ -606,7 +708,20 @@ control-families:
               - reference-id: PR.AC-3
           - reference-id: CCM
             entries:
-              - reference-id: DS-5
+              - reference-id: DSP-01
+                remarks: Security and Privacy Policy and Proceduress
+                strength: 1
+              - reference-id: DSP-07
+                remarks: Data Protection by Design and Default
+                strength: 1
+              - reference-id: DSP-08
+                remarks: Data Privacy by Design and Default
+                strength: 1
+              - reference-id: DSP-10
+                remarks: Sensitive Data Transfer
+                strength: 1
+              - reference-id: DSP-17
+                remarks: Sensitive Data Protection
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.13.1.3
@@ -664,6 +779,8 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: LOG-08
+                remarks: Log Records (Generate audit records containing relevant security information)
+                strength: 5
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53
@@ -717,6 +834,11 @@ control-families:
           - reference-id: CCM
             entries:
               - reference-id: LOG-05
+                remarks: Audit Logs Monitoring and Response (take action on detected anomalies)
+                strength: 3
+              - reference-id: SEF-05
+                remarks: Incident Response Metrics (establish and monitor metrics)
+                strength: 3
           - reference-id: ISO_27001
             entries: []
           - reference-id: NIST_800_53

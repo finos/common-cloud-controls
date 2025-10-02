@@ -12,7 +12,7 @@ metadata:
   category:
     - id: CCC.Database
       name: CCC Database Services
-  version: "2025.07"
+  version: ""
   last-modified: "2025-06-20T00:00:00Z"
   mapping-csp-services:
     - provider: AWS

@@ -1,0 +1,1270 @@
+metadata:
+  id: CCC.Monitoring
+  title: Monitoring
+  description: |
+    Provides the ability to continuously observe, track, and analyze
+    the performance, availability, and health of the service resources or
+    applications.
+  version: DEV
+  last-modified: "2025-07-04T09:00:00Z"
+control-families:
+  - id: ""
+    title: Logging & Monitoring
+    description: Controls that collect, alert, and retain events from other monitoring services.
+    controls:
+      - id: CCC.Monitor.C01
+        title: Rate Limiting on External Monitoring
+        objective: |
+          Prevent DoS attacks using External Monitoring tools.
+        assessment-requirements:
+          - id: CCC.Monitor.C01.TR01
+            text: |
+              When an External Monitoring system exceeds the anticipated rate of monitoring checks then
+              Rate Limiting MUST be applied and an Audit Alert MUST be generated.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.IR-01
+                strength: 0
+              - reference-id: DE.CM-01
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-5
+                strength: 0
+              - reference-id: SC-7
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH03
+                strength: 0
+      - id: CCC.Monitor.C02
+        title: Rate Limiting on Metric Generation
+        objective: |
+          Prevent Malicious Actor or misconfiguration from flooding services with metric data.
+        assessment-requirements:
+          - id: CCC.Monitor.C02.TR01
+            text: |
+              When an Custom or User-Defined Metric starts to flood a collector, then a rate limit MUST be applied
+              to reduce the network impact of traffic and an alert must triggered.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.CM-01
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-5(2)
+                strength: 0
+              - reference-id: CA-7
+                strength: 0
+              - reference-id: SI-4
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH06
+                strength: 0
+      - id: CCC.Core.C04
+        title: Log All Access and Changes
+        objective: |
+          Ensure that all access attempts are logged to maintain a detailed
+          audit trail for security and compliance purposes.
+        assessment-requirements:
+          - id: CCC.Core.C04.TR01
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST log the client
+              identity, time, and result of the attempt.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C04.TR02
+            text: |
+              When any attempt is made to modify data on the service or a child
+              resource, the service MUST log the client identity, time, and
+              result of the attempt.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C04.TR03
+            text: |
+              When any attempt is made to read data on the service or a child
+              resource, the service MUST log the client identity, time, and
+              result of the attempt.
+            applicability:
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.AE-3
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-08
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AU-2
+                strength: 0
+              - reference-id: AU-3
+                strength: 0
+              - reference-id: AU-12
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.C07
+        title: Alert on Unusual Enumeration Activity
+        objective: |
+          Ensure that logs and associated alerts are generated when
+          unusual enumeration activity is detected that may indicate
+          reconnaissance activities.
+        assessment-requirements:
+          - id: CCC.Core.C07.TR01
+            text: |
+              When enumeration activities are detected, the service MUST publish
+              an event to a monitored channel which includes the client
+              identity, time, and nature of the activity.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Implement event publication mechanisms and alerts for patterns
+              indicative of enumeration activities, such as repeated access
+              attempts, requests, or liveness probes. Configure alerts to notify
+              security teams of any activities that merit further investigation.
+          - id: CCC.Core.C07.TR02
+            text: |
+              When enumeration activities are detected, the service MUST log the
+              client identity, time, and nature of the activity.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Implement logging mechanisms to capture details of enumeration
+              activities, including client identity, timestamps, and activity
+              nature. Retain logs according to organizational policies, and
+              occasionally review them for patterns that may indicate
+              reconnaissance activities.
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.AE-1
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-05
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AU-6
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH15
+                strength: 0
+  - id: ""
+    title: Identity and Access Management
+    description: Controls designed to prevent unauthorised access to monitoring features.
+    controls:
+      - id: CCC.Monitor.C03
+        title: Access External Monitoring
+        objective: |
+          Control access to Synthetic monitoring solutions using API keys or Certificate based authentication to
+          ensure they don't become an attack path, preventing monitoring systems from forging network requests to
+          gain access to internal systems.
+        assessment-requirements:
+          - id: CCC.Monitor.C03.TR01
+            text: |
+              When external systems have approved access to internal systems not normally available for public access
+              then they MUST be secured to prevent unauthorised access jumping through to the internal systems and
+              only allow access to specific internal services.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.CM-06
+                strength: 0
+              - reference-id: PR.IR-01
+                strength: 0
+              - reference-id: PR.AA-05
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-3
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH04
+                strength: 0
+      - id: CCC.Monitor.C04
+        title: Restrict access to Monitoring Dashboards
+        objective: |
+          Control access to Monitoring Dashboards and reports to ensure they don't highlight an attack path.
+        assessment-requirements:
+          - id: CCC.Monitor.C04.TR01
+            text: |
+              When monitoring dashboards display degraded services which may become potential targets then the
+              dashboard MUST be protected from unauthorised access.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: DE.CM-09
+                strength: 0
+              - reference-id: DE.AE-03
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SI-4
+                strength: 0
+              - reference-id: AC-3
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH02
+                strength: 0
+      - id: CCC.Monitor.C05
+        title: Restrict access to silence or acknowledge an alert
+        objective: |
+          Ensure only a subset of users can silence or acknowledge alerts to prevent attackers hiding their activity.
+        assessment-requirements:
+          - id: CCC.Monitor.C05.TR01
+            text: |
+              When monitoring services have generated an alert, the service MUST ensure only authorised
+              responders silence or acknowledge the alert.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.IR-01
+                strength: 0
+              - reference-id: PR.AA-05
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-3
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH10
+                strength: 0
+      - id: CCC.Monitor.C06
+        title: Metrics pushed for authorised services only
+        objective: |
+          Use IAM to control which types of metrics or traces can be pushed by different system to avoid a compromised
+          system pushing fabricated metrics about a different service
+        assessment-requirements:
+          - id: CCC.Monitor.C06.TR01
+            text: |
+              When systems push metrics or traces they MUST be authenticated for that particular type of metric or trace
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AA-05
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-5
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Monitor.TH05
+                strength: 0
+      - id: CCC.Core.C03
+        title: Implement Multi-factor Authentication (MFA) for Access
+        objective: |
+          Ensure that all sensitive activities require two or more identity
+          factors during authentication to prevent unauthorized access.
+        assessment-requirements:
+          - id: CCC.Core.C03.TR01
+            text: |
+              When an entity attempts to modify the service through a user
+              interface, the authentication process MUST require multiple
+              identifying factors for authentication.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C03.TR02
+            text: |
+              When an entity attempts to modify the service through an API
+              endpoint, the authentication process MUST require a credential
+              such as an API key or token AND originate from within the trust
+              perimeter.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C03.TR03
+            text: |
+              When an entity attempts to view information on the service through
+              a user interface, the authentication process MUST require multiple
+              identifying factors from the user.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C03.TR04
+            text: |
+              When an entity attempts to view information on the service through
+              an API endpoint, the authentication process MUST require a
+              credential such as an API key or token AND originate from within
+              the trust perimeter.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AC-7
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: IAM-03
+                strength: 0
+              - reference-id: IAM-08
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2013 A.9.4.2
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: IA-2
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.C05
+        title: Prevent Access from Untrusted Entities
+        objective: |
+          Ensure that secure access controls enforce the principle of least
+          privilege to restrict access to authorized entities from explicitly
+          trusted sources only.
+        assessment-requirements:
+          - id: CCC.Core.C05.TR01
+            text: |
+              When an attempt is made to modify data on the service or a child
+              resource, the service MUST block requests from unauthorized
+              entities.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR02
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST refuse requests
+              from unauthorized entities.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR03
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource in a multi-tenant environment, the
+              service MUST refuse requests across tenant boundaries unless the
+              origin is explicitly included in a pre-approved allowlist.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR04
+            text: |
+              When data is requested from outside the trust perimeter, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C05.TR05
+            text: |
+              When any request is made from outside the trust perimeter,
+              the service MUST NOT provide any response that may indicate the
+              service exists.
+            applicability:
+              - tlp-red
+          - id: CCC.Core.C05.TR06
+            text: |
+              When any request is made to the service or a child resource, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AC-3
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DS-5
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2013 A.13.1.3
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-3
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+  - id: ""
+    title: Data
+    description: |
+      The Data control family ensures the confidentiality, integrity,
+      availability, and sovereignty of data across its lifecycle.
+      These controls govern how data is transmitted, stored,
+      replicated, and protected from unauthorized access, tampering,
+      or exposure beyond defined trust perimeters.
+    controls:
+      - id: CCC.Core.C02
+        title: Encrypt Data for Storage
+        objective: |
+          Ensure that all data stored is encrypted at rest using strong
+          encryption algorithms.
+        assessment-requirements:
+          - id: CCC.Core.C02.TR01
+            text: |
+              When data is stored, it MUST be encrypted using the latest
+              industry-standard encryption methods.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-17
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-13
+                strength: 0
+              - reference-id: SC-28
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.C09
+        title: Ensure Integrity of Access Logs
+        objective: |
+          Ensure that access logs are always recorded to an external location.
+        assessment-requirements:
+          - id: CCC.Core.C09.TR01
+            text: |
+              When the service is operational, its logs and any child resource
+              logs MUST NOT be accessible from the resource they record access
+              to.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C09.TR02
+            text: |
+              When the service is operational, disabling the logs for the service
+              or its child resources MUST NOT be possible without also disabling
+              the corresponding resource.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              No normal business operations should disable
+              logs, as this could indicate an attempt to cover up unauthorized
+              access. Ensure that logging mechanisms are tightly integrated with
+              service operations, so that logging cannot be disabled without
+              stopping the service itself.
+          - id: CCC.Core.C09.TR03
+            text: |
+              When the service is operational, any attempt to redirect logs for
+              the service or its child resources MUST NOT be possible without
+              halting operation of the corresponding resource and publishing
+              corresponding events to monitored channels.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              No normal business operations should result in the redirection of
+              logs, as this could indicate an attempt to cover up unauthorized
+              access. Ensure that logging configurations are immutable during
+              service operation so that any changes require stopping the service
+              and publishing corresponding events to monitored channels.
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-6
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AU-9
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-02
+                strength: 0
+              - reference-id: LOG-04
+                strength: 0
+              - reference-id: LOG-09
+                strength: 0
+          - reference-id: ISO_27001
+            entries: []
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH07
+                strength: 0
+              - reference-id: CCC.Core.TH09
+                strength: 0
+              - reference-id: CCC.Core.TH04
+                strength: 0
+      - id: CCC.Core.C11
+        title: Protect Encryption Keys
+        objective: |
+          Ensure that encryption keys are managed securely by enforcing
+          the use of approved algorithms, regular key rotation, and
+          customer-managed encryption keys (CMEKs).
+        assessment-requirements:
+          - id: CCC.Core.C11.TR01
+            text: |
+              When encryption keys are used, the service MUST verify that
+              all encryption keys use the latest industry-standard cryptographic
+              algorithms.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C11.TR02
+            text: |
+              When encryption keys are used, the service MUST rotate active keys
+              within 180 days of issuance.
+            applicability:
+              - tlp-amber
+          - id: CCC.Core.C11.TR03
+            text: |
+              When encrypting data, the service MUST verify that
+              customer-managed encryption keys (CMEKs) are used.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C11.TR04
+            text: |
+              When encryption keys are accessed, the service MUST verify that
+              access to encryption keys is restricted to authorized personnel
+              and services, following the principle of least privilege.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.C11.TR05
+            text: |
+              When encryption keys are used, the service MUST rotate active keys
+              within 365 days of issuance.
+            applicability:
+              - tlp-clear
+              - tlp-green
+          - id: CCC.Core.C11.TR06
+            text: |
+              When encryption keys are used, the service MUST rotate active keys
+              within 90 days of issuance.
+            applicability:
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: EKM-02
+                strength: 0
+              - reference-id: EKM-03
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2013 A.10.1.2
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-12
+                strength: 0
+              - reference-id: SC-17
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH16
+                strength: 0
+threats:
+  - id: CCC.Monitor.TH01
+    title: Capture Personal Identifiable Information
+    description: |
+      Unauthorised viewers may get access to PII if it is incorrectly collected by
+      monitoring systems through metrics or tracing.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitoring.F01
+            strength: 0
+            remarks: Metric collection
+          - reference-id: CCC.Monitoring.F02
+            strength: 0
+            remarks: Tracing
+          - reference-id: CCC.Monitoring.F08
+            strength: 0
+            remarks: Application Performance Monitoring (APM)
+          - reference-id: CCC.Monitoring.F09
+            strength: 0
+            remarks: Dashboard
+          - reference-id: CCC.Monitoring.F11
+            strength: 0
+            remarks: Integration with Third-Party Tools
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1589
+            strength: 0
+  - id: CCC.Monitor.TH02
+    title: Health Checks Used to Identify Attack Targets
+    description: |
+      Health Checks are used to inform those responsible for maintaining a system that
+      there is a problem, but if that information gets into the hands of a malicious
+      actor, it can be used to target already problematic systems and mask malicious activity.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitoring.F04
+            strength: 0
+            remarks: Health Checks
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1590
+            strength: 0
+            remarks: Gather Victim Network Information
+  - id: CCC.Monitor.TH03
+    title: External Monitoring DoS
+    description: |
+      If an external monitoring service is compromised, it can act as a host for
+      instigating denial of service attacks on internal system which otherwise may
+      not be protected against this form of attack.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitoring.F06
+            strength: 0
+            remarks: Synthetic Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1574
+            strength: 0
+            remarks: Hijack Execution Flow
+          - reference-id: T1498
+            strength: 0
+            remarks: Network Denial of Service
+  - id: CCC.Monitor.TH04
+    title: External Monitoring Access
+    description: |
+      If an external monitoring system is compromised, it acts as a trusted external
+      remote service and can then access internal services which would otherwise not
+      be accessible directly.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitoring.F06
+            strength: 0
+            remarks: Synthetic Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1133
+            strength: 0
+            remarks: External Remote Services
+  - id: CCC.Monitor.TH05
+    title: Data Exfiltration Through Tampered Metrics
+    description: |
+      If a malicious actor is able to make changes to the metrics being collected, it could
+      be used to encrypt and or compress sensitive data and bypass controls preventing
+      exfiltration. The data can then be staged in the monitoring system and exfiltrated in
+      bulk at a later point in time
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitoring.F01
+            strength: 0
+            remarks: Metric collection
+          - reference-id: CCC.Monitoring.F11
+            strength: 0
+            remarks: Integration with Third-Party Tools
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1560
+            strength: 0
+            remarks: Archive Collected Data
+          - reference-id: T1074
+            strength: 0
+            remarks: Data Staged
+          - reference-id: T1567
+            strength: 0
+            remarks: Exfiltration Over Web Service
+  - id: CCC.Monitor.TH06
+    title: Cost Exhaustion Through Tampered Alerts or Metrics Collection
+    description: |
+      Monitoring systems are expected to generate traffic, but it a malicious actor were to
+      change alerts that were being fired at an API which charged per requests or generate
+      large volumes of metric data which would then need to be stored and processed, or even
+      triggering resource scaling, this would cause an increase in cloud bill.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitoring.F01
+            strength: 0
+            remarks: Metric collection
+          - reference-id: CCC.Monitoring.F11
+            strength: 0
+            remarks: Integration with Third-Party Tools
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+  - id: CCC.Monitor.TH07
+    title: Trigger Malicious Code
+    description: |
+      If a malicious actor is able to create new triggers, they would be able to use valid
+      metric data to trigger malicious actions and re-compromise a newly replaced container
+      or compute instance.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitoring.F01
+            strength: 0
+            remarks: Metric collection
+          - reference-id: CCC.Monitoring.F10
+            strength: 0
+            remarks: Triggering
+          - reference-id: CCC.Monitoring.F11
+            strength: 0
+            remarks: Integration with Third-Party Tools
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1546
+            strength: 0
+            remarks: Event Triggered Execution
+  - id: CCC.Core.TH01
+    title: Access Control is Misconfigured
+    description: |
+      Misconfigured access controls may grant excessive privileges or fail to
+      restrict unauthorized access to the service and its child resources.
+      This could result in a loss of data confidentiality or tolerance of
+      unauthorized actions which impact the integrity and availability of
+      resources and data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F06
+            strength: 0
+            remarks: Identity Based Access Control
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+            strength: 0
+            remarks: Valid Accounts
+          - reference-id: T1548
+            strength: 0
+            remarks: Abuse Elevation Control Mechanism
+          - reference-id: T1203
+            strength: 0
+            remarks: Exploitation for Credential Access
+          - reference-id: T1098
+            strength: 0
+            remarks: Account Manipulation
+          - reference-id: T1484
+            strength: 0
+            remarks: Domain or Tenant Policy Modification
+          - reference-id: T1546
+            strength: 0
+            remarks: Event Triggered Execution
+          - reference-id: T1537
+            strength: 0
+            remarks: Transfer Data to Cloud Account
+          - reference-id: T1567
+            strength: 0
+            remarks: Exfiltration Over Web Services
+          - reference-id: T1048
+            strength: 0
+            remarks: Exfiltration Over Alternative Protocol
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH07
+    title: Logs are Tampered With or Deleted
+    description: |
+      Tampering or deletion of service logs will reduce the system's ability to
+      maintain an accurate record of events. Any actions that compromise the
+      integrity of logs could disrupt system availability by disrupting
+      monitoring, hindering forensic investigations, and reducing the accuracy
+      of audit trails.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F10
+            strength: 0
+            remarks: Logging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal on Host
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation (for altering log entries)
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH08
+    title: Runtime Metrics are Manipulated
+    description: |
+      Manipulation of runtime metrics can lead to inaccurate representations of
+      system performance and resource utilization. This compromised data
+      integrity may also impact system availability through misinformed scaling
+      decisions, budget exhaustion, financial losses, and hindered incident
+      detection.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F15
+            strength: 0
+            remarks: Cost Management
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal on Host
+  - id: CCC.Core.TH09
+    title: Runtime Logs are Read by Unauthorized Entities
+    description: |
+      Unauthorized access to logs may expose valuable information about the
+      system's configuration, operations, and security mechanisms. This could
+      jeopardize system availability through the exposure of vulnerabilities
+      and support the planning of attacks on the service, system, or network.
+      If logs are not adequately sanitized, this may also directly impact the
+      confidentiality of sensitive data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F09
+            strength: 0
+            remarks: Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1003
+            strength: 0
+            remarks: Credential Dumping
+          - reference-id: T1007
+            strength: 0
+            remarks: System Service Discovery
+          - reference-id: T1018
+            strength: 0
+            remarks: Remote System Discovery
+          - reference-id: T1033
+            strength: 0
+            remarks: System Owner/User Discovery
+          - reference-id: T1046
+            strength: 0
+            remarks: Network Service Discovery
+          - reference-id: T1057
+            strength: 0
+            remarks: Process Discovery
+          - reference-id: T1069
+            strength: 0
+            remarks: Permission Groups Discovery
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal
+          - reference-id: T1082
+            strength: 0
+            remarks: System Information Discovery
+          - reference-id: T1120
+            strength: 0
+            remarks: Peripheral Device Discovery
+          - reference-id: T1124
+            strength: 0
+            remarks: System Time Discovery
+          - reference-id: T1497
+            strength: 0
+            remarks: Virtualization/Sandbox Evasion
+          - reference-id: T1518
+            strength: 0
+            remarks: Software Discovery
+  - id: CCC.Core.TH10
+    title: State-change Events are Read by Unauthorized Entities
+    description: |
+      Unauthorized access to state-change events can reveal information about
+      the system's design and usage patterns. This opens the system up to
+      attacks of opportunity and support the planning of attacks on the
+      service, system, or network.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F03
+            strength: 0
+            remarks: Access/Activity Logs
+          - reference-id: CCC.Core.F07
+            strength: 0
+            remarks: Event Notifications
+          - reference-id: CCC.Core.F09
+            strength: 0
+            remarks: Monitoring
+          - reference-id: CCC.Core.F17
+            strength: 0
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1057
+            strength: 0
+            remarks: Process Discovery
+          - reference-id: T1049
+            strength: 0
+            remarks: System Network Connections Discovery
+          - reference-id: T1083
+            strength: 0
+            remarks: File and Directory Discovery
+  - id: CCC.Core.TH11
+    title: Publications are Incorrectly Triggered
+    description: |
+      Incorrectly triggered publications may disseminate inaccurate
+      or misleading information, creating a data integrity risk. Such
+      misinformation can cause unintended operations to be initiated,
+      conceal legitimate issues, and disrupt the availability or reliability
+      of systems and their data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F07
+            strength: 0
+            remarks: Event Notifications
+          - reference-id: CCC.Core.F17
+            strength: 0
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1205
+            strength: 0
+            remarks: Traffic Signaling
+          - reference-id: T1001.001
+            strength: 0
+            remarks: 'Data Obfuscation: Junk Data'
+          - reference-id: T1491.001
+            strength: 0
+            remarks: 'Defacement: Internal Defacement'
+  - id: CCC.Core.TH15
+    title: Automated Enumeration and Reconnaissance by Non-human Entities
+    description: |
+      Automated processes may be used to gather details about service and
+      child resource elements such as APIs, file systems, or directories.
+      This information can reveal vulnerabilities, misconfigurations,
+      and the network topology, which can be used to plan an attack against
+      the system, the service, or its child resources.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F14
+            strength: 0
+            remarks: API Access
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1580
+            strength: 0
+            remarks: Cloud Infrastructure Discovery
+  - id: CCC.Core.TH16
+    title: Publications are Disabled
+    description: |
+      Publication of events, metrics, and runtime logs may be disabled, leading
+      to a lack of expected security and operational information being shared.
+      This can impact system availability by delaying the detection of
+      incidents while also impacting system design decisions and enforcement of
+      operational thresholds, such as autoscaling or cost management.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.F10
+            strength: 0
+            remarks: Logging
+          - reference-id: CCC.Core.F09
+            strength: 0
+            remarks: Monitoring
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1562
+            strength: 0
+            remarks: Impair Defenses
+capabilities:
+  - id: CCC.Monitor.F01
+    title: Metric collection
+    description: |
+      Gathering numerical (quantitative) data points about the performance,
+      health, or behaviour of systems, applications or infrastructure.
+  - id: CCC.Monitor.F02
+    title: Tracing
+    description: |
+      An observability technique providing an end-to-end view of a request or
+      transaction flow through a complex system to enable a single action to
+      be linked to resulting events in multiple downstream systems.
+  - id: CCC.Monitor.F03
+    title: Reporting
+    description: |
+      Summarised view of metrics in a structured, sharable format.
+  - id: CCC.Monitor.F04
+    title: Health Checks
+    description: |
+      A type of monitoring that focuses on the operational status and
+      readiness of components or entire systems.
+  - id: CCC.Monitor.F05
+    title: SLO Monitoring
+    description: |
+      Define and monitor Service Level Objectives (SLO) using Service Level Indicators (SLI) based on metrics.
+  - id: CCC.Monitor.F06
+    title: Synthetic Monitoring
+    description: |
+      Proactively checking sample user interactions to identify issues before real users are impacted.
+  - id: CCC.Monitor.F07
+    title: Uptime Monitoring
+    description: |
+      Checking whether a specific service or application is accessible from an external perspective.
+  - id: CCC.Monitor.F08
+    title: Application Performance Monitoring (APM)
+    description: |
+      A comprehensive approach to monitoring the performance, availability and user experience of
+      an application through multiple levels of data collection
+  - id: CCC.Monitor.F09
+    title: Dashboard
+    description: |
+      A visual representation of the health of systems being monitored. Pulling together metrics,
+      current alerts, SLO/SLI's, health checks and other monitoring features into a single location
+      to enable a view of the health of the overall system.
+  - id: CCC.Monitor.F10
+    title: Triggering
+    description: |
+      Automatically initiating actions like alerts, notifications or automated workflows based
+      on pre-defined conditions being met.
+  - id: CCC.Monitor.F11
+    title: Integration with Third-Party Tools
+    description: |
+      Monitoring tools are able to integrate with a number of downstream systems in order to send
+      notifications and alerts, raise tickets and create incident reports.
+  - id: CCC.Core.F03
+    title: Access Log Publication
+    description: |
+      The service automatically publishes structured, verbose records of
+      activities performed within the scope of the service by external actors.
+  - id: CCC.Core.F06
+    title: Access Control
+    description: |
+      The service automatically enforces user configurations to
+      restrict or allow access to a specific component or
+      a child resource based on factors such as user identities, roles,
+      groups, or attributes.
+  - id: CCC.Core.F07
+    title: Event Publication
+    description: |
+      The service automatically publishes a structured state-change record
+      upon creation, deletion, or modification of data, configuration,
+      components, or child resources.
+  - id: CCC.Core.F09
+    title: Metrics Publication
+    description: |
+      The service automatically publishes structured, numeric, time-series data points related to
+      the performance, availability, and health of the service or its child resources.
+  - id: CCC.Core.F10
+    title: Log Publication
+    description: |
+      The service automatically publishes structured, verbose records of activities,
+      operations, or events that occur within the service.
+  - id: CCC.Core.F14
+    title: API Access
+    description: |
+      The service exposes a port enabling external actors to interact
+      programmatically with the service and its resources using HTTP
+      protocol methods such as GET, POST, PUT, and DELETE.
+  - id: CCC.Core.F15
+    title: Cost Management
+    description: |
+      The service monitors data published by child or networked resources to infer
+      usage patterns and generate cost reports for the service.
+  - id: CCC.Core.F17
+    title: Alerting
+    description: |
+      The service may be configured to emit a notification based on a user-defined
+      condition related to the data published by a child or networked resource.
+imported-controls:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.C02
+        strength: 0
+        remarks: Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.Core.C03
+        strength: 0
+        remarks: Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.Core.C04
+        strength: 0
+        remarks: Log All Access and Changes
+      - reference-id: CCC.Core.C05
+        strength: 0
+        remarks: Prevent Access from Untrusted Entities
+      - reference-id: CCC.Core.C07
+        strength: 0
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.C09
+        strength: 0
+        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - reference-id: CCC.Core.C11
+        strength: 0
+        remarks: Enforce Key Management Policies
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH07
+        strength: 0
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH10
+        strength: 0
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH11
+        strength: 0
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH15
+        strength: 0
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0
+        remarks: Logging and Monitoring are Disabled
+imported-capabilities:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.F03
+        strength: 0
+        remarks: Access/Activity Logs
+      - reference-id: CCC.Core.F06
+        strength: 0
+        remarks: Identity Based Access Controls
+      - reference-id: CCC.Core.F07
+        strength: 0
+        remarks: Event Notifications
+      - reference-id: CCC.Core.F09
+        strength: 0
+        remarks: Monitoring
+      - reference-id: CCC.Core.F10
+        strength: 0
+        remarks: Logging
+      - reference-id: CCC.Core.F14
+        strength: 0
+        remarks: API Access
+      - reference-id: CCC.Core.F15
+        strength: 0
+        remarks: Cost Management
+      - reference-id: CCC.Core.F17
+        strength: 0
+        remarks: Alerting

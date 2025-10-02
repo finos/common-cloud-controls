@@ -1,0 +1,32 @@
+{
+    "id": "gcp-network",
+    "provider": "gcp",
+    "service": "networking",
+    "name": "CCC Google Cloud VPC Terraform Module",
+    "description": "This module creates a secure Google Cloud VPC (Virtual Private Cloud) network with subnets, routes, firewall rules, and advanced networking capabilities.",
+    "path": "remote/gcp/virtualnetwork",
+    "authors": [
+        {
+            "name": "Google Cloud",
+            "github_id": "terraform-google-modules",
+            "company": "Google"
+        }
+    ],
+    "resources": [
+        "google_compute_network",
+        "google_compute_subnetwork",
+        "google_compute_route",
+        "google_compute_firewall",
+        "google_compute_firewall_policy",
+        "google_compute_network_firewall_policy",
+        "google_compute_network_peering",
+        "google_compute_shared_vpc_host_project",
+        "google_compute_shared_vpc_service_project"
+    ],
+    "specifications": [
+        "CCC.Networking",
+        "CCC.Security",
+        "CCC.Monitoring"
+    ],
+    "git": "https://github.com/terraform-google-modules/terraform-google-network"
+}

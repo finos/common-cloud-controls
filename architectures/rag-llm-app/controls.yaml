@@ -1,0 +1,31 @@
+shared-controls:
+  - reference-id: CCC
+    identifiers: []
+  - reference-id: CCC.VM
+    identifiers: []
+  - reference-id: CCC.RDMS
+    identifiers: []
+  - reference-id: CCC.LB
+    identifiers: []
+  - reference-id: CCC.VPC
+    identifiers: []
+  - reference-id: CCC.IAM
+    identifiers: []
+  - reference-id: CCC.KMS
+    identifiers: []
+  - reference-id: CCC.ObjStor
+    identifiers: []
+  - reference-id: CCC.AI-ML
+    identifiers: []
+  - reference-id: CCC.VectorDB # Service not yet defined in CCC
+    identifiers: []
+  - reference-id: CCC.DataProc # Service not yet defined in CCC
+    identifiers: []
+  - reference-id: CCC.WorkflowOrch # Service not yet defined in CCC
+    identifiers: []
+  - reference-id: CCC.APIMgmt # Service not yet defined in CCC
+    identifiers: []
+  - reference-id: CCC.MgmtGov # Should be CCC.Management to match service definition
+    identifiers: []
+
+control-families: [] # Additional controls have not yet been identified for this architecture
