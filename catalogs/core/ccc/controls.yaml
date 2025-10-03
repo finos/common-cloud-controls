@@ -1,47 +1,40 @@
 control-families:
   - title: Data
     description: |
-      The Data control family ensures the confidentiality, integrity,
-      availability, and sovereignty of data across its lifecycle.
-      These controls govern how data is transmitted, stored,
-      replicated, and protected from unauthorized access, tampering,
-      or exposure beyond defined trust perimeters.
+      Confidentiality, integrity, availability, and sovereignty of data transmission, storage/replication, and protection from unauthorized access, tampering, or exposure beyond defined trust perimeters.
     controls:
       - id: CCC.Core.C01
         title: Encrypt Data for Transmission
         objective: |
-          Ensure that all communications are encrypted in transit to protect
-          data integrity and confidentiality.
+          Ensure communications are encrypted in transit to ensure
+          data integrity and protect confidentiality.
         assessment-requirements:
           - id: CCC.Core.C01.TR01
             text: |
-              When a port is exposed for non-SSH network traffic, all traffic
-              MUST include a TLS handshake AND be encrypted using TLS 1.3 or
-              higher.
+              All non-SSH network traffic MUST be encrypted with a post-quantum TLS 1.3 cipher.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: |
-              Most cloud services enable TLS 1.3 by default. Where it is not
-              already set, ensure that your services are configured or updated
+              Most cloud services enable TLS 1.3 by default. Where not
+              already set, ensure services are configured or updated
               accordingly.
           - id: CCC.Core.C01.TR02
             text: |
-              When a port is exposed for SSH network traffic, all traffic MUST
-              include a SSH handshake AND be encrypted using SSHv2 or higher.
+              All SSH network traffic MUST be encrypted with a post-quantum SSHv2 cipher.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: |
-              Any time port 22 is exposed, ensure that it has a properly
-              implemented SSH server with SSHv2 enabled and configured with
-              strong ciphers.
+              Any SSH traffic must pass through a properly configured SSH server
+              with only SSHv2 enabled and configured with strong ciphers, and
+              port 22 should not be exposed with any other protocol.
           - id: CCC.Core.C01.TR03
             text: |
-              When the service receives unencrypted traffic, 
+              When a service receives unencrypted traffic,
               then it MUST either block the request or automatically
               redirect it to the secure equivalent.
             applicability:
@@ -51,12 +44,12 @@ control-families:
             recommendation: |
               Review firewall, load balancer, and application configurations to
               ensure insecure protocols such as HTTP, FTP, and Telnet are not
-              exposed. Where possible, implement automatic redirection to secure
+              exposed. Where possible, implement automatic redirection to step up to secure
               protocols such as HTTPS, SFTP, SSH, and regularly scan for
               protocol drift.
           - id: CCC.Core.C01.TR07
             text: |
-              When a port is exposed, the service MUST ensure that the protocol
+              Exposed ports MUST ensure that the protocol
               and service officially assigned to that port number by the IANA
               Service Name and Transport Protocol Port Number Registry, and no
               other, is run on that port.
@@ -68,13 +61,11 @@ control-families:
             recommendation: |
               Reference the IANA Service Name and Transport Protocol Port Number
               Registry for more information about correct protocol-to-port
-              assignments. Avoid running non-standard services on well-known
+              assignments, and avoid running non-standard services on well-known
               ports.
           - id: CCC.Core.C01.TR08
             text: |
-              When a service transmits data using TLS, mutual TLS (mTLS) MUST be
-              implemented to require both client and server certificate
-              authentication for all connections.
+              Mutual TLS (mTLS) MUST be implemented for all TLS connections.
             applicability:
               - tlp-amber
               - tlp-red
@@ -115,15 +106,14 @@ control-families:
       - id: CCC.Core.C13
         title: Minimize Lifetime of Encryption and Authentication Certificates
         objective: |
-          Ensure that encryption and authentication certificates have a limited
-          lifetime to reduce the risk of compromise and ensure the use of
-          up-to-date security practices.
+          Ensure a service's encryption and authentication certificates have a
+          limited lifetime to reduce the risk of compromise and ensure the use
+          of up-to-date security practices.
         assessment-requirements:
           - id: CCC.Core.C13.TR01
             text: |
-              When a port is exposed that uses certificate-based encryption,
-              the service MUST only use valid, unexpired certificates issued by
-              a trusted certificate authority.
+              Services using certificate-based encryption MUST only use valid,
+              unexpired certificates issued by a trusted certificate authority.
             applicability:
               - tlp-clear
               - tlp-green
@@ -135,22 +125,24 @@ control-families:
               only certificates from trusted authorities are deployed.
           - id: CCC.Core.C13.TR02
             text: |
-              When a port is exposed that uses certificate-based encryption,
-              the service MUST rotate active certificates within 180 days of
-              issuance.
+              Services using certificate-based encryption MUST rotate
+              certificates within 180 days of issuance, or at 75% of expiration
+              duration, whichever is sooner.
             applicability:
               - tlp-amber
             recommendation: |
               Track certificate expiration dates and automate certificate
               renewal where possible. Use certificate management tools to ensure
-              only certificates from trusted authorities are deployed.
+              only certificates from trusted internal and external authorities
+              are deployed. TODO(AJM): Consider upcoming expiration standards of
+              25d (?)
           - id: CCC.Core.C13.TR03
-            text: |
-              When a port is exposed that uses certificate-based encryption,
-              the service MUST rotate active certificates within 90 days of
-              issuance.
             applicability:
               - tlp-red
+            text: |
+              Services using certificate-based encryption MUST rotate active
+              certificates within 90 days of issuance, or at 75% of expiration
+              duration, whichever is sooner.
             recommendation: |
               Track certificate expiration dates and automate certificate
               renewal where possible. Use certificate management tools to ensure
@@ -162,38 +154,37 @@ control-families:
       - id: CCC.Core.C06
         title: Restrict Deployments to Trust Perimeter
         objective: |
-          Ensure that the service and its child resources are only deployed on
-          infrastructure in locations that are explicitly included within a
-          defined trust perimeter.
+          Ensure services and child resources are only deployed on
+          infrastructure that is explicitly within a defined trust perimeter.
         assessment-requirements:
           - id: CCC.Core.C06.TR01
             text: |
-              When the service is running, its region and availability zone MUST
-              be included in a list of explicitly trusted or approved locations
-              within the trust perimeter.
+              Service region and availability zones MUST be selected from a list
+              of explicitly trusted or approved locations within the trust
+              perimeter.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: |
-              Maintain an up-to-date list of trusted and approved regions based
-              on organizational policies. Validate the service's deployment
-              location is included in this list.
+              Maintain a current list of trusted and approved regions based
+              on organizational policies. Validate service deployment
+              locations are from this list.
           - id: CCC.Core.C06.TR02
             text: |
-              When a child resource is deployed, its region and availability
-              zone MUST be included in a list of explicitly trusted or approved
-              locations within the trust perimeter.
+              Child resource region and availability zones MUST be selected from
+              a list of explicitly trusted or approved locations within the
+              trust perimeter.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: |
-              Maintain an up-to-date list of trusted and approved regions based
+              Maintain a current list of trusted and approved regions based
               on organizational policies. Validate that child resources can only
-              be deployed to locations included in this list.
+              be deployed to locations from this list.
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -216,34 +207,36 @@ control-families:
       - id: CCC.Core.C08
         title: Replicate Data to Multiple Locations
         objective: |
-          Ensure that data is replicated across multiple physical locations to
+          Ensure data is replicated across multiple physical locations to
           protect against data loss due to hardware failures, natural disasters,
           or other catastrophic events.
         assessment-requirements:
           - id: CCC.Core.C08.TR01
             text: |
-              When data is created or modified, the data MUST have a complete
-              and recoverable duplicate that is stored in a physically separate
-              data center.
+              Data MUST have a complete and recoverable duplicate that is stored
+              in a physically separate data center.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: |
-              Implement automated data replication processes to ensure that
-              data is consistently duplicated in another region or availability
-              zone. Regularly test data recovery from the replicated location to
-              ensure integrity and availability.
+              Implement automated data replication processes to ensure that data
+              is consistently duplicated to another region or availability zone.
+              Regularly test restoration of backups from the replicated location
+              to ensure integrity and availability.
           - id: CCC.Core.C08.TR02
             text: |
-              When data is replicated into a second location, the service MUST
+              When data is replicated into a second location, the system MUST
               be able to accurately represent the replication locations,
               replication status, and data synchronization status.
             applicability:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: ""
+            recommendation: |
+              Configure data service failover via automation or manual runbooks.
+              Monitor replication status to remediate lag or failure. Regularly
+              test failover between sites.
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -272,15 +265,13 @@ control-families:
       - id: CCC.Core.C09
         title: Ensure Integrity of Access Logs
         objective: |
-          Ensure that access logs are always recorded to an external location
-          that cannot be manipulated from the context of the service(s) it
-          contains logs for.
+          Ensure a service records its access logs to an external, append-only
+          location, and that the service cannot tamper or remove existing logs.
         assessment-requirements:
           - id: CCC.Core.C09.TR01
             text: |
-              When the service is operational, its logs and any child resource
-              logs MUST NOT be accessible from the resource they record access
-              to.
+              Service and any child resources' logs MUST NOT be accessible from
+              the resources they are generated from.
             applicability:
               - tlp-clear
               - tlp-green
@@ -289,31 +280,30 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C09.TR02
             text: |
-              When the service is operational, disabling the logs for the service
-              or its child resources MUST NOT be possible without also disabling
-              the corresponding resource.
+              When the service is operational, it MUST NOT be possible to
+              disable the logs for the service or its child resources, without
+              also disabling the corresponding service or resource.
             applicability:
               - tlp-clear
               - tlp-green
               - tlp-amber
               - tlp-red
             recommendation: |
-              No normal business operations should disable
-              logs, as this could indicate an attempt to cover up unauthorized
-              access. Ensure that logging mechanisms are tightly integrated with
-              service operations, so that logging cannot be disabled without
-              stopping the service itself.
+              Normal business operations should not disable logs, which may
+              indicate an attempt to cover up unauthorized access. Ensure
+              logging mechanisms are tightly integrated with service operations,
+              so logging cannot be disabled without stopping the service itself.
           - id: CCC.Core.C09.TR03
             text: |
-              When the service is operational, any attempt to redirect logs for
-              the service or its child resources MUST NOT be possible without
-              halting operation of the corresponding resource and publishing
+              When the service is operational, it MUST NOT be possible to
+              redirect logs for the service or its child resources without
+              halting operation of the corresponding resource, and publishing
               corresponding events to monitored channels.
             applicability:
               - tlp-amber
               - tlp-red
             recommendation: |
-              No normal business operations should result in the redirection of
+              Normal business operations should not result in the redirection of
               logs, as this could indicate an attempt to cover up unauthorized
               access. Ensure that logging configurations are immutable during
               service operation so that any changes require stopping the service
@@ -337,7 +327,7 @@ control-families:
                 remarks: Audit Logs Protection (security and retention)
                 strength: 5
               - reference-id: LOG-04
-                remarks: Audit Logs Access and Accountability (Restrict audit logs access to authorized personnel)
+                remarks: Audit Logs Access and Accountability (restrict audit logs access to authorized personnel)
                 strength: 5
               - reference-id: LOG-09
                 remarks: Log Protection (protects audit records from unauthorized access)
@@ -352,9 +342,8 @@ control-families:
         assessment-requirements:
           - id: CCC.Core.C10.TR01
             text: |
-              When data is replicated, the service MUST ensure that replication
-              only occurs to destinations that are explicitly included within
-              the defined trust perimeter.
+              A service MUST ensure that data is only replicated to destinations
+              that are selected from the defined trust perimeter list.
             applicability:
               - tlp-green
               - tlp-amber
@@ -384,12 +373,12 @@ control-families:
       - id: CCC.Core.C02
         title: Encrypt Data for Storage
         objective: |
-          Ensure that all data stored is encrypted at rest using strong
+          Ensure that all system data is encrypted at rest using strong
           encryption algorithms.
         assessment-requirements:
           - id: CCC.Core.C02.TR01
             text: |
-              When data is stored, it MUST be encrypted using the latest
+              Data storage services MUST encrypt data using current
               industry-standard encryption methods.
             applicability:
               - tlp-green
@@ -425,39 +414,38 @@ control-families:
       - id: CCC.Core.C11
         title: Protect Encryption Keys
         objective: |
-          Ensure that encryption keys are managed securely by enforcing
-          the use of approved algorithms, regular key rotation, and
-          customer-managed encryption keys (CMEKs).
+          Ensure encryption keys are managed securely by enforcing the use of
+          Key Management Systems (KMS), approved algorithms, regular key
+          rotation, and customer-managed encryption keys (CMEKs).
         assessment-requirements:
           - id: CCC.Core.C11.TR01
             text: |
-              When encryption keys are used, the service MUST verify that
-              all encryption keys use the latest industry-standard cryptographic
-              algorithms.
+              A service MUST verify that all encryption keys use the latest
+              industry-standard cryptographic algorithms.
             applicability:
               - tlp-amber
               - tlp-red
             recommendation: ""
           - id: CCC.Core.C11.TR02
             text: |
-              When encryption keys are used, the service MUST rotate active keys
-              within 180 days of issuance.
+              A service MUST rotate active keys within 180 days of issuance, or
+              at 75% of expiration duration, whichever is sooner.
             applicability:
               - tlp-amber
             recommendation: ""
           - id: CCC.Core.C11.TR03
             text: |
-              When encrypting data, the service MUST verify that
-              customer-managed encryption keys (CMEKs) are used.
+              A service MUST verify that customer-managed encryption keys
+              (CMEKs) are used.
             applicability:
               - tlp-amber
               - tlp-red
             recommendation: ""
           - id: CCC.Core.C11.TR04
             text: |
-              When encryption keys are accessed, the service MUST verify that
-              access to encryption keys is restricted to authorized personnel
-              and services, following the principle of least privilege.
+              A service MUST verify that encryption key access is restricted
+              to authorized personnel and services, following the principle of
+              least privilege.
             applicability:
               - tlp-clear
               - tlp-green
@@ -466,15 +454,15 @@ control-families:
             recommendation: ""
           - id: CCC.Core.C11.TR05
             text: |
-              When encryption keys are used, the service MUST rotate active keys
-              within 365 days of issuance.
+              A service MUST rotate active keys within 365 days of issuance, or
+              at 75% of expiration duration, whichever is sooner.
             applicability:
               - tlp-clear
               - tlp-green
           - id: CCC.Core.C11.TR06
             text: |
-              When encryption keys are used, the service MUST rotate active keys
-              within 90 days of issuance.
+              A service MUST rotate active keys within 90 days of issuance, or
+              at 75% of expiration duration, whichever is sooner.
             applicability:
               - tlp-red
         threat-mappings:
@@ -506,14 +494,13 @@ control-families:
       - id: CCC.Core.C14
         title: Maintain Recent Backups
         objective: |
-          Ensure that all backups used for disaster recovery are recent and
+          Ensure that all disaster recovery backups are recent and
           subject to a retention policy that limits deletion.
         assessment-requirements:
           - id: CCC.Core.C14.TR01
             text: |
-              When backups are created for disaster recovery purposes, the
-              storage mechanism MUST NOT allow modification or deletion
-              within 30 days of creation.
+              Disaster recovery backup storage mechanism MUST NOT allow
+              modification or deletion within 30 days of creation.
             applicability:
               - tlp-clear
               - tlp-green
@@ -522,12 +509,11 @@ control-families:
             recommendation: |
               Use immutable storage solutions where possible. Implement backup
               retention policies that enforce a minimum retention period of 30
-              days.
+              days, or aligned with minimum compliance requirements.
           - id: CCC.Core.C14.TR02
             text: |
-              When backups are created for disaster recovery purposes, the
-              most recent backup MUST have a creation date within the past
-              30 days.
+              The most recent disaster recovery backups MUST have a
+              creation date within the past 30 days.
             applicability:
               - tlp-clear
               - tlp-green
@@ -538,9 +524,8 @@ control-families:
               most recent backup creation date is within the last 30 days.
           - id: CCC.Core.C14.TR02
             text: |
-              When backups are created for disaster recovery purposes, the
-              most recent backup MUST have a creation date within the past
-              14 days.
+              The most recent disaster recovery backups MUST have a
+              creation date within the past 14 days.
             applicability:
               - tlp-red
             recommendation: |
@@ -555,11 +540,10 @@ control-families:
         guideline-mappings: []
   - title: Identity and Access Management
     description: |
-      The Identity and Access Management control family ensures
-      that only trusted and authenticated entities can access
-      resources. These controls establish strong authentication,
-      enforce multi-factor verification, and restrict access to
-      approved sources to prevent unauthorized use or data exfiltration.
+      Ensures that only trusted and authenticated entities can access resources.
+      These controls establish strong authentication, enforce multi-factor
+      verification, and restrict access to approved sources to prevent
+      unauthorized use or data exfiltration.
     controls:
       - id: CCC.Core.C03
         title: Implement Multi-factor Authentication (MFA) for Access
