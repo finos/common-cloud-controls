@@ -1,11 +1,23 @@
 metadata:
   id: CCC.DataWar
-  title: Data Warehouse
+  title: CCC Data Warehouse
   description: |
-      A data warehouse is a centralized repository designed to
-      store, manage, and analyze large volumes of data from
-      various sources.
+    A data warehouse is a centralized repository designed to
+    store, manage, and analyze large volumes of data from
+    various sources.
+  category-ids: 
+    - CCC.Database
   version: ""
   last-modified: "2025-04-16T19:57:11-05:00"
+  example-csp-services:
+    - provider: AWS
+      service: Amazon Redshift
+      url: https://docs.aws.amazon.com/redshift/
+    - provider: Azure
+      service: Azure Synapse Analytics
+      url: https://learn.microsoft.com/azure/synapse-analytics/
+    - provider: GCP
+      service: BigQuery
+      url: https://cloud.google.com/bigquery/docs
   applicability-categories: []
   mapping-references: []

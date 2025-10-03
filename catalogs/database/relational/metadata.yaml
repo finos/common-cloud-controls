@@ -1,11 +1,24 @@
 metadata:
   id: CCC.RDMS
-  title: CCC Relational Database Management System Capabilities
+  title: CCC Relational Database Management System
   description: |
-      This documents the minimual set of capabilities that should be present for a RDMS
-      service to be considered for use in financial services ecosystems.
+    Relational database services support structured data models and SQL
+    (Structured Query Language) for data definition, manipulation, and
+    querying.
+  category-ids: 
+    -  CCC.Database
   version: "2025.05"
   last-modified: "2023-10-05T10:06:00-05:00"
+  example-csp-services:
+    - provider: AWS
+      service: Amazon RDS
+      url: https://docs.aws.amazon.com/rds/
+    - provider: Azure
+      service: Azure SQL Database
+      url: https://learn.microsoft.com/azure/azure-sql/database/
+    - provider: GCP
+      service: Cloud SQL
+      url: https://cloud.google.com/sql/docs
   applicability-categories: []
   mapping-references: []
 

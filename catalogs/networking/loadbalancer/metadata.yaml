@@ -2,11 +2,26 @@ metadata:
   id: CCC.LB
   title: CCC Load Balancer Capabilities
   description: |
-    This documents the minimual set of capabilities that should be present
-    for a load balancer service to be considered for use in financial
-    services ecosystems.
+    Load balancing services distribute incoming network traffic across multiple
+    instances or servers to ensure high availability, scalability, and
+    reliability of applications.
+  category-ids: 
+    - CCC.Network
   version: "2025.07"
   last-modified: "2025-07-14T00:00:00-05:00"
+  example-csp-services:
+    - provider: AWS
+      service: Elastic Load Balancing
+      url: https://docs.aws.amazon.com/elasticloadbalancing/
+    - provider: Azure
+      service: Load Balancer
+      url: https://learn.microsoft.com/azure/load-balancer/
+    - provider: GCP
+      service: Cloud Load Balancing
+      url: https://cloud.google.com/load-balancing/docs/
+  applicability-categories: []
+  mapping-references: []
+
 release-details:
   - version: "2025.07"
     assurance_level: None

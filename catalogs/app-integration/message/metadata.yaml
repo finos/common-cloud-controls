@@ -1,12 +1,23 @@
 metadata:
-  title: CCC Messaging Services
   id: CCC.Message
+  title: CCC Messaging Services
   description: |
     Messaging services facilitate communication between distributed applications
-    and services by enabling the exchange of messages in a reliable and scalable
-    manner.
+    and services by enabling the exchange of messages using pub/sub model in
+    a reliable and scalable manner.
+  category-ids: 
+    -  CCC.AppInt
   version: ""
-  last-modified: "2025-04-19T00:00:00Z"
+  last-modified: "2025-04-19T20:11:36-05:00"
+  example-csp-services:
+    - provider: AWS
+      service: Amazon Simple Queue Service
+      url: https://docs.aws.amazon.com/sqs/
+    - provider: Azure
+      service: Azure Service Bus Messaging
+      url: https://learn.microsoft.com/azure/service-bus-messaging/
+    - provider: GCP
+      service: Pub/Sub
+      url: https://cloud.google.com/pubsub/docs/
   applicability-categories: []
-
-release-details: []
+  mapping-references: []

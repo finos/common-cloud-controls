@@ -1,10 +1,23 @@
 metadata:
   id: CCC.AuditLog
-  title: Audit Logging
+  title: CCC Audit Logging
   description: |
     Provides the ability to transmit system events, application activities,
     and/or user interactions to a logging service.
-  version: "2025.07"
+  category-ids: 
+    - CCC.Management
+  version: ""
   last-modified: "2025-07-04T10:35:00-00:00"
+  example-csp-services:
+    - provider: AWS
+      service: AWS CloudTrail
+      url: https://docs.aws.amazon.com/cloudtrail/
+    - provider: Azure
+      service: Azure Monitor Activity Log
+      url: https://learn.microsoft.com/azure/azure-monitor/platform/activity-log
+    - provider: GCP
+      service: Cloud Audit Logs
+      url: https://cloud.google.com/logging/docs/audit/
   applicability-categories: []
   mapping-references: []
+  

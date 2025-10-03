@@ -1,24 +1,25 @@
 metadata:
-  title: Build
   id: CCC.Build
+  title: CCC Build
   description: |
-    This documents the minimal set of capabilities that should be present
-    for a build service to be considered for use in financial
-    services ecosystems.
+    Build refers to a fully managed continuous integration service offered by
+    cloud service providers for build automation. It is designed to compile
+    source code, run tests, and produce deployable artifacts without having to
+    setup, manage or scale your own infrastructure for running build servers.
+  category-ids: 
+    - CCC.DevTools
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
+  example-csp-services:
+    - provider: AWS
+      service: AWS CodeBuild
+      url: https://docs.aws.amazon.com/codebuild/
+    - provider: Azure
+      service: Azure Pipelines
+      url: https://learn.microsoft.com/en-us/azure/devops/pipelines
+    - provider: GCP
+      service: Cloud Build
+      url: https://cloud.google.com/build/docs
   applicability-categories: []
-
-release-details:
-  - version: "2025.06"
-    assurance_level: None
-    threat_model_url: None
-    threat_model_author: None
-    red_team: None
-    red_team_exercise_url: None
-    release_manager:
-      name: Damien Burks
-      github_id: damienjburks
-      company: Citi
-      summary: None
-    change_log: []
+  mapping-references: []
+  

@@ -5,8 +5,20 @@ metadata:
     Key Management Service is a tool provided by cloud service providers
     to securely create, store, and manage cryptographic keys used to
     encrypt and decrypt sensitive data.
+  category-ids: 
+    -  CCC.Crypto
   version: "2025.07"
   last-modified: "2025-07-05T11:20:00-05:00"
+  example-csp-services:
+    - provider: AWS
+      service: AWS Key Management Service
+      url: https://docs.aws.amazon.com/kms/
+    - provider: Azure
+      service: Azure Key Vault
+      url: https://learn.microsoft.com/azure/key-vault/
+    - provider: GCP
+      service: Cloud Key Management Service
+      url: https://cloud.google.com/kms/docs
   applicability-categories: []
   mapping-references: []
 

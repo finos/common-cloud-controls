@@ -1,24 +1,26 @@
 metadata:
-  title: Batch Processing
   id: CCC.BatchProc
+  title: CCC Batch Processing
   description: |
-    This documents the minimal set of capabilities that should be present
-    for a batch processing service to be considered for use in financial
-    services ecosystems.
+    Batch processing services enable users to execute large-scale,
+    parallelizable computing tasks, such as data processing, analytics, and
+    batch jobs. These services automatically allocate and manage compute
+    to execute batch jobs efficiently and cost-effectively. Users
+    can specify job requirements, dependencies, and scheduling preferences
+    to optimize job execution.
+  category-ids: 
+    -  CCC.Compute
   version: ""
   last-modified: "2025-04-19T00:00:00Z"
+  example-csp-services:
+    - provider: AWS
+      service: AWS Batch
+      url: https://docs.aws.amazon.com/batch/
+    - provider: Azure
+      service: Azure Batch
+      url: https://learn.microsoft.com/azure/batch/
+    - provider: GCP
+      service: Google Cloud Batch
+      url: https://cloud.google.com/batch/docs
   applicability-categories: []
-
-release-details:
-  - version: "2025.06"
-    assurance_level: None
-    threat_model_url: None
-    threat_model_author: None
-    red_team: None
-    red_team_exercise_url: None
-    release_manager:
-      name: Damien Burks
-      github_id: damienjburks
-      company: Citi
-      summary: None
-    change_log: []
+  mapping-references: []

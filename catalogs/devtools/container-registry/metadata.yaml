@@ -2,10 +2,23 @@ metadata:
   id: CCC.CntrReg
   title: CCC Container Registry
   description: |
-      This documents the minimal set of capabilities that should be present
-      for a container registry service to be considered for use in financial
-      services ecosystems.
-  version: "2025.06"
+    Container Registry is a repository for storing, managing and distributing
+    container images. It acts as a hub in the container ecosystem, enabling
+    developers to push, pull, version, and share container images efficiently
+    and securely.
+  category-ids: 
+    - CCC.DevTools
+  version: ""
   last-modified: "2025-04-16T20:21:44-05:00"
+  example-csp-services:
+    - provider: AWS
+      service: Amazon Elastic Container Registry
+      url: https://docs.aws.amazon.com/ecr/
+    - provider: Azure
+      service: Azure Container Registry (ACR)
+      url: https://learn.microsoft.com/azure/container-registry/
+    - provider: GCP
+      service: Artifact Registry
+      url: https://cloud.google.com/artifact-registry/docs
   applicability-categories: []
   mapping-references: []

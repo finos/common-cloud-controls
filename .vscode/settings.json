@@ -12,7 +12,8 @@
     "schemas/capabilities-schema.json": "/**/capabilities.yaml",
     "schemas/threats-schema.json": "/**/threats.yaml",
     "schemas/controls-schema.json": "/**/controls.yaml",
-    "schemas/metadata-schema.json": "/**/metadata.yaml"
+    "schemas/metadata-schema.json": "/**/metadata.yaml",
+    "schemas/categories-schema.json": "/categories.yaml"
   },
   "[go]": {
     "editor.defaultFormatter": "golang.go"

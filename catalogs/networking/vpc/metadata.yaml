@@ -2,11 +2,25 @@ metadata:
   id: CCC.VPC
   title: CCC Virtual Private Cloud
   description: |
-      This documents the minimal set of capabilities that should be present
-      for a virtual private cloud service to be considered for use in financial
-      services ecosystems.
+      VPC is a logically isolated virtual network environment within the cloud,
+      allowing users to define their own IP address range, subnets, route tables,
+      and network gateways. VPC enables secure and controlled communication
+      between resources while providing integration with on-premises networks
+      through VPN or dedicated connections.
+  category-ids: 
+    - CCC.Network
   version: "2025.01"
   last-modified: "2025-04-16T20:28:51-05:00"
+  example-csp-services:
+    - provider: AWS
+      service: Amazon Virtual Private Cloud
+      url: https://docs.aws.amazon.com/vpc/
+    - provider: Azure
+      service: Virtual Network
+      url: https://learn.microsoft.com/azure/virtual-network/
+    - provider: GCP
+      service: Virtual Private Cloud
+      url: https://cloud.google.com/vpc/docs
   applicability-categories: []
   mapping-references: []
 

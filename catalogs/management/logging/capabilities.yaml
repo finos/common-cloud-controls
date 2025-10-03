@@ -2,40 +2,28 @@ imported-capabilities:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.F01
-        strength: 0 # Not yet specified
         remarks: Encryption in Transit
       - reference-id: CCC.Core.F02
-        strength: 0 # Not yet specified
         remarks: Encryption at Rest
       - reference-id: CCC.Core.F03
-        strength: 0 # Not yet specified
         remarks: Access Log Publication
       - reference-id: CCC.Core.F06
-        strength: 0 # Not yet specified
         remarks: Access Control
       - reference-id: CCC.Core.F10
-        strength: 0 # Not yet specified
         remarks: Log Publication
       - reference-id: CCC.Core.F11
-        strength: 0 # Not yet specified
         remarks: Backup
       - reference-id: CCC.Core.F12
-        strength: 0 # Not yet specified
         remarks: Recovery
       - reference-id: CCC.Core.F14
-        strength: 0 # Not yet specified
         remarks: API Access
       - reference-id: CCC.Core.F17
-        strength: 0 # Not yet specified
         remarks: Alerting
       - reference-id: CCC.Core.F18
-        strength: 0 # Not yet specified
         remarks: Resource Versioning
       - reference-id: CCC.Core.F20
-        strength: 0 # Not yet specified
         remarks: Resource Tagging
       - reference-id: CCC.Core.F22
-        strength: 0 # Not yet specified
         remarks: Location Lock-In
 
 capabilities:
