@@ -38,6 +38,7 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                     <TableHead>Provider</TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Description</TableHead>
+                    <TableHead>Repository</TableHead>
                     <TableHead>GitHub Link</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -57,6 +58,11 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                         <div className="truncate" title={config.cfi_details.description}>
                           {config.cfi_details.description}
                         </div>
+                      </TableCell>
+                      <TableCell>
+                        <Link to={`/cfi/${config.slug.split("/")[2]}`} className="text-blue-600 hover:text-blue-800 hover:underline text-sm">
+                          {config.repository.name}
+                        </Link>
                       </TableCell>
                       <TableCell>
                         {config.cfi_details.git && (
