@@ -1,0 +1,12 @@
+{
+    "Reference": {
+		"scope": "yaml",
+		"prefix": "reference, finosccc:reference",
+		"body": [
+			"- reference-id: <ID of the referenced capability, threat or control",
+			"  strength: 0 # Not yet specified",
+			"  remarks: <Title of the referenced capability, threat or control>"
+		  ],
+		"description": "Create a blank reference"
+	}
+}

@@ -1,0 +1,35 @@
+style_guide:
+  general:
+    - Structure each capability with id, title, description.
+
+  id:
+    - Use the format CCC.<service-id>.F<seq-number>
+    - Service id can be found in the `id` field of the `metadata.yaml` file.
+    - Service id should be less than 8 characters.
+
+  titles:
+    - Should be short and concise (≤10 words).
+    - Use title case.
+    - Avoid special characters except hyphens.
+    - Avoid abbreviations unless widely understood.
+  descriptions:
+  - Must start with "The service…".
+  - Use multi-line text which starts with `|`
+  - Use present tense and active voice.
+  - Prefer single-sentence descriptions:
+      - Combine related actions into one cohesive sentence
+      - Use subordinate clauses to express purpose or outcome (e.g., "to prevent...")
+      - Use "when" clauses to describe triggering conditions
+      - Use "but" or "before" to show sequence or contrast between actions
+  - MUST use precise temporal terms in every description:
+      - "always" or "automatically": capability exists by default without configuration
+      - "may be configured" or "can": capability requires configuration or is optional
+      - Every description MUST include one of these terms to indicate whether the capability is default or configurable
+  - Use precise technical terms consistently:
+      - user: a human or entity interacting with the service
+      - component: an internal module of the service
+      - child resource: an external resource created by the service, but managed, or contained outside the service
+      - external system: an external service, application, or system that interacts with the service
+
+  formatting:
+    - Use consistent YAML syntax with proper indentation

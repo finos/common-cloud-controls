@@ -1,0 +1,52 @@
+threat_style_guide:
+  general:
+    - Structure each threat with id, title, description, capabilities, and external-mappings.
+    - Use a formal, objective, and precise tone throughout.
+
+  id:
+    - Use the format CCC.<service-id>.TH<seq-number>
+    - Service id can be found in the `id` field of the `metadata.yaml` file.
+    - Service id should be less than 8 characters.
+  titles:
+    - Should be concise (≤12 words).
+    - Use title case.
+    - Clearly state an action or outcome that should be prevented.
+    - Frame as a negative event or security failure (e.g., "Access is Granted to...", "Data is Exposed to...").
+    - Avoid special characters except hyphens.
+  descriptions:
+    - Must follow a three-part structure:
+        1. Circumstances: Begin with the conditions or mechanisms that could lead to the threat occurring
+        2. Effect: Describe what happens to the system if the threat manifests
+        3. Impact: Include the impact to confidentiality, integrity, or availability of resources or data
+    - Use multi-line text which starts with `|`
+    - Use complete sentences and present tense.
+    - Use passive voice when describing threat manifestation (e.g., "may be misconfigured", "could be exploited").
+    - Avoid subjective or speculative language (e.g., "might possibly", "could potentially").
+    - Avoid intent-based phrases like "accidental", "malicious", "intentional", or "deliberately".
+    - Focus on technical mechanisms and outcomes rather than attacker motivations.
+    - Use precise technical terms consistently:
+      - user: a human or entity interacting with the service
+      - component: an internal module of the service
+      - child resource: an external resource created by the service, but managed, or contained outside the service
+      - external system: an external service, application, or system that interacts with the service
+  capabilities:
+    - Reference capabilities that are relevant to preventing or mitigating the threat.
+    - Use the reference-id field to specify the capability set (typically matches service-id).
+    - Each entry must include:
+        - reference-id: the capability ID (e.g., CCC.Core.F06)
+        - remarks: the capability title for human readability
+  external-mappings:
+    - Reference external threat frameworks and standards.
+    - The reference-id for mappings must be an ID defined in metadata.mapping-references[]
+    - Common frameworks include:
+        - MITRE-ATT&CK: for adversary tactics and techniques
+        - OWASP-Top-10: for web application security risks
+        - CWE: for common weakness enumerations
+    - Each entry must include:
+        - reference-id: the external framework entry ID
+        - remarks: the entry title or description for human readability
+
+  formatting:
+    - Use consistent YAML syntax with proper indentation
+    - Maintain alphabetical or logical ordering of threats within categories
+  

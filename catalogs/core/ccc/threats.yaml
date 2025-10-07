@@ -1,28 +1,3 @@
-##
-# Threats Style Guide
-#
-# - Use a formal, objective, and precise tone
-# - Each threat must have: id, title, description, capabilities, and external-mappings
-# - Titles should:
-#   - Be concise
-#   - Use title case
-#   - Clearly state an action that should be prevented
-# - Descriptions should:
-#   - Begin with the circumstances that could lead to the threat occurring
-#   - Describe the effect on the system if the threat manifests
-#   - Include a description of the impact to the confidentiality, integrity, or availability of resources or data
-#   - Use complete sentences
-#   - Avoid subjective or speculative language
-#   - Avoid intent-based phrases like "accidental" or "malicious"
-# - Use consistent terminology:
-#   - service: the resource being assessed
-#   - child resource: an actor that is created and/or managed by the service
-#   - system: the broader architecture that the service operates within
-#   - entity: a human or machine that interacts with the service
-# - Mappings should:
-#   - Reference guidance entries with its title written in the remarks field
-#   - The reference-id for mappings should be an ID defined in metadata.mapping-references[]
-
 threats:
   - title: Access is Granted to Unauthorized Users
     id: CCC.Core.TH01
