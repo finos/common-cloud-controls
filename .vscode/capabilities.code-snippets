@@ -3,12 +3,16 @@
 		"scope": "yaml",
 		"prefix": "capabilities-file, finosccc:capabilities-file",
 		"body": [
-			"shared-capabilities:",
-			"  - <IDs of commonly used capabilities; Omit if not applicable>",
+			"imported-capabilities:",
+			"   - reference-id: CCC",
+    		"     entries:",
+			"       - <List of imported CCC core capability references; Omit if not applicable>",
+			"",
 			"capabilities:",
-			"  - id: CCC.<Service Category Abbreviation>.F<##>",
-			"    title: <Shortname of the capability>",
-			"    description: <Complete description of the capability>",
+			"  - id: CCC.<service-id>.F01",
+			"    title: <Short name of the capability>",
+			"    description: |",
+			"      <Complete description of the capability>",
 			""
 		],
 		"description": "Create a blank FINOS CCC Capabilities file"
@@ -17,9 +21,10 @@
 		"scope": "yaml",
 		"prefix": "capability, finosccc:capability",
 		"body": [
-			"  - id: CCC.<Service Category Abbreviation>.F<##>",
-			"    title: <Shortname of the capability>",
-			"    description: <Complete description of the capability>",
+			"- id: CCC.<service-id>.F<##>",
+			"  title: <Short name of the capability>",
+			"  description: |",
+			"    <Complete description of the capability>",
 			""
 		],
 		"description": "Create a blank FINOS CCC Capability"
