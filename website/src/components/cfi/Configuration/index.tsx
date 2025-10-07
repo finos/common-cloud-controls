@@ -649,28 +649,22 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                             }
                           })()}
                         </TableCell>
-                        <TableCell>
-                          <div className="bg-gray-50 p-2 rounded w-full">
-                            <Table className="w-full">
-                              <TableBody>
-                                {mapping.mappedTests.map((test, testIndex) => (
-                                  <TableRow key={testIndex}>
-                                    <TableCell className="w-auto">
-                                      <code className="bg-white px-2 py-1 rounded text-xs">{test.eventCode}</code>
-                                    </TableCell>
-                                    <TableCell className="w-20">
-                                      <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{test.totalTests}</span>
-                                    </TableCell>
-                                    <TableCell className="w-20">
-                                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{test.passingTests}</span>
-                                    </TableCell>
-                                    <TableCell className="w-20">
-                                      <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{test.failingTests}</span>
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
+                        <TableCell className="w-full">
+                          <div className="p-2 rounded">
+                            <div className="w-full">
+                              {mapping.mappedTests.map((test, testIndex) => (
+                                <div key={testIndex} className="flex items-center justify-between py-1 border-b border-gray-200 last:border-b-0">
+                                  <div className="flex-1 min-w-0">
+                                    <code className="bg-white px-2 py-1 rounded text-xs">{test.eventCode}</code>
+                                  </div>
+                                  <div className="flex items-center gap-2 ml-4">
+                                    <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{test.totalTests}</span>
+                                    <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{test.passingTests}</span>
+                                    <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{test.failingTests}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </TableCell>
                       </TableRow>
