@@ -3,7 +3,7 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { ConfigurationPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary } from "@site/src/types/cfi";
+import { ConfigurationPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail } from "@site/src/types/cfi";
 import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
 
 // Helper function to extract catalog ID from test requirement
@@ -240,6 +240,74 @@ function generateTestSummary(testResults: TestResultItem[]) {
   };
 }
 
+// Helper function to generate test mapping summary data
+function generateTestMappingSummary(testResults: TestResultItem[]): TestMappingSummary[] {
+  // First, collect all event code mappings by catalog and test requirement
+  const eventCodeMap = new Map<string, Map<string, TestMappingDetail>>();
+
+  testResults.forEach((result) => {
+    const eventCode = result.test || "Unknown Event Code";
+
+    result.test_requirements?.forEach((testReq) => {
+      const catalogId = extractCatalogId(testReq);
+      const requirementKey = `${catalogId}-${testReq}`;
+
+      if (!eventCodeMap.has(requirementKey)) {
+        eventCodeMap.set(requirementKey, new Map<string, TestMappingDetail>());
+      }
+
+      const eventMap = eventCodeMap.get(requirementKey)!;
+      if (!eventMap.has(eventCode)) {
+        eventMap.set(eventCode, {
+          eventCode: eventCode,
+          totalTests: 0,
+          passingTests: 0,
+          failingTests: 0,
+        });
+      }
+
+      const detail = eventMap.get(eventCode)!;
+      detail.totalTests++;
+
+      if (result.status_code === "PASS") {
+        detail.passingTests++;
+      } else if (result.status_code === "FAIL") {
+        detail.failingTests++;
+      }
+    });
+  });
+
+  // Convert to the nested structure
+  const summaryMap = new Map<string, TestMappingSummary>();
+
+  eventCodeMap.forEach((eventMap, requirementKey) => {
+    // Split the requirement key back to catalog and test requirement
+    // Format: "CCC.ObjStor-CCC.ObjStor.C06.TR01" -> catalog: "CCC.ObjStor", testReq: "CCC.ObjStor.C06.TR01"
+    const dashIndex = requirementKey.indexOf("-");
+    const catalogId = requirementKey.substring(0, dashIndex);
+    const testReq = requirementKey.substring(dashIndex + 1);
+
+    if (!summaryMap.has(requirementKey)) {
+      summaryMap.set(requirementKey, {
+        controlCatalog: catalogId,
+        testRequirementId: testReq,
+        mappedTests: [],
+      });
+    }
+
+    const summary = summaryMap.get(requirementKey)!;
+    summary.mappedTests = Array.from(eventMap.values()).sort((a, b) => a.eventCode.localeCompare(b.eventCode));
+  });
+
+  // Sort by control catalog, then by test requirement ID
+  return Array.from(summaryMap.values()).sort((a, b) => {
+    if (a.controlCatalog !== b.controlCatalog) {
+      return a.controlCatalog.localeCompare(b.controlCatalog);
+    }
+    return a.testRequirementId.localeCompare(b.testRequirementId);
+  });
+}
+
 export default function CFIConfiguration({ pageData }: { pageData: ConfigurationPageData }): React.ReactElement {
   const { configuration } = pageData;
   const { cfi_details, repository } = configuration;
@@ -256,6 +324,9 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
 
   // Generate test summary data from configuration test results (aggregate summary)
   const testSummary = configuration.test_results ? generateTestSummary(configuration.test_results) : null;
+
+  // Generate test mapping summary data
+  const testMappingSummary = configuration.test_results ? generateTestMappingSummary(configuration.test_results) : [];
 
   return (
     <Layout title={`CFI - ${cfi_details.name}`} description={cfi_details.description}>
@@ -533,6 +604,76 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
               </div>
             ) : (
               <div className="text-center py-8 text-gray-500">No control catalog data available for summarization.</div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Test Mapping Summary */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Test Mapping Summary</CardTitle>
+            <p className="text-sm text-muted-foreground">Summary of test mappings showing how event codes map to test requirements</p>
+          </CardHeader>
+          <CardContent>
+            {testMappingSummary && testMappingSummary.length > 0 ? (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Control Catalog</TableHead>
+                      <TableHead>Test Requirement ID</TableHead>
+                      <TableHead>Mapped Tests (Event Code | Total | Passing | Failing)</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {testMappingSummary.map((mapping, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Link to={getCatalogComponentUrl(mapping.controlCatalog)} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
+                            {mapping.controlCatalog}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          {(() => {
+                            const requirementData = findAssessmentRequirements(releases, [mapping.testRequirementId])[0];
+                            if (requirementData) {
+                              const { requirement, control, release } = requirementData;
+                              const linkUrl = getControlUrl(release, control, requirement.id);
+                              return (
+                                <Link to={linkUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm" title={`${control.title}: ${requirement.text}`}>
+                                  {mapping.testRequirementId}
+                                </Link>
+                              );
+                            } else {
+                              return <span className="font-mono text-sm text-gray-600">{mapping.testRequirementId}</span>;
+                            }
+                          })()}
+                        </TableCell>
+                        <TableCell className="w-full">
+                          <div className="p-2 rounded">
+                            <div className="w-full">
+                              {mapping.mappedTests.map((test, testIndex) => (
+                                <div key={testIndex} className="flex items-center justify-between py-1 border-b border-gray-200 last:border-b-0">
+                                  <div className="flex-1 min-w-0">
+                                    <code className="bg-white px-2 py-1 rounded text-xs">{test.eventCode}</code>
+                                  </div>
+                                  <div className="flex items-center gap-2 ml-4">
+                                    <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{test.totalTests}</span>
+                                    <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{test.passingTests}</span>
+                                    <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{test.failingTests}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">No test mapping data available.</div>
             )}
           </CardContent>
         </Card>

@@ -147,3 +147,16 @@ export interface TestSummary {
     failingTests: number;
     catalogsTested: string[];
 }
+
+export interface TestMappingDetail {
+    eventCode: string;
+    totalTests: number;
+    passingTests: number;
+    failingTests: number;
+}
+
+export interface TestMappingSummary {
+    controlCatalog: string;
+    testRequirementId: string;
+    mappedTests: TestMappingDetail[];
+}

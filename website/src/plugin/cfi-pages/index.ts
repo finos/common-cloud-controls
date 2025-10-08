@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type { LoadContext, Plugin } from '@docusaurus/types';
-import { HomePageData, Configuration, ConfigurationPageData, RepositoryPageData, CFIConfigJson, TestResultItem, TestResultType } from '../../types/cfi';
+import { HomePageData, Configuration, ConfigurationPageData, RepositoryPageData, CFIConfigJson, TestResultItem, TestResultType, CFIRepository } from '../../types/cfi';
 
 function processOCSFResults(resultPath: string): TestResultItem[] {
     if (!fs.existsSync(resultPath)) {
@@ -89,7 +89,7 @@ function processAllOCSFResults(resultPath: string): TestResultItem[] {
 }
 
 
-async function createConfiguration(configDir: string, slug: string, repositoryData: any, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
+async function createConfiguration(configDir: string, slug: string, repositoryData: CFIRepository, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
     console.log(`🔍 Processing configuration directory: ${configDir}`);
 
     // Read the configuration file
@@ -114,7 +114,7 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
             allOcsfResults.push(...allFileResults);
         }
 
-        console.log(`📊 Configuration ${config.id}: processed ${testResults.length} OCSF results with CCC-Objects and ${allOcsfResults.length} total OCSF results`);
+        console.log(`📊 Configuration ${config.id}: from ${repositoryData.url} processed ${testResults.length} OCSF results with CCC-Objects and ${allOcsfResults.length} total OCSF results`);
     }
 
     // Create configuration with repository info and test results
@@ -132,7 +132,7 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
     };
 
     const jsonPath = await createData(
-        `cfi-config-${config.id}.json`,
+        `cfi-config-${repositoryData.name}-${config.id}.json`,
         JSON.stringify(pageData, null, 2)
     );
 
@@ -178,7 +178,7 @@ export default function pluginCFIPages(_: LoadContext): Plugin<void> {
                 console.log(`Processing repository: ${repoDir}`);
 
                 // Read repository info
-                const repositoryData = JSON.parse(fs.readFileSync(repositoryJsonPath, 'utf8'));
+                const repositoryData = JSON.parse(fs.readFileSync(repositoryJsonPath, 'utf8')) as CFIRepository;
 
                 // Find all configuration directories within this repository
                 const configDirs = fs.readdirSync(repoPath).filter(dir => {
