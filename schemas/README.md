@@ -1,6 +1,6 @@
 # Yaml Validation Schemas
 
-Yaml validation schemas have been created for controls, capabilities, metadata and threats files, to ensure that contributions follow the approved structure and contain required values.
+Yaml validation schemas have been created for controls, capabilities, categories, metadata and threats files, to ensure that contributions follow the approved structure and contain required values.
 
 ## VSCode integration
 
