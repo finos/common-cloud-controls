@@ -8,9 +8,9 @@ This document maps the services used in a standard 3-tier application architectu
 
 | **Application Tier**    | **Google Cloud**                      | **Amazon Web Services (AWS)**                 | **Microsoft Azure**                                   | **CCC Service**                               |
 | ----------------------- | ------------------------------------- | --------------------------------------------- | ----------------------------------------------------- | --------------------------------------------- |
-| **Web Tier**            | Compute Engine Managed Instance Group | Amazon EC2 Auto Scaling with Launch Templates | Azure Virtual Machine Scale Sets                      | [CCC.VM](/services/compute/virtual-machines/) |
-| **Application Tier**    | Compute Engine Managed Instance Group | Amazon EC2 Auto Scaling with Launch Templates | Azure Virtual Machine Scale Sets                      | [CCC.VM](/services/compute/virtual-machines/) |
-| **Database Tier (SQL)** | Cloud SQL for PostgreSQL / MySQL      | Amazon RDS for PostgreSQL / MySQL             | Azure Database for PostgreSQL / MySQL Flexible Server | [CCC.RDMS](/services/database/relational/)    |
+| **Web Tier**            | Compute Engine Managed Instance Group | Amazon EC2 Auto Scaling with Launch Templates | Azure Virtual Machine Scale Sets                      | [CCC.VM](/catalogs/compute/virtual-machines/) |
+| **Application Tier**    | Compute Engine Managed Instance Group | Amazon EC2 Auto Scaling with Launch Templates | Azure Virtual Machine Scale Sets                      | [CCC.VM](/catalogs/compute/virtual-machines/) |
+| **Database Tier (SQL)** | Cloud SQL for PostgreSQL / MySQL      | Amazon RDS for PostgreSQL / MySQL             | Azure Database for PostgreSQL / MySQL Flexible Server | [CCC.RDMS](/catalogs/database/relational/)    |
 
 ---
 
@@ -18,9 +18,9 @@ This document maps the services used in a standard 3-tier application architectu
 
 | **Component**              | **Google Cloud**                      | **Amazon Web Services (AWS)**                            | **Microsoft Azure**            | **CCC Service**                                   |
 | -------------------------- | ------------------------------------- | -------------------------------------------------------- | ------------------------------ | ------------------------------------------------- |
-| **External Load Balancer** | Global External HTTP(S) Load Balancer | Elastic Load Balancing – Application Load Balancer (ALB) | Azure Application Gateway      | [CCC.LoadBal](/services/networking/loadbalancer/) |
-| **Internal Load Balancer** | Internal TCP/UDP Load Balancer        | Elastic Load Balancing – Network Load Balancer (NLB)     | Azure Load Balancer (Internal) | [CCC.LoadBal](/services/networking/loadbalancer/) |
-| **Virtual Network**        | Virtual Private Cloud (VPC)           | Virtual Private Cloud (VPC)                              | Azure Virtual Network (VNet)   | [CCC.VPC](/services/networking/vpc/)              |
+| **External Load Balancer** | Global External HTTP(S) Load Balancer | Elastic Load Balancing – Application Load Balancer (ALB) | Azure Application Gateway      | [CCC.LoadBal](/catalogs/networking/loadbalancer/) |
+| **Internal Load Balancer** | Internal TCP/UDP Load Balancer        | Elastic Load Balancing – Network Load Balancer (NLB)     | Azure Load Balancer (Internal) | [CCC.LoadBal](/catalogs/networking/loadbalancer/) |
+| **Virtual Network**        | Virtual Private Cloud (VPC)           | Virtual Private Cloud (VPC)                              | Azure Virtual Network (VNet)   | [CCC.VPC](/catalogs/networking/vpc/)              |
 
 ---
 
@@ -28,9 +28,9 @@ This document maps the services used in a standard 3-tier application architectu
 
 | **Component**           | **Google Cloud**                     | **Amazon Web Services (AWS)**            | **Microsoft Azure**                         | **CCC Service**                      |
 | ----------------------- | ------------------------------------ | ---------------------------------------- | ------------------------------------------- | ------------------------------------ |
-| **Identity and Access** | Identity and Access Management (IAM) | AWS Identity and Access Management (IAM) | Azure Active Directory + Managed Identities | [CCC.IAM](/services/identity/iam/)   |
-| **Encryption**          | Key Management Service               | AWS KMS                                  | Azure Key Vault                             | [CCC.KeyMgmt](/services/crypto/key/) |
-| **Firewall Rules**      | VPC Firewall Rules                   | Security Groups and Network ACLs         | Azure Network Security Groups (NSGs)        | [CCC.VPC](/services/networking/vpc/) |
+| **Identity and Access** | Identity and Access Management (IAM) | AWS Identity and Access Management (IAM) | Azure Active Directory + Managed Identities | [CCC.IAM](/catalogs/identity/iam/)   |
+| **Encryption**          | Key Management Service               | AWS KMS                                  | Azure Key Vault                             | [CCC.KeyMgmt](/catalogs/crypto/key/) |
+| **Firewall Rules**      | VPC Firewall Rules                   | Security Groups and Network ACLs         | Azure Network Security Groups (NSGs)        | [CCC.VPC](/catalogs/networking/vpc/) |
 
 ---
 
@@ -38,9 +38,9 @@ This document maps the services used in a standard 3-tier application architectu
 
 | **Component**     | **Google Cloud**        | **Amazon Web Services (AWS)** | **Microsoft Azure**                | **CCC Service**                                    |
 | ----------------- | ----------------------- | ----------------------------- | ---------------------------------- | -------------------------------------------------- |
-| **Monitoring**    | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | [CCC.Monitoring](/services/management/monitoring/) |
-| **Logging**       | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | [CCC.Logging](/services/management/logging/)       |
-| **Audit Logging** | Google Cloud Audit Logs | AWS CloudTrail                | Azure Activity Logs                | [CCC.AuditLog](/services/management/auditlog/)     |
+| **Monitoring**    | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | [CCC.Monitoring](/catalogs/management/monitoring/) |
+| **Logging**       | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | [CCC.Logging](/catalogs/management/logging/)       |
+| **Audit Logging** | Google Cloud Audit Logs | AWS CloudTrail                | Azure Activity Logs                | [CCC.AuditLog](/catalogs/management/auditlog/)     |
 
 ---
 
@@ -48,7 +48,7 @@ This document maps the services used in a standard 3-tier application architectu
 
 | **Component**      | **Google Cloud** | **Amazon Web Services (AWS)**             | **Microsoft Azure** | **CCC Service Family**                   |
 | ------------------ | ---------------- | ----------------------------------------- | ------------------- | ---------------------------------------- |
-| **Object Storage** | Cloud Storage    | Amazon Simple Storage Service (Amazon S3) | Azure Blob Storage  | [CCC.ObjStor](/services/storage/object/) |
+| **Object Storage** | Cloud Storage    | Amazon Simple Storage Service (Amazon S3) | Azure Blob Storage  | [CCC.ObjStor](/catalogs/storage/object/) |
 
 ---
 
