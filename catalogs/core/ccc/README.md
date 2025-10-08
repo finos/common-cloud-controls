@@ -13,9 +13,9 @@ Here's an example of what that would look like:
 ```yaml
 metadata:
   id: NewSvc
-  title: Some New Cloud Service 
-  description: ""
+  title: Some New Cloud Service Category
   version: ""
+  description: ""
   last-modified: ""
   mapping-references:
     - id: CCC
