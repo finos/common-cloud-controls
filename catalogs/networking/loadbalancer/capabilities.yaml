@@ -7,8 +7,6 @@ imported-capabilities:
         remarks: Transaction Rate Limits
       - reference-id: CCC.Core.F06
         remarks: Access Control
-      - reference-id: CCC.Core.F08
-        remarks: Data Replication
       - reference-id: CCC.Core.F09
         remarks: Metrics Publication
       - reference-id: CCC.Core.F10
@@ -27,6 +25,12 @@ imported-capabilities:
         remarks: Resource Tagging
       - reference-id: CCC.Core.F22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.F23
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.F28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.F29
+        remarks: Active Ingestion
 
 capabilities:
   - id: CCC.LB.F01

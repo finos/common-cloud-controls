@@ -6,17 +6,17 @@ imported-capabilities:
       - reference-id: CCC.Core.F02
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.F03
-        remarks: Access/Activity Logs
+        remarks: Access Log Publication
       - reference-id: CCC.Core.F04
         remarks: Transaction Rate Limits
       - reference-id: CCC.Core.F06
-        remarks: Identity Based Access Control
+        remarks: Access Control
       - reference-id: CCC.Core.F08
-        remarks: Multi-zone Deployment
+        remarks: Data Replication
       - reference-id: CCC.Core.F09
-        remarks: Monitoring
+        remarks: Metrics Publication
       - reference-id: CCC.Core.F10
-        remarks: Logging
+        remarks: Log Publication
       - reference-id: CCC.Core.F11
         remarks: Backup
       - reference-id: CCC.Core.F12
@@ -24,13 +24,25 @@ imported-capabilities:
       - reference-id: CCC.Core.F14
         remarks: API Access
       - reference-id: CCC.Core.F18
-        remarks: Versioning
+        remarks: Resource Versioning
+      - reference-id: CCC.Core.F19
+        remarks: Resource Scaling
       - reference-id: CCC.Core.F20
-        remarks: Tagging
-      - reference-id: CCC.Core.F21
-        remarks: Replication
+        remarks: Resource Tagging
       - reference-id: CCC.Core.F22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.F23
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.F24
+        remarks: Core Processing Units (CPU)
+      - reference-id: CCC.Core.F25
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.F26
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.F28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.F29
+        remarks: Active Ingestion
 
 capabilities:
   - id: CCC.Vector.F01
