@@ -3,14 +3,20 @@ imported-capabilities:
     entries:
       - reference-id: CCC.Core.F06
         remarks: Access Control
-      - reference-id: CCC.Core.F08
-        remarks: Data Replication
       - reference-id: CCC.Core.F09
         remarks: Metrics Publication
       - reference-id: CCC.Core.F10
         remarks: Log Publication
+      - reference-id: CCC.Core.F14
+        remarks: API Access
+      - reference-id: CCC.Core.F17
+        remarks: Alerting
       - reference-id: CCC.Core.F20
         remarks: Resource Tagging
+      - reference-id: CCC.Core.F22
+        remarks: Location Lock-In
+      - reference-id: CCC.Core.F28
+        remarks: Command-line Interface
 
 capabilities:
   - id: CCC.VPC.F01

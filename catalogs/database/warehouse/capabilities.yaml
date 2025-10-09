@@ -15,6 +15,10 @@ imported-capabilities:
         remarks: Event Publication
       - reference-id: CCC.Core.F08
         remarks: Data Replication
+      - reference-id: CCC.Core.F09
+        remarks: Metrics Publication
+      - reference-id: CCC.Core.F10
+        remarks: Log Publication
       - reference-id: CCC.Core.F11
         remarks: Backup
       - reference-id: CCC.Core.F12
@@ -23,7 +27,18 @@ imported-capabilities:
         remarks: API Access
       - reference-id: CCC.Core.F19
         remarks: Resource Scaling
-
+      - reference-id: CCC.Core.F23
+        remarks: Network Access Control
+      - reference-id: CCC.Core.F24
+        remarks: Core Processing Units (CPU)
+      - reference-id: CCC.Core.F25
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.F26
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.F28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.F29
+        remarks: Active Ingestion
 
 capabilities:
   - id: CCC.DataWar.F01

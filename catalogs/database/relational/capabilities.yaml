@@ -7,6 +7,8 @@ imported-capabilities:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.F03
         remarks: Access Log Publication
+      - reference-id: CCC.Core.F04
+        remarks: Transaction Rate Limits
       - reference-id: CCC.Core.F06
         remarks: Access Control
       - reference-id: CCC.Core.F07
@@ -21,6 +23,8 @@ imported-capabilities:
         remarks: Backup
       - reference-id: CCC.Core.F12
         remarks: Recovery
+      - reference-id: CCC.Core.F14
+        remarks: API Access
       - reference-id: CCC.Core.F17
         remarks: Alerting
       - reference-id: CCC.Core.F19
@@ -31,6 +35,16 @@ imported-capabilities:
         remarks: Location Lock-In
       - reference-id: CCC.Core.F23
         remarks: Network Access Rules
+      - reference-id: CCC.Core.F24
+        remarks: Core Processing Units (CPU)
+      - reference-id: CCC.Core.F25
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.F26
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.F28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.F29
+        remarks: Active Ingestion
 
 capabilities:
   - id: CCC.RDMS.F01
