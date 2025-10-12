@@ -37,7 +37,7 @@ var ApplicabilityCategories = []layer2.Category{
 
 var CoreCatalogReference = []layer2.MappingReference{
 	{
-		Id:      "CCC",
+		Id:      "CCC.Core",
 		Title:   "FINOS CCC Core Catalog",
 		Version: "v2025.10",
 	},
@@ -73,8 +73,10 @@ func readAndCompileCatalog() *layer2.Catalog {
 	catalog.Metadata.ApplicabilityCategories = append(
 		catalog.Metadata.ApplicabilityCategories, ApplicabilityCategories...)
 
-	catalog.Metadata.MappingReferences = append(
-		catalog.Metadata.MappingReferences, CoreCatalogReference...)
+	if catalog.Metadata.Id != "CCC.Core" {
+		catalog.Metadata.MappingReferences = append(
+			catalog.Metadata.MappingReferences, CoreCatalogReference...)
+	}
 
 	catalog.Metadata.LastModified = time.Now().Format(time.RFC3339)
 
