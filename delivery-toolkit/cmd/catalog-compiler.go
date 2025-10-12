@@ -5,11 +5,43 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/ossf/gemara/layer2"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"
 )
+
+var ApplicabilityCategories = []layer2.Category{
+	{
+		Id:          "tlp_red",
+		Title:       "TLP:RED",
+		Description: "Data is not for disclosure, restricted to explicitly authorized entities only.",
+	},
+	{
+		Id:          "tlp_amber",
+		Title:       "TLP:AMBER",
+		Description: "Data is for disclosure to members of explicitly authorized organizational structures.",
+	},
+	{
+		Id:          "tlp_green",
+		Title:       "TLP:GREEN",
+		Description: "Data may be freely distributed through specific channels that do not include unrestricted public access.",
+	},
+	{
+		Id:          "tlp_clear",
+		Title:       "TLP:CLEAR",
+		Description: "Data has no distribution restrictions.",
+	},
+}
+
+var CoreCatalogReference = []layer2.MappingReference{
+	{
+		Id:      "CCC",
+		Title:   "FINOS CCC Core Catalog",
+		Version: "v2025.10",
+	},
+}
 
 func readAndCompileCatalog() *layer2.Catalog {
 	if viper.GetString("build-target") == "" {
@@ -37,6 +69,14 @@ func readAndCompileCatalog() *layer2.Catalog {
 	if err != nil {
 		log.Fatalf("error validating metadata: %v", err)
 	}
+
+	catalog.Metadata.ApplicabilityCategories = append(
+		catalog.Metadata.ApplicabilityCategories, ApplicabilityCategories...)
+
+	catalog.Metadata.MappingReferences = append(
+		catalog.Metadata.MappingReferences, CoreCatalogReference...)
+
+	catalog.Metadata.LastModified = time.Now().Format(time.RFC3339)
 
 	return catalog
 }
