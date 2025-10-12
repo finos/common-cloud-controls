@@ -1,0 +1,154 @@
+{
+	" Access is Granted to Unauthorized Users": {
+		"scope": "yaml",
+		"prefix": "CT1, CT  Access is Granted to Unauthorized Users",
+		"body": [
+			"- reference-id: CCC.Core.TH01 #  Access is Granted to Unauthorized Users"
+		  ],
+		"description": "Core Threat,  Access is Granted to Unauthorized Users"
+	},
+	"Data is Intercepted in Transit": {
+		"scope": "yaml",
+		"prefix": "CT2, CT Data is Intercepted in Transit",
+		"body": [
+			"- reference-id: CCC.Core.TH02 # Data is Intercepted in Transit"
+		  ],
+		"description": "Core Threat, Data is Intercepted in Transit"
+	},
+	"Deployment Region Network is Untrusted": {
+		"scope": "yaml",
+		"prefix": "CT3, CT Deployment Region Network is Untrusted",
+		"body": [
+			"- reference-id: CCC.Core.TH03 # Deployment Region Network is Untrusted"
+		  ],
+		"description": "Core Threat, Deployment Region Network is Untrusted"
+	},
+	"Data is Replicated to Untrusted or External Locations": {
+		"scope": "yaml",
+		"prefix": "CT4, CT Data is Replicated to Untrusted or External Locations",
+		"body": [
+			"- reference-id: CCC.Core.TH04 # Data is Replicated to Untrusted or External Locations"
+		  ],
+		"description": "Core Threat, Data is Replicated to Untrusted or External Locations"
+	},
+	"Interference with Replication Processes": {
+		"scope": "yaml",
+		"prefix": "CT5, CT Interference with Replication Processes",
+		"body": [
+			"- reference-id: CCC.Core.TH05 # Interference with Replication Processes"
+		  ],
+		"description": "Core Threat, Interference with Replication Processes"
+	},
+	"Data is Lost or Corrupted": {
+		"scope": "yaml",
+		"prefix": "CT6, CT Data is Lost or Corrupted",
+		"body": [
+			"- reference-id: CCC.Core.TH06 # Data is Lost or Corrupted"
+		  ],
+		"description": "Core Threat, Data is Lost or Corrupted"
+	},
+	"Logs are Tampered With or Deleted": {
+		"scope": "yaml",
+		"prefix": "CT7, CT Logs are Tampered With or Deleted",
+		"body": [
+			"- reference-id: CCC.Core.TH07 # Logs are Tampered With or Deleted"
+		  ],
+		"description": "Core Threat, Logs are Tampered With or Deleted"
+	},
+	"Runtime Metrics are Manipulated": {
+		"scope": "yaml",
+		"prefix": "CT8, CT Runtime Metrics are Manipulated",
+		"body": [
+			"- reference-id: CCC.Core.TH08 # Runtime Metrics are Manipulated"
+		  ],
+		"description": "Core Threat, Runtime Metrics are Manipulated"
+	},
+	"Runtime Logs are Read by Unauthorized Entities": {
+		"scope": "yaml",
+		"prefix": "CT9, CT Runtime Logs are Read by Unauthorized Entities",
+		"body": [
+			"- reference-id: CCC.Core.TH09 # Runtime Logs are Read by Unauthorized Entities"
+		  ],
+		"description": "Core Threat, Runtime Logs are Read by Unauthorized Entities"
+	},
+	"State-change Events are Read by Unauthorized Entities": {
+		"scope": "yaml",
+		"prefix": "CT10, CT State-change Events are Read by Unauthorized Entities",
+		"body": [
+			"- reference-id: CCC.Core.TH10 # State-change Events are Read by Unauthorized Entities"
+		  ],
+		"description": "Core Threat, State-change Events are Read by Unauthorized Entities"
+	},
+	"Publications are Incorrectly Triggered": {
+		"scope": "yaml",
+		"prefix": "CT11, CT Publications are Incorrectly Triggered",
+		"body": [
+			"- reference-id: CCC.Core.TH11 # Publications are Incorrectly Triggered"
+		  ],
+		"description": "Core Threat, Publications are Incorrectly Triggered"
+	},
+	"Resource Constraints are Exhausted": {
+		"scope": "yaml",
+		"prefix": "CT12, CT Resource Constraints are Exhausted",
+		"body": [
+			"- reference-id: CCC.Core.TH12 # Resource Constraints are Exhausted"
+		  ],
+		"description": "Core Threat, Resource Constraints are Exhausted"
+	},
+	"Resource Tags are Manipulated": {
+		"scope": "yaml",
+		"prefix": "CT13, CT Resource Tags are Manipulated",
+		"body": [
+			"- reference-id: CCC.Core.TH13 # Resource Tags are Manipulated"
+		  ],
+		"description": "Core Threat, Resource Tags are Manipulated"
+	},
+	"Older Resource Versions are Used": {
+		"scope": "yaml",
+		"prefix": "CT14, CT Older Resource Versions are Used",
+		"body": [
+			"- reference-id: CCC.Core.TH14 # Older Resource Versions are Used"
+		  ],
+		"description": "Core Threat, Older Resource Versions are Used"
+	},
+	"Automated Enumeration and Reconnaissance by Non-human Entities": {
+		"scope": "yaml",
+		"prefix": "CT14, CT Automated Enumeration and Reconnaissance by Non-human Entities",
+		"body": [
+			"- reference-id: CCC.Core.TH14 # Automated Enumeration and Reconnaissance by Non-human Entities"
+		  ],
+		"description": "Core Threat, Automated Enumeration and Reconnaissance by Non-human Entities"
+	},
+	"Publications are Disabled": {
+		"scope": "yaml",
+		"prefix": "CT16, CT Publications are Disabled",
+		"body": [
+			"- reference-id: CCC.Core.TH16 # Publications are Disabled"
+		  ],
+		"description": "Core Threat, Publications are Disabled"
+	},
+	"Responses are Generated for Unauthorized Requests": {
+		"scope": "yaml",
+		"prefix": "CT17, CT Responses are Generated for Unauthorized Requests",
+		"body": [
+			"- reference-id: CCC.Core.TH17 # Responses are Generated for Unauthorized Requests"
+		  ],
+		"description": "Core Threat, Responses are Generated for Unauthorized Requests"
+	},
+	"Encryption Key is Misused": {
+		"scope": "yaml",
+		"prefix": "CT18, CT Encryption Key is Misused",
+		"body": [
+			"- reference-id: CCC.Core.TH18 # Encryption Key is Misused"
+		  ],
+		"description": "Core Threat, Encryption Key is Misused"
+	},
+	"Metrics are Read by Unauthorized Entities": {
+		"scope": "yaml",
+		"prefix": "CT19, CT Metrics are Read by Unauthorized Entities",
+		"body": [
+			"- reference-id: CCC.Core.TH19 # Metrics are Read by Unauthorized Entities"
+		  ],
+		"description": "Core Threat, Metrics are Read by Unauthorized Entities"
+	},
+}

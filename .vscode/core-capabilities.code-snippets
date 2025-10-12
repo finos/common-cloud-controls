@@ -1,0 +1,262 @@
+{
+	"Encryption in Transit Enabled by Default": {
+		"scope": "yaml",
+		"prefix": "CF1, CF Encryption in Transit Enabled by Default",
+		"body": [
+			"- reference-id: CCC.Core.F01",
+			"  remarks: Encryption in Transit Enabled by Default"
+		  ],
+		"description": "Core Capability, Encryption in Transit Enabled by Default"
+	},
+	"Encryption at Rest Enabled by Default": {
+		"scope": "yaml",
+		"prefix": "CF2, CF Encryption at Rest Enabled by Default",
+		"body": [
+			"- reference-id: CCC.Core.F02",
+			"  remarks: Encryption at Rest Enabled by Default"
+		  ],
+		"description": "Core Capability, Encryption at Rest Enabled by Default"
+	},
+	"Access Log Publication": {
+		"scope": "yaml",
+		"prefix": "CF3, CF Access Log Publication",
+		"body": [
+			"- reference-id: CCC.Core.F03",
+			"  remarks: Access Log Publication"
+		  ],
+		"description": "Core Capability, Access Log Publication"
+	},
+	"Transaction Rate Limits": {
+		"scope": "yaml",
+		"prefix": "CF4, CF Transaction Rate Limits",
+		"body": [
+			"- reference-id: CCC.Core.F04",
+			"  remarks: Transaction Rate Limits"
+		  ],
+		"description": "Core Capability, Transaction Rate Limits"
+	},
+	"Signed URLs": {
+		"scope": "yaml",
+		"prefix": "CF5, CF Signed URLs",
+		"body": [
+			"- reference-id: CCC.Core.F05",
+			"  remarks: Signed URLs"
+		  ],
+		"description": "Core Capability, Signed URLs"
+	},
+	"Access Control": {
+		"scope": "yaml",
+		"prefix": "CF6, CF Access Control",
+		"body": [
+			"- reference-id: CCC.Core.F06",
+			"  remarks: Access Control"
+		  ],
+		"description": "Core Capability, Access Control"
+	},
+	"Event Publication": {
+		"scope": "yaml",
+		"prefix": "CF7, CF Event Publication",
+		"body": [
+			"- reference-id: CCC.Core.F07",
+			"  remarks: Event Publication"
+		  ],
+		"description": "Core Capability, Event Publication"
+	},
+	"Data Replication": {
+		"scope": "yaml",
+		"prefix": "CF8, CF Data Replication",
+		"body": [
+			"- reference-id: CCC.Core.F08",
+			"  remarks: Data Replication"
+		  ],
+		"description": "Core Capability, Data Replication"
+	},
+	"Metrics Publication": {
+		"scope": "yaml",
+		"prefix": "CF9, CF Metrics Publication",
+		"body": [
+			"- reference-id: CCC.Core.F09",
+			"  remarks: Metrics Publication"
+		  ],
+		"description": "Core Capability, Metrics Publication"
+	},
+	"Log Publication": {
+		"scope": "yaml",
+		"prefix": "CF10, CF Log Publication",
+		"body": [
+			"- reference-id: CCC.Core.F10",
+			"  remarks: Log Publication"
+		  ],
+		"description": "Core Capability, Log Publication"
+	},
+	"Backup": {
+		"scope": "yaml",
+		"prefix": "CF11, CF Backup",
+		"body": [
+			"- reference-id: CCC.Core.F11",
+			"  remarks: Backup"
+		  ],
+		"description": "Core Capability, Backup"
+	},
+	"Recovery": {
+		"scope": "yaml",
+		"prefix": "CF12, CF Recovery",
+		"body": [
+			"- reference-id: CCC.Core.F12",
+			"  remarks: Recovery"
+		  ],
+		"description": "Core Capability, Recovery"
+	},
+	"API Access": {
+		"scope": "yaml",
+		"prefix": "CF14, CF API Access",
+		"body": [
+			"- reference-id: CCC.Core.F14",
+			"  remarks: API Access"
+		  ],
+		"description": "Core Capability, API Access"
+	},
+	"Cost Management": {
+		"scope": "yaml",
+		"prefix": "CF15, CF Cost Management",
+		"body": [
+			"- reference-id: CCC.Core.F15",
+			"  remarks: Cost Management"
+		  ],
+		"description": "Core Capability, Cost Management"
+	},
+	"Budgeting": {
+		"scope": "yaml",
+		"prefix": "CF16, CF Budgeting",
+		"body": [
+			"- reference-id: CCC.Core.F16",
+			"  remarks: Budgeting"
+		  ],
+		"description": "Core Capability, Budgeting"
+	},
+	"Alerting": {
+		"scope": "yaml",
+		"prefix": "CF17, CF Alerting",
+		"body": [
+			"- reference-id: CCC.Core.F17",
+			"  remarks: Alerting"
+		  ],
+		"description": "Core Capability, Alerting"
+	},
+	"Resource Versioning": {
+		"scope": "yaml",
+		"prefix": "CF18, CF Resource Versioning",
+		"body": [
+			"- reference-id: CCC.Core.F18",
+			"  remarks: Resource Versioning"
+		  ],
+		"description": "Core Capability, Resource Versioning"
+	},
+	"Resource Scaling": {
+		"scope": "yaml",
+		"prefix": "CF19, CF Resource Scaling",
+		"body": [
+			"- reference-id: CCC.Core.F19",
+			"  remarks: Resource Scaling"
+		  ],
+		"description": "Core Capability, Resource Scaling"
+	},
+	"Resource Tagging": {
+		"scope": "yaml",
+		"prefix": "CF20, CF Resource Tagging",
+		"body": [
+			"- reference-id: CCC.Core.F20",
+			"  remarks: Resource Tagging"
+		  ],
+		"description": "Core Capability, Resource Tagging"
+	},
+	"Resource Replication": {
+		"scope": "yaml",
+		"prefix": "CF21, CF Resource Replication",
+		"body": [
+			"- reference-id: CCC.Core.F21",
+			"  remarks: Resource Replication"
+		  ],
+		"description": "Core Capability, Resource Replication"
+	},
+
+	"Location Lock-In": {
+		"scope": "yaml",
+		"prefix": "CF22, CF Location Lock-In",
+		"body": [
+			"- reference-id: CCC.Core.F22",
+			"  remarks: Location Lock-In"
+		  ],
+		"description": "Core Capability, Location Lock-In"
+	},
+
+	"Network Access Rules": {
+		"scope": "yaml",
+		"prefix": "CF23, CF Network Access Rules",
+		"body": [
+			"- reference-id: CCC.Core.F23",
+			"  remarks: Network Access Rules"
+		  ],
+		"description": "Core Capability, Network Access Rules"
+	},
+
+	"Core Processing Units": {
+		"scope": "yaml",
+		"prefix": "CF24, CF Core Processing Units",
+		"body": [
+			"- reference-id: CCC.Core.F24",
+			"  remarks: Core Processing Units"
+		  ],
+		"description": "Core Capability, Core Processing Units"
+	},
+	
+	"Random Access Memory Allocation": {
+		"scope": "yaml",
+		"prefix": "CF25, CF Random Access Memory Allocation",
+		"body": [
+			"- reference-id: CCC.Core.F25",
+			"  remarks: Random Access Memory Allocation"
+		  ],
+		"description": "Core Capability, Random Access Memory Allocation"
+	},
+	
+	"Persistent Storage": {
+		"scope": "yaml",
+		"prefix": "CF26, CF Persistent Storage",
+		"body": [
+			"- reference-id: CCC.Core.F26",
+			"  remarks: Persistent Storage"
+		  ],
+		"description": "Core Capability, Persistent Storage"
+	},
+	
+	"Configurable Network Ports": {
+		"scope": "yaml",
+		"prefix": "CF27, CF Configurable Network Ports",
+		"body": [
+			"- reference-id: CCC.Core.F27",
+			"  remarks: Configurable Network Ports"
+		  ],
+		"description": "Core Capability, Configurable Network Ports"
+	},
+	
+	"Command-line Interface": {
+		"scope": "yaml",
+		"prefix": "CF28, CF Command-line Interface",
+		"body": [
+			"- reference-id: CCC.Core.F28",
+			"  remarks: Command-line Interface"
+		  ],
+		"description": "Core Capability, Command-line Interface"
+	},
+	
+	"Active Ingestion": {
+		"scope": "yaml",
+		"prefix": "CF29, CF Active Ingestion",
+		"body": [
+			"- reference-id: CCC.Core.F29",
+			"  remarks: Active Ingestion"
+		  ],
+		"description": "Core Capability, Active Ingestion"
+	},
+}
