@@ -17,10 +17,10 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
   });
 
   return (
-    <Layout title="Cloud Financial Infrastructure">
+    <Layout title="Compliant Financial Infrastructure">
       <main className="container margin-vert--lg space-y-8">
         <div className="text-center">
-          <h1>Cloud Financial Infrastructure</h1>
+          <h1>Compliant Financial Infrastructure</h1>
           <p className="text-xl text-muted-foreground">Implementation of Common Cloud Controls in Infrastructure as Code</p>
         </div>
 
