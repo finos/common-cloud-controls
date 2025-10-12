@@ -12,12 +12,12 @@ control-families:
     title: Logging & Monitoring
     description: Controls that collect, alert, and retain events from other monitoring services.
     controls:
-      - id: CCC.Monitor.C01
+      - id: CCC.Monitor.CN01
         title: Rate Limiting on External Monitoring
         objective: |
           Prevent DoS attacks using External Monitoring tools.
         assessment-requirements:
-          - id: CCC.Monitor.C01.TR01
+          - id: CCC.Monitor.CN01.TR01
             text: |
               When an External Monitoring system exceeds the anticipated rate of monitoring checks then
               Rate Limiting MUST be applied and an Audit Alert MUST be generated.
@@ -31,7 +31,7 @@ control-families:
             entries:
               - reference-id: PR.IR-01
                 strength: 0
-              - reference-id: DE.CM-01
+              - reference-id: DE.CNM-01
                 strength: 0
           - reference-id: NIST_800_53
             entries:
@@ -44,12 +44,12 @@ control-families:
             entries:
               - reference-id: CCC.Monitor.TH03
                 strength: 0
-      - id: CCC.Monitor.C02
+      - id: CCC.Monitor.CN02
         title: Rate Limiting on Metric Generation
         objective: |
           Prevent Malicious Actor or misconfiguration from flooding services with metric data.
         assessment-requirements:
-          - id: CCC.Monitor.C02.TR01
+          - id: CCC.Monitor.CN02.TR01
             text: |
               When an Custom or User-Defined Metric starts to flood a collector, then a rate limit MUST be applied
               to reduce the network impact of traffic and an alert must triggered.
@@ -61,7 +61,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CM-01
+              - reference-id: DE.CNM-01
                 strength: 0
           - reference-id: NIST_800_53
             entries:
@@ -76,13 +76,13 @@ control-families:
             entries:
               - reference-id: CCC.Monitor.TH06
                 strength: 0
-      - id: CCC.Core.C04
+      - id: CCC.Core.CN04
         title: Log All Access and Changes
         objective: |
           Ensure that all access attempts are logged to maintain a detailed
           audit trail for security and compliance purposes.
         assessment-requirements:
-          - id: CCC.Core.C04.TR01
+          - id: CCC.Core.CN04.TR01
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST log the client
@@ -92,7 +92,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C04.TR02
+          - id: CCC.Core.CN04.TR02
             text: |
               When any attempt is made to modify data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -100,7 +100,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C04.TR03
+          - id: CCC.Core.CN04.TR03
             text: |
               When any attempt is made to read data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -131,14 +131,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C07
+      - id: CCC.Core.CN07
         title: Alert on Unusual Enumeration Activity
         objective: |
           Ensure that logs and associated alerts are generated when
           unusual enumeration activity is detected that may indicate
           reconnaissance activities.
         assessment-requirements:
-          - id: CCC.Core.C07.TR01
+          - id: CCC.Core.CN07.TR01
             text: |
               When enumeration activities are detected, the service MUST publish
               an event to a monitored channel which includes the client
@@ -151,7 +151,7 @@ control-families:
               indicative of enumeration activities, such as repeated access
               attempts, requests, or liveness probes. Configure alerts to notify
               security teams of any activities that merit further investigation.
-          - id: CCC.Core.C07.TR02
+          - id: CCC.Core.CN07.TR02
             text: |
               When enumeration activities are detected, the service MUST log the
               client identity, time, and nature of the activity.
@@ -190,14 +190,14 @@ control-families:
     title: Identity and Access Management
     description: Controls designed to prevent unauthorised access to monitoring features.
     controls:
-      - id: CCC.Monitor.C03
+      - id: CCC.Monitor.CN03
         title: Access External Monitoring
         objective: |
           Control access to Synthetic monitoring solutions using API keys or Certificate based authentication to
           ensure they don't become an attack path, preventing monitoring systems from forging network requests to
           gain access to internal systems.
         assessment-requirements:
-          - id: CCC.Monitor.C03.TR01
+          - id: CCC.Monitor.CN03.TR01
             text: |
               When external systems have approved access to internal systems not normally available for public access
               then they MUST be secured to prevent unauthorised access jumping through to the internal systems and
@@ -210,7 +210,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CM-06
+              - reference-id: DE.CNM-06
                 strength: 0
               - reference-id: PR.IR-01
                 strength: 0
@@ -225,12 +225,12 @@ control-families:
             entries:
               - reference-id: CCC.Monitor.TH04
                 strength: 0
-      - id: CCC.Monitor.C04
+      - id: CCC.Monitor.CN04
         title: Restrict access to Monitoring Dashboards
         objective: |
           Control access to Monitoring Dashboards and reports to ensure they don't highlight an attack path.
         assessment-requirements:
-          - id: CCC.Monitor.C04.TR01
+          - id: CCC.Monitor.CN04.TR01
             text: |
               When monitoring dashboards display degraded services which may become potential targets then the
               dashboard MUST be protected from unauthorised access.
@@ -242,7 +242,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CM-09
+              - reference-id: DE.CNM-09
                 strength: 0
               - reference-id: DE.AE-03
                 strength: 0
@@ -257,12 +257,12 @@ control-families:
             entries:
               - reference-id: CCC.Monitor.TH02
                 strength: 0
-      - id: CCC.Monitor.C05
+      - id: CCC.Monitor.CN05
         title: Restrict access to silence or acknowledge an alert
         objective: |
           Ensure only a subset of users can silence or acknowledge alerts to prevent attackers hiding their activity.
         assessment-requirements:
-          - id: CCC.Monitor.C05.TR01
+          - id: CCC.Monitor.CN05.TR01
             text: |
               When monitoring services have generated an alert, the service MUST ensure only authorised
               responders silence or acknowledge the alert.
@@ -287,13 +287,13 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH10
                 strength: 0
-      - id: CCC.Monitor.C06
+      - id: CCC.Monitor.CN06
         title: Metrics pushed for authorised services only
         objective: |
           Use IAM to control which types of metrics or traces can be pushed by different system to avoid a compromised
           system pushing fabricated metrics about a different service
         assessment-requirements:
-          - id: CCC.Monitor.C06.TR01
+          - id: CCC.Monitor.CN06.TR01
             text: |
               When systems push metrics or traces they MUST be authenticated for that particular type of metric or trace
             applicability:
@@ -315,13 +315,13 @@ control-families:
             entries:
               - reference-id: CCC.Monitor.TH05
                 strength: 0
-      - id: CCC.Core.C03
+      - id: CCC.Core.CN03
         title: Implement Multi-factor Authentication (MFA) for Access
         objective: |
           Ensure that all sensitive activities require two or more identity
           factors during authentication to prevent unauthorized access.
         assessment-requirements:
-          - id: CCC.Core.C03.TR01
+          - id: CCC.Core.CN03.TR01
             text: |
               When an entity attempts to modify the service through a user
               interface, the authentication process MUST require multiple
@@ -331,7 +331,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR02
+          - id: CCC.Core.CN03.TR02
             text: |
               When an entity attempts to modify the service through an API
               endpoint, the authentication process MUST require a credential
@@ -342,7 +342,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR03
+          - id: CCC.Core.CN03.TR03
             text: |
               When an entity attempts to view information on the service through
               a user interface, the authentication process MUST require multiple
@@ -350,7 +350,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR04
+          - id: CCC.Core.CN03.TR04
             text: |
               When an entity attempts to view information on the service through
               an API endpoint, the authentication process MUST require a
@@ -383,14 +383,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C05
+      - id: CCC.Core.CN05
         title: Prevent Access from Untrusted Entities
         objective: |
           Ensure that secure access controls enforce the principle of least
           privilege to restrict access to authorized entities from explicitly
           trusted sources only.
         assessment-requirements:
-          - id: CCC.Core.C05.TR01
+          - id: CCC.Core.CN05.TR01
             text: |
               When an attempt is made to modify data on the service or a child
               resource, the service MUST block requests from unauthorized
@@ -400,7 +400,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR02
+          - id: CCC.Core.CN05.TR02
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST refuse requests
@@ -410,7 +410,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR03
+          - id: CCC.Core.CN05.TR03
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource in a multi-tenant environment, the
@@ -421,21 +421,21 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR04
+          - id: CCC.Core.CN05.TR04
             text: |
               When data is requested from outside the trust perimeter, the
               service MUST refuse requests from unauthorized entities.
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR05
+          - id: CCC.Core.CN05.TR05
             text: |
               When any request is made from outside the trust perimeter,
               the service MUST NOT provide any response that may indicate the
               service exists.
             applicability:
               - tlp-red
-          - id: CCC.Core.C05.TR06
+          - id: CCC.Core.CN05.TR06
             text: |
               When any request is made to the service or a child resource, the
               service MUST refuse requests from unauthorized entities.
@@ -474,13 +474,13 @@ control-families:
       replicated, and protected from unauthorized access, tampering,
       or exposure beyond defined trust perimeters.
     controls:
-      - id: CCC.Core.C02
+      - id: CCC.Core.CN02
         title: Encrypt Data for Storage
         objective: |
           Ensure that all data stored is encrypted at rest using strong
           encryption algorithms.
         assessment-requirements:
-          - id: CCC.Core.C02.TR01
+          - id: CCC.Core.CN02.TR01
             text: |
               When data is stored, it MUST be encrypted using the latest
               industry-standard encryption methods.
@@ -510,12 +510,12 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C09
+      - id: CCC.Core.CN09
         title: Ensure Integrity of Access Logs
         objective: |
           Ensure that access logs are always recorded to an external location.
         assessment-requirements:
-          - id: CCC.Core.C09.TR01
+          - id: CCC.Core.CN09.TR01
             text: |
               When the service is operational, its logs and any child resource
               logs MUST NOT be accessible from the resource they record access
@@ -525,7 +525,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C09.TR02
+          - id: CCC.Core.CN09.TR02
             text: |
               When the service is operational, disabling the logs for the service
               or its child resources MUST NOT be possible without also disabling
@@ -541,7 +541,7 @@ control-families:
               access. Ensure that logging mechanisms are tightly integrated with
               service operations, so that logging cannot be disabled without
               stopping the service itself.
-          - id: CCC.Core.C09.TR03
+          - id: CCC.Core.CN09.TR03
             text: |
               When the service is operational, any attempt to redirect logs for
               the service or its child resources MUST NOT be possible without
@@ -584,14 +584,14 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH04
                 strength: 0
-      - id: CCC.Core.C11
+      - id: CCC.Core.CN11
         title: Protect Encryption Keys
         objective: |
           Ensure that encryption keys are managed securely by enforcing
           the use of approved algorithms, regular key rotation, and
           customer-managed encryption keys (CMEKs).
         assessment-requirements:
-          - id: CCC.Core.C11.TR01
+          - id: CCC.Core.CN11.TR01
             text: |
               When encryption keys are used, the service MUST verify that
               all encryption keys use the latest industry-standard cryptographic
@@ -599,20 +599,20 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C11.TR02
+          - id: CCC.Core.CN11.TR02
             text: |
               When encryption keys are used, the service MUST rotate active keys
               within 180 days of issuance.
             applicability:
               - tlp-amber
-          - id: CCC.Core.C11.TR03
+          - id: CCC.Core.CN11.TR03
             text: |
               When encrypting data, the service MUST verify that
               customer-managed encryption keys (CMEKs) are used.
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C11.TR04
+          - id: CCC.Core.CN11.TR04
             text: |
               When encryption keys are accessed, the service MUST verify that
               access to encryption keys is restricted to authorized personnel
@@ -622,14 +622,14 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C11.TR05
+          - id: CCC.Core.CN11.TR05
             text: |
               When encryption keys are used, the service MUST rotate active keys
               within 365 days of issuance.
             applicability:
               - tlp-clear
               - tlp-green
-          - id: CCC.Core.C11.TR06
+          - id: CCC.Core.CN11.TR06
             text: |
               When encryption keys are used, the service MUST rotate active keys
               within 90 days of issuance.
@@ -1193,25 +1193,25 @@ capabilities:
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0
         remarks: Ensure Data Encryption at Rest for All Stored Data
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0
         remarks: Implement Multi-factor Authentication (MFA) for Access
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0
         remarks: Log All Access and Changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0
         remarks: Prevent Access from Untrusted Entities
-      - reference-id: CCC.Core.C07
+      - reference-id: CCC.Core.CN07
         strength: 0
         remarks: Alert on Unusual Enumeration Activity
-      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.CN09
         strength: 0
         remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
-      - reference-id: CCC.Core.C11
+      - reference-id: CCC.Core.CN11
         strength: 0
         remarks: Enforce Key Management Policies
 imported-threats:

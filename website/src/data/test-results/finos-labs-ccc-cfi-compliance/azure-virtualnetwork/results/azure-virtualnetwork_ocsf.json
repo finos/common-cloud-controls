@@ -66,13 +66,13 @@
                 "mp.s.4.r1.az.nt.2"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01"
+                "CCC.Logging.CN01.TR01"
             ],
             "CIS-3.0": [
                 "6.3.1"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ]
         }
     },
@@ -467,7 +467,7 @@
                 "A.8.9"
             ],
             "CCC-Container-Registry": [
-                "CCC.CntrReg.C01.TR01"
+                "CCC.CntrReg.CN01.TR01"
             ]
         }
     },
@@ -2856,7 +2856,7 @@
                 "5.2.1"
             ],
             "CCC-Key-Management": [
-                "CCC.KeyMgmt.C01.TR01"
+                "CCC.KeyMgmt.CN01.TR01"
             ],
             "CIS-2.1": [
                 "5.2.1"
@@ -2883,8 +2883,8 @@
                 "11.5.2.d"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C06.TR01",
-                "CCC.LB.C04.TR01"
+                "CCC.LB.CN06.TR01",
+                "CCC.LB.CN04.TR01"
             ],
             "ISO27001-2022": [
                 "A.5.7",
@@ -2894,10 +2894,10 @@
                 "op.mon.2.r1.az.ma.1"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.1"
@@ -3017,7 +3017,7 @@
                 "5.2.3"
             ],
             "CCC-Key-Management": [
-                "CCC.KeyMgmt.C01.TR01"
+                "CCC.KeyMgmt.CN01.TR01"
             ],
             "CIS-2.1": [
                 "5.2.3"
@@ -3041,8 +3041,8 @@
                 "11.5.2.d"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C06.TR01",
-                "CCC.LB.C04.TR01"
+                "CCC.LB.CN06.TR01",
+                "CCC.LB.CN04.TR01"
             ],
             "ISO27001-2022": [
                 "A.5.7",
@@ -3052,10 +3052,10 @@
                 "op.mon.2.r1.az.ma.1"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.3"
@@ -3162,7 +3162,7 @@
                 "5.2.9"
             ],
             "CCC-Key-Management": [
-                "CCC.KeyMgmt.C01.TR01"
+                "CCC.KeyMgmt.CN01.TR01"
             ],
             "CIS-2.1": [
                 "5.2.9"
@@ -3188,8 +3188,8 @@
                 "11.5.2.d"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C06.TR01",
-                "CCC.LB.C04.TR01"
+                "CCC.LB.CN06.TR01",
+                "CCC.LB.CN04.TR01"
             ],
             "ISO27001-2022": [
                 "A.5.7",
@@ -3200,10 +3200,10 @@
                 "op.mon.2.r1.az.ma.1"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.9"
@@ -3310,7 +3310,7 @@
                 "5.2.5"
             ],
             "CCC-Key-Management": [
-                "CCC.KeyMgmt.C01.TR01"
+                "CCC.KeyMgmt.CN01.TR01"
             ],
             "CIS-2.1": [
                 "5.2.5"
@@ -3335,8 +3335,8 @@
                 "11.5.2.d"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C06.TR01",
-                "CCC.LB.C04.TR01"
+                "CCC.LB.CN06.TR01",
+                "CCC.LB.CN04.TR01"
             ],
             "ISO27001-2022": [
                 "A.5.7",
@@ -3349,10 +3349,10 @@
                 "op.mon.3.r6.az.ma.1"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.5"
@@ -3527,10 +3527,10 @@
                 "op.mon.2.r1.az.ma.1"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.7"
@@ -3669,10 +3669,10 @@
                 "op.acc.6.r5.az.eid.2"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.4"
@@ -3811,10 +3811,10 @@
                 "op.acc.6.r5.az.eid.2"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.2"
@@ -3953,10 +3953,10 @@
                 "op.acc.6.r5.az.eid.2"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.10"
@@ -4095,10 +4095,10 @@
                 "op.acc.6.r5.az.eid.2"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.6"
@@ -4236,7 +4236,7 @@
                 "op.acc.6.r5.az.eid.2"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.2.8"
@@ -4389,11 +4389,11 @@
                 "3.4.1"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01"
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01"
             ],
             "CCC-Objects": [
-                "CCC.ObjStor.C06.TR01"
+                "CCC.ObjStor.CN06.TR01"
             ],
             "ISO27001-2022": [
                 "A.5.16",
@@ -4404,20 +4404,20 @@
                 "op.mon.2.az.md.1"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR02",
-                "CCC.AuditLog.C04.TR01",
-                "CCC.AuditLog.C05.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR02",
+                "CCC.AuditLog.CN04.TR01",
+                "CCC.AuditLog.CN05.TR01"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02"
             ],
             "CIS-3.0": [
                 "6.1.2"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ]
         }
     },
@@ -4517,7 +4517,7 @@
                 "5.1.1"
             ],
             "CCC-Key-Management": [
-                "CCC.KeyMgmt.C01.TR01"
+                "CCC.KeyMgmt.CN01.TR01"
             ],
             "CIS-2.1": [
                 "5.1.1"
@@ -4536,12 +4536,12 @@
                 "3.4.1"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01",
-                "CCC.LB.C04.TR01"
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01",
+                "CCC.LB.CN04.TR01"
             ],
             "CCC-Objects": [
-                "CCC.ObjStor.C06.TR01"
+                "CCC.ObjStor.CN06.TR01"
             ],
             "ISO27001-2022": [
                 "A.5.16",
@@ -4552,28 +4552,28 @@
                 "op.mon.2.r2.az.ma.1"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01",
-                "CCC.AuditLog.C03.TR02",
-                "CCC.AuditLog.C04.TR01",
-                "CCC.AuditLog.C05.TR01",
-                "CCC.AuditLog.C06.TR01",
-                "CCC.AuditLog.C08.TR01",
-                "CCC.AuditLog.C09.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01",
+                "CCC.AuditLog.CN03.TR02",
+                "CCC.AuditLog.CN04.TR01",
+                "CCC.AuditLog.CN05.TR01",
+                "CCC.AuditLog.CN06.TR01",
+                "CCC.AuditLog.CN08.TR01",
+                "CCC.AuditLog.CN09.TR01"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02",
-                "CCC.AuditLog.C04.TR01",
-                "CCC.Logging.C05.TR01",
-                "CCC.Logging.C05.TR02",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02",
+                "CCC.AuditLog.CN04.TR01",
+                "CCC.Logging.CN05.TR01",
+                "CCC.Logging.CN05.TR02",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-3.0": [
                 "6.1.1"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ]
         }
     },
@@ -4814,8 +4814,8 @@
                 "11.2.2.f"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01"
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01"
             ],
             "ISO27001-2022": [
                 "A.8.14",
@@ -4830,8 +4830,8 @@
                 "mp.s.4.r1.az.nt.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02"
             ],
             "CIS-3.0": [
                 "6.1.5"
@@ -4960,8 +4960,8 @@
                 "11.2.2.f"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01"
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01"
             ],
             "ISO27001-2022": [
                 "A.8.14",
@@ -4976,8 +4976,8 @@
                 "mp.s.4.r1.az.nt.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02"
             ],
             "CIS-3.0": [
                 "6.1.5"
@@ -5106,8 +5106,8 @@
                 "11.2.2.f"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01"
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01"
             ],
             "ISO27001-2022": [
                 "A.8.14",
@@ -5122,8 +5122,8 @@
                 "mp.s.4.r1.az.nt.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02"
             ],
             "CIS-3.0": [
                 "6.1.5"
@@ -5252,8 +5252,8 @@
                 "11.2.2.f"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01"
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01"
             ],
             "ISO27001-2022": [
                 "A.8.14",
@@ -5268,8 +5268,8 @@
                 "mp.s.4.r1.az.nt.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02"
             ],
             "CIS-3.0": [
                 "6.1.5"
@@ -5398,8 +5398,8 @@
                 "11.2.2.f"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01"
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01"
             ],
             "ISO27001-2022": [
                 "A.8.14",
@@ -5414,8 +5414,8 @@
                 "mp.s.4.r1.az.nt.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02"
             ],
             "CIS-3.0": [
                 "6.1.5"
@@ -5575,8 +5575,8 @@
                 "op.mon.3.az.nw.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C02.TR01",
-                "CCC.Logging.C02.TR02"
+                "CCC.Logging.CN02.TR01",
+                "CCC.Logging.CN02.TR02"
             ],
             "CIS-3.0": [
                 "7.5"
@@ -5739,8 +5739,8 @@
                 "op.mon.3.az.nw.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C02.TR01",
-                "CCC.Logging.C02.TR02"
+                "CCC.Logging.CN02.TR01",
+                "CCC.Logging.CN02.TR02"
             ],
             "CIS-3.0": [
                 "7.5"
@@ -5903,8 +5903,8 @@
                 "op.mon.3.az.nw.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C02.TR01",
-                "CCC.Logging.C02.TR02"
+                "CCC.Logging.CN02.TR01",
+                "CCC.Logging.CN02.TR02"
             ],
             "CIS-3.0": [
                 "7.5"
@@ -6067,8 +6067,8 @@
                 "op.mon.3.az.nw.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C02.TR01",
-                "CCC.Logging.C02.TR02"
+                "CCC.Logging.CN02.TR01",
+                "CCC.Logging.CN02.TR02"
             ],
             "CIS-3.0": [
                 "7.5"
@@ -6231,8 +6231,8 @@
                 "op.mon.3.az.nw.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C02.TR01",
-                "CCC.Logging.C02.TR02"
+                "CCC.Logging.CN02.TR01",
+                "CCC.Logging.CN02.TR02"
             ],
             "CIS-3.0": [
                 "7.5"
@@ -6358,8 +6358,8 @@
                 "11.1.1"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01"
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01"
             ],
             "ISO27001-2022": [
                 "A.8.14",

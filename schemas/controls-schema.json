@@ -18,7 +18,7 @@
                 "properties": {
                   "reference-id": {
                     "type": "string",
-                    "pattern": "^CCC\\.Core.C\\d{2,8}$",
+                    "pattern": "^CCC\\.Core.CN\\d{2,8}$",
                     "description": "ID of a generic control that is designed to be shared by multiple catalogs"
                   },
                   "strength": {
@@ -60,8 +60,8 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "pattern": "^((CCC\\.C\\d{2,8})|(CCC\\.\\w{1,8}\\.C\\d{2,8}))$",
-                    "description": "Full control ID (e.g., CCC.ObjStor.C01)"
+                    "pattern": "^((CCC\\.CN\\d{2,8})|(CCC\\.\\w{1,8}\\.CN\\d{2,8}))$",
+                    "description": "Full control ID (e.g., CCC.ObjStor.CN01)"
                   },
                   "title": {
                     "type": "string",
@@ -78,7 +78,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "pattern": "^((CCC\\.C\\d{2,8})|(CCC\\.\\w{1,8}\\.C\\d{2,8}\\.TR\\d{2,8}))$",
+                          "pattern": "^((CCC\\.CN\\d{2,8})|(CCC\\.\\w{1,8}\\.CN\\d{2,8}\\.TR\\d{2,8}))$",
                           "description": "Test requirement ID"
                         },
                         "text": {

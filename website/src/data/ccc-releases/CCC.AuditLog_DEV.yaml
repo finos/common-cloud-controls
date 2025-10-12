@@ -11,20 +11,20 @@ control-families:
     title: Integrity
     description: Controls designed to protected the integrity of Audit Log data.
     controls:
-      - id: CCC.AuditLog.C01
+      - id: CCC.AuditLog.CN01
         title: Implement Digital Signatures With Hash Chaining
         objective: |
           Digital signatures allows for external verification of log data tampering and
           hash chaining allows for deleted log files to be detected.
         assessment-requirements:
-          - id: CCC.AuditLog.C01.TR01
+          - id: CCC.AuditLog.CN01.TR01
             text: |
               When the signature validation process is performed, then it MUST detect any modification of data.
             applicability:
               - tlp-red
             recommendation: |
               Ensure hash of data is included in digital signature.
-          - id: CCC.AuditLog.C01.TR02
+          - id: CCC.AuditLog.CN01.TR02
             text: |
               When the signature validation process is performed, then it MUST detect any missing (deleted) log file.
             applicability:
@@ -47,13 +47,13 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH07
                 strength: 0
-      - id: CCC.AuditLog.C02
+      - id: CCC.AuditLog.CN02
         title: Enable And Validate All Audit Log Types
         objective: |
           Review audit log configuration and ensure that all audit log types
           are being generated and replicated to configured sinks
         assessment-requirements:
-          - id: CCC.AuditLog.C02.TR01
+          - id: CCC.AuditLog.CN02.TR01
             text: |
               When a manual action is performed to generate each audit log type,
               then the corresponding audit log type MUST be generated and recorded.
@@ -79,7 +79,7 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
                 strength: 0
-      - id: CCC.AuditLog.C03
+      - id: CCC.AuditLog.CN03
         title: Alert On Audit Log Changes And Access
         objective: |
           Ensure that specific alerts have been configured to detect changes in
@@ -87,7 +87,7 @@ control-families:
           Alerts MUST also be created to detect changes in retention/object lock policies
           for exported data log sources/buckets.
         assessment-requirements:
-          - id: CCC.AuditLog.C03.TR01
+          - id: CCC.AuditLog.CN03.TR01
             text: |
               When an attempt is made to disable a log source, then an alert MUST be generated.
             applicability:
@@ -95,7 +95,7 @@ control-families:
               - tlp-amber
             recommendation: |
               Ensure alerting is correctly configured
-          - id: CCC.AuditLog.C03.TR02
+          - id: CCC.AuditLog.CN03.TR02
             text: |
               When an attempt is made to alter the retention or object lock status
               of an external data log source or bucket, then an alert MUST be generated.
@@ -107,7 +107,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CM-1
+              - reference-id: DE.CNM-1
                 strength: 0
           - reference-id: NIST_800_53
             entries:
@@ -120,13 +120,13 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH07
                 strength: 0
-      - id: CCC.AuditLog.C04
+      - id: CCC.AuditLog.CN04
         title: Ensure Access Logging Is Enabled on the Audit Log Bucket
         objective: |
           Ensure that access logging is enabled for the audit log storage bucket to
           capture all requests made to the bucket, providing an audit trail of data access.
         assessment-requirements:
-          - id: CCC.AuditLog.C04.TR01
+          - id: CCC.AuditLog.CN04.TR01
             text: |
               When audit log buckets are created then verify that server access
               logging MUST be enabled for the audit log bucket,
@@ -141,7 +141,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CM-1
+              - reference-id: DE.CNM-1
                 strength: 0
           - reference-id: NIST_800_53
             entries:
@@ -160,13 +160,13 @@ control-families:
     title: Availability
     description: Controls designed to protected the availability of Audit Log data.
     controls:
-      - id: CCC.AuditLog.C05
+      - id: CCC.AuditLog.CN05
         title: Export Audit Logs To Bucket
         objective: |
           Configure audit logs to be sent to a external bucket where they can be globally replicated
           and can be subject to greater access control and data retention polices.
         assessment-requirements:
-          - id: CCC.AuditLog.C05.TR01
+          - id: CCC.AuditLog.CN05.TR01
             text: |
               When audit logs are exported, then audit logs MUST be present in the configured data location.
             applicability:
@@ -192,13 +192,13 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH07
                 strength: 0
-      - id: CCC.AuditLog.C06
+      - id: CCC.AuditLog.CN06
         title: Enforce Retention Policy on Audit Log Bucket
         objective: |
           Configure a custom retention policy on the designated audit log bucket to ensure that logs are
           retained for the correct number of days as defined by your organization's policy.
         assessment-requirements:
-          - id: CCC.AuditLog.C06.TR01
+          - id: CCC.AuditLog.CN06.TR01
             text: |
               When the retention policy is applied, then data MUST
               be automatically deleted after the configured number of days.
@@ -227,13 +227,13 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH07
                 strength: 0
-      - id: CCC.AuditLog.C07
+      - id: CCC.AuditLog.CN07
         title: Enforce MFA Delete on Audit Log Bucket
         objective: |
           Enable Multi-Factor Authentication (MFA) delete on the audit log bucket to
           provide greater protection against accidental or malicious deletion of audit data.
         assessment-requirements:
-          - id: CCC.AuditLog.C07.TR01
+          - id: CCC.AuditLog.CN07.TR01
             text: |
               When a standard file deletion is attempted on an object within
               the audit log bucket, then it MUST be prevented unless MFA is provided.
@@ -262,14 +262,14 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH07
                 strength: 0
-      - id: CCC.AuditLog.C08
+      - id: CCC.AuditLog.CN08
         title: Enable Object Lock On Audit Log Bucket
         objective: |
           Ensure that object log is enabled globally on all objects with the bucket.
           The lock time MUST be configured to meet your organization, legal and compliance goals.
           Deletion attempts before the lock period MUST be denied.
         assessment-requirements:
-          - id: CCC.AuditLog.C08.TR01
+          - id: CCC.AuditLog.CN08.TR01
             text: |
               When an attempt is made to delete data before the object
               lock period expires, then the deletion MUST be denied.
@@ -298,14 +298,14 @@ control-families:
     title: Confidentiality
     description: Controls designed to protected the confidentiality of Audit Log data.
     controls:
-      - id: CCC.AuditLog.C09
+      - id: CCC.AuditLog.CN09
         title: Restrict Field And Log Type Access
         objective: |
           Configure access to audit logs to follow the principle of least privilege in particular where technically
           possible limit the log fields users have access to to prevent accidental exposure to sensitive
           information such as PII.
         assessment-requirements:
-          - id: CCC.AuditLog.C09.TR01
+          - id: CCC.AuditLog.CN09.TR01
             text: |
               When restricted fields are accessed by unauthorized users, then those fields MUST remain masked.
             applicability:
@@ -337,13 +337,13 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH07
                 strength: 0
-      - id: CCC.AuditLog.C10
+      - id: CCC.AuditLog.CN10
         title: Ensure Audit Bucket is Not Publicly Accessible
         objective: |
           Ensure that audit log storage buckets are not publicly accessible to prevent
           unauthorized exposure of sensitive log data.
         assessment-requirements:
-          - id: CCC.AuditLog.C10.TR01
+          - id: CCC.AuditLog.CN10.TR01
             text: |
               When audit log storage bucket's are created then, bucket's access control settings MUST explicitly deny
               public read and write access.
@@ -354,7 +354,7 @@ control-families:
             recommendation: |
               Configure bucket policies and access control lists (ACLs) to restrict public access.
               Regularly review bucket permissions to ensure no public access has been inadvertently granted.
-          - id: CCC.AuditLog.C10.TR02
+          - id: CCC.AuditLog.CN10.TR02
             text: |
               When the URL of a audit log storage bucket's object is accessed publicly then,
               it should be denied by bucket policy.
@@ -390,13 +390,13 @@ control-families:
       replicated, and protected from unauthorized access, tampering,
       or exposure beyond defined trust perimeters.
     controls:
-      - id: CCC.Core.C01
+      - id: CCC.Core.CN01
         title: Encrypt Data for Transmission
         objective: |
           Ensure that all communications are encrypted in transit to protect
           data integrity and confidentiality.
         assessment-requirements:
-          - id: CCC.Core.C01.TR01
+          - id: CCC.Core.CN01.TR01
             text: |
               When a port is exposed for non-SSH network traffic, all traffic
               MUST include a TLS handshake AND be encrypted using TLS 1.3 or
@@ -409,7 +409,7 @@ control-families:
               Most cloud services enable TLS 1.3 by default. Where it is not
               already set, ensure that your services are configured or updated
               accordingly.
-          - id: CCC.Core.C01.TR02
+          - id: CCC.Core.CN01.TR02
             text: |
               When a port is exposed for SSH network traffic, all traffic MUST
               include a SSH handshake AND be encrypted using SSHv2 or higher.
@@ -422,7 +422,7 @@ control-families:
               Any time port 22 is exposed, ensure that it has a properly
               implemented SSH server with SSHv2 enabled and configured with
               strong ciphers.
-          - id: CCC.Core.C01.TR03
+          - id: CCC.Core.CN01.TR03
             text: "When the service receives unencrypted traffic, \nthen it MUST either block the request or automatically\nredirect it to the secure equivalent.\n"
             applicability:
               - tlp-green
@@ -434,7 +434,7 @@ control-families:
               exposed. Where possible, implement automatic redirection to secure
               protocols such as HTTPS, SFTP, SSH, and regularly scan for
               protocol drift.
-          - id: CCC.Core.C01.TR07
+          - id: CCC.Core.CN01.TR07
             text: |
               When a port is exposed, the service MUST ensure that the protocol
               and service officially assigned to that port number by the IANA
@@ -450,7 +450,7 @@ control-families:
               Registry for more information about correct protocol-to-port
               assignments. Avoid running non-standard services on well-known
               ports.
-          - id: CCC.Core.C01.TR08
+          - id: CCC.Core.CN01.TR08
             text: |
               When a service transmits data using TLS, mutual TLS (mTLS) MUST be
               implemented to require both client and server certificate
@@ -489,13 +489,13 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH02
                 strength: 0
-      - id: CCC.Core.C02
+      - id: CCC.Core.CN02
         title: Encrypt Data for Storage
         objective: |
           Ensure that all data stored is encrypted at rest using strong
           encryption algorithms.
         assessment-requirements:
-          - id: CCC.Core.C02.TR01
+          - id: CCC.Core.CN02.TR01
             text: |
               When data is stored, it MUST be encrypted using the latest
               industry-standard encryption methods.
@@ -525,14 +525,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C06
+      - id: CCC.Core.CN06
         title: Restrict Deployments to Trust Perimeter
         objective: |
           Ensure that the service and its child resources are only deployed on
           infrastructure in locations that are explicitly included within a
           defined trust perimeter.
         assessment-requirements:
-          - id: CCC.Core.C06.TR01
+          - id: CCC.Core.CN06.TR01
             text: |
               When the service is running, its region and availability zone MUST
               be included in a list of explicitly trusted or approved locations
@@ -546,7 +546,7 @@ control-families:
               Maintain an up-to-date list of trusted and approved regions based
               on organizational policies. Validate the service's deployment
               location is included in this list.
-          - id: CCC.Core.C06.TR02
+          - id: CCC.Core.CN06.TR02
             text: |
               When a child resource is deployed, its region and availability
               zone MUST be included in a list of explicitly trusted or approved
@@ -584,14 +584,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH03
                 strength: 0
-      - id: CCC.Core.C08
+      - id: CCC.Core.CN08
         title: Replicate Data to Multiple Locations
         objective: |
           Ensure that data is replicated across multiple physical locations to
           protect against data loss due to hardware failures, natural disasters,
           or other catastrophic events.
         assessment-requirements:
-          - id: CCC.Core.C08.TR01
+          - id: CCC.Core.CN08.TR01
             text: |
               When data is created or modified, the data MUST have a complete
               and recoverable duplicate that is stored in a physically separate
@@ -605,7 +605,7 @@ control-families:
               data is consistently duplicated in another region or availability
               zone. Regularly test data recovery from the replicated location to
               ensure integrity and availability.
-          - id: CCC.Core.C08.TR02
+          - id: CCC.Core.CN08.TR02
             text: |
               When data is replicated into a second location, the service MUST
               be able to accurately represent the replication locations,
@@ -636,12 +636,12 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
                 strength: 0
-      - id: CCC.Core.C09
+      - id: CCC.Core.CN09
         title: Ensure Integrity of Access Logs
         objective: |
           Ensure that access logs are always recorded to an external location.
         assessment-requirements:
-          - id: CCC.Core.C09.TR01
+          - id: CCC.Core.CN09.TR01
             text: |
               When the service is operational, its logs and any child resource
               logs MUST NOT be accessible from the resource they record access
@@ -651,7 +651,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C09.TR02
+          - id: CCC.Core.CN09.TR02
             text: |
               When the service is operational, disabling the logs for the service
               or its child resources MUST NOT be possible without also disabling
@@ -667,7 +667,7 @@ control-families:
               access. Ensure that logging mechanisms are tightly integrated with
               service operations, so that logging cannot be disabled without
               stopping the service itself.
-          - id: CCC.Core.C09.TR03
+          - id: CCC.Core.CN09.TR03
             text: |
               When the service is operational, any attempt to redirect logs for
               the service or its child resources MUST NOT be possible without
@@ -710,13 +710,13 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH04
                 strength: 0
-      - id: CCC.Core.C10
+      - id: CCC.Core.CN10
         title: Restrict Data Replication to Trust Perimeter
         objective: |
           Ensure that data is only replicated on infrastructure in locations
           that are explicitly included within a defined trust perimeter.
         assessment-requirements:
-          - id: CCC.Core.C10.TR01
+          - id: CCC.Core.CN10.TR01
             text: |
               When data is replicated, the service MUST ensure that replication
               only occurs to destinations that are explicitly included within
@@ -747,14 +747,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH04
                 strength: 0
-      - id: CCC.Core.C11
+      - id: CCC.Core.CN11
         title: Protect Encryption Keys
         objective: |
           Ensure that encryption keys are managed securely by enforcing
           the use of approved algorithms, regular key rotation, and
           customer-managed encryption keys (CMEKs).
         assessment-requirements:
-          - id: CCC.Core.C11.TR01
+          - id: CCC.Core.CN11.TR01
             text: |
               When encryption keys are used, the service MUST verify that
               all encryption keys use the latest industry-standard cryptographic
@@ -762,20 +762,20 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C11.TR02
+          - id: CCC.Core.CN11.TR02
             text: |
               When encryption keys are used, the service MUST rotate active keys
               within 180 days of issuance.
             applicability:
               - tlp-amber
-          - id: CCC.Core.C11.TR03
+          - id: CCC.Core.CN11.TR03
             text: |
               When encrypting data, the service MUST verify that
               customer-managed encryption keys (CMEKs) are used.
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C11.TR04
+          - id: CCC.Core.CN11.TR04
             text: |
               When encryption keys are accessed, the service MUST verify that
               access to encryption keys is restricted to authorized personnel
@@ -785,14 +785,14 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C11.TR05
+          - id: CCC.Core.CN11.TR05
             text: |
               When encryption keys are used, the service MUST rotate active keys
               within 365 days of issuance.
             applicability:
               - tlp-clear
               - tlp-green
-          - id: CCC.Core.C11.TR06
+          - id: CCC.Core.CN11.TR06
             text: |
               When encryption keys are used, the service MUST rotate active keys
               within 90 days of issuance.
@@ -833,13 +833,13 @@ control-families:
       enforce multi-factor verification, and restrict access to
       approved sources to prevent unauthorized use or data exfiltration.
     controls:
-      - id: CCC.Core.C03
+      - id: CCC.Core.CN03
         title: Implement Multi-factor Authentication (MFA) for Access
         objective: |
           Ensure that all sensitive activities require two or more identity
           factors during authentication to prevent unauthorized access.
         assessment-requirements:
-          - id: CCC.Core.C03.TR01
+          - id: CCC.Core.CN03.TR01
             text: |
               When an entity attempts to modify the service through a user
               interface, the authentication process MUST require multiple
@@ -849,7 +849,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR02
+          - id: CCC.Core.CN03.TR02
             text: |
               When an entity attempts to modify the service through an API
               endpoint, the authentication process MUST require a credential
@@ -860,7 +860,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR03
+          - id: CCC.Core.CN03.TR03
             text: |
               When an entity attempts to view information on the service through
               a user interface, the authentication process MUST require multiple
@@ -868,7 +868,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR04
+          - id: CCC.Core.CN03.TR04
             text: |
               When an entity attempts to view information on the service through
               an API endpoint, the authentication process MUST require a
@@ -901,14 +901,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C05
+      - id: CCC.Core.CN05
         title: Prevent Access from Untrusted Entities
         objective: |
           Ensure that secure access controls enforce the principle of least
           privilege to restrict access to authorized entities from explicitly
           trusted sources only.
         assessment-requirements:
-          - id: CCC.Core.C05.TR01
+          - id: CCC.Core.CN05.TR01
             text: |
               When an attempt is made to modify data on the service or a child
               resource, the service MUST block requests from unauthorized
@@ -918,7 +918,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR02
+          - id: CCC.Core.CN05.TR02
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST refuse requests
@@ -928,7 +928,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR03
+          - id: CCC.Core.CN05.TR03
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource in a multi-tenant environment, the
@@ -939,21 +939,21 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR04
+          - id: CCC.Core.CN05.TR04
             text: |
               When data is requested from outside the trust perimeter, the
               service MUST refuse requests from unauthorized entities.
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR05
+          - id: CCC.Core.CN05.TR05
             text: |
               When any request is made from outside the trust perimeter,
               the service MUST NOT provide any response that may indicate the
               service exists.
             applicability:
               - tlp-red
-          - id: CCC.Core.C05.TR06
+          - id: CCC.Core.CN05.TR06
             text: |
               When any request is made to the service or a child resource, the
               service MUST refuse requests from unauthorized entities.
@@ -991,13 +991,13 @@ control-families:
       and alerted on in order to provide visibility, support
       incident response, and meet compliance requirements.
     controls:
-      - id: CCC.Core.C04
+      - id: CCC.Core.CN04
         title: Log All Access and Changes
         objective: |
           Ensure that all access attempts are logged to maintain a detailed
           audit trail for security and compliance purposes.
         assessment-requirements:
-          - id: CCC.Core.C04.TR01
+          - id: CCC.Core.CN04.TR01
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST log the client
@@ -1007,7 +1007,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C04.TR02
+          - id: CCC.Core.CN04.TR02
             text: |
               When any attempt is made to modify data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -1015,7 +1015,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C04.TR03
+          - id: CCC.Core.CN04.TR03
             text: |
               When any attempt is made to read data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -1046,14 +1046,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C07
+      - id: CCC.Core.CN07
         title: Alert on Unusual Enumeration Activity
         objective: |
           Ensure that logs and associated alerts are generated when
           unusual enumeration activity is detected that may indicate
           reconnaissance activities.
         assessment-requirements:
-          - id: CCC.Core.C07.TR01
+          - id: CCC.Core.CN07.TR01
             text: |
               When enumeration activities are detected, the service MUST publish
               an event to a monitored channel which includes the client
@@ -1066,7 +1066,7 @@ control-families:
               indicative of enumeration activities, such as repeated access
               attempts, requests, or liveness probes. Configure alerts to notify
               security teams of any activities that merit further investigation.
-          - id: CCC.Core.C07.TR02
+          - id: CCC.Core.CN07.TR02
             text: |
               When enumeration activities are detected, the service MUST log the
               client identity, time, and nature of the activity.
@@ -1572,37 +1572,37 @@ capabilities:
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0
         remarks: Prevent unencrypted requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0
         remarks: Ensure data encryption at rest for all stored data
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0
         remarks: Implement multi-factor authentication (MFA) for access
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0
         remarks: Log all access and changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0
         remarks: Prevent access from untrusted entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0
         remarks: Prevent deployment in restricted regions
-      - reference-id: CCC.Core.C07
+      - reference-id: CCC.Core.CN07
         strength: 0
         remarks: Alert on Unusual Enumeration Activity
-      - reference-id: CCC.Core.C08
+      - reference-id: CCC.Core.CN08
         strength: 0
         remarks: Enable Multi-zone or Multi-region Data Replication
-      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.CN09
         strength: 0
         remarks: Prevent tampering, deletion, or unauthorized access to access logs
-      - reference-id: CCC.Core.C10
+      - reference-id: CCC.Core.CN10
         strength: 0
         remarks: Prevent data replication to destinations outside of defined trust perimeter
-      - reference-id: CCC.Core.C11
+      - reference-id: CCC.Core.CN11
         strength: 0
         remarks: Enforce Key Management Policies
 imported-threats:

@@ -1,57 +1,57 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Prevent unencrypted requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
         remarks: Ensure data encryption at rest for all stored data
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement multi-factor authentication (MFA) for access
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
         remarks: Log all access and changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
         remarks: Prevent access from untrusted entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
         remarks: Prevent deployment in restricted regions
-      - reference-id: CCC.Core.C07
+      - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
-      - reference-id: CCC.Core.C08
+      - reference-id: CCC.Core.CN08
         strength: 0 # Not yet specified
         remarks: Enable Multi-zone or Multi-region Data Replication
-      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Prevent tampering, deletion, or unauthorized access to access logs
-      - reference-id: CCC.Core.C10
+      - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
         remarks: Prevent data replication to destinations outside of defined trust perimeter
-      - reference-id: CCC.Core.C11
+      - reference-id: CCC.Core.CN11
         strength: 0 # Not yet specified
         remarks: Enforce Key Management Policies
 control-families:
   - title: Integrity
     description: Controls designed to protected the integrity of Audit Log data.
     controls:
-      - id: CCC.AuditLog.C01
+      - id: CCC.AuditLog.CN01
         title: Implement Digital Signatures With Hash Chaining
         objective: |
           Digital signatures allows for external verification of log data tampering and
           hash chaining allows for deleted log files to be detected.
         assessment-requirements:
-          - id: CCC.AuditLog.C01.TR01
+          - id: CCC.AuditLog.CN01.TR01
             text: |
               When the signature validation process is performed, then it MUST detect any modification of data.
             applicability:
               - tlp-red
             recommendation: |
               Ensure hash of data is included in digital signature.
-          - id: CCC.AuditLog.C01.TR02
+          - id: CCC.AuditLog.CN01.TR02
             text: |
               When the signature validation process is performed, then it MUST detect any missing (deleted) log file.
             applicability:
@@ -71,13 +71,13 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-9
-      - id: CCC.AuditLog.C02
+      - id: CCC.AuditLog.CN02
         title: Enable And Validate All Audit Log Types
         objective: |
           Review audit log configuration and ensure that all audit log types
           are being generated and replicated to configured sinks
         assessment-requirements:
-          - id: CCC.AuditLog.C02.TR01
+          - id: CCC.AuditLog.CN02.TR01
             text: |
               When a manual action is performed to generate each audit log type,
               then the corresponding audit log type MUST be generated and recorded.
@@ -100,7 +100,7 @@ control-families:
               - reference-id: AU-3
                 strength: 0 # Not yet specified
               - reference-id: AU-12
-      - id: CCC.AuditLog.C03
+      - id: CCC.AuditLog.CN03
         title: Alert On Audit Log Changes And Access
         objective: |
           Ensure that specific alerts have been configured to detect changes in
@@ -108,7 +108,7 @@ control-families:
           Alerts MUST also be created to detect changes in retention/object lock policies
           for exported data log sources/buckets.
         assessment-requirements:
-          - id: CCC.AuditLog.C03.TR01
+          - id: CCC.AuditLog.CN03.TR01
             text: |
               When an attempt is made to disable a log source, then an alert MUST be generated.
             applicability:
@@ -116,7 +116,7 @@ control-families:
               - tlp-amber
             recommendation: |
               Ensure alerting is correctly configured
-          - id: CCC.AuditLog.C03.TR02
+          - id: CCC.AuditLog.CN03.TR02
             text: |
               When an attempt is made to alter the retention or object lock status
               of an external data log source or bucket, then an alert MUST be generated.
@@ -132,19 +132,19 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CM-1
+              - reference-id: DE.CNM-1
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-5
                 strength: 0 # Not yet specified
               - reference-id: AU-6
-      - id: CCC.AuditLog.C04
+      - id: CCC.AuditLog.CN04
         title: Ensure Access Logging Is Enabled on the Audit Log Bucket
         objective: |
           Ensure that access logging is enabled for the audit log storage bucket to
           capture all requests made to the bucket, providing an audit trail of data access.
         assessment-requirements:
-          - id: CCC.AuditLog.C04.TR01
+          - id: CCC.AuditLog.CN04.TR01
             text: |
               When audit log buckets are created then verify that server access
               logging MUST be enabled for the audit log bucket,
@@ -165,7 +165,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CM-1
+              - reference-id: DE.CNM-1
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-2
@@ -174,13 +174,13 @@ control-families:
   - title: Availability
     description: Controls designed to protected the availability of Audit Log data.
     controls:
-      - id: CCC.AuditLog.C05
+      - id: CCC.AuditLog.CN05
         title: Export Audit Logs To Bucket
         objective: |
           Configure audit logs to be sent to a external bucket where they can be globally replicated
           and can be subject to greater access control and data retention polices.
         assessment-requirements:
-          - id: CCC.AuditLog.C05.TR01
+          - id: CCC.AuditLog.CN05.TR01
             text: |
               When audit logs are exported, then audit logs MUST be present in the configured data location.
             applicability:
@@ -203,13 +203,13 @@ control-families:
               - reference-id: AU-11
                 strength: 0 # Not yet specified
               - reference-id: AU-4
-      - id: CCC.AuditLog.C06
+      - id: CCC.AuditLog.CN06
         title: Enforce Retention Policy on Audit Log Bucket
         objective: |
           Configure a custom retention policy on the designated audit log bucket to ensure that logs are
           retained for the correct number of days as defined by your organization's policy.
         assessment-requirements:
-          - id: CCC.AuditLog.C06.TR01
+          - id: CCC.AuditLog.CN06.TR01
             text: |
               When the retention policy is applied, then data MUST
               be automatically deleted after the configured number of days.
@@ -235,13 +235,13 @@ control-families:
               - reference-id: AU-9
                 strength: 0 # Not yet specified
               - reference-id: AU-11
-      - id: CCC.AuditLog.C07
+      - id: CCC.AuditLog.CN07
         title: Enforce MFA Delete on Audit Log Bucket
         objective: |
           Enable Multi-Factor Authentication (MFA) delete on the audit log bucket to
           provide greater protection against accidental or malicious deletion of audit data.
         assessment-requirements:
-          - id: CCC.AuditLog.C07.TR01
+          - id: CCC.AuditLog.CN07.TR01
             text: |
               When a standard file deletion is attempted on an object within
               the audit log bucket, then it MUST be prevented unless MFA is provided.
@@ -267,14 +267,14 @@ control-families:
               - reference-id: AU-9
                 strength: 0 # Not yet specified
               - reference-id: AU-11
-      - id: CCC.AuditLog.C08
+      - id: CCC.AuditLog.CN08
         title: Enable Object Lock On Audit Log Bucket
         objective: |
           Ensure that object log is enabled globally on all objects with the bucket.
           The lock time MUST be configured to meet your organization, legal and compliance goals.
           Deletion attempts before the lock period MUST be denied.
         assessment-requirements:
-          - id: CCC.AuditLog.C08.TR01
+          - id: CCC.AuditLog.CN08.TR01
             text: |
               When an attempt is made to delete data before the object
               lock period expires, then the deletion MUST be denied.
@@ -299,14 +299,14 @@ control-families:
   - title: Confidentiality
     description: 'Controls designed to protected the confidentiality of Audit Log data.'
     controls:
-      - id: CCC.AuditLog.C09
+      - id: CCC.AuditLog.CN09
         title: Restrict Field And Log Type Access
         objective: |
           Configure access to audit logs to follow the principle of least privilege in particular where technically
           possible limit the log fields users have access to to prevent accidental exposure to sensitive
           information such as PII.
         assessment-requirements:
-          - id: CCC.AuditLog.C09.TR01
+          - id: CCC.AuditLog.CN09.TR01
             text: |
               When restricted fields are accessed by unauthorized users, then those fields MUST remain masked.
             applicability:
@@ -335,13 +335,13 @@ control-families:
               - reference-id: PT-3
                 strength: 0 # Not yet specified
               - reference-id: PT-3
-      - id: CCC.AuditLog.C10
+      - id: CCC.AuditLog.CN10
         title: Ensure Audit Bucket is Not Publicly Accessible
         objective: |
           Ensure that audit log storage buckets are not publicly accessible to prevent
           unauthorized exposure of sensitive log data.
         assessment-requirements:
-          - id: CCC.AuditLog.C10.TR01
+          - id: CCC.AuditLog.CN10.TR01
             text: |
               When audit log storage bucket's are created then, bucket's access control settings MUST explicitly deny
               public read and write access.
@@ -352,7 +352,7 @@ control-families:
             recommendation: |
               Configure bucket policies and access control lists (ACLs) to restrict public access.
               Regularly review bucket permissions to ensure no public access has been inadvertently granted.
-          - id: CCC.AuditLog.C10.TR02
+          - id: CCC.AuditLog.CN10.TR02
             text: |
               When the URL of a audit log storage bucket's object is accessed publicly then,
               it should be denied by bucket policy.

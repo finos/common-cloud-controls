@@ -1,22 +1,22 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Prevent unencrypted requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
         remarks: Ensure data encryption at rest for all stored data
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement multi-factor authentication (MFA) for access
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
         remarks: Log all access and changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
         remarks: Prevent access from untrusted entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
         remarks: Prevent deployment in restricted regions
 
@@ -24,7 +24,7 @@ control-families:
   - title: Identity and Access Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.MLDE.C01
+      - id: CCC.MLDE.CN01
         title: Define Access Mode for ML Development Environments
         objective: |
           Ensure that access to Machine Learning Development Environment (MLDE)
@@ -32,7 +32,7 @@ control-families:
           Only authorized users with appropriate permissions can access these environments,
           mitigating the risk of unauthorized access, data leakage, or service disruption.
         assessment-requirements:
-          - id: CCC.MLDE.C01.TR01
+          - id: CCC.MLDE.CN01.TR01
             text: |
               Verify that only authorized users can access MLDE resources,
               and that access modes are properly defined and enforced.
@@ -67,19 +67,19 @@ control-families:
               - reference-id: IAM-01
                 strength: 0 # Not yet specified
               - reference-id: IAM-02
-      - id: CCC.MLDE.C03
+      - id: CCC.MLDE.CN03
         title: Disable Root Access on MLDE Instances
         objective: |
           Prevent users from obtaining root access on MLDE instances to reduce the
           risk of unauthorized system modifications and potential security breaches.
         assessment-requirements:
-          - id: CCC.MLDE.C03.TR01
+          - id: CCC.MLDE.CN03.TR01
             text: |
               Verify that root access is disabled on MLDE instances containing sensitive data.
             applicability:
               - tlp-red
             recommendation: ""
-          - id: CCC.MLDE.C03.TR02
+          - id: CCC.MLDE.CN03.TR02
             text: |
               For MLDE instances without sensitive data, ensure that root access is only
               enabled when necessary and properly authorized.
@@ -109,19 +109,19 @@ control-families:
           - reference-id: ISO_27001
             entries:
               - reference-id: 2013 A.9.2.3
-      - id: CCC.MLDE.C04
+      - id: CCC.MLDE.CN04
         title: Disable Terminal Access on MLDE Instances
         objective: |
           Prevent users from accessing the terminal on MLDE instances to limit the risk of
           unauthorized commands and potential system compromise.
         assessment-requirements:
-          - id: CCC.MLDE.C04.TR01
+          - id: CCC.MLDE.CN04.TR01
             text: |
               Verify that terminal access is disabled on MLDE instances containing sensitive data.
             applicability:
               - tlp-red
             recommendation: ""
-          - id: CCC.MLDE.C04.TR02
+          - id: CCC.MLDE.CN04.TR02
             text: |
               For MLDE instances without sensitive data, ensure that terminal access is only
               enabled when necessary and properly authorized.
@@ -152,18 +152,18 @@ control-families:
   - title: Data Protection
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.MLDE.C02
+      - id: CCC.MLDE.CN02
         title: Disable File Downloads on MLDE Instances
         objective: |
           Prevent unauthorized file downloads from MLDE instances to protect sensitive data from being exfiltrated.
         assessment-requirements:
-          - id: CCC.MLDE.C02.TR01
+          - id: CCC.MLDE.CN02.TR01
             text: |
               Confirm that file download functionality is disabled on MLDE instances containing sensitive data.
             applicability:
               - tlp-red
             recommendation: ""
-          - id: CCC.MLDE.C02.TR02
+          - id: CCC.MLDE.CN02.TR02
             text: |
               For MLDE instances without sensitive data, ensure that file downloads are monitored and logged.
             applicability:
@@ -198,20 +198,20 @@ control-families:
   - title: Configuration Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.MLDE.C05
+      - id: CCC.MLDE.CN05
         title: Restrict Environment Options on MLDE Instances
         objective: |
           Limit the virtual machine and container image options available when creating
           new MLDE instances to approved and secure configurations.
         assessment-requirements:
-          - id: CCC.MLDE.C05.TR01
+          - id: CCC.MLDE.CN05.TR01
             text: |
               Verify that only approved VM and container images can be selected when creating MLDE instances.
             applicability:
               - tlp-red
               - tlp-amber
             recommendation: ""
-          - id: CCC.MLDE.C05.TR02
+          - id: CCC.MLDE.CN05.TR02
             text: |
               Attempt to create an MLDE instance with an unapproved image and confirm that it is denied.
             applicability:
@@ -237,20 +237,20 @@ control-families:
   - title: Vulnerability Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.MLDE.C06
+      - id: CCC.MLDE.CN06
         title: Require Automatic Scheduled Upgrades on User-Managed MLDE Instances
         objective: |
           Ensure that MLDE instances are kept up-to-date with the
           latest security patches by enforcing automatic scheduled upgrades.
         assessment-requirements:
-          - id: CCC.MLDE.C06.TR01
+          - id: CCC.MLDE.CN06.TR01
             text: |
               Verify that automatic scheduled upgrades are enabled on user-managed
               MLDE instances containing sensitive data.
             applicability:
               - tlp-red
             recommendation: ""
-          - id: CCC.MLDE.C06.TR02
+          - id: CCC.MLDE.CN06.TR02
             text: |
               Ensure that the upgrade schedule is appropriately configured and
               does not interfere with critical operations.
@@ -284,18 +284,18 @@ control-families:
   - title: Network Security
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.MLDE.C07
+      - id: CCC.MLDE.CN07
         title: Restrict Public IP Access on MLDE Instances
         objective: |
           Prevent public IP access to MLDE instances to reduce exposure to the internet and enhance security.
         assessment-requirements:
-          - id: CCC.MLDE.C07.TR01
+          - id: CCC.MLDE.CN07.TR01
             text: |
               Verify that MLDE instances containing sensitive data cannot be accessed via public IP addresses.
             applicability:
               - tlp-red
             recommendation: ""
-          - id: CCC.MLDE.C07.TR02
+          - id: CCC.MLDE.CN07.TR02
             text: |
               For MLDE instances without sensitive data requiring public access,
               ensure that appropriate security controls are in place and access is approved.
@@ -324,20 +324,20 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-7
-      - id: CCC.MLDE.C08
+      - id: CCC.MLDE.CN08
         title: Restrict Virtual Networks for MLDE Instances
         objective: |
           Limit the virtual networks that can be used when creating new MLDE instances to
           ensure they are deployed within approved and secure network environments.
         assessment-requirements:
-          - id: CCC.MLDE.C08.TR01
+          - id: CCC.MLDE.CN08.TR01
             text: |
               Verify that MLDE instances containing sensitive data can only be deployed in
               approved virtual networks with appropriate security controls.
             applicability:
               - tlp-red
             recommendation: ""
-          - id: CCC.MLDE.C08.TR02
+          - id: CCC.MLDE.CN08.TR02
             text: |
               Ensure that MLDE instances without sensitive data are deployed in
               networks that meet organizational security standards.
