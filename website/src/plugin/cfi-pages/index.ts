@@ -15,17 +15,17 @@ function processOCSFResults(resultPath: string): TestResultItem[] {
 
     return parsed
         .filter(item => {
-            // Only include items that have CCC-Objects in compliance
-            return item.unmapped?.compliance?.['CCC-Objects'] &&
-                Array.isArray(item.unmapped.compliance['CCC-Objects']) &&
-                item.unmapped.compliance['CCC-Objects'].length > 0;
+            // Only include items that have CCC in compliance
+            return item.unmapped?.compliance?.['CCC'] &&
+                Array.isArray(item.unmapped.compliance['CCC']) &&
+                item.unmapped.compliance['CCC'].length > 0;
         })
         .map((item, index) => {
             const resource = item.resources?.[0] || {};
 
             const testResult: TestResultItem = {
                 id: `${item.finding_info?.uid || 'unknown'}-${index}`,
-                test_requirements: item.unmapped.compliance['CCC-Objects'],
+                test_requirements: item.unmapped.compliance['CCC'],
                 result: item.status_code === 'PASS' ? TestResultType.PASS :
                     item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
                 name: item.finding_info?.title || 'Unknown Finding',
@@ -40,7 +40,7 @@ function processOCSFResults(resultPath: string): TestResultItem[] {
                 resource_name: resource.name || resource.uid || 'Unknown Resource',
                 resource_type: resource.type || 'Unknown Type',
                 resource_uid: resource.uid,
-                ccc_objects: item.unmapped.compliance['CCC-Objects'],
+                ccc_objects: item.unmapped.compliance['CCC'],
                 finding_title: item.finding_info?.title || 'Unknown Finding',
                 finding_uid: item.finding_info?.uid || ''
             };

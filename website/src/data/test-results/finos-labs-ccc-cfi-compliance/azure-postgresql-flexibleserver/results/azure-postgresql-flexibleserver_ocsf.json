@@ -77,8 +77,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Application Insights within Azure act as an Application Performance Monitoring solution providing valuable data into how well an application performs and additional information when performing incident response. The types of log data collected include application metrics, telemetry data, and application trace logging data providing organizations with detailed information about application activity and application transactions. Both data sets help organizations adopt a proactive and retroactive means to handle security and performance related metrics within their modern applications.",
         "title": "Ensure Application Insights are Configured.",
         "types": [],
@@ -128,8 +128,8 @@
         ]
     },
     "risk_details": "Configuring Application Insights provides additional data not found elsewhere within Azure as part of a much larger logging and monitoring program within an organization's Information Security practice. The types and contents of these logs will act as both a potential cost saving measure (application performance) and a means to potentially confirm the source of a potential incident (trace logging). Metrics and Telemetry data provide organizations with a proactive approach to cost savings by monitoring an application's performance, while the trace logging data provides necessary details in a reactive incident response scenario by helping organizations identify the potential source of an incident within their application.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -203,8 +203,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Microsoft Defender for Cloud emails the subscription owners whenever a high-severity alert is triggered for their subscription. You should provide a security contact email address as an additional email address.",
         "title": "Ensure 'Additional email addresses' is Configured with a Security Contact Email",
         "types": [],
@@ -266,8 +266,8 @@
         ]
     },
     "risk_details": "Microsoft Defender for Cloud emails the Subscription Owner to notify them about security alerts. Adding your Security Contact's email address to the 'Additional email addresses' field ensures that your organization's Security Team is included in these alerts. This ensures that the proper people are aware of any potential compromise in order to mitigate the risk in a timely fashion.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -343,8 +343,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that Auto provisioning of 'Log Analytics agent for Azure VMs' is Set to 'On'. The Microsoft Monitoring Agent scans for various security-related configurations and events such as system updates, OS vulnerabilities, endpoint protection, and provides alerts.",
         "title": "Ensure that Auto provisioning of 'Log Analytics agent for Azure VMs' is Set to 'On'",
         "types": [],
@@ -399,8 +399,8 @@
         ]
     },
     "risk_details": "Missing critical security information about your Azure VMs, such as security alerts, security recommendations, and change tracking.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -472,8 +472,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Scan images being deployed to Azure (AKS) for vulnerabilities. Vulnerability scanning for images stored in Azure Container Registry is generally available in Azure Security Center. This capability is powered by Qualys, a leading provider of information security. When you push an image to Container Registry, Security Center automatically scans it, then checks for known vulnerabilities in packages or dependencies defined in the file. When the scan completes (after about 10 minutes), Security Center provides details and a security classification for each vulnerability detected, along with guidance on how to remediate issues and protect vulnerable attack surfaces.",
         "title": "Ensure Image Vulnerability Scanning using Azure Defender image scanning or a third party provider",
         "types": [],
@@ -528,8 +528,8 @@
         ]
     },
     "risk_details": "Vulnerabilities in software packages can be exploited by hackers or malicious users to obtain unauthorized access to local cloud resources. Azure Defender and other third party products allow images to be scanned for known vulnerabilities.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -606,8 +606,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for App Services Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for App Services Is Set To 'On' ",
         "types": [],
@@ -663,8 +663,8 @@
         ]
     },
     "risk_details": "Turning on Microsoft Defender for App Service enables threat detection for App Service, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -745,8 +745,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for Azure Resource Manager Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for Azure Resource Manager Is Set To 'On' ",
         "types": [],
@@ -799,8 +799,8 @@
         "references": []
     },
     "risk_details": "Scanning resource requests lets you be alerted every time there is suspicious activity in order to prevent a security threat from being introduced.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -875,8 +875,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for Azure SQL Databases Is Set To 'On'  ",
         "title": "Ensure That Microsoft Defender for Azure SQL Databases Is Set To 'On'  ",
         "types": [],
@@ -932,8 +932,8 @@
         ]
     },
     "risk_details": "Turning on Microsoft Defender for Azure SQL Databases enables threat detection for Azure SQL database servers, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -1011,8 +1011,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for Containers Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for Containers Is Set To 'On' ",
         "types": [],
@@ -1068,8 +1068,8 @@
         ]
     },
     "risk_details": "Ensure that Microsoft Defender for Cloud is enabled for all your Azure containers. Turning on the Defender for Cloud service enables threat detection for containers, providing threat intelligence, anomaly detection, and behavior analytics.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -1146,8 +1146,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for Cosmos DB Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for Cosmos DB Is Set To 'On' ",
         "types": [],
@@ -1202,8 +1202,8 @@
         ]
     },
     "risk_details": "In scanning Cosmos DB requests within a subscription, requests are compared to a heuristic list of potential security threats. These threats could be a result of a security breach within your services, thus scanning for them could prevent a potential security threat from being introduced.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -1274,8 +1274,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for Databases Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for Databases Is Set To 'On' ",
         "types": [],
@@ -1328,8 +1328,8 @@
         "references": []
     },
     "risk_details": "Enabling Microsoft Defender for Azure SQL Databases allows your organization more granular control of the infrastructure running your database software",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -1411,8 +1411,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for DNS Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for DNS Is Set To 'On' ",
         "types": [],
@@ -1465,8 +1465,8 @@
         "references": []
     },
     "risk_details": "DNS lookups within a subscription are scanned and compared to a dynamic list of websites that might be potential security threats. These threats could be a result of a security breach within your services, thus scanning for them could prevent a potential security threat from being introduced.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -1552,8 +1552,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for KeyVault Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for KeyVault Is Set To 'On' ",
         "types": [],
@@ -1609,8 +1609,8 @@
         ]
     },
     "risk_details": "By default, Microsoft Defender for Cloud is disabled for Azure key vaults. Defender for Cloud detects unusual and potentially harmful attempts to access or exploit your Azure Key Vault data. This layer of protection allows you to address threats without being a security expert, and without the need to use and manage third-party security monitoring tools or services.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -1687,8 +1687,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for Open-Source Relational Databases Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for Open-Source Relational Databases Is Set To 'On' ",
         "types": [],
@@ -1741,8 +1741,8 @@
         "references": []
     },
     "risk_details": "Turning on Microsoft Defender for Open-source relational databases enables threat detection for Open-source relational databases, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -1825,8 +1825,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for Servers Is Set to 'On'",
         "title": "Ensure That Microsoft Defender for Servers Is Set to 'On'",
         "types": [],
@@ -1882,8 +1882,8 @@
         ]
     },
     "risk_details": "Turning on Microsoft Defender for Servers enables threat detection for Servers, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -1960,8 +1960,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for SQL Servers on Machines Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for SQL Servers on Machines Is Set To 'On' ",
         "types": [],
@@ -2017,8 +2017,8 @@
         ]
     },
     "risk_details": "Turning on Microsoft Defender for SQL servers on machines enables threat detection for SQL servers on machines, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -2098,8 +2098,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure That Microsoft Defender for Storage Is Set To 'On' ",
         "title": "Ensure That Microsoft Defender for Storage Is Set To 'On' ",
         "types": [],
@@ -2155,8 +2155,8 @@
         ]
     },
     "risk_details": "Ensure that Microsoft Defender for Cloud is enabled for your Microsoft Azure storage accounts. Defender for storage accounts is an Azure-native layer of security intelligence that detects unusual and potentially harmful attempts to access or exploit your Azure cloud storage accounts.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -2231,8 +2231,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Microsoft Defender for IoT acts as a central security hub for IoT devices within your organization.",
         "title": "Ensure That Microsoft Defender for IoT Hub Is Set To 'On'",
         "types": [],
@@ -2281,8 +2281,8 @@
         ]
     },
     "risk_details": "IoT devices are very rarely patched and can be potential attack vectors for enterprise networks. Updating their network configuration to use a central security hub allows for detection of these breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -2355,8 +2355,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "This integration setting enables Microsoft Defender for Cloud Apps (formerly 'Microsoft Cloud App Security' or 'MCAS' - see additional info) to communicate with Microsoft Defender for Cloud.",
         "title": "Ensure that Microsoft Defender for Cloud Apps integration with Microsoft Defender for Cloud is Selected",
         "types": [],
@@ -2411,8 +2411,8 @@
         ]
     },
     "risk_details": "Microsoft Defender for Cloud offers an additional layer of protection by using Azure Resource Manager events, which is considered to be the control plane for Azure. By analyzing the Azure Resource Manager records, Microsoft Defender for Cloud detects unusual or potentially harmful operations in the Azure subscription environment. Several of the preceding analytics are powered by Microsoft Defender for Cloud Apps. To benefit from these analytics, subscription must have a Cloud App Security license. Microsoft Defender for Cloud Apps works only with Standard Tier subscriptions.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -2491,8 +2491,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Microsoft Defender for Cloud sends email notifications when alerts of a certain severity level or higher are triggered. By setting the minimum severity to 'High', 'Medium', or even 'Low', you ensure that alerts with equal or greater severity (e.g., High or Critical) are still delivered. Selecting a lower threshold like 'Low' results in more comprehensive alert coverage.",
         "title": "Ensure that email notifications are configured for alerts with a minimum severity of 'High' or lower",
         "types": [],
@@ -2554,8 +2554,8 @@
         ]
     },
     "risk_details": "If this setting is too restrictive (e.g., set to 'Critical' only), important security alerts with 'High' or 'Medium' severity might be missed. Ensuring that 'High' or a lower threshold is configured helps security teams stay informed about significant threats and respond in a timely manner.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -2629,8 +2629,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Enable security alert emails to subscription owners.",
         "title": "Ensure That 'All users with the following roles' is set to 'Owner'",
         "types": [],
@@ -2691,8 +2691,8 @@
         ]
     },
     "risk_details": "Enabling security alert emails to subscription owners ensures that they receive security alert emails from Microsoft. This ensures that they are aware of any potential security issues and can mitigate the risk in a timely fashion.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -2753,8 +2753,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "This integration setting enables Microsoft Defender for Endpoint (formerly 'Advanced Threat Protection' or 'ATP' or 'WDATP' - see additional info) to communicate with Microsoft Defender for Cloud.",
         "title": "Ensure that Microsoft Defender for Endpoint integration with Microsoft Defender for Cloud is selected",
         "types": [],
@@ -2809,8 +2809,8 @@
         ]
     },
     "risk_details": "Microsoft Defender for Endpoint integration brings comprehensive Endpoint Detection and Response (EDR) capabilities within Microsoft Defender for Cloud. This integration helps to spot abnormalities, as well as detect and respond to advanced attacks on endpoints monitored by Microsoft Defender for Cloud. MDE works only with Standard Tier subscriptions.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -2899,8 +2899,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the Create Policy Assignment event.",
         "title": "Ensure that Activity Log Alert exists for Create Policy Assignment",
         "types": [],
@@ -2951,8 +2951,8 @@
         ]
     },
     "risk_details": "Monitoring for create policy assignment events gives insight into changes done in 'Azure policy - assignments' and can reduce the time it takes to detect unsolicited changes.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -3051,8 +3051,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an Activity Log Alert for the Create or Update Network Security Group event.",
         "title": "Ensure that Activity Log Alert exists for Create or Update Network Security Group",
         "types": [],
@@ -3103,8 +3103,8 @@
         ]
     },
     "risk_details": "Monitoring for Create or Update Network Security Group events gives insight into network access changes and may reduce the time it takes to detect suspicious activity.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -3193,8 +3193,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the Create or Update Public IP Addresses rule.",
         "title": "Ensure that Activity Log Alert exists for Create or Update Public IP Address rule",
         "types": [],
@@ -3245,8 +3245,8 @@
         ]
     },
     "risk_details": "Monitoring for Create or Update Public IP Address events gives insight into network access changes and may reduce the time it takes to detect suspicious activity.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -3336,8 +3336,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the Create or Update Security Solution event.",
         "title": "Ensure that Activity Log Alert exists for Create or Update Security Solution",
         "types": [],
@@ -3388,8 +3388,8 @@
         ]
     },
     "risk_details": "Monitoring for Create or Update Security Solution events gives insight into changes to the active security solutions and may reduce the time it takes to detect suspicious activity.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -3512,8 +3512,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the Create or Update SQL Server Firewall Rule event.",
         "title": "Ensure that Activity Log Alert exists for Create or Update SQL Server Firewall Rule",
         "types": [],
@@ -3564,8 +3564,8 @@
         ]
     },
     "risk_details": "Monitoring for Create or Update SQL Server Firewall Rule events gives insight into network access changes and may reduce the time it takes to detect suspicious activity.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -3652,8 +3652,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the Delete Network Security Group event.",
         "title": "Ensure that Activity Log Alert exists for Delete Network Security Group",
         "types": [],
@@ -3704,8 +3704,8 @@
         ]
     },
     "risk_details": "Monitoring for 'Delete Network Security Group' events gives insight into network access changes and may reduce the time it takes to detect suspicious activity.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -3792,8 +3792,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the Delete Policy Assignment event.",
         "title": "Ensure that Activity Log Alert exists for Delete Policy Assignment",
         "types": [],
@@ -3844,8 +3844,8 @@
         ]
     },
     "risk_details": "Monitoring for delete policy assignment events gives insight into changes done in 'azure policy - assignments' and can reduce the time it takes to detect unsolicited changes.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -3932,8 +3932,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the Delete Public IP Address rule.",
         "title": "Ensure that Activity Log Alert exists for Delete Public IP Address rule",
         "types": [],
@@ -3984,8 +3984,8 @@
         ]
     },
     "risk_details": "Monitoring for Delete Public IP Address events gives insight into network access changes and may reduce the time it takes to detect suspicious activity.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -4072,8 +4072,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the Delete Security Solution event.",
         "title": "Ensure that Activity Log Alert exists for Delete Security Solution",
         "types": [],
@@ -4124,8 +4124,8 @@
         ]
     },
     "risk_details": "Monitoring for Delete Security Solution events gives insight into changes to the active security solutions and may reduce the time it takes to detect suspicious activity.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -4210,8 +4210,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Create an activity log alert for the 'Delete SQL Server Firewall Rule.'",
         "title": "Ensure that Activity Log Alert exists for Delete SQL Server Firewall Rule",
         "types": [],
@@ -4262,8 +4262,8 @@
         ]
     },
     "risk_details": "Monitoring for Delete SQL Server Firewall Rule events gives insight into SQL network access changes and may reduce the time it takes to detect suspicious activity.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -4380,8 +4380,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Prerequisite: A Diagnostic Setting must exist. If a Diagnostic Setting does not exist, the navigation and options within this recommendation will not be available. Please review the recommendation at the beginning of this subsection titled: 'Ensure that a 'Diagnostic Setting' exists.' The diagnostic setting should be configured to log the appropriate activities from the control/management plane.",
         "title": "Ensure Diagnostic Setting captures appropriate categories",
         "types": [],
@@ -4432,8 +4432,8 @@
         ]
     },
     "risk_details": "A diagnostic setting controls how the diagnostic log is exported. Capturing the diagnostic setting categories for appropriate control/management plane activities allows proper alerting.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -4526,8 +4526,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Enable Diagnostic settings for exporting activity logs. Diagnostic settings are available for each individual resource within a subscription. Settings should be configured for all appropriate resources for your environment.",
         "title": "Ensure that a 'Diagnostic Setting' exists for Subscription Activity Logs ",
         "types": [],
@@ -4578,8 +4578,8 @@
         ]
     },
     "risk_details": "A diagnostic setting controls how a diagnostic log is exported. By default, logs are retained only for 90 days. Diagnostic settings should be defined so that logs can be exported and stored for a longer duration in order to analyze security activities within an Azure subscription.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -4644,8 +4644,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "The Azure Bastion service allows secure remote access to Azure Virtual Machines over the Internet without exposing remote access protocol ports and services directly to the Internet. The Azure Bastion service provides this access using TLS over 443/TCP, and subscribes to hardened configurations within an organization's Azure Active Directory service.",
         "title": "Ensure an Azure Bastion Host Exists",
         "types": [],
@@ -4696,8 +4696,8 @@
         ]
     },
     "risk_details": "The Azure Bastion service allows organizations a more secure means of accessing Azure Virtual Machines over the Internet without assigning public IP addresses to those Virtual Machines. The Azure Bastion service provides Remote Desktop Protocol (RDP) and Secure Shell (SSH) access to Virtual Machines using TLS within a web browser, thus preventing organizations from opening up 3389/TCP and 22/TCP to the Internet on Azure Virtual Machines. Additional benefits of the Bastion service includes Multi-Factor Authentication, Conditional Access Policies, and any other hardening measures configured within Azure Active Directory using a central point of access.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -4785,8 +4785,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -4840,8 +4840,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -4929,8 +4929,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -4984,8 +4984,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -5073,8 +5073,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -5128,8 +5128,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -5217,8 +5217,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -5272,8 +5272,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -5361,8 +5361,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -5416,8 +5416,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -5505,8 +5505,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -5560,8 +5560,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -5649,8 +5649,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -5704,8 +5704,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -5793,8 +5793,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -5848,8 +5848,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -5937,8 +5937,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
         "types": [],
@@ -5992,8 +5992,8 @@
         ]
     },
     "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -6098,8 +6098,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -6156,8 +6156,8 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -6262,8 +6262,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -6320,8 +6320,8 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -6426,8 +6426,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -6484,8 +6484,8 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -6590,8 +6590,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -6648,8 +6648,8 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -6754,8 +6754,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -6812,8 +6812,8 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -6918,8 +6918,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -6976,8 +6976,8 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -7082,8 +7082,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -7140,8 +7140,8 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -7246,8 +7246,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -7304,8 +7304,8 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -7410,8 +7410,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
         "title": "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'",
         "types": [],
@@ -7468,12 +7468,12 @@
         ]
     },
     "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
-    "message": "Network Watcher is not enabled for the following locations in subscription 'Azure subscription 1': canadacentral, australiasoutheast, brazilsoutheast, centralindia, southafricawest, chilecentral, eastus2, italynorth, francesouth, norwaywest, germanynorth, southeastasia, francecentral, israelcentral, northcentralus, norwayeast, japanwest, japaneast, ukwest, germanywestcentral, southafricanorth, koreacentral, westus, qatarcentral, westindia, jioindiacentral, uaecentral, spaincentral, switzerlandwest, westcentralus, australiacentral, westus3, uksouth, jioindiawest, mexicocentral, polandcentral, koreasouth, southindia, northeurope, canadaeast, westus2, australiacentral2, austriaeast, centralus, eastasia, westeurope, eastus.",
+    "message": "Network Watcher is not enabled for the following locations in subscription 'Azure subscription 1': australiacentral, westcentralus, westus3, francecentral, japaneast, polandcentral, ukwest, westindia, westus2, jioindiawest, chilecentral, jioindiacentral, qatarcentral, northcentralus, canadacentral, austriaeast, canadaeast, germanywestcentral, southeastasia, uaecentral, koreasouth, mexicocentral, southindia, eastus2, westeurope, eastasia, germanynorth, australiasoutheast, norwaywest, uksouth, italynorth, koreacentral, japanwest, eastus, centralindia, switzerlandwest, centralus, francesouth, norwayeast, israelcentral, brazilsoutheast, australiacentral2, spaincentral, westus, southafricawest, southafricanorth, northeurope.",
     "metadata": {
         "event_code": "network_watcher_enabled",
         "product": {
@@ -7493,7 +7493,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Network Watcher is not enabled for the following locations in subscription 'Azure subscription 1': canadacentral, australiasoutheast, brazilsoutheast, centralindia, southafricawest, chilecentral, eastus2, italynorth, francesouth, norwaywest, germanynorth, southeastasia, francecentral, israelcentral, northcentralus, norwayeast, japanwest, japaneast, ukwest, germanywestcentral, southafricanorth, koreacentral, westus, qatarcentral, westindia, jioindiacentral, uaecentral, spaincentral, switzerlandwest, westcentralus, australiacentral, westus3, uksouth, jioindiawest, mexicocentral, polandcentral, koreasouth, southindia, northeurope, canadaeast, westus2, australiacentral2, austriaeast, centralus, eastasia, westeurope, eastus.",
+    "status_detail": "Network Watcher is not enabled for the following locations in subscription 'Azure subscription 1': australiacentral, westcentralus, westus3, francecentral, japaneast, polandcentral, ukwest, westindia, westus2, jioindiawest, chilecentral, jioindiacentral, qatarcentral, northcentralus, canadacentral, austriaeast, canadaeast, germanywestcentral, southeastasia, uaecentral, koreasouth, mexicocentral, southindia, eastus2, westeurope, eastasia, germanynorth, australiasoutheast, norwaywest, uksouth, italynorth, koreacentral, japanwest, eastus, centralindia, switzerlandwest, centralus, francesouth, norwayeast, israelcentral, brazilsoutheast, australiacentral2, spaincentral, westus, southafricawest, southafricanorth, northeurope.",
     "status_id": 1,
     "unmapped": {
         "related_url": "https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-monitoring-overview",
@@ -7552,8 +7552,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "Enable Network Watcher for Azure subscriptions.",
         "title": "Ensure that Network Watcher is 'Enabled' for all locations in the Azure subscription",
         "types": [],
@@ -7603,8 +7603,8 @@
         ]
     },
     "risk_details": "Network diagnostic and visualization tools available with Network Watcher help users understand, diagnose, and gain insights to the network in Azure.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
@@ -7668,8 +7668,8 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
         "desc": "None of the settings offered by ASC Default policy should be set to effect Disabled.",
         "title": "Ensure Any of the ASC Default Policy Settings are Not Set to 'Disabled'",
         "types": [],
@@ -7722,14 +7722,14 @@
         ]
     },
     "risk_details": "A security policy defines the desired configuration of your workloads and helps ensure compliance with company or regulatory security requirements. ASC Default policy is associated with every subscription by default. ASC default policy assignment is a set of security recommendations based on best practices. Enabling recommendations in ASC default policy ensures that Azure security center provides the ability to monitor all of the supported recommendations and optionally allow automated action for a few of the supported recommendations.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has allow blob public access disabled.",
+    "message": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has allow public access from any Azure service disabled",
     "metadata": {
-        "event_code": "storage_blob_public_access_level_is_disabled",
+        "event_code": "postgresql_flexible_server_allow_access_services_disabled",
         "product": {
             "name": "Prowler",
             "uid": "prowler",
@@ -7747,482 +7747,82 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has allow blob public access disabled.",
+    "status_detail": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has allow public access from any Azure service disabled",
     "status_id": 1,
     "unmapped": {
-        "related_url": "",
+        "related_url": "https://docs.microsoft.com/en-us/azure/postgresql/concepts-firewall-rules",
         "categories": [],
         "depends_on": [],
         "related_to": [],
         "notes": "",
         "compliance": {
-            "SOC2": [
-                "cc_6_1"
-            ],
-            "PCI-4.0": [
-                "1.2.8.30",
-                "1.2.8.31",
-                "1.2.8.32",
-                "1.2.8.33",
-                "1.2.8.34",
-                "1.2.8.35",
-                "1.3.1.34",
-                "1.3.1.35",
-                "1.3.1.36",
-                "1.3.1.37",
-                "1.3.1.38",
-                "1.3.1.39",
-                "1.3.2.34",
-                "1.3.2.35",
-                "1.3.2.36",
-                "1.3.2.37",
-                "1.3.2.38",
-                "1.3.2.39",
-                "1.4.2.32",
-                "1.4.2.33",
-                "1.4.2.34",
-                "1.4.2.35",
-                "1.4.2.36",
-                "1.4.2.37",
-                "1.5.1.30",
-                "1.5.1.31",
-                "1.5.1.32",
-                "1.5.1.33",
-                "1.5.1.34",
-                "1.5.1.35",
-                "10.3.2.18",
-                "10.3.2.19",
-                "10.3.2.20",
-                "10.3.2.21",
-                "10.3.2.23",
-                "10.3.2.24",
-                "10.3.3.23",
-                "10.3.4.8",
-                "10.6.3.33",
-                "3.5.1.3.23",
-                "3.5.1.3.24",
-                "3.5.1.3.25",
-                "3.5.1.3.26",
-                "3.5.1.3.28",
-                "3.5.1.3.29",
-                "7.2.1.25",
-                "7.2.2.25",
-                "7.2.5.19",
-                "7.2.6.4",
-                "7.3.1.19",
-                "7.3.2.19",
-                "7.3.3.19",
-                "8.2.7.19",
-                "8.2.8.21",
-                "8.3.4.19",
-                "A1.1.2.14",
-                "A1.1.2.15",
-                "A1.1.2.16",
-                "A1.1.2.17",
-                "A1.1.2.19",
-                "A1.1.2.20",
-                "A1.1.3.30",
-                "A1.1.3.31",
-                "A1.1.3.32",
-                "A1.1.3.33",
-                "A1.1.3.34",
-                "A1.1.3.35",
-                "A1.2.1.31",
-                "A3.4.1.16",
-                "A3.4.1.17",
-                "A3.4.1.18",
-                "A3.4.1.19",
-                "A3.4.1.21",
-                "A3.4.1.22"
-            ],
             "CIS-2.0": [
-                "3.7"
+                "4.3.7"
             ],
             "CCC": [
-                "CCC.AuditLog.C04.TR01",
-                "CCC.AuditLog.C10.TR01",
-                "CCC.AuditLog.C10.TR02",
-                "CCC.Logging.C05.TR01",
-                "CCC.Logging.C05.TR02",
-                "CCC.ObjStor.C02.TR01",
-                "CCC.ObjStor.C02.TR02"
+                "CCC.DataWar.C03.TR01"
             ],
             "CIS-2.1": [
-                "3.7"
-            ],
-            "MITRE-ATTACK": [
-                "T1530"
+                "4.3.7"
             ],
             "ProwlerThreatScore-1.0": [
-                "2.2.6"
-            ],
-            "NIS2": [
-                "12.2.2.a"
-            ],
-            "ISO27001-2022": [
-                "A.8.1"
-            ],
-            "ENS-RD2022": [
-                "op.mon.3.r5.az.1"
-            ],
-            "CIS-3.0": [
-                "4.6"
-            ]
-        }
-    },
-    "activity_name": "Create",
-    "activity_id": 1,
-    "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Ensure that the 'Public access level' configuration setting is set to 'Private (no anonymous access)' for all blob containers in your storage account in order to block anonymous access to these Microsoft Azure resources.",
-        "title": "Ensure that the 'Public access level' is set to 'Private (no anonymous access)' for all blob containers in your storage account",
-        "types": [],
-        "uid": "prowler-azure-storage_blob_public_access_level_is_disabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
-    },
-    "resources": [
-        {
-            "cloud_partition": "AzureCloud",
-            "region": "eastus",
-            "data": {
-                "details": "",
-                "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
-                        }
-                    }
-                }
-            },
-            "group": {
-                "name": "storage"
-            },
-            "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
-        }
-    ],
-    "category_name": "Findings",
-    "category_uid": 2,
-    "class_name": "Detection Finding",
-    "class_uid": 2004,
-    "cloud": {
-        "account": {
-            "name": "Azure subscription 1",
-            "type": "Azure AD Account",
-            "type_id": 6,
-            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
-            "labels": []
-        },
-        "org": {
-            "name": "Unknown tenant domain (missing AAD permissions)",
-            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
-        },
-        "provider": "azure",
-        "region": "eastus"
-    },
-    "remediation": {
-        "desc": "Set 'Public access level' configuration setting to 'Private (no anonymous access)'",
-        "references": [
-            "https://docs.prowler.com/checks/azure/azure-networking-policies/ensure-that-storage-accounts-disallow-public-access#terraform",
-            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/disable-blob-anonymous-access-for-storage-accounts.html"
-        ]
-    },
-    "risk_details": "A user that accesses blob containers anonymously can use constructors that do not require credentials such as shared access signatures.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
-    "type_uid": 200401,
-    "type_name": "Detection Finding: Create"
-},{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has network access rule set to Allow.",
-    "metadata": {
-        "event_code": "storage_default_network_access_rule_is_denied",
-        "product": {
-            "name": "Prowler",
-            "uid": "prowler",
-            "vendor_name": "Prowler",
-            "version": "5.8.0"
-        },
-        "profiles": [
-            "cloud",
-            "datetime"
-        ],
-        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
-        "version": "1.4.0"
-    },
-    "severity_id": 3,
-    "severity": "Medium",
-    "status": "New",
-    "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has network access rule set to Allow.",
-    "status_id": 1,
-    "unmapped": {
-        "related_url": "",
-        "categories": [],
-        "depends_on": [],
-        "related_to": [],
-        "notes": "All allowed networks will need to be whitelisted on each specific network, creating administrative overhead. This may result in loss of network connectivity, so do not turn on for critical resources during business hours.",
-        "compliance": {
-            "CIS-2.0": [
-                "3.8"
-            ],
-            "CCC": [
-                "CCC.AuditLog.C10.TR02",
-                "CCC.ObjStor.C02.TR01"
-            ],
-            "CIS-2.1": [
-                "3.8"
-            ],
-            "ProwlerThreatScore-1.0": [
-                "2.2.7"
-            ],
-            "NIS2": [
-                "1.2.1",
-                "2.3.1",
-                "6.7.2.b",
-                "11.1.1",
-                "11.2.1",
-                "12.2.2.a"
-            ],
-            "ENS-RD2022": [
-                "op.exp.8.r4.az.sa.2"
-            ],
-            "CIS-3.0": [
-                "4.7"
-            ]
-        }
-    },
-    "activity_name": "Create",
-    "activity_id": 1,
-    "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Restricting default network access helps to provide a new layer of security, since storage accounts accept connections from clients on any network. To limit access toselected networks, the default action must be changed.",
-        "title": "Ensure Default Network Access Rule for Storage Accounts is Set to Deny",
-        "types": [],
-        "uid": "prowler-azure-storage_default_network_access_rule_is_denied-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
-    },
-    "resources": [
-        {
-            "cloud_partition": "AzureCloud",
-            "region": "eastus",
-            "data": {
-                "details": "",
-                "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
-                        }
-                    }
-                }
-            },
-            "group": {
-                "name": "storage"
-            },
-            "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
-        }
-    ],
-    "category_name": "Findings",
-    "category_uid": 2,
-    "class_name": "Detection Finding",
-    "class_uid": 2004,
-    "cloud": {
-        "account": {
-            "name": "Azure subscription 1",
-            "type": "Azure AD Account",
-            "type_id": 6,
-            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
-            "labels": []
-        },
-        "org": {
-            "name": "Unknown tenant domain (missing AAD permissions)",
-            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
-        },
-        "provider": "azure",
-        "region": "eastus"
-    },
-    "remediation": {
-        "desc": "1. Go to Storage Accounts 2. For each storage account, Click on the Networking blade 3. Click the Firewalls and virtual networks heading. 4. Ensure that you have elected to allow access from Selected networks 5. Add rules to allow traffic from specific network. 6. Click Save to apply your changes.",
-        "references": [
-            "https://docs.prowler.com/checks/azure/azure-networking-policies/set-default-network-access-rule-for-storage-accounts-to-deny#terraform",
-            "az storage account update --name <StorageAccountName> --resource-group <resourceGroupName> --default-action Deny",
-            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/restrict-default-network-access.html"
-        ]
-    },
-    "risk_details": "Storage accounts should be configured to deny access to traffic from all networks (including internet traffic). Access can be granted to traffic from specific Azure Virtualnetworks, allowing a secure network boundary for specific applications to be built.Access can also be granted to public internet IP address ranges to enable connectionsfrom specific internet or on-premises clients. When network rules are configured, onlyapplications from allowed networks can access a storage account. When calling from anallowed network, applications continue to require proper authorization (a valid accesskey or SAS token) to access the storage account.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
-    "type_uid": 200401,
-    "type_name": "Detection Finding: Create"
-},{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 allows trusted Microsoft services to access this storage account.",
-    "metadata": {
-        "event_code": "storage_ensure_azure_services_are_trusted_to_access_is_enabled",
-        "product": {
-            "name": "Prowler",
-            "uid": "prowler",
-            "vendor_name": "Prowler",
-            "version": "5.8.0"
-        },
-        "profiles": [
-            "cloud",
-            "datetime"
-        ],
-        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
-        "version": "1.4.0"
-    },
-    "severity_id": 3,
-    "severity": "Medium",
-    "status": "New",
-    "status_code": "PASS",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 allows trusted Microsoft services to access this storage account.",
-    "status_id": 1,
-    "unmapped": {
-        "related_url": "",
-        "categories": [],
-        "depends_on": [],
-        "related_to": [],
-        "notes": "",
-        "compliance": {
-            "PCI-4.0": [
-                "10.6.3.35",
-                "11.5.2.5",
-                "11.6.1.5",
-                "12.10.5.5",
-                "7.2.1.27",
-                "7.2.2.27",
-                "7.2.5.21",
-                "7.2.6.5",
-                "7.3.1.21",
-                "7.3.2.21",
-                "7.3.3.21",
-                "8.2.7.21",
-                "8.2.8.23",
-                "8.3.4.21",
-                "A3.3.1.8",
-                "A3.5.1.8"
-            ],
-            "CIS-2.0": [
-                "3.9"
-            ],
-            "CIS-2.1": [
-                "3.9"
-            ],
-            "MITRE-ATTACK": [
-                "T1530"
-            ],
-            "ProwlerThreatScore-1.0": [
-                "2.2.8"
-            ],
-            "NIS2": [
-                "12.2.2.a"
+                "2.2.2"
             ],
             "ISO27001-2022": [
                 "A.8.3"
             ],
             "ENS-RD2022": [
-                "mp.info.6.r2.az.sa.1"
+                "op.exp.8.r4.az.sa.3"
             ],
             "CIS-3.0": [
-                "4.8"
+                "5.2.5"
             ]
         }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Ensure that 'Allow trusted Microsoft services to access this storage account' is enabled within your Azure Storage account configuration settings to grant access to trusted cloud services.",
-        "title": "Ensure that 'Allow trusted Microsoft services to access this storage account' is enabled for storage accounts",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
+        "desc": "Disable access from Azure services to PostgreSQL Database Server.",
+        "title": "Ensure 'Allow access to Azure services' for PostgreSQL Database Server is disabled",
         "types": [],
-        "uid": "prowler-azure-storage_ensure_azure_services_are_trusted_to_access_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
+        "uid": "prowler-azure-postgresql_flexible_server_allow_access_services_disabled-3bb71587-4549-4396-8898-9e15f062e665-Australia East-psql-psy3"
     },
     "resources": [
         {
             "cloud_partition": "AzureCloud",
-            "region": "eastus",
+            "region": "Australia East",
             "data": {
                 "details": "",
                 "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
+                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3",
+                    "name": "psql-psy3",
+                    "resource_group": "rg-psy3",
+                    "require_secure_transport": "ON",
+                    "log_checkpoints": "ON",
+                    "log_connections": "ON",
+                    "log_disconnections": "ON",
+                    "connection_throttling": "OFF",
+                    "log_retention_days": null,
+                    "firewall": [
+                        {
+                            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3/firewallRules/rule1",
+                            "name": "rule1",
+                            "start_ip": "0.0.0.0",
+                            "end_ip": "255.255.255.255"
                         }
-                    }
+                    ],
+                    "location": "Australia East"
                 }
             },
             "group": {
-                "name": "storage"
+                "name": "postgresql"
             },
             "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
+            "name": "psql-psy3",
+            "type": "PostgreSQL",
+            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3"
         }
     ],
     "category_name": "Findings",
@@ -8242,25 +7842,26 @@
             "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
         },
         "provider": "azure",
-        "region": "eastus"
+        "region": "Australia East"
     },
     "remediation": {
-        "desc": "To allow these Azure services to work as intended and be able to access your storage account resources, you have to add an exception so that the trusted Microsoft Azure services can bypass your network rules",
+        "desc": "From Azure Portal 1. Login to Azure Portal using https://portal.azure.com. 2. Go to Azure Database for PostgreSQL servers. 3. For each database, click on Connection security. 4. Under Firewall rules, set Allow access to Azure services to No. 5. Click Save. From Azure CLI Use the below command to delete the AllowAllWindowsAzureIps rule for PostgreSQL Database. az postgres server firewall-rule delete --name AllowAllWindowsAzureIps -- resource-group <resourceGroupName> --server-name <serverName>",
         "references": [
-            "https://docs.prowler.com/checks/azure/azure-networking-policies/enable-trusted-microsoft-services-for-storage-account-access#terraform",
-            "az storage account update --name <StorageAccountName> --resource-group <resourceGroupName> --bypass AzureServices",
-            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/enable-trusted-microsoft-services.html"
+            "https://docs.prowler.com/checks/azure/azure-general-policies/ensure-allow-access-to-azure-services-for-postgresql-database-server-is-disabled#terraform",
+            "az postgres server firewall-rule delete --name AllowAllWindowsAzureIps --resource-group <resourceGroupName> --server-name <serverName>",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/PostgreSQL/disable-all-services-access.html#",
+            "https://learn.microsoft.com/en-us/azure/postgresql/single-server/quickstart-create-server-database-azure-cli#configure-a-server-based-firewall-rule"
         ]
     },
-    "risk_details": "Not allowing to access storage account by Azure services the following services: Azure Backup, Azure Event Grid, Azure Site Recovery, Azure DevTest Labs, Azure Event Hubs, Azure Networking, Azure Monitor and Azure SQL Data Warehouse (when registered in the subscription), are not granted access to your storage account",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "risk_details": "If access from Azure services is enabled, the server's firewall will accept connections from all Azure resources, including resources not in your subscription. This is usually not a desired configuration. Instead, set up firewall rules to allow access from specific network ranges or VNET rules to allow access from specific virtual networks.",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 does not encrypt with CMKs.",
+    "message": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has connection_throttling disabled",
     "metadata": {
-        "event_code": "storage_ensure_encryption_with_customer_managed_keys",
+        "event_code": "postgresql_flexible_server_connection_throttling_on",
         "product": {
             "name": "Prowler",
             "uid": "prowler",
@@ -8274,117 +7875,77 @@
         "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
         "version": "1.4.0"
     },
-    "severity_id": 4,
-    "severity": "High",
+    "severity_id": 3,
+    "severity": "Medium",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 does not encrypt with CMKs.",
+    "status_detail": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has connection_throttling disabled",
     "status_id": 1,
     "unmapped": {
-        "related_url": "",
-        "categories": [
-            "encryption"
-        ],
+        "related_url": " https://docs.microsoft.com/en-us/rest/api/postgresql/configurations/listbyserver",
+        "categories": [],
         "depends_on": [],
         "related_to": [],
         "notes": "",
         "compliance": {
-            "SOC2": [
-                "cc_6_7",
-                "cc_7_5"
-            ],
-            "PCI-4.0": [
-                "3.5.1.34",
-                "8.3.2.53"
-            ],
             "CIS-2.0": [
-                "3.12"
-            ],
-            "CCC": [
-                "CCC.ObjStor.C01.TR01",
-                "CCC.ObjStor.C01.TR02",
-                "CCC.ObjStor.C01.TR03",
-                "CCC.ObjStor.C01.TR04"
+                "4.3.5"
             ],
             "CIS-2.1": [
-                "3.12"
-            ],
-            "MITRE-ATTACK": [
-                "T1530"
+                "4.3.5"
             ],
             "ProwlerThreatScore-1.0": [
-                "4.2.1"
-            ],
-            "NIS2": [
-                "9.2.a",
-                "9.2.c.iv",
-                "12.2.2.a",
-                "12.2.2.b"
-            ],
-            "ISO27001-2022": [
-                "A.8.5",
-                "A.8.11",
-                "A.8.24"
-            ],
-            "ENS-RD2022": [
-                "op.exp.10.az.kv.2"
+                "3.1.2"
             ],
             "CIS-3.0": [
-                "4.11"
+                "5.2.3"
             ]
         }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Ensure that your Microsoft Azure Storage accounts are using Customer Managed Keys (CMKs) instead of Microsoft Managed Keys",
-        "title": "Ensure that your Microsoft Azure Storage accounts are using Customer Managed Keys (CMKs) instead of Microsoft Managed Keys",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
+        "desc": "Enable connection_throttling on PostgreSQL Servers.",
+        "title": "Ensure server parameter 'connection_throttling' is set to 'ON' for PostgreSQL Database Server",
         "types": [],
-        "uid": "prowler-azure-storage_ensure_encryption_with_customer_managed_keys-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
+        "uid": "prowler-azure-postgresql_flexible_server_connection_throttling_on-3bb71587-4549-4396-8898-9e15f062e665-Australia East-psql-psy3"
     },
     "resources": [
         {
             "cloud_partition": "AzureCloud",
-            "region": "eastus",
+            "region": "Australia East",
             "data": {
                 "details": "",
                 "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
+                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3",
+                    "name": "psql-psy3",
+                    "resource_group": "rg-psy3",
+                    "require_secure_transport": "ON",
+                    "log_checkpoints": "ON",
+                    "log_connections": "ON",
+                    "log_disconnections": "ON",
+                    "connection_throttling": "OFF",
+                    "log_retention_days": null,
+                    "firewall": [
+                        {
+                            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3/firewallRules/rule1",
+                            "name": "rule1",
+                            "start_ip": "0.0.0.0",
+                            "end_ip": "255.255.255.255"
                         }
-                    }
+                    ],
+                    "location": "Australia East"
                 }
             },
             "group": {
-                "name": "storage"
+                "name": "postgresql"
             },
             "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
+            "name": "psql-psy3",
+            "type": "PostgreSQL",
+            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3"
         }
     ],
     "category_name": "Findings",
@@ -8404,24 +7965,26 @@
             "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
         },
         "provider": "azure",
-        "region": "eastus"
+        "region": "Australia East"
     },
     "remediation": {
-        "desc": "Enable sensitive data encryption at rest using Customer Managed Keys rather than Microsoft Managed keys.",
+        "desc": "From Azure Portal 1. Login to Azure Portal using https://portal.azure.com. 2. Go to Azure Database for PostgreSQL servers. 3. For each database, click on Server parameters. 4. Search for connection_throttling. 5. Click ON and save. From Azure CLI Use the below command to update connection_throttling configuration. az postgres server configuration set --resource-group <resourceGroupName> -- server-name <serverName> --name connection_throttling --value on From PowerShell Use the below command to update connection_throttling configuration. Update-AzPostgreSqlConfiguration -ResourceGroupName <ResourceGroupName> - ServerName <ServerName> -Name connection_throttling -Value on",
         "references": [
-            "https://docs.prowler.com/checks/azure/azure-general-policies/ensure-that-storage-accounts-use-customer-managed-key-for-encryption#terraform",
-            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/cmk-encryption.html"
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/bc_azr_networking_13#terraform",
+            "az postgres server configuration set --resource-group <resourceGroupName> --server-name <serverName> --name connection_throttling --value on",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/PostgreSQL/connection-throttling.html",
+            "https://learn.microsoft.com/en-us/azure/postgresql/single-server/how-to-configure-server-parameters-using-portal"
         ]
     },
-    "risk_details": "If you want to control and manage storage account contents encryption key yourself you must specify a customer-managed key",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "risk_details": "Enabling connection_throttling helps the PostgreSQL Database to Set the verbosity of logged messages. This in turn generates query and error logs with respect to concurrent connections that could lead to a successful Denial of Service (DoS) attack by exhausting connection resources. A system can also fail or be degraded by an overload of legitimate users. Query and error logs can be used to identify, troubleshoot, and repair configuration errors and sub-optimal performance.",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 },{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has TLS version set to 1.2.",
+    "message": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has enforce ssl enabled",
     "metadata": {
-        "event_code": "storage_ensure_minimum_tls_version_12",
+        "event_code": "postgresql_flexible_server_enforce_ssl_enabled",
         "product": {
             "name": "Prowler",
             "uid": "prowler",
@@ -8439,861 +8002,83 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has TLS version set to 1.2.",
+    "status_detail": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has enforce ssl enabled",
     "status_id": 1,
     "unmapped": {
-        "related_url": "",
-        "categories": [
-            "encryption"
-        ],
+        "related_url": "https://learn.microsoft.com/en-us/azure/postgresql/single-server/concepts-ssl-connection-security",
+        "categories": [],
         "depends_on": [],
         "related_to": [],
-        "notes": "",
-        "compliance": {
-            "SOC2": [
-                "cc_6_6"
-            ],
-            "CIS-2.0": [
-                "3.15"
-            ],
-            "CCC": [
-                "CCC.LB.C08.TR01"
-            ],
-            "CIS-2.1": [
-                "3.15"
-            ],
-            "MITRE-ATTACK": [
-                "T1040"
-            ],
-            "ProwlerThreatScore-1.0": [
-                "4.1.3"
-            ],
-            "NIS2": [
-                "6.7.2.i",
-                "6.7.2.l",
-                "12.2.2.a",
-                "12.2.2.c"
-            ],
-            "ENS-RD2022": [
-                "mp.com.3.r2.az.tls.3"
-            ],
-            "CIS-3.0": [
-                "4.15"
-            ]
-        }
-    },
-    "activity_name": "Create",
-    "activity_id": 1,
-    "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Ensure the 'Minimum TLS version' for storage accounts is set to 'Version 1.2'",
-        "title": "Ensure the 'Minimum TLS version' for storage accounts is set to 'Version 1.2'",
-        "types": [],
-        "uid": "prowler-azure-storage_ensure_minimum_tls_version_12-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
-    },
-    "resources": [
-        {
-            "cloud_partition": "AzureCloud",
-            "region": "eastus",
-            "data": {
-                "details": "",
-                "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
-                        }
-                    }
-                }
-            },
-            "group": {
-                "name": "storage"
-            },
-            "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
-        }
-    ],
-    "category_name": "Findings",
-    "category_uid": 2,
-    "class_name": "Detection Finding",
-    "class_uid": 2004,
-    "cloud": {
-        "account": {
-            "name": "Azure subscription 1",
-            "type": "Azure AD Account",
-            "type_id": 6,
-            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
-            "labels": []
-        },
-        "org": {
-            "name": "Unknown tenant domain (missing AAD permissions)",
-            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
-        },
-        "provider": "azure",
-        "region": "eastus"
-    },
-    "remediation": {
-        "desc": "Ensure that all your Microsoft Azure Storage accounts are using the latest available version of the TLS protocol.",
-        "references": [
-            "https://docs.prowler.com/checks/azure/azure-storage-policies/bc_azr_storage_2#terraform",
-            "https://docs.prowler.com/checks/azure/azure-storage-policies/bc_azr_storage_2",
-            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/minimum-tls-version.html"
-        ]
-    },
-    "risk_details": "TLS versions 1.0 and 1.1 are known to be susceptible to certain Common Vulnerabilities and Exposures (CVE) weaknesses and attacks such as POODLE and BEAST",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
-    "type_uid": 200401,
-    "type_name": "Detection Finding: Create"
-},{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 does not have private endpoint connections.",
-    "metadata": {
-        "event_code": "storage_ensure_private_endpoints_in_storage_accounts",
-        "product": {
-            "name": "Prowler",
-            "uid": "prowler",
-            "vendor_name": "Prowler",
-            "version": "5.8.0"
-        },
-        "profiles": [
-            "cloud",
-            "datetime"
-        ],
-        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
-        "version": "1.4.0"
-    },
-    "severity_id": 3,
-    "severity": "Medium",
-    "status": "New",
-    "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 does not have private endpoint connections.",
-    "status_id": 1,
-    "unmapped": {
-        "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-private-endpoints",
-        "categories": [
-            "encryption"
-        ],
-        "depends_on": [],
-        "related_to": [],
-        "notes": "",
-        "compliance": {
-            "SOC2": [
-                "cc_3_3"
-            ],
-            "CIS-2.0": [
-                "3.10"
-            ],
-            "CCC": [
-                "CCC.AuditLog.C10.TR01",
-                "CCC.AuditLog.C10.TR02",
-                "CCC.ObjStor.C01.TR03",
-                "CCC.ObjStor.C02.TR01",
-                "CCC.ObjStor.C02.TR02"
-            ],
-            "CIS-2.1": [
-                "3.10"
-            ],
-            "MITRE-ATTACK": [
-                "T1530"
-            ],
-            "ProwlerThreatScore-1.0": [
-                "2.2.9"
-            ],
-            "NIS2": [
-                "1.1.1.a",
-                "1.1.1.c",
-                "6.7.2.i",
-                "6.7.2.l",
-                "11.2.2.d",
-                "12.2.2.a"
-            ],
-            "ISO27001-2022": [
-                "A.8.14"
-            ],
-            "ENS-RD2022": [
-                "mp.com.4.r2..az.sa.1"
-            ],
-            "CIS-3.0": [
-                "4.9"
-            ]
-        }
-    },
-    "activity_name": "Create",
-    "activity_id": 1,
-    "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data located over a network via an encrypted Private Link. To do this, the private endpoint uses an IP address from the VNet for each service. Network traffic between disparate services securely traverses encrypted over the VNet. This VNet can also link addressing space, extending your network and accessing resources on it. Similarly, it can be a tunnel through public networks to connect remote infrastructures together. This creates further security through segmenting network traffic and preventing outside sources from accessing it.",
-        "title": "Ensure Private Endpoints are used to access Storage Accounts",
-        "types": [],
-        "uid": "prowler-azure-storage_ensure_private_endpoints_in_storage_accounts-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
-    },
-    "resources": [
-        {
-            "cloud_partition": "AzureCloud",
-            "region": "eastus",
-            "data": {
-                "details": "",
-                "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
-                        }
-                    }
-                }
-            },
-            "group": {
-                "name": "storage"
-            },
-            "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
-        }
-    ],
-    "category_name": "Findings",
-    "category_uid": 2,
-    "class_name": "Detection Finding",
-    "class_uid": 2004,
-    "cloud": {
-        "account": {
-            "name": "Azure subscription 1",
-            "type": "Azure AD Account",
-            "type_id": 6,
-            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
-            "labels": []
-        },
-        "org": {
-            "name": "Unknown tenant domain (missing AAD permissions)",
-            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
-        },
-        "provider": "azure",
-        "region": "eastus"
-    },
-    "remediation": {
-        "desc": "Use Private Endpoints to access Storage Accounts",
-        "references": [
-            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/private-endpoints.html#",
-            "https://docs.microsoft.com/en-us/azure/storage/common/storage-private-endpoints"
-        ]
-    },
-    "risk_details": "Storage accounts that are not configured to use Private Endpoints are accessible over the public internet. This can lead to data exfiltration and other security issues.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
-    "type_uid": 200401,
-    "type_name": "Detection Finding: Create"
-},{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has soft delete enabled.",
-    "metadata": {
-        "event_code": "storage_ensure_soft_delete_is_enabled",
-        "product": {
-            "name": "Prowler",
-            "uid": "prowler",
-            "vendor_name": "Prowler",
-            "version": "5.8.0"
-        },
-        "profiles": [
-            "cloud",
-            "datetime"
-        ],
-        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
-        "version": "1.4.0"
-    },
-    "severity_id": 3,
-    "severity": "Medium",
-    "status": "New",
-    "status_code": "PASS",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has soft delete enabled.",
-    "status_id": 1,
-    "unmapped": {
-        "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-enable?tabs=azure-portal",
-        "categories": [
-            "encryption"
-        ],
-        "depends_on": [],
-        "related_to": [],
-        "notes": "Additional storage costs may be incurred as snapshots are retained.",
-        "compliance": {
-            "SOC2": [
-                "cc_7_4",
-                "cc_c_1_1",
-                "cc_c_1_2"
-            ],
-            "PCI-4.0": [
-                "10.3.2.22",
-                "3.5.1.3.27",
-                "8.4.1.5",
-                "8.4.2.5",
-                "8.4.3.5",
-                "A1.1.2.18",
-                "A3.4.1.20"
-            ],
-            "CIS-2.0": [
-                "3.11"
-            ],
-            "CCC": [
-                "CCC.AuditLog.C06.TR01",
-                "CCC.AuditLog.C08.TR01",
-                "CCC.ObjStor.C03.TR01",
-                "CCC.ObjStor.C04.TR01",
-                "CCC.ObjStor.C04.TR02"
-            ],
-            "CIS-2.1": [
-                "3.11"
-            ],
-            "MITRE-ATTACK": [
-                "T1485"
-            ],
-            "NIS2": [
-                "4.2.2.f",
-                "12.2.2.a",
-                "12.2.2.b"
-            ],
-            "ISO27001-2022": [
-                "A.8.10"
-            ],
-            "CIS-3.0": [
-                "4.10"
-            ]
-        }
-    },
-    "activity_name": "Create",
-    "activity_id": 1,
-    "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal. Data that is erroneously modified or deleted by an application or other storage account user will cause data loss or unavailability.",
-        "title": "Ensure Soft Delete is Enabled for Azure Containers and Blob Storage",
-        "types": [],
-        "uid": "prowler-azure-storage_ensure_soft_delete_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
-    },
-    "resources": [
-        {
-            "cloud_partition": "AzureCloud",
-            "region": "eastus",
-            "data": {
-                "details": "",
-                "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
-                        }
-                    }
-                }
-            },
-            "group": {
-                "name": "storage"
-            },
-            "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
-        }
-    ],
-    "category_name": "Findings",
-    "category_uid": 2,
-    "class_name": "Detection Finding",
-    "class_uid": 2004,
-    "cloud": {
-        "account": {
-            "name": "Azure subscription 1",
-            "type": "Azure AD Account",
-            "type_id": 6,
-            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
-            "labels": []
-        },
-        "org": {
-            "name": "Unknown tenant domain (missing AAD permissions)",
-            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
-        },
-        "provider": "azure",
-        "region": "eastus"
-    },
-    "remediation": {
-        "desc": "From the Azure home page, open the hamburger menu in the top left or click on the arrow pointing right with 'More services' underneath. 2. Select Storage. 3. Select Storage Accounts. 4. For each Storage Account, navigate to Data protection in the left scroll column. 5. Check soft delete for both blobs and containers. Set the retention period to a sufficient length for your organization",
-        "references": [
-            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/enable-soft-delete.html#",
-            "https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-soft-delete"
-        ]
-    },
-    "risk_details": "Containers and Blob Storage data can be incorrectly deleted. An attacker/malicious user may do this deliberately in order to cause disruption. Deleting an Azure Storage blob causes immediate data loss. Enabling this configuration for Azure storage ensures that even if blobs/data were deleted from the storage account, Blobs/data objects are recoverable for a particular time which is set in the Retention policies ranging from 7 days to 365 days.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
-    "type_uid": 200401,
-    "type_name": "Detection Finding: Create"
-},{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has infrastructure encryption disabled.",
-    "metadata": {
-        "event_code": "storage_infrastructure_encryption_is_enabled",
-        "product": {
-            "name": "Prowler",
-            "uid": "prowler",
-            "vendor_name": "Prowler",
-            "version": "5.8.0"
-        },
-        "profiles": [
-            "cloud",
-            "datetime"
-        ],
-        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
-        "version": "1.4.0"
-    },
-    "severity_id": 2,
-    "severity": "Low",
-    "status": "New",
-    "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has infrastructure encryption disabled.",
-    "status_id": 1,
-    "unmapped": {
-        "related_url": "",
-        "categories": [
-            "encryption"
-        ],
-        "depends_on": [],
-        "related_to": [],
-        "notes": "",
-        "compliance": {
-            "SOC2": [
-                "cc_6_7",
-                "cc_7_5"
-            ],
-            "PCI-4.0": [
-                "3.5.1.22",
-                "8.3.2.37"
-            ],
-            "CIS-2.0": [
-                "3.2"
-            ],
-            "CIS-2.1": [
-                "3.2"
-            ],
-            "MITRE-ATTACK": [
-                "T1530"
-            ],
-            "NIS2": [
-                "9.2.a",
-                "12.2.2.a",
-                "12.2.2.b"
-            ],
-            "ISO27001-2022": [
-                "A.8.5",
-                "A.8.11",
-                "A.8.24"
-            ],
-            "ENS-RD2022": [
-                "op.exp.10.az.kv.2"
-            ],
-            "CIS-3.0": [
-                "4.3"
-            ]
-        }
-    },
-    "activity_name": "Create",
-    "activity_id": 1,
-    "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Ensure that 'Enable Infrastructure Encryption' for Each Storage Account in Azure Storage is Set to 'enabled' ",
-        "title": "Ensure that 'Enable Infrastructure Encryption' for Each Storage Account in Azure Storage is Set to 'enabled' ",
-        "types": [],
-        "uid": "prowler-azure-storage_infrastructure_encryption_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
-    },
-    "resources": [
-        {
-            "cloud_partition": "AzureCloud",
-            "region": "eastus",
-            "data": {
-                "details": "",
-                "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
-                        }
-                    }
-                }
-            },
-            "group": {
-                "name": "storage"
-            },
-            "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureRole",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
-        }
-    ],
-    "category_name": "Findings",
-    "category_uid": 2,
-    "class_name": "Detection Finding",
-    "class_uid": 2004,
-    "cloud": {
-        "account": {
-            "name": "Azure subscription 1",
-            "type": "Azure AD Account",
-            "type_id": 6,
-            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
-            "labels": []
-        },
-        "org": {
-            "name": "Unknown tenant domain (missing AAD permissions)",
-            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
-        },
-        "provider": "azure",
-        "region": "eastus"
-    },
-    "remediation": {
-        "desc": "Enabling double encryption at the hardware level on top of the default software encryption for Storage Accounts accessing Azure storage solutions.",
-        "references": []
-    },
-    "risk_details": "Double encryption of Azure Storage data protects against a scenario where one of the encryption algorithms or keys may be compromised",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
-    "type_uid": 200401,
-    "type_name": "Detection Finding: Create"
-},{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has no key expiration period set.",
-    "metadata": {
-        "event_code": "storage_key_rotation_90_days",
-        "product": {
-            "name": "Prowler",
-            "uid": "prowler",
-            "vendor_name": "Prowler",
-            "version": "5.8.0"
-        },
-        "profiles": [
-            "cloud",
-            "datetime"
-        ],
-        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
-        "version": "1.4.0"
-    },
-    "severity_id": 3,
-    "severity": "Medium",
-    "status": "New",
-    "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has no key expiration period set.",
-    "status_id": 1,
-    "unmapped": {
-        "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal",
-        "categories": [
-            "encryption"
-        ],
-        "depends_on": [],
-        "related_to": [],
-        "notes": "",
-        "compliance": {
-            "CIS-2.0": [
-                "3.4"
-            ],
-            "CIS-2.1": [
-                "3.4"
-            ],
-            "NIS2": [
-                "9.2.c.iii",
-                "9.2.c.iv",
-                "11.6.2.c",
-                "12.2.2.a"
-            ],
-            "ENS-RD2022": [
-                "op.acc.6.r1.az.eid.2"
-            ],
-            "CIS-3.0": [
-                "4.4"
-            ]
-        }
-    },
-    "activity_name": "Create",
-    "activity_id": 1,
-    "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Ensure that Storage Account Access Keys are Periodically Regenerated",
-        "title": "Ensure that Storage Account Access Keys are Periodically Regenerated",
-        "types": [],
-        "uid": "prowler-azure-storage_key_rotation_90_days-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
-    },
-    "resources": [
-        {
-            "cloud_partition": "AzureCloud",
-            "region": "eastus",
-            "data": {
-                "details": "",
-                "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
-                        }
-                    }
-                }
-            },
-            "group": {
-                "name": "storage"
-            },
-            "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
-        }
-    ],
-    "category_name": "Findings",
-    "category_uid": 2,
-    "class_name": "Detection Finding",
-    "class_uid": 2004,
-    "cloud": {
-        "account": {
-            "name": "Azure subscription 1",
-            "type": "Azure AD Account",
-            "type_id": 6,
-            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
-            "labels": []
-        },
-        "org": {
-            "name": "Unknown tenant domain (missing AAD permissions)",
-            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
-        },
-        "provider": "azure",
-        "region": "eastus"
-    },
-    "remediation": {
-        "desc": "Ensure that Azure Storage account access keys are regenerated every 90 days in order to decrease the likelihood of accidental exposures and protect your storage account resources against unauthorized access.",
-        "references": [
-            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/StorageAccounts/regenerate-storage-account-access-keys-periodically.html#",
-            "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal#regenerate-storage-access-keys"
-        ]
-    },
-    "risk_details": "If the access keys are not regenerated periodically, the likelihood of accidental exposures increases, which can lead to unauthorized access to your storage account resources.",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
-    "type_uid": 200401,
-    "type_name": "Detection Finding: Create"
-},{
-    "message": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has secure transfer required enabled.",
-    "metadata": {
-        "event_code": "storage_secure_transfer_required_is_enabled",
-        "product": {
-            "name": "Prowler",
-            "uid": "prowler",
-            "vendor_name": "Prowler",
-            "version": "5.8.0"
-        },
-        "profiles": [
-            "cloud",
-            "datetime"
-        ],
-        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
-        "version": "1.4.0"
-    },
-    "severity_id": 3,
-    "severity": "Medium",
-    "status": "New",
-    "status_code": "PASS",
-    "status_detail": "Storage account stcfistorageab715e8d from subscription Azure subscription 1 has secure transfer required enabled.",
-    "status_id": 1,
-    "unmapped": {
-        "related_url": "",
-        "categories": [
-            "encryption"
-        ],
-        "depends_on": [],
-        "related_to": [],
-        "notes": "",
+        "notes": ".",
         "compliance": {
             "SOC2": [
                 "cc_6_2",
-                "cc_6_7"
-            ],
-            "PCI-4.0": [
-                "1.2.5.15",
-                "2.2.5.15",
-                "2.2.7.19",
-                "3.5.1.30",
-                "4.2.1.1.27",
-                "4.2.1.19",
-                "8.3.2.48",
-                "8.3.2.49"
+                "cc_6_6"
             ],
             "CIS-2.0": [
-                "3.1"
+                "4.3.1"
             ],
             "CIS-2.1": [
-                "3.1"
+                "4.3.1"
             ],
             "MITRE-ATTACK": [
-                "T1040"
+                "T1040",
+                "T1530"
             ],
-            "NIS2": [
-                "6.7.2.i",
-                "6.7.2.l",
-                "9.2.a",
-                "12.2.2.a",
-                "12.2.2.b",
-                "12.2.2.c"
-            ],
-            "ISO27001-2022": [
-                "A.8.12",
-                "A.8.14",
-                "A.8.24"
-            ],
-            "ENS-RD2022": [
-                "mp.com.3.az.sa.1"
+            "ProwlerThreatScore-1.0": [
+                "4.1.1",
+                "4.1.2"
             ],
             "CIS-3.0": [
-                "4.1"
+                "5.2.1",
+                "5.3.1"
             ]
         }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-        "created_time": 1760091050,
-        "created_time_dt": "2025-10-10T10:10:50.108196",
-        "desc": "Ensure that all data transferred between clients and your Azure Storage account is encrypted using the HTTPS protocol.",
-        "title": "Ensure that all data transferred between clients and your Azure Storage account is encrypted using the HTTPS protocol.",
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
+        "desc": "Enable SSL connection on PostgreSQL Servers.",
+        "title": "Ensure 'Enforce SSL connection' is set to 'ENABLED' for PostgreSQL Database Server",
         "types": [],
-        "uid": "prowler-azure-storage_secure_transfer_required_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorageab715e8d"
+        "uid": "prowler-azure-postgresql_flexible_server_enforce_ssl_enabled-3bb71587-4549-4396-8898-9e15f062e665-Australia East-psql-psy3"
     },
     "resources": [
         {
             "cloud_partition": "AzureCloud",
-            "region": "eastus",
+            "region": "Australia East",
             "data": {
                 "details": "",
                 "metadata": {
-                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d",
-                    "name": "stcfistorageab715e8d",
-                    "resouce_group_name": "rg-cfi-storage",
-                    "enable_https_traffic_only": true,
-                    "infrastructure_encryption": null,
-                    "allow_blob_public_access": false,
-                    "network_rule_set": {
-                        "bypass": "AzureServices",
-                        "default_action": "Allow"
-                    },
-                    "encryption_type": "Microsoft.Storage",
-                    "minimum_tls_version": "TLS1_2",
-                    "private_endpoint_connections": [],
-                    "key_expiration_period_in_days": null,
-                    "location": "eastus",
-                    "blob_properties": {
-                        "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d/blobServices/default",
-                        "name": "default",
-                        "type": "Microsoft.Storage/storageAccounts/blobServices",
-                        "default_service_version": null,
-                        "container_delete_retention_policy": {
-                            "enabled": true,
-                            "days": 7
+                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3",
+                    "name": "psql-psy3",
+                    "resource_group": "rg-psy3",
+                    "require_secure_transport": "ON",
+                    "log_checkpoints": "ON",
+                    "log_connections": "ON",
+                    "log_disconnections": "ON",
+                    "connection_throttling": "OFF",
+                    "log_retention_days": null,
+                    "firewall": [
+                        {
+                            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3/firewallRules/rule1",
+                            "name": "rule1",
+                            "start_ip": "0.0.0.0",
+                            "end_ip": "255.255.255.255"
                         }
-                    }
+                    ],
+                    "location": "Australia East"
                 }
             },
             "group": {
-                "name": "storage"
+                "name": "postgresql"
             },
             "labels": [],
-            "name": "stcfistorageab715e8d",
-            "type": "AzureStorageAccount",
-            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorageab715e8d"
+            "name": "psql-psy3",
+            "type": "PostgreSQL",
+            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3"
         }
     ],
     "category_name": "Findings",
@@ -9313,19 +8098,588 @@
             "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
         },
         "provider": "azure",
-        "region": "eastus"
+        "region": "Australia East"
     },
     "remediation": {
-        "desc": "Enable data encryption in transit.",
+        "desc": "From Azure Portal 1. Login to Azure Portal using https://portal.azure.com 2. Go to Azure Database for PostgreSQL server 3. For each database, click on Connection security 4. In SSL settings, click on ENABLED to enforce SSL connections 5. Click Save From Azure CLI Use the below command to enforce ssl connection for PostgreSQL Database. az postgres server update --resource-group <resourceGroupName> --name <serverName> --ssl-enforcement Enabled From PowerShell Update-AzPostgreSqlServer -ResourceGroupName <ResourceGroupName > -ServerName <ServerName> -SslEnforcement Enabled",
         "references": [
-            "https://docs.prowler.com/checks/azure/azure-networking-policies/ensure-that-storage-account-enables-secure-transfer",
-            "az storage account update --name <STORAGE_ACCOUNT_NAME> --https-only true",
-            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/StorageAccounts/secure-transfer-required.html"
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/bc_azr_networking_10#terraform",
+            "az postgres server update --resource-group <resourceGroupName> --name <serverName> --ssl-enforcement Enabled",
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/bc_azr_networking_10",
+            "https://learn.microsoft.com/en-us/azure/postgresql/single-server/concepts-ssl-connection-security"
         ]
     },
-    "risk_details": "Requests to the storage account sent outside of a secure connection can be eavesdropped",
-    "time": 1760091050,
-    "time_dt": "2025-10-10T10:10:50.108196",
+    "risk_details": "SSL connectivity helps to provide a new layer of security by connecting database server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between database server and client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and application.",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has log_checkpoints enabled",
+    "metadata": {
+        "event_code": "postgresql_flexible_server_log_checkpoints_on",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.8.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
+        "version": "1.4.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has log_checkpoints enabled",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": " https://docs.microsoft.com/en-us/rest/api/postgresql/singleserver/configurations/list-by-server",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "SOC2": [
+                "cc_7_2",
+                "cc_7_3",
+                "cc_a_1_1"
+            ],
+            "CIS-2.0": [
+                "4.3.2"
+            ],
+            "CIS-2.1": [
+                "4.3.2"
+            ],
+            "ProwlerThreatScore-1.0": [
+                "3.1.1"
+            ],
+            "NIS2": [
+                "2.1.2.h",
+                "3.2.3.g",
+                "11.2.2.f"
+            ],
+            "ISO27001-2022": [
+                "A.8.15"
+            ],
+            "ENS-RD2022": [
+                "op.acc.6.r5.az.eid.3"
+            ],
+            "CIS-3.0": [
+                "5.2.2"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
+        "desc": "Enable log_checkpoints on PostgreSQL Servers.",
+        "title": "Ensure Server Parameter 'log_checkpoints' is set to 'ON' for PostgreSQL Database Server",
+        "types": [],
+        "uid": "prowler-azure-postgresql_flexible_server_log_checkpoints_on-3bb71587-4549-4396-8898-9e15f062e665-Australia East-psql-psy3"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "Australia East",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3",
+                    "name": "psql-psy3",
+                    "resource_group": "rg-psy3",
+                    "require_secure_transport": "ON",
+                    "log_checkpoints": "ON",
+                    "log_connections": "ON",
+                    "log_disconnections": "ON",
+                    "connection_throttling": "OFF",
+                    "log_retention_days": null,
+                    "firewall": [
+                        {
+                            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3/firewallRules/rule1",
+                            "name": "rule1",
+                            "start_ip": "0.0.0.0",
+                            "end_ip": "255.255.255.255"
+                        }
+                    ],
+                    "location": "Australia East"
+                }
+            },
+            "group": {
+                "name": "postgresql"
+            },
+            "labels": [],
+            "name": "psql-psy3",
+            "type": "PostgreSQL",
+            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
+        },
+        "provider": "azure",
+        "region": "Australia East"
+    },
+    "remediation": {
+        "desc": "From Azure Portal 1. From Azure Home select the Portal Menu. 2. Go to Azure Database for PostgreSQL servers. 3. For each database, click on Server parameters. 4. Search for log_checkpoints. 5. Click ON and save. From Azure CLI Use the below command to update log_checkpoints configuration. az postgres server configuration set --resource-group <resourceGroupName> -- server-name <serverName> --name log_checkpoints --value on From PowerShell Update-AzPostgreSqlConfiguration -ResourceGroupName <ResourceGroupName> - ServerName <ServerName> -Name log_checkpoints -Value on",
+        "references": [
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/bc_azr_networking_11#terraform",
+            "az postgres server configuration set --resource-group <resourceGroupName> --server-name <serverName> --name log_checkpoints --value on",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/PostgreSQL/log-checkpoints.html#",
+            "https://docs.microsoft.com/en-us/azure/postgresql/howto-configure-server-parameters-using-portal"
+        ]
+    },
+    "risk_details": "Enabling log_checkpoints helps the PostgreSQL Database to Log each checkpoint in turn generates query and error logs. However, access to transaction logs is not supported. Query and error logs can be used to identify, troubleshoot, and repair configuration errors and sub-optimal performance.",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has log_connections enabled",
+    "metadata": {
+        "event_code": "postgresql_flexible_server_log_connections_on",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.8.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
+        "version": "1.4.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has log_connections enabled",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://docs.microsoft.com/en-us/rest/api/postgresql/configurations/listbyserver",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "",
+        "compliance": {
+            "SOC2": [
+                "cc_7_2",
+                "cc_7_3",
+                "cc_a_1_1"
+            ],
+            "CIS-2.0": [
+                "4.3.3"
+            ],
+            "CIS-2.1": [
+                "4.3.3"
+            ],
+            "ProwlerThreatScore-1.0": [
+                "3.1.3"
+            ],
+            "NIS2": [
+                "2.1.2.h",
+                "3.2.3.c",
+                "3.2.3.e",
+                "3.2.3.g",
+                "11.2.2.f"
+            ],
+            "ISO27001-2022": [
+                "A.8.15"
+            ],
+            "ENS-RD2022": [
+                "op.acc.6.r5.az.eid.3"
+            ],
+            "CIS-3.0": [
+                "5.2.6"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
+        "desc": "Enable log_connections on PostgreSQL Servers.",
+        "title": "Ensure server parameter 'log_connections' is set to 'ON' for PostgreSQL Database Server",
+        "types": [],
+        "uid": "prowler-azure-postgresql_flexible_server_log_connections_on-3bb71587-4549-4396-8898-9e15f062e665-Australia East-psql-psy3"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "Australia East",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3",
+                    "name": "psql-psy3",
+                    "resource_group": "rg-psy3",
+                    "require_secure_transport": "ON",
+                    "log_checkpoints": "ON",
+                    "log_connections": "ON",
+                    "log_disconnections": "ON",
+                    "connection_throttling": "OFF",
+                    "log_retention_days": null,
+                    "firewall": [
+                        {
+                            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3/firewallRules/rule1",
+                            "name": "rule1",
+                            "start_ip": "0.0.0.0",
+                            "end_ip": "255.255.255.255"
+                        }
+                    ],
+                    "location": "Australia East"
+                }
+            },
+            "group": {
+                "name": "postgresql"
+            },
+            "labels": [],
+            "name": "psql-psy3",
+            "type": "PostgreSQL",
+            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
+        },
+        "provider": "azure",
+        "region": "Australia East"
+    },
+    "remediation": {
+        "desc": "From Azure Portal 1. Login to Azure Portal using https://portal.azure.com. 2. Go to Azure Database for PostgreSQL servers. 3. For each database, click on Server parameters. 4. Search for log_connections. 5. Click ON and save. From Azure CLI Use the below command to update log_connections configuration. az postgres server configuration set --resource-group <resourceGroupName> -- server-name <serverName> --name log_connections --value on From PowerShell Use the below command to update log_connections configuration. Update-AzPostgreSqlConfiguration -ResourceGroupName <ResourceGroupName> - ServerName <ServerName> -Name log_connections -Value on",
+        "references": [
+            "https://docs.prowler.com/checks/azure/azure-networking-policies/bc_azr_networking_12#terraform",
+            "az postgres server configuration set --resource-group <resourceGroupName> --server-name <serverName> --name log_connections --value on",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/PostgreSQL/log-connections.html",
+            "https://learn.microsoft.com/en-us/azure/postgresql/single-server/how-to-configure-server-parameters-using-portal"
+        ]
+    },
+    "risk_details": "Enabling log_connections helps PostgreSQL Database to log attempted connection to the server, as well as successful completion of client authentication. Log data can be used to identify, troubleshoot, and repair configuration errors and suboptimal performance.",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has log_disconnections enabled",
+    "metadata": {
+        "event_code": "postgresql_flexible_server_log_disconnections_on",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.8.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
+        "version": "1.4.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has log_disconnections enabled",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://docs.microsoft.com/en-us/rest/api/postgresql/singleserver/configurations/list-by-server",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "Enabling this setting will enable a log of all disconnections. If this is enabled for a high traffic server, the log may grow exponentially.",
+        "compliance": {
+            "SOC2": [
+                "cc_7_2",
+                "cc_7_3",
+                "cc_a_1_1"
+            ],
+            "CIS-2.0": [
+                "4.3.4"
+            ],
+            "CIS-2.1": [
+                "4.3.4"
+            ],
+            "ProwlerThreatScore-1.0": [
+                "3.1.4"
+            ],
+            "NIS2": [
+                "2.1.2.h",
+                "3.2.3.c",
+                "3.2.3.e",
+                "3.2.3.g",
+                "11.2.2.f"
+            ],
+            "ISO27001-2022": [
+                "A.8.15"
+            ],
+            "ENS-RD2022": [
+                "op.acc.6.r5.az.eid.3"
+            ],
+            "CIS-3.0": [
+                "5.2.7"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
+        "desc": "Enable log_disconnections on PostgreSQL Servers.",
+        "title": "Ensure server parameter 'log_disconnections' is set to 'ON' for PostgreSQL Database Server",
+        "types": [],
+        "uid": "prowler-azure-postgresql_flexible_server_log_disconnections_on-3bb71587-4549-4396-8898-9e15f062e665-Australia East-psql-psy3"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "Australia East",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3",
+                    "name": "psql-psy3",
+                    "resource_group": "rg-psy3",
+                    "require_secure_transport": "ON",
+                    "log_checkpoints": "ON",
+                    "log_connections": "ON",
+                    "log_disconnections": "ON",
+                    "connection_throttling": "OFF",
+                    "log_retention_days": null,
+                    "firewall": [
+                        {
+                            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3/firewallRules/rule1",
+                            "name": "rule1",
+                            "start_ip": "0.0.0.0",
+                            "end_ip": "255.255.255.255"
+                        }
+                    ],
+                    "location": "Australia East"
+                }
+            },
+            "group": {
+                "name": "postgresql"
+            },
+            "labels": [],
+            "name": "psql-psy3",
+            "type": "PostgreSQL",
+            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
+        },
+        "provider": "azure",
+        "region": "Australia East"
+    },
+    "remediation": {
+        "desc": "From Azure Portal 1. From Azure Home select the Portal Menu 2. Go to Azure Database for PostgreSQL servers 3. For each database, click on Server parameters 4. Search for log_disconnections. 5. Click ON and save. From Azure CLI Use the below command to update log_disconnections configuration. az postgres server configuration set --resource-group <resourceGroupName> -- server-name <serverName> --name log_disconnections --value on From PowerShell Use the below command to update log_disconnections configuration. Update-AzPostgreSqlConfiguration -ResourceGroupName <ResourceGr",
+        "references": [
+            "az postgres server configuration set --resource-group <resourceGroupName> --server-name <serverName> --name log_disconnections --value on",
+            "https://www.trendmicro.com/cloudoneconformity/knowledge-base/azure/PostgreSQL/log-disconnections.html",
+            "https://learn.microsoft.com/en-us/azure/postgresql/single-server/how-to-configure-server-parameters-using-portal"
+        ]
+    },
+    "risk_details": "Enabling log_disconnections helps PostgreSQL Database to Logs end of a session, including duration, which in turn generates query and error logs. Query and error logs can be used to identify, troubleshoot, and repair configuration errors and sub-optimal performance.",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create"
+},{
+    "message": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has log_retention disabled",
+    "metadata": {
+        "event_code": "postgresql_flexible_server_log_retention_days_greater_3",
+        "product": {
+            "name": "Prowler",
+            "uid": "prowler",
+            "vendor_name": "Prowler",
+            "version": "5.8.0"
+        },
+        "profiles": [
+            "cloud",
+            "datetime"
+        ],
+        "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
+        "version": "1.4.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Flexible Postgresql server psql-psy3 from subscription Azure subscription 1 has log_retention disabled",
+    "status_id": 1,
+    "unmapped": {
+        "related_url": "https://docs.microsoft.com/en-us/azure/postgresql/howto-configure-server-parameters-using-portal",
+        "categories": [],
+        "depends_on": [],
+        "related_to": [],
+        "notes": "Configuring this setting will result in logs being retained for the specified number of days. If this is configured on a high traffic server, the log may grow quickly to occupy a large amount of disk space. In this case you may want to set this to a lower number.",
+        "compliance": {
+            "SOC2": [
+                "cc_7_2",
+                "cc_7_3",
+                "cc_a_1_1",
+                "cc_c_1_2"
+            ],
+            "CIS-2.0": [
+                "4.3.6"
+            ],
+            "CCC": [
+                "CCC.Logging.C02.TR02"
+            ],
+            "CIS-2.1": [
+                "4.3.6"
+            ],
+            "ProwlerThreatScore-1.0": [
+                "3.2.2"
+            ],
+            "NIS2": [
+                "2.1.2.h",
+                "3.2.3.g",
+                "3.2.5",
+                "4.1.2.g",
+                "4.1.4",
+                "6.1.2.b",
+                "11.2.2.f",
+                "12.2.2.a"
+            ],
+            "ISO27001-2022": [
+                "A.8.15"
+            ],
+            "ENS-RD2022": [
+                "op.exp.8.r3.az.nt.1",
+                "op.mon.3.az.nw.1"
+            ],
+            "CIS-3.0": [
+                "5.2.4"
+            ]
+        }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+        "created_time": 1760091659,
+        "created_time_dt": "2025-10-10T10:20:59.733725",
+        "desc": "Ensure log_retention_days on PostgreSQL Servers is set to an appropriate value.",
+        "title": "Ensure Server Parameter 'log_retention_days' is greater than 3 days for PostgreSQL Database Server",
+        "types": [],
+        "uid": "prowler-azure-postgresql_flexible_server_log_retention_days_greater_3-3bb71587-4549-4396-8898-9e15f062e665-Australia East-psql-psy3"
+    },
+    "resources": [
+        {
+            "cloud_partition": "AzureCloud",
+            "region": "Australia East",
+            "data": {
+                "details": "",
+                "metadata": {
+                    "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3",
+                    "name": "psql-psy3",
+                    "resource_group": "rg-psy3",
+                    "require_secure_transport": "ON",
+                    "log_checkpoints": "ON",
+                    "log_connections": "ON",
+                    "log_disconnections": "ON",
+                    "connection_throttling": "OFF",
+                    "log_retention_days": null,
+                    "firewall": [
+                        {
+                            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3/firewallRules/rule1",
+                            "name": "rule1",
+                            "start_ip": "0.0.0.0",
+                            "end_ip": "255.255.255.255"
+                        }
+                    ],
+                    "location": "Australia East"
+                }
+            },
+            "group": {
+                "name": "postgresql"
+            },
+            "labels": [],
+            "name": "psql-psy3",
+            "type": "PostgreSQL",
+            "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-psy3/providers/Microsoft.DBforPostgreSQL/flexibleServers/psql-psy3"
+        }
+    ],
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Detection Finding",
+    "class_uid": 2004,
+    "cloud": {
+        "account": {
+            "name": "Azure subscription 1",
+            "type": "Azure AD Account",
+            "type_id": 6,
+            "uid": "3bb71587-4549-4396-8898-9e15f062e665",
+            "labels": []
+        },
+        "org": {
+            "name": "Unknown tenant domain (missing AAD permissions)",
+            "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
+        },
+        "provider": "azure",
+        "region": "Australia East"
+    },
+    "remediation": {
+        "desc": "From Azure Portal 1. From Azure Home select the Portal Menu. 2. Go to Azure Database for PostgreSQL servers. 3. For each database, click on Server parameters. 4. Search for log_retention_days. 5. Input a value between 4 and 7 (inclusive) and click Save. From Azure CLI Use the below command to update log_retention_days configuration. az postgres server configuration set --resource-group <resourceGroupName> -- server-name <serverName> --name log_retention_days --value <4-7> From Powershell Use the below command to update log_retention_days configuration. Update-AzPostgreSqlConfiguration -ResourceGroupName <ResourceGroupName> - ServerName <ServerName> -Name log_retention_days -Value <4-7>",
+        "references": [
+            "az postgres server configuration set --resource-group <resourceGroupName> --server-name <serverName> --name log_retention_days --value <4-7>",
+            "https://www.trendmicro.com/cloudoneconformity-staging/knowledge-base/azure/PostgreSQL/log-retention-days.html",
+            "https://learn.microsoft.com/en-us/rest/api/postgresql/singleserver/configurations/list-by-server?view=rest-postgresql-singleserver-2017-12-01&tabs=HTTP"
+        ]
+    },
+    "risk_details": "Configuring log_retention_days determines the duration in days that Azure Database for PostgreSQL retains log files. Query and error logs can be used to identify, troubleshoot, and repair configuration errors and sub-optimal performance.",
+    "time": 1760091659,
+    "time_dt": "2025-10-10T10:20:59.733725",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create"
 }]
