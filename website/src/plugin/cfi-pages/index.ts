@@ -64,7 +64,7 @@ function processAllOCSFResults(resultPath: string): TestResultItem[] {
 
         const testResult: TestResultItem = {
             id: `${item.finding_info?.uid || 'unknown'}-${index}`,
-            test_requirements: item.unmapped?.compliance?.['CCC-Objects'] || [],
+            test_requirements: item.unmapped?.compliance?.['CCC'] || [],
             result: item.status_code === 'PASS' ? TestResultType.PASS :
                 item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
             name: item.finding_info?.title || 'Unknown Finding',
@@ -79,7 +79,7 @@ function processAllOCSFResults(resultPath: string): TestResultItem[] {
             resource_name: resource.name || resource.uid || 'Unknown Resource',
             resource_type: resource.type || 'Unknown Type',
             resource_uid: resource.uid,
-            ccc_objects: item.unmapped?.compliance?.['CCC-Objects'] || [],
+            ccc_objects: item.unmapped?.compliance?.['CCC'] || [],
             finding_title: item.finding_info?.title || 'Unknown Finding',
             finding_uid: item.finding_info?.uid || ''
         };
