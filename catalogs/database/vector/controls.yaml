@@ -1,48 +1,48 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.CN01
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN01
+        strength: 0 # Not yet specified
         remarks: Prevent Unencrypted Requests
-      - reference-id: CCC.Core.CN02
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN02
+        strength: 0 # Not yet specified
         remarks: Ensure data encryption at rest for all stored data
-      - reference-id: CCC.Core.CN03
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN03
+        strength: 0 # Not yet specified
         remarks: Require MFA for Access
-      - reference-id: CCC.Core.CN04
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN04
+        strength: 0 # Not yet specified
         remarks: Log All Access and Changes
-      - reference-id: CCC.Core.CN05
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN05
+        strength: 0 # Not yet specified
         remarks: Prevent Access from Untrusted Entities
-      - reference-id: CCC.Core.CN06
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN06
+        strength: 0 # Not yet specified
         remarks: Require Access Approval
-      - reference-id: CCC.Core.CN07
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN07
+        strength: 0 # Not yet specified
         remarks: Limit Public Access to Resources
-      - reference-id: CCC.Core.CN09
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN09
+        strength: 0 # Not yet specified
         remarks: Prevent Log Tampering
-      - reference-id: CCC.Core.CN10
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN10
+        strength: 0 # Not yet specified
         remarks: Prevent Replication Outside Trust Boundary
-      - reference-id: CCC.Core.CN12
-        strength: 0 # Not yet specified # Not yet specified
+      - reference-id: CCC.CNore.CN12
+        strength: 0 # Not yet specified
         remarks: Secure Network Access Rules
 
 control-families:
   - title: Vector Indexing
     description: Controls specific to the management and protection of vector embedding and index operations.
     controls:
-      - id: CCC.Vector.CN01
+      - id: CCC.Vector.CNN01
         title: Validate Embeddings Before Indexing
         objective: |
           Ensure all incoming embeddings are structurally and statistically validated
           before indexing to prevent poisoning or corruption.
         assessment-requirements:
-          - id: CCC.Vector.CN01.TR01
+          - id: CCC.Vector.CNN01.TR01
             text: |
               When a vector embedding is submitted for indexing, the system MUST validate that it
               matches expected schema, dimension, and format profiles.
@@ -55,20 +55,20 @@ control-families:
                 remarks: Embedding and Index Poisoning
               - reference-id: CCC.Vector.TH05
                 remarks: Embedding Format or Dimension Attacks
-              - reference-id: CCC.Core.TH12
+              - reference-id: CCC.CNore.TH12
                 remarks: Resource Constraints are Exhausted
         guideline-mappings:
           - reference-id: FINOS-AIGF
             entries:
               - reference-id: AIR-PREV-002
                 remarks: Data Filtering From External Knowledge Bases
-      - id: CCC.Vector.CN02
+      - id: CCC.Vector.CNN02
         title: Enforce Role-Based Index Lifecycle Management
         objective: |
           Restrict index lifecycle operations (create, delete, rollback) to privileged
           identities using fine-grained access controls.
         assessment-requirements:
-          - id: CCC.Vector.CN02.TR01
+          - id: CCC.Vector.CNN02.TR01
             text: |
               When an index lifecycle event is triggered, the service MUST
               verify that the actor has explicit permissions for the operation type.
@@ -81,20 +81,20 @@ control-families:
                 remarks: Embedding and Index Poisoning
               - reference-id: CCC.Vector.TH04
                 remarks: Index Corruption or Downgrade
-              - reference-id: CCC.Core.TH01
+              - reference-id: CCC.CNore.TH01
                 remarks: Access Control is Misconfigured
         guideline-mappings:
           - reference-id: FINOS-AIGF
             entries:
               - reference-id: AIR-PREV-012
                 remarks: Role-Based Access Control for AI Data
-      - id: CCC.Vector.CN03
+      - id: CCC.Vector.CNN03
         title: Enforce Metadata-Level Access Controls
         objective: |
           Apply access control policies to metadata fields used in filtering to
           prevent unauthorized exposure or inference.
         assessment-requirements:
-          - id: CCC.Vector.CN03.TR01
+          - id: CCC.Vector.CNN03.TR01
             text: |
               When a metadata filter is applied to a query, the service MUST
               verify the requester is authorized to access that field.
@@ -105,7 +105,7 @@ control-families:
             entries:
               - reference-id: CCC.Vector.TH03
                 remarks: Cross-modal or Metadata Leakage
-              - reference-id: CCC.Core.TH01
+              - reference-id: CCC.CNore.TH01
                 remarks: Access Control is Misconfigured
         guideline-mappings:
           - reference-id: FINOS-AIGF
@@ -116,13 +116,13 @@ control-families:
                 remarks: Role-Based Access Control for AI Data
               - reference-id: AIR-DET-016
                 remarks: Preserving Source Data Access Controls in AI Systems
-      - id: CCC.Vector.CN04
+      - id: CCC.Vector.CNN04
         title: Enforce Ingestion Quotas and Throttling
         objective: |
           Prevent ingestion-based DoS or index pollution by
           rate-limiting vector submissions and enforcing quotas.
         assessment-requirements:
-          - id: CCC.Vector.CN04.TR01
+          - id: CCC.Vector.CNN04.TR01
             text: |
               When ingestion exceeds pre-defined thresholds, the service MUST
               throttle or reject excess vector write operations.
@@ -133,20 +133,20 @@ control-families:
             entries:
               - reference-id: CCC.Vector.TH02
                 remarks: Embedding and Index Poisoning
-              - reference-id: CCC.Core.TH12
+              - reference-id: CCC.CNore.TH12
                 remarks: Resource Constraints are Exhausted
         guideline-mappings:
           - reference-id: FINOS-AIGF
             entries:
               - reference-id: AIR-PREV-008
                 remarks: Quality of Service (QoS) and DDoS Prevention for AI Systems
-      - id: CCC.Vector.CN05
+      - id: CCC.Vector.CNN05
         title: Enforce Index Versioning with Rollback Protection
         objective: |
           Ensure vector indexes are versioned and that rollback
           operations are authorized and auditable.
         assessment-requirements:
-          - id: CCC.Vector.CN05.TR01
+          - id: CCC.Vector.CNN05.TR01
             text: |
               When a rollback is attempted, the system MUST log
               the action and verify rollback authorization.
@@ -157,22 +157,22 @@ control-families:
             entries:
               - reference-id: CCC.Vector.TH04
                 remarks: Index Corruption or Downgrade
-              - reference-id: CCC.Core.TH09
+              - reference-id: CCC.CNore.TH09
                 remarks: Logs or Monitoring Data are Read by Unauthorized Users
-              - reference-id: CCC.Core.TH04
+              - reference-id: CCC.CNore.TH04
                 remarks: Data is Replicated to Untrusted or External Locations
         guideline-mappings:
           - reference-id: AIR-DET-004
             entries:
               - reference-id: AIR-PREV-008
                 remarks: AI System Observability
-      - id: CCC.Vector.CN06
+      - id: CCC.Vector.CNN06
         title: Enforce Dimensional and Format Constraints
         objective: |
           Reject embeddings that do not conform to expected model
           specifications (dimensions, format, etc).
         assessment-requirements:
-          - id: CCC.Vector.CN06.TR01
+          - id: CCC.Vector.CNN06.TR01
             text: |
               When an embedding is submitted, the service MUST validate
               that its format and dimensionality match allowed profiles.
@@ -183,20 +183,20 @@ control-families:
             entries:
               - reference-id: CCC.Vector.TH05
                 remarks: Embedding Format or Dimension Attacks
-              - reference-id: CCC.Core.TH06
+              - reference-id: CCC.CNore.TH06
                 remarks: Data is Lost or Corrupted
         guideline-mappings:
             - reference-id: FINOS-AIGF
               entries:
               - reference-id: AIR-PREV-002
                 remarks: Data Filtering From External Knowledge Bases
-      - id: CCC.Vector.CN07
+      - id: CCC.Vector.CNN07
         title: Support Explicit ANN vs. Exact Search Configuration
         objective: |
           Provide clients with the option to enforce exact-match
           (non-ANN) search where search fidelity is critical.
         assessment-requirements:
-          - id: CCC.Vector.CN07.TR01
+          - id: CCC.Vector.CNN07.TR01
             text: |
               When a search request is issued, clients MUST be allowed
               to declare their requirement for exact vs approximate results.
