@@ -109,7 +109,7 @@ Let me know if you'd like this converted into YAML format for use under a `capab
 
 ```
 
-> ok, I'm going to give you the example capabilities.yaml file from object storage, along with the common capabilities file (CCC.F01-CCC.F23). You should reference these in the same way as the object storage one does, for the capabilities you think are pertinent for vector stores too. 
+> ok, I'm going to give you the example capabilities.yaml file from object storage, along with the common capabilities file (CCC.CP01-CCC.CP23). You should reference these in the same way as the object storage one does, for the capabilities you think are pertinent for vector stores too. 
 
 &nbsp;
 
@@ -117,79 +117,79 @@ Let me know if you'd like this converted into YAML format for use under a `capab
 shared-capabilities:
   - reference-id: CCC
     identifiers:
-      - CCC.F01 # Encryption in Transit Enabled by Default
-      - CCC.F02 # Encryption at Rest Enabled by Default
-      - CCC.F03 # Access/Activity Logs
-      - CCC.F04 # Transaction Rate Limits
-      - CCC.F06 # Identity Based Access Control
-      - CCC.F08 # Multi-zone Deployment
-      - CCC.F09 # Monitoring
-      - CCC.F10 # Logging
-      - CCC.F11 # Backup
-      - CCC.F12 # Recovery
-      - CCC.F14 # API Access
-      - CCC.F18 # Versioning
-      - CCC.F20 # Tagging
-      - CCC.F21 # Replication
-      - CCC.F22 # Location Lock-In
+      - CCC.CP01 # Encryption in Transit Enabled by Default
+      - CCC.CP02 # Encryption at Rest Enabled by Default
+      - CCC.CP03 # Access/Activity Logs
+      - CCC.CP04 # Transaction Rate Limits
+      - CCC.CP06 # Identity Based Access Control
+      - CCC.CP08 # Multi-zone Deployment
+      - CCC.CP09 # Monitoring
+      - CCC.CP10 # Logging
+      - CCC.CP11 # Backup
+      - CCC.CP12 # Recovery
+      - CCC.CP14 # API Access
+      - CCC.CP18 # Versioning
+      - CCC.CP20 # Tagging
+      - CCC.CP21 # Replication
+      - CCC.CP22 # Location Lock-In
 
 capabilities:
-  - id: CCC.Vector.F01
+  - id: CCC.Vector.CP01
     title: Embedding Storage
     description: |
       Supports storage of high-dimensional vector embeddings derived from raw input data such as text, images, or audio.
 
-  - id: CCC.Vector.F02
+  - id: CCC.Vector.CP02
     title: Vector Indexing
     description: |
       Provides creation and management of indexes optimized for similarity search, such as HNSW, IVF, or PQ.
 
-  - id: CCC.Vector.F03
+  - id: CCC.Vector.CP03
     title: Similarity Search
     description: |
       Enables nearest-neighbor queries using a query embedding to return the most similar vectors from the store.
 
-  - id: CCC.Vector.F04
+  - id: CCC.Vector.CP04
     title: Metadata Filtering
     description: |
       Supports structured filtering on metadata fields alongside vector similarity search queries.
 
-  - id: CCC.Vector.F05
+  - id: CCC.Vector.CP05
     title: Batch Ingestion
     description: |
       Allows for high-throughput batch upload and deletion of vectors and associated metadata.
 
-  - id: CCC.Vector.F06
+  - id: CCC.Vector.CP06
     title: Real-Time Querying
     description: |
       Provides low-latency response to vector similarity queries suitable for interactive applications.
 
-  - id: CCC.Vector.F07
+  - id: CCC.Vector.CP07
     title: Index Lifecycle Management
     description: |
       Enables automated or manual creation, optimization, and removal of vector indexes.
 
-  - id: CCC.Vector.F08
+  - id: CCC.Vector.CP08
     title: Embedding Format Compatibility
     description: |
       Supports standard vector formats and integrates with common embedding generators (e.g., OpenAI, HuggingFace, TensorFlow).
 
-  - id: CCC.Vector.F09
+  - id: CCC.Vector.CP09
     title: Vector Dimension Management
     description: |
       Supports storing and managing vectors of specific or dynamic dimensionality, depending on model needs.
 
-  - id: CCC.Vector.F10
+  - id: CCC.Vector.CP10
     title: Multi-modal Vector Support
     description: |
       Supports storing and searching across vectors derived from multiple modalities (e.g., text, image, audio).
 
-  - id: CCC.Vector.F11
+  - id: CCC.Vector.CP11
     title: Query Access Control
     description: |
       Provides the ability to restrict who can run vector similarity or metadata filter queries, separate from data modification rights.
 
-  - id: CCC.Vector.F12
+  - id: CCC.Vector.CP12
     title: Approximate or Exact Search Modes
     description: |
       Supports both approximate nearest neighbor (ANN) algorithms for speed and exact search modes for precision-critical applications.
@@ -207,7 +207,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F01 – Embedding Storage**
+### **CCC.Vector.CP01 – Embedding Storage**
 
 **Threats:**
 
@@ -217,7 +217,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F02 – Vector Indexing**
+### **CCC.Vector.CP02 – Vector Indexing**
 
 **Threats:**
 
@@ -226,7 +226,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F03 – Similarity Search**
+### **CCC.Vector.CP03 – Similarity Search**
 
 **Threats:**
 
@@ -236,7 +236,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F04 – Metadata Filtering**
+### **CCC.Vector.CP04 – Metadata Filtering**
 
 **Threats:**
 
@@ -245,7 +245,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F05 – Batch Ingestion**
+### **CCC.Vector.CP05 – Batch Ingestion**
 
 **Threats:**
 
@@ -254,7 +254,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F06 – Real-Time Querying**
+### **CCC.Vector.CP06 – Real-Time Querying**
 
 **Threats:**
 
@@ -263,7 +263,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F07 – Index Lifecycle Management**
+### **CCC.Vector.CP07 – Index Lifecycle Management**
 
 **Threats:**
 
@@ -272,7 +272,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F08 – Embedding Format Compatibility**
+### **CCC.Vector.CP08 – Embedding Format Compatibility**
 
 **Threats:**
 
@@ -281,7 +281,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F09 – Vector Dimension Management**
+### **CCC.Vector.CP09 – Vector Dimension Management**
 
 **Threats:**
 
@@ -290,7 +290,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F10 – Multi-modal Vector Support**
+### **CCC.Vector.CP10 – Multi-modal Vector Support**
 
 **Threats:**
 
@@ -299,7 +299,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F11 – Query Access Control**
+### **CCC.Vector.CP11 – Query Access Control**
 
 **Threats:**
 
@@ -308,7 +308,7 @@ Absolutely — let’s walk through **vector store-specific threats** by capabil
 
 ---
 
-### **CCC.Vector.F12 – Approximate or Exact Search Modes**
+### **CCC.Vector.CP12 – Approximate or Exact Search Modes**
 
 **Threats:**
 
@@ -329,7 +329,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F01 – Embedding Storage
+### CCC.Vector.CP01 – Embedding Storage
 
 - \*\*Model inversion attacks\*\*  
     *Adversaries reconstruct textual or visual inputs from stored embeddings.*  
@@ -346,7 +346,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F02 – Vector Indexing
+### CCC.Vector.CP02 – Vector Indexing
 
 - **Index poisoning**  
     *Malicious embeddings compromise search quality or introduce bias.*  
@@ -358,7 +358,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F03 – Similarity Search
+### CCC.Vector.CP03 – Similarity Search
 
 - \*\*Embedding extraction via brute-force queries\*\*  
     *Attackers infer stored vectors by probing similarity responses.*  
@@ -375,7 +375,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F04 – Metadata Filtering
+### CCC.Vector.CP04 – Metadata Filtering
 
 - **Metadata leakage**  
     *Structured filters may inadvertently expose sensitive labels or tags.*  
@@ -387,7 +387,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F05 – Batch Ingestion
+### CCC.Vector.CP05 – Batch Ingestion
 
 - **Bulk poisoning**  
     *Large-scale malicious embedding insertion.*  
@@ -399,7 +399,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F06 – Real-Time Querying
+### CCC.Vector.CP06 – Real-Time Querying
 
 - \*\*Low-latency enumeration\*\*  
     *APIs abused to systematically extract embeddings.*  
@@ -411,7 +411,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F07 – Index Lifecycle Management
+### CCC.Vector.CP07 – Index Lifecycle Management
 
 - **Unauthorized index manipulation**  
     *Deletion/rebuilding of indexes affecting availability or integrity.*
@@ -422,7 +422,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F08 – Embedding Format Compatibility
+### CCC.Vector.CP08 – Embedding Format Compatibility
 
 - **Malformed format injection**  
     *Vectors in unexpected format crash indexing or miscomputed results.*
@@ -433,7 +433,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F09 – Vector Dimension Management
+### CCC.Vector.CP09 – Vector Dimension Management
 
 - **Dimension inconsistency**  
     *Leads to index corruption or unexpected errors.*
@@ -444,7 +444,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F10 – Multi-modal Vector Support
+### CCC.Vector.CP10 – Multi-modal Vector Support
 
 - **Cross-modal linkage threats**  
     *Connecting embeddings across modalities could enable re-identification.*
@@ -455,7 +455,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F11 – Query Access Control
+### CCC.Vector.CP11 – Query Access Control
 
 - \*\*Excessive read privileges\*\*  
     *Even read-only access may suffice to steal embeddings.*  
@@ -467,7 +467,7 @@ Here are the **vector store–specific threats**, now cross-referenced with real
 
 * * *
 
-### CCC.Vector.F12 – Approximate or Exact Search Modes
+### CCC.Vector.CP12 – Approximate or Exact Search Modes
 
 - **Search bias exploitation**  
     *Approximate results may be manipulated or inconsistent.*
@@ -514,9 +514,9 @@ threats:
   capabilities:
   - reference-id: CCC
     identifiers:
-    - CCC.Vector.F01
-    - CCC.Vector.F03
-    - CCC.Vector.F06
+    - CCC.Vector.CP01
+    - CCC.Vector.CP03
+    - CCC.Vector.CP06
   external-mappings:
   - reference-id: FINOS-AIR
     identifiers:
@@ -529,9 +529,9 @@ threats:
   capabilities:
   - reference-id: CCC
     identifiers:
-    - CCC.Vector.F02
-    - CCC.Vector.F05
-    - CCC.Vector.F07
+    - CCC.Vector.CP02
+    - CCC.Vector.CP05
+    - CCC.Vector.CP07
   external-mappings:
   - reference-id: FINOS-AIR
     identifiers:
@@ -544,8 +544,8 @@ threats:
   capabilities:
   - reference-id: CCC
     identifiers:
-    - CCC.Vector.F04
-    - CCC.Vector.F10
+    - CCC.Vector.CP04
+    - CCC.Vector.CP10
   external-mappings:
   - reference-id: FINOS-AIR
     identifiers:
@@ -558,8 +558,8 @@ threats:
   capabilities:
   - reference-id: CCC
     identifiers:
-    - CCC.Vector.F05
-    - CCC.Vector.F06
+    - CCC.Vector.CP05
+    - CCC.Vector.CP06
 - id: CCC.Vector.TH05
   title: Index Corruption or Downgrade
   description: Attackers with unauthorized access or excessive permissions may tamper
@@ -568,8 +568,8 @@ threats:
   capabilities:
   - reference-id: CCC
     identifiers:
-    - CCC.Vector.F07
-    - CCC.Vector.F11
+    - CCC.Vector.CP07
+    - CCC.Vector.CP11
 - id: CCC.Vector.TH06
   title: Embedding Format or Dimension Attacks
   description: Poor validation of embedding formats or dimensions can cause service
@@ -578,8 +578,8 @@ threats:
   capabilities:
   - reference-id: CCC
     identifiers:
-    - CCC.Vector.F08
-    - CCC.Vector.F09
+    - CCC.Vector.CP08
+    - CCC.Vector.CP09
 - id: CCC.Vector.TH07
   title: Search Result Manipulation via ANN Bias
   description: Approximate nearest neighbor (ANN) algorithms may yield non-deterministic
@@ -588,7 +588,7 @@ threats:
   capabilities:
   - reference-id: CCC
     identifiers:
-    - CCC.Vector.F12
+    - CCC.Vector.CP12
 
 ```
 

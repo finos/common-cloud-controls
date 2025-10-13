@@ -57,8 +57,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.RDMS.F06
-          - reference-id: CCC.RDMS.F07
+          - reference-id: CCC.RDMS.CP06
+          - reference-id: CCC.RDMS.CP07
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -73,7 +73,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.RDMS.F07
+          - reference-id: CCC.RDMS.CP07
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -87,7 +87,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -102,7 +102,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -117,7 +117,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

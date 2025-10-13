@@ -1,105 +1,105 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         remarks: Access/Activity Logs
-      - reference-id: CCC.Core.F04
+      - reference-id: CCC.Core.CP04
         remarks: Transaction Rate Limits
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Identity Based Access Control
-      - reference-id: CCC.Core.F08
+      - reference-id: CCC.Core.CP08
         remarks: Multi-zone Deployment
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         remarks: Monitoring
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Logging
-      - reference-id: CCC.Core.F11
+      - reference-id: CCC.Core.CP11
         remarks: Backup
-      - reference-id: CCC.Core.F12
+      - reference-id: CCC.Core.CP12
         remarks: Recovery
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F18
+      - reference-id: CCC.Core.CP18
         remarks: Versioning
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         remarks: Tagging
-      - reference-id: CCC.Core.F21
+      - reference-id: CCC.Core.CP21
         remarks: Replication
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
 
 capabilities:
-  - id: CCC.Vector.F01
+  - id: CCC.Vector.CP01
     title: Embedding Storage
     description: |
       Supports storage of high-dimensional vector embeddings derived
       from raw input data such as text, images, or audio.
 
-  - id: CCC.Vector.F02
+  - id: CCC.Vector.CP02
     title: Vector Indexing
     description: |
       Provides creation and management of indexes optimized for similarity
       search, such as HNSW, IVF, or PQ.
 
-  - id: CCC.Vector.F03
+  - id: CCC.Vector.CP03
     title: Similarity Search
     description: |
       Enables nearest-neighbor queries using a query embedding to return
       the most similar vectors from the store.
 
-  - id: CCC.Vector.F04
+  - id: CCC.Vector.CP04
     title: Metadata Filtering
     description: |
       Supports structured filtering on metadata fields alongside vector
       similarity search queries.
 
-  - id: CCC.Vector.F05
+  - id: CCC.Vector.CP05
     title: Batch Ingestion
     description: |
       Allows for high-throughput batch upload and deletion of vectors and
       associated metadata.
 
-  - id: CCC.Vector.F06
+  - id: CCC.Vector.CP06
     title: Real-Time Querying
     description: |
       Provides low-latency response to vector similarity queries suitable
       for interactive applications.
 
-  - id: CCC.Vector.F07
+  - id: CCC.Vector.CP07
     title: Index Lifecycle Management
     description: |
       Enables automated or manual creation, optimization, and removal of
       vector indexes.
 
-  - id: CCC.Vector.F08
+  - id: CCC.Vector.CP08
     title: Embedding Format Compatibility
     description: |
       Supports standard vector formats and integrates with common embedding
       generators (e.g., OpenAI, HuggingFace, TensorFlow).
 
-  - id: CCC.Vector.F09
+  - id: CCC.Vector.CP09
     title: Vector Dimension Management
     description: |
       Supports storing and managing vectors of specific or dynamic
       dimensionality, depending on model needs.
 
-  - id: CCC.Vector.F10
+  - id: CCC.Vector.CP10
     title: Multi-modal Vector Support
     description: |
       Supports storing and searching across vectors derived from multiple
       modalities (e.g., text, image, audio).
 
-  - id: CCC.Vector.F11
+  - id: CCC.Vector.CP11
     title: Query Access Control
     description: |
       Provides the ability to restrict who can run vector similarity or
       metadata filter queries, separate from data modification rights.
 
-  - id: CCC.Vector.F12
+  - id: CCC.Vector.CP12
     title: Approximate or Exact Search Modes
     description: |
       Supports both approximate nearest neighbor (ANN) algorithms for speed

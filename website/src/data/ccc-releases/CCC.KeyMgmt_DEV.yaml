@@ -604,16 +604,16 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F14
+          - reference-id: CCC.KeyMgmt.CP14
             strength: 0
             remarks: Key Versioning
-          - reference-id: CCC.KeyMgmt.F16
+          - reference-id: CCC.KeyMgmt.CP16
             strength: 0
             remarks: Disable key
-          - reference-id: CCC.KeyMgmt.F18
+          - reference-id: CCC.KeyMgmt.CP18
             strength: 0
             remarks: Soft Delete
-          - reference-id: CCC.KeyMgmt.F19
+          - reference-id: CCC.KeyMgmt.CP19
             strength: 0
             remarks: Delete Key
     external-mappings:
@@ -637,10 +637,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F10
+          - reference-id: CCC.KeyMgmt.CP10
             strength: 0
             remarks: Decrypt data
-          - reference-id: CCC.KeyMgmt.F17
+          - reference-id: CCC.KeyMgmt.CP17
             strength: 0
             remarks: Enable key
     external-mappings:
@@ -658,10 +658,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F20
+          - reference-id: CCC.KeyMgmt.CP20
             strength: 0
             remarks: Automatic Symmetric Key Rotation
-          - reference-id: CCC.KeyMgmt.F21
+          - reference-id: CCC.KeyMgmt.CP21
             strength: 0
             remarks: Manual Key Rotation
     external-mappings:
@@ -679,7 +679,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F22
+          - reference-id: CCC.KeyMgmt.CP22
             strength: 0
             remarks: Key Import
     external-mappings:
@@ -699,7 +699,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
     external-mappings:
@@ -751,7 +751,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -773,13 +773,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             strength: 0
             remarks: Transaction Rate Limits
-          - reference-id: CCC.Core.F16
+          - reference-id: CCC.Core.CP16
             strength: 0
             remarks: Budgeting
-          - reference-id: CCC.Core.F19
+          - reference-id: CCC.Core.CP19
             strength: 0
             remarks: Auto-scaling
     external-mappings:
@@ -805,7 +805,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F20
+          - reference-id: CCC.Core.CP20
             strength: 0
             remarks: Tagging
     external-mappings:
@@ -815,148 +815,148 @@ threats:
             strength: 0
             remarks: Data Manipulation
 capabilities:
-  - id: CCC.KeyMgmt.F01
+  - id: CCC.KeyMgmt.CP01
     title: AES-256
     description: |
       Support for the AES-256 Advanced Encryption Standard with a 256-bit key for encryption and decryption.
-  - id: CCC.KeyMgmt.F02
+  - id: CCC.KeyMgmt.CP02
     title: RSA-2048
     description: |
       Supports the RSA algorithm with a key size of 2048 bits for encryption and digital signatures.
-  - id: CCC.KeyMgmt.F03
+  - id: CCC.KeyMgmt.CP03
     title: RSA-3072
     description: |
       Supports the RSA algorithm with a key size of 3072 bits for encryption and digital signatures.
-  - id: CCC.KeyMgmt.F04
+  - id: CCC.KeyMgmt.CP04
     title: RSA-4096
     description: |
       Supports the RSA algorithm with a key size of 4096 bits for encryption and digital signatures.
-  - id: CCC.KeyMgmt.F05
+  - id: CCC.KeyMgmt.CP05
     title: EC-P256
     description: |
       Supports the elliptic curve signing algorithm using the P-256 Curve for digital signatures.
-  - id: CCC.KeyMgmt.F06
+  - id: CCC.KeyMgmt.CP06
     title: EC-P256K
     description: |
       Supports the elliptic curve signing algorithm using the Secp256k1 Curve for digital signatures.
-  - id: CCC.KeyMgmt.F07
+  - id: CCC.KeyMgmt.CP07
     title: EC-P384
     description: |
       Supports the elliptic curve signing algorithm using the P-384 Curve for digital signatures.
-  - id: CCC.KeyMgmt.F08
+  - id: CCC.KeyMgmt.CP08
     title: Key Creation
     description: |
       Supports secure key creation within the key management service using the supported algorithms.
-  - id: CCC.KeyMgmt.F09
+  - id: CCC.KeyMgmt.CP09
     title: Encrypt data
     description: |
       Provides the ability to securely encrypt data using a managed key in the supported encryption algorithms.
-  - id: CCC.KeyMgmt.F10
+  - id: CCC.KeyMgmt.CP10
     title: Decrypt data
     description: |
       Provides the ability to securely decrypt data using a managed key in the supported encryption algorithms.
-  - id: CCC.KeyMgmt.F11
+  - id: CCC.KeyMgmt.CP11
     title: Create Digital Signature
     description: |
       Supports the generation of a digital signature for data using the supported signing algorithms.
-  - id: CCC.KeyMgmt.F12
+  - id: CCC.KeyMgmt.CP12
     title: Verify Digital Signature
     description: |
       Supports the verification of the digital signature of some data using the supported signing algorithms.
-  - id: CCC.KeyMgmt.F13
+  - id: CCC.KeyMgmt.CP13
     title: Supports FIPS 140-2 Level 3
     description: |
       Supports FIPS 140-2 Level 3 certified Hardware Security Modules (HSM).
-  - id: CCC.KeyMgmt.F14
+  - id: CCC.KeyMgmt.CP14
     title: Key Versioning
     description: |
       Provides the ability to manage multiple versions of a key.
-  - id: CCC.KeyMgmt.F15
+  - id: CCC.KeyMgmt.CP15
     title: Key label
     description: |
       Supports the ability to tag a managed key with user defined labels.
-  - id: CCC.KeyMgmt.F16
+  - id: CCC.KeyMgmt.CP16
     title: Disable key
     description: |
       Supports the ability to disable a managed key without deletion.
-  - id: CCC.KeyMgmt.F17
+  - id: CCC.KeyMgmt.CP17
     title: Enable key
     description: |
       Supports the ability to re-enable a disabled managed key.
-  - id: CCC.KeyMgmt.F18
+  - id: CCC.KeyMgmt.CP18
     title: Soft Delete
     description: |
       Supports the ability to prevent the immediate deletion of a managed key. This includes the ability
       to recover accidental deletion of keys within a grace period.
-  - id: CCC.KeyMgmt.F19
+  - id: CCC.KeyMgmt.CP19
     title: Delete Key
     description: |
       Supports the ability to permanently delete a managed key after the grace period defined on soft delete.
-  - id: CCC.KeyMgmt.F20
+  - id: CCC.KeyMgmt.CP20
     title: Automatic Symmetric Key Rotation
     description: |
       Supports the ability to automatically rotate a managed symmetric
       key as long as the key was generated within the KMS.
-  - id: CCC.KeyMgmt.F21
+  - id: CCC.KeyMgmt.CP21
     title: Manual Key Rotation
     description: |
       Supports the ability to manually rotate a managed key.
-  - id: CCC.KeyMgmt.F22
+  - id: CCC.KeyMgmt.CP22
     title: Key Import
     description: |
       Supports the ability to import externally generated keys into the KMS.
-  - id: CCC.KeyMgmt.F23
+  - id: CCC.KeyMgmt.CP23
     title: Key Expiry
     description: |
       Supports the ability to set an expiration date for a key
-  - id: CCC.KeyMgmt.F24
+  - id: CCC.KeyMgmt.CP24
     title: Key Replication
     description: |
       Supports the ability to securely replicate a key across different regions using automated or manual process.
-  - id: CCC.Core.F01
+  - id: CCC.Core.CP01
     title: Encryption in Transit Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to transmission via a network interface.
-  - id: CCC.Core.F02
+  - id: CCC.Core.CP02
     title: Encryption at Rest Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to being written to a storage medium.
-  - id: CCC.Core.F03
+  - id: CCC.Core.CP03
     title: Access Log Publication
     description: |
       The service automatically publishes structured, verbose records of
       activities performed within the scope of the service by external actors.
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
-  - id: CCC.Core.F07
+  - id: CCC.Core.CP07
     title: Event Publication
     description: |
       The service automatically publishes a structured state-change record
       upon creation, deletion, or modification of data, configuration,
       components, or child resources.
-  - id: CCC.Core.F08
+  - id: CCC.Core.CP08
     title: Data Replication
     description: |
       The service automatically will or can be configured to
       replicate data across multiple deployments simultaneously with parity.
-  - id: CCC.Core.F09
+  - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.F10
+  - id: CCC.Core.CP10
     title: Log Publication
     description: |
       The service automatically publishes structured, verbose records of activities,
       operations, or events that occur within the service.
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
@@ -1004,33 +1004,33 @@ imported-threats:
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         strength: 0
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         strength: 0
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         strength: 0
         remarks: Access/Activity Logs
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Identity Based Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         strength: 0
         remarks: Event Notifications
-      - reference-id: CCC.Core.F08
+      - reference-id: CCC.Core.CP08
         strength: 0
         remarks: Multi-zone Deployment
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         strength: 0
         remarks: Monitoring
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         strength: 0
         remarks: Logging
-      - reference-id: CCC.Core.F13
+      - reference-id: CCC.Core.CP13
         strength: 0
         remarks: Infrastructure as Code
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access

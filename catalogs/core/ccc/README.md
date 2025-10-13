@@ -34,11 +34,11 @@ This block will list every imported capability by the ID, directing parsers to p
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
 ```
 

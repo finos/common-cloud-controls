@@ -61,13 +61,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Logging.F03
+          - reference-id: CCC.Logging.CP03
             strength: 0 # Not yet specified
             remarks: Real-Time Log Ingestion
-          - reference-id: CCC.Logging.F04
+          - reference-id: CCC.Logging.CP04
             strength: 0 # Not yet specified
             remarks: Centralised Log Collection
-          - reference-id: CCC.Logging.F06
+          - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
             remarks: Log Filtering & Transformation
     external-mappings:
@@ -92,15 +92,15 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0 # Not yet specified
             remarks: Access Control
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0 # Not yet specified
             remarks: API Access
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Core.F22
+          - reference-id: CCC.Core.CP22
             strength: 0 # Not yet specified
             remarks: Location Lock-In
     external-mappings:
@@ -125,13 +125,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Logging.F05
+          - reference-id: CCC.Logging.CP05
             strength: 0 # Not yet specified
             remarks: Custom Log Format Support
-          - reference-id: CCC.Logging.F06
+          - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
             remarks: Log Filtering & Transformation
-          - reference-id: CCC.Logging.F11
+          - reference-id: CCC.Logging.CP11
             strength: 0 # Not yet specified
             remarks: Log-based Metrics
     external-mappings:
@@ -153,10 +153,10 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Logging.F06
+          - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
             remarks: Log Filtering & Transformation
-          - reference-id: CCC.Logging.F08
+          - reference-id: CCC.Logging.CP08
             strength: 0 # Not yet specified
             remarks: Retention Policies
     external-mappings:
@@ -181,13 +181,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Logging.F07
+          - reference-id: CCC.Logging.CP07
             strength: 0 # Not yet specified
             remarks: Immutable Storage
-          - reference-id: CCC.Logging.F08
+          - reference-id: CCC.Logging.CP08
             strength: 0 # Not yet specified
             remarks: Retention Policies
-          - reference-id: CCC.Logging.F12
+          - reference-id: CCC.Logging.CP12
             strength: 0 # Not yet specified
             remarks: Log Archiving
     external-mappings:
@@ -213,13 +213,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0 # Not yet specified
             remarks: Logging
-          - reference-id: CCC.Logging.F01
+          - reference-id: CCC.Logging.CP01
             strength: 0 # Not yet specified
             remarks: Service Log Capture
-          - reference-id: CCC.Logging.F02
+          - reference-id: CCC.Logging.CP02
             strength: 0 # Not yet specified
             remarks: Application Log Ingestion
     external-mappings:
@@ -240,13 +240,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0 # Not yet specified
             remarks: Logging
-          - reference-id: CCC.Logging.F01
+          - reference-id: CCC.Logging.CP01
             strength: 0 # Not yet specified
             remarks: Service Log Capture
-          - reference-id: CCC.Logging.F02
+          - reference-id: CCC.Logging.CP02
             strength: 0 # Not yet specified
             remarks: Application Log Ingestion
     external-mappings:

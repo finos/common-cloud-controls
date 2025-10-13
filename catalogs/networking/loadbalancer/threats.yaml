@@ -35,12 +35,12 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             strength: 0 # Not yet specified
             remarks: Transaction Rate Limits
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F22
+          - reference-id: CCC.LB.CP22
             strength: 0 # Not yet specified
             remarks: Rate Limiting / Throttling
     external-mappings:
@@ -61,10 +61,10 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F02
+          - reference-id: CCC.LB.CP02
             strength: 0 # Not yet specified
             remarks: Dynamic LB
-          - reference-id: CCC.LB.F20
+          - reference-id: CCC.LB.CP20
             strength: 0 # Not yet specified
             remarks: Traffic Splitting
     external-mappings:
@@ -81,7 +81,7 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F15
+          - reference-id: CCC.LB.CP15
             strength: 0 # Not yet specified
             remarks: Session Affinity
     external-mappings:
@@ -98,10 +98,10 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F12
+          - reference-id: CCC.LB.CP12
             strength: 0 # Not yet specified
             remarks: Health Checks
-          - reference-id: CCC.LB.F13
+          - reference-id: CCC.LB.CP13
             strength: 0 # Not yet specified
             remarks: Target Removal
     external-mappings:
@@ -118,7 +118,7 @@ threats:
     capabilities:
       - reference-id: LBL
         entries:
-          - reference-id: CCC.LB.F19
+          - reference-id: CCC.LB.CP19
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -132,7 +132,7 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F11
+          - reference-id: CCC.LB.CP11
             strength: 0 # Not yet specified
             remarks: SSL/TLS Termination
     external-mappings:

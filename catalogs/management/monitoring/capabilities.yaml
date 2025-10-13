@@ -1,73 +1,73 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         remarks: Event Publication
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F15
+      - reference-id: CCC.Core.CP15
         remarks: Cost Management
-      - reference-id: CCC.Core.F17
+      - reference-id: CCC.Core.CP17
         remarks: Alerting
 
 capabilities:
-  - id: CCC.Monitor.F01
+  - id: CCC.Monitor.CP01
     title: Metric collection
     description: |
       Gathering numerical (quantitative) data points about the performance,
       health, or behaviour of systems, applications or infrastructure.
-  - id: CCC.Monitor.F02
+  - id: CCC.Monitor.CP02
     title: Tracing
     description: |
       An observability technique providing an end-to-end view of a request or
       transaction flow through a complex system to enable a single action to
       be linked to resulting events in multiple downstream systems.
-  - id: CCC.Monitor.F03
+  - id: CCC.Monitor.CP03
     title: Reporting
     description: |
       Summarised view of metrics in a structured, sharable format.
-  - id: CCC.Monitor.F04
+  - id: CCC.Monitor.CP04
     title: Health Checks
     description: |
       A type of monitoring that focuses on the operational status and
       readiness of components or entire systems.
-  - id: CCC.Monitor.F05
+  - id: CCC.Monitor.CP05
     title: SLO Monitoring
     description: |
       Define and monitor Service Level Objectives (SLO) using Service Level Indicators (SLI) based on metrics.
-  - id: CCC.Monitor.F06
+  - id: CCC.Monitor.CP06
     title: Synthetic Monitoring
     description: |
       Proactively checking sample user interactions to identify issues before real users are impacted.
-  - id: CCC.Monitor.F07
+  - id: CCC.Monitor.CP07
     title: Uptime Monitoring
     description: |
       Checking whether a specific service or application is accessible from an external perspective.
-  - id: CCC.Monitor.F08
+  - id: CCC.Monitor.CP08
     title: Application Performance Monitoring (APM)
     description: |
       A comprehensive approach to monitoring the performance, availability and user experience of
       an application through multiple levels of data collection
-  - id: CCC.Monitor.F09
+  - id: CCC.Monitor.CP09
     title: Dashboard
     description: |
       A visual representation of the health of systems being monitored. Pulling together metrics,
       current alerts, SLO/SLI's, health checks and other monitoring features into a single location
       to enable a view of the health of the overall system.
-  - id: CCC.Monitor.F10
+  - id: CCC.Monitor.CP10
     title: Triggering
     description: |
       Automatically initiating actions like alerts, notifications or automated workflows based
       on pre-defined conditions being met.
-  - id: CCC.Monitor.F11
+  - id: CCC.Monitor.CP11
     title: Integration with Third-Party Tools
     description: |
       Monitoring tools are able to integrate with a number of downstream systems in order to send

@@ -1,104 +1,104 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.F11
+      - reference-id: CCC.Core.CP11
         remarks: Backup
-      - reference-id: CCC.Core.F12
+      - reference-id: CCC.Core.CP12
         remarks: Recovery
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F17
+      - reference-id: CCC.Core.CP17
         remarks: Alerting
-      - reference-id: CCC.Core.F18
+      - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
 
 capabilities:
-  - id: CCC.Logging.F01
+  - id: CCC.Logging.CP01
     title: Service Log Capture
     description: |
       Ability to capture logs from all relevant cloud services at varying
       levels of verbosity.
 
-  - id: CCC.Logging.F02
+  - id: CCC.Logging.CP02
     title: Application Log Ingestion
     description: |
       Support for ingesting logs from custom applications deployed within the
       cloud environment.
 
-  - id: CCC.Logging.F03
+  - id: CCC.Logging.CP03
     title: Real-Time Log Ingestion
     description: |
       Logs should be ingested in near real-time to enable timely detection and
       response.
 
-  - id: CCC.Logging.F04
+  - id: CCC.Logging.CP04
     title: Centralised Log Collection
     description: |
       Ability to centralise logs from different resources within a signle
       logging solution or platform.
 
-  - id: CCC.Logging.F05
+  - id: CCC.Logging.CP05
     title: Custom Log Format Support
     description: |
       Ability to ingest custom log formats or data from on-premises systems or
       other cloud environments via agents.
 
-  - id: CCC.Logging.F06
+  - id: CCC.Logging.CP06
     title: Log Filtering & Transformation
     description: |
       Ability to to filter, normalise, and transform raw log data at ingestion
       to optimise storage and enhance usability.
 
-  - id: CCC.Logging.F07
+  - id: CCC.Logging.CP07
     title: Immutable Storage
     description: |
       Ability to prevent unauthorized alteration or deletion of logs, ensuring
       their integrity for auditing and forensic purposes.
 
-  - id: CCC.Logging.F08
+  - id: CCC.Logging.CP08
     title: Retention Policies
     description: |
       Ability to define and enforce granular retention periods for different
       log types based on regulatory requirements and internal policies.
 
-  - id: CCC.Logging.F09
+  - id: CCC.Logging.CP09
     title: Internal Sink
     description: |
       Ability to continuously stream log data to a hosted storage bucket or data lake
       solution within the cloud service provider.
 
-  - id: CCC.Logging.F10
+  - id: CCC.Logging.CP10
     title: External Sink
     description: |
       Log events can be configured to be sent to a external SIEM or data analysis
       provider outside of the cloud platform.
 
-  - id: CCC.Logging.F11
+  - id: CCC.Logging.CP11
     title: Log-based Metrics
     description: |
       Ability to extract quantitative metrics from log data for performance
       monitoring and operational analysis.
 
-  - id: CCC.Logging.F12
+  - id: CCC.Logging.CP12
     title: Log Archiving
     description: |
       Ability to archive logs that are no longer needed but must be retained.
 
-  - id: CCC.Logging.F13
+  - id: CCC.Logging.CP13
     title: Field Indexing
     description: |
       Supports field-based indexing to improve log query performace.

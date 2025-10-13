@@ -521,9 +521,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Build.F01
+          - reference-id: CCC.Build.CP01
             strength: 0
-          - reference-id: CCC.Build.F04
+          - reference-id: CCC.Build.CP04
             strength: 0
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -538,7 +538,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Build.F03
+          - reference-id: CCC.Build.CP03
             strength: 0
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -556,7 +556,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
     external-mappings:
@@ -630,10 +630,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F22
+          - reference-id: CCC.Core.CP22
             strength: 0
             remarks: Location Lock-In
     external-mappings:
@@ -664,7 +664,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -683,13 +683,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F12
+          - reference-id: CCC.Core.CP12
             strength: 0
             remarks: Recovery
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -717,10 +717,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
             strength: 0
             remarks: Backup
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -749,10 +749,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
     external-mappings:
@@ -779,10 +779,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -838,10 +838,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -869,13 +869,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             strength: 0
             remarks: Transaction Rate Limits
-          - reference-id: CCC.Core.F16
+          - reference-id: CCC.Core.CP16
             strength: 0
             remarks: Budgeting
-          - reference-id: CCC.Core.F19
+          - reference-id: CCC.Core.CP19
             strength: 0
             remarks: Auto-scaling
     external-mappings:
@@ -901,7 +901,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -945,7 +945,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0
             remarks: API Access
     external-mappings:
@@ -965,10 +965,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -978,105 +978,105 @@ threats:
             strength: 0
             remarks: Impair Defenses
 capabilities:
-  - id: CCC.Build.F01
+  - id: CCC.Build.CP01
     title: Build Automation
     description: |
       Provides fully managed continuous integration service that compiles source code,
       run tests and produce software packages based on triggers or schedules.
-  - id: CCC.Build.F02
+  - id: CCC.Build.CP02
     title: CI/CD Pipelines
     description: |
       Provides or integrates with continuous integration and continuous delivery/deployment (CI/CD)
       services.
-  - id: CCC.Build.F03
+  - id: CCC.Build.CP03
     title: Source Repository Integration
     description: |
       Integrates with cloud native or external source code repositories such as
       GitHub, Bitbucket, GitLab to trigger builds on code changes.
-  - id: CCC.Build.F04
+  - id: CCC.Build.CP04
     title: Artifact Storage
     description: |
       Ability to securely store build artifacts for later use.
-  - id: CCC.Build.F05
+  - id: CCC.Build.CP05
     title: Multi-language Support
     description: |
       Provides pre-configured build environments for popular programming languages such as Java,
       Python, Node.js, .NET, etc.
-  - id: CCC.Build.F06
+  - id: CCC.Build.CP06
     title: Custom Build Environments
     description: |
       Allows custom build environments by specifying the operating system, runtime, or
       providing a custom docker runtime image.
-  - id: CCC.Build.F07
+  - id: CCC.Build.CP07
     title: Build Docker Image
     description: |
       Support for building docker container images in the pipelines.
-  - id: CCC.Build.F08
+  - id: CCC.Build.CP08
     title: Environment Variables
     description: |
       Ability to set environment variables within the build project.
-  - id: CCC.Build.F09
+  - id: CCC.Build.CP09
     title: Concurrent Builds
     description: |
       Support for concurrent, parallel builds to improve build performance.
-  - id: CCC.Build.F10
+  - id: CCC.Build.CP10
     title: Caching
     description: |
       Caching of dependencies between builds for faster builds.
-  - id: CCC.Build.F11
+  - id: CCC.Build.CP11
     title: Realtime Build Logs
     description: |
       Providing the ability to monitor builds and view logs in the real-time.
-  - id: CCC.Build.F12
+  - id: CCC.Build.CP12
     title: List and View Builds
     description: |
       Ability to list, view logs and download artifacts of old builds.
-  - id: CCC.Core.F01
+  - id: CCC.Core.CP01
     title: Encryption in Transit Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to transmission via a network interface.
-  - id: CCC.Core.F02
+  - id: CCC.Core.CP02
     title: Encryption at Rest Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to being written to a storage medium.
-  - id: CCC.Core.F04
+  - id: CCC.Core.CP04
     title: Transaction Rate Limits
     description: |
       The service always provides industry-standard network throughput
       up to a user-specified rate limit, beyond which excess requests
       may be throttled, delayed, or rejected.
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
-  - id: CCC.Core.F07
+  - id: CCC.Core.CP07
     title: Event Publication
     description: |
       The service automatically publishes a structured state-change record
       upon creation, deletion, or modification of data, configuration,
       components, or child resources.
-  - id: CCC.Core.F09
+  - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.F10
+  - id: CCC.Core.CP10
     title: Log Publication
     description: |
       The service automatically publishes structured, verbose records of activities,
       operations, or events that occur within the service.
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.F19
+  - id: CCC.Core.CP19
     title: Resource Scaling
     description: |
       The service may be configured to scale child resources automatically
@@ -1147,30 +1147,30 @@ imported-threats:
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         strength: 0
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         strength: 0
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F04
+      - reference-id: CCC.Core.CP04
         strength: 0
         remarks: Transaction Rate Limits
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Identity Based Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         strength: 0
         remarks: Event Notifications
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         strength: 0
         remarks: Monitoring
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         strength: 0
         remarks: Logging
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.F19
+      - reference-id: CCC.Core.CP19
         strength: 0
         remarks: On-Demand Scaling
