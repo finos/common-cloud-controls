@@ -1,0 +1,93 @@
+style_guide:
+  general:
+    - "Structure each control with id, title, objective, assessment-requirements, threat-mappings, and guideline-mappings."
+    - "Controls are grouped under control-families with a title and description."
+    - "Use a formal, objective, and prescriptive tone throughout."
+
+  control_families:
+    title:
+      - "Should be concise (≤5 words)."
+      - "Use title case."
+      - "Represent a broad category of security concerns (e.g., 'Data', 'Access', 'Monitoring')."
+    description:
+      - "Must use multi-line text which starts with '|'"
+      - "Start with 'The [Family Name] control family...'"
+      - "Use present tense and active voice."
+      - "Explain the overarching purpose and scope of the control family."
+      - "Include what aspects the controls govern (e.g., 'how data is transmitted, stored...')."
+
+  id:
+    - "Use the format CCC.<service-id>.C<seq-number>"
+    - "Service id can be found in the 'id' field of the 'metadata.yaml' file."
+    - "Service id should be less than 8 characters."
+
+  titles:
+    - "Should be concise (≤12 words)."
+    - "Use title case."
+    - "Frame as an imperative action (e.g., 'Encrypt Data for Transmission', 'Enforce Access Controls')."
+    - "Clearly state what must be done, not why or when."
+    - "Avoid special characters except hyphens."
+
+  objectives:
+    - "Must use multi-line text which starts with '|'"
+    - "Begin with 'Ensure that...' or similar directive phrases."
+    - "Use present tense and active voice."
+    - "State the security outcome or goal the control achieves."
+    - "Keep to a single sentence when possible."
+    - "Focus on the 'why' - the security benefit or protection provided."
+
+  assessment_requirements:
+    id:
+      - "Use the format CCC.<service-id>.C<control-seq>.TR<req-seq-number>"
+      - "TR stands for 'Technical Requirement'"
+      - "Sequential numbering within each control (TR01, TR02, etc.)"
+    text:
+      - "Must use multi-line text which starts with '|'"
+      - "Use conditional structure when applicable: 'When [condition], [action] MUST [requirement]'"
+      - "Use 'MUST' for mandatory requirements (RFC 2119 compliance)."
+      - "Use present tense throughout."
+      - "Be specific and testable - requirements should be verifiable."
+      - "Include technical specifications (e.g., 'TLS 1.3 or higher', 'SSHv2 or higher')."
+      - "Use 'AND' to combine multiple mandatory conditions within a single requirement."
+    applicability:
+      - "List Traffic Light Protocol (TLP) levels where the requirement applies."
+      - "Valid values: tlp-clear, tlp-green, tlp-amber, tlp-red"
+      - "Order from least to most restrictive."
+      - "More restrictive requirements typically apply to higher TLP levels (amber, red)."
+    recommendation:
+      - "Must use multi-line text which starts with '|'"
+      - "Provide practical implementation guidance."
+      - "Use imperative mood (e.g., 'Ensure that...', 'Review...', 'Configure...')."
+      - "Include specific actions or configurations when possible."
+      - "Reference relevant standards or registries where applicable."
+      - "May include scanning, monitoring, or maintenance activities."
+
+  threat_mappings:
+    - "Reference threats that the control helps prevent or mitigate."
+    - "Use the reference-id field to specify the threat set (typically matches service-id)."
+    - |
+      Each entry must include:
+        reference-id: the threat ID (e.g., CCC.Core.TH02)
+
+  guideline_mappings:
+    - "Reference external compliance frameworks and standards."
+    - "The reference-id for mappings must be an ID defined in metadata.mapping-references[]"
+    - |
+      Common frameworks include:
+        CCM: Cloud Controls Matrix
+        NIST-CSF: NIST Cybersecurity Framework
+        ISO_27001: ISO/IEC 27001 standard
+        NIST_800_53: NIST Special Publication 800-53
+        OWASP: Open Web Application Security Project
+        PCI-DSS: Payment Card Industry Data Security Standard
+    - |
+      Each entry must include:
+        reference-id: the external framework control ID
+        remarks: (optional) the control title or description for human readability
+        strength: (optional, for CCM) numeric value indicating mapping strength (1-10)
+
+  formatting:
+    - "Use consistent YAML syntax with proper indentation."
+    - "Assessment requirements should be ordered logically (general to specific, or by protocol type)."
+    - "Guideline mappings should be grouped by framework."
+    - "Maintain consistent spacing between major sections."
