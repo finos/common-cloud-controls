@@ -71,7 +71,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CNM-1
+              - reference-id: DE.CM-1
                 strength: 0 # Not yet specified
                 remarks: Monitor to detect events
               - reference-id: PR.AC-7

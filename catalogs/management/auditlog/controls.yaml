@@ -132,7 +132,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CNM-1
+              - reference-id: DE.CM-1
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-5
@@ -165,7 +165,7 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CNM-1
+              - reference-id: DE.CM-1
           - reference-id: NIST_800_53
             entries:
               - reference-id: AU-2

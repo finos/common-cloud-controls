@@ -430,11 +430,11 @@ control-families:
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: DE.CNM-03
+              - reference-id: DE.CM-03
                 strength: 0 # Not yet specified
-              - reference-id: DE.CNM-06
+              - reference-id: DE.CM-06
                 strength: 0 # Not yet specified
-              - reference-id: DE.CNM-09
+              - reference-id: DE.CM-09
           - reference-id: NIST_800_53
             entries:
               - reference-id: SI-4
