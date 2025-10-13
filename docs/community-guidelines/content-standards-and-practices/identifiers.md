@@ -8,9 +8,9 @@ This document provides a standardized approach for assigning unique identifiers 
 | **Service Category** | `CCC.<ServiceCategory>`                     | `CCC.ObjStor`          |
 | **Capability**       | `CCC.<ServiceCategory>.F<##>`               | `CCC.ObjStor.F01`      |
 | **Threat**           | `CCC.<ServiceCategory>.TH<##>`              | `CCC.RDMS.TH01`        |
-| **Control**          | `CCC.<ServiceCategory>.C<##>`               | `CCC.VM.C01`           |
-| **Test Requirement** | `CCC.<ServiceCategory>.C<##>.TR<##>`        | `CCC.VM.C01.TR01`      |
-| **Test**             | `CCC.<ServiceCategory>.C<##>.TR<##>.TE<##>` | `CCC.VM.C01.TR01.TE01` |
+| **Control**          | `CCC.<ServiceCategory>.CN<##>`               | `CCC.VM.CN01`           |
+| **Test Requirement** | `CCC.<ServiceCategory>.CN<##>.TR<##>`        | `CCC.VM.CN01.TR01`      |
+| **Test**             | `CCC.<ServiceCategory>.CN<##>.TR<##>.TE<##>` | `CCC.VM.CN01.TR01.TE01` |
 
 ## Service Families
 
@@ -65,35 +65,35 @@ Each threat ID follows the format `CCC.<ServiceCategory>.TH<##>`.
 Controls are security measures designed to mitigate specific threats.
 Each control will contain a set of Test Requirements.
 
-Each control ID follows the format `CCC.<ServiceCategory>.C<##>`.
+Each control ID follows the format `CCC.<ServiceCategory>.CN<##>`.
 
 ### Examples
 
-- **CCC.VM.C01** - The first control in the Virtual Machine service category.
-- **CCC.ObjStor.C02** - The second control in the Object Storage service category.
+- **CCC.VM.CN01** - The first control in the Virtual Machine service category.
+- **CCC.ObjStor.CN02** - The second control in the Object Storage service category.
 
 ## 6. Test Requirements
 
 Test requirements are specific conditions or criteria that must be met to validate the associated control.
 Each Test Requirement will map to a set of Tests.
 
-Each test requirement ID follows the format `CCC.<ServiceCategory>.C<##>.TR<##>`.
+Each test requirement ID follows the format `CCC.<ServiceCategory>.CN<##>.TR<##>`.
 
 ### Examples
 
-- **CCC.VM.C01.TR01** - The first test requirement for the first control in the Virtual Machine service category.
-- **CCC.ObjStor.C02.TR02** - The second test requirement for the second control in the Object Storage service category.
+- **CCC.VM.CN01.TR01** - The first test requirement for the first control in the Virtual Machine service category.
+- **CCC.ObjStor.CN02.TR02** - The second test requirement for the second control in the Object Storage service category.
 
 ## 7. Tests
 
 Tests are individual assessments or procedures that fulfill a test requirement. These should be written in Gherkin for easy implementation.
 
-Each test ID follows the format `CCC.<ServiceCategory>.C<##>.TR<##>.TE<##>`.
+Each test ID follows the format `CCC.<ServiceCategory>.CN<##>.TR<##>.TE<##>`.
 
 ### Examples
 
-- **CCC.VM.C01.TR01.TE01** - The first test for the first test requirement of the first control in the Virtual Machine service category.
-- **CCC.ObjStor.C02.TR02.TE02** - The second test for the second test requirement of the second control in the Object Storage service category.
+- **CCC.VM.CN01.TR01.TE01** - The first test for the first test requirement of the first control in the Virtual Machine service category.
+- **CCC.ObjStor.CN02.TR02.TE02** - The second test for the second test requirement of the second control in the Object Storage service category.
 
 ## Summary
 

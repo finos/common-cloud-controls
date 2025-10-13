@@ -613,9 +613,9 @@ Great. Based on the **seven vector-specific threats** identified earlier, hereâ€
   Apply noise or differential privacy mechanisms to similarity scoring to protect embedding semantics.
 * **Cross-reference CCC controls:**
 
-  * CCC.C03 (MFA for Access)
-  * CCC.C05 (Prevent Access from Untrusted Entities)
-  * CCC.C04 (Log All Access and Changes)
+  * CCC.CN03 (MFA for Access)
+  * CCC.CN05 (Prevent Access from Untrusted Entities)
+  * CCC.CN04 (Log All Access and Changes)
 
 ---
 
@@ -631,9 +631,9 @@ Great. Based on the **seven vector-specific threats** identified earlier, hereâ€
   Use drift or anomaly detection on index quality or search precision.
 * **Cross-reference CCC controls:**
 
-  * CCC.C03
-  * CCC.C04
-  * CCC.C09 (Prevent Log Tampering)
+  * CCC.CN03
+  * CCC.CN04
+  * CCC.CN09 (Prevent Log Tampering)
 
 ---
 
@@ -647,8 +647,8 @@ Great. Based on the **seven vector-specific threats** identified earlier, hereâ€
   Detect and log high-risk correlation queries that combine sensitive metadata filters with embedding searches.
 * **Cross-reference CCC controls:**
 
-  * CCC.C04
-  * CCC.C09
+  * CCC.CN04
+  * CCC.CN09
 
 ---
 
@@ -664,8 +664,8 @@ Great. Based on the **seven vector-specific threats** identified earlier, hereâ€
   Auto-adjust rate limits based on backend latency or saturation.
 * **Cross-reference CCC controls:**
 
-  * CCC.C01 (Prevent Unencrypted Requests)
-  * CCC.C12 (Secure Network Access Rules)
+  * CCC.CN01 (Prevent Unencrypted Requests)
+  * CCC.CN12 (Secure Network Access Rules)
 
 ---
 
@@ -679,9 +679,9 @@ Great. Based on the **seven vector-specific threats** identified earlier, hereâ€
   Every create, delete, reindex event must be audit-logged and access-controlled.
 * **Cross-reference CCC controls:**
 
-  * CCC.C04
-  * CCC.C09
-  * CCC.C10 (Prevent Replication Outside Trust Boundary)
+  * CCC.CN04
+  * CCC.CN09
+  * CCC.CN10 (Prevent Replication Outside Trust Boundary)
 
 ---
 
@@ -695,8 +695,8 @@ Great. Based on the **seven vector-specific threats** identified earlier, hereâ€
   Allow admins to register allowed vector profiles by dimensionality, source, etc.
 * **Cross-reference CCC controls:**
 
-  * CCC.C05
-  * CCC.C04
+  * CCC.CN05
+  * CCC.CN04
 
 ---
 
@@ -710,8 +710,8 @@ Great. Based on the **seven vector-specific threats** identified earlier, hereâ€
   Return approximate confidence scores or result quality indicators.
 * **Cross-reference CCC controls:**
 
-  * CCC.C04
-  * CCC.C07
+  * CCC.CN04
+  * CCC.CN07
 
 ---
 
@@ -735,25 +735,25 @@ Would you like me to now turn these into a formal `controls.yaml` block with ful
 shared-controls:
   - reference-id: CCC
     identifiers:
-      - CCC.C01 # Prevent Unencrypted Requests
-      - CCC.C03 # Require MFA for Access
-      - CCC.C04 # Log All Access and Changes
-      - CCC.C05 # Prevent Access from Untrusted Entities
-      - CCC.C06 # Require Access Approval
-      - CCC.C07 # Limit Public Access to Resources
-      - CCC.C09 # Prevent Log Tampering
-      - CCC.C10 # Prevent Replication Outside Trust Boundary
-      - CCC.C12 # Secure Network Access Rules
+      - CCC.CN01 # Prevent Unencrypted Requests
+      - CCC.CN03 # Require MFA for Access
+      - CCC.CN04 # Log All Access and Changes
+      - CCC.CN05 # Prevent Access from Untrusted Entities
+      - CCC.CN06 # Require Access Approval
+      - CCC.CN07 # Limit Public Access to Resources
+      - CCC.CN09 # Prevent Log Tampering
+      - CCC.CN10 # Prevent Replication Outside Trust Boundary
+      - CCC.CN12 # Secure Network Access Rules
 
 control-families:
   - title: Vector Indexing
     description: Controls specific to the management and protection of vector embedding and index operations.
     controls:
-      - id: CCC.Vector.C01
+      - id: CCC.Vector.CN01
         title: Validate Embeddings Before Indexing
         objective: Ensure all incoming embeddings are structurally and statistically validated before indexing to prevent poisoning or corruption.
         assessment-requirements:
-          - id: CCC.Vector.C01.TR01
+          - id: CCC.Vector.CN01.TR01
             text: When a vector embedding is submitted for indexing, the system MUST validate that it matches expected schema, dimension, and format profiles.
             applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
             recommendation: ""
@@ -764,11 +764,11 @@ control-families:
               - CCC.Vector.TH06 # Embedding Format or Dimension Attacks
               - CCC.TH12 # Resource Constraints are Exhausted
         guideline-mappings: []
-      - id: CCC.Vector.C02
+      - id: CCC.Vector.CN02
         title: Enforce Role-Based Index Lifecycle Management
         objective: Restrict index lifecycle operations (create, delete, rollback) to privileged identities using fine-grained access controls.
         assessment-requirements:
-          - id: CCC.Vector.C02.TR01
+          - id: CCC.Vector.CN02.TR01
             text: When an index lifecycle event is triggered, the service MUST verify that the actor has explicit permissions for the operation type.
             applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
             recommendation: ""
@@ -779,11 +779,11 @@ control-families:
               - CCC.Vector.TH05 # Index Corruption or Downgrade
               - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings: []
-      - id: CCC.Vector.C03
+      - id: CCC.Vector.CN03
         title: Enforce Metadata-Level Access Controls
         objective: Apply access control policies to metadata fields used in filtering to prevent unauthorized exposure or inference.
         assessment-requirements:
-          - id: CCC.Vector.C03.TR01
+          - id: CCC.Vector.CN03.TR01
             text: When a metadata filter is applied to a query, the service MUST verify the requester is authorized to access that field.
             applicability: [tlp-amber, tlp-red]
             recommendation: ""
@@ -793,11 +793,11 @@ control-families:
               - CCC.Vector.TH03 # Cross-modal or Metadata Leakage
               - CCC.TH01 # Access Control is Misconfigured
         guideline-mappings: []
-      - id: CCC.Vector.C04
+      - id: CCC.Vector.CN04
         title: Enforce Ingestion Quotas and Throttling
         objective: Prevent ingestion-based DoS or index pollution by rate-limiting vector submissions and enforcing quotas.
         assessment-requirements:
-          - id: CCC.Vector.C04.TR01
+          - id: CCC.Vector.CN04.TR01
             text: When ingestion exceeds pre-defined thresholds, the service MUST throttle or reject excess vector write operations.
             applicability: [tlp-green, tlp-amber, tlp-red]
             recommendation: ""
@@ -808,11 +808,11 @@ control-families:
               - CCC.Vector.TH04 # Denial of Service via Query or Ingestion Flooding
               - CCC.TH12 # Resource Constraints are Exhausted
         guideline-mappings: []
-      - id: CCC.Vector.C05
+      - id: CCC.Vector.CN05
         title: Enforce Index Versioning with Rollback Protection
         objective: Ensure vector indexes are versioned and that rollback operations are authorized and auditable.
         assessment-requirements:
-          - id: CCC.Vector.C05.TR01
+          - id: CCC.Vector.CN05.TR01
             text: When a rollback is attempted, the system MUST log the action and verify rollback authorization.
             applicability: [tlp-amber, tlp-red]
             recommendation: ""
@@ -823,11 +823,11 @@ control-families:
               - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
               - CCC.TH04 # Data is Replicated to Untrusted or External Locations
         guideline-mappings: []
-      - id: CCC.Vector.C06
+      - id: CCC.Vector.CN06
         title: Enforce Dimensional and Format Constraints
         objective: Reject embeddings that do not conform to expected model specifications (dimensions, format, etc).
         assessment-requirements:
-          - id: CCC.Vector.C06.TR01
+          - id: CCC.Vector.CN06.TR01
             text: When an embedding is submitted, the service MUST validate that its format and dimensionality match allowed profiles.
             applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
             recommendation: ""
@@ -837,11 +837,11 @@ control-families:
               - CCC.Vector.TH06 # Embedding Format or Dimension Attacks
               - CCC.TH06 # Data is Lost or Corrupted
         guideline-mappings: []
-      - id: CCC.Vector.C07
+      - id: CCC.Vector.CN07
         title: Support Explicit ANN vs. Exact Search Configuration
         objective: Provide clients with the option to enforce exact-match (non-ANN) search where search fidelity is critical.
         assessment-requirements:
-          - id: CCC.Vector.C07.TR01
+          - id: CCC.Vector.CN07.TR01
             text: When a search request is issued, clients MUST be allowed to declare their requirement for exact vs approximate results.
             applicability: [tlp-amber, tlp-red]
             recommendation: ""
