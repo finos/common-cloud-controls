@@ -1009,13 +1009,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Logging.F03
+          - reference-id: CCC.Logging.CP03
             strength: 0
             remarks: Real-Time Log Ingestion
-          - reference-id: CCC.Logging.F04
+          - reference-id: CCC.Logging.CP04
             strength: 0
             remarks: Centralised Log Collection
-          - reference-id: CCC.Logging.F06
+          - reference-id: CCC.Logging.CP06
             strength: 0
             remarks: Log Filtering & Transformation
     external-mappings:
@@ -1040,15 +1040,15 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0
             remarks: API Access
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Core.F22
+          - reference-id: CCC.Core.CP22
             strength: 0
             remarks: Location Lock-In
     external-mappings:
@@ -1073,13 +1073,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Logging.F05
+          - reference-id: CCC.Logging.CP05
             strength: 0
             remarks: Custom Log Format Support
-          - reference-id: CCC.Logging.F06
+          - reference-id: CCC.Logging.CP06
             strength: 0
             remarks: Log Filtering & Transformation
-          - reference-id: CCC.Logging.F11
+          - reference-id: CCC.Logging.CP11
             strength: 0
             remarks: Log-based Metrics
     external-mappings:
@@ -1101,10 +1101,10 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Logging.F06
+          - reference-id: CCC.Logging.CP06
             strength: 0
             remarks: Log Filtering & Transformation
-          - reference-id: CCC.Logging.F08
+          - reference-id: CCC.Logging.CP08
             strength: 0
             remarks: Retention Policies
     external-mappings:
@@ -1129,13 +1129,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Logging.F07
+          - reference-id: CCC.Logging.CP07
             strength: 0
             remarks: Immutable Storage
-          - reference-id: CCC.Logging.F08
+          - reference-id: CCC.Logging.CP08
             strength: 0
             remarks: Retention Policies
-          - reference-id: CCC.Logging.F12
+          - reference-id: CCC.Logging.CP12
             strength: 0
             remarks: Log Archiving
     external-mappings:
@@ -1161,13 +1161,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
-          - reference-id: CCC.Logging.F01
+          - reference-id: CCC.Logging.CP01
             strength: 0
             remarks: Service Log Capture
-          - reference-id: CCC.Logging.F02
+          - reference-id: CCC.Logging.CP02
             strength: 0
             remarks: Application Log Ingestion
     external-mappings:
@@ -1193,13 +1193,13 @@ threats:
     capabilities:
       - reference-id: CCC.Logging
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
-          - reference-id: CCC.Logging.F01
+          - reference-id: CCC.Logging.CP01
             strength: 0
             remarks: Service Log Capture
-          - reference-id: CCC.Logging.F02
+          - reference-id: CCC.Logging.CP02
             strength: 0
             remarks: Application Log Ingestion
     external-mappings:
@@ -1224,7 +1224,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
     external-mappings:
@@ -1298,10 +1298,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F22
+          - reference-id: CCC.Core.CP22
             strength: 0
             remarks: Location Lock-In
     external-mappings:
@@ -1332,7 +1332,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -1351,13 +1351,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F12
+          - reference-id: CCC.Core.CP12
             strength: 0
             remarks: Recovery
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -1385,10 +1385,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
             strength: 0
             remarks: Backup
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -1417,10 +1417,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
     external-mappings:
@@ -1447,10 +1447,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -1505,16 +1505,16 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -1540,10 +1540,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -1571,13 +1571,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             strength: 0
             remarks: Transaction Rate Limits
-          - reference-id: CCC.Core.F16
+          - reference-id: CCC.Core.CP16
             strength: 0
             remarks: Budgeting
-          - reference-id: CCC.Core.F19
+          - reference-id: CCC.Core.CP19
             strength: 0
             remarks: Auto-scaling
     external-mappings:
@@ -1603,7 +1603,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F20
+          - reference-id: CCC.Core.CP20
             strength: 0
             remarks: Tagging
     external-mappings:
@@ -1623,7 +1623,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -1667,7 +1667,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0
             remarks: API Access
     external-mappings:
@@ -1687,10 +1687,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -1700,133 +1700,133 @@ threats:
             strength: 0
             remarks: Impair Defenses
 capabilities:
-  - id: CCC.Logging.F01
+  - id: CCC.Logging.CP01
     title: Service Log Capture
     description: |
       Ability to capture logs from all relevant cloud services at varying
       levels of verbosity.
-  - id: CCC.Logging.F02
+  - id: CCC.Logging.CP02
     title: Application Log Ingestion
     description: |
       Support for ingesting logs from custom applications deployed within the
       cloud environment.
-  - id: CCC.Logging.F03
+  - id: CCC.Logging.CP03
     title: Real-Time Log Ingestion
     description: |
       Logs should be ingested in near real-time to enable timely detection and
       response.
-  - id: CCC.Logging.F04
+  - id: CCC.Logging.CP04
     title: Centralised Log Collection
     description: |
       Ability to centralise logs from different resources within a signle
       logging solution or platform.
-  - id: CCC.Logging.F05
+  - id: CCC.Logging.CP05
     title: Custom Log Format Support
     description: |
       Ability to ingest custom log formats or data from on-premises systems or
       other cloud environments via agents.
-  - id: CCC.Logging.F06
+  - id: CCC.Logging.CP06
     title: Log Filtering & Transformation
     description: |
       Ability to to filter, normalise, and transform raw log data at ingestion
       to optimise storage and enhance usability.
-  - id: CCC.Logging.F07
+  - id: CCC.Logging.CP07
     title: Immutable Storage
     description: |
       Ability to prevent unauthorized alteration or deletion of logs, ensuring
       their integrity for auditing and forensic purposes.
-  - id: CCC.Logging.F08
+  - id: CCC.Logging.CP08
     title: Retention Policies
     description: |
       Ability to define and enforce granular retention periods for different
       log types based on regulatory requirements and internal policies.
-  - id: CCC.Logging.F09
+  - id: CCC.Logging.CP09
     title: Internal Sink
     description: |
       Ability to continuously stream log data to a hosted storage bucket or data lake
       solution within the cloud service provider.
-  - id: CCC.Logging.F10
+  - id: CCC.Logging.CP10
     title: External Sink
     description: |
       Log events can be configured to be sent to a external SIEM or data analysis
       provider outside of the cloud platform.
-  - id: CCC.Logging.F11
+  - id: CCC.Logging.CP11
     title: Log-based Metrics
     description: |
       Ability to extract quantitative metrics from log data for performance
       monitoring and operational analysis.
-  - id: CCC.Logging.F12
+  - id: CCC.Logging.CP12
     title: Log Archiving
     description: |
       Ability to archive logs that are no longer needed but must be retained.
-  - id: CCC.Logging.F13
+  - id: CCC.Logging.CP13
     title: Field Indexing
     description: |
       Supports field-based indexing to improve log query performace.
-  - id: CCC.Core.F01
+  - id: CCC.Core.CP01
     title: Encryption in Transit Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to transmission via a network interface.
-  - id: CCC.Core.F02
+  - id: CCC.Core.CP02
     title: Encryption at Rest Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to being written to a storage medium.
-  - id: CCC.Core.F03
+  - id: CCC.Core.CP03
     title: Access Log Publication
     description: |
       The service automatically publishes structured, verbose records of
       activities performed within the scope of the service by external actors.
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
-  - id: CCC.Core.F10
+  - id: CCC.Core.CP10
     title: Log Publication
     description: |
       The service automatically publishes structured, verbose records of activities,
       operations, or events that occur within the service.
-  - id: CCC.Core.F11
+  - id: CCC.Core.CP11
     title: Backup
     description: |
       The service can generate copies of its data or configurations
       in the form of automated backups, snapshot-based backups, or incremental backups.
-  - id: CCC.Core.F12
+  - id: CCC.Core.CP12
     title: Recovery
     description: |
       The service can be reverted to a previous state
       by providing a compatible backup or snapshot identifier.
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.F17
+  - id: CCC.Core.CP17
     title: Alerting
     description: |
       The service may be configured to emit a notification based on a user-defined
       condition related to the data published by a child or networked resource.
-  - id: CCC.Core.F18
+  - id: CCC.Core.CP18
     title: Resource Versioning
     description: |
       The service assigns versions to child resources to preserve, retrieve,
       and restore past iterations.
-  - id: CCC.Core.F20
+  - id: CCC.Core.CP20
     title: Resource Tagging
     description: |
       The service provides users with the ability to tag a child resource with metadata
       that can be reviewed or queried.
-  - id: CCC.Core.F21
+  - id: CCC.Core.CP21
     title: Resource Replication
     description: |
       The service may be configured to replicate child resources
       across multiple deployments.
-  - id: CCC.Core.F22
+  - id: CCC.Core.CP22
     title: Location Lock-In
     description: |
       The service may be configured to restrict the deployment of child resources
@@ -1921,42 +1921,42 @@ imported-threats:
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         strength: 0
         remarks: Encryption in Transit
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         strength: 0
         remarks: Encryption at Rest
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         strength: 0
         remarks: Access/Activity Logs
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Identity Based Access Control
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         strength: 0
         remarks: Logging
-      - reference-id: CCC.Core.F11
+      - reference-id: CCC.Core.CP11
         strength: 0
         remarks: Backup
-      - reference-id: CCC.Core.F12
+      - reference-id: CCC.Core.CP12
         strength: 0
         remarks: Recovery
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.F17
+      - reference-id: CCC.Core.CP17
         strength: 0
         remarks: Alertingq
-      - reference-id: CCC.Core.F18
+      - reference-id: CCC.Core.CP18
         strength: 0
         remarks: Versioning
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         strength: 0
         remarks: Tagging
-      - reference-id: CCC.Core.F21
+      - reference-id: CCC.Core.CP21
         strength: 0
         remarks: Replication
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         strength: 0
         remarks: Location Lock-In

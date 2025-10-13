@@ -183,7 +183,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Audit CCC.LB.F15 parameters via configuration scans.
+            recommendation: Audit CCC.LB.CP15 parameters via configuration scans.
         threat-mappings:
           - reference-id: LB
             entries:

@@ -650,7 +650,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
     external-mappings:
@@ -724,10 +724,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F22
+          - reference-id: CCC.Core.CP22
             strength: 0
             remarks: Location Lock-In
     external-mappings:
@@ -758,7 +758,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -777,13 +777,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F12
+          - reference-id: CCC.Core.CP12
             strength: 0
             remarks: Recovery
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -811,10 +811,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
             strength: 0
             remarks: Backup
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -843,10 +843,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
     external-mappings:
@@ -872,7 +872,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F15
+          - reference-id: CCC.Core.CP15
             strength: 0
             remarks: Cost Management
     external-mappings:
@@ -896,10 +896,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -954,16 +954,16 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -989,10 +989,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -1020,13 +1020,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             strength: 0
             remarks: Transaction Rate Limits
-          - reference-id: CCC.Core.F16
+          - reference-id: CCC.Core.CP16
             strength: 0
             remarks: Budgeting
-          - reference-id: CCC.Core.F19
+          - reference-id: CCC.Core.CP19
             strength: 0
             remarks: Auto-scaling
     external-mappings:
@@ -1052,7 +1052,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F20
+          - reference-id: CCC.Core.CP20
             strength: 0
             remarks: Tagging
     external-mappings:
@@ -1072,7 +1072,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -1116,7 +1116,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0
             remarks: API Access
     external-mappings:
@@ -1126,132 +1126,132 @@ threats:
             strength: 0
             remarks: Cloud Infrastructure Discovery
 capabilities:
-  - id: CCC.Message.F01
+  - id: CCC.Message.CP01
     title: Publish/Subscribe Model
     description: |
       Uses publish/subscribe (pub/sub) messaging service model for
       fan-out distribution of messages to multiple subscribers.
-  - id: CCC.Message.F02
+  - id: CCC.Message.CP02
     title: Message Storage Policies
     description: |
       Ability to control the region where messages are stored.
-  - id: CCC.Message.F03
+  - id: CCC.Message.CP03
     title: Creating Topics and Publish Messages
     description: |
       Ability to create new topics and publish messages to topics
-  - id: CCC.Message.F04
+  - id: CCC.Message.CP04
     title: List Topics
     description: |
       Ability to to list all existing topics.
-  - id: CCC.Message.F05
+  - id: CCC.Message.CP05
     title: Edit Topics
     description: |
       Ability to to edit properties of existing topics other than
       the topic name and ordering preference.
-  - id: CCC.Message.F06
+  - id: CCC.Message.CP06
     title: Delete Topics
     description: |
       Ability to to delete existing topics.
-  - id: CCC.Message.F07
+  - id: CCC.Message.CP07
     title: Subscribe to Topics and Receive messages
     description: |
       Ability to subscribe to topics and receive messages.
-  - id: CCC.Message.F08
+  - id: CCC.Message.CP08
     title: List Subscribers
     description: |
       Ability to list all subscribers for a given topics.
-  - id: CCC.Message.F09
+  - id: CCC.Message.CP09
     title: Edit Subscriber
     description: |
       Ability to edit subscriber properties such as subscription
       filter policies after subscriber is created.
-  - id: CCC.Message.F10
+  - id: CCC.Message.CP10
     title: Delete Subscribers
     description: |
       Ability to delete subscriber from a given topic.
-  - id: CCC.Message.F11
+  - id: CCC.Message.CP11
     title: FIFO Message Ordering
     description: |
       Support for first-in, first-out strictly preserved message
       ordering with exactly one message delivered.
-  - id: CCC.Message.F12
+  - id: CCC.Message.CP12
     title: Best Effort Message Ordering
     description: |
       Support for best-effort message ordering with at-least one
       message delivered.
-  - id: CCC.Message.F13
+  - id: CCC.Message.CP13
     title: Deduplication of Messages
     description: |
       Support for deduplication of messages with use of messaging
       service capabilities or deduplication IDs.
-  - id: CCC.Message.F14
+  - id: CCC.Message.CP14
     title: Dead Letter Topics
     description: |
       Supports dead-letter topics for handling messages that cannot be
       delivered or processed.
-  - id: CCC.Message.F15
+  - id: CCC.Message.CP15
     title: Access Policies
     description: |
       Ability to specify access policies on publishers and subscribers.
-  - id: CCC.Message.F16
+  - id: CCC.Message.CP16
     title: Message Filtering
     description: |
       Allows subscribers to receive subset of messages published to the
       subscribed topic based on attributes or content.
-  - id: CCC.Message.F17
+  - id: CCC.Message.CP17
     title: Message Retention
     description: |
       Ability to set message retention durations per topic.
-  - id: CCC.Core.F01
+  - id: CCC.Core.CP01
     title: Encryption in Transit Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to transmission via a network interface.
-  - id: CCC.Core.F02
+  - id: CCC.Core.CP02
     title: Encryption at Rest Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to being written to a storage medium.
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
-  - id: CCC.Core.F07
+  - id: CCC.Core.CP07
     title: Event Publication
     description: |
       The service automatically publishes a structured state-change record
       upon creation, deletion, or modification of data, configuration,
       components, or child resources.
-  - id: CCC.Core.F08
+  - id: CCC.Core.CP08
     title: Data Replication
     description: |
       The service automatically will or can be configured to
       replicate data across multiple deployments simultaneously with parity.
-  - id: CCC.Core.F09
+  - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.F10
+  - id: CCC.Core.CP10
     title: Log Publication
     description: |
       The service automatically publishes structured, verbose records of activities,
       operations, or events that occur within the service.
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.F19
+  - id: CCC.Core.CP19
     title: Resource Scaling
     description: |
       The service may be configured to scale child resources automatically
       or on-demand.
-  - id: CCC.Core.F20
+  - id: CCC.Core.CP20
     title: Resource Tagging
     description: |
       The service provides users with the ability to tag a child resource with metadata
@@ -1337,36 +1337,36 @@ imported-threats:
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         strength: 0
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         strength: 0
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Identity Based Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         strength: 0
         remarks: Event Notifications
-      - reference-id: CCC.Core.F08
+      - reference-id: CCC.Core.CP08
         strength: 0
         remarks: Multi-zone Deployment
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         strength: 0
         remarks: Monitoring
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         strength: 0
         remarks: Logging
-      - reference-id: CCC.Core.F13
+      - reference-id: CCC.Core.CP13
         strength: 0
         remarks: Infrastructure as Code
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.F19
+      - reference-id: CCC.Core.CP19
         strength: 0
         remarks: On-Demand Scaling
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         strength: 0
         remarks: Tagging

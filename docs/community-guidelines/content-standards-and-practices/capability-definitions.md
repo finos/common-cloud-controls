@@ -36,7 +36,7 @@ To maintain consistency, all capabilities—whether common or specific—must fo
 
 When creating a new feature definition, use the following values:
 
-- **Capability ID** (`id`): A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.F<##>`.
+- **Capability ID** (`id`): A unique identifier for the feature, following the format `CCC.<Service Category Abbreviation>.CP<##>`.
 - **Capability Title** (`title`): A short name that succinctly describes the feature, preferably 1 to 5 words.
 - **Capability Description** (`description`): A falsifiable description of the feature, detailing its purpose and functionality.
   - A falsifiable feature includes concrete metrics, thresholds, or conditions that allow a user to verify whether the feature works as expected.

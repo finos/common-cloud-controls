@@ -50,8 +50,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Build.F01
-          - reference-id: CCC.Build.F04
+          - reference-id: CCC.Build.CP01
+          - reference-id: CCC.Build.CP04
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -64,7 +64,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Build.F03
+          - reference-id: CCC.Build.CP03
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

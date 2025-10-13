@@ -27,16 +27,16 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F14
+          - reference-id: CCC.KeyMgmt.CP14
             strength: 0 # Not yet specified
             remarks: Key Versioning
-          - reference-id: CCC.KeyMgmt.F16
+          - reference-id: CCC.KeyMgmt.CP16
             strength: 0 # Not yet specified
             remarks: Disable key
-          - reference-id: CCC.KeyMgmt.F18
+          - reference-id: CCC.KeyMgmt.CP18
             strength: 0 # Not yet specified
             remarks: Soft Delete
-          - reference-id: CCC.KeyMgmt.F19
+          - reference-id: CCC.KeyMgmt.CP19
             strength: 0 # Not yet specified
             remarks: Delete Key
     external-mappings:
@@ -61,10 +61,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F10
+          - reference-id: CCC.KeyMgmt.CP10
             strength: 0 # Not yet specified
             remarks: Decrypt data
-          - reference-id: CCC.KeyMgmt.F17
+          - reference-id: CCC.KeyMgmt.CP17
             strength: 0 # Not yet specified
             remarks: Enable key
     external-mappings:
@@ -83,10 +83,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F20
+          - reference-id: CCC.KeyMgmt.CP20
             strength: 0 # Not yet specified
             remarks: Automatic Symmetric Key Rotation
-          - reference-id: CCC.KeyMgmt.F21
+          - reference-id: CCC.KeyMgmt.CP21
             strength: 0 # Not yet specified
             remarks: Manual Key Rotation
     external-mappings:
@@ -105,7 +105,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.F22
+          - reference-id: CCC.KeyMgmt.CP22
             strength: 0 # Not yet specified
             remarks: Key Import
     external-mappings:

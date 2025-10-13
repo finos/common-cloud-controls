@@ -670,19 +670,19 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F01
+          - reference-id: CCC.Monitoring.CP01
             strength: 0
             remarks: Metric collection
-          - reference-id: CCC.Monitoring.F02
+          - reference-id: CCC.Monitoring.CP02
             strength: 0
             remarks: Tracing
-          - reference-id: CCC.Monitoring.F08
+          - reference-id: CCC.Monitoring.CP08
             strength: 0
             remarks: Application Performance Monitoring (APM)
-          - reference-id: CCC.Monitoring.F09
+          - reference-id: CCC.Monitoring.CP09
             strength: 0
             remarks: Dashboard
-          - reference-id: CCC.Monitoring.F11
+          - reference-id: CCC.Monitoring.CP11
             strength: 0
             remarks: Integration with Third-Party Tools
     external-mappings:
@@ -699,7 +699,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F04
+          - reference-id: CCC.Monitoring.CP04
             strength: 0
             remarks: Health Checks
     external-mappings:
@@ -717,7 +717,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F06
+          - reference-id: CCC.Monitoring.CP06
             strength: 0
             remarks: Synthetic Monitoring
     external-mappings:
@@ -738,7 +738,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F06
+          - reference-id: CCC.Monitoring.CP06
             strength: 0
             remarks: Synthetic Monitoring
     external-mappings:
@@ -757,10 +757,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F01
+          - reference-id: CCC.Monitoring.CP01
             strength: 0
             remarks: Metric collection
-          - reference-id: CCC.Monitoring.F11
+          - reference-id: CCC.Monitoring.CP11
             strength: 0
             remarks: Integration with Third-Party Tools
     external-mappings:
@@ -785,10 +785,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F01
+          - reference-id: CCC.Monitoring.CP01
             strength: 0
             remarks: Metric collection
-          - reference-id: CCC.Monitoring.F11
+          - reference-id: CCC.Monitoring.CP11
             strength: 0
             remarks: Integration with Third-Party Tools
     external-mappings:
@@ -806,13 +806,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.F01
+          - reference-id: CCC.Monitoring.CP01
             strength: 0
             remarks: Metric collection
-          - reference-id: CCC.Monitoring.F10
+          - reference-id: CCC.Monitoring.CP10
             strength: 0
             remarks: Triggering
-          - reference-id: CCC.Monitoring.F11
+          - reference-id: CCC.Monitoring.CP11
             strength: 0
             remarks: Integration with Third-Party Tools
     external-mappings:
@@ -832,7 +832,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
     external-mappings:
@@ -885,10 +885,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
     external-mappings:
@@ -914,7 +914,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F15
+          - reference-id: CCC.Core.CP15
             strength: 0
             remarks: Cost Management
     external-mappings:
@@ -938,10 +938,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -996,16 +996,16 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -1031,10 +1031,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -1060,7 +1060,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0
             remarks: API Access
     external-mappings:
@@ -1080,10 +1080,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -1093,99 +1093,99 @@ threats:
             strength: 0
             remarks: Impair Defenses
 capabilities:
-  - id: CCC.Monitor.F01
+  - id: CCC.Monitor.CP01
     title: Metric collection
     description: |
       Gathering numerical (quantitative) data points about the performance,
       health, or behaviour of systems, applications or infrastructure.
-  - id: CCC.Monitor.F02
+  - id: CCC.Monitor.CP02
     title: Tracing
     description: |
       An observability technique providing an end-to-end view of a request or
       transaction flow through a complex system to enable a single action to
       be linked to resulting events in multiple downstream systems.
-  - id: CCC.Monitor.F03
+  - id: CCC.Monitor.CP03
     title: Reporting
     description: |
       Summarised view of metrics in a structured, sharable format.
-  - id: CCC.Monitor.F04
+  - id: CCC.Monitor.CP04
     title: Health Checks
     description: |
       A type of monitoring that focuses on the operational status and
       readiness of components or entire systems.
-  - id: CCC.Monitor.F05
+  - id: CCC.Monitor.CP05
     title: SLO Monitoring
     description: |
       Define and monitor Service Level Objectives (SLO) using Service Level Indicators (SLI) based on metrics.
-  - id: CCC.Monitor.F06
+  - id: CCC.Monitor.CP06
     title: Synthetic Monitoring
     description: |
       Proactively checking sample user interactions to identify issues before real users are impacted.
-  - id: CCC.Monitor.F07
+  - id: CCC.Monitor.CP07
     title: Uptime Monitoring
     description: |
       Checking whether a specific service or application is accessible from an external perspective.
-  - id: CCC.Monitor.F08
+  - id: CCC.Monitor.CP08
     title: Application Performance Monitoring (APM)
     description: |
       A comprehensive approach to monitoring the performance, availability and user experience of
       an application through multiple levels of data collection
-  - id: CCC.Monitor.F09
+  - id: CCC.Monitor.CP09
     title: Dashboard
     description: |
       A visual representation of the health of systems being monitored. Pulling together metrics,
       current alerts, SLO/SLI's, health checks and other monitoring features into a single location
       to enable a view of the health of the overall system.
-  - id: CCC.Monitor.F10
+  - id: CCC.Monitor.CP10
     title: Triggering
     description: |
       Automatically initiating actions like alerts, notifications or automated workflows based
       on pre-defined conditions being met.
-  - id: CCC.Monitor.F11
+  - id: CCC.Monitor.CP11
     title: Integration with Third-Party Tools
     description: |
       Monitoring tools are able to integrate with a number of downstream systems in order to send
       notifications and alerts, raise tickets and create incident reports.
-  - id: CCC.Core.F03
+  - id: CCC.Core.CP03
     title: Access Log Publication
     description: |
       The service automatically publishes structured, verbose records of
       activities performed within the scope of the service by external actors.
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
-  - id: CCC.Core.F07
+  - id: CCC.Core.CP07
     title: Event Publication
     description: |
       The service automatically publishes a structured state-change record
       upon creation, deletion, or modification of data, configuration,
       components, or child resources.
-  - id: CCC.Core.F09
+  - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.F10
+  - id: CCC.Core.CP10
     title: Log Publication
     description: |
       The service automatically publishes structured, verbose records of activities,
       operations, or events that occur within the service.
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.F15
+  - id: CCC.Core.CP15
     title: Cost Management
     description: |
       The service monitors data published by child or networked resources to infer
       usage patterns and generate cost reports for the service.
-  - id: CCC.Core.F17
+  - id: CCC.Core.CP17
     title: Alerting
     description: |
       The service may be configured to emit a notification based on a user-defined
@@ -1244,27 +1244,27 @@ imported-threats:
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         strength: 0
         remarks: Access/Activity Logs
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Identity Based Access Controls
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         strength: 0
         remarks: Event Notifications
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         strength: 0
         remarks: Monitoring
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         strength: 0
         remarks: Logging
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.F15
+      - reference-id: CCC.Core.CP15
         strength: 0
         remarks: Cost Management
-      - reference-id: CCC.Core.F17
+      - reference-id: CCC.Core.CP17
         strength: 0
         remarks: Alerting

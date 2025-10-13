@@ -54,31 +54,31 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0 # Not yet specified
             remarks: API Access
-          - reference-id: CCC.GenAI.F15
+          - reference-id: CCC.GenAI.CP15
             strength: 0 # Not yet specified
             remarks: Text-Based Prompts
-          - reference-id: CCC.GenAI.F16
+          - reference-id: CCC.GenAI.CP16
             strength: 0 # Not yet specified
             remarks: Structured Prompts
-          - reference-id: CCC.GenAI.F17
+          - reference-id: CCC.GenAI.CP17
             strength: 0 # Not yet specified
             remarks: Contextual Prompts
-          - reference-id: CCC.GenAI.F18
+          - reference-id: CCC.GenAI.CP18
             strength: 0 # Not yet specified
             remarks: Interactive Prompts
-          - reference-id: CCC.GenAI.F19
+          - reference-id: CCC.GenAI.CP19
             strength: 0 # Not yet specified
             remarks: Image-Based Prompts
-          - reference-id: CCC.GenAI.F20
+          - reference-id: CCC.GenAI.CP20
             strength: 0 # Not yet specified
             remarks: Custom Template Prompts
-          - reference-id: CCC.GenAI.F21
+          - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Generate Content
-          - reference-id: CCC.GenAI.F24
+          - reference-id: CCC.GenAI.CP24
             strength: 0 # Not yet specified
             remarks: Content Moderation
     external-mappings:
@@ -131,25 +131,25 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F02
+          - reference-id: CCC.Core.CP02
             strength: 0 # Not yet specified
             remarks: Encryption at Rest Enabled by Default
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0 # Not yet specified
             remarks: Identity-Based Access Control
-          - reference-id: CCC.GenAI.F03
+          - reference-id: CCC.GenAI.CP03
             strength: 0 # Not yet specified
             remarks: Embedding Model Selection
-          - reference-id: CCC.GenAI.F06
+          - reference-id: CCC.GenAI.CP06
             strength: 0 # Not yet specified
             remarks: Customizable Model Selection
-          - reference-id: CCC.GenAI.F21
+          - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Generate Content
-          - reference-id: CCC.GenAI.F22
+          - reference-id: CCC.GenAI.CP22
             strength: 0 # Not yet specified
             remarks: Data Control
-          - reference-id: CCC.GenAI.F24
+          - reference-id: CCC.GenAI.CP24
             strength: 0 # Not yet specified
             remarks: Content Moderation
     external-mappings:
@@ -186,16 +186,16 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F02
+          - reference-id: CCC.Core.CP02
             strength: 0 # Not yet specified
             remarks: Encryption at Rest Enabled by Default
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0 # Not yet specified
             remarks: Identity-Based Access Control
-          - reference-id: CCC.GenAI.F22
+          - reference-id: CCC.GenAI.CP22
             strength: 0 # Not yet specified
             remarks: Data Control
-          - reference-id: CCC.GenAI.F22
+          - reference-id: CCC.GenAI.CP22
             strength: 0 # Not yet specified
             remarks: Plugin Integrations
     external-mappings:
@@ -238,40 +238,40 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.GenAI.F03
+          - reference-id: CCC.GenAI.CP03
             strength: 0 # Not yet specified
             remarks: Embedding Model Selection
-          - reference-id: CCC.GenAI.F06
+          - reference-id: CCC.GenAI.CP06
             strength: 0 # Not yet specified
             remarks: Customizable Model Selection
-          - reference-id: CCC.GenAI.F07
+          - reference-id: CCC.GenAI.CP07
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Temperature
-          - reference-id: CCC.GenAI.F08
+          - reference-id: CCC.GenAI.CP08
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Max Token
-          - reference-id: CCC.GenAI.F09
+          - reference-id: CCC.GenAI.CP09
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Top P (Nucleus Sampling)
-          - reference-id: CCC.GenAI.F10
+          - reference-id: CCC.GenAI.CP10
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Top K
-          - reference-id: CCC.GenAI.F11
+          - reference-id: CCC.GenAI.CP11
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Stop Sequences
-          - reference-id: CCC.GenAI.F12
+          - reference-id: CCC.GenAI.CP12
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Frequency Penalty
-          - reference-id: CCC.GenAI.F13
+          - reference-id: CCC.GenAI.CP13
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Temperature
-          - reference-id: CCC.GenAI.F14
+          - reference-id: CCC.GenAI.CP14
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Context Length
-          - reference-id: CCC.GenAI.F21
+          - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Generate Content
-          - reference-id: CCC.GenAI.F25
+          - reference-id: CCC.GenAI.CP25
             strength: 0 # Not yet specified
             remarks: Content Moderation
     external-mappings:
@@ -322,7 +322,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.GenAI.F21
+          - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Generate Content
     external-mappings:
@@ -367,7 +367,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.GenAI.F21
+          - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Plugin Integrations
     external-mappings:
@@ -403,7 +403,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.GenAI.F25
+          - reference-id: CCC.GenAI.CP25
             strength: 0 # Not yet specified
             remarks: Plugin Integrations
     external-mappings:
@@ -433,22 +433,22 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.GenAI.F01
+          - reference-id: CCC.GenAI.CP01
             strength: 0 # Not yet specified
             remarks: Text-Based Model Selection
-          - reference-id: CCC.GenAI.F02
+          - reference-id: CCC.GenAI.CP02
             strength: 0 # Not yet specified
             remarks: Code-Based Model Selection
-          - reference-id: CCC.GenAI.F03
+          - reference-id: CCC.GenAI.CP03
             strength: 0 # Not yet specified
             remarks: Embedding Model Selection
-          - reference-id: CCC.GenAI.F04
+          - reference-id: CCC.GenAI.CP04
             strength: 0 # Not yet specified
             remarks: Image-Based Model Selection
-          - reference-id: CCC.GenAI.F04
+          - reference-id: CCC.GenAI.CP04
             strength: 0 # Not yet specified
             remarks: Multimodal Model Selection
-          - reference-id: CCC.GenAI.F04
+          - reference-id: CCC.GenAI.CP04
             strength: 0 # Not yet specified
             remarks: Customizable Model Selection
     external-mappings:
@@ -486,7 +486,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.GenAI.F21
+          - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Generate Content
     external-mappings:
@@ -515,7 +515,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0 # Not yet specified
             remarks: Versioning
     external-mappings:

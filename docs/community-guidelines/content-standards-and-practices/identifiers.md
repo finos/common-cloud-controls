@@ -6,7 +6,7 @@ This document provides a standardized approach for assigning unique identifiers 
 | -------------------- | ------------------------------------------- | ---------------------- |
 | **Service Family**   | `CCC.<ServiceType>`                         | `CCC.Storage`          |
 | **Service Category** | `CCC.<ServiceCategory>`                     | `CCC.ObjStor`          |
-| **Capability**       | `CCC.<ServiceCategory>.F<##>`               | `CCC.ObjStor.F01`      |
+| **Capability**       | `CCC.<ServiceCategory>.CP<##>`               | `CCC.ObjStor.CP01`      |
 | **Threat**           | `CCC.<ServiceCategory>.TH<##>`              | `CCC.RDMS.TH01`        |
 | **Control**          | `CCC.<ServiceCategory>.C<##>`               | `CCC.VM.C01`           |
 | **Test Requirement** | `CCC.<ServiceCategory>.C<##>.TR<##>`        | `CCC.VM.C01.TR01`      |
@@ -41,12 +41,12 @@ Each service category ID follows the format `CCC.<ServiceCategory>`.
 
 Capabilities are specific functionalities or capabilities that are expected for a service to be portable with other services in that service category.
 
-Each feature ID follows the format `CCC.<ServiceCategory>.F<##>`.
+Each feature ID follows the format `CCC.<ServiceCategory>.CP<##>`.
 
 ### Examples
 
-- **CCC.ObjStor.F01** - The first feature in the Object Storage service category.
-- **CCC.RDMS.F01** - The first feature in the RDMS service category.
+- **CCC.ObjStor.CP01** - The first feature in the Object Storage service category.
+- **CCC.RDMS.CP01** - The first feature in the RDMS service category.
 
 ## Threats
 

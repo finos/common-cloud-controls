@@ -61,9 +61,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.F01
-          - reference-id: CCC.Vector.F03
-          - reference-id: CCC.Vector.F06
+          - reference-id: CCC.Vector.CP01
+          - reference-id: CCC.Vector.CP03
+          - reference-id: CCC.Vector.CP06
     external-mappings:
       - reference-id: FINOS-AIGF
         entries:
@@ -77,9 +77,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.F02
-          - reference-id: CCC.Vector.F05
-          - reference-id: CCC.Vector.F07
+          - reference-id: CCC.Vector.CP02
+          - reference-id: CCC.Vector.CP05
+          - reference-id: CCC.Vector.CP07
     external-mappings:
       - reference-id: FINOS-AIGF
         entries:
@@ -95,8 +95,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.F04
-          - reference-id: CCC.Vector.F10
+          - reference-id: CCC.Vector.CP04
+          - reference-id: CCC.Vector.CP10
     external-mappings:
       - reference-id: FINOS-AIGF
         entries:
@@ -110,8 +110,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.F07
-          - reference-id: CCC.Vector.F11
+          - reference-id: CCC.Vector.CP07
+          - reference-id: CCC.Vector.CP11
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -131,8 +131,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.F08
-          - reference-id: CCC.Vector.F09
+          - reference-id: CCC.Vector.CP08
+          - reference-id: CCC.Vector.CP09
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -150,7 +150,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.F12
+          - reference-id: CCC.Vector.CP12
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

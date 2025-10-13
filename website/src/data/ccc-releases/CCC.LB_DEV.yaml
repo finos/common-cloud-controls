@@ -219,7 +219,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-            recommendation: Audit CCC.LB.F15 parameters via configuration scans.
+            recommendation: Audit CCC.LB.CP15 parameters via configuration scans.
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
@@ -766,12 +766,12 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             strength: 0
             remarks: Transaction Rate Limits
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F22
+          - reference-id: CCC.LB.CP22
             strength: 0
             remarks: Rate Limiting / Throttling
     external-mappings:
@@ -791,10 +791,10 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F02
+          - reference-id: CCC.LB.CP02
             strength: 0
             remarks: Dynamic LB
-          - reference-id: CCC.LB.F20
+          - reference-id: CCC.LB.CP20
             strength: 0
             remarks: Traffic Splitting
     external-mappings:
@@ -812,7 +812,7 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F15
+          - reference-id: CCC.LB.CP15
             strength: 0
             remarks: Session Affinity
     external-mappings:
@@ -830,10 +830,10 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F12
+          - reference-id: CCC.LB.CP12
             strength: 0
             remarks: Health Checks
-          - reference-id: CCC.LB.F13
+          - reference-id: CCC.LB.CP13
             strength: 0
             remarks: Target Removal
     external-mappings:
@@ -851,7 +851,7 @@ threats:
     capabilities:
       - reference-id: LBL
         entries:
-          - reference-id: CCC.LB.F19
+          - reference-id: CCC.LB.CP19
             strength: 0
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -867,7 +867,7 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.F11
+          - reference-id: CCC.LB.CP11
             strength: 0
             remarks: SSL/TLS Termination
     external-mappings:
@@ -888,7 +888,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
     external-mappings:
@@ -962,10 +962,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
     external-mappings:
@@ -992,10 +992,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -1053,13 +1053,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             strength: 0
             remarks: Transaction Rate Limits
-          - reference-id: CCC.Core.F16
+          - reference-id: CCC.Core.CP16
             strength: 0
             remarks: Budgeting
-          - reference-id: CCC.Core.F19
+          - reference-id: CCC.Core.CP19
             strength: 0
             remarks: Auto-scaling
     external-mappings:
@@ -1085,7 +1085,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0
             remarks: API Access
     external-mappings:
@@ -1105,10 +1105,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -1118,196 +1118,196 @@ threats:
             strength: 0
             remarks: Impair Defenses
 capabilities:
-  - id: CCC.LB.F01
+  - id: CCC.LB.CP01
     title: Static Load Balancing
     description: |
       Employ load balancing algorithms that follow fixed rules,
       independent of the current server state.
-  - id: CCC.LB.F02
+  - id: CCC.LB.CP02
     title: Dynamic Load Balancing
     description: |
       Employ load balancing algorithms that consider the current state
       of servers before distributing traffic. Load balancer adjusts traffic
       distribution in real-time based on the current server health, resource
       utilization, and traffic conditions.
-  - id: CCC.LB.F03
+  - id: CCC.LB.CP03
     title: Layer 7 Routing
     description: |
       Providing distribution of incoming traffic based on the application layer
       or layer 7 (on ISO model) information. Some of the supported protocols on
       layer 7 are HTTP, HTTPS, HTTP/2, gRPC, and WebSockets.
-  - id: CCC.LB.F04
+  - id: CCC.LB.CP04
     title: Layer 4 Routing
     description: |
       Providing distribution of incoming traffic based on the
       transport layer or layer 4 (on ISO model) information. It uses
       the combination of IP addresses and TCP/UDP port to distribute incoming
       traffic rather than inspecting the actual content of the packets.
-  - id: CCC.LB.F05
+  - id: CCC.LB.CP05
     title: URL-Based Routing
     description: |
       Direct incoming requests to different backend resources based on
       the content of the request URL.
-  - id: CCC.LB.F06
+  - id: CCC.LB.CP06
     title: HTTP Header-Based Routing
     description: |
       Direct incoming requests to different backend resources based on
       the values of HTTP headers.
-  - id: CCC.LB.F07
+  - id: CCC.LB.CP07
     title: WebSocket Support
     description: |
       Ability to support web socket communication.
-  - id: CCC.LB.F08
+  - id: CCC.LB.CP08
     title: Dual-stack Load Balancing
     description: |
       Ability to support traffic originated from both IPv4 and IPv6.
-  - id: CCC.LB.F09
+  - id: CCC.LB.CP09
     title: Load Balancer Autoscaling
     description: |
       Ability for the load balancer to dynamically adjust its capacity
       in response to fluctuations in incoming traffic.
-  - id: CCC.LB.F10
+  - id: CCC.LB.CP10
     title: Target Autoscaling
     description: |
       Ability for the load balancer to trigger scaling actions of the
       backend instances (targets) to handle fluctuations in incoming traffic.
-  - id: CCC.LB.F11
+  - id: CCC.LB.CP11
     title: SSL/TLS Termination
     description: |
       Process of decrypting SSL or TLS encrypted traffic at the load balancer
       level rather than at the backend servers. This allows the load balancer
       to offload the decryption task from the backend servers.
-  - id: CCC.LB.F12
+  - id: CCC.LB.CP12
     title: Target Health Checks
     description: |
       Ability to continuously perform health checks on backend backend targets
       in form of checking the response to HTTP request, TCP connection or checking
       other application-specific parameter
-  - id: CCC.LB.F13
+  - id: CCC.LB.CP13
     title: Health Checks-based Target Removal
     description: |
       If the health check detects that a backend target is unhealthy
       the load balancer will remove that unhealthy target from its list
       of available backend instances. This ensures that traffic is no longer
       routed to the unhealthy target.
-  - id: CCC.LB.F14
+  - id: CCC.LB.CP14
     title: Retries
     description: |
       Ability to retry delivery of failed requests to targets. The conditions
       under which the load balancer retries, how long to wait before retrying,
       and the maximum number of retries permitted are configurable.
-  - id: CCC.LB.F15
+  - id: CCC.LB.CP15
     title: Session Affinity
     description: |
       Can configure subsequent requests from an initial client to be
       passed to the same target.
-  - id: CCC.LB.F16
+  - id: CCC.LB.CP16
     title: URL Redirects
     description: |
       Redirect incoming traffic to a different URL or location.
-  - id: CCC.LB.F17
+  - id: CCC.LB.CP17
     title: URL Rewrites
     description: |
       Rewrite URL paths before forwarding them to backend services.
-  - id: CCC.LB.F18
+  - id: CCC.LB.CP18
     title: Custom Response
     description: |
       Ability to configure specific HTTP responses to be returned by
       the load balancer under defined conditions.
-  - id: CCC.LB.F19
+  - id: CCC.LB.CP19
     title: Request and Response Header Transformations
     description: |
       Ability to modify HTTP headers of both incoming requests and outgoing
       responses.
-  - id: CCC.LB.F20
+  - id: CCC.LB.CP20
     title: Traffic Splitting / Weighted Routing
     description: |
       Can distribute incoming traffic across multiple backend resources
       based on predefined weights or percentages (e.g., for canary
       deployments, A/B testing, blue-green deployments, or gradual
       traffic migrations).
-  - id: CCC.LB.F21
+  - id: CCC.LB.CP21
     title: Traffic Mirroring
     description: |
       Can duplicate incoming network traffic and send it to a secondary
       destination for monitoring, analysis, or testing purposes.
-  - id: CCC.LB.F22
+  - id: CCC.LB.CP22
     title: Rate Limiting / Throttling
     description: |
       Ability to limit the number of requests per second per client. This
       ensures that no single client or user overloads the backend servers,
       distributing requests fairly across multiple instances.
-  - id: CCC.LB.F23
+  - id: CCC.LB.CP23
     title: Firewall Integration
     description: |
       Ability to seamlessly integrate with firewall services to ensure only
       legitimate and secure traffic reaches backend servers, blocking malicious
       requests.
-  - id: CCC.Core.F03
+  - id: CCC.Core.CP03
     title: Access Log Publication
     description: |
       The service automatically publishes structured, verbose records of
       activities performed within the scope of the service by external actors.
-  - id: CCC.Core.F04
+  - id: CCC.Core.CP04
     title: Transaction Rate Limits
     description: |
       The service always provides industry-standard network throughput
       up to a user-specified rate limit, beyond which excess requests
       may be throttled, delayed, or rejected.
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
-  - id: CCC.Core.F08
+  - id: CCC.Core.CP08
     title: Data Replication
     description: |
       The service automatically will or can be configured to
       replicate data across multiple deployments simultaneously with parity.
-  - id: CCC.Core.F09
+  - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.F10
+  - id: CCC.Core.CP10
     title: Log Publication
     description: |
       The service automatically publishes structured, verbose records of activities,
       operations, or events that occur within the service.
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.F15
+  - id: CCC.Core.CP15
     title: Cost Management
     description: |
       The service monitors data published by child or networked resources to infer
       usage patterns and generate cost reports for the service.
-  - id: CCC.Core.F16
+  - id: CCC.Core.CP16
     title: Budgeting
     description: |
       The service may be configured to take a user-specified action when a
       spending threshold is met or exceeded on a child or networked resource.
-  - id: CCC.Core.F17
+  - id: CCC.Core.CP17
     title: Alerting
     description: |
       The service may be configured to emit a notification based on a user-defined
       condition related to the data published by a child or networked resource.
-  - id: CCC.Core.F19
+  - id: CCC.Core.CP19
     title: Resource Scaling
     description: |
       The service may be configured to scale child resources automatically
       or on-demand.
-  - id: CCC.Core.F20
+  - id: CCC.Core.CP20
     title: Resource Tagging
     description: |
       The service provides users with the ability to tag a child resource with metadata
       that can be reviewed or queried.
-  - id: CCC.Core.F22
+  - id: CCC.Core.CP22
     title: Location Lock-In
     description: |
       The service may be configured to restrict the deployment of child resources
@@ -1366,45 +1366,45 @@ imported-threats:
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         strength: 0
         remarks: Access/Activity Logs
-      - reference-id: CCC.Core.F04
+      - reference-id: CCC.Core.CP04
         strength: 0
         remarks: Transaction Rate Limits
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Identity Based Access Control
-      - reference-id: CCC.Core.F08
+      - reference-id: CCC.Core.CP08
         strength: 0
         remarks: Multi-zone Deployment
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         strength: 0
         remarks: Monitoring
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         strength: 0
         remarks: Logging
-      - reference-id: CCC.Core.F13
+      - reference-id: CCC.Core.CP13
         strength: 0
         remarks: Infrastructure as Code
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.F15
+      - reference-id: CCC.Core.CP15
         strength: 0
         remarks: Cost Management
-      - reference-id: CCC.Core.F16
+      - reference-id: CCC.Core.CP16
         strength: 0
         remarks: Budgeting
-      - reference-id: CCC.Core.F17
+      - reference-id: CCC.Core.CP17
         strength: 0
         remarks: Alerting
-      - reference-id: CCC.Core.F19
+      - reference-id: CCC.Core.CP19
         strength: 0
         remarks: On-Demand Scaling
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         strength: 0
         remarks: Tagging
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         strength: 0
         remarks: Location Lock-In
