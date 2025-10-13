@@ -78,7 +78,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "pattern": "^((CCC\\.CN\\d{2,8})|(CCC\\.\\w{1,8}\\.CN\\d{2,8}\\.TR\\d{2,8}))$",
+                          "pattern": "^((CCC\\.CN\\d{2,8})|(CCC\\.\\w{1,8}\\.CN\\d{2,8}\\.AR\\d{2,8}))$",
                           "description": "Test requirement ID"
                         },
                         "text": {

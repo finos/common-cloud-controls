@@ -33,7 +33,7 @@ control-families:
           Ensure that container images and artifacts stored in the container registry are scanned for
           vulnerabilities to identify and remediate security issues before deployment.
         assessment-requirements:
-          - id: CCC.CntrReg.CN01.TR01
+          - id: CCC.CntrReg.CN01.AR01
             text: |
               Attempt to push an artifact with known vulnerabilities to the registry
               and observe if it is flagged or rejected by the vulnerability scanning process.
@@ -63,7 +63,7 @@ control-families:
           Ensure that unused or outdated artifacts are cleaned up according to defined policies to
           manage storage effectively and reduce security risks associated with outdated versions.
         assessment-requirements:
-          - id: CCC.CntrReg.CN02.TR01
+          - id: CCC.CntrReg.CN02.AR01
             text: |
               Confirm that artifacts older than the specified retention period are automatically
               deleted from the registry.

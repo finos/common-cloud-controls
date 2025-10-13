@@ -40,7 +40,7 @@ control-families:
           allowing it to communicate securely within a virtual private network and preventing
           unauthorized external access.
         assessment-requirements:
-          - id: CCC.SvlsComp.CN01.TR01
+          - id: CCC.SvlsComp.CN01.AR01
             text: |
               Attempt to access the serverless function over the public internet and verify that access is denied.
             applicability:
@@ -76,7 +76,7 @@ control-families:
           Ensure that function invocation is limited to a specified threshold from any single entity,
           preventing resource exhaustion and denial of service attacks.
         assessment-requirements:
-          - id: CCC.SvlsComp.CN02.TR01
+          - id: CCC.SvlsComp.CN02.AR01
             text: |
               Send requests to invoke the function up to the allowed threshold and confirm they
               are successful; then send additional requests exceeding the threshold from the same

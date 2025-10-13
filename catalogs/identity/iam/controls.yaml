@@ -32,7 +32,7 @@ control-families:
           credentials like access keys or generating temporary session tokens.
           This blocks a common privilege escalation and persistence vector.
         assessment-requirements:
-          - id: CCC.IAM.CN01.TR01
+          - id: CCC.IAM.CN01.AR01
             text: |
               When an identity policy for a non-administrative principal is evaluated,
               it MUST NOT grant permissions for creating credentials or generating
@@ -43,7 +43,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
-          - id: CCC.IAM.CN01.TR02
+          - id: CCC.IAM.CN01.AR02
             text: |
               When a non-administrative principal attempts to create new credentials or a
               temporary session token, the service MUST deny the action.
@@ -78,7 +78,7 @@ control-families:
           Ensure that only designated administrative accounts have the ability to create,
           modify, or attach policies that define permissions for other identities.
         assessment-requirements:
-          - id: CCC.IAM.CN02.TR01
+          - id: CCC.IAM.CN02.AR01
             text: |
               When an identity policy for a non-administrative principal is evaluated,
               it MUST NOT grant permissions for creating, updating, or attaching policies.
@@ -88,7 +88,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
-          - id: CCC.IAM.CN02.TR02
+          - id: CCC.IAM.CN02.AR02
             text: |
               When a non-administrative principal attempts to create, update, or attach
               policies, the service MUST deny the action.
@@ -124,7 +124,7 @@ control-families:
           identity to only those required. This prevents unintended cross-account
           or public access by securing the "who can act as this identity" boundary.
         assessment-requirements:
-          - id: CCC.IAM.CN03.TR01
+          - id: CCC.IAM.CN03.AR01
             text: |
               When a policy is created or updated that grants a principal
               permission to assume a role or impersonate a service identity,
@@ -134,7 +134,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
-          - id: CCC.IAM.CN03.TR02
+          - id: CCC.IAM.CN03.AR02
             text: |
               When an external or unauthenticated principal tries to assume a role
               or impersonate a service identity, the service MUST deny the action.
@@ -169,7 +169,7 @@ control-families:
           Limit the use of wildcard permissions in IAM policies to prevent
           overly broad access from being granted by default.
         assessment-requirements:
-          - id: CCC.IAM.CN04.TR01
+          - id: CCC.IAM.CN04.AR01
             text: |
               When an IAM policy is created or updated, it MUST NOT contain allow statements
               with wildcard permissions, unless the statement is restricted by a condition.
@@ -203,7 +203,7 @@ control-families:
         objective: |
           Ensure that the password policies for IAM users have strong configurations.
         assessment-requirements:
-          - id: CCC.IAM.CN05.TR01
+          - id: CCC.IAM.CN05.AR01
             text: |
               When a new cloud account is provisioned, a password policy MUST be
               configured for IAM users following the minimum PCI DSS v4.0.1 configurations.
@@ -256,7 +256,7 @@ control-families:
           programmatically rotated within a defined time period to limit the
           window of opportunity if compromised.
         assessment-requirements:
-          - id: CCC.IAM.CN06.TR01
+          - id: CCC.IAM.CN06.AR01
             text: |
               When a static credential such as an access key has existed for 90 days
               or more, it MUST be rotated.
@@ -295,7 +295,7 @@ control-families:
           Ensure that when an identity is terminated in the central Identity Provider
           (IdP), ts corresponding access to cloud resources is revoked automatically.
         assessment-requirements:
-          - id: CCC.IAM.CN07.TR01
+          - id: CCC.IAM.CN07.AR01
             text: |
               When a user account is disabled or deleted in the organization's IdP, the
               corresponding cloud identity and its access policies MUST be disabled or
@@ -328,7 +328,7 @@ control-families:
           Ensure that unused IAM credentals are removed to reduce exposure
           in the event of potential compromise.
         assessment-requirements:
-          - id: CCC.IAM.CN08.TR01
+          - id: CCC.IAM.CN08.AR01
             text: |
               When an IAM user has credentials, such as passwords or access keys,
               that have not been used for 90 days or more, the unused credentials
@@ -365,7 +365,7 @@ control-families:
           cloud-native user accounts with long-lived passwords, centralizes authentication
           controls, and simplifies lifecycle management.
         assessment-requirements:
-          - id: CCC.IAM.CN09.TR01
+          - id: CCC.IAM.CN09.AR01
             text: |
               When a human user accesses the cloud environment, they MUST authenticate through
               the organization's federated IdP via a standard protocol (e.g., SAML, OIDC).
@@ -405,14 +405,14 @@ control-families:
           dormant identity, which may indicate that credentals may be compromised,
           as well as for password brute-force attempts and account lockouts.
         assessment-requirements:
-          - id: CCC.IAM.CN10.TR01
+          - id: CCC.IAM.CN10.AR01
             text: |
               When suspicious API requests are detected, real time alerts MUST
               be generated to notify security personnel.
             applicability:
               - tlp-red
             recommendation: ""
-          - id: CCC.IAM.CN09.TR02
+          - id: CCC.IAM.CN09.AR02
             text: |
               When suspicious API requests are detected, the associated events MUST
               be logged, including the source details, time, and nature of the activity.
@@ -449,7 +449,7 @@ control-families:
           usage analysis services to continuously monitor for external
           access paths and internal unused access.
         assessment-requirements:
-          - id: CCC.IAM.CN11.TR01
+          - id: CCC.IAM.CN11.AR01
             text: |
               When a cloud account or organization is provisioned, the native automated
               access and usage analysis services MUST be enabled to continuously monitor

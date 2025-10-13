@@ -39,7 +39,7 @@ control-families:
           Ensure that data access is provided through managed views, restricting users
           from accessing underlying tables directly and enforcing consistent security policies.
         assessment-requirements:
-          - id: CCC.DataWar.CN01.TR01
+          - id: CCC.DataWar.CN01.AR01
             text: |
               Attempt to access underlying database tables directly without
               using managed views and verify that access is denied.
@@ -67,7 +67,7 @@ control-families:
           Ensure that access to sensitive data columns is restricted based on user roles,
           preventing unauthorized access to sensitive information.
         assessment-requirements:
-          - id: CCC.DataWar.CN02.TR01
+          - id: CCC.DataWar.CN02.AR01
             text: |
               Attempt to query sensitive columns without the necessary permissions and
               verify that access is denied or data is masked.
@@ -95,7 +95,7 @@ control-families:
           Ensure that access to data rows is restricted based on user roles or attributes,
           preventing unauthorized access to specific subsets of data.
         assessment-requirements:
-          - id: CCC.DataWar.CN03.TR01
+          - id: CCC.DataWar.CN03.AR01
             text: |
               Attempt to query data rows that the user should not have access to and verify
               that access is denied or data is not returned.

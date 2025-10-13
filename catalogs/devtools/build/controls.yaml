@@ -30,7 +30,7 @@ control-families:
           Ensure that builds are executed only on authorized build agents to maintain
           control over the build environment and prevent unauthorized code execution.
         assessment-requirements:
-          - id: CCC.Build.CN01.TR01
+          - id: CCC.Build.CN01.AR01
             text: |
               Attempt to initiate a build using an unauthorized build agent and verify that the build is rejected.
             applicability:
@@ -57,7 +57,7 @@ control-families:
           Ensure that builds can only be triggered by authorized external services or
           repositories to prevent unauthorized code execution or tampering.
         assessment-requirements:
-          - id: CCC.Build.CN02.TR01
+          - id: CCC.Build.CN02.AR01
             text: |
               Attempt to trigger a build from an unauthorized external service or
               repository and verify that the build does not start.
@@ -88,7 +88,7 @@ control-families:
           Ensure that build environments do not have external network access to
           prevent unauthorized external access and data exfiltration.
         assessment-requirements:
-          - id: CCC.Build.CN03.TR01
+          - id: CCC.Build.CN03.AR01
             text: |
               Attempt to access the build environment from an external network and verify that access is denied.
             applicability:

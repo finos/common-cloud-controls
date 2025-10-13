@@ -39,7 +39,7 @@ control-families:
           Ensure that messages are encrypted using customer-managed encryption keys (CMEK)
           to provide enhanced control over encryption processes and keys, meeting compliance and security requirements.
         assessment-requirements:
-          - id: CCC.Message.CN01.TR01
+          - id: CCC.Message.CN01.AR01
             text: |
               Attempt to publish a message without using a customer-managed encryption key
               and verify that the message is rejected or not stored.

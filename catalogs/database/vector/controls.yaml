@@ -42,7 +42,7 @@ control-families:
           Ensure all incoming embeddings are structurally and statistically validated
           before indexing to prevent poisoning or corruption.
         assessment-requirements:
-          - id: CCC.Vector.CN01.TR01
+          - id: CCC.Vector.CN01.AR01
             text: |
               When a vector embedding is submitted for indexing, the system MUST validate that it
               matches expected schema, dimension, and format profiles.
@@ -68,7 +68,7 @@ control-families:
           Restrict index lifecycle operations (create, delete, rollback) to privileged
           identities using fine-grained access controls.
         assessment-requirements:
-          - id: CCC.Vector.CN02.TR01
+          - id: CCC.Vector.CN02.AR01
             text: |
               When an index lifecycle event is triggered, the service MUST
               verify that the actor has explicit permissions for the operation type.
@@ -94,7 +94,7 @@ control-families:
           Apply access control policies to metadata fields used in filtering to
           prevent unauthorized exposure or inference.
         assessment-requirements:
-          - id: CCC.Vector.CN03.TR01
+          - id: CCC.Vector.CN03.AR01
             text: |
               When a metadata filter is applied to a query, the service MUST
               verify the requester is authorized to access that field.
@@ -122,7 +122,7 @@ control-families:
           Prevent ingestion-based DoS or index pollution by
           rate-limiting vector submissions and enforcing quotas.
         assessment-requirements:
-          - id: CCC.Vector.CN04.TR01
+          - id: CCC.Vector.CN04.AR01
             text: |
               When ingestion exceeds pre-defined thresholds, the service MUST
               throttle or reject excess vector write operations.
@@ -146,7 +146,7 @@ control-families:
           Ensure vector indexes are versioned and that rollback
           operations are authorized and auditable.
         assessment-requirements:
-          - id: CCC.Vector.CN05.TR01
+          - id: CCC.Vector.CN05.AR01
             text: |
               When a rollback is attempted, the system MUST log
               the action and verify rollback authorization.
@@ -172,7 +172,7 @@ control-families:
           Reject embeddings that do not conform to expected model
           specifications (dimensions, format, etc).
         assessment-requirements:
-          - id: CCC.Vector.CN06.TR01
+          - id: CCC.Vector.CN06.AR01
             text: |
               When an embedding is submitted, the service MUST validate
               that its format and dimensionality match allowed profiles.
@@ -196,7 +196,7 @@ control-families:
           Provide clients with the option to enforce exact-match
           (non-ANN) search where search fidelity is critical.
         assessment-requirements:
-          - id: CCC.Vector.CN07.TR01
+          - id: CCC.Vector.CN07.AR01
             text: |
               When a search request is issued, clients MUST be allowed
               to declare their requirement for exact vs approximate results.

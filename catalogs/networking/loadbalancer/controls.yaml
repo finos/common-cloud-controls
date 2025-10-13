@@ -35,7 +35,7 @@ control-families:
           Detect and throttle malicious or excessive requests to prevent
           downstream resource exhaustion and brute-force activity.
         assessment-requirements:
-          - id: CCC.LB.CN01.TR01
+          - id: CCC.LB.CN01.AR01
             text: |
               When a single client sends more than 2000 requests within any
               5-minute sliding window, the load balancer MUST throttle all
@@ -47,7 +47,7 @@ control-families:
             recommendation: |
               Implement per-IP token-bucket limits with and verify via
               synthetic traffic tests.
-          - id: CCC.LB.CN01.TR02
+          - id: CCC.LB.CN01.AR02
             text: |
               When throttling is invoked, the load balancer MUST
               record the event in the access log within 5 minutes
@@ -98,7 +98,7 @@ control-families:
           Monitor health-check endpoints for tampering and alert on
           abnormal status changes.
         assessment-requirements:
-          - id: CCC.LB.CN06.TR01
+          - id: CCC.LB.CN06.AR01
             text: |
               When more than 10 percent of targets change from healthy to
               unhealthy within five minutes, an alert MUST be issued.
@@ -138,7 +138,7 @@ control-families:
           Ensure traffic-splitting weights and algorithms are modified
           only by trusted identities.
         assessment-requirements:
-          - id: CCC.LB.CN04.TR01
+          - id: CCC.LB.CN04.AR01
             text: |
               When routing weights change, the request MUST originate
               from an explicitly defined and trusted identity and MUST
@@ -175,7 +175,7 @@ control-families:
           Configure session persistence to minimise fixation and hijacking
           risks.
         assessment-requirements:
-          - id: CCC.LB.CN05.TR01
+          - id: CCC.LB.CN05.AR01
             text: |
               When stickiness is enabled, session cookies MUST expire
               within 30 minutes of inactivity.
@@ -208,7 +208,7 @@ control-families:
           Limit load-balancer API calls to authorised identities and
           trusted networks.
         assessment-requirements:
-          - id: CCC.LB.CN09.TR01
+          - id: CCC.LB.CN09.AR01
             text: |
               When an API call originates outside the approved CIDR
               set, the request MUST be denied.
@@ -247,7 +247,7 @@ control-families:
           Expand load-balancer capacity to maintain availability during traffic
           spikes.
         assessment-requirements:
-          - id: CCC.LB.CN02.TR01
+          - id: CCC.LB.CN02.AR01
             text: |
               When concurrent connections reach 80 percent of capacity, the
               autoscaling group MUST add at least one instance within five
@@ -281,7 +281,7 @@ control-families:
           Remove headers that disclose internal details or software
           versions from HTTP responses.
         assessment-requirements:
-          - id: CCC.LB.CN07.TR01
+          - id: CCC.LB.CN07.AR01
             text: |
               When responses pass through the load balancer, the
               "Server" header MUST be replaced with "lb".
@@ -317,7 +317,7 @@ control-families:
           Maintain valid TLS certificates by automating renewal and
           deployment before expiry.
         assessment-requirements:
-          - id: CCC.LB.CN08.TR01
+          - id: CCC.LB.CN08.AR01
             text: |
               When a certificate is within 30 days of expiry, automated renewal
               MUST complete and deploy a new certificate within 24 hours.

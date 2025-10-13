@@ -48,7 +48,7 @@ control-families:
           model in order to filter or sanitise adversarial queries
           and prevent sensitive data leakage.
         assessment-requirements:
-          - id: CCC.GenAI.CN01.TR01
+          - id: CCC.GenAI.CN01.AR01
             text: |
               Untrusted input such as user queries, RAG data or tool output
               MUST be validated before it is passed to a GenAI model.
@@ -58,7 +58,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
-          - id: CCC.GenAI.CN01.TR02
+          - id: CCC.GenAI.CN01.AR02
             text: |
               If malicious patterns such as prompt injection or sensitive
               data are detected during input validation, the input MUST
@@ -116,7 +116,7 @@ control-families:
           users, applications or plugins in order to filter or sanitise
           insecure or unreliable output and prevent sensitive data leakage.
         assessment-requirements:
-          - id: CCC.GenAI.CN02.TR01
+          - id: CCC.GenAI.CN02.AR01
             text: |
               GenAI model output MUST be validated for format conformance,
               malicious patterns, sensitive data and inapropriate content
@@ -127,7 +127,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
-          - id: CCC.GenAI.CN02.TR02
+          - id: CCC.GenAI.CN02.AR02
             text: |
               In the event of policy violations, the AI-generated content MUST
               be redacted, encoded or rejected.
@@ -191,7 +191,7 @@ control-families:
           intended purposes in order to prevent the initial introduction
           of malicious content or leaked sensitive data.
         assessment-requirements:
-          - id: CCC.GenAI.CN03.TR01
+          - id: CCC.GenAI.CN03.AR01
             text: |
               When data is designated for model training or RAG ingestion, then its
               source MUST be explicitly approved and its provenance documented.
@@ -201,7 +201,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
-          - id: CCC.GenAI.CN03.TR02
+          - id: CCC.GenAI.CN03.AR02
             text: |
               Data from unvetted sources MUST NOT be used in production systems.
             applicability:
@@ -244,7 +244,7 @@ control-families:
           retireval, in order to remove or redact poisoned or sensitive
           data before further processing.
         assessment-requirements:
-          - id: CCC.GenAI.CN04.TR01
+          - id: CCC.GenAI.CN04.AR01
             text: |
               When data is ingested for training, fine-tuning or conversion
               to vector embeddings, it MUST be validated for sensitive
@@ -255,7 +255,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
-          - id: CCC.GenAI.CN04.TR02
+          - id: CCC.GenAI.CN04.AR02
             text: |
               If sensitive data or malicious content is detected, it must
               be rejected, redacted or flagged for manual review.
@@ -298,7 +298,7 @@ control-families:
           to enhance the transparency, trustworthiness, and verifiability
           of AI-generated content.
         assessment-requirements:
-          - id: CCC.GenAI.CN05.TR01
+          - id: CCC.GenAI.CN05.AR01
             text: |
               When a RAG-enabled system generates a response containing information
               retrieved from its knowledge base, then the response MUST include a
@@ -342,7 +342,7 @@ control-families:
           to perform unintended actions or vulnerabilities in the tools
           are exploited.
         assessment-requirements:
-          - id: CCC.GenAI.CN06.TR01
+          - id: CCC.GenAI.CN06.AR01
             text: |
               When an LLM invokes an external tool (e.g., an API, a plugin),
               then the tool MUST operate with the least privileges required
@@ -382,7 +382,7 @@ control-families:
           tested version of a foundational model to prevent unexpected
           behaviour changes introduced by provider-side updates.
         assessment-requirements:
-          - id: CCC.GenAI.CN07.TR01
+          - id: CCC.GenAI.CN07.AR01
             text: |
               When an application makes an API call to a foundational model in a
               production environment, then it MUST specify an explicit version
@@ -421,7 +421,7 @@ control-families:
           quality, security and compliance requirements before getting deployed
           into production environments.
         assessment-requirements:
-          - id: CCC.GenAI.CN08.TR01
+          - id: CCC.GenAI.CN08.AR01
             text: |
               When a new AI model is considered for production deployment, it
               MUST undergo a formal red teaming and quality assurance review.
@@ -431,7 +431,7 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
-          - id: CCC.GenAI.CN08.TR02
+          - id: CCC.GenAI.CN08.AR02
             text: |
               If model quality review or red teaming identifies an issue that exceeds
               the organization's risk tolerance, the model MUST NOT be deployed until
