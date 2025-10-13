@@ -1089,20 +1089,20 @@ Below is a summary table of the controls, which is then followed by an elucidati
 
 |Control ID|Control Title|
 |----|----|
-|CCC.Core.C01|Prevent Unencrypted Requests|
-|CCC.Core.C06|Prevent Deployment in Restricted Regions|
-|CCC.Core.C08|Enable Multi-zone or Multi-region Data Replication|
-|CCC.Core.C09|Prevent Tampering, Deletion, or Unauthorized Access to Access Logs|
-|CCC.Core.C10|Prevent Data Replication to Destinations Outside of Defined Trust Perimeter|
-|CCC.Core.C02|Ensure Data Encryption at Rest for All Stored Data|
-|CCC.Core.C11|Enforce Key Management Policies|
-|CCC.Core.C03|Implement Multi-factor Authentication (MFA) for Access|
-|CCC.Core.C05|Prevent Access from Untrusted Entities|
-|CCC.Core.C04|Log All Access and Changes|
-|CCC.Core.C07|Alert on Unusual Enumeration Activity|
-|CCC.Core.C12|Ensure Secure Network Access Rules|
+|CCC.Core.CN01|Prevent Unencrypted Requests|
+|CCC.Core.CN06|Prevent Deployment in Restricted Regions|
+|CCC.Core.CN08|Enable Multi-zone or Multi-region Data Replication|
+|CCC.Core.CN09|Prevent Tampering, Deletion, or Unauthorized Access to Access Logs|
+|CCC.Core.CN10|Prevent Data Replication to Destinations Outside of Defined Trust Perimeter|
+|CCC.Core.CN02|Ensure Data Encryption at Rest for All Stored Data|
+|CCC.Core.CN11|Enforce Key Management Policies|
+|CCC.Core.CN03|Implement Multi-factor Authentication (MFA) for Access|
+|CCC.Core.CN05|Prevent Access from Untrusted Entities|
+|CCC.Core.CN04|Log All Access and Changes|
+|CCC.Core.CN07|Alert on Unusual Enumeration Activity|
+|CCC.Core.CN12|Ensure Secure Network Access Rules|
 
-### CCC.Core.C01
+### CCC.Core.CN01
 
 **Prevent Unencrypted Requests**
 
@@ -1170,7 +1170,7 @@ integrity and confidentiality.
   </div>
 </div>
 
-### CCC.Core.C06
+### CCC.Core.CN06
 
 **Prevent Deployment in Restricted Regions**
 
@@ -1237,7 +1237,7 @@ risks.
   </div>
 </div>
 
-### CCC.Core.C08
+### CCC.Core.CN08
 
 **Enable Multi-zone or Multi-region Data Replication**
 
@@ -1298,7 +1298,7 @@ failures, natural disasters, or other catastrophic events.
   </div>
 </div>
 
-### CCC.Core.C09
+### CCC.Core.CN09
 
 **Prevent Tampering, Deletion, or Unauthorized Access to Access Logs**
 
@@ -1372,7 +1372,7 @@ access, tampering, or deletion.
   </div>
 </div>
 
-### CCC.Core.C10
+### CCC.Core.CN10
 
 **Prevent Data Replication to Destinations Outside of Defined Trust Perimeter**
 
@@ -1433,7 +1433,7 @@ identity or network or data perimeter.
   </div>
 </div>
 
-### CCC.Core.C02
+### CCC.Core.CN02
 
 **Ensure Data Encryption at Rest for All Stored Data**
 
@@ -1492,7 +1492,7 @@ confidentiality and integrity.
   </div>
 </div>
 
-### CCC.Core.C11
+### CCC.Core.CN11
 
 **Enforce Key Management Policies**
 
@@ -1563,7 +1563,7 @@ customer-managed encryption keys (CMEKs).
   </div>
 </div>
 
-### CCC.Core.C03
+### CCC.Core.CN03
 
 **Implement Multi-factor Authentication (MFA) for Access**
 
@@ -1634,7 +1634,7 @@ includes a combination of API keys or tokens and network restrictions.
   </div>
 </div>
 
-### CCC.Core.C05
+### CCC.Core.CN05
 
 **Prevent Access from Untrusted Entities**
 
@@ -1699,7 +1699,7 @@ isolation.
   </div>
 </div>
 
-### CCC.Core.C04
+### CCC.Core.CN04
 
 **Log All Access and Changes**
 
@@ -1764,7 +1764,7 @@ detailed audit trail for security and compliance purposes.
   </div>
 </div>
 
-### CCC.Core.C07
+### CCC.Core.CN07
 
 **Alert on Unusual Enumeration Activity**
 
@@ -1821,7 +1821,7 @@ reconnaissance activities.
   </div>
 </div>
 
-### CCC.Core.C12
+### CCC.Core.CN12
 
 **Ensure Secure Network Access Rules**
 

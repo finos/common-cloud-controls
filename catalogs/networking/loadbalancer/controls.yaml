@@ -1,25 +1,25 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Prevent Unencrypted Requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
         remarks: Ensure Data Encryption at Rest
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Enforce Multi-Factor Authentication
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
         remarks: Log All Access and Changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
         remarks: Prevent Access From Untrusted Entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
         remarks: Prevent Deployment in Restricted Regions
-      - reference-id: CCC.Core.C10
+      - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
         remarks: Prevent Data Replication Outside Perimeter
 
@@ -29,13 +29,13 @@ control-families:
       Controls that detect anomalous traffic and record load-balancer activity.
 
     controls:
-      - id: CCC.LB.C01
+      - id: CCC.LB.CN01
         title: Enforce and Detect Rate Limiting
         objective: >
           Detect and throttle malicious or excessive requests to prevent
           downstream resource exhaustion and brute-force activity.
         assessment-requirements:
-          - id: CCC.LB.C01.TR01
+          - id: CCC.LB.CN01.TR01
             text: |
               When a single client sends more than 2000 requests within any
               5-minute sliding window, the load balancer MUST throttle all
@@ -47,7 +47,7 @@ control-families:
             recommendation: |
               Implement per-IP token-bucket limits with and verify via
               synthetic traffic tests.
-          - id: CCC.LB.C01.TR02
+          - id: CCC.LB.CN01.TR02
             text: |
               When throttling is invoked, the load balancer MUST
               record the event in the access log within 5 minutes
@@ -92,13 +92,13 @@ control-families:
                 strength: 0 # Not yet specified
                 remarks: Unsuccessful logon attempts
 
-      - id: CCC.LB.C06
+      - id: CCC.LB.CN06
         title: Secure Health-Check Telemetry
         objective: |
           Monitor health-check endpoints for tampering and alert on
           abnormal status changes.
         assessment-requirements:
-          - id: CCC.LB.C06.TR01
+          - id: CCC.LB.CN06.TR01
             text: |
               When more than 10 percent of targets change from healthy to
               unhealthy within five minutes, an alert MUST be issued.
@@ -132,13 +132,13 @@ control-families:
     description: |
       Controls that restrict who can change or query load-balancer resources.
     controls:
-      - id: CCC.LB.C04
+      - id: CCC.LB.CN04
         title: Enforce Distribution Policies
         objective: |
           Ensure traffic-splitting weights and algorithms are modified
           only by trusted identities.
         assessment-requirements:
-          - id: CCC.LB.C04.TR01
+          - id: CCC.LB.CN04.TR01
             text: |
               When routing weights change, the request MUST originate
               from an explicitly defined and trusted identity and MUST
@@ -169,13 +169,13 @@ control-families:
                 strength: 0 # Not yet specified
                 remarks: Access enforcement
 
-      - id: CCC.LB.C05
+      - id: CCC.LB.CN05
         title: Validate Session Affinity
         objective: |
           Configure session persistence to minimise fixation and hijacking
           risks.
         assessment-requirements:
-          - id: CCC.LB.C05.TR01
+          - id: CCC.LB.CN05.TR01
             text: |
               When stickiness is enabled, session cookies MUST expire
               within 30 minutes of inactivity.
@@ -202,13 +202,13 @@ control-families:
                 strength: 0 # Not yet specified
                 remarks: Session authenticity
 
-      - id: CCC.LB.C09
+      - id: CCC.LB.CN09
         title: Restrict Management API Access
         objective: |
           Limit load-balancer API calls to authorised identities and
           trusted networks.
         assessment-requirements:
-          - id: CCC.LB.C09.TR01
+          - id: CCC.LB.CN09.TR01
             text: |
               When an API call originates outside the approved CIDR
               set, the request MUST be denied.
@@ -241,13 +241,13 @@ control-families:
       Controls that preserve availability and confidentiality of
       traffic processed by the load balancer.
     controls:
-      - id: CCC.LB.C02
+      - id: CCC.LB.CN02
         title: Auto-Scale Load Balancer Capacity
         objective: |
           Expand load-balancer capacity to maintain availability during traffic
           spikes.
         assessment-requirements:
-          - id: CCC.LB.C02.TR01
+          - id: CCC.LB.CN02.TR01
             text: |
               When concurrent connections reach 80 percent of capacity, the
               autoscaling group MUST add at least one instance within five
@@ -275,13 +275,13 @@ control-families:
                 strength: 0 # Not yet specified
                 remarks: System recovery and reconstitution
 
-      - id: CCC.LB.C07
+      - id: CCC.LB.CN07
         title: Scrub Sensitive Headers
         objective: |
           Remove headers that disclose internal details or software
           versions from HTTP responses.
         assessment-requirements:
-          - id: CCC.LB.C07.TR01
+          - id: CCC.LB.CN07.TR01
             text: |
               When responses pass through the load balancer, the
               "Server" header MUST be replaced with "lb".
@@ -311,13 +311,13 @@ control-families:
   - title: Encryption
     description: Controls that ensure trustworthy TLS certificates and ciphers.
     controls:
-      - id: CCC.LB.C08
+      - id: CCC.LB.CN08
         title: Automate Certificate Renewal
         objective: |
           Maintain valid TLS certificates by automating renewal and
           deployment before expiry.
         assessment-requirements:
-          - id: CCC.LB.C08.TR01
+          - id: CCC.LB.CN08.TR01
             text: |
               When a certificate is within 30 days of expiry, automated renewal
               MUST complete and deploy a new certificate within 24 hours.

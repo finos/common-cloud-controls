@@ -15,14 +15,14 @@ control-families:
     title: Data
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.ObjStor.C01
+      - id: CCC.ObjStor.CN01
         title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
         objective: |
           Prevent any requests to object storage buckets or objects using
           untrusted KMS keys to protect against unauthorized data encryption
           that can impact data availability and integrity.
         assessment-requirements:
-          - id: CCC.ObjStor.C01.TR01
+          - id: CCC.ObjStor.CN01.TR01
             text: |
               When a request is made to read a protected bucket, the service
               MUST prevent any request using KMS keys not listed as trusted by
@@ -30,7 +30,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C01.TR02
+          - id: CCC.ObjStor.CN01.TR02
             text: |
               When a request is made to read a protected object, the service
               MUST prevent any request using KMS keys not listed as trusted by
@@ -38,7 +38,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C01.TR03
+          - id: CCC.ObjStor.CN01.TR03
             text: |
               When a request is made to write to a bucket, the service MUST
               prevent any request using KMS keys not listed as trusted by the
@@ -48,7 +48,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C01.TR04
+          - id: CCC.ObjStor.CN01.TR04
             text: |
               When a request is made to write to an object, the service MUST
               prevent any request using KMS keys not listed as trusted by the
@@ -84,13 +84,13 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH06
                 strength: 0
-      - id: CCC.ObjStor.C03
+      - id: CCC.ObjStor.CN03
         title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
         objective: |
           Ensure that object storage bucket is not deleted after creation,
           and that the preventative measure cannot be unset.
         assessment-requirements:
-          - id: CCC.ObjStor.C03.TR01
+          - id: CCC.ObjStor.CN03.TR01
             text: |
               When an object storage bucket deletion is attempted, the bucket MUST be
               fully recoverable for a set time-frame after deletion is requested.
@@ -99,7 +99,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C03.TR02
+          - id: CCC.ObjStor.CN03.TR02
             text: |
               When an attempt is made to modify the retention policy for an object
               storage bucket, the service MUST prevent the policy from being modified.
@@ -132,7 +132,7 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
                 strength: 0
-      - id: CCC.ObjStor.C04
+      - id: CCC.ObjStor.CN04
         title: Objects have an Effective Retention Policy by Default
         objective: |
           Ensure that all objects stored in the object storage system have a
@@ -140,7 +140,7 @@ control-families:
           or modification of objects and ensuring compliance with data retention
           regulations.
         assessment-requirements:
-          - id: CCC.ObjStor.C04.TR01
+          - id: CCC.ObjStor.CN04.TR01
             text: |
               When an object is uploaded to the object storage system, the object
               MUST automatically receive a default retention policy that prevents
@@ -150,7 +150,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C04.TR02
+          - id: CCC.ObjStor.CN04.TR02
             text: |
               When an attempt is made to delete or modify an object that is subject
               to an active retention policy, the service MUST prevent the action
@@ -184,14 +184,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
                 strength: 0
-      - id: CCC.ObjStor.C05
+      - id: CCC.ObjStor.CN05
         title: Versioning is Enabled for All Objects in the Bucket
         objective: |
           Ensure that versioning is enabled for all objects stored in the object
           storage bucket to enable recovery of previous versions of objects in
           case of loss or corruption.
         assessment-requirements:
-          - id: CCC.ObjStor.C05.TR01
+          - id: CCC.ObjStor.CN05.TR01
             text: |
               When an object is uploaded to the object storage bucket, the object
               MUST be stored with a unique identifier.
@@ -200,7 +200,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C05.TR02
+          - id: CCC.ObjStor.CN05.TR02
             text: |
               When an object is modified, the service MUST assign a new unique
               identifier to the modified object to differentiate it from the
@@ -210,7 +210,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C05.TR03
+          - id: CCC.ObjStor.CN05.TR03
             text: |
               When an object is modified, the service MUST allow for recovery
               of previous versions of the object.
@@ -219,7 +219,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C05.TR04
+          - id: CCC.ObjStor.CN05.TR04
             text: |
               When an object is deleted, the service MUST retain other versions of
               the object to allow for recovery of previous versions.
@@ -252,7 +252,7 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
                 strength: 0
-      - id: CCC.ObjStor.C06
+      - id: CCC.ObjStor.CN06
         title: Access Logs are Stored in a Separate Data Store
         objective: |
           Ensure that access logs for object storage buckets are stored in a
@@ -260,7 +260,7 @@ control-families:
           or deletion of logs (Logbuckets are exempt from this requirement,
           but must be tlp-red).
         assessment-requirements:
-          - id: CCC.ObjStor.C06.TR01
+          - id: CCC.ObjStor.CN06.TR01
             text: |
               When an object storage bucket is accessed, the service MUST store
               access logs in a separate data store.
@@ -295,13 +295,13 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH09
                 strength: 0
-      - id: CCC.Core.C01
+      - id: CCC.Core.CN01
         title: Encrypt Data for Transmission
         objective: |
           Ensure that all communications are encrypted in transit to protect
           data integrity and confidentiality.
         assessment-requirements:
-          - id: CCC.Core.C01.TR01
+          - id: CCC.Core.CN01.TR01
             text: |
               When a port is exposed for non-SSH network traffic, all traffic
               MUST include a TLS handshake AND be encrypted using TLS 1.3 or
@@ -314,7 +314,7 @@ control-families:
               Most cloud services enable TLS 1.3 by default. Where it is not
               already set, ensure that your services are configured or updated
               accordingly.
-          - id: CCC.Core.C01.TR02
+          - id: CCC.Core.CN01.TR02
             text: |
               When a port is exposed for SSH network traffic, all traffic MUST
               include a SSH handshake AND be encrypted using SSHv2 or higher.
@@ -327,7 +327,7 @@ control-families:
               Any time port 22 is exposed, ensure that it has a properly
               implemented SSH server with SSHv2 enabled and configured with
               strong ciphers.
-          - id: CCC.Core.C01.TR03
+          - id: CCC.Core.CN01.TR03
             text: "When the service receives unencrypted traffic, \nthen it MUST either block the request or automatically\nredirect it to the secure equivalent.\n"
             applicability:
               - tlp-green
@@ -339,7 +339,7 @@ control-families:
               exposed. Where possible, implement automatic redirection to secure
               protocols such as HTTPS, SFTP, SSH, and regularly scan for
               protocol drift.
-          - id: CCC.Core.C01.TR07
+          - id: CCC.Core.CN01.TR07
             text: |
               When a port is exposed, the service MUST ensure that the protocol
               and service officially assigned to that port number by the IANA
@@ -355,7 +355,7 @@ control-families:
               Registry for more information about correct protocol-to-port
               assignments. Avoid running non-standard services on well-known
               ports.
-          - id: CCC.Core.C01.TR08
+          - id: CCC.Core.CN01.TR08
             text: |
               When a service transmits data using TLS, mutual TLS (mTLS) MUST be
               implemented to require both client and server certificate
@@ -394,13 +394,13 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH02
                 strength: 0
-      - id: CCC.Core.C02
+      - id: CCC.Core.CN02
         title: Encrypt Data for Storage
         objective: |
           Ensure that all data stored is encrypted at rest using strong
           encryption algorithms.
         assessment-requirements:
-          - id: CCC.Core.C02.TR01
+          - id: CCC.Core.CN02.TR01
             text: |
               When data is stored, it MUST be encrypted using the latest
               industry-standard encryption methods.
@@ -430,14 +430,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C06
+      - id: CCC.Core.CN06
         title: Restrict Deployments to Trust Perimeter
         objective: |
           Ensure that the service and its child resources are only deployed on
           infrastructure in locations that are explicitly included within a
           defined trust perimeter.
         assessment-requirements:
-          - id: CCC.Core.C06.TR01
+          - id: CCC.Core.CN06.TR01
             text: |
               When the service is running, its region and availability zone MUST
               be included in a list of explicitly trusted or approved locations
@@ -451,7 +451,7 @@ control-families:
               Maintain an up-to-date list of trusted and approved regions based
               on organizational policies. Validate the service's deployment
               location is included in this list.
-          - id: CCC.Core.C06.TR02
+          - id: CCC.Core.CN06.TR02
             text: |
               When a child resource is deployed, its region and availability
               zone MUST be included in a list of explicitly trusted or approved
@@ -489,12 +489,12 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH03
                 strength: 0
-      - id: CCC.Core.C09
+      - id: CCC.Core.CN09
         title: Ensure Integrity of Access Logs
         objective: |
           Ensure that access logs are always recorded to an external location.
         assessment-requirements:
-          - id: CCC.Core.C09.TR01
+          - id: CCC.Core.CN09.TR01
             text: |
               When the service is operational, its logs and any child resource
               logs MUST NOT be accessible from the resource they record access
@@ -504,7 +504,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C09.TR02
+          - id: CCC.Core.CN09.TR02
             text: |
               When the service is operational, disabling the logs for the service
               or its child resources MUST NOT be possible without also disabling
@@ -520,7 +520,7 @@ control-families:
               access. Ensure that logging mechanisms are tightly integrated with
               service operations, so that logging cannot be disabled without
               stopping the service itself.
-          - id: CCC.Core.C09.TR03
+          - id: CCC.Core.CN09.TR03
             text: |
               When the service is operational, any attempt to redirect logs for
               the service or its child resources MUST NOT be possible without
@@ -563,13 +563,13 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH04
                 strength: 0
-      - id: CCC.Core.C10
+      - id: CCC.Core.CN10
         title: Restrict Data Replication to Trust Perimeter
         objective: |
           Ensure that data is only replicated on infrastructure in locations
           that are explicitly included within a defined trust perimeter.
         assessment-requirements:
-          - id: CCC.Core.C10.TR01
+          - id: CCC.Core.CN10.TR01
             text: |
               When data is replicated, the service MUST ensure that replication
               only occurs to destinations that are explicitly included within
@@ -604,7 +604,7 @@ control-families:
     title: Identity and Access Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.ObjStor.C02
+      - id: CCC.ObjStor.CN02
         title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
         objective: |
           Ensure that uniform bucket-level access is enforced across all
@@ -613,7 +613,7 @@ control-families:
           consistent, and secure access management in accordance with the
           principle of least privilege.
         assessment-requirements:
-          - id: CCC.ObjStor.C02.TR01
+          - id: CCC.ObjStor.CN02.TR01
             text: |
               When a permission set is allowed for an object in a bucket, the
               service MUST allow the same permission set to access all objects
@@ -623,7 +623,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.ObjStor.C02.TR02
+          - id: CCC.ObjStor.CN02.TR02
             text: |
               When a permission set is denied for an object in a bucket, the
               service MUST deny the same permission set to access all objects
@@ -657,13 +657,13 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C03
+      - id: CCC.Core.CN03
         title: Implement Multi-factor Authentication (MFA) for Access
         objective: |
           Ensure that all sensitive activities require two or more identity
           factors during authentication to prevent unauthorized access.
         assessment-requirements:
-          - id: CCC.Core.C03.TR01
+          - id: CCC.Core.CN03.TR01
             text: |
               When an entity attempts to modify the service through a user
               interface, the authentication process MUST require multiple
@@ -673,7 +673,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR02
+          - id: CCC.Core.CN03.TR02
             text: |
               When an entity attempts to modify the service through an API
               endpoint, the authentication process MUST require a credential
@@ -684,7 +684,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR03
+          - id: CCC.Core.CN03.TR03
             text: |
               When an entity attempts to view information on the service through
               a user interface, the authentication process MUST require multiple
@@ -692,7 +692,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C03.TR04
+          - id: CCC.Core.CN03.TR04
             text: |
               When an entity attempts to view information on the service through
               an API endpoint, the authentication process MUST require a
@@ -725,14 +725,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C05
+      - id: CCC.Core.CN05
         title: Prevent Access from Untrusted Entities
         objective: |
           Ensure that secure access controls enforce the principle of least
           privilege to restrict access to authorized entities from explicitly
           trusted sources only.
         assessment-requirements:
-          - id: CCC.Core.C05.TR01
+          - id: CCC.Core.CN05.TR01
             text: |
               When an attempt is made to modify data on the service or a child
               resource, the service MUST block requests from unauthorized
@@ -742,7 +742,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR02
+          - id: CCC.Core.CN05.TR02
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST refuse requests
@@ -752,7 +752,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR03
+          - id: CCC.Core.CN05.TR03
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource in a multi-tenant environment, the
@@ -763,21 +763,21 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR04
+          - id: CCC.Core.CN05.TR04
             text: |
               When data is requested from outside the trust perimeter, the
               service MUST refuse requests from unauthorized entities.
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR05
+          - id: CCC.Core.CN05.TR05
             text: |
               When any request is made from outside the trust perimeter,
               the service MUST NOT provide any response that may indicate the
               service exists.
             applicability:
               - tlp-red
-          - id: CCC.Core.C05.TR06
+          - id: CCC.Core.CN05.TR06
             text: |
               When any request is made to the service or a child resource, the
               service MUST refuse requests from unauthorized entities.
@@ -815,13 +815,13 @@ control-families:
       and alerted on in order to provide visibility, support
       incident response, and meet compliance requirements.
     controls:
-      - id: CCC.Core.C04
+      - id: CCC.Core.CN04
         title: Log All Access and Changes
         objective: |
           Ensure that all access attempts are logged to maintain a detailed
           audit trail for security and compliance purposes.
         assessment-requirements:
-          - id: CCC.Core.C04.TR01
+          - id: CCC.Core.CN04.TR01
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST log the client
@@ -831,7 +831,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C04.TR02
+          - id: CCC.Core.CN04.TR02
             text: |
               When any attempt is made to modify data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -839,7 +839,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C04.TR03
+          - id: CCC.Core.CN04.TR03
             text: |
               When any attempt is made to read data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -870,14 +870,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C07
+      - id: CCC.Core.CN07
         title: Alert on Unusual Enumeration Activity
         objective: |
           Ensure that logs and associated alerts are generated when
           unusual enumeration activity is detected that may indicate
           reconnaissance activities.
         assessment-requirements:
-          - id: CCC.Core.C07.TR01
+          - id: CCC.Core.CN07.TR01
             text: |
               When enumeration activities are detected, the service MUST publish
               an event to a monitored channel which includes the client
@@ -890,7 +890,7 @@ control-families:
               indicative of enumeration activities, such as repeated access
               attempts, requests, or liveness probes. Configure alerts to notify
               security teams of any activities that merit further investigation.
-          - id: CCC.Core.C07.TR02
+          - id: CCC.Core.CN07.TR02
             text: |
               When enumeration activities are detected, the service MUST log the
               client identity, time, and nature of the activity.
@@ -1611,31 +1611,31 @@ capabilities:
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0
         remarks: Prevent Unencrypted Requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0
         remarks: Ensure Data Encryption at Rest for All Stored Data
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0
         remarks: Implement Multi-factor Authentication (MFA) for Access
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0
         remarks: Log All Access and Changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0
         remarks: Prevent Access from Untrusted Entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0
         remarks: Prevent Deployment in Restricted Regions
-      - reference-id: CCC.Core.C07
+      - reference-id: CCC.Core.CN07
         strength: 0
         remarks: Alert on Unusual Enumeration Activity
-      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.CN09
         strength: 0
         remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
-      - reference-id: CCC.Core.C10
+      - reference-id: CCC.Core.CN10
         strength: 0
         remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 imported-threats:

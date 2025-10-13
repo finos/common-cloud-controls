@@ -31,11 +31,11 @@
                 "T1525"
             ],
             "CCC-Container-Registry": [
-                "CCC.CntrReg.C01.TR01"
+                "CCC.CntrReg.CN01.TR01"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C08.TR01",
-                "CCC.GenAI.C08.TR02"
+                "CCC.GenAI.CN08.TR01",
+                "CCC.GenAI.CN08.TR02"
             ],
             "PCI-4.0": [
                 "11.3.1.2.1",
@@ -157,9 +157,9 @@
                 "A.8.12"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C03.TR01",
-                "CCC.GenAI.C04.TR01",
-                "CCC.GenAI.C08.TR01"
+                "CCC.GenAI.CN03.TR01",
+                "CCC.GenAI.CN04.TR01",
+                "CCC.GenAI.CN08.TR01"
             ],
             "PCI-4.0": [
                 "1.2.5.15",
@@ -272,13 +272,13 @@
                 "A3.4.1.25"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C04.TR01",
-                "CCC.AuditLog.C05.TR01",
-                "CCC.AuditLog.C10.TR01",
-                "CCC.AuditLog.C10.TR02"
+                "CCC.AuditLog.CN04.TR01",
+                "CCC.AuditLog.CN05.TR01",
+                "CCC.AuditLog.CN10.TR01",
+                "CCC.AuditLog.CN10.TR02"
             ],
             "CCC-Build": [
-                "CCC.Build.C03.TR01"
+                "CCC.Build.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "2.2.1"
@@ -290,8 +290,8 @@
                 "op.mon.3.r5.gcp.dm.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C05.TR01",
-                "CCC.Logging.C05.TR02"
+                "CCC.Logging.CN05.TR01",
+                "CCC.Logging.CN05.TR02"
             ],
             "CIS-4.0": [
                 "5.1"
@@ -400,8 +400,8 @@
                 "5.2"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C03.TR01",
-                "CCC.GenAI.C04.TR01"
+                "CCC.GenAI.CN03.TR01",
+                "CCC.GenAI.CN04.TR01"
             ],
             "PCI-4.0": [
                 "1.2.5.15",
@@ -497,18 +497,18 @@
                 "A3.4.1.22"
             ],
             "CCC-Objects": [
-                "CCC.ObjStor.C02.TR01",
-                "CCC.ObjStor.C02.TR02"
+                "CCC.ObjStor.CN02.TR01",
+                "CCC.ObjStor.CN02.TR02"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C04.TR01",
-                "CCC.AuditLog.C05.TR01",
-                "CCC.AuditLog.C10.TR01",
-                "CCC.AuditLog.C10.TR02"
+                "CCC.AuditLog.CN04.TR01",
+                "CCC.AuditLog.CN05.TR01",
+                "CCC.AuditLog.CN10.TR01",
+                "CCC.AuditLog.CN10.TR02"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C05.TR01",
-                "CCC.Logging.C05.TR02"
+                "CCC.Logging.CN05.TR01",
+                "CCC.Logging.CN05.TR02"
             ],
             "CIS-4.0": [
                 "5.2"
@@ -615,12 +615,12 @@
         "notes": "By default, GCR Container Scanning is disabled.",
         "compliance": {
             "CCC-Container-Registry": [
-                "CCC.CntrReg.C01.TR01"
+                "CCC.CntrReg.CN01.TR01"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C04.TR01",
-                "CCC.GenAI.C08.TR01",
-                "CCC.GenAI.C08.TR02"
+                "CCC.GenAI.CN04.TR01",
+                "CCC.GenAI.CN08.TR01",
+                "CCC.GenAI.CN08.TR02"
             ],
             "PCI-4.0": [
                 "11.3.1.2.1",
@@ -739,15 +739,15 @@
                 "A.8.16"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C03.TR01",
-                "CCC.GenAI.C05.TR01",
-                "CCC.GenAI.C08.TR01",
-                "CCC.GenAI.C08.TR02"
+                "CCC.GenAI.CN03.TR01",
+                "CCC.GenAI.CN05.TR01",
+                "CCC.GenAI.CN08.TR01",
+                "CCC.GenAI.CN08.TR02"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C04.TR01",
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN04.TR01",
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "1.5.1.31",
@@ -838,15 +838,15 @@
                 "A3.5.1.6"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C01.TR01",
-                "CCC.AuditLog.C01.TR02",
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01",
-                "CCC.AuditLog.C05.TR01",
-                "CCC.AuditLog.C07.TR01"
+                "CCC.AuditLog.CN01.TR01",
+                "CCC.AuditLog.CN01.TR02",
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01",
+                "CCC.AuditLog.CN05.TR01",
+                "CCC.AuditLog.CN07.TR01"
             ],
             "CCC-Data-Warehouse": [
-                "CCC.DataWar.C03.TR01"
+                "CCC.DataWar.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "1.3.3"
@@ -862,8 +862,8 @@
                 "op.acc.6.r9.gcp.api.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02"
             ],
             "CIS-4.0": [
                 "2.1"
@@ -982,10 +982,10 @@
                 "A.8.9"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C03.TR01",
-                "CCC.GenAI.C05.TR01",
-                "CCC.GenAI.C08.TR01",
-                "CCC.GenAI.C08.TR02"
+                "CCC.GenAI.CN03.TR01",
+                "CCC.GenAI.CN05.TR01",
+                "CCC.GenAI.CN08.TR01",
+                "CCC.GenAI.CN08.TR02"
             ],
             "ProwlerThreatScore-1.0": [
                 "3.3.1"
@@ -1124,12 +1124,12 @@
                 "A.8.2"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C06.TR01"
+                "CCC.GenAI.CN06.TR01"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C04.TR01",
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN04.TR01",
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "1.5.1.31",
@@ -1157,7 +1157,7 @@
                 "8.3.4.13"
             ],
             "CCC-Data-Warehouse": [
-                "CCC.DataWar.C03.TR01"
+                "CCC.DataWar.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "1.3.1"
@@ -1289,8 +1289,8 @@
                 "A.8.2"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "3.5.1.1.8",
@@ -1320,10 +1320,10 @@
                 "8.3.4.6"
             ],
             "CCC-Key-Management": [
-                "CCC.KeyMgmt.C02.TR01"
+                "CCC.KeyMgmt.CN02.TR01"
             ],
             "CCC-Data-Warehouse": [
-                "CCC.DataWar.C03.TR01"
+                "CCC.DataWar.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "1.2.5",
@@ -1459,9 +1459,9 @@
                 "A.8.2"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C04.TR01",
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN04.TR01",
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "7.2.1.16",
@@ -1477,7 +1477,7 @@
                 "8.3.4.11"
             ],
             "CCC-Data-Warehouse": [
-                "CCC.DataWar.C03.TR01"
+                "CCC.DataWar.CN03.TR01"
             ],
             "SOC2": [
                 "cc_1_3",
@@ -1602,12 +1602,12 @@
                 "A.8.3"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C06.TR01"
+                "CCC.GenAI.CN06.TR01"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C04.TR01",
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN04.TR01",
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "1.5.1.31",
@@ -1667,7 +1667,7 @@
                 "8.3.4.13"
             ],
             "CCC-Data-Warehouse": [
-                "CCC.DataWar.C03.TR01"
+                "CCC.DataWar.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "1.2.2"
@@ -1805,7 +1805,7 @@
                 "A.8.2"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C06.TR01"
+                "CCC.GenAI.CN06.TR01"
             ],
             "PCI-4.0": [
                 "3.5.1.1.8",
@@ -1942,7 +1942,7 @@
                 "T1078"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C06.TR01"
+                "CCC.GenAI.CN06.TR01"
             ]
         }
     },
@@ -2056,13 +2056,13 @@
                 "A.8.16"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C03.TR01",
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN03.TR01",
+                "CCC.GenAI.CN05.TR01"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR01",
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN01.TR01",
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "10.2.1.1.7",
@@ -2112,14 +2112,14 @@
                 "A3.5.1.6"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C01.TR01",
-                "CCC.AuditLog.C01.TR02",
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01",
-                "CCC.AuditLog.C03.TR02"
+                "CCC.AuditLog.CN01.TR01",
+                "CCC.AuditLog.CN01.TR02",
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01",
+                "CCC.AuditLog.CN03.TR02"
             ],
             "CCC-Data-Warehouse": [
-                "CCC.DataWar.C03.TR01"
+                "CCC.DataWar.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "1.3.5"
@@ -2138,8 +2138,8 @@
                 "op.mon.3.r6.gcp.scc.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C06.TR01",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN06.TR01",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-4.0": [
                 "2.5"
@@ -2252,7 +2252,7 @@
                 "A.8.16"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ],
             "PCI-4.0": [
                 "10.2.1.1.7",
@@ -2294,8 +2294,8 @@
                 "A3.5.1.4"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "3.1.5"
@@ -2313,8 +2313,8 @@
                 "op.exp.1.r2.gcp.cai.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C06.TR01",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN06.TR01",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-4.0": [
                 "2.10"
@@ -2427,19 +2427,19 @@
                 "A.8.16"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "7.3.1.12",
                 "7.3.2.13"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "1.3.6"
@@ -2456,8 +2456,8 @@
                 "opc.acc.1.r1.gcp.iam.2"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C06.TR01",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN06.TR01",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-4.0": [
                 "2.6"
@@ -2570,11 +2570,11 @@
                 "A.8.16"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C05.TR01"
+                "CCC.LB.CN05.TR01"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "1.3.4"
@@ -2593,8 +2593,8 @@
                 "op.acc.3.r1.gcp.iam.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C06.TR01",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN06.TR01",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-4.0": [
                 "2.4"
@@ -2707,10 +2707,10 @@
                 "A.8.16"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "10.2.1.1.9",
@@ -2721,8 +2721,8 @@
                 "A3.3.1.4"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "3.1.6"
@@ -2740,8 +2740,8 @@
                 "mp.s.4.r1.gcp.app.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C06.TR01",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN06.TR01",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-4.0": [
                 "2.11"
@@ -2854,12 +2854,12 @@
                 "A.8.16"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR01",
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN01.TR01",
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "1.3.2.27",
@@ -2899,8 +2899,8 @@
                 "A1.2.1.34"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "3.1.2"
@@ -2918,8 +2918,8 @@
                 "op.exp.8.r1.gcp.nt.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C06.TR01",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN06.TR01",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-4.0": [
                 "2.7"
@@ -3035,13 +3035,13 @@
                 "A.8.22"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR01",
-                "CCC.LB.C04.TR01",
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN01.TR01",
+                "CCC.LB.CN04.TR01",
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "10.2.1.1.34",
@@ -3067,8 +3067,8 @@
                 "A1.2.1.34"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "3.1.4"
@@ -3088,8 +3088,8 @@
                 "mp.com.4.r4.gcp.net.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C06.TR01",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN06.TR01",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-4.0": [
                 "2.9"
@@ -3205,13 +3205,13 @@
                 "A.8.22"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C05.TR01"
+                "CCC.GenAI.CN05.TR01"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR01",
-                "CCC.LB.C04.TR01",
-                "CCC.LB.C05.TR01",
-                "CCC.LB.C09.TR01"
+                "CCC.LB.CN01.TR01",
+                "CCC.LB.CN04.TR01",
+                "CCC.LB.CN05.TR01",
+                "CCC.LB.CN09.TR01"
             ],
             "PCI-4.0": [
                 "1.5.1.18",
@@ -3219,8 +3219,8 @@
                 "10.2.1.21"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01"
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01"
             ],
             "ProwlerThreatScore-1.0": [
                 "3.1.3"
@@ -3239,8 +3239,8 @@
                 "op.exp.8.r1.gcp.nt.1"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C06.TR01",
-                "CCC.Logging.C07.TR01"
+                "CCC.Logging.CN06.TR01",
+                "CCC.Logging.CN07.TR01"
             ],
             "CIS-4.0": [
                 "2.8"
@@ -3352,17 +3352,17 @@
                 "A.8.16"
             ],
             "CCC-Gen-AI": [
-                "CCC.GenAI.C03.TR01",
-                "CCC.GenAI.C05.TR01",
-                "CCC.GenAI.C08.TR01",
-                "CCC.GenAI.C08.TR02"
+                "CCC.GenAI.CN03.TR01",
+                "CCC.GenAI.CN05.TR01",
+                "CCC.GenAI.CN08.TR01",
+                "CCC.GenAI.CN08.TR02"
             ],
             "CCC-Load-Balancer": [
-                "CCC.LB.C01.TR01",
-                "CCC.LB.C01.TR02",
-                "CCC.LB.C06.TR01",
-                "CCC.LB.C04.TR01",
-                "CCC.LB.C05.TR01"
+                "CCC.LB.CN01.TR01",
+                "CCC.LB.CN01.TR02",
+                "CCC.LB.CN06.TR01",
+                "CCC.LB.CN04.TR01",
+                "CCC.LB.CN05.TR01"
             ],
             "PCI-4.0": [
                 "10.5.1.3",
@@ -3372,21 +3372,21 @@
                 "A3.5.1.6"
             ],
             "CCC-Objects": [
-                "CCC.ObjStor.C06.TR01"
+                "CCC.ObjStor.CN06.TR01"
             ],
             "CCC-Audit-Logs": [
-                "CCC.AuditLog.C01.TR01",
-                "CCC.AuditLog.C01.TR02",
-                "CCC.AuditLog.C02.TR01",
-                "CCC.AuditLog.C03.TR01",
-                "CCC.AuditLog.C03.TR02",
-                "CCC.AuditLog.C04.TR01",
-                "CCC.AuditLog.C05.TR01",
-                "CCC.AuditLog.C06.TR01",
-                "CCC.AuditLog.C07.TR01"
+                "CCC.AuditLog.CN01.TR01",
+                "CCC.AuditLog.CN01.TR02",
+                "CCC.AuditLog.CN02.TR01",
+                "CCC.AuditLog.CN03.TR01",
+                "CCC.AuditLog.CN03.TR02",
+                "CCC.AuditLog.CN04.TR01",
+                "CCC.AuditLog.CN05.TR01",
+                "CCC.AuditLog.CN06.TR01",
+                "CCC.AuditLog.CN07.TR01"
             ],
             "CCC-Data-Warehouse": [
-                "CCC.DataWar.C03.TR01"
+                "CCC.DataWar.CN03.TR01"
             ],
             "SOC2": [
                 "cc_2_1",
@@ -3399,10 +3399,10 @@
                 "op.ext.3.gcp.log.2"
             ],
             "CCC-Logging": [
-                "CCC.Logging.C01.TR01",
-                "CCC.Logging.C01.TR02",
-                "CCC.Logging.C05.TR01",
-                "CCC.Logging.C06.TR01"
+                "CCC.Logging.CN01.TR01",
+                "CCC.Logging.CN01.TR02",
+                "CCC.Logging.CN05.TR01",
+                "CCC.Logging.CN06.TR01"
             ]
         }
     },

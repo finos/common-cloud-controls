@@ -1,25 +1,25 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Prevent unencrypted requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
         remarks: Ensure data encryption at rest for all stored data
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
         remarks: Log all access and changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
         remarks: Prevent access from untrusted entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
         remarks: Prevent deployment in restricted regions
-      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Prevent tampering, deletion, or unauthorized access to access logs
-      - reference-id: CCC.Core.C10
+      - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
         remarks: Prevent data replication to destinations outside of defined trust perimeter
 
@@ -27,13 +27,13 @@ control-families:
   - title: Risk Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.CntrReg.C01
+      - id: CCC.CntrReg.CN01
         title: Implement Vulnerability Scanning for Artifacts
         objective: |
           Ensure that container images and artifacts stored in the container registry are scanned for
           vulnerabilities to identify and remediate security issues before deployment.
         assessment-requirements:
-          - id: CCC.CntrReg.C01.TR01
+          - id: CCC.CntrReg.CN01.TR01
             text: |
               Attempt to push an artifact with known vulnerabilities to the registry
               and observe if it is flagged or rejected by the vulnerability scanning process.
@@ -57,13 +57,13 @@ control-families:
   - title: Data Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.CntrReg.C02
+      - id: CCC.CntrReg.CN02
         title: Implement Cleanup Policies for Artifacts
         objective: |
           Ensure that unused or outdated artifacts are cleaned up according to defined policies to
           manage storage effectively and reduce security risks associated with outdated versions.
         assessment-requirements:
-          - id: CCC.CntrReg.C02.TR01
+          - id: CCC.CntrReg.CN02.TR01
             text: |
               Confirm that artifacts older than the specified retention period are automatically
               deleted from the registry.

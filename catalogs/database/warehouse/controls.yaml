@@ -1,31 +1,31 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Prevent unencrypted requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
         remarks: Ensure data encryption at rest for all stored data
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement multi-factor authentication (MFA) for access
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
         remarks: Log all access and changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
         remarks: Prevent access from untrusted entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
         remarks: Prevent deployment in restricted regions
-      - reference-id: CCC.Core.C07
+      - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
         remarks: Alert on unusual enumeration activity
-      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Prevent tampering, deletion, or unauthorized access to access logs
-      - reference-id: CCC.Core.C10
+      - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
         remarks: Prevent data replication to destinations outside of defined trust perimeter
 
@@ -33,13 +33,13 @@ control-families:
   - title: Data
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.DataWar.C01
+      - id: CCC.DataWar.CN01
         title: Enforce Use of Managed Views for Data Access
         objective: |
           Ensure that data access is provided through managed views, restricting users
           from accessing underlying tables directly and enforcing consistent security policies.
         assessment-requirements:
-          - id: CCC.DataWar.C01.TR01
+          - id: CCC.DataWar.CN01.TR01
             text: |
               Attempt to access underlying database tables directly without
               using managed views and verify that access is denied.
@@ -61,13 +61,13 @@ control-families:
               - reference-id: AC-3
                 strength: 0 # Not yet specified
               - reference-id: AC-6
-      - id: CCC.DataWar.C02
+      - id: CCC.DataWar.CN02
         title: Enforce Column-Level Security Policies
         objective: |
           Ensure that access to sensitive data columns is restricted based on user roles,
           preventing unauthorized access to sensitive information.
         assessment-requirements:
-          - id: CCC.DataWar.C02.TR01
+          - id: CCC.DataWar.CN02.TR01
             text: |
               Attempt to query sensitive columns without the necessary permissions and
               verify that access is denied or data is masked.
@@ -89,13 +89,13 @@ control-families:
               - reference-id: AC-3
                 strength: 0 # Not yet specified
               - reference-id: AC-6
-      - id: CCC.DataWar.C03
+      - id: CCC.DataWar.CN03
         title: Enforce Row-Level Security Policies
         objective: |
           Ensure that access to data rows is restricted based on user roles or attributes,
           preventing unauthorized access to specific subsets of data.
         assessment-requirements:
-          - id: CCC.DataWar.C03.TR01
+          - id: CCC.DataWar.CN03.TR01
             text: |
               Attempt to query data rows that the user should not have access to and verify
               that access is denied or data is not returned.
