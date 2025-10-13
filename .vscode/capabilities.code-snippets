@@ -9,7 +9,7 @@
 			"       - <List of imported CCC core capability references; Omit if not applicable>",
 			"",
 			"capabilities:",
-			"  - id: CCC.<service-id>.F01",
+			"  - id: CCC.<service-id>.CP01",
 			"    title: <Short name of the capability>",
 			"    description: |",
 			"      <Complete description of the capability>",
@@ -21,7 +21,7 @@
 		"scope": "yaml",
 		"prefix": "capability, finosccc:capability",
 		"body": [
-			"- id: CCC.<service-id>.F<##>",
+			"- id: CCC.<service-id>.CP<##>",
 			"  title: <Short name of the capability>",
 			"  description: |",
 			"    <Complete description of the capability>",
