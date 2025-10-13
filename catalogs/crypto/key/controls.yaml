@@ -34,7 +34,7 @@ control-families:
           Generate near-real-time alerts when a KMS key version is disabled or
           scheduled for deletion, enabling rapid investigation and recovery.
         assessment-requirements:
-          - id: CCC.KeyMgmt.CN01.TR01
+          - id: CCC.KeyMgmt.CN01.AR01
             text: |
               When a key version is scheduled for deletion or disabled, an
               alert MUST be generated within five minutes.
@@ -72,7 +72,7 @@ control-families:
           Restrict the Decrypt operation to authorised principals only, applying
           the principle of least privilege to protect sensitive data.
         assessment-requirements:
-          - id: CCC.KeyMgmt.CN02.TR01
+          - id: CCC.KeyMgmt.CN02.AR01
             text: |
               When IAM roles and key policies are reviewed, Decrypt permission
               MUST be granted exclusively to documented authorised principals.
@@ -109,7 +109,7 @@ control-families:
           Ensure symmetric keys rotate automatically within policy intervals to
           reduce exposure of key material.
         assessment-requirements:
-          - id: CCC.KeyMgmt.CN03.TR01
+          - id: CCC.KeyMgmt.CN03.AR01
             text: |
               When rotation settings are examined, rotation MUST be enabled with
               an interval not exceeding 365 days.
@@ -141,7 +141,7 @@ control-families:
           Accept only externally generated keys that meet approved cryptographic
           strength and provenance requirements.
         assessment-requirements:
-          - id: CCC.KeyMgmt.CN04.TR01
+          - id: CCC.KeyMgmt.CN04.AR01
             text: |
               When a key import request is processed, the key MUST use an
               approved algorithm (RSA-2048+, EC-P256+) and originate from a

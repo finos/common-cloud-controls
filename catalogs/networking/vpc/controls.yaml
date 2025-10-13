@@ -34,7 +34,7 @@ control-families:
           resources during subscription initialization to avoid insecure default
           configurations and enforce custom network policies.
         assessment-requirements:
-          - id: CCC.VPC.CN01.TR01
+          - id: CCC.VPC.CN01.AR01
             text: |
               When a subscription is created, the subscription MUST NOT
               contain default network resources.
@@ -65,7 +65,7 @@ control-families:
           Restrict the creation of resources in the public subnet with
           direct access to the internet to minimize attack surfaces.
         assessment-requirements:
-          - id: CCC.VPC.CN02.TR01
+          - id: CCC.VPC.CN02.AR01
             text: |
               When a resource is created in a public subnet, that resource
               MUST NOT be assigned an external IP address by default.
@@ -96,7 +96,7 @@ control-families:
           authorized destinations to limit network exposure and enforce boundary
           controls.
         assessment-requirements:
-          - id: CCC.VPC.CN03.TR01
+          - id: CCC.VPC.CN03.AR01
             text: |
               When a VPC peering connection is requested, the service MUST
               prevent connections from VPCs that are not explicitly
@@ -129,7 +129,7 @@ control-families:
           Ensure VPCs are configured with flow logs enabled to capture traffic
           information.
         assessment-requirements:
-          - id: CCC.VPC.CN04.TR01
+          - id: CCC.VPC.CN04.AR01
             text: |
               When any network traffic goes to or from an interface in the VPC,
               the service MUST capture and log all relevant information.

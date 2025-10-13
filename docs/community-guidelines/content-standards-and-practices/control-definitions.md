@@ -80,7 +80,7 @@ This approach ensures that test requirements are actionable by providing clear i
 
 ```yaml
 assessment-requirements:
-  - id: CCC.VPC.CN01.TR01
+  - id: CCC.VPC.CN01.AR01
     text: |
       When a subscription is created, the subscription MUST NOT
       contain default network resources.
@@ -100,7 +100,7 @@ assessment-requirements:
 
 ```yaml
 assessment-requirements:
-  - id: CCC.VPC.CN01.TR01
+  - id: CCC.VPC.CN01.AR01
     text: |
       A subscription MUST NOT have default networks.
     tlp-levels:

@@ -38,7 +38,7 @@ style_guide:
 
   assessment_requirements:
     id:
-      - "Use the format CCC.<service-id>.C<control-seq>.TR<req-seq-number>"
+      - "Use the format CCC.<service-id>.CN<control-seq>.AR<req-seq-number>"
       - "TR stands for 'Technical Requirement'"
       - "Sequential numbering within each control (TR01, TR02, etc.)"
     text:

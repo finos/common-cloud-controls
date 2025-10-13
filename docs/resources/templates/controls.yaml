@@ -16,7 +16,7 @@ controls:
       NIST_800_53:
         - <NIST 800-53 control IDs>
     assessment-requirements:
-      - id: CCC.<Service Category Abbreviation>.CN#.TR##
+      - id: CCC.<Service Category Abbreviation>.CN#.AR##
         text: |
           <REQUIREMENT TEXT>
         tlp-levels:
