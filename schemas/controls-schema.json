@@ -97,7 +97,7 @@
                           "description": "Optional recommendation to satisfy this requirement"
                         }
                       },
-                      "required": ["id", "text", "applicability", "recommendation"],
+                      "required": ["id", "text", "applicability"],
                       "additionalProperties": false
                     }
                   },

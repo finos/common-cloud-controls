@@ -155,6 +155,7 @@ control-families:
               Track certificate expiration dates and automate certificate
               renewal where possible. Use certificate management tools to ensure
               only certificates from trusted authorities are deployed.
+        guideline-mappings: []
         threat-mappings:
           - reference-id: CCC
             entries:
