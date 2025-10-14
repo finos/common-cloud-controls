@@ -134,7 +134,7 @@ async function unzipArtifact(zipPath: string, artifactName: string, repositoryIn
         // Verify that OCSF files were extracted correctly
         const resultsDir = path.join(extractDir, 'results');
         if (fs.existsSync(resultsDir)) {
-            const ocsfFiles = fs.readdirSync(resultsDir).filter(f => f.endsWith('.ocsf.json'));
+            const ocsfFiles = fs.readdirSync(resultsDir).filter(f => f.endsWith('ocsf.json'));
             for (const ocsfFile of ocsfFiles) {
                 const ocsfPath = path.join(resultsDir, ocsfFile);
                 try {
