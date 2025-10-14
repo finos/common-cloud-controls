@@ -1,25 +1,25 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Prevent Unencrypted Requests
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
         remarks: Log All Access and Changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
         remarks: Prevent Access from Untrusted Entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
         remarks: Prevent Deployment in Restricted Regions
-      - reference-id: CCC.Core.C07
+      - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
-      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
 
@@ -27,14 +27,14 @@ control-families:
   - title: Network Security
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.VPC.C01
+      - id: CCC.VPC.CN01
         title: Restrict Default Network Creation
         objective: |
           Restrict the automatic creation of default virtual networks and related
           resources during subscription initialization to avoid insecure default
           configurations and enforce custom network policies.
         assessment-requirements:
-          - id: CCC.VPC.C01.TR01
+          - id: CCC.VPC.CN01.AR01
             text: |
               When a subscription is created, the subscription MUST NOT
               contain default network resources.
@@ -59,13 +59,13 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: SC-7
-      - id: CCC.VPC.C02
+      - id: CCC.VPC.CN02
         title: Limit Resource Creation in Public Subnet
         objective: |
           Restrict the creation of resources in the public subnet with
           direct access to the internet to minimize attack surfaces.
         assessment-requirements:
-          - id: CCC.VPC.C02.TR01
+          - id: CCC.VPC.CN02.AR01
             text: |
               When a resource is created in a public subnet, that resource
               MUST NOT be assigned an external IP address by default.
@@ -89,14 +89,14 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-4
-      - id: CCC.VPC.C03
+      - id: CCC.VPC.CN03
         title: Restrict VPC Peering to Authorized Accounts
         objective: |
           Ensure VPC peering connections are only established with explicitly
           authorized destinations to limit network exposure and enforce boundary
           controls.
         assessment-requirements:
-          - id: CCC.VPC.C03.TR01
+          - id: CCC.VPC.CN03.AR01
             text: |
               When a VPC peering connection is requested, the service MUST
               prevent connections from VPCs that are not explicitly
@@ -123,13 +123,13 @@ control-families:
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-4
-      - id: CCC.VPC.C04
+      - id: CCC.VPC.CN04
         title: Enforce VPC Flow Logs on VPCs
         objective: |
           Ensure VPCs are configured with flow logs enabled to capture traffic
           information.
         assessment-requirements:
-          - id: CCC.VPC.C04.TR01
+          - id: CCC.VPC.CN04.AR01
             text: |
               When any network traffic goes to or from an interface in the VPC,
               the service MUST capture and log all relevant information.

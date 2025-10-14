@@ -29,8 +29,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP03
+          - reference-id: CCC.Core.CP10
     external-mappings:
       - reference-id: OWASPTOP10
         entries:
@@ -49,8 +49,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP03
+          - reference-id: CCC.Core.CP10
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -75,14 +75,14 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.AuditLog.F03
+          - reference-id: CCC.AuditLog.CP03
             strength: 0 # Not yet specified
             remarks: Sink
-          - reference-id: CCC.AuditLog.F08
+          - reference-id: CCC.AuditLog.CP08
             strength: 0 # Not yet specified
             remarks: External Sink
-          - reference-id: CCC.Core.F03
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP03
+          - reference-id: CCC.Core.CP10
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -105,14 +105,14 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.AuditLog.F03
+          - reference-id: CCC.AuditLog.CP03
             strength: 0 # Not yet specified
             remarks: Sink
-          - reference-id: CCC.AuditLog.F08
+          - reference-id: CCC.AuditLog.CP08
             strength: 0 # Not yet specified
             remarks: External Sink
-          - reference-id: CCC.Core.F03
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP03
+          - reference-id: CCC.Core.CP10
     external-mappings:
       - reference-id: OWASPTOP10
         entries:
@@ -135,8 +135,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP03
+          - reference-id: CCC.Core.CP10
     external-mappings:
       - reference-id: OWASPTOP10
         entries:

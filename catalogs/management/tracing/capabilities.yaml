@@ -1,49 +1,49 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F17
+      - reference-id: CCC.Core.CP17
         remarks: Alerting
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
 
 capabilities:
-  - id: CCC.Tracing.F01
+  - id: CCC.Tracing.CP01
     title: Distributed Trace Analysis
     description: |
       Analyses end-to-end traces across services.
 
-  - id: CCC.Tracing.F02
+  - id: CCC.Tracing.CP02
     title: Runtime Profiling
     description: |
       Analyses performance data such as CPU usage, memory allocation, or latency metrics alongside traces.
 
-  - id: CCC.Tracing.F03
+  - id: CCC.Tracing.CP03
     title: Anomaly Detection
     description: |
       Applies statistical techniques to detect performance anomalies or trace behavior outliers.
 
-  - id: CCC.Tracing.F04
+  - id: CCC.Tracing.CP04
     title: Dependency Mapping
     description: |
       Generates service maps from traces to visualize inter-service communication and bottlenecks.
 
-  - id: CCC.Tracing.F05
+  - id: CCC.Tracing.CP05
     title: Trace Filtering and Tagging
     description: |
       Supports filtering and search on traces using enriched metadata fields such as user ID, region, or status code.

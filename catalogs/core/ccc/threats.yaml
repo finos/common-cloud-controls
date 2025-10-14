@@ -11,9 +11,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             remarks: Access Control
-          - reference-id: CCC.Core.F29
+          - reference-id: CCC.Core.CP29
             remarks: Active Ingestion
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -72,9 +72,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             remarks: Data Replication
-          - reference-id: CCC.Core.F22
+          - reference-id: CCC.Core.CP22
             remarks: Location Lock-In
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -99,7 +99,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             remarks: Replication
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -116,11 +116,11 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             remarks: Data Replication
-          - reference-id: CCC.Core.F12
+          - reference-id: CCC.Core.CP12
             remarks: Recovery
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             remarks: Replication
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -143,9 +143,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
             remarks: Backup
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             remarks: Versioning
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -169,9 +169,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             remarks: Access Log Publication
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             remarks: Logging
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -193,7 +193,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F15
+          - reference-id: CCC.Core.CP15
             remarks: Cost Management
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -214,9 +214,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             remarks: Access Log Publication
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             remarks: Metrics Publication
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -263,13 +263,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             remarks: Access Log Publication
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             remarks: Event Publication
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             remarks: Metrics Publication
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             remarks: Alerting
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -291,9 +291,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             remarks: Event Publication
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             remarks: Alerting
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -317,11 +317,11 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             remarks: Transaction Rate Limits
-          - reference-id: CCC.Core.F16
+          - reference-id: CCC.Core.CP16
             remarks: Budgeting
-          - reference-id: CCC.Core.F19
+          - reference-id: CCC.Core.CP19
             remarks: Auto-scaling
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -343,7 +343,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F20
+          - reference-id: CCC.Core.CP20
             remarks: Tagging
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -361,7 +361,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             remarks: Versioning
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -395,7 +395,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             remarks: API Access
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -413,9 +413,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             remarks: Logging
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             remarks: Metrics Publication
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -432,9 +432,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F01
+          - reference-id: CCC.Core.CP01
             remarks: Encryption in Transit Enabled by Default
-          - reference-id: CCC.Core.F02
+          - reference-id: CCC.Core.CP02
             remarks: Encryption at Rest Enabled by Default
   - title: Responses are Generated for Unauthorized Requests
     id: CCC.Core.TH17
@@ -448,7 +448,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F29
+          - reference-id: CCC.Core.CP29
             remarks: Active Ingestion
     external-mappings:
       - reference-id: CCMv4

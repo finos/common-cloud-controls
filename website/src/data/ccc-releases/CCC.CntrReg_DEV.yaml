@@ -12,13 +12,13 @@ control-families:
     title: Risk Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.CntrReg.C01
+      - id: CCC.CntrReg.CN01
         title: Implement Vulnerability Scanning for Artifacts
         objective: |
           Ensure that container images and artifacts stored in the container registry are scanned for
           vulnerabilities to identify and remediate security issues before deployment.
         assessment-requirements:
-          - id: CCC.CntrReg.C01.TR01
+          - id: CCC.CntrReg.CN01.TR01
             text: |
               Attempt to push an artifact with known vulnerabilities to the registry
               and observe if it is flagged or rejected by the vulnerability scanning process.
@@ -45,13 +45,13 @@ control-families:
     title: Data Management
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.CntrReg.C02
+      - id: CCC.CntrReg.CN02
         title: Implement Cleanup Policies for Artifacts
         objective: |
           Ensure that unused or outdated artifacts are cleaned up according to defined policies to
           manage storage effectively and reduce security risks associated with outdated versions.
         assessment-requirements:
-          - id: CCC.CntrReg.C02.TR01
+          - id: CCC.CntrReg.CN02.TR01
             text: |
               Confirm that artifacts older than the specified retention period are automatically
               deleted from the registry.
@@ -81,13 +81,13 @@ control-families:
       replicated, and protected from unauthorized access, tampering,
       or exposure beyond defined trust perimeters.
     controls:
-      - id: CCC.Core.C01
+      - id: CCC.Core.CN01
         title: Encrypt Data for Transmission
         objective: |
           Ensure that all communications are encrypted in transit to protect
           data integrity and confidentiality.
         assessment-requirements:
-          - id: CCC.Core.C01.TR01
+          - id: CCC.Core.CN01.TR01
             text: |
               When a port is exposed for non-SSH network traffic, all traffic
               MUST include a TLS handshake AND be encrypted using TLS 1.3 or
@@ -100,7 +100,7 @@ control-families:
               Most cloud services enable TLS 1.3 by default. Where it is not
               already set, ensure that your services are configured or updated
               accordingly.
-          - id: CCC.Core.C01.TR02
+          - id: CCC.Core.CN01.TR02
             text: |
               When a port is exposed for SSH network traffic, all traffic MUST
               include a SSH handshake AND be encrypted using SSHv2 or higher.
@@ -113,7 +113,7 @@ control-families:
               Any time port 22 is exposed, ensure that it has a properly
               implemented SSH server with SSHv2 enabled and configured with
               strong ciphers.
-          - id: CCC.Core.C01.TR03
+          - id: CCC.Core.CN01.TR03
             text: "When the service receives unencrypted traffic, \nthen it MUST either block the request or automatically\nredirect it to the secure equivalent.\n"
             applicability:
               - tlp-green
@@ -125,7 +125,7 @@ control-families:
               exposed. Where possible, implement automatic redirection to secure
               protocols such as HTTPS, SFTP, SSH, and regularly scan for
               protocol drift.
-          - id: CCC.Core.C01.TR07
+          - id: CCC.Core.CN01.TR07
             text: |
               When a port is exposed, the service MUST ensure that the protocol
               and service officially assigned to that port number by the IANA
@@ -141,7 +141,7 @@ control-families:
               Registry for more information about correct protocol-to-port
               assignments. Avoid running non-standard services on well-known
               ports.
-          - id: CCC.Core.C01.TR08
+          - id: CCC.Core.CN01.TR08
             text: |
               When a service transmits data using TLS, mutual TLS (mTLS) MUST be
               implemented to require both client and server certificate
@@ -180,13 +180,13 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH02
                 strength: 0
-      - id: CCC.Core.C02
+      - id: CCC.Core.CN02
         title: Encrypt Data for Storage
         objective: |
           Ensure that all data stored is encrypted at rest using strong
           encryption algorithms.
         assessment-requirements:
-          - id: CCC.Core.C02.TR01
+          - id: CCC.Core.CN02.TR01
             text: |
               When data is stored, it MUST be encrypted using the latest
               industry-standard encryption methods.
@@ -216,14 +216,14 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-      - id: CCC.Core.C06
+      - id: CCC.Core.CN06
         title: Restrict Deployments to Trust Perimeter
         objective: |
           Ensure that the service and its child resources are only deployed on
           infrastructure in locations that are explicitly included within a
           defined trust perimeter.
         assessment-requirements:
-          - id: CCC.Core.C06.TR01
+          - id: CCC.Core.CN06.TR01
             text: |
               When the service is running, its region and availability zone MUST
               be included in a list of explicitly trusted or approved locations
@@ -237,7 +237,7 @@ control-families:
               Maintain an up-to-date list of trusted and approved regions based
               on organizational policies. Validate the service's deployment
               location is included in this list.
-          - id: CCC.Core.C06.TR02
+          - id: CCC.Core.CN06.TR02
             text: |
               When a child resource is deployed, its region and availability
               zone MUST be included in a list of explicitly trusted or approved
@@ -275,12 +275,12 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH03
                 strength: 0
-      - id: CCC.Core.C09
+      - id: CCC.Core.CN09
         title: Ensure Integrity of Access Logs
         objective: |
           Ensure that access logs are always recorded to an external location.
         assessment-requirements:
-          - id: CCC.Core.C09.TR01
+          - id: CCC.Core.CN09.TR01
             text: |
               When the service is operational, its logs and any child resource
               logs MUST NOT be accessible from the resource they record access
@@ -290,7 +290,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C09.TR02
+          - id: CCC.Core.CN09.TR02
             text: |
               When the service is operational, disabling the logs for the service
               or its child resources MUST NOT be possible without also disabling
@@ -306,7 +306,7 @@ control-families:
               access. Ensure that logging mechanisms are tightly integrated with
               service operations, so that logging cannot be disabled without
               stopping the service itself.
-          - id: CCC.Core.C09.TR03
+          - id: CCC.Core.CN09.TR03
             text: |
               When the service is operational, any attempt to redirect logs for
               the service or its child resources MUST NOT be possible without
@@ -349,13 +349,13 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH04
                 strength: 0
-      - id: CCC.Core.C10
+      - id: CCC.Core.CN10
         title: Restrict Data Replication to Trust Perimeter
         objective: |
           Ensure that data is only replicated on infrastructure in locations
           that are explicitly included within a defined trust perimeter.
         assessment-requirements:
-          - id: CCC.Core.C10.TR01
+          - id: CCC.Core.CN10.TR01
             text: |
               When data is replicated, the service MUST ensure that replication
               only occurs to destinations that are explicitly included within
@@ -394,13 +394,13 @@ control-families:
       and alerted on in order to provide visibility, support
       incident response, and meet compliance requirements.
     controls:
-      - id: CCC.Core.C04
+      - id: CCC.Core.CN04
         title: Log All Access and Changes
         objective: |
           Ensure that all access attempts are logged to maintain a detailed
           audit trail for security and compliance purposes.
         assessment-requirements:
-          - id: CCC.Core.C04.TR01
+          - id: CCC.Core.CN04.TR01
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST log the client
@@ -410,7 +410,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C04.TR02
+          - id: CCC.Core.CN04.TR02
             text: |
               When any attempt is made to modify data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -418,7 +418,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C04.TR03
+          - id: CCC.Core.CN04.TR03
             text: |
               When any attempt is made to read data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -458,14 +458,14 @@ control-families:
       enforce multi-factor verification, and restrict access to
       approved sources to prevent unauthorized use or data exfiltration.
     controls:
-      - id: CCC.Core.C05
+      - id: CCC.Core.CN05
         title: Prevent Access from Untrusted Entities
         objective: |
           Ensure that secure access controls enforce the principle of least
           privilege to restrict access to authorized entities from explicitly
           trusted sources only.
         assessment-requirements:
-          - id: CCC.Core.C05.TR01
+          - id: CCC.Core.CN05.TR01
             text: |
               When an attempt is made to modify data on the service or a child
               resource, the service MUST block requests from unauthorized
@@ -475,7 +475,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR02
+          - id: CCC.Core.CN05.TR02
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST refuse requests
@@ -485,7 +485,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR03
+          - id: CCC.Core.CN05.TR03
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource in a multi-tenant environment, the
@@ -496,21 +496,21 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR04
+          - id: CCC.Core.CN05.TR04
             text: |
               When data is requested from outside the trust perimeter, the
               service MUST refuse requests from unauthorized entities.
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.C05.TR05
+          - id: CCC.Core.CN05.TR05
             text: |
               When any request is made from outside the trust perimeter,
               the service MUST NOT provide any response that may indicate the
               service exists.
             applicability:
               - tlp-red
-          - id: CCC.Core.C05.TR06
+          - id: CCC.Core.CN05.TR06
             text: |
               When any request is made to the service or a child resource, the
               service MUST refuse requests from unauthorized entities.
@@ -549,7 +549,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.CntrReg.F05
+          - reference-id: CCC.CntrReg.CP05
             strength: 0
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -566,9 +566,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.CntrReg.F04
+          - reference-id: CCC.CntrReg.CP04
             strength: 0
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
     external-mappings:
       - reference-id: MITRE-ATT&CK
@@ -588,7 +588,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
     external-mappings:
@@ -662,10 +662,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F22
+          - reference-id: CCC.Core.CP22
             strength: 0
             remarks: Location Lock-In
     external-mappings:
@@ -696,7 +696,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -715,13 +715,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F12
+          - reference-id: CCC.Core.CP12
             strength: 0
             remarks: Recovery
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -749,10 +749,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
             strength: 0
             remarks: Backup
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -781,10 +781,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
     external-mappings:
@@ -811,10 +811,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -870,10 +870,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -901,13 +901,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F04
+          - reference-id: CCC.Core.CP04
             strength: 0
             remarks: Transaction Rate Limits
-          - reference-id: CCC.Core.F16
+          - reference-id: CCC.Core.CP16
             strength: 0
             remarks: Budgeting
-          - reference-id: CCC.Core.F19
+          - reference-id: CCC.Core.CP19
             strength: 0
             remarks: Auto-scaling
     external-mappings:
@@ -933,7 +933,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -977,7 +977,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0
             remarks: API Access
     external-mappings:
@@ -997,10 +997,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -1010,153 +1010,153 @@ threats:
             strength: 0
             remarks: Impair Defenses
 capabilities:
-  - id: CCC.CntrReg.F01
+  - id: CCC.CntrReg.CP01
     title: Image Storage
     description: |
       Ability to upload and securely store container images and image metadata.
-  - id: CCC.CntrReg.F02
+  - id: CCC.CntrReg.CP02
     title: Private Repositories
     description: |
       Support for creating container image repositories that are restricted and
       only accessible by authorized users or services.
-  - id: CCC.CntrReg.F03
+  - id: CCC.CntrReg.CP03
     title: Public Repositories
     description: |
       Support for creating container image repositories that are open to the public.
       These repositories are used mainly for sharing container images.
-  - id: CCC.CntrReg.F04
+  - id: CCC.CntrReg.CP04
     title: Lifecycle Policies
     description: |
       Supports defining of policies for automatic expiry of
       unused or outdated images to manage storage effectively.
-  - id: CCC.CntrReg.F05
+  - id: CCC.CntrReg.CP05
     title: Image Scanning
     description: |
       Provides vulnerability scanning for container images (built-in
       or through integration to scanning services) to detect security
       issues and generate reports for known CVEs (Common Vulnerabilities
       and Exposures).
-  - id: CCC.CntrReg.F06
+  - id: CCC.CntrReg.CP06
     title: Integration with CI/CD Tooling
     description: |
       Seamlessly integrates with CI/CD pipelines to automate pushing and pulling of
       container images.
-  - id: CCC.CntrReg.F07
+  - id: CCC.CntrReg.CP07
     title: Caching of Images
     description: |
       Provides caching for faster access to frequently used images.
-  - id: CCC.CntrReg.F08
+  - id: CCC.CntrReg.CP08
     title: Multi-platform Support
     description: |
       Ability to store images built for different CPU architectures such as
       x86_64 (AMD/Intel), ARM64, and others within the same container image
       repository.
-  - id: CCC.CntrReg.F09
+  - id: CCC.CntrReg.CP09
     title: Immutable Tags
     description: |
       Prevent tags from being overwritten or deleted once they have been
       assigned to an image. This ensures that once a container image is tagged
       with a specific version or identifier, that tag remains associated with
       the same image throughout its lifetime.
-  - id: CCC.CntrReg.F10
+  - id: CCC.CntrReg.CP10
     title: List Repositories
     description: |
       Ability to list all public and private repositories in the container
       image registry.
-  - id: CCC.CntrReg.F11
+  - id: CCC.CntrReg.CP11
     title: Edit Repository
     description: |
       Ability to edit a public or private container image repository properties
       after being created.
-  - id: CCC.CntrReg.F12
+  - id: CCC.CntrReg.CP12
     title: Delete Repository
     description: |
       Ability to delete a public or private container image repository after
       being created.
-  - id: CCC.CntrReg.F13
+  - id: CCC.CntrReg.CP13
     title: List Images
     description: |
       Ability to list container images in a public or private container image
       repository.
-  - id: CCC.CntrReg.F14
+  - id: CCC.CntrReg.CP14
     title: Delete Image
     description: |
       Ability to delete a container image after being created.
-  - id: CCC.CntrReg.F15
+  - id: CCC.CntrReg.CP15
     title: List Lifecycle Policies
     description: |
       Ability to list lifecycle policies for container images in a public or private
       container repository.
-  - id: CCC.CntrReg.F16
+  - id: CCC.CntrReg.CP16
     title: Edit Lifecycle Policy
     description: |
       Ability to edit a lifecycle policy after being created.
-  - id: CCC.CntrReg.F17
+  - id: CCC.CntrReg.CP17
     title: Delete Lifecycle Policy
     description: |
       Ability to delete a lifecycle policy after being created.
-  - id: CCC.Core.F01
+  - id: CCC.Core.CP01
     title: Encryption in Transit Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to transmission via a network interface.
-  - id: CCC.Core.F02
+  - id: CCC.Core.CP02
     title: Encryption at Rest Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to being written to a storage medium.
-  - id: CCC.Core.F03
+  - id: CCC.Core.CP03
     title: Access Log Publication
     description: |
       The service automatically publishes structured, verbose records of
       activities performed within the scope of the service by external actors.
-  - id: CCC.Core.F04
+  - id: CCC.Core.CP04
     title: Transaction Rate Limits
     description: |
       The service always provides industry-standard network throughput
       up to a user-specified rate limit, beyond which excess requests
       may be throttled, delayed, or rejected.
-  - id: CCC.Core.F05
+  - id: CCC.Core.CP05
     title: Signed URLs
     description: |
       The service automatically enforces user-configured permissions to access
       a specific component or a child resource via an ad hoc URL containing
       authentication information.
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
-  - id: CCC.Core.F07
+  - id: CCC.Core.CP07
     title: Event Publication
     description: |
       The service automatically publishes a structured state-change record
       upon creation, deletion, or modification of data, configuration,
       components, or child resources.
-  - id: CCC.Core.F09
+  - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.F18
+  - id: CCC.Core.CP18
     title: Resource Versioning
     description: |
       The service assigns versions to child resources to preserve, retrieve,
       and restore past iterations.
-  - id: CCC.Core.F21
+  - id: CCC.Core.CP21
     title: Resource Replication
     description: |
       The service may be configured to replicate child resources
       across multiple deployments.
-  - id: CCC.Core.F22
+  - id: CCC.Core.CP22
     title: Location Lock-In
     description: |
       The service may be configured to restrict the deployment of child resources
@@ -1164,25 +1164,25 @@ capabilities:
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0
         remarks: Prevent unencrypted requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0
         remarks: Ensure data encryption at rest for all stored data
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0
         remarks: Log all access and changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0
         remarks: Prevent access from untrusted entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0
         remarks: Prevent deployment in restricted regions
-      - reference-id: CCC.Core.C09
+      - reference-id: CCC.Core.CN09
         strength: 0
         remarks: Prevent tampering, deletion, or unauthorized access to access logs
-      - reference-id: CCC.Core.C10
+      - reference-id: CCC.Core.CN10
         strength: 0
         remarks: Prevent data replication to destinations outside of defined trust perimeter
 imported-threats:
@@ -1230,42 +1230,42 @@ imported-threats:
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         strength: 0
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         strength: 0
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         strength: 0
         remarks: Access/Activity Logs
-      - reference-id: CCC.Core.F04
+      - reference-id: CCC.Core.CP04
         strength: 0
         remarks: Transaction Rate Limits
-      - reference-id: CCC.Core.F05
+      - reference-id: CCC.Core.CP05
         strength: 0
         remarks: Signed URLs
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Identity Based Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         strength: 0
         remarks: Event Notifications
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         strength: 0
         remarks: Monitoring
-      - reference-id: CCC.Core.F13
+      - reference-id: CCC.Core.CP13
         strength: 0
         remarks: Infrastructure as Code
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.F18
+      - reference-id: CCC.Core.CP18
         strength: 0
         remarks: Versioning
-      - reference-id: CCC.Core.F21
+      - reference-id: CCC.Core.CP21
         strength: 0
         remarks: Replication
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         strength: 0
         remarks: Location Lock-In

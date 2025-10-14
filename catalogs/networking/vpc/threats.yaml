@@ -36,7 +36,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VPC.F01
+          - reference-id: CCC.VPC.CP01
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -50,7 +50,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VPC.F04
+          - reference-id: CCC.VPC.CP04
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -65,7 +65,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VPC.F11
+          - reference-id: CCC.VPC.CP11
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -80,7 +80,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VPC.F16
+          - reference-id: CCC.VPC.CP16
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -93,7 +93,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VPC.F17
+          - reference-id: CCC.VPC.CP17
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

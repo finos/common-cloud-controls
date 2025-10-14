@@ -24,7 +24,7 @@
 ## Capabilities
 
 The following capabilities are required to be present on a resource for it to be considered a {{ .Metadata.Title }} service. Threats outlined later in this catalog are assesssed based on the presence of these capabilities.
-{{ range .Capabilities }}
+{{ range .CNapabilities }}
 - **{{ .Id }}: {{ .Title }}**
   
   {{.Description|safe}}
@@ -52,10 +52,10 @@ Below is a summary table of the identified threats, which is then followed by an
 
 <div class="flex-container">
   <div class="flex-item-left">
-  {{ if .Capabilities -}}
+  {{ if .CNapabilities -}}
   Applies to these capabilities:
   <ul>
-    {{ range .Capabilities }}
+    {{ range .CNapabilities }}
       {{ range .Entries }}
   <li>{{ .ReferenceId }}</li>
       {{- end }}

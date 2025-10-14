@@ -13,13 +13,13 @@ control-families:
     title: Data Protection
     description: 'TODO: Describe this control family'
     controls:
-      - id: CCC.SecMgmt.C01
+      - id: CCC.SecMgmt.CN01
         title: Enforce Automatic Secret Rotation
         objective: |
           Ensure that secrets are automatically rotated on a defined schedule to
           reduce the risk of secret compromise and unauthorized access.
         assessment-requirements:
-          - id: CCC.SecMgmt.C01.TR01
+          - id: CCC.SecMgmt.CN01.TR01
             text: |
               Attempt to use an outdated version of a secret after its rotation period
               has passed and verify that access is denied.
@@ -44,13 +44,13 @@ control-families:
                 strength: 0
               - reference-id: CCC.Core.TH14
                 strength: 0
-      - id: CCC.SecMgmt.C02
+      - id: CCC.SecMgmt.CN02
         title: Enforce Secret Replication Policies
         objective: |
           Ensure that secrets are replicated only to authorized locations as per
           organizational data residency and compliance requirements.
         assessment-requirements:
-          - id: CCC.SecMgmt.C02.TR01
+          - id: CCC.SecMgmt.CN02.TR01
             text: |
               Attempt to retrieve a secret from an unauthorized region and verify that access is denied.
             applicability:
@@ -86,7 +86,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F06
+          - reference-id: CCC.Core.CP06
             strength: 0
             remarks: Identity Based Access Control
     external-mappings:
@@ -139,10 +139,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F22
+          - reference-id: CCC.Core.CP22
             strength: 0
             remarks: Location Lock-In
     external-mappings:
@@ -173,7 +173,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -192,13 +192,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F08
+          - reference-id: CCC.Core.CP08
             strength: 0
             remarks: Multi-zone Deployment
-          - reference-id: CCC.Core.F12
+          - reference-id: CCC.Core.CP12
             strength: 0
             remarks: Recovery
-          - reference-id: CCC.Core.F21
+          - reference-id: CCC.Core.CP21
             strength: 0
             remarks: Replication
     external-mappings:
@@ -226,10 +226,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.Core.CP11
             strength: 0
             remarks: Backup
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -258,10 +258,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
     external-mappings:
@@ -288,10 +288,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F03
+          - reference-id: CCC.Core.CP03
             strength: 0
             remarks: Access/Activity Logs
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -347,10 +347,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F07
+          - reference-id: CCC.Core.CP07
             strength: 0
             remarks: Event Notifications
-          - reference-id: CCC.Core.F17
+          - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
     external-mappings:
@@ -376,7 +376,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F20
+          - reference-id: CCC.Core.CP20
             strength: 0
             remarks: Tagging
     external-mappings:
@@ -396,7 +396,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.Core.CP18
             strength: 0
             remarks: Versioning
     external-mappings:
@@ -440,7 +440,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F14
+          - reference-id: CCC.Core.CP14
             strength: 0
             remarks: API Access
     external-mappings:
@@ -460,10 +460,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F10
+          - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
-          - reference-id: CCC.Core.F09
+          - reference-id: CCC.Core.CP09
             strength: 0
             remarks: Monitoring
     external-mappings:
@@ -473,114 +473,114 @@ threats:
             strength: 0
             remarks: Impair Defenses
 capabilities:
-  - id: CCC.SecMgmt.F01
+  - id: CCC.SecMgmt.CP01
     title: Secret Storage
     description: |
       Provides secure storage for sensitive data such as API keys, passwords, certificates, and other secrets.
-  - id: CCC.SecMgmt.F02
+  - id: CCC.SecMgmt.CP02
     title: Secret Creation - Plaintext
     description: |
       Ability to create new secrets as basic string data for storing
       sensitive data such as API keys and database credentials.
-  - id: CCC.SecMgmt.F03
+  - id: CCC.SecMgmt.CP03
     title: Secret Creation - JSON Objects
     description: |
       Ability to create new secrets as complex JSON objects with multiple fields for storing sensitive data.
-  - id: CCC.SecMgmt.F04
+  - id: CCC.SecMgmt.CP04
     title: Secret Creation - Binary Data
     description: |
       Ability to create new secrets as binary data for storing certificates and private keys.
-  - id: CCC.SecMgmt.F05
+  - id: CCC.SecMgmt.CP05
     title: Update Secrets
     description: |
       Ability to update a secret value or description after creation.
-  - id: CCC.SecMgmt.F06
+  - id: CCC.SecMgmt.CP06
     title: Soft Delete Secrets
     description: |
       Prevent secrets from being deleted immediately. Soft deletion
       makes secrets inaccessible and schedules them for deletion
       after a recovery window.
-  - id: CCC.SecMgmt.F07
+  - id: CCC.SecMgmt.CP07
     title: Automatic Secret Rotation
     description: |
       Supports automatic rotation of secrets based on a defined schedule or triggers to enhance security.
-  - id: CCC.SecMgmt.F08
+  - id: CCC.SecMgmt.CP08
     title: Secret Replication Policies
     description: |
       Allows configuration of secret replication policies to control
       replication of secrets, supporting compliance with data
       residency requirements.
-  - id: CCC.SecMgmt.F09
+  - id: CCC.SecMgmt.CP09
     title: Secure Secret Retrieval
     description: |
       Offers a secure API and SDK access for retrieving
       secrets, ensuring that secrets are transmitted
       securely to authorized clients.
-  - id: CCC.Core.F01
+  - id: CCC.Core.CP01
     title: Encryption in Transit Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to transmission via a network interface.
-  - id: CCC.Core.F02
+  - id: CCC.Core.CP02
     title: Encryption at Rest Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to being written to a storage medium.
-  - id: CCC.Core.F03
+  - id: CCC.Core.CP03
     title: Access Log Publication
     description: |
       The service automatically publishes structured, verbose records of
       activities performed within the scope of the service by external actors.
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
-  - id: CCC.Core.F07
+  - id: CCC.Core.CP07
     title: Event Publication
     description: |
       The service automatically publishes a structured state-change record
       upon creation, deletion, or modification of data, configuration,
       components, or child resources.
-  - id: CCC.Core.F10
+  - id: CCC.Core.CP10
     title: Log Publication
     description: |
       The service automatically publishes structured, verbose records of activities,
       operations, or events that occur within the service.
-  - id: CCC.Core.F09
+  - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.F11
+  - id: CCC.Core.CP11
     title: Backup
     description: |
       The service can generate copies of its data or configurations
       in the form of automated backups, snapshot-based backups, or incremental backups.
-  - id: CCC.Core.F12
+  - id: CCC.Core.CP12
     title: Recovery
     description: |
       The service can be reverted to a previous state
       by providing a compatible backup or snapshot identifier.
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.F18
+  - id: CCC.Core.CP18
     title: Resource Versioning
     description: |
       The service assigns versions to child resources to preserve, retrieve,
       and restore past iterations.
-  - id: CCC.Core.F19
+  - id: CCC.Core.CP19
     title: Resource Scaling
     description: |
       The service may be configured to scale child resources automatically
       or on-demand.
-  - id: CCC.Core.F20
+  - id: CCC.Core.CP20
     title: Resource Tagging
     description: |
       The service provides users with the ability to tag a child resource with metadata
@@ -630,42 +630,42 @@ imported-threats:
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         strength: 0
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         strength: 0
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         strength: 0
         remarks: Access/Activity Logs
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Identity Based Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         strength: 0
         remarks: Event Notifications
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         strength: 0
         remarks: Logging
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         strength: 0
         remarks: Monitoring
-      - reference-id: CCC.Core.F11
+      - reference-id: CCC.Core.CP11
         strength: 0
         remarks: Backup
-      - reference-id: CCC.Core.F12
+      - reference-id: CCC.Core.CP12
         strength: 0
         remarks: Recovery
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.F18
+      - reference-id: CCC.Core.CP18
         strength: 0
         remarks: Versioning
-      - reference-id: CCC.Core.F19
+      - reference-id: CCC.Core.CP19
         strength: 0
         remarks: On-Demand Scaling
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         strength: 0
         remarks: Tagging

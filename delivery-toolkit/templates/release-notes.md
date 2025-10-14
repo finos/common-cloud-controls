@@ -14,8 +14,8 @@
 ### Change Log
 
 Below is a list of all the changes and updates included in this release. Please review them to stay informed about the latest improvements and bug fixes.
-{{ if (latestReleaseDetails .ReleaseDetails).ChangeLog }}
-{{- range (latestReleaseDetails .ReleaseDetails).ChangeLog }}
+{{ if (latestReleaseDetails .ReleaseDetails).CNhangeLog }}
+{{- range (latestReleaseDetails .ReleaseDetails).CNhangeLog }}
 - {{ . }}{{- end }}{{- else }}
 - No changes documented.
 {{ end }}

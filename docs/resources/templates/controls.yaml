@@ -1,7 +1,7 @@
 common_controls:
   - <IDs of common controls; Omit if not applicable>
 controls:
-  - id: CCC.<Service Category Abbreviation>.C1
+  - id: CCC.<Service Category Abbreviation>.CN1
     title: <Name of the control>
     objective: <1-3 sentence description of the control objective>
     control_family: <Control Family>
@@ -16,7 +16,7 @@ controls:
       NIST_800_53:
         - <NIST 800-53 control IDs>
     assessment-requirements:
-      - id: CCC.<Service Category Abbreviation>.C#.TR##
+      - id: CCC.<Service Category Abbreviation>.CN#.AR##
         text: |
           <REQUIREMENT TEXT>
         tlp-levels:

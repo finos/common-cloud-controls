@@ -1,37 +1,37 @@
 capabilities:
-  - id: CCC.Core.F01
+  - id: CCC.Core.CP01
     title: Encryption in Transit Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to transmission via a network interface.
 
-  - id: CCC.Core.F02
+  - id: CCC.Core.CP02
     title: Encryption at Rest Enabled by Default
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to being written to a storage medium.
 
-  - id: CCC.Core.F03
+  - id: CCC.Core.CP03
     title: Access Log Publication
     description: |
       The service automatically publishes structured, verbose records of
       activities performed within the scope of the service by external actors.
 
-  - id: CCC.Core.F04
+  - id: CCC.Core.CP04
     title: Transaction Rate Limits
     description: |
       The service can throttle, delay, or reject excess requests when
       transactions exceed a user-specified rate limit, and always
       provides industry-standard throughput up to that limit.
 
-  - id: CCC.Core.F05
+  - id: CCC.Core.CP05
     title: Signed URLs
     description: |
       The service can generate an ad hoc URL containing authentication
       information to enforce user-configured permissions for accessing
       a specific component or a child resource.
 
-  - id: CCC.Core.F06
+  - id: CCC.Core.CP06
     title: Access Control
     description: |
       The service automatically enforces user configurations to
@@ -39,139 +39,139 @@ capabilities:
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
 
-  - id: CCC.Core.F07
+  - id: CCC.Core.CP07
     title: Event Publication
     description: |
       The service automatically publishes a structured state-change record
       upon creation, deletion, or modification of data, configuration,
       components, or child resources.
 
-  - id: CCC.Core.F08
+  - id: CCC.Core.CP08
     title: Data Replication
     description: |
       The service automatically replicates data across multiple deployments
       simultaneously with parity, or may be configured to do so.
 
-  - id: CCC.Core.F09
+  - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
 
-  - id: CCC.Core.F10
+  - id: CCC.Core.CP10
     title: Log Publication
     description: |
       The service automatically publishes structured, verbose records of activities,
       operations, or events that occur within the service.
 
-  - id: CCC.Core.F11
+  - id: CCC.Core.CP11
     title: Backup
     description: |
       The service can generate copies of its data or configurations
       in the form of automated backups, snapshot-based backups, or incremental backups.
 
-  - id: CCC.Core.F12
+  - id: CCC.Core.CP12
     title: Recovery
     description: |
       The service can be reverted to a previous state
       by providing a compatible backup or snapshot identifier.
 
-  - id: CCC.Core.F14
+  - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
 
-  - id: CCC.Core.F15
+  - id: CCC.Core.CP15
     title: Cost Management
     description: |
       The service monitors data published by child or networked resources to infer
       usage patterns and generate cost reports for the service.
 
-  - id: CCC.Core.F16
+  - id: CCC.Core.CP16
     title: Budgeting
     description: |
       The service may be configured to take a user-specified action when a
       spending threshold is met or exceeded on a child or networked resource.
 
-  - id: CCC.Core.F17
+  - id: CCC.Core.CP17
     title: Alerting
     description: |
       The service may be configured to emit a notification based on a user-defined
       condition related to the data published by a child or networked resource.
 
-  - id: CCC.Core.F18
+  - id: CCC.Core.CP18
     title: Resource Versioning
     description: |
       The service automatically assigns versions to child resources which can be used
       to preserve, retrieve, and restore past iterations.
 
-  - id: CCC.Core.F19
+  - id: CCC.Core.CP19
     title: Resource Scaling
     description: |
       The service may be configured to scale child resources automatically
       or on-demand.
 
-  - id: CCC.Core.F20
+  - id: CCC.Core.CP20
     title: Resource Tagging
     description: |
       The service provides users with the ability to tag a child resource with metadata
       that can be reviewed or queried.
 
-  - id: CCC.Core.F21
+  - id: CCC.Core.CP21
     title: Resource Replication
     description: |
       The service may be configured to replicate child resources
       across multiple deployments.
 
-  - id: CCC.Core.F22
+  - id: CCC.Core.CP22
     title: Location Lock-In
     description: |
       The service may be configured to restrict the deployment of child resources
       to specific geographic locations.
 
-  - id: CCC.Core.F23
+  - id: CCC.Core.CP23
     title: Network Access Rules
     description: |
       The service restricts access to child or networked resources based on
       user-defined network parameters such as IP address,
       protocol, port, or source.
 
-  - id: CCC.Core.F24
+  - id: CCC.Core.CP24
     title: Core Processing Units
     description: |
       The service provides users and child resources with access to
       core processing units (CPUs) for executing instructions and
       performing computations.
 
-  - id: CCC.Core.F25
+  - id: CCC.Core.CP25
     title: Random Access Memory Allocation
     description: |
       The service provides users and child resources with access to
       random access memory (RAM) for temporary data storage and
       fast data retrieval during processing tasks.
 
-  - id: CCC.Core.F26
+  - id: CCC.Core.CP26
     title: Persistent Storage
     description: |
       The service provides users and child resources with access to
       persistent storage for saving and retrieving data reliably over time.
 
-  - id: CCC.Core.F27
+  - id: CCC.Core.CP27
     title: Configurable Network Ports
     description: |
       The service allows users to configure network ports for
       communication, enabling flexibility in network management
       and integration with other services.
 
-  - id: CCC.Core.F28
+  - id: CCC.Core.CP28
     title: Command-line Interface
     description: |
       The service includes a component that reads and translates
       text into commands that can be executed by the service.
 
-  - id: CCC.Core.F29
+  - id: CCC.Core.CP29
     title: Active Ingestion
     description: |
       While running, the service can receive inputs, commands, or data streams

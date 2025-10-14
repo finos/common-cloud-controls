@@ -38,7 +38,7 @@
     - Add in new object storage controls on encryption for impact and replication to untrusted destinations (#305)
     - Convert existing taxonomies to the new yaml format (#319)
     - Fix broken links (#317)
-    - Added CCC.OS.C6 Control (#298)Looks good
+    - Added CCC.OS.CN6 Control (#298)Looks good
     - Extend Object Storage Controls (#263)
   contributors:
     - name: Damien Burks

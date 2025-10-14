@@ -1,6 +1,6 @@
 imported-capabilities:
   - <IDs of common capabilities; Omit if not applicable>
 capabilities:
-  - id: CCC.<Service Category Abbreviation>.F<##>
+  - id: CCC.<Service Category Abbreviation>.CP<##>
     title: <Shortname of the feature>
     description: <Complete description of the feature>
