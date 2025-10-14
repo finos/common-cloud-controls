@@ -1,116 +1,114 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP08
+        remarks: Data Replication
+      - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.F14
-        remarks: API Access
-      - reference-id: CCC.Core.F17
-        remarks: Alerting
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
-      - reference-id: CCC.Core.F28
+      - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
 
 capabilities:
-  - id: CCC.VPC.F01
+  - id: CCC.VPC.CP01
     title: Isolated Custom Network Creation
     description: |
       Ability to create a virtual network that is isolated from other users of the same
       public cloud.
 
-  - id: CCC.VPC.F02
+  - id: CCC.VPC.CP02
     title: IPv4 CIDR Block
     description: |
       Ability to specify a IPv4 CIDR block to the virtual network.
 
-  - id: CCC.VPC.F03
+  - id: CCC.VPC.CP03
     title: IPv6 CIDR Block
     description: |
       Ability to specify a IPv6 CIDR block to the virtual network.
 
-  - id: CCC.VPC.F04
+  - id: CCC.VPC.CP04
     title: Public Subnet Creation
     description: |
       Ability to create a subnet that allows resources within the subnet to
       communicate with the public internet.
 
-  - id: CCC.VPC.F05
+  - id: CCC.VPC.CP05
     title: Private Subnet Creation
     description: |
       Ability to create a subnet that resources within the subnet cannot directly
       access the public internet.
 
-  - id: CCC.VPC.F06
+  - id: CCC.VPC.CP06
     title: Multiple Availability Zones for Subnets
     description: |
       Ability to spread the subnets in more than one availability zones.
 
-  - id: CCC.VPC.F07
+  - id: CCC.VPC.CP07
     title: Routing Control
     description: |
       Ability to control traffic within the VPC and between the VPC and the
       internet or on-premises networks using customizable route tables.
 
-  - id: CCC.VPC.F08
+  - id: CCC.VPC.CP08
     title: Connectivity Options - Internet Gateway
     description: |
       Enables direct internet access for resources within a VPC.
 
-  - id: CCC.VPC.F09
+  - id: CCC.VPC.CP09
     title: Connectivity Options - NAT Gateways
     description: |
       Allows instances in private subnets to access the internet without
       exposing them to inbound internet traffic.
 
-  - id: CCC.VPC.F10
+  - id: CCC.VPC.CP10
     title: Connectivity Options - Private Connection
     description: |
       Dedicated, private, high-speed connections between on-premises
        networks and cloud VPC.
 
-  - id: CCC.VPC.F11
+  - id: CCC.VPC.CP11
     title: Connectivity Options - VPC Peering
     description: |
       Establishing a private connection between two VPCs to
       communicate seamlessly.
 
-  - id: CCC.VPC.F12
+  - id: CCC.VPC.CP12
     title: Connectivity Options - Transit Gateways
     description: |
       A hub-and-spoke model for connecting multiple VPCs and
       on-premises networks.
 
-  - id: CCC.VPC.F13
+  - id: CCC.VPC.CP13
     title: Connectivity Options - Site-to-site VPN
     description: |
       Provides an encrypted connection over the internet between
       a VPC and an on-premises network.
 
-  - id: CCC.VPC.F14
+  - id: CCC.VPC.CP14
     title: Built-in DNS Resolution
     description: |
       Resolves hostnames to IP addresses for instances within the VPC
        allowing instances to communicate using hostnames instead of IP addresses.
 
-  - id: CCC.VPC.F15
+  - id: CCC.VPC.CP15
     title: Built-in DHCP Resolution
     description: |
       Automatically assign IP addresses, subnet masks, default gateways
       and other network configurations to instances within the VPC.
 
-  - id: CCC.VPC.F16
+  - id: CCC.VPC.CP16
     title: Flow Logs
     description: |
       Ability to capture information about the IP traffic going through the VPC.
 
-  - id: CCC.VPC.F17
+  - id: CCC.VPC.CP17
     title: VPC Endpoints
     description: |
       Ability to allow secure, private connectivity between resources within a VPC

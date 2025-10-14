@@ -31,29 +31,34 @@ Simply add a block like the one below at the top level of your catalog's YAML, p
 This block will list every imported capability by the ID, directing parsers to pull the rest of the data from the mapping reference that you provided in the Metadata.
 
 ```yaml
-shared-capabilities:
+imported-capabilities:
   - reference-id: CCC
-    identifiers:
-      - CCC.Core.F01 # Encryption in Transit Enabled by Default
-      - CCC.Core.F02 # Encryption at Rest Enabled by Default
-      - CCC.Core.F03 # Access Log Publication
+    entries:
+      - reference-id: CCC.Core.CP01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP03
+        remarks: Access Log Publication
 ```
-
-> [!NOTE]
->
-> The comment is a development style decision, and does not get rendered in the final output.
 
 ## Reuse a threat from this catalog
 
 Similar to capabilities, add a block like the following to the top level of your catalog's YAML:
 
 ```yaml
-shared-threats:
+imported-threats:
   - reference-id: CCC
-    identifiers:
-      - CCC.TH01 # Access Control is Misconfigured
-      - CCC.TH02 # Data is Intercepted in Transit
-      - CCC.TH03 # Deployment Region Network is Untrusted
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # Not yet specified
+        remarks: Deployment Region Network is Untrusted
 ```
 
 ## Reuse a control from this catalog
@@ -61,10 +66,20 @@ shared-threats:
 Similar to capabilities, add a block like the following to the top level of your catalog's YAML:
 
 ```yaml
-shared-controls:
+imported-controls:
   - reference-id: CCC
-    identifiers:
-      - CCC.Core.C01 # Prevent Unencrypted Requests
-      - CCC.Core.C02 # Ensure Data Encryption at Rest for All Stored Data
-      - CCC.Core.C03 # Implement Multi-factor Authentication (MFA) for Access
+    entries:
+      - reference-id: CCC.Core.CN01
+        strength: 0 # Not yet specified
+        remarks: Prevent Unencrypted Requests
+      - reference-id: CCC.Core.CN02
+        strength: 0 # Not yet specified
+        remarks: Ensure Data Encryption at Rest
+      - reference-id: CCC.Core.CN03
+        strength: 0 # Not yet specified
+        remarks: Implement Multi-factor Authentication (MFA) for Access
 ```
+
+> [!NOTE]
+>
+> The comment is a development style decision, and does not get rendered in the final output.

@@ -101,95 +101,95 @@ and accessibility.
 
 The following capabilities are required to be present on a resource for it to be considered a Object Storage service. Threats outlined later in this catalog are assesssed based on the presence of these capabilities.
 
-- **CCC.Core.F01: Encryption in Transit Enabled by Default**
+- **CCC.Core.CP01: Encryption in Transit Enabled by Default**
   
   Provides default encryption of data in transit through SSL or TLS.
 
-- **CCC.Core.F02: Encryption at Rest Enabled by Default**
+- **CCC.Core.CP02: Encryption at Rest Enabled by Default**
   
   Provides default encryption of data before storage, with the option for clients to maintain control over the encryption keys.
 
-- **CCC.Core.F03: Access/Activity Logs**
+- **CCC.Core.CP03: Access/Activity Logs**
   
   Provides users with the ability to track all requests made to or activities performed on resources for audit purposes.
 
-- **CCC.Core.F04: Transaction Rate Limits**
+- **CCC.Core.CP04: Transaction Rate Limits**
   
   Allows the setting of a threshold where industry-standard throughput is achieved up to the specified rate limit.
 
-- **CCC.Core.F05: Signed URLs**
+- **CCC.Core.CP05: Signed URLs**
   
   Provides the ability to grant temporary or restricted access to a resource through a custom URL that contains authentication information.
 
-- **CCC.Core.F06: Identity Based Access Control**
+- **CCC.Core.CP06: Identity Based Access Control**
   
   Provides the ability to determine access to resources based on attributes associated with a user identity.
 
-- **CCC.Core.F07: Event Notifications**
+- **CCC.Core.CP07: Event Notifications**
   
   Publishes events for creation, deletion, and modification of objects in a way that enables users to trigger actions in response.
 
-- **CCC.Core.F08: Multi-zone Deployment**
+- **CCC.Core.CP08: Multi-zone Deployment**
   
   Provides the ability for the service to be deployed in multiple availability zones or regions to increase availability and fault tolerance.
 
-- **CCC.Core.F09: Monitoring**
+- **CCC.Core.CP09: Monitoring**
   
   Provides the ability to continuously observe, track, and analyze the performance, availability, and health of the service resources or applications.
 
-- **CCC.Core.F10: Logging**
+- **CCC.Core.CP10: Logging**
   
   Provides the ability to transmit system events, application activities, and/or user interactions to a logging service
 
-- **CCC.Core.F11: Backup**
+- **CCC.Core.CP11: Backup**
   
   Provides the ability to create copies of associated data or configurations in the form of automated backups, snapshot-based backups, and/or incremental backups.
 
-- **CCC.Core.F12: Recovery**
+- **CCC.Core.CP12: Recovery**
   
   Provides the ability to restore data, a system, or an application to a functional state after an incident such as data loss, corruption or a disaster.
 
-- **CCC.Core.F13: Infrastructure as Code**
+- **CCC.Core.CP13: Infrastructure as Code**
   
   Allows for managing and provisioning service resources through machine-readable configuration files, such as templates.
 
-- **CCC.Core.F14: API Access**
+- **CCC.Core.CP14: API Access**
   
   Allows users to interact programmatically with the service and its resources using APIs, SDKs and CLI.
 
-- **CCC.Core.F15: Cost Management**
+- **CCC.Core.CP15: Cost Management**
   
   Provides the ability to filter spending and to detect cost anomalies for the service.
 
-- **CCC.Core.F16: Budgeting**
+- **CCC.Core.CP16: Budgeting**
   
   Provides the ability to trigger alerts when spending thresholds are approached or exceeded for the service.
 
-- **CCC.Core.F17: Alerting**
+- **CCC.Core.CP17: Alerting**
   
   Provides the ability to set an alarm based on performance metrics, logs, events or spending thresholds of the service.
 
-- **CCC.Core.F18: Versioning**
+- **CCC.Core.CP18: Versioning**
   
   Provides the ability to maintain multiple versions of the same resource.
 
-- **CCC.Core.F19: On-demand Scaling**
+- **CCC.Core.CP19: On-demand Scaling**
   
   Provide scaling of resources based on demand.
 
-- **CCC.Core.F20: Tagging**
+- **CCC.Core.CP20: Tagging**
   
   Provide the ability to tag a resource to effectively manage and gain insights of the resource.
 
-- **CCC.Core.F21: Replication**
+- **CCC.Core.CP21: Replication**
   
   Provides the ability to copy data or resource to multiple locations to ensure availability and durability.
 
-- **CCC.Core.F22: Location Lock-In**
+- **CCC.Core.CP22: Location Lock-In**
   
   Provides the ability to control where the resources are created.
 
-- **CCC.Core.F23: Network Access Rules**
+- **CCC.Core.CP23: Network Access Rules**
   
   Ability to control access to the resource by defining network access rules.
 
@@ -240,7 +240,7 @@ the system.
   <ul>
     
       
-  <li>CCC.Core.F06</li>
+  <li>CCC.Core.CP06</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -321,7 +321,7 @@ sensitive information or unintended data alterations.
   <ul>
     
       
-  <li>CCC.Core.F01</li>
+  <li>CCC.Core.CP01</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -363,8 +363,8 @@ compromised system integrity.
   <ul>
     
       
-  <li>CCC.Core.F08</li>
-  <li>CCC.Core.F22</li>
+  <li>CCC.Core.CP08</li>
+  <li>CCC.Core.CP22</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -417,7 +417,7 @@ perimeter.
   <ul>
     
       
-  <li>CCC.Core.F21</li>
+  <li>CCC.Core.CP21</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -455,9 +455,9 @@ reliability.
   <ul>
     
       
-  <li>CCC.Core.F08</li>
-  <li>CCC.Core.F12</li>
-  <li>CCC.Core.F21</li>
+  <li>CCC.Core.CP08</li>
+  <li>CCC.Core.CP12</li>
+  <li>CCC.Core.CP21</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -505,8 +505,8 @@ disruption, or unintended exposure of sensitive information.
   <ul>
     
       
-  <li>CCC.Core.F11</li>
-  <li>CCC.Core.F18</li>
+  <li>CCC.Core.CP11</li>
+  <li>CCC.Core.CP18</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -555,8 +555,8 @@ audit trails.
   <ul>
     
       
-  <li>CCC.Core.F03</li>
-  <li>CCC.Core.F10</li>
+  <li>CCC.Core.CP03</li>
+  <li>CCC.Core.CP10</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -601,7 +601,7 @@ detection.
   <ul>
     
       
-  <li>CCC.Core.F15</li>
+  <li>CCC.Core.CP15</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -643,8 +643,8 @@ incidents.
   <ul>
     
       
-  <li>CCC.Core.F03</li>
-  <li>CCC.Core.F09</li>
+  <li>CCC.Core.CP03</li>
+  <li>CCC.Core.CP09</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -729,10 +729,10 @@ impacting system security and integrity.
   <ul>
     
       
-  <li>CCC.Core.F03</li>
-  <li>CCC.Core.F07</li>
-  <li>CCC.Core.F09</li>
-  <li>CCC.Core.F17</li>
+  <li>CCC.Core.CP03</li>
+  <li>CCC.Core.CP07</li>
+  <li>CCC.Core.CP09</li>
+  <li>CCC.Core.CP17</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -777,8 +777,8 @@ system, potentially disrupting legitimate operations.
   <ul>
     
       
-  <li>CCC.Core.F07</li>
-  <li>CCC.Core.F17</li>
+  <li>CCC.Core.CP07</li>
+  <li>CCC.Core.CP17</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -824,9 +824,9 @@ requests, resource-intensive operations, or lowering rate/budget limits.
   <ul>
     
       
-  <li>CCC.Core.F04</li>
-  <li>CCC.Core.F16</li>
-  <li>CCC.Core.F19</li>
+  <li>CCC.Core.CP04</li>
+  <li>CCC.Core.CP16</li>
+  <li>CCC.Core.CP19</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -871,7 +871,7 @@ vulnerabilities.
   <ul>
     
       
-  <li>CCC.Core.F20</li>
+  <li>CCC.Core.CP20</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -908,7 +908,7 @@ leading to security risks or operational disruptions.
   <ul>
     
       
-  <li>CCC.Core.F18</li>
+  <li>CCC.Core.CP18</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -978,7 +978,7 @@ exposure.
   <ul>
     
       
-  <li>CCC.Core.F14</li>
+  <li>CCC.Core.CP14</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -1015,8 +1015,8 @@ to investigate incidents and maintain operational integrity.
   <ul>
     
       
-  <li>CCC.Core.F10</li>
-  <li>CCC.Core.F09</li>
+  <li>CCC.Core.CP10</li>
+  <li>CCC.Core.CP09</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -1053,7 +1053,7 @@ resources or data and disruption to service availability.
   <ul>
     
       
-  <li>CCC.Core.F23</li>
+  <li>CCC.Core.CP23</li>
   </ul>
   </div>
   <div class="flex-item-right">
@@ -1089,20 +1089,20 @@ Below is a summary table of the controls, which is then followed by an elucidati
 
 |Control ID|Control Title|
 |----|----|
-|CCC.Core.C01|Prevent Unencrypted Requests|
-|CCC.Core.C06|Prevent Deployment in Restricted Regions|
-|CCC.Core.C08|Enable Multi-zone or Multi-region Data Replication|
-|CCC.Core.C09|Prevent Tampering, Deletion, or Unauthorized Access to Access Logs|
-|CCC.Core.C10|Prevent Data Replication to Destinations Outside of Defined Trust Perimeter|
-|CCC.Core.C02|Ensure Data Encryption at Rest for All Stored Data|
-|CCC.Core.C11|Enforce Key Management Policies|
-|CCC.Core.C03|Implement Multi-factor Authentication (MFA) for Access|
-|CCC.Core.C05|Prevent Access from Untrusted Entities|
-|CCC.Core.C04|Log All Access and Changes|
-|CCC.Core.C07|Alert on Unusual Enumeration Activity|
-|CCC.Core.C12|Ensure Secure Network Access Rules|
+|CCC.Core.CN01|Prevent Unencrypted Requests|
+|CCC.Core.CN06|Prevent Deployment in Restricted Regions|
+|CCC.Core.CN08|Enable Multi-zone or Multi-region Data Replication|
+|CCC.Core.CN09|Prevent Tampering, Deletion, or Unauthorized Access to Access Logs|
+|CCC.Core.CN10|Prevent Data Replication to Destinations Outside of Defined Trust Perimeter|
+|CCC.Core.CN02|Ensure Data Encryption at Rest for All Stored Data|
+|CCC.Core.CN11|Enforce Key Management Policies|
+|CCC.Core.CN03|Implement Multi-factor Authentication (MFA) for Access|
+|CCC.Core.CN05|Prevent Access from Untrusted Entities|
+|CCC.Core.CN04|Log All Access and Changes|
+|CCC.Core.CN07|Alert on Unusual Enumeration Activity|
+|CCC.Core.CN12|Ensure Secure Network Access Rules|
 
-### CCC.Core.C01
+### CCC.Core.CN01
 
 **Prevent Unencrypted Requests**
 
@@ -1170,7 +1170,7 @@ integrity and confidentiality.
   </div>
 </div>
 
-### CCC.Core.C06
+### CCC.Core.CN06
 
 **Prevent Deployment in Restricted Regions**
 
@@ -1237,7 +1237,7 @@ risks.
   </div>
 </div>
 
-### CCC.Core.C08
+### CCC.Core.CN08
 
 **Enable Multi-zone or Multi-region Data Replication**
 
@@ -1298,7 +1298,7 @@ failures, natural disasters, or other catastrophic events.
   </div>
 </div>
 
-### CCC.Core.C09
+### CCC.Core.CN09
 
 **Prevent Tampering, Deletion, or Unauthorized Access to Access Logs**
 
@@ -1372,7 +1372,7 @@ access, tampering, or deletion.
   </div>
 </div>
 
-### CCC.Core.C10
+### CCC.Core.CN10
 
 **Prevent Data Replication to Destinations Outside of Defined Trust Perimeter**
 
@@ -1433,7 +1433,7 @@ identity or network or data perimeter.
   </div>
 </div>
 
-### CCC.Core.C02
+### CCC.Core.CN02
 
 **Ensure Data Encryption at Rest for All Stored Data**
 
@@ -1492,7 +1492,7 @@ confidentiality and integrity.
   </div>
 </div>
 
-### CCC.Core.C11
+### CCC.Core.CN11
 
 **Enforce Key Management Policies**
 
@@ -1563,7 +1563,7 @@ customer-managed encryption keys (CMEKs).
   </div>
 </div>
 
-### CCC.Core.C03
+### CCC.Core.CN03
 
 **Implement Multi-factor Authentication (MFA) for Access**
 
@@ -1634,7 +1634,7 @@ includes a combination of API keys or tokens and network restrictions.
   </div>
 </div>
 
-### CCC.Core.C05
+### CCC.Core.CN05
 
 **Prevent Access from Untrusted Entities**
 
@@ -1699,7 +1699,7 @@ isolation.
   </div>
 </div>
 
-### CCC.Core.C04
+### CCC.Core.CN04
 
 **Log All Access and Changes**
 
@@ -1764,7 +1764,7 @@ detailed audit trail for security and compliance purposes.
   </div>
 </div>
 
-### CCC.Core.C07
+### CCC.Core.CN07
 
 **Alert on Unusual Enumeration Activity**
 
@@ -1821,7 +1821,7 @@ reconnaissance activities.
   </div>
 </div>
 
-### CCC.Core.C12
+### CCC.Core.CN12
 
 **Ensure Secure Network Access Rules**
 

@@ -57,7 +57,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.DataWar.F01
+          - reference-id: CCC.DataWar.CP01
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -71,7 +71,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.DataWar.F02
+          - reference-id: CCC.DataWar.CP02
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -85,7 +85,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.DataWar.F03
+          - reference-id: CCC.DataWar.CP03
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

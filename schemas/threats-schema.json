@@ -75,7 +75,7 @@
                     "properties": {
                       "reference-id": {
                         "type": "string",
-                        "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.F\\d+$",
+                        "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.CP\\d+$",
                         "description": "Feature/Capability ID"
                       },
                       "strength": {

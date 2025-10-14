@@ -18,7 +18,7 @@
               "properties": {
                 "reference-id": {
                   "type": "string",
-                  "pattern": "^CCC\\.Core.F\\d{2,8}$",
+                  "pattern": "^CCC\\.Core.CP\\d{2,8}$",
                   "description": "Global/common capability IDs"
                 },
                 "strength": {
@@ -47,8 +47,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^CCC\\.\\w{1,8}\\.F\\d{2,8}$",
-            "description": "Capability ID (e.g., CCC.ObjStor.F01)"
+            "pattern": "^CCC\\.\\w{1,8}\\.CP\\d{2,8}$",
+            "description": "Capability ID (e.g., CCC.ObjStor.CP01)"
           },
           "title": {
             "type": "string",

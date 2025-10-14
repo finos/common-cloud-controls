@@ -57,8 +57,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.ObjStor.F08
-          - reference-id: CCC.Core.F11
+          - reference-id: CCC.ObjStor.CP08
+          - reference-id: CCC.Core.CP11
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -76,7 +76,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.ObjStor.F09
+          - reference-id: CCC.ObjStor.CP09
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

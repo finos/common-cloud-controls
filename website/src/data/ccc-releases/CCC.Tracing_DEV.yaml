@@ -10,23 +10,23 @@ metadata:
   version: DEV
   last-modified: "2025-06-25T00:00:00Z"
 capabilities:
-  - id: CCC.Tracing.F01
+  - id: CCC.Tracing.CP01
     title: Distributed Trace Analysis
     description: |
       Analyses end-to-end traces across services.
-  - id: CCC.Tracing.F02
+  - id: CCC.Tracing.CP02
     title: Runtime Profiling
     description: |
       Analyses performance data such as CPU usage, memory allocation, or latency metrics alongside traces.
-  - id: CCC.Tracing.F03
+  - id: CCC.Tracing.CP03
     title: Anomaly Detection
     description: |
       Applies statistical techniques to detect performance anomalies or trace behavior outliers.
-  - id: CCC.Tracing.F04
+  - id: CCC.Tracing.CP04
     title: Dependency Mapping
     description: |
       Generates service maps from traces to visualize inter-service communication and bottlenecks.
-  - id: CCC.Tracing.F05
+  - id: CCC.Tracing.CP05
     title: Trace Filtering and Tagging
     description: |
       Supports filtering and search on traces using enriched metadata fields such as user ID, region, or status code.
