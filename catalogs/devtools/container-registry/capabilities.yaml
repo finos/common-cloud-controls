@@ -17,12 +17,24 @@ imported-capabilities:
         remarks: Event Publication
       - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
+      - reference-id: CCC.Core.CP10
+        remarks: Log Publication
       - reference-id: CCC.Core.CP14
         remarks: API Access
       - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
+      - reference-id: CCC.Core.CP19
+        remarks: Resource Scaling
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.CP26
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
 
 capabilities:
   - id: CCC.CntrReg.CP01

@@ -1,6 +1,10 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
+      - reference-id: CCC.Core.CP01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
@@ -11,8 +15,14 @@ imported-capabilities:
         remarks: API Access
       - reference-id: CCC.Core.CP17
         remarks: Alerting
+      - reference-id: CCC.Core.CP19
+        remarks: Resource Scaling
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
+      - reference-id: CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
 
 capabilities:
   - id: CCC.IAM.CP01
