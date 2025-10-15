@@ -2,31 +2,22 @@ imported-controls:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CN01
-        strength: 0 # Not yet specified
         remarks: Prevent Unencrypted Requests
       - reference-id: CCC.Core.CN02
-        strength: 0 # Not yet specified
         remarks: Ensure Data Encryption at Rest for All Stored Data
       - reference-id: CCC.Core.CN03
-        strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
-        strength: 0 # Not yet specified
         remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
-        strength: 0 # Not yet specified
         remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
-        strength: 0 # Not yet specified
         remarks: Prevent Deployment in Restricted Regions
       - reference-id: CCC.Core.CN07
-        strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
-        strength: 0 # Not yet specified
         remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
       - reference-id: CCC.Core.CN10
-        strength: 0 # Not yet specified
         remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 
 control-families:
