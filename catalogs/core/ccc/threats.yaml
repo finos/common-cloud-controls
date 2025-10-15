@@ -434,6 +434,11 @@ threats:
             remarks: Encryption in Transit Enabled by Default
           - reference-id: CCC.Core.CP02
             remarks: Encryption at Rest Enabled by Default
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1555.006
+            remarks: "Credentials from Password Stores: Cloud Secrets Management Stores"
   - title: Responses are Generated for Unauthorized Requests
     id: CCC.Core.TH17
     description: |
