@@ -33,7 +33,7 @@ threats:
           - reference-id: T1537
             remarks: Transfer Data to Cloud Account
           - reference-id: T1567
-            remarks: Exfiltration Over Web Services
+            remarks: Exfiltration Over Web Service
           - reference-id: T1048
             remarks: Exfiltration Over Alternative Protocol
           - reference-id: T1485
@@ -177,7 +177,7 @@ threats:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1070
-            remarks: Indicator Removal on Host
+            remarks: Indicator Removal
           - reference-id: T1565
             remarks: Data Manipulation (for altering log entries)
           - reference-id: T1027
@@ -201,7 +201,7 @@ threats:
           - reference-id: T1565
             remarks: Data Manipulation
           - reference-id: T1070
-            remarks: Indicator Removal on Host
+            remarks: Indicator Removal
   - title: Runtime Logs are Read by Unauthorized Entities
     id: CCC.Core.TH09
     description: |
@@ -222,7 +222,7 @@ threats:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1003
-            remarks: Credential Dumping
+            remarks: OS Credential Dumping
           - reference-id: T1007
             remarks: System Service Discovery
           - reference-id: T1018
@@ -302,8 +302,6 @@ threats:
             remarks: Traffic Signaling
           - reference-id: T1001.001
             remarks: "Data Obfuscation: Junk Data"
-          - reference-id: T1491.001
-            remarks: "Defacement: Internal Defacement"
   - title: Resource Constraints are Exhausted
     id: CCC.Core.TH12
     description: |
