@@ -2,11 +2,28 @@ metadata:
   id: CCC.LB
   title: CCC Load Balancer Capabilities
   description: |
-    This documents the minimual set of capabilities that should be present
-    for a load balancer service to be considered for use in financial
-    services ecosystems.
+    Load balancing services distribute incoming network traffic across multiple
+    instances or servers to ensure high availability, scalability, and
+    reliability of applications.
   version: DEV
-  last-modified: "2025-07-14T00:00:00-05:00"
+  last-modified: "2025-10-15T12:34:02-04:00"
+  applicability-categories:
+    - id: tlp_red
+      title: TLP:RED
+      description: Data is not for disclosure, restricted to explicitly authorized entities only.
+    - id: tlp_amber
+      title: TLP:AMBER
+      description: Data is for disclosure to members of explicitly authorized organizational structures.
+    - id: tlp_green
+      title: TLP:GREEN
+      description: Data may be freely distributed through specific channels that do not include unrestricted public access.
+    - id: tlp_clear
+      title: TLP:CLEAR
+      description: Data has no distribution restrictions.
+  mapping-references:
+    - id: CCC.Core
+      title: FINOS CCC Core Catalog
+      version: v2025.10
 control-families:
   - id: ""
     title: Logging & Monitoring
@@ -18,7 +35,7 @@ control-families:
         objective: |
           Detect and throttle malicious or excessive requests to prevent downstream resource exhaustion and brute-force activity.
         assessment-requirements:
-          - id: CCC.LB.CN01.TR01
+          - id: CCC.LB.CN01.AR01
             text: |
               When a single client sends more than 2000 requests within any
               5-minute sliding window, the load balancer MUST throttle all
@@ -30,7 +47,7 @@ control-families:
             recommendation: |
               Implement per-IP token-bucket limits with and verify via
               synthetic traffic tests.
-          - id: CCC.LB.CN01.TR02
+          - id: CCC.LB.CN01.AR02
             text: |
               When throttling is invoked, the load balancer MUST
               record the event in the access log within 5 minutes
@@ -80,7 +97,7 @@ control-families:
           Monitor health-check endpoints for tampering and alert on
           abnormal status changes.
         assessment-requirements:
-          - id: CCC.LB.CN06.TR01
+          - id: CCC.LB.CN06.AR01
             text: |
               When more than 10 percent of targets change from healthy to
               unhealthy within five minutes, an alert MUST be issued.
@@ -115,7 +132,7 @@ control-families:
           Ensure that all access attempts are logged to maintain a detailed
           audit trail for security and compliance purposes.
         assessment-requirements:
-          - id: CCC.Core.CN04.TR01
+          - id: CCC.Core.CN04.AR01
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST log the client
@@ -125,7 +142,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN04.TR02
+          - id: CCC.Core.CN04.AR02
             text: |
               When any attempt is made to modify data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -133,7 +150,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN04.TR03
+          - id: CCC.Core.CN04.AR03
             text: |
               When any attempt is made to read data on the service or a child
               resource, the service MUST log the client identity, time, and
@@ -141,24 +158,11 @@ control-families:
             applicability:
               - tlp-red
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: DE.AE-3
-                strength: 0
           - reference-id: CCM
             entries:
               - reference-id: LOG-08
-                strength: 0
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AU-2
-                strength: 0
-              - reference-id: AU-3
-                strength: 0
-              - reference-id: AU-12
-                strength: 0
+                strength: 5
+                remarks: Log Records (Generate audit records containing relevant security information)
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -175,7 +179,7 @@ control-families:
           Ensure traffic-splitting weights and algorithms are modified
           only by trusted identities.
         assessment-requirements:
-          - id: CCC.LB.CN04.TR01
+          - id: CCC.LB.CN04.AR01
             text: |
               When routing weights change, the request MUST originate
               from an explicitly defined and trusted identity and MUST
@@ -211,7 +215,7 @@ control-families:
           Configure session persistence to minimise fixation and hijacking
           risks.
         assessment-requirements:
-          - id: CCC.LB.CN05.TR01
+          - id: CCC.LB.CN05.AR01
             text: |
               When stickiness is enabled, session cookies MUST expire
               within 30 minutes of inactivity.
@@ -243,7 +247,7 @@ control-families:
           Limit load-balancer API calls to authorised identities and
           trusted networks.
         assessment-requirements:
-          - id: CCC.LB.CN09.TR01
+          - id: CCC.LB.CN09.AR01
             text: |
               When an API call originates outside the approved CIDR
               set, the request MUST be denied.
@@ -275,7 +279,7 @@ control-families:
           Ensure that all sensitive activities require two or more identity
           factors during authentication to prevent unauthorized access.
         assessment-requirements:
-          - id: CCC.Core.CN03.TR01
+          - id: CCC.Core.CN03.AR01
             text: |
               When an entity attempts to modify the service through a user
               interface, the authentication process MUST require multiple
@@ -285,7 +289,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN03.TR02
+          - id: CCC.Core.CN03.AR02
             text: |
               When an entity attempts to modify the service through an API
               endpoint, the authentication process MUST require a credential
@@ -296,7 +300,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN03.TR03
+          - id: CCC.Core.CN03.AR03
             text: |
               When an entity attempts to view information on the service through
               a user interface, the authentication process MUST require multiple
@@ -304,7 +308,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN03.TR04
+          - id: CCC.Core.CN03.AR04
             text: |
               When an entity attempts to view information on the service through
               an API endpoint, the authentication process MUST require a
@@ -314,24 +318,11 @@ control-families:
               - tlp-amber
               - tlp-red
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-7
-                strength: 0
           - reference-id: CCM
             entries:
-              - reference-id: IAM-03
-                strength: 0
-              - reference-id: IAM-08
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.4.2
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: IA-2
-                strength: 0
+              - reference-id: IAM-14
+                strength: 3
+                remarks: Strong Authentication (Define, implement and evaluate processes - including MFA)
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -344,7 +335,7 @@ control-families:
           privilege to restrict access to authorized entities from explicitly
           trusted sources only.
         assessment-requirements:
-          - id: CCC.Core.CN05.TR01
+          - id: CCC.Core.CN05.AR01
             text: |
               When an attempt is made to modify data on the service or a child
               resource, the service MUST block requests from unauthorized
@@ -354,7 +345,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN05.TR02
+          - id: CCC.Core.CN05.AR02
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource, the service MUST refuse requests
@@ -364,7 +355,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN05.TR03
+          - id: CCC.Core.CN05.AR03
             text: |
               When administrative access or configuration change is attempted on
               the service or a child resource in a multi-tenant environment, the
@@ -375,21 +366,21 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN05.TR04
+          - id: CCC.Core.CN05.AR04
             text: |
               When data is requested from outside the trust perimeter, the
               service MUST refuse requests from unauthorized entities.
             applicability:
               - tlp-amber
               - tlp-red
-          - id: CCC.Core.CN05.TR05
+          - id: CCC.Core.CN05.AR05
             text: |
               When any request is made from outside the trust perimeter,
               the service MUST NOT provide any response that may indicate the
               service exists.
             applicability:
               - tlp-red
-          - id: CCC.Core.CN05.TR06
+          - id: CCC.Core.CN05.AR06
             text: |
               When any request is made to the service or a child resource, the
               service MUST refuse requests from unauthorized entities.
@@ -398,22 +389,23 @@ control-families:
               - tlp-amber
               - tlp-red
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-3
-                strength: 0
           - reference-id: CCM
             entries:
-              - reference-id: DS-5
+              - reference-id: DSP-01
+                strength: 1
+                remarks: Security and Privacy Policy and Proceduress
+              - reference-id: DSP-07
+                strength: 1
+                remarks: Data Protection by Design and Default
+              - reference-id: DSP-08
+                strength: 1
+                remarks: Data Privacy by Design and Default
+              - reference-id: DSP-10
+                strength: 1
+                remarks: Sensitive Data Transfer
+              - reference-id: DSP-17
                 strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.13.1.3
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-3
-                strength: 0
+                remarks: Sensitive Data Protection
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -431,7 +423,7 @@ control-families:
           Expand load-balancer capacity to maintain availability during traffic
           spikes.
         assessment-requirements:
-          - id: CCC.LB.CN02.TR01
+          - id: CCC.LB.CN02.AR01
             text: |
               When concurrent connections reach 80 percent of capacity, the
               autoscaling group MUST add at least one instance within five
@@ -464,7 +456,7 @@ control-families:
           Remove headers that disclose internal details or software
           versions from HTTP responses.
         assessment-requirements:
-          - id: CCC.LB.CN07.TR01
+          - id: CCC.LB.CN07.AR01
             text: |
               When responses pass through the load balancer, the
               "Server" header MUST be replaced with "lb".
@@ -496,7 +488,7 @@ control-families:
           Ensure that all communications are encrypted in transit to protect
           data integrity and confidentiality.
         assessment-requirements:
-          - id: CCC.Core.CN01.TR01
+          - id: CCC.Core.CN01.AR01
             text: |
               When a port is exposed for non-SSH network traffic, all traffic
               MUST include a TLS handshake AND be encrypted using TLS 1.3 or
@@ -509,7 +501,7 @@ control-families:
               Most cloud services enable TLS 1.3 by default. Where it is not
               already set, ensure that your services are configured or updated
               accordingly.
-          - id: CCC.Core.CN01.TR02
+          - id: CCC.Core.CN01.AR02
             text: |
               When a port is exposed for SSH network traffic, all traffic MUST
               include a SSH handshake AND be encrypted using SSHv2 or higher.
@@ -522,7 +514,7 @@ control-families:
               Any time port 22 is exposed, ensure that it has a properly
               implemented SSH server with SSHv2 enabled and configured with
               strong ciphers.
-          - id: CCC.Core.CN01.TR03
+          - id: CCC.Core.CN01.AR03
             text: "When the service receives unencrypted traffic, \nthen it MUST either block the request or automatically\nredirect it to the secure equivalent.\n"
             applicability:
               - tlp-green
@@ -534,7 +526,7 @@ control-families:
               exposed. Where possible, implement automatic redirection to secure
               protocols such as HTTPS, SFTP, SSH, and regularly scan for
               protocol drift.
-          - id: CCC.Core.CN01.TR07
+          - id: CCC.Core.CN01.AR07
             text: |
               When a port is exposed, the service MUST ensure that the protocol
               and service officially assigned to that port number by the IANA
@@ -550,7 +542,7 @@ control-families:
               Registry for more information about correct protocol-to-port
               assignments. Avoid running non-standard services on well-known
               ports.
-          - id: CCC.Core.CN01.TR08
+          - id: CCC.Core.CN01.AR08
             text: |
               When a service transmits data using TLS, mutual TLS (mTLS) MUST be
               implemented to require both client and server certificate
@@ -564,26 +556,20 @@ control-families:
               validated and managed securely. Regularly review certificate
               authorities and automate certificate rotation where possible.
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-02
-                strength: 0
           - reference-id: CCM
             entries:
+              - reference-id: CEK-03
+                strength: 5
+                remarks: Data Encryption (in transit and at rest)
+              - reference-id: CEK-04
+                strength: 10
+                remarks: Key Management (use strong encryption)
               - reference-id: IVS-03
-                strength: 0
+                strength: 2
+                remarks: Network Security (monitor, encrypt, restrict)
               - reference-id: IVS-07
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.13.1.1
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-8
-                strength: 0
-              - reference-id: SC-13
-                strength: 0
+                strength: 2
+                remarks: Migration to Cloud Environments (encrypt when migrating servers)
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -595,7 +581,7 @@ control-families:
           Ensure that all data stored is encrypted at rest using strong
           encryption algorithms.
         assessment-requirements:
-          - id: CCC.Core.CN02.TR01
+          - id: CCC.Core.CN02.AR01
             text: |
               When data is stored, it MUST be encrypted using the latest
               industry-standard encryption methods.
@@ -604,21 +590,18 @@ control-families:
               - tlp-amber
               - tlp-red
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
-                strength: 0
           - reference-id: CCM
             entries:
+              - reference-id: CEK-03
+                strength: 5
+                remarks: Data Encryption (in transit and at rest)
+              - reference-id: CEK-04
+                strength: 10
+                remarks: Key Management (use strong encryption)
+              - reference-id: UEM-08
+                strength: 10
+                remarks: Storage Encryption (on managed endpoint devices)
               - reference-id: DSP-17
-                strength: 0
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-13
-                strength: 0
-              - reference-id: SC-28
                 strength: 0
         threat-mappings:
           - reference-id: CCC
@@ -632,7 +615,7 @@ control-families:
           infrastructure in locations that are explicitly included within a
           defined trust perimeter.
         assessment-requirements:
-          - id: CCC.Core.CN06.TR01
+          - id: CCC.Core.CN06.AR01
             text: |
               When the service is running, its region and availability zone MUST
               be included in a list of explicitly trusted or approved locations
@@ -646,7 +629,7 @@ control-families:
               Maintain an up-to-date list of trusted and approved regions based
               on organizational policies. Validate the service's deployment
               location is included in this list.
-          - id: CCC.Core.CN06.TR02
+          - id: CCC.Core.CN06.AR02
             text: |
               When a child resource is deployed, its region and availability
               zone MUST be included in a list of explicitly trusted or approved
@@ -661,24 +644,11 @@ control-families:
               on organizational policies. Validate that child resources can only
               be deployed to locations included in this list.
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
-                strength: 0
           - reference-id: CCM
             entries:
-              - reference-id: DSI-06
-                strength: 0
-              - reference-id: DSI-08
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.11.1.1
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-6
-                strength: 0
+              - reference-id: DSP-19
+                strength: 10
+                remarks: Data Location (specify and document processing and backup locations)
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -690,7 +660,7 @@ control-families:
           Ensure that data is only replicated on infrastructure in locations
           that are explicitly included within a defined trust perimeter.
         assessment-requirements:
-          - id: CCC.Core.CN10.TR01
+          - id: CCC.Core.CN10.AR01
             text: |
               When data is replicated, the service MUST ensure that replication
               only occurs to destinations that are explicitly included within
@@ -700,22 +670,14 @@ control-families:
               - tlp-amber
               - tlp-red
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-5
-                strength: 0
           - reference-id: CCM
             entries:
               - reference-id: DSP-10
-                strength: 0
+                strength: 8
+                remarks: Sensitive Data Transfer (only processed within scope as permitted)
               - reference-id: DSP-19
-                strength: 0
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-4
-                strength: 0
+                strength: 10
+                remarks: Data Location (specify and document the physical locations of data)
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -731,7 +693,7 @@ control-families:
           Maintain valid TLS certificates by automating renewal and
           deployment before expiry.
         assessment-requirements:
-          - id: CCC.LB.CN08.TR01
+          - id: CCC.LB.CN08.AR01
             text: |
               When a certificate is within 30 days of expiry, automated renewal
               MUST complete and deploy a new certificate within 24 hours.
@@ -878,10 +840,11 @@ threats:
           - reference-id: T1608
             strength: 0
   - id: CCC.Core.TH01
-    title: Access Control is Misconfigured
+    title: Access is Granted to Unauthorized Users
     description: |
-      Misconfigured access controls may grant excessive privileges or fail to
-      restrict unauthorized access to the service and its child resources.
+      Logic designed to give different permissions to different entities may
+      be misconfigured or manipulated, allowing unauthorized entities to access
+      restricted parts of the service, its data, or its child resources.
       This could result in a loss of data confidentiality or tolerance of
       unauthorized actions which impact the integrity and availability of
       resources and data.
@@ -890,7 +853,10 @@ threats:
         entries:
           - reference-id: CCC.Core.CP06
             strength: 0
-            remarks: Identity Based Access Control
+            remarks: Access Control
+          - reference-id: CCC.Core.CP29
+            strength: 0
+            remarks: Active Ingestion
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -917,7 +883,7 @@ threats:
             remarks: Transfer Data to Cloud Account
           - reference-id: T1567
             strength: 0
-            remarks: Exfiltration Over Web Services
+            remarks: Exfiltration Over Web Service
           - reference-id: T1048
             strength: 0
             remarks: Exfiltration Over Alternative Protocol
@@ -964,7 +930,7 @@ threats:
         entries:
           - reference-id: CCC.Core.CP03
             strength: 0
-            remarks: Access/Activity Logs
+            remarks: Access Log Publication
           - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
@@ -973,7 +939,7 @@ threats:
         entries:
           - reference-id: T1070
             strength: 0
-            remarks: Indicator Removal on Host
+            remarks: Indicator Removal
           - reference-id: T1565
             strength: 0
             remarks: Data Manipulation (for altering log entries)
@@ -994,16 +960,16 @@ threats:
         entries:
           - reference-id: CCC.Core.CP03
             strength: 0
-            remarks: Access/Activity Logs
+            remarks: Access Log Publication
           - reference-id: CCC.Core.CP09
             strength: 0
-            remarks: Monitoring
+            remarks: Metrics Publication
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1003
             strength: 0
-            remarks: Credential Dumping
+            remarks: OS Credential Dumping
           - reference-id: T1007
             strength: 0
             remarks: System Service Discovery
@@ -1110,13 +1076,34 @@ threats:
             remarks: Logging
           - reference-id: CCC.Core.CP09
             strength: 0
-            remarks: Monitoring
+            remarks: Metrics Publication
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1562
             strength: 0
             remarks: Impair Defenses
+  - id: CCC.Core.TH17
+    title: Responses are Generated for Unauthorized Requests
+    description: |
+      The service may generate responses to requests from unauthorized entities.
+      This could lead to the exposure of system details, which may be used to
+      plan an attack against the service, system, or network. Additionally,
+      allocating resources to service the request could lead to a denial of
+      service for legitimate users, leading to a loss of availability anywhere
+      in the system.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP29
+            strength: 0
+            remarks: Active Ingestion
+    external-mappings:
+      - reference-id: CCMv4
+        entries:
+          - reference-id: IVS-09
+            strength: 1
+            remarks: Network Defense (techniques for protection, detection, and timely response)
 capabilities:
   - id: CCC.LB.CP01
     title: Static Load Balancing
@@ -1251,9 +1238,9 @@ capabilities:
   - id: CCC.Core.CP04
     title: Transaction Rate Limits
     description: |
-      The service always provides industry-standard network throughput
-      up to a user-specified rate limit, beyond which excess requests
-      may be throttled, delayed, or rejected.
+      The service can throttle, delay, or reject excess requests when
+      transactions exceed a user-specified rate limit, and always
+      provides industry-standard throughput up to that limit.
   - id: CCC.Core.CP06
     title: Access Control
     description: |
@@ -1264,8 +1251,8 @@ capabilities:
   - id: CCC.Core.CP08
     title: Data Replication
     description: |
-      The service automatically will or can be configured to
-      replicate data across multiple deployments simultaneously with parity.
+      The service automatically replicates data across multiple deployments
+      simultaneously with parity, or may be configured to do so.
   - id: CCC.Core.CP09
     title: Metrics Publication
     description: |
@@ -1312,6 +1299,23 @@ capabilities:
     description: |
       The service may be configured to restrict the deployment of child resources
       to specific geographic locations.
+  - id: CCC.Core.CP23
+    title: Network Access Rules
+    description: |
+      The service restricts access to child or networked resources based on
+      user-defined network parameters such as IP address,
+      protocol, port, or source.
+  - id: CCC.Core.CP28
+    title: Command-line Interface
+    description: |
+      The service includes a component that reads and translates
+      text into commands that can be executed by the service.
+  - id: CCC.Core.CP29
+    title: Active Ingestion
+    description: |
+      While running, the service can receive inputs, commands, or data streams
+      from external sources such as dedicated APIs, exposed network
+      ports, message queues, and persistent data ingestion channels.
 imported-controls:
   - reference-id: CCC
     entries:
@@ -1368,25 +1372,22 @@ imported-capabilities:
     entries:
       - reference-id: CCC.Core.CP03
         strength: 0
-        remarks: Access/Activity Logs
+        remarks: Access Log Publication
       - reference-id: CCC.Core.CP04
         strength: 0
         remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP06
         strength: 0
-        remarks: Identity Based Access Control
+        remarks: Access Control
       - reference-id: CCC.Core.CP08
         strength: 0
-        remarks: Multi-zone Deployment
+        remarks: Data Replication
       - reference-id: CCC.Core.CP09
         strength: 0
-        remarks: Monitoring
+        remarks: Metrics Publication
       - reference-id: CCC.Core.CP10
         strength: 0
-        remarks: Logging
-      - reference-id: CCC.Core.CP13
-        strength: 0
-        remarks: Infrastructure as Code
+        remarks: Log Publication
       - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
@@ -1401,10 +1402,19 @@ imported-capabilities:
         remarks: Alerting
       - reference-id: CCC.Core.CP19
         strength: 0
-        remarks: On-Demand Scaling
+        remarks: Resource Scaling
       - reference-id: CCC.Core.CP20
         strength: 0
-        remarks: Tagging
+        remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
         strength: 0
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP23
+        strength: 0
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.CP28
+        strength: 0
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        strength: 0
+        remarks: Active Ingestion

@@ -1,0 +1,1444 @@
+metadata:
+  id: CCC.SvlsComp
+  title: CCC Serverless Computing
+  description: |
+    Serverless computing, also known as Function as a Service (FaaS), allows
+    users to deploy and run code functions without provisioning or managing
+    servers. Cloud providers abstract infrastructure management tasks, such
+    server provisioning, scaling, and maintenance, enabling users to focus
+    on writing and deploying code.
+  version: DEV
+  last-modified: "2025-10-15T12:34:00-04:00"
+  applicability-categories:
+    - id: tlp_red
+      title: TLP:RED
+      description: Data is not for disclosure, restricted to explicitly authorized entities only.
+    - id: tlp_amber
+      title: TLP:AMBER
+      description: Data is for disclosure to members of explicitly authorized organizational structures.
+    - id: tlp_green
+      title: TLP:GREEN
+      description: Data may be freely distributed through specific channels that do not include unrestricted public access.
+    - id: tlp_clear
+      title: TLP:CLEAR
+      description: Data has no distribution restrictions.
+  mapping-references:
+    - id: CCC.Core
+      title: FINOS CCC Core Catalog
+      version: v2025.10
+control-families:
+  - id: ""
+    title: Network Security
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.SvlsComp.CN01
+        title: Enforce Use of Private Endpoints for Serverless Function
+        objective: |
+          Ensure that the serverless function is accessible only through a private endpoint,
+          allowing it to communicate securely within a virtual private network and preventing
+          unauthorized external access.
+        assessment-requirements:
+          - id: CCC.SvlsComp.CN01.AR01
+            text: |
+              Attempt to access the serverless function over the public internet and verify that access is denied.
+            applicability:
+              - tlp-red
+              - tlp-amber
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AC-5
+                strength: 0
+                remarks: Network integrity is protected
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-7
+                strength: 0
+                remarks: Boundary Protection
+              - reference-id: SC-8
+                strength: 0
+                remarks: Transmission Confidentiality and Integrity
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+                remarks: Access control is misconfigured
+  - id: ""
+    title: Availability
+    description: 'TODO: Describe this control family'
+    controls:
+      - id: CCC.SvlsComp.CN02
+        title: Implement Function Invocation Rate Limits
+        objective: |
+          Ensure that function invocation is limited to a specified threshold from any single entity,
+          preventing resource exhaustion and denial of service attacks.
+        assessment-requirements:
+          - id: CCC.SvlsComp.CN02.AR01
+            text: |
+              Send requests to invoke the function up to the allowed threshold and confirm they
+              are successful; then send additional requests exceeding the threshold from the same
+              entity and verify that they are denied.
+            applicability:
+              - tlp-red
+              - tlp-amber
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-4
+                strength: 0
+                remarks: Adequate capacity to ensure availability
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-5
+                strength: 0
+                remarks: Denial of Service Protection
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH12
+                strength: 0
+                remarks: Resource constraints are exhausted
+  - id: CCC.Core.Data
+    title: Data
+    description: |
+      The Data control family ensures the confidentiality, integrity,
+      availability, and sovereignty of data across its lifecycle.
+      These controls govern how data is transmitted, stored,
+      replicated, and protected from unauthorized access, tampering,
+      or exposure beyond defined trust perimeters.
+    controls:
+      - id: CCC.Core.CN01
+        title: Encrypt Data for Transmission
+        objective: |
+          Ensure that all communications are encrypted in transit to protect
+          data integrity and confidentiality.
+        assessment-requirements:
+          - id: CCC.Core.CN01.AR01
+            text: |
+              When a port is exposed for non-SSH network traffic, all traffic
+              MUST include a TLS handshake AND be encrypted using TLS 1.3 or
+              higher.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Most cloud services enable TLS 1.3 by default. Where it is not
+              already set, ensure that your services are configured or updated
+              accordingly.
+          - id: CCC.Core.CN01.AR02
+            text: |
+              When a port is exposed for SSH network traffic, all traffic MUST
+              include a SSH handshake AND be encrypted using SSHv2 or higher.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Any time port 22 is exposed, ensure that it has a properly
+              implemented SSH server with SSHv2 enabled and configured with
+              strong ciphers.
+          - id: CCC.Core.CN01.AR03
+            text: "When the service receives unencrypted traffic, \nthen it MUST either block the request or automatically\nredirect it to the secure equivalent.\n"
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Review firewall, load balancer, and application configurations to
+              ensure insecure protocols such as HTTP, FTP, and Telnet are not
+              exposed. Where possible, implement automatic redirection to secure
+              protocols such as HTTPS, SFTP, SSH, and regularly scan for
+              protocol drift.
+          - id: CCC.Core.CN01.AR07
+            text: |
+              When a port is exposed, the service MUST ensure that the protocol
+              and service officially assigned to that port number by the IANA
+              Service Name and Transport Protocol Port Number Registry, and no
+              other, is run on that port.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Reference the IANA Service Name and Transport Protocol Port Number
+              Registry for more information about correct protocol-to-port
+              assignments. Avoid running non-standard services on well-known
+              ports.
+          - id: CCC.Core.CN01.AR08
+            text: |
+              When a service transmits data using TLS, mutual TLS (mTLS) MUST be
+              implemented to require both client and server certificate
+              authentication for all connections.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Configure mTLS for all endpoints that process or transmit
+              sensitive data. Ensure both client and server certificates are
+              validated and managed securely. Regularly review certificate
+              authorities and automate certificate rotation where possible.
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: CEK-03
+                strength: 5
+                remarks: Data Encryption (in transit and at rest)
+              - reference-id: CEK-04
+                strength: 10
+                remarks: Key Management (use strong encryption)
+              - reference-id: IVS-03
+                strength: 2
+                remarks: Network Security (monitor, encrypt, restrict)
+              - reference-id: IVS-07
+                strength: 2
+                remarks: Migration to Cloud Environments (encrypt when migrating servers)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH02
+                strength: 0
+      - id: CCC.Core.CN02
+        title: Encrypt Data for Storage
+        objective: |
+          Ensure that all data stored is encrypted at rest using strong
+          encryption algorithms.
+        assessment-requirements:
+          - id: CCC.Core.CN02.AR01
+            text: |
+              When data is stored, it MUST be encrypted using the latest
+              industry-standard encryption methods.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: CEK-03
+                strength: 5
+                remarks: Data Encryption (in transit and at rest)
+              - reference-id: CEK-04
+                strength: 10
+                remarks: Key Management (use strong encryption)
+              - reference-id: UEM-08
+                strength: 10
+                remarks: Storage Encryption (on managed endpoint devices)
+              - reference-id: DSP-17
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.CN06
+        title: Restrict Deployments to Trust Perimeter
+        objective: |
+          Ensure that the service and its child resources are only deployed on
+          infrastructure in locations that are explicitly included within a
+          defined trust perimeter.
+        assessment-requirements:
+          - id: CCC.Core.CN06.AR01
+            text: |
+              When the service is running, its region and availability zone MUST
+              be included in a list of explicitly trusted or approved locations
+              within the trust perimeter.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Maintain an up-to-date list of trusted and approved regions based
+              on organizational policies. Validate the service's deployment
+              location is included in this list.
+          - id: CCC.Core.CN06.AR02
+            text: |
+              When a child resource is deployed, its region and availability
+              zone MUST be included in a list of explicitly trusted or approved
+              locations within the trust perimeter.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Maintain an up-to-date list of trusted and approved regions based
+              on organizational policies. Validate that child resources can only
+              be deployed to locations included in this list.
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-19
+                strength: 10
+                remarks: Data Location (specify and document processing and backup locations)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH03
+                strength: 0
+      - id: CCC.Core.CN09
+        title: Ensure Integrity of Access Logs
+        objective: |
+          Ensure that access logs are always recorded to an external location
+          that cannot be manipulated from the context of the service(s) it
+          contains logs for.
+        assessment-requirements:
+          - id: CCC.Core.CN09.AR01
+            text: |
+              When the service is operational, its logs and any child resource
+              logs MUST NOT be accessible from the resource they record access
+              to.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN09.AR02
+            text: |
+              When the service is operational, disabling the logs for the service
+              or its child resources MUST NOT be possible without also disabling
+              the corresponding resource.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              No normal business operations should disable
+              logs, as this could indicate an attempt to cover up unauthorized
+              access. Ensure that logging mechanisms are tightly integrated with
+              service operations, so that logging cannot be disabled without
+              stopping the service itself.
+          - id: CCC.Core.CN09.AR03
+            text: |
+              When the service is operational, any attempt to redirect logs for
+              the service or its child resources MUST NOT be possible without
+              halting operation of the corresponding resource and publishing
+              corresponding events to monitored channels.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              No normal business operations should result in the redirection of
+              logs, as this could indicate an attempt to cover up unauthorized
+              access. Ensure that logging configurations are immutable during
+              service operation so that any changes require stopping the service
+              and publishing corresponding events to monitored channels.
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-02
+                strength: 5
+                remarks: Audit Logs Protection (security and retention)
+              - reference-id: LOG-04
+                strength: 5
+                remarks: Audit Logs Access and Accountability (Restrict audit logs access to authorized personnel)
+              - reference-id: LOG-09
+                strength: 5
+                remarks: Log Protection (protects audit records from unauthorized access)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH07
+                strength: 0
+              - reference-id: CCC.Core.TH09
+                strength: 0
+              - reference-id: CCC.Core.TH04
+                strength: 0
+      - id: CCC.Core.CN10
+        title: Restrict Data Replication to Trust Perimeter
+        objective: |
+          Ensure that data is only replicated on infrastructure in locations
+          that are explicitly included within a defined trust perimeter.
+        assessment-requirements:
+          - id: CCC.Core.CN10.AR01
+            text: |
+              When data is replicated, the service MUST ensure that replication
+              only occurs to destinations that are explicitly included within
+              the defined trust perimeter.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-10
+                strength: 8
+                remarks: Sensitive Data Transfer (only processed within scope as permitted)
+              - reference-id: DSP-19
+                strength: 10
+                remarks: Data Location (specify and document the physical locations of data)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH04
+                strength: 0
+  - id: CCC.Core.IAM
+    title: Identity and Access Management
+    description: |
+      The Identity and Access Management control family ensures
+      that only trusted and authenticated entities can access
+      resources. These controls establish strong authentication,
+      enforce multi-factor verification, and restrict access to
+      approved sources to prevent unauthorized use or data exfiltration.
+    controls:
+      - id: CCC.Core.CN03
+        title: Implement Multi-factor Authentication (MFA) for Access
+        objective: |
+          Ensure that all sensitive activities require two or more identity
+          factors during authentication to prevent unauthorized access.
+        assessment-requirements:
+          - id: CCC.Core.CN03.AR01
+            text: |
+              When an entity attempts to modify the service through a user
+              interface, the authentication process MUST require multiple
+              identifying factors for authentication.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN03.AR02
+            text: |
+              When an entity attempts to modify the service through an API
+              endpoint, the authentication process MUST require a credential
+              such as an API key or token AND originate from within the trust
+              perimeter.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN03.AR03
+            text: |
+              When an entity attempts to view information on the service through
+              a user interface, the authentication process MUST require multiple
+              identifying factors from the user.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN03.AR04
+            text: |
+              When an entity attempts to view information on the service through
+              an API endpoint, the authentication process MUST require a
+              credential such as an API key or token AND originate from within
+              the trust perimeter.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: IAM-14
+                strength: 3
+                remarks: Strong Authentication (Define, implement and evaluate processes - including MFA)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.CN05
+        title: Prevent Access from Untrusted Entities
+        objective: |
+          Ensure that secure access controls enforce the principle of least
+          privilege to restrict access to authorized entities from explicitly
+          trusted sources only.
+        assessment-requirements:
+          - id: CCC.Core.CN05.AR01
+            text: |
+              When an attempt is made to modify data on the service or a child
+              resource, the service MUST block requests from unauthorized
+              entities.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN05.AR02
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST refuse requests
+              from unauthorized entities.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN05.AR03
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource in a multi-tenant environment, the
+              service MUST refuse requests across tenant boundaries unless the
+              origin is explicitly included in a pre-approved allowlist.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN05.AR04
+            text: |
+              When data is requested from outside the trust perimeter, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN05.AR05
+            text: |
+              When any request is made from outside the trust perimeter,
+              the service MUST NOT provide any response that may indicate the
+              service exists.
+            applicability:
+              - tlp-red
+          - id: CCC.Core.CN05.AR06
+            text: |
+              When any request is made to the service or a child resource, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-01
+                strength: 1
+                remarks: Security and Privacy Policy and Proceduress
+              - reference-id: DSP-07
+                strength: 1
+                remarks: Data Protection by Design and Default
+              - reference-id: DSP-08
+                strength: 1
+                remarks: Data Privacy by Design and Default
+              - reference-id: DSP-10
+                strength: 1
+                remarks: Sensitive Data Transfer
+              - reference-id: DSP-17
+                strength: 0
+                remarks: Sensitive Data Protection
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+  - id: CCC.Core.LM
+    title: Logging & Monitoring
+    description: |
+      The Logging & Monitoring control family ensures that access,
+      changes, and security-relevant events are captured, monitored,
+      and alerted on in order to provide visibility, support
+      incident response, and meet compliance requirements.
+    controls:
+      - id: CCC.Core.CN04
+        title: Log All Access and Changes
+        objective: |
+          Ensure that all access attempts are logged to maintain a detailed
+          audit trail for security and compliance purposes.
+        assessment-requirements:
+          - id: CCC.Core.CN04.AR01
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST log the client
+              identity, time, and result of the attempt.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN04.AR02
+            text: |
+              When any attempt is made to modify data on the service or a child
+              resource, the service MUST log the client identity, time, and
+              result of the attempt.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN04.AR03
+            text: |
+              When any attempt is made to read data on the service or a child
+              resource, the service MUST log the client identity, time, and
+              result of the attempt.
+            applicability:
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-08
+                strength: 5
+                remarks: Log Records (Generate audit records containing relevant security information)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.CN07
+        title: Alert on Unusual Enumeration Activity
+        objective: |
+          Ensure that logs and associated alerts are generated when
+          unusual enumeration activity is detected that may indicate
+          reconnaissance activities.
+        assessment-requirements:
+          - id: CCC.Core.CN07.AR01
+            text: |
+              When enumeration activities are detected, the service MUST publish
+              an event to a monitored channel which includes the client
+              identity, time, and nature of the activity.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Implement event publication mechanisms and alerts for patterns
+              indicative of enumeration activities, such as repeated access
+              attempts, requests, or liveness probes. Configure alerts to notify
+              security teams of any activities that merit further investigation.
+          - id: CCC.Core.CN07.AR02
+            text: |
+              When enumeration activities are detected, the service MUST log the
+              client identity, time, and nature of the activity.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Implement logging mechanisms to capture details of enumeration
+              activities, including client identity, timestamps, and activity
+              nature. Retain logs according to organizational policies, and
+              occasionally review them for patterns that may indicate
+              reconnaissance activities.
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-05
+                strength: 3
+                remarks: Audit Logs Monitoring and Response (take action on detected anomalies)
+              - reference-id: SEF-05
+                strength: 3
+                remarks: Incident Response Metrics (establish and monitor metrics)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH15
+                strength: 0
+threats:
+  - id: CCC.Core.TH01
+    title: Access is Granted to Unauthorized Users
+    description: |
+      Logic designed to give different permissions to different entities may
+      be misconfigured or manipulated, allowing unauthorized entities to access
+      restricted parts of the service, its data, or its child resources.
+      This could result in a loss of data confidentiality or tolerance of
+      unauthorized actions which impact the integrity and availability of
+      resources and data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP06
+            strength: 0
+            remarks: Access Control
+          - reference-id: CCC.Core.CP29
+            strength: 0
+            remarks: Active Ingestion
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+            strength: 0
+            remarks: Valid Accounts
+          - reference-id: T1548
+            strength: 0
+            remarks: Abuse Elevation Control Mechanism
+          - reference-id: T1203
+            strength: 0
+            remarks: Exploitation for Credential Access
+          - reference-id: T1098
+            strength: 0
+            remarks: Account Manipulation
+          - reference-id: T1484
+            strength: 0
+            remarks: Domain or Tenant Policy Modification
+          - reference-id: T1546
+            strength: 0
+            remarks: Event Triggered Execution
+          - reference-id: T1537
+            strength: 0
+            remarks: Transfer Data to Cloud Account
+          - reference-id: T1567
+            strength: 0
+            remarks: Exfiltration Over Web Service
+          - reference-id: T1048
+            strength: 0
+            remarks: Exfiltration Over Alternative Protocol
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH02
+    title: Data is Intercepted in Transit
+    description: |
+      Data transmitted by the service is susceptible to collection by any entity
+      with access to any part of the transmission path. Packet observations can
+      be used to support the planning of attacks by profiling origin points,
+      destinations, and usage patterns. The data may also be vulnerable to
+      interception or modification in transit if not properly encrypted,
+      impacting the confidentiality or integrity of the transmitted data.
+    capabilities:
+      - reference-id: CCC
+        entries: []
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1557
+            strength: 0
+            remarks: Adversary-in-the-Middle
+          - reference-id: T1040
+            strength: 0
+            remarks: Network Sniffing
+  - id: CCC.Core.TH03
+    title: Deployment Region Network is Untrusted
+    description: |
+      Systems are susceptible to unauthorized access or interception by actors
+      with social or physical control over the network in which they are
+      deployed. If the geopolitical status of the deployment network is
+      untrusted, unstable, or insecure, this could result in a loss of
+      confidentiality, integrity, or availability of the service and its data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP08
+            strength: 0
+            remarks: Data Replication
+          - reference-id: CCC.Core.CP22
+            strength: 0
+            remarks: Location Lock-In
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1040
+            strength: 0
+            remarks: Network Sniffing
+          - reference-id: T1110
+            strength: 0
+            remarks: Brute Force
+          - reference-id: T1105
+            strength: 0
+            remarks: Ingress Tool Transfer
+          - reference-id: T1583
+            strength: 0
+            remarks: Acquire Infrastructure
+          - reference-id: T1557
+            strength: 0
+            remarks: Adversary-in-the-Middle
+  - id: CCC.Core.TH04
+    title: Data is Replicated to Untrusted or External Locations
+    description: |
+      Systems are susceptible to unauthorized access or interception by actors
+      with political or physical control over the network in which they are
+      deployed. Confidentiality may be impacted if the data is replicated to a
+      network where the geopolitical status is untrusted, unstable, or insecure.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP21
+            strength: 0
+            remarks: Replication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+  - id: CCC.Core.TH05
+    title: Interference with Replication Processes
+    description: |
+      Misconfigured or manipulated replication processes may lead to data being
+      copied to unintended locations, delayed, modified, or not being copied
+      at all. This could lead to compromised data confidentiality and integrity,
+      potentially also affecting recovery processes and data availability.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP08
+            strength: 0
+            remarks: Data Replication
+          - reference-id: CCC.Core.CP12
+            strength: 0
+            remarks: Recovery
+          - reference-id: CCC.Core.CP21
+            strength: 0
+            remarks: Replication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1491
+            strength: 0
+            remarks: Defacement
+          - reference-id: T1490
+            strength: 0
+            remarks: Inhibit System Recovery
+  - id: CCC.Core.TH06
+    title: Data is Lost or Corrupted
+    description: |
+      Services that rely on accurate data are susceptible to disruption in the
+      event of data loss or corruption. Any actions that lead to the unintended
+      deletion, alteration, or limited access to data can impact the
+      availability of the service and the system it is part of.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP11
+            strength: 0
+            remarks: Backup
+          - reference-id: CCC.Core.CP18
+            strength: 0
+            remarks: Versioning
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1491
+            strength: 0
+            remarks: Defacement
+          - reference-id: T1490
+            strength: 0
+            remarks: Inhibit System Recovery
+  - id: CCC.Core.TH07
+    title: Logs are Tampered With or Deleted
+    description: |
+      Tampering or deletion of service logs will reduce the system's ability to
+      maintain an accurate record of events. Any actions that compromise the
+      integrity of logs could disrupt system availability by disrupting
+      monitoring, hindering forensic investigations, and reducing the accuracy
+      of audit trails.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP03
+            strength: 0
+            remarks: Access Log Publication
+          - reference-id: CCC.Core.CP10
+            strength: 0
+            remarks: Logging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation (for altering log entries)
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH08
+    title: Runtime Metrics are Manipulated
+    description: |
+      Manipulation of runtime metrics can lead to inaccurate representations of
+      system performance and resource utilization. This compromised data
+      integrity may also impact system availability through misinformed scaling
+      decisions, budget exhaustion, financial losses, and hindered incident
+      detection.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP15
+            strength: 0
+            remarks: Cost Management
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal
+  - id: CCC.Core.TH09
+    title: Runtime Logs are Read by Unauthorized Entities
+    description: |
+      Unauthorized access to logs may expose valuable information about the
+      system's configuration, operations, and security mechanisms. This could
+      jeopardize system availability through the exposure of vulnerabilities
+      and support the planning of attacks on the service, system, or network.
+      If logs are not adequately sanitized, this may also directly impact the
+      confidentiality of sensitive data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP03
+            strength: 0
+            remarks: Access Log Publication
+          - reference-id: CCC.Core.CP09
+            strength: 0
+            remarks: Metrics Publication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1003
+            strength: 0
+            remarks: OS Credential Dumping
+          - reference-id: T1007
+            strength: 0
+            remarks: System Service Discovery
+          - reference-id: T1018
+            strength: 0
+            remarks: Remote System Discovery
+          - reference-id: T1033
+            strength: 0
+            remarks: System Owner/User Discovery
+          - reference-id: T1046
+            strength: 0
+            remarks: Network Service Discovery
+          - reference-id: T1057
+            strength: 0
+            remarks: Process Discovery
+          - reference-id: T1069
+            strength: 0
+            remarks: Permission Groups Discovery
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal
+          - reference-id: T1082
+            strength: 0
+            remarks: System Information Discovery
+          - reference-id: T1120
+            strength: 0
+            remarks: Peripheral Device Discovery
+          - reference-id: T1124
+            strength: 0
+            remarks: System Time Discovery
+          - reference-id: T1497
+            strength: 0
+            remarks: Virtualization/Sandbox Evasion
+          - reference-id: T1518
+            strength: 0
+            remarks: Software Discovery
+  - id: CCC.Core.TH10
+    title: State-change Events are Read by Unauthorized Entities
+    description: |
+      Unauthorized access to state-change events can reveal information about
+      the system's design and usage patterns. This opens the system up to
+      attacks of opportunity and support the planning of attacks on the
+      service, system, or network.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP03
+            strength: 0
+            remarks: Access Log Publication
+          - reference-id: CCC.Core.CP07
+            strength: 0
+            remarks: Event Publication
+          - reference-id: CCC.Core.CP09
+            strength: 0
+            remarks: Metrics Publication
+          - reference-id: CCC.Core.CP17
+            strength: 0
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1057
+            strength: 0
+            remarks: Process Discovery
+          - reference-id: T1049
+            strength: 0
+            remarks: System Network Connections Discovery
+          - reference-id: T1083
+            strength: 0
+            remarks: File and Directory Discovery
+  - id: CCC.Core.TH11
+    title: Publications are Incorrectly Triggered
+    description: |
+      Incorrectly triggered publications may disseminate inaccurate
+      or misleading information, creating a data integrity risk. Such
+      misinformation can cause unintended operations to be initiated,
+      conceal legitimate issues, and disrupt the availability or reliability
+      of systems and their data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP07
+            strength: 0
+            remarks: Event Publication
+          - reference-id: CCC.Core.CP17
+            strength: 0
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1205
+            strength: 0
+            remarks: Traffic Signaling
+          - reference-id: T1001.001
+            strength: 0
+            remarks: 'Data Obfuscation: Junk Data'
+  - id: CCC.Core.TH12
+    title: Resource Constraints are Exhausted
+    description: |
+      Exceeding the resource constraints through excessive consumption,
+      resource-intensive operations, or lowering of rate-limit thresholds
+      can impact the availability of elements such as memory, CPU, or storage.
+      This may disrupt availability of the service or child resources by
+      denying the associated functionality to users. If the impacted system is
+      not designed to expect such a failure, the effect could also cascade to
+      other services and resources.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP04
+            strength: 0
+            remarks: Transaction Rate Limits
+          - reference-id: CCC.Core.CP16
+            strength: 0
+            remarks: Budgeting
+          - reference-id: CCC.Core.CP19
+            strength: 0
+            remarks: Auto-scaling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1496
+            strength: 0
+            remarks: Resource Hijacking
+          - reference-id: T1499
+            strength: 0
+            remarks: Endpoint Denial of Service
+          - reference-id: T1498
+            strength: 0
+            remarks: Network Denial of Service
+  - id: CCC.Core.TH13
+    title: Resource Tags are Manipulated
+    description: |
+      When resource tags are altered, it can lead to misclassification or
+      mismanagement of resources. This can reduce the efficacy of organizational
+      policies, billing rules, or network access rules. Such changes could cause
+      compromised confidentiality, integrity, or availability of the system and
+      its data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP20
+            strength: 0
+            remarks: Tagging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+  - id: CCC.Core.TH14
+    title: Older Resource Versions are Used
+    description: |
+      Running older versions of child resources can expose the system to known
+      vulnerabilities that have been addressed in more recent versions. If the
+      version identifier is detected by an attacker, it may be possible to
+      exploit these vulnerabilities to compromise the confidentiality,
+      integrity, or availability of the system and its data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP18
+            strength: 0
+            remarks: Versioning
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
+          - reference-id: T1562.01
+            strength: 0
+            remarks: 'Impair Defenses: Downgrade Attack'
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
+  - id: CCC.Core.TH15
+    title: Automated Enumeration and Reconnaissance by Non-human Entities
+    description: |
+      Automated processes may be used to gather details about service and
+      child resource elements such as APIs, file systems, or directories.
+      This information can reveal vulnerabilities, misconfigurations,
+      and the network topology, which can be used to plan an attack against
+      the system, the service, or its child resources.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP14
+            strength: 0
+            remarks: API Access
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1580
+            strength: 0
+            remarks: Cloud Infrastructure Discovery
+capabilities:
+  - id: CCC.SvlsComp.CP01
+    title: Event Driven Execution
+    description: |
+      Supports execution of code functions in response to events
+      without the need to manage underlying server infrastructure.
+  - id: CCC.SvlsComp.CP02
+    title: Event Triggers
+    description: |
+      Ability to configure event triggers for functions such as
+      HTTP requests, cloud storage changes, messaging services,
+      and schedules.
+  - id: CCC.SvlsComp.CP03
+    title: Stateless Architecture
+    description: |
+      Functions are stateless and do not retain data or state
+      between invocations.
+  - id: CCC.SvlsComp.CP04
+    title: Cold Start
+    description: |
+      New execution environment is created and initialized to process
+      an incoming request which is the default behaviour.
+  - id: CCC.SvlsComp.CP05
+    title: Warm Start
+    description: |
+      Ability to reuse of an already-initialized execution environment to
+      handle subsequent requests, to reduce invocation latency
+  - id: CCC.SvlsComp.CP06
+    title: Flexible Resource Allocation
+    description: |
+      Ability to control resource allocations such as CPU, memory, and network.
+  - id: CCC.SvlsComp.CP07
+    title: Customizable Execution Timeout
+    description: |
+      Ability to configure function execution timeout for allowing
+      short/long-running tasks.
+  - id: CCC.SvlsComp.CP08
+    title: Native Runtime Support - Node.js
+    description: |
+      Support Node.js runtime by default.
+  - id: CCC.SvlsComp.CP09
+    title: Native Runtime Support - Python
+    description: |
+      Support Python runtime by default.
+  - id: CCC.SvlsComp.CP10
+    title: Native Runtime Support - Java
+    description: |
+      Support Java runtime by default.
+  - id: CCC.SvlsComp.CP11
+    title: Native Runtime Support - .NET Core
+    description: |
+      Support .NET runtime by default.
+  - id: CCC.SvlsComp.CP12
+    title: Custom Runtimes
+    description: |
+      Support any language by allowing functions to use custom runtime
+  - id: CCC.SvlsComp.CP13
+    title: Environment Variables
+    description: |
+      Allows setting environment variables for functions to store
+      configuration settings and operational parameters.
+  - id: CCC.SvlsComp.CP14
+    title: Aliases
+    description: |
+      Support the use of aliases such as dev, test, prod to manage
+      different environments or blue/green deployments  without
+      modifying the function's code.
+  - id: CCC.SvlsComp.CP15
+    title: Container Image Support
+    description: |
+      Ability to deploy and run functions packaged as container images
+      using predefined runtimes, that were built using container tools
+      like Docker.
+  - id: CCC.SvlsComp.CP16
+    title: Concurrency Limit
+    description: |
+      Ability to configure a limit for the concurrent executions of a function.
+  - id: CCC.SvlsComp.CP17
+    title: Throttling
+    description: |
+      Incoming requests are throttled when the function exceeds its
+      concurrency limit.
+  - id: CCC.SvlsComp.CP18
+    title: List Functions
+    description: |
+      Ability to list all existing functions.
+  - id: CCC.SvlsComp.CP19
+    title: Create Functions
+    description: |
+      Ability to create new functions.
+  - id: CCC.SvlsComp.CP20
+    title: Edit Function
+    description: |
+      Ability to edit an existing function.
+  - id: CCC.SvlsComp.CP21
+    title: Delete Function
+    description: |
+      Ability to delete an existing function.
+  - id: CCC.Core.CP01
+    title: Encryption in Transit Enabled by Default
+    description: |
+      The service automatically encrypts all data using industry-standard
+      cryptographic protocols prior to transmission via a network interface.
+  - id: CCC.Core.CP02
+    title: Encryption at Rest Enabled by Default
+    description: |
+      The service automatically encrypts all data using industry-standard
+      cryptographic protocols prior to being written to a storage medium.
+  - id: CCC.Core.CP04
+    title: Transaction Rate Limits
+    description: |
+      The service can throttle, delay, or reject excess requests when
+      transactions exceed a user-specified rate limit, and always
+      provides industry-standard throughput up to that limit.
+  - id: CCC.Core.CP06
+    title: Access Control
+    description: |
+      The service automatically enforces user configurations to
+      restrict or allow access to a specific component or
+      a child resource based on factors such as user identities, roles,
+      groups, or attributes.
+  - id: CCC.Core.CP07
+    title: Event Publication
+    description: |
+      The service automatically publishes a structured state-change record
+      upon creation, deletion, or modification of data, configuration,
+      components, or child resources.
+  - id: CCC.Core.CP08
+    title: Data Replication
+    description: |
+      The service automatically replicates data across multiple deployments
+      simultaneously with parity, or may be configured to do so.
+  - id: CCC.Core.CP09
+    title: Metrics Publication
+    description: |
+      The service automatically publishes structured, numeric, time-series data points related to
+      the performance, availability, and health of the service or its child resources.
+  - id: CCC.Core.CP10
+    title: Log Publication
+    description: |
+      The service automatically publishes structured, verbose records of activities,
+      operations, or events that occur within the service.
+  - id: CCC.Core.CP14
+    title: API Access
+    description: |
+      The service exposes a port enabling external actors to interact
+      programmatically with the service and its resources using HTTP
+      protocol methods such as GET, POST, PUT, and DELETE.
+  - id: CCC.Core.CP15
+    title: Cost Management
+    description: |
+      The service monitors data published by child or networked resources to infer
+      usage patterns and generate cost reports for the service.
+  - id: CCC.Core.CP16
+    title: Budgeting
+    description: |
+      The service may be configured to take a user-specified action when a
+      spending threshold is met or exceeded on a child or networked resource.
+  - id: CCC.Core.CP18
+    title: Resource Versioning
+    description: |
+      The service automatically assigns versions to child resources which can be used
+      to preserve, retrieve, and restore past iterations.
+  - id: CCC.Core.CP19
+    title: Resource Scaling
+    description: |
+      The service may be configured to scale child resources automatically
+      or on-demand.
+  - id: CCC.Core.CP20
+    title: Resource Tagging
+    description: |
+      The service provides users with the ability to tag a child resource with metadata
+      that can be reviewed or queried.
+  - id: CCC.Core.CP22
+    title: Location Lock-In
+    description: |
+      The service may be configured to restrict the deployment of child resources
+      to specific geographic locations.
+  - id: CCC.Core.CP25
+    title: Random Access Memory Allocation
+    description: |
+      The service provides users and child resources with access to
+      random access memory (RAM) for temporary data storage and
+      fast data retrieval during processing tasks.
+  - id: CCC.Core.CP28
+    title: Command-line Interface
+    description: |
+      The service includes a component that reads and translates
+      text into commands that can be executed by the service.
+  - id: CCC.Core.CP29
+    title: Active Ingestion
+    description: |
+      While running, the service can receive inputs, commands, or data streams
+      from external sources such as dedicated APIs, exposed network
+      ports, message queues, and persistent data ingestion channels.
+imported-controls:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.CN01
+        strength: 0
+        remarks: Prevent unencrypted requests
+      - reference-id: CCC.Core.CN02
+        strength: 0
+        remarks: Ensure data encryption at rest for all stored data
+      - reference-id: CCC.Core.CN03
+        strength: 0
+        remarks: Implement multi-factor authentication (MFA) for access
+      - reference-id: CCC.Core.CN04
+        strength: 0
+        remarks: Log all access and changes
+      - reference-id: CCC.Core.CN05
+        strength: 0
+        remarks: Prevent access from untrusted entities
+      - reference-id: CCC.Core.CN06
+        strength: 0
+        remarks: Prevent deployment in restricted regions
+      - reference-id: CCC.Core.CN07
+        strength: 0
+        remarks: Alert on non-human enumeration
+      - reference-id: CCC.Core.CN09
+        strength: 0
+        remarks: Prevent tampering, deletion, or unauthorized access to access logs
+      - reference-id: CCC.Core.CN10
+        strength: 0
+        remarks: Prevent data replication to destinations outside of defined trust perimeter
+imported-threats:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0
+        remarks: Access control is misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0
+        remarks: Data is intercepted in transit
+      - reference-id: CCC.Core.TH03
+        strength: 0
+        remarks: Deployment region network is untrusted
+      - reference-id: CCC.Core.TH04
+        strength: 0
+        remarks: Data is replicated to untrusted or external locations
+      - reference-id: CCC.Core.TH05
+        strength: 0
+        remarks: Data is corrupted during replication
+      - reference-id: CCC.Core.TH06
+        strength: 0
+        remarks: Data is lost or corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0
+        remarks: Logs or Metrics Publication Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH10
+        strength: 0
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH11
+        strength: 0
+        remarks: Event Notifications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0
+        remarks: Resource constraints are exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0
+        remarks: Resource Tags Are Manipulated
+      - reference-id: CCC.Core.TH14
+        strength: 0
+        remarks: Older Resource Versions Are Exploited
+      - reference-id: CCC.Core.TH15
+        strength: 0
+        remarks: Automated Enumeration and Reconnaissance by Non-Human Entities
+imported-capabilities:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.CP01
+        strength: 0
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        strength: 0
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP04
+        strength: 0
+        remarks: Transaction Rate Limits
+      - reference-id: CCC.Core.CP06
+        strength: 0
+        remarks: Access Control
+      - reference-id: CCC.Core.CP07
+        strength: 0
+        remarks: Event Publication
+      - reference-id: CCC.Core.CP08
+        strength: 0
+        remarks: Data Replication
+      - reference-id: CCC.Core.CP09
+        strength: 0
+        remarks: Metrics Publication
+      - reference-id: CCC.Core.CP10
+        strength: 0
+        remarks: Log Publication
+      - reference-id: CCC.Core.CP14
+        strength: 0
+        remarks: API Access
+      - reference-id: CCC.Core.CP15
+        strength: 0
+        remarks: Cost Management
+      - reference-id: CCC.Core.CP16
+        strength: 0
+        remarks: Budgeting
+      - reference-id: CCC.Core.CP18
+        strength: 0
+        remarks: Resource Versioning
+      - reference-id: CCC.Core.CP19
+        strength: 0
+        remarks: Resource Scaling
+      - reference-id: CCC.Core.CP20
+        strength: 0
+        remarks: Resource Tagging
+      - reference-id: CCC.Core.CP22
+        strength: 0
+        remarks: Location Lock-In
+      - reference-id: CCC.Core.CP25
+        strength: 0
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.CP28
+        strength: 0
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        strength: 0
+        remarks: Active Ingestion
