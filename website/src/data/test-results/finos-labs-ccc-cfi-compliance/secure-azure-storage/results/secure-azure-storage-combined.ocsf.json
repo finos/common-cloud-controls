@@ -1,0 +1,76 @@
+[
+  {
+    "activity_id": 1,
+    "activity_name": "Test",
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Compliance Finding",
+    "class_uid": 2004,
+    "finding_info": {
+      "created_time": 1760532287,
+      "created_time_dt": "2025-10-15T12:44:47Z",
+      "desc": "Compliance test scenario: Cleanup",
+      "title": "Cleanup",
+      "types": [],
+      "uid": "ccc-test-487-1760532287"
+    },
+    "message": "Cleanup",
+    "metadata": {
+      "event_code": "ccc_compliance_test",
+      "product": {
+        "name": "CCC-Destructive",
+        "uid": "CCC-Destructive",
+        "vendor_name": "FINOS",
+        "version": "0.1"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.4.0"
+    },
+    "resources": [
+      {
+        "cloud_partition": "azure",
+        "data": {
+          "details": " service on :",
+          "metadata": {
+            "findings": [],
+            "name": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
+            "region": "eastus",
+            "status": "ACTIVE",
+            "tags": [],
+            "type": "Microsoft.Storage/storageAccounts"
+          }
+        },
+        "group": {
+          "name": "Microsoft.Storage/storageAccounts"
+        },
+        "labels": [
+          "{\"Owner\": \"CFI\", \"Environment\": \"Production\"}"
+        ],
+        "name": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
+        "region": "eastus",
+        "type": "Microsoft.Storage/storageAccounts",
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+      }
+    ],
+    "severity": "Medium",
+    "severity_id": 3,
+    "status": "New",
+    "status_code": "SKIP",
+    "status_detail": "✓ a cloud api for \"{Provider}\" in \"api\"\n✓ I call \"{api}\" with \"GetServiceAPI\" with parameter \"object-storage\"\n✓ I refer to \"{result}\" as \"storage\"\n✓ I call \"{api}\" with \"GetServiceAPI\" with parameter \"iam\"\n✓ I refer to \"{result}\" as \"iamService\"\n✗ I call \"{storage}\" with \"CreateBucket\" with parameter \"test-bucket-obj-write\" - Error: reflect: call of reflect.Value.MethodByName on zero Value\n⊘ I refer to \"{result}\" as \"bucket\" (skipped)\n⊘ I call \"{storage}\" with \"DeleteBucket\" with parameter \"{bucket.ID}\" (skipped)\n⊘ I call \"{iamService}\" with \"DestroyUser\" with parameter \"{testUserTrusted}\" (skipped)\n⊘ I call \"{iamService}\" with \"DestroyUser\" with parameter \"{testUserUntrusted}\" (skipped)",
+    "status_id": 1,
+    "time": 1760532287,
+    "time_dt": "2025-10-15T12:44:47Z",
+    "type_name": "Compliance Finding: Test",
+    "type_uid": 200401,
+    "unmapped": {
+      "compliance": {
+        "CCC": [
+          "CCC.ObjStor.C01.TR04"
+        ]
+      }
+    }
+  }
+]

@@ -1,13 +1,1946 @@
 metadata:
   id: CCC.GenAI
-  title: Generative AI Platform
+  title: CCC Generative AI Platform
   description: |
     Generative AI Platform consist of set of tools provided by the cloud service providers
     that use large language models (LLMs) and deep learning frameworks to
     understand, generate, and manipulate natural language, images, code, or audio to
     create new content, and insights base on patterns and data.
   version: DEV
-  last-modified: "2025-04-19T00:00:00Z"
+  last-modified: "2025-10-15T12:34:00-04:00"
+  applicability-categories:
+    - id: tlp_red
+      title: TLP:RED
+      description: Data is not for disclosure, restricted to explicitly authorized entities only.
+    - id: tlp_amber
+      title: TLP:AMBER
+      description: Data is for disclosure to members of explicitly authorized organizational structures.
+    - id: tlp_green
+      title: TLP:GREEN
+      description: Data may be freely distributed through specific channels that do not include unrestricted public access.
+    - id: tlp_clear
+      title: TLP:CLEAR
+      description: Data has no distribution restrictions.
+  mapping-references:
+    - id: CCC.Core
+      title: FINOS CCC Core Catalog
+      version: v2025.10
+control-families:
+  - id: ""
+    title: Data
+    description: |
+      The Data control family ensures the confidentiality, integrity,
+      availability, and sovereignty of data across its lifecycle.
+      These controls govern how data is transmitted, stored,
+      replicated, and protected from unauthorized access, tampering,
+      or exposure beyond defined trust perimeters.
+    controls:
+      - id: CCC.GenAI.CN01
+        title: Model Input Filtering and Sanitisation
+        objective: |
+          Inspect and validate input before it is passed to a GenAI
+          model in order to filter or sanitise adversarial queries
+          and prevent sensitive data leakage.
+        assessment-requirements:
+          - id: CCC.GenAI.CN01.AR01
+            text: |
+              Untrusted input such as user queries, RAG data or tool output
+              MUST be validated before it is passed to a GenAI model.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.GenAI.CN01.AR02
+            text: |
+              If malicious patterns such as prompt injection or sensitive
+              data are detected during input validation, the input MUST
+              be blocked or sanitised.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-003
+                strength: 0
+                remarks: User/App/Model Firewalling/Filtering
+              - reference-id: AIR-PREV-017
+                strength: 0
+                remarks: AI Firewall Implementation and Management
+              - reference-id: AIR-PREV-002
+                strength: 0
+                remarks: Data Filtering From External Knowledge Bases
+              - reference-id: AIR-DET-001
+                strength: 0
+                remarks: AI Data Leakage Prevention and Detection
+          - reference-id: SAIF
+            entries:
+              - reference-id: Input Validation and Sanitization
+                strength: 0
+          - reference-id: MITRE-ATLAS
+            entries:
+              - reference-id: AML.M0020
+                strength: 0
+                remarks: Generative AI Guardrails
+              - reference-id: AML.M0021
+                strength: 0
+                remarks: Generative AI Guidelines
+              - reference-id: AML.M0015
+                strength: 0
+                remarks: Adversarial Input Detection
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.GenAI.TH01
+                strength: 0
+                remarks: Prompt Injection
+              - reference-id: CCC.GenAI.TH03
+                strength: 0
+                remarks: Sensitive Information Disclosure
+      - id: CCC.GenAI.CN02
+        title: Model Output Filtering and Sanitisation
+        objective: |
+          Inspect and validate GenAI model output before passing it to
+          users, applications or plugins in order to filter or sanitise
+          insecure or unreliable output and prevent sensitive data leakage.
+        assessment-requirements:
+          - id: CCC.GenAI.CN02.AR01
+            text: |
+              GenAI model output MUST be validated for format conformance,
+              malicious patterns, sensitive data and inapropriate content
+              before being passed to users, application or plugins.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.GenAI.CN02.AR02
+            text: |
+              In the event of policy violations, the AI-generated content MUST
+              be redacted, encoded or rejected.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-003
+                strength: 0
+                remarks: User/App/Model Firewalling/Filtering
+              - reference-id: AIR-PREV-017
+                strength: 0
+                remarks: AI Firewall Implementation and Management
+              - reference-id: AIR-PREV-002
+                strength: 0
+                remarks: Data Filtering From External Knowledge Bases
+              - reference-id: AIR-DET-001
+                strength: 0
+                remarks: AI Data Leakage Prevention and Detection
+          - reference-id: SAIF
+            entries:
+              - reference-id: Output Validation and Sanitization
+                strength: 0
+          - reference-id: MITRE-ATLAS
+            entries:
+              - reference-id: AML.M0020
+                strength: 0
+                remarks: Generative AI Guardrails
+              - reference-id: AML.M0002
+                strength: 0
+                remarks: Passive AI Output Obfuscation
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.GenAI.TH01
+                strength: 0
+                remarks: Prompt Injection
+              - reference-id: CCC.GenAI.TH03
+                strength: 0
+                remarks: Sensitive Information Disclosure
+              - reference-id: CCC.GenAI.TH04
+                strength: 0
+                remarks: Insecure / Unreliable Model Output
+              - reference-id: CCC.GenAI.TH05
+                strength: 0
+                remarks: Model Overreliance
+              - reference-id: CCC.GenAI.TH06
+                strength: 0
+                remarks: Unintended Action by a Model-Based Agent
+      - id: CCC.GenAI.CN03
+        title: Data Provenance and Source Vetting
+        objective: |
+          Ensure that all data for training, fine-tuning or RAG comes
+          from trusted, approved sources and is authorised for the
+          intended purposes in order to prevent the initial introduction
+          of malicious content or leaked sensitive data.
+        assessment-requirements:
+          - id: CCC.GenAI.CN03.AR01
+            text: |
+              When data is designated for model training or RAG ingestion, then its
+              source MUST be explicitly approved and its provenance documented.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.GenAI.CN03.AR02
+            text: |
+              Data from unvetted sources MUST NOT be used in production systems.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-006
+                strength: 0
+                remarks: Data Quality & Classification/Sensitivity
+          - reference-id: SAIF
+            entries:
+              - reference-id: Training Data Management
+                strength: 0
+          - reference-id: MITRE-ATLAS
+            entries:
+              - reference-id: AML.M0025
+                strength: 0
+                remarks: Maintain AI Dataset Provenance
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.GenAI.TH02
+                strength: 0
+                remarks: Data Poisoning
+              - reference-id: CCC.GenAI.TH03
+                strength: 0
+                remarks: Sensitive Information Disclosure
+      - id: CCC.GenAI.CN04
+        title: Sanitisation of Ingested Data
+        objective: |
+          Validate and sanitise all data ingested by GenAI systems
+          from extenal sources or internal knowledge bases, whether
+          for training, conversion to vector embeddings, or real-time
+          retireval, in order to remove or redact poisoned or sensitive
+          data before further processing.
+        assessment-requirements:
+          - id: CCC.GenAI.CN04.AR01
+            text: |
+              When data is ingested for training, fine-tuning or conversion
+              to vector embeddings, it MUST be validated for sensitive
+              information or malicious content.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.GenAI.CN04.AR02
+            text: |
+              If sensitive data or malicious content is detected, it must
+              be rejected, redacted or flagged for manual review.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-002
+                strength: 0
+                remarks: Data Filtering From External Knowledge Bases
+          - reference-id: SAIF
+            entries:
+              - reference-id: Training Data Sanitization
+                strength: 0
+          - reference-id: MITRE-ATLAS
+            entries:
+              - reference-id: AML.M0007
+                strength: 0
+                remarks: Sanitize Training Data
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.GenAI.TH02
+                strength: 0
+                remarks: Data Poisoning
+              - reference-id: CCC.GenAI.TH03
+                strength: 0
+                remarks: Sensitive Information Disclosure
+      - id: CCC.GenAI.CN05
+        title: Citations and Source Traceability
+        objective: |
+          Require the GenAI system to provide citations or direct links
+          back to the source documents used to generate a response, in
+          to enhance the transparency, trustworthiness, and verifiability
+          of AI-generated content.
+        assessment-requirements:
+          - id: CCC.GenAI.CN05.AR01
+            text: |
+              When a RAG-enabled system generates a response containing information
+              retrieved from its knowledge base, then the response MUST include a
+              verifiable citation that links back to the specific source document.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-DET-013
+                strength: 0
+                remarks: |
+                  Providing Citations and Source Traceability for AI-Generated Information
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.GenAI.TH09
+                strength: 0
+                remarks: Lack of Explainability
+              - reference-id: CCC.GenAI.TH04
+                strength: 0
+                remarks: Insecure / Unreliable Model Output
+      - id: CCC.Core.CN01
+        title: Encrypt Data for Transmission
+        objective: |
+          Ensure that all communications are encrypted in transit to protect
+          data integrity and confidentiality.
+        assessment-requirements:
+          - id: CCC.Core.CN01.AR01
+            text: |
+              When a port is exposed for non-SSH network traffic, all traffic
+              MUST include a TLS handshake AND be encrypted using TLS 1.3 or
+              higher.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Most cloud services enable TLS 1.3 by default. Where it is not
+              already set, ensure that your services are configured or updated
+              accordingly.
+          - id: CCC.Core.CN01.AR02
+            text: |
+              When a port is exposed for SSH network traffic, all traffic MUST
+              include a SSH handshake AND be encrypted using SSHv2 or higher.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Any time port 22 is exposed, ensure that it has a properly
+              implemented SSH server with SSHv2 enabled and configured with
+              strong ciphers.
+          - id: CCC.Core.CN01.AR03
+            text: "When the service receives unencrypted traffic, \nthen it MUST either block the request or automatically\nredirect it to the secure equivalent.\n"
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Review firewall, load balancer, and application configurations to
+              ensure insecure protocols such as HTTP, FTP, and Telnet are not
+              exposed. Where possible, implement automatic redirection to secure
+              protocols such as HTTPS, SFTP, SSH, and regularly scan for
+              protocol drift.
+          - id: CCC.Core.CN01.AR07
+            text: |
+              When a port is exposed, the service MUST ensure that the protocol
+              and service officially assigned to that port number by the IANA
+              Service Name and Transport Protocol Port Number Registry, and no
+              other, is run on that port.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Reference the IANA Service Name and Transport Protocol Port Number
+              Registry for more information about correct protocol-to-port
+              assignments. Avoid running non-standard services on well-known
+              ports.
+          - id: CCC.Core.CN01.AR08
+            text: |
+              When a service transmits data using TLS, mutual TLS (mTLS) MUST be
+              implemented to require both client and server certificate
+              authentication for all connections.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Configure mTLS for all endpoints that process or transmit
+              sensitive data. Ensure both client and server certificates are
+              validated and managed securely. Regularly review certificate
+              authorities and automate certificate rotation where possible.
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: CEK-03
+                strength: 5
+                remarks: Data Encryption (in transit and at rest)
+              - reference-id: CEK-04
+                strength: 10
+                remarks: Key Management (use strong encryption)
+              - reference-id: IVS-03
+                strength: 2
+                remarks: Network Security (monitor, encrypt, restrict)
+              - reference-id: IVS-07
+                strength: 2
+                remarks: Migration to Cloud Environments (encrypt when migrating servers)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH02
+                strength: 0
+      - id: CCC.Core.CN02
+        title: Encrypt Data for Storage
+        objective: |
+          Ensure that all data stored is encrypted at rest using strong
+          encryption algorithms.
+        assessment-requirements:
+          - id: CCC.Core.CN02.AR01
+            text: |
+              When data is stored, it MUST be encrypted using the latest
+              industry-standard encryption methods.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: CEK-03
+                strength: 5
+                remarks: Data Encryption (in transit and at rest)
+              - reference-id: CEK-04
+                strength: 10
+                remarks: Key Management (use strong encryption)
+              - reference-id: UEM-08
+                strength: 10
+                remarks: Storage Encryption (on managed endpoint devices)
+              - reference-id: DSP-17
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.CN06
+        title: Restrict Deployments to Trust Perimeter
+        objective: |
+          Ensure that the service and its child resources are only deployed on
+          infrastructure in locations that are explicitly included within a
+          defined trust perimeter.
+        assessment-requirements:
+          - id: CCC.Core.CN06.AR01
+            text: |
+              When the service is running, its region and availability zone MUST
+              be included in a list of explicitly trusted or approved locations
+              within the trust perimeter.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Maintain an up-to-date list of trusted and approved regions based
+              on organizational policies. Validate the service's deployment
+              location is included in this list.
+          - id: CCC.Core.CN06.AR02
+            text: |
+              When a child resource is deployed, its region and availability
+              zone MUST be included in a list of explicitly trusted or approved
+              locations within the trust perimeter.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Maintain an up-to-date list of trusted and approved regions based
+              on organizational policies. Validate that child resources can only
+              be deployed to locations included in this list.
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-19
+                strength: 10
+                remarks: Data Location (specify and document processing and backup locations)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH03
+                strength: 0
+      - id: CCC.Core.CN08
+        title: Replicate Data to Multiple Locations
+        objective: |
+          Ensure that data is replicated across multiple physical locations to
+          protect against data loss due to hardware failures, natural disasters,
+          or other catastrophic events.
+        assessment-requirements:
+          - id: CCC.Core.CN08.AR01
+            text: |
+              When data is created or modified, the data MUST have a complete
+              and recoverable duplicate that is stored in a physically separate
+              data center.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Implement automated data replication processes to ensure that
+              data is consistently duplicated in another region or availability
+              zone. Regularly test data recovery from the replicated location to
+              ensure integrity and availability.
+          - id: CCC.Core.CN08.AR02
+            text: |
+              When data is replicated into a second location, the service MUST
+              be able to accurately represent the replication locations,
+              replication status, and data synchronization status.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: BCR-08
+                strength: 10
+                remarks: Backup
+              - reference-id: BCR-10
+                strength: 1
+                remarks: Disaster Response Plan
+              - reference-id: BCR-11
+                strength: 1
+                remarks: Equipment Redundancy
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH06
+                strength: 0
+      - id: CCC.Core.CN09
+        title: Ensure Integrity of Access Logs
+        objective: |
+          Ensure that access logs are always recorded to an external location
+          that cannot be manipulated from the context of the service(s) it
+          contains logs for.
+        assessment-requirements:
+          - id: CCC.Core.CN09.AR01
+            text: |
+              When the service is operational, its logs and any child resource
+              logs MUST NOT be accessible from the resource they record access
+              to.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN09.AR02
+            text: |
+              When the service is operational, disabling the logs for the service
+              or its child resources MUST NOT be possible without also disabling
+              the corresponding resource.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              No normal business operations should disable
+              logs, as this could indicate an attempt to cover up unauthorized
+              access. Ensure that logging mechanisms are tightly integrated with
+              service operations, so that logging cannot be disabled without
+              stopping the service itself.
+          - id: CCC.Core.CN09.AR03
+            text: |
+              When the service is operational, any attempt to redirect logs for
+              the service or its child resources MUST NOT be possible without
+              halting operation of the corresponding resource and publishing
+              corresponding events to monitored channels.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              No normal business operations should result in the redirection of
+              logs, as this could indicate an attempt to cover up unauthorized
+              access. Ensure that logging configurations are immutable during
+              service operation so that any changes require stopping the service
+              and publishing corresponding events to monitored channels.
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-02
+                strength: 5
+                remarks: Audit Logs Protection (security and retention)
+              - reference-id: LOG-04
+                strength: 5
+                remarks: Audit Logs Access and Accountability (Restrict audit logs access to authorized personnel)
+              - reference-id: LOG-09
+                strength: 5
+                remarks: Log Protection (protects audit records from unauthorized access)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH07
+                strength: 0
+              - reference-id: CCC.Core.TH09
+                strength: 0
+              - reference-id: CCC.Core.TH04
+                strength: 0
+      - id: CCC.Core.CN11
+        title: Protect Encryption Keys
+        objective: |
+          Ensure that encryption keys are managed securely by enforcing
+          the use of approved algorithms, regular key rotation, and
+          customer-managed encryption keys (CMEKs).
+        assessment-requirements:
+          - id: CCC.Core.CN11.AR01
+            text: |
+              When encryption keys are used, the service MUST verify that
+              all encryption keys use the latest industry-standard cryptographic
+              algorithms.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN11.AR02
+            text: |
+              When encryption keys are used, the service MUST rotate active keys
+              within 180 days of issuance.
+            applicability:
+              - tlp-amber
+          - id: CCC.Core.CN11.AR03
+            text: |
+              When encrypting data, the service MUST verify that
+              customer-managed encryption keys (CMEKs) are used.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN11.AR04
+            text: |
+              When encryption keys are accessed, the service MUST verify that
+              access to encryption keys is restricted to authorized personnel
+              and services, following the principle of least privilege.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN11.AR05
+            text: |
+              When encryption keys are used, the service MUST rotate active keys
+              within 365 days of issuance.
+            applicability:
+              - tlp-clear
+              - tlp-green
+          - id: CCC.Core.CN11.AR06
+            text: |
+              When encryption keys are used, the service MUST rotate active keys
+              within 90 days of issuance.
+            applicability:
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: CEK-08
+                strength: 3
+                remarks: CSC Key Management Capability (must provide the capability to self-manage keys)
+              - reference-id: CEK-10
+                strength: 10
+                remarks: Key Generation (using industry accepted cryptographic libraries)
+              - reference-id: CEK-12
+                strength: 10
+                remarks: Key Rotation
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH16
+                strength: 0
+  - id: ""
+    title: Identity and Access Management
+    description: |
+      The Identity and Access Management control family ensures
+      that only trusted and authenticated entities can access
+      resources. These controls establish strong authentication,
+      enforce multi-factor verification, and restrict access to
+      approved sources to prevent unauthorized use or data exfiltration.
+    controls:
+      - id: CCC.GenAI.CN06
+        title: Least Privilege for Plugins
+        objective: |
+          Restricts the permissions of any external tools the GenAI system
+          can call to limit the potential damage if an agent is coerced
+          to perform unintended actions or vulnerabilities in the tools
+          are exploited.
+        assessment-requirements:
+          - id: CCC.GenAI.CN06.AR01
+            text: |
+              When an LLM invokes an external tool (e.g., an API, a plugin),
+              then the tool MUST operate with the least privileges required
+              for performing its intended functionality.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: SAIF
+            entries:
+              - reference-id: Agent Permissions
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.GenAI.TH07
+                strength: 0
+                remarks: Insecure Plugin
+              - reference-id: CCC.GenAI.TH06
+                strength: 0
+                remarks: Unintended Action by a Model-Based Agent
+      - id: CCC.Core.CN03
+        title: Implement Multi-factor Authentication (MFA) for Access
+        objective: |
+          Ensure that all sensitive activities require two or more identity
+          factors during authentication to prevent unauthorized access.
+        assessment-requirements:
+          - id: CCC.Core.CN03.AR01
+            text: |
+              When an entity attempts to modify the service through a user
+              interface, the authentication process MUST require multiple
+              identifying factors for authentication.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN03.AR02
+            text: |
+              When an entity attempts to modify the service through an API
+              endpoint, the authentication process MUST require a credential
+              such as an API key or token AND originate from within the trust
+              perimeter.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN03.AR03
+            text: |
+              When an entity attempts to view information on the service through
+              a user interface, the authentication process MUST require multiple
+              identifying factors from the user.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN03.AR04
+            text: |
+              When an entity attempts to view information on the service through
+              an API endpoint, the authentication process MUST require a
+              credential such as an API key or token AND originate from within
+              the trust perimeter.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: IAM-14
+                strength: 3
+                remarks: Strong Authentication (Define, implement and evaluate processes - including MFA)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.CN05
+        title: Prevent Access from Untrusted Entities
+        objective: |
+          Ensure that secure access controls enforce the principle of least
+          privilege to restrict access to authorized entities from explicitly
+          trusted sources only.
+        assessment-requirements:
+          - id: CCC.Core.CN05.AR01
+            text: |
+              When an attempt is made to modify data on the service or a child
+              resource, the service MUST block requests from unauthorized
+              entities.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN05.AR02
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST refuse requests
+              from unauthorized entities.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN05.AR03
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource in a multi-tenant environment, the
+              service MUST refuse requests across tenant boundaries unless the
+              origin is explicitly included in a pre-approved allowlist.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN05.AR04
+            text: |
+              When data is requested from outside the trust perimeter, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN05.AR05
+            text: |
+              When any request is made from outside the trust perimeter,
+              the service MUST NOT provide any response that may indicate the
+              service exists.
+            applicability:
+              - tlp-red
+          - id: CCC.Core.CN05.AR06
+            text: |
+              When any request is made to the service or a child resource, the
+              service MUST refuse requests from unauthorized entities.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-01
+                strength: 1
+                remarks: Security and Privacy Policy and Proceduress
+              - reference-id: DSP-07
+                strength: 1
+                remarks: Data Protection by Design and Default
+              - reference-id: DSP-08
+                strength: 1
+                remarks: Data Privacy by Design and Default
+              - reference-id: DSP-10
+                strength: 1
+                remarks: Sensitive Data Transfer
+              - reference-id: DSP-17
+                strength: 0
+                remarks: Sensitive Data Protection
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+  - id: ""
+    title: Configuration Management
+    description: |
+      The Configuration Management control family involves establishing,
+      maintaining and monitoring the configuration of the service and
+      related applications and infrastructure to ensure consistency,
+      secure defaults and compliance.
+    controls:
+      - id: CCC.GenAI.CN07
+        title: Model Version Pinning
+        objective: |
+          Mandate that applications are locked ("pinned") to a specific,
+          tested version of a foundational model to prevent unexpected
+          behaviour changes introduced by provider-side updates.
+        assessment-requirements:
+          - id: CCC.GenAI.CN07.AR01
+            text: |
+              When an application makes an API call to a foundational model in a
+              production environment, then it MUST specify an explicit version
+              identifier.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-010
+                strength: 0
+                remarks: AI Model Version Pinning
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.GenAI.TH10
+                strength: 0
+                remarks: Model Version Drift
+  - id: ""
+    title: Model Assurance and Evaluation
+    description: |
+      The Model Assurance and Evaluation control family encompasses
+      the proactiveand continuous processes of testing and validating
+      the AI model's behavior to ensure it aligns with safety, ethical,
+      and quality standards.
+    controls:
+      - id: CCC.GenAI.CN08
+        title: Quality Control and Red Teaming
+        objective: |
+          Establish a formal program for quality evaluation and adversarial
+          testing (red teaming) to ensure GenAI system meet all business,
+          quality, security and compliance requirements before getting deployed
+          into production environments.
+        assessment-requirements:
+          - id: CCC.GenAI.CN08.AR01
+            text: |
+              When a new AI model is considered for production deployment, it
+              MUST undergo a formal red teaming and quality assurance review.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.GenAI.CN08.AR02
+            text: |
+              If model quality review or red teaming identifies an issue that exceeds
+              the organization's risk tolerance, the model MUST NOT be deployed until
+              the issue is remediated.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: FINOS-AIGF
+            entries:
+              - reference-id: AIR-PREV-005
+                strength: 0
+                remarks: System Acceptance Testing
+          - reference-id: SAIF
+            entries:
+              - reference-id: Adversarial Training and Testing
+                strength: 0
+              - reference-id: Red Teaming
+                strength: 0
+              - reference-id: Product Governance
+                strength: 0
+          - reference-id: MITRE-ATLAS
+            entries:
+              - reference-id: AML.M0008
+                strength: 0
+                remarks: Validate AI Model
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.GenAI.TH01
+                strength: 0
+                remarks: Prompt Injection
+              - reference-id: CCC.GenAI.TH02
+                strength: 0
+                remarks: Data Poisoning
+              - reference-id: CCC.GenAI.TH04
+                strength: 0
+                remarks: Insecure / Unreliable Model Output
+              - reference-id: CCC.GenAI.TH08
+                strength: 0
+                remarks: Model Tampering
+              - reference-id: CCC.GenAI.TH10
+                strength: 0
+                remarks: Model Version Drift
+  - id: CCC.Core.LM
+    title: Logging & Monitoring
+    description: |
+      The Logging & Monitoring control family ensures that access,
+      changes, and security-relevant events are captured, monitored,
+      and alerted on in order to provide visibility, support
+      incident response, and meet compliance requirements.
+    controls:
+      - id: CCC.Core.CN04
+        title: Log All Access and Changes
+        objective: |
+          Ensure that all access attempts are logged to maintain a detailed
+          audit trail for security and compliance purposes.
+        assessment-requirements:
+          - id: CCC.Core.CN04.AR01
+            text: |
+              When administrative access or configuration change is attempted on
+              the service or a child resource, the service MUST log the client
+              identity, time, and result of the attempt.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN04.AR02
+            text: |
+              When any attempt is made to modify data on the service or a child
+              resource, the service MUST log the client identity, time, and
+              result of the attempt.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.Core.CN04.AR03
+            text: |
+              When any attempt is made to read data on the service or a child
+              resource, the service MUST log the client identity, time, and
+              result of the attempt.
+            applicability:
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-08
+                strength: 5
+                remarks: Log Records (Generate audit records containing relevant security information)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
+      - id: CCC.Core.CN07
+        title: Alert on Unusual Enumeration Activity
+        objective: |
+          Ensure that logs and associated alerts are generated when
+          unusual enumeration activity is detected that may indicate
+          reconnaissance activities.
+        assessment-requirements:
+          - id: CCC.Core.CN07.AR01
+            text: |
+              When enumeration activities are detected, the service MUST publish
+              an event to a monitored channel which includes the client
+              identity, time, and nature of the activity.
+            applicability:
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Implement event publication mechanisms and alerts for patterns
+              indicative of enumeration activities, such as repeated access
+              attempts, requests, or liveness probes. Configure alerts to notify
+              security teams of any activities that merit further investigation.
+          - id: CCC.Core.CN07.AR02
+            text: |
+              When enumeration activities are detected, the service MUST log the
+              client identity, time, and nature of the activity.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: |
+              Implement logging mechanisms to capture details of enumeration
+              activities, including client identity, timestamps, and activity
+              nature. Retain logs according to organizational policies, and
+              occasionally review them for patterns that may indicate
+              reconnaissance activities.
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: LOG-05
+                strength: 3
+                remarks: Audit Logs Monitoring and Response (take action on detected anomalies)
+              - reference-id: SEF-05
+                strength: 3
+                remarks: Incident Response Metrics (establish and monitor metrics)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH15
+                strength: 0
+threats:
+  - id: CCC.GenAI.TH01
+    title: Prompt Injection
+    description: "Prompt injection may occur when crafted input is used to manipulate the\nGenAI model's behaviour, resulting in the generation of harmful or \nunintended outputs. Prompt injection can be either direct (performed via\ndirect interaction with the model) or indirect (performed via external\nsources ingested by the model). Both text-based and multi-modal prompt\ninjection is possible.\n"
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP14
+            strength: 0
+            remarks: API Access
+          - reference-id: CCC.GenAI.CP15
+            strength: 0
+            remarks: Text-Based Prompts
+          - reference-id: CCC.GenAI.CP16
+            strength: 0
+            remarks: Structured Prompts
+          - reference-id: CCC.GenAI.CP17
+            strength: 0
+            remarks: Contextual Prompts
+          - reference-id: CCC.GenAI.CP18
+            strength: 0
+            remarks: Interactive Prompts
+          - reference-id: CCC.GenAI.CP19
+            strength: 0
+            remarks: Image-Based Prompts
+          - reference-id: CCC.GenAI.CP20
+            strength: 0
+            remarks: Custom Template Prompts
+          - reference-id: CCC.GenAI.CP21
+            strength: 0
+            remarks: Generate Content
+          - reference-id: CCC.GenAI.CP24
+            strength: 0
+            remarks: Content Moderation
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-010
+            strength: 0
+            remarks: Prompt Injection
+      - reference-id: SAIF
+        entries:
+          - reference-id: PIJ
+            strength: 0
+            remarks: Prompt Injection
+          - reference-id: MEV
+            strength: 0
+            remarks: Model Evasion
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM01:2025
+            strength: 0
+            remarks: Prompt Injection
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0051
+            strength: 0
+            remarks: LLM Prompt Injection
+          - reference-id: AML.T0051.000
+            strength: 0
+            remarks: 'LLM Prompt Injection: Direct'
+          - reference-id: AML.T0051.001
+            strength: 0
+            remarks: 'LLM Prompt Injection: Indirect'
+          - reference-id: AML.T0065
+            strength: 0
+            remarks: LLM Prompt Crafting
+          - reference-id: AML.T0068
+            strength: 0
+            remarks: LLM Prompt Obfuscation
+          - reference-id: AML.T0054
+            strength: 0
+            remarks: LLM Jailbreak
+  - id: CCC.GenAI.TH02
+    title: Data Poisoning
+    description: "Data poisoning occurs when training, fine-tuning or embedding data is\ntampered with in order to modify the model's behaviour, for example \nsteering it towards specific outputs, degrading performance or \nintroducing backdoors.\n"
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP02
+            strength: 0
+            remarks: Encryption at Rest Enabled by Default
+          - reference-id: CCC.Core.CP06
+            strength: 0
+            remarks: Identity-Based Access Control
+          - reference-id: CCC.GenAI.CP03
+            strength: 0
+            remarks: Embedding Model Selection
+          - reference-id: CCC.GenAI.CP06
+            strength: 0
+            remarks: Customizable Model Selection
+          - reference-id: CCC.GenAI.CP21
+            strength: 0
+            remarks: Generate Content
+          - reference-id: CCC.GenAI.CP22
+            strength: 0
+            remarks: Data Control
+          - reference-id: CCC.GenAI.CP24
+            strength: 0
+            remarks: Content Moderation
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-009
+            strength: 0
+            remarks: Data Poisoning
+      - reference-id: SAIF
+        entries:
+          - reference-id: DP
+            strength: 0
+            remarks: Data Poisoning
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM04:2025
+            strength: 0
+            remarks: Data and Model Poisoning
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0020
+            strength: 0
+            remarks: Poison Training Data
+          - reference-id: AML.T0070
+            strength: 0
+            remarks: RAG Poisoning
+  - id: CCC.GenAI.TH03
+    title: Sensitive Information Disclosure
+    description: "Sensitive data can be memorised by the model from user interaction or\ntraining and may then be leaked to unintended and unauthorised parties \nby querying the model, for example through crafted prompts.\n"
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP02
+            strength: 0
+            remarks: Encryption at Rest Enabled by Default
+          - reference-id: CCC.Core.CP06
+            strength: 0
+            remarks: Identity-Based Access Control
+          - reference-id: CCC.GenAI.CP22
+            strength: 0
+            remarks: Data Control
+          - reference-id: CCC.GenAI.CP22
+            strength: 0
+            remarks: Plugin Integrations
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-RC-001
+            strength: 0
+            remarks: Information Leaked To Hosted Model
+          - reference-id: AIR-SEC-002
+            strength: 0
+            remarks: Information Leaked to Vector Store
+          - reference-id: AIR-RC-023
+            strength: 0
+            remarks: Intellectual Property (IP) and Copyright
+      - reference-id: SAIF
+        entries:
+          - reference-id: SDD
+            strength: 0
+            remarks: Sensitive Data Disclosure
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM02:2025
+            strength: 0
+            remarks: Sensitive Information Disclosure
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0057
+            strength: 0
+            remarks: LLM Data Leakage
+  - id: CCC.GenAI.TH04
+    title: Insecure / Unreliable Model Output
+    description: |
+      A GenAI model may generate content that is incorrect, misleading or
+      harmful, such as convincing misinformation (hallucinations) or vulnerable
+      or malicious code, due to its reliance on statistical patterns rather
+      than factual understanding. Directly using this flawed output without
+      validation can lead to system compromises, poor decision-making, and
+      legal or reputational damage.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.CP03
+            strength: 0
+            remarks: Embedding Model Selection
+          - reference-id: CCC.GenAI.CP06
+            strength: 0
+            remarks: Customizable Model Selection
+          - reference-id: CCC.GenAI.CP07
+            strength: 0
+            remarks: Parameter Tuning - Temperature
+          - reference-id: CCC.GenAI.CP08
+            strength: 0
+            remarks: Parameter Tuning - Max Token
+          - reference-id: CCC.GenAI.CP09
+            strength: 0
+            remarks: Parameter Tuning - Top P (Nucleus Sampling)
+          - reference-id: CCC.GenAI.CP10
+            strength: 0
+            remarks: Parameter Tuning - Top K
+          - reference-id: CCC.GenAI.CP11
+            strength: 0
+            remarks: Parameter Tuning - Stop Sequences
+          - reference-id: CCC.GenAI.CP12
+            strength: 0
+            remarks: Parameter Tuning - Frequency Penalty
+          - reference-id: CCC.GenAI.CP13
+            strength: 0
+            remarks: Parameter Tuning - Temperature
+          - reference-id: CCC.GenAI.CP14
+            strength: 0
+            remarks: Parameter Tuning - Context Length
+          - reference-id: CCC.GenAI.CP21
+            strength: 0
+            remarks: Generate Content
+          - reference-id: CCC.GenAI.CP25
+            strength: 0
+            remarks: Content Moderation
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-004
+            strength: 0
+            remarks: Hallucination and Inaccurate Outputs
+          - reference-id: AIR-OP-006
+            strength: 0
+            remarks: Non-Deterministic Behaviour
+          - reference-id: AIR-OP-020
+            strength: 0
+            remarks: Reputational Risk
+      - reference-id: SAIF
+        entries:
+          - reference-id: IMO
+            strength: 0
+            remarks: Insecure Model Output
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM09:2025
+            strength: 0
+            remarks: Misinformation
+          - reference-id: LLM05:2025
+            strength: 0
+            remarks: Improper Output Handling
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0062
+            strength: 0
+            remarks: Discover LLM Hallucinations
+          - reference-id: AML.T0060
+            strength: 0
+            remarks: Publish Hallucinated Entities
+          - reference-id: AML.T0077
+            strength: 0
+            remarks: LLM Response Rendering
+  - id: CCC.GenAI.TH05
+    title: Model Overreliance
+    description: |
+      Model overreliance and misplaced implicit trust in the output of
+      a GenAI model may lead to the acceptance of inaccurate, biased or
+      insecure outputs without proper validation or oversight, potentially
+      resulting in operational failueres, compliance breaches and flawed
+      decision making.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.CP21
+            strength: 0
+            remarks: Generate Content
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-018
+            strength: 0
+            remarks: Model Overreach / Expanded Use
+          - reference-id: AIR-RC-022
+            strength: 0
+            remarks: Regulatory Compliance and Oversight
+      - reference-id: SAIF
+        entries:
+          - reference-id: IMO
+            strength: 0
+            remarks: Insecure Model Output
+          - reference-id: RA
+            strength: 0
+            remarks: Rogue Actions
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM06:2025
+            strength: 0
+            remarks: Excessive Agency
+          - reference-id: LLM09
+            strength: 0
+            remarks: Overreliance
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0062
+            strength: 0
+            remarks: LLM Trusted Output Components Manipulation
+  - id: CCC.GenAI.TH06
+    title: Unintended Action by a Model-Based Agent
+    description: |
+      A model-based agent, given the authority to execute tools or interact
+      with APIs, may perform an action that is harmful, incorrect, or not
+      aligned with the user's true intent in response to a prompt. This can
+      be caused by the model misinterpreting an ambiguous prompt or being
+      manipulated by an adversary into misusing its delegated authority.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.CP21
+            strength: 0
+            remarks: Plugin Integrations
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-018
+            strength: 0
+            remarks: Model Overreach / Expanded Use
+      - reference-id: SAIF
+        entries:
+          - reference-id: RA
+            strength: 0
+            remarks: Rogue Actions
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM06:2025
+            strength: 0
+            remarks: Excessive Agency
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0065
+            strength: 0
+            remarks: LLM Prompt Crafting
+  - id: CCC.GenAI.TH07
+    title: Insecure Plugin
+    description: |
+      A plugin integrated with a GenAI model may contain vulnerabilities
+      such as poor input validation or improper access control. An adversary
+      may exploit these flaws by crafting a prompt that causes the model to
+      pass a malicious payload to the plugin, potentially leading to system
+      compromise, data exfiltration or privilege escalation.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.CP25
+            strength: 0
+            remarks: Plugin Integrations
+    external-mappings:
+      - reference-id: SAIF
+        entries:
+          - reference-id: IIC
+            strength: 0
+            remarks: Insecure Integrated Component
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLLM07
+            strength: 0
+            remarks: Insecure Plugin Design
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0053
+            strength: 0
+            remarks: LLM Plugin Compromise
+  - id: CCC.GenAI.TH08
+    title: Model Tampering
+    description: |
+      Supply chain risks, including tampering with a model's core components
+      at any stage of its lifecycle—from its source code and training data to
+      the final deployable artifact—may result in embedding backdoors or
+      adversarial triggers altering model behaviour under certain conditions.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.CP01
+            strength: 0
+            remarks: Text-Based Model Selection
+          - reference-id: CCC.GenAI.CP02
+            strength: 0
+            remarks: Code-Based Model Selection
+          - reference-id: CCC.GenAI.CP03
+            strength: 0
+            remarks: Embedding Model Selection
+          - reference-id: CCC.GenAI.CP04
+            strength: 0
+            remarks: Image-Based Model Selection
+          - reference-id: CCC.GenAI.CP04
+            strength: 0
+            remarks: Multimodal Model Selection
+          - reference-id: CCC.GenAI.CP04
+            strength: 0
+            remarks: Customizable Model Selection
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-SEC-008
+            strength: 0
+            remarks: Tampering With the Foundational Model
+      - reference-id: SAIF
+        entries:
+          - reference-id: MST
+            strength: 0
+            remarks: Model Source Tampering
+          - reference-id: MDT
+            strength: 0
+            remarks: Model Deployment Tampering
+      - reference-id: OWASP-LLM-TOP10
+        entries:
+          - reference-id: LLM03:2025
+            strength: 0
+            remarks: Supply Chain
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0010
+            strength: 0
+            remarks: AI Supply Chain Compromise
+  - id: CCC.GenAI.TH09
+    title: Lack of Explainability
+    description: |
+      The "black box" nature of GenAI models makes it difficult or impossible
+      to understand the specific reasoning behind a given output. This opacity
+      makes it challenging to diagnose failures, detect hidden biases, and meet
+      regulatory requirements for decision transparency.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.GenAI.CP21
+            strength: 0
+            remarks: Generate Content
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-017
+            strength: 0
+            remarks: Lack of Explainability
+          - reference-id: AIR-RC-022
+            strength: 0
+            remarks: Regulatory Compliance and Oversight
+      - reference-id: MITRE-ATLAS
+        entries:
+          - reference-id: AML.T0062.000
+            strength: 0
+            remarks: 'LLM Trusted Output Components Manipulation: Citations'
+  - id: CCC.GenAI.TH10
+    title: Model Version Drift
+    description: |
+      An update to a managed GenAI model may cause unpredictable and
+      breaking changes in its outputs, alignment, and performance. Systems
+      built and tested against the previous version's specific behavior can
+      suddenly fail or become insecure, as their functional and safety
+      assumptions are no longer valid.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP18
+            strength: 0
+            remarks: Versioning
+    external-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-OP-005
+            strength: 0
+            remarks: Foundation Model Versioning
+  - id: CCC.Core.TH01
+    title: Access is Granted to Unauthorized Users
+    description: |
+      Logic designed to give different permissions to different entities may
+      be misconfigured or manipulated, allowing unauthorized entities to access
+      restricted parts of the service, its data, or its child resources.
+      This could result in a loss of data confidentiality or tolerance of
+      unauthorized actions which impact the integrity and availability of
+      resources and data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP06
+            strength: 0
+            remarks: Access Control
+          - reference-id: CCC.Core.CP29
+            strength: 0
+            remarks: Active Ingestion
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+            strength: 0
+            remarks: Valid Accounts
+          - reference-id: T1548
+            strength: 0
+            remarks: Abuse Elevation Control Mechanism
+          - reference-id: T1203
+            strength: 0
+            remarks: Exploitation for Credential Access
+          - reference-id: T1098
+            strength: 0
+            remarks: Account Manipulation
+          - reference-id: T1484
+            strength: 0
+            remarks: Domain or Tenant Policy Modification
+          - reference-id: T1546
+            strength: 0
+            remarks: Event Triggered Execution
+          - reference-id: T1537
+            strength: 0
+            remarks: Transfer Data to Cloud Account
+          - reference-id: T1567
+            strength: 0
+            remarks: Exfiltration Over Web Service
+          - reference-id: T1048
+            strength: 0
+            remarks: Exfiltration Over Alternative Protocol
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH02
+    title: Data is Intercepted in Transit
+    description: |
+      Data transmitted by the service is susceptible to collection by any entity
+      with access to any part of the transmission path. Packet observations can
+      be used to support the planning of attacks by profiling origin points,
+      destinations, and usage patterns. The data may also be vulnerable to
+      interception or modification in transit if not properly encrypted,
+      impacting the confidentiality or integrity of the transmitted data.
+    capabilities:
+      - reference-id: CCC
+        entries: []
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1557
+            strength: 0
+            remarks: Adversary-in-the-Middle
+          - reference-id: T1040
+            strength: 0
+            remarks: Network Sniffing
+  - id: CCC.Core.TH03
+    title: Deployment Region Network is Untrusted
+    description: |
+      Systems are susceptible to unauthorized access or interception by actors
+      with social or physical control over the network in which they are
+      deployed. If the geopolitical status of the deployment network is
+      untrusted, unstable, or insecure, this could result in a loss of
+      confidentiality, integrity, or availability of the service and its data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP08
+            strength: 0
+            remarks: Data Replication
+          - reference-id: CCC.Core.CP22
+            strength: 0
+            remarks: Location Lock-In
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1040
+            strength: 0
+            remarks: Network Sniffing
+          - reference-id: T1110
+            strength: 0
+            remarks: Brute Force
+          - reference-id: T1105
+            strength: 0
+            remarks: Ingress Tool Transfer
+          - reference-id: T1583
+            strength: 0
+            remarks: Acquire Infrastructure
+          - reference-id: T1557
+            strength: 0
+            remarks: Adversary-in-the-Middle
+  - id: CCC.Core.TH06
+    title: Data is Lost or Corrupted
+    description: |
+      Services that rely on accurate data are susceptible to disruption in the
+      event of data loss or corruption. Any actions that lead to the unintended
+      deletion, alteration, or limited access to data can impact the
+      availability of the service and the system it is part of.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP11
+            strength: 0
+            remarks: Backup
+          - reference-id: CCC.Core.CP18
+            strength: 0
+            remarks: Versioning
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1491
+            strength: 0
+            remarks: Defacement
+          - reference-id: T1490
+            strength: 0
+            remarks: Inhibit System Recovery
+  - id: CCC.Core.TH07
+    title: Logs are Tampered With or Deleted
+    description: |
+      Tampering or deletion of service logs will reduce the system's ability to
+      maintain an accurate record of events. Any actions that compromise the
+      integrity of logs could disrupt system availability by disrupting
+      monitoring, hindering forensic investigations, and reducing the accuracy
+      of audit trails.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP03
+            strength: 0
+            remarks: Access Log Publication
+          - reference-id: CCC.Core.CP10
+            strength: 0
+            remarks: Logging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation (for altering log entries)
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH08
+    title: Runtime Metrics are Manipulated
+    description: |
+      Manipulation of runtime metrics can lead to inaccurate representations of
+      system performance and resource utilization. This compromised data
+      integrity may also impact system availability through misinformed scaling
+      decisions, budget exhaustion, financial losses, and hindered incident
+      detection.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP15
+            strength: 0
+            remarks: Cost Management
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal
+  - id: CCC.Core.TH09
+    title: Runtime Logs are Read by Unauthorized Entities
+    description: |
+      Unauthorized access to logs may expose valuable information about the
+      system's configuration, operations, and security mechanisms. This could
+      jeopardize system availability through the exposure of vulnerabilities
+      and support the planning of attacks on the service, system, or network.
+      If logs are not adequately sanitized, this may also directly impact the
+      confidentiality of sensitive data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP03
+            strength: 0
+            remarks: Access Log Publication
+          - reference-id: CCC.Core.CP09
+            strength: 0
+            remarks: Metrics Publication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1003
+            strength: 0
+            remarks: OS Credential Dumping
+          - reference-id: T1007
+            strength: 0
+            remarks: System Service Discovery
+          - reference-id: T1018
+            strength: 0
+            remarks: Remote System Discovery
+          - reference-id: T1033
+            strength: 0
+            remarks: System Owner/User Discovery
+          - reference-id: T1046
+            strength: 0
+            remarks: Network Service Discovery
+          - reference-id: T1057
+            strength: 0
+            remarks: Process Discovery
+          - reference-id: T1069
+            strength: 0
+            remarks: Permission Groups Discovery
+          - reference-id: T1070
+            strength: 0
+            remarks: Indicator Removal
+          - reference-id: T1082
+            strength: 0
+            remarks: System Information Discovery
+          - reference-id: T1120
+            strength: 0
+            remarks: Peripheral Device Discovery
+          - reference-id: T1124
+            strength: 0
+            remarks: System Time Discovery
+          - reference-id: T1497
+            strength: 0
+            remarks: Virtualization/Sandbox Evasion
+          - reference-id: T1518
+            strength: 0
+            remarks: Software Discovery
+  - id: CCC.Core.TH10
+    title: State-change Events are Read by Unauthorized Entities
+    description: |
+      Unauthorized access to state-change events can reveal information about
+      the system's design and usage patterns. This opens the system up to
+      attacks of opportunity and support the planning of attacks on the
+      service, system, or network.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP03
+            strength: 0
+            remarks: Access Log Publication
+          - reference-id: CCC.Core.CP07
+            strength: 0
+            remarks: Event Publication
+          - reference-id: CCC.Core.CP09
+            strength: 0
+            remarks: Metrics Publication
+          - reference-id: CCC.Core.CP17
+            strength: 0
+            remarks: Alerting
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1057
+            strength: 0
+            remarks: Process Discovery
+          - reference-id: T1049
+            strength: 0
+            remarks: System Network Connections Discovery
+          - reference-id: T1083
+            strength: 0
+            remarks: File and Directory Discovery
+  - id: CCC.Core.TH12
+    title: Resource Constraints are Exhausted
+    description: |
+      Exceeding the resource constraints through excessive consumption,
+      resource-intensive operations, or lowering of rate-limit thresholds
+      can impact the availability of elements such as memory, CPU, or storage.
+      This may disrupt availability of the service or child resources by
+      denying the associated functionality to users. If the impacted system is
+      not designed to expect such a failure, the effect could also cascade to
+      other services and resources.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP04
+            strength: 0
+            remarks: Transaction Rate Limits
+          - reference-id: CCC.Core.CP16
+            strength: 0
+            remarks: Budgeting
+          - reference-id: CCC.Core.CP19
+            strength: 0
+            remarks: Auto-scaling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1496
+            strength: 0
+            remarks: Resource Hijacking
+          - reference-id: T1499
+            strength: 0
+            remarks: Endpoint Denial of Service
+          - reference-id: T1498
+            strength: 0
+            remarks: Network Denial of Service
+  - id: CCC.Core.TH13
+    title: Resource Tags are Manipulated
+    description: |
+      When resource tags are altered, it can lead to misclassification or
+      mismanagement of resources. This can reduce the efficacy of organizational
+      policies, billing rules, or network access rules. Such changes could cause
+      compromised confidentiality, integrity, or availability of the system and
+      its data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP20
+            strength: 0
+            remarks: Tagging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+  - id: CCC.Core.TH14
+    title: Older Resource Versions are Used
+    description: |
+      Running older versions of child resources can expose the system to known
+      vulnerabilities that have been addressed in more recent versions. If the
+      version identifier is detected by an attacker, it may be possible to
+      exploit these vulnerabilities to compromise the confidentiality,
+      integrity, or availability of the system and its data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP18
+            strength: 0
+            remarks: Versioning
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
+          - reference-id: T1562.01
+            strength: 0
+            remarks: 'Impair Defenses: Downgrade Attack'
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
+  - id: CCC.Core.TH15
+    title: Automated Enumeration and Reconnaissance by Non-human Entities
+    description: |
+      Automated processes may be used to gather details about service and
+      child resource elements such as APIs, file systems, or directories.
+      This information can reveal vulnerabilities, misconfigurations,
+      and the network topology, which can be used to plan an attack against
+      the system, the service, or its child resources.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP14
+            strength: 0
+            remarks: API Access
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1580
+            strength: 0
+            remarks: Cloud Infrastructure Discovery
+  - id: CCC.Core.TH16
+    title: Publications are Disabled
+    description: |
+      Publication of events, metrics, and runtime logs may be disabled, leading
+      to a lack of expected security and operational information being shared.
+      This can impact system availability by delaying the detection of
+      incidents while also impacting system design decisions and enforcement of
+      operational thresholds, such as autoscaling or cost management.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP10
+            strength: 0
+            remarks: Logging
+          - reference-id: CCC.Core.CP09
+            strength: 0
+            remarks: Metrics Publication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1562
+            strength: 0
+            remarks: Impair Defenses
 capabilities:
   - id: CCC.GenAI.CP01
     title: Text-Based Model Selection
@@ -118,15 +2051,11 @@ capabilities:
       Ability to retrieve previously generated outputs and prompts for the
       given session.
   - id: CCC.GenAI.CP24
-    title: Data Residency
-    description: |
-      Ability to select a region for processing and storing data in the service.
-  - id: CCC.GenAI.CP25
     title: Content Moderation
     description: |
       Ensure the service detects and filters abusive, harmful, and sensitive
       information to ensure responsible and safe use of the service.
-  - id: CCC.GenAI.CP26
+  - id: CCC.GenAI.CP25
     title: Plugin Integrations
     description: |
       Ability for the model to use tools to complete a model interaction.
@@ -182,8 +2111,8 @@ capabilities:
   - id: CCC.Core.CP18
     title: Resource Versioning
     description: |
-      The service assigns versions to child resources to preserve, retrieve,
-      and restore past iterations.
+      The service automatically assigns versions to child resources which can be used
+      to preserve, retrieve, and restore past iterations.
   - id: CCC.Core.CP19
     title: Resource Scaling
     description: |
@@ -194,12 +2123,86 @@ capabilities:
     description: |
       The service provides users with the ability to tag a child resource with metadata
       that can be reviewed or queried.
+  - id: CCC.Core.CP22
+    title: Location Lock-In
+    description: |
+      The service may be configured to restrict the deployment of child resources
+      to specific geographic locations.
 imported-controls:
   - reference-id: CCC
-    entries: []
+    entries:
+      - reference-id: CCC.Core.CN01
+        strength: 0
+        remarks: Prevent Unencrypted Requests
+      - reference-id: CCC.Core.CN02
+        strength: 0
+        remarks: Ensure Data Encryption at Rest for All Stored Data
+      - reference-id: CCC.Core.CN03
+        strength: 0
+        remarks: Implement Multi-factor Authentication (MFA) for Access
+      - reference-id: CCC.Core.CN04
+        strength: 0
+        remarks: Log All Access and Changes
+      - reference-id: CCC.Core.CN05
+        strength: 0
+        remarks: Prevent Access from Untrusted Entities
+      - reference-id: CCC.Core.CN06
+        strength: 0
+        remarks: Prevent Deployment in Restricted Regions
+      - reference-id: CCC.Core.CN07
+        strength: 0
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.CN08
+        strength: 0
+        remarks: Enable Multi-zone or Multi-region Data Replication
+      - reference-id: CCC.Core.CN09
+        strength: 0
+        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+      - reference-id: CCC.Core.CN11
+        strength: 0
+        remarks: Enforce Key Management Policies
 imported-threats:
   - reference-id: CCC
-    entries: []
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH06
+        strength: 0
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH10
+        strength: 0
+        remarks: Alerts are Intercepted
+      - reference-id: CCC.Core.TH12
+        strength: 0
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH14
+        strength: 0
+        remarks: Older Resource Versions are Exploited
+      - reference-id: CCC.Core.TH15
+        strength: 0
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0
+        remarks: Logging and Monitoring are Disabled
 imported-capabilities:
   - reference-id: CCC
     entries:
@@ -211,19 +2214,16 @@ imported-capabilities:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         strength: 0
-        remarks: Access/Activity Logs
+        remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
         strength: 0
-        remarks: Identity-Based Access Control
+        remarks: Access Control
       - reference-id: CCC.Core.CP09
         strength: 0
-        remarks: Monitoring
+        remarks: Metrics Publication
       - reference-id: CCC.Core.CP10
         strength: 0
-        remarks: Logging
-      - reference-id: CCC.Core.CP13
-        strength: 0
-        remarks: Infrastructure as Code
+        remarks: Log Publication
       - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
@@ -235,10 +2235,13 @@ imported-capabilities:
         remarks: Budgeting
       - reference-id: CCC.Core.CP18
         strength: 0
-        remarks: Versioning
+        remarks: Resource Versioning
       - reference-id: CCC.Core.CP19
         strength: 0
-        remarks: On-Demand Scaling
+        remarks: Resource Scaling
       - reference-id: CCC.Core.CP20
         strength: 0
-        remarks: Tagging
+        remarks: Resource Tagging
+      - reference-id: CCC.Core.CP22
+        strength: 0
+        remarks: Location Lock-In
