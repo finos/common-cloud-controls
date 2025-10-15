@@ -87,20 +87,11 @@ control-families:
                 strength: 0 # Not yet specified
               - reference-id: CCC.Core.TH06
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
               - reference-id: DCS-04
                 strength: 0 # Not yet specified
               - reference-id: DCS-06
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.10.1.1
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
       - id: CCC.ObjStor.CN03
         title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
         objective: |
@@ -132,20 +123,9 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
               - reference-id: DSP-16
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.1.4
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
-                strength: 0 # Not yet specified
-              - reference-id: CP-10
       - id: CCC.ObjStor.CN04
         title: Objects have an Effective Retention Policy by Default
         objective: |
@@ -181,20 +161,9 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
               - reference-id: DSP-16
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.1.4
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
-                strength: 0 # Not yet specified
-              - reference-id: CP-10
       - id: CCC.ObjStor.CN05
         title: Versioning is Enabled for All Objects in the Bucket
         objective: |
@@ -248,17 +217,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.1.4
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
-                strength: 0 # Not yet specified
-              - reference-id: CP-10
           - reference-id: CCM
             entries:
               - reference-id: DSP-16
@@ -285,22 +243,11 @@ control-families:
                 strength: 0 # Not yet specified
               - reference-id: CCC.Core.TH09
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-6
           - reference-id: CCM
             entries:
               - reference-id: DSP-07
                 strength: 0 # Not yet specified
               - reference-id: DSP-17
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.15.0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AU-9
-                strength: 0 # Not yet specified
-              - reference-id: SC-28
   - title: Identity and Access Management
     id: CCC.ObjStor.IAM
     controls:
@@ -340,19 +287,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-4
-                strength: 0 # Not yet specified
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.4.1
-                strength: 0 # Not yet specified
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-3
-                strength: 0 # Not yet specified
-              - reference-id: AC-6
           - reference-id: CCM
             entries:
-              - reference-id: DCS-09
+              - reference-id:
