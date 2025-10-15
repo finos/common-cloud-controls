@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"time"
@@ -41,6 +43,17 @@ var CoreCatalogReference = []layer2.MappingReference{
 		Title:   "FINOS CCC Core Catalog",
 		Version: "v2025.10",
 	},
+}
+
+// CoreControlFamilyDescriptions contains the standard descriptions for core control families
+var CoreControlFamilyDescriptions = map[string]string{
+	"Data":                           "The Data control family ensures the confidentiality, integrity, availability, and sovereignty of data across its lifecycle. These controls govern how data is transmitted, stored, replicated, and protected from unauthorized access, tampering, or exposure beyond defined trust perimeters.",
+	"Identity and Access Management": "The Identity and Access Management control family ensures that only trusted and authenticated entities can access resources. These controls establish strong authentication, enforce multi-factor verification, and restrict access to approved sources to prevent unauthorized use or data exfiltration.",
+}
+
+// buildCoreCatalogURL builds the URL for the CCC core catalog release asset
+func buildCoreCatalogURL(coreVersion string) string {
+	return fmt.Sprintf("https://github.com/finos/common-cloud-controls/releases/download/%s/CCC.Core_%s.yaml", coreVersion, coreVersion)
 }
 
 func readAndCompileCatalog() *layer2.Catalog {
@@ -243,12 +256,28 @@ func processImports(catalog *layer2.Catalog) error {
 		return nil // No CCC imports to process
 	}
 
-	// Load the core CCC catalog
-	cccCatalogPath := filepath.Join(viper.GetString("catalogs-dir"), "core/ccc")
-	if viper.GetBool("verbose") {
-		log.Printf("Loading core CCC catalog from: %s", cccCatalogPath)
+	// Determine desired core version from metadata.mapping-references
+	coreVersion := ""
+	for _, ref := range catalog.Metadata.MappingReferences {
+		if ref.Id == "CCC.Core" && ref.Version != "" {
+			coreVersion = ref.Version
+			break
+		}
 	}
-	cccCatalog, err := loadCatalog(cccCatalogPath)
+	if coreVersion == "" {
+		// Fallback to default from CoreCatalogReference
+		if len(CoreCatalogReference) > 0 {
+			coreVersion = CoreCatalogReference[0].Version
+		} else {
+			coreVersion = "v2025.10"
+		}
+	}
+
+	coreURL := buildCoreCatalogURL(coreVersion)
+	if viper.GetBool("verbose") {
+		log.Printf("Loading core CCC catalog from URL: %s", coreURL)
+	}
+	cccCatalog, err := loadCoreCatalogFromURL(coreURL)
 	if err != nil {
 		return fmt.Errorf("error loading core CCC catalog: %v", err)
 	}
@@ -288,6 +317,32 @@ func processImports(catalog *layer2.Catalog) error {
 	}
 
 	return nil
+}
+
+// loadCoreCatalogFromURL downloads a combined YAML catalog and parses it
+func loadCoreCatalogFromURL(url string) (*layer2.Catalog, error) {
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create request: %v", err)
+	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to download core catalog: %v", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("failed to download core catalog: status %d: %s", resp.StatusCode, string(body))
+	}
+	dataBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read core catalog response: %v", err)
+	}
+	var catalog layer2.Catalog
+	if err := yaml.Unmarshal(dataBytes, &catalog); err != nil {
+		return nil, fmt.Errorf("failed to parse core catalog YAML: %v", err)
+	}
+	return &catalog, nil
 }
 
 // mergeThreats adds the referenced threats from the source catalog to the target catalog
@@ -428,6 +483,16 @@ func mergeControls(targetCatalog, sourceCatalog *layer2.Catalog, entries []layer
 				}
 				targetCatalog.ControlFamilies = append(targetCatalog.ControlFamilies, newFamily)
 				targetFamily = &targetCatalog.ControlFamilies[len(targetCatalog.ControlFamilies)-1]
+			} else {
+				// Apply core description if the existing family doesn't have one
+				if targetFamily.Description == "" {
+					if description, exists := CoreControlFamilyDescriptions[targetFamily.Title]; exists {
+						if viper.GetBool("verbose") {
+							log.Printf("Applying core description to existing control family: %s", targetFamily.Title)
+						}
+						targetFamily.Description = description
+					}
+				}
 			}
 
 			// Add the control to the family
@@ -435,51 +500,4 @@ func mergeControls(targetCatalog, sourceCatalog *layer2.Catalog, entries []layer
 		}
 	}
 	return nil
-}
-
-// The following three functions might be useful when generating the markdown/pdf
-var globalCommonCatalog layer2.Catalog
-
-func getCommonControls(mappings []layer2.Mapping) []layer2.Control {
-	var commonControls []layer2.Control
-	for _, family := range globalCommonCatalog.ControlFamilies {
-		for _, control := range family.Controls {
-			for _, mapping := range mappings {
-				for _, entry := range mapping.Entries {
-					if control.Id == entry.ReferenceId {
-						commonControls = append(commonControls, control)
-					}
-				}
-			}
-		}
-	}
-	return commonControls
-}
-
-func getCommonCapabilities(mappings []layer2.Mapping) []layer2.Capability {
-	var commonCapabilities []layer2.Capability
-	for _, capability := range globalCommonCatalog.Capabilities {
-		for _, mapping := range mappings {
-			for _, entry := range mapping.Entries {
-				if capability.Id == entry.ReferenceId {
-					commonCapabilities = append(commonCapabilities, capability)
-				}
-			}
-		}
-	}
-	return commonCapabilities
-}
-
-func getCommonThreats(mappings []layer2.Mapping) []layer2.Threat {
-	var commonThreats []layer2.Threat
-	for _, threat := range globalCommonCatalog.Threats {
-		for _, mapping := range mappings {
-			for _, entry := range mapping.Entries {
-				if threat.Id == entry.ReferenceId {
-					commonThreats = append(commonThreats, threat)
-				}
-			}
-		}
-	}
-	return commonThreats
 }
