@@ -1,0 +1,38 @@
+- version: "2025.10"
+  release-manager:
+    name: "Eddie Knight"
+    github-id: "eddie-knight"
+    company: "Sonatype"
+    quote: |
+      This initial release of the FINOS CCC Core Catalog marks a shift
+      toward increased reusability of controls across the broader CCC
+      catalog ecosystem. In this new approach, catalogs can now provide
+      users with increased consistency by maintaining core controls
+      independently of each isolated catalog release.
+  change-log:
+    - Initial release of CCC.Core as a standalone catalog
+  contributors:
+    - name: Michael Lysaght
+      github-id: mlysaght2017
+      company: Citi
+    - name: Sonali Mendis
+      github-id: smendis-scottlogic
+      company: Scott Logic
+    - name: Gabriela Georgieva
+      github-id: gabriellavengeo
+      company: ControlPlane
+    - name: Jennifer Power
+      github-id: jpower432
+      company: "Red Hat"
+    - name: Rob
+      github-id: rkenefeck
+      company: ControlPlane
+    - name: Andrew Martin
+      github-id: sublimino
+      company: ControlPlane
+    - name: Eddie Knight
+      github-id: eddie-knight
+      company: Sonatype
+    - name: Rob Moffat
+      github-id: robmoffat
+      company: FINOS
