@@ -1,6 +1,12 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
+      - reference-id: CCC.Core.CP01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP04
+        remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP06
         remarks: Access Control
       - reference-id: CCC.Core.CP07
@@ -13,6 +19,10 @@ imported-capabilities:
         remarks: Log Publication
       - reference-id: CCC.Core.CP14
         remarks: API Access
+      - reference-id: CCC.Core.CP15
+        remarks: Cost Management
+      - reference-id: CCC.Core.CP16
+        remarks: Budgeting
       - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
       - reference-id: CCC.Core.CP19
@@ -21,6 +31,12 @@ imported-capabilities:
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP25
+        remarks: Random Access Memory Allocation
+      - reference-id:  CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
 
 capabilities:
   - id: CCC.SvlsComp.CP01

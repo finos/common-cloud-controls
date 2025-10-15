@@ -1,0 +1,31 @@
+metadata:
+    id: CCC.Core
+    title: Common Cloud Controls Core
+    description: |
+        The Common Cloud Controls Core catalog serves as a foundational repository
+        of reusable security controls, capabilities, and threat models that can be
+        referenced and imported by other service-specific catalogs. This provides
+        a centralized mechanism for maintaining consistency and reducing
+        duplication across the broader controls ecosystem.
+    version: "v2025.10"
+    mapping-references:
+        - id: CCM
+          title: Cyber Controls Matrix
+          version: v4.0
+          description: |
+            The Cloud Controls Matrix (CCM) is a cybersecurity framework developed
+            by the Cloud Security Alliance (CSA) to provide a structured and
+            standardized set of security controls for cloud computing environments.
+            The primary purpose of CCM is to help organizations assess the overall
+            security posture of their cloud infrastructure and services.
+          url: https://csf.tools/reference/cloud-controls-matrix/v4-0/
+        - id: MITRE-ATT&CK
+          title: MITRE ATT&CK Framework
+          version: "12.0"
+          description: |
+            MITRE ATT&CK® is a globally-accessible knowledge base of adversary
+            tactics and techniques based on real-world observations. The ATT&CK
+            knowledge base is used as a foundation for the development of specific
+            threat models and methodologies in the private sector, in government,
+            and in the cybersecurity product and service community.
+          url: https://attack.mitre.org/

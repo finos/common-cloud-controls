@@ -1,18 +1,39 @@
 metadata:
   id: CCC.BatchProc
-  title: Batch Processing
+  title: CCC Batch Processing
   description: |
-    This documents the minimal set of capabilities that should be present
-    for a batch processing service to be considered for use in financial
-    services ecosystems.
+    Batch processing services enable users to execute large-scale,
+    parallelizable computing tasks, such as data processing, analytics, and
+    batch jobs. These services automatically allocate and manage compute
+    to execute batch jobs efficiently and cost-effectively. Users
+    can specify job requirements, dependencies, and scheduling preferences
+    to optimize job execution.
   version: DEV
-  last-modified: "2025-04-19T00:00:00Z"
+  last-modified: "2025-10-15T12:34:00-04:00"
+  applicability-categories:
+    - id: tlp_red
+      title: TLP:RED
+      description: Data is not for disclosure, restricted to explicitly authorized entities only.
+    - id: tlp_amber
+      title: TLP:AMBER
+      description: Data is for disclosure to members of explicitly authorized organizational structures.
+    - id: tlp_green
+      title: TLP:GREEN
+      description: Data may be freely distributed through specific channels that do not include unrestricted public access.
+    - id: tlp_clear
+      title: TLP:CLEAR
+      description: Data has no distribution restrictions.
+  mapping-references:
+    - id: CCC.Core
+      title: FINOS CCC Core Catalog
+      version: v2025.10
 threats:
   - id: CCC.Core.TH01
-    title: Access Control is Misconfigured
+    title: Access is Granted to Unauthorized Users
     description: |
-      Misconfigured access controls may grant excessive privileges or fail to
-      restrict unauthorized access to the service and its child resources.
+      Logic designed to give different permissions to different entities may
+      be misconfigured or manipulated, allowing unauthorized entities to access
+      restricted parts of the service, its data, or its child resources.
       This could result in a loss of data confidentiality or tolerance of
       unauthorized actions which impact the integrity and availability of
       resources and data.
@@ -21,7 +42,10 @@ threats:
         entries:
           - reference-id: CCC.Core.CP06
             strength: 0
-            remarks: Identity Based Access Control
+            remarks: Access Control
+          - reference-id: CCC.Core.CP29
+            strength: 0
+            remarks: Active Ingestion
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -48,7 +72,7 @@ threats:
             remarks: Transfer Data to Cloud Account
           - reference-id: T1567
             strength: 0
-            remarks: Exfiltration Over Web Services
+            remarks: Exfiltration Over Web Service
           - reference-id: T1048
             strength: 0
             remarks: Exfiltration Over Alternative Protocol
@@ -95,7 +119,7 @@ threats:
         entries:
           - reference-id: CCC.Core.CP08
             strength: 0
-            remarks: Multi-zone Deployment
+            remarks: Data Replication
           - reference-id: CCC.Core.CP22
             strength: 0
             remarks: Location Lock-In
@@ -148,7 +172,7 @@ threats:
         entries:
           - reference-id: CCC.Core.CP08
             strength: 0
-            remarks: Multi-zone Deployment
+            remarks: Data Replication
           - reference-id: CCC.Core.CP12
             strength: 0
             remarks: Recovery
@@ -214,7 +238,7 @@ threats:
         entries:
           - reference-id: CCC.Core.CP03
             strength: 0
-            remarks: Access/Activity Logs
+            remarks: Access Log Publication
           - reference-id: CCC.Core.CP10
             strength: 0
             remarks: Logging
@@ -223,7 +247,7 @@ threats:
         entries:
           - reference-id: T1070
             strength: 0
-            remarks: Indicator Removal on Host
+            remarks: Indicator Removal
           - reference-id: T1565
             strength: 0
             remarks: Data Manipulation (for altering log entries)
@@ -244,16 +268,16 @@ threats:
         entries:
           - reference-id: CCC.Core.CP03
             strength: 0
-            remarks: Access/Activity Logs
+            remarks: Access Log Publication
           - reference-id: CCC.Core.CP09
             strength: 0
-            remarks: Monitoring
+            remarks: Metrics Publication
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
           - reference-id: T1003
             strength: 0
-            remarks: Credential Dumping
+            remarks: OS Credential Dumping
           - reference-id: T1007
             strength: 0
             remarks: System Service Discovery
@@ -303,7 +327,7 @@ threats:
         entries:
           - reference-id: CCC.Core.CP07
             strength: 0
-            remarks: Event Notifications
+            remarks: Event Publication
           - reference-id: CCC.Core.CP17
             strength: 0
             remarks: Alerting
@@ -316,9 +340,6 @@ threats:
           - reference-id: T1001.001
             strength: 0
             remarks: 'Data Obfuscation: Junk Data'
-          - reference-id: T1491.001
-            strength: 0
-            remarks: 'Defacement: Internal Defacement'
   - id: CCC.Core.TH12
     title: Resource Constraints are Exhausted
     description: |
@@ -491,9 +512,9 @@ capabilities:
   - id: CCC.Core.CP04
     title: Transaction Rate Limits
     description: |
-      The service always provides industry-standard network throughput
-      up to a user-specified rate limit, beyond which excess requests
-      may be throttled, delayed, or rejected.
+      The service can throttle, delay, or reject excess requests when
+      transactions exceed a user-specified rate limit, and always
+      provides industry-standard throughput up to that limit.
   - id: CCC.Core.CP06
     title: Access Control
     description: |
@@ -581,19 +602,37 @@ imported-capabilities:
         remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP06
         strength: 0
-        remarks: Identity-Based Access Control
+        remarks: Access Control
       - reference-id: CCC.Core.CP07
         strength: 0
-        remarks: Event Notifications
+        remarks: Event Publication
       - reference-id: CCC.Core.CP09
         strength: 0
-        remarks: Monitoring
+        remarks: Metrics Publication
       - reference-id: CCC.Core.CP10
         strength: 0
-        remarks: Logging
+        remarks: Log Publication
       - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
       - reference-id: CCC.Core.CP19
         strength: 0
-        remarks: On-demand Scaling
+        remarks: Resource Scaling
+      - reference-id: CCC.Core.F23
+        strength: 0
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.F24
+        strength: 0
+        remarks: Core Processing Units
+      - reference-id: CCC.Core.F25
+        strength: 0
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.F26
+        strength: 0
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.F28
+        strength: 0
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.F29
+        strength: 0
+        remarks: Active Ingestion

@@ -1,5 +1,6 @@
 control-families:
   - title: Data
+    id: CCC.Core.Data
     description: |
       The Data control family ensures the confidentiality, integrity,
       availability, and sovereignty of data across its lifecycle.
@@ -102,16 +103,6 @@ control-families:
               - reference-id: IVS-07
                 remarks: Migration to Cloud Environments (encrypt when migrating servers)
                 strength: 2
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-02
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.13.1.1
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-8
-              - reference-id: SC-13
       - id: CCC.Core.CN13
         title: Minimize Lifetime of Encryption and Authentication Certificates
         objective: |
@@ -155,6 +146,7 @@ control-families:
               Track certificate expiration dates and automate certificate
               renewal where possible. Use certificate management tools to ensure
               only certificates from trusted authorities are deployed.
+        guideline-mappings: []
         threat-mappings:
           - reference-id: CCC
             entries:
@@ -199,20 +191,11 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH03
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
               - reference-id: DSP-19
                 remarks: Data Location (specify and document processing and backup locations)
                 strength: 10
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.11.1.1
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-6
       - id: CCC.Core.CN08
         title: Replicate Data to Multiple Locations
         objective: |
@@ -249,9 +232,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH06
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.PT-5
           - reference-id: CCM
             entries:
               - reference-id: BCR-08
@@ -263,12 +243,6 @@ control-families:
               - reference-id: BCR-11
                 remarks: Equipment Redundancy
                 strength: 1
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: CP-2
-              - reference-id: CP-10
       - id: CCC.Core.CN09
         title: Ensure Integrity of Access Logs
         objective: |
@@ -325,12 +299,6 @@ control-families:
               - reference-id: CCC.Core.TH09
               - reference-id: CCC.Core.TH04
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-6
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AU-9
           - reference-id: CCM
             entries:
               - reference-id: LOG-02
@@ -342,8 +310,6 @@ control-families:
               - reference-id: LOG-09
                 remarks: Log Protection (protects audit records from unauthorized access)
                 strength: 5
-          - reference-id: ISO_27001
-            entries: []
       - id: CCC.Core.CN10
         title: Restrict Data Replication to Trust Perimeter
         objective: |
@@ -365,9 +331,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH04
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-5
           - reference-id: CCM
             entries:
               - reference-id: DSP-10
@@ -376,11 +339,6 @@ control-families:
               - reference-id: DSP-19
                 remarks: Data Location (specify and document the physical locations of data)
                 strength: 10
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-4
       - id: CCC.Core.CN02
         title: Encrypt Data for Storage
         objective: |
@@ -401,9 +359,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
               - reference-id: CEK-03
@@ -416,12 +371,6 @@ control-families:
                 remarks: Storage Encryption (on managed endpoint devices)
                 strength: 10
               - reference-id: DSP-17
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-13
-              - reference-id: SC-28
       - id: CCC.Core.CN11
         title: Protect Encryption Keys
         objective: |
@@ -482,9 +431,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH16
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
               - reference-id: CEK-08
@@ -496,13 +442,6 @@ control-families:
               - reference-id: CEK-12
                 remarks: Key Rotation
                 strength: 10
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.10.1.2
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-12
-              - reference-id: SC-17
       - id: CCC.Core.CN14
         title: Maintain Recent Backups
         objective: |
@@ -554,6 +493,7 @@ control-families:
                 remarks: Data is Lost or Corrupted
         guideline-mappings: []
   - title: Identity and Access Management
+    id: CCC.Core.IAM
     description: |
       The Identity and Access Management control family ensures
       that only trusted and authenticated entities can access
@@ -619,19 +559,6 @@ control-families:
               - reference-id: IAM-14
                 remarks: Strong Authentication (Define, implement and evaluate processes - including MFA)
                 strength: 3
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-7
-          - reference-id: CCM
-            entries:
-              - reference-id: IAM-03
-              - reference-id: IAM-08
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.4.2
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: IA-2
       - id: CCC.Core.CN05
         title: Prevent Access from Untrusted Entities
         objective: |
@@ -703,9 +630,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-3
           - reference-id: CCM
             entries:
               - reference-id: DSP-01
@@ -722,13 +646,8 @@ control-families:
                 strength: 1
               - reference-id: DSP-17
                 remarks: Sensitive Data Protection
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.13.1.3
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-3
   - title: Logging & Monitoring
+    id: CCC.Core.LM
     description: |
       The Logging & Monitoring control family ensures that access,
       changes, and security-relevant events are captured, monitored,
@@ -773,21 +692,11 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: DE.AE-3
           - reference-id: CCM
             entries:
               - reference-id: LOG-08
                 remarks: Log Records (Generate audit records containing relevant security information)
                 strength: 5
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AU-2
-              - reference-id: AU-3
-              - reference-id: AU-12
       - id: CCC.Core.CN07
         title: Alert on Unusual Enumeration Activity
         objective: |
@@ -828,9 +737,6 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH15
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: DE.AE-1
           - reference-id: CCM
             entries:
               - reference-id: LOG-05
@@ -839,8 +745,3 @@ control-families:
               - reference-id: SEF-05
                 remarks: Incident Response Metrics (establish and monitor metrics)
                 strength: 3
-          - reference-id: ISO_27001
-            entries: []
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AU-6

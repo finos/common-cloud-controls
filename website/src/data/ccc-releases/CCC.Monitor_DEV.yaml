@@ -1,12 +1,12 @@
 metadata:
-  id: CCC.Monitoring
+  id: CCC.Monitor
   title: CCC Monitoring
   description: |
     Provides the ability to continuously observe, track, and analyze
     the performance, availability, and health of the service resources or
     applications.
   version: DEV
-  last-modified: "2025-10-15T12:27:20-04:00"
+  last-modified: "2025-10-15T12:34:02-04:00"
   applicability-categories:
     - id: tlp_red
       title: TLP:RED

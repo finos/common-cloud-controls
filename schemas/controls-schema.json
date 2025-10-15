@@ -45,6 +45,10 @@
         "items": {
           "type": "object",
           "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique identifier for the control family (e.g., 'Data', 'IAM', 'LM')"
+            },
             "title": {
               "type": "string",
               "description": "Name of the control family (e.g., 'Data')"
@@ -97,7 +101,7 @@
                           "description": "Optional recommendation to satisfy this requirement"
                         }
                       },
-                      "required": ["id", "text", "applicability", "recommendation"],
+                      "required": ["id", "text", "applicability"],
                       "additionalProperties": false
                     }
                   },
@@ -178,7 +182,7 @@
               }
             }
           },
-          "required": ["title", "description"],
+          "required": ["id", "title", "description"],
           "additionalProperties": false
         }
       }

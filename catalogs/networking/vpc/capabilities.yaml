@@ -11,6 +11,10 @@ imported-capabilities:
         remarks: Log Publication
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
+      - reference-id: CCC.Core.CP22
+        remarks: Location Lock-In
+      - reference-id: CCC.Core.CP28
+        remarks: Command-line Interface
 
 capabilities:
   - id: CCC.VPC.CP01
