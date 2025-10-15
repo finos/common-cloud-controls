@@ -19,7 +19,7 @@ metadata:
             The primary purpose of CCM is to help organizations assess the overall
             security posture of their cloud infrastructure and services.
           url: https://csf.tools/reference/cloud-controls-matrix/v4-0/
-        - id: ATT&CK
+        - id: MITRE-ATT&CK
           title: MITRE ATT&CK Framework
           version: "12.0"
           description: |

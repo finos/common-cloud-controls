@@ -1,5 +1,6 @@
 control-families:
   - title: Data
+    id: CCC.Core.Data
     description: |
       The Data control family ensures the confidentiality, integrity,
       availability, and sovereignty of data across its lifecycle.
@@ -492,6 +493,7 @@ control-families:
                 remarks: Data is Lost or Corrupted
         guideline-mappings: []
   - title: Identity and Access Management
+    id: CCC.Core.IAM
     description: |
       The Identity and Access Management control family ensures
       that only trusted and authenticated entities can access
@@ -645,6 +647,7 @@ control-families:
               - reference-id: DSP-17
                 remarks: Sensitive Data Protection
   - title: Logging & Monitoring
+    id: CCC.Core.LM
     description: |
       The Logging & Monitoring control family ensures that access,
       changes, and security-relevant events are captured, monitored,
