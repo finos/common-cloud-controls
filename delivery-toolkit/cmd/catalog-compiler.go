@@ -45,6 +45,12 @@ var CoreCatalogReference = []layer2.MappingReference{
 	},
 }
 
+// CoreControlFamilyDescriptions contains the standard descriptions for core control families
+var CoreControlFamilyDescriptions = map[string]string{
+	"Data":                           "The Data control family ensures the confidentiality, integrity, availability, and sovereignty of data across its lifecycle. These controls govern how data is transmitted, stored, replicated, and protected from unauthorized access, tampering, or exposure beyond defined trust perimeters.",
+	"Identity and Access Management": "The Identity and Access Management control family ensures that only trusted and authenticated entities can access resources. These controls establish strong authentication, enforce multi-factor verification, and restrict access to approved sources to prevent unauthorized use or data exfiltration.",
+}
+
 // buildCoreCatalogURL builds the URL for the CCC core catalog release asset
 func buildCoreCatalogURL(coreVersion string) string {
 	return fmt.Sprintf("https://github.com/finos/common-cloud-controls/releases/download/%s/CCC.Core_%s.yaml", coreVersion, coreVersion)
@@ -477,6 +483,16 @@ func mergeControls(targetCatalog, sourceCatalog *layer2.Catalog, entries []layer
 				}
 				targetCatalog.ControlFamilies = append(targetCatalog.ControlFamilies, newFamily)
 				targetFamily = &targetCatalog.ControlFamilies[len(targetCatalog.ControlFamilies)-1]
+			} else {
+				// Apply core description if the existing family doesn't have one
+				if targetFamily.Description == "" {
+					if description, exists := CoreControlFamilyDescriptions[targetFamily.Title]; exists {
+						if viper.GetBool("verbose") {
+							log.Printf("Applying core description to existing control family: %s", targetFamily.Title)
+						}
+						targetFamily.Description = description
+					}
+				}
 			}
 
 			// Add the control to the family
@@ -484,51 +500,4 @@ func mergeControls(targetCatalog, sourceCatalog *layer2.Catalog, entries []layer
 		}
 	}
 	return nil
-}
-
-// The following three functions might be useful when generating the markdown/pdf
-var globalCommonCatalog layer2.Catalog
-
-func getCommonControls(mappings []layer2.Mapping) []layer2.Control {
-	var commonControls []layer2.Control
-	for _, family := range globalCommonCatalog.ControlFamilies {
-		for _, control := range family.Controls {
-			for _, mapping := range mappings {
-				for _, entry := range mapping.Entries {
-					if control.Id == entry.ReferenceId {
-						commonControls = append(commonControls, control)
-					}
-				}
-			}
-		}
-	}
-	return commonControls
-}
-
-func getCommonCapabilities(mappings []layer2.Mapping) []layer2.Capability {
-	var commonCapabilities []layer2.Capability
-	for _, capability := range globalCommonCatalog.Capabilities {
-		for _, mapping := range mappings {
-			for _, entry := range mapping.Entries {
-				if capability.Id == entry.ReferenceId {
-					commonCapabilities = append(commonCapabilities, capability)
-				}
-			}
-		}
-	}
-	return commonCapabilities
-}
-
-func getCommonThreats(mappings []layer2.Mapping) []layer2.Threat {
-	var commonThreats []layer2.Threat
-	for _, threat := range globalCommonCatalog.Threats {
-		for _, mapping := range mappings {
-			for _, entry := range mapping.Entries {
-				if threat.Id == entry.ReferenceId {
-					commonThreats = append(commonThreats, threat)
-				}
-			}
-		}
-	}
-	return commonThreats
 }
