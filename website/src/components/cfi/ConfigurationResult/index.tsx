@@ -95,10 +95,12 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
     });
 
     // Find missing requirements
-    const missingRequirements = Array.from(allRequirementsInCatalog).filter((reqId) => !testedRequirements.has(reqId));
+    // Filter to only include requirements that match this catalog
+    const missingRequirements = Array.from(allRequirementsInCatalog).filter((reqId) => !testedRequirements.has(reqId) && extractCatalogId(reqId) === catalogId);
 
     // Convert tested requirements to objects with URLs and titles
-    const testedRequirementsArray = Array.from(testedRequirements);
+    // Filter to only include requirements that match this catalog
+    const testedRequirementsArray = Array.from(testedRequirements).filter((reqId) => extractCatalogId(reqId) === catalogId);
     summary.testedRequirements = testedRequirementsArray.map((reqId) => {
       // Find the requirement data to get title and generate URL
       let title = reqId;
