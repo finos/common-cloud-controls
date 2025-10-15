@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"time"
@@ -41,6 +43,11 @@ var CoreCatalogReference = []layer2.MappingReference{
 		Title:   "FINOS CCC Core Catalog",
 		Version: "v2025.10",
 	},
+}
+
+// buildCoreCatalogURL builds the URL for the CCC core catalog release asset
+func buildCoreCatalogURL(coreVersion string) string {
+	return fmt.Sprintf("https://github.com/finos/common-cloud-controls/releases/download/%s/CCC.Core_%s.yaml", coreVersion, coreVersion)
 }
 
 func readAndCompileCatalog() *layer2.Catalog {
@@ -243,12 +250,28 @@ func processImports(catalog *layer2.Catalog) error {
 		return nil // No CCC imports to process
 	}
 
-	// Load the core CCC catalog
-	cccCatalogPath := filepath.Join(viper.GetString("catalogs-dir"), "core/ccc")
-	if viper.GetBool("verbose") {
-		log.Printf("Loading core CCC catalog from: %s", cccCatalogPath)
+	// Determine desired core version from metadata.mapping-references
+	coreVersion := ""
+	for _, ref := range catalog.Metadata.MappingReferences {
+		if ref.Id == "CCC.Core" && ref.Version != "" {
+			coreVersion = ref.Version
+			break
+		}
 	}
-	cccCatalog, err := loadCatalog(cccCatalogPath)
+	if coreVersion == "" {
+		// Fallback to default from CoreCatalogReference
+		if len(CoreCatalogReference) > 0 {
+			coreVersion = CoreCatalogReference[0].Version
+		} else {
+			coreVersion = "v2025.10"
+		}
+	}
+
+	coreURL := buildCoreCatalogURL(coreVersion)
+	if viper.GetBool("verbose") {
+		log.Printf("Loading core CCC catalog from URL: %s", coreURL)
+	}
+	cccCatalog, err := loadCoreCatalogFromURL(coreURL)
 	if err != nil {
 		return fmt.Errorf("error loading core CCC catalog: %v", err)
 	}
@@ -288,6 +311,32 @@ func processImports(catalog *layer2.Catalog) error {
 	}
 
 	return nil
+}
+
+// loadCoreCatalogFromURL downloads a combined YAML catalog and parses it
+func loadCoreCatalogFromURL(url string) (*layer2.Catalog, error) {
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create request: %v", err)
+	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to download core catalog: %v", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("failed to download core catalog: status %d: %s", resp.StatusCode, string(body))
+	}
+	dataBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read core catalog response: %v", err)
+	}
+	var catalog layer2.Catalog
+	if err := yaml.Unmarshal(dataBytes, &catalog); err != nil {
+		return nil, fmt.Errorf("failed to parse core catalog YAML: %v", err)
+	}
+	return &catalog, nil
 }
 
 // mergeThreats adds the referenced threats from the source catalog to the target catalog
