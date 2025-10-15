@@ -169,3 +169,16 @@ Below is a summary table of the controls, which is then followed by an elucidati
 </div>
 {{- end }}
 {{- end }}
+
+---
+
+## About this Catalog
+
+This document is part of the FINOS Common Cloud Controls project.
+
+- **Project Site**: https://ccc.finos.org
+- **Contribute**: https://github.com/finos/common-cloud-controls
+- **Latest Releases**: https://github.com/finos/common-cloud-controls/releases
+- **License**: Community Specification License 1.0 (see LICENSE in the repository)
+
+Contributions, feedback, and suggestions are welcome. Please open an issue or pull request in the repository.
