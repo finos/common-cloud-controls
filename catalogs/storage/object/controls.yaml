@@ -31,7 +31,7 @@ imported-controls:
 
 control-families:
   - title: Data
-    description: 'TODO: Describe this control family'
+    id: CCC.ObjStor.Data
     controls:
       - id: CCC.ObjStor.CN01
         title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
@@ -302,7 +302,7 @@ control-families:
                 strength: 0 # Not yet specified
               - reference-id: SC-28
   - title: Identity and Access Management
-    description: 'TODO: Describe this control family'
+    id: CCC.ObjStor.IAM
     controls:
       - id: CCC.ObjStor.CN02
         title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
