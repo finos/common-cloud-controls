@@ -25,7 +25,7 @@ control-families:
     id: CCC.ObjStor.Data
     controls:
       - id: CCC.ObjStor.CN01
-        title: Restrict Requests to Buckets or Objects with Untrusted KMS Keys
+        title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
         objective: |
           Prevent any requests to object storage buckets or objects using
           untrusted KMS keys to protect against unauthorized data encryption,
