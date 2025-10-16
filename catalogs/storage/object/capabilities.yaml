@@ -78,7 +78,8 @@ capabilities:
   - id: CCC.ObjStor.CP08
     title: Lifecycle Policies
     description: |
-      Supports defining policies to automate data management tasks.
+      Supports defining policies to automate data management tasks, especially
+      those related to cost management.
 
   - id: CCC.ObjStor.CP09
     title: Object Modification Locks

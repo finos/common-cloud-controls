@@ -1,0 +1,33 @@
+- version: "2025.10"
+  release-manager:
+    name: "Eddie Knight"
+    github-id: "eddie-knight"
+    company: "Sonatype"
+    quote: |
+      This release updates Object Storage to align with CCC.Core v2025.10
+      and reflects iterative improvements and clarifications based on community
+      feedback.
+  change-log:
+    - Aligned with CCC.Core v2025.10 framework with more imported entries
+    - Updated all ID formats for consistency with the core catalog
+    - Added CSA CCM mappings and removed other unverified mappings
+    - Standardized control family descriptions
+  contributors:
+    - name: Eddie Knight
+      github-id: eddie-knight
+      company: Sonatype
+    - name: Rob Moffat
+      github-id: robmoffat
+      company: FINOS
+    - name: Sonali Mendis
+      github-id: smendis-scottlogic
+      company: Scott Logic
+    - name: Gabriela Georgieva
+      github-id: gabriellavengeo
+      company: ControlPlane
+    - name: Jennifer Power
+      github-id: jpower432
+      company: ""
+    - name: Michael Lysaght
+      github-id: mlysaght2017
+      company: Citi
