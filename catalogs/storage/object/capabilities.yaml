@@ -19,14 +19,12 @@ imported-capabilities:
         remarks: Data Replication
       - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.CP10
-        remarks: Log Publication
-      - reference-id: CCC.Core.CP11
-        remarks: Backup
-      - reference-id: CCC.Core.CP12
-        remarks: Recovery
       - reference-id: CCC.Core.CP14
         remarks: API Access
+      - reference-id: CCC.Core.CP15
+        remarks: Cost Management
+      - reference-id: CCC.Core.CP16
+        remarks: Budgeting
       - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
       - reference-id: CCC.Core.CP20
@@ -35,8 +33,6 @@ imported-capabilities:
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
-      - reference-id: CCC.Core.CP29
-        remarks: Active Ingestion
 
 capabilities:
   - id: CCC.ObjStor.CP01
