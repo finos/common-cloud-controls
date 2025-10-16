@@ -47,7 +47,8 @@ var CoreCatalogReference = []layer2.MappingReference{
 
 // CoreControlFamilyDescriptions contains the standard descriptions for core control families
 var CoreControlFamilyDescriptions = map[string]string{
-	"Data":                           "The Data control family ensures the confidentiality, integrity, availability, and sovereignty of data across its lifecycle. These controls govern how data is transmitted, stored, replicated, and protected from unauthorized access, tampering, or exposure beyond defined trust perimeters.",
+	"Data": "The Data control family ensures the confidentiality, integrity, availability, and sovereignty of data across its lifecycle. These controls govern how data is transmitted, stored, replicated, and protected from unauthorized access, tampering, or exposure beyond defined trust perimeters.",
+
 	"Identity and Access Management": "The Identity and Access Management control family ensures that only trusted and authenticated entities can access resources. These controls establish strong authentication, enforce multi-factor verification, and restrict access to approved sources to prevent unauthorized use or data exfiltration.",
 }
 
