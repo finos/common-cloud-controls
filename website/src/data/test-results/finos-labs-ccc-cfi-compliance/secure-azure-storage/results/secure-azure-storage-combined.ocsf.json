@@ -7,12 +7,12 @@
     "class_name": "Compliance Finding",
     "class_uid": 2004,
     "finding_info": {
-      "created_time": 1760532287,
-      "created_time_dt": "2025-10-15T12:44:47Z",
+      "created_time": 1760904028,
+      "created_time_dt": "2025-10-19T20:00:28Z",
       "desc": "Compliance test scenario: Cleanup",
       "title": "Cleanup",
       "types": [],
-      "uid": "ccc-test-487-1760532287"
+      "uid": "ccc-test-487-1760904028"
     },
     "message": "Cleanup",
     "metadata": {
@@ -36,7 +36,7 @@
           "details": " service on :",
           "metadata": {
             "findings": [],
-            "name": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
+            "name": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
             "region": "eastus",
             "status": "ACTIVE",
             "tags": [],
@@ -49,10 +49,10 @@
         "labels": [
           "{\"Owner\": \"CFI\", \"Environment\": \"Production\"}"
         ],
-        "name": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
+        "name": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
         "region": "eastus",
         "type": "Microsoft.Storage/storageAccounts",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "severity": "Medium",
@@ -61,8 +61,8 @@
     "status_code": "SKIP",
     "status_detail": "✓ a cloud api for \"{Provider}\" in \"api\"\n✓ I call \"{api}\" with \"GetServiceAPI\" with parameter \"object-storage\"\n✓ I refer to \"{result}\" as \"storage\"\n✓ I call \"{api}\" with \"GetServiceAPI\" with parameter \"iam\"\n✓ I refer to \"{result}\" as \"iamService\"\n✗ I call \"{storage}\" with \"CreateBucket\" with parameter \"test-bucket-obj-write\" - Error: reflect: call of reflect.Value.MethodByName on zero Value\n⊘ I refer to \"{result}\" as \"bucket\" (skipped)\n⊘ I call \"{storage}\" with \"DeleteBucket\" with parameter \"{bucket.ID}\" (skipped)\n⊘ I call \"{iamService}\" with \"DestroyUser\" with parameter \"{testUserTrusted}\" (skipped)\n⊘ I call \"{iamService}\" with \"DestroyUser\" with parameter \"{testUserUntrusted}\" (skipped)",
     "status_id": 1,
-    "time": 1760532287,
-    "time_dt": "2025-10-15T12:44:47Z",
+    "time": 1760904028,
+    "time_dt": "2025-10-19T20:00:28Z",
     "type_name": "Compliance Finding: Test",
     "type_uid": 200401,
     "unmapped": {

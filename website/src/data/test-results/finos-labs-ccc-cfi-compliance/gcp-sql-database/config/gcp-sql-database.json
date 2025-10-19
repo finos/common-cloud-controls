@@ -1,0 +1,9 @@
+{
+    "id": "gcp-sql-database",
+    "provider": "gcp",
+    "service": "database",
+    "name": "CCC Google Cloud SQL Database Terraform Module",
+    "description": "This module creates secure Google Cloud SQL databases with encryption, networking, monitoring, and advanced security features.",
+    "path": "remote/gcp/sqldatabase",
+    "git": "https://github.com/terraform-google-modules/terraform-google-sql-db"
+}

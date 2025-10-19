@@ -1,0 +1,9 @@
+{
+    "id": "aws-bedrock",
+    "provider": "aws",
+    "service": "ai",
+    "name": "CCC AWS Bedrock Terraform Module",
+    "description": "This module creates secure AWS Bedrock resources with foundation models, inference endpoints, and advanced AI capabilities.",
+    "path": "remote/aws/bedrock",
+    "git": "https://github.com/aws-ia/terraform-aws-bedrock"
+}

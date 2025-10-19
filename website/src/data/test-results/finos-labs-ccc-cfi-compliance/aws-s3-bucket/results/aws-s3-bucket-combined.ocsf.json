@@ -7,12 +7,12 @@
     "class_name": "Compliance Finding",
     "class_uid": 2004,
     "finding_info": {
-      "created_time": 1760531585,
-      "created_time_dt": "2025-10-15T12:33:05Z",
+      "created_time": 1760898494,
+      "created_time_dt": "2025-10-19T18:28:14Z",
       "desc": "Compliance test scenario: Cleanup",
       "title": "Cleanup",
       "types": [],
-      "uid": "ccc-test-487-1760531585"
+      "uid": "ccc-test-487-1760898494"
     },
     "message": "Cleanup",
     "metadata": {
@@ -61,8 +61,8 @@
     "status_code": "PASS",
     "status_detail": "✓ a cloud api for \"{Provider}\" in \"api\"\n✓ I call \"{api}\" with \"GetServiceAPI\" with parameter \"object-storage\"\n✓ I refer to \"{result}\" as \"storage\"\n✓ I call \"{api}\" with \"GetServiceAPI\" with parameter \"iam\"\n✓ I refer to \"{result}\" as \"iamService\"\n✓ I call \"{storage}\" with \"CreateBucket\" with parameter \"test-bucket-obj-write\"\n✓ I refer to \"{result}\" as \"bucket\"\n✓ I call \"{storage}\" with \"DeleteBucket\" with parameter \"{bucket.ID}\"\n✓ I call \"{iamService}\" with \"DestroyUser\" with parameter \"{testUserTrusted}\"\n✓ I call \"{iamService}\" with \"DestroyUser\" with parameter \"{testUserUntrusted}\"",
     "status_id": 1,
-    "time": 1760531585,
-    "time_dt": "2025-10-15T12:33:05Z",
+    "time": 1760898494,
+    "time_dt": "2025-10-19T18:28:14Z",
     "type_name": "Compliance Finding: Test",
     "type_uid": 200401,
     "unmapped": {
