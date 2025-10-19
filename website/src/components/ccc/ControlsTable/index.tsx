@@ -16,6 +16,8 @@ export function ControlsTable({ controls, releaseSlug, title = "Controls" }: Con
     return null;
   }
 
+  const sortedControls = [...controls].sort((a, b) => a.id.localeCompare(b.id));
+
   return (
     <Card>
       <CardHeader>
@@ -35,7 +37,7 @@ export function ControlsTable({ controls, releaseSlug, title = "Controls" }: Con
             </TableRow>
           </TableHeader>
           <TableBody>
-            {controls.map((control) => (
+            {sortedControls.map((control) => (
               <TableRow key={control.id}>
                 <TableCell>
                   <Link to={`${releaseSlug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">

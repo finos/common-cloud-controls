@@ -31,39 +31,18 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
-        "CIS-2.0": [
+        "CIS-3.0": [
           "5.1"
         ],
-        "MITRE-ATTACK": [
-          "T1190"
+        "SOC2": [
+          "cc_6_1"
         ],
         "ISO27001-2022": [
           "A.8.1",
           "A.8.12"
         ],
-        "CCC": [
-          "CCC.AuditLog.C04.TR01",
-          "CCC.AuditLog.C05.TR01",
-          "CCC.AuditLog.C10.TR01",
-          "CCC.AuditLog.C10.TR02",
-          "CCC.Build.C03.TR01",
-          "CCC.GenAI.C03.TR01",
-          "CCC.GenAI.C04.TR01",
-          "CCC.GenAI.C08.TR01",
-          "CCC.Logging.C05.TR01",
-          "CCC.Logging.C05.TR02",
-          "CCC.MLDE.CN08.AR02",
-          "CCC.SvlsComp.CN01.AR01",
-          "CCC.Vector.CN03.AR01",
-          "CCC.Core.CN01.AR03",
-          "CCC.Core.CN03.AR02",
-          "CCC.Core.CN03.AR04",
-          "CCC.Core.CN05.AR01",
-          "CCC.Core.CN05.AR02",
-          "CCC.Core.CN05.AR03",
-          "CCC.Core.CN05.AR04",
-          "CCC.Core.CN05.AR05",
-          "CCC.Core.CN05.AR06"
+        "ENS-RD2022": [
+          "op.mon.3.r5.gcp.dm.1"
         ],
         "PCI-4.0": [
           "1.2.5.15",
@@ -175,28 +154,48 @@
           "A3.4.1.22",
           "A3.4.1.25"
         ],
+        "MITRE-ATTACK": [
+          "T1190"
+        ],
+        "CIS-2.0": [
+          "5.1"
+        ],
         "ProwlerThreatScore-1.0": [
           "2.2.1"
-        ],
-        "SOC2": [
-          "cc_6_1"
-        ],
-        "ENS-RD2022": [
-          "op.mon.3.r5.gcp.dm.1"
         ],
         "CIS-4.0": [
           "5.1"
         ],
-        "CIS-3.0": [
-          "5.1"
+        "CCC": [
+          "CCC.AuditLog.CN04.AR01",
+          "CCC.AuditLog.CN05.AR01",
+          "CCC.AuditLog.CN10.AR01",
+          "CCC.AuditLog.CN10.AR02",
+          "CCC.Build.CN03.AR01",
+          "CCC.GenAI.CN03.AR01",
+          "CCC.GenAI.CN04.AR01",
+          "CCC.GenAI.CN08.AR01",
+          "CCC.Logging.CN05.AR01",
+          "CCC.Logging.CN05.AR02",
+          "CCC.MLDE.CN08.AR02",
+          "CCC.SvlsComp.CN01.AR01",
+          "CCC.Core.CN01.AR03",
+          "CCC.Core.CN03.AR02",
+          "CCC.Core.CN03.AR04",
+          "CCC.Core.CN05.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR03",
+          "CCC.Core.CN05.AR04",
+          "CCC.Core.CN05.AR05",
+          "CCC.Core.CN05.AR06"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760531791,
-      "created_time_dt": "2025-10-15T12:36:31.292011",
+      "created_time": 1760900789,
+      "created_time_dt": "2025-10-19T19:06:29.756296",
       "desc": "Ensure That Cloud Storage Bucket Is Not Anonymously or Publicly Accessible",
       "title": "Ensure That Cloud Storage Bucket Is Not Anonymously or Publicly Accessible",
       "types": [],
@@ -216,7 +215,7 @@
             "project_id": "nodal-time-474015-p5",
             "retention_policy": {
               "retentionPeriod": "2",
-              "effectiveTime": "2025-10-15T12:36:25.480Z"
+              "effectiveTime": "2025-10-19T19:06:23.365Z"
             }
           }
         },
@@ -250,8 +249,8 @@
       ]
     },
     "risk_details": "Allowing anonymous or public access grants permissions to anyone to access bucket content. Such access might not be desired if you are storing any sensitive data. Hence, ensure that anonymous or public access to a bucket is not allowed.",
-    "time": 1760531791,
-    "time_dt": "2025-10-15T12:36:31.292011",
+    "time": 1760900789,
+    "time_dt": "2025-10-19T19:06:29.756296",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
@@ -287,21 +286,8 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
-        "CIS-2.0": [
+        "CIS-3.0": [
           "5.2"
-        ],
-        "CCC": [
-          "CCC.AuditLog.C04.TR01",
-          "CCC.AuditLog.C05.TR01",
-          "CCC.AuditLog.C10.TR01",
-          "CCC.AuditLog.C10.TR02",
-          "CCC.GenAI.C03.TR01",
-          "CCC.GenAI.C04.TR01",
-          "CCC.Logging.C05.TR01",
-          "CCC.Logging.C05.TR02",
-          "CCC.ObjStor.C02.TR01",
-          "CCC.ObjStor.C02.TR02",
-          "CCC.Vector.CN03.AR01"
         ],
         "PCI-4.0": [
           "1.2.5.15",
@@ -396,19 +382,31 @@
           "A3.4.1.21",
           "A3.4.1.22"
         ],
+        "CIS-2.0": [
+          "5.2"
+        ],
         "CIS-4.0": [
           "5.2"
         ],
-        "CIS-3.0": [
-          "5.2"
+        "CCC": [
+          "CCC.AuditLog.CN04.AR01",
+          "CCC.AuditLog.CN05.AR01",
+          "CCC.AuditLog.CN10.AR01",
+          "CCC.AuditLog.CN10.AR02",
+          "CCC.GenAI.CN03.AR01",
+          "CCC.GenAI.CN04.AR01",
+          "CCC.Logging.CN05.AR01",
+          "CCC.Logging.CN05.AR02",
+          "CCC.ObjStor.CN02.AR01",
+          "CCC.ObjStor.CN02.AR02"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760531791,
-      "created_time_dt": "2025-10-15T12:36:31.292011",
+      "created_time": 1760900789,
+      "created_time_dt": "2025-10-19T19:06:29.756296",
       "desc": "Ensure That Cloud Storage Buckets Have Uniform Bucket-Level Access Enabled",
       "title": "Ensure That Cloud Storage Buckets Have Uniform Bucket-Level Access Enabled",
       "types": [],
@@ -428,7 +426,7 @@
             "project_id": "nodal-time-474015-p5",
             "retention_policy": {
               "retentionPeriod": "2",
-              "effectiveTime": "2025-10-15T12:36:25.480Z"
+              "effectiveTime": "2025-10-19T19:06:23.365Z"
             }
           }
         },
@@ -462,8 +460,8 @@
       ]
     },
     "risk_details": "Enabling uniform bucket-level access guarantees that if a Storage bucket is not publicly accessible, no object in the bucket is publicly accessible either.",
-    "time": 1760531791,
-    "time_dt": "2025-10-15T12:36:31.292011",
+    "time": 1760900789,
+    "time_dt": "2025-10-19T19:06:29.756296",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,

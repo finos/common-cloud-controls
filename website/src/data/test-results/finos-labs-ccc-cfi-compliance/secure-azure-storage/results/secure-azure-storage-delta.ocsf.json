@@ -1,6 +1,6 @@
 [
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has shared key access enabled.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has shared key access enabled.",
     "metadata": {
       "event_code": "storage_account_key_access_disabled",
       "product": {
@@ -20,7 +20,7 @@
     "severity": "High",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has shared key access enabled.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has shared key access enabled.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/shared-key-authorization-prevent",
@@ -33,8 +33,7 @@
       "notes": "",
       "compliance": {
         "CCC": [
-          "CCC.ObjStor.C02.TR02",
-          "CCC.Vector.CN03.AR01",
+          "CCC.ObjStor.CN02.AR02",
           "CCC.Core.CN05.AR02",
           "CCC.Core.CN05.AR04",
           "CCC.Core.CN05.AR05"
@@ -47,12 +46,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensures that access to Azure Storage Accounts using account keys is disabled, enforcing the use of Microsoft Entra ID (formerly Azure AD) for authentication.",
       "title": "Ensure allow storage account key access is disabled",
       "types": [],
-      "uid": "prowler-azure-storage_account_key_access_disabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_account_key_access_disabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -61,8 +60,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -80,7 +79,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -92,7 +91,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -110,9 +109,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -139,15 +138,15 @@
       ]
     },
     "risk_details": "Using Shared Key authorization poses a security risk due to the high privileges associated with storage account keys and the difficulty in auditing such access. Disabling Shared Key access helps enforce identity-based authentication via Microsoft Entra ID, enhancing security and traceability.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has allow blob public access disabled.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has allow blob public access disabled.",
     "metadata": {
       "event_code": "storage_blob_public_access_level_is_disabled",
       "product": {
@@ -167,7 +166,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has allow blob public access disabled.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has allow blob public access disabled.",
     "status_id": 1,
     "unmapped": {
       "related_url": "",
@@ -177,8 +176,40 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
+        "ENS-RD2022": [
+          "op.mon.3.r5.az.1"
+        ],
+        "MITRE-ATTACK": [
+          "T1530"
+        ],
+        "CIS-2.0": [
+          "3.7"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "2.2.6"
+        ],
+        "ISO27001-2022": [
+          "A.8.1"
+        ],
         "SOC2": [
           "cc_6_1"
+        ],
+        "CIS-2.1": [
+          "3.7"
+        ],
+        "CIS-3.0": [
+          "4.6"
+        ],
+        "CCC": [
+          "CCC.AuditLog.CN04.AR01",
+          "CCC.AuditLog.CN10.AR01",
+          "CCC.AuditLog.CN10.AR02",
+          "CCC.Logging.CN05.AR01",
+          "CCC.Logging.CN05.AR02",
+          "CCC.ObjStor.CN02.AR01",
+          "CCC.ObjStor.CN02.AR02",
+          "CCC.MLDE.CN07.AR01",
+          "CCC.Core.CN05.AR03"
         ],
         "PCI-4.0": [
           "1.2.8.30",
@@ -256,58 +287,24 @@
           "A3.4.1.21",
           "A3.4.1.22"
         ],
-        "CIS-2.0": [
-          "3.7"
-        ],
-        "CCC": [
-          "CCC.AuditLog.C04.TR01",
-          "CCC.AuditLog.C10.TR01",
-          "CCC.AuditLog.C10.TR02",
-          "CCC.Logging.C05.TR01",
-          "CCC.Logging.C05.TR02",
-          "CCC.ObjStor.C02.TR01",
-          "CCC.ObjStor.C02.TR02",
-          "CCC.MLDE.CN07.AR01",
-          "CCC.VPC.CN02.AR01",
-          "CCC.Vector.CN03.AR01",
-          "CCC.Core.CN05.AR03"
-        ],
-        "CIS-2.1": [
-          "3.7"
-        ],
         "CIS-4.0": [
           "10.3.9",
           "10.3.2.2"
         ],
-        "MITRE-ATTACK": [
-          "T1530"
-        ],
-        "ProwlerThreatScore-1.0": [
-          "2.2.6"
-        ],
         "NIS2": [
           "12.2.2.a"
-        ],
-        "ISO27001-2022": [
-          "A.8.1"
-        ],
-        "ENS-RD2022": [
-          "op.mon.3.r5.az.1"
-        ],
-        "CIS-3.0": [
-          "4.6"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that the 'Public access level' configuration setting is set to 'Private (no anonymous access)' for all blob containers in your storage account in order to block anonymous access to these Microsoft Azure resources.",
       "title": "Ensure that the 'Public access level' is set to 'Private (no anonymous access)' for all blob containers in your storage account",
       "types": [],
-      "uid": "prowler-azure-storage_blob_public_access_level_is_disabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_blob_public_access_level_is_disabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -316,8 +313,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -335,7 +332,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -347,7 +344,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -365,9 +362,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -392,15 +389,15 @@
       "references": []
     },
     "risk_details": "A user that accesses blob containers anonymously can use constructors that do not require credentials such as shared access signatures.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has blob versioning enabled.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has blob versioning enabled.",
     "metadata": {
       "event_code": "storage_blob_versioning_is_enabled",
       "product": {
@@ -420,7 +417,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has blob versioning enabled.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has blob versioning enabled.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/versioning-enable",
@@ -431,12 +428,12 @@
       "notes": "",
       "compliance": {
         "CCC": [
-          "CCC.ObjStor.C03.TR01",
-          "CCC.ObjStor.C04.TR01",
-          "CCC.ObjStor.C05.TR01",
-          "CCC.ObjStor.C05.TR02",
-          "CCC.ObjStor.C05.TR03",
-          "CCC.ObjStor.C05.TR04"
+          "CCC.ObjStor.CN03.AR01",
+          "CCC.ObjStor.CN04.AR01",
+          "CCC.ObjStor.CN05.AR01",
+          "CCC.ObjStor.CN05.AR02",
+          "CCC.ObjStor.CN05.AR03",
+          "CCC.ObjStor.CN05.AR04"
         ],
         "CIS-4.0": [
           "10.2.2"
@@ -446,12 +443,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that blob versioning is enabled on Azure Blob Storage accounts to automatically retain previous versions of objects.",
       "title": "Ensure Blob Versioning is Enabled on Azure Blob Storage Accounts",
       "types": [],
-      "uid": "prowler-azure-storage_blob_versioning_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_blob_versioning_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -460,8 +457,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -479,7 +476,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -491,7 +488,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -509,9 +506,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -538,15 +535,15 @@
       ]
     },
     "risk_details": "Without blob versioning, accidental or malicious changes to blobs cannot be easily recovered, leading to potential data loss.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has cross-tenant replication enabled.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has cross-tenant replication enabled.",
     "metadata": {
       "event_code": "storage_cross_tenant_replication_disabled",
       "product": {
@@ -566,7 +563,7 @@
     "severity": "High",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has cross-tenant replication enabled.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has cross-tenant replication enabled.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/object-replication-prevent-cross-tenant-policies?tabs=portal",
@@ -588,12 +585,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that cross-tenant replication is not enabled on Azure Storage Accounts to prevent unintended replication of data across tenant boundaries.",
       "title": "Ensure cross-tenant replication is disabled",
       "types": [],
-      "uid": "prowler-azure-storage_cross_tenant_replication_disabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_cross_tenant_replication_disabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -602,8 +599,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -621,7 +618,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -633,7 +630,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -651,9 +648,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -680,15 +677,15 @@
       ]
     },
     "risk_details": "If cross-tenant replication is enabled, sensitive data could be inadvertently replicated across tenants, increasing the risk of data leakage, unauthorized access, or non-compliance with data governance and privacy policies.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has network access rule set to Allow.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has network access rule set to Allow.",
     "metadata": {
       "event_code": "storage_default_network_access_rule_is_denied",
       "product": {
@@ -708,7 +705,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has network access rule set to Allow.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has network access rule set to Allow.",
     "status_id": 1,
     "unmapped": {
       "related_url": "",
@@ -718,30 +715,34 @@
       "additional_urls": [],
       "notes": "All allowed networks will need to be whitelisted on each specific network, creating administrative overhead. This may result in loss of network connectivity, so do not turn on for critical resources during business hours.",
       "compliance": {
+        "ENS-RD2022": [
+          "op.exp.8.r4.az.sa.2"
+        ],
         "CIS-2.0": [
           "3.8"
         ],
-        "CCC": [
-          "CCC.AuditLog.C10.TR02",
-          "CCC.ObjStor.C02.TR01",
-          "CCC.MLDE.CN07.AR01",
-          "CCC.MLDE.CN07.AR02",
-          "CCC.MLDE.CN08.AR01",
-          "CCC.MLDE.CN08.AR02",
-          "CCC.VPC.CN02.AR01",
-          "CCC.Vector.CN03.AR01",
-          "CCC.Core.CN05.AR03",
-          "CCC.Core.CN05.AR04"
+        "ProwlerThreatScore-1.0": [
+          "2.2.7"
         ],
         "CIS-2.1": [
           "3.8"
         ],
+        "CIS-3.0": [
+          "4.7"
+        ],
+        "CCC": [
+          "CCC.AuditLog.CN10.AR02",
+          "CCC.ObjStor.CN02.AR01",
+          "CCC.MLDE.CN07.AR01",
+          "CCC.MLDE.CN07.AR02",
+          "CCC.MLDE.CN08.AR01",
+          "CCC.MLDE.CN08.AR02",
+          "CCC.Core.CN05.AR03",
+          "CCC.Core.CN05.AR04"
+        ],
         "CIS-4.0": [
           "2.2.1.2",
           "10.3.2.3"
-        ],
-        "ProwlerThreatScore-1.0": [
-          "2.2.7"
         ],
         "NIS2": [
           "1.2.1",
@@ -750,24 +751,18 @@
           "11.1.1",
           "11.2.1",
           "12.2.2.a"
-        ],
-        "ENS-RD2022": [
-          "op.exp.8.r4.az.sa.2"
-        ],
-        "CIS-3.0": [
-          "4.7"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Restricting default network access helps to provide a new layer of security, since storage accounts accept connections from clients on any network. To limit access toselected networks, the default action must be changed.",
       "title": "Ensure Default Network Access Rule for Storage Accounts is Set to Deny",
       "types": [],
-      "uid": "prowler-azure-storage_default_network_access_rule_is_denied-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_default_network_access_rule_is_denied-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -776,8 +771,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -795,7 +790,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -807,7 +802,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -825,9 +820,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -852,15 +847,15 @@
       "references": []
     },
     "risk_details": "Storage accounts should be configured to deny access to traffic from all networks (including internet traffic). Access can be granted to traffic from specific Azure Virtualnetworks, allowing a secure network boundary for specific applications to be built.Access can also be granted to public internet IP address ranges to enable connectionsfrom specific internet or on-premises clients. When network rules are configured, onlyapplications from allowed networks can access a storage account. When calling from anallowed network, applications continue to require proper authorization (a valid accesskey or SAS token) to access the storage account.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Default to Microsoft Entra authorization is not enabled for storage account stcfistorage310cdfd6.",
+    "message": "Default to Microsoft Entra authorization is not enabled for storage account stcfistoragecad63808.",
     "metadata": {
       "event_code": "storage_default_to_entra_authorization_enabled",
       "product": {
@@ -880,7 +875,7 @@
     "severity": "High",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Default to Microsoft Entra authorization is not enabled for storage account stcfistorage310cdfd6.",
+    "status_detail": "Default to Microsoft Entra authorization is not enabled for storage account stcfistoragecad63808.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-access-azure-active-directory",
@@ -891,7 +886,7 @@
       "notes": "",
       "compliance": {
         "CCC": [
-          "CCC.ObjStor.C02.TR02",
+          "CCC.ObjStor.CN02.AR02",
           "CCC.Core.CN05.AR02",
           "CCC.Core.CN05.AR04",
           "CCC.Core.CN05.AR05"
@@ -904,12 +899,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that the Azure Storage Account setting 'Default to Microsoft Entra authorization in the Azure portal' is enabled to enforce the use of Microsoft Entra ID for accessing blobs, files, queues, and tables.",
       "title": "Ensure Microsoft Entra authorization is enabled by default for Azure Storage Accounts",
       "types": [],
-      "uid": "prowler-azure-storage_default_to_entra_authorization_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_default_to_entra_authorization_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -918,8 +913,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -937,7 +932,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -949,7 +944,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -967,9 +962,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -996,15 +991,15 @@
       ]
     },
     "risk_details": "If this setting is not enabled, the Azure portal may authorize access using less secure methods such as Shared Key, increasing the risk of unauthorized data access.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 allows trusted Microsoft services to access this storage account.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 allows trusted Microsoft services to access this storage account.",
     "metadata": {
       "event_code": "storage_ensure_azure_services_are_trusted_to_access_is_enabled",
       "product": {
@@ -1024,7 +1019,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 allows trusted Microsoft services to access this storage account.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 allows trusted Microsoft services to access this storage account.",
     "status_id": 1,
     "unmapped": {
       "related_url": "",
@@ -1034,6 +1029,33 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
+        "ENS-RD2022": [
+          "mp.info.6.r2.az.sa.1"
+        ],
+        "MITRE-ATTACK": [
+          "T1530"
+        ],
+        "CIS-2.0": [
+          "3.9"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "2.2.8"
+        ],
+        "ISO27001-2022": [
+          "A.8.3"
+        ],
+        "CIS-2.1": [
+          "3.9"
+        ],
+        "CIS-3.0": [
+          "4.8"
+        ],
+        "CCC": [
+          "CCC.MLDE.CN08.AR02",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR04",
+          "CCC.Core.CN05.AR05"
+        ],
         "PCI-4.0": [
           "10.6.3.35",
           "11.5.2.5",
@@ -1052,50 +1074,23 @@
           "A3.3.1.8",
           "A3.5.1.8"
         ],
-        "CIS-2.0": [
-          "3.9"
-        ],
-        "CCC": [
-          "CCC.MLDE.CN08.AR02",
-          "CCC.Core.CN05.AR02",
-          "CCC.Core.CN05.AR04",
-          "CCC.Core.CN05.AR05"
-        ],
-        "CIS-2.1": [
-          "3.9"
-        ],
         "CIS-4.0": [
           "10.3.5"
         ],
-        "MITRE-ATTACK": [
-          "T1530"
-        ],
-        "ProwlerThreatScore-1.0": [
-          "2.2.8"
-        ],
         "NIS2": [
           "12.2.2.a"
-        ],
-        "ISO27001-2022": [
-          "A.8.3"
-        ],
-        "ENS-RD2022": [
-          "mp.info.6.r2.az.sa.1"
-        ],
-        "CIS-3.0": [
-          "4.8"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that 'Allow trusted Microsoft services to access this storage account' is enabled within your Azure Storage account configuration settings to grant access to trusted cloud services.",
       "title": "Ensure that 'Allow trusted Microsoft services to access this storage account' is enabled for storage accounts",
       "types": [],
-      "uid": "prowler-azure-storage_ensure_azure_services_are_trusted_to_access_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_ensure_azure_services_are_trusted_to_access_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -1104,8 +1099,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -1123,7 +1118,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -1135,7 +1130,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -1153,9 +1148,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -1180,15 +1175,15 @@
       "references": []
     },
     "risk_details": "Not allowing to access storage account by Azure services the following services: Azure Backup, Azure Event Grid, Azure Site Recovery, Azure DevTest Labs, Azure Event Hubs, Azure Networking, Azure Monitor and Azure SQL Data Warehouse (when registered in the subscription), are not granted access to your storage account",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 does not encrypt with CMKs.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 does not encrypt with CMKs.",
     "metadata": {
       "event_code": "storage_ensure_encryption_with_customer_managed_keys",
       "product": {
@@ -1208,7 +1203,7 @@
     "severity": "High",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 does not encrypt with CMKs.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 does not encrypt with CMKs.",
     "status_id": 1,
     "unmapped": {
       "related_url": "",
@@ -1220,24 +1215,38 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
-        "SOC2": [
-          "cc_6_7",
-          "cc_7_5"
+        "ENS-RD2022": [
+          "op.exp.10.az.kv.2"
         ],
-        "PCI-4.0": [
-          "3.5.1.34",
-          "8.3.2.53"
+        "MITRE-ATTACK": [
+          "T1530"
         ],
         "CIS-2.0": [
           "3.12"
         ],
+        "ProwlerThreatScore-1.0": [
+          "4.2.1"
+        ],
+        "ISO27001-2022": [
+          "A.8.5",
+          "A.8.11",
+          "A.8.24"
+        ],
+        "SOC2": [
+          "cc_6_7",
+          "cc_7_5"
+        ],
+        "CIS-2.1": [
+          "3.12"
+        ],
+        "CIS-3.0": [
+          "4.11"
+        ],
         "CCC": [
-          "CCC.ObjStor.C01.TR01",
-          "CCC.ObjStor.C01.TR02",
-          "CCC.ObjStor.C01.TR03",
-          "CCC.ObjStor.C01.TR04",
-          "CCC.Message.CN01.AR01",
-          "CCC.Vector.CN03.AR01",
+          "CCC.ObjStor.CN01.AR01",
+          "CCC.ObjStor.CN01.AR02",
+          "CCC.ObjStor.CN01.AR03",
+          "CCC.ObjStor.CN01.AR04",
           "CCC.Core.CN13.AR02",
           "CCC.Core.CN02.AR01",
           "CCC.Core.CN11.AR01",
@@ -1245,46 +1254,30 @@
           "CCC.Core.CN11.AR04",
           "CCC.Core.CN11.AR05"
         ],
-        "CIS-2.1": [
-          "3.12"
+        "PCI-4.0": [
+          "3.5.1.34",
+          "8.3.2.53"
         ],
         "CIS-4.0": [
           "2.1.1.2.1"
-        ],
-        "MITRE-ATTACK": [
-          "T1530"
-        ],
-        "ProwlerThreatScore-1.0": [
-          "4.2.1"
         ],
         "NIS2": [
           "9.2.a",
           "9.2.c.iv",
           "12.2.2.a",
           "12.2.2.b"
-        ],
-        "ISO27001-2022": [
-          "A.8.5",
-          "A.8.11",
-          "A.8.24"
-        ],
-        "ENS-RD2022": [
-          "op.exp.10.az.kv.2"
-        ],
-        "CIS-3.0": [
-          "4.11"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that your Microsoft Azure Storage accounts are using Customer Managed Keys (CMKs) instead of Microsoft Managed Keys",
       "title": "Ensure that your Microsoft Azure Storage accounts are using Customer Managed Keys (CMKs) instead of Microsoft Managed Keys",
       "types": [],
-      "uid": "prowler-azure-storage_ensure_encryption_with_customer_managed_keys-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_ensure_encryption_with_customer_managed_keys-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -1293,8 +1286,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -1312,7 +1305,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -1324,7 +1317,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -1342,9 +1335,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -1369,15 +1362,15 @@
       "references": []
     },
     "risk_details": "If you want to control and manage storage account contents encryption key yourself you must specify a customer-managed key",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "File share soft delete is enabled for storage account stcfistorage310cdfd6 with a retention period of 7 days.",
+    "message": "File share soft delete is enabled for storage account stcfistoragecad63808 with a retention period of 7 days.",
     "metadata": {
       "event_code": "storage_ensure_file_shares_soft_delete_is_enabled",
       "product": {
@@ -1397,7 +1390,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "File share soft delete is enabled for storage account stcfistorage310cdfd6 with a retention period of 7 days.",
+    "status_detail": "File share soft delete is enabled for storage account stcfistoragecad63808 with a retention period of 7 days.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/files/storage-files-prevent-file-share-deletion?tabs=azure-portal",
@@ -1408,9 +1401,8 @@
       "notes": "",
       "compliance": {
         "CCC": [
-          "CCC.ObjStor.C04.TR01",
-          "CCC.ObjStor.C04.TR02",
-          "CCC.Vector.CN03.AR01"
+          "CCC.ObjStor.CN04.AR01",
+          "CCC.ObjStor.CN04.AR02"
         ],
         "CIS-4.0": [
           "10.1.1"
@@ -1420,12 +1412,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that soft delete is enabled for Azure File Shares to protect against accidental or malicious deletion of important data. This feature allows deleted file shares to be retained for a specified period, during which they can be recovered before permanent deletion occurs.",
       "title": "Ensure soft delete for Azure File Shares is enabled",
       "types": [],
-      "uid": "prowler-azure-storage_ensure_file_shares_soft_delete_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_ensure_file_shares_soft_delete_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -1434,7 +1426,7 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
             "name": "default",
             "type": "Microsoft.Storage/storageAccounts/fileServices",
             "share_delete_retention_policy": {
@@ -1451,9 +1443,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default"
       }
     ],
     "category_name": "Findings",
@@ -1480,15 +1472,15 @@
       ]
     },
     "risk_details": "Without soft delete enabled, accidental or malicious deletions of file shares result in permanent data loss, making recovery impossible unless a separate backup mechanism is in place.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has TLS version set to 1.2.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has TLS version set to 1.2.",
     "metadata": {
       "event_code": "storage_ensure_minimum_tls_version_12",
       "product": {
@@ -1508,7 +1500,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has TLS version set to 1.2.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has TLS version set to 1.2.",
     "status_id": 1,
     "unmapped": {
       "related_url": "",
@@ -1520,55 +1512,54 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
-        "SOC2": [
-          "cc_6_6"
+        "ENS-RD2022": [
+          "mp.com.3.r2.az.tls.3"
+        ],
+        "MITRE-ATTACK": [
+          "T1040"
         ],
         "CIS-2.0": [
           "3.15"
         ],
+        "ProwlerThreatScore-1.0": [
+          "4.1.3"
+        ],
+        "SOC2": [
+          "cc_6_6"
+        ],
+        "CIS-2.1": [
+          "3.15"
+        ],
+        "CIS-3.0": [
+          "4.15"
+        ],
         "CCC": [
-          "CCC.LB.C08.TR01",
           "CCC.Core.CN01.AR01",
           "CCC.Core.CN01.AR02",
           "CCC.Core.CN01.AR03",
           "CCC.Core.CN01.AR07",
           "CCC.Core.CN11.AR01"
         ],
-        "CIS-2.1": [
-          "3.15"
-        ],
         "CIS-4.0": [
           "10.3.7"
-        ],
-        "MITRE-ATTACK": [
-          "T1040"
-        ],
-        "ProwlerThreatScore-1.0": [
-          "4.1.3"
         ],
         "NIS2": [
           "6.7.2.i",
           "6.7.2.l",
           "12.2.2.a",
           "12.2.2.c"
-        ],
-        "ENS-RD2022": [
-          "mp.com.3.r2.az.tls.3"
-        ],
-        "CIS-3.0": [
-          "4.15"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure the 'Minimum TLS version' for storage accounts is set to 'Version 1.2'",
       "title": "Ensure the 'Minimum TLS version' for storage accounts is set to 'Version 1.2'",
       "types": [],
-      "uid": "prowler-azure-storage_ensure_minimum_tls_version_12-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_ensure_minimum_tls_version_12-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -1577,8 +1568,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -1596,7 +1587,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -1608,7 +1599,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -1626,9 +1617,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -1655,15 +1646,15 @@
       ]
     },
     "risk_details": "TLS versions 1.0 and 1.1 are known to be susceptible to certain Common Vulnerabilities and Exposures (CVE) weaknesses and attacks such as POODLE and BEAST",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 does not have private endpoint connections.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 does not have private endpoint connections.",
     "metadata": {
       "event_code": "storage_ensure_private_endpoints_in_storage_accounts",
       "product": {
@@ -1683,7 +1674,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 does not have private endpoint connections.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 does not have private endpoint connections.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-private-endpoints",
@@ -1695,42 +1686,49 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
-        "SOC2": [
-          "cc_3_3"
+        "ENS-RD2022": [
+          "mp.com.4.r2..az.sa.1"
+        ],
+        "MITRE-ATTACK": [
+          "T1530"
         ],
         "CIS-2.0": [
           "3.10"
         ],
+        "ProwlerThreatScore-1.0": [
+          "2.2.9"
+        ],
+        "ISO27001-2022": [
+          "A.8.14"
+        ],
+        "SOC2": [
+          "cc_3_3"
+        ],
+        "CIS-2.1": [
+          "3.10"
+        ],
+        "CIS-3.0": [
+          "4.9"
+        ],
         "CCC": [
-          "CCC.AuditLog.C10.TR01",
-          "CCC.AuditLog.C10.TR02",
-          "CCC.ObjStor.C01.TR03",
-          "CCC.ObjStor.C02.TR01",
-          "CCC.ObjStor.C02.TR02",
+          "CCC.AuditLog.CN10.AR01",
+          "CCC.AuditLog.CN10.AR02",
+          "CCC.ObjStor.CN01.AR03",
+          "CCC.ObjStor.CN02.AR01",
+          "CCC.ObjStor.CN02.AR02",
           "CCC.MLDE.CN07.AR01",
           "CCC.MLDE.CN07.AR02",
           "CCC.MLDE.CN08.AR01",
           "CCC.MLDE.CN08.AR02",
-          "CCC.VPC.CN02.AR01",
-          "CCC.Vector.CN03.AR01",
           "CCC.Core.CN06.AR01",
           "CCC.Core.CN10.AR01",
           "CCC.Core.CN05.AR02",
           "CCC.Core.CN05.AR03",
           "CCC.Core.CN05.AR05"
         ],
-        "CIS-2.1": [
-          "3.10"
-        ],
         "CIS-4.0": [
           "2.2.2.1",
           "10.3.2.1"
-        ],
-        "MITRE-ATTACK": [
-          "T1530"
-        ],
-        "ProwlerThreatScore-1.0": [
-          "2.2.9"
         ],
         "NIS2": [
           "1.1.1.a",
@@ -1739,27 +1737,18 @@
           "6.7.2.l",
           "11.2.2.d",
           "12.2.2.a"
-        ],
-        "ISO27001-2022": [
-          "A.8.14"
-        ],
-        "ENS-RD2022": [
-          "mp.com.4.r2..az.sa.1"
-        ],
-        "CIS-3.0": [
-          "4.9"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data located over a network via an encrypted Private Link. To do this, the private endpoint uses an IP address from the VNet for each service. Network traffic between disparate services securely traverses encrypted over the VNet. This VNet can also link addressing space, extending your network and accessing resources on it. Similarly, it can be a tunnel through public networks to connect remote infrastructures together. This creates further security through segmenting network traffic and preventing outside sources from accessing it.",
       "title": "Ensure Private Endpoints are used to access Storage Accounts",
       "types": [],
-      "uid": "prowler-azure-storage_ensure_private_endpoints_in_storage_accounts-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_ensure_private_endpoints_in_storage_accounts-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -1768,8 +1757,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -1787,7 +1776,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -1799,7 +1788,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -1817,9 +1806,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -1846,15 +1835,15 @@
       ]
     },
     "risk_details": "Storage accounts that are not configured to use Private Endpoints are accessible over the public internet. This can lead to data exfiltration and other security issues.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has soft delete enabled.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has soft delete enabled.",
     "metadata": {
       "event_code": "storage_ensure_soft_delete_is_enabled",
       "product": {
@@ -1874,7 +1863,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has soft delete enabled.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has soft delete enabled.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-enable?tabs=azure-portal",
@@ -1886,10 +1875,32 @@
       "additional_urls": [],
       "notes": "Additional storage costs may be incurred as snapshots are retained.",
       "compliance": {
+        "MITRE-ATTACK": [
+          "T1485"
+        ],
+        "CIS-2.0": [
+          "3.11"
+        ],
+        "ISO27001-2022": [
+          "A.8.10"
+        ],
         "SOC2": [
           "cc_7_4",
           "cc_c_1_1",
           "cc_c_1_2"
+        ],
+        "CIS-2.1": [
+          "3.11"
+        ],
+        "CIS-3.0": [
+          "4.10"
+        ],
+        "CCC": [
+          "CCC.AuditLog.CN06.AR01",
+          "CCC.AuditLog.CN08.AR01",
+          "CCC.ObjStor.CN03.AR01",
+          "CCC.ObjStor.CN04.AR01",
+          "CCC.ObjStor.CN04.AR02"
         ],
         "PCI-4.0": [
           "10.3.2.22",
@@ -1900,49 +1911,26 @@
           "A1.1.2.18",
           "A3.4.1.20"
         ],
-        "CIS-2.0": [
-          "3.11"
-        ],
-        "CCC": [
-          "CCC.AuditLog.C06.TR01",
-          "CCC.AuditLog.C08.TR01",
-          "CCC.ObjStor.C03.TR01",
-          "CCC.ObjStor.C04.TR01",
-          "CCC.ObjStor.C04.TR02",
-          "CCC.Vector.CN03.AR01"
-        ],
-        "CIS-2.1": [
-          "3.11"
-        ],
         "CIS-4.0": [
           "10.2.1",
           "10.3.6"
-        ],
-        "MITRE-ATTACK": [
-          "T1485"
         ],
         "NIS2": [
           "4.2.2.f",
           "12.2.2.a",
           "12.2.2.b"
-        ],
-        "ISO27001-2022": [
-          "A.8.10"
-        ],
-        "CIS-3.0": [
-          "4.10"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal. Data that is erroneously modified or deleted by an application or other storage account user will cause data loss or unavailability.",
       "title": "Ensure Soft Delete is Enabled for Azure Containers and Blob Storage",
       "types": [],
-      "uid": "prowler-azure-storage_ensure_soft_delete_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_ensure_soft_delete_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -1951,8 +1939,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -1970,7 +1958,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -1982,7 +1970,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -2000,9 +1988,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -2029,15 +2017,15 @@
       ]
     },
     "risk_details": "Containers and Blob Storage data can be incorrectly deleted. An attacker/malicious user may do this deliberately in order to cause disruption. Deleting an Azure Storage blob causes immediate data loss. Enabling this configuration for Azure storage ensures that even if blobs/data were deleted from the storage account, Blobs/data objects are recoverable for a particular time which is set in the Retention policies ranging from 7 days to 365 days.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has Geo-redundant storage Standard_GRS enabled.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has Geo-redundant storage Standard_GRS enabled.",
     "metadata": {
       "event_code": "storage_geo_redundant_enabled",
       "product": {
@@ -2057,7 +2045,7 @@
     "severity": "High",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has Geo-redundant storage Standard_GRS enabled.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has Geo-redundant storage Standard_GRS enabled.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy",
@@ -2068,7 +2056,7 @@
       "notes": "",
       "compliance": {
         "CCC": [
-          "CCC.Logging.C05.TR02",
+          "CCC.Logging.CN05.AR02",
           "CCC.Core.CN08.AR01",
           "CCC.Core.CN08.AR02"
         ],
@@ -2080,12 +2068,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Geo-redundant storage (GRS) must be enabled on critical Azure Storage Accounts to ensure data durability and availability in the event of a regional outage. GRS replicates data within the primary region and asynchronously to a secondary region, offering enhanced resilience and supporting disaster recovery strategies.",
       "title": "Ensure geo-redundant storage (GRS) is enabled on critical Azure Storage Accounts",
       "types": [],
-      "uid": "prowler-azure-storage_geo_redundant_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_geo_redundant_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -2094,8 +2082,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -2113,7 +2101,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -2125,7 +2113,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -2143,9 +2131,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -2172,15 +2160,15 @@
       ]
     },
     "risk_details": "Without GRS, critical data may be lost or become unavailable during a regional outage, compromising data durability and disaster recovery efforts.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has infrastructure encryption disabled.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has infrastructure encryption disabled.",
     "metadata": {
       "event_code": "storage_infrastructure_encryption_is_enabled",
       "product": {
@@ -2200,7 +2188,7 @@
     "severity": "Low",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has infrastructure encryption disabled.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has infrastructure encryption disabled.",
     "status_id": 1,
     "unmapped": {
       "related_url": "",
@@ -2212,56 +2200,56 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
-        "SOC2": [
-          "cc_6_7",
-          "cc_7_5"
-        ],
-        "PCI-4.0": [
-          "3.5.1.22",
-          "8.3.2.37"
-        ],
-        "CIS-2.0": [
-          "3.2"
-        ],
-        "CCC": [
-          "CCC.Core.CN02.AR01"
-        ],
-        "CIS-2.1": [
-          "3.2"
-        ],
-        "CIS-4.0": [
-          "10.3.1.1"
+        "ENS-RD2022": [
+          "op.exp.10.az.kv.2"
         ],
         "MITRE-ATTACK": [
           "T1530"
         ],
-        "NIS2": [
-          "9.2.a",
-          "12.2.2.a",
-          "12.2.2.b"
+        "CIS-2.0": [
+          "3.2"
         ],
         "ISO27001-2022": [
           "A.8.5",
           "A.8.11",
           "A.8.24"
         ],
-        "ENS-RD2022": [
-          "op.exp.10.az.kv.2"
+        "SOC2": [
+          "cc_6_7",
+          "cc_7_5"
+        ],
+        "CIS-2.1": [
+          "3.2"
         ],
         "CIS-3.0": [
           "4.3"
+        ],
+        "CCC": [
+          "CCC.Core.CN02.AR01"
+        ],
+        "PCI-4.0": [
+          "3.5.1.22",
+          "8.3.2.37"
+        ],
+        "CIS-4.0": [
+          "10.3.1.1"
+        ],
+        "NIS2": [
+          "9.2.a",
+          "12.2.2.a",
+          "12.2.2.b"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that 'Enable Infrastructure Encryption' for Each Storage Account in Azure Storage is Set to 'enabled' ",
       "title": "Ensure that 'Enable Infrastructure Encryption' for Each Storage Account in Azure Storage is Set to 'enabled' ",
       "types": [],
-      "uid": "prowler-azure-storage_infrastructure_encryption_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_infrastructure_encryption_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -2270,8 +2258,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -2289,7 +2277,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -2301,7 +2289,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -2319,9 +2307,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureRole",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -2346,15 +2334,15 @@
       "references": []
     },
     "risk_details": "Double encryption of Azure Storage data protects against a scenario where one of the encryption algorithms or keys may be compromised",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has no key expiration period set.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has no key expiration period set.",
     "metadata": {
       "event_code": "storage_key_rotation_90_days",
       "product": {
@@ -2374,7 +2362,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has no key expiration period set.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has no key expiration period set.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal",
@@ -2386,16 +2374,21 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
+        "ENS-RD2022": [
+          "op.acc.6.r1.az.eid.2"
+        ],
         "CIS-2.0": [
           "3.4"
         ],
-        "CCC": [
-          "CCC.SecMgmt.CN01.AR01",
-          "CCC.Core.CN11.AR02",
-          "CCC.Core.CN11.AR05"
-        ],
         "CIS-2.1": [
           "3.4"
+        ],
+        "CIS-3.0": [
+          "4.4"
+        ],
+        "CCC": [
+          "CCC.Core.CN11.AR02",
+          "CCC.Core.CN11.AR05"
         ],
         "CIS-4.0": [
           "10.3.1.2"
@@ -2405,24 +2398,18 @@
           "9.2.c.iv",
           "11.6.2.c",
           "12.2.2.a"
-        ],
-        "ENS-RD2022": [
-          "op.acc.6.r1.az.eid.2"
-        ],
-        "CIS-3.0": [
-          "4.4"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that Storage Account Access Keys are Periodically Regenerated",
       "title": "Ensure that Storage Account Access Keys are Periodically Regenerated",
       "types": [],
-      "uid": "prowler-azure-storage_key_rotation_90_days-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_key_rotation_90_days-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -2431,8 +2418,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -2450,7 +2437,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -2462,7 +2449,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -2480,9 +2467,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -2509,15 +2496,15 @@
       ]
     },
     "risk_details": "If the access keys are not regenerated periodically, the likelihood of accidental exposures increases, which can lead to unauthorized access to your storage account resources.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has secure transfer required enabled.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has secure transfer required enabled.",
     "metadata": {
       "event_code": "storage_secure_transfer_required_is_enabled",
       "product": {
@@ -2537,7 +2524,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "PASS",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 has secure transfer required enabled.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 has secure transfer required enabled.",
     "status_id": 1,
     "unmapped": {
       "related_url": "",
@@ -2549,9 +2536,37 @@
       "additional_urls": [],
       "notes": "",
       "compliance": {
+        "ENS-RD2022": [
+          "mp.com.3.az.sa.1"
+        ],
+        "MITRE-ATTACK": [
+          "T1040"
+        ],
+        "CIS-2.0": [
+          "3.1"
+        ],
+        "ISO27001-2022": [
+          "A.8.12",
+          "A.8.14",
+          "A.8.24"
+        ],
         "SOC2": [
           "cc_6_2",
           "cc_6_7"
+        ],
+        "CIS-2.1": [
+          "3.1"
+        ],
+        "CIS-3.0": [
+          "4.1"
+        ],
+        "CCC": [
+          "CCC.Core.CN01.AR01",
+          "CCC.Core.CN01.AR02",
+          "CCC.Core.CN01.AR03",
+          "CCC.Core.CN01.AR07",
+          "CCC.Core.CN11.AR01",
+          "CCC.Core.CN05.AR04"
         ],
         "PCI-4.0": [
           "1.2.5.15",
@@ -2563,26 +2578,8 @@
           "8.3.2.48",
           "8.3.2.49"
         ],
-        "CIS-2.0": [
-          "3.1"
-        ],
-        "CCC": [
-          "CCC.Vector.CN03.AR01",
-          "CCC.Core.CN01.AR01",
-          "CCC.Core.CN01.AR02",
-          "CCC.Core.CN01.AR03",
-          "CCC.Core.CN01.AR07",
-          "CCC.Core.CN11.AR01",
-          "CCC.Core.CN05.AR04"
-        ],
-        "CIS-2.1": [
-          "3.1"
-        ],
         "CIS-4.0": [
           "10.3.4"
-        ],
-        "MITRE-ATTACK": [
-          "T1040"
         ],
         "NIS2": [
           "6.7.2.i",
@@ -2591,29 +2588,18 @@
           "12.2.2.a",
           "12.2.2.b",
           "12.2.2.c"
-        ],
-        "ISO27001-2022": [
-          "A.8.12",
-          "A.8.14",
-          "A.8.24"
-        ],
-        "ENS-RD2022": [
-          "mp.com.3.az.sa.1"
-        ],
-        "CIS-3.0": [
-          "4.1"
         ]
       }
     },
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Ensure that all data transferred between clients and your Azure Storage account is encrypted using the HTTPS protocol.",
       "title": "Ensure that all data transferred between clients and your Azure Storage account is encrypted using the HTTPS protocol.",
       "types": [],
-      "uid": "prowler-azure-storage_secure_transfer_required_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_secure_transfer_required_is_enabled-3bb71587-4549-4396-8898-9e15f062e665-eastus-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -2622,8 +2608,8 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6",
-            "name": "stcfistorage310cdfd6",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808",
+            "name": "stcfistoragecad63808",
             "location": "eastus",
             "resouce_group_name": "rg-cfi-storage",
             "enable_https_traffic_only": true,
@@ -2641,7 +2627,7 @@
             "allow_cross_tenant_replication": true,
             "allow_shared_key_access": true,
             "blob_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/blobServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/blobServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/blobServices",
               "container_delete_retention_policy": {
@@ -2653,7 +2639,7 @@
             },
             "default_to_entra_authorization": false,
             "file_service_properties": {
-              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+              "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
               "name": "default",
               "type": "Microsoft.Storage/storageAccounts/fileServices",
               "share_delete_retention_policy": {
@@ -2671,9 +2657,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808"
       }
     ],
     "category_name": "Findings",
@@ -2698,15 +2684,15 @@
       "references": []
     },
     "risk_details": "Requests to the storage account sent outside of a secure connection can be eavesdropped",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
     "class_uid": 2004
   },
   {
-    "message": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 does not have SMB channel encryption enabled for file shares.",
+    "message": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 does not have SMB channel encryption enabled for file shares.",
     "metadata": {
       "event_code": "storage_smb_channel_encryption_with_secure_algorithm",
       "product": {
@@ -2726,7 +2712,7 @@
     "severity": "Medium",
     "status": "New",
     "status_code": "FAIL",
-    "status_detail": "Storage account stcfistorage310cdfd6 from subscription Azure subscription 1 does not have SMB channel encryption enabled for file shares.",
+    "status_detail": "Storage account stcfistoragecad63808 from subscription Azure subscription 1 does not have SMB channel encryption enabled for file shares.",
     "status_id": 1,
     "unmapped": {
       "related_url": "https://learn.microsoft.com/en-us/azure/well-architected/service-guides/azure-files#recommendations-for-smb-file-shares",
@@ -2748,12 +2734,12 @@
     "activity_name": "Create",
     "activity_id": 1,
     "finding_info": {
-      "created_time": 1760532187,
-      "created_time_dt": "2025-10-15T12:43:07.191657",
+      "created_time": 1760903910,
+      "created_time_dt": "2025-10-19T19:58:30.348169",
       "desc": "Implement SMB channel encryption with a secure algorithm for SMB file shares to ensure data confidentiality and integrity in transit.",
       "title": "Ensure SMB channel encryption uses a secure algorithm for SMB file shares",
       "types": [],
-      "uid": "prowler-azure-storage_smb_channel_encryption_with_secure_algorithm-3bb71587-4549-4396-8898-9e15f062e665-global-stcfistorage310cdfd6"
+      "uid": "prowler-azure-storage_smb_channel_encryption_with_secure_algorithm-3bb71587-4549-4396-8898-9e15f062e665-global-stcfistoragecad63808"
     },
     "resources": [
       {
@@ -2762,7 +2748,7 @@
         "data": {
           "details": "",
           "metadata": {
-            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default",
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default",
             "name": "default",
             "type": "Microsoft.Storage/storageAccounts/fileServices",
             "share_delete_retention_policy": {
@@ -2779,9 +2765,9 @@
           "name": "storage"
         },
         "labels": [],
-        "name": "stcfistorage310cdfd6",
+        "name": "stcfistoragecad63808",
         "type": "AzureStorageAccount",
-        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistorage310cdfd6/fileServices/default"
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/rg-cfi-storage/providers/Microsoft.Storage/storageAccounts/stcfistoragecad63808/fileServices/default"
       }
     ],
     "category_name": "Findings",
@@ -2808,8 +2794,8 @@
       ]
     },
     "risk_details": "Not using the recommended SMB channel encryption may expose data transmitted over SMB channels to unauthorized interception and tampering.",
-    "time": 1760532187,
-    "time_dt": "2025-10-15T12:43:07.191657",
+    "time": 1760903910,
+    "time_dt": "2025-10-19T19:58:30.348169",
     "type_uid": 200401,
     "type_name": "Detection Finding: Create",
     "category_uid": 2,
