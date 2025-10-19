@@ -17,6 +17,8 @@ export function ThreatsTable({ threats, releaseSlug, title = "Threats", controls
     return null;
   }
 
+  const sortedThreats = [...threats].sort((a, b) => a.id.localeCompare(b.id));
+
   return (
     <Card>
       <CardHeader>
@@ -35,7 +37,7 @@ export function ThreatsTable({ threats, releaseSlug, title = "Threats", controls
             </TableRow>
           </TableHeader>
           <TableBody>
-            {threats.map((threat) => (
+            {sortedThreats.map((threat) => (
               <TableRow key={threat.id}>
                 <TableCell>
                   <Link to={`${releaseSlug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">

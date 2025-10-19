@@ -1,12 +1,12 @@
 metadata:
-  id: CCC.MLDE
-  title: CCC Machine Learning Development Environment
+  id: CCC.KeyMgmt
+  title: Key Management
   description: |
-    Machine Learning Development Environment refers to the suite of tools,
-    infrastructure, and processes that facilitate the development, testing,
-    deployment, and maintenance of machine learning models.
-  version: DEV
-  last-modified: "2025-10-15T12:34:00-04:00"
+    Key Management Service is a tool provided by cloud service providers
+    to securely create, store, and manage cryptographic keys used to
+    encrypt and decrypt sensitive data.
+  version: 2025.07-MIGRATION-PREVIEW
+  last-modified: "2025-10-19T17:03:50-04:00"
   applicability-categories:
     - id: tlp_red
       title: TLP:RED
@@ -26,142 +26,72 @@ metadata:
       version: v2025.10
 control-families:
   - id: ""
-    title: Identity and Access Management
-    description: 'TODO: Describe this control family'
+    title: Logging and Metrics Publication
+    description: Controls that collect, alert, and retain key-management events.
     controls:
-      - id: CCC.MLDE.CN01
-        title: Define Access Mode for ML Development Environments
+      - id: CCC.KeyMgmt.CN01
+        title: Alert on Key-version Changes
         objective: |
-          Ensure that access to Machine Learning Development Environment (MLDE)
-          resources is strictly defined and controlled.
-          Only authorized users with appropriate permissions can access these environments,
-          mitigating the risk of unauthorized access, data leakage, or service disruption.
+          Generate near-real-time alerts when a KMS key version is disabled or scheduled for deletion, enabling rapid investigation and recovery.
         assessment-requirements:
-          - id: CCC.MLDE.CN01.AR01
+          - id: CCC.KeyMgmt.CN01.AR01
             text: |
-              Verify that only authorized users can access MLDE resources,
-              and that access modes are properly defined and enforced.
+              When a key version is scheduled for deletion or disabled, an
+              alert MUST be generated within five minutes.
             applicability:
-              - tlp-red
               - tlp-amber
-              - tlp-green
-              - tlp-clear
+              - tlp-red
+            recommendation: Use native event services (e.g., CloudWatch Events, Azure Monitor, Cloud Audit Logs) to route notifications to an incident-response channel.
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.AC-3
+              - reference-id: RS.AN-1
                 strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.1.1
-                strength: 0
-              - reference-id: 2013 A.9.2.1
-                strength: 0
+                remarks: Notifications from detection systems are investigated
           - reference-id: NIST_800_53
             entries:
-              - reference-id: AC-2
+              - reference-id: IR-5
                 strength: 0
-              - reference-id: AC-3
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: IAM-01
-                strength: 0
-              - reference-id: IAM-02
-                strength: 0
+                remarks: Incident Monitoring
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.MLDE.TH01
+              - reference-id: CCC.KeyMgmt.TH01
                 strength: 0
-              - reference-id: CCC.Core.TH01
-                strength: 0
-      - id: CCC.MLDE.CN03
-        title: Disable Root Access on MLDE Instances
+                remarks: Deletion or disabling of key versions
+  - id: ""
+    title: Identity and Access Management
+    description: Controls that enforce least-privilege use of KMS operations.
+    controls:
+      - id: CCC.KeyMgmt.CN02
+        title: Limit Decrypt Permissions
         objective: |
-          Prevent users from obtaining root access on MLDE instances to reduce the
-          risk of unauthorized system modifications and potential security breaches.
+          Restrict the Decrypt operation to authorised principals only, applying the principle of least privilege to protect sensitive data.
         assessment-requirements:
-          - id: CCC.MLDE.CN03.AR01
+          - id: CCC.KeyMgmt.CN02.AR01
             text: |
-              Verify that root access is disabled on MLDE instances containing sensitive data.
+              When IAM roles and key policies are reviewed, Decrypt permission
+              MUST be granted exclusively to documented authorised principals.
             applicability:
-              - tlp-red
-          - id: CCC.MLDE.CN03.AR02
-            text: |
-              For MLDE instances without sensitive data, ensure that root access is only
-              enabled when necessary and properly authorized.
-            applicability:
-              - tlp-red
-              - tlp-amber
               - tlp-green
-              - tlp-clear
+            recommendation: Periodically audit policy documents via automated tooling and report any deviations.
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-4
                 strength: 0
+                remarks: Access to assets is managed
           - reference-id: NIST_800_53
             entries:
               - reference-id: AC-6
                 strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: IAM-08
-                strength: 0
-              - reference-id: IAM-12
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.2.3
-                strength: 0
+                remarks: Least Privilege
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.MLDE.TH01
+              - reference-id: CCC.KeyMgmt.TH02
                 strength: 0
-      - id: CCC.MLDE.CN04
-        title: Disable Terminal Access on MLDE Instances
-        objective: |
-          Prevent users from accessing the terminal on MLDE instances to limit the risk of
-          unauthorized commands and potential system compromise.
-        assessment-requirements:
-          - id: CCC.MLDE.CN04.AR01
-            text: |
-              Verify that terminal access is disabled on MLDE instances containing sensitive data.
-            applicability:
-              - tlp-red
-          - id: CCC.MLDE.CN04.AR02
-            text: |
-              For MLDE instances without sensitive data, ensure that terminal access is only
-              enabled when necessary and properly authorized.
-            applicability:
-              - tlp-red
-              - tlp-amber
-              - tlp-green
-              - tlp-clear
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-4
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-6
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: IAM-08
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.2.3
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.MLDE.TH01
-                strength: 0
+                remarks: Unrestricted use of a KMS key to decrypt data
       - id: CCC.Core.CN03
         title: Implement Multi-factor Authentication (MFA) for Access
         objective: |
@@ -301,241 +231,68 @@ control-families:
               - reference-id: CCC.Core.TH01
                 strength: 0
   - id: ""
-    title: Data Protection
-    description: 'TODO: Describe this control family'
+    title: Key Lifecycle Management
+    description: Controls that govern creation, rotation, import, and retirement of cryptographic keys.
     controls:
-      - id: CCC.MLDE.CN02
-        title: Disable File Downloads on MLDE Instances
+      - id: CCC.KeyMgmt.CN03
+        title: Enforce Automatic Rotation
         objective: |
-          Prevent unauthorized file downloads from MLDE instances to protect sensitive data from being exfiltrated.
+          Ensure symmetric keys rotate automatically within policy intervals to reduce exposure of key material.
         assessment-requirements:
-          - id: CCC.MLDE.CN02.AR01
+          - id: CCC.KeyMgmt.CN03.AR01
             text: |
-              Confirm that file download functionality is disabled on MLDE instances containing sensitive data.
+              When rotation settings are examined, rotation MUST be enabled with
+              an interval not exceeding 365 days.
             applicability:
-              - tlp-red
-          - id: CCC.MLDE.CN02.AR02
-            text: |
-              For MLDE instances without sensitive data, ensure that file downloads are monitored and logged.
-            applicability:
-              - tlp-red
-              - tlp-amber
               - tlp-green
-              - tlp-clear
+            recommendation: Use cloud-provider rotation features and verify via configuration scanning.
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.DS-5
+              - reference-id: PR.DS-1
                 strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: DSI-05
-                strength: 0
-              - reference-id: DSI-07
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.13.2.1
-                strength: 0
+                remarks: Data at rest is protected
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-7
+              - reference-id: SC-12
                 strength: 0
-              - reference-id: SC-8
-                strength: 0
+                remarks: Cryptographic Key Establishment and Management
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.MLDE.TH02
+              - reference-id: CCC.KeyMgmt.TH03
                 strength: 0
-              - reference-id: CCC.Core.TH02
-                strength: 0
-  - id: ""
-    title: Configuration Management
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.MLDE.CN05
-        title: Restrict Environment Options on MLDE Instances
+                remarks: Key rotation is disabled or delayed
+      - id: CCC.KeyMgmt.CN04
+        title: Validate Imported Keys
         objective: |
-          Limit the virtual machine and container image options available when creating
-          new MLDE instances to approved and secure configurations.
+          Accept only externally generated keys that meet approved cryptographic strength and provenance requirements.
         assessment-requirements:
-          - id: CCC.MLDE.CN05.AR01
+          - id: CCC.KeyMgmt.CN04.AR01
             text: |
-              Verify that only approved VM and container images can be selected when creating MLDE instances.
+              When a key import request is processed, the key MUST use an
+              approved algorithm (RSA-2048+, EC-P256+) and originate from a
+              certified HSM.
             applicability:
-              - tlp-red
-              - tlp-amber
-          - id: CCC.MLDE.CN05.AR02
-            text: |
-              Attempt to create an MLDE instance with an unapproved image and confirm that it is denied.
-            applicability:
-              - tlp-red
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.IP-1
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: TVM-02
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.12.5.1
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: CM-2
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.MLDE.TH04
-                strength: 0
-  - id: ""
-    title: Vulnerability Management
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.MLDE.CN06
-        title: Require Automatic Scheduled Upgrades on User-Managed MLDE Instances
-        objective: |
-          Ensure that MLDE instances are kept up-to-date with the
-          latest security patches by enforcing automatic scheduled upgrades.
-        assessment-requirements:
-          - id: CCC.MLDE.CN06.AR01
-            text: |
-              Verify that automatic scheduled upgrades are enabled on user-managed
-              MLDE instances containing sensitive data.
-            applicability:
-              - tlp-red
-          - id: CCC.MLDE.CN06.AR02
-            text: |
-              Ensure that the upgrade schedule is appropriately configured and
-              does not interfere with critical operations.
-            applicability:
-              - tlp-red
-              - tlp-amber
               - tlp-green
-              - tlp-clear
+            recommendation: Implement an approval workflow that validates attestation data before import.
         guideline-mappings:
           - reference-id: NIST-CSF
             entries:
-              - reference-id: PR.IP-12
+              - reference-id: PR.DS-1
                 strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: TVM-01
-                strength: 0
-              - reference-id: TVM-02
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.12.6.1
-                strength: 0
+                remarks: Data at rest is protected
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SI-2
+              - reference-id: SC-28
                 strength: 0
+                remarks: Protection of Information at Rest
         threat-mappings:
           - reference-id: CCC
             entries:
-              - reference-id: CCC.MLDE.TH04
+              - reference-id: CCC.KeyMgmt.TH04
                 strength: 0
-              - reference-id: CCC.Core.TH06
-                strength: 0
-  - id: ""
-    title: Network Security
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.MLDE.CN07
-        title: Restrict Public IP Access on MLDE Instances
-        objective: |
-          Prevent public IP access to MLDE instances to reduce exposure to the internet and enhance security.
-        assessment-requirements:
-          - id: CCC.MLDE.CN07.AR01
-            text: |
-              Verify that MLDE instances containing sensitive data cannot be accessed via public IP addresses.
-            applicability:
-              - tlp-red
-          - id: CCC.MLDE.CN07.AR02
-            text: |
-              For MLDE instances without sensitive data requiring public access,
-              ensure that appropriate security controls are in place and access is approved.
-            applicability:
-              - tlp-red
-              - tlp-amber
-              - tlp-green
-              - tlp-clear
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-3
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: SEF-05
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.13.1.1
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-7
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.MLDE.TH02
-                strength: 0
-              - reference-id: CCC.VPC.TH02
-                strength: 0
-      - id: CCC.MLDE.CN08
-        title: Restrict Virtual Networks for MLDE Instances
-        objective: |
-          Limit the virtual networks that can be used when creating new MLDE instances to
-          ensure they are deployed within approved and secure network environments.
-        assessment-requirements:
-          - id: CCC.MLDE.CN08.AR01
-            text: |
-              Verify that MLDE instances containing sensitive data can only be deployed in
-              approved virtual networks with appropriate security controls.
-            applicability:
-              - tlp-red
-          - id: CCC.MLDE.CN08.AR02
-            text: |
-              Ensure that MLDE instances without sensitive data are deployed in
-              networks that meet organizational security standards.
-            applicability:
-              - tlp-red
-              - tlp-amber
-              - tlp-green
-              - tlp-clear
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-4
-                strength: 0
-          - reference-id: CCM
-            entries:
-              - reference-id: IAM-12
-                strength: 0
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.1.2
-                strength: 0
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-6
-                strength: 0
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.MLDE.TH01
-                strength: 0
-              - reference-id: CCC.Core.TH01
-                strength: 0
+                remarks: Weak or compromised key material
   - id: CCC.Core.Data
     title: Data
     description: |
@@ -717,6 +474,35 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH03
                 strength: 0
+      - id: CCC.Core.CN10
+        title: Restrict Data Replication to Trust Perimeter
+        objective: |
+          Ensure that data is only replicated on infrastructure in locations
+          that are explicitly included within a defined trust perimeter.
+        assessment-requirements:
+          - id: CCC.Core.CN10.AR01
+            text: |
+              When data is replicated, the service MUST ensure that replication
+              only occurs to destinations that are explicitly included within
+              the defined trust perimeter.
+            applicability:
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-10
+                strength: 8
+                remarks: Sensitive Data Transfer (only processed within scope as permitted)
+              - reference-id: DSP-19
+                strength: 10
+                remarks: Data Location (specify and document the physical locations of data)
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH04
+                strength: 0
   - id: CCC.Core.LM
     title: Logging & Monitoring
     description: |
@@ -767,82 +553,342 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
+threats:
+  - id: CCC.KeyMgmt.TH01
+    title: |
+      Deletion or Disabling of Key Versions Causing Denial of Service or
+      Data Loss
+    description: |
+      Disabling, scheduling deletion, or permanently purging KMS key versions
+      that protect sensitive data can prevent required decryption or signing
+      operations.  Service interruption or irreversible data loss may occur if
+      the key material is no longer recoverable.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP14
+            strength: 0
+            remarks: Key Versioning
+          - reference-id: CCC.KeyMgmt.CP16
+            strength: 0
+            remarks: Disable key
+          - reference-id: CCC.KeyMgmt.CP18
+            strength: 0
+            remarks: Soft Delete
+          - reference-id: CCC.KeyMgmt.CP19
+            strength: 0
+            remarks: Delete Key
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1489
+            strength: 0
+            remarks: Service Stop
+          - reference-id: T1490
+            strength: 0
+            remarks: Inhibit System Recovery
+  - id: CCC.KeyMgmt.TH02
+    title: Unrestricted Use of a KMS Key to Decrypt Data
+    description: |
+      Misconfigured permissions that allow broad invocation of the Decrypt API
+      can expose plaintext data, enabling unintended disclosure or exfiltration
+      of sensitive information.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP10
+            strength: 0
+            remarks: Decrypt data
+          - reference-id: CCC.KeyMgmt.CP17
+            strength: 0
+            remarks: Enable key
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1550
+            strength: 0
+            remarks: Use Alternate Authentication Material
+  - id: CCC.KeyMgmt.TH03
+    title: Key Rotation is Disabled or Delayed Beyond Policy Limits
+    description: |
+      Modification of automatic or manual rotation settings can keep older key
+      material active longer than intended, decreasing cryptographic
+      resilience and extending exposure in the event of key compromise.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP20
+            strength: 0
+            remarks: Automatic Symmetric Key Rotation
+          - reference-id: CCC.KeyMgmt.CP21
+            strength: 0
+            remarks: Manual Key Rotation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1562
+            strength: 0
+            remarks: Impair Defenses
+  - id: CCC.KeyMgmt.TH04
+    title: Introduction of Weak or Compromised Key Material During Import
+    description: |
+      Insufficient validation during the key-import process may allow weak,
+      back-doored, or otherwise compromised key material to be introduced,
+      reducing the overall strength of subsequent cryptographic operations.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP22
+            strength: 0
+            remarks: Key Import
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1600
+            strength: 0
+            remarks: Weaken Encryption
+  - id: CCC.Core.TH01
+    title: Access is Granted to Unauthorized Users
+    description: |
+      Logic designed to give different permissions to different entities may
+      be misconfigured or manipulated, allowing unauthorized entities to access
+      restricted parts of the service, its data, or its child resources.
+      This could result in a loss of data confidentiality or tolerance of
+      unauthorized actions which impact the integrity and availability of
+      resources and data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP06
+            strength: 0
+            remarks: Access Control
+          - reference-id: CCC.Core.CP29
+            strength: 0
+            remarks: Active Ingestion
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1078
+            strength: 0
+            remarks: Valid Accounts
+          - reference-id: T1548
+            strength: 0
+            remarks: Abuse Elevation Control Mechanism
+          - reference-id: T1203
+            strength: 0
+            remarks: Exploitation for Credential Access
+          - reference-id: T1098
+            strength: 0
+            remarks: Account Manipulation
+          - reference-id: T1484
+            strength: 0
+            remarks: Domain or Tenant Policy Modification
+          - reference-id: T1546
+            strength: 0
+            remarks: Event Triggered Execution
+          - reference-id: T1537
+            strength: 0
+            remarks: Transfer Data to Cloud Account
+          - reference-id: T1567
+            strength: 0
+            remarks: Exfiltration Over Web Service
+          - reference-id: T1048
+            strength: 0
+            remarks: Exfiltration Over Alternative Protocol
+          - reference-id: T1485
+            strength: 0
+            remarks: Data Destruction
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+          - reference-id: T1027
+            strength: 0
+            remarks: Obfuscated Files or Information
+  - id: CCC.Core.TH04
+    title: Data is Replicated to Untrusted or External Locations
+    description: |
+      Systems are susceptible to unauthorized access or interception by actors
+      with political or physical control over the network in which they are
+      deployed. Confidentiality may be impacted if the data is replicated to a
+      network where the geopolitical status is untrusted, unstable, or insecure.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP21
+            strength: 0
+            remarks: Replication
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
+  - id: CCC.Core.TH12
+    title: Resource Constraints are Exhausted
+    description: |
+      Exceeding the resource constraints through excessive consumption,
+      resource-intensive operations, or lowering of rate-limit thresholds
+      can impact the availability of elements such as memory, CPU, or storage.
+      This may disrupt availability of the service or child resources by
+      denying the associated functionality to users. If the impacted system is
+      not designed to expect such a failure, the effect could also cascade to
+      other services and resources.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP04
+            strength: 0
+            remarks: Transaction Rate Limits
+          - reference-id: CCC.Core.CP16
+            strength: 0
+            remarks: Budgeting
+          - reference-id: CCC.Core.CP19
+            strength: 0
+            remarks: Auto-scaling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1496
+            strength: 0
+            remarks: Resource Hijacking
+          - reference-id: T1499
+            strength: 0
+            remarks: Endpoint Denial of Service
+          - reference-id: T1498
+            strength: 0
+            remarks: Network Denial of Service
+  - id: CCC.Core.TH13
+    title: Resource Tags are Manipulated
+    description: |
+      When resource tags are altered, it can lead to misclassification or
+      mismanagement of resources. This can reduce the efficacy of organizational
+      policies, billing rules, or network access rules. Such changes could cause
+      compromised confidentiality, integrity, or availability of the system and
+      its data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP20
+            strength: 0
+            remarks: Tagging
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            strength: 0
+            remarks: Data Manipulation
 capabilities:
-  - id: CCC.MLDE.CP01
-    title: Managed Notebook Environments
+  - id: CCC.KeyMgmt.CP01
+    title: AES-256
     description: |
-      Provides fully managed notebook instances specifically designed
-      for machine learning development, eliminating the need to manage
-      underlying infrastructure.
-  - id: CCC.MLDE.CP02
-    title: Pre-configured Machine Learning Libraries
+      Support for the AES-256 Advanced Encryption Standard with a 256-bit key for encryption and decryption.
+  - id: CCC.KeyMgmt.CP02
+    title: RSA-2048
     description: |
-      Offers environments pre-installed with popular machine
-      learning libraries and frameworks such as TensorFlow, PyTorch,
-      and Scikit-learn, optimized for ML tasks.
-  - id: CCC.MLDE.CP03
-    title: Integrated Experiment Management
+      Supports the RSA algorithm with a key size of 2048 bits for encryption and digital signatures.
+  - id: CCC.KeyMgmt.CP03
+    title: RSA-3072
     description: |
-      Facilitates tracking and management of machine learning
-      experiments, including parameters, metrics, and artifacts,
-      within the development environment.
-  - id: CCC.MLDE.CP04
-    title: Model Training and Deployment Integration
+      Supports the RSA algorithm with a key size of 3072 bits for encryption and digital signatures.
+  - id: CCC.KeyMgmt.CP04
+    title: RSA-4096
     description: |
-      Supports seamless transition from model development to
-      training and deployment, allowing models to be trained and
-      deployed directly from the MLDE.
-  - id: CCC.MLDE.CP05
-    title: Automated Machine Learning (AutoML) Capabilities
+      Supports the RSA algorithm with a key size of 4096 bits for encryption and digital signatures.
+  - id: CCC.KeyMgmt.CP05
+    title: EC-P256
     description: |
-      Offers AutoML functionalities to automatically build,
-      train, and optimize machine learning models with minimal
-      manual intervention.
-  - id: CCC.MLDE.CP06
-    title: GPU/Specialized Hardware Support
+      Supports the elliptic curve signing algorithm using the P-256 Curve for digital signatures.
+  - id: CCC.KeyMgmt.CP06
+    title: EC-P256K
     description: |
-      Provides access to GPU instances and specialized ML acceleration
-      hardware (TPUs, FPGAs) with automated driver and runtime management.
-  - id: CCC.MLDE.CP07
-    title: Data Pipeline Integration
+      Supports the elliptic curve signing algorithm using the Secp256k1 Curve for digital signatures.
+  - id: CCC.KeyMgmt.CP07
+    title: EC-P384
     description: |
-      Supports integration with data preparation and feature engineering
-      pipelines, including versioning of datasets and capabilities used in
-      ML experiments.
-  - id: CCC.MLDE.CP08
-    title: Model Registry
+      Supports the elliptic curve signing algorithm using the P-384 Curve for digital signatures.
+  - id: CCC.KeyMgmt.CP08
+    title: Key Creation
     description: |
-      Provides centralized storage and versioning for trained models,
-      including metadata about training runs, model artifacts, and
-      deployment history.
-  - id: CCC.MLDE.CP09
-    title: Collaborative Development Support
+      Supports secure key creation within the key management service using the supported algorithms.
+  - id: CCC.KeyMgmt.CP09
+    title: Encrypt data
     description: |
-      Enables multiple data scientists to work on the same project with
-      version control integration, shared notebooks, and resource management.
-  - id: CCC.MLDE.CP10
-    title: Model Monitoring and Drift Detection
+      Provides the ability to securely encrypt data using a managed key in the supported encryption algorithms.
+  - id: CCC.KeyMgmt.CP10
+    title: Decrypt data
     description: |
-      Supports monitoring of deployed models for performance degradation,
-      data drift, and concept drift with automated alerting capabilities.
-  - id: CCC.MLDE.CP11
-    title: Reproducibility Capabilities
+      Provides the ability to securely decrypt data using a managed key in the supported encryption algorithms.
+  - id: CCC.KeyMgmt.CP11
+    title: Create Digital Signature
     description: |
-      Provides capability to capture and version all components needed to
-      reproduce an ML experiment, including code, data, and environment
-      configurations.
-  - id: CCC.MLDE.CP12
-    title: Resource Scheduling and Optimization
+      Supports the generation of a digital signature for data using the supported signing algorithms.
+  - id: CCC.KeyMgmt.CP12
+    title: Verify Digital Signature
     description: |
-      Supports scheduling and optimization of compute resources for
-      training jobs, including spot instance usage and auto-scaling
-      capabilities.
-  - id: CCC.MLDE.CP13
-    title: Security and Compliance Controls
+      Supports the verification of the digital signature of some data using the supported signing algorithms.
+  - id: CCC.KeyMgmt.CP13
+    title: Supports FIPS 140-2 Level 3
     description: |
-      Provides specific controls for ML workflows including model
-      governance, bias detection, and compliance documentation for
-      regulated industries.
+      Supports FIPS 140-2 Level 3 certified Hardware Security Modules (HSM).
+  - id: CCC.KeyMgmt.CP14
+    title: Key Versioning
+    description: |
+      Provides the ability to manage multiple versions of a key.
+  - id: CCC.KeyMgmt.CP15
+    title: Key label
+    description: |
+      Supports the ability to tag a managed key with user defined labels.
+  - id: CCC.KeyMgmt.CP16
+    title: Disable key
+    description: |
+      Supports the ability to disable a managed key without deletion.
+  - id: CCC.KeyMgmt.CP17
+    title: Enable key
+    description: |
+      Supports the ability to re-enable a disabled managed key.
+  - id: CCC.KeyMgmt.CP18
+    title: Soft Delete
+    description: |
+      Supports the ability to prevent the immediate deletion of a managed key. This includes the ability
+      to recover accidental deletion of keys within a grace period.
+  - id: CCC.KeyMgmt.CP19
+    title: Delete Key
+    description: |
+      Supports the ability to permanently delete a managed key after the grace period defined on soft delete.
+  - id: CCC.KeyMgmt.CP20
+    title: Automatic Symmetric Key Rotation
+    description: |
+      Supports the ability to automatically rotate a managed symmetric
+      key as long as the key was generated within the KMS.
+  - id: CCC.KeyMgmt.CP21
+    title: Manual Key Rotation
+    description: |
+      Supports the ability to manually rotate a managed key.
+  - id: CCC.KeyMgmt.CP22
+    title: Key Import
+    description: |
+      Supports the ability to import externally generated keys into the KMS.
+  - id: CCC.KeyMgmt.CP23
+    title: Key Expiry
+    description: |
+      Supports the ability to set an expiration date for a key
+  - id: CCC.KeyMgmt.CP24
+    title: Key Replication
+    description: |
+      Supports the ability to securely replicate a key across different regions using automated or manual process.
+  - id: CCC.Core.CP01
+    title: Encryption in Transit Enabled by Default
+    description: |
+      The service automatically encrypts all data using industry-standard
+      cryptographic protocols prior to transmission via a network interface.
+  - id: CCC.Core.CP02
+    title: Encryption at Rest Enabled by Default
+    description: |
+      The service automatically encrypts all data using industry-standard
+      cryptographic protocols prior to being written to a storage medium.
   - id: CCC.Core.CP03
     title: Access Log Publication
     description: |
@@ -855,6 +901,12 @@ capabilities:
       restrict or allow access to a specific component or
       a child resource based on factors such as user identities, roles,
       groups, or attributes.
+  - id: CCC.Core.CP07
+    title: Event Publication
+    description: |
+      The service automatically publishes a structured state-change record
+      upon creation, deletion, or modification of data, configuration,
+      components, or child resources.
   - id: CCC.Core.CP08
     title: Data Replication
     description: |
@@ -876,32 +928,6 @@ capabilities:
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.CP15
-    title: Cost Management
-    description: |
-      The service monitors data published by child or networked resources to infer
-      usage patterns and generate cost reports for the service.
-  - id: CCC.Core.CP16
-    title: Budgeting
-    description: |
-      The service may be configured to take a user-specified action when a
-      spending threshold is met or exceeded on a child or networked resource.
-  - id: CCC.Core.CP17
-    title: Alerting
-    description: |
-      The service may be configured to emit a notification based on a user-defined
-      condition related to the data published by a child or networked resource.
-  - id: CCC.Core.CP20
-    title: Resource Tagging
-    description: |
-      The service provides users with the ability to tag a child resource with metadata
-      that can be reviewed or queried.
-  - id: CCC.Core.CP23
-    title: Network Access Rules
-    description: |
-      The service restricts access to child or networked resources based on
-      user-defined network parameters such as IP address,
-      protocol, port, or source.
 imported-controls:
   - reference-id: CCC
     entries:
@@ -910,7 +936,7 @@ imported-controls:
         remarks: Prevent unencrypted requests
       - reference-id: CCC.Core.CN02
         strength: 0
-        remarks: Ensure data encryption at rest for all stored data
+        remarks: Ensure Data Encryption at Rest for All Stored Data
       - reference-id: CCC.Core.CN03
         strength: 0
         remarks: Implement multi-factor authentication (MFA) for access
@@ -923,18 +949,42 @@ imported-controls:
       - reference-id: CCC.Core.CN06
         strength: 0
         remarks: Prevent deployment in restricted regions
+      - reference-id: CCC.Core.CN10
+        strength: 0
+        remarks: Prevent Data Replication to Destinations Outside Perimeter
 imported-threats:
   - reference-id: CCC
-    entries: []
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH04
+        strength: 0
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH12
+        strength: 0
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0
+        remarks: Resource Tags are Manipulated
 imported-capabilities:
   - reference-id: CCC
     entries:
+      - reference-id: CCC.Core.CP01
+        strength: 0
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        strength: 0
+        remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         strength: 0
         remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Access Control
+      - reference-id: CCC.Core.CP07
+        strength: 0
+        remarks: Event Publication
       - reference-id: CCC.Core.CP08
         strength: 0
         remarks: Data Replication
@@ -947,18 +997,12 @@ imported-capabilities:
       - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.CP15
+      - reference-id: CCC.Core.F19
         strength: 0
-        remarks: Cost Management
-      - reference-id: CCC.Core.CP16
+        remarks: Resource Scaling
+      - reference-id: CCC.Core.F28
         strength: 0
-        remarks: Budgeting
-      - reference-id: CCC.Core.CP17
+        remarks: Command-line
+      - reference-id: CCC.Core.F29
         strength: 0
-        remarks: Alerting
-      - reference-id: CCC.Core.CP20
-        strength: 0
-        remarks: Resource Tagging
-      - reference-id: CCC.Core.CP23
-        strength: 0
-        remarks: Network Access Rules
+        remarks: Active Ingestion

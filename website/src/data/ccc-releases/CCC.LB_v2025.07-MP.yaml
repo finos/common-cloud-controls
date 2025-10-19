@@ -5,8 +5,8 @@ metadata:
     Load balancing services distribute incoming network traffic across multiple
     instances or servers to ensure high availability, scalability, and
     reliability of applications.
-  version: DEV
-  last-modified: "2025-10-15T12:34:02-04:00"
+  version: 2025.07-MIGRATION-PREVIEW
+  last-modified: "2025-10-19T17:03:52-04:00"
   applicability-categories:
     - id: tlp_red
       title: TLP:RED

@@ -1,12 +1,15 @@
 metadata:
-  id: CCC.Message
-  title: CCC Messaging Services
+  id: CCC.ObjStor
+  title: Object Storage
   description: |
-    Messaging services facilitate communication between distributed applications
-    and services by enabling the exchange of messages using pub/sub model in
-    a reliable and scalable manner.
-  version: DEV
-  last-modified: "2025-10-15T12:34:00-04:00"
+    Object storage is a data storage architecture that manages data as objects,
+    rather than as files or blocks. Each object contains the data itself,
+    metadata, and a unique identifier, making it ideal for storing large amounts
+    of unstructured data such as multimedia files, backups, and archives. It is
+    highly scalable and often used in cloud environments due to its flexibility
+      and accessibility.
+  version: 2025.01-MIGRATION-PREVIEW
+  last-modified: "2025-10-19T17:03:52-04:00"
   applicability-categories:
     - id: tlp_red
       title: TLP:RED
@@ -26,19 +29,47 @@ metadata:
       version: v2025.10
 control-families:
   - id: ""
-    title: Encryption
-    description: 'TODO: Describe this control family'
+    title: Data
+    description: "TODO: Describe this control family"
     controls:
-      - id: CCC.Message.CN01
-        title: Use Customer-Managed Encryption Keys (CMEK) for Messages
+      - id: CCC.ObjStor.CN01
+        title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
         objective: |
-          Ensure that messages are encrypted using customer-managed encryption keys (CMEK)
-          to provide enhanced control over encryption processes and keys, meeting compliance and security requirements.
+          Prevent any requests to object storage buckets or objects using
+          untrusted KMS keys to protect against unauthorized data encryption
+          that can impact data availability and integrity.
         assessment-requirements:
-          - id: CCC.Message.CN01.AR01
+          - id: CCC.ObjStor.CN01.AR01
             text: |
-              Attempt to publish a message without using a customer-managed encryption key
-              and verify that the message is rejected or not stored.
+              When a request is made to read a protected bucket, the service
+              MUST prevent any request using KMS keys not listed as trusted by
+              the organization.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN01.AR02
+            text: |
+              When a request is made to read a protected object, the service
+              MUST prevent any request using KMS keys not listed as trusted by
+              the organization.
+            applicability:
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN01.AR03
+            text: |
+              When a request is made to write to a bucket, the service MUST
+              prevent any request using KMS keys not listed as trusted by the
+              organization.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN01.AR04
+            text: |
+              When a request is made to write to an object, the service MUST
+              prevent any request using KMS keys not listed as trusted by the
+              organization.
             applicability:
               - tlp-clear
               - tlp-green
@@ -49,30 +80,238 @@ control-families:
             entries:
               - reference-id: PR.DS-1
                 strength: 0
-                remarks: Data-at-rest is protected
+          - reference-id: CCM
+            entries:
+              - reference-id: DCS-04
+                strength: 0
+              - reference-id: DCS-06
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2013 A.10.1.1
+                strength: 0
           - reference-id: NIST_800_53
             entries:
-              - reference-id: SC-12
+              - reference-id: SC-28
                 strength: 0
-                remarks: Cryptographic Key Establishment and Management
-              - reference-id: SC-13
-                strength: 0
-                remarks: Cryptographic Protection
         threat-mappings:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
                 strength: 0
-                remarks: Access control is misconfigured
-  - id: CCC.Core.Data
-    title: Data
-    description: |
-      The Data control family ensures the confidentiality, integrity,
-      availability, and sovereignty of data across its lifecycle.
-      These controls govern how data is transmitted, stored,
-      replicated, and protected from unauthorized access, tampering,
-      or exposure beyond defined trust perimeters.
-    controls:
+              - reference-id: CCC.Core.TH06
+                strength: 0
+      - id: CCC.ObjStor.CN03
+        title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
+        objective: |
+          Ensure that object storage bucket is not deleted after creation,
+          and that the preventative measure cannot be unset.
+        assessment-requirements:
+          - id: CCC.ObjStor.CN03.AR01
+            text: |
+              When an object storage bucket deletion is attempted, the bucket MUST be
+              fully recoverable for a set time-frame after deletion is requested.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN03.AR02
+            text: |
+              When an attempt is made to modify the retention policy for an object
+              storage bucket, the service MUST prevent the policy from being modified.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-16
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2022 A.8.1.4
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-28
+                strength: 0
+              - reference-id: CP-10
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH06
+                strength: 0
+      - id: CCC.ObjStor.CN04
+        title: Objects have an Effective Retention Policy by Default
+        objective: |
+          Ensure that all objects stored in the object storage system have a
+          retention policy applied by default, preventing premature deletion
+          or modification of objects and ensuring compliance with data retention
+          regulations.
+        assessment-requirements:
+          - id: CCC.ObjStor.CN04.AR01
+            text: |
+              When an object is uploaded to the object storage system, the object
+              MUST automatically receive a default retention policy that prevents
+              premature deletion or modification.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN04.AR02
+            text: |
+              When an attempt is made to delete or modify an object that is subject
+              to an active retention policy, the service MUST prevent the action
+              from being completed.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-16
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2022 A.8.1.4
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-28
+                strength: 0
+              - reference-id: CP-10
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH06
+                strength: 0
+      - id: CCC.ObjStor.CN05
+        title: Versioning is Enabled for All Objects in the Bucket
+        objective: |
+          Ensure that versioning is enabled for all objects stored in the object
+          storage bucket to enable recovery of previous versions of objects in
+          case of loss or corruption.
+        assessment-requirements:
+          - id: CCC.ObjStor.CN05.AR01
+            text: |
+              When an object is uploaded to the object storage bucket, the object
+              MUST be stored with a unique identifier.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN05.AR02
+            text: |
+              When an object is modified, the service MUST assign a new unique
+              identifier to the modified object to differentiate it from the
+              previous version.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN05.AR03
+            text: |
+              When an object is modified, the service MUST allow for recovery
+              of previous versions of the object.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN05.AR04
+            text: |
+              When an object is deleted, the service MUST retain other versions of
+              the object to allow for recovery of previous versions.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-1
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2022 A.8.1.4
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: SC-28
+                strength: 0
+              - reference-id: CP-10
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-16
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH06
+                strength: 0
+      - id: CCC.ObjStor.CN06
+        title: Access Logs are Stored in a Separate Data Store
+        objective: |
+          Ensure that access logs for object storage buckets are stored in a
+          separate data store to protect against unauthorized access, tampering,
+          or deletion of logs (Logbuckets are exempt from this requirement,
+          but must be tlp-red).
+        assessment-requirements:
+          - id: CCC.ObjStor.CN06.AR01
+            text: |
+              When an object storage bucket is accessed, the service MUST store
+              access logs in a separate data store.
+            applicability:
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.DS-6
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-07
+                strength: 0
+              - reference-id: DSP-17
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2022 A.8.15.0
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AU-9
+                strength: 0
+              - reference-id: SC-28
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH07
+                strength: 0
+              - reference-id: CCC.Core.TH09
+                strength: 0
       - id: CCC.Core.CN01
         title: Encrypt Data for Transmission
         objective: |
@@ -343,15 +582,63 @@ control-families:
             entries:
               - reference-id: CCC.Core.TH04
                 strength: 0
-  - id: CCC.Core.IAM
+  - id: ""
     title: Identity and Access Management
-    description: |
-      The Identity and Access Management control family ensures
-      that only trusted and authenticated entities can access
-      resources. These controls establish strong authentication,
-      enforce multi-factor verification, and restrict access to
-      approved sources to prevent unauthorized use or data exfiltration.
+    description: "TODO: Describe this control family"
     controls:
+      - id: CCC.ObjStor.CN02
+        title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
+        objective: |
+          Ensure that uniform bucket-level access is enforced across all
+          object storage buckets. This prevents the use of ad-hoc or
+          inconsistent object-level permissions, ensuring centralized,
+          consistent, and secure access management in accordance with the
+          principle of least privilege.
+        assessment-requirements:
+          - id: CCC.ObjStor.CN02.AR01
+            text: |
+              When a permission set is allowed for an object in a bucket, the
+              service MUST allow the same permission set to access all objects
+              in the same bucket.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+          - id: CCC.ObjStor.CN02.AR02
+            text: |
+              When a permission set is denied for an object in a bucket, the
+              service MUST deny the same permission set to access all objects
+              in the same bucket.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+        guideline-mappings:
+          - reference-id: NIST-CSF
+            entries:
+              - reference-id: PR.AC-4
+                strength: 0
+          - reference-id: ISO_27001
+            entries:
+              - reference-id: 2013 A.9.4.1
+                strength: 0
+          - reference-id: NIST_800_53
+            entries:
+              - reference-id: AC-3
+                strength: 0
+              - reference-id: AC-6
+                strength: 0
+          - reference-id: CCM
+            entries:
+              - reference-id: DCS-09
+                strength: 0
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                strength: 0
       - id: CCC.Core.CN03
         title: Implement Multi-factor Authentication (MFA) for Access
         objective: |
@@ -590,6 +877,56 @@ control-families:
               - reference-id: CCC.Core.TH15
                 strength: 0
 threats:
+  - id: CCC.ObjStor.TH01
+    title: Data Exfiltration via Insecure Lifecycle Policies
+    description: |
+      Misconfigured lifecycle policies may unintentionally allow data to be
+      exfiltrated or destroyed prematurely, resulting in a loss of availability
+      and potential exposure of sensitive data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.ObjStor.CP08
+            strength: 0
+          - reference-id: CCC.Core.CP11
+            strength: 0
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1020
+            strength: 0
+          - reference-id: T1537
+            strength: 0
+          - reference-id: T1567
+            strength: 0
+          - reference-id: T1048
+            strength: 0
+          - reference-id: T1485
+            strength: 0
+  - id: CCC.ObjStor.TH02
+    title: Improper Enforcement of Object Modification Locks
+    description: |
+      Attackers may exploit vulnerabilities in object modification locks to
+      delete or alter objects despite the lock being in place, leading to data
+      loss or tampering.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.ObjStor.CP09
+            strength: 0
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1027
+            strength: 0
+          - reference-id: T1485
+            strength: 0
+          - reference-id: T1490
+            strength: 0
+          - reference-id: T1491
+            strength: 0
+          - reference-id: T1565
+            strength: 0
   - id: CCC.Core.TH01
     title: Access is Granted to Unauthorized Users
     description: |
@@ -958,7 +1295,7 @@ threats:
             remarks: Traffic Signaling
           - reference-id: T1001.001
             strength: 0
-            remarks: 'Data Obfuscation: Junk Data'
+            remarks: "Data Obfuscation: Junk Data"
   - id: CCC.Core.TH12
     title: Resource Constraints are Exhausted
     description: |
@@ -1044,7 +1381,7 @@ threats:
             remarks: Service Stop
           - reference-id: T1562.01
             strength: 0
-            remarks: 'Impair Defenses: Downgrade Attack'
+            remarks: "Impair Defenses: Downgrade Attack"
           - reference-id: T1027
             strength: 0
             remarks: Obfuscated Files or Information
@@ -1078,82 +1415,60 @@ threats:
             strength: 0
             remarks: Cloud Infrastructure Discovery
 capabilities:
-  - id: CCC.Message.CP01
-    title: Publish/Subscribe Model
+  - id: CCC.ObjStor.CP01
+    title: Storage Buckets
     description: |
-      Uses publish/subscribe (pub/sub) messaging service model for
-      fan-out distribution of messages to multiple subscribers.
-  - id: CCC.Message.CP02
-    title: Message Storage Policies
+      Provides uniquely identifiable segmentations in which data elements may
+      be stored.
+  - id: CCC.ObjStor.CP02
+    title: Storage Objects
     description: |
-      Ability to control the region where messages are stored.
-  - id: CCC.Message.CP03
-    title: Creating Topics and Publish Messages
+      Supports storing, accessing, and managing data elements which contain
+      both data and metadata.
+  - id: CCC.ObjStor.CP03
+    title: Bucket Capacity Limit
     description: |
-      Ability to create new topics and publish messages to topics
-  - id: CCC.Message.CP04
-    title: List Topics
+      Provides the ability to set a maximum total capacity for objects within
+      a bucket.
+  - id: CCC.ObjStor.CP04
+    title: Object Size Limit
     description: |
-      Ability to to list all existing topics.
-  - id: CCC.Message.CP05
-    title: Edit Topics
+      Supports setting a maximum object size for storing objects.
+  - id: CCC.ObjStor.CP05
+    title: Store New Objects
     description: |
-      Ability to to edit properties of existing topics other than
-      the topic name and ordering preference.
-  - id: CCC.Message.CP06
-    title: Delete Topics
+      Supports for storing a new object in the bucket.
+  - id: CCC.ObjStor.CP06
+    title: Replace Stored Objects
     description: |
-      Ability to to delete existing topics.
-  - id: CCC.Message.CP07
-    title: Subscribe to Topics and Receive messages
+      Supports for replacing an object in the bucket with a new object for the same key.
+  - id: CCC.ObjStor.CP07
+    title: Delete Stored Objects
     description: |
-      Ability to subscribe to topics and receive messages.
-  - id: CCC.Message.CP08
-    title: List Subscribers
+      Supports for deleting objects from the bucket given the object key.
+  - id: CCC.ObjStor.CP08
+    title: Lifecycle Policies
     description: |
-      Ability to list all subscribers for a given topics.
-  - id: CCC.Message.CP09
-    title: Edit Subscriber
+      Supports defining policies to automate data management tasks.
+  - id: CCC.ObjStor.CP09
+    title: Object Modification Locks
     description: |
-      Ability to edit subscriber properties such as subscription
-      filter policies after subscriber is created.
-  - id: CCC.Message.CP10
-    title: Delete Subscribers
+      Allows locking of objects to disable modification and/or deletion of an
+      object for a defined period of time.
+  - id: CCC.ObjStor.CP10
+    title: Object Level Access Control
     description: |
-      Ability to delete subscriber from a given topic.
-  - id: CCC.Message.CP11
-    title: FIFO Message Ordering
+      Supports controlling access to specific objects within the object store.
+  - id: CCC.ObjStor.CP11
+    title: Querying
     description: |
-      Support for first-in, first-out strictly preserved message
-      ordering with exactly one message delivered.
-  - id: CCC.Message.CP12
-    title: Best Effort Message Ordering
+      Supports performing simple select queries to retrieve only a subset of
+      objects from the bucket.
+  - id: CCC.ObjStor.CP12
+    title: Storage Classes
     description: |
-      Support for best-effort message ordering with at-least one
-      message delivered.
-  - id: CCC.Message.CP13
-    title: Deduplication of Messages
-    description: |
-      Support for deduplication of messages with use of messaging
-      service capabilities or deduplication IDs.
-  - id: CCC.Message.CP14
-    title: Dead Letter Topics
-    description: |
-      Supports dead-letter topics for handling messages that cannot be
-      delivered or processed.
-  - id: CCC.Message.CP15
-    title: Access Policies
-    description: |
-      Ability to specify access policies on publishers and subscribers.
-  - id: CCC.Message.CP16
-    title: Message Filtering
-    description: |
-      Allows subscribers to receive subset of messages published to the
-      subscribed topic based on attributes or content.
-  - id: CCC.Message.CP17
-    title: Message Retention
-    description: |
-      Ability to set message retention durations per topic.
+      Provides different storage classes for frequently and infrequently
+      accessed objects.
   - id: CCC.Core.CP01
     title: Encryption in Transit Enabled by Default
     description: |
@@ -1164,12 +1479,23 @@ capabilities:
     description: |
       The service automatically encrypts all data using industry-standard
       cryptographic protocols prior to being written to a storage medium.
+  - id: CCC.Core.CP03
+    title: Access Log Publication
+    description: |
+      The service automatically publishes structured, verbose records of
+      activities performed within the scope of the service by external actors.
   - id: CCC.Core.CP04
     title: Transaction Rate Limits
     description: |
       The service can throttle, delay, or reject excess requests when
       transactions exceed a user-specified rate limit, and always
       provides industry-standard throughput up to that limit.
+  - id: CCC.Core.CP05
+    title: Signed URLs
+    description: |
+      The service can generate an ad hoc URL containing authentication
+      information to enforce user-configured permissions for accessing
+      a specific component or a child resource.
   - id: CCC.Core.CP06
     title: Access Control
     description: |
@@ -1193,78 +1519,99 @@ capabilities:
     description: |
       The service automatically publishes structured, numeric, time-series data points related to
       the performance, availability, and health of the service or its child resources.
-  - id: CCC.Core.CP10
-    title: Log Publication
-    description: |
-      The service automatically publishes structured, verbose records of activities,
-      operations, or events that occur within the service.
   - id: CCC.Core.CP14
     title: API Access
     description: |
       The service exposes a port enabling external actors to interact
       programmatically with the service and its resources using HTTP
       protocol methods such as GET, POST, PUT, and DELETE.
-  - id: CCC.Core.CP19
-    title: Resource Scaling
+  - id: CCC.Core.CP15
+    title: Cost Management
     description: |
-      The service may be configured to scale child resources automatically
-      or on-demand.
+      The service monitors data published by child or networked resources to infer
+      usage patterns and generate cost reports for the service.
+  - id: CCC.Core.CP16
+    title: Budgeting
+    description: |
+      The service may be configured to take a user-specified action when a
+      spending threshold is met or exceeded on a child or networked resource.
+  - id: CCC.Core.CP18
+    title: Resource Versioning
+    description: |
+      The service automatically assigns versions to child resources which can be used
+      to preserve, retrieve, and restore past iterations.
   - id: CCC.Core.CP20
     title: Resource Tagging
     description: |
       The service provides users with the ability to tag a child resource with metadata
       that can be reviewed or queried.
+  - id: CCC.Core.CP22
+    title: Location Lock-In
+    description: |
+      The service may be configured to restrict the deployment of child resources
+      to specific geographic locations.
+  - id: CCC.Core.CP28
+    title: Command-line Interface
+    description: |
+      The service includes a component that reads and translates
+      text into commands that can be executed by the service.
+  - id: CCC.Core.CP29
+    title: Active Ingestion
+    description: |
+      While running, the service can receive inputs, commands, or data streams
+      from external sources such as dedicated APIs, exposed network
+      ports, message queues, and persistent data ingestion channels.
 imported-controls:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0
-        remarks: Prevent unencrypted requests
+        remarks: Prevent Unencrypted Requests
       - reference-id: CCC.Core.CN02
         strength: 0
-        remarks: Ensure data encryption at rest for all stored data
+        remarks: Ensure Data Encryption at Rest for All Stored Data
       - reference-id: CCC.Core.CN03
         strength: 0
-        remarks: Implement multi-factor authentication (MFA) for access
+        remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
         strength: 0
-        remarks: Log all access and changes
+        remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
         strength: 0
-        remarks: Prevent access from untrusted entities
+        remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0
-        remarks: Prevent deployment in restricted regions
+        remarks: Prevent Deployment in Restricted Regions
       - reference-id: CCC.Core.CN07
         strength: 0
-        remarks: Alert on unusual enumeration activity
+        remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
         strength: 0
-        remarks: Prevent tampering, deletion, or unauthorized access to access logs
+        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
       - reference-id: CCC.Core.CN10
         strength: 0
-        remarks: Prevent data replication to destinations outside of defined trust perimeter
+        remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 imported-threats:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0
-        remarks: Access control is misconfigured
+        remarks: Access Control is Misconfigured
       - reference-id: CCC.Core.TH02
         strength: 0
-        remarks: Data is intercepted in transit
+        remarks: Data is Intercepted in Transit
       - reference-id: CCC.Core.TH03
         strength: 0
-        remarks: Deployment region network is untrusted
+        remarks: Deployment Region Network is Untrusted
       - reference-id: CCC.Core.TH04
         strength: 0
-        remarks: Data is replicated to untrusted or external locations
+        remarks: Data is Replicated to Untrusted or External Locations
       - reference-id: CCC.Core.TH05
         strength: 0
-        remarks: Data is corrupted during replication
+        remarks: Data is Corrupted During Replication
       - reference-id: CCC.Core.TH06
         strength: 0
-        remarks: Data is lost or corrupted
+        remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
         strength: 0
         remarks: Logs are Tampered With or Deleted
@@ -1282,16 +1629,16 @@ imported-threats:
         remarks: Event Notifications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
         strength: 0
-        remarks: Resource constraints are exhausted
+        remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH13
         strength: 0
-        remarks: Resource Tags Are Manipulated
+        remarks: Resource Tags are Manipulated
       - reference-id: CCC.Core.TH14
         strength: 0
-        remarks: Older Resource Versions Are Exploited
+        remarks: Older Resource Versions are Exploited
       - reference-id: CCC.Core.TH15
         strength: 0
-        remarks: Automated Enumeration and Reconnaissance by Non-Human Entities
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
 imported-capabilities:
   - reference-id: CCC
     entries:
@@ -1301,9 +1648,15 @@ imported-capabilities:
       - reference-id: CCC.Core.CP02
         strength: 0
         remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP03
+        strength: 0
+        remarks: Access Log Publication
       - reference-id: CCC.Core.CP04
         strength: 0
         remarks: Transaction Rate Limits
+      - reference-id: CCC.Core.CP05
+        strength: 0
+        remarks: Signed URLs
       - reference-id: CCC.Core.CP06
         strength: 0
         remarks: Access Control
@@ -1316,24 +1669,27 @@ imported-capabilities:
       - reference-id: CCC.Core.CP09
         strength: 0
         remarks: Metrics Publication
-      - reference-id: CCC.Core.CP10
-        strength: 0
-        remarks: Log Publication
       - reference-id: CCC.Core.CP14
         strength: 0
         remarks: API Access
-      - reference-id: CCC.Core.CP19
+      - reference-id: CCC.Core.CP15
         strength: 0
-        remarks: Resource Scaling
+        remarks: Cost Management
+      - reference-id: CCC.Core.CP16
+        strength: 0
+        remarks: Budgeting
+      - reference-id: CCC.Core.CP18
+        strength: 0
+        remarks: Resource Versioning
       - reference-id: CCC.Core.CP20
         strength: 0
         remarks: Resource Tagging
-      - reference-id: CCC.Core.F23
+      - reference-id: CCC.Core.CP22
         strength: 0
-        remarks: Network Access Rules
-      - reference-id: CCC.Core.F28
+        remarks: Location Lock-In
+      - reference-id: CCC.Core.CP28
         strength: 0
         remarks: Command-line Interface
-      - reference-id: CCC.Core.F29
+      - reference-id: CCC.Core.CP29
         strength: 0
         remarks: Active Ingestion

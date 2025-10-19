@@ -18,3 +18,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# CCC DEV releases (should not be committed)
+src/data/ccc-releases/*_DEV*.yaml

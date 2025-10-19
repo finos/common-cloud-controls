@@ -1,8 +1,13 @@
 - version: "2025.10"
+  assurance-level: ""
+  threat-model-url: ""
+  threat-model-author: ""
+  red-team: ""
+  red-team-exercise-url: ""
   release-manager:
-    name: "Eddie Knight"
-    github-id: "eddie-knight"
-    company: "Sonatype"
+    name: Eddie Knight
+    github-id: eddie-knight
+    company: Sonatype
     quote: |
       This initial release of the FINOS CCC Core Catalog marks a shift
       toward increased reusability of controls across the broader CCC
@@ -23,7 +28,7 @@
       company: ControlPlane
     - name: Jennifer Power
       github-id: jpower432
-      company: "Red Hat"
+      company: Red Hat
     - name: Rob
       github-id: rkenefeck
       company: ControlPlane
