@@ -1,0 +1,4076 @@
+[
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4 has automated backups configured.",
+    "metadata": {
+      "event_code": "cloudsql_instance_automated_backups",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4 has automated backups configured.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.7"
+        ],
+        "SOC2": [
+          "cc_7_4",
+          "cc_7_5"
+        ],
+        "ISO27001-2022": [
+          "A.8.13"
+        ],
+        "ENS-RD2022": [
+          "mp.info.6.gcp.bk.1",
+          "mp.info.6.r2.gcp.bk.1"
+        ],
+        "PCI-4.0": [
+          "1.5.1.27",
+          "10.3.2.16",
+          "10.3.3.1",
+          "10.3.3.8",
+          "10.3.3.14",
+          "10.3.3.20",
+          "10.3.3.21",
+          "3.5.1.3.21",
+          "3.5.1.22",
+          "3.5.1.23",
+          "3.5.1.26",
+          "3.5.1.27",
+          "6.3.3.10",
+          "8.3.2.38",
+          "8.3.2.43",
+          "8.3.2.44",
+          "A1.1.2.12",
+          "A3.4.1.14"
+        ],
+        "CIS-2.0": [
+          "6.7"
+        ],
+        "NIS2": [
+          "4.1.1",
+          "4.1.2.f",
+          "4.1.2.g",
+          "4.1.4",
+          "4.2.2.b",
+          "4.2.2.e",
+          "12.1.2.c"
+        ],
+        "CIS-4.0": [
+          "6.7"
+        ],
+        "CCC": [
+          "CCC.Core.CN08.AR01",
+          "CCC.Core.CN14.AR01",
+          "CCC.Core.CN14.AR02",
+          "CCC.Core.CN14.AR02"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That Cloud SQL Database Instances Are Configured With Automated Backups",
+      "title": "Ensure That Cloud SQL Database Instances Are Configured With Automated Backups",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_automated_backups-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "It is recommended to have all SQL database instances set to enable automated backups.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/configure-ssl-instance/"
+      ]
+    },
+    "risk_details": "Backups provide a way to restore a Cloud SQL instance to recover lost data or recover from a problem with that instance. Automated backups need to be set for any instance that contains data that should be protected from loss or damage. This recommendation is applicable for SQL Server, PostgreSql, MySql generation 1 and MySql generation 2 instances.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have automated backups configured.",
+    "metadata": {
+      "event_code": "cloudsql_instance_automated_backups",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have automated backups configured.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.7"
+        ],
+        "SOC2": [
+          "cc_7_4",
+          "cc_7_5"
+        ],
+        "ISO27001-2022": [
+          "A.8.13"
+        ],
+        "ENS-RD2022": [
+          "mp.info.6.gcp.bk.1",
+          "mp.info.6.r2.gcp.bk.1"
+        ],
+        "PCI-4.0": [
+          "1.5.1.27",
+          "10.3.2.16",
+          "10.3.3.1",
+          "10.3.3.8",
+          "10.3.3.14",
+          "10.3.3.20",
+          "10.3.3.21",
+          "3.5.1.3.21",
+          "3.5.1.22",
+          "3.5.1.23",
+          "3.5.1.26",
+          "3.5.1.27",
+          "6.3.3.10",
+          "8.3.2.38",
+          "8.3.2.43",
+          "8.3.2.44",
+          "A1.1.2.12",
+          "A3.4.1.14"
+        ],
+        "CIS-2.0": [
+          "6.7"
+        ],
+        "NIS2": [
+          "4.1.1",
+          "4.1.2.f",
+          "4.1.2.g",
+          "4.1.4",
+          "4.2.2.b",
+          "4.2.2.e",
+          "12.1.2.c"
+        ],
+        "CIS-4.0": [
+          "6.7"
+        ],
+        "CCC": [
+          "CCC.Core.CN08.AR01",
+          "CCC.Core.CN14.AR01",
+          "CCC.Core.CN14.AR02",
+          "CCC.Core.CN14.AR02"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That Cloud SQL Database Instances Are Configured With Automated Backups",
+      "title": "Ensure That Cloud SQL Database Instances Are Configured With Automated Backups",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_automated_backups-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "It is recommended to have all SQL database instances set to enable automated backups.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/configure-ssl-instance/"
+      ]
+    },
+    "risk_details": "Backups provide a way to restore a Cloud SQL instance to recover lost data or recover from a problem with that instance. Automated backups need to be set for any instance that contains data that should be protected from loss or damage. This recommendation is applicable for SQL Server, PostgreSql, MySql generation 1 and MySql generation 2 instances.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'cloudsql.enable_pgaudit' flag set to 'on'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_enable_pgaudit_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'cloudsql.enable_pgaudit' flag set to 'on'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.8"
+        ],
+        "PCI-4.0": [
+          "10.2.2.8",
+          "10.3.1.8",
+          "10.3.2.2"
+        ],
+        "CIS-2.0": [
+          "6.2.8"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.15"
+        ],
+        "CIS-4.0": [
+          "6.2.8"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That 'cloudsql.enable_pgaudit' Database Flag for each Cloud Sql Postgresql Instance Is Set to 'on' For Centralized Logging",
+      "title": "Ensure That 'cloudsql.enable_pgaudit' Database Flag for each Cloud Sql Postgresql Instance Is Set to 'on' For Centralized Logging",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_enable_pgaudit_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "As numerous other recommendations in this section consist of turning on flags for logging purposes, your organization will need a way to manage these logs. You may have a solution already in place. If you do not, consider installing and enabling the open source pgaudit extension within PostgreSQL and enabling its corresponding flag of cloudsql.enable_pgaudit. This flag and installing the extension enables database auditing in PostgreSQL through the open-source pgAudit extension. This extension provides detailed session and object logging to comply with government, financial, & ISO standards and provides auditing capabilities to mitigate threats by monitoring security events on the instance. Enabling the flag and settings later in this recommendation will send these logs to Google Logs Explorer so that you can access them in a central location.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "Ensure cloudsql.enable_pgaudit database flag for Cloud SQL PostgreSQL instance is set to on to allow for centralized logging.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'cloudsql.enable_pgaudit' flag set to 'on'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_enable_pgaudit_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'cloudsql.enable_pgaudit' flag set to 'on'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.8"
+        ],
+        "PCI-4.0": [
+          "10.2.2.8",
+          "10.3.1.8",
+          "10.3.2.2"
+        ],
+        "CIS-2.0": [
+          "6.2.8"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.15"
+        ],
+        "CIS-4.0": [
+          "6.2.8"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That 'cloudsql.enable_pgaudit' Database Flag for each Cloud Sql Postgresql Instance Is Set to 'on' For Centralized Logging",
+      "title": "Ensure That 'cloudsql.enable_pgaudit' Database Flag for each Cloud Sql Postgresql Instance Is Set to 'on' For Centralized Logging",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_enable_pgaudit_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "As numerous other recommendations in this section consist of turning on flags for logging purposes, your organization will need a way to manage these logs. You may have a solution already in place. If you do not, consider installing and enabling the open source pgaudit extension within PostgreSQL and enabling its corresponding flag of cloudsql.enable_pgaudit. This flag and installing the extension enables database auditing in PostgreSQL through the open-source pgAudit extension. This extension provides detailed session and object logging to comply with government, financial, & ISO standards and provides auditing capabilities to mitigate threats by monitoring security events on the instance. Enabling the flag and settings later in this recommendation will send these logs to Google Logs Explorer so that you can access them in a central location.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "Ensure cloudsql.enable_pgaudit database flag for Cloud SQL PostgreSQL instance is set to on to allow for centralized logging.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'log_connections' flag set to 'on'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_connections_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'log_connections' flag set to 'on'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.2"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "ENS-RD2022": [
+          "op.ext.4.gcp.acc.1"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.12",
+          "10.2.1.1.23",
+          "10.2.1.1.25",
+          "10.2.1.1.26",
+          "10.2.1.2.20",
+          "10.2.1.2.22",
+          "10.2.1.2.23",
+          "10.2.1.3.22",
+          "10.2.1.3.23",
+          "10.2.1.4.20",
+          "10.2.1.4.22",
+          "10.2.1.4.23",
+          "10.2.1.5.20",
+          "10.2.1.5.22",
+          "10.2.1.5.23",
+          "10.2.1.6.20",
+          "10.2.1.6.22",
+          "10.2.1.6.23",
+          "10.2.1.7.20",
+          "10.2.1.7.22",
+          "10.2.1.7.23",
+          "10.2.1.10",
+          "10.2.1.22",
+          "10.2.1.23",
+          "10.2.2.22",
+          "10.2.2.23",
+          "10.3.1.10",
+          "10.3.1.22",
+          "10.3.1.23",
+          "10.3.3.4",
+          "10.6.3.25",
+          "10.6.3.28",
+          "10.6.3.29",
+          "5.3.4.23",
+          "5.3.4.27",
+          "5.3.4.28",
+          "A1.2.1.26",
+          "A1.2.1.27"
+        ],
+        "CIS-2.0": [
+          "6.2.2"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.2.3.a",
+          "3.2.3.c",
+          "3.2.3.d",
+          "3.2.3.e",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.9"
+        ],
+        "CIS-4.0": [
+          "6.2.2"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That the Log_connections Database Flag for Cloud SQL PostgreSQL Instance Is Set to On",
+      "title": "Ensure That the Log_connections Database Flag for Cloud SQL PostgreSQL Instance Is Set to On",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_connections_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "PostgreSQL does not log attempted connections by default. Enabling the log_connections setting will create log entries for each attempted connection as well as successful completion of client authentication which can be useful in troubleshooting issues and to determine any unusual connection attempts to the server.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "Enabling the log_connections setting causes each attempted connection to the server to be logged, along with successful completion of client authentication. This parameter cannot be changed after the session starts.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'log_connections' flag set to 'on'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_connections_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'log_connections' flag set to 'on'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.2"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "ENS-RD2022": [
+          "op.ext.4.gcp.acc.1"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.12",
+          "10.2.1.1.23",
+          "10.2.1.1.25",
+          "10.2.1.1.26",
+          "10.2.1.2.20",
+          "10.2.1.2.22",
+          "10.2.1.2.23",
+          "10.2.1.3.22",
+          "10.2.1.3.23",
+          "10.2.1.4.20",
+          "10.2.1.4.22",
+          "10.2.1.4.23",
+          "10.2.1.5.20",
+          "10.2.1.5.22",
+          "10.2.1.5.23",
+          "10.2.1.6.20",
+          "10.2.1.6.22",
+          "10.2.1.6.23",
+          "10.2.1.7.20",
+          "10.2.1.7.22",
+          "10.2.1.7.23",
+          "10.2.1.10",
+          "10.2.1.22",
+          "10.2.1.23",
+          "10.2.2.22",
+          "10.2.2.23",
+          "10.3.1.10",
+          "10.3.1.22",
+          "10.3.1.23",
+          "10.3.3.4",
+          "10.6.3.25",
+          "10.6.3.28",
+          "10.6.3.29",
+          "5.3.4.23",
+          "5.3.4.27",
+          "5.3.4.28",
+          "A1.2.1.26",
+          "A1.2.1.27"
+        ],
+        "CIS-2.0": [
+          "6.2.2"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.2.3.a",
+          "3.2.3.c",
+          "3.2.3.d",
+          "3.2.3.e",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.9"
+        ],
+        "CIS-4.0": [
+          "6.2.2"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That the Log_connections Database Flag for Cloud SQL PostgreSQL Instance Is Set to On",
+      "title": "Ensure That the Log_connections Database Flag for Cloud SQL PostgreSQL Instance Is Set to On",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_connections_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "PostgreSQL does not log attempted connections by default. Enabling the log_connections setting will create log entries for each attempted connection as well as successful completion of client authentication which can be useful in troubleshooting issues and to determine any unusual connection attempts to the server.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "Enabling the log_connections setting causes each attempted connection to the server to be logged, along with successful completion of client authentication. This parameter cannot be changed after the session starts.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'log_disconnections' flag set to 'on'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_disconnections_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'log_disconnections' flag set to 'on'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.3"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "ENS-RD2022": [
+          "op.ext.4.gcp.acc.1"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.26",
+          "10.2.1.2.22",
+          "10.2.1.2.23",
+          "10.2.1.3.23",
+          "10.2.1.4.22",
+          "10.2.1.4.23",
+          "10.2.1.5.23",
+          "10.2.1.6.23",
+          "10.2.1.7.23",
+          "10.2.1.22",
+          "10.2.1.23",
+          "10.2.2.23",
+          "10.3.1.23",
+          "10.6.3.29",
+          "5.3.4.27",
+          "5.3.4.28",
+          "A1.2.1.27"
+        ],
+        "CIS-2.0": [
+          "6.2.3"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.2.3.d",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.10"
+        ],
+        "CIS-4.0": [
+          "6.2.3"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That the log_disconnections Database Flag for Cloud SQL PostgreSQL Instance Is Set to On",
+      "title": "Ensure That the log_disconnections Database Flag for Cloud SQL PostgreSQL Instance Is Set to On",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_disconnections_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Enabling the log_disconnections setting logs the end of each session, including the session duration.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "PostgreSQL does not log session details such as duration and session end by default. Enabling the log_disconnections setting will create log entries at the end of each session which can be useful in troubleshooting issues and determine any unusual activity across a time period.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'log_disconnections' flag set to 'on'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_disconnections_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'log_disconnections' flag set to 'on'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.3"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "ENS-RD2022": [
+          "op.ext.4.gcp.acc.1"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.26",
+          "10.2.1.2.22",
+          "10.2.1.2.23",
+          "10.2.1.3.23",
+          "10.2.1.4.22",
+          "10.2.1.4.23",
+          "10.2.1.5.23",
+          "10.2.1.6.23",
+          "10.2.1.7.23",
+          "10.2.1.22",
+          "10.2.1.23",
+          "10.2.2.23",
+          "10.3.1.23",
+          "10.6.3.29",
+          "5.3.4.27",
+          "5.3.4.28",
+          "A1.2.1.27"
+        ],
+        "CIS-2.0": [
+          "6.2.3"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.2.3.d",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.10"
+        ],
+        "CIS-4.0": [
+          "6.2.3"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That the log_disconnections Database Flag for Cloud SQL PostgreSQL Instance Is Set to On",
+      "title": "Ensure That the log_disconnections Database Flag for Cloud SQL PostgreSQL Instance Is Set to On",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_disconnections_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Enabling the log_disconnections setting logs the end of each session, including the session duration.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "PostgreSQL does not log session details such as duration and session end by default. Enabling the log_disconnections setting will create log entries at the end of each session which can be useful in troubleshooting issues and determine any unusual activity across a time period.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4 has 'log_error_verbosity' flag set to 'default'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_error_verbosity_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4 has 'log_error_verbosity' flag set to 'default'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.1"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.12",
+          "10.2.1.1.23",
+          "10.2.1.2.20",
+          "10.2.1.4.20",
+          "10.2.1.5.20",
+          "10.2.1.6.20",
+          "10.2.1.6.22",
+          "10.2.1.7.10",
+          "10.2.1.7.20",
+          "10.2.1.10",
+          "10.3.1.10",
+          "10.3.1.22",
+          "10.6.3.12",
+          "10.6.3.25",
+          "5.3.4.23",
+          "5.3.4.28",
+          "A1.2.1.26"
+        ],
+        "CIS-2.0": [
+          "6.2.1"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "CIS-4.0": [
+          "6.2.1"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure Log_error_verbosity Database Flag for Cloud SQL PostgreSQL Instance Is Set to DEFAULT or Stricter",
+      "title": "Ensure Log_error_verbosity Database Flag for Cloud SQL PostgreSQL Instance Is Set to DEFAULT or Stricter",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_error_verbosity_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Auditing helps in troubleshooting operational problems and also permits forensic analysis. If log_error_verbosity is not set to the correct value, too many details or too few details may be logged. This flag should be configured with a value of 'DEFAULT' or stricter. This recommendation is applicable to PostgreSQL database instances.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "The log_error_verbosity flag controls the verbosity/details of messages logged.TERSE excludes the logging of DETAIL, HINT, QUERY, and CONTEXT error information. VERBOSE output includes the SQLSTATE error code, source code file name, function name, and line number that generated the error. Ensure an appropriate value is set to 'DEFAULT' or stricter.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 has 'log_error_verbosity' flag set to 'default'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_error_verbosity_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 has 'log_error_verbosity' flag set to 'default'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.1"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.12",
+          "10.2.1.1.23",
+          "10.2.1.2.20",
+          "10.2.1.4.20",
+          "10.2.1.5.20",
+          "10.2.1.6.20",
+          "10.2.1.6.22",
+          "10.2.1.7.10",
+          "10.2.1.7.20",
+          "10.2.1.10",
+          "10.3.1.10",
+          "10.3.1.22",
+          "10.6.3.12",
+          "10.6.3.25",
+          "5.3.4.23",
+          "5.3.4.28",
+          "A1.2.1.26"
+        ],
+        "CIS-2.0": [
+          "6.2.1"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "CIS-4.0": [
+          "6.2.1"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure Log_error_verbosity Database Flag for Cloud SQL PostgreSQL Instance Is Set to DEFAULT or Stricter",
+      "title": "Ensure Log_error_verbosity Database Flag for Cloud SQL PostgreSQL Instance Is Set to DEFAULT or Stricter",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_error_verbosity_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Auditing helps in troubleshooting operational problems and also permits forensic analysis. If log_error_verbosity is not set to the correct value, too many details or too few details may be logged. This flag should be configured with a value of 'DEFAULT' or stricter. This recommendation is applicable to PostgreSQL database instances.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "The log_error_verbosity flag controls the verbosity/details of messages logged.TERSE excludes the logging of DETAIL, HINT, QUERY, and CONTEXT error information. VERBOSE output includes the SQLSTATE error code, source code file name, function name, and line number that generated the error. Ensure an appropriate value is set to 'DEFAULT' or stricter.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4 has 'log_min_duration_statement' flag set to '-1'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_min_duration_statement_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4 has 'log_min_duration_statement' flag set to '-1'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.7"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "CIS-2.0": [
+          "6.2.7"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.14"
+        ],
+        "CIS-4.0": [
+          "6.2.7"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure that the Log_min_duration_statement Flag for a Cloud SQL PostgreSQL Instance Is Set to -1",
+      "title": "Ensure that the Log_min_duration_statement Flag for a Cloud SQL PostgreSQL Instance Is Set to -1",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_min_duration_statement_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Logging SQL statements may include sensitive information that should not be recorded in logs. This recommendation is applicable to PostgreSQL database instances.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "The log_min_duration_statement flag defines the minimum amount of execution time of a statement in milliseconds where the total duration of the statement is logged. Ensure that log_min_duration_statement is disabled, i.e., a value of -1 is set.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 has 'log_min_duration_statement' flag set to '-1'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_min_duration_statement_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 has 'log_min_duration_statement' flag set to '-1'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.7"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "CIS-2.0": [
+          "6.2.7"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.14"
+        ],
+        "CIS-4.0": [
+          "6.2.7"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure that the Log_min_duration_statement Flag for a Cloud SQL PostgreSQL Instance Is Set to -1",
+      "title": "Ensure that the Log_min_duration_statement Flag for a Cloud SQL PostgreSQL Instance Is Set to -1",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_min_duration_statement_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Logging SQL statements may include sensitive information that should not be recorded in logs. This recommendation is applicable to PostgreSQL database instances.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "The log_min_duration_statement flag defines the minimum amount of execution time of a statement in milliseconds where the total duration of the statement is logged. Ensure that log_min_duration_statement is disabled, i.e., a value of -1 is set.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4 has 'log_min_error_statement' flag set minimum to 'error'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_min_error_statement_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4 has 'log_min_error_statement' flag set minimum to 'error'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.6"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.12",
+          "10.2.1.1.23",
+          "10.2.1.1.25",
+          "10.2.1.1.26",
+          "10.2.1.2.20",
+          "10.2.1.2.22",
+          "10.2.1.2.23",
+          "10.2.1.3.23",
+          "10.2.1.4.10",
+          "10.2.1.4.20",
+          "10.2.1.4.22",
+          "10.2.1.4.23",
+          "10.2.1.5.10",
+          "10.2.1.5.20",
+          "10.2.1.5.22",
+          "10.2.1.5.23",
+          "10.2.1.6.20",
+          "10.2.1.6.22",
+          "10.2.1.6.23",
+          "10.2.1.7.10",
+          "10.2.1.7.20",
+          "10.2.1.7.22",
+          "10.2.1.7.23",
+          "10.2.1.10",
+          "10.2.1.22",
+          "10.2.1.23",
+          "10.2.2.15",
+          "10.2.2.22",
+          "10.2.2.23",
+          "10.3.1.10",
+          "10.3.1.22",
+          "10.3.1.23",
+          "10.3.2.2",
+          "10.3.3.4",
+          "10.3.4.3",
+          "10.6.3.12",
+          "10.6.3.25",
+          "10.6.3.28",
+          "10.6.3.29",
+          "5.3.4.8",
+          "5.3.4.23",
+          "5.3.4.27",
+          "A1.2.1.26",
+          "A1.2.1.27"
+        ],
+        "CIS-2.0": [
+          "6.2.6"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.13"
+        ],
+        "CIS-4.0": [
+          "6.2.6"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure that the Log_min_error_statement Flag for a Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "title": "Ensure that the Log_min_error_statement Flag for a Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_min_error_statement_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Auditing helps in troubleshooting operational problems and also permits forensic analysis. If log_min_error_statement is not set to the correct value, messages may not be classified as error messages appropriately. Considering general log messages as error messages would make is difficult to find actual errors and considering only stricter severity levels as error messages may skip actual errors to log their SQL statements. The log_min_error_statement flag should be set to ERROR or stricter.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "The log_min_error_statement flag defines the minimum message severity level that are considered as an error statement. Messages for error statements are logged with the SQL statement. Valid values include DEBUG5, DEBUG4, DEBUG3, DEBUG2, DEBUG1, INFO, NOTICE, WARNING, ERROR, LOG, FATAL, and PANIC. Each severity level includes the subsequent levels mentioned above. Ensure a value of ERROR or stricter is set.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 has 'log_min_error_statement' flag set minimum to 'error'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_min_error_statement_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 has 'log_min_error_statement' flag set minimum to 'error'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.6"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.12",
+          "10.2.1.1.23",
+          "10.2.1.1.25",
+          "10.2.1.1.26",
+          "10.2.1.2.20",
+          "10.2.1.2.22",
+          "10.2.1.2.23",
+          "10.2.1.3.23",
+          "10.2.1.4.10",
+          "10.2.1.4.20",
+          "10.2.1.4.22",
+          "10.2.1.4.23",
+          "10.2.1.5.10",
+          "10.2.1.5.20",
+          "10.2.1.5.22",
+          "10.2.1.5.23",
+          "10.2.1.6.20",
+          "10.2.1.6.22",
+          "10.2.1.6.23",
+          "10.2.1.7.10",
+          "10.2.1.7.20",
+          "10.2.1.7.22",
+          "10.2.1.7.23",
+          "10.2.1.10",
+          "10.2.1.22",
+          "10.2.1.23",
+          "10.2.2.15",
+          "10.2.2.22",
+          "10.2.2.23",
+          "10.3.1.10",
+          "10.3.1.22",
+          "10.3.1.23",
+          "10.3.2.2",
+          "10.3.3.4",
+          "10.3.4.3",
+          "10.6.3.12",
+          "10.6.3.25",
+          "10.6.3.28",
+          "10.6.3.29",
+          "5.3.4.8",
+          "5.3.4.23",
+          "5.3.4.27",
+          "A1.2.1.26",
+          "A1.2.1.27"
+        ],
+        "CIS-2.0": [
+          "6.2.6"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.13"
+        ],
+        "CIS-4.0": [
+          "6.2.6"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure that the Log_min_error_statement Flag for a Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "title": "Ensure that the Log_min_error_statement Flag for a Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_min_error_statement_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Auditing helps in troubleshooting operational problems and also permits forensic analysis. If log_min_error_statement is not set to the correct value, messages may not be classified as error messages appropriately. Considering general log messages as error messages would make is difficult to find actual errors and considering only stricter severity levels as error messages may skip actual errors to log their SQL statements. The log_min_error_statement flag should be set to ERROR or stricter.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "The log_min_error_statement flag defines the minimum message severity level that are considered as an error statement. Messages for error statements are logged with the SQL statement. Valid values include DEBUG5, DEBUG4, DEBUG3, DEBUG2, DEBUG1, INFO, NOTICE, WARNING, ERROR, LOG, FATAL, and PANIC. Each severity level includes the subsequent levels mentioned above. Ensure a value of ERROR or stricter is set.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'log_min_messages' flag set.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_min_messages_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'log_min_messages' flag set.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.5"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.12",
+          "10.2.1.1.26",
+          "10.2.1.2.22",
+          "10.2.1.2.23",
+          "10.2.1.3.23",
+          "10.2.1.4.10",
+          "10.2.1.4.22",
+          "10.2.1.4.23",
+          "10.2.1.5.10",
+          "10.2.1.5.23",
+          "10.2.1.6.23",
+          "10.2.1.7.10",
+          "10.2.1.7.20",
+          "10.2.1.7.23",
+          "10.2.1.10",
+          "10.2.1.22",
+          "10.2.1.23",
+          "10.2.2.15",
+          "10.2.2.23",
+          "10.3.1.10",
+          "10.3.1.22",
+          "10.3.1.23",
+          "10.6.3.12",
+          "10.6.3.29",
+          "5.3.4.27",
+          "5.3.4.28",
+          "A1.2.1.26",
+          "A1.2.1.27"
+        ],
+        "CIS-2.0": [
+          "6.2.5"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.12"
+        ],
+        "CIS-4.0": [
+          "6.2.5"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure that the Log_min_messages Flag for a Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "title": "Ensure that the Log_min_messages Flag for a Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_min_messages_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "The log_min_messages flag defines the minimum message severity level that is considered as an error statement. Messages for error statements are logged with the SQL statement. Valid values include DEBUG5, DEBUG4, DEBUG3, DEBUG2, DEBUG1, INFO, NOTICE, WARNING, ERROR, LOG, FATAL, and PANIC. Each severity level includes the subsequent levels mentioned above. ERROR is considered the best practice setting. Changes should only be made in accordance with the organization's logging policy.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "Auditing helps in troubleshooting operational problems and also permits forensic analysis. If log_min_messages is not set to the correct value, messages may not be classified as error messages appropriately. An organization will need to decide their own threshold for logging log_min_messages flag.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'log_min_messages' flag set.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_min_messages_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'log_min_messages' flag set.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.5"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.12",
+          "10.2.1.1.26",
+          "10.2.1.2.22",
+          "10.2.1.2.23",
+          "10.2.1.3.23",
+          "10.2.1.4.10",
+          "10.2.1.4.22",
+          "10.2.1.4.23",
+          "10.2.1.5.10",
+          "10.2.1.5.23",
+          "10.2.1.6.23",
+          "10.2.1.7.10",
+          "10.2.1.7.20",
+          "10.2.1.7.23",
+          "10.2.1.10",
+          "10.2.1.22",
+          "10.2.1.23",
+          "10.2.2.15",
+          "10.2.2.23",
+          "10.3.1.10",
+          "10.3.1.22",
+          "10.3.1.23",
+          "10.6.3.12",
+          "10.6.3.29",
+          "5.3.4.27",
+          "5.3.4.28",
+          "A1.2.1.26",
+          "A1.2.1.27"
+        ],
+        "CIS-2.0": [
+          "6.2.5"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.12"
+        ],
+        "CIS-4.0": [
+          "6.2.5"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure that the Log_min_messages Flag for a Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "title": "Ensure that the Log_min_messages Flag for a Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_min_messages_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "The log_min_messages flag defines the minimum message severity level that is considered as an error statement. Messages for error statements are logged with the SQL statement. Valid values include DEBUG5, DEBUG4, DEBUG3, DEBUG2, DEBUG1, INFO, NOTICE, WARNING, ERROR, LOG, FATAL, and PANIC. Each severity level includes the subsequent levels mentioned above. ERROR is considered the best practice setting. Changes should only be made in accordance with the organization's logging policy.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "Auditing helps in troubleshooting operational problems and also permits forensic analysis. If log_min_messages is not set to the correct value, messages may not be classified as error messages appropriately. An organization will need to decide their own threshold for logging log_min_messages flag.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'log_statement' flag set to 'ddl'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_statement_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4 does not have 'log_statement' flag set to 'ddl'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.4"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.23",
+          "10.2.1.2.20",
+          "10.2.1.4.20",
+          "10.2.1.5.20",
+          "10.2.1.6.20",
+          "10.6.3.25",
+          "5.3.4.23"
+        ],
+        "CIS-2.0": [
+          "6.2.4"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.11"
+        ],
+        "CIS-4.0": [
+          "6.2.4"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That the Log_statement Database Flag for Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "title": "Ensure That the Log_statement Database Flag for Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_statement_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "The value ddl logs all data definition statements. A value of 'ddl' is recommended unless otherwise directed by your organization's logging policy.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "Auditing helps in forensic analysis. If log_statement is not set to the correct value, too many statements may be logged leading to issues in finding the relevant information from the logs, or too few statements may be logged with relevant information missing from the logs.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'log_statement' flag set to 'ddl'.",
+    "metadata": {
+      "event_code": "cloudsql_instance_postgres_log_statement_flag",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "PostgreSQL Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have 'log_statement' flag set to 'ddl'.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.2.4"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "ISO27001-2022": [
+          "A.8.16"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.23",
+          "10.2.1.2.20",
+          "10.2.1.4.20",
+          "10.2.1.5.20",
+          "10.2.1.6.20",
+          "10.6.3.25",
+          "5.3.4.23"
+        ],
+        "CIS-2.0": [
+          "6.2.4"
+        ],
+        "NIS2": [
+          "3.2.1",
+          "3.6.2",
+          "7.2.b",
+          "11.5.2.d"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.11"
+        ],
+        "CIS-4.0": [
+          "6.2.4"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That the Log_statement Database Flag for Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "title": "Ensure That the Log_statement Database Flag for Cloud SQL PostgreSQL Instance Is Set Appropriately",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_postgres_log_statement_flag-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "The value ddl logs all data definition statements. A value of 'ddl' is recommended unless otherwise directed by your organization's logging policy.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/flags"
+      ]
+    },
+    "risk_details": "Auditing helps in forensic analysis. If log_statement is not set to the correct value, too many statements may be logged leading to issues in finding the relevant information from the logs, or too few statements may be logged with relevant information missing from the logs.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4 does not have private IP assignments.",
+    "metadata": {
+      "event_code": "cloudsql_instance_private_ip_assignment",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4 does not have private IP assignments.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "ENS-RD2022": [
+          "mp.com.4.gcp.vpc.1"
+        ],
+        "PCI-4.0": [
+          "1.2.8.28",
+          "1.3.1.30",
+          "1.3.1.31",
+          "1.3.2.31",
+          "1.4.2.8",
+          "1.4.2.28",
+          "1.4.2.29",
+          "1.5.1.28",
+          "10.3.2.15",
+          "3.5.1.3.20",
+          "A1.1.2.11",
+          "A1.1.3.28",
+          "A3.4.1.13"
+        ],
+        "CIS-2.0": [
+          "6.2.9"
+        ],
+        "NIS2": [
+          "12.2.2.c"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01",
+          "CCC.MLDE.CN07.AR02",
+          "CCC.MLDE.CN08.AR01",
+          "CCC.MLDE.CN08.AR02",
+          "CCC.SvlsComp.CN01.AR01",
+          "CCC.Core.CN05.AR06"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure Instance IP assignment is set to private",
+      "title": "Ensure Instance IP assignment is set to private",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_private_ip_assignment-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Setting databases access only to private will reduce attack surface.",
+      "references": [
+        "https://cloud.google.com/sql/docs/mysql/configure-private-ip"
+      ]
+    },
+    "risk_details": "Instance addresses can be public IP or private IP. Public IP means that the instance is accessible through the public internet. In contrast, instances using only private IP are not accessible through the public internet, but are accessible through a Virtual Private Cloud (VPC). Limiting network access to your database will limit potential attacks.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have private IP assignments.",
+    "metadata": {
+      "event_code": "cloudsql_instance_private_ip_assignment",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have private IP assignments.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "ENS-RD2022": [
+          "mp.com.4.gcp.vpc.1"
+        ],
+        "PCI-4.0": [
+          "1.2.8.28",
+          "1.3.1.30",
+          "1.3.1.31",
+          "1.3.2.31",
+          "1.4.2.8",
+          "1.4.2.28",
+          "1.4.2.29",
+          "1.5.1.28",
+          "10.3.2.15",
+          "3.5.1.3.20",
+          "A1.1.2.11",
+          "A1.1.3.28",
+          "A3.4.1.13"
+        ],
+        "CIS-2.0": [
+          "6.2.9"
+        ],
+        "NIS2": [
+          "12.2.2.c"
+        ],
+        "CCC": [
+          "CCC.DataWar.CN03.AR01",
+          "CCC.MLDE.CN07.AR02",
+          "CCC.MLDE.CN08.AR01",
+          "CCC.MLDE.CN08.AR02",
+          "CCC.SvlsComp.CN01.AR01",
+          "CCC.Core.CN05.AR06"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure Instance IP assignment is set to private",
+      "title": "Ensure Instance IP assignment is set to private",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_private_ip_assignment-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Setting databases access only to private will reduce attack surface.",
+      "references": [
+        "https://cloud.google.com/sql/docs/mysql/configure-private-ip"
+      ]
+    },
+    "risk_details": "Instance addresses can be public IP or private IP. Public IP means that the instance is accessible through the public internet. In contrast, instances using only private IP are not accessible through the public internet, but are accessible through a Virtual Private Cloud (VPC). Limiting network access to your database will limit potential attacks.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4 does not whitelist all Public IP Addresses.",
+    "metadata": {
+      "event_code": "cloudsql_instance_public_access",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4 does not whitelist all Public IP Addresses.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [
+        "internet-exposed"
+      ],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.5",
+          "6.6"
+        ],
+        "SOC2": [
+          "cc_6_2"
+        ],
+        "ISO27001-2022": [
+          "A.8.1"
+        ],
+        "ENS-RD2022": [
+          "op.mon.3.r5.gcp.dm.1"
+        ],
+        "PCI-4.0": [
+          "1.2.8.27",
+          "1.2.8.28",
+          "1.2.8.32",
+          "1.3.1.30",
+          "1.3.1.31",
+          "1.3.1.35",
+          "1.3.2.30",
+          "1.3.2.31",
+          "1.3.2.35",
+          "1.3.2.36",
+          "1.4.2.8",
+          "1.4.2.28",
+          "1.4.2.29",
+          "1.4.5.1",
+          "1.5.1.27",
+          "1.5.1.28",
+          "10.3.2.14",
+          "10.3.2.15",
+          "10.3.2.16",
+          "3.5.1.3.19",
+          "3.5.1.3.20",
+          "3.5.1.3.21",
+          "3.5.1.3.24",
+          "7.2.2.22",
+          "7.3.1.16",
+          "7.3.1.17",
+          "7.3.2.17",
+          "7.3.3.16",
+          "7.3.3.17",
+          "8.2.7.14",
+          "8.2.7.16",
+          "A1.1.2.2",
+          "A1.1.2.10",
+          "A1.1.2.11",
+          "A1.1.2.12",
+          "A1.1.3.16",
+          "A1.1.3.27",
+          "A1.1.3.28",
+          "A1.1.3.31",
+          "A1.1.3.32",
+          "A3.4.1.12",
+          "A3.4.1.13",
+          "A3.4.1.14",
+          "A3.4.1.25"
+        ],
+        "MITRE-ATTACK": [
+          "T1190"
+        ],
+        "CIS-2.0": [
+          "6.5"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "2.2.5",
+          "2.2.6"
+        ],
+        "CIS-4.0": [
+          "6.5",
+          "6.6"
+        ],
+        "CCC": [
+          "CCC.Build.CN03.AR01",
+          "CCC.GenAI.CN04.AR01",
+          "CCC.MLDE.CN07.AR02",
+          "CCC.MLDE.CN08.AR01",
+          "CCC.MLDE.CN08.AR02",
+          "CCC.SvlsComp.CN01.AR01",
+          "CCC.Core.CN01.AR03",
+          "CCC.Core.CN03.AR04",
+          "CCC.Core.CN05.AR03",
+          "CCC.Core.CN05.AR04",
+          "CCC.Core.CN05.AR05",
+          "CCC.Core.CN05.AR06"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That Cloud SQL Database Instances Do Not Implicitly Whitelist All Public IP Addresses ",
+      "title": "Ensure That Cloud SQL Database Instances Do Not Implicitly Whitelist All Public IP Addresses ",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_public_access-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Database Server should accept connections only from trusted Network(s)/IP(s) and restrict access from public IP addresses.",
+      "references": [
+        "https://cloud.google.com/sql/docs/mysql/connection-org-policy"
+      ]
+    },
+    "risk_details": "To minimize attack surface on a Database server instance, only trusted/known and required IP(s) should be white-listed to connect to it. An authorized network should not have IPs/networks configured to 0.0.0.0/0 which will allow access to the instance from anywhere in the world. Note that authorized networks apply only to instances with public IPs.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not whitelist all Public IP Addresses.",
+    "metadata": {
+      "event_code": "cloudsql_instance_public_access",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not whitelist all Public IP Addresses.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [
+        "internet-exposed"
+      ],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.5",
+          "6.6"
+        ],
+        "SOC2": [
+          "cc_6_2"
+        ],
+        "ISO27001-2022": [
+          "A.8.1"
+        ],
+        "ENS-RD2022": [
+          "op.mon.3.r5.gcp.dm.1"
+        ],
+        "PCI-4.0": [
+          "1.2.8.27",
+          "1.2.8.28",
+          "1.2.8.32",
+          "1.3.1.30",
+          "1.3.1.31",
+          "1.3.1.35",
+          "1.3.2.30",
+          "1.3.2.31",
+          "1.3.2.35",
+          "1.3.2.36",
+          "1.4.2.8",
+          "1.4.2.28",
+          "1.4.2.29",
+          "1.4.5.1",
+          "1.5.1.27",
+          "1.5.1.28",
+          "10.3.2.14",
+          "10.3.2.15",
+          "10.3.2.16",
+          "3.5.1.3.19",
+          "3.5.1.3.20",
+          "3.5.1.3.21",
+          "3.5.1.3.24",
+          "7.2.2.22",
+          "7.3.1.16",
+          "7.3.1.17",
+          "7.3.2.17",
+          "7.3.3.16",
+          "7.3.3.17",
+          "8.2.7.14",
+          "8.2.7.16",
+          "A1.1.2.2",
+          "A1.1.2.10",
+          "A1.1.2.11",
+          "A1.1.2.12",
+          "A1.1.3.16",
+          "A1.1.3.27",
+          "A1.1.3.28",
+          "A1.1.3.31",
+          "A1.1.3.32",
+          "A3.4.1.12",
+          "A3.4.1.13",
+          "A3.4.1.14",
+          "A3.4.1.25"
+        ],
+        "MITRE-ATTACK": [
+          "T1190"
+        ],
+        "CIS-2.0": [
+          "6.5"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "2.2.5",
+          "2.2.6"
+        ],
+        "CIS-4.0": [
+          "6.5",
+          "6.6"
+        ],
+        "CCC": [
+          "CCC.Build.CN03.AR01",
+          "CCC.GenAI.CN04.AR01",
+          "CCC.MLDE.CN07.AR02",
+          "CCC.MLDE.CN08.AR01",
+          "CCC.MLDE.CN08.AR02",
+          "CCC.SvlsComp.CN01.AR01",
+          "CCC.Core.CN01.AR03",
+          "CCC.Core.CN03.AR04",
+          "CCC.Core.CN05.AR03",
+          "CCC.Core.CN05.AR04",
+          "CCC.Core.CN05.AR05",
+          "CCC.Core.CN05.AR06"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That Cloud SQL Database Instances Do Not Implicitly Whitelist All Public IP Addresses ",
+      "title": "Ensure That Cloud SQL Database Instances Do Not Implicitly Whitelist All Public IP Addresses ",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_public_access-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "Database Server should accept connections only from trusted Network(s)/IP(s) and restrict access from public IP addresses.",
+      "references": [
+        "https://cloud.google.com/sql/docs/mysql/connection-org-policy"
+      ]
+    },
+    "risk_details": "To minimize attack surface on a Database server instance, only trusted/known and required IP(s) should be white-listed to connect to it. An authorized network should not have IPs/networks configured to 0.0.0.0/0 which will allow access to the instance from anywhere in the world. Note that authorized networks apply only to instances with public IPs.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4 does not have a public IP.",
+    "metadata": {
+      "event_code": "cloudsql_instance_public_ip",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4 does not have a public IP.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "https://www.trendmicro.com/cloudoneconformity/knowledge-base/gcp/CloudSQL/sql-database-instances-with-public-ips.html",
+      "categories": [
+        "internet-exposed"
+      ],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "ISO27001-2022": [
+          "A.8.1"
+        ],
+        "ENS-RD2022": [
+          "mp.com.4.gcp.vpc.1"
+        ],
+        "PCI-4.0": [
+          "1.2.8.28",
+          "1.3.1.30",
+          "1.3.1.31",
+          "1.3.2.31",
+          "1.4.2.8",
+          "1.4.2.28",
+          "1.4.2.29",
+          "1.5.1.28",
+          "10.3.2.14",
+          "10.3.2.15",
+          "10.3.2.16",
+          "3.5.1.3.19",
+          "3.5.1.3.20",
+          "3.5.1.3.21",
+          "A1.1.2.10",
+          "A1.1.2.11",
+          "A1.1.2.12",
+          "A1.1.3.27",
+          "A1.1.3.28",
+          "A3.4.1.12",
+          "A3.4.1.13",
+          "A3.4.1.14"
+        ],
+        "MITRE-ATTACK": [
+          "T1190"
+        ],
+        "CIS-2.0": [
+          "6.6"
+        ],
+        "CCC": [
+          "CCC.Build.CN03.AR01",
+          "CCC.DataWar.CN03.AR01",
+          "CCC.MLDE.CN07.AR02",
+          "CCC.MLDE.CN08.AR01",
+          "CCC.MLDE.CN08.AR02",
+          "CCC.SvlsComp.CN01.AR01",
+          "CCC.Core.CN01.AR03",
+          "CCC.Core.CN03.AR02",
+          "CCC.Core.CN03.AR04",
+          "CCC.Core.CN05.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR03",
+          "CCC.Core.CN05.AR04",
+          "CCC.Core.CN05.AR06"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Check for Cloud SQL Database Instances with Public IPs",
+      "title": "Check for Cloud SQL Database Instances with Public IPs",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_public_ip-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "To lower the organization's attack surface, Cloud SQL databases should not have public IPs. Private IPs provide improved network security and lower latency for your application.",
+      "references": [
+        "https://cloud.google.com/sql/docs/mysql/configure-private-ip"
+      ]
+    },
+    "risk_details": "To lower the organization's attack surface, Cloud SQL databases should not have public IPs. Private IPs provide improved network security and lower latency for your application.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have a public IP.",
+    "metadata": {
+      "event_code": "cloudsql_instance_public_ip",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not have a public IP.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "https://www.trendmicro.com/cloudoneconformity/knowledge-base/gcp/CloudSQL/sql-database-instances-with-public-ips.html",
+      "categories": [
+        "internet-exposed"
+      ],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "ISO27001-2022": [
+          "A.8.1"
+        ],
+        "ENS-RD2022": [
+          "mp.com.4.gcp.vpc.1"
+        ],
+        "PCI-4.0": [
+          "1.2.8.28",
+          "1.3.1.30",
+          "1.3.1.31",
+          "1.3.2.31",
+          "1.4.2.8",
+          "1.4.2.28",
+          "1.4.2.29",
+          "1.5.1.28",
+          "10.3.2.14",
+          "10.3.2.15",
+          "10.3.2.16",
+          "3.5.1.3.19",
+          "3.5.1.3.20",
+          "3.5.1.3.21",
+          "A1.1.2.10",
+          "A1.1.2.11",
+          "A1.1.2.12",
+          "A1.1.3.27",
+          "A1.1.3.28",
+          "A3.4.1.12",
+          "A3.4.1.13",
+          "A3.4.1.14"
+        ],
+        "MITRE-ATTACK": [
+          "T1190"
+        ],
+        "CIS-2.0": [
+          "6.6"
+        ],
+        "CCC": [
+          "CCC.Build.CN03.AR01",
+          "CCC.DataWar.CN03.AR01",
+          "CCC.MLDE.CN07.AR02",
+          "CCC.MLDE.CN08.AR01",
+          "CCC.MLDE.CN08.AR02",
+          "CCC.SvlsComp.CN01.AR01",
+          "CCC.Core.CN01.AR03",
+          "CCC.Core.CN03.AR02",
+          "CCC.Core.CN03.AR04",
+          "CCC.Core.CN05.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR03",
+          "CCC.Core.CN05.AR04",
+          "CCC.Core.CN05.AR06"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Check for Cloud SQL Database Instances with Public IPs",
+      "title": "Check for Cloud SQL Database Instances with Public IPs",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_public_ip-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "To lower the organization's attack surface, Cloud SQL databases should not have public IPs. Private IPs provide improved network security and lower latency for your application.",
+      "references": [
+        "https://cloud.google.com/sql/docs/mysql/configure-private-ip"
+      ]
+    },
+    "risk_details": "To lower the organization's attack surface, Cloud SQL databases should not have public IPs. Private IPs provide improved network security and lower latency for your application.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4 does not require SSL connections.",
+    "metadata": {
+      "event_code": "cloudsql_instance_ssl_connections",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4 does not require SSL connections.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.4"
+        ],
+        "SOC2": [
+          "cc_6_7"
+        ],
+        "ISO27001-2022": [
+          "A.8.12"
+        ],
+        "ENS-RD2022": [
+          "op.acc.6.r3.gcp.iam.2"
+        ],
+        "PCI-4.0": [
+          "1.2.5.14",
+          "1.2.8.28",
+          "1.3.1.30",
+          "1.3.1.31",
+          "1.3.2.31",
+          "1.4.2.28",
+          "1.4.2.29",
+          "10.2.1.3.22",
+          "10.3.2.15",
+          "2.2.5.14",
+          "2.2.7.6",
+          "2.2.7.18",
+          "3.5.1.22",
+          "3.5.1.23",
+          "3.5.1.25",
+          "3.5.1.26",
+          "3.5.1.27",
+          "4.2.1.1.10",
+          "4.2.1.1.26",
+          "4.2.1.6",
+          "4.2.1.7",
+          "4.2.1.18",
+          "7.2.1.22",
+          "7.2.2.20",
+          "7.2.2.22",
+          "7.2.5.16",
+          "7.2.5.17",
+          "7.3.1.14",
+          "7.3.2.17",
+          "7.3.3.14",
+          "7.3.3.17",
+          "8.2.7.14",
+          "8.2.7.16",
+          "8.2.7.17",
+          "8.2.8.16",
+          "8.3.2.15",
+          "8.3.2.38",
+          "8.3.2.42",
+          "8.3.2.43",
+          "8.3.2.44",
+          "8.3.2.47",
+          "A1.1.2.11"
+        ],
+        "MITRE-ATTACK": [
+          "T1040",
+          "T1530"
+        ],
+        "CIS-2.0": [
+          "6.4"
+        ],
+        "NIS2": [
+          "12.2.2.c"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "4.1.2"
+        ],
+        "CIS-4.0": [
+          "6.4"
+        ],
+        "CCC": [
+          "CCC.Core.CN01.AR01",
+          "CCC.Core.CN01.AR03",
+          "CCC.Core.CN01.AR08"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That the Cloud SQL Database Instance Requires All Incoming Connections To Use SSL",
+      "title": "Ensure That the Cloud SQL Database Instance Requires All Incoming Connections To Use SSL",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_ssl_connections-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": true,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "It is recommended to enforce all incoming connections to SQL database instance to use SSL.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/configure-ssl-instance/"
+      ]
+    },
+    "risk_details": "SQL database connections if successfully trapped (MITM), can reveal sensitive data like credentials, database queries, query outputs etc. For security, it is recommended to always use SSL encryption when connecting to your instance. This recommendation is applicable for Postgresql, MySql generation 1, MySql generation 2 and SQL Server 2017 instances.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not require SSL connections.",
+    "metadata": {
+      "event_code": "cloudsql_instance_ssl_connections",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Database Instance tf-pg-psc-81f580c4-replica-test-psc0 does not require SSL connections.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "CIS-3.0": [
+          "6.4"
+        ],
+        "SOC2": [
+          "cc_6_7"
+        ],
+        "ISO27001-2022": [
+          "A.8.12"
+        ],
+        "ENS-RD2022": [
+          "op.acc.6.r3.gcp.iam.2"
+        ],
+        "PCI-4.0": [
+          "1.2.5.14",
+          "1.2.8.28",
+          "1.3.1.30",
+          "1.3.1.31",
+          "1.3.2.31",
+          "1.4.2.28",
+          "1.4.2.29",
+          "10.2.1.3.22",
+          "10.3.2.15",
+          "2.2.5.14",
+          "2.2.7.6",
+          "2.2.7.18",
+          "3.5.1.22",
+          "3.5.1.23",
+          "3.5.1.25",
+          "3.5.1.26",
+          "3.5.1.27",
+          "4.2.1.1.10",
+          "4.2.1.1.26",
+          "4.2.1.6",
+          "4.2.1.7",
+          "4.2.1.18",
+          "7.2.1.22",
+          "7.2.2.20",
+          "7.2.2.22",
+          "7.2.5.16",
+          "7.2.5.17",
+          "7.3.1.14",
+          "7.3.2.17",
+          "7.3.3.14",
+          "7.3.3.17",
+          "8.2.7.14",
+          "8.2.7.16",
+          "8.2.7.17",
+          "8.2.8.16",
+          "8.3.2.15",
+          "8.3.2.38",
+          "8.3.2.42",
+          "8.3.2.43",
+          "8.3.2.44",
+          "8.3.2.47",
+          "A1.1.2.11"
+        ],
+        "MITRE-ATTACK": [
+          "T1040",
+          "T1530"
+        ],
+        "CIS-2.0": [
+          "6.4"
+        ],
+        "NIS2": [
+          "12.2.2.c"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "4.1.2"
+        ],
+        "CIS-4.0": [
+          "6.4"
+        ],
+        "CCC": [
+          "CCC.Core.CN01.AR01",
+          "CCC.Core.CN01.AR03",
+          "CCC.Core.CN01.AR08"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760902094,
+      "created_time_dt": "2025-10-19T19:28:14.629523",
+      "desc": "Ensure That the Cloud SQL Database Instance Requires All Incoming Connections To Use SSL",
+      "title": "Ensure That the Cloud SQL Database Instance Requires All Incoming Connections To Use SSL",
+      "types": [],
+      "uid": "prowler-gcp-cloudsql_instance_ssl_connections-nodal-time-474015-p5-us-central1-tf-pg-psc-81f580c4-replica-test-psc0"
+    },
+    "resources": [
+      {
+        "region": "us-central1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+            "version": "POSTGRES_15",
+            "ip_addresses": [],
+            "region": "us-central1",
+            "public_ip": false,
+            "authorized_networks": [],
+            "require_ssl": false,
+            "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED",
+            "automated_backups": false,
+            "flags": [
+              {
+                "name": "autovacuum",
+                "value": "off"
+              }
+            ],
+            "project_id": "nodal-time-474015-p5"
+          }
+        },
+        "group": {
+          "name": "cloudsql"
+        },
+        "labels": [],
+        "name": "tf-pg-psc-81f580c4-replica-test-psc0",
+        "type": "DatabaseInstance",
+        "uid": "tf-pg-psc-81f580c4-replica-test-psc0"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "My First Project",
+        "type": "GCP Account",
+        "type_id": 5,
+        "uid": "nodal-time-474015-p5",
+        "labels": []
+      },
+      "org": {},
+      "provider": "gcp",
+      "region": "us-central1"
+    },
+    "remediation": {
+      "desc": "It is recommended to enforce all incoming connections to SQL database instance to use SSL.",
+      "references": [
+        "https://cloud.google.com/sql/docs/postgres/configure-ssl-instance/"
+      ]
+    },
+    "risk_details": "SQL database connections if successfully trapped (MITM), can reveal sensitive data like credentials, database queries, query outputs etc. For security, it is recommended to always use SSL encryption when connecting to your instance. This recommendation is applicable for Postgresql, MySql generation 1, MySql generation 2 and SQL Server 2017 instances.",
+    "time": 1760902094,
+    "time_dt": "2025-10-19T19:28:14.629523",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  }
+]

@@ -23,27 +23,44 @@ export default function CFIRepository({ pageData }: { pageData: RepositoryPageDa
 
   // Calculate aggregate statistics across all configurations
   const totalConfigurations = configurations.length;
-  const totalTests = configurations.reduce((sum, config) => sum + (config.test_results?.length || 0), 0);
-  const totalPassingTests = configurations.reduce((sum, config) => sum + (config.test_results?.filter((r) => r.status_code === "PASS").length || 0), 0);
-  const totalFailingTests = configurations.reduce((sum, config) => sum + (config.test_results?.filter((r) => r.status_code === "FAIL").length || 0), 0);
+
+  // Sum across all configuration results for each configuration
+  const totalTests = configurations.reduce((sum, config) => {
+    const configTests = config.results?.reduce((configSum, result) => configSum + (result.test_results?.length || 0), 0) || 0;
+    return sum + configTests;
+  }, 0);
+
+  const totalPassingTests = configurations.reduce((sum, config) => {
+    const configPassing = config.results?.reduce((configSum, result) => configSum + (result.test_results?.filter((r) => r.status_code === "PASS").length || 0), 0) || 0;
+    return sum + configPassing;
+  }, 0);
+
+  const totalFailingTests = configurations.reduce((sum, config) => {
+    const configFailing = config.results?.reduce((configSum, result) => configSum + (result.test_results?.filter((r) => r.status_code === "FAIL").length || 0), 0) || 0;
+    return sum + configFailing;
+  }, 0);
 
   // Get unique resources across all configurations
   const allResources = new Set<string>();
   configurations.forEach((config) => {
-    config.all_ocsf_results?.forEach((result) => {
-      if (result.resource_name) {
-        allResources.add(result.resource_name);
-      }
+    config.results?.forEach((result) => {
+      result.test_results?.forEach((testResult) => {
+        if (testResult.resource_name) {
+          allResources.add(testResult.resource_name);
+        }
+      });
     });
   });
 
   // Get unique catalogs across all configurations
   const allCatalogs = new Set<string>();
   configurations.forEach((config) => {
-    config.test_results?.forEach((result) => {
-      result.test_requirements?.forEach((req) => {
-        const catalogId = extractCatalogId(req);
-        if (catalogId) allCatalogs.add(catalogId);
+    config.results?.forEach((result) => {
+      result.test_results?.forEach((testResult) => {
+        testResult.test_requirements?.forEach((req) => {
+          const catalogId = extractCatalogId(req);
+          if (catalogId) allCatalogs.add(catalogId);
+        });
       });
     });
   });
@@ -197,8 +214,9 @@ export default function CFIRepository({ pageData }: { pageData: RepositoryPageDa
                   </TableHeader>
                   <TableBody>
                     {configurations.map((config, index) => {
-                      const totalTests = config.test_results?.length || 0;
-                      const passingTests = config.test_results?.filter((r) => r.status_code === "PASS").length || 0;
+                      // Sum across all configuration results for this configuration
+                      const totalTests = config.results?.reduce((sum, result) => sum + (result.test_results?.length || 0), 0) || 0;
+                      const passingTests = config.results?.reduce((sum, result) => sum + (result.test_results?.filter((r) => r.status_code === "PASS").length || 0), 0) || 0;
                       const passRate = totalTests > 0 ? Math.round((passingTests / totalTests) * 100) : 0;
 
                       return (

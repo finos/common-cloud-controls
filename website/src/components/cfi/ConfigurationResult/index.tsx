@@ -95,10 +95,12 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
     });
 
     // Find missing requirements
-    const missingRequirements = Array.from(allRequirementsInCatalog).filter((reqId) => !testedRequirements.has(reqId));
+    // Filter to only include requirements that match this catalog
+    const missingRequirements = Array.from(allRequirementsInCatalog).filter((reqId) => !testedRequirements.has(reqId) && extractCatalogId(reqId) === catalogId);
 
     // Convert tested requirements to objects with URLs and titles
-    const testedRequirementsArray = Array.from(testedRequirements);
+    // Filter to only include requirements that match this catalog
+    const testedRequirementsArray = Array.from(testedRequirements).filter((reqId) => extractCatalogId(reqId) === catalogId);
     summary.testedRequirements = testedRequirementsArray.map((reqId) => {
       // Find the requirement data to get title and generate URL
       let title = reqId;
@@ -476,11 +478,17 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                         <TableCell>
                           <div className="flex flex-wrap gap-1">
                             {summary.testedRequirements.length > 0 ? (
-                              summary.testedRequirements.map((tested, testedIndex) => (
-                                <Link key={testedIndex} to={tested.url} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors" title={tested.title}>
-                                  {tested.id}
-                                </Link>
-                              ))
+                              summary.testedRequirements.map((tested, testedIndex) =>
+                                tested.url === "#" ? (
+                                  <span key={testedIndex} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium" title={`${tested.title} (broken mapping)`}>
+                                    {tested.id}
+                                  </span>
+                                ) : (
+                                  <Link key={testedIndex} to={tested.url} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors" title={tested.title}>
+                                    {tested.id}
+                                  </Link>
+                                )
+                              )
                             ) : (
                               <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">None tested</span>
                             )}
@@ -489,11 +497,17 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                         <TableCell>
                           <div className="flex flex-wrap gap-1">
                             {summary.missingRequirements.length > 0 ? (
-                              summary.missingRequirements.map((missing, missingIndex) => (
-                                <Link key={missingIndex} to={missing.url} className="px-2 py-1 text-xs rounded-full bg-orange-100 text-orange-800 hover:bg-orange-200 hover:text-orange-900 transition-colors" title={missing.title}>
-                                  {missing.id}
-                                </Link>
-                              ))
+                              summary.missingRequirements.map((missing, missingIndex) =>
+                                missing.url === "#" ? (
+                                  <span key={missingIndex} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium" title={`${missing.title} (broken mapping)`}>
+                                    {missing.id}
+                                  </span>
+                                ) : (
+                                  <Link key={missingIndex} to={missing.url} className="px-2 py-1 text-xs rounded-full bg-orange-100 text-orange-800 hover:bg-orange-200 hover:text-orange-900 transition-colors" title={missing.title}>
+                                    {missing.id}
+                                  </Link>
+                                )
+                              )
                             ) : (
                               <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">All covered</span>
                             )}
@@ -523,7 +537,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                   <TableHeader>
                     <TableRow>
                       <TableHead>Control Catalog</TableHead>
-                      <TableHead>Test Requirement ID</TableHead>
+                      <TableHead>Test Requirement</TableHead>
                       <TableHead>Mapped Tests (Event Code | Total | Passing | Failing)</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -542,12 +556,20 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               const { requirement, control, release } = requirementData;
                               const linkUrl = getControlUrl(release, control, requirement.id);
                               return (
-                                <Link to={linkUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm" title={`${control.title}: ${requirement.text}`}>
-                                  {mapping.testRequirementId}
-                                </Link>
+                                <div>
+                                  <Link to={linkUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
+                                    {mapping.testRequirementId}
+                                  </Link>
+                                  <div className="text-sm text-gray-600 mt-1">{requirement.text || "No description"}</div>
+                                </div>
                               );
                             } else {
-                              return <span className="font-mono text-sm text-gray-600">{mapping.testRequirementId}</span>;
+                              return (
+                                <div>
+                                  <span className="font-mono text-sm text-red-600 font-medium">{mapping.testRequirementId}</span>
+                                  <div className="text-sm text-gray-500 italic mt-1">Description not available</div>
+                                </div>
+                              );
                             }
                           })()}
                         </TableCell>
@@ -698,9 +720,9 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                                   </Link>
                                 );
                               } else {
-                                // Fallback for requirements not found in CCC data
+                                // Fallback for requirements not found in CCC data (broken mapping)
                                 return (
-                                  <span key={index} className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-mono">
+                                  <span key={index} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-mono font-medium" title="Broken mapping">
                                     {requirementId}
                                   </span>
                                 );

@@ -1,0 +1,325 @@
+[
+  {
+    "message": "Network Watcher NetworkWatcher_swedencentral from subscription Azure subscription 1 has no flow logs",
+    "metadata": {
+      "event_code": "network_flow_log_captured_sent",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Network Watcher NetworkWatcher_swedencentral from subscription Azure subscription 1 has no flow logs",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "https://learn.microsoft.com/en-us/security/benchmark/azure/mcsb-logging-threat-detection#lt-4-enable-network-logging-for-security-investigation",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "The impact of configuring NSG Flow logs is primarily one of cost and configuration. If deployed, it will create storage accounts that hold minimal amounts of data on a 5-day lifecycle before feeding to Log Analytics Workspace. This will increase the amount of data stored and used by Azure Monitor.",
+      "compliance": {
+        "ENS-RD2022": [
+          "op.mon.1.r1.az.nf.1",
+          "op.mon.3.az.nw.1",
+          "mp.s.4.r1.az.nt.1"
+        ],
+        "MITRE-ATTACK": [
+          "T1048",
+          "T1499"
+        ],
+        "CIS-2.0": [
+          "5.1.6"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.1.8"
+        ],
+        "ISO27001-2022": [
+          "A.8.14",
+          "A.8.15",
+          "A.8.20",
+          "A.8.21",
+          "A.8.22"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1"
+        ],
+        "CIS-2.1": [
+          "5.1.5"
+        ],
+        "CIS-3.0": [
+          "6.1.5"
+        ],
+        "CCC": [
+          "CCC.LB.CN01.AR02",
+          "CCC.LB.CN06.AR01",
+          "CCC.Logging.CN01.AR01",
+          "CCC.Logging.CN01.AR02",
+          "CCC.VPC.CN04.AR01",
+          "CCC.Core.CN09.AR01",
+          "CCC.Core.CN09.AR03",
+          "CCC.Core.CN04.AR01",
+          "CCC.Core.CN04.AR02",
+          "CCC.Core.CN04.AR03"
+        ],
+        "CIS-4.0": [
+          "7.1.1.5"
+        ],
+        "NIS2": [
+          "2.1.2.h",
+          "2.3.1",
+          "3.2.3.a",
+          "3.2.3.d",
+          "3.2.3.g",
+          "6.7.2.b",
+          "6.7.2.l",
+          "11.1.1",
+          "11.2.2.f"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760900493,
+      "created_time_dt": "2025-10-19T19:01:33.799774",
+      "desc": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
+      "title": "Ensure that network flow logs are captured and fed into a central log analytics workspace.",
+      "types": [],
+      "uid": "prowler-azure-network_flow_log_captured_sent-3bb71587-4549-4396-8898-9e15f062e665-swedencentral-NetworkWatcher_swedencentral"
+    },
+    "resources": [
+      {
+        "cloud_partition": "AzureCloud",
+        "region": "swedencentral",
+        "data": {
+          "details": "",
+          "metadata": {
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_swedencentral",
+            "name": "NetworkWatcher_swedencentral",
+            "location": "swedencentral",
+            "flow_logs": []
+          }
+        },
+        "group": {
+          "name": "network"
+        },
+        "labels": [],
+        "name": "NetworkWatcher_swedencentral",
+        "type": "Network",
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_swedencentral"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "Azure subscription 1",
+        "type": "Azure AD Account",
+        "type_id": 6,
+        "uid": "3bb71587-4549-4396-8898-9e15f062e665",
+        "labels": []
+      },
+      "org": {
+        "name": "Unknown tenant domain (missing AAD permissions)",
+        "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
+      },
+      "provider": "azure",
+      "region": "swedencentral"
+    },
+    "remediation": {
+      "desc": "1. Navigate to Network Watcher. 2. Select NSG flow logs. 3. Select + Create. 4. Select the desired Subscription. 5. Select + Select NSG. 6. Select a network security group. 7. Click Confirm selection. 8. Select or create a new Storage Account. 9. Input the retention in days to retain the log. 10. Click Next. 11. Under Configuration, select Version 2. 12. If rich analytics are required, select Enable Traffic Analytics, a processing interval, and a Log Analytics Workspace. 13. Select Next. 14. Optionally add Tags. 15. Select Review + create. 16. Select Create. Warning The remediation policy creates remediation deployment and names them by concatenating the subscription name and the resource group name. The MAXIMUM permitted length of a deployment name is 64 characters. Exceeding this will cause the remediation task to fail.",
+      "references": [
+        "https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-nsg-flow-logging-portal"
+      ]
+    },
+    "risk_details": "Network Flow Logs provide valuable insight into the flow of traffic around your network and feed into both Azure Monitor and Azure Sentinel (if in use), permitting the generation of visual flow diagrams to aid with analyzing for lateral movement, etc.",
+    "time": 1760900493,
+    "time_dt": "2025-10-19T19:01:33.799774",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Network Watcher NetworkWatcher_swedencentral from subscription Azure subscription 1 has no flow logs",
+    "metadata": {
+      "event_code": "network_flow_log_more_than_90_days",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730",
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Network Watcher NetworkWatcher_swedencentral from subscription Azure subscription 1 has no flow logs",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": " https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-nsg-flow-logging-overview",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "This will keep IP traffic logs for longer than 90 days. As a level 2, first determine your need to retain data, then apply your selection here. As this is data stored for longer, your monthly storage costs will increase depending on your data use.",
+      "compliance": {
+        "ENS-RD2022": [
+          "op.exp.8.r3.az.nt.1",
+          "op.mon.3.az.nw.1"
+        ],
+        "MITRE-ATTACK": [
+          "T1499"
+        ],
+        "CIS-2.0": [
+          "6.5"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "3.2.1"
+        ],
+        "ISO27001-2022": [
+          "A.8.15",
+          "A.8.20",
+          "A.8.21",
+          "A.8.22"
+        ],
+        "SOC2": [
+          "cc_7_2",
+          "cc_7_3",
+          "cc_a_1_1",
+          "cc_c_1_2"
+        ],
+        "CIS-2.1": [
+          "6.5"
+        ],
+        "CIS-3.0": [
+          "7.5"
+        ],
+        "CCC": [
+          "CCC.Logging.CN02.AR01",
+          "CCC.Logging.CN02.AR02",
+          "CCC.VPC.CN04.AR01"
+        ],
+        "PCI-4.0": [
+          "10.2.1.1.34",
+          "10.2.1.2.29",
+          "10.2.1.3.29",
+          "10.2.1.4.29",
+          "10.2.1.5.29",
+          "10.2.1.6.29",
+          "10.2.1.7.29",
+          "10.2.1.29",
+          "10.2.2.29",
+          "10.3.1.29",
+          "10.6.3.39",
+          "5.3.4.34",
+          "A1.2.1.34"
+        ],
+        "CIS-4.0": [
+          "8.8",
+          "8.5"
+        ],
+        "NIS2": [
+          "1.1.1.c",
+          "2.1.2.h",
+          "2.3.1",
+          "3.2.3.a",
+          "3.2.3.g",
+          "3.2.5",
+          "4.1.2.g",
+          "4.1.4",
+          "4.2.2.f",
+          "6.1.2.b",
+          "6.7.2.b",
+          "6.7.2.l",
+          "11.1.1",
+          "11.2.2.f",
+          "12.2.2.a"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760900493,
+      "created_time_dt": "2025-10-19T19:01:33.799774",
+      "desc": "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days.",
+      "title": "Ensure that Network Security Group Flow Log retention period is 0, 90 days or greater",
+      "types": [],
+      "uid": "prowler-azure-network_flow_log_more_than_90_days-3bb71587-4549-4396-8898-9e15f062e665-swedencentral-NetworkWatcher_swedencentral"
+    },
+    "resources": [
+      {
+        "cloud_partition": "AzureCloud",
+        "region": "swedencentral",
+        "data": {
+          "details": "",
+          "metadata": {
+            "id": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_swedencentral",
+            "name": "NetworkWatcher_swedencentral",
+            "location": "swedencentral",
+            "flow_logs": []
+          }
+        },
+        "group": {
+          "name": "network"
+        },
+        "labels": [],
+        "name": "NetworkWatcher_swedencentral",
+        "type": "Network",
+        "uid": "/subscriptions/3bb71587-4549-4396-8898-9e15f062e665/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_swedencentral"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "Azure subscription 1",
+        "type": "Azure AD Account",
+        "type_id": 6,
+        "uid": "3bb71587-4549-4396-8898-9e15f062e665",
+        "labels": []
+      },
+      "org": {
+        "name": "Unknown tenant domain (missing AAD permissions)",
+        "uid": "6a7cc8e9-8f46-4e6c-ac87-8d5841c99730"
+      },
+      "provider": "azure",
+      "region": "swedencentral"
+    },
+    "remediation": {
+      "desc": "From Azure Portal 1. Go to Network Watcher 2. Select NSG flow logs blade in the Logs section 3. Select each Network Security Group from the list 4. Ensure Status is set to On 5. Ensure Retention (days) setting greater than 90 days 6. Select your storage account in the Storage account field 7. Select Save From Azure CLI Enable the NSG flow logs and set the Retention (days) to greater than or equal to 90 days. az network watcher flow-log configure --nsg <NameorID of the Network Security Group> --enabled true --resource-group <resourceGroupName> --retention 91 --storage-account <NameorID of the storage account to save flow logs>",
+      "references": [
+        "https://docs.microsoft.com/en-us/cli/azure/network/watcher/flow-log?view=azure-cli-latest"
+      ]
+    },
+    "risk_details": "Flow logs enable capturing information about IP traffic flowing in and out of network security groups. Logs can be used to check for anomalies and give insight into suspected breaches.",
+    "time": 1760900493,
+    "time_dt": "2025-10-19T19:01:33.799774",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  }
+]

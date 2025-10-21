@@ -70,8 +70,8 @@ async function downloadYamlAssets(): Promise<void> {
         const catalogGroups = new Map<string, ReleaseAsset[]>();
 
         for (const asset of yamlAssets) {
-            // Extract catalog base name (e.g., "CCC.KeyMgmt" from "CCC.KeyMgmt_2025.07.yaml")
-            const baseName = asset.name.replace(/_([\d.]+)\.yaml$/, '').replace(/-release-details\.yaml$/, '');
+            // Extract catalog base name (e.g., "CCC.KeyMgmt" from "CCC.KeyMgmt_2025.07.yaml" or "CCC.KeyMgmt_v2025.07.yaml")
+            const baseName = asset.name.replace(/_(v?[\d.]+)(-release-details)?\.yaml$/, '');
 
             if (!catalogGroups.has(baseName)) {
                 catalogGroups.set(baseName, []);
