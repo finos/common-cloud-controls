@@ -1,6 +1,6 @@
 metadata:
     id: CCC.ObjStor
-    title: Object Storage
+    title: FINOS CCC Object Storage
     description: |
         Object Storage is a data management architecture that handles data as objects,
         rather than as files or blocks. Each object contains the stored data,
