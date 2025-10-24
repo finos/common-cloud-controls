@@ -36,22 +36,22 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F02
+          - reference-id: CCC.IAM.CP02
             strength: 0 # Not yet specified
             remarks: IAM Users
-          - reference-id: CCC.IAM.F03
+          - reference-id: CCC.IAM.CP03
             strength: 0 # Not yet specified
             remarks: Long-Term Credentials
-          - reference-id: CCC.IAM.F04
+          - reference-id: CCC.IAM.CP04
             strength: 0 # Not yet specified
             remarks: Password Management
-          - reference-id: CCC.IAM.F07
+          - reference-id: CCC.IAM.CP07
             strength: 0 # Not yet specified
             remarks: Managed Identities
-          - reference-id: CCC.IAM.F08
+          - reference-id: CCC.IAM.CP08
             strength: 0 # Not yet specified
             remarks: Federated Identity - SAML
-          - reference-id: CCC.IAM.F09
+          - reference-id: CCC.IAM.CP09
             strength: 0 # Not yet specified
             remarks: Federated Identity - OIDC
     external-mappings:
@@ -83,22 +83,22 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F02
+          - reference-id: CCC.IAM.CP02
             strength: 0 # Not yet specified
             remarks: IAM Users
-          - reference-id: CCC.IAM.F05
+          - reference-id: CCC.IAM.CP05
             strength: 0 # Not yet specified
             remarks: IAM Groups
-          - reference-id: CCC.IAM.F06
+          - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles / Service Principals
-          - reference-id: CCC.IAM.F07
+          - reference-id: CCC.IAM.CP07
             strength: 0 # Not yet specified
             remarks: Managed Identities
-          - reference-id: CCC.IAM.F10
+          - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
-          - reference-id: CCC.IAM.F12
+          - reference-id: CCC.IAM.CP12
             strength: 0 # Not yet specified
             remarks: Policy Conditions
     external-mappings:
@@ -118,13 +118,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F06
+          - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles / Service Principals
-          - reference-id: CCC.IAM.F12
+          - reference-id: CCC.IAM.CP12
             strength: 0 # Not yet specified
             remarks: Policy Conditions
-          - reference-id: CCC.IAM.F15
+          - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption / Delegation
     external-mappings:
@@ -143,22 +143,22 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F02
+          - reference-id: CCC.IAM.CP02
             strength: 0 # Not yet specified
             remarks: IAM Users
-          - reference-id: CCC.IAM.F03
+          - reference-id: CCC.IAM.CP03
             strength: 0 # Not yet specified
             remarks: Long-Term Credentials
-          - reference-id: CCC.IAM.F04
+          - reference-id: CCC.IAM.CP04
             strength: 0 # Not yet specified
             remarks: Password Management
-          - reference-id: CCC.IAM.F08
+          - reference-id: CCC.IAM.CP08
             strength: 0 # Not yet specified
             remarks: Federated Identity - SAML
-          - reference-id: CCC.IAM.F09
+          - reference-id: CCC.IAM.CP09
             strength: 0 # Not yet specified
             remarks: Federated Identity - OIDC
-          - reference-id: CCC.IAM.F11
+          - reference-id: CCC.IAM.CP11
             strength: 0 # Not yet specified
             remarks: Temporary Credentials
     external-mappings:
@@ -176,13 +176,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F06
+          - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles / Service Principals
-          - reference-id: CCC.IAM.F10
+          - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
-          - reference-id: CCC.IAM.F15
+          - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption / Delegation
     external-mappings:
@@ -200,13 +200,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F02
+          - reference-id: CCC.IAM.CP02
             strength: 0 # Not yet specified
             remarks: IAM Users
-          - reference-id: CCC.IAM.F06
+          - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles / Service Principals
-          - reference-id: CCC.IAM.F10
+          - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
     external-mappings:
@@ -229,7 +229,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F05
+          - reference-id: CCC.IAM.CP05
             strength: 0 # Not yet specified
             remarks: IAM Groups
     external-mappings:
@@ -250,13 +250,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F02
+          - reference-id: CCC.IAM.CP02
             strength: 0 # Not yet specified
             remarks: IAM Users
-          - reference-id: CCC.IAM.F06
+          - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles / Service Principals
-          - reference-id: CCC.IAM.F15
+          - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption / Delegation
     external-mappings:
@@ -275,10 +275,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F02
+          - reference-id: CCC.IAM.CP02
             strength: 0 # Not yet specified
             remarks: IAM Users
-          - reference-id: CCC.IAM.F03
+          - reference-id: CCC.IAM.CP03
             strength: 0 # Not yet specified
             remarks: Long-Term Credentials
     external-mappings:
@@ -302,10 +302,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F08
+          - reference-id: CCC.IAM.CP08
             strength: 0 # Not yet specified
             remarks: Federated Identity - SAML
-          - reference-id: CCC.IAM.F09
+          - reference-id: CCC.IAM.CP09
             strength: 0 # Not yet specified
             remarks: Federated Identity - OIDC
     external-mappings:
@@ -323,16 +323,16 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F02
+          - reference-id: CCC.IAM.CP02
             strength: 0 # Not yet specified
             remarks: IAM Users
-          - reference-id: CCC.IAM.F03
+          - reference-id: CCC.IAM.CP03
             strength: 0 # Not yet specified
             remarks: Long-Term Credentials
-          - reference-id: CCC.IAM.F04
+          - reference-id: CCC.IAM.CP04
             strength: 0 # Not yet specified
             remarks: Password Management
-          - reference-id: CCC.IAM.F06
+          - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles / Service Principals
     external-mappings:
@@ -354,13 +354,13 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.F06
+          - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles / Service Principals
-          - reference-id: CCC.IAM.F10
+          - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
-          - reference-id: CCC.IAM.F15
+          - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption / Delegation
     external-mappings:

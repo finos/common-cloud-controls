@@ -36,7 +36,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F11
+          - reference-id: CCC.VM.CP11
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -52,7 +52,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F16
+          - reference-id: CCC.VM.CP16
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -67,7 +67,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F19
+          - reference-id: CCC.VM.CP19
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -83,7 +83,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F18
+          - reference-id: CCC.VM.CP18
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -98,7 +98,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.F23
+          - reference-id: CCC.Core.CP23
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -114,7 +114,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F22
+          - reference-id: CCC.VM.CP22
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -131,7 +131,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F06
+          - reference-id: CCC.VM.CP06
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -151,7 +151,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F07
+          - reference-id: CCC.VM.CP07
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -172,7 +172,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F08
+          - reference-id: CCC.VM.CP08
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -193,7 +193,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F09
+          - reference-id: CCC.VM.CP09
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -210,7 +210,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VM.F10
+          - reference-id: CCC.VM.CP10
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

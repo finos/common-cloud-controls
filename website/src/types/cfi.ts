@@ -75,15 +75,23 @@ export interface CFIRepository {
 }
 
 /**
- * 
+ * These are downloaded from github actions, and contain the test results for a single configuration.
  */
 export interface Configuration {
     cfi_details: CFIConfigJson;
     repository: CFIRepository;
     slug: string;
-    test_results?: TestResultItem[];
-    all_ocsf_results?: TestResultItem[];
+    results: ConfigurationResult[];
 }
+
+
+export interface ConfigurationResult {
+    product: string;
+    vendor: string;
+    version: string;
+    test_results: TestResultItem[];
+}
+
 
 export interface CFIResultSummary {
     name: string;
@@ -103,6 +111,22 @@ export interface HomePageData {
 
 export interface ConfigurationPageData {
     configuration: Configuration;
+    configurationResultSummaries: ConfigurationResultSummary[];
+}
+
+export interface ConfigurationResultSummary {
+    product: string;
+    vendor: string;
+    version: string;
+    slug: string;
+    totalTests: number;
+    passingTests: number;
+    failingTests: number;
+}
+
+export interface ConfigurationResultPageData {
+    configuration: Configuration;
+    configurationResult: ConfigurationResult;
 }
 
 export interface RepositoryPageData {
@@ -146,4 +170,17 @@ export interface TestSummary {
     passingTests: number;
     failingTests: number;
     catalogsTested: string[];
+}
+
+export interface TestMappingDetail {
+    eventCode: string;
+    totalTests: number;
+    passingTests: number;
+    failingTests: number;
+}
+
+export interface TestMappingSummary {
+    controlCatalog: string;
+    testRequirementId: string;
+    mappedTests: TestMappingDetail[];
 }

@@ -1,100 +1,115 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.F04
+      - reference-id: CCC.Core.CP04
         remarks: Transaction Rate Limits
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         remarks: Event Publication
-      - reference-id: CCC.Core.F08
+      - reference-id: CCC.Core.CP08
         remarks: Data Replication
-      - reference-id: CCC.Core.F11
+      - reference-id: CCC.Core.CP09
+        remarks: Metrics Publication
+      - reference-id: CCC.Core.CP10
+        remarks: Log Publication
+      - reference-id: CCC.Core.CP11
         remarks: Backup
-      - reference-id: CCC.Core.F12
+      - reference-id: CCC.Core.CP12
         remarks: Recovery
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F19
+      - reference-id: CCC.Core.CP19
         remarks: Resource Scaling
-
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Control
+      - reference-id: CCC.Core.CP24
+        remarks: Core Processing Units (CPU)
+      - reference-id: CCC.Core.CP25
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.CP26
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
 
 capabilities:
-  - id: CCC.DataWar.F01
+  - id: CCC.DataWar.CP01
     title: Centralized Data Repository
     description: |
       Acts as a centralized repository where data from various
       sources is consolidated, making it easier to manage and
       analyze large volumes of data.
 
-  - id: CCC.DataWar.F02
+  - id: CCC.DataWar.CP02
     title: Optimized Query Performance
     description: |
       Handles complex queries on large datasets efficiently using
       techniques such as indexing and partitioning.
 
-  - id: CCC.DataWar.F03
+  - id: CCC.DataWar.CP03
     title: Scalability
     description: |
       Ability to scale with growing data volumes and handle multiple
       queries simultaneously without compromising the performance.
 
-  - id: CCC.DataWar.F04
+  - id: CCC.DataWar.CP04
     title: Column Storage
     description: |
       Stores data in columns rather than rows for efficient
       data retrieval.
 
-  - id: CCC.DataWar.F05
+  - id: CCC.DataWar.CP05
     title: SQL Based Querying
     description: |
       Supports SQL based querying on the data sets with specific
       enhancements and optimization for data warehousing.
 
-  - id: CCC.DataWar.F06
+  - id: CCC.DataWar.CP06
     title: Data Types
     description: |
       Ability to store processed structured and semi-structured
       data optimized for querying and analysis.
 
-  - id: CCC.DataWar.F07
+  - id: CCC.DataWar.CP07
     title: Massively Parallel Processing (MPP)
     description: |
       Distributes queries across multiple nodes for increased performance.
 
-  - id: CCC.DataWar.F08
+  - id: CCC.DataWar.CP08
     title: Materialized Views
     description: |
       Ability to store results of a query into physical tables for faster
       data retrieval and improved query performance for complex queries.
 
-  - id: CCC.DataWar.F09
+  - id: CCC.DataWar.CP09
     title: Column-Level Security
     description: |
       Allows setting access policies at the column level to
       restrict access to sensitive data fields within tables.
 
-  - id: CCC.DataWar.F10
+  - id: CCC.DataWar.CP10
     title: Row-Level Security
     description: |
       Enables setting access policies at the row level to
       control access to subsets of data within a table based
       on user roles.
 
-  - id: CCC.DataWar.F11
+  - id: CCC.DataWar.CP11
     title: Integration with Data Sources
     description: |
       Seamless integration with various data sources such as object
       storage, relational and non-relational databases, data streams
       and data lakes.
 
-  - id: CCC.DataWar.F12
+  - id: CCC.DataWar.CP12
     title: Integration with ETL
     description: |
       Integration with services that perform extract, transform and
@@ -102,7 +117,7 @@ capabilities:
       data in transformed to structured or semi-structured data before
       ingestion to the data warehouse using ETL tools.
 
-  - id: CCC.DataWar.F13
+  - id: CCC.DataWar.CP13
     title: Integration with ML
     description: |
       Build-in integration with machine learning services for enhanced
@@ -110,20 +125,20 @@ capabilities:
       predictive analytics, automated insights and more. ML can be used
       in data cleansing and transformation for improved data quality as well.
 
-  - id: CCC.DataWar.F14
+  - id: CCC.DataWar.CP14
     title: Real-time Metrics Publication
     description: |
       Ability to continuously track and analyze data as it is ingested,
       processed and stored to ensure data quality, operational efficiency,
       scalability and security.
 
-  - id: CCC.DataWar.F15
+  - id: CCC.DataWar.CP15
     title: Cross-Region Replication
     description: |
       Ability to replicate data to multiple regions for high availability,
       disaster recovery and low-latency access.
 
-  - id: CCC.DataWar.F16
+  - id: CCC.DataWar.CP16
     title: View Creation and Access
     description: |
       Supports the creation of views (can be logical or material) to abstract

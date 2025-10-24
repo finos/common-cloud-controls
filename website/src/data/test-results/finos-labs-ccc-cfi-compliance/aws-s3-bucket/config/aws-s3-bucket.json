@@ -1,0 +1,9 @@
+{
+    "id": "aws-s3-bucket",
+    "provider": "aws",
+    "service": "storage",
+    "name": "CCC AWS S3 Bucket Terraform Module",
+    "description": "This module creates secure AWS S3 buckets with encryption, versioning, lifecycle management, and advanced security features.",
+    "path": "remote/aws/s3bucket",
+    "git": "https://github.com/terraform-aws-modules/terraform-aws-s3-bucket"
+}

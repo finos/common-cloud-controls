@@ -1,142 +1,158 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP04
+        remarks: Transaction Rate Limits
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         remarks: Event Publication
-      - reference-id: CCC.Core.F08
+      - reference-id: CCC.Core.CP08
         remarks: Data Replication
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F18
+      - reference-id: CCC.Core.CP15
+        remarks: Cost Management
+      - reference-id: CCC.Core.CP16
+        remarks: Budgeting
+      - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
-      - reference-id: CCC.Core.F19
+      - reference-id: CCC.Core.CP19
         remarks: Resource Scaling
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP25
+        remarks: Random Access Memory Allocation
+      - reference-id:  CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
 
 capabilities:
-  - id: CCC.SvlsComp.F01
+  - id: CCC.SvlsComp.CP01
     title: Event Driven Execution
     description: |
       Supports execution of code functions in response to events
       without the need to manage underlying server infrastructure.
 
-  - id: CCC.SvlsComp.F02
+  - id: CCC.SvlsComp.CP02
     title: Event Triggers
     description: |
       Ability to configure event triggers for functions such as
       HTTP requests, cloud storage changes, messaging services,
       and schedules.
 
-  - id: CCC.SvlsComp.F03
+  - id: CCC.SvlsComp.CP03
     title: Stateless Architecture
     description: |
       Functions are stateless and do not retain data or state
       between invocations.
 
-  - id: CCC.SvlsComp.F04
+  - id: CCC.SvlsComp.CP04
     title: Cold Start
     description: |
       New execution environment is created and initialized to process
       an incoming request which is the default behaviour.
 
-  - id: CCC.SvlsComp.F05
+  - id: CCC.SvlsComp.CP05
     title: Warm Start
     description: |
       Ability to reuse of an already-initialized execution environment to
       handle subsequent requests, to reduce invocation latency
 
-  - id: CCC.SvlsComp.F06
+  - id: CCC.SvlsComp.CP06
     title: Flexible Resource Allocation
     description: |
       Ability to control resource allocations such as CPU, memory, and network.
 
-  - id: CCC.SvlsComp.F07
+  - id: CCC.SvlsComp.CP07
     title: Customizable Execution Timeout
     description: |
       Ability to configure function execution timeout for allowing
       short/long-running tasks.
 
-  - id: CCC.SvlsComp.F08
+  - id: CCC.SvlsComp.CP08
     title: Native Runtime Support - Node.js
     description: |
       Support Node.js runtime by default.
 
-  - id: CCC.SvlsComp.F09
+  - id: CCC.SvlsComp.CP09
     title: Native Runtime Support - Python
     description: |
       Support Python runtime by default.
 
-  - id: CCC.SvlsComp.F10
+  - id: CCC.SvlsComp.CP10
     title: Native Runtime Support - Java
     description: |
       Support Java runtime by default.
 
-  - id: CCC.SvlsComp.F11
+  - id: CCC.SvlsComp.CP11
     title: Native Runtime Support - .NET Core
     description: |
       Support .NET runtime by default.
 
-  - id: CCC.SvlsComp.F12
+  - id: CCC.SvlsComp.CP12
     title: Custom Runtimes
     description: |
       Support any language by allowing functions to use custom runtime
 
-  - id: CCC.SvlsComp.F13
+  - id: CCC.SvlsComp.CP13
     title: Environment Variables
     description: |
       Allows setting environment variables for functions to store
       configuration settings and operational parameters.
 
-  - id: CCC.SvlsComp.F14
+  - id: CCC.SvlsComp.CP14
     title: Aliases
     description: |
       Support the use of aliases such as dev, test, prod to manage
       different environments or blue/green deployments  without
       modifying the function's code.
 
-  - id: CCC.SvlsComp.F15
+  - id: CCC.SvlsComp.CP15
     title: Container Image Support
     description: |
       Ability to deploy and run functions packaged as container images
       using predefined runtimes, that were built using container tools
       like Docker.
 
-  - id: CCC.SvlsComp.F16
+  - id: CCC.SvlsComp.CP16
     title: Concurrency Limit
     description: |
       Ability to configure a limit for the concurrent executions of a function.
 
-  - id: CCC.SvlsComp.F17
+  - id: CCC.SvlsComp.CP17
     title: Throttling
     description: |
       Incoming requests are throttled when the function exceeds its
       concurrency limit.
 
-  - id: CCC.SvlsComp.F18
+  - id: CCC.SvlsComp.CP18
     title: List Functions
     description: |
       Ability to list all existing functions.
 
-  - id: CCC.SvlsComp.F19
+  - id: CCC.SvlsComp.CP19
     title: Create Functions
     description: |
       Ability to create new functions.
 
-  - id: CCC.SvlsComp.F20
+  - id: CCC.SvlsComp.CP20
     title: Edit Function
     description: |
       Ability to edit an existing function.
 
-  - id: CCC.SvlsComp.F21
+  - id: CCC.SvlsComp.CP21
     title: Delete Function
     description: |
       Ability to delete an existing function.

@@ -1,120 +1,132 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F04
+      - reference-id: CCC.Core.CP04
         remarks: Transaction Rate Limits
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         remarks: Event Publication
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F19
+      - reference-id: CCC.Core.CP19
         remarks: Resource Scaling
+      - reference-id: CCC.Core.F23
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.F24
+        remarks: Core Processing Units
+      - reference-id: CCC.Core.F25
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.F26
+        remarks: Persistent Storage
+      - reference-id:  CCC.Core.F28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.F29
+        remarks: Active Ingestion
 
 capabilities:
-  - id: CCC.BatchProc.F01
+  - id: CCC.BatchProc.CP01
     title: Data Processing
     description: |
       Processing large volumes of data or time consuming operations in batches (groups)
       without requiring user interaction during execution.
 
-  - id: CCC.BatchProc.F02
+  - id: CCC.BatchProc.CP02
     title: Job Scheduling
     description: |
       Allows workloads to be executed base on a schedules.
 
-  - id: CCC.BatchProc.F03
+  - id: CCC.BatchProc.CP03
     title: Event Triggers
     description: |
       Allows workloads to be executed base on an event.
 
-  - id: CCC.BatchProc.F04
+  - id: CCC.BatchProc.CP04
     title: Manual Triggers
     description: |
       Ability to trigger a job manually when needed.
 
-  - id: CCC.BatchProc.F05
+  - id: CCC.BatchProc.CP05
     title: Dynamic Resource Allocation
     description: |
       Automatically provision computing resources based on job requirements at the start
       of execution and deallocate them once the job is completed.
 
-  - id: CCC.BatchProc.F06
+  - id: CCC.BatchProc.CP06
     title: VPC Support
     description: |
       Ability to deploy compute resources in your VPC for network isolation.
 
-  - id: CCC.BatchProc.F07
+  - id: CCC.BatchProc.CP07
     title: Job Definitions
     description: |
       Defines job configurations, including compute resources, environment variables,
       and execution parameters.
 
-  - id: CCC.BatchProc.F08
+  - id: CCC.BatchProc.CP08
     title: Job Queues
     description: |
       Ability to organize jobs into queues with execution priorities.
 
-  - id: CCC.BatchProc.F09
+  - id: CCC.BatchProc.CP09
     title: Job Dependencies
     description: |
       Ability to define dependencies between jobs to execute them in a specific order.
 
-  - id: CCC.BatchProc.F10
+  - id: CCC.BatchProc.CP10
     title: Job Orchestration
     description: |
       Ability to coordinate and manage the execution of multiple jobs to ensure they run
       in order based on conditions to meet performance or business requirements.
 
-  - id: CCC.BatchProc.F11
+  - id: CCC.BatchProc.CP11
     title: Multinode Parallel Jobs
     description: |
       Support for running HPC (High Performance Computing) workloads that
       span multiple computing instances.
 
-  - id: CCC.BatchProc.F12
+  - id: CCC.BatchProc.CP12
     title: Array Jobs
     description: |
       Ability to run a single job across multiple data inputs or parameters concurrently.
 
-  - id: CCC.BatchProc.F13
+  - id: CCC.BatchProc.CP13
     title: Container Support
     description: |
       Native support for containerized workloads using Docker containers.
 
-  - id: CCC.BatchProc.F14
+  - id: CCC.BatchProc.CP14
     title: Retry Policy
     description: |
       Ability to configure retry logic for failed jobs.
 
-  - id: CCC.BatchProc.F15
+  - id: CCC.BatchProc.CP15
     title: Integration with Data Sources and Sinks
     description: |
       Seamlessly integrates with various data sources (for reading inputs) and
       data sinks (for storing outputs) such as object storage, databases,
       data streams and data warehouses.
 
-  - id: CCC.BatchProc.F16
+  - id: CCC.BatchProc.CP16
     title: List Jobs
     description: |
       Ability to list the jobs with their job status such as succeeded, failed,
       running, pending or submitted.
 
-  - id: CCC.BatchProc.F17
+  - id: CCC.BatchProc.CP17
     title: Cancel Jobs
     description: |
       Ability to cancel jobs that are in submitted, pending or runnable states.
 
-  - id: CCC.BatchProc.F18
+  - id: CCC.BatchProc.CP18
     title: Terminate Jobs
     description: |
       Ability to terminate jobs that are already running.

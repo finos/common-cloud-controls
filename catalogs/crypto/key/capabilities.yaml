@@ -1,120 +1,126 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         remarks: Event Publication
-      - reference-id: CCC.Core.F08
+      - reference-id: CCC.Core.CP08
         remarks: Data Replication
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
+      - reference-id: CCC.Core.F19
+        remarks: Resource Scaling
+      - reference-id: CCC.Core.F28
+        remarks: Command-line
+      - reference-id: CCC.Core.F29
+        remarks: Active Ingestion
 capabilities:
-  - id: CCC.KeyMgmt.F01
+  - id: CCC.KeyMgmt.CP01
     title: AES-256
     description: |
       Support for the AES-256 Advanced Encryption Standard with a 256-bit key for encryption and decryption.
-  - id: CCC.KeyMgmt.F02
+  - id: CCC.KeyMgmt.CP02
     title: RSA-2048
     description: |
       Supports the RSA algorithm with a key size of 2048 bits for encryption and digital signatures.
-  - id: CCC.KeyMgmt.F03
+  - id: CCC.KeyMgmt.CP03
     title: RSA-3072
     description: |
       Supports the RSA algorithm with a key size of 3072 bits for encryption and digital signatures.
-  - id: CCC.KeyMgmt.F04
+  - id: CCC.KeyMgmt.CP04
     title: RSA-4096
     description: |
       Supports the RSA algorithm with a key size of 4096 bits for encryption and digital signatures.
-  - id: CCC.KeyMgmt.F05
+  - id: CCC.KeyMgmt.CP05
     title: EC-P256
     description: |
       Supports the elliptic curve signing algorithm using the P-256 Curve for digital signatures.
-  - id: CCC.KeyMgmt.F06
+  - id: CCC.KeyMgmt.CP06
     title: EC-P256K
     description: |
       Supports the elliptic curve signing algorithm using the Secp256k1 Curve for digital signatures.
-  - id: CCC.KeyMgmt.F07
+  - id: CCC.KeyMgmt.CP07
     title: EC-P384
     description: |
       Supports the elliptic curve signing algorithm using the P-384 Curve for digital signatures.
-  - id: CCC.KeyMgmt.F08
+  - id: CCC.KeyMgmt.CP08
     title: Key Creation
     description: |
       Supports secure key creation within the key management service using the supported algorithms.
-  - id: CCC.KeyMgmt.F09
+  - id: CCC.KeyMgmt.CP09
     title: Encrypt data
     description: |
       Provides the ability to securely encrypt data using a managed key in the supported encryption algorithms.
-  - id: CCC.KeyMgmt.F10
+  - id: CCC.KeyMgmt.CP10
     title: Decrypt data
     description: |
       Provides the ability to securely decrypt data using a managed key in the supported encryption algorithms.
-  - id: CCC.KeyMgmt.F11
+  - id: CCC.KeyMgmt.CP11
     title: Create Digital Signature
     description: |
       Supports the generation of a digital signature for data using the supported signing algorithms.
-  - id: CCC.KeyMgmt.F12
+  - id: CCC.KeyMgmt.CP12
     title: Verify Digital Signature
     description: |
       Supports the verification of the digital signature of some data using the supported signing algorithms.
-  - id: CCC.KeyMgmt.F13
+  - id: CCC.KeyMgmt.CP13
     title: Supports FIPS 140-2 Level 3
     description: |
       Supports FIPS 140-2 Level 3 certified Hardware Security Modules (HSM).
-  - id: CCC.KeyMgmt.F14
+  - id: CCC.KeyMgmt.CP14
     title: Key Versioning
     description: |
       Provides the ability to manage multiple versions of a key.
-  - id: CCC.KeyMgmt.F15
+  - id: CCC.KeyMgmt.CP15
     title: Key label
     description: |
       Supports the ability to tag a managed key with user defined labels.
-  - id: CCC.KeyMgmt.F16
+  - id: CCC.KeyMgmt.CP16
     title: Disable key
     description: |
       Supports the ability to disable a managed key without deletion.
-  - id: CCC.KeyMgmt.F17
+  - id: CCC.KeyMgmt.CP17
     title: Enable key
     description: |
       Supports the ability to re-enable a disabled managed key.
-  - id: CCC.KeyMgmt.F18
+  - id: CCC.KeyMgmt.CP18
     title: Soft Delete
     description: |
       Supports the ability to prevent the immediate deletion of a managed key. This includes the ability
       to recover accidental deletion of keys within a grace period.
-  - id: CCC.KeyMgmt.F19
+  - id: CCC.KeyMgmt.CP19
     title: Delete Key
     description: |
       Supports the ability to permanently delete a managed key after the grace period defined on soft delete.
-  - id: CCC.KeyMgmt.F20
+  - id: CCC.KeyMgmt.CP20
     title: Automatic Symmetric Key Rotation
     description: |
       Supports the ability to automatically rotate a managed symmetric
       key as long as the key was generated within the KMS.
-  - id: CCC.KeyMgmt.F21
+  - id: CCC.KeyMgmt.CP21
     title: Manual Key Rotation
     description: |
       Supports the ability to manually rotate a managed key.
-  - id: CCC.KeyMgmt.F22
+  - id: CCC.KeyMgmt.CP22
     title: Key Import
     description: |
       Supports the ability to import externally generated keys into the KMS.
-  - id: CCC.KeyMgmt.F23
+  - id: CCC.KeyMgmt.CP23
     title: Key Expiry
     description: |
       Supports the ability to set an expiration date for a key
-  - id: CCC.KeyMgmt.F24
+  - id: CCC.KeyMgmt.CP24
     title: Key Replication
     description: |
       Supports the ability to securely replicate a key across different regions using automated or manual process.

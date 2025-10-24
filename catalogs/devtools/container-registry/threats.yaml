@@ -50,7 +50,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.CntrReg.F05
+          - reference-id: CCC.CntrReg.CP05
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -64,8 +64,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.CntrReg.F04
-          - reference-id: CCC.Core.F18
+          - reference-id: CCC.CntrReg.CP04
+          - reference-id: CCC.Core.CP18
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:

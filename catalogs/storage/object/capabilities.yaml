@@ -1,101 +1,104 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F01
+      - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F03
+      - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.F04
+      - reference-id: CCC.Core.CP04
         remarks: Transaction Rate Limits
-      - reference-id: CCC.Core.F05
+      - reference-id: CCC.Core.CP05
         remarks: Signed URLs
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         remarks: Event Publication
-      - reference-id: CCC.Core.F08
+      - reference-id: CCC.Core.CP08
         remarks: Data Replication
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.F10
-        remarks: Log Publication
-      - reference-id: CCC.Core.F11
-        remarks: Backup
-      - reference-id: CCC.Core.F12
-        remarks: Recovery
-      - reference-id: CCC.Core.F14
+      - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F18
+      - reference-id: CCC.Core.CP15
+        remarks: Cost Management
+      - reference-id: CCC.Core.CP16
+        remarks: Budgeting
+      - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
 
 capabilities:
-  - id: CCC.ObjStor.F01
+  - id: CCC.ObjStor.CP01
     title: Storage Buckets
     description: |
       Provides uniquely identifiable segmentations in which data elements may
       be stored.
 
-  - id: CCC.ObjStor.F02
+  - id: CCC.ObjStor.CP02
     title: Storage Objects
     description: |
       Supports storing, accessing, and managing data elements which contain
       both data and metadata.
 
-  - id: CCC.ObjStor.F03
+  - id: CCC.ObjStor.CP03
     title: Bucket Capacity Limit
     description: |
       Provides the ability to set a maximum total capacity for objects within
       a bucket.
 
-  - id: CCC.ObjStor.F04
+  - id: CCC.ObjStor.CP04
     title: Object Size Limit
     description: |
       Supports setting a maximum object size for storing objects.
 
-  - id: CCC.ObjStor.F05
+  - id: CCC.ObjStor.CP05
     title: Store New Objects
     description: |
       Supports for storing a new object in the bucket.
 
-  - id: CCC.ObjStor.F06
+  - id: CCC.ObjStor.CP06
     title: Replace Stored Objects
     description: |
       Supports for replacing an object in the bucket with a new object for the same key.
 
-  - id: CCC.ObjStor.F07
+  - id: CCC.ObjStor.CP07
     title: Delete Stored Objects
     description: |
       Supports for deleting objects from the bucket given the object key.
 
-  - id: CCC.ObjStor.F08
+  - id: CCC.ObjStor.CP08
     title: Lifecycle Policies
     description: |
-      Supports defining policies to automate data management tasks.
+      Supports defining policies to automate data management tasks, especially
+      those related to cost management.
 
-  - id: CCC.ObjStor.F09
+  - id: CCC.ObjStor.CP09
     title: Object Modification Locks
     description: |
       Allows locking of objects to disable modification and/or deletion of an
       object for a defined period of time.
 
-  - id: CCC.ObjStor.F10
+  - id: CCC.ObjStor.CP10
     title: Object Level Access Control
     description: |
       Supports controlling access to specific objects within the object store.
 
-  - id: CCC.ObjStor.F11
+  - id: CCC.ObjStor.CP11
     title: Querying
     description: |
       Supports performing simple select queries to retrieve only a subset of
       objects from the bucket.
 
-  - id: CCC.ObjStor.F12
+  - id: CCC.ObjStor.CP12
     title: Storage Classes
     description: |
       Provides different storage classes for frequently and infrequently

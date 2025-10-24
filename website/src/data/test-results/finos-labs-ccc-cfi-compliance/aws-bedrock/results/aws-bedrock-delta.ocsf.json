@@ -1,0 +1,2000 @@
+[
+  {
+    "message": "Bedrock Agent 4g5e-TerraformBedrockAgents is using guardrail arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z to protect agent sessions.",
+    "metadata": {
+      "event_code": "bedrock_agent_guardrail_enabled",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Bedrock Agent 4g5e-TerraformBedrockAgents is using guardrail arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z to protect agent sessions.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html",
+      "categories": [
+        "gen-ai"
+      ],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "KISA-ISMS-P-2023-korean": [
+          "2.10.2"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN01.AR01",
+          "CCC.GenAI.CN02.AR02",
+          "CCC.GenAI.CN04.AR02",
+          "CCC.GenAI.CN08.AR01",
+          "CCC.GenAI.CN08.AR02",
+          "CCC.MLDE.CN05.AR01"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "This check ensures that Guardrails are enabled to protect Amazon Bedrock agent sessions. Guardrails help mitigate security risks by filtering and blocking harmful or sensitive content during interactions with AI models.",
+      "title": "Ensure that Guardrails are enabled for Amazon Bedrock agent sessions.",
+      "types": [],
+      "uid": "prowler-aws-bedrock_agent_guardrail_enabled-211203495394-us-east-1-LRY8BRVRA6"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "id": "LRY8BRVRA6",
+            "name": "4g5e-TerraformBedrockAgents",
+            "arn": "arn:aws:bedrock:us-east-1:211203495394:agent/LRY8BRVRA6",
+            "guardrail_id": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z",
+            "region": "us-east-1",
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "bedrock"
+        },
+        "labels": [],
+        "name": "LRY8BRVRA6",
+        "type": "Other",
+        "uid": "arn:aws:bedrock:us-east-1:211203495394:agent/LRY8BRVRA6"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "Enable Guardrails for Amazon Bedrock agent sessions to protect against harmful inputs and outputs during interactions.",
+      "references": [
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-create.html"
+      ]
+    },
+    "risk_details": "Without guardrails enabled, Amazon Bedrock agent sessions are vulnerable to harmful prompts or inputs that could expose sensitive information or generate inappropriate content. This could lead to privacy violations, data leaks, or other security risks.",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Bedrock Guardrail 4g5e-TerraformBedrockGuardrail is not configured to block prompt attacks.",
+    "metadata": {
+      "event_code": "bedrock_guardrail_prompt_attack_filter_enabled",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "FAIL",
+    "status_detail": "Bedrock Guardrail 4g5e-TerraformBedrockGuardrail is not configured to block prompt attacks.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html",
+      "categories": [
+        "gen-ai"
+      ],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "Ensure that prompt attack protection is set to the highest strength to minimize the risk of prompt injection attacks.",
+      "compliance": {
+        "KISA-ISMS-P-2023-korean": [
+          "2.10.2"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN01.AR01",
+          "CCC.GenAI.CN01.AR02",
+          "CCC.GenAI.CN02.AR01",
+          "CCC.GenAI.CN02.AR02",
+          "CCC.GenAI.CN04.AR02",
+          "CCC.GenAI.CN08.AR01",
+          "CCC.GenAI.CN08.AR02",
+          "CCC.MLDE.CN05.AR01"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure that prompt attack filter strength is set to HIGH for Amazon Bedrock guardrails to mitigate prompt injection and bypass techniques.",
+      "title": "Configure Prompt Attack Filter with the highest strength for Amazon Bedrock Guardrails.",
+      "types": [],
+      "uid": "prowler-aws-bedrock_guardrail_prompt_attack_filter_enabled-211203495394-us-east-1-yk2rgwn4nj1z"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "id": "yk2rgwn4nj1z",
+            "name": "4g5e-TerraformBedrockGuardrail",
+            "arn": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z",
+            "region": "us-east-1",
+            "tags": [],
+            "sensitive_information_filter": true,
+            "prompt_attack_filter_strength": null
+          }
+        },
+        "group": {
+          "name": "bedrock"
+        },
+        "labels": [],
+        "name": "yk2rgwn4nj1z",
+        "type": "Other",
+        "uid": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "Set the prompt attack filter strength to HIGH for Amazon Bedrock guardrails to prevent prompt injection attacks and ensure robust protection against content manipulation.",
+      "references": [
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-injection.html"
+      ]
+    },
+    "risk_details": "If prompt attack filter strength is not set to HIGH, Bedrock models may be more vulnerable to prompt injection attacks or jailbreak attempts, which could allow harmful or sensitive content to bypass filters and reach end users.",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Bedrock Guardrail 4g5e-TerraformBedrockGuardrail is blocking or masking sensitive information.",
+    "metadata": {
+      "event_code": "bedrock_guardrail_sensitive_information_filter_enabled",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Bedrock Guardrail 4g5e-TerraformBedrockGuardrail is blocking or masking sensitive information.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html",
+      "categories": [
+        "gen-ai"
+      ],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "KISA-ISMS-P-2023-korean": [
+          "2.10.2"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN01.AR01",
+          "CCC.GenAI.CN01.AR02",
+          "CCC.GenAI.CN02.AR01",
+          "CCC.GenAI.CN02.AR02",
+          "CCC.GenAI.CN04.AR02",
+          "CCC.GenAI.CN08.AR01",
+          "CCC.GenAI.CN08.AR02",
+          "CCC.MLDE.CN05.AR01"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure that sensitive information filters are enabled for Amazon Bedrock guardrails to prevent the leakage of sensitive data such as personally identifiable information (PII), financial data, or confidential corporate information.",
+      "title": "Configure Sensitive Information Filters for Amazon Bedrock Guardrails.",
+      "types": [],
+      "uid": "prowler-aws-bedrock_guardrail_sensitive_information_filter_enabled-211203495394-us-east-1-yk2rgwn4nj1z"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "id": "yk2rgwn4nj1z",
+            "name": "4g5e-TerraformBedrockGuardrail",
+            "arn": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z",
+            "region": "us-east-1",
+            "tags": [],
+            "sensitive_information_filter": true,
+            "prompt_attack_filter_strength": null
+          }
+        },
+        "group": {
+          "name": "bedrock"
+        },
+        "labels": [],
+        "name": "yk2rgwn4nj1z",
+        "type": "Other",
+        "uid": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "Enable sensitive information filters for Amazon Bedrock guardrails to prevent the exposure of sensitive or confidential information.",
+      "references": [
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-sensitive-filters.html"
+      ]
+    },
+    "risk_details": "If sensitive information filters are not enabled, Bedrock models may inadvertently generate or expose confidential or sensitive information in responses, leading to data breaches, regulatory violations, or reputational damage.",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Inline policy terraform-20251019170219823000000002 attached to role BedrockAgents20251019170219585900000001 does not allow privilege escalation.",
+    "metadata": {
+      "event_code": "iam_inline_policy_allows_privilege_escalation",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Inline policy terraform-20251019170219823000000002 attached to role BedrockAgents20251019170219585900000001 does not allow privilege escalation.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "SOC2": [
+          "cc_3_3"
+        ],
+        "C5-2025": [
+          "SP-01.04B",
+          "AM-09.04AC"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN06.AR01",
+          "CCC.LB.CN05.AR01",
+          "CCC.Monitor.CN05.AR01",
+          "CCC.Vector.CN02.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR04"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "1.3.3"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure no Inline IAM policies allow actions that may lead into Privilege Escalation",
+      "title": "Ensure no IAM Inline policies allow actions that may lead into Privilege Escalation",
+      "types": [
+        "Software and Configuration Checks",
+        "Industry and Regulatory Standards"
+      ],
+      "uid": "prowler-aws-iam_inline_policy_allows_privilege_escalation-211203495394-us-east-1-BedrockAgents20251019170219585900000001/terraform-20251019170219823000000002"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "terraform-20251019170219823000000002",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "entity": "BedrockAgents20251019170219585900000001",
+            "version_id": "v1",
+            "type": "Inline",
+            "attached": true,
+            "document": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "bedrock:UseInferenceProfile",
+                    "bedrock:InvokeModel*",
+                    "bedrock:GetInferenceProfile"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": [
+                    "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-v2",
+                    "arn:aws:bedrock:us-east-1:211203495394:inference-profile/*.anthropic.claude-v2",
+                    "arn:aws:bedrock:*::foundation-model/anthropic.claude-v2"
+                  ]
+                }
+              ]
+            },
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001/terraform-20251019170219823000000002",
+        "type": "AwsIamPolicy",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "Grant usage permission on a per-resource basis and applying least privilege principle.",
+      "references": [
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#grant-least-privilege"
+      ]
+    },
+    "risk_details": "Users with some IAM permissions are allowed to elevate their privileges up to administrator rights.",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Inline policy terraform-20251019170303948100000003 attached to role BedrockAgents20251019170219585900000001 does not allow privilege escalation.",
+    "metadata": {
+      "event_code": "iam_inline_policy_allows_privilege_escalation",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Inline policy terraform-20251019170303948100000003 attached to role BedrockAgents20251019170219585900000001 does not allow privilege escalation.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "SOC2": [
+          "cc_3_3"
+        ],
+        "C5-2025": [
+          "SP-01.04B",
+          "AM-09.04AC"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN06.AR01",
+          "CCC.LB.CN05.AR01",
+          "CCC.Monitor.CN05.AR01",
+          "CCC.Vector.CN02.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR04"
+        ],
+        "ProwlerThreatScore-1.0": [
+          "1.3.3"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure no Inline IAM policies allow actions that may lead into Privilege Escalation",
+      "title": "Ensure no IAM Inline policies allow actions that may lead into Privilege Escalation",
+      "types": [
+        "Software and Configuration Checks",
+        "Industry and Regulatory Standards"
+      ],
+      "uid": "prowler-aws-iam_inline_policy_allows_privilege_escalation-211203495394-us-east-1-BedrockAgents20251019170219585900000001/terraform-20251019170303948100000003"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "terraform-20251019170303948100000003",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "entity": "BedrockAgents20251019170219585900000001",
+            "version_id": "v1",
+            "type": "Inline",
+            "attached": true,
+            "document": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "bedrock:ApplyGuardrail"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z"
+                }
+              ]
+            },
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001/terraform-20251019170303948100000003",
+        "type": "AwsIamPolicy",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "Grant usage permission on a per-resource basis and applying least privilege principle.",
+      "references": [
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#grant-least-privilege"
+      ]
+    },
+    "risk_details": "Users with some IAM permissions are allowed to elevate their privileges up to administrator rights.",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Inline policy terraform-20251019170219823000000002 attached to role BedrockAgents20251019170219585900000001 does not allow '*:*' administrative privileges.",
+    "metadata": {
+      "event_code": "iam_inline_policy_no_administrative_privileges",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Inline policy terraform-20251019170219823000000002 attached to role BedrockAgents20251019170219585900000001 does not allow '*:*' administrative privileges.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "CAF Security Epic: IAM",
+      "compliance": {
+        "NIST-800-171-Revision-2": [
+          "3_1_1",
+          "3_1_2",
+          "3_1_4",
+          "3_1_5",
+          "3_1_6",
+          "3_1_7",
+          "3_4_6",
+          "3_13_3"
+        ],
+        "RBI-Cyber-Security-Framework": [
+          "annex_i_7_1"
+        ],
+        "HIPAA": [
+          "164_308_a_1_ii_b",
+          "164_308_a_3_i",
+          "164_308_a_3_ii_b",
+          "164_308_a_4_i",
+          "164_308_a_4_ii_b",
+          "164_308_a_4_ii_c",
+          "164_312_a_1"
+        ],
+        "SOC2": [
+          "cc_1_3",
+          "cc_6_3"
+        ],
+        "C5-2025": [
+          "OIS-04.01AC",
+          "SP-01.04B",
+          "HR-01.01B",
+          "IAM-01.01B",
+          "IAM-01.04B"
+        ],
+        "NIST-CSF-1.1": [
+          "ac_1",
+          "ac_4",
+          "pt_3"
+        ],
+        "FedRamp-Moderate-Revision-4": [
+          "ac-2-1",
+          "ac-2-f",
+          "ac-2-j",
+          "ac-3",
+          "ac-5-c",
+          "ac-6-10",
+          "ac-6",
+          "sc-2"
+        ],
+        "NIST-800-53-Revision-5": [
+          "ac_2_1",
+          "ac_2_6",
+          "ac_2_i_2",
+          "ac_3",
+          "ac_3_3",
+          "ac_3_3_a",
+          "ac_3_3_b_1",
+          "ac_3_3_b_2",
+          "ac_3_3_b_3",
+          "ac_3_3_b_4",
+          "ac_3_3_b_5",
+          "ac_3_3_c",
+          "ac_3_4",
+          "ac_3_4_a",
+          "ac_3_4_b",
+          "ac_3_4_c",
+          "ac_3_4_d",
+          "ac_3_4_e",
+          "ac_3_7",
+          "ac_3_8",
+          "ac_3_12_a",
+          "ac_3_13",
+          "ac_3_15_a",
+          "ac_3_15_b",
+          "ac_4_28",
+          "ac_5_b",
+          "ac_6",
+          "ac_6_2",
+          "ac_6_3",
+          "ac_6_10",
+          "ac_24",
+          "cm_5_1_a",
+          "cm_6_a",
+          "cm_9_b",
+          "mp_2",
+          "sc_23_3",
+          "sc_25"
+        ],
+        "ENS-RD2022": [
+          "op.acc.4.aws.iam.1",
+          "op.acc.4.aws.iam.2",
+          "op.acc.4.aws.iam.9",
+          "op.exp.8.r4.aws.ct.8"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "FedRAMP-Low-Revision-4": [
+          "ac-2",
+          "ac-3"
+        ],
+        "FFIEC": [
+          "d3-pc-am-b-1",
+          "d3-pc-am-b-16",
+          "d3-pc-am-b-2",
+          "d3-pc-am-b-3",
+          "d3-pc-am-b-6",
+          "d3-pc-im-b-7"
+        ],
+        "GDPR": [
+          "article_25"
+        ],
+        "CCC": [
+          "CCC.LB.CN05.AR01"
+        ],
+        "GxP-21-CFR-Part-11": [
+          "11.10-d",
+          "11.10-g"
+        ],
+        "AWS-Foundational-Security-Best-Practices": [
+          "IAM.1"
+        ],
+        "AWS-Well-Architected-Framework-Security-Pillar": [
+          "SEC03-BP02"
+        ],
+        "ISO27001-2022": [
+          "A.5.18",
+          "A.8.2"
+        ],
+        "NIST-800-53-Revision-4": [
+          "ac_2",
+          "ac_3",
+          "ac_5",
+          "ac_6",
+          "sc_2"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "MITRE-ATTACK": [
+          "T1078",
+          "T1648",
+          "T1098",
+          "T1578",
+          "T1550",
+          "T1040",
+          "T1580",
+          "T1538",
+          "T1619",
+          "T1201"
+        ],
+        "CISA": [
+          "your-systems-3",
+          "your-surroundings-3"
+        ],
+        "NIS2": [
+          "6.7.2.e",
+          "11.3.2.c",
+          "11.4.2.b"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure inline policies that allow full \"*:*\" administrative privileges are not associated to IAM identities",
+      "title": "Ensure IAM inline policies that allow full \"*:*\" administrative privileges are not associated to IAM identities",
+      "types": [
+        "Software and Configuration Checks",
+        "Industry and Regulatory Standards",
+        "CIS AWS Foundations Benchmark"
+      ],
+      "uid": "prowler-aws-iam_inline_policy_no_administrative_privileges-211203495394-us-east-1-BedrockAgents20251019170219585900000001/terraform-20251019170219823000000002"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "terraform-20251019170219823000000002",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "entity": "BedrockAgents20251019170219585900000001",
+            "version_id": "v1",
+            "type": "Inline",
+            "attached": true,
+            "document": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "bedrock:UseInferenceProfile",
+                    "bedrock:InvokeModel*",
+                    "bedrock:GetInferenceProfile"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": [
+                    "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-v2",
+                    "arn:aws:bedrock:us-east-1:211203495394:inference-profile/*.anthropic.claude-v2",
+                    "arn:aws:bedrock:*::foundation-model/anthropic.claude-v2"
+                  ]
+                }
+              ]
+            },
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001/terraform-20251019170219823000000002",
+        "type": "AwsIamPolicy",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "It is more secure to start with a minimum set of permissions and grant additional permissions as necessary, rather than starting with permissions that are too lenient and then trying to tighten them later. List policies an analyze if permissions are the least possible to conduct business activities.",
+      "references": [
+        "http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+      ]
+    },
+    "risk_details": "IAM policies are the means by which privileges are granted to users, groups or roles. It is recommended and considered a standard security advice to grant least privilege—that is, granting only the permissions required to perform a task. Determine what users need to do and then craft policies for them that let the users perform only those tasks instead of allowing full administrative privileges. Providing full administrative privileges instead of restricting to the minimum set of permissions that the user is required to do exposes the resources to potentially unwanted actions.",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Inline policy terraform-20251019170303948100000003 attached to role BedrockAgents20251019170219585900000001 does not allow '*:*' administrative privileges.",
+    "metadata": {
+      "event_code": "iam_inline_policy_no_administrative_privileges",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Inline policy terraform-20251019170303948100000003 attached to role BedrockAgents20251019170219585900000001 does not allow '*:*' administrative privileges.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "CAF Security Epic: IAM",
+      "compliance": {
+        "NIST-800-171-Revision-2": [
+          "3_1_1",
+          "3_1_2",
+          "3_1_4",
+          "3_1_5",
+          "3_1_6",
+          "3_1_7",
+          "3_4_6",
+          "3_13_3"
+        ],
+        "RBI-Cyber-Security-Framework": [
+          "annex_i_7_1"
+        ],
+        "HIPAA": [
+          "164_308_a_1_ii_b",
+          "164_308_a_3_i",
+          "164_308_a_3_ii_b",
+          "164_308_a_4_i",
+          "164_308_a_4_ii_b",
+          "164_308_a_4_ii_c",
+          "164_312_a_1"
+        ],
+        "SOC2": [
+          "cc_1_3",
+          "cc_6_3"
+        ],
+        "C5-2025": [
+          "OIS-04.01AC",
+          "SP-01.04B",
+          "HR-01.01B",
+          "IAM-01.01B",
+          "IAM-01.04B"
+        ],
+        "NIST-CSF-1.1": [
+          "ac_1",
+          "ac_4",
+          "pt_3"
+        ],
+        "FedRamp-Moderate-Revision-4": [
+          "ac-2-1",
+          "ac-2-f",
+          "ac-2-j",
+          "ac-3",
+          "ac-5-c",
+          "ac-6-10",
+          "ac-6",
+          "sc-2"
+        ],
+        "NIST-800-53-Revision-5": [
+          "ac_2_1",
+          "ac_2_6",
+          "ac_2_i_2",
+          "ac_3",
+          "ac_3_3",
+          "ac_3_3_a",
+          "ac_3_3_b_1",
+          "ac_3_3_b_2",
+          "ac_3_3_b_3",
+          "ac_3_3_b_4",
+          "ac_3_3_b_5",
+          "ac_3_3_c",
+          "ac_3_4",
+          "ac_3_4_a",
+          "ac_3_4_b",
+          "ac_3_4_c",
+          "ac_3_4_d",
+          "ac_3_4_e",
+          "ac_3_7",
+          "ac_3_8",
+          "ac_3_12_a",
+          "ac_3_13",
+          "ac_3_15_a",
+          "ac_3_15_b",
+          "ac_4_28",
+          "ac_5_b",
+          "ac_6",
+          "ac_6_2",
+          "ac_6_3",
+          "ac_6_10",
+          "ac_24",
+          "cm_5_1_a",
+          "cm_6_a",
+          "cm_9_b",
+          "mp_2",
+          "sc_23_3",
+          "sc_25"
+        ],
+        "ENS-RD2022": [
+          "op.acc.4.aws.iam.1",
+          "op.acc.4.aws.iam.2",
+          "op.acc.4.aws.iam.9",
+          "op.exp.8.r4.aws.ct.8"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "FedRAMP-Low-Revision-4": [
+          "ac-2",
+          "ac-3"
+        ],
+        "FFIEC": [
+          "d3-pc-am-b-1",
+          "d3-pc-am-b-16",
+          "d3-pc-am-b-2",
+          "d3-pc-am-b-3",
+          "d3-pc-am-b-6",
+          "d3-pc-im-b-7"
+        ],
+        "GDPR": [
+          "article_25"
+        ],
+        "CCC": [
+          "CCC.LB.CN05.AR01"
+        ],
+        "GxP-21-CFR-Part-11": [
+          "11.10-d",
+          "11.10-g"
+        ],
+        "AWS-Foundational-Security-Best-Practices": [
+          "IAM.1"
+        ],
+        "AWS-Well-Architected-Framework-Security-Pillar": [
+          "SEC03-BP02"
+        ],
+        "ISO27001-2022": [
+          "A.5.18",
+          "A.8.2"
+        ],
+        "NIST-800-53-Revision-4": [
+          "ac_2",
+          "ac_3",
+          "ac_5",
+          "ac_6",
+          "sc_2"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "MITRE-ATTACK": [
+          "T1078",
+          "T1648",
+          "T1098",
+          "T1578",
+          "T1550",
+          "T1040",
+          "T1580",
+          "T1538",
+          "T1619",
+          "T1201"
+        ],
+        "CISA": [
+          "your-systems-3",
+          "your-surroundings-3"
+        ],
+        "NIS2": [
+          "6.7.2.e",
+          "11.3.2.c",
+          "11.4.2.b"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure inline policies that allow full \"*:*\" administrative privileges are not associated to IAM identities",
+      "title": "Ensure IAM inline policies that allow full \"*:*\" administrative privileges are not associated to IAM identities",
+      "types": [
+        "Software and Configuration Checks",
+        "Industry and Regulatory Standards",
+        "CIS AWS Foundations Benchmark"
+      ],
+      "uid": "prowler-aws-iam_inline_policy_no_administrative_privileges-211203495394-us-east-1-BedrockAgents20251019170219585900000001/terraform-20251019170303948100000003"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "terraform-20251019170303948100000003",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "entity": "BedrockAgents20251019170219585900000001",
+            "version_id": "v1",
+            "type": "Inline",
+            "attached": true,
+            "document": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "bedrock:ApplyGuardrail"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z"
+                }
+              ]
+            },
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001/terraform-20251019170303948100000003",
+        "type": "AwsIamPolicy",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "It is more secure to start with a minimum set of permissions and grant additional permissions as necessary, rather than starting with permissions that are too lenient and then trying to tighten them later. List policies an analyze if permissions are the least possible to conduct business activities.",
+      "references": [
+        "http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+      ]
+    },
+    "risk_details": "IAM policies are the means by which privileges are granted to users, groups or roles. It is recommended and considered a standard security advice to grant least privilege—that is, granting only the permissions required to perform a task. Determine what users need to do and then craft policies for them that let the users perform only those tasks instead of allowing full administrative privileges. Providing full administrative privileges instead of restricting to the minimum set of permissions that the user is required to do exposes the resources to potentially unwanted actions.",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Inline policy terraform-20251019170219823000000002 attached to role BedrockAgents20251019170219585900000001 does not allow 'cloudtrail:*' privileges.",
+    "metadata": {
+      "event_code": "iam_inline_policy_no_full_access_to_cloudtrail",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Inline policy terraform-20251019170219823000000002 attached to role BedrockAgents20251019170219585900000001 does not allow 'cloudtrail:*' privileges.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "C5-2025": [
+          "IAM-10.01B",
+          "SIM-03.07B",
+          "COM-04.01AC"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN06.AR01",
+          "CCC.LB.CN05.AR01",
+          "CCC.MLDE.CN01.AR01",
+          "CCC.Monitor.CN05.AR01",
+          "CCC.Vector.CN02.AR01",
+          "CCC.Core.CN05.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR04"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure IAM inline policies that allow full \"cloudtrail:*\" privileges are not created",
+      "title": "Ensure IAM inline policies that allow full \"cloudtrail:*\" privileges are not created",
+      "types": [
+        "Software and Configuration Checks",
+        "Industry and Regulatory Standards",
+        "CIS AWS Foundations Benchmark"
+      ],
+      "uid": "prowler-aws-iam_inline_policy_no_full_access_to_cloudtrail-211203495394-us-east-1-BedrockAgents20251019170219585900000001/terraform-20251019170219823000000002"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "terraform-20251019170219823000000002",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "entity": "BedrockAgents20251019170219585900000001",
+            "version_id": "v1",
+            "type": "Inline",
+            "attached": true,
+            "document": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "bedrock:UseInferenceProfile",
+                    "bedrock:InvokeModel*",
+                    "bedrock:GetInferenceProfile"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": [
+                    "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-v2",
+                    "arn:aws:bedrock:us-east-1:211203495394:inference-profile/*.anthropic.claude-v2",
+                    "arn:aws:bedrock:*::foundation-model/anthropic.claude-v2"
+                  ]
+                }
+              ]
+            },
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001/terraform-20251019170219823000000002",
+        "type": "AwsIamPolicy",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "It is more secure to start with a minimum set of permissions and grant additional permissions as necessary, rather than starting with permissions that are too lenient and then trying to tighten them later. List policies an analyze if permissions are the least possible to conduct business activities.",
+      "references": [
+        "http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+      ]
+    },
+    "risk_details": "CloudTrail is a critical service and IAM policies should follow least privilege model for this service in particular",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Inline policy terraform-20251019170303948100000003 attached to role BedrockAgents20251019170219585900000001 does not allow 'cloudtrail:*' privileges.",
+    "metadata": {
+      "event_code": "iam_inline_policy_no_full_access_to_cloudtrail",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Inline policy terraform-20251019170303948100000003 attached to role BedrockAgents20251019170219585900000001 does not allow 'cloudtrail:*' privileges.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "C5-2025": [
+          "IAM-10.01B",
+          "SIM-03.07B",
+          "COM-04.01AC"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN06.AR01",
+          "CCC.LB.CN05.AR01",
+          "CCC.MLDE.CN01.AR01",
+          "CCC.Monitor.CN05.AR01",
+          "CCC.Vector.CN02.AR01",
+          "CCC.Core.CN05.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR04"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure IAM inline policies that allow full \"cloudtrail:*\" privileges are not created",
+      "title": "Ensure IAM inline policies that allow full \"cloudtrail:*\" privileges are not created",
+      "types": [
+        "Software and Configuration Checks",
+        "Industry and Regulatory Standards",
+        "CIS AWS Foundations Benchmark"
+      ],
+      "uid": "prowler-aws-iam_inline_policy_no_full_access_to_cloudtrail-211203495394-us-east-1-BedrockAgents20251019170219585900000001/terraform-20251019170303948100000003"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "terraform-20251019170303948100000003",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "entity": "BedrockAgents20251019170219585900000001",
+            "version_id": "v1",
+            "type": "Inline",
+            "attached": true,
+            "document": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "bedrock:ApplyGuardrail"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z"
+                }
+              ]
+            },
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001/terraform-20251019170303948100000003",
+        "type": "AwsIamPolicy",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "It is more secure to start with a minimum set of permissions and grant additional permissions as necessary, rather than starting with permissions that are too lenient and then trying to tighten them later. List policies an analyze if permissions are the least possible to conduct business activities.",
+      "references": [
+        "http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+      ]
+    },
+    "risk_details": "CloudTrail is a critical service and IAM policies should follow least privilege model for this service in particular",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Inline policy terraform-20251019170219823000000002 attached to role BedrockAgents20251019170219585900000001 does not allow 'kms:*' privileges.",
+    "metadata": {
+      "event_code": "iam_inline_policy_no_full_access_to_kms",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Inline policy terraform-20251019170219823000000002 attached to role BedrockAgents20251019170219585900000001 does not allow 'kms:*' privileges.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "C5-2025": [
+          "OIS-08.02B",
+          "IAM-10.01B",
+          "CRY-05.02B"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "PCI-4.0": [
+          "3.5.1.1.8",
+          "3.5.1.3.16",
+          "3.6.1.2.8",
+          "3.6.1.3.8",
+          "3.6.1.4.8",
+          "3.6.1.8",
+          "3.7.1.9",
+          "3.7.2.8",
+          "3.7.4.9",
+          "3.7.6.8",
+          "3.7.7.8",
+          "4.2.1.1.21",
+          "7.2.1.10",
+          "7.2.2.10",
+          "7.2.3.6",
+          "7.2.5.6",
+          "7.3.1.6",
+          "7.3.2.6",
+          "7.3.3.6",
+          "8.2.7.6",
+          "8.2.8.8",
+          "8.3.4.6"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN06.AR01",
+          "CCC.KeyMgmt.CN02.AR01",
+          "CCC.LB.CN05.AR01",
+          "CCC.ObjStor.CN01.AR02",
+          "CCC.ObjStor.CN01.AR04",
+          "CCC.MLDE.CN01.AR01",
+          "CCC.Vector.CN02.AR01",
+          "CCC.Core.CN05.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR04"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure IAM inline policies that allow full \"kms:*\" privileges are not created",
+      "title": "Ensure IAM inline policies that allow full \"kms:*\" privileges are not created",
+      "types": [
+        "Software and Configuration Checks"
+      ],
+      "uid": "prowler-aws-iam_inline_policy_no_full_access_to_kms-211203495394-us-east-1-BedrockAgents20251019170219585900000001/terraform-20251019170219823000000002"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "terraform-20251019170219823000000002",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "entity": "BedrockAgents20251019170219585900000001",
+            "version_id": "v1",
+            "type": "Inline",
+            "attached": true,
+            "document": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "bedrock:UseInferenceProfile",
+                    "bedrock:InvokeModel*",
+                    "bedrock:GetInferenceProfile"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": [
+                    "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-v2",
+                    "arn:aws:bedrock:us-east-1:211203495394:inference-profile/*.anthropic.claude-v2",
+                    "arn:aws:bedrock:*::foundation-model/anthropic.claude-v2"
+                  ]
+                }
+              ]
+            },
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001/terraform-20251019170219823000000002",
+        "type": "AwsIamPolicy",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "It is more secure to start with a minimum set of permissions and grant additional permissions as necessary, rather than starting with permissions that are too lenient and then trying to tighten them later. List policies an analyze if permissions are the least possible to conduct business activities.",
+      "references": [
+        "http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+      ]
+    },
+    "risk_details": "KMS is a critical service and IAM policies should follow least privilege model for this service in particular",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "Inline policy terraform-20251019170303948100000003 attached to role BedrockAgents20251019170219585900000001 does not allow 'kms:*' privileges.",
+    "metadata": {
+      "event_code": "iam_inline_policy_no_full_access_to_kms",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 3,
+    "severity": "Medium",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "Inline policy terraform-20251019170303948100000003 attached to role BedrockAgents20251019170219585900000001 does not allow 'kms:*' privileges.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "C5-2025": [
+          "OIS-08.02B",
+          "IAM-10.01B",
+          "CRY-05.02B"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "PCI-4.0": [
+          "3.5.1.1.8",
+          "3.5.1.3.16",
+          "3.6.1.2.8",
+          "3.6.1.3.8",
+          "3.6.1.4.8",
+          "3.6.1.8",
+          "3.7.1.9",
+          "3.7.2.8",
+          "3.7.4.9",
+          "3.7.6.8",
+          "3.7.7.8",
+          "4.2.1.1.21",
+          "7.2.1.10",
+          "7.2.2.10",
+          "7.2.3.6",
+          "7.2.5.6",
+          "7.3.1.6",
+          "7.3.2.6",
+          "7.3.3.6",
+          "8.2.7.6",
+          "8.2.8.8",
+          "8.3.4.6"
+        ],
+        "CCC": [
+          "CCC.GenAI.CN06.AR01",
+          "CCC.KeyMgmt.CN02.AR01",
+          "CCC.LB.CN05.AR01",
+          "CCC.ObjStor.CN01.AR02",
+          "CCC.ObjStor.CN01.AR04",
+          "CCC.MLDE.CN01.AR01",
+          "CCC.Vector.CN02.AR01",
+          "CCC.Core.CN05.AR01",
+          "CCC.Core.CN05.AR02",
+          "CCC.Core.CN05.AR04"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.5",
+          "2.5.6",
+          "2.10.2"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure IAM inline policies that allow full \"kms:*\" privileges are not created",
+      "title": "Ensure IAM inline policies that allow full \"kms:*\" privileges are not created",
+      "types": [
+        "Software and Configuration Checks"
+      ],
+      "uid": "prowler-aws-iam_inline_policy_no_full_access_to_kms-211203495394-us-east-1-BedrockAgents20251019170219585900000001/terraform-20251019170303948100000003"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "terraform-20251019170303948100000003",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "entity": "BedrockAgents20251019170219585900000001",
+            "version_id": "v1",
+            "type": "Inline",
+            "attached": true,
+            "document": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Action": [
+                    "bedrock:ApplyGuardrail"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "arn:aws:bedrock:us-east-1:211203495394:guardrail/yk2rgwn4nj1z"
+                }
+              ]
+            },
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001/terraform-20251019170303948100000003",
+        "type": "AwsIamPolicy",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "It is more secure to start with a minimum set of permissions and grant additional permissions as necessary, rather than starting with permissions that are too lenient and then trying to tighten them later. List policies an analyze if permissions are the least possible to conduct business activities.",
+      "references": [
+        "http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+      ]
+    },
+    "risk_details": "KMS is a critical service and IAM policies should follow least privilege model for this service in particular",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  },
+  {
+    "message": "IAM Service Role BedrockAgents20251019170219585900000001 prevents against a cross-service confused deputy attack.",
+    "metadata": {
+      "event_code": "iam_role_cross_service_confused_deputy_prevention",
+      "product": {
+        "name": "Prowler (delta)",
+        "uid": "prowler",
+        "vendor_name": "Prowler",
+        "version": "5.13.0"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "tenant_uid": "",
+      "version": "1.5.0"
+    },
+    "severity_id": 4,
+    "severity": "High",
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "IAM Service Role BedrockAgents20251019170219585900000001 prevents against a cross-service confused deputy attack.",
+    "status_id": 1,
+    "unmapped": {
+      "related_url": "",
+      "categories": [
+        "trustboundaries"
+      ],
+      "depends_on": [],
+      "related_to": [],
+      "additional_urls": [],
+      "notes": "",
+      "compliance": {
+        "C5-2025": [
+          "IAM-01.01B",
+          "IAM-01.04B"
+        ],
+        "ENS-RD2022": [
+          "op.exp.8.r4.aws.ct.8",
+          "op.exp.8.r4.aws.ct.1"
+        ],
+        "AWS-Foundational-Technical-Review": [
+          "IAM-0012"
+        ],
+        "KISA-ISMS-P-2023-korean": [
+          "2.5.1",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "CCC": [
+          "CCC.Core.CN05.AR01",
+          "CCC.Core.CN05.AR03",
+          "CCC.Core.CN05.AR06"
+        ],
+        "AWS-Well-Architected-Framework-Security-Pillar": [
+          "SEC02-BP04"
+        ],
+        "AWS-Account-Security-Onboarding": [
+          "Predefine IAM Roles"
+        ],
+        "KISA-ISMS-P-2023": [
+          "2.5.1",
+          "2.5.6",
+          "2.10.2"
+        ],
+        "MITRE-ATTACK": [
+          "T1078"
+        ],
+        "NIS2": [
+          "3.1.2.c",
+          "6.8.2.a"
+        ]
+      }
+    },
+    "activity_name": "Create",
+    "activity_id": 1,
+    "finding_info": {
+      "created_time": 1760893384,
+      "created_time_dt": "2025-10-19T17:03:04.730000",
+      "desc": "Ensure IAM Service Roles prevents against a cross-service confused deputy attack",
+      "title": "Ensure IAM Service Roles prevents against a cross-service confused deputy attack",
+      "types": [],
+      "uid": "prowler-aws-iam_role_cross_service_confused_deputy_prevention-211203495394-us-east-1-BedrockAgents20251019170219585900000001"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "region": "us-east-1",
+        "data": {
+          "details": "",
+          "metadata": {
+            "name": "BedrockAgents20251019170219585900000001",
+            "arn": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001",
+            "assume_role_policy": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Principal": {
+                    "Service": "bedrock.amazonaws.com"
+                  },
+                  "Action": "sts:AssumeRole",
+                  "Condition": {
+                    "StringEquals": {
+                      "aws:SourceAccount": "211203495394"
+                    },
+                    "ArnLike": {
+                      "AWS:SourceArn": "arn:aws:bedrock:us-east-1:211203495394:agent/*"
+                    }
+                  }
+                }
+              ]
+            },
+            "is_service_role": true,
+            "attached_policies": [],
+            "inline_policies": [
+              "terraform-20251019170219823000000002",
+              "terraform-20251019170303948100000003"
+            ],
+            "tags": []
+          }
+        },
+        "group": {
+          "name": "iam"
+        },
+        "labels": [],
+        "name": "BedrockAgents20251019170219585900000001",
+        "type": "AwsIamRole",
+        "uid": "arn:aws:iam::211203495394:role/BedrockAgents20251019170219585900000001"
+      }
+    ],
+    "category_name": "Findings",
+    "class_name": "Detection Finding",
+    "cloud": {
+      "account": {
+        "name": "",
+        "type": "AWS Account",
+        "type_id": 10,
+        "uid": "211203495394",
+        "labels": []
+      },
+      "org": {
+        "name": "",
+        "uid": ""
+      },
+      "provider": "aws",
+      "region": "us-east-1"
+    },
+    "remediation": {
+      "desc": "To mitigate cross-service confused deputy attacks, it's recommended to use the aws:SourceArn and aws:SourceAccount global condition context keys in your IAM role trust policies. If the role doesn't support these fields, consider implementing alternative security measures, such as defining more restrictive resource-based policies or using service-specific trust policies, to limit the role's permissions and exposure. For detailed guidance, refer to AWS's documentation on preventing cross-service confused deputy issues.",
+      "references": [
+        "https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html#cross-service-confused-deputy-prevention"
+      ]
+    },
+    "risk_details": "Allow attackers to gain unauthorized access to resources",
+    "time": 1760893384,
+    "time_dt": "2025-10-19T17:03:04.730000",
+    "type_uid": 200401,
+    "type_name": "Detection Finding: Create",
+    "category_uid": 2,
+    "class_uid": 2004
+  }
+]

@@ -1,0 +1,76 @@
+[
+  {
+    "activity_id": 1,
+    "activity_name": "Test",
+    "category_name": "Findings",
+    "category_uid": 2,
+    "class_name": "Compliance Finding",
+    "class_uid": 2004,
+    "finding_info": {
+      "created_time": 1760898494,
+      "created_time_dt": "2025-10-19T18:28:14Z",
+      "desc": "Compliance test scenario: Cleanup",
+      "title": "Cleanup",
+      "types": [],
+      "uid": "ccc-test-487-1760898494"
+    },
+    "message": "Cleanup",
+    "metadata": {
+      "event_code": "ccc_compliance_test",
+      "product": {
+        "name": "CCC-Destructive",
+        "uid": "CCC-Destructive",
+        "vendor_name": "FINOS",
+        "version": "0.1"
+      },
+      "profiles": [
+        "cloud",
+        "datetime"
+      ],
+      "version": "1.4.0"
+    },
+    "resources": [
+      {
+        "cloud_partition": "aws",
+        "data": {
+          "details": " service on :",
+          "metadata": {
+            "findings": [],
+            "name": "arn:aws:s3:us-east-1:211203495394:storage-lens/default-account-dashboard",
+            "region": "us-east-1",
+            "status": "ACTIVE",
+            "tags": [],
+            "type": "s3"
+          }
+        },
+        "group": {
+          "name": "s3"
+        },
+        "labels": [
+          "{\"Preexisting\": \"20251012\"}"
+        ],
+        "name": "arn:aws:s3:us-east-1:211203495394:storage-lens/default-account-dashboard",
+        "region": "us-east-1",
+        "type": "s3",
+        "uid": "arn:aws:s3:us-east-1:211203495394:storage-lens/default-account-dashboard"
+      }
+    ],
+    "severity": "Informational",
+    "severity_id": 1,
+    "status": "New",
+    "status_code": "PASS",
+    "status_detail": "✓ a cloud api for \"{Provider}\" in \"api\"\n✓ I call \"{api}\" with \"GetServiceAPI\" with parameter \"object-storage\"\n✓ I refer to \"{result}\" as \"storage\"\n✓ I call \"{api}\" with \"GetServiceAPI\" with parameter \"iam\"\n✓ I refer to \"{result}\" as \"iamService\"\n✓ I call \"{storage}\" with \"CreateBucket\" with parameter \"test-bucket-obj-write\"\n✓ I refer to \"{result}\" as \"bucket\"\n✓ I call \"{storage}\" with \"DeleteBucket\" with parameter \"{bucket.ID}\"\n✓ I call \"{iamService}\" with \"DestroyUser\" with parameter \"{testUserTrusted}\"\n✓ I call \"{iamService}\" with \"DestroyUser\" with parameter \"{testUserUntrusted}\"",
+    "status_id": 1,
+    "time": 1760898494,
+    "time_dt": "2025-10-19T18:28:14Z",
+    "type_name": "Compliance Finding: Test",
+    "type_uid": 200401,
+    "unmapped": {
+      "compliance": {
+        "CCC": [
+          "CCC.ObjStor.C01.TR04"
+        ]
+      }
+    }
+  }
+]

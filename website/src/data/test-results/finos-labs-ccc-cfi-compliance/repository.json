@@ -1,0 +1,9 @@
+{
+  "name": "ccc-cfi-compliance",
+  "url": "https://github.com/finos-labs/ccc-cfi-compliance",
+  "description": "CCC CFI Compliance from FINOS Labs",
+  "downloaded_at": "2025-10-19T21:38:16.610Z",
+  "workflow_run_id": 18633357206,
+  "workflow_status": "completed",
+  "workflow_conclusion": "failure"
+}

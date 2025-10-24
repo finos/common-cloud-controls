@@ -1,54 +1,66 @@
 imported-capabilities:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.F02
+      - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
-      - reference-id: CCC.Core.F06
+      - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.F07
+      - reference-id: CCC.Core.CP07
         remarks: Event Publication
-      - reference-id: CCC.Core.F09
+      - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.F10
+      - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.F11
+      - reference-id: CCC.Core.CP11
         remarks: Backup
-      - reference-id: CCC.Core.F12
+      - reference-id: CCC.Core.CP12
         remarks: Recovery
-      - reference-id: CCC.Core.F15
+      - reference-id: CCC.Core.CP15
         remarks: Cost Management
-      - reference-id: CCC.Core.F17
+      - reference-id: CCC.Core.CP17
         remarks: Alerting
-      - reference-id: CCC.Core.F20
+      - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
-      - reference-id: CCC.Core.F22
+      - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
-      - reference-id: CCC.Core.F23
+      - reference-id: CCC.Core.CP23
         remarks: Network Access Rules
+      - reference-id: CCC.Core.F24
+        remarks: Core Processing Units
+      - reference-id: CCC.Core.F25
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.F26
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.F27
+        remarks: Configurable Network Ports
+      - reference-id: CCC.Core.F28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.F29
+        remarks: Active Ingestion
 
 capabilities:
-  - id: CCC.VM.F01
+  - id: CCC.VM.CP01
     title: General Purpose Instances
     description: |
       Provides a computing instance that provides a balance of compute,
       memory and networking resources. They are suitable for a wide range
       of applications.
 
-  - id: CCC.VM.F02
+  - id: CCC.VM.CP02
     title: Compute Optimized Instances
     description: |
       Provides instances that are suited for compute-bound applications that
       benefits from high performance processors such as batch processing
       workloads, media transcoding and high performance web servers.
 
-  - id: CCC.VM.F03
+  - id: CCC.VM.CP03
     title: Memory Optimized Instances
     description: |
       Provides instances that are suited for memory intensive applications
       such as high performance databases, in-memory caches, and real-time
       big data analytics.
 
-  - id: CCC.VM.F04
+  - id: CCC.VM.CP04
     title: Storage Optimized Instances
     description: |
       Provides instances that are optimized for applications that require
@@ -56,65 +68,65 @@ capabilities:
       such as distributed file systems, data warehousing applications, and
       high-frequency online transaction processing (OLTP) systems.
 
-  - id: CCC.VM.F05
+  - id: CCC.VM.CP05
     title: Accelerated Computing Instances
     description: |
       Provides instances that use hardware accelerator, or co-processors, such
       as GPU to perform functions such as floating-point number calculations,
       graphics processing, or data pattern matching more efficiently.
 
-  - id: CCC.VM.F06
+  - id: CCC.VM.CP06
     title: Preemptible Instances
     description: |
       Providing the option for using preemptible virtual machine (spot) instances
       at a lower cost for non-critical or fault-tolerant workloads that may be
       terminated by the cloud provider after a notice period.
 
-  - id: CCC.VM.F07
+  - id: CCC.VM.CP07
     title: Dedicated Instances
     description: |
       Ability to reserve a physical server dedicated to a single customer
       for regulatory compliance.
 
-  - id: CCC.VM.F08
+  - id: CCC.VM.CP08
     title: Vertical Scaling
     description: |
       Ability to increase or decrease resources such as cpu, memory, and
       storage of an existing virtual machine instance.
 
-  - id: CCC.VM.F09
+  - id: CCC.VM.CP09
     title: Horizontal Scaling
     description: |
       Ability to add or remove VM instances assigned to the application to
       handle increased or decreased workload.
 
-  - id: CCC.VM.F10
+  - id: CCC.VM.CP10
     title: VM Images
     description: |
       Provides templates to create new virtual machines. They usually includes
       operating system, configuration settings and installed applications.
 
-  - id: CCC.VM.F11
+  - id: CCC.VM.CP11
     title: Custom Images
     description: |
       Ability to create virtual machines with images what are created and owned
       by the customer which are only available within the subscription of the
       customer.
 
-  - id: CCC.VM.F12
+  - id: CCC.VM.CP12
     title: Interoperability with Storage Options
     description: |
       Capability to read/write to non-ephemeral external storage including
       object storage and encrypted block storage.
 
-  - id: CCC.VM.F13
+  - id: CCC.VM.CP13
     title: Patch Management
     description: |
       Offering patch management services and compatibility with third-party
       patch management tools to keep virtual machine instances up to date
       with security patches and updates.
 
-  - id: CCC.VM.F14
+  - id: CCC.VM.CP14
     title: Isolated Secure Environments
     description: |
       Providing an isolated "enclave" within a virtual machine for processing
@@ -123,60 +135,60 @@ capabilities:
       isolated from the parent EC2 instance, with no persistent storage,
       no interactive access, and no external networking.
 
-  - id: CCC.VM.F15
+  - id: CCC.VM.CP15
     title: Nested Virtualization
     description: |
       Ability to create and manage virtual machines within instances.
 
-  - id: CCC.VM.F16
+  - id: CCC.VM.CP16
     title: Instance Metadata
     description: |
       Providing metadata about virtual machine instances for configuration
       and management purposes.
 
-  - id: CCC.VM.F17
+  - id: CCC.VM.CP17
     title: Instance Snapshots
     description: |
       Creation of snapshots of virtual machine instances to capture and
       preserve state and data for backup and cloning purposes.
 
-  - id: CCC.VM.F18
+  - id: CCC.VM.CP18
     title: Instance Templates
     description: |
       Offering templates for provisioning virtual machine instances with
       pre-configured images, instance types, and network configurations.
 
-  - id: CCC.VM.F19
+  - id: CCC.VM.CP19
     title: Bootstrap Scripts
     description: |
       Ability to provide bootstrap scripts to a VM to run during the
       instance boot process.
 
-  - id: CCC.VM.F20
+  - id: CCC.VM.CP20
     title: Instance Affinity/Anti-affinity
     description: |
       Enabling control over the location of virtual machine instances to ensure or
       prevent co-location on the same physical hardware.
 
-  - id: CCC.VM.F21
+  - id: CCC.VM.CP21
     title: Instance Health Checks
     description: |
       Exposing health checks on virtual machine instances so that unhealthy
       instances can be automatically replaced or repaired.
 
-  - id: CCC.VM.F22
+  - id: CCC.VM.CP22
     title: Instance Remote Access
     description: |
       Offering remote access to virtual machine instances through methods
       such as SSH or RDP for troubleshooting, debugging, and maintenance purposes.
 
-  - id: CCC.VM.F23
+  - id: CCC.VM.CP23
     title: Instance Live Migration
     description: |
       Ability to perform live migration of virtual machine instances between physical
       hosts for maintenance or load balancing purposes without downtime.
 
-  - id: CCC.VM.F24
+  - id: CCC.VM.CP24
     title: TPM Support
     description: |
       Providing support for Trusted Platform Module (TPM) for hardware-based

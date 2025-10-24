@@ -1,25 +1,25 @@
 imported-controls:
   - reference-id: CCC
     entries:
-      - reference-id: CCC.Core.C01
+      - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Prevent unencrypted requests
-      - reference-id: CCC.Core.C02
+      - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
         remarks: Ensure Data Encryption at Rest for All Stored Data
-      - reference-id: CCC.Core.C03
+      - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement multi-factor authentication (MFA) for access
-      - reference-id: CCC.Core.C04
+      - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
         remarks: Log all access and changes
-      - reference-id: CCC.Core.C05
+      - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
         remarks: Prevent access from untrusted entities
-      - reference-id: CCC.Core.C06
+      - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
         remarks: Prevent deployment in restricted regions
-      - reference-id: CCC.Core.C10
+      - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
         remarks: Prevent Data Replication to Destinations Outside Perimeter
 
@@ -28,13 +28,13 @@ control-families:
     description: Controls that collect, alert, and retain key-management events.
 
     controls:
-      - id: CCC.KeyMgmt.C01
+      - id: CCC.KeyMgmt.CN01
         title: Alert on Key-version Changes
         objective: >
           Generate near-real-time alerts when a KMS key version is disabled or
           scheduled for deletion, enabling rapid investigation and recovery.
         assessment-requirements:
-          - id: CCC.KeyMgmt.C01.TR01
+          - id: CCC.KeyMgmt.CN01.AR01
             text: |
               When a key version is scheduled for deletion or disabled, an
               alert MUST be generated within five minutes.
@@ -66,13 +66,13 @@ control-families:
     description: Controls that enforce least-privilege use of KMS operations.
 
     controls:
-      - id: CCC.KeyMgmt.C02
+      - id: CCC.KeyMgmt.CN02
         title: Limit Decrypt Permissions
         objective: >
           Restrict the Decrypt operation to authorised principals only, applying
           the principle of least privilege to protect sensitive data.
         assessment-requirements:
-          - id: CCC.KeyMgmt.C02.TR01
+          - id: CCC.KeyMgmt.CN02.AR01
             text: |
               When IAM roles and key policies are reviewed, Decrypt permission
               MUST be granted exclusively to documented authorised principals.
@@ -103,13 +103,13 @@ control-families:
       of cryptographic keys.
 
     controls:
-      - id: CCC.KeyMgmt.C03
+      - id: CCC.KeyMgmt.CN03
         title: Enforce Automatic Rotation
         objective: >
           Ensure symmetric keys rotate automatically within policy intervals to
           reduce exposure of key material.
         assessment-requirements:
-          - id: CCC.KeyMgmt.C03.TR01
+          - id: CCC.KeyMgmt.CN03.AR01
             text: |
               When rotation settings are examined, rotation MUST be enabled with
               an interval not exceeding 365 days.
@@ -135,13 +135,13 @@ control-families:
                 strength: 0 # Not yet specified
                 remarks: Cryptographic Key Establishment and Management
 
-      - id: CCC.KeyMgmt.C04
+      - id: CCC.KeyMgmt.CN04
         title: Validate Imported Keys
         objective: >
           Accept only externally generated keys that meet approved cryptographic
           strength and provenance requirements.
         assessment-requirements:
-          - id: CCC.KeyMgmt.C04.TR01
+          - id: CCC.KeyMgmt.CN04.AR01
             text: |
               When a key import request is processed, the key MUST use an
               approved algorithm (RSA-2048+, EC-P256+) and originate from a

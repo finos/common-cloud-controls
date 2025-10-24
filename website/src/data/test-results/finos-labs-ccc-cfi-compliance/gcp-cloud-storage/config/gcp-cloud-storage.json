@@ -1,0 +1,9 @@
+{
+    "id": "gcp-cloud-storage",
+    "provider": "gcp",
+    "service": "storage",
+    "name": "CCC Google Cloud Storage Terraform Module",
+    "description": "This module creates secure Google Cloud Storage buckets with encryption, versioning, lifecycle management, and advanced security features.",
+    "path": "remote/gcp/cloudstorage",
+    "git": "https://github.com/terraform-google-modules/terraform-google-cloud-storage"
+}

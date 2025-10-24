@@ -36,7 +36,7 @@ To maintain consistency, all controls— whether common or specific— must foll
 
 When creating a new control definition, use the following values:
 
-- **Control ID** (`id`): A unique identifier for the control, following the format `<category-id>.C<#>`.
+- **Control ID** (`id`): A unique identifier for the control, following the format `<category-id>.CN<#>`.
 - **Control Title** (`title`): A brief title (3 to 10 words) that succinctly describes the control.
 - **Objective (`objective`)**: A 1 to 3 sentence description outlining the control’s purpose and what it aims to achieve.
 - **Control Family** (`family`): The name of the [Control Family](#control-family) this control belongs to.
@@ -80,7 +80,7 @@ This approach ensures that test requirements are actionable by providing clear i
 
 ```yaml
 assessment-requirements:
-  - id: CCC.VPC.C01.TR01
+  - id: CCC.VPC.CN01.AR01
     text: |
       When a subscription is created, the subscription MUST NOT
       contain default network resources.
@@ -100,7 +100,7 @@ assessment-requirements:
 
 ```yaml
 assessment-requirements:
-  - id: CCC.VPC.C01.TR01
+  - id: CCC.VPC.CN01.AR01
     text: |
       A subscription MUST NOT have default networks.
     tlp-levels:
