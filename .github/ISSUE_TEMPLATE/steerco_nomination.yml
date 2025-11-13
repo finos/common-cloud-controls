@@ -1,6 +1,6 @@
 name: "CCC Steering Committee Self-Nomination"
 description: "Submit your candidacy for the Common Cloud Controls Steering Committee."
-title: "[SteerCo Nomination] <Your Full Name>"
+title: "[SteerCo Nomination] <Your Name>"
 labels: ["steerco"]
 body:
   - type: markdown
@@ -8,7 +8,7 @@ body:
       value: |
         **Thank you for your interest in the Common Cloud Controls (CCC) Steering Committee!**
 
-        Be sure to replace `<Your Full Name>` in the issue title with your full name in the GitHub Issue.
+        Be sure to replace `<Your Name>` in the issue title with your name in the GitHub Issue.
 
         Before proceeding, please ensure you understand the:
         - [CCC Steering Committee Charter](docs/governance/steering/charter.md)
@@ -28,8 +28,8 @@ body:
   - type: input
     id: candidate-name
     attributes:
-      label: Candidate Full Name
-      description: The full name of the person being nominated.
+      label: Candidate Name
+      description: The name of the person being nominated.
       placeholder: "Jane Doe"
     validations:
       required: true
