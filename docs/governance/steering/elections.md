@@ -84,12 +84,6 @@ The steering committee should choose multiple election officers using the follow
 - Each officer should come from a different employer.
 - Each officer can be relied upon to follow the [election procedure].
 
-History of election officers:
-
-| Year | Officers |
-| ---- | -------- |
-| 2024 | TBD      |
-
 ## Steering Committee and Election Officer Recusal
 
 Currently serving steering committee members and the appointed election officers
