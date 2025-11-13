@@ -1,0 +1,83 @@
+name: "CCC Steering Committee Self-Nomination"
+description: "Submit your candidacy for the Common Cloud Controls Steering Committee."
+title: "[SteerCo Nomination] <Your Full Name>"
+labels: ["steerco"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Thank you for your interest in the Common Cloud Controls (CCC) Steering Committee!**
+
+        Be sure to replace `<Your Full Name>` in the issue title with your full name in the GitHub Issue.
+
+        Before proceeding, please ensure you understand the:
+        - [CCC Steering Committee Charter](<insert-link-to-charter.md>)
+        - [CCC Election Policy & Eligibility](<insert-link-to-elections.md#eligibility-for-candidacy>)
+
+  - type: checkboxes
+    id: eligibility-attestation
+    attributes:
+      label: Eligibility Attestation
+      description: Please confirm you meet the criteria for candidacy per the election policy.
+      options:
+        - label: I understand the [candidacy eligibility criteria](<docs/governance/steering/elections.md#Eligibility-for-candidacy>).
+          required: true
+        - label: I have read the [Steering Committee Charter](<insert-link-to-charter.md>) and understand the responsibilities of the role.
+          required: true
+
+  - type: input
+    id: candidate-name
+    attributes:
+      label: Candidate Full Name
+      description: The full name of the person being nominated.
+      placeholder: "Jane Doe"
+    validations:
+      required: true
+
+  - type: input
+    id: affiliation
+    attributes:
+      label: Affiliation
+      description: "The name of the company you work for."
+      placeholder: "Global Bank Inc."
+    validations:
+      required: true
+
+  - type: textarea
+    id: bio
+    attributes:
+      label: Candidate Bio
+      description: "Share a brief biography for the community and voters. This will be used in election communications."
+      placeholder: "e.g., I am a... managing director at... responsible for... My open source journey includes..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: qualifications
+    attributes:
+      label: Qualifications for Candidacy
+      description: "Describe how you meet the candidacy requirements. This often includes your contributions to the CCC project or other relevant FINOS activities (e.g., GitHub events, meeting participation, etc.)."
+      placeholder: "e.g., Active in the CCC Policy Working Group, contributed to X standard, reviewed PRs Y and Z..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: candidate-statement
+    attributes:
+      label: Candidate Statement
+      description: "What impact do you hope to have on the Common Cloud Controls ecosystem during your tenure as a Steering Committee member?"
+      placeholder: "e.g., I hope to help the project achieve... by focusing on..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Endorsements
+        
+        Per the [election policy](<insert-link-to-elections.md#eligibility-for-candidacy>), your nomination must be endorsed by:
+        1.  One (1) other person from your own employer.
+        2.  At least one (1) eligible voter from a different financial institution.
+
+        **Instructions for Candidate:** Please ask your endorsers to **comment on this GitHub issue** *after* you have submitted it. 
+        A simple comment like "I endorse [Candidate Name] for the CCC Steering Committee" is sufficient, though more context may be helpful during voting.
