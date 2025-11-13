@@ -537,7 +537,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                   <TableHeader>
                     <TableRow>
                       <TableHead>Control Catalog</TableHead>
-                      <TableHead>Test Requirement ID</TableHead>
+                      <TableHead>Test Requirement</TableHead>
                       <TableHead>Mapped Tests (Event Code | Total | Passing | Failing)</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -556,15 +556,19 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               const { requirement, control, release } = requirementData;
                               const linkUrl = getControlUrl(release, control, requirement.id);
                               return (
-                                <Link to={linkUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm" title={`${control.title}: ${requirement.text}`}>
-                                  {mapping.testRequirementId}
-                                </Link>
+                                <div>
+                                  <Link to={linkUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
+                                    {mapping.testRequirementId}
+                                  </Link>
+                                  <div className="text-sm text-gray-600 mt-1">{requirement.text || "No description"}</div>
+                                </div>
                               );
                             } else {
                               return (
-                                <span className="font-mono text-sm text-red-600 font-medium" title="Broken mapping">
-                                  {mapping.testRequirementId}
-                                </span>
+                                <div>
+                                  <span className="font-mono text-sm text-red-600 font-medium">{mapping.testRequirementId}</span>
+                                  <div className="text-sm text-gray-500 italic mt-1">Description not available</div>
+                                </div>
                               );
                             }
                           })()}

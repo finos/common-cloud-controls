@@ -1,0 +1,9 @@
+{
+    "id": "secure-aws-bucket",
+    "provider": "aws",
+    "service": "s3",
+    "name": "CCC S3 Bucket Terraform Module",
+    "description": "This module creates a secure S3 bucket with encryption and logging enabled. It also creates a KMS key for the bucket.",
+    "path": "examples/complete/aws",
+    "git": "https://github.com/finos/cfi-s3-module"
+}

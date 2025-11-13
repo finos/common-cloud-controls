@@ -19,14 +19,12 @@ imported-capabilities:
         remarks: Data Replication
       - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
-      - reference-id: CCC.Core.CP10
-        remarks: Log Publication
-      - reference-id: CCC.Core.CP11
-        remarks: Backup
-      - reference-id: CCC.Core.CP12
-        remarks: Recovery
       - reference-id: CCC.Core.CP14
         remarks: API Access
+      - reference-id: CCC.Core.CP15
+        remarks: Cost Management
+      - reference-id: CCC.Core.CP16
+        remarks: Budgeting
       - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
       - reference-id: CCC.Core.CP20
@@ -80,7 +78,8 @@ capabilities:
   - id: CCC.ObjStor.CP08
     title: Lifecycle Policies
     description: |
-      Supports defining policies to automate data management tasks.
+      Supports defining policies to automate data management tasks, especially
+      those related to cost management.
 
   - id: CCC.ObjStor.CP09
     title: Object Modification Locks

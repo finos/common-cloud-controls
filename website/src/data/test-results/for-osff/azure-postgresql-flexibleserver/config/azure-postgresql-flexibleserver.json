@@ -1,0 +1,9 @@
+{
+    "id": "azure-postgresql-flexibleserver",
+    "provider": "azure",
+    "service": "database",
+    "name": "CCC Azure PostgreSQL Flexible Server Terraform Module",
+    "description": "This module creates a secure Azure Database for PostgreSQL Flexible Server with encryption, networking, and monitoring capabilities.",
+    "path": "remote/azure/postgres",
+    "git": "https://github.com/Azure/terraform-azurerm-avm-res-dbforpostgresql-flexibleserver"
+}

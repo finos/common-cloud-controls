@@ -15,6 +15,8 @@ export function CapabilitiesTable({ capabilities, releaseSlug, title = "Related 
     return null;
   }
 
+  const sortedCapabilities = [...capabilities].sort((a, b) => a.id.localeCompare(b.id));
+
   return (
     <Card>
       <CardHeader>
@@ -30,7 +32,7 @@ export function CapabilitiesTable({ capabilities, releaseSlug, title = "Related 
             </TableRow>
           </TableHeader>
           <TableBody>
-            {capabilities.map((capability) => (
+            {sortedCapabilities.map((capability) => (
               <TableRow key={capability.id}>
                 <TableCell>
                   <Link to={`${releaseSlug}/${capability.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
