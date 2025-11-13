@@ -177,4 +177,12 @@ capabilities:
       While running, the service can receive inputs, commands, or data streams
       from external sources such as dedicated APIs, exposed network
       ports, message queues, and persistent data ingestion channels.
+  
+  - id: CCC.Core.CP30
+    title: Passive Ingestion
+    description: |
+      While running, the service can receive inputs, commands, or data streams
+      from external sources such as dedicated APIs, exposed network
+      ports, message queues, and persistent data ingestion channels.
+
 
