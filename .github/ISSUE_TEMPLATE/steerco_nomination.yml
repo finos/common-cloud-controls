@@ -11,8 +11,8 @@ body:
         Be sure to replace `<Your Full Name>` in the issue title with your full name in the GitHub Issue.
 
         Before proceeding, please ensure you understand the:
-        - [CCC Steering Committee Charter](<insert-link-to-charter.md>)
-        - [CCC Election Policy & Eligibility](<insert-link-to-elections.md#eligibility-for-candidacy>)
+        - [CCC Steering Committee Charter](docs/governance/steering/charter.md)
+        - [CCC Election Policy & Eligibility](docs/governance/steering/elections.md#Eligibility-for-candidacy)
 
   - type: checkboxes
     id: eligibility-attestation
@@ -20,9 +20,9 @@ body:
       label: Eligibility Attestation
       description: Please confirm you meet the criteria for candidacy per the election policy.
       options:
-        - label: I understand the [candidacy eligibility criteria](<docs/governance/steering/elections.md#Eligibility-for-candidacy>).
+        - label: I understand the [candidacy eligibility criteria](docs/governance/steering/elections.md#Eligibility-for-candidacy).
           required: true
-        - label: I have read the [Steering Committee Charter](<insert-link-to-charter.md>) and understand the responsibilities of the role.
+        - label: I have read the [Steering Committee Charter](docs/governance/steering/charter.md) and understand the responsibilities of the role.
           required: true
 
   - type: input
@@ -48,7 +48,7 @@ body:
     attributes:
       label: Candidate Bio
       description: "Share a brief biography for the community and voters. This will be used in election communications."
-      placeholder: "e.g., I am a... managing director at... responsible for... My open source journey includes..."
+      placeholder: "e.g., I am a... at... responsible for... My open source journey includes..."
     validations:
       required: true
 
@@ -75,7 +75,7 @@ body:
       value: |
         ## Endorsements
         
-        Per the [election policy](<insert-link-to-elections.md#eligibility-for-candidacy>), your nomination must be endorsed by:
+        Per the [election policy](docs/governance/steering/elections.md#Eligibility-for-candidacy), your nomination must be endorsed by:
         1.  One (1) other person from your own employer.
         2.  At least one (1) eligible voter from a different financial institution.
 
