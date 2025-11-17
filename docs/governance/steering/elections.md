@@ -20,7 +20,6 @@ _It is the responsibility of the steering committee to refine these criteria pri
 
 In order to be eligible for candidacy, an individual must:
 
-- Be eligible for voting in the current Steering Committee election.
 - Accept a nomination or self-nominate.
 - Be endorsed by another party from their own employer.
 - Be endorsed by at least one eligible voter from a financial institution who is
