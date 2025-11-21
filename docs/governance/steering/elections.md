@@ -8,7 +8,7 @@ Restrictions on candidacy and voting are in place to ensure that the CCC project
 
 ### Eligibility for voting
 
-In order to be eligible for voting, an individual must:
+In order to be eligible for voting, an individual must meet at least one of the following criteria:
 
 - Be an FINOS Member<sup>[1](#footnote1)</sup> who had a substantial contribution to the CCC project within 12 months prior to their nomination. Contributions include GitHub events like creating issues, creating PRs, reviewing PRs, commenting on issues, etc.
 - Be an appointed or elected member of one or more active [community groups] within 4 months prior to their nomination.
@@ -20,6 +20,7 @@ _It is the responsibility of the steering committee to refine these criteria pri
 
 In order to be eligible for candidacy, an individual must:
 
+- Be eligible for voting in the current Steering Committee election.
 - Accept a nomination or self-nominate.
 - Be endorsed by another party from their own employer.
 - Be endorsed by at least one eligible voter from a financial institution who is
