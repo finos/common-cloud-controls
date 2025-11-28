@@ -297,6 +297,69 @@ control-families:
               - reference-id: IAM-09
                 remarks: Segregation of Privileged Access Roles
                 strength: 3 # Segmentation gets us partway there
+      - id: CCC.ObjStor.CN05
+        title: Multi-Factor Authentication Is Required for Object Deletion
+        objective: |
+          Ensure that deletion of objects stored in the object storage system is
+          protected by multi-factor authentication (MFA), reducing the risk of
+          accidental, unauthorized, or compromised-credential–based data destruction.
+        assessment-requirements:
+          - id: CCC.ObjStor.CN05.AR01
+            text: |
+              The object storage service MUST support a configuration option that
+              requires MFA to be successfully completed before any object deletion
+              can be attempted, regardless of the request interface (API, console,
+              CLI, automation workflow, or SDK).
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.ObjStor.CN05.AR02
+            text: |
+              When MFA deletion protection is enabled on a bucket or object
+              namespace, the service MUST deny any deletion request from an identity
+              that has not satisfied the MFA requirement at the time of the request.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.ObjStor.CN05.AR03
+            text: |
+              Audit logs MUST clearly record each deletion attempt, including
+              whether MFA was required and successfully validated. Logs MUST include
+              failed deletion attempts where MFA validation was not met.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
+            entries:
+              - reference-id: CCC.Core.TH01
+                remarks: Prevents unauthorized identities from deleting objects
+                strength: 9
+              - reference-id: CCC.Core.TH06
+                remarks: Mitigates malicious or accidental data loss through protected deletion
+                strength: 10
+              - reference-id: CCC.Core.TH17
+                remarks: Ensures deletion requests from unauthorized entities do not result in action
+                strength: 8
+        guideline-mappings:
+          - reference-id: CCM
+            entries:
+              - reference-id: DSP-16
+                remarks: MFA enforcement strengthens data retention and deletion control
+                strength: 8
+              - reference-id: IAM-12
+                remarks: MFA required for privileged or destructive operations
+                strength: 9
+
   - title: Identity and Access Management
     id: CCC.ObjStor.IAM
     controls:
