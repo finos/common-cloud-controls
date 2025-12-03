@@ -328,9 +328,9 @@ control-families:
             recommendation: ""
           - id: CCC.ObjStor.CN05.AR03
             text: |
-              Audit logs MUST clearly record each deletion attempt, including
-              whether MFA was required and successfully validated. Logs MUST include
-              failed deletion attempts where MFA validation was not met.
+              When an attempt is made to delete an object, the service's audit logs MUST
+              clearly record each deletion attempt, including whether MFA was required
+              and whether validation was met.
             applicability:
               - tlp-clear
               - tlp-green
