@@ -308,8 +308,7 @@ control-families:
             text: |
               The object storage service MUST support a configuration option that
               requires MFA to be successfully completed before any object deletion
-              can be attempted, regardless of the request interface (API, console,
-              CLI, automation workflow, or SDK).
+              can be attempted, regardless of the request interface.
             applicability:
               - tlp-clear
               - tlp-green
