@@ -3,90 +3,6 @@ import path from 'path';
 import type { LoadContext, Plugin } from '@docusaurus/types';
 import { HomePageData, Configuration, ConfigurationPageData, RepositoryPageData, CFIConfigJson, TestResultItem, TestResultType, CFIRepository, ConfigurationResult, ConfigurationResultPageData, ConfigurationResultSummary } from '../../types/cfi';
 
-function processOCSFResults(resultPath: string): TestResultItem[] {
-    if (!fs.existsSync(resultPath)) {
-        return [];
-    }
-
-    const result = fs.readFileSync(resultPath, 'utf8');
-    const parsed = JSON.parse(result) as any[];
-
-    console.log(`📊 Processing ${parsed.length} OCSF items from ${resultPath}`);
-
-    return parsed
-        .filter(item => {
-            // Only include items that have CCC in compliance
-            return item.unmapped?.compliance?.['CCC'] &&
-                Array.isArray(item.unmapped.compliance['CCC']) &&
-                item.unmapped.compliance['CCC'].length > 0;
-        })
-        .map((item, index) => {
-            const resource = item.resources?.[0] || {};
-
-            const testResult: TestResultItem = {
-                id: `${item.finding_info?.uid || 'unknown'}-${index}`,
-                test_requirements: item.unmapped.compliance['CCC'],
-                result: item.status_code === 'PASS' ? TestResultType.PASS :
-                    item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
-                name: item.finding_info?.title || 'Unknown Finding',
-                message: item.message || '',
-                test: item.metadata?.event_code || '',
-                timestamp: item.finding_info?.created_time || Date.now(),
-                further_info_url: item.unmapped?.related_url,
-                resources: [resource.name || resource.uid || 'Unknown Resource'],
-                // OCSF-specific fields
-                status_code: item.status_code || 'UNKNOWN',
-                status_detail: item.status_detail || '',
-                resource_name: resource.name || resource.uid || 'Unknown Resource',
-                resource_type: resource.type || 'Unknown Type',
-                resource_uid: resource.uid,
-                ccc_objects: item.unmapped.compliance['CCC'],
-                finding_title: item.finding_info?.title || 'Unknown Finding',
-                finding_uid: item.finding_info?.uid || ''
-            };
-
-            return testResult;
-        });
-}
-
-function processAllOCSFResults(resultPath: string): TestResultItem[] {
-    if (!fs.existsSync(resultPath)) {
-        return [];
-    }
-
-    const result = fs.readFileSync(resultPath, 'utf8');
-    const parsed = JSON.parse(result) as any[];
-
-    console.log(`📊 Processing ALL ${parsed.length} OCSF items from ${resultPath}`);
-
-    return parsed.map((item, index) => {
-        const resource = item.resources?.[0] || {};
-
-        const testResult: TestResultItem = {
-            id: `${item.finding_info?.uid || 'unknown'}-${index}`,
-            test_requirements: item.unmapped?.compliance?.['CCC'] || [],
-            result: item.status_code === 'PASS' ? TestResultType.PASS :
-                item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
-            name: item.finding_info?.title || 'Unknown Finding',
-            message: item.message || '',
-            test: item.metadata?.event_code || '',
-            timestamp: item.finding_info?.created_time || Date.now(),
-            further_info_url: item.unmapped?.related_url,
-            resources: [resource.name || resource.uid || 'Unknown Resource'],
-            // OCSF-specific fields
-            status_code: item.status_code || 'UNKNOWN',
-            status_detail: item.status_detail || '',
-            resource_name: resource.name || resource.uid || 'Unknown Resource',
-            resource_type: resource.type || 'Unknown Type',
-            resource_uid: resource.uid,
-            ccc_objects: item.unmapped?.compliance?.['CCC'] || [],
-            finding_title: item.finding_info?.title || 'Unknown Finding',
-            finding_uid: item.finding_info?.uid || ''
-        };
-
-        return testResult;
-    });
-}
 
 /**
  * Process all OCSF results and partition them by product, vendor, and version
@@ -106,52 +22,54 @@ function partitionOCSFResultsByMetadata(resultsDir: string): Map<string, Configu
         const result = fs.readFileSync(resultPath, 'utf8');
         const parsed = JSON.parse(result) as any[];
 
-        console.log(`📊 Partitioning ${parsed.length} OCSF items from ${resultFile}`);
+        if (parsed != null) {
+            console.log(`📊 Partitioning ${parsed.length} OCSF items from ${resultFile}`);
 
-        parsed.forEach((item, index) => {
-            // Extract metadata
-            const product = item.metadata?.product?.name || 'Unknown Product';
-            const vendor = item.metadata?.product?.vendor_name || 'Unknown Vendor';
-            const version = item.metadata?.product?.version || 'Unknown Version';
+            parsed.forEach((item, index) => {
+                // Extract metadata
+                const product = item.metadata?.product?.name || 'Unknown Product';
+                const vendor = item.metadata?.product?.vendor_name || 'Unknown Vendor';
+                const version = item.metadata?.product?.version || 'Unknown Version';
 
-            // Create unique key for this combination
-            const key = `${vendor}::${product}::${version}`;
+                // Create unique key for this combination
+                const key = `${vendor}::${product}::${version}`;
 
-            // Initialize partition if it doesn't exist
-            if (!partitionMap.has(key)) {
-                partitionMap.set(key, {
-                    product,
-                    vendor,
-                    version,
-                    test_results: []
-                });
-            }
+                // Initialize partition if it doesn't exist
+                if (!partitionMap.has(key)) {
+                    partitionMap.set(key, {
+                        product,
+                        vendor,
+                        version,
+                        test_results: []
+                    });
+                }
 
-            // Convert OCSF item to TestResultItem
-            const resource = item.resources?.[0] || {};
-            const testResult: TestResultItem = {
-                id: `${item.finding_info?.uid || 'unknown'}-${index}`,
-                test_requirements: item.unmapped?.compliance?.['CCC'] || [],
-                result: item.status_code === 'PASS' ? TestResultType.PASS :
-                    item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
-                name: item.finding_info?.title || 'Unknown Finding',
-                message: item.message || '',
-                test: item.metadata?.event_code || '',
-                timestamp: item.finding_info?.created_time || Date.now(),
-                further_info_url: item.unmapped?.related_url,
-                resources: [resource.name || resource.uid || 'Unknown Resource'],
-                status_code: item.status_code || 'UNKNOWN',
-                status_detail: item.status_detail || '',
-                resource_name: resource.name || resource.uid || 'Unknown Resource',
-                resource_type: resource.type || 'Unknown Type',
-                resource_uid: resource.uid,
-                ccc_objects: item.unmapped?.compliance?.['CCC'] || [],
-                finding_title: item.finding_info?.title || 'Unknown Finding',
-                finding_uid: item.finding_info?.uid || ''
-            };
+                // Convert OCSF item to TestResultItem
+                const resource = item.resources?.[0] || {};
+                const testResult: TestResultItem = {
+                    id: `${item.finding_info?.uid || 'unknown'}-${index}`,
+                    test_requirements: item.unmapped?.compliance?.['CCC'] || [],
+                    result: item.status_code === 'PASS' ? TestResultType.PASS :
+                        item.status_code === 'FAIL' ? TestResultType.FAIL : TestResultType.NA,
+                    name: item.finding_info?.title || 'Unknown Finding',
+                    message: item.message || '',
+                    test: item.metadata?.event_code || '',
+                    timestamp: item.finding_info?.created_time || Date.now(),
+                    further_info_url: item.unmapped?.related_url,
+                    resources: [resource.name || resource.uid || 'Unknown Resource'],
+                    status_code: item.status_code || 'UNKNOWN',
+                    status_detail: item.status_detail || '',
+                    resource_name: resource.name || resource.uid || 'Unknown Resource',
+                    resource_type: resource.type || 'Unknown Type',
+                    resource_uid: resource.uid,
+                    ccc_objects: item.unmapped?.compliance?.['CCC'] || [],
+                    finding_title: item.finding_info?.title || 'Unknown Finding',
+                    finding_uid: item.finding_info?.uid || ''
+                };
 
-            partitionMap.get(key)!.test_results.push(testResult);
-        });
+                partitionMap.get(key)!.test_results.push(testResult);
+            });
+        }
     }
 
     return partitionMap;
