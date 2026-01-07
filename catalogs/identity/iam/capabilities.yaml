@@ -21,8 +21,8 @@ imported-capabilities:
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
-      - reference-id: CCC.Core.CP29
-        remarks: Active Ingestion
+      - reference-id: CCC.Core.CP30
+        remarks: Passive Ingestion
 
 capabilities:
   - id: CCC.IAM.CP01
