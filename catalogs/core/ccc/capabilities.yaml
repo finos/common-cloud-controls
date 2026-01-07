@@ -108,7 +108,7 @@ capabilities:
       to preserve, retrieve, and restore past iterations.
 
   - id: CCC.Core.CP19
-    title: Resource Scaling
+    title: Child Resource Scaling
     description: |
       The service may be configured to scale child resources automatically
       or on-demand.
@@ -177,4 +177,9 @@ capabilities:
       While running, the service can receive inputs, commands, or data streams
       from external sources such as dedicated APIs, exposed network
       ports, message queues, and persistent data ingestion channels.
-
+  
+  - id: CCC.Core.CP31
+    title: Elastic Scaling
+    description: |
+      The ability of the service to automatically adjust its resource allocation
+      (such as CPU, memory, and storage) based on current demand and workload.
