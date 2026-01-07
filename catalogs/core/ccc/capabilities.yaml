@@ -181,5 +181,5 @@ capabilities:
   - id: CCC.Core.CP31
     title: Elastic Scaling
     description: |
-      The ability of the service to automatically adjust its resource allocation
+      The service automatically adjusts its resource allocation
       (such as CPU, memory, and storage) based on current demand and workload.
