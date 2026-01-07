@@ -5,7 +5,6 @@ title: MM/DD/YYYY All Hands Meeting Minutes
 labels:
   - meeting
   - communications
-assignees: "alexstpierrework"
 projects:
   - finos/18
 ---

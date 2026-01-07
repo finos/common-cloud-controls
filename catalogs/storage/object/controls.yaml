@@ -2,47 +2,38 @@ imported-controls:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CN01
-        strength: 0 # Not yet specified
         remarks: Prevent Unencrypted Requests
       - reference-id: CCC.Core.CN02
-        strength: 0 # Not yet specified
         remarks: Ensure Data Encryption at Rest for All Stored Data
       - reference-id: CCC.Core.CN03
-        strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
-        strength: 0 # Not yet specified
         remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
-        strength: 0 # Not yet specified
         remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
-        strength: 0 # Not yet specified
         remarks: Prevent Deployment in Restricted Regions
       - reference-id: CCC.Core.CN07
-        strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
-        strength: 0 # Not yet specified
         remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
       - reference-id: CCC.Core.CN10
-        strength: 0 # Not yet specified
         remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 
 control-families:
   - title: Data
-    description: 'TODO: Describe this control family'
+    id: CCC.ObjStor.Data
     controls:
       - id: CCC.ObjStor.CN01
         title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
         objective: |
           Prevent any requests to object storage buckets or objects using
-          untrusted KMS keys to protect against unauthorized data encryption
-          that can impact data availability and integrity.
-        assessment-requirements:
+          untrusted KMS keys to protect against unauthorized data encryption,
+          or sensitive data decryption.
+        assessment-requirements: # Restrict write on all; Restrict read on amber or red
           - id: CCC.ObjStor.CN01.AR01
             text: |
-              When a request is made to read a protected bucket, the service
+              When a request is made to read a bucket, the service
               MUST prevent any request using KMS keys not listed as trusted by
               the organization.
             applicability:
@@ -51,7 +42,7 @@ control-families:
             recommendation: ""
           - id: CCC.ObjStor.CN01.AR02
             text: |
-              When a request is made to read a protected object, the service
+              When a request is made to read an object, the service
               MUST prevent any request using KMS keys not listed as trusted by
               the organization.
             applicability:
@@ -84,23 +75,23 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
-                strength: 0 # Not yet specified
+                remarks: Access is Granted to Unauthorized Users
+                strength: 5 # Only addresses the threat of users with bad keys, not the threat of users with no keys
               - reference-id: CCC.Core.TH06
+                remarks: Data is Lost or Corrupted
+                strength: 2 # This is just one of many ways to mess up the data
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
-              - reference-id: DCS-04
-                strength: 0 # Not yet specified
-              - reference-id: DCS-06
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.10.1.1
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
+              - reference-id: IAM-01
+                remarks: IAM Policy and Procedures
+                strength: 3 # Implmenting this control is indicative of larger planning efforts
+              - reference-id: IAM-03
+                remarks: Identity Inventory (system identities and level of access)
+                strength: 5 # This control enforces some level of permission scoping for keys
+              - reference-id: DSP-17
+                remarks: Sensitive Data Protection
+                strength: 1 # This is one of many things that will need to be done
       - id: CCC.ObjStor.CN03
         title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
         objective: |
@@ -131,28 +122,23 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH06
+                remarks: Data is Lost or Corrupted
+                strength: 2 # This is just one of many ways to mess up the data
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
           - reference-id: CCM
             entries:
               - reference-id: DSP-16
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.1.4
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
-                strength: 0 # Not yet specified
-              - reference-id: CP-10
+                remarks: Data Retention and Deletion
+                strength: 10 # Have a policy? Check. Follow it? Check.
+              - reference-id: DSP-17
+                remarks: Sensitive Data Protection
+                strength: 1 # This is one of many things that will need to be done
       - id: CCC.ObjStor.CN04
         title: Objects have an Effective Retention Policy by Default
         objective: |
           Ensure that all objects stored in the object storage system have a
           retention policy applied by default, preventing premature deletion
-          or modification of objects and ensuring compliance with data retention
-          regulations.
+          or modification of objects.
         assessment-requirements:
           - id: CCC.ObjStor.CN04.AR01
             text: |
@@ -180,21 +166,22 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH06
-        guideline-mappings:
-          - reference-id: NIST-CSF
+                remarks: Data is Lost or Corrupted
+                strength: 2 # This is just one of many ways to mess up the data
+          - reference-id: CCC.ObjStor
             entries:
-              - reference-id: PR.DS-1
+              - reference-id: CCC.ObjStor.TH01
+                remarks: Data Exfiltration via Insecure Lifecycle Policies
+                strength: 10 # mmmm... lifecycle policies
+        guideline-mappings:
           - reference-id: CCM
             entries:
               - reference-id: DSP-16
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.1.4
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
-                strength: 0 # Not yet specified
-              - reference-id: CP-10
+                remarks: Data Retention and Deletion
+                strength: 10 # Have a policy? Check. Follow it? Check.
+              - reference-id: DSP-17
+                remarks: Sensitive Data Protection
+                strength: 1 # This is one of many things that will need to be done
       - id: CCC.ObjStor.CN05
         title: Versioning is Enabled for All Objects in the Bucket
         objective: |
@@ -247,28 +234,25 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH06
+                remarks: Data is Lost or Corrupted
+                strength: 2 # This is just one of many ways to mess up the data
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-1
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2022 A.8.1.4
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-28
-                strength: 0 # Not yet specified
-              - reference-id: CP-10
           - reference-id: CCM
             entries:
               - reference-id: DSP-16
+                remarks: Data Retention and Deletion
+                strength: 10 # Have a policy? Check. Follow it? Check.
+              - reference-id: DSP-17
+                remarks: Sensitive Data Protection
+                strength: 1 # This is one of many things that will need to be done
       - id: CCC.ObjStor.CN06
         title: Access Logs are Stored in a Separate Data Store
         objective: |
           Ensure that access logs for object storage buckets are stored in a
           separate data store to protect against unauthorized access, tampering,
-          or deletion of logs (Logbuckets are exempt from this requirement,
-          but must be tlp-red).
+          or deletion of logs. Buckets used to store logs from other
+          buckets are exempt from the bulk of this control, but must be classified
+          under the highest sensitivity level.
         assessment-requirements:
           - id: CCC.ObjStor.CN06.AR01
             text: |
@@ -278,31 +262,105 @@ control-families:
               - tlp-amber
               - tlp-red
             recommendation: ""
+          - id: CCC.ObjStor.CN06.AR01
+            text: |
+              When an object storage bucket stores access logs for other object
+              storage buckets, the bucket MUST be classified as the highest
+              possible sensitivity level.
+            recommendation: ""
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
         threat-mappings:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH07
-                strength: 0 # Not yet specified
+                remarks: Logs are Tampered With or Deleted
+                strength: 7 # Segmentation goes a long way to preventing tampering
               - reference-id: CCC.Core.TH09
+                remarks: Runtime Logs are Read by Unauthorized Entities
+                strength: 2 # Access logs are a small subset of runtime logs
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-6
           - reference-id: CCM
             entries:
-              - reference-id: DSP-07
-                strength: 0 # Not yet specified
-              - reference-id: DSP-17
-          - reference-id: ISO_27001
+              - reference-id: LOG-02
+                remarks: Audit Logs Protection
+                strength: 8 # Ensure security and retention of audit logs
+              - reference-id: LOG-04
+                remarks: Audit Logs Access and Accountability
+                strength: 5 # Segmentation gets us halfway there
+              - reference-id: IAM-04
+                remarks: Separation of Duties
+                strength: 5 # Segmentation gets us halfway there
+              - reference-id: IAM-09
+                remarks: Segregation of Privileged Access Roles
+                strength: 3 # Segmentation gets us partway there
+      - id: CCC.ObjStor.CN05
+        title: Multi-Factor Authentication Is Required for Object Deletion
+        objective: |
+          Ensure that deletion of objects stored in the object storage system is
+          protected by multi-factor authentication (MFA), reducing the risk of
+          accidental, unauthorized, or compromised-credential–based data destruction.
+        assessment-requirements:
+          - id: CCC.ObjStor.CN05.AR01
+            text: |
+              The object storage service MUST support a configuration option that
+              requires MFA to be successfully completed before any object deletion
+              can be attempted, regardless of the request interface.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.ObjStor.CN05.AR02
+            text: |
+              When MFA deletion protection is enabled on a bucket or object
+              namespace, the service MUST deny any deletion request from an identity
+              that has not satisfied the MFA requirement at the time of the request.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+          - id: CCC.ObjStor.CN05.AR03
+            text: |
+              When an attempt is made to delete an object, the service's audit logs MUST
+              clearly record each deletion attempt, including whether MFA was required
+              and whether validation was met.
+            applicability:
+              - tlp-clear
+              - tlp-green
+              - tlp-amber
+              - tlp-red
+            recommendation: ""
+        threat-mappings:
+          - reference-id: CCC
             entries:
-              - reference-id: 2022 A.8.15.0
-          - reference-id: NIST_800_53
+              - reference-id: CCC.Core.TH01
+                remarks: Prevents unauthorized identities from deleting objects
+                strength: 9
+              - reference-id: CCC.Core.TH06
+                remarks: Mitigates malicious or accidental data loss through protected deletion
+                strength: 10
+              - reference-id: CCC.Core.TH17
+                remarks: Ensures deletion requests from unauthorized entities do not result in action
+                strength: 8
+        guideline-mappings:
+          - reference-id: CCM
             entries:
-              - reference-id: AU-9
-                strength: 0 # Not yet specified
-              - reference-id: SC-28
+              - reference-id: DSP-16
+                remarks: MFA enforcement strengthens data retention and deletion control
+                strength: 8
+              - reference-id: IAM-12
+                remarks: MFA required for privileged or destructive operations
+                strength: 9
+
   - title: Identity and Access Management
-    description: 'TODO: Describe this control family'
+    id: CCC.ObjStor.IAM
     controls:
       - id: CCC.ObjStor.CN02
         title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
@@ -339,20 +397,12 @@ control-families:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
+                remarks: Access is Granted to Unauthorized Users
+                strength: 2 # This helps reduce errors and oversight when the intent is on point
         guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-4
-                strength: 0 # Not yet specified
-          - reference-id: ISO_27001
-            entries:
-              - reference-id: 2013 A.9.4.1
-                strength: 0 # Not yet specified
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-3
-                strength: 0 # Not yet specified
-              - reference-id: AC-6
           - reference-id: CCM
             entries:
-              - reference-id: DCS-09
+              - reference-id: IAM-08
+                remarks: User Access Review
+                strength: 2 # Reducing IAM nuance and exceptions helps streamline reviews
+

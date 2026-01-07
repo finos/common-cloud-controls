@@ -1,0 +1,9 @@
+{
+    "id": "azure-virtualnetwork",
+    "provider": "azure",
+    "service": "networking",
+    "name": "CCC Azure Virtual Network Terraform Module",
+    "description": "This module creates a secure Azure Virtual Network with subnets, network security groups, and advanced networking capabilities.",
+    "path": "remote/azure/virtualnetwork",
+    "git": "https://github.com/Azure/terraform-azurerm-avm-res-network-virtualnetwork"
+}
