@@ -174,9 +174,16 @@ capabilities:
   - id: CCC.Core.CP29
     title: Active Ingestion
     description: |
-      While running, the service can receive inputs, commands, or data streams
-      from external sources such as dedicated APIs, exposed network
-      ports, message queues, and persistent data ingestion channels.
+      While running, the service itself can fetch or reach out to
+      some other service or external source to get data, inputs or commands
+      for the service to process or operate on.
+
+  - id: CCC.Core.CP30
+    title: Passive Ingestion
+    description: |
+      While running, the service can pause, idle or wait to receive
+      inputs, commands, or data from some other service or external source
+      for the service to process or operate on.
   
   - id: CCC.Core.CP31
     title: Elastic Scaling
