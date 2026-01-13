@@ -15,8 +15,6 @@ imported-capabilities:
         remarks: API Access
       - reference-id: CCC.Core.CP17
         remarks: Alerting
-      - reference-id: CCC.Core.CP19
-        remarks: Resource Scaling
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP28

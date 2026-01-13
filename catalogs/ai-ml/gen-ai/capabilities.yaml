@@ -22,11 +22,13 @@ imported-capabilities:
       - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
       - reference-id: CCC.Core.CP19
-        remarks: Resource Scaling
+        remarks: Child Resource Scaling
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP31
+        remarks: Elastic Scaling
 
 capabilities:
   - id: CCC.GenAI.CP01
