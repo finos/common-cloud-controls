@@ -26,7 +26,7 @@ imported-capabilities:
       - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
       - reference-id: CCC.Core.CP19
-        remarks: Resource Scaling
+        remarks: ChildResource Scaling
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
@@ -43,6 +43,8 @@ imported-capabilities:
         remarks: Command-line Interface
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
+      - reference-id: CCC.Core.CP31
+        remarks: Elastic Scaling
 
 capabilities:
   - id: CCC.Vector.CP01
