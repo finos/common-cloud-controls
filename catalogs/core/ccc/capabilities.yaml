@@ -174,7 +174,7 @@ capabilities:
   - id: CCC.Core.CP29
     title: Active Ingestion
     description: |
-      While running, the service itself can fetch or reaches out to
+      While running, the service itself can fetch or reach out to
       some other service or external source to get data, inputs or commands
       for the service to process or operate on.
 
