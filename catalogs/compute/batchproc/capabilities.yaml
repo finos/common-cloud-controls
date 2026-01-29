@@ -18,7 +18,7 @@ imported-capabilities:
       - reference-id: CCC.Core.CP14
         remarks: API Access
       - reference-id: CCC.Core.CP19
-        remarks: Resource Scaling
+        remarks: Child Resource Scaling
       - reference-id: CCC.Core.F23
         remarks: Network Access Rules
       - reference-id: CCC.Core.F24
@@ -31,6 +31,8 @@ imported-capabilities:
         remarks: Command-line Interface
       - reference-id: CCC.Core.F29
         remarks: Active Ingestion
+      - reference-id: CCC.Core.F31
+        remarks: Elastic Scaling
 
 capabilities:
   - id: CCC.BatchProc.CP01
