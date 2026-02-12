@@ -1,0 +1,24 @@
+metadata:
+  id: CCC.ETL
+  title: CCC ETL
+  description: |
+    Service provides capabilities for extracting, transforming, and loading (ETL) data 
+    across diverse sources and sinks. It supports batch and real-time streaming 
+    architectures, managed data orchestration (DAGs), and serverless execution 
+    engines to process large-scale datasets with built-in fault tolerance.
+  category-ids: 
+    - CCC.Pipeline
+  version: ""
+  last-modified: "2026-02-12T00:00:00Z"
+  example-csp-services:
+    - provider: AWS
+      service: AWS Glue
+      url: https://docs.aws.amazon.com/glue/
+    - provider: Azure
+      service: Azure Data Factory
+      url: https://learn.microsoft.com/azure/data-factory/
+    - provider: GCP
+      service: Google Cloud Dataflow
+      url: https://cloud.google.com/dataflow/docs
+  applicability-categories: []
+  mapping-references: []

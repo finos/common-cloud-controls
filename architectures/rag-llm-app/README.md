@@ -71,7 +71,7 @@ This document maps the services used in a Retrieval-Augmented Generation (RAG) L
 
 | **Component**              | **Google Cloud**          | **Amazon Web Services (AWS)** | **Microsoft Azure**             | **CCC Service**                                  |
 | -------------------------- | ------------------------- | ----------------------------- | ------------------------------- | ------------------------------------------------ |
-| **ETL/Data Processing**    | Dataflow                  | Glue, Lambda                  | Azure Data Factory              | Data Processing (Service not yet defined)        |
+| **ETL/Data Processing**    | Dataflow                  | Glue                          | Azure Data Factory              | [CCC.ETL](/catalogs/orchestration/etl/)        |
 | **Workflow Orchestration** | Cloud Composer (Airflow)  | Step Functions                | Durable Functions, Logic Apps   | Workflow Orchestration (Service not yet defined) |
 | **Chunking & Indexing**    | Cloud Composer w/ Airflow | Glue jobs                     | Data Factory Mapping Data Flows | Data Processing (Service not yet defined)        |
 
