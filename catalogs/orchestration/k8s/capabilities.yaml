@@ -1,0 +1,113 @@
+imported-capabilities:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.CP01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP06
+        remarks: Access Control
+      - reference-id: CCC.Core.CP14
+        remarks: API Access
+      - reference-id: CCC.Core.CP19
+        remarks: Child Resource Scaling
+      - reference-id: CCC.Core.CP22
+        remarks: Location Lock-In
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.CP24
+        remarks: Core Processing Units
+      - reference-id: CCC.Core.CP25
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.CP26
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.CP27
+        remarks: Configurable Network Ports
+      - reference-id: CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
+      - reference-id: CCC.Core.CP30
+        remarks: Passive Ingestion
+
+capabilities:
+  - id: CCC.K8S.F01
+    title: Managed Kubernetes Control Plane
+    description: |
+      Provides a fully managed Kubernetes control plane that has
+      high availability, with automatic updates and patching.
+
+  - id: CCC.K8S.F02
+    title: Managed Node Pool
+    description: |
+      Provides fully managed Kubernetes worker nodes (compute resources).
+      These nodes are provisioned, updated, patched, and monitored for you
+      by the service.
+
+  - id: CCC.K8S.F03
+    title: Virtual Nodes
+    description: |
+      Ability to have fully managed virtual compute resources to power Kubernetes
+      worker nodes. This will eliminate the need to manage underlying nodes.
+
+  - id: CCC.K8S.F04
+    title: GPU Support
+    description: |
+      Support for GPU-accelerated workloads through integration of GPUs,
+      enabling high-performance computing.
+
+  - id: CCC.K8S.F05
+    title: OCI Container Image Execution
+    description: |
+      Supports running containerized workloads using OCI-compliant images,
+      providing an isolated execution environment for applications.
+
+  - id: CCC.K8S.F06
+    title: Container Registry Integration
+    description: |
+      Enables integration with public or private container registries to
+      retrieve container images for execution.
+
+  - id: CCC.ContOrch.F07
+    title: Storage Integration
+    description: |
+      Supports attaching ephemeral or persistent storage volumes to running containers
+      in the Kubernetes cluster.
+
+  - id: CCC.K8S.F08
+    title: Built-in Ingress Load Balancing
+    description: |
+      Built-in support for distributes incoming traffic across running container
+      instances to optimize resource usage and availability.
+
+  - id: CCC.ContOrch.F09
+    title: Cluster Auto Scaling
+    description: |
+      Ability to automatically scale the number of worker nodes in the cluster
+      based on workload demand, ensuring efficient resource utilization.
+
+  - id: CCC.K8S.F10
+    title: Private Cluster Endpoints
+    description: |
+      Ability to restrict access to the Kubernetes API server to private networks,
+      ensuring the control plane is only accessible within your VPC.
+
+  - id: CCC.K8S.F11
+    title: Service Mesh Integration
+    description: |
+      Ability to integrate with managed service mesh offering by the cloud
+      service provider for service discovery, traffic routing, observability,
+      and security.
+
+  - id: CCC.K8S.F12
+    title: Secrets Integration
+    description: |
+      Ability to seamlessly integrate with cloud native secret manager service
+      to securely manage and access secrets, such as API keys, database credentials,
+      or certificates, within Kubernetes workloads.
+
+  - id: CCC.K8S.F13
+    title: Observability Tooling Integration
+    description: |
+      Ability integrate with Observability tooling such as Prometheus and Grafana
+      to provide comprehensive monitoring, and visualization for Kubernetes clusters.
