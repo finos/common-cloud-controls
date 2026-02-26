@@ -1,0 +1,28 @@
+metadata:
+  id: CCC.Tracing
+  title: Cloud Tracing & Observability
+  description: |
+    Services that provide distributed tracing and performance telemetry for 
+    cloud-native and hybrid applications. These tools enable developers and 
+    operators to visualise end‑to‑end request flows, identify performance 
+    bottlenecks, correlate traces with logs and metrics, and analyse 
+    application dependencies. They integrate with managed compute platforms, 
+    container orchestrators, serverless runtimes, and service meshes to 
+    provide centralised observability with sampling, tagging, and 
+    context‑propagation support.
+  category-ids:
+    - CCC.Management
+  version: ""
+  last-modified: "2026-02-18T00:00:00Z"
+  example-csp-services:
+    - provider: AWS
+      service: AWS X-Ray
+      url: https://docs.aws.amazon.com/xray/
+    - provider: Azure
+      service: Azure Application Insights (Azure Monitor)
+      url: https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview
+    - provider: GCP
+      service: Google Cloud Trace
+      url: https://cloud.google.com/trace/docs
+  applicability-categories: []
+  mapping-references: []

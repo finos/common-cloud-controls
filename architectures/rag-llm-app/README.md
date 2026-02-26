@@ -54,7 +54,7 @@ This document maps the services used in a Retrieval-Augmented Generation (RAG) L
 | **Monitoring**    | Cloud Monitoring        | Amazon CloudWatch             | Azure Monitor                      | [CCC.Monitoring](/catalogs/management/monitoring/) |
 | **Logging**       | Cloud Logging           | Amazon CloudWatch Logs        | Azure Monitor Logs (Log Analytics) | [CCC.Logging](/catalogs/management/logging/)       |
 | **Audit Logging** | Google Cloud Audit Logs | AWS CloudTrail                | Azure Activity Logs                | [CCC.AuditLog](/catalogs/management/auditlog/)     |
-| **Tracing**       | Cloud Trace             | X-Ray                         | Application Insights               | Management & Governance (Service not yet defined)  |
+| **Tracing**       | Cloud Trace             | X-Ray                         | Application Insights               | [CCC.Tracing](/catalogs/management/tracing/)  |
 | **Cost Analysis** | Cloud Billing           | Cost Explorer                 | Cost Management                    | Management & Governance (Service not yet defined)  |
 
 ---
