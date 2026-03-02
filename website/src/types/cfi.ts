@@ -85,11 +85,18 @@ export interface Configuration {
 }
 
 
+export interface DownloadLink {
+    name: string;
+    url: string;
+    type: string;
+}
+
 export interface ConfigurationResult {
     product: string;
     vendor: string;
     version: string;
     test_results: TestResultItem[];
+    download_links?: DownloadLink[];
 }
 
 

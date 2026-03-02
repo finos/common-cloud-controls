@@ -3,7 +3,7 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { ConfigurationResultPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail } from "@site/src/types/cfi";
+import { ConfigurationResultPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail, DownloadLink } from "@site/src/types/cfi";
 import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
 
 // Helper function to extract catalog ID from test requirement
@@ -333,6 +333,14 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   // Generate test mapping summary data
   const testMappingSummary = testResultsWithCCC.length > 0 ? generateTestMappingSummary(testResultsWithCCC) : [];
 
+  // Group download links by base name (e.g., "results.ocsf.json" and "results.html" as "results")
+  const groupedDownloadLinks = (configurationResult.download_links || []).reduce((acc, link) => {
+    const baseName = link.name.replace('.ocsf.json', '').replace('.html', '');
+    if (!acc[baseName]) acc[baseName] = [];
+    acc[baseName].push(link);
+    return acc;
+  }, {} as Record<string, DownloadLink[]>);
+
   return (
     <Layout title={`${configurationResult.product} ${configurationResult.version} - ${cfi_details.name}`} description={`Test results for ${configurationResult.vendor} ${configurationResult.product} ${configurationResult.version}`}>
       <main className="container margin-vert--lg space-y-6">
@@ -369,8 +377,54 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
             </Table>
           </CardContent>
         </Card>
-
-        {/* Test Summary */}
+ 
+         {/* Download Raw Results */}
+         {configurationResult.download_links && configurationResult.download_links.length > 0 && (
+           <Card>
+             <CardHeader>
+               <CardTitle>Download Raw Results</CardTitle>
+               <p className="text-sm text-muted-foreground">Download the original OCSF or HTML result files used to generate this page</p>
+             </CardHeader>
+             <CardContent>
+               <Table>
+                 <TableHeader>
+                   <TableRow>
+                     <TableHead>File Name</TableHead>
+                     <TableHead>Format</TableHead>
+                     <TableHead className="text-right">Action</TableHead>
+                   </TableRow>
+                 </TableHeader>
+                 <TableBody>
+                   {Object.entries(groupedDownloadLinks).map(([baseName, links], index) => (
+                     <TableRow key={index}>
+                       <TableCell className="font-mono text-sm">{baseName}</TableCell>
+                       <TableCell>
+                         <div className="flex gap-2">
+                           {links.map((link, linkIndex) => (
+                             <span key={linkIndex} className={`px-2 py-1 text-xs rounded-full font-medium ${link.type === 'html' ? 'bg-orange-100 text-orange-800' : 'bg-blue-100 text-blue-800'}`}>
+                               {link.type.toUpperCase()}
+                             </span>
+                           ))}
+                         </div>
+                       </TableCell>
+                       <TableCell className="text-right">
+                         <div className="flex justify-end gap-3">
+                           {links.map((link, linkIndex) => (
+                             <Link key={linkIndex} to={link.url} className="text-blue-600 hover:text-blue-800 hover:underline font-medium" target="_blank">
+                               Download {link.type.toUpperCase()}
+                             </Link>
+                           ))}
+                         </div>
+                       </TableCell>
+                     </TableRow>
+                   ))}
+                 </TableBody>
+               </Table>
+             </CardContent>
+           </Card>
+         )}
+ 
+         {/* Test Summary */}
         <Card>
           <CardHeader>
             <CardTitle>Test Summary</CardTitle>

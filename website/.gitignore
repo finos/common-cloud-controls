@@ -21,3 +21,9 @@ yarn-error.log*
 
 # CCC DEV releases (should not be committed)
 src/data/ccc-releases/*_DEV*.yaml
+
+# CCC test results (should not be committed)
+src/data/test-results/*/*/results/*
+src/data/test-results/*/*/config/*
+static/downloads/**
+

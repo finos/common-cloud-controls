@@ -56,7 +56,7 @@ async function getLatestWorkflowRun(owner: string, repo: string): Promise<GitHub
     try {
         // Get the latest workflow run for the CFI Build workflow
         const response = await axios.get<GitHubWorkflowRuns>(
-            `${GITHUB_API}/repos/${owner}/${repo}/actions/runs?workflow_id=cfi-build.yml&per_page=1`,
+            `${GITHUB_API}/repos/${owner}/${repo}/actions/runs?workflow_id=cfi-test.yml&per_page=1`,
             { headers }
         );
 
