@@ -12,9 +12,15 @@ This standard is a collaborative project which aims to develop a unified set of 
 
 ## How To Use It
 
+- **Browse Online:** The [ccc.finos.org](https://ccc.finos.org) website contains much of the resources of the CCC project in an easily browseable form including:
+  - In progress and published [control catalogs](https://ccc.finos.org/ccc) for common cloud services
+  - Work in progress results of [Compliant Financial Infrastructure](https://ccc.finos.org/cfi) test runs against those catalogs.
+  - [Videos and presentations](https://ccc.finos.org/#:~:text=to%20the%20standard.-,Learn,-More) from OSFF Events.
+  - A [CCC Primer Presentation](https://ccc.finos.org/#:~:text=GitHub-,What%20Is%20It?,-FINOS%20Common%20Cloud)
+
 - **For controls development:** Download the latest [release PDF or Markdown](https://github.com/finos/common-cloud-controls/releases) for your target service, and use that as the basis for developing a control catalog for your specific organization or use case
 
-- **For automation development:** Download the latest [release YAML for your target service](https://github.com/finos/common-cloud-controls/releases), and build tests for each “Test Requirement,” organized according to the control they are part of. Open source validators are currently being developed by the [Compliant Financial Infrastructure](https://github.com/finos/compliant-financial-infrastructure) project.
+- **For automation development:** Open source validators are currently being developed by the [Compliant Financial Infrastructure](https://github.com/finos-labs/ccc-cfi-compliance) project.
 
 ## How To Contribute
 
@@ -30,24 +36,21 @@ FINOS CCC is maintained and run through GitHub.
 
 ### 2. Join FINOS CCC Project Meetings
 
-The CCC project is split into 6 working groups as follows:
+The CCC project is currently split into 6 working groups as follows:
 
 - **Communications / All Hands**: Focused on the overall project communications and community engagement.
 - **Security** - Working to specify the security controls and threats that will be covered by the standard.
-- **Community Structure** - Focused on the governance and structure of the CCC project.
 - **Taxonomy** - Focused on defining the taxonomy of cloud services that will be covered by the standard.
-- **Delivery** - Focused on the delivery of the CCC standard for use downstream by FS firms and CSPs.
-- **Compliant Financial Infrastructure** - Focused on delivery of actual implemetations of cloud infrastructure meeting CCC standards.
+- **Compliant Financial Infrastructure** - Focused on delivery of actual implementations of cloud infrastructure meeting CCC standards.
 
 Work is done in the open, with all meetings and decisions documented in the project GitHub repository. Working groups meet on a fortnightly basis:
 
-| Working Group                                                                           | When                                       | Chair                | Mailing List                                                              |
-| --------------------------------------------------------------------------------------- | ------------------------------------------ | -------------------- | ------------------------------------------------------------------------- |
-| [Security](/docs/governance/working-groups/security/charter.md)                         | - async -                                  | @mlysaght2017        | [ccc-security](mailto:ccc-security+subscribe@lists.finos.org)             |
-| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 5PM UK, 1st and 3rd Thursday each month    | @Alexstpierrework    | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
-| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                         | 4:30PM UK, 2nd and 4th Thursday each month | @smendis-scottlogic  | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
-| [Community Structure](/docs/governance/working-groups/community-structure/charter.md)   | - async -                                  | @sshiells-scottlogic | [ccc-structure](mailto:ccc-structure+subscribe@lists.finos.org)           |
-| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)     | 10AM UK on 2nd Thursday / %PM UK on 4th Thursday each month            | @eddie-knight        | [cfi](mailto:cfi+subscribe@lists.finos.org)                               |
+| Working Group                                                                           | When                                                    | Chair               | Mailing List                                                              |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------- |
+| [Security](/docs/governance/working-groups/security/charter.md)                         | - async -                                               | @mlysaght2017       | [ccc-security](mailto:ccc-security+subscribe@lists.finos.org)             |
+| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 5PM UK, alternate Thursdays                             |                     | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
+| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                         | 4:30PM UK, alternate Thursdays                          | @smendis-scottlogic | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
+| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)     | 10AM UK on Thursday / 4PM UK on 4th Thursday each month | @eddie-knight       | [cfi](mailto:cfi+subscribe@lists.finos.org)                               |
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
