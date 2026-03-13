@@ -73,15 +73,17 @@ Participants of FINOS standards projects should follow the FINOS Code of Conduct
 
 The CCC Steering Committee is the governing body of the CCC project, providing decision-making and oversight pertaining to the CCC project bylaws, sub-organizations, and financial planning. The Steering Committee also defines the project values and structure. [Documented here](docs/governance/steering/charter.md).
 
-| Name             | Representing   | Seat      |
-| ---------------- | -------------- | --------- |
-| Jon Meadows      | Citi           | FSI       |
-| Oli Bage         | LSEG           | FSI       |
-| Simon Zhang      | BMO            | FSI       |
-| Vladimir Rabotka | Morgan Stanley | FSI       |
-| Robert Griffiths | Scott Logic    | Community |
-| Eddie Knight     | Sonatype       | Community |
-| Aric Rosenbaum   | Red Hat        | Community |
+Each organizational seat has a **Primary** (Cloud Lead) and **Alternate** (Cyber Security Lead) representative; the Alternate participates when the Primary is unavailable.
+
+| Representing   | Cloud Lead (Primary) | Cyber Security Lead (Alternate)         |
+|----------------|----------------------|-----------------------------------------|
+| Citi           | Alsaloom, Mohamed    | Michael Lysaght                         |
+| LSEG           | Dean Bryen           | Leroy Abhikul                           |
+| Morgan Stanley | Dave Reeve           | Nick Williams                           |
+| ScottLogic     | Stevie Sheils        | Sonali Mendis                           |
+| Red Hat        | Aric Rosenbaum       | tbd.                                    |
+| RBC            | Ernani Cecon         | Maxime Coquerel                         |
+| BlackRock      | Eli Hamburger        | Praveen Nallasamy, Sankara Ramakrishnan |
 
 @robmoffat is the current [FINOS Point of Contact](docs/governance/finos-poc.md) for the CCC project.
 
