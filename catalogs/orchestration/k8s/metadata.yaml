@@ -1,0 +1,25 @@
+metadata:
+  id: CCC.K8S
+  title: CCC Managed Kubernetes Container Orchestration
+  description: |
+    Provides fully managed environments for running Kubernetes clusters without requiring
+    users to handle control-plane operations like upgrades, patching, or high‑availability
+    setups. They automate cluster provisioning, scaling, and integration with each
+    provider’s native ecosystem, offering secure, reliable, and production‑ready
+    Kubernetes deployments.
+  category-ids: 
+    - CCC.Orchestration
+  version: ""
+  last-modified: "2026-02-18T00:00:00Z"
+  example-csp-services:
+    - provider: AWS
+      service: Amazon Elastic Kubernetes Service (EKS)
+      url: https://docs.aws.amazon.com/eks/
+    - provider: Azure
+      service: Azure Kubernetes Service (AKS)
+      url: https://learn.microsoft.com/azure/aks/
+    - provider: GCP
+      service: Google Kubernetes Engine (GKE)
+      url: https://cloud.google.com/kubernetes-engine/docs
+  applicability-categories: []
+  mapping-references: []
