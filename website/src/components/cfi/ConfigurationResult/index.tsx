@@ -383,8 +383,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                 <TableHeader>
                   <TableRow>
                     <TableHead>File Name</TableHead>
-                    <TableHead>Format</TableHead>
-                    <TableHead className="text-right">Action</TableHead>
+                    <TableHead>Download</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -394,18 +393,15 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                       <TableCell>
                         <div className="flex gap-2">
                           {links.map((link, linkIndex) => (
-                            <span key={linkIndex} className={`px-2 py-1 text-xs rounded-full font-medium ${link.type === "html" ? "bg-orange-100 text-orange-800" : "bg-blue-100 text-blue-800"}`}>
+                            <a
+                              key={linkIndex}
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`inline-flex px-2 py-1 text-xs rounded-full font-medium no-underline hover:opacity-80 ${link.type === "html" ? "bg-orange-100 text-orange-800" : "bg-blue-100 text-blue-800"}`}
+                            >
                               {link.type.toUpperCase()}
-                            </span>
-                          ))}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-3">
-                          {links.map((link, linkIndex) => (
-                            <Link key={linkIndex} to={link.url} className="text-blue-600 hover:text-blue-800 hover:underline font-medium" target="_blank">
-                              Download {link.type.toUpperCase()}
-                            </Link>
+                            </a>
                           ))}
                         </div>
                       </TableCell>

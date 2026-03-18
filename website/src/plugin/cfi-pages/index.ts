@@ -105,39 +105,40 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
     fs.mkdirSync(staticDownloadsDir, { recursive: true });
   }
 
+  // Build download links: scan all .ocsf.json and .html files, pair where base names match
+  const downloadLinks: { name: string; url: string; type: string }[] = [];
+  if (fs.existsSync(resultsDir)) {
+    const allFiles = fs.readdirSync(resultsDir);
+    const ocsfFiles = allFiles.filter((f) => f.endsWith(".ocsf.json"));
+    const htmlFiles = allFiles.filter((f) => f.endsWith(".html"));
+    const pairedHtml = new Set<string>();
+
+    for (const ocsfFile of ocsfFiles) {
+      const baseName = ocsfFile.replace(/\.ocsf\.json$/, "");
+      const htmlFile = `${baseName}.html`;
+      const isPaired = htmlFiles.includes(htmlFile);
+
+      fs.copyFileSync(path.join(resultsDir, ocsfFile), path.join(staticDownloadsDir, ocsfFile));
+      downloadLinks.push({ name: ocsfFile, url: `/downloads/cfi/${repoDir}/${configId}/${ocsfFile}`, type: "ocsf" });
+
+      if (isPaired) {
+        pairedHtml.add(htmlFile);
+        fs.copyFileSync(path.join(resultsDir, htmlFile), path.join(staticDownloadsDir, htmlFile));
+        downloadLinks.push({ name: htmlFile, url: `/downloads/cfi/${repoDir}/${configId}/${htmlFile}`, type: "html" });
+      }
+    }
+
+    for (const htmlFile of htmlFiles) {
+      if (!pairedHtml.has(htmlFile)) {
+        fs.copyFileSync(path.join(resultsDir, htmlFile), path.join(staticDownloadsDir, htmlFile));
+        downloadLinks.push({ name: htmlFile, url: `/downloads/cfi/${repoDir}/${configId}/${htmlFile}`, type: "html" });
+      }
+    }
+  }
+
   // Create a page for each ConfigurationResult
   for (const [key, configResultWithFiles] of partitionedResults.entries()) {
     const { contributingFiles, ...configResult } = configResultWithFiles;
-
-    // Handle download links
-    const downloadLinks: { name: string; url: string; type: string }[] = [];
-
-    for (const file of contributingFiles) {
-      // Copy OCSF file
-      const ocsfSrc = path.join(resultsDir, file);
-      const ocsfDest = path.join(staticDownloadsDir, file);
-      fs.copyFileSync(ocsfSrc, ocsfDest);
-
-      downloadLinks.push({
-        name: file,
-        url: `/downloads/cfi/${repoDir}/${configId}/${file}`,
-        type: "ocsf",
-      });
-
-      // Check for matching HTML file
-      const htmlFile = file.replace(".ocsf.json", ".html");
-      const htmlSrc = path.join(resultsDir, htmlFile);
-      if (fs.existsSync(htmlSrc)) {
-        const htmlDest = path.join(staticDownloadsDir, htmlFile);
-        fs.copyFileSync(htmlSrc, htmlDest);
-
-        downloadLinks.push({
-          name: htmlFile,
-          url: `/downloads/cfi/${repoDir}/${configId}/${htmlFile}`,
-          type: "html",
-        });
-      }
-    }
 
     configResult.download_links = downloadLinks;
     configurationResults.push(configResult);
