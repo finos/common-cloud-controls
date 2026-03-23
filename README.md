@@ -78,9 +78,9 @@ Each organizational seat has a **Primary** (Cloud Lead) and **Alternate** (Cyber
 | Representing   | Cloud Lead (Primary) | Cyber Security Lead (Alternate)         |
 |----------------|----------------------|-----------------------------------------|
 | Citi           | Alsaloom, Mohamed    | Michael Lysaght                         |
-| LSEG           | Dean Bryen           | Leroy Abhikul                           |
+| LSEG           | Dean Bryen           | Leroy Abhikui                           |
 | Morgan Stanley | Dave Reeve           | Nick Williams                           |
-| ScottLogic     | Stevie Shiells        | Sonali Mendis                           |
+| ScottLogic     | Stevie Shiells       | Sonali Mendis                           |
 | Red Hat        | Aric Rosenbaum       | tbd.                                    |
 | RBC            | Ernani Cecon         | Maxime Coquerel                         |
 | BlackRock      | Eli Hamburger        | Praveen Nallasamy, Sankara Ramakrishnan |
