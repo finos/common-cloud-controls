@@ -24,6 +24,8 @@ interface CFIRepositories {
 interface GitHubArtifact {
     id: number;
     name: string;
+    /** REST API URL for this artifact (stable). */
+    url: string;
     archive_download_url: string;
     created_at: string;
     updated_at: string;
@@ -36,10 +38,27 @@ interface GitHubWorkflowRun {
     conclusion: string;
     created_at: string;
     artifacts_url: string;
+    head_branch: string;
+}
+
+/** Written alongside config/ and results/ for each extracted configuration tree. */
+export interface SourceDetailsFile {
+    branch: string;
+    /** From `cfi-repositories.json` for this download target. */
+    repository_url: string;
+    /** From `cfi-repositories.json` for this download target. */
+    repository_description: string;
+    artifact_url: string;
+    artifact_created_at: string;
+    downloaded_at: string;
 }
 
 interface GitHubWorkflowRuns {
     workflow_runs: GitHubWorkflowRun[];
+}
+
+interface GitHubBranch {
+    name: string;
 }
 
 async function getRepositoryOwnerAndName(url: string): Promise<{ owner: string; repo: string }> {
@@ -50,13 +69,55 @@ async function getRepositoryOwnerAndName(url: string): Promise<{ owner: string; 
     return { owner: match[1], repo: match[2] };
 }
 
-async function getLatestWorkflowRun(owner: string, repo: string): Promise<GitHubWorkflowRun | null> {
+/** Safe folder / zip suffix derived from a git branch name (e.g. feature/foo → feature-foo). */
+function branchNameToDirSuffix(branchName: string): string {
+    const s = branchName
+        .replace(/\//g, '-')
+        .replace(/[^a-zA-Z0-9._-]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+    return s.length > 0 ? s : 'branch';
+}
+
+async function listAllBranchNames(owner: string, repo: string): Promise<string[]> {
     const headers = GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+    const names: string[] = [];
+    let page = 1;
 
     try {
-        // Get the latest workflow run for the CFI Build workflow
+        while (true) {
+            const response = await axios.get<GitHubBranch[]>(
+                `${GITHUB_API}/repos/${owner}/${repo}/branches?per_page=100&page=${page}`,
+                { headers }
+            );
+            if (response.data.length === 0) {
+                break;
+            }
+            names.push(...response.data.map((b) => b.name));
+            if (response.data.length < 100) {
+                break;
+            }
+            page++;
+        }
+        return names;
+    } catch (error) {
+        console.warn(`⚠️  Could not list branches for ${owner}/${repo}: ${error}`);
+        return [];
+    }
+}
+
+/** Latest *successful* workflow run for cfi-test.yml on the given branch (per_page=1, newest first among successes). */
+async function getLatestWorkflowRunForBranch(
+    owner: string,
+    repo: string,
+    branchName: string
+): Promise<GitHubWorkflowRun | null> {
+    const headers = GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+    const branchQuery = `&branch=${encodeURIComponent(branchName)}`;
+
+    try {
         const response = await axios.get<GitHubWorkflowRuns>(
-            `${GITHUB_API}/repos/${owner}/${repo}/actions/runs?workflow_id=cfi-test.yml&per_page=1`,
+            `${GITHUB_API}/repos/${owner}/${repo}/actions/runs?workflow_id=cfi-test.yml&status=success&per_page=1${branchQuery}`,
             { headers }
         );
 
@@ -65,7 +126,7 @@ async function getLatestWorkflowRun(owner: string, repo: string): Promise<GitHub
         }
         return null;
     } catch (error) {
-        console.warn(`⚠️  Could not fetch workflow runs for ${owner}/${repo}: ${error}`);
+        console.warn(`⚠️  Could not fetch workflow runs for ${owner}/${repo} branch ${branchName}: ${error}`);
         return null;
     }
 }
@@ -109,29 +170,78 @@ async function downloadArtifact(owner: string, repo: string, artifact: GitHubArt
     }
 }
 
-async function unzipArtifact(zipPath: string, artifactName: string, repositoryInfo: CFIRepository): Promise<void> {
-    try {
-        console.log(`📦 Unzipping ${artifactName}...`);
+/**
+ * Artifact zips use config/{baseId}.json; the site expects config/{extractFolderName}.json
+ * where extractFolderName is baseId + "-" + branchDirSuffix (e.g. secure-azure-storage-main).
+ */
+function buildSourceDetails(
+    run: GitHubWorkflowRun,
+    artifact: GitHubArtifact,
+    downloadedAt: string,
+    repositoryInfo: CFIRepository
+): SourceDetailsFile {
+    const artifactUrl = artifact.url?.trim() || artifact.archive_download_url;
+    return {
+        branch: run.head_branch ?? 'unknown',
+        repository_url: repositoryInfo.url,
+        repository_description: repositoryInfo.description,
+        artifact_url: artifactUrl,
+        artifact_created_at: artifact.created_at,
+        downloaded_at: downloadedAt,
+    };
+}
 
-        // Remove 'cfi-results-' prefix and create clean directory name
+function writeSourceDetails(extractDir: string, details: SourceDetailsFile): void {
+    const target = path.join(extractDir, 'source-details.json');
+    fs.writeFileSync(target, JSON.stringify(details, null, 2), 'utf8');
+    console.log(`📝 Wrote ${path.basename(target)} for ${path.basename(extractDir)}`);
+}
+
+function alignConfigJsonWithExtractDir(extractDir: string, baseConfigId: string): void {
+    const configDir = path.join(extractDir, 'config');
+    if (!fs.existsSync(configDir)) {
+        return;
+    }
+    const canonicalPath = path.join(configDir, `${baseConfigId}.json`);
+    const folderName = path.basename(extractDir);
+    const expectedPath = path.join(configDir, `${folderName}.json`);
+    if (fs.existsSync(canonicalPath) && canonicalPath !== expectedPath) {
+        fs.renameSync(canonicalPath, expectedPath);
+        console.log(`📎 Renamed config to ${path.basename(expectedPath)} for ${folderName}`);
+    }
+}
+
+async function unzipArtifact(
+    zipPath: string,
+    artifactName: string,
+    repositoryInfo: CFIRepository,
+    branchDirSuffix: string,
+    run: GitHubWorkflowRun,
+    artifact: GitHubArtifact,
+    downloadedAt: string
+): Promise<void> {
+    try {
+        console.log(`📦 Unzipping ${artifactName} (${branchDirSuffix})...`);
+
         const cleanName = artifactName.replace(/^cfi-results-/, '');
         const repoDir = path.join(OUTPUT_DIR, 'test-results', repositoryInfo.destination);
-        const extractDir = path.join(repoDir, cleanName);
+        const extractDir = path.join(repoDir, `${cleanName}-${branchDirSuffix}`);
 
-        // Ensure the test-results directory and repo directory exist
         fs.mkdirSync(path.join(OUTPUT_DIR, 'test-results'), { recursive: true });
         fs.mkdirSync(repoDir, { recursive: true });
 
-        // Extract the zip file using system unzip command
         try {
             await execAsync(`unzip -o "${zipPath}" -d "${extractDir}"`);
-            console.log(`📦 Extraction completed for ${cleanName}`);
+            console.log(`📦 Extraction completed for ${cleanName}-${branchDirSuffix}`);
         } catch (error) {
-            console.error(`❌ Extraction failed for ${cleanName}:`, error);
+            console.error(`❌ Extraction failed for ${cleanName}-${branchDirSuffix}:`, error);
             throw error;
         }
 
-        // Verify that OCSF files were extracted correctly
+        alignConfigJsonWithExtractDir(extractDir, cleanName);
+
+        writeSourceDetails(extractDir, buildSourceDetails(run, artifact, downloadedAt, repositoryInfo));
+
         const resultsDir = path.join(extractDir, 'results');
         if (fs.existsSync(resultsDir)) {
             const ocsfFiles = fs.readdirSync(resultsDir).filter(f => f.endsWith('ocsf.json'));
@@ -139,26 +249,22 @@ async function unzipArtifact(zipPath: string, artifactName: string, repositoryIn
                 const ocsfPath = path.join(resultsDir, ocsfFile);
                 try {
                     const content = fs.readFileSync(ocsfPath, 'utf8');
-                    JSON.parse(content); // This will throw if invalid JSON
+                    JSON.parse(content);
                     console.log(`✅ Verified ${ocsfFile} is valid JSON`);
                 } catch (error) {
                     console.error(`❌ Invalid JSON in ${ocsfFile}:`, error);
-                    // Remove the corrupted file
                     fs.unlinkSync(ocsfPath);
                     console.log(`🗑️  Removed corrupted file: ${ocsfFile}`);
                 }
             }
         }
 
-        console.log(`✅ Extracted ${cleanName} to ${extractDir}`);
+        console.log(`✅ Extracted ${cleanName}-${branchDirSuffix} to ${extractDir}`);
 
-        // Clean up the zip file after extraction
         fs.unlinkSync(zipPath);
         console.log(`🗑️  Cleaned up ${zipPath}`);
-
     } catch (error) {
         console.error(`❌ Error unzipping ${artifactName}: ${error}`);
-        // Don't throw - continue with other artifacts
     }
 }
 
@@ -220,55 +326,55 @@ async function downloadCFIArtifacts(): Promise<void> {
             const { owner, repo: repoName } = await getRepositoryOwnerAndName(repo.url);
             console.log(`📍 Repository: ${owner}/${repoName}`);
 
-            // Get the latest workflow run
-            const workflowRun = await getLatestWorkflowRun(owner, repoName);
-            if (!workflowRun) {
-                console.log(`⚠️  No workflow runs found for ${repo.name}`);
+            const branchNames = await listAllBranchNames(owner, repoName);
+            if (branchNames.length === 0) {
+                console.log(`⚠️  No branches found for ${repo.name}`);
                 continue;
             }
+            console.log(`🌿 ${branchNames.length} branch(es) to check for cfi-test.yml runs`);
 
-            console.log(`📋 Latest workflow run: ${workflowRun.name} (ID: ${workflowRun.id})`);
-            console.log(`📊 Status: ${workflowRun.status}, Conclusion: ${workflowRun.conclusion}`);
-
-            // Get artifacts from this run
-            const artifacts = await getArtifacts(owner, repoName, workflowRun.id);
-            if (artifacts.length === 0) {
-                console.log(`⚠️  No artifacts found for ${repo.name}`);
-                continue;
-            }
-
-            console.log(`📦 Found ${artifacts.length} artifacts`);
-
-            // Create output directory for this repository
             const repoOutputDir = path.join(OUTPUT_DIR, 'cfi-configurations', repo.name);
             fs.mkdirSync(repoOutputDir, { recursive: true });
 
-            // Download each artifact
-            for (const artifact of artifacts) {
-                if (artifact.name.startsWith('cfi-results-')) {
-                    const outputPath = path.join(repoOutputDir, `${artifact.name}.zip`);
-                    await downloadArtifact(owner, repoName, artifact, outputPath);
+            async function processRunArtifacts(
+                run: GitHubWorkflowRun,
+                branchDirSuffix: string,
+                branchLabel: string
+            ): Promise<void> {
+                const artifacts = await getArtifacts(owner, repoName, run.id);
+                const resultArtifacts = artifacts.filter((a) => a.name.startsWith('cfi-results-'));
 
-                    // Unzip the artifact into test-results directory
-                    await unzipArtifact(outputPath, artifact.name, repo);
+                if (resultArtifacts.length === 0) {
+                    console.log(
+                        `⚠️  No cfi-results-* artifacts for ${repo.name} (branch ${branchLabel}, run ${run.id})`
+                    );
+                    return;
+                }
+
+                console.log(
+                    `📦 Found ${resultArtifacts.length} result artifacts (branch ${branchLabel}, run ${run.id})`
+                );
+
+                for (const artifact of resultArtifacts) {
+                    const outputPath = path.join(repoOutputDir, `${artifact.name}-${branchDirSuffix}.zip`);
+                    await downloadArtifact(owner, repoName, artifact, outputPath);
+                    const downloadedAt = new Date().toISOString();
+                    await unzipArtifact(outputPath, artifact.name, repo, branchDirSuffix, run, artifact, downloadedAt);
                 }
             }
 
-            // Create repository.json file at the repo level
-            const repoDir = path.join(OUTPUT_DIR, 'test-results', repo.destination);
-            const repositoryJsonPath = path.join(repoDir, 'repository.json');
-            const repositoryData = {
-                name: repo.name,
-                url: repo.url,
-                description: repo.description,
-                downloaded_at: new Date().toISOString(),
-                workflow_run_id: workflowRun.id,
-                workflow_status: workflowRun.status,
-                workflow_conclusion: workflowRun.conclusion
-            };
-
-            fs.writeFileSync(repositoryJsonPath, JSON.stringify(repositoryData, null, 2));
-            console.log(`📝 Created repository.json at ${repositoryJsonPath}`);
+            for (const branchName of branchNames) {
+                const branchDirSuffix = branchNameToDirSuffix(branchName);
+                const run = await getLatestWorkflowRunForBranch(owner, repoName, branchName);
+                if (!run) {
+                    console.log(`⏭️  No cfi-test.yml run for branch ${branchName}, skipping`);
+                    continue;
+                }
+                console.log(
+                    `📋 Branch ${branchName}: latest run ${run.id} (${run.status}/${run.conclusion ?? 'n/a'})`
+                );
+                await processRunArtifacts(run, branchDirSuffix, branchName);
+            }
 
         } catch (error) {
             console.error(`❌ Error processing ${repo.name}: ${error}`);

@@ -138,4 +138,6 @@ export interface ComponentPageData extends PageData {
 
 export interface HomePageData {
     components: Component[];
+    /** ISO 8601 timestamp when this page data was produced (site build time). */
+    generatedAt: string;
 }

@@ -1,7 +1,21 @@
 import fs from "fs";
 import path from "path";
 import type { LoadContext, Plugin } from "@docusaurus/types";
-import { HomePageData, Configuration, ConfigurationPageData, RepositoryPageData, CFIConfigJson, TestResultItem, TestResultType, CFIRepository, ConfigurationResult, ConfigurationResultPageData, ConfigurationResultSummary } from "../../types/cfi";
+import {
+  HomePageData,
+  Configuration,
+  ConfigurationPageData,
+  RepositoryPageData,
+  CFIConfigJson,
+  CFISourceDetails,
+  TestResultItem,
+  TestResultType,
+  CFIRepository,
+  CFIDataRepositoryEntry,
+  ConfigurationResult,
+  ConfigurationResultPageData,
+  ConfigurationResultSummary,
+} from "../../types/cfi";
 
 /**
  * Process all OCSF results and partition them by product, vendor, and version
@@ -77,10 +91,30 @@ function partitionOCSFResultsByMetadata(resultsDir: string): Map<string, Configu
   return partitionMap;
 }
 
+function loadSourceDetails(configDir: string): CFISourceDetails | undefined {
+  const sourcePath = path.join(configDir, "source-details.json");
+  if (!fs.existsSync(sourcePath)) {
+    return undefined;
+  }
+  try {
+    return JSON.parse(fs.readFileSync(sourcePath, "utf8")) as CFISourceDetails;
+  } catch {
+    return undefined;
+  }
+}
+
+function withSourceDetails(
+  base: Omit<Configuration, "source_details">,
+  source_details: CFISourceDetails | undefined
+): Configuration {
+  return source_details ? { ...base, source_details } : { ...base };
+}
+
 async function createConfiguration(configDir: string, slug: string, repositoryData: CFIRepository, repoDir: string, siteDir: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
   console.log(`🔍 Processing configuration directory: ${configDir}`);
 
   const configId = path.basename(configDir);
+  const sourceDetails = loadSourceDetails(configDir);
 
   // Read the configuration file
   const configPath = path.join(configDir, "config", `${configId}.json`);
@@ -165,12 +199,15 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
     });
 
     // Create temporary configuration for this result page
-    const configuration: Configuration = {
-      cfi_details: config,
-      repository: repositoryData,
-      slug,
-      results: configurationResults,
-    };
+    const configuration = withSourceDetails(
+      {
+        cfi_details: config,
+        repository: repositoryData,
+        slug,
+        results: configurationResults,
+      },
+      sourceDetails
+    );
 
     // Create ConfigurationResult page data
     const resultPageData: ConfigurationResultPageData = {
@@ -194,12 +231,15 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
   }
 
   // Create configuration with repository info and partitioned results
-  const configuration: Configuration = {
-    cfi_details: config,
-    repository: repositoryData,
-    slug,
-    results: configurationResults,
-  };
+  const configuration = withSourceDetails(
+    {
+      cfi_details: config,
+      repository: repositoryData,
+      slug,
+      results: configurationResults,
+    },
+    sourceDetails
+  );
 
   // Create configuration page data
   const pageData: ConfigurationPageData = {
@@ -231,26 +271,33 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
       const { createData, addRoute } = actions;
 
       const testResultsDir = path.resolve(__dirname, "../../data/test-results");
+      const cfiRepoListPath = path.resolve(__dirname, "../../data/cfi-repositories.json");
 
-      // Find all repository directories and their configurations
-      const allDirs = fs.readdirSync(testResultsDir);
-      console.log(`All directories in test-results:`, allDirs);
+      if (!fs.existsSync(cfiRepoListPath)) {
+        console.error("cfi-repositories.json not found; cannot discover CFI repositories.");
+        return;
+      }
+
+      const { repositories: repoList } = JSON.parse(fs.readFileSync(cfiRepoListPath, "utf8")) as { repositories: CFIDataRepositoryEntry[] };
 
       const components: Configuration[] = [];
 
-      for (const repoDir of allDirs) {
+      for (const repoEntry of repoList) {
+        const repoDir = repoEntry.destination;
         const repoPath = path.join(testResultsDir, repoDir);
-        const repositoryJsonPath = path.join(repoPath, "repository.json");
 
-        if (!fs.existsSync(repositoryJsonPath)) {
-          console.log(`No repository.json found in ${repoDir}, skipping`);
+        if (!fs.existsSync(repoPath)) {
+          console.log(`No test-results directory for ${repoDir}, skipping`);
           continue;
         }
 
         console.log(`Processing repository: ${repoDir}`);
 
-        // Read repository info
-        const repositoryData = JSON.parse(fs.readFileSync(repositoryJsonPath, "utf8")) as CFIRepository;
+        const repositoryData: CFIRepository = {
+          name: repoEntry.name,
+          url: repoEntry.url,
+          description: repoEntry.description,
+        };
 
         // Find all configuration directories within this repository
         const configDirs = fs.readdirSync(repoPath).filter((dir) => {
@@ -301,6 +348,7 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
       // Create home page data
       const homePageData: HomePageData = {
         configurations: components,
+        generatedAt: new Date().toISOString(),
       };
 
       const homePagePath = await createData("cfi-home.json", JSON.stringify(homePageData, null, 2));

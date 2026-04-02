@@ -59,17 +59,37 @@ export interface CFIConfigJson {
 }
 
 /**
- * Populated from repository.json file in test-results.
+ * Repository identity from `cfi-repositories.json`; run/artifact timing lives in each
+ * configuration tree’s `source-details.json` (branch, repository URL/description from
+ * `cfi-repositories.json`, artifact metadata, download time).
  */
 export interface CFIRepository {
   name: string;
   url: string;
   description: string;
-  downloaded_at: string;
+  downloaded_at?: string;
   artifact_name?: string;
   workflow_run_id?: number;
   workflow_status?: string;
   workflow_conclusion?: string;
+}
+
+/** One row in `website/src/data/cfi-repositories.json`. */
+export interface CFIDataRepositoryEntry {
+  name: string;
+  url: string;
+  description: string;
+  destination: string;
+}
+
+/** From each configuration tree’s `source-details.json` (written by the CFI download script). */
+export interface CFISourceDetails {
+  branch: string;
+  repository_url: string;
+  repository_description: string;
+  artifact_url: string;
+  artifact_created_at: string;
+  downloaded_at: string;
 }
 
 /**
@@ -80,6 +100,7 @@ export interface Configuration {
   repository: CFIRepository;
   slug: string;
   results: ConfigurationResult[];
+  source_details?: CFISourceDetails;
 }
 
 export interface DownloadLink {
@@ -110,6 +131,8 @@ export interface CFIResultSummary {
 
 export interface HomePageData {
   configurations: Configuration[];
+  /** ISO 8601 timestamp when this page data was produced (site build time). */
+  generatedAt: string;
 }
 
 export interface ConfigurationPageData {

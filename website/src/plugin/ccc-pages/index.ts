@@ -321,6 +321,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             // Create home page
             const homePageData: HomePageData = {
                 components: Object.values(components),
+                generatedAt: new Date().toISOString(),
             };
             await pageCreator.createPage(homePageData, '/ccc', '@site/src/components/ccc/Home/index.tsx');
 
