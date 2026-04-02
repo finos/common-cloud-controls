@@ -3,7 +3,7 @@ import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import Link from "@docusaurus/Link";
-import { Configuration, HomePageData } from "@site/src/types/cfi";
+import { HomePageData } from "@site/src/types/cfi";
 import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
 
 export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }) {
@@ -49,14 +49,14 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                 <TableBody>
                   {sortedConfigurations.map((config) => {
                     const s = config.source_details;
-                    const resultsDestination = config.results_destination || "—";
-                    const configPagePath = `/cfi/${config.results_destination}/${config.cfi_details.id}`;
+                    const resultsRel = config.results_relative_path || "—";
+                    const configPagePath = `/cfi/${config.results_relative_path}`;
                     const sourceRepoUrl = s?.repository_url ?? "";
                     const sourceRepoDescription = s?.repository_description ?? "";
                     const externalGitUrl = s?.repository_url ?? config.cfi_details.git;
 
                     return (
-                      <TableRow key={`${config.results_destination}/${config.cfi_details.id}`}>
+                      <TableRow key={config.results_relative_path}>
                         <TableCell className="font-medium">
                           <Link to={configPagePath} className="text-blue-600 hover:text-blue-800 hover:underline">
                             {config.cfi_details.id}
@@ -73,7 +73,7 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                         </TableCell>
                         <TableCell className="text-sm">{s?.branch ?? "—"}</TableCell>
                         <TableCell>
-                          <code className="text-xs text-muted-foreground block">{resultsDestination}</code>
+                          <code className="text-xs text-muted-foreground block">{resultsRel}</code>
                         </TableCell>
                         <TableCell className="max-w-xs">
                           <div className="text-sm line-clamp-2 text-muted-foreground" title={sourceRepoDescription || undefined}>

@@ -46,7 +46,8 @@ export interface TestResultEntry {
 }
 
 /**
- * Populated from the json file inside the config directory of each test result.
+ * Populated from the json file inside the config directory of each test result, created when 
+ * CFI runs and delivered in the artifact.
  */
 export interface CFIConfigJson {
   id: string;
@@ -58,7 +59,10 @@ export interface CFIConfigJson {
   git?: string;
 }
 
-/** One row in `website/src/data/cfi-repositories.json`. */
+/** 
+ * One row in `website/src/data/cfi-repositories.json`.
+ * This is the list of repositories we attempt to download CFI results from.
+ */
 export interface CFIDataRepositoryEntry {
   name: string;
   url: string;
@@ -66,8 +70,14 @@ export interface CFIDataRepositoryEntry {
   destination: string;
 }
 
-/** From each configuration tree’s `source-details.json` (written by the CFI download script). */
+/**
+ * Shape of each configuration tree’s `source-details.json`, written by `scripts/DownloadCFIArtifacts.ts`.
+ * Repository URL/description duplicate the matching `cfi-repositories.json` row at fetch time.
+ * This is created by the downloader.
+ */
 export interface CFISourceDetails {
+  /** Config folder name (last segment of `results_relative_path`); written by the artifact downloader. */
+  result_id: string;
   branch: string;
   repository_url: string;
   repository_description: string;
@@ -78,14 +88,12 @@ export interface CFISourceDetails {
 
 /**
  * These are downloaded from github actions, and contain the test results for a single configuration.
- * Site route: `/cfi/{results_destination}/{cfi_details.id}` (last segment is the canonical config id).
+ * Site route: `/cfi/<results_relative_path>` — same path shape as under `website/src/data/test-results/`.
  */
 export interface Configuration {
   cfi_details: CFIConfigJson;
-  /** `test-results/<this>/...` folder name (see `cfi-repositories.json` `destination`). */
-  results_destination: string;
-  /** On-disk directory under `results_destination` (may differ from `cfi_details.id`, e.g. `*-main`). */
-  results_config_folder: string;
+  /** Relative path: `cfi-repositories` `destination` + config folder (e.g. `finos-labs-ccc-cfi-compliance/azure-storage-account-main`). */
+  results_relative_path: string;
   results: ConfigurationResult[];
   source_details?: CFISourceDetails;
 }

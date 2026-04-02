@@ -126,7 +126,8 @@ async function createConfiguration(
   console.log(`📁 Config path: ${configPath}`);
   const config = JSON.parse(fs.readFileSync(configPath, "utf8")) as CFIConfigJson;
 
-  const configurationPath = `/cfi/${repoDir}/${config.id}`;
+  const resultsRelativePath = path.posix.join(repoDir, configFolderName);
+  const configurationPath = `/cfi/${resultsRelativePath}`;
 
   // Process OCSF results and partition by product, vendor, version
   const resultsDir = path.join(configDir, "results");
@@ -209,8 +210,7 @@ async function createConfiguration(
     const configuration = withSourceDetails(
       {
         cfi_details: config,
-        results_destination: repoDir,
-        results_config_folder: configFolderName,
+        results_relative_path: resultsRelativePath,
         results: configurationResults,
       },
       sourceDetails
@@ -222,7 +222,7 @@ async function createConfiguration(
       configurationResult: configResult,
     };
 
-    const resultJsonPath = await createData(`cfi-config-result-${repoEntry.name}-${config.id}-${resultKey}.json`, JSON.stringify(resultPageData, null, 2));
+    const resultJsonPath = await createData(`cfi-config-result-${repoEntry.name}-${configFolderName}-${resultKey}.json`, JSON.stringify(resultPageData, null, 2));
 
     // Add route for this ConfigurationResult page
     addRoute({
@@ -241,8 +241,7 @@ async function createConfiguration(
   const configuration = withSourceDetails(
     {
       cfi_details: config,
-      results_destination: repoDir,
-      results_config_folder: configFolderName,
+      results_relative_path: resultsRelativePath,
       results: configurationResults,
     },
     sourceDetails
@@ -254,7 +253,7 @@ async function createConfiguration(
     configurationResultSummaries,
   };
 
-  const jsonPath = await createData(`cfi-config-${repoEntry.name}-${config.id}.json`, JSON.stringify(pageData, null, 2));
+  const jsonPath = await createData(`cfi-config-${repoEntry.name}-${configFolderName}.json`, JSON.stringify(pageData, null, 2));
 
   // Add route for this configuration page
   addRoute({
@@ -266,7 +265,7 @@ async function createConfiguration(
     exact: true,
   });
 
-  console.log(`✅ Created configuration page for ${configuration.cfi_details.id} at ${configurationPath}`);
+  console.log(`✅ Created configuration page for ${configFolderName} (${configuration.cfi_details.id}) at ${configurationPath}`);
   return configuration;
 }
 

@@ -3,6 +3,7 @@ import path from 'path';
 import axios from 'axios';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import type { CFISourceDetails } from '../src/types/cfi';
 
 const execAsync = promisify(exec);
 
@@ -39,18 +40,6 @@ interface GitHubWorkflowRun {
     created_at: string;
     artifacts_url: string;
     head_branch: string;
-}
-
-/** Written alongside config/ and results/ for each extracted configuration tree. */
-export interface SourceDetailsFile {
-    branch: string;
-    /** From `cfi-repositories.json` for this download target. */
-    repository_url: string;
-    /** From `cfi-repositories.json` for this download target. */
-    repository_description: string;
-    artifact_url: string;
-    artifact_created_at: string;
-    downloaded_at: string;
 }
 
 interface GitHubWorkflowRuns {
@@ -178,10 +167,12 @@ function buildSourceDetails(
     run: GitHubWorkflowRun,
     artifact: GitHubArtifact,
     downloadedAt: string,
-    repositoryInfo: CFIRepository
-): SourceDetailsFile {
+    repositoryInfo: CFIRepository,
+    resultId: string
+): CFISourceDetails {
     const artifactUrl = artifact.url?.trim() || artifact.archive_download_url;
     return {
+        result_id: resultId,
         branch: run.head_branch ?? 'unknown',
         repository_url: repositoryInfo.url,
         repository_description: repositoryInfo.description,
@@ -191,7 +182,7 @@ function buildSourceDetails(
     };
 }
 
-function writeSourceDetails(extractDir: string, details: SourceDetailsFile): void {
+function writeSourceDetails(extractDir: string, details: CFISourceDetails): void {
     const target = path.join(extractDir, 'source-details.json');
     fs.writeFileSync(target, JSON.stringify(details, null, 2), 'utf8');
     console.log(`📝 Wrote ${path.basename(target)} for ${path.basename(extractDir)}`);
@@ -240,7 +231,8 @@ async function unzipArtifact(
 
         alignConfigJsonWithExtractDir(extractDir, cleanName);
 
-        writeSourceDetails(extractDir, buildSourceDetails(run, artifact, downloadedAt, repositoryInfo));
+        const resultId = path.basename(extractDir);
+        writeSourceDetails(extractDir, buildSourceDetails(run, artifact, downloadedAt, repositoryInfo, resultId));
 
         const resultsDir = path.join(extractDir, 'results');
         if (fs.existsSync(resultsDir)) {
