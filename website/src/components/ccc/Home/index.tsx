@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import Link from "@docusaurus/Link";
 import { HomePageData } from "@site/src/types/ccc";
+import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
 
 export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }) {
   const { components } = pageData;
@@ -76,6 +77,10 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
           </Table>
         </CardContent>
       </Card>
+      <p className="mt-4 text-sm text-muted-foreground">
+        Page generated{" "}
+        <time dateTime={pageData.generatedAt}>{formatGeneratedAt(pageData.generatedAt)}</time>
+      </p>
     </Layout>
   );
 }

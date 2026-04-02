@@ -5,3 +5,7 @@ build/oscal-cli
 # Delivery Tooling
 delivery-toolkit/artifacts
 .env/
+
+# CFI Test Results
+website/src/data/test-results/**/*
+website/static/downloads/cfi/**/*
