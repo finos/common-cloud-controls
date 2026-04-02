@@ -33,6 +33,39 @@ function intersect(setA: Set<string>, setB: Set<string>): Set<string> {
   return new Set([...setA].filter((x) => setB.has(x)));
 }
 
+/** Catalog IDs from test results excluding CCC.Core (shared imports, not a service catalog). */
+function serviceCatalogsFromTests(testedRequirementsByCatalog: Map<string, Set<string>>): string[] {
+  return [...testedRequirementsByCatalog.keys()].filter((id) => id !== "CCC.Core");
+}
+
+/**
+ * Whether an assessment requirement from `release` counts toward the "necessary" set.
+ * When service catalogs are known from tests, only those releases contribute (e.g. only CCC.ObjStor
+ * for object-storage runs), so Core ARs from other catalogs (Logging, VM, …) are excluded.
+ */
+function shouldAddToNecessaryRequirementIds(
+  release: { metadata: { id: string } },
+  catalogId: string,
+  serviceCatalogIds: string[],
+  useServiceCatalogScope: boolean,
+  testedRequirementsByCatalog: Map<string, Set<string>>
+): boolean {
+  if (release.metadata.id === "CCC.Core") {
+    return false;
+  }
+  if (useServiceCatalogScope && !serviceCatalogIds.includes(release.metadata.id)) {
+    return false;
+  }
+  if (testedRequirementsByCatalog.has(catalogId)) {
+    return true;
+  }
+  // Core controls inlined under a scoped service release belong to that catalog bundle.
+  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(release.metadata.id)) {
+    return true;
+  }
+  return false;
+}
+
 function convertToLink(reqId: string, releases: any[]): RequirementLink {
   let title = reqId;
   let catalogId = extractCatalogId(reqId);
@@ -71,6 +104,9 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
   // Now collect up all the requirements by catalog
   const allRequirementsByCatalog = new Map<string, Set<string>>();
   const allNecessaryRequirementIds = new Set<string>();
+  const serviceCatalogIds = serviceCatalogsFromTests(testedRequirementsByCatalog);
+  const useServiceCatalogScope = serviceCatalogIds.length > 0;
+
   releases.forEach((release) => {
     release.controls.forEach((control) => {
       control.test_requirements?.forEach((req) => {
@@ -83,19 +119,15 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
             // this means we only include non-imported requirements
             allRequirementsByCatalog.get(catalogId)!.add(req.id);
           }
-
-          // this keeps track of which requirements are imported.
-          if (release.metadata.id != "CCC.Core") {
-            allNecessaryRequirementIds.add(req.id);
-          }
+        }
+        if (
+          shouldAddToNecessaryRequirementIds(release, catalogId, serviceCatalogIds, useServiceCatalogScope, testedRequirementsByCatalog)
+        ) {
+          allNecessaryRequirementIds.add(req.id);
         }
       });
     });
   });
-
-  console.log("Tested requirements by catalog", testedRequirementsByCatalog);
-  console.log("All requirements by catalog", allRequirementsByCatalog);
-  console.log("All necessary requirement ids", allNecessaryRequirementIds);
 
   // Now for each unique catalog ID, count this test result once and collect all resources
   const catalogsInThisResult = Array.from(allRequirementsByCatalog.keys());
