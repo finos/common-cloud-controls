@@ -5,12 +5,10 @@ import {
   HomePageData,
   Configuration,
   ConfigurationPageData,
-  RepositoryPageData,
   CFIConfigJson,
   CFISourceDetails,
   TestResultItem,
   TestResultType,
-  CFIRepository,
   CFIDataRepositoryEntry,
   ConfigurationResult,
   ConfigurationResultPageData,
@@ -110,16 +108,25 @@ function withSourceDetails(
   return source_details ? { ...base, source_details } : { ...base };
 }
 
-async function createConfiguration(configDir: string, slug: string, repositoryData: CFIRepository, repoDir: string, siteDir: string, createData: (name: string, data: string | object) => Promise<string>, addRoute: (route: any) => void): Promise<Configuration> {
+async function createConfiguration(
+  configDir: string,
+  repoEntry: CFIDataRepositoryEntry,
+  siteDir: string,
+  createData: (name: string, data: string | object) => Promise<string>,
+  addRoute: (route: any) => void
+): Promise<Configuration> {
   console.log(`🔍 Processing configuration directory: ${configDir}`);
 
-  const configId = path.basename(configDir);
+  const configFolderName = path.basename(configDir);
+  const repoDir = repoEntry.destination;
   const sourceDetails = loadSourceDetails(configDir);
 
   // Read the configuration file
-  const configPath = path.join(configDir, "config", `${configId}.json`);
+  const configPath = path.join(configDir, "config", `${configFolderName}.json`);
   console.log(`📁 Config path: ${configPath}`);
   const config = JSON.parse(fs.readFileSync(configPath, "utf8")) as CFIConfigJson;
+
+  const configurationPath = `/cfi/${repoDir}/${config.id}`;
 
   // Process OCSF results and partition by product, vendor, version
   const resultsDir = path.join(configDir, "results");
@@ -134,7 +141,7 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
   const configurationResultSummaries: ConfigurationResultSummary[] = [];
 
   // Directory for downloads in static folder
-  const staticDownloadsDir = path.join(siteDir, "static", "downloads", "cfi", repoDir, configId);
+  const staticDownloadsDir = path.join(siteDir, "static", "downloads", "cfi", repoDir, configFolderName);
   if (!fs.existsSync(staticDownloadsDir)) {
     fs.mkdirSync(staticDownloadsDir, { recursive: true });
   }
@@ -153,19 +160,19 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
       const isPaired = htmlFiles.includes(htmlFile);
 
       fs.copyFileSync(path.join(resultsDir, ocsfFile), path.join(staticDownloadsDir, ocsfFile));
-      downloadLinks.push({ name: ocsfFile, url: `/downloads/cfi/${repoDir}/${configId}/${ocsfFile}`, type: "ocsf" });
+      downloadLinks.push({ name: ocsfFile, url: `/downloads/cfi/${repoDir}/${configFolderName}/${ocsfFile}`, type: "ocsf" });
 
       if (isPaired) {
         pairedHtml.add(htmlFile);
         fs.copyFileSync(path.join(resultsDir, htmlFile), path.join(staticDownloadsDir, htmlFile));
-        downloadLinks.push({ name: htmlFile, url: `/downloads/cfi/${repoDir}/${configId}/${htmlFile}`, type: "html" });
+        downloadLinks.push({ name: htmlFile, url: `/downloads/cfi/${repoDir}/${configFolderName}/${htmlFile}`, type: "html" });
       }
     }
 
     for (const htmlFile of htmlFiles) {
       if (!pairedHtml.has(htmlFile)) {
         fs.copyFileSync(path.join(resultsDir, htmlFile), path.join(staticDownloadsDir, htmlFile));
-        downloadLinks.push({ name: htmlFile, url: `/downloads/cfi/${repoDir}/${configId}/${htmlFile}`, type: "html" });
+        downloadLinks.push({ name: htmlFile, url: `/downloads/cfi/${repoDir}/${configFolderName}/${htmlFile}`, type: "html" });
       }
     }
   }
@@ -180,7 +187,7 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
     // Generate a slug-friendly key
     const resultKey = `${configResult.vendor}-${configResult.product}-${configResult.version}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
-    const resultSlug = `${slug}/${resultKey}`;
+    const resultSlug = `${configurationPath}/${resultKey}`;
 
     // Calculate summary statistics
     const totalTests = configResult.test_results.length;
@@ -202,8 +209,8 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
     const configuration = withSourceDetails(
       {
         cfi_details: config,
-        repository: repositoryData,
-        slug,
+        results_destination: repoDir,
+        results_config_folder: configFolderName,
         results: configurationResults,
       },
       sourceDetails
@@ -215,7 +222,7 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
       configurationResult: configResult,
     };
 
-    const resultJsonPath = await createData(`cfi-config-result-${repositoryData.name}-${config.id}-${resultKey}.json`, JSON.stringify(resultPageData, null, 2));
+    const resultJsonPath = await createData(`cfi-config-result-${repoEntry.name}-${config.id}-${resultKey}.json`, JSON.stringify(resultPageData, null, 2));
 
     // Add route for this ConfigurationResult page
     addRoute({
@@ -234,8 +241,8 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
   const configuration = withSourceDetails(
     {
       cfi_details: config,
-      repository: repositoryData,
-      slug,
+      results_destination: repoDir,
+      results_config_folder: configFolderName,
       results: configurationResults,
     },
     sourceDetails
@@ -247,11 +254,11 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
     configurationResultSummaries,
   };
 
-  const jsonPath = await createData(`cfi-config-${repositoryData.name}-${config.id}.json`, JSON.stringify(pageData, null, 2));
+  const jsonPath = await createData(`cfi-config-${repoEntry.name}-${config.id}.json`, JSON.stringify(pageData, null, 2));
 
   // Add route for this configuration page
   addRoute({
-    path: slug,
+    path: configurationPath,
     component: "@site/src/components/cfi/Configuration/index.tsx",
     modules: {
       pageData: jsonPath,
@@ -259,7 +266,7 @@ async function createConfiguration(configDir: string, slug: string, repositoryDa
     exact: true,
   });
 
-  console.log(`✅ Created configuration page for ${configuration.cfi_details.id} at ${slug}`);
+  console.log(`✅ Created configuration page for ${configuration.cfi_details.id} at ${configurationPath}`);
   return configuration;
 }
 
@@ -293,12 +300,6 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
 
         console.log(`Processing repository: ${repoDir}`);
 
-        const repositoryData: CFIRepository = {
-          name: repoEntry.name,
-          url: repoEntry.url,
-          description: repoEntry.description,
-        };
-
         // Find all configuration directories within this repository
         const configDirs = fs.readdirSync(repoPath).filter((dir) => {
           const configPath = path.join(repoPath, dir, "config");
@@ -307,41 +308,15 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
 
         console.log(`Found ${configDirs.length} configurations in ${repoDir}:`, configDirs);
 
-        const repositoryConfigurations: Configuration[] = [];
-
         for (const configDir of configDirs) {
-          const slug = "/cfi/" + repoDir + "/" + configDir;
           const fullConfigDir = path.join(repoPath, configDir);
 
           try {
-            const configuration = await createConfiguration(fullConfigDir, slug, repositoryData, repoDir, context.siteDir, createData, addRoute);
+            const configuration = await createConfiguration(fullConfigDir, repoEntry, context.siteDir, createData, addRoute);
             components.push(configuration);
-            repositoryConfigurations.push(configuration);
           } catch (error) {
             console.error(`Error processing configuration ${configDir} in ${repoDir}:`, error);
           }
-        }
-
-        // Create repository page
-        if (repositoryConfigurations.length > 0) {
-          const repositoryPageData: RepositoryPageData = {
-            repository: repositoryData,
-            configurations: repositoryConfigurations,
-            repositorySlug: repoDir,
-          };
-
-          const repositoryPagePath = await createData(`cfi-repository-${repoDir}.json`, JSON.stringify(repositoryPageData, null, 2));
-
-          addRoute({
-            path: `/cfi/${repoDir}`,
-            component: "@site/src/components/cfi/Repository/index.tsx",
-            modules: {
-              pageData: repositoryPagePath,
-            },
-            exact: true,
-          });
-
-          console.log(`✅ Created repository page for ${repoDir} at /cfi/${repoDir}`);
         }
       }
 

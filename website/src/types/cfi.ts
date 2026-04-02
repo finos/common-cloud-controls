@@ -58,22 +58,6 @@ export interface CFIConfigJson {
   git?: string;
 }
 
-/**
- * Repository identity from `cfi-repositories.json`; run/artifact timing lives in each
- * configuration tree’s `source-details.json` (branch, repository URL/description from
- * `cfi-repositories.json`, artifact metadata, download time).
- */
-export interface CFIRepository {
-  name: string;
-  url: string;
-  description: string;
-  downloaded_at?: string;
-  artifact_name?: string;
-  workflow_run_id?: number;
-  workflow_status?: string;
-  workflow_conclusion?: string;
-}
-
 /** One row in `website/src/data/cfi-repositories.json`. */
 export interface CFIDataRepositoryEntry {
   name: string;
@@ -94,11 +78,14 @@ export interface CFISourceDetails {
 
 /**
  * These are downloaded from github actions, and contain the test results for a single configuration.
+ * Site route: `/cfi/{results_destination}/{cfi_details.id}` (last segment is the canonical config id).
  */
 export interface Configuration {
   cfi_details: CFIConfigJson;
-  repository: CFIRepository;
-  slug: string;
+  /** `test-results/<this>/...` folder name (see `cfi-repositories.json` `destination`). */
+  results_destination: string;
+  /** On-disk directory under `results_destination` (may differ from `cfi_details.id`, e.g. `*-main`). */
+  results_config_folder: string;
   results: ConfigurationResult[];
   source_details?: CFISourceDetails;
 }
@@ -153,12 +140,6 @@ export interface ConfigurationResultSummary {
 export interface ConfigurationResultPageData {
   configuration: Configuration;
   configurationResult: ConfigurationResult;
-}
-
-export interface RepositoryPageData {
-  repository: CFIRepository;
-  configurations: Configuration[];
-  repositorySlug: string;
 }
 
 export interface RequirementLink {
