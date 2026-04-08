@@ -9,6 +9,14 @@ const CATALOGS_DIR = path.join(__dirname, '../../catalogs');
 const OUTPUT_DIR = path.join(__dirname, '../src/data/ccc-releases');
 const DELIVERY_TOOLKIT_DIR = path.join(__dirname, '../../delivery-toolkit');
 
+/** Must all exist for generate-release-artifacts; partial dirs are skipped (matches delivery-toolkit loadCatalog). */
+const REQUIRED_CATALOG_FILES = [
+    'metadata.yaml',
+    'controls.yaml',
+    'capabilities.yaml',
+    'threats.yaml',
+] as const;
+
 interface CatalogDirectory {
     category: string;
     service: string;
@@ -137,30 +145,29 @@ async function discoverCatalogDirectories(): Promise<CatalogDirectory[]> {
             const releaseDetailsPath = path.join(servicePath, 'release-details.yaml');
             const hasReleaseDetails = fs.existsSync(releaseDetailsPath);
 
-            // Check if this directory has the required catalog files (controls.yaml, capabilities.yaml, etc.)
-            const hasControls = fs.existsSync(path.join(servicePath, 'controls.yaml'));
-            const hasCapabilities = fs.existsSync(path.join(servicePath, 'capabilities.yaml'));
-            const hasThreats = fs.existsSync(path.join(servicePath, 'threats.yaml'));
+            const missingRequired = REQUIRED_CATALOG_FILES.filter(
+                (f) => !fs.existsSync(path.join(servicePath, f))
+            );
 
-            // Only include directories that look like valid catalogs
-            const isValidCatalog = hasControls || hasCapabilities || hasThreats;
+            if (missingRequired.length > 0) {
+                console.log(
+                    `  ⏭️  Skipping incomplete catalog: ${category}/${service} (missing: ${missingRequired.join(', ')})`
+                );
+                continue;
+            }
 
-            if (isValidCatalog) {
-                catalogs.push({
-                    category,
-                    service,
-                    fullPath: servicePath,
-                    hasReleaseDetails,
-                    needsDevReleaseDetails: true  // Always create DEV version
-                });
+            catalogs.push({
+                category,
+                service,
+                fullPath: servicePath,
+                hasReleaseDetails,
+                needsDevReleaseDetails: true  // Always create DEV version
+            });
 
-                if (hasReleaseDetails) {
-                    console.log(`  ✅ Found with release details: ${category}/${service} (will also create DEV version)`);
-                } else {
-                    console.log(`  🔧 Will create DEV version: ${category}/${service}`);
-                }
+            if (hasReleaseDetails) {
+                console.log(`  ✅ Found with release details: ${category}/${service} (will also create DEV version)`);
             } else {
-                console.log(`  ⏭️  Skipping non-catalog: ${category}/${service}`);
+                console.log(`  🔧 Will create DEV version: ${category}/${service}`);
             }
         }
     }
