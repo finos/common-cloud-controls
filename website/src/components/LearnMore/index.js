@@ -13,6 +13,15 @@ export default function LearnMore() {
             <figcaption>Taming Multi-Cloud Security: Progress on Common Cloud Controls - Michael Lysaght &amp; Sonali Mendis</figcaption>
           </figure>
           <figure className={styles.item}>
+            <ReactPlayer width="100%" height="16rem" controls url="https://www.finos.org/hubfs/OSFF 2025 (Open Source in Finance Forum)/OSFF New York NYC 2025/OSFF NYC 2025 Videos/The Launchpad Incubating FINOS Projects/Before You Build%2C Check What You Have_ Practical Approaches To Assess Compliance B... Santosh Maurya.mp4" />
+            <figcaption>Before You Build, Check What You Have: Practical Approaches To Assess Compliance - Santosh Maurya</figcaption>
+          </figure>
+          <figure className={styles.item}>
+            <ReactPlayer width="100%" height="16rem" controls url="https://www.youtube.com/watch?v=XjBXGHK2a9c" />
+            <figcaption>Turn CCC into Real Checks: Multi-Cloud Security with Prowler + AI (OSFF NY Preview)</figcaption>
+          </figure>
+
+          <figure className={styles.item}>
             <ReactPlayer width="100%" height="16rem" controls url="https://youtu.be/8hMRahzwK3k?si=1cxugQyDrKfZIeEc" />
             <figcaption>Damien Burks (Citi) and Gupta Rudra (Krumware) discuss CCC at OSFF New York in 2024.</figcaption>
           </figure>

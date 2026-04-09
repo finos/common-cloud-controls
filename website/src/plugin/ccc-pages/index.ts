@@ -198,8 +198,20 @@ function createComponentPageData(component: Component): ComponentPageData {
     const componentSlug = `/ccc/${component.id}`;
 
     return {
-        component,
-        related_releases: component.releases,
+        component: {
+            id: component.id,
+            title: component.title,
+            releases: component.releases.map((r) => ({
+                metadata: {
+                    id: r.metadata.id,
+                    version: r.metadata.version,
+                    release_details: r.metadata.release_details,
+                },
+                controlsCount: r.controls.length,
+                threatsCount: r.threats.length,
+                capabilitiesCount: r.capabilities.length,
+            })),
+        },
         releaseTitle: component.releases[0]?.metadata.title || component.title,
         releaseSlug: component.releases[0] ? `/ccc/${component.id}/${component.releases[0].metadata.version}` : componentSlug,
         slug: componentSlug,
@@ -291,7 +303,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             // Create control pages
             for (const release of cccReleases) {
                 for (const control of release.controls) {
-                    const controlPageData = createControlPageData(control, release, cccReleases);
+                    const controlPageData = createControlPageData(control, release);
                     await pageCreator.createPage(controlPageData, controlPageData.slug, '@site/src/components/ccc/Control/index.tsx');
                 }
             }
@@ -299,7 +311,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             // Create capability pages
             for (const release of cccReleases) {
                 for (const capability of release.capabilities) {
-                    const capabilityPageData = createCapabilityPageData(capability, release, cccReleases);
+                    const capabilityPageData = createCapabilityPageData(capability, release);
                     await pageCreator.createPage(capabilityPageData, capabilityPageData.slug, '@site/src/components/ccc/Capability/index.tsx');
                 }
             }
@@ -307,7 +319,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             // Create threat pages
             for (const release of cccReleases) {
                 for (const threat of release.threats) {
-                    const threatPageData = createThreatPageData(threat, release, cccReleases);
+                    const threatPageData = createThreatPageData(threat, release);
                     await pageCreator.createPage(threatPageData, threatPageData.slug, '@site/src/components/ccc/Threat/index.tsx');
                 }
             }
@@ -318,18 +330,29 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
                 await pageCreator.createPage(componentPageData, componentPageData.slug, '@site/src/components/ccc/Component/index.tsx');
             }
 
-            // Create home page
+            // Create home page (slim payload: metadata only per release, not full catalogs)
             const homePageData: HomePageData = {
-                components: Object.values(components),
+                components: Object.values(components).map((c) => ({
+                    id: c.id,
+                    title: c.title,
+                    releases: c.releases.map((r) => ({
+                        metadata: {
+                            id: r.metadata.id,
+                            version: r.metadata.version,
+                            release_details: r.metadata.release_details,
+                        },
+                    })),
+                })),
+                generatedAt: new Date().toISOString(),
             };
             await pageCreator.createPage(homePageData, '/ccc', '@site/src/components/ccc/Home/index.tsx');
 
             console.log('Step 2 complete: All page data created with relationships');
 
+            // Only what client code needs (see useCCCData). Omit raw YAML and component trees — they
+            // duplicate cccReleases and blow Netlify build heap during globalData serialization.
             setGlobalData({
                 'ccc-releases': cccReleases,
-                'ccc-components': Object.values(components),
-                'ccc-release-yaml': content
             });
         },
     };

@@ -20,389 +20,337 @@ imported-controls:
       - reference-id: CCC.Core.CN10
         remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
 
-control-families:
-  - title: Data
-    id: CCC.ObjStor.Data
-    controls:
-      - id: CCC.ObjStor.CN01
-        title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
-        objective: |
-          Prevent any requests to object storage buckets or objects using
-          untrusted KMS keys to protect against unauthorized data encryption,
-          or sensitive data decryption.
-        assessment-requirements: # Restrict write on all; Restrict read on amber or red
-          - id: CCC.ObjStor.CN01.AR01
-            text: |
-              When a request is made to read a bucket, the service
-              MUST prevent any request using KMS keys not listed as trusted by
-              the organization.
-            applicability:
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN01.AR02
-            text: |
-              When a request is made to read an object, the service
-              MUST prevent any request using KMS keys not listed as trusted by
-              the organization.
-            applicability:
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN01.AR03
-            text: |
-              When a request is made to write to a bucket, the service MUST
-              prevent any request using KMS keys not listed as trusted by the
-              organization.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN01.AR04
-            text: |
-              When a request is made to write to an object, the service MUST
-              prevent any request using KMS keys not listed as trusted by the
-              organization.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH01
-                remarks: Access is Granted to Unauthorized Users
-                strength: 5 # Only addresses the threat of users with bad keys, not the threat of users with no keys
-              - reference-id: CCC.Core.TH06
-                remarks: Data is Lost or Corrupted
-                strength: 2 # This is just one of many ways to mess up the data
-        guideline-mappings:
-          - reference-id: CCM
-            entries:
-              - reference-id: IAM-01
-                remarks: IAM Policy and Procedures
-                strength: 3 # Implmenting this control is indicative of larger planning efforts
-              - reference-id: IAM-03
-                remarks: Identity Inventory (system identities and level of access)
-                strength: 5 # This control enforces some level of permission scoping for keys
-              - reference-id: DSP-17
-                remarks: Sensitive Data Protection
-                strength: 1 # This is one of many things that will need to be done
-      - id: CCC.ObjStor.CN03
-        title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
-        objective: |
-          Ensure that object storage bucket is not deleted after creation,
-          and that the preventative measure cannot be unset.
-        assessment-requirements:
-          - id: CCC.ObjStor.CN03.AR01
-            text: |
-              When an object storage bucket deletion is attempted, the bucket MUST be
-              fully recoverable for a set time-frame after deletion is requested.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN03.AR02
-            text: |
-              When an attempt is made to modify the retention policy for an object
-              storage bucket, the service MUST prevent the policy from being modified.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH06
-                remarks: Data is Lost or Corrupted
-                strength: 2 # This is just one of many ways to mess up the data
-        guideline-mappings:
-          - reference-id: CCM
-            entries:
-              - reference-id: DSP-16
-                remarks: Data Retention and Deletion
-                strength: 10 # Have a policy? Check. Follow it? Check.
-              - reference-id: DSP-17
-                remarks: Sensitive Data Protection
-                strength: 1 # This is one of many things that will need to be done
-      - id: CCC.ObjStor.CN04
-        title: Objects have an Effective Retention Policy by Default
-        objective: |
-          Ensure that all objects stored in the object storage system have a
-          retention policy applied by default, preventing premature deletion
-          or modification of objects.
-        assessment-requirements:
-          - id: CCC.ObjStor.CN04.AR01
-            text: |
-              When an object is uploaded to the object storage system, the object
-              MUST automatically receive a default retention policy that prevents
-              premature deletion or modification.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN04.AR02
-            text: |
-              When an attempt is made to delete or modify an object that is subject
-              to an active retention policy, the service MUST prevent the action
-              from being completed.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH06
-                remarks: Data is Lost or Corrupted
-                strength: 2 # This is just one of many ways to mess up the data
-          - reference-id: CCC.ObjStor
-            entries:
-              - reference-id: CCC.ObjStor.TH01
-                remarks: Data Exfiltration via Insecure Lifecycle Policies
-                strength: 10 # mmmm... lifecycle policies
-        guideline-mappings:
-          - reference-id: CCM
-            entries:
-              - reference-id: DSP-16
-                remarks: Data Retention and Deletion
-                strength: 10 # Have a policy? Check. Follow it? Check.
-              - reference-id: DSP-17
-                remarks: Sensitive Data Protection
-                strength: 1 # This is one of many things that will need to be done
-      - id: CCC.ObjStor.CN05
-        title: Versioning is Enabled for All Objects in the Bucket
-        objective: |
-          Ensure that versioning is enabled for all objects stored in the object
-          storage bucket to enable recovery of previous versions of objects in
-          case of loss or corruption.
-        assessment-requirements:
-          - id: CCC.ObjStor.CN05.AR01
-            text: |
-              When an object is uploaded to the object storage bucket, the object
-              MUST be stored with a unique identifier.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN05.AR02
-            text: |
-              When an object is modified, the service MUST assign a new unique
-              identifier to the modified object to differentiate it from the
-              previous version.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN05.AR03
-            text: |
-              When an object is modified, the service MUST allow for recovery
-              of previous versions of the object.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN05.AR04
-            text: |
-              When an object is deleted, the service MUST retain other versions of
-              the object to allow for recovery of previous versions.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH06
-                remarks: Data is Lost or Corrupted
-                strength: 2 # This is just one of many ways to mess up the data
-        guideline-mappings:
-          - reference-id: CCM
-            entries:
-              - reference-id: DSP-16
-                remarks: Data Retention and Deletion
-                strength: 10 # Have a policy? Check. Follow it? Check.
-              - reference-id: DSP-17
-                remarks: Sensitive Data Protection
-                strength: 1 # This is one of many things that will need to be done
-      - id: CCC.ObjStor.CN06
-        title: Access Logs are Stored in a Separate Data Store
-        objective: |
-          Ensure that access logs for object storage buckets are stored in a
-          separate data store to protect against unauthorized access, tampering,
-          or deletion of logs. Buckets used to store logs from other
-          buckets are exempt from the bulk of this control, but must be classified
-          under the highest sensitivity level.
-        assessment-requirements:
-          - id: CCC.ObjStor.CN06.AR01
-            text: |
-              When an object storage bucket is accessed, the service MUST store
-              access logs in a separate data store.
-            applicability:
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN06.AR01
-            text: |
-              When an object storage bucket stores access logs for other object
-              storage buckets, the bucket MUST be classified as the highest
-              possible sensitivity level.
-            recommendation: ""
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH07
-                remarks: Logs are Tampered With or Deleted
-                strength: 7 # Segmentation goes a long way to preventing tampering
-              - reference-id: CCC.Core.TH09
-                remarks: Runtime Logs are Read by Unauthorized Entities
-                strength: 2 # Access logs are a small subset of runtime logs
-        guideline-mappings:
-          - reference-id: CCM
-            entries:
-              - reference-id: LOG-02
-                remarks: Audit Logs Protection
-                strength: 8 # Ensure security and retention of audit logs
-              - reference-id: LOG-04
-                remarks: Audit Logs Access and Accountability
-                strength: 5 # Segmentation gets us halfway there
-              - reference-id: IAM-04
-                remarks: Separation of Duties
-                strength: 5 # Segmentation gets us halfway there
-              - reference-id: IAM-09
-                remarks: Segregation of Privileged Access Roles
-                strength: 3 # Segmentation gets us partway there
-      - id: CCC.ObjStor.CN05
-        title: Multi-Factor Authentication Is Required for Object Deletion
-        objective: |
-          Ensure that deletion of objects stored in the object storage system is
-          protected by multi-factor authentication (MFA), reducing the risk of
-          accidental, unauthorized, or compromised-credential–based data destruction.
-        assessment-requirements:
-          - id: CCC.ObjStor.CN05.AR01
-            text: |
-              The object storage service MUST support a configuration option that
-              requires MFA to be successfully completed before any object deletion
-              can be attempted, regardless of the request interface.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN05.AR02
-            text: |
-              When MFA deletion protection is enabled on a bucket or object
-              namespace, the service MUST deny any deletion request from an identity
-              that has not satisfied the MFA requirement at the time of the request.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN05.AR03
-            text: |
-              When an attempt is made to delete an object, the service's audit logs MUST
-              clearly record each deletion attempt, including whether MFA was required
-              and whether validation was met.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH01
-                remarks: Prevents unauthorized identities from deleting objects
-                strength: 9
-              - reference-id: CCC.Core.TH06
-                remarks: Mitigates malicious or accidental data loss through protected deletion
-                strength: 10
-              - reference-id: CCC.Core.TH17
-                remarks: Ensures deletion requests from unauthorized entities do not result in action
-                strength: 8
-        guideline-mappings:
-          - reference-id: CCM
-            entries:
-              - reference-id: DSP-16
-                remarks: MFA enforcement strengthens data retention and deletion control
-                strength: 8
-              - reference-id: IAM-12
-                remarks: MFA required for privileged or destructive operations
-                strength: 9
+controls:
+  - id: CCC.ObjStor.CN01
+    family: CCC.ObjStor.Data
+    title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
+    objective: |
+      Prevent any requests to object storage buckets or objects using
+      untrusted KMS keys to protect against unauthorized data encryption,
+      or sensitive data decryption.
+    assessment-requirements: # Restrict write on all; Restrict read on amber or red
+      - id: CCC.ObjStor.CN01.AR01
+        text: |
+          When a request is made to read a bucket, the service
+          MUST prevent any request using KMS keys not listed as trusted by
+          the organization.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN01.AR02
+        text: |
+          When a request is made to read an object, the service
+          MUST prevent any request using KMS keys not listed as trusted by
+          the organization.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN01.AR03
+        text: |
+          When a request is made to write to a bucket, the service MUST
+          prevent any request using KMS keys not listed as trusted by the
+          organization.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN01.AR04
+        text: |
+          When a request is made to write to an object, the service MUST
+          prevent any request using KMS keys not listed as trusted by the
+          organization.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+            remarks: Access is Granted to Unauthorized Users
+            strength: 5 # Only addresses the threat of users with bad keys, not the threat of users with no keys
+          - reference-id: CCC.Core.TH06
+            remarks: Data is Lost or Corrupted
+            strength: 2 # This is just one of many ways to mess up the data
+    guideline-mappings:
+      - reference-id: CCM
+        entries:
+          - reference-id: IAM-01
+            remarks: IAM Policy and Procedures
+            strength: 3 # Implmenting this control is indicative of larger planning efforts
+          - reference-id: IAM-03
+            remarks: Identity Inventory (system identities and level of access)
+            strength: 5 # This control enforces some level of permission scoping for keys
+          - reference-id: DSP-17
+            remarks: Sensitive Data Protection
+            strength: 1 # This is one of many things that will need to be done
+  - id: CCC.ObjStor.CN03
+    family: CCC.ObjStor.Data
+    title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
+    objective: |
+      Ensure that object storage bucket is not deleted after creation,
+      and that the preventative measure cannot be unset.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN03.AR01
+        text: |
+          When an object storage bucket deletion is attempted, the bucket MUST be
+          fully recoverable for a set time-frame after deletion is requested.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN03.AR02
+        text: |
+          When an attempt is made to modify the retention policy for an object
+          storage bucket, the service MUST prevent the policy from being modified.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH06
+            remarks: Data is Lost or Corrupted
+            strength: 2 # This is just one of many ways to mess up the data
+    guideline-mappings:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: Data Retention and Deletion
+            strength: 10 # Have a policy? Check. Follow it? Check.
+          - reference-id: DSP-17
+            remarks: Sensitive Data Protection
+            strength: 1 # This is one of many things that will need to be done
+  - id: CCC.ObjStor.CN04
+    family: CCC.ObjStor.Data
+    title: Objects have an Effective Retention Policy by Default
+    objective: |
+      Ensure that all objects stored in the object storage system have a
+      retention policy applied by default, preventing premature deletion
+      or modification of objects.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN04.AR01
+        text: |
+          When an object is uploaded to the object storage system, the object
+          MUST automatically receive a default retention policy that prevents
+          premature deletion or modification.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN04.AR02
+        text: |
+          When an attempt is made to delete or modify an object that is subject
+          to an active retention policy, the service MUST prevent the action
+          from being completed.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH06
+            remarks: Data is Lost or Corrupted
+            strength: 2 # This is just one of many ways to mess up the data
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH01
+            remarks: Data Exfiltration via Insecure Lifecycle Policies
+            strength: 10 # mmmm... lifecycle policies
+    guideline-mappings:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: Data Retention and Deletion
+            strength: 10 # Have a policy? Check. Follow it? Check.
+          - reference-id: DSP-17
+            remarks: Sensitive Data Protection
+            strength: 1 # This is one of many things that will need to be done
+  - id: CCC.ObjStor.CN05
+    family: CCC.ObjStor.Data
+    title: Versioning is Enabled for All Objects in the Bucket
+    objective: |
+      Ensure that versioning is enabled for all objects stored in the object
+      storage bucket to enable recovery of previous versions of objects in
+      case of loss or corruption.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN05.AR01
+        text: |
+          When an object is uploaded to the object storage bucket, the object
+          MUST be stored with a unique identifier.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN05.AR02
+        text: |
+          When an object is modified, the service MUST assign a new unique
+          identifier to the modified object to differentiate it from the
+          previous version.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN05.AR03
+        text: |
+          When an object is modified, the service MUST allow for recovery
+          of previous versions of the object.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN05.AR04
+        text: |
+          When an object is deleted, the service MUST retain other versions of
+          the object to allow for recovery of previous versions.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH06
+            remarks: Data is Lost or Corrupted
+            strength: 2 # This is just one of many ways to mess up the data
+    guideline-mappings:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: Data Retention and Deletion
+            strength: 10 # Have a policy? Check. Follow it? Check.
+          - reference-id: DSP-17
+            remarks: Sensitive Data Protection
+            strength: 1 # This is one of many things that will need to be done
+  - id: CCC.ObjStor.CN07
+    family: CCC.ObjStor.Data
+    title: Multi-Factor Authentication Is Required for Object Deletion
+    objective: |
+      Ensure that deletion of objects stored in the object storage system is
+      protected by multi-factor authentication (MFA), reducing the risk of
+      accidental, unauthorized, or compromised-credential–based data destruction.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN07.AR01
+        text: |
+          The object storage service MUST support a configuration option that
+          requires MFA to be successfully completed before any object deletion
+          can be attempted, regardless of the request interface.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN07.AR02
+        text: |
+          When MFA deletion protection is enabled on a bucket or object
+          namespace, the service MUST deny any deletion request from an identity
+          that has not satisfied the MFA requirement at the time of the request.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN07.AR03
+        text: |
+          When an attempt is made to delete an object, the service's audit logs MUST
+          clearly record each deletion attempt, including whether MFA was required
+          and whether validation was met.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+            remarks: Prevents unauthorized identities from deleting objects
+            strength: 9
+          - reference-id: CCC.Core.TH06
+            remarks: Mitigates malicious or accidental data loss through protected deletion
+            strength: 10
+          - reference-id: CCC.Core.TH17
+            remarks: Ensures deletion requests from unauthorized entities do not result in action
+            strength: 8
+    guideline-mappings:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: MFA enforcement strengthens data retention and deletion control
+            strength: 8
+          - reference-id: IAM-12
+            remarks: MFA required for privileged or destructive operations
+            strength: 9
 
-  - title: Identity and Access Management
-    id: CCC.ObjStor.IAM
-    controls:
-      - id: CCC.ObjStor.CN02
-        title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
-        objective: |
-          Ensure that uniform bucket-level access is enforced across all
-          object storage buckets. This prevents the use of ad-hoc or
-          inconsistent object-level permissions, ensuring centralized,
-          consistent, and secure access management in accordance with the
-          principle of least privilege.
-        assessment-requirements:
-          - id: CCC.ObjStor.CN02.AR01
-            text: |
-              When a permission set is allowed for an object in a bucket, the
-              service MUST allow the same permission set to access all objects
-              in the same bucket.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-          - id: CCC.ObjStor.CN02.AR02
-            text: |
-              When a permission set is denied for an object in a bucket, the
-              service MUST deny the same permission set to access all objects
-              in the same bucket.
-            applicability:
-              - tlp-clear
-              - tlp-green
-              - tlp-amber
-              - tlp-red
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH01
-                remarks: Access is Granted to Unauthorized Users
-                strength: 2 # This helps reduce errors and oversight when the intent is on point
-        guideline-mappings:
-          - reference-id: CCM
-            entries:
-              - reference-id: IAM-08
-                remarks: User Access Review
-                strength: 2 # Reducing IAM nuance and exceptions helps streamline reviews
+  - id: CCC.ObjStor.CN02
+    family: CCC.ObjStor.IAM
+    title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
+    objective: |
+      Ensure that uniform bucket-level access is enforced across all
+      object storage buckets. This prevents the use of ad-hoc or
+      inconsistent object-level permissions, ensuring centralized,
+      consistent, and secure access management in accordance with the
+      principle of least privilege.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN02.AR01
+        text: |
+          When a permission set is allowed for an object in a bucket, the
+          service MUST allow the same permission set to access all objects
+          in the same bucket.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.ObjStor.CN02.AR02
+        text: |
+          When a permission set is denied for an object in a bucket, the
+          service MUST deny the same permission set to access all objects
+          in the same bucket.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+            remarks: Access is Granted to Unauthorized Users
+            strength: 2 # This helps reduce errors and oversight when the intent is on point
+    guideline-mappings:
+      - reference-id: CCM
+        entries:
+          - reference-id: IAM-08
+            remarks: User Access Review
+            strength: 2 # Reducing IAM nuance and exceptions helps streamline reviews
 

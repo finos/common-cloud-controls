@@ -23,8 +23,6 @@ imported-capabilities:
         remarks: API Access
       - reference-id: CCC.Core.CP18
         remarks: Resource Versioning
-      - reference-id: CCC.Core.CP19
-        remarks: Resource Scaling
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP23
@@ -33,8 +31,8 @@ imported-capabilities:
         remarks: Persistent Storage
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
-      - reference-id: CCC.Core.CP29
-        remarks: Active Ingestion
+      - reference-id: CCC.Core.CP30
+        remarks: Passive Ingestion
 
 capabilities:
   - id: CCC.CntrReg.CP01

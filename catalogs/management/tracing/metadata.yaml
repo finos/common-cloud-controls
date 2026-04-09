@@ -1,25 +1,28 @@
 metadata:
   id: CCC.Tracing
-  title: CCC Tracing & Analysis
+  title: Cloud Tracing & Observability
   description: |
-    Tracing and analysis services enable deep observability into distributed applications by
-    correlating, and analyzing trace and span data across microservices and infrastructure layers.
-    These services facilitate root cause analysis, performance tuning, anomaly detection, and system mapping.
-    Modern platforms offer AI/ML-powered insights, live debugging capabilities, and integration with metrics/logging
-    to deliver holistic views into application behavior and health.
-  category-ids: 
+    Services that provide distributed tracing and performance telemetry for 
+    cloud-native and hybrid applications. These tools enable developers and 
+    operators to visualise end‑to‑end request flows, identify performance 
+    bottlenecks, correlate traces with logs and metrics, and analyse 
+    application dependencies. They integrate with managed compute platforms, 
+    container orchestrators, serverless runtimes, and service meshes to 
+    provide centralised observability with sampling, tagging, and 
+    context‑propagation support.
+  category-ids:
     - CCC.Management
   version: ""
-  last-modified: "2025-06-25T00:00:00Z"
+  last-modified: "2026-02-18T00:00:00Z"
   example-csp-services:
     - provider: AWS
-      service: AWS CloudTrail
-      url: https://docs.aws.amazon.com/cloudtrail/
+      service: AWS X-Ray
+      url: https://docs.aws.amazon.com/xray/
     - provider: Azure
-      service: Azure Monitor Activity Log
-      url: https://learn.microsoft.com/azure/azure-monitor/platform/activity-log
+      service: Azure Application Insights (Azure Monitor)
+      url: https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview
     - provider: GCP
-      service: Cloud Audit Logs
-      url: https://cloud.google.com/logging/docs/audit/
+      service: Google Cloud Trace
+      url: https://cloud.google.com/trace/docs
   applicability-categories: []
   mapping-references: []

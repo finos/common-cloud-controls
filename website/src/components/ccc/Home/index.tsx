@@ -4,18 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import Link from "@docusaurus/Link";
 import { HomePageData } from "@site/src/types/ccc";
+import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
 
 export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }) {
   const { components } = pageData;
 
-  // Flatten all releases into a single array with component title
-  const allReleases = components.flatMap((component) =>
-    component.releases.map((release) => ({
-      ...release,
-      componentTitle: component.title,
-      slug: `/ccc/${release.metadata.id}/${release.metadata.version}`,
-    }))
-  );
   // Transform components into a summary list
   const componentSummaries = components.map((component) => {
     const allDetails = component.releases.flatMap((r) => r.metadata.release_details || []);
@@ -76,6 +69,10 @@ export default function CCCHomeTemplate({ pageData }: { pageData: HomePageData }
           </Table>
         </CardContent>
       </Card>
+      <p className="mt-4 text-sm text-muted-foreground">
+        Page generated{" "}
+        <time dateTime={pageData.generatedAt}>{formatGeneratedAt(pageData.generatedAt)}</time>
+      </p>
     </Layout>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import useBrokenLinks from "@docusaurus/useBrokenLinks";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import { ControlPageData } from "@site/src/types/ccc";
@@ -11,6 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 
 export default function CCCControlTemplate({ pageData }: { pageData: ControlPageData }) {
   const { control, releaseTitle, releaseSlug, related_threats, related_capabilities } = pageData;
+  const brokenLinks = useBrokenLinks();
 
   return (
     <Layout title={control.title}>
@@ -65,28 +67,34 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {control.test_requirements.map((tr) => (
-                  <TableRow key={tr.id}>
-                    <TableCell className="font-mono font-medium">
-                      <a id={tr.id.split(".").pop()?.toLowerCase()} className="anchor-target"></a>
-                      {tr.id}
-                    </TableCell>
-                    <TableCell className="max-w-md">{tr.text}</TableCell>
-                    <TableCell>
-                      {tr.applicability?.length > 0 ? (
-                        <div className="flex flex-wrap gap-1">
-                          {tr.applicability.map((level) => (
-                            <Badge key={level} variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300 text-xs">
-                              {level}
-                            </Badge>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className="text-muted-foreground">-</span>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {control.test_requirements.map((tr) => {
+                  const anchorId = tr.id.split(".").pop()?.toLowerCase();
+                  if (anchorId) {
+                    brokenLinks.collectAnchor(anchorId);
+                  }
+                  return (
+                    <TableRow key={tr.id}>
+                      <TableCell className="font-mono font-medium">
+                        <a id={anchorId} className="anchor-target"></a>
+                        {tr.id}
+                      </TableCell>
+                      <TableCell className="max-w-md">{tr.text}</TableCell>
+                      <TableCell>
+                        {tr.applicability?.length > 0 ? (
+                          <div className="flex flex-wrap gap-1">
+                            {tr.applicability.map((level) => (
+                              <Badge key={level} variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300 text-xs">
+                                {level}
+                              </Badge>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="text-muted-foreground">-</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </CardContent>

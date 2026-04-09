@@ -15,35 +15,86 @@ imported-capabilities:
         remarks: Log Publication
       - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.CP17
-        remarks: Alerting
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP28
+        remarks: Command Line Interface
+      - reference-id: CCC.Core.CP30
+        remarks: Passive Ingestion
+      - reference-id: CCC.Core.CP31
+        remarks: Elastic Scaling
 
 capabilities:
   - id: CCC.Tracing.CP01
-    title: Distributed Trace Analysis
+    title: Distributed Telemetry Collection
     description: |
-      Analyses end-to-end traces across services.
+      Collects end-to-end telemetry (spans, segments, and trace events) from
+      instrumented applications and infrastructure, and aggregates them into
+      complete request flows that reveal execution paths, behavior, and
+      performance across distributed systems.
 
   - id: CCC.Tracing.CP02
-    title: Runtime Profiling
+    title: Dependency Mapping and Visualization
     description: |
-      Analyses performance data such as CPU usage, memory allocation, or latency metrics alongside traces.
+      Automatically builds visual or logical graphs of upstream and
+      downstream dependencies (services, functions, databases, external
+      endpoints), showing call relationships, traffic patterns, and health
+      signals to clarify how requests traverse the system.
 
   - id: CCC.Tracing.CP03
-    title: Anomaly Detection
+    title: Distributed Context Propagation
     description: |
-      Applies statistical techniques to detect performance anomalies or trace behavior outliers.
+      Propagates trace and span identifiers across service boundaries using
+      standardized headers/protocols so operations for the same request can
+      be correlated across asynchronous calls and heterogeneous runtimes.
 
   - id: CCC.Tracing.CP04
-    title: Dependency Mapping
+    title: Performance Profiling
     description: |
-      Generates service maps from traces to visualize inter-service communication and bottlenecks.
+      Analyzes trace data to surface runtime characteristics such asexecution
+      durations, slow operations, bottlenecks, and regressions for providing
+      granular insight into identifying bottlenecks inside distributed workflows.
 
   - id: CCC.Tracing.CP05
-    title: Trace Filtering and Tagging
+    title: Error Correlation
     description: |
-      Supports filtering and search on traces using enriched metadata fields such as user ID, region, or status code.
+      Detects errors, exceptions, faults, and retry patterns within spans and
+      correlates them to affected request paths so users can pinpoint the
+      component and operation causing failures.
+
+  - id: CCC.Tracing.CP06
+    title: Sampling
+    description: |
+      Provides configurable sampling strategies such as rules-based, rate-based,
+      and adaptive to control trace volume and balance observability needs with
+      cost and system performance.
+
+  - id: CCC.Tracing.CP07
+    title: Trace Querying & Filtering
+    description: |
+      Offers a query and filtering interface to retrieve traces by latency,
+      error status, service name, operation, tag values, time windows, and
+      other attributes to isolate behaviours or anomalies quickly.
+
+  - id: CCC.Tracing.CP08
+    title: Integration with Logs and Metrics
+    description: |
+      Correlates traces with logs and metrics from related resources to
+      provide unified observability; users can pivot between telemetry types
+      using shared identifiers (e.g., trace or span IDs).
+
+  - id: CCC.Tracing.CP09
+    title: Trace Retention
+    description: |
+      Stores trace data for configurable retention periods and supports
+      time-to-live policies driven by workload needs, cost constraints, or
+      compliance requirements.
+
+  - id: CCC.Tracing.CP10
+    title: Assistance for Root Cause Analysis
+    description: |
+      Analyzes trace patterns, latency anomalies, and error flows to surface
+      likely sources of failures or performance degradation and highlight
+      trends or problematic components to accelerate diagnosis and remediation.
