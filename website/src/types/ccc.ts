@@ -131,13 +131,35 @@ export interface ReleasePageData extends PageData {
     release_details: ReleaseDetails;
 }
 
+/** Per-release row on the component overview table (counts only — avoids duplicating full catalogs). */
+export interface ComponentTableRelease {
+    metadata: Pick<Metadata, 'id' | 'version' | 'release_details'>;
+    controlsCount: number;
+    threatsCount: number;
+    capabilitiesCount: number;
+}
+
 export interface ComponentPageData extends PageData {
-    component: Component;
-    related_releases: Release[];
+    component: {
+        id: string;
+        title: string;
+        releases: ComponentTableRelease[];
+    };
+}
+
+/** Minimal release metadata for the CCC home listing. */
+export interface HomeReleaseStub {
+    metadata: Pick<Metadata, 'id' | 'version' | 'release_details'>;
+}
+
+export interface HomeComponentStub {
+    id: string;
+    title: string;
+    releases: HomeReleaseStub[];
 }
 
 export interface HomePageData {
-    components: Component[];
+    components: HomeComponentStub[];
     /** ISO 8601 timestamp when this page data was produced (site build time). */
     generatedAt: string;
 }

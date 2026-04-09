@@ -222,7 +222,7 @@ async function createConfiguration(
       configurationResult: configResult,
     };
 
-    const resultJsonPath = await createData(`cfi-config-result-${repoEntry.name}-${configFolderName}-${resultKey}.json`, JSON.stringify(resultPageData, null, 2));
+    const resultJsonPath = await createData(`cfi-config-result-${repoEntry.name}-${configFolderName}-${resultKey}.json`, JSON.stringify(resultPageData));
 
     // Add route for this ConfigurationResult page
     addRoute({
@@ -253,7 +253,7 @@ async function createConfiguration(
     configurationResultSummaries,
   };
 
-  const jsonPath = await createData(`cfi-config-${repoEntry.name}-${configFolderName}.json`, JSON.stringify(pageData, null, 2));
+  const jsonPath = await createData(`cfi-config-${repoEntry.name}-${configFolderName}.json`, JSON.stringify(pageData));
 
   // Add route for this configuration page
   addRoute({
@@ -325,7 +325,7 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
         generatedAt: new Date().toISOString(),
       };
 
-      const homePagePath = await createData("cfi-home.json", JSON.stringify(homePageData, null, 2));
+      const homePagePath = await createData("cfi-home.json", JSON.stringify(homePageData));
 
       addRoute({
         path: "/cfi",
