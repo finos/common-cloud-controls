@@ -8,7 +8,6 @@ import { ComponentPageData } from "@site/src/types/ccc";
 
 export default function CCCComponentTemplate({ pageData }: { pageData: ComponentPageData }) {
   const { component } = pageData;
-  const latestRelease = component.releases[0]; // Releases are sorted by version, so first is latest
 
   return (
     <Layout title={component.title}>
@@ -40,9 +39,9 @@ export default function CCCComponentTemplate({ pageData }: { pageData: Component
                   <TableCell>
                     <div className="space-y-2">{release.metadata.release_details?.[0]?.contributors?.length > 0 ? release.metadata.release_details[0].contributors.map((contributor, index) => <User key={index} contributor={contributor} />) : <span>N/A</span>}</div>
                   </TableCell>
-                  <TableCell>{release.controls.length}</TableCell>
-                  <TableCell>{release.threats.length}</TableCell>
-                  <TableCell>{release.capabilities.length}</TableCell>
+                  <TableCell>{release.controlsCount}</TableCell>
+                  <TableCell>{release.threatsCount}</TableCell>
+                  <TableCell>{release.capabilitiesCount}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

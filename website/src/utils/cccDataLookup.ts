@@ -7,14 +7,10 @@ import { Release, Control, AssessmentRequirement } from '@site/src/types/ccc';
 export function useCCCData() {
     const cccData = usePluginData('ccc-pages') as {
         'ccc-releases': Release[];
-        'ccc-components': any[];
-        'ccc-release-yaml': any[];
     } | undefined;
 
     return {
         releases: cccData?.['ccc-releases'] || [],
-        components: cccData?.['ccc-components'] || [],
-        releaseYaml: cccData?.['ccc-release-yaml'] || []
     };
 }
 
