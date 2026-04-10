@@ -4,6 +4,8 @@ build/oscal-cli
 .DS_Store
 # Delivery Tooling
 delivery-toolkit/artifacts
+# Temporary backup during website/scripts/GenerateReleaseCatalogs.ts (flat controls normalization)
+**/controls.yaml.backup
 .env/
 
 # CFI Test Results
