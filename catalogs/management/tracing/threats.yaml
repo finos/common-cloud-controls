@@ -1,0 +1,209 @@
+threats:
+  - id: CCC.Tracing.TH01
+    title: Trace Data Exposes Sensitive Information
+    description: |
+      Trace data may inadvertently contain sensitive information such as
+      personally identifiable information (PII), credentials, tokens, or
+      business data. If collected, stored, or queried without proper controls,
+      this may result in unauthorized disclosure of sensitive information.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP01
+            remarks: Distributed Telemetry Collection
+          - reference-id: CCC.Tracing.CP07
+            remarks: Trace Querying & Filtering
+          - reference-id: CCC.Tracing.CP09
+            remarks: Trace Retention
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1552
+            remarks: Unsecured Credentials
+          - reference-id: T1530
+            remarks: Data from Cloud Storage
+          - reference-id: T1041
+            remarks: Exfiltration Over C2 Channel
+
+  - id: CCC.Tracing.TH02
+    title: Telemetry Data is Tampered With or Forged
+    description: |
+      Trace events, spans, and metadata may be modified or forged, resulting
+      in incorrect observability data. This can mislead investigations,
+      mask malicious activity, or cause incorrect operational decisions.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP01
+            remarks: Distributed Telemetry Collection
+          - reference-id: CCC.Tracing.CP03
+            remarks: Distributed Context Propagation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            remarks: Data Manipulation
+          - reference-id: T1070
+            remarks: Indicator Removal
+
+  - id: CCC.Tracing.TH03
+    title: Topology and Dependency Information is Exposed
+    description: |
+      Automatically constructed dependency maps may reveal internal system
+      architecture, service relationships, and critical dependencies. If accessed
+      by unauthorized entities, this information can support reconnaissance
+      and targeted attacks.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP02
+            remarks: Dependency Mapping and Visualization
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1590
+            remarks: Gather Victim Network Information
+          - reference-id: T1046
+            remarks: Network Service Discovery
+
+  - id: CCC.Tracing.TH04
+    title: Context Propagation is Manipulated
+    description: |
+      Manipulation or spoofing of trace or span identifiers can allow attackers
+      to influence correlation, inject misleading telemetry, or bypass tracing
+      and monitoring controls across service boundaries.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP03
+            remarks: Distributed Context Propagation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1557
+            remarks: Adversary-in-the-Middle
+          - reference-id: T1565
+            remarks: Data Manipulation
+
+  - id: CCC.Tracing.TH05
+    title: Profiling Data Enables Targeted Attacks
+    description: |
+      Detailed performance and timing data can expose system bottlenecks,
+      operational patterns, or resource constraints, enabling attackers to
+      design denial-of-service or targeted degradation attacks.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP04
+            remarks: Performance Profiling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1499
+            remarks: Endpoint Denial of Service
+          - reference-id: T1496
+            remarks: Resource Hijacking
+
+  - id: CCC.Tracing.TH06
+    title: Error Details Leak Sensitive System Information
+    description: |
+      Error traces and exception data may expose internal implementation
+      details, file paths, libraries, or system configuration, enabling
+      adversaries to identify weaknesses.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP05
+            remarks: Error Correlation
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1082
+            remarks: System Information Discovery
+          - reference-id: T1069
+            remarks: Permission Groups Discovery
+
+  - id: CCC.Tracing.TH07
+    title: Sampling Configuration Enables Blind Spots
+    description: |
+      Improper or manipulated sampling configurations may result in critical
+      events not being captured. This can reduce visibility into malicious
+      activity and delay detection or response.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP06
+            remarks: Sampling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1562
+            remarks: Impair Defenses
+
+  - id: CCC.Tracing.TH08
+    title: Trace Queries Are Used for Reconnaissance
+    description: |
+      Trace query and filtering interfaces may be abused to enumerate services,
+      identify performance bottlenecks, or infer sensitive system behavior.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP07
+            remarks: Trace Querying & Filtering
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1590
+            remarks: Gather Victim Network Information
+          - reference-id: T1082
+            remarks: System Information Discovery
+
+  - id: CCC.Tracing.TH09
+    title: Cross-Dataset Correlation Increases Data Exposure
+    description: |
+      Correlating traces with logs and metrics can increase the amount of
+      contextual data exposed. Improper access control or data sanitization
+      may amplify the impact of data leakage.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP08
+            remarks: Integration with Logs and Metrics
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1530
+            remarks: Data from Cloud Storage
+
+  - id: CCC.Tracing.TH10
+    title: Excessive Trace Retention Increases Exposure Window
+    description: |
+      Retaining trace data for extended periods increases the window of
+      exposure if systems are compromised or accessed without authorization.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP09
+            remarks: Trace Retention
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1530
+            remarks: Data from Cloud Storage
+
+  - id: CCC.Tracing.TH11
+    title: Automated Root Cause Analysis is Manipulated
+    description: |
+      Attackers may manipulate telemetry inputs to influence automated
+      root cause analysis, leading to misdiagnosis, delayed response, or
+      incorrect remediation.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Tracing.CP10
+            remarks: Assistance for Root Cause Analysis
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            remarks: Data Manipulation
