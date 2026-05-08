@@ -21,6 +21,8 @@ The Website WG will:
 - Develop and maintain reusable components for common elements, such as the control catalog schema
 - Ensure reusable artefacts are suitable for adoption by external projects
 - Coordinate with other WGs to align delivery, feedback, and publication
+- Making release assets available online
+- Hnadling different versions of the Gemara schema
 
 ## Output / Deliverables
 
@@ -29,7 +31,7 @@ The Website WG will:
 
 ## Out of Scope
 
-- Designing or styling the website
+- Requests that fall outside of the Gemara schema or CCC specific interests.
 
 ## Membership
 
