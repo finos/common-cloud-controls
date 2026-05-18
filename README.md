@@ -84,7 +84,7 @@ Each organizational seat has a **Primary** (Cloud Lead) and **Alternate** (Cyber
 | LSEG           | Dean Bryen           | Leroy Abhikui                           |
 | Morgan Stanley | Dave Reeve           | Nick Williams                           |
 | ScottLogic     | Stevie Shiells       | Sonali Mendis                           |
-| Red Hat        | Aric Rosenbaum       | tbd.                                    |
+| Red Hat        | Aric Rosenbaum       | Jenn Power                              |
 | RBC            | Ernani Cecon         | Maxime Coquerel                         |
 | BlackRock      | Eli Hamburger        | Praveen Nallasamy, Sankara Ramakrishnan |
 
