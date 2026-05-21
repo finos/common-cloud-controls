@@ -20,8 +20,8 @@ The Delivery Toolkit consists of several Go files, each serving a specific purpo
 4. **`gen-yaml.go`**  
    Converts catalog data into a YAML file and saves it in the specified output directory.
 
-5. **`update-metadata.go`**  
-   Updates metadata YAML files, including commit history, contributors, and changelogs, using the GitHub API.
+5. **`compile.go`**  
+   Compiles one catalog asset (capabilities, threats, or controls) into a single self-describing Gemara artifact, ready for validation and publishing via grcli.
 
 6. **`utils.go`**  
    Provides shared utility functions to streamline development across the toolkit.
@@ -127,19 +127,19 @@ Here are some example commands for testing the toolkit locally:
   File generated successfully: artifacts/release_notes.md
   ```
 
-- **Update Metadata**
+- **Compile a Catalog Asset**
 
   ```bash
-  go run . "update-metadata" -t ../catalogs/storage/object/
+  go run . compile --build-target storage/object --type capabilities --version v2026.04
   ```
 
   **Output Example**:
 
   ```text
-  Metadata updated successfully: ../catalogs/storage/object/metadata.yaml
+  compiled storage/object/capabilities -> ./artifacts/storage/object/capabilities.yaml
   ```
 
-  > **NOTE**: This command modifies metadata files and should only be used during release preparation.
+  > **NOTE**: Produces a single self-describing Gemara artifact ready for `grcli validate` / `grcli publish`.
 
 ## Triggering the Artifact Pipeline
 

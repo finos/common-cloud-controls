@@ -34,6 +34,7 @@ imported-threats:
 
 threats:
   - id: CCC.ObjStor.TH01
+    group: Data
     title: Data Exfiltration via Insecure Lifecycle Policies
     description: |
       Misconfigured lifecycle policies may unintentionally allow data to be

@@ -7,15 +7,18 @@
       "properties": {
         "id": {
           "type": "string",
-          "pattern":"^CCC\\.\\w{1,8}$",
+          "pattern":"^CCC\\.\\w{1,16}$",
+          "minLength": 1,
           "description": "Unique identifier for the control catalog"
         },
         "title": {
           "type": "string",
+          "minLength": 1,
           "description": "Name of the control catalog"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "version": {
           "type": "string"
@@ -27,11 +30,11 @@
         "category-ids": {
           "type": "array",
           "items": {
-            "type": "object",
+            "type": ["string", "object"],
             "properties": {
               "id": {
                 "type": "string",
-                "pattern":"^CCC\\.\\w{1,8}$",
+                "pattern":"^CCC\\.\\w{1,16}$",
                 "description": "Unique identifier for the category of the control catalog"
               }
             }

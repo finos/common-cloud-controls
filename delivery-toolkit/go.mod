@@ -1,22 +1,16 @@
 module github.com/finos/common-cloud-controls
 
-go 1.23.4
-
-toolchain go1.24.1
+go 1.25.0
 
 require (
-	github.com/defenseunicorns/go-oscal v0.6.3
-	github.com/google/go-github/v53 v53.2.0
-	golang.org/x/oauth2 v0.24.0
+	github.com/defenseunicorns/go-oscal v0.7.0
+	github.com/gemaraproj/go-gemara v0.5.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
-	github.com/ProtonMail/go-crypto v1.1.2 // indirect
-	github.com/cloudflare/circl v1.5.0 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
-	github.com/goccy/go-yaml v1.18.0 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/goccy/go-yaml v1.19.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
@@ -30,7 +24,6 @@ require (
 	github.com/spf13/cast v1.7.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.29.0 // indirect
 	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f // indirect
 	golang.org/x/sys v0.27.0 // indirect
 	golang.org/x/text v0.25.0 // indirect
@@ -40,7 +33,7 @@ require (
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/ossf/gemara v0.7.1
-	github.com/spf13/cobra v1.9.1
-	github.com/spf13/pflag v1.0.6 // indirect
+	github.com/spf13/cobra v1.10.1
+	github.com/spf13/pflag v1.0.9 // indirect
 	github.com/spf13/viper v1.19.0
 )
