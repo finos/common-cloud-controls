@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-const pluginName = "privateer-plugin"
+const pluginName = "ccc-behavioural-plugin"
 
 // BehaviouralPlugin runs CCC Godog behavioural checks via the runner library.
 type BehaviouralPlugin struct{}
@@ -42,18 +42,22 @@ func runBehavioural() int {
 		}
 	}
 
+	// Privateer passes YAML literals (e.g. cfi_test_${INSTANCE_ID}) without shell expansion.
+	vars = runner.ExpandVars(vars)
+
 	godogService := varString(vars, "service")
 	if godogService == "" {
 		fmt.Fprintln(os.Stderr, "error: services."+privateerService+".vars.service is required (e.g. object-storage)")
 		return 1
 	}
 
-	instanceID := varString(vars, "instance-id")
+	// Prefer INSTANCE_ID from the shell (run-compliance-tests.sh); fall back to expanded instance-id.
+	instanceID := strings.TrimSpace(os.Getenv("INSTANCE_ID"))
+	if instanceID == "" {
+		instanceID = varString(vars, "instance-id")
+	}
 	if instanceID == "" {
 		instanceID = privateerService
-	}
-	if suffix := varString(vars, "instance-id"); suffix != "" {
-		_ = os.Setenv("INSTANCE_ID", suffix)
 	}
 
 	ic, err := runner.InstanceFromVars(vars, godogService, instanceID)
@@ -88,6 +92,17 @@ func runBehavioural() int {
 		if d, err := time.ParseDuration(t); err == nil {
 			opts.Timeout = d
 		}
+	}
+	if t := strings.TrimSpace(os.Getenv("CCC_RUNNER_TIMEOUT")); t != "" {
+		if d, err := time.ParseDuration(t); err == nil {
+			opts.Timeout = d
+		}
+	}
+	if tags := strings.TrimSpace(os.Getenv("CCC_RUNNER_TAGS")); tags != "" {
+		opts.Tags = runner.ParseTags(tags)
+	}
+	if r := strings.TrimSpace(os.Getenv("CCC_RUNNER_RESOURCE")); r != "" {
+		opts.ResourceFilter = r
 	}
 
 	return runner.Run(opts)

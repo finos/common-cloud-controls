@@ -1,4 +1,4 @@
-# privateer-plugin
+# ccc-behavioural-plugin
 
 Privateer **evaluation** plugin that runs CCC **behavioural** Godog scenarios via [runner](../runner).
 
@@ -16,21 +16,14 @@ Required `services.<name>.vars`:
 | `provider` | Cloud provider (`azure`, `aws`, `gcp`) |
 | `instance-id` | Substituted as `${INSTANCE_ID}` in other vars |
 | `tags` | Optional Cucumber tag filter (e.g. `@Behavioural`) |
-| `testUserNoAccess`, etc. | Pre-provisioned IAM principal **names** |
+| `test-identities` | Pre-provisioned principals |
 
 ## Run
 
+Recommended — from `cfi-testing/` (builds plugin, installs to `.privateer/bin`, runs `pvtr`):
+
 ```bash
-cd modules/privateer-plugin
-go build -o privateer-plugin .
-
-# Debug (in-process)
-./privateer-plugin debug \
-  -c ../../cfi-testing/privateer-config/azure-cloud-storage.yml \
-  -s azureStorageBehavioural
-
-# Via Privateer host
-privateer run -c cfi-testing/privateer-config/azure-cloud-storage.yml
+source ../../ccc-cfi-compliance/remote/azure/storageaccount/azure-env.sh
+export INSTANCE_ID=...
+./run-compliance-tests.sh -i cfi_test_${INSTANCE_ID} -g '@Behavioural'
 ```
-
-Reports (HTML, OCSF, summary) are written to `write-directory` using [reporters](../reporters).

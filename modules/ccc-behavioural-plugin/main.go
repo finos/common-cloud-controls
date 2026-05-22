@@ -39,7 +39,7 @@ func main() {
 		Use:   "version",
 		Short: "Show plugin version",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("privateer-plugin dev")
+			fmt.Println("ccc-behavioural-plugin dev")
 		},
 	})
 

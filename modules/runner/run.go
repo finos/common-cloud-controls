@@ -16,6 +16,8 @@ import (
 
 // Options configures a full compliance test run (CLI or Privateer plugin).
 type Options struct {
+	Instance       *types.InstanceConfig // set by Privateer / -config (skips EnvFile)
+	Vars           map[string]interface{}
 	InstanceID     string
 	EnvFile        string
 	Service        string
@@ -41,21 +43,25 @@ func Run(opts Options) int {
 	if opts.InstanceID == "" {
 		log.Fatal("Error: instance ID is required")
 	}
-	if opts.EnvFile == "" {
-		log.Fatal("Error: env file path is required")
-	}
 	if opts.Timeout == 0 {
 		opts.Timeout = 30 * time.Minute
 	}
 
-	envConfig, err := LoadEnvironment(opts.EnvFile)
-	if err != nil {
-		log.Fatalf("Error loading environment file: %v", err)
-	}
-
-	inst, err := FindInstance(envConfig, opts.InstanceID)
-	if err != nil {
-		log.Fatalf("Error: %v", err)
+	var inst *types.InstanceConfig
+	if opts.Instance != nil {
+		inst = opts.Instance
+	} else {
+		if opts.EnvFile == "" {
+			log.Fatal("Error: env file path is required (or pass Instance via Privateer config)")
+		}
+		envConfig, err := LoadEnvironment(opts.EnvFile)
+		if err != nil {
+			log.Fatalf("Error loading environment file: %v", err)
+		}
+		inst, err = FindInstance(envConfig, opts.InstanceID)
+		if err != nil {
+			log.Fatalf("Error: %v", err)
+		}
 	}
 
 	log.Printf("🚀 Starting CCC CFI Compliance Tests")
