@@ -156,6 +156,9 @@ participants:
     - name: Owen Corey
       enrollment_date: Aug/06/2025
       github_id: ocorey-scottlogic
+    - name: Gabriele Balysevaite
+      enrollment: May/14/2025
+      github_id: gbalysevaite
 
   Sonatype:
     - name: Eddie Knight
