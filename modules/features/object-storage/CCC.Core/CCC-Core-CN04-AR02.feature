@@ -6,7 +6,7 @@ Feature: CCC.Core.CN04.AR02 - Log Data Modification Attempts
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
 
 @Behavioural
   Scenario: Verify data modifications are logged with identity and timestamp

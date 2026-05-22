@@ -16,7 +16,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/container"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/generic/retry"
-	"github.com/finos/common-cloud-controls/cloud-api/iam"
 	"github.com/finos/common-cloud-controls/cloud-api/object-storage/elevation"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
@@ -26,7 +25,7 @@ type AzureBlobService struct {
 	storageClient *armstorage.AccountsClient // For normal storage operations
 	credential    azcore.TokenCredential
 	ctx           context.Context
-	instance      *types.InstanceConfig
+	config        types.Config
 	elevator      *elevation.AzureStorageElevator // Handles access elevation (RBAC + network)
 	createdObjs   []struct{ bucket, object string }
 	createdMu     sync.Mutex
@@ -34,12 +33,12 @@ type AzureBlobService struct {
 
 // storageAccountName returns the Azure storage account name from service params
 func (s *AzureBlobService) storageAccountName() string {
-	return serviceParamString(s.instance.ServiceProperties("object-storage"), "azure-storage-account")
+	return s.config.Get("azure-storage-account")
 }
 
 // defaultContainerName returns the Azure default container name from service params
 func (s *AzureBlobService) defaultContainerName() string {
-	name := serviceParamString(s.instance.ServiceProperties("object-storage"), "default-container")
+	name := s.config.Get("default-container")
 	if name == "" {
 		return "ccc-test-container-2" // Fallback
 	}
@@ -47,14 +46,15 @@ func (s *AzureBlobService) defaultContainerName() string {
 }
 
 // NewAzureBlobService creates a new Azure Blob Storage service using default credentials
-func NewAzureBlobService(ctx context.Context, instance *types.InstanceConfig) (*AzureBlobService, error) {
+func NewAzureBlobService(ctx context.Context, config types.Config) (*AzureBlobService, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Azure credential: %w", err)
 	}
 
 	// Create storage client for normal operations
-	storageClient, err := armstorage.NewAccountsClient(instance.CloudParams().AzureSubscriptionID, cred, nil)
+	cp := config.CloudParams()
+	storageClient, err := armstorage.NewAccountsClient(cp.AzureSubscriptionID, cred, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create storage accounts client: %w", err)
 	}
@@ -63,8 +63,8 @@ func NewAzureBlobService(ctx context.Context, instance *types.InstanceConfig) (*
 	elevator, err := elevation.NewAzureStorageElevator(
 		ctx,
 		cred,
-		instance.CloudParams().AzureSubscriptionID,
-		instance.CloudParams().AzureResourceGroup,
+		cp.AzureSubscriptionID,
+		cp.AzureResourceGroup,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Azure storage elevator: %w", err)
@@ -74,27 +74,25 @@ func NewAzureBlobService(ctx context.Context, instance *types.InstanceConfig) (*
 		storageClient: storageClient,
 		credential:    cred,
 		ctx:           ctx,
-		instance:      instance,
+		config:        config,
 		elevator:      elevator,
 	}, nil
 }
 
 // NewAzureBlobServiceWithCredentials creates a new Azure Blob Storage service with service principal credentials
-func NewAzureBlobServiceWithCredentials(ctx context.Context, cloudParams types.CloudParams, instance types.InstanceConfig, identity *iam.Identity) (*AzureBlobService, error) {
-	// Extract service principal credentials
-	clientID := identity.Credentials["client_id"]
+func NewAzureBlobServiceWithCredentials(ctx context.Context, config types.Config, identity types.Identity) (*AzureBlobService, error) {
+	cp := config.CloudParams()
+	clientID := identity.ClientID()
 	if clientID == "" {
-		return nil, fmt.Errorf("client_id not found in identity credentials")
+		return nil, fmt.Errorf("client_id not found for test identity %q", identity.UserName)
 	}
-
-	clientSecret := identity.Credentials["client_secret"]
+	clientSecret := identity.ClientSecret()
 	if clientSecret == "" {
-		return nil, fmt.Errorf("client_secret not found in identity credentials")
+		return nil, fmt.Errorf("client_secret not found for test identity %q", identity.UserName)
 	}
-
-	tenantID := identity.Credentials["tenant_id"]
+	tenantID := config.Get("azure-tenant-id", "tenant_id")
 	if tenantID == "" {
-		return nil, fmt.Errorf("tenant_id not found in identity credentials")
+		return nil, fmt.Errorf("azure-tenant-id not found in config")
 	}
 
 	fmt.Printf("🔐 Creating Azure Blob Storage client with service principal:\n")
@@ -108,7 +106,7 @@ func NewAzureBlobServiceWithCredentials(ctx context.Context, cloudParams types.C
 	}
 
 	// Create storage client for normal operations
-	storageClient, err := armstorage.NewAccountsClient(cloudParams.AzureSubscriptionID, cred, nil)
+	storageClient, err := armstorage.NewAccountsClient(cp.AzureSubscriptionID, cred, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create storage accounts client: %w", err)
 	}
@@ -117,8 +115,8 @@ func NewAzureBlobServiceWithCredentials(ctx context.Context, cloudParams types.C
 	elevator, err := elevation.NewAzureStorageElevator(
 		ctx,
 		cred,
-		cloudParams.AzureSubscriptionID,
-		cloudParams.AzureResourceGroup,
+		cp.AzureSubscriptionID,
+		cp.AzureResourceGroup,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Azure storage elevator: %w", err)
@@ -128,7 +126,7 @@ func NewAzureBlobServiceWithCredentials(ctx context.Context, cloudParams types.C
 		storageClient: storageClient,
 		credential:    cred,
 		ctx:           ctx,
-		instance:      &instance,
+		config:        config,
 		elevator:      elevator,
 	}, nil
 }
@@ -146,7 +144,7 @@ func (s *AzureBlobService) listBuckets() ([]Bucket, error) {
 	fmt.Printf("📦 Using storage account: %s\n", storageAccountName)
 
 	buckets := []Bucket{}
-	resourceGroup := s.instance.Properties.AzureResourceGroup
+	resourceGroup := s.config.CloudParams().AzureResourceGroup
 
 	// Get the storage account location
 	account, err := s.storageClient.GetProperties(s.ctx, resourceGroup, storageAccountName, nil)
@@ -154,7 +152,7 @@ func (s *AzureBlobService) listBuckets() ([]Bucket, error) {
 		return nil, fmt.Errorf("failed to get storage account properties: %w", err)
 	}
 
-	location := s.instance.Properties.Region
+	location := s.config.CloudParams().Region
 	if account.Location != nil {
 		location = *account.Location
 	}
@@ -201,7 +199,7 @@ func (s *AzureBlobService) createBucket(bucketID string) (*Bucket, error) {
 	return &Bucket{
 		ID:     containerName,
 		Name:   containerName,
-		Region: s.instance.Properties.Region,
+		Region: s.config.CloudParams().Region,
 	}, nil
 }
 
@@ -223,7 +221,7 @@ func (s *AzureBlobService) deleteBucket(bucketID string) error {
 // GetBucketRegion returns the region where the storage account is located
 func (s *AzureBlobService) GetBucketRegion(bucketID string) (string, error) {
 	storageAccountName := s.storageAccountName()
-	account, err := s.storageClient.GetProperties(s.ctx, s.instance.Properties.AzureResourceGroup, storageAccountName, nil)
+	account, err := s.storageClient.GetProperties(s.ctx, s.config.CloudParams().AzureResourceGroup, storageAccountName, nil)
 	if err != nil {
 		return "", fmt.Errorf("failed to get storage account properties: %w", err)
 	}
@@ -668,8 +666,8 @@ func (s *AzureBlobService) GetOrProvisionTestableResources() ([]types.TestParams
 
 	// Build the storage account resource ID for RBAC
 	storageAccountResourceID := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s",
-		s.instance.Properties.AzureSubscriptionID,
-		s.instance.Properties.AzureResourceGroup,
+		s.config.CloudParams().AzureSubscriptionID,
+		s.config.CloudParams().AzureResourceGroup,
 		s.storageAccountName())
 
 	fmt.Printf("   Storage Account Resource ID for RBAC: %s\n", storageAccountResourceID)
@@ -701,7 +699,7 @@ func (s *AzureBlobService) GetOrProvisionTestableResources() ([]types.TestParams
 			ProviderServiceType: "Microsoft.Storage/storageAccounts",
 			CatalogTypes:        []string{"CCC.ObjStor"},
 			TagFilter:           []string{"@object-storage", "@PerService"},
-			Instance:            *s.instance,
+			Config:              s.config,
 		})
 
 		// PerPort: Endpoint-level tests (TLS/SSL, port connectivity)
@@ -718,7 +716,7 @@ func (s *AzureBlobService) GetOrProvisionTestableResources() ([]types.TestParams
 			ProviderServiceType: "Microsoft.Storage/storageAccounts",
 			CatalogTypes:        []string{"CCC.ObjStor"},
 			TagFilter:           []string{"@object-storage", "@PerPort", "@tls", "~@ftp", "~@telnet", "~@ssh", "~@smtp", "~@dns", "~@ldap"},
-			Instance:            *s.instance,
+			Config:              s.config,
 		})
 	}
 
@@ -781,7 +779,7 @@ func (s *AzureBlobService) listDeletedBuckets() ([]Bucket, error) {
 				buckets = append(buckets, Bucket{
 					ID:     *container.Name,
 					Name:   *container.Name,
-					Region: s.instance.Properties.Region,
+					Region: s.config.CloudParams().Region,
 				})
 			}
 		}
@@ -861,7 +859,7 @@ func (s *AzureBlobService) SetBucketRetentionDurationDays(bucketID string, days 
 	}
 
 	// Create BlobContainersClient for managing container properties
-	containersClient, err := armstorage.NewBlobContainersClient(s.instance.Properties.AzureSubscriptionID, s.credential, nil)
+	containersClient, err := armstorage.NewBlobContainersClient(s.config.CloudParams().AzureSubscriptionID, s.credential, nil)
 	if err != nil {
 		return fmt.Errorf("failed to create blob containers client: %w", err)
 	}
@@ -872,7 +870,7 @@ func (s *AzureBlobService) SetBucketRetentionDurationDays(bucketID string, days 
 
 	_, err = containersClient.CreateOrUpdateImmutabilityPolicy(
 		s.ctx,
-		s.instance.Properties.AzureResourceGroup,
+		s.config.CloudParams().AzureResourceGroup,
 		storageAccountName,
 		bucketID,
 		&armstorage.BlobContainersClientCreateOrUpdateImmutabilityPolicyOptions{
@@ -942,7 +940,7 @@ func (s *AzureBlobService) UpdateResourcePolicy() error {
 	storageAccountName := s.storageAccountName()
 
 	// Get current storage account to preserve existing tags
-	account, err := s.storageClient.GetProperties(s.ctx, s.instance.Properties.AzureResourceGroup, storageAccountName, nil)
+	account, err := s.storageClient.GetProperties(s.ctx, s.config.CloudParams().AzureResourceGroup, storageAccountName, nil)
 	if err != nil {
 		return fmt.Errorf("failed to get storage account properties: %w", err)
 	}
@@ -960,7 +958,7 @@ func (s *AzureBlobService) UpdateResourcePolicy() error {
 	tags["ccc_compliance_test"] = &timestamp
 
 	// Update storage account with new tags (control plane operation - will appear in Activity Log)
-	_, err = s.storageClient.Update(s.ctx, s.instance.Properties.AzureResourceGroup, storageAccountName, armstorage.AccountUpdateParameters{
+	_, err = s.storageClient.Update(s.ctx, s.config.CloudParams().AzureResourceGroup, storageAccountName, armstorage.AccountUpdateParameters{
 		Tags: tags,
 	}, nil)
 	if err != nil {
@@ -989,7 +987,7 @@ func (s *AzureBlobService) IsDataReplicatedToSeparateLocation(resourceID string)
 // Populates ReplicationStatus with Locations (primary + secondary for GRS/RA-GRS), Status, SyncStatus.
 func (s *AzureBlobService) GetReplicationStatus(resourceID string) (*generic.ReplicationStatus, error) {
 	storageAccountName := s.storageAccountName()
-	account, err := s.storageClient.GetProperties(s.ctx, s.instance.Properties.AzureResourceGroup, storageAccountName, nil)
+	account, err := s.storageClient.GetProperties(s.ctx, s.config.CloudParams().AzureResourceGroup, storageAccountName, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get storage account properties: %w", err)
 	}

@@ -6,7 +6,7 @@ Feature: CCC.Core.CN07.AR02 - Log Enumeration Activities
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
 
 @Behavioural @NotTestable @object-storage
   Scenario: Enumeration logging cannot be verified automatically

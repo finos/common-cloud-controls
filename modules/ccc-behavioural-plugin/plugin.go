@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/runner"
 	"github.com/privateerproj/privateer-sdk/shared"
 	"github.com/spf13/viper"
@@ -60,12 +61,6 @@ func runBehavioural() int {
 		instanceID = privateerService
 	}
 
-	ic, err := runner.InstanceFromVars(vars, godogService, instanceID)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error: building instance from Privateer vars: %v\n", err)
-		return 1
-	}
-
 	writeDir := viper.GetString("write-directory")
 	if writeDir == "" {
 		writeDir = "evaluation_results"
@@ -77,8 +72,8 @@ func runBehavioural() int {
 	}
 
 	opts := runner.Options{
-		Instance:       &ic,
-		InstanceID:     ic.ID,
+		Config:         types.NewConfig(vars),
+		InstanceID:     instanceID,
 		Vars:           vars,
 		Service:        godogService,
 		OutputDir:      writeDir,

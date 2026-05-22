@@ -6,16 +6,13 @@ Feature: CCC.Core.CN05.AR01 - Block Unauthorized Data Modification
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
-    # Pre-provisioned identities must be supplied in Props by the test runner (e.g. testUserNoAccess, testUserWrite).
-    And "{testUserNoAccess}" is not null
-    And "{testUserWrite}" is not null
 
 @Destructive @Behavioural @object-storage
   Scenario: Service prevents data modification by user with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserNoAccess}", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserNoAccess", and "{false}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "test-cn05-unauthorized-modify={Timestamp}.txt", and "unauthorized data"
@@ -25,7 +22,7 @@ Feature: CCC.Core.CN05.AR01 - Block Unauthorized Data Modification
 
 @Destructive @Behavioural @object-storage
   Scenario: Service allows data modification by user with write access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserWrite}", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserWrite", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "test-cn05-authorized-modify={Timestamp}.txt", and "authorized data"

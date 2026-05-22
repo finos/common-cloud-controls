@@ -5,7 +5,7 @@ Feature: CCC.Core.CN01.AR01
   So that data integrity and confidentiality are protected during transmission
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
 
   @Behavioural @PerPort @tls @object-storage
   Scenario: Service accepts TLS 1.3 encrypted traffic

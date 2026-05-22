@@ -6,7 +6,7 @@ Feature: CCC.Core.CN10.AR01 - Replication Destination Trust
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
 
 @Behavioural @NotTestable @object-storage
   Scenario: Replication destination trust cannot be verified automatically

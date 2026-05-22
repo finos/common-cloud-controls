@@ -6,15 +6,13 @@ Feature: CCC.ObjStor.CN04.AR02
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
-    And "{testUserWrite}" is not null
-    And "{testUserRead}" is not null
 
 @Behavioural
   Scenario: Service prevents object deletion by write user during retention period
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserWrite}", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserWrite", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "protected-object={Timestamp}.txt", and "immutable data"
@@ -37,7 +35,7 @@ Feature: CCC.ObjStor.CN04.AR02
 
 @Behavioural
   Scenario: Service prevents object modification during retention period
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserWrite}", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserWrite", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "modify-test-object={Timestamp}.txt", and "original content"
@@ -53,7 +51,7 @@ Feature: CCC.ObjStor.CN04.AR02
   Scenario: Service allows object read access during retention period
     When I call "{storage}" with "CreateObject" using arguments "{ResourceName}", "readable-protected-object={Timestamp}.txt", and "readable data"
     Then "{result}" is not an error
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserRead}", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserRead", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "ReadObject" using arguments "{ResourceName}" and "readable-protected-object={Timestamp}.txt"

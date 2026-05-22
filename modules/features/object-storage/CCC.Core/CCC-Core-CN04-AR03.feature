@@ -6,7 +6,7 @@ Feature: CCC.Core.CN04.AR03 - Log Data Read Attempts
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
 
 @Behavioural @object-storage
   Scenario: Verify data read operations are logged with identity and timestamp

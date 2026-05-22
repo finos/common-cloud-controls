@@ -2,477 +2,68 @@ package iam
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/url"
-	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
+	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/iam"
-	iamtypes "github.com/aws/aws-sdk-go-v2/service/iam/types"
-	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
-// AWSIAMService implements IAMService for AWS
+// AWSIAMService implements IAMService for AWS.
 type AWSIAMService struct {
-	client           *iam.Client
-	ctx              context.Context
-	instance         types.InstanceConfig
-	provisionedUsers map[string]*Identity // Cache of provisioned users by userName
-	accessLevels     map[string]string    // Cache of access levels by "userName:serviceID"
+	client *iam.Client
+	ctx    context.Context
 }
 
-// NewAWSIAMService creates a new AWS IAM service using default credentials
-func NewAWSIAMService(ctx context.Context, instance types.InstanceConfig) (*AWSIAMService, error) {
-	cfg, err := config.LoadDefaultConfig(ctx)
+// NewAWSIAMService creates a new AWS IAM service using default credentials.
+func NewAWSIAMService(ctx context.Context, _ types.Config) (*AWSIAMService, error) {
+	cfg, err := awsconfig.LoadDefaultConfig(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load AWS config: %w", err)
 	}
-
 	return &AWSIAMService{
-		client:           iam.NewFromConfig(cfg),
-		ctx:              ctx,
-		instance:         instance,
-		provisionedUsers: make(map[string]*Identity),
-		accessLevels:     make(map[string]string),
+		client: iam.NewFromConfig(cfg),
+		ctx:    ctx,
 	}, nil
 }
 
-// ProvisionUser creates a new IAM user with access keys
-// ProvisionUserWithAccess creates a user and sets their access level in a single operation
-func (s *AWSIAMService) ProvisionUserWithAccess(userName string, serviceID string, level string) (*Identity, error) {
-	cacheKey := fmt.Sprintf("%s:%s", userName, serviceID)
-	if cachedIdentity, exists := s.provisionedUsers[userName]; exists {
-		if cachedLevel, levelExists := s.accessLevels[cacheKey]; levelExists && cachedLevel == level {
-			fmt.Printf("♻️  Using cached identity for user %s with %s access (skipping all delays)\n", userName, level)
-			return cachedIdentity, nil
-		}
-		fmt.Printf("♻️  Reusing provisioned principal %s; applying %s access for current scope\n", userName, level)
-		policyDoc, err := s.setAccessInternal(cachedIdentity, serviceID, level)
-		if err != nil {
-			return nil, err
-		}
-		cachedIdentity.Policy = policyDoc
-		s.accessLevels[cacheKey] = level
-		return cachedIdentity, nil
-	}
-
-	// Step 1: Provision the user (or retrieve existing) - no waiting needed for AWS credentials
-	identity, err := s.provisionUserInternal(userName)
-	if err != nil {
-		return nil, err
-	}
-
-	// Step 2: Set access level - this will wait for IAM policy propagation
-	policyDoc, err := s.setAccessInternal(identity, serviceID, level)
-	if err != nil {
-		return nil, err
-	}
-
-	// Store policy in identity
-	identity.Policy = policyDoc
-
-	// Cache the identity and access level AFTER validation completes
-	s.provisionedUsers[userName] = identity
-	s.accessLevels[cacheKey] = level
-
-	return identity, nil
-}
-
-// provisionUserInternal is the internal implementation of ProvisionUser
-// Note: This does NOT interact with cache - all caching is handled by ProvisionUserWithAccess
-func (s *AWSIAMService) provisionUserInternal(userName string) (*Identity, error) {
-
-	var createUserOutput *iam.CreateUserOutput
-	var userAlreadyExists bool
-
-	// Check if user already exists
-	getUserOutput, err := s.client.GetUser(s.ctx, &iam.GetUserInput{
-		UserName: aws.String(userName),
-	})
-	if err == nil {
-		// User exists - reuse it
-		fmt.Printf("👤 User %s already exists, reusing...\n", userName)
-		createUserOutput = &iam.CreateUserOutput{User: getUserOutput.User}
-		userAlreadyExists = true
-	} else {
-		// User doesn't exist - create it
-		fmt.Printf("👤 Creating user %s...\n", userName)
-		createUserOutput, err = s.client.CreateUser(s.ctx, &iam.CreateUserInput{
-			UserName: aws.String(userName),
-			Tags: []iamtypes.Tag{
-				{
-					Key:   aws.String("Purpose"),
-					Value: aws.String("CCC-Testing"),
-				},
-				{
-					Key:   aws.String("ManagedBy"),
-					Value: aws.String("CCC-CFI-Compliance-Framework"),
-				},
-			},
-		})
-		if err != nil {
-			return nil, fmt.Errorf("failed to create IAM user %s: %w", userName, err)
-		}
-	}
-
-	// Create access key for the user
-	// Note: We always create a new access key because we can't retrieve secrets for existing keys
-	var accessKeyId, secretAccessKey string
-
-	// If user already exists, delete any existing access keys to avoid hitting the limit (AWS allows max 2 keys)
-	if userAlreadyExists {
-		listKeysOutput, err := s.client.ListAccessKeys(s.ctx, &iam.ListAccessKeysInput{
-			UserName: aws.String(userName),
-		})
-		if err == nil {
-			for _, keyMetadata := range listKeysOutput.AccessKeyMetadata {
-				fmt.Printf("   🗑️  Deleting old access key: %s\n", aws.ToString(keyMetadata.AccessKeyId))
-				_, err := s.client.DeleteAccessKey(s.ctx, &iam.DeleteAccessKeyInput{
-					UserName:    aws.String(userName),
-					AccessKeyId: keyMetadata.AccessKeyId,
-				})
-				if err != nil {
-					fmt.Printf("   ⚠️  Failed to delete old access key %s: %v\n", aws.ToString(keyMetadata.AccessKeyId), err)
-				}
-			}
-		}
-	}
-
-	// Create new access key
-	createKeyOutput, err := s.client.CreateAccessKey(s.ctx, &iam.CreateAccessKeyInput{
-		UserName: aws.String(userName),
-	})
-	if err != nil {
-		// Cleanup: delete the user if key creation fails (only if we just created it)
-		if !userAlreadyExists {
-			s.client.DeleteUser(s.ctx, &iam.DeleteUserInput{
-				UserName: aws.String(userName),
-			})
-		}
-		return nil, fmt.Errorf("failed to create access key for user %s: %w", userName, err)
-	}
-	accessKeyId = aws.ToString(createKeyOutput.AccessKey.AccessKeyId)
-	secretAccessKey = aws.ToString(createKeyOutput.AccessKey.SecretAccessKey)
-	fmt.Printf("   🔑 Created new access key: %s\n", accessKeyId)
-
-	// Create identity with credentials in map
-	identity := &Identity{
-		UserName:    userName,
-		Provider:    "aws",
-		Credentials: make(map[string]string),
-	}
-
-	// Store AWS-specific fields in Credentials map
-	identity.Credentials["arn"] = aws.ToString(createUserOutput.User.Arn)
-	identity.Credentials["user_id"] = aws.ToString(createUserOutput.User.UserId)
-	identity.Credentials["access_key_id"] = accessKeyId
-	if secretAccessKey != "" {
-		identity.Credentials["secret_access_key"] = secretAccessKey
-	}
-
-	// Extract and store account ID from ARN (format: arn:aws:iam::123456789012:user/username)
-	if createUserOutput.User.Arn != nil {
-		arn := aws.ToString(createUserOutput.User.Arn)
-		parts := splitARN(arn)
-		if len(parts) > 4 {
-			identity.Credentials["account_id"] = parts[4]
-		}
-	}
-
-	// Log the created/retrieved identity details
-	fmt.Printf("✅ Provisioned user: %s\n", userName)
-	fmt.Printf("   ARN: %s\n", identity.Credentials["arn"])
-	fmt.Printf("   User ID: %s\n", identity.Credentials["user_id"])
-	fmt.Printf("   Access Key: %s\n", identity.Credentials["access_key_id"])
-	fmt.Printf("   Secret Key Length: %d\n", len(identity.Credentials["secret_access_key"]))
-	if identity.Credentials["account_id"] != "" {
-		fmt.Printf("   Account ID: %s\n", identity.Credentials["account_id"])
-	}
-
-	// Don't cache here - that's handled by ProvisionUserWithAccess
-	return identity, nil
-}
-
-// setAccessInternal grants an identity access to a specific AWS service/resource at the specified level
-// This is the internal implementation called by ProvisionUserWithAccess
-// Note: This does NOT interact with cache - all caching is handled by ProvisionUserWithAccess
-func (s *AWSIAMService) setAccessInternal(identity *Identity, serviceID string, level string) (string, error) {
-	// Check current access level
-	currentLevel, currentPolicy, err := s.GetAccess(identity, serviceID)
-	if err != nil {
-		fmt.Printf("⚠️  Warning: Could not retrieve current access level: %v\n", err)
-	} else {
-		fmt.Printf("📊 Current access level: %s → New access level: %s\n", currentLevel, level)
-
-		if currentLevel == level {
-			fmt.Printf("ℹ️  Access level unchanged, skipping...\n")
-			// Return the existing policy document
-			return currentPolicy, nil
-		}
-	}
-
-	// Generate policy document based on access level and service ID
-	policyDocument, err := s.generatePolicyDocument(serviceID, level)
-	if err != nil {
-		return "", fmt.Errorf("failed to generate policy: %w", err)
-	}
-
-	// Create a unique policy name
-	policyName := fmt.Sprintf("CCC-Test-%s-%s", sanitizeForPolicyName(serviceID), level)
-
-	// Attach inline policy to user
-	_, err = s.client.PutUserPolicy(s.ctx, &iam.PutUserPolicyInput{
-		UserName:       aws.String(identity.UserName),
-		PolicyName:     aws.String(policyName),
-		PolicyDocument: aws.String(policyDocument),
-	})
-	if err != nil {
-		return "", fmt.Errorf("failed to attach policy to user %s: %w", identity.UserName, err)
-	}
-
-	fmt.Printf("📋 Attached policy '%s' to user %s\n", policyName, identity.UserName)
-
-	// Wait for IAM policy propagation
-	fmt.Printf("⏳ Waiting 15 seconds for IAM policy changes to propagate...\n")
-	time.Sleep(15 * time.Second)
-	fmt.Printf("✅ IAM policy propagation wait complete\n")
-
-	// Don't cache here - that's handled by ProvisionUserWithAccess
-	return policyDocument, nil
-}
-
-// GetAccess retrieves the current access level for a user and service
-func (s *AWSIAMService) GetAccess(identity *Identity, serviceID string) (string, string, error) {
-	// List all inline policies for the user
+// GetAccess retrieves the current access level for a user and service.
+func (s *AWSIAMService) GetAccess(userName string, serviceID string) (string, string, error) {
 	listPoliciesOutput, err := s.client.ListUserPolicies(s.ctx, &iam.ListUserPoliciesInput{
-		UserName: aws.String(identity.UserName),
+		UserName: aws.String(userName),
 	})
 	if err != nil {
 		return "", "", fmt.Errorf("failed to list user policies: %w", err)
 	}
 
-	// Look for the specific policy we manage
 	policyPrefix := fmt.Sprintf("CCC-Test-%s-", sanitizeForPolicyName(serviceID))
-
 	for _, policyName := range listPoliciesOutput.PolicyNames {
-		// Check if this policy matches our service
 		if len(policyName) >= len(policyPrefix) && policyName[:len(policyPrefix)] == policyPrefix {
-			// Get the policy document
 			getPolicyOutput, err := s.client.GetUserPolicy(s.ctx, &iam.GetUserPolicyInput{
-				UserName:   aws.String(identity.UserName),
+				UserName:   aws.String(userName),
 				PolicyName: aws.String(policyName),
 			})
 			if err != nil {
 				return "", "", fmt.Errorf("failed to get policy %s: %w", policyName, err)
 			}
-
-			// Extract access level from policy name
-			// Policy name format: "CCC-Test-{serviceID}-{level}"
 			level := policyName[len(policyPrefix):]
-
-			// Get the policy document (it's URL-encoded in the response)
 			policyDocument := aws.ToString(getPolicyOutput.PolicyDocument)
-
-			// Decode the URL-encoded policy document
 			decodedPolicy, err := url.QueryUnescape(policyDocument)
 			if err != nil {
-				fmt.Printf("⚠️  Warning: Failed to decode policy document: %v\n", err)
 				decodedPolicy = policyDocument
 			}
-
-			fmt.Printf("📋 Current policy '%s' grants '%s' access\n", policyName, level)
-
 			return level, decodedPolicy, nil
 		}
 	}
-
-	// No matching policy found
 	return "none", "", nil
 }
 
-// DestroyUser removes an IAM user and all associated resources
-func (s *AWSIAMService) DestroyUser(identity *Identity) error {
-	userName := identity.UserName
-
-	// List and delete access keys
-	listKeysOutput, err := s.client.ListAccessKeys(s.ctx, &iam.ListAccessKeysInput{
-		UserName: aws.String(userName),
-	})
-	if err != nil {
-		return fmt.Errorf("failed to list access keys for user %s: %w", userName, err)
-	}
-
-	for _, key := range listKeysOutput.AccessKeyMetadata {
-		_, err := s.client.DeleteAccessKey(s.ctx, &iam.DeleteAccessKeyInput{
-			UserName:    aws.String(userName),
-			AccessKeyId: key.AccessKeyId,
-		})
-		if err != nil {
-			return fmt.Errorf("failed to delete access key %s: %w", aws.ToString(key.AccessKeyId), err)
-		}
-	}
-
-	// List and delete inline policies
-	listPoliciesOutput, err := s.client.ListUserPolicies(s.ctx, &iam.ListUserPoliciesInput{
-		UserName: aws.String(userName),
-	})
-	if err != nil {
-		return fmt.Errorf("failed to list user policies for %s: %w", userName, err)
-	}
-
-	for _, policyName := range listPoliciesOutput.PolicyNames {
-		_, err := s.client.DeleteUserPolicy(s.ctx, &iam.DeleteUserPolicyInput{
-			UserName:   aws.String(userName),
-			PolicyName: aws.String(policyName),
-		})
-		if err != nil {
-			return fmt.Errorf("failed to delete policy %s: %w", policyName, err)
-		}
-	}
-
-	// List and detach managed policies
-	listAttachedOutput, err := s.client.ListAttachedUserPolicies(s.ctx, &iam.ListAttachedUserPoliciesInput{
-		UserName: aws.String(userName),
-	})
-	if err != nil {
-		return fmt.Errorf("failed to list attached policies for %s: %w", userName, err)
-	}
-
-	for _, policy := range listAttachedOutput.AttachedPolicies {
-		_, err := s.client.DetachUserPolicy(s.ctx, &iam.DetachUserPolicyInput{
-			UserName:  aws.String(userName),
-			PolicyArn: policy.PolicyArn,
-		})
-		if err != nil {
-			return fmt.Errorf("failed to detach policy %s: %w", aws.ToString(policy.PolicyArn), err)
-		}
-	}
-
-	// Finally, delete the user
-	_, err = s.client.DeleteUser(s.ctx, &iam.DeleteUserInput{
-		UserName: aws.String(userName),
-	})
-	if err != nil {
-		return fmt.Errorf("failed to delete user %s: %w", userName, err)
-	}
-
-	return nil
-}
-
-// generatePolicyDocument creates an IAM policy document for the given resource and access level
-func (s *AWSIAMService) generatePolicyDocument(resourceIdentifier string, level string) (string, error) {
-	var statements []map[string]interface{}
-
-	// Determine actions based on service type and access level
-	switch level {
-	case "none":
-		// No permissions granted - return empty policy
-		policy := map[string]interface{}{
-			"Version":   "2012-10-17",
-			"Statement": []map[string]interface{}{},
-		}
-		policyJSON, err := json.Marshal(policy)
-		if err != nil {
-			return "", fmt.Errorf("failed to marshal policy: %w", err)
-		}
-		return string(policyJSON), nil
-
-	case "read":
-		// S3 bucket-level permissions (ListBucket requires the bucket ARN)
-		statements = append(statements, map[string]interface{}{
-			"Effect": "Allow",
-			"Action": []string{
-				"s3:ListBucket",
-				"s3:GetBucketLocation",
-			},
-			"Resource": fmt.Sprintf("arn:aws:s3:::%s", resourceIdentifier),
-		})
-		// S3 object-level permissions (GetObject requires bucket/* ARN)
-		statements = append(statements, map[string]interface{}{
-			"Effect": "Allow",
-			"Action": []string{
-				"s3:GetObject",
-			},
-			"Resource": fmt.Sprintf("arn:aws:s3:::%s/*", resourceIdentifier),
-		})
-
-	case "write":
-		// S3 bucket-level permissions
-		statements = append(statements, map[string]interface{}{
-			"Effect": "Allow",
-			"Action": []string{
-				"s3:ListBucket",
-				"s3:GetBucketLocation",
-			},
-			"Resource": fmt.Sprintf("arn:aws:s3:::%s", resourceIdentifier),
-		})
-		// S3 object-level permissions
-		statements = append(statements, map[string]interface{}{
-			"Effect": "Allow",
-			"Action": []string{
-				"s3:GetObject",
-				"s3:PutObject",
-				"s3:DeleteObject",
-			},
-			"Resource": fmt.Sprintf("arn:aws:s3:::%s/*", resourceIdentifier),
-		})
-
-	case "admin":
-		// Full S3 permissions
-		statements = append(statements, map[string]interface{}{
-			"Effect":   "Allow",
-			"Action":   "*",
-			"Resource": "*",
-		})
-
-	default:
-		return "", fmt.Errorf("unsupported access level: %s", level)
-	}
-
-	// Build policy document
-	policy := map[string]interface{}{
-		"Version":   "2012-10-17",
-		"Statement": statements,
-	}
-
-	policyJSON, err := json.Marshal(policy)
-	if err != nil {
-		return "", fmt.Errorf("failed to marshal policy: %w", err)
-	}
-
-	return string(policyJSON), nil
-}
-
-// Helper functions
-
-func splitARN(arn string) []string {
-	// Simple ARN splitter: arn:partition:service:region:account-id:resource
-	result := make([]string, 0)
-	current := ""
-	for _, char := range arn {
-		if char == ':' {
-			result = append(result, current)
-			current = ""
-		} else {
-			current += string(char)
-		}
-	}
-	if current != "" {
-		result = append(result, current)
-	}
-	return result
-}
-
 func sanitizeForPolicyName(s string) string {
-	// Replace characters that aren't valid in policy names
 	result := ""
 	for _, char := range s {
-		if (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9') {
-			result += string(char)
-		} else if char == '-' || char == '_' {
+		if (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9') || char == '-' || char == '_' {
 			result += string(char)
 		}
 	}
@@ -480,64 +71,4 @@ func sanitizeForPolicyName(s string) string {
 		result = result[:64]
 	}
 	return result
-}
-
-// Fill this later when we are writing tests for IAM
-func (s *AWSIAMService) GetOrProvisionTestableResources() ([]types.TestParams, error) {
-	return []types.TestParams{}, nil
-}
-
-// CheckUserProvisioned is a no-op for IAM services (no service-specific validation needed)
-func (s *AWSIAMService) CheckUserProvisioned() error {
-	// No-op: IAM services don't require additional credential validation
-	return nil
-}
-
-// ElevateAccessForInspection is a no-op for IAM services
-func (s *AWSIAMService) ElevateAccessForInspection() error {
-	// No-op: IAM services don't have network-level access controls to elevate
-	return nil
-}
-
-// ResetAccess is a no-op for IAM services
-func (s *AWSIAMService) ResetAccess() error {
-	// No-op: IAM services don't have network-level access controls to reset
-	return nil
-}
-
-// UpdateResourcePolicy is not applicable for IAM service
-func (s *AWSIAMService) UpdateResourcePolicy() error {
-	return nil
-}
-
-// TriggerDataWrite is not applicable for IAM service
-func (s *AWSIAMService) TriggerDataWrite(resourceID string) error {
-	return fmt.Errorf("not supported for IAM service")
-}
-
-// GetResourceRegion is not applicable for IAM service
-func (s *AWSIAMService) GetResourceRegion(resourceID string) (string, error) {
-	return "", fmt.Errorf("not supported for IAM service")
-}
-
-// IsDataReplicatedToSeparateLocation is not applicable for IAM service
-func (s *AWSIAMService) IsDataReplicatedToSeparateLocation(resourceID string) (bool, error) {
-	return false, fmt.Errorf("not supported for IAM service")
-}
-
-// GetReplicationStatus is not applicable for IAM service
-func (s *AWSIAMService) GetReplicationStatus(resourceID string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("not supported for IAM service")
-}
-
-// TearDown removes all provisioned test users
-func (s *AWSIAMService) TearDown() error {
-	for userName, identity := range s.provisionedUsers {
-		if err := s.DestroyUser(identity); err != nil {
-			fmt.Printf("⚠️  Failed to destroy user %s: %v\n", userName, err)
-		}
-	}
-	s.provisionedUsers = make(map[string]*Identity)
-	s.accessLevels = make(map[string]string)
-	return nil
 }

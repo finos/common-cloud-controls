@@ -77,7 +77,7 @@ func (s *AWSVPCService) ListDefaultVpcs() ([]DefaultVPC, error) {
 	for _, vpc := range vpcs {
 		out = append(out, DefaultVPC{
 			VpcID:  aws.ToString(vpc.VpcId),
-			Region: s.instance.Properties.Region,
+			Region: s.config.CloudParams().Region,
 		})
 	}
 	return out, nil

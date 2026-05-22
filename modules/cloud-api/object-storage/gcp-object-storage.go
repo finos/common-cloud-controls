@@ -11,7 +11,6 @@ import (
 
 	"cloud.google.com/go/storage"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
-	"github.com/finos/common-cloud-controls/cloud-api/iam"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
@@ -21,31 +20,30 @@ import (
 type GCPStorageService struct {
 	client      *storage.Client
 	ctx         context.Context
-	instance    types.InstanceConfig
+	config      types.Config
 	createdObjs []struct{ bucket, object string }
 	createdMu   sync.Mutex
 }
 
 // NewGCPStorageService creates a new GCP Cloud Storage service using default credentials
-func NewGCPStorageService(ctx context.Context, instance types.InstanceConfig) (*GCPStorageService, error) {
+func NewGCPStorageService(ctx context.Context, config types.Config) (*GCPStorageService, error) {
 	client, err := storage.NewClient(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create GCP storage client: %w", err)
 	}
 
 	return &GCPStorageService{
-		client:   client,
-		ctx:      ctx,
-		instance: instance,
+		client: client,
+		ctx:    ctx,
+		config: config,
 	}, nil
 }
 
-// NewGCPStorageServiceWithCredentials creates a new GCP Storage service with service account credentials
-func NewGCPStorageServiceWithCredentials(ctx context.Context, instance types.InstanceConfig, identity *iam.Identity) (*GCPStorageService, error) {
-	// Extract service account key JSON from identity
-	serviceAccountKey := identity.Credentials["service_account_key"]
+// NewGCPStorageServiceWithCredentials creates a new GCP Storage service with pre-provisioned test credentials.
+func NewGCPStorageServiceWithCredentials(ctx context.Context, config types.Config, identity types.Identity) (*GCPStorageService, error) {
+	serviceAccountKey := identity.Get("service_account_key")
 	if serviceAccountKey == "" {
-		return nil, fmt.Errorf("service_account_key not found in identity credentials")
+		return nil, fmt.Errorf("service_account_key not found for test identity %q", identity.UserName)
 	}
 
 	fmt.Printf("🔐 Creating GCP Storage client with service account credentials\n")
@@ -56,15 +54,15 @@ func NewGCPStorageServiceWithCredentials(ctx context.Context, instance types.Ins
 	}
 
 	return &GCPStorageService{
-		client:   client,
-		ctx:      ctx,
-		instance: instance,
+		client: client,
+		ctx:    ctx,
+		config: config,
 	}, nil
 }
 
 // ListBuckets lists all GCS buckets in the project
 func (s *GCPStorageService) ListBuckets() ([]Bucket, error) {
-	projectID := s.instance.Properties.GcpProjectId
+	projectID := s.config.CloudParams().GcpProjectId
 	if projectID == "" {
 		return nil, fmt.Errorf("GcpProjectId not set in CloudParams")
 	}
@@ -94,8 +92,8 @@ func (s *GCPStorageService) ListBuckets() ([]Bucket, error) {
 
 // CreateBucket creates a new GCS bucket
 func (s *GCPStorageService) CreateBucket(bucketID string) (*Bucket, error) {
-	projectID := s.instance.Properties.GcpProjectId
-	region := s.instance.Properties.Region
+	projectID := s.config.CloudParams().GcpProjectId
+	region := s.config.CloudParams().Region
 	if region == "" {
 		region = "US" // Default to multi-region US
 	}
@@ -308,7 +306,7 @@ func (s *GCPStorageService) EnsureDefaultResourceExists(buckets []Bucket, err er
 	}
 
 	// Create a default test bucket
-	projectID := s.instance.Properties.GcpProjectId
+	projectID := s.config.CloudParams().GcpProjectId
 	defaultBucketName := fmt.Sprintf("ccc-test-bucket-%s", strings.ToLower(projectID))
 	fmt.Printf("📦 No buckets found. Creating default test bucket: %s\n", defaultBucketName)
 
@@ -360,7 +358,7 @@ func (s *GCPStorageService) GetObjectRetentionDurationDays(bucketID string, obje
 
 // GetOrProvisionTestableResources returns all GCS buckets as testable resources
 func (s *GCPStorageService) GetOrProvisionTestableResources() ([]types.TestParams, error) {
-	projectID := s.instance.Properties.GcpProjectId
+	projectID := s.config.CloudParams().GcpProjectId
 	if projectID == "" {
 		return nil, fmt.Errorf("GcpProjectId not set in CloudParams")
 	}
@@ -384,7 +382,7 @@ func (s *GCPStorageService) GetOrProvisionTestableResources() ([]types.TestParam
 			ServiceType:         "object-storage",
 			CatalogTypes:        []string{"CCC.ObjStor"},
 			TagFilter:           []string{"@object-storage", "@PerService"},
-			Instance:            s.instance,
+			Config:              s.config,
 		})
 
 		// PerPort: Endpoint-level tests (TLS/SSL, port connectivity)
@@ -401,7 +399,7 @@ func (s *GCPStorageService) GetOrProvisionTestableResources() ([]types.TestParam
 			ServiceType:         "object-storage",
 			CatalogTypes:        []string{"CCC.ObjStor"},
 			TagFilter:           []string{"@object-storage", "@PerPort", "@tls", "~@ftp", "~@telnet", "~@ssh", "~@smtp", "~@dns", "~@ldap"},
-			Instance:            s.instance,
+			Config:              s.config,
 		})
 	}
 
@@ -410,7 +408,7 @@ func (s *GCPStorageService) GetOrProvisionTestableResources() ([]types.TestParam
 
 // CheckUserProvisioned validates that credentials can access GCS
 func (s *GCPStorageService) CheckUserProvisioned() error {
-	projectID := s.instance.Properties.GcpProjectId
+	projectID := s.config.CloudParams().GcpProjectId
 	if projectID == "" {
 		return fmt.Errorf("GcpProjectId not set")
 	}

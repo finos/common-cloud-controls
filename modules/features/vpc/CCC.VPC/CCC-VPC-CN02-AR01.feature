@@ -6,7 +6,7 @@ Feature: CCC.VPC.CN02.AR01 - No external IP by default in public subnets
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "vpc"
     And I refer to "{result}" as "vpcService"
 

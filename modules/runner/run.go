@@ -16,7 +16,8 @@ import (
 
 // Options configures a full compliance test run (CLI or Privateer plugin).
 type Options struct {
-	Instance       *types.InstanceConfig // set by Privateer / -config (skips EnvFile)
+	Config         types.Config          // set from Privateer Vars (preferred)
+	Instance       *types.InstanceConfig // legacy env-file path only
 	Vars           map[string]interface{}
 	InstanceID     string
 	EnvFile        string
@@ -47,12 +48,18 @@ func Run(opts Options) int {
 		opts.Timeout = 30 * time.Minute
 	}
 
+	var cfg types.Config
 	var inst *types.InstanceConfig
-	if opts.Instance != nil {
+	if len(opts.Config.Vars()) > 0 {
+		cfg = opts.Config
+	} else if opts.Vars != nil {
+		cfg = types.NewConfig(ExpandVars(opts.Vars))
+	} else if opts.Instance != nil {
 		inst = opts.Instance
+		cfg = types.ConfigFromInstance(*inst)
 	} else {
 		if opts.EnvFile == "" {
-			log.Fatal("Error: env file path is required (or pass Instance via Privateer config)")
+			log.Fatal("Error: env file path is required (or pass Config/Vars via Privateer)")
 		}
 		envConfig, err := LoadEnvironment(opts.EnvFile)
 		if err != nil {
@@ -62,10 +69,16 @@ func Run(opts Options) int {
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
+		cfg = types.ConfigFromInstance(*inst)
 	}
 
+	cp := cfg.CloudParams()
 	log.Printf("🚀 Starting CCC CFI Compliance Tests")
-	log.Printf("   Instance: %s (%s)", inst.ID, inst.Properties.Provider)
+	if inst != nil {
+		log.Printf("   Instance: %s (%s)", inst.ID, cp.Provider)
+	} else {
+		log.Printf("   Instance: %s (%s)", opts.InstanceID, cp.Provider)
+	}
 	log.Println()
 
 	if opts.CleanOutput {
@@ -80,7 +93,10 @@ func Run(opts Options) int {
 	log.Printf("✅ Output directory ready")
 	log.Println()
 
-	servicesToRun := inst.Services
+	servicesToRun := []types.ServiceConfig{{Type: opts.Service}}
+	if inst != nil {
+		servicesToRun = inst.Services
+	}
 	if opts.Service != "" {
 		validService := false
 		for _, st := range types.ServiceTypes {
@@ -92,16 +108,20 @@ func Run(opts Options) int {
 		if !validService {
 			log.Fatalf("Error: invalid service '%s'. Valid services are: %s", opts.Service, strings.Join(types.ServiceTypes, ", "))
 		}
-		var filtered []types.ServiceConfig
-		for _, svc := range inst.Services {
-			if svc.Type == opts.Service {
-				filtered = append(filtered, svc)
+		if inst != nil {
+			var filtered []types.ServiceConfig
+			for _, svc := range inst.Services {
+				if svc.Type == opts.Service {
+					filtered = append(filtered, svc)
+				}
 			}
+			if len(filtered) == 0 {
+				log.Fatalf("Error: service '%s' is not defined in instance '%s'", opts.Service, inst.ID)
+			}
+			servicesToRun = filtered
+		} else {
+			servicesToRun = []types.ServiceConfig{{Type: opts.Service}}
 		}
-		if len(filtered) == 0 {
-			log.Fatalf("Error: service '%s' is not defined in instance '%s'", opts.Service, inst.ID)
-		}
-		servicesToRun = filtered
 		log.Printf("   Service: %s", opts.Service)
 		log.Println()
 	}
@@ -110,7 +130,7 @@ func Run(opts Options) int {
 	for i := range servicesToRun {
 		runners = append(runners, NewBasicServiceRunner(RunConfig{
 			ServiceName:    servicesToRun[i].Type,
-			Instance:       *inst,
+			Config:         cfg,
 			OutputDir:      opts.OutputDir,
 			Timeout:        opts.Timeout,
 			ResourceFilter: opts.ResourceFilter,

@@ -6,7 +6,7 @@ Feature: CCC.ObjStor.CN05.AR02 - New Version ID on Modification
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
 

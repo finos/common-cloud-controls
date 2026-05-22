@@ -6,7 +6,7 @@ Feature: CCC.VPC.CN04.AR01 - Flow logs must capture all VPC traffic
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "vpc"
     And I refer to "{result}" as "vpcService"
 

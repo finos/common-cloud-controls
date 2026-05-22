@@ -25,20 +25,20 @@ type AzureLoggingService struct {
 	diagnosticSettingsClient *armmonitor.DiagnosticSettingsClient
 	credential               azcore.TokenCredential
 	ctx                      context.Context
-	instance                 types.InstanceConfig
+	config                   types.Config
 	workspaceIDCache         string
 	workspaceIDInit          sync.Once
 	workspaceIDInitErr       error
 }
 
 // NewAzureLoggingService creates a new Azure logging service using default credential chain
-func NewAzureLoggingService(ctx context.Context, instance *types.InstanceConfig) (*AzureLoggingService, error) {
+func NewAzureLoggingService(ctx context.Context, config types.Config) (*AzureLoggingService, error) {
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
-	activityLogsClient, err := armmonitor.NewActivityLogsClient(instance.CloudParams().AzureSubscriptionID, cred, nil)
+	activityLogsClient, err := armmonitor.NewActivityLogsClient(config.CloudParams().AzureSubscriptionID, cred, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func NewAzureLoggingService(ctx context.Context, instance *types.InstanceConfig)
 		return nil, err
 	}
 
-	workspacesClient, err := armoperationalinsights.NewWorkspacesClient(instance.CloudParams().AzureSubscriptionID, cred, nil)
+	workspacesClient, err := armoperationalinsights.NewWorkspacesClient(config.CloudParams().AzureSubscriptionID, cred, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func NewAzureLoggingService(ctx context.Context, instance *types.InstanceConfig)
 		diagnosticSettingsClient: diagnosticSettingsClient,
 		credential:               cred,
 		ctx:                      ctx,
-		instance:                 *instance,
+		config:                   config,
 	}, nil
 }
 
@@ -82,7 +82,7 @@ func (s *AzureLoggingService) GetOrProvisionTestableResources() ([]types.TestPar
 			UID:                 resourceName,
 			ReportFile:          "azure-monitor",
 			ReportTitle:         "Azure Monitor",
-			Instance:            s.instance,
+			Config:              s.config,
 		},
 	}, nil
 }
@@ -148,7 +148,7 @@ func (s *AzureLoggingService) queryAdminLogs(resourceID string, lookbackMinutes 
 	filter := fmt.Sprintf("eventTimestamp ge '%s' and eventTimestamp le '%s' and resourceGroupName eq '%s'",
 		startTime.UTC().Format(time.RFC3339),
 		endTime.UTC().Format(time.RFC3339),
-		s.instance.CloudParams().AzureResourceGroup)
+		s.config.CloudParams().AzureResourceGroup)
 
 	pager := s.activityLogsClient.NewListPager(filter, nil)
 
@@ -202,7 +202,7 @@ func (s *AzureLoggingService) QueryDataReadLogs(resourceID string, lookbackMinut
 // workspace in the instance's resource group.
 func (s *AzureLoggingService) getOrDiscoverWorkspaceID() (string, error) {
 	s.workspaceIDInit.Do(func() {
-		cp := s.instance.CloudParams()
+		cp := s.config.CloudParams()
 		rg := cp.AzureResourceGroup
 		if rg == "" {
 			s.workspaceIDInitErr = fmt.Errorf("Azure resource group is empty")
@@ -210,7 +210,7 @@ func (s *AzureLoggingService) getOrDiscoverWorkspaceID() (string, error) {
 		}
 		// Try to get workspace from diagnostic settings on the storage account's blob service.
 		// This matches where the policy says logs are sent; workspace may be in a different RG.
-		storageAccount := serviceParamString(s.instance.ServiceProperties("object-storage"), "azure-storage-account")
+		storageAccount := s.config.Get("azure-storage-account")
 		if storageAccount != "" && cp.AzureSubscriptionID != "" {
 			blobServiceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s/blobServices/default",
 				cp.AzureSubscriptionID, rg, storageAccount)
@@ -306,7 +306,7 @@ func (s *AzureLoggingService) queryStorageLogs(resourceID string, lookbackMinute
 		return []LogEntry{}, nil
 	}
 
-	storageAccount := serviceParamString(s.instance.ServiceProperties("object-storage"), "azure-storage-account")
+	storageAccount := s.config.Get("azure-storage-account")
 
 	kql := fmt.Sprintf(`StorageBlobLogs
 | where TimeGenerated >= ago(%dm)

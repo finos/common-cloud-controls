@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/aws/aws-sdk-go-v2/config"
+	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cloudtrail"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
@@ -16,14 +16,14 @@ import (
 type AWSLoggingService struct {
 	cloudTrailClient *cloudtrail.Client
 	ctx              context.Context
-	instance         types.InstanceConfig
+	config           types.Config
 	cloudTrailName   string
 	cloudTrailCached bool
 }
 
 // NewAWSLoggingService creates a new AWS logging service using default credential chain
-func NewAWSLoggingService(ctx context.Context, instance *types.InstanceConfig) (*AWSLoggingService, error) {
-	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion(instance.CloudParams().Region))
+func NewAWSLoggingService(ctx context.Context, config types.Config) (*AWSLoggingService, error) {
+	cfg, err := awsconfig.LoadDefaultConfig(ctx, awsconfig.WithRegion(config.CloudParams().Region))
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func NewAWSLoggingService(ctx context.Context, instance *types.InstanceConfig) (
 	return &AWSLoggingService{
 		cloudTrailClient: cloudtrail.NewFromConfig(cfg),
 		ctx:              ctx,
-		instance:         *instance,
+		config:           config,
 	}, nil
 }
 
@@ -52,7 +52,7 @@ func (s *AWSLoggingService) DiscoverCloudTrailName() string {
 		return s.cloudTrailName
 	}
 
-	cfg, err := config.LoadDefaultConfig(s.ctx)
+	cfg, err := awsconfig.LoadDefaultConfig(s.ctx)
 	if err != nil {
 		fmt.Printf("⚠️  Warning: Failed to load AWS config for CloudTrail discovery: %v\n", err)
 		return ""
@@ -100,7 +100,7 @@ func (s *AWSLoggingService) GetOrProvisionTestableResources() ([]types.TestParam
 			UID:                 trailName,
 			ReportFile:          "cloudtrail-" + trailName,
 			ReportTitle:         "CloudTrail: " + trailName,
-			Instance:            s.instance,
+			Config:              s.config,
 			Props:               map[string]interface{}{"AWSCloudTrailName": trailName},
 		},
 	}, nil

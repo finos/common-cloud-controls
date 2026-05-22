@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
-	"github.com/finos/common-cloud-controls/cloud-api/iam"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
 	vpcapi "github.com/finos/common-cloud-controls/cloud-api/vpc"
@@ -16,26 +15,16 @@ import (
 // AWSFactory implements the Factory interface for AWS
 type AWSFactory struct {
 	ctx          context.Context
-	instance     types.InstanceConfig
-	iamService   generic.Service
+	config       types.Config
 	serviceCache map[string]generic.Service
 	serviceMu    sync.Mutex
 }
 
 // NewAWSFactory creates a new AWS factory
-func NewAWSFactory(instance types.InstanceConfig) *AWSFactory {
-	ctx := context.Background()
-
-	// Create IAM service once and cache it
-	iamService, err := iam.NewAWSIAMService(ctx, instance)
-	if err != nil {
-		fmt.Printf("⚠️  Warning: Failed to create AWS IAM service: %v\n", err)
-	}
-
+func NewAWSFactory(config types.Config) *AWSFactory {
 	return &AWSFactory{
-		ctx:          ctx,
-		instance:     instance,
-		iamService:   iamService,
+		ctx:          context.Background(),
+		config:       config,
 		serviceCache: make(map[string]generic.Service),
 	}
 }
@@ -53,14 +42,8 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 	var service generic.Service
 	var err error
 	switch serviceID {
-	case "iam":
-		if f.iamService == nil {
-			return nil, fmt.Errorf("AWS IAM service not initialized")
-		}
-		service = f.iamService
-
 	case "object-storage":
-		service, err = objstorage.NewAWSS3Service(f.ctx, f.instance)
+		service, err = objstorage.NewAWSS3Service(f.ctx, f.config)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
 		}
@@ -69,13 +52,13 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 		}
 
 	case "logging":
-		service, err = logging.NewAWSLoggingService(f.ctx, &f.instance)
+		service, err = logging.NewAWSLoggingService(f.ctx, f.config)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS logging service: %w", err)
 		}
 
 	case "vpc":
-		service, err := vpcapi.NewAWSVPCService(f.ctx, f.instance)
+		service, err := vpcapi.NewAWSVPCService(f.ctx, f.config)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
 		}
@@ -93,12 +76,12 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 	return service, nil
 }
 
-// GetServiceAPIWithIdentity returns a service API client authenticated as the given identity
-func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identity *iam.Identity, testAccess bool) (generic.Service, error) {
-	if identity.Provider != string(types.ProviderAWS) {
-		return nil, fmt.Errorf("identity is not for AWS provider: %s", identity.Provider)
+// GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. testUserRead).
+func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string, testAccess bool) (generic.Service, error) {
+	identity, err := f.config.Identity(identityKey)
+	if err != nil {
+		return nil, err
 	}
-
 	key := serviceID + ":" + identity.UserName
 	f.serviceMu.Lock()
 	if cached, ok := f.serviceCache[key]; ok {
@@ -108,15 +91,11 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identity *iam.I
 	f.serviceMu.Unlock()
 
 	var service generic.Service
-	var err error
 	switch serviceID {
-	case "iam":
-		service = f.iamService
-
 	case "object-storage":
-		service, err = objstorage.NewAWSS3ServiceWithCredentials(f.ctx, f.instance, identity)
+		service, err = objstorage.NewAWSS3ServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
-			return nil, fmt.Errorf("failed to create AWS service '%s' with identity: %w", serviceID, err)
+			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}
 		if err := service.ElevateAccessForInspection(); err != nil {
 			fmt.Printf("⚠️  Warning: Failed to elevate access for %s: %v\n", serviceID, err)
@@ -128,8 +107,6 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identity *iam.I
 		}
 
 	case "vpc":
-		// VPC tests currently run with the runner's ambient credentials.
-		// Per-identity clients can be added later when needed for negative testing.
 		return nil, fmt.Errorf("vpc with identity not yet implemented for AWS")
 
 	default:

@@ -7,7 +7,7 @@ Feature: CCC.Core.CN04.AR01 - Log Administrative Access Attempts
 
 @Behavioural @object-storage
   Scenario: Verify admin actions are logged with identity and timestamp
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "{ServiceType}"
     And I refer to "{result}" as "theService"
     Given I call "{api}" with "GetServiceAPI" using argument "logging"

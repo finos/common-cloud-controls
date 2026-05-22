@@ -6,16 +6,13 @@ Feature: CCC.ObjStor.CN01.AR01
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
-    # Pre-provisioned identities must be supplied in Props by the test runner (e.g. testUserNoAccess, testUserRead).
-    And "{testUserNoAccess}" is not null
-    And "{testUserRead}" is not null
 
 @Behavioural
   Scenario: Service prevents reading bucket with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserNoAccess}", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserNoAccess", and "{false}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "ListObjects" using argument "{ResourceName}"
@@ -25,7 +22,7 @@ Feature: CCC.ObjStor.CN01.AR01
 
 @Behavioural
   Scenario: Service allows reading bucket with read access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserRead}", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserRead", and "{true}"
     And "{result}" is not an error
     And I attach "{result}" to the test output as "read-storage-service.json"
     And I refer to "{result}" as "userStorage"
