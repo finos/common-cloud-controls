@@ -4,6 +4,7 @@ go 1.26.2
 
 require (
 	github.com/finos/common-cloud-controls/cloud-api v0.0.0
+	github.com/finos/common-cloud-controls/reporters v0.0.0
 	github.com/finos/common-cloud-controls/runner v0.0.0
 	github.com/gemaraproj/go-gemara v0.4.0
 	github.com/privateerproj/privateer-sdk v0.0.0
@@ -73,7 +74,6 @@ require (
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/finos/common-cloud-controls/cloud-testing-dsl v0.0.0 // indirect
-	github.com/finos/common-cloud-controls/reporters v0.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.9.0 // indirect

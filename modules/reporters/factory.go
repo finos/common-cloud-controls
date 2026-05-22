@@ -54,3 +54,10 @@ func (ff *FormatterFactory) GetSummaryFormatterFunc() func(string, io.Writer) fo
 		return NewSummaryFormatter(suite, out)
 	}
 }
+
+// GetPrivateerFormatterFunc returns a formatter that collects scenario results for Privateer/Gemara.
+func (ff *FormatterFactory) GetPrivateerFormatterFunc() func(string, io.Writer) formatters.Formatter {
+	return func(suite string, out io.Writer) formatters.Formatter {
+		return NewPrivateerFormatter(suite, out)
+	}
+}
