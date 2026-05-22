@@ -316,12 +316,14 @@ func (r *BasicServiceRunner) runResourceTest(ctx context.Context, params types.T
 	htmlFormat := fmt.Sprintf("html-%s", filename)
 	ocsfFormat := fmt.Sprintf("ocsf-%s", filename)
 	summaryFormat := "summary"
+	privateerFormat := "privateer"
 
 	godog.Format(htmlFormat, "HTML report", formatterFactory.GetHTMLFormatterFunc())
 	godog.Format(ocsfFormat, "OCSF report", formatterFactory.GetOCSFFormatterFunc())
 	godog.Format(summaryFormat, "Summary report", formatterFactory.GetSummaryFormatterFunc())
+	godog.Format(privateerFormat, "Privateer results", formatterFactory.GetPrivateerFormatterFunc())
 
-	// Summary formatter collects to global; output path is unused (report generated at end of all runs)
+	// Summary/privateer formatters collect to global; output path is unused (report generated at end of all runs)
 	summaryOutputPath := filepath.Join(r.Config.OutputDir, "summary.html")
 
 	// Log the tag filter (already set in runTests)
@@ -329,7 +331,7 @@ func (r *BasicServiceRunner) runResourceTest(ctx context.Context, params types.T
 	log.Printf("   Tag Filter: %s", tagFilterExpr)
 
 	opts := godog.Options{
-		Format:      fmt.Sprintf("%s:%s,%s:%s,%s:%s", htmlFormat, htmlReportPath, ocsfFormat, ocsfReportPath, summaryFormat, summaryOutputPath),
+		Format:      fmt.Sprintf("%s:%s,%s:%s,%s:%s,%s:%s", htmlFormat, htmlReportPath, ocsfFormat, ocsfReportPath, summaryFormat, summaryOutputPath, privateerFormat, summaryOutputPath),
 		Paths:       featuresPaths,
 		Tags:        tagFilterExpr,
 		Concurrency: 1,

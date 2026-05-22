@@ -11,8 +11,8 @@ import (
 	"github.com/gemaraproj/go-gemara"
 )
 
-// assessmentRequirementID matches Gemara assessment requirement ids (AR/TR) in catalog YAML.
-var assessmentRequirementID = regexp.MustCompile(`(?m)^\s+- id: (CCC\.[^\s]+\.(?:AR|TR)\d+)\s*$`)
+// assessmentRequirementID matches Gemara assessment requirement ids (AR) in catalog YAML.
+var assessmentRequirementID = regexp.MustCompile(`(?m)^\s+- id: (CCC\.[^\s]+\.AR\d+)\s*$`)
 
 const objectStorageCatalogID = "CCC.ObjStor"
 
@@ -34,10 +34,10 @@ func behaviouralStepsForObjStor() (map[string][]gemara.AssessmentStep, error) {
 	if err != nil {
 		return nil, err
 	}
-	step := runBehaviouralStep()
 	steps := make(map[string][]gemara.AssessmentStep)
 	for _, m := range assessmentRequirementID.FindAllStringSubmatch(string(data), -1) {
-		steps[m[1]] = []gemara.AssessmentStep{step}
+		reqID := m[1]
+		steps[reqID] = []gemara.AssessmentStep{runBehaviouralStep(reqID)}
 	}
 	if len(steps) == 0 {
 		return nil, fmt.Errorf("no assessment requirements found in %s", path)
