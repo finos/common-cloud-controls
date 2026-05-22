@@ -9,14 +9,13 @@ Feature: CCC.Core.CN05.AR02 - Block Unauthorized Administrative Access
     Given a cloud api for "{Instance}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
-    And I call "{api}" with "GetServiceAPI" using argument "iam"
-    And I refer to "{result}" as "iamService"
+    # Pre-provisioned identities must be supplied in Props by the test runner.
+    And "{testUserNoAccess}" is not null
+    And "{testUserRead}" is not null
+    And "{testUserAdmin}" is not null
 
 @Destructive @Behavioural @object-storage
   Scenario: Service prevents administrative action (creating a new bucket) by user with no access
-    Given I call "{iamService}" with "ProvisionUserWithAccess" using arguments "test-user-no-access", "{UID}", and "none"
-    And I refer to "{result}" as "testUserNoAccess"
-    And I attach "{result}" to the test output as "no-admin-user-identity.json"
     And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserNoAccess}", and "{false}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
@@ -27,9 +26,6 @@ Feature: CCC.Core.CN05.AR02 - Block Unauthorized Administrative Access
 
 @Destructive @Behavioural @object-storage
   Scenario: Service prevents administrative action (creating a new bucket) by user with read-only access
-    Given I call "{iamService}" with "ProvisionUserWithAccess" using arguments "test-user-read-only-admin", "{UID}", and "read"
-    And I refer to "{result}" as "testUserRead"
-    And I attach "{result}" to the test output as "read-only-admin-user-identity.json"
     And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserRead}", and "{false}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
@@ -40,9 +36,6 @@ Feature: CCC.Core.CN05.AR02 - Block Unauthorized Administrative Access
 
 @Behavioural @object-storage
   Scenario: Service allows administrative action (creating a new bucket) by user with admin access
-    Given I call "{iamService}" with "ProvisionUserWithAccess" using arguments "test-user-admin-access", "{UID}", and "admin"
-    And I refer to "{result}" as "testUserAdmin"
-    And I attach "{result}" to the test output as "admin-user-identity.json"
     And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserAdmin}", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"

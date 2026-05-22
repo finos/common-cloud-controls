@@ -9,14 +9,12 @@ Feature: CCC.Core.CN05.AR01 - Block Unauthorized Data Modification
     Given a cloud api for "{Instance}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
-    And I call "{api}" with "GetServiceAPI" using argument "iam"
-    And I refer to "{result}" as "iamService"
+    # Pre-provisioned identities must be supplied in Props by the test runner (e.g. testUserNoAccess, testUserWrite).
+    And "{testUserNoAccess}" is not null
+    And "{testUserWrite}" is not null
 
 @Destructive @Behavioural @object-storage
   Scenario: Service prevents data modification by user with no access
-    Given I call "{iamService}" with "ProvisionUserWithAccess" using arguments "test-user-no-access", "{UID}", and "none"
-    And I refer to "{result}" as "testUserNoAccess"
-    And I attach "{result}" to the test output as "no-access-user-identity.json"
     And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserNoAccess}", and "{false}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
@@ -27,9 +25,6 @@ Feature: CCC.Core.CN05.AR01 - Block Unauthorized Data Modification
 
 @Destructive @Behavioural @object-storage
   Scenario: Service allows data modification by user with write access
-    Given I call "{iamService}" with "ProvisionUserWithAccess" using arguments "test-user-write-access", "{UID}", and "write"
-    And I refer to "{result}" as "testUserWrite"
-    And I attach "{result}" to the test output as "write-user-identity.json"
     And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserWrite}", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"

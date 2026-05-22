@@ -1,0 +1,45 @@
+# Privateer config for CCC behavioural tests (Azure object-storage).
+# All target configuration lives under services.<id>.vars (no separate environment.yaml).
+#
+#   privateer run -c cfi-testing/privateer-config/azure-cloud-storage.yml
+#
+# Debug without the Privateer host:
+#   cd modules/privateer-plugin && go run . debug \
+#     -c ../../cfi-testing/privateer-config/azure-cloud-storage.yml -s azureStorageBehavioural
+#
+# Export INSTANCE_ID (or set instance-id below) before run — used in ${INSTANCE_ID} placeholders.
+#
+# Dummy policy block satisfies Privateer config validation; this plugin does not run Gemara assessments.
+
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+services:
+  azureStorageBehavioural:
+    plugin: privateer-plugin
+    policy:
+      catalogs:
+        - CCC.ObjStor
+      applicability:
+        - tlp-amber
+        - tlp-clear
+        - tlp-green
+        - tlp-red
+    vars:
+      service: object-storage
+      tags: "@Behavioural"
+      instance-id: "20260408t161043z"
+      provider: azure
+      region: eastus
+      azure-subscription-id: c1cedd8e-bf91-4d7d-a4cc-45700402a2a1
+      azure-resource-group: "cfi_test_${INSTANCE_ID}"
+      azure-storage-account: "stgcfi${INSTANCE_ID}"
+      object-storage-retention-period-days: 2
+      default-container: "ccc-test-container-${INSTANCE_ID}"
+      # Pre-provisioned IAM principal names (must exist in the test environment)
+      testUserNoAccess: test-user-no-access
+      testUserRead: test-user-read
+      testUserWrite: test-user-write
+      testUserAdmin: test-user-admin-access
