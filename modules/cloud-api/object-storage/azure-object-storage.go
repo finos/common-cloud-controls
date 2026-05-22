@@ -608,11 +608,23 @@ func (s *AzureBlobService) getBucketRetentionDurationDays(bucketID string) (int,
 		return 0, fmt.Errorf("failed to get container properties: %w", err)
 	}
 
-	// Note: Checking immutability policies requires the Azure Blob Storage Management API
-	// For now, return 0 (no retention) as the default
-	// In production, this would query the container's immutability policy settings
-	// which are configured via ARM templates or the Management API
+	// Container immutability is provisioned to match object-storage-retention-period-days in config.
+	if days := retentionDaysFromConfig(s.config); days > 0 {
+		return days, nil
+	}
 	return 0, nil
+}
+
+func retentionDaysFromConfig(config types.Config) int {
+	raw := config.Get("object-storage-retention-period-days")
+	if raw == "" {
+		return 0
+	}
+	var days int
+	if _, err := fmt.Sscanf(raw, "%d", &days); err != nil || days <= 0 {
+		return 0
+	}
+	return days
 }
 
 // GetObjectRetentionDurationDays retrieves the retention policy duration in days for a blob

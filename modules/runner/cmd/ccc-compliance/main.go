@@ -9,9 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/runner"
-	"gopkg.in/yaml.v3"
 )
 
 var (
@@ -43,29 +41,30 @@ func main() {
 		if *privateerService == "" {
 			log.Fatal("Error: -privateer-service is required with -config (e.g. azureStorageBehavioural)")
 		}
-		vars, err := loadPrivateerVars(*privateerConfig, *privateerService)
+		cfg, err := runner.LoadPrivateerConfig(*privateerConfig, *privateerService)
 		if err != nil {
 			log.Fatalf("Error loading Privateer config: %v", err)
 		}
-		if suffix := stringVar(vars, "instance-id"); suffix != "" {
+		vars := cfg.Vars()
+		if suffix := cfg.Get("instance-id"); suffix != "" {
 			_ = os.Setenv("INSTANCE_ID", suffix)
 		}
-		godogService := stringVar(vars, "service")
+		godogService := cfg.Get("service")
 		if *service != "" {
 			godogService = *service
 		}
 		if godogService == "" {
 			log.Fatal("Error: vars.service is required in Privateer config")
 		}
-		instanceID := stringVar(vars, "instance-id")
+		instanceID := cfg.Get("instance-id")
 		if instanceID == "" {
 			instanceID = *privateerService
 		}
-		opts.Config = types.NewConfig(runner.ExpandVars(vars))
+		opts.Config = cfg
 		opts.InstanceID = instanceID
-		opts.Vars = runner.ExpandVars(vars)
+		opts.Vars = vars
 		opts.Service = godogService
-		if t := stringVar(vars, "tags"); t != "" && *tags == "" {
+		if t := cfg.Get("tags"); t != "" && *tags == "" {
 			opts.Tags = runner.ParseTags(t)
 		}
 	} else {
@@ -82,30 +81,6 @@ func main() {
 	}
 
 	os.Exit(runner.Run(opts))
-}
-
-func loadPrivateerVars(path, serviceID string) (map[string]interface{}, error) {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-	var raw map[string]interface{}
-	if err := yaml.Unmarshal(data, &raw); err != nil {
-		return nil, err
-	}
-	services, _ := raw["services"].(map[string]interface{})
-	if services == nil {
-		return nil, os.ErrNotExist
-	}
-	svc, _ := services[serviceID].(map[string]interface{})
-	if svc == nil {
-		return nil, os.ErrNotExist
-	}
-	vars, _ := svc["vars"].(map[string]interface{})
-	if vars == nil {
-		return make(map[string]interface{}), nil
-	}
-	return vars, nil
 }
 
 func stringVar(vars map[string]interface{}, key string) string {
