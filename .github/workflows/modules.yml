@@ -5,16 +5,12 @@ on:
   pull_request:
     paths:
       - "modules/**"
-      - "go.work"
-      - "go.work.sum"
       - ".github/workflows/modules.yml"
   push:
     branches:
       - main
     paths:
       - "modules/**"
-      - "go.work"
-      - "go.work.sum"
       - ".github/workflows/modules.yml"
 
 permissions:
@@ -67,7 +63,12 @@ jobs:
         run: go mod verify
 
       - name: Build
-        run: go build ./...
+        run: |
+          if [ "${{ matrix.module }}" = "cfi-testing" ]; then
+            go build -o ccc-compliance ./runner/
+          else
+            go build ./...
+          fi
 
       - name: Unit tests with coverage
         run: go test -coverprofile=coverage-unit.out -covermode=atomic ./...

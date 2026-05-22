@@ -1,0 +1,38 @@
+cfi:
+  id: azure-storage-account
+  provider: azure
+  service: storage
+  name: CCC Azure Storage Account Terraform Module
+  description: >-
+    This module creates a secure Azure Storage Account with encryption, networking,
+    monitoring, and advanced security features.
+  path: https://github.com/finos-labs/ccc-cfi-compliance/tree/main/remote/azure/storageaccount
+  test-on-branches:
+    - policy-matching
+    - azure-storage
+    - main
+  git: https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount
+  required-environment-variables:
+    - INSTANCE_ID
+
+instances:
+  - id: azure-storage-finos
+    properties:
+      provider: azure
+      region: eastus
+      azure-subscription-id: c1cedd8e-bf91-4d7d-a4cc-45700402a2a1
+      azure-resource-group: "cfi_test_${INSTANCE_ID}"
+
+    rules:
+      permitted-regions: [eastus]
+      # CN05.AR03: Storage accounts allowed as object replication destinations. Empty = none.
+      permitted-destination-storage-accounts: []
+      # CN08.AR02: Expected replication locations (primary + secondary for GRS)
+      replication-locations: [eastus, westus]
+
+    services:
+      - type: object-storage
+        azure-storage-account: "stgcfi${INSTANCE_ID}"
+        # CN04.AR02: Minimum immutability period in days (matches Terraform module)
+        object-storage-retention-period-days: 2
+        default-container: "ccc-test-container-${INSTANCE_ID}"

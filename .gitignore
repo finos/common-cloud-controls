@@ -14,3 +14,10 @@ website/static/downloads/cfi/**/*
 
 # cloud-api coverage artifacts (local runs)
 modules/cloud-api/coverage-*.out
+
+# cloud-testing-dsl coverage artifacts (local runs)
+modules/cloud-testing-dsl/examples_of_testssl
+
+# cfi-testing output
+modules/cfi-testing/output
+modules/cfi-testing/ccc-compliance

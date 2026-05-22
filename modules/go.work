@@ -1,0 +1,8 @@
+go 1.24.0
+
+use (
+	./cloud-api
+	./cloud-testing-dsl
+	./reporters
+	./cfi-testing
+)

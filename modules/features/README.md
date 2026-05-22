@@ -44,4 +44,4 @@ The runner or environment setup must populate these before the scenario runs. Fe
 python3 scripts/port-behavioural-features.py
 ```
 
-Requires `ccc-cfi-compliance` as a sibling directory of this repository. Re-run the script only for files still using `ProvisionUserWithAccess`; ObjStor files in this repo are maintained separately for the pre-provisioned identity pattern.
+Run behavioural tests via `testing/run-compliance-tests.sh` (see `testing/README.md`). Re-run `scripts/port-behavioural-features.py` only when syncing new scenarios from the legacy repo; ObjStor files here use the pre-provisioned identity pattern.
