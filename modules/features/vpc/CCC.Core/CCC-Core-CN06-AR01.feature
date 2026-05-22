@@ -5,7 +5,7 @@ Feature: CCC.Core.CN06.AR01 - Resource Location Compliance
   So that data residency and sovereignty requirements are met
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
 
   @Behavioural @object-storage @vpc
   Scenario: Resource region can be retrieved for compliance verification

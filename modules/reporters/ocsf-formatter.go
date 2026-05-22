@@ -230,9 +230,10 @@ func (f *OCSFFormatter) Pickle(pickle *messages.Pickle) {
 			resourceName = resourceUID
 		}
 
+		cp := f.params.Config.CloudParams()
 		resource := OCSFResource{
-			CloudPartition: f.params.Instance.Properties.Provider,
-			Region:         f.params.Instance.Properties.Region,
+			CloudPartition: cp.Provider,
+			Region:         cp.Region,
 			Data: OCSFResourceData{
 				Details: fmt.Sprintf("%s service on %s:%s", f.params.Protocol, f.params.HostName, f.params.PortNumber),
 				Metadata: OCSFResourceMetadata{
@@ -241,7 +242,7 @@ func (f *OCSFFormatter) Pickle(pickle *messages.Pickle) {
 					Findings: []string{},
 					Tags:     []string{},
 					Type:     f.params.ServiceType,
-					Region:   f.params.Instance.Properties.Region,
+					Region:   cp.Region,
 				},
 			},
 			Group: OCSFResourceGroup{

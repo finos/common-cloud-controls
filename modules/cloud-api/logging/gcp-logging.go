@@ -13,12 +13,12 @@ import (
 type GCPLoggingService struct {
 	logAdminClient *logadmin.Client
 	ctx            context.Context
-	instance       types.InstanceConfig
+	config         types.Config
 }
 
 // NewGCPLoggingService creates a new GCP logging service
-func NewGCPLoggingService(ctx context.Context, instance *types.InstanceConfig) (*GCPLoggingService, error) {
-	client, err := logadmin.NewClient(ctx, instance.CloudParams().GcpProjectId)
+func NewGCPLoggingService(ctx context.Context, config types.Config) (*GCPLoggingService, error) {
+	client, err := logadmin.NewClient(ctx, config.CloudParams().GcpProjectId)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func NewGCPLoggingService(ctx context.Context, instance *types.InstanceConfig) (
 	return &GCPLoggingService{
 		logAdminClient: client,
 		ctx:            ctx,
-		instance:       *instance,
+		config:         config,
 	}, nil
 }
 
@@ -43,7 +43,7 @@ func (s *GCPLoggingService) GetOrProvisionTestableResources() ([]types.TestParam
 			UID:                 resourceName,
 			ReportFile:          "cloud-audit-logs",
 			ReportTitle:         "Cloud Audit Logs",
-			Instance:            s.instance,
+			Config:              s.config,
 		},
 	}, nil
 }

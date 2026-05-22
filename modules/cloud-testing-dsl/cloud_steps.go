@@ -535,29 +535,26 @@ func (cw *CloudWorld) getSSLSupportReportWithSTARTTLS(reportName, testType, host
 // aCloudAPIForProviderIn initializes a cloud API factory from the given instance.
 // Example: Given a cloud api for "{Instance}" in "api"
 func (cw *CloudWorld) aCloudAPIForProviderIn(instanceArg string, apiName string) error {
-	// Resolve the argument — expects a types.InstanceConfig (e.g. from {Instance})
+	// Resolve the argument — expects types.Config or legacy InstanceConfig (e.g. from {Config})
 	resolved := cw.HandleResolve(instanceArg)
-	instance, ok := resolved.(types.InstanceConfig)
-	if !ok {
-		return fmt.Errorf("expected an InstanceConfig for %q, got %T", instanceArg, resolved)
-	}
-
-	// Derive provider from the instance properties
-	var provider types.CloudProvider
-	switch instance.Properties.Provider {
-	case "aws":
-		provider = types.ProviderAWS
-	case "azure":
-		provider = types.ProviderAzure
-	case "gcp":
-		provider = types.ProviderGCP
+	var cfg types.Config
+	switch v := resolved.(type) {
+	case types.Config:
+		cfg = v
+	case types.InstanceConfig:
+		cfg = types.ConfigFromInstance(v)
 	default:
-		return fmt.Errorf("unsupported cloud provider %q in instance %q", instance.Properties.Provider, instance.ID)
+		return fmt.Errorf("expected Config or InstanceConfig for %q, got %T", instanceArg, resolved)
 	}
 
-	f, err := factory.NewFactory(provider, instance)
+	provider, err := cfg.Provider()
 	if err != nil {
-		return fmt.Errorf("failed to create factory for instance %q: %w", instance.ID, err)
+		return fmt.Errorf("unsupported cloud provider in config for %q: %w", instanceArg, err)
+	}
+
+	f, err := factory.NewFactory(provider, cfg)
+	if err != nil {
+		return fmt.Errorf("failed to create factory for %q: %w", instanceArg, err)
 	}
 
 	cw.Props[apiName] = f

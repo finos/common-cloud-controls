@@ -28,16 +28,16 @@ CCC.ObjStor features default to `object-storage/`. CCC.VPC defaults to `vpc/`. O
 
 ## Test identities
 
-Scenarios that call `GetServiceAPIWithIdentity` expect pre-provisioned IAM identities in scenario **Props**. Features do **not** call `ProvisionUserWithAccess`; the runner loads `*iam.Identity` values from Privateer `services.*.vars` before Godog runs.
+Scenarios that call `GetServiceAPIWithIdentity` pass a **literal identity key** (e.g. `"testUserRead"`). The factory resolves credentials from `test-identities` in Privateer `services.*.vars`. Features do **not** call `ProvisionUserWithAccess`.
 
-| Prop | Typical access level |
-|------|----------------------|
+| Key | Typical access level |
+|-----|----------------------|
 | `testUserNoAccess` | none |
 | `testUserRead` | read |
 | `testUserWrite` | write |
 | `testUserAdmin` | admin |
 
-Features assert identities are present with `"{testUserNoAccess}" is not null` (and similar) in the Background.
+Use `Given a cloud api for "{Config}" in "api"` so the factory receives the expanded vars map.
 
 ## Refreshing from ccc-cfi-compliance
 

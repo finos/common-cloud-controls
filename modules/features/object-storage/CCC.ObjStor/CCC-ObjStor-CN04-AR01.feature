@@ -6,14 +6,13 @@ Feature: CCC.ObjStor.CN04.AR01
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
-    And "{testUserWrite}" is not null
 
 @Behavioural
   Scenario: Service applies default retention policy to newly uploaded object
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserWrite}", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserWrite", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "test-retention-object={Timestamp}.txt", and "protected data"

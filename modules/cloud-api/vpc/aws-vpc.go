@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
+	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
@@ -17,20 +17,20 @@ import (
 type AWSVPCService struct {
 	client      *ec2.Client
 	ctx         context.Context
-	instance ccctypes.InstanceConfig
+	config ccctypes.Config
 }
 
 // NewAWSVPCService creates a new AWS VPC service using default credentials.
-func NewAWSVPCService(ctx context.Context, instance ccctypes.InstanceConfig) (*AWSVPCService, error) {
-	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion(instance.Properties.Region))
+func NewAWSVPCService(ctx context.Context, config ccctypes.Config) (*AWSVPCService, error) {
+	cfg, err := awsconfig.LoadDefaultConfig(ctx, awsconfig.WithRegion(config.CloudParams().Region))
 	if err != nil {
 		return nil, fmt.Errorf("failed to load AWS config: %w", err)
 	}
 
 	return &AWSVPCService{
-		client:   ec2.NewFromConfig(cfg),
-		ctx:      ctx,
-		instance: instance,
+		client: ec2.NewFromConfig(cfg),
+		ctx:    ctx,
+		config: config,
 	}, nil
 }
 
@@ -67,7 +67,7 @@ func (s *AWSVPCService) GetOrProvisionTestableResources() ([]ccctypes.TestParams
 			ServiceType:         "vpc",
 			CatalogTypes:        []string{"CCC.VPC"},
 			TagFilter:           []string{"@MAIN", "@CCC.VPC"},
-			Instance:            s.instance,
+			Config:              s.config,
 		})
 	}
 
@@ -88,7 +88,7 @@ func (s *AWSVPCService) UpdateResourcePolicy() error       { return nil }
 func (s *AWSVPCService) TriggerDataWrite(_ string) error   { return nil }
 func (s *AWSVPCService) TearDown() error                   { return nil }
 func (s *AWSVPCService) GetResourceRegion(_ string) (string, error) {
-	return s.instance.Properties.Region, nil
+	return s.config.CloudParams().Region, nil
 }
 func (s *AWSVPCService) GetReplicationStatus(_ string) (*generic.ReplicationStatus, error) {
 	return nil, fmt.Errorf("replication status not applicable for VPC service")

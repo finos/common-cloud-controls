@@ -448,11 +448,13 @@ func (s *AWSVPCService) resolveCN03VpcEntriesWithOrigin(
 		add([]string{os.Getenv(key)}, "env-guardrail")
 	}
 
-	// yaml-guardrail: defined in environment.yaml vpc service properties
-	if svcProps := s.instance.ServiceProperties("vpc"); svcProps != nil {
-		if raw, ok := svcProps[yamlKey]; ok {
-			add(cn03StringSlice(raw), "yaml-guardrail")
-		}
+	// yaml-guardrail: defined in Privateer vpc vars
+	vpcCfg := s.config.VpcServiceConfig()
+	switch yamlKey {
+	case "cn03-allowed-requester-vpc-ids":
+		add(cn03StringSlice(vpcCfg.Cn03AllowedRequesterVpcIdsCsv), "yaml-guardrail")
+	case "cn03-disallowed-requester-vpc-ids":
+		add(cn03StringSlice(vpcCfg.Cn03DisallowedRequesterVpcIdsCsv), "yaml-guardrail")
 	}
 
 	return entries, nil

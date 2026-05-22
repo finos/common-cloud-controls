@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
-	"github.com/finos/common-cloud-controls/cloud-api/iam"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
@@ -15,26 +14,16 @@ import (
 // AzureFactory implements the Factory interface for Azure
 type AzureFactory struct {
 	ctx          context.Context
-	instance     types.InstanceConfig
-	iamService   generic.Service
+	config       types.Config
 	serviceCache map[string]generic.Service
 	serviceMu    sync.Mutex
 }
 
 // NewAzureFactory creates a new Azure factory
-func NewAzureFactory(instance types.InstanceConfig) *AzureFactory {
-	ctx := context.Background()
-
-	// Create IAM service once and cache it
-	iamService, err := iam.NewAzureIAMService(ctx, instance)
-	if err != nil {
-		fmt.Printf("⚠️  Warning: Failed to create Azure IAM service: %v\n", err)
-	}
-
+func NewAzureFactory(config types.Config) *AzureFactory {
 	return &AzureFactory{
-		ctx:          ctx,
-		instance:     instance,
-		iamService:   iamService,
+		ctx:          context.Background(),
+		config:       config,
 		serviceCache: make(map[string]generic.Service),
 	}
 }
@@ -52,12 +41,9 @@ func (f *AzureFactory) GetServiceAPI(serviceID string) (generic.Service, error) 
 	var service generic.Service
 	var err error
 	switch serviceID {
-	case "iam":
-		service = f.iamService
-
 	case "object-storage":
 		var blobSvc *objstorage.AzureBlobService
-		blobSvc, err = objstorage.NewAzureBlobService(f.ctx, &f.instance)
+		blobSvc, err = objstorage.NewAzureBlobService(f.ctx, f.config)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create Azure service '%s': %w", serviceID, err)
 		}
@@ -67,7 +53,7 @@ func (f *AzureFactory) GetServiceAPI(serviceID string) (generic.Service, error) 
 		}
 
 	case "logging":
-		service, err = logging.NewAzureLoggingService(f.ctx, &f.instance)
+		service, err = logging.NewAzureLoggingService(f.ctx, f.config)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create Azure logging service: %w", err)
 		}
@@ -84,12 +70,12 @@ func (f *AzureFactory) GetServiceAPI(serviceID string) (generic.Service, error) 
 	return service, nil
 }
 
-// GetServiceAPIWithIdentity returns a service API client authenticated as the given identity
-func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identity *iam.Identity, testAccess bool) (generic.Service, error) {
-	if identity.Provider != string(types.ProviderAzure) {
-		return nil, fmt.Errorf("identity is not for Azure provider: %s", identity.Provider)
+// GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. testUserRead).
+func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string, testAccess bool) (generic.Service, error) {
+	identity, err := f.config.Identity(identityKey)
+	if err != nil {
+		return nil, err
 	}
-
 	key := serviceID + ":" + identity.UserName
 	f.serviceMu.Lock()
 	if cached, ok := f.serviceCache[key]; ok {
@@ -98,18 +84,12 @@ func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identity *iam
 	}
 	f.serviceMu.Unlock()
 
-	cloudParams := f.instance.CloudParams()
-
 	var service generic.Service
-	var err error
 	switch serviceID {
-	case "iam":
-		service = f.iamService
-
 	case "object-storage":
-		service, err = objstorage.NewAzureBlobServiceWithCredentials(f.ctx, cloudParams, f.instance, identity)
+		service, err = objstorage.NewAzureBlobServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
-			return nil, fmt.Errorf("failed to create Azure service '%s' with identity: %w", serviceID, err)
+			return nil, fmt.Errorf("failed to create Azure service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}
 		if testAccess {
 			if err = waitForUserProvisioning(service); err != nil {

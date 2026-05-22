@@ -24,7 +24,7 @@ type TestParams struct {
 	ResourceName        string                 // Human-readable resource name extracted from ARN or resource ID
 	ReportFile          string                 // Base filename for output report (without extension), e.g., "bucket-name-service"
 	ReportTitle         string                 // Human-readable title for reports, e.g., "my-bucket" or "my-bucket.s3.us-east-1.amazonaws.com:443"
-	Instance            InstanceConfig         // Instance configuration
+	Config              Config                 // Privateer vars / environment config
 	Props               map[string]interface{} // Additional runtime properties set during test execution
 }
 

@@ -8,8 +8,8 @@ import (
 
 // RunConfig is the configuration for running compliance tests
 type RunConfig struct {
-	ServiceName    string // e.g., "object-storage", "iam"
-	Instance       types.InstanceConfig
+	ServiceName    string       // e.g., "object-storage", "iam"
+	Config         types.Config // Privateer vars
 	OutputDir      string
 	Timeout        time.Duration
 	ResourceFilter string

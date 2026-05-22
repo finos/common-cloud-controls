@@ -67,8 +67,8 @@ func (suite *TestSuite) InitializeServiceScenario(sc *godog.ScenarioContext, par
 		suite.setupServiceParams(params)
 		// Populate Props (already enriched with CloudParams, service props, and rules)
 		suite.setupServiceParams(params.Props)
-		// Expose the full Instance so the factory can be created in cloud_steps.go
-		suite.Props["Instance"] = params.Instance
+		// Expose config so the factory can be created in cloud_steps.go
+		suite.Props["Config"] = params.Config
 		// Timestamp (ms since Unix epoch) for unique object names in immutable storage scenarios
 		suite.Props["Timestamp"] = time.Now().UnixMilli()
 		return ctx, nil
@@ -97,7 +97,7 @@ func enrichParamsProps(params types.TestParams) types.TestParams {
 		params.Props = make(map[string]interface{})
 	}
 	// CloudParams struct fields already use Go field names (TitleCase)
-	cp := params.Instance.CloudParams()
+	cp := params.Config.CloudParams()
 	cpVal := reflect.ValueOf(cp)
 	cpType := cpVal.Type()
 	for i := 0; i < cpVal.NumField(); i++ {
@@ -116,13 +116,16 @@ func enrichParamsProps(params types.TestParams) types.TestParams {
 	if v, ok := params.Props["AzureSubscriptionID"]; ok {
 		params.Props["SubscriptionId"] = v
 	}
-	// Service and rule keys come from YAML (kebab-case) — convert to TitleCase
-	for _, svc := range params.Instance.Services {
-		for k, v := range svc.Properties {
-			params.Props[kebabToTitleCase(k)] = v
-		}
+	// Flat vars and rules (kebab-case) — convert to TitleCase for report/step substitution
+	skipKeys := map[string]bool{
+		"provider": true, "region": true,
+		"azure-subscription-id": true, "azure-resource-group": true, "gcp-project-id": true,
+		"test-identities": true,
 	}
-	for k, v := range params.Instance.Rules {
+	for k, v := range params.Config.Vars() {
+		if skipKeys[k] {
+			continue
+		}
 		params.Props[kebabToTitleCase(k)] = v
 	}
 	return params
@@ -151,21 +154,25 @@ func (r *BasicServiceRunner) Run() int {
 
 	log.Printf("🚀 Starting CCC Compliance Tests")
 	log.Printf("   Service: %s", config.ServiceName)
-	log.Printf("   Provider: %s", config.Instance.Properties.Provider)
+	cp := config.Config.CloudParams()
+	log.Printf("   Provider: %s", cp.Provider)
 	log.Println()
 
 	// Create context with timeout
 	ctx, cancel := context.WithTimeout(context.Background(), config.Timeout)
 	defer cancel()
 
-	// Create cloud factory with the full InstanceConfig so every service can find its properties
-	cloudFactory, err := factory.NewFactory(types.CloudProvider(config.Instance.Properties.Provider), config.Instance)
+	provider, err := config.Config.Provider()
+	if err != nil {
+		log.Fatalf("Failed to resolve provider: %v", err)
+	}
+	cloudFactory, err := factory.NewFactory(provider, config.Config)
 	if err != nil {
 		log.Fatalf("Failed to create factory: %v", err)
 	}
 	defer func() {
 		log.Println("🧹 Running TearDown to remove test-created resources...")
-		if strings.EqualFold(config.Instance.Properties.Provider, "azure") {
+		if strings.EqualFold(cp.Provider, "azure") {
 			if err := login.RefreshAzureCLIForCleanup(); err != nil {
 				log.Printf("   ⚠️  Azure re-login before TearDown: %v", err)
 			}
@@ -301,10 +308,6 @@ func (r *BasicServiceRunner) runResourceTest(ctx context.Context, params types.T
 	// Enrich params.Props with instance/service/rules properties before creating the formatter
 	// so they appear in the HTML report and are available for step template substitution.
 	params = enrichParamsProps(params)
-
-	if r.Config.ServiceName == "object-storage" && !tagFilterSkipsTestIdentities(params.TagFilter) {
-		loadTestIdentities(params.Instance, params.Props)
-	}
 
 	// Create formatter factory
 	formatterFactory := reporters.NewFormatterFactory(params, suite.CloudWorld)

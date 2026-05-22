@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/runner"
 	"gopkg.in/yaml.v3"
 )
@@ -60,13 +61,9 @@ func main() {
 		if instanceID == "" {
 			instanceID = *privateerService
 		}
-		ic, err := runner.InstanceFromVars(vars, godogService, instanceID)
-		if err != nil {
-			log.Fatalf("Error: %v", err)
-		}
-		opts.Instance = &ic
-		opts.InstanceID = ic.ID
-		opts.Vars = vars
+		opts.Config = types.NewConfig(runner.ExpandVars(vars))
+		opts.InstanceID = instanceID
+		opts.Vars = runner.ExpandVars(vars)
 		opts.Service = godogService
 		if t := stringVar(vars, "tags"); t != "" && *tags == "" {
 			opts.Tags = runner.ParseTags(t)

@@ -6,7 +6,6 @@ import (
 	"sync"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
-	"github.com/finos/common-cloud-controls/cloud-api/iam"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
@@ -15,31 +14,16 @@ import (
 // GCPFactory implements the Factory interface for GCP
 type GCPFactory struct {
 	ctx          context.Context
-	instance     types.InstanceConfig
-	iamService   generic.Service
+	config       types.Config
 	serviceCache map[string]generic.Service
 	serviceMu    sync.Mutex
 }
 
 // NewGCPFactory creates a new GCP factory
-func NewGCPFactory(instance types.InstanceConfig) *GCPFactory {
-	ctx := context.Background()
-	cloudParams := instance.CloudParams()
-
-	// Create IAM service once and cache it
-	var iamService generic.Service
-	if cloudParams.GcpProjectId != "" {
-		var err error
-		iamService, err = iam.NewGCPIAMService(ctx, instance)
-		if err != nil {
-			fmt.Printf("⚠️  Warning: Failed to create GCP IAM service: %v\n", err)
-		}
-	}
-
+func NewGCPFactory(config types.Config) *GCPFactory {
 	return &GCPFactory{
-		ctx:          ctx,
-		instance:     instance,
-		iamService:   iamService,
+		ctx:          context.Background(),
+		config:       config,
 		serviceCache: make(map[string]generic.Service),
 	}
 }
@@ -57,17 +41,14 @@ func (f *GCPFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 	var service generic.Service
 	var err error
 	switch serviceID {
-	case "iam":
-		service = f.iamService
-
 	case "object-storage":
-		service, err = objstorage.NewGCPStorageService(f.ctx, f.instance)
+		service, err = objstorage.NewGCPStorageService(f.ctx, f.config)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
 		}
 
 	case "logging":
-		service, err = logging.NewGCPLoggingService(f.ctx, &f.instance)
+		service, err = logging.NewGCPLoggingService(f.ctx, f.config)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP logging service: %w", err)
 		}
@@ -84,12 +65,12 @@ func (f *GCPFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 	return service, nil
 }
 
-// GetServiceAPIWithIdentity returns a service API client authenticated as the given identity
-func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identity *iam.Identity, testAccess bool) (generic.Service, error) {
-	if identity.Provider != string(types.ProviderGCP) {
-		return nil, fmt.Errorf("identity is not for GCP provider: %s", identity.Provider)
+// GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. testUserRead).
+func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string, testAccess bool) (generic.Service, error) {
+	identity, err := f.config.Identity(identityKey)
+	if err != nil {
+		return nil, err
 	}
-
 	key := serviceID + ":" + identity.UserName
 	f.serviceMu.Lock()
 	if cached, ok := f.serviceCache[key]; ok {
@@ -99,15 +80,11 @@ func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identity *iam.I
 	f.serviceMu.Unlock()
 
 	var service generic.Service
-	var err error
 	switch serviceID {
-	case "iam":
-		service = f.iamService
-
 	case "object-storage":
-		service, err = objstorage.NewGCPStorageServiceWithCredentials(f.ctx, f.instance, identity)
+		service, err = objstorage.NewGCPStorageServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
-			return nil, fmt.Errorf("failed to create GCS service with credentials: %w", err)
+			return nil, fmt.Errorf("failed to create GCS service with identity %q: %w", identityKey, err)
 		}
 		if testAccess {
 			if err := service.CheckUserProvisioned(); err != nil {

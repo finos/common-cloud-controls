@@ -6,7 +6,7 @@ Feature: CCC.Core.CN07.AR01 - Publish Enumeration Activity Events
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
 
 @Behavioural @NotTestable @object-storage
   Scenario: Enumeration event publishing cannot be tested automatically

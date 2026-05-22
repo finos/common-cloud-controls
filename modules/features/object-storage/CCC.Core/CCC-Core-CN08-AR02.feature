@@ -6,7 +6,7 @@ Feature: CCC.Core.CN08.AR02 - Replication Status Visibility
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
 

@@ -6,7 +6,7 @@ Feature: CCC.Core.CN02.AR01 - Data Encryption at Rest
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
 
 @Behavioural @object-storage
   Scenario: Verify objects are encrypted at rest

@@ -6,15 +6,13 @@ Feature: CCC.ObjStor.CN01.AR03
 
 
   Background:
-    Given a cloud api for "{Instance}" in "api"
+    Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
-    And "{testUserNoAccess}" is not null
-    And "{testUserWrite}" is not null
 
 @Behavioural
   Scenario: Service prevents creating bucket with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserNoAccess}", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserNoAccess", and "{false}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateBucket" using argument "test-bucket-no-access"
@@ -24,7 +22,7 @@ Feature: CCC.ObjStor.CN01.AR03
 
 @Behavioural
   Scenario: Service allows creating bucket with write access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "{testUserWrite}", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserWrite", and "{true}"
     And "{result}" is not an error
     And I attach "{result}" to the test output as "write-storage-service.json"
     And I refer to "{result}" as "userStorage"
