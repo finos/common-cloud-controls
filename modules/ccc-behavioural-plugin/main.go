@@ -41,18 +41,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	steps, err := behaviouralStepsForObjStor()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error building assessment steps: %v\n", err)
-		os.Exit(1)
-	}
-
-	if err := orchestrator.AddEvaluationSuite(objectStorageCatalogID, nil, steps); err != nil {
-		fmt.Fprintf(os.Stderr, "error adding evaluation suite: %v\n", err)
-		os.Exit(1)
-	}
-
+	// Evaluation suite is registered after Godog runs (see ensureBehaviouralEvaluationSuite).
 	runCmd := command.NewPluginCommands(pluginName, Version, GitCommitHash, BuiltAt, &orchestrator)
+	wrapBehaviouralCommands(runCmd)
 	if err := runCmd.Execute(); err != nil {
 		os.Exit(1)
 	}

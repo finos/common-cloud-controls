@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/finos/common-cloud-controls/runner"
-	"github.com/gemaraproj/go-gemara"
 )
 
 // assessmentRequirementID matches Gemara assessment requirement ids (AR) in catalog YAML.
@@ -24,8 +23,8 @@ func websiteCatalogDir() string {
 	return filepath.Join(runner.RepoRoot(), "website", "src", "data", "ccc-releases")
 }
 
-// behaviouralStepsForObjStor builds assessment steps from the Object Storage catalog in website data.
-func behaviouralStepsForObjStor() (map[string][]gemara.AssessmentStep, error) {
+// objectStorageCatalogARs returns AR ids declared in the Object Storage release catalog.
+func objectStorageCatalogARs() ([]string, error) {
 	path, err := objectStorageCatalogPath()
 	if err != nil {
 		return nil, err
@@ -34,15 +33,14 @@ func behaviouralStepsForObjStor() (map[string][]gemara.AssessmentStep, error) {
 	if err != nil {
 		return nil, err
 	}
-	steps := make(map[string][]gemara.AssessmentStep)
+	var catalogARs []string
 	for _, m := range assessmentRequirementID.FindAllStringSubmatch(string(data), -1) {
-		reqID := m[1]
-		steps[reqID] = []gemara.AssessmentStep{runBehaviouralStep(reqID)}
+		catalogARs = append(catalogARs, m[1])
 	}
-	if len(steps) == 0 {
+	if len(catalogARs) == 0 {
 		return nil, fmt.Errorf("no assessment requirements found in %s", path)
 	}
-	return steps, nil
+	return catalogARs, nil
 }
 
 func objectStorageCatalogPath() (string, error) {

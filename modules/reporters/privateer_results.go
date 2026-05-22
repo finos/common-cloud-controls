@@ -22,6 +22,27 @@ func ControlIDFromRequirement(requirementID string) string {
 	return requirementID
 }
 
+// ResultForScenario maps one Godog scenario outcome for an AR (exact scenario name match).
+func ResultForScenario(requirementID, scenarioName string) (gemara.Result, string, gemara.ConfidenceLevel) {
+	if requirementID == "" || scenarioName == "" {
+		return gemara.Unknown, "missing requirement or scenario name", gemara.Undetermined
+	}
+	for _, s := range privateerResultsPeek() {
+		if s.RequirementID != requirementID || s.Scenario != scenarioName {
+			continue
+		}
+		msg := scenarioName
+		if s.Badge != "" {
+			msg += " (" + s.Badge + ")"
+		}
+		if s.Passed {
+			return gemara.Passed, msg, gemara.Medium
+		}
+		return gemara.Failed, msg, gemara.Medium
+	}
+	return gemara.NotRun, fmt.Sprintf("scenario not executed: %s", scenarioName), gemara.Undetermined
+}
+
 // ResultForRequirement maps collected Godog results to a Gemara assessment outcome for a catalog AR.
 func ResultForRequirement(requirementID string) (gemara.Result, string, gemara.ConfidenceLevel) {
 	if requirementID == "" {
@@ -61,6 +82,15 @@ func ResultForRequirement(requirementID string) (gemara.Result, string, gemara.C
 	return gemara.Passed,
 		fmt.Sprintf("%d scenario(s) passed for %s", passed, requirementID),
 		gemara.Medium
+}
+
+// ScenariosByRequirement groups collected Godog results by AR id (requirement id).
+func ScenariosByRequirement() map[string][]PrivateerScenarioResult {
+	grouped := make(map[string][]PrivateerScenarioResult)
+	for _, r := range privateerResultsPeek() {
+		grouped[r.RequirementID] = append(grouped[r.RequirementID], r)
+	}
+	return grouped
 }
 
 func scenariosForRequirement(results []PrivateerScenarioResult, requirementID string) []PrivateerScenarioResult {
