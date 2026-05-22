@@ -10,10 +10,16 @@ Godog runner for `@Behavioural` scenarios under `modules/features/`.
 
 ## Run
 
+From this directory (`cfi-testing/`):
+
+```bash
+./run-compliance-tests.sh -e config/azure-storage-finos.yaml --instance azure-storage-finos --service object-storage
+```
+
 From the repository root:
 
 ```bash
-./modules/cfi-testing/run-compliance-tests.sh --env-file config/azure-storage-finos.yaml --instance main-azure --service object-storage
+./cfi-testing/run-compliance-tests.sh -e cfi-testing/config/azure-storage-finos.yaml -i cfi_test_<suffix>
 ```
 
 ### Useful flags
@@ -24,7 +30,7 @@ From the repository root:
 | `-service` | Service type (`object-storage`, `vpc`, …) |
 | `-tags` | Extra tag filters ANDed with defaults, e.g. `@Behavioural` |
 | `-resource` | Run a single discovered resource by name |
-| `-output` | Report directory (default: `modules/cfi-testing/output`) |
+| `-output` | Report directory (default: `cfi-testing/output`) |
 | `-env-file` | Alternate `environment.yaml` path |
 
 By default, `@NEGATIVE` and `@OPT_IN` scenarios are excluded. Pass `-tags '@Behavioural'` to narrow explicitly.
@@ -33,14 +39,13 @@ By default, `@NEGATIVE` and `@OPT_IN` scenarios are excluded. Pass `-tags '@Beha
 
 ```bash
 # All services defined for the instance
-./modules/cfi-testing/run-compliance-tests.sh --instance main-aws
+./run-compliance-tests.sh --instance main-aws
 
 # Azure storage (FINOS config + resource group shorthand)
-./modules/cfi-testing/run-compliance-tests.sh \
-  -e config/azure-storage-finos.yaml -i cfi_test_20260408t161043z
+./run-compliance-tests.sh -e config/azure-storage-finos.yaml -i cfi_test_20260408t161043z
 
 # VPC behavioural tests
-./modules/cfi-testing/run-compliance-tests.sh --instance main-aws --service vpc --tags '@Behavioural'
+./run-compliance-tests.sh --instance main-aws --service vpc --tags '@Behavioural'
 ```
 
 ## Layout
@@ -48,25 +53,25 @@ By default, `@NEGATIVE` and `@OPT_IN` scenarios are excluded. Pass `-tags '@Beha
 | Piece | Path |
 |--------|------|
 | Config | `config/` (e.g. `azure-storage-finos.yaml`) |
-| Run script | `run-compliance-tests.sh` (builds `ccc-compliance` from `runner`, runs it here) |
-| Runner library + CLI source | [`../runner`](../runner) |
+| Run script | `run-compliance-tests.sh` (builds `ccc-compliance` from `modules/runner`) |
+| Runner library + CLI source | [`../modules/runner`](../modules/runner) |
 
 Use `./run-compliance-tests.sh` (recommended), or build the CLI yourself:
 
 ```bash
-export GOWORK=../go.work
-cd ../runner && go build -o ../cfi-testing/ccc-compliance ./cmd/ccc-compliance/
+export GOWORK=../modules/go.work
+cd ../modules/runner && go build -o ../../cfi-testing/ccc-compliance ./cmd/ccc-compliance/
 ```
 
 ### Privateer behavioural plugin
 
-Run the same tests via [privateer-plugin](../privateer-plugin):
+Run the same tests via [privateer-plugin](../modules/privateer-plugin):
 
 ```bash
 cd modules/privateer-plugin
 go build -o privateer-plugin .
 ./privateer-plugin debug \
-  -c ../cfi-testing/config/privateer-behavioural-azure.example.yml \
+  -c ../../cfi-testing/config/privateer-behavioural-azure.example.yml \
   -s azureStorageBehavioural
 ```
 

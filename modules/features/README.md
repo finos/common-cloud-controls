@@ -26,17 +26,18 @@ Scenarios are placed using the first matching tag:
 
 CCC.ObjStor features default to `object-storage/`. CCC.VPC defaults to `vpc/`. Other `@PerService` CCC.Core scenarios without a service tag default to `object-storage/`.
 
-## Test identities (ObjStor)
+## Test identities
 
-Scenarios that call `GetServiceAPIWithIdentity` expect pre-provisioned IAM identities in scenario **Props**, not created inside the feature:
+Scenarios that call `GetServiceAPIWithIdentity` expect pre-provisioned IAM identities in scenario **Props**. Features do **not** call `ProvisionUserWithAccess`; the runner loads `*iam.Identity` values from Privateer `services.*.vars` before Godog runs.
 
 | Prop | Typical access level |
 |------|----------------------|
 | `testUserNoAccess` | none |
 | `testUserRead` | read |
 | `testUserWrite` | write |
+| `testUserAdmin` | admin |
 
-The runner or environment setup must populate these before the scenario runs. Features assert they are present with `"{testUserNoAccess}" is not null` (and similar) in the Background.
+Features assert identities are present with `"{testUserNoAccess}" is not null` (and similar) in the Background.
 
 ## Refreshing from ccc-cfi-compliance
 

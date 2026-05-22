@@ -107,7 +107,8 @@ if [[ -z "$SERVICE" && -n "$ENV_FILE" && "$ENV_FILE" == *azure-storage-finos* ]]
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-MODULES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+MODULES_DIR="$REPO_ROOT/modules"
 export GOWORK="$MODULES_DIR/go.work"
 
 # Build workspace libraries in dependency order, then the CLI binary.

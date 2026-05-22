@@ -1,41 +1,36 @@
 # privateer-plugin
 
-Privateer **evaluation** plugin that runs existing CCC **behavioural** Godog scenarios via [runner](../runner) (no Gemara policy checks).
+Privateer **evaluation** plugin that runs CCC **behavioural** Godog scenarios via [runner](../runner).
 
-## Install
-
-```bash
-go build -o privateer-plugin .
-cp privateer-plugin ~/privateer/bin/
-```
-
-Or use `privateer install` when published to the registry.
+Configuration comes from **Privateer** `services.<id>.vars` only (no separate `environment.yaml`).
 
 ## Config
 
-See [privateer-behavioural-azure.example.yml](../cfi-testing/config/privateer-behavioural-azure.example.yml).
+See [azure-cloud-storage.yml](../../cfi-testing/privateer-config/azure-cloud-storage.yml).
 
 Required `services.<name>.vars`:
 
 | Var | Description |
 |-----|-------------|
-| `instance` | Instance id from environment YAML (e.g. `azure-storage-finos`) |
-| `env-file` | Path to environment/descriptor YAML |
-| `service` | Service type (e.g. `object-storage`) |
+| `service` | Godog service type (e.g. `object-storage`) |
+| `provider` | Cloud provider (`azure`, `aws`, `gcp`) |
+| `instance-id` | Substituted as `${INSTANCE_ID}` in other vars |
 | `tags` | Optional Cucumber tag filter (e.g. `@Behavioural`) |
+| `testUserNoAccess`, etc. | Pre-provisioned IAM principal **names** |
 
 ## Run
 
 ```bash
-# Via Privateer host
-privateer run -c path/to/config.yml
+cd modules/privateer-plugin
+go build -o privateer-plugin .
 
-# Debug (in-process, no RPC)
-go run . debug -c ../cfi-testing/config/privateer-behavioural-azure.example.yml -s azureStorageBehavioural
+# Debug (in-process)
+./privateer-plugin debug \
+  -c ../../cfi-testing/privateer-config/azure-cloud-storage.yml \
+  -s azureStorageBehavioural
+
+# Via Privateer host
+privateer run -c cfi-testing/privateer-config/azure-cloud-storage.yml
 ```
 
 Reports (HTML, OCSF, summary) are written to `write-directory` using [reporters](../reporters).
-
-## Development
-
-Uses [privateer-sdk](https://github.com/privateerproj/privateer-sdk) `shared.Pluginer` — does **not** call `EvaluationOrchestrator.Mobilize()`.

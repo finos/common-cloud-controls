@@ -19,5 +19,8 @@ modules/cloud-api/coverage-*.out
 modules/cloud-testing-dsl/examples_of_testssl
 
 # cfi-testing output
-modules/cfi-testing/output
-modules/cfi-testing/ccc-compliance
+cfi-testing/output
+cfi-testing/ccc-compliance
+
+# privateer plugin build artifact (go build -o privateer-plugin)
+modules/privateer-plugin/privateer-plugin

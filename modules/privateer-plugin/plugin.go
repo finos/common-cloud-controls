@@ -27,13 +27,14 @@ func (p *BehaviouralPlugin) Start() (int, error) {
 }
 
 func runBehavioural() int {
-	serviceName := viper.GetString("service")
-	if serviceName == "" {
+	// Privateer --service names the services.<id> entry (e.g. azureStorageBehavioural).
+	privateerService := viper.GetString("service")
+	if privateerService == "" {
 		fmt.Fprintln(os.Stderr, "error: --service is required (must match a services.<id> entry in config)")
 		return 1
 	}
 
-	vars := viper.GetStringMap(fmt.Sprintf("services.%s.vars", serviceName))
+	vars := viper.GetStringMap(fmt.Sprintf("services.%s.vars", privateerService))
 	globalVars := viper.GetStringMap("vars")
 	for k, v := range globalVars {
 		if _, ok := vars[k]; !ok {
@@ -41,26 +42,24 @@ func runBehavioural() int {
 		}
 	}
 
-	instanceID := varString(vars, "instance")
-	if instanceID == "" {
-		fmt.Fprintln(os.Stderr, "error: services."+serviceName+".vars.instance is required")
+	godogService := varString(vars, "service")
+	if godogService == "" {
+		fmt.Fprintln(os.Stderr, "error: services."+privateerService+".vars.service is required (e.g. object-storage)")
 		return 1
 	}
 
-	envFile := varString(vars, "env-file")
-	if envFile == "" {
-		envFile = filepath.Join(runner.TestingDir(), "environment.yaml")
+	instanceID := varString(vars, "instance-id")
+	if instanceID == "" {
+		instanceID = privateerService
 	}
-	if !filepath.IsAbs(envFile) {
-		if cwd, err := os.Getwd(); err == nil {
-			envFile = filepath.Join(cwd, envFile)
-		}
-	}
-
 	if suffix := varString(vars, "instance-id"); suffix != "" {
 		_ = os.Setenv("INSTANCE_ID", suffix)
-	} else if strings.HasPrefix(instanceID, "cfi_test_") {
-		_ = os.Setenv("INSTANCE_ID", strings.TrimPrefix(instanceID, "cfi_test_"))
+	}
+
+	ic, err := runner.InstanceFromVars(vars, godogService, instanceID)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error: building instance from Privateer vars: %v\n", err)
+		return 1
 	}
 
 	writeDir := viper.GetString("write-directory")
@@ -74,9 +73,10 @@ func runBehavioural() int {
 	}
 
 	opts := runner.Options{
-		InstanceID:     instanceID,
-		EnvFile:        envFile,
-		Service:        varString(vars, "service"),
+		Instance:       &ic,
+		InstanceID:     ic.ID,
+		Vars:           vars,
+		Service:        godogService,
 		OutputDir:      writeDir,
 		Timeout:        30 * time.Minute,
 		ResourceFilter: varString(vars, "resource"),

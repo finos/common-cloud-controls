@@ -2,22 +2,27 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/finos/common-cloud-controls/runner"
+	"gopkg.in/yaml.v3"
 )
 
 var (
-	instance       = flag.String("instance", "", "Instance ID from environment.yaml (e.g. main-aws, main-azure)")
-	envFile        = flag.String("env-file", "", "Path to environment.yaml (default: cfi-testing/environment.yaml)")
-	service        = flag.String("service", "", "Service type to test; if empty, all services on the instance")
-	outputDir      = flag.String("output", "", "Output directory for test reports")
-	timeout        = flag.Duration("timeout", 30*time.Minute, "Timeout for all tests")
-	resourceFilter = flag.String("resource", "", "Filter tests to a specific resource name")
-	tags           = flag.String("tags", "", "Space-separated tag filters ANDed with service tags")
+	privateerConfig = flag.String("config", "", "Privateer config YAML (uses services.<name>.vars; requires --privateer-service)")
+	privateerService  = flag.String("privateer-service", "", "Privateer services.<id> key (e.g. azureStorageBehavioural)")
+	envFile           = flag.String("env-file", "", "Legacy environment YAML with instances: block")
+	instance          = flag.String("instance", "", "Instance id (legacy env-file only)")
+	service           = flag.String("service", "", "Service type (legacy env-file, or override Privateer vars.service)")
+	outputDir         = flag.String("output", "", "Output directory for test reports")
+	timeout           = flag.Duration("timeout", 30*time.Minute, "Timeout for all tests")
+	resourceFilter    = flag.String("resource", "", "Filter tests to a specific resource name")
+	tags              = flag.String("tags", "", "Space-separated tag filters ANDed with service tags")
 )
 
 func main() {
@@ -25,26 +30,90 @@ func main() {
 
 	testingDir := runner.TestingDir()
 	opts := runner.DefaultOptions(testingDir)
-	opts.InstanceID = *instance
 	opts.Timeout = *timeout
 	opts.ResourceFilter = *resourceFilter
 	opts.Tags = runner.ParseTags(*tags)
 
-	if *envFile != "" {
-		opts.EnvFile = *envFile
-	} else {
-		opts.EnvFile = filepath.Join(testingDir, "environment.yaml")
-	}
 	if *outputDir != "" {
 		opts.OutputDir = *outputDir
 	}
-	if *service != "" {
-		opts.Service = *service
-	}
 
-	if opts.InstanceID == "" {
-		log.Fatal("Error: -instance flag is required (e.g. main-aws, main-azure, main-gcp)")
+	if *privateerConfig != "" {
+		if *privateerService == "" {
+			log.Fatal("Error: -privateer-service is required with -config (e.g. azureStorageBehavioural)")
+		}
+		vars, err := loadPrivateerVars(*privateerConfig, *privateerService)
+		if err != nil {
+			log.Fatalf("Error loading Privateer config: %v", err)
+		}
+		if suffix := stringVar(vars, "instance-id"); suffix != "" {
+			_ = os.Setenv("INSTANCE_ID", suffix)
+		}
+		godogService := stringVar(vars, "service")
+		if *service != "" {
+			godogService = *service
+		}
+		if godogService == "" {
+			log.Fatal("Error: vars.service is required in Privateer config")
+		}
+		instanceID := stringVar(vars, "instance-id")
+		if instanceID == "" {
+			instanceID = *privateerService
+		}
+		ic, err := runner.InstanceFromVars(vars, godogService, instanceID)
+		if err != nil {
+			log.Fatalf("Error: %v", err)
+		}
+		opts.Instance = &ic
+		opts.InstanceID = ic.ID
+		opts.Vars = vars
+		opts.Service = godogService
+		if t := stringVar(vars, "tags"); t != "" && *tags == "" {
+			opts.Tags = runner.ParseTags(t)
+		}
+	} else {
+		opts.InstanceID = *instance
+		if *envFile != "" {
+			opts.EnvFile = *envFile
+		} else {
+			opts.EnvFile = filepath.Join(testingDir, "environment.yaml")
+		}
+		opts.Service = *service
+		if opts.InstanceID == "" {
+			log.Fatal("Error: -instance is required for legacy env-file mode, or use -config and -privateer-service")
+		}
 	}
 
 	os.Exit(runner.Run(opts))
+}
+
+func loadPrivateerVars(path, serviceID string) (map[string]interface{}, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	var raw map[string]interface{}
+	if err := yaml.Unmarshal(data, &raw); err != nil {
+		return nil, err
+	}
+	services, _ := raw["services"].(map[string]interface{})
+	if services == nil {
+		return nil, os.ErrNotExist
+	}
+	svc, _ := services[serviceID].(map[string]interface{})
+	if svc == nil {
+		return nil, os.ErrNotExist
+	}
+	vars, _ := svc["vars"].(map[string]interface{})
+	if vars == nil {
+		return make(map[string]interface{}), nil
+	}
+	return vars, nil
+}
+
+func stringVar(vars map[string]interface{}, key string) string {
+	if v, ok := vars[key]; ok && v != nil {
+		return strings.TrimSpace(fmt.Sprintf("%v", v))
+	}
+	return ""
 }
