@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
       echo "                                                     iam, load-balancer, security-group, vpc, logging"
       echo "  -o, --output DIR                     Output directory (default: testing/output)"
       echo "  -r, --resource RESOURCE              Filter to specific resource name"
-      echo "  -g, --tags 'TAG1 TAG2 ...'           Space-separated tags ANDed with service tags (e.g., '@CCC.Core.CN01 @Policy')."
+      echo "  -g, --tags 'TAG1 TAG2 ...'           Space-separated tags ANDed with service tags (e.g., '@Behavioural')."
       echo "                                       By default @NEGATIVE and @OPT_IN scenarios are excluded."
       echo "                                       Tags are ANDed with the service filter, so include service tags explicitly."
       echo "                                       e.g. for VPC opt-in: '--tags @OPT_IN @CCC.VPC'"
@@ -68,7 +68,7 @@ while [[ $# -gt 0 ]]; do
       echo "  $0 --instance main-aws"
       echo "  $0 --instance main-azure --service object-storage"
       echo "  $0 --instance main-azure --service object-storage --tags '@Behavioural'"
-      echo "  $0 --instance main-gcp --tags '@CCC.Core.CN04 @Policy'"
+      echo "  $0 --instance main-gcp --tags '@CCC.Core.CN04 @Behavioural'"
       echo "  $0 --instance main-aws --tags '@OPT_IN'               # run opt-in scenarios explicitly"
       echo "  $0 -e config/azure-storage-finos.yaml -i cfi_test_20260408t161043z"
       echo "  $0 --instance main-aws --env-file /path/to/custom-environment.yaml"
@@ -110,11 +110,9 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MODULES_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 export GOWORK="$MODULES_DIR/go.work"
 
-# Build workspace libraries in dependency order, then the runner binary.
-# Note: cfi-testing is excluded from "go build ./..." — package main lives in runner/
-# and Go would try to write a binary named "runner" next to the runner/ directory.
+# Build workspace libraries in dependency order, then the CLI binary.
 echo "🔨 Building Go workspace (modules/go.work)..."
-BUILD_MODULES=(cloud-api cloud-testing-dsl reporters)
+BUILD_MODULES=(cloud-api cloud-testing-dsl reporters runner)
 for mod in "${BUILD_MODULES[@]}"; do
   echo "   → $mod"
   if ! (cd "$MODULES_DIR/$mod" && go build ./...); then
@@ -123,10 +121,9 @@ for mod in "${BUILD_MODULES[@]}"; do
   fi
 done
 
-echo "   → cfi-testing (runner)"
-cd "$SCRIPT_DIR"
-if ! go build -o ccc-compliance ./runner/; then
-  echo "❌ Build failed: cfi-testing runner"
+echo "   → runner (ccc-compliance CLI)"
+if ! (cd "$MODULES_DIR/runner" && go build -o "$SCRIPT_DIR/ccc-compliance" ./cmd/ccc-compliance/); then
+  echo "❌ Build failed: ccc-compliance"
   exit 1
 fi
 

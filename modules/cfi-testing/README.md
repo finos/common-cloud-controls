@@ -43,20 +43,31 @@ By default, `@NEGATIVE` and `@OPT_IN` scenarios are excluded. Pass `-tags '@Beha
 ./modules/cfi-testing/run-compliance-tests.sh --instance main-aws --service vpc --tags '@Behavioural'
 ```
 
-## Go modules
+## Layout
 
-| Module | Path |
+| Piece | Path |
 |--------|------|
-| `cfi-testing` | This directory — runner, env config |
-| `cloud-testing-dsl` | [`../cloud-testing-dsl`](../cloud-testing-dsl) — Cucumber cloud steps |
-| `reporters` | [`../reporters`](../reporters) — HTML / OCSF formatters |
-| `cloud-api` | [`../cloud-api`](../cloud-api) — provider APIs |
+| Config | `config/` (e.g. `azure-storage-finos.yaml`) |
+| Run script | `run-compliance-tests.sh` (builds `ccc-compliance` from `runner`, runs it here) |
+| Runner library + CLI source | [`../runner`](../runner) |
 
-Build from this directory (uses `modules/go.work`):
+Use `./run-compliance-tests.sh` (recommended), or build the CLI yourself:
 
 ```bash
 export GOWORK=../go.work
-go build -o ccc-compliance ./runner/
+cd ../runner && go build -o ../cfi-testing/ccc-compliance ./cmd/ccc-compliance/
 ```
 
-Or use `./run-compliance-tests.sh`, which builds the whole workspace first.
+### Privateer behavioural plugin
+
+Run the same tests via [privateer-plugin](../privateer-plugin):
+
+```bash
+cd modules/privateer-plugin
+go build -o privateer-plugin .
+./privateer-plugin debug \
+  -c ../cfi-testing/config/privateer-behavioural-azure.example.yml \
+  -s azureStorageBehavioural
+```
+
+Or `privateer run -c ...` after installing the plugin to `~/privateer/bin`.

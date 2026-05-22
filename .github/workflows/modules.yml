@@ -64,8 +64,9 @@ jobs:
 
       - name: Build
         run: |
-          if [ "${{ matrix.module }}" = "cfi-testing" ]; then
-            go build -o ccc-compliance ./runner/
+          if [ "${{ matrix.module }}" = "runner" ]; then
+            go build ./...
+            go build -o ccc-compliance ./cmd/ccc-compliance/
           else
             go build ./...
           fi
