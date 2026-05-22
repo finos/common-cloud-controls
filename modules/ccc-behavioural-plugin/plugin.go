@@ -11,23 +11,23 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/reporters"
 	"github.com/finos/common-cloud-controls/runner"
-	"github.com/gemaraproj/go-gemara"
 	"github.com/spf13/viper"
 )
 
 const pluginName = "ccc-behavioural-plugin"
 
-var behaviouralRunOnce sync.Once
+var (
+	behaviouralTestsOnce     sync.Once
+	behaviouralTestsExitCode int
+)
 
-// runBehaviouralStep runs the Godog suite once, then returns per-AR results from collected scenarios.
-func runBehaviouralStep(requirementID string) gemara.AssessmentStep {
-	return func(_ interface{}) (gemara.Result, string, gemara.ConfidenceLevel) {
-		behaviouralRunOnce.Do(func() {
-			reporters.ResetPrivateerCollector()
-			runBehavioural()
-		})
-		return reporters.ResultForRequirement(requirementID)
-	}
+// ensureBehaviouralTestsRun executes the Godog suite once before the orchestrator evaluates.
+// Godog may exit non-zero when scenarios fail; Mobilize still runs so Gemara YAML is written.
+func ensureBehaviouralTestsRun() {
+	behaviouralTestsOnce.Do(func() {
+		reporters.ResetPrivateerCollector()
+		behaviouralTestsExitCode = runBehavioural()
+	})
 }
 
 func runBehavioural() int {

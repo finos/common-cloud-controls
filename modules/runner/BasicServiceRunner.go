@@ -316,7 +316,7 @@ func (r *BasicServiceRunner) runResourceTest(ctx context.Context, params types.T
 	htmlFormat := fmt.Sprintf("html-%s", filename)
 	ocsfFormat := fmt.Sprintf("ocsf-%s", filename)
 	summaryFormat := "summary"
-	privateerFormat := "privateer"
+	privateerFormat := fmt.Sprintf("privateer-%s", filename)
 
 	godog.Format(htmlFormat, "HTML report", formatterFactory.GetHTMLFormatterFunc())
 	godog.Format(ocsfFormat, "OCSF report", formatterFactory.GetOCSFFormatterFunc())
