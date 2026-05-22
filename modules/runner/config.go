@@ -144,7 +144,7 @@ func expandVarValue(v interface{}) interface{} {
 }
 
 // MergePrivateerVars copies Privateer vars into Props for Godog substitution (tags, instance-id, etc.).
-// testUser* entries are omitted; loadTestIdentitiesFromVars binds them as *iam.Identity.
+// test-identities and testUser* keys are omitted (credentials stay in Config only).
 func MergePrivateerVars(props map[string]interface{}, vars map[string]interface{}) {
 	if props == nil || len(vars) == 0 {
 		return

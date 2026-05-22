@@ -22,7 +22,7 @@ Feature: CCC.ObjStor.CN03.AR01 - Bucket Soft Delete and Recovery
     When I call "{storage}" with "ListDeletedBuckets"
     Then "{result}" is not an error
     And I attach "{result}" to the test output as "deleted-buckets.json"
-    And "{result}" should have length greater than "0"
+    And "{result}" is an array of objects with length "1"
     When I call "{storage}" with "RestoreBucket" using argument "ccc-test-soft-delete"
     Then "{result}" is not an error
     When I call "{storage}" with "ListBuckets"

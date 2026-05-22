@@ -152,7 +152,7 @@ func (s *AzureLoggingService) queryAdminLogs(resourceID string, lookbackMinutes 
 
 	pager := s.activityLogsClient.NewListPager(filter, nil)
 
-	var entries []LogEntry
+	entries := make([]LogEntry, 0)
 	for pager.More() {
 		page, err := pager.NextPage(s.ctx)
 		if err != nil {

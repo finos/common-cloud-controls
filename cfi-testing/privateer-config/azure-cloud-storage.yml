@@ -25,6 +25,12 @@ services:
       azure-resource-group: "cfi_test_${INSTANCE_ID}"
       azure-storage-account: "stgcfi${INSTANCE_ID}"
       object-storage-retention-period-days: 2
+      permitted-regions:
+        - eastus
+        - westus
+      replication-locations:
+        - eastus
+        - westus
       default-container: "ccc-test-container-${INSTANCE_ID}"
       test-identities:
         testUserNoAccess:

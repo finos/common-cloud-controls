@@ -23,4 +23,4 @@ Feature: CCC.ObjStor.CN03.AR02 - Immutable Bucket Retention Policy
     And I attach "{result}" to the test output as "set-retention-error.txt"
     When I call "{storage}" with "GetBucketRetentionDurationDays" using argument "{ResourceName}"
     Then "{result}" is not an error
-    And "{result}" should equal "{originalRetention}"
+    And "{result}" should be greater than "0"

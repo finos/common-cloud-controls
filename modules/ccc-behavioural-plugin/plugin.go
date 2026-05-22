@@ -35,18 +35,10 @@ func runBehavioural() int {
 		return 1
 	}
 
-	vars := viper.GetStringMap(fmt.Sprintf("services.%s.vars", privateerService))
-	globalVars := viper.GetStringMap("vars")
-	for k, v := range globalVars {
-		if _, ok := vars[k]; !ok {
-			vars[k] = v
-		}
-	}
+	cfg := loadPluginConfig(privateerService)
+	vars := cfg.Vars()
 
-	// Privateer passes YAML literals (e.g. cfi_test_${INSTANCE_ID}) without shell expansion.
-	vars = runner.ExpandVars(vars)
-
-	godogService := varString(vars, "service")
+	godogService := cfg.Get("service")
 	if godogService == "" {
 		fmt.Fprintln(os.Stderr, "error: services."+privateerService+".vars.service is required (e.g. object-storage)")
 		return 1
@@ -55,7 +47,7 @@ func runBehavioural() int {
 	// Prefer INSTANCE_ID from the shell (run-compliance-tests.sh); fall back to expanded instance-id.
 	instanceID := strings.TrimSpace(os.Getenv("INSTANCE_ID"))
 	if instanceID == "" {
-		instanceID = varString(vars, "instance-id")
+		instanceID = cfg.Get("instance-id")
 	}
 	if instanceID == "" {
 		instanceID = privateerService
@@ -72,18 +64,18 @@ func runBehavioural() int {
 	}
 
 	opts := runner.Options{
-		Config:         types.NewConfig(vars),
+		Config:         cfg,
 		InstanceID:     instanceID,
 		Vars:           vars,
 		Service:        godogService,
 		OutputDir:      writeDir,
 		Timeout:        30 * time.Minute,
-		ResourceFilter: varString(vars, "resource"),
-		Tags:           runner.ParseTags(varString(vars, "tags")),
+		ResourceFilter: cfg.Get("resource"),
+		Tags:           runner.ParseTags(cfg.Get("tags")),
 		CleanOutput:    true,
 	}
 
-	if t := varString(vars, "timeout"); t != "" {
+	if t := cfg.Get("timeout"); t != "" {
 		if d, err := time.ParseDuration(t); err == nil {
 			opts.Timeout = d
 		}
@@ -103,9 +95,36 @@ func runBehavioural() int {
 	return runner.Run(opts)
 }
 
-func varString(vars map[string]interface{}, key string) string {
-	if v, ok := vars[key]; ok && v != nil {
-		return strings.TrimSpace(fmt.Sprintf("%v", v))
+// loadPluginConfig reads services.<id>.vars. Prefer the config file (yaml.Unmarshal) so nested
+// test-identities survive; viper.GetStringMap flattens nested maps to unusable strings.
+func loadPluginConfig(privateerService string) types.Config {
+	vars := make(map[string]interface{})
+
+	if configFile := viper.ConfigFileUsed(); configFile != "" {
+		if loaded, err := runner.LoadPrivateerConfig(configFile, privateerService); err == nil {
+			for k, v := range loaded.Vars() {
+				vars[k] = v
+			}
+		}
 	}
-	return ""
+
+	if len(vars) == 0 {
+		varsKey := fmt.Sprintf("services.%s.vars", privateerService)
+		var fromViper map[string]interface{}
+		if err := viper.UnmarshalKey(varsKey, &fromViper); err == nil {
+			for k, v := range fromViper {
+				vars[k] = v
+			}
+		}
+	}
+
+	var globalVars map[string]interface{}
+	if err := viper.UnmarshalKey("vars", &globalVars); err == nil {
+		for k, v := range globalVars {
+			if _, ok := vars[k]; !ok {
+				vars[k] = v
+			}
+		}
+	}
+	return types.NewConfig(runner.ExpandVars(vars))
 }
