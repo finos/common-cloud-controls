@@ -12,7 +12,7 @@ All Go code for CCC cloud testing lives under this directory.
 | `cloud-testing-dsl` | [`cloud-testing-dsl/`](cloud-testing-dsl/) — Cucumber/Godog cloud steps |
 | `reporters` | [`reporters/`](reporters/) — HTML, OCSF, summary formatters |
 | `runner` | [`runner/`](runner/) — behavioural test runner library and `ccc-compliance` CLI |
-| `privateer-plugin` | [`privateer-plugin/`](privateer-plugin/) — Privateer plugin (same tests as `runner`) |
+| `ccc-behavioural-plugin` | [`ccc-behavioural-plugin/`](ccc-behavioural-plugin/) — Privateer plugin (same tests as `runner`) |
 
 Build everything:
 

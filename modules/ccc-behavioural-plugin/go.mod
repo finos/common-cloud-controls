@@ -1,4 +1,4 @@
-module github.com/finos/common-cloud-controls/privateer-plugin
+module github.com/finos/common-cloud-controls/ccc-behavioural-plugin
 
 go 1.26.2
 

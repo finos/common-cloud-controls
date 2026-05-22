@@ -20,7 +20,12 @@ modules/cloud-testing-dsl/examples_of_testssl
 
 # cfi-testing output
 cfi-testing/output
+cfi-testing/evaluation_results
 cfi-testing/ccc-compliance
+cfi-testing/azure-env.sh
+cfi-testing/.privateer/
 
-# privateer plugin build artifact (go build -o privateer-plugin)
-modules/privateer-plugin/privateer-plugin
+# CCC behavioural plugin build artifact (go build -o ccc-behavioural-plugin)
+modules/ccc-behavioural-plugin/ccc-behavioural-plugin
+azure-env.sh
+modules/ccc-behavioural-plugin/privateer-plugin

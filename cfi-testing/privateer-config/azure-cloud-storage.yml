@@ -1,16 +1,3 @@
-# Privateer config for CCC behavioural tests (Azure object-storage).
-# All target configuration lives under services.<id>.vars (no separate environment.yaml).
-#
-#   privateer run -c cfi-testing/privateer-config/azure-cloud-storage.yml
-#
-# Debug without the Privateer host:
-#   cd modules/privateer-plugin && go run . debug \
-#     -c ../../cfi-testing/privateer-config/azure-cloud-storage.yml -s azureStorageBehavioural
-#
-# Export INSTANCE_ID (or set instance-id below) before run — used in ${INSTANCE_ID} placeholders.
-#
-# Dummy policy block satisfies Privateer config validation; this plugin does not run Gemara assessments.
-
 loglevel: info
 write-directory: evaluation_results
 write: true
@@ -18,7 +5,7 @@ output: yaml
 
 services:
   azureStorageBehavioural:
-    plugin: privateer-plugin
+    plugin: ccc-behavioural-plugin
     policy:
       catalogs:
         - CCC.ObjStor
@@ -30,16 +17,33 @@ services:
     vars:
       service: object-storage
       tags: "@Behavioural"
-      instance-id: "20260408t161043z"
+      instance-id: "${INSTANCE_ID}"
       provider: azure
       region: eastus
-      azure-subscription-id: c1cedd8e-bf91-4d7d-a4cc-45700402a2a1
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-tenant-id: "${AZURE_TENANT_ID}"
       azure-resource-group: "cfi_test_${INSTANCE_ID}"
       azure-storage-account: "stgcfi${INSTANCE_ID}"
       object-storage-retention-period-days: 2
       default-container: "ccc-test-container-${INSTANCE_ID}"
-      # Pre-provisioned IAM principal names (must exist in the test environment)
-      testUserNoAccess: test-user-no-access
-      testUserRead: test-user-read
-      testUserWrite: test-user-write
-      testUserAdmin: test-user-admin-access
+      test-identities:
+        testUserNoAccess:
+          user-name: "cfi-${INSTANCE_ID}-test-user-no-access"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
+        testUserRead:
+          user-name: "cfi-${INSTANCE_ID}-test-user-read"
+          client_id: "${AZURE_TEST_USER_READ_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_READ_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_READ_OBJECT_ID}"
+        testUserWrite:
+          user-name: "cfi-${INSTANCE_ID}-test-user-write"
+          client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
+        testUserAdmin:
+          user-name: "cfi-${INSTANCE_ID}-test-user-admin-access"
+          client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_ADMIN_OBJECT_ID}"

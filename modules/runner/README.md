@@ -13,7 +13,7 @@ go build -o ccc-compliance ./cmd/ccc-compliance/
 
 ## Consumers
 
-- [`privateer-plugin`](../privateer-plugin) — Privateer plugin (`runner.Run` in-process)
+- [`ccc-behavioural-plugin`](../ccc-behavioural-plugin) — Privateer plugin (`runner.Run` in-process)
 
 ## API
 
