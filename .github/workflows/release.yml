@@ -19,9 +19,10 @@ name: Release Catalog
 # Auth: no secrets for publish. grcli mints a GitHub Actions OIDC token (id-token:
 # write below) for the grc.store hub sync and cosign keyless signing.
 #
-# compile is implemented for `capabilities` (validated end-to-end against the
-# Gemara CUE spec via grcli). `threats` and `controls` are not wired yet and
-# will fail with a clear error until implemented.
+# compile produces all three typed catalogs (capabilities / threats / controls), and
+# every asset type is run through grcli validate against the Gemara CUE spec (below).
+# capabilities has been verified end-to-end; threats and controls take the same path
+# but have not yet been exercised through a full validate + publish run.
 
 on:
   workflow_dispatch:
@@ -146,10 +147,16 @@ jobs:
         run: |
           prerelease=""
           case "$VERSION" in *rc*) prerelease="--prerelease" ;; esac
+          # The asset name must be unique per catalog: multiple catalogs (and asset
+          # types) share one version tag, and gh derives the asset name from the file
+          # basename — so a bare capabilities.yaml from two catalogs would clobber.
+          # Qualify it with the build target (storage/object -> storage_object).
+          asset="${BUILD_TARGET//\//_}_${ASSET_TYPE}.yaml"
+          cp "$ARTIFACT" "$asset"
           # Create the release for this version if it doesn't exist yet; otherwise
-          # just add this asset to it (multiple asset types share one version tag).
-          gh release create "$VERSION" "$ARTIFACT" \
+          # just add this asset to it (multiple catalogs/asset types share one tag).
+          gh release create "$VERSION" "$asset" \
             --title "${BUILD_TARGET} ${ASSET_TYPE} ${VERSION}" \
             --notes "Release of ${BUILD_TARGET} ${ASSET_TYPE} (${VERSION}), published to grc.store." \
             $prerelease \
-          || gh release upload "$VERSION" "$ARTIFACT" --clobber
+          || gh release upload "$VERSION" "$asset" --clobber

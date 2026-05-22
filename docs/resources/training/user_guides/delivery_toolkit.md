@@ -130,14 +130,18 @@ Here are some example commands for testing the toolkit locally:
 - **Compile a Catalog Asset**
 
   ```bash
-  go run . compile --build-target storage/object --type capabilities --version v2026.04
+  go run . compile --build-target storage/object --type capabilities --version v2026.04 --output-dir artifacts
   ```
 
   **Output Example**:
 
   ```text
-  compiled storage/object/capabilities -> ./artifacts/storage/object/capabilities.yaml
+  compiled storage/object/capabilities -> artifacts/storage/object/capabilities.yaml
   ```
+
+  > **NOTE**: `--output-dir` defaults to the current directory, so without it the
+  > artifact lands at `storage/object/capabilities.yaml`. Swap `--type` for
+  > `threats` or `controls` to compile those catalogs.
 
   > **NOTE**: Produces a single self-describing Gemara artifact ready for `grcli validate` / `grcli publish`.
 
@@ -145,28 +149,22 @@ Here are some example commands for testing the toolkit locally:
 
 The Artifact Pipeline is the backbone of the Delivery Toolkit, leveraging GitHub Actions to:
 
-- Compile version-controlled catalog data.
-- Create a release candidate using GitHub Releases.
-- Generate release notes with appropriate tagging.
+- Compile a single typed catalog asset from version-controlled source.
+- Validate it against the Gemara spec and publish it to grc.store.
+- Cut a GitHub release carrying the same artifact.
 
 ### Steps to Execute
 
 1. Log in to GitHub and navigate to the `common-cloud-controls` repository.
 2. Click **Actions** in the repository menu.  
    ![Actions Tab](imgs/delivery_toolkit/image.png)
-3. Select the **Release Workflow** on the left-hand side.  
-   ![Release Workflow](imgs/delivery_toolkit/image-1.png)
-4. Click **Run workflow**, specify the target service and tag, and then confirm.  
-   ![Run Workflow Example](imgs/delivery_toolkit/image-2.png)
+3. Select the **Release Catalog** workflow on the left-hand side.
+4. Click **Run workflow** and supply the inputs:
+   - **build_target** — the catalog to release as `family/service` (e.g. `storage/object`).
+   - **asset_type** — `capabilities`, `threats`, or `controls`.
+   - **version** — the release version stamped into the artifact (e.g. `v2026.04`, or `v2026.04-rc1` for a release candidate).
+   - **dry_run** — optional; compile + validate + build the bundle without publishing to grc.store or cutting a GitHub release.
 
-   > **Note**: The process may take a few minutes to complete.
+   > **Note**: The process may take a few minutes to complete. A `version` containing `rc` is automatically published as a prerelease — there is no manual tag editing step.
 
 5. Verify the release under [Common Cloud Controls Releases](https://github.com/finos/common-cloud-controls/releases) and ensure it aligns with the [Release Guidelines](../../../community-guidelines/content-standards-and-practices/release-assets.md).
-
-6. Once verified, update the release title and tag by removing the `-rc` designation.
-
-   Example:
-   - **Title**: Release v2025.01.VPC
-   - **Tag**: v2025.01.VPC
-
-   ![Edit Release Example](imgs/delivery_toolkit/image-5.png)
