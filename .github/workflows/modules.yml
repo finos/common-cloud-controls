@@ -1,0 +1,82 @@
+name: Modules
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "modules/**"
+      - "go.work"
+      - "go.work.sum"
+      - ".github/workflows/modules.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "modules/**"
+      - "go.work"
+      - "go.work.sum"
+      - ".github/workflows/modules.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Discover Go modules
+        id: set-matrix
+        run: |
+          modules=()
+          for mod in modules/*/go.mod; do
+            dir=$(dirname "$mod")
+            name=$(basename "$dir")
+            modules+=("{\"module\":\"$name\",\"path\":\"$dir\"}")
+          done
+          if [ ${#modules[@]} -eq 0 ]; then
+            echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          json=$(printf '%s\n' "${modules[@]}" | jq -s -c '{include: .}')
+          echo "matrix=$json" >> "$GITHUB_OUTPUT"
+          echo "Discovered modules: $json"
+
+  build:
+    needs: discover
+    if: needs.discover.outputs.matrix != '{"include":[]}'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.path }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: ${{ matrix.path }}/go.mod
+          cache-dependency-path: ${{ matrix.path }}/go.sum
+
+      - name: Verify module
+        run: go mod verify
+
+      - name: Build
+        run: go build ./...
+
+      - name: Unit tests with coverage
+        run: go test -coverprofile=coverage-unit.out -covermode=atomic ./...
+
+      - name: Upload unit coverage to Codecov
+        if: always() && hashFiles(format('{0}/coverage-unit.out', matrix.path)) != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ matrix.path }}/coverage-unit.out
+          flags: ${{ matrix.module }}-unit
+          fail_ci_if_error: false

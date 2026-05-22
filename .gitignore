@@ -11,3 +11,6 @@ delivery-toolkit/artifacts
 # CFI Test Results
 website/src/data/test-results/**/*
 website/static/downloads/cfi/**/*
+
+# cloud-api coverage artifacts (local runs)
+modules/cloud-api/coverage-*.out

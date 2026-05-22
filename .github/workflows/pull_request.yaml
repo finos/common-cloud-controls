@@ -31,3 +31,8 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
+
+  modules-check:
+    uses: ./.github/workflows/modules.yml
+    permissions:
+      contents: read
