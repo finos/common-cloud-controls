@@ -19,7 +19,6 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/factory"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	generic "github.com/robmoffat/standard-cucumber-steps/go"
-	"gopkg.in/yaml.v3"
 )
 
 // Connection represents a network connection with state and I/O
@@ -596,87 +595,4 @@ func (cw *CloudWorld) requireEnvironmentVariableAs(envKey string, alias string) 
 		return fmt.Errorf("required environment variable %q is not set", strings.TrimSpace(envKey))
 	}
 	return nil
-}
-
-// attemptPolicyCheck runs a specific policy check by name
-// Example: I attempt policy check "s3-object-lock" for control "CCC.Core.CN14" assessment requirement "AR01" for service "object-storage" on resource "{ResourceName}" and provider "aws"
-// Returns:
-//   - Pass if service type doesn't match (policy not applicable)
-//   - Fail if policy file is missing
-//   - Pass/Fail based on policy evaluation otherwise
-func (cw *CloudWorld) attemptPolicyCheck(checkName, control, ar, serviceType, resourceName, provider string) error {
-	// Resolve any variable references
-	checkNameResolved := fmt.Sprintf("%v", cw.HandleResolve(checkName))
-	controlResolved := fmt.Sprintf("%v", cw.HandleResolve(control))
-	arResolved := fmt.Sprintf("%v", cw.HandleResolve(ar))
-	providerResolved := fmt.Sprintf("%v", cw.HandleResolve(provider))
-
-	// Build the policy file path directly
-	// Directory structure: policy/{CatalogType}/{Control}/{AR}/{check-name}/{provider}.yaml
-	// Example: policy/CCC.Core/CCC.Core.CN14/AR01/s3-object-lock/aws.yaml
-
-	// Extract catalog type from control (e.g., "CCC.Core" from "CCC.Core.CN14")
-	catalogType := extractCatalogType(controlResolved)
-
-	// Policy YAML lives under modules/cfi-testing/policy (optional; behavioural tests skip policy steps).
-	_, filename, _, _ := runtime.Caller(0)
-	moduleDir := filepath.Dir(filename)
-	repoRoot := filepath.Join(moduleDir, "..", "..")
-	policyBaseDir := filepath.Join(repoRoot, "modules", "cfi-testing", "policy")
-
-	// Build the exact policy file path
-	policyPath := filepath.Join(policyBaseDir, catalogType, controlResolved, arResolved, checkNameResolved, providerResolved+".yaml")
-
-	// Check if the policy file exists
-	if _, err := os.Stat(policyPath); os.IsNotExist(err) {
-		cw.Props["result"] = false
-		return fmt.Errorf("policy check file not found: %s", policyPath)
-	}
-
-	// Load the policy to check service_type
-	data, err := os.ReadFile(policyPath)
-	if err != nil {
-		cw.Props["result"] = false
-		return fmt.Errorf("failed to read policy file %s: %w", policyPath, err)
-	}
-
-	// Parse the YAML to get the service_type
-	var policyDef struct {
-		ServiceType string `yaml:"service_type"`
-	}
-	if err := yaml.Unmarshal(data, &policyDef); err != nil {
-		cw.Props["result"] = false
-		return fmt.Errorf("failed to parse policy file %s: %w", policyPath, err)
-	}
-
-	// Create policy checker and run the policy using Props for parameter substitution
-	checker := NewPolicyChecker(policyBaseDir)
-	result, err := checker.RunPolicy(cw.Props, policyPath)
-	if err != nil {
-		cw.Props["result"] = false
-		return fmt.Errorf("failed to run policy %s: %w", policyPath, err)
-	}
-
-	// Attach policy result as JSON
-	resultJSON, _ := json.MarshalIndent(result, "", "  ")
-	cw.Attach(fmt.Sprintf("policy-result-%s.json", checkNameResolved), "application/json", resultJSON)
-
-	cw.Props["result"] = result.Passed
-
-	// If policy failed, return an error with details
-	if !result.Passed {
-		return fmt.Errorf("policy check failed: %s: %s", result.Name, result.QueryError)
-	}
-
-	return nil
-}
-
-// extractCatalogType extracts the catalog type from a control ID
-// e.g., "CCC.Core.CN14" -> "CCC.Core", "CCC.ObjStor.CN01" -> "CCC.ObjStor"
-func extractCatalogType(control string) string {
-	parts := strings.Split(control, ".")
-	if len(parts) >= 2 {
-		return parts[0] + "." + parts[1]
-	}
-	return control
 }

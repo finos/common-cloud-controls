@@ -1,8 +1,7 @@
-package main
+package runner
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -11,52 +10,50 @@ import (
 	"strings"
 	"time"
 
-	"github.com/finos/common-cloud-controls/reporters"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	"github.com/finos/common-cloud-controls/reporters"
 )
 
-var (
-	instance       = flag.String("instance", "", "Instance ID from environment.yaml (e.g. main-aws, main-azure)")
-	envFile        = flag.String("env-file", "", "Path to environment.yaml (default: environment.yaml in testing directory)")
-	service        = flag.String("service", "", "Service type to test (object-storage, logging, block-storage, relational-database, iam, load-balancer, security-group, vpc). If not specified, tests all services defined in the instance.")
-	outputDir      = flag.String("output", "", "Output directory for test reports (default: testing/output)")
-	timeout        = flag.Duration("timeout", 30*time.Minute, "Timeout for all tests")
-	resourceFilter = flag.String("resource", "", "Filter tests to a specific resource name")
-	tags           = flag.String("tags", "", "Space-separated tag filters ANDed with service tags (e.g., '@CCC.Core.CN01 @Policy')")
-)
+// Options configures a full compliance test run (CLI or Privateer plugin).
+type Options struct {
+	InstanceID     string
+	EnvFile        string
+	Service        string
+	OutputDir      string
+	Timeout        time.Duration
+	ResourceFilter string
+	Tags           []string
+	CleanOutput    bool
+}
 
-func main() {
-	flag.Parse()
+// DefaultOptions returns options with sensible defaults for OutputDir and Timeout.
+func DefaultOptions(testingDir string) Options {
+	return Options{
+		OutputDir:   filepath.Join(testingDir, "output"),
+		Timeout:     30 * time.Minute,
+		CleanOutput: true,
+	}
+}
 
-	// Resolve the testing directory relative to this source file
-	_, filename, _, _ := runtime.Caller(0)
-	runnerDir := filepath.Dir(filename)
-	testingDir := filepath.Dir(runnerDir)
-
-	// Set default output directory
-	if *outputDir == "" {
-		*outputDir = filepath.Join(testingDir, "output")
+// Run executes compliance tests for all matching services on the instance.
+// Returns 0 on success, 1 on test failures or fatal configuration errors.
+func Run(opts Options) int {
+	if opts.InstanceID == "" {
+		log.Fatal("Error: instance ID is required")
+	}
+	if opts.EnvFile == "" {
+		log.Fatal("Error: env file path is required")
+	}
+	if opts.Timeout == 0 {
+		opts.Timeout = 30 * time.Minute
 	}
 
-	// Set default env file path
-	envFilePath := *envFile
-	if envFilePath == "" {
-		envFilePath = filepath.Join(testingDir, "environment.yaml")
-	}
-
-	// Validate required flags
-	if *instance == "" {
-		log.Fatal("Error: -instance flag is required (e.g. main-aws, main-azure, main-gcp)")
-	}
-
-	// Load types.yaml
-	envConfig, err := LoadEnvironment(envFilePath)
+	envConfig, err := LoadEnvironment(opts.EnvFile)
 	if err != nil {
 		log.Fatalf("Error loading environment file: %v", err)
 	}
 
-	// Find the requested instance
-	inst, err := FindInstance(envConfig, *instance)
+	inst, err := FindInstance(envConfig, opts.InstanceID)
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
@@ -65,69 +62,65 @@ func main() {
 	log.Printf("   Instance: %s (%s)", inst.ID, inst.Properties.Provider)
 	log.Println()
 
-	// Prepare output directory
-	log.Printf("🧹 Cleaning output directory: %s", *outputDir)
-	if err := os.RemoveAll(*outputDir); err != nil && !os.IsNotExist(err) {
-		log.Printf("⚠️  Warning: Failed to clean output directory: %v", err)
+	if opts.CleanOutput {
+		log.Printf("🧹 Cleaning output directory: %s", opts.OutputDir)
+		if err := os.RemoveAll(opts.OutputDir); err != nil && !os.IsNotExist(err) {
+			log.Printf("⚠️  Warning: Failed to clean output directory: %v", err)
+		}
 	}
-	if err := os.MkdirAll(*outputDir, 0755); err != nil {
+	if err := os.MkdirAll(opts.OutputDir, 0755); err != nil {
 		log.Fatalf("Failed to create output directory: %v", err)
 	}
 	log.Printf("✅ Output directory ready")
 	log.Println()
 
-	// Determine which services to run from the instance definition
 	servicesToRun := inst.Services
-	if *service != "" {
-		// Validate and filter to the requested service type
+	if opts.Service != "" {
 		validService := false
 		for _, st := range types.ServiceTypes {
-			if st == *service {
+			if st == opts.Service {
 				validService = true
 				break
 			}
 		}
 		if !validService {
-			log.Fatalf("Error: invalid service '%s'. Valid services are: %s", *service, strings.Join(types.ServiceTypes, ", "))
+			log.Fatalf("Error: invalid service '%s'. Valid services are: %s", opts.Service, strings.Join(types.ServiceTypes, ", "))
 		}
 		var filtered []types.ServiceConfig
 		for _, svc := range inst.Services {
-			if svc.Type == *service {
+			if svc.Type == opts.Service {
 				filtered = append(filtered, svc)
 			}
 		}
 		if len(filtered) == 0 {
-			log.Fatalf("Error: service '%s' is not defined in instance '%s'", *service, inst.ID)
+			log.Fatalf("Error: service '%s' is not defined in instance '%s'", opts.Service, inst.ID)
 		}
 		servicesToRun = filtered
-		log.Printf("   Service: %s", *service)
+		log.Printf("   Service: %s", opts.Service)
 		log.Println()
 	}
 
-	// Build one runner per service
 	var runners []ServiceRunner
 	for i := range servicesToRun {
 		runners = append(runners, NewBasicServiceRunner(RunConfig{
 			ServiceName:    servicesToRun[i].Type,
 			Instance:       *inst,
-			OutputDir:      *outputDir,
-			Timeout:        *timeout,
-			ResourceFilter: *resourceFilter,
-			Tags:           parseTags(*tags),
+			OutputDir:      opts.OutputDir,
+			Timeout:        opts.Timeout,
+			ResourceFilter: opts.ResourceFilter,
+			Tags:           opts.Tags,
 		}))
 	}
 
 	log.Printf("📋 Running %d service runner(s)", len(runners))
 	log.Println()
 
-	// Run all service runners
 	totalFailed := 0
 	totalPassed := 0
 
-	for i, runner := range runners {
+	for i, r := range runners {
 		log.Printf("🔧 Running service runner %d/%d", i+1, len(runners))
-		exitCode := runner.Run()
-
+		exitCode := r.Run()
 		if exitCode == 0 {
 			totalPassed++
 		} else {
@@ -135,23 +128,20 @@ func main() {
 		}
 	}
 
-	// Combine all OCSF files into a single file
 	log.Println("\n🔗 Combining OCSF output files...")
-	if err := combineOCSFFiles(*outputDir); err != nil {
+	if err := combineOCSFFiles(opts.OutputDir); err != nil {
 		log.Printf("⚠️  Warning: Failed to combine OCSF files: %v", err)
 	} else {
-		log.Printf("   ✅ Combined OCSF file created: %s", filepath.Join(*outputDir, "combined.ocsf.json"))
+		log.Printf("   ✅ Combined OCSF file created: %s", filepath.Join(opts.OutputDir, "combined.ocsf.json"))
 	}
 
-	// Generate summary report (summary.html + console)
 	log.Println("\n📋 Generating summary report...")
-	if err := reporters.GenerateSummaryReport(*outputDir); err != nil {
+	if err := reporters.GenerateSummaryReport(opts.OutputDir); err != nil {
 		log.Printf("⚠️  Warning: Failed to generate summary report: %v", err)
 	} else {
-		log.Printf("   ✅ Summary report created: %s", filepath.Join(*outputDir, "summary.html"))
+		log.Printf("   ✅ Summary report created: %s", filepath.Join(opts.OutputDir, "summary.html"))
 	}
 
-	// Print summary
 	log.Println("\n" + strings.Repeat("=", 60))
 	log.Printf("📊 Overall Summary")
 	log.Printf("   Total Runners: %d", len(runners))
@@ -161,20 +151,20 @@ func main() {
 
 	if totalFailed > 0 {
 		log.Println("❌ Some runners had test failures")
-		os.Exit(1)
-	} else if len(runners) == 0 {
-		log.Println("⚠️  No runners were executed")
-		os.Exit(1)
-	} else if totalPassed == 0 {
-		log.Println("⚠️  No runners executed any tests")
-		os.Exit(0)
-	} else {
-		log.Println("✅ All runners passed")
-		os.Exit(0)
+		return 1
 	}
+	if len(runners) == 0 {
+		log.Println("⚠️  No runners were executed")
+		return 1
+	}
+	if totalPassed == 0 {
+		log.Println("⚠️  No runners executed any tests")
+		return 0
+	}
+	log.Println("✅ All runners passed")
+	return 0
 }
 
-// combineOCSFFiles combines all *ocsf.json files in the output directory into a single combined_ocsf.json file
 func combineOCSFFiles(outputDir string) error {
 	pattern := filepath.Join(outputDir, "*ocsf.json")
 	files, err := filepath.Glob(pattern)
@@ -219,8 +209,8 @@ func combineOCSFFiles(outputDir string) error {
 	return nil
 }
 
-// parseTags parses a space-separated tags string into a slice of tags
-func parseTags(tagsStr string) []string {
+// ParseTags parses a space-separated tags string into Cucumber tag filters.
+func ParseTags(tagsStr string) []string {
 	if tagsStr == "" {
 		return nil
 	}
@@ -233,4 +223,16 @@ func parseTags(tagsStr string) []string {
 		tags = append(tags, tag)
 	}
 	return tags
+}
+
+// RepoRoot returns the common-cloud-controls repository root.
+func RepoRoot() string {
+	_, filename, _, _ := runtime.Caller(0)
+	// .../modules/runner/<file>.go -> repo root
+	return filepath.Dir(filepath.Dir(filepath.Dir(filename)))
+}
+
+// TestingDir returns modules/cfi-testing (config, scripts, default output).
+func TestingDir() string {
+	return filepath.Join(RepoRoot(), "modules", "cfi-testing")
 }

@@ -1,4 +1,4 @@
-package main
+package runner
 
 import (
 	"context"
@@ -8,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
-	"runtime"
 	"strings"
 	"time"
 
@@ -303,13 +302,8 @@ func (r *BasicServiceRunner) runResourceTest(ctx context.Context, params types.T
 	// so they appear in the HTML report and are available for step template substitution.
 	params = enrichParamsProps(params)
 
-	if r.Config.ServiceName == "object-storage" {
-		cloudFactory, err := factory.NewFactory(types.CloudProvider(r.Config.Instance.Properties.Provider), r.Config.Instance)
-		if err != nil {
-			log.Printf("   ⚠️  Failed to create factory for identity provisioning: %v", err)
-		} else {
-			provisionTestIdentities(cloudFactory, params.UID, params.Props)
-		}
+	if r.Config.ServiceName == "object-storage" && !tagFilterSkipsTestIdentities(params.TagFilter) {
+		loadTestIdentities(params.Instance, params.Props)
 	}
 
 	// Create formatter factory
@@ -379,11 +373,7 @@ func (r *BasicServiceRunner) printSummary(stats TestStats) {
 // discoverFeaturePaths returns Godog paths under modules/features/{service}/<catalog>/.
 // object-storage runs also include modules/features/port/ (PerPort TLS scenarios).
 func (r *BasicServiceRunner) discoverFeaturePaths() ([]string, error) {
-	_, filename, _, _ := runtime.Caller(0)
-	// runner/ -> cfi-testing/ -> modules/ -> repo root
-	cfiTestingDir := filepath.Dir(filepath.Dir(filename))
-	repoRoot := filepath.Dir(filepath.Dir(cfiTestingDir))
-	return collectFeaturePaths(repoRoot, r.Config.ServiceName)
+	return collectFeaturePaths(RepoRoot(), r.Config.ServiceName)
 }
 
 func collectFeaturePaths(repoRoot, serviceName string) ([]string, error) {

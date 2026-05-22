@@ -7,11 +7,6 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// EnvironmentConfig is the top-level structure of types.yaml
-type EnvironmentConfig struct {
-	Instances []InstanceConfig `yaml:"instances"`
-}
-
 // InstanceConfig represents a named cloud environment instance
 type InstanceConfig struct {
 	ID         string                 `yaml:"id"`

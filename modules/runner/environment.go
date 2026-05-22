@@ -1,4 +1,4 @@
-package main
+package runner
 
 import (
 	"fmt"
@@ -9,25 +9,29 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// LoadEnvironment loads and parses an environment.yaml file
-func LoadEnvironment(path string) (*types.EnvironmentConfig, error) {
+// EnvironmentConfig is the top-level structure of an environment YAML file.
+type EnvironmentConfig struct {
+	Instances []types.InstanceConfig `yaml:"instances"`
+}
+
+// LoadEnvironment loads and parses an environment YAML file.
+func LoadEnvironment(path string) (*EnvironmentConfig, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read environment file %s: %w", path, err)
 	}
-	
-	// Native parameter substitution to handle variables like ${INSTANCE_ID}
+
 	expandedData := []byte(os.ExpandEnv(string(data)))
 
-	var config types.EnvironmentConfig
+	var config EnvironmentConfig
 	if err := yaml.Unmarshal(expandedData, &config); err != nil {
 		return nil, fmt.Errorf("failed to parse environment file %s: %w", path, err)
 	}
 	return &config, nil
 }
 
-// FindInstance finds an instance by ID - convenience wrapper on EnvironmentConfig
-func FindInstance(config *types.EnvironmentConfig, id string) (*types.InstanceConfig, error) {
+// FindInstance finds an instance by ID.
+func FindInstance(config *EnvironmentConfig, id string) (*types.InstanceConfig, error) {
 	for i, inst := range config.Instances {
 		if inst.ID == id {
 			return &config.Instances[i], nil

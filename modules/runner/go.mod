@@ -1,11 +1,14 @@
-module github.com/finos/common-cloud-controls/cloud-testing-dsl
+module github.com/finos/common-cloud-controls/runner
 
 go 1.24.0
 
 require (
 	github.com/cucumber/godog v0.14.1
 	github.com/finos/common-cloud-controls/cloud-api v0.0.0
+	github.com/finos/common-cloud-controls/cloud-testing-dsl v0.0.0
+	github.com/finos/common-cloud-controls/reporters v0.0.0
 	github.com/robmoffat/standard-cucumber-steps/go v1.0.5
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -101,7 +104,10 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260203192932-546029d2fa20 // indirect
 	google.golang.org/grpc v1.78.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/finos/common-cloud-controls/cloud-api => ../cloud-api
+replace (
+	github.com/finos/common-cloud-controls/cloud-api => ../cloud-api
+	github.com/finos/common-cloud-controls/cloud-testing-dsl => ../cloud-testing-dsl
+	github.com/finos/common-cloud-controls/reporters => ../reporters
+)
