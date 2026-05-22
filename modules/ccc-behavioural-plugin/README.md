@@ -2,6 +2,10 @@
 
 Privateer **evaluation** plugin that runs CCC **behavioural** Godog scenarios via [runner](../runner).
 
+Uses the standard Privateer [`EvaluationOrchestrator`](https://github.com/privateerproj/privateer-sdk) pattern (`Mobilize` → Gemara evaluation log → `WriteResults`). The full Godog suite still runs once via `runner.Run`; assessment steps share that outcome until per-requirement runners are added.
+
+**Reference catalog:** `website/src/data/ccc-releases/` (e.g. `CCC.ObjStor_v2025.09.yaml`). Override with `CCC_CATALOG_DIR`. Release download from GitHub will replace this path later.
+
 Configuration comes from **Privateer** `services.<id>.vars` only (no separate `environment.yaml`).
 
 ## Config

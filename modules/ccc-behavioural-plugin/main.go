@@ -5,45 +5,55 @@ import (
 	"os"
 
 	"github.com/privateerproj/privateer-sdk/command"
-	"github.com/privateerproj/privateer-sdk/shared"
-	"github.com/spf13/cobra"
+	"github.com/privateerproj/privateer-sdk/pluginkit"
+)
+
+var (
+	Version        = "0.0.0"
+	VersionPostfix = "dev"
+	GitCommitHash  = ""
+	BuiltAt        = ""
+
+	// RequiredVars must be present in services.*.vars (see Privateer config.NewConfig).
+	RequiredVars = []string{"provider", "service"}
 )
 
 func main() {
-	root := &cobra.Command{
-		Use:   pluginName,
-		Short: "CCC behavioural compliance tests (Godog)",
-		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			command.ReadConfig()
-		},
-		Run: func(cmd *cobra.Command, args []string) {
-			shared.Serve(pluginName, &shared.ServeOpts{Plugin: &BehaviouralPlugin{}})
-		},
+	if VersionPostfix != "" {
+		Version = fmt.Sprintf("%s-%s", Version, VersionPostfix)
 	}
 
-	command.SetBase(root)
+	orchestrator := pluginkit.EvaluationOrchestrator{
+		PluginName:    pluginName,
+		PluginVersion: Version,
+		PluginUri:     "https://github.com/finos/common-cloud-controls",
+	}
+	orchestrator.AddRequiredVars(RequiredVars)
 
-	root.AddCommand(&cobra.Command{
-		Use:   "debug",
-		Short: "Run behavioural tests in-process (no go-plugin host)",
-		Run: func(cmd *cobra.Command, args []string) {
-			command.ReadConfig()
-			code := runBehavioural()
-			if code != 0 {
-				os.Exit(1)
-			}
-		},
-	})
+	// Reference catalog: Object Storage release only (dir has many catalogs; loading all duplicates Core).
+	catalogPath, err := objectStorageCatalogPath()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error resolving catalog: %v\n", err)
+		os.Exit(1)
+	}
+	if err := orchestrator.AddReferenceCatalogFromFile(catalogPath); err != nil {
+		fmt.Fprintf(os.Stderr, "error loading catalog: %v\n", err)
+		os.Exit(1)
+	}
 
-	root.AddCommand(&cobra.Command{
-		Use:   "version",
-		Short: "Show plugin version",
-		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("ccc-behavioural-plugin dev")
-		},
-	})
+	steps, err := behaviouralStepsForObjStor()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error building assessment steps: %v\n", err)
+		os.Exit(1)
+	}
 
-	if err := root.Execute(); err != nil {
+	if err := orchestrator.AddEvaluationSuite(objectStorageCatalogID, nil, steps); err != nil {
+		fmt.Fprintf(os.Stderr, "error adding evaluation suite: %v\n", err)
+		os.Exit(1)
+	}
+
+	runCmd := command.NewPluginCommands(pluginName, Version, GitCommitHash, BuiltAt, &orchestrator)
+	if err := runCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
 }

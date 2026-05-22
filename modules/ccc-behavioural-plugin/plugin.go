@@ -5,30 +5,42 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/runner"
-	"github.com/privateerproj/privateer-sdk/shared"
+	"github.com/gemaraproj/go-gemara"
 	"github.com/spf13/viper"
 )
 
 const pluginName = "ccc-behavioural-plugin"
 
-// BehaviouralPlugin runs CCC Godog behavioural checks via the runner library.
-type BehaviouralPlugin struct{}
+var (
+	behaviouralRunOnce sync.Once
+	behaviouralExit    int
+	behaviouralMessage string
+)
 
-// Start is invoked by Privateer Core over go-plugin RPC.
-func (p *BehaviouralPlugin) Start() (int, error) {
-	code := runBehavioural()
-	if code == 0 {
-		return shared.TestPass, nil
+// runBehaviouralStep is the Gemara assessment step that runs the full Godog suite once.
+func runBehaviouralStep() gemara.AssessmentStep {
+	return func(_ interface{}) (gemara.Result, string, gemara.ConfidenceLevel) {
+		behaviouralRunOnce.Do(func() {
+			behaviouralExit = runBehavioural()
+			if behaviouralExit == 0 {
+				behaviouralMessage = "behavioural Godog suite passed"
+			} else {
+				behaviouralMessage = "behavioural Godog suite failed"
+			}
+		})
+		if behaviouralExit == 0 {
+			return gemara.Passed, behaviouralMessage, gemara.Medium
+		}
+		return gemara.Failed, behaviouralMessage, gemara.Medium
 	}
-	return shared.TestFail, fmt.Errorf("behavioural compliance tests failed")
 }
 
 func runBehavioural() int {
-	// Privateer --service names the services.<id> entry (e.g. azureStorageBehavioural).
 	privateerService := viper.GetString("service")
 	if privateerService == "" {
 		fmt.Fprintln(os.Stderr, "error: --service is required (must match a services.<id> entry in config)")
@@ -44,7 +56,6 @@ func runBehavioural() int {
 		return 1
 	}
 
-	// Prefer INSTANCE_ID from the shell (run-compliance-tests.sh); fall back to expanded instance-id.
 	instanceID := strings.TrimSpace(os.Getenv("INSTANCE_ID"))
 	if instanceID == "" {
 		instanceID = cfg.Get("instance-id")
@@ -95,8 +106,6 @@ func runBehavioural() int {
 	return runner.Run(opts)
 }
 
-// loadPluginConfig reads services.<id>.vars. Prefer the config file (yaml.Unmarshal) so nested
-// test-identities survive; viper.GetStringMap flattens nested maps to unusable strings.
 func loadPluginConfig(privateerService string) types.Config {
 	vars := make(map[string]interface{})
 
