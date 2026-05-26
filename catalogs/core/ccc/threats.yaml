@@ -1,6 +1,7 @@
 threats:
   - title: Access is Granted to Unauthorized Users
     id: CCC.Core.TH01
+    group: Access
     description: |
       Logic designed to give different permissions to different entities may
       be misconfigured or manipulated, allowing unauthorized entities to access
@@ -44,6 +45,7 @@ threats:
             remarks: Obfuscated Files or Information
   - title: Data is Intercepted in Transit
     id: CCC.Core.TH02
+    group: Data
     description: |
       Data transmitted by the service is susceptible to collection by any entity
       with access to any part of the transmission path. Packet observations can
@@ -63,6 +65,7 @@ threats:
             remarks: Network Sniffing
   - title: Deployment Region Network is Untrusted
     id: CCC.Core.TH03
+    group: Data
     description: |
       Systems are susceptible to unauthorized access or interception by actors
       with social or physical control over the network in which they are
@@ -91,6 +94,7 @@ threats:
             remarks: Adversary-in-the-Middle
   - title: Data is Replicated to Untrusted or External Locations
     id: CCC.Core.TH04
+    group: Data
     description: |
       Systems are susceptible to unauthorized access or interception by actors
       with political or physical control over the network in which they are
@@ -108,6 +112,7 @@ threats:
             remarks: Data Manipulation
   - title: Interference with Replication Processes
     id: CCC.Core.TH05
+    group: Data
     description: |
       Misconfigured or manipulated replication processes may lead to data being
       copied to unintended locations, delayed, modified, or not being copied
@@ -135,6 +140,7 @@ threats:
             remarks: Inhibit System Recovery
   - title: Data is Lost or Corrupted
     id: CCC.Core.TH06
+    group: Data
     description: |
       Services that rely on accurate data are susceptible to disruption in the
       event of data loss or corruption. Any actions that lead to the unintended
@@ -160,6 +166,7 @@ threats:
             remarks: Inhibit System Recovery
   - title: Logs are Tampered With or Deleted
     id: CCC.Core.TH07
+    group: Observability
     description: |
       Tampering or deletion of service logs will reduce the system's ability to
       maintain an accurate record of events. Any actions that compromise the
@@ -184,6 +191,7 @@ threats:
             remarks: Obfuscated Files or Information
   - title: Runtime Metrics are Manipulated
     id: CCC.Core.TH08
+    group: Observability
     description: |
       Manipulation of runtime metrics can lead to inaccurate representations of
       system performance and resource utilization. This compromised data
@@ -204,6 +212,7 @@ threats:
             remarks: Indicator Removal
   - title: Runtime Logs are Read by Unauthorized Entities
     id: CCC.Core.TH09
+    group: Observability
     description: |
       Unauthorized access to logs may expose valuable information about the
       system's configuration, operations, and security mechanisms. This could
@@ -249,12 +258,14 @@ threats:
             remarks: Software Discovery
   - title: Metrics are Read by Unauthorized Entities
     id: CCC.Core.TH19
+    group: Observability
     description: |
       Unauthorized access to runtime metrics may expose valuable information
       about the system's design, performance, and usage patterns. This can
       support the planning of attacks on the service, system, or network.
   - title: State-change Events are Read by Unauthorized Entities
     id: CCC.Core.TH10
+    group: Observability
     description: |
       Unauthorized access to state-change events can reveal information about
       the system's design and usage patterns. This opens the system up to
@@ -282,6 +293,7 @@ threats:
             remarks: File and Directory Discovery
   - title: Publications are Incorrectly Triggered
     id: CCC.Core.TH11
+    group: Resource
     description: |
       Incorrectly triggered publications may disseminate inaccurate
       or misleading information, creating a data integrity risk. Such
@@ -304,6 +316,7 @@ threats:
             remarks: "Data Obfuscation: Junk Data"
   - title: Resource Constraints are Exhausted
     id: CCC.Core.TH12
+    group: Resource
     description: |
       Exceeding the resource constraints through excessive consumption,
       resource-intensive operations, or lowering of rate-limit thresholds
@@ -332,6 +345,7 @@ threats:
             remarks: Network Denial of Service
   - title: Resource Tags are Manipulated
     id: CCC.Core.TH13
+    group: Resource
     description: |
       When resource tags are altered, it can lead to misclassification or
       mismanagement of resources. This can reduce the efficacy of organizational
@@ -350,6 +364,7 @@ threats:
             remarks: Data Manipulation
   - title: Older Resource Versions are Used
     id: CCC.Core.TH14
+    group: Resource
     description: |
       Running older versions of child resources can expose the system to known
       vulnerabilities that have been addressed in more recent versions. If the
@@ -384,6 +399,7 @@ threats:
             remarks: Service Stop
   - title: Automated Enumeration and Reconnaissance by Non-human Entities
     id: CCC.Core.TH15
+    group: Access
     description: |
       Automated processes may be used to gather details about service and
       child resource elements such as APIs, file systems, or directories.
@@ -402,6 +418,7 @@ threats:
             remarks: Cloud Infrastructure Discovery
   - title: Publications are Disabled
     id: CCC.Core.TH16
+    group: Resource
     description: |
       Publication of events, metrics, and runtime logs may be disabled, leading
       to a lack of expected security and operational information being shared.
@@ -422,6 +439,7 @@ threats:
             remarks: Impair Defenses
   - title: Encryption Key is Misused
     id: CCC.Core.TH18
+    group: Resource
     description: |
       Encryption keys may be used by an unauthorized entity due to inadequate
       key management practices or the compromise of a connected system. This
@@ -441,6 +459,7 @@ threats:
             remarks: "Credentials from Password Stores: Cloud Secrets Management Stores"
   - title: Responses are Generated for Unauthorized Requests
     id: CCC.Core.TH17
+    group: Access
     description: |
       The service may generate responses to requests from unauthorized entities.
       This could lead to the exposure of system details, which may be used to

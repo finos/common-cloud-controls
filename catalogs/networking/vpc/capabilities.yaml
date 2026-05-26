@@ -18,97 +18,114 @@ imported-capabilities:
 
 capabilities:
   - id: CCC.VPC.CP01
+    group: Networking
     title: Isolated Custom Network Creation
     description: |
       Ability to create a virtual network that is isolated from other users of the same
       public cloud.
 
   - id: CCC.VPC.CP02
+    group: Networking
     title: IPv4 CIDR Block
     description: |
       Ability to specify a IPv4 CIDR block to the virtual network.
 
   - id: CCC.VPC.CP03
+    group: Networking
     title: IPv6 CIDR Block
     description: |
       Ability to specify a IPv6 CIDR block to the virtual network.
 
   - id: CCC.VPC.CP04
+    group: Networking
     title: Public Subnet Creation
     description: |
       Ability to create a subnet that allows resources within the subnet to
       communicate with the public internet.
 
   - id: CCC.VPC.CP05
+    group: Networking
     title: Private Subnet Creation
     description: |
       Ability to create a subnet that resources within the subnet cannot directly
       access the public internet.
 
   - id: CCC.VPC.CP06
+    group: Networking
     title: Multiple Availability Zones for Subnets
     description: |
       Ability to spread the subnets in more than one availability zones.
 
   - id: CCC.VPC.CP07
+    group: Networking
     title: Routing Control
     description: |
       Ability to control traffic within the VPC and between the VPC and the
       internet or on-premises networks using customizable route tables.
 
   - id: CCC.VPC.CP08
+    group: Networking
     title: Connectivity Options - Internet Gateway
     description: |
       Enables direct internet access for resources within a VPC.
 
   - id: CCC.VPC.CP09
+    group: Networking
     title: Connectivity Options - NAT Gateways
     description: |
       Allows instances in private subnets to access the internet without
       exposing them to inbound internet traffic.
 
   - id: CCC.VPC.CP10
+    group: Networking
     title: Connectivity Options - Private Connection
     description: |
       Dedicated, private, high-speed connections between on-premises
        networks and cloud VPC.
 
   - id: CCC.VPC.CP11
+    group: Networking
     title: Connectivity Options - VPC Peering
     description: |
       Establishing a private connection between two VPCs to
       communicate seamlessly.
 
   - id: CCC.VPC.CP12
+    group: Networking
     title: Connectivity Options - Transit Gateways
     description: |
       A hub-and-spoke model for connecting multiple VPCs and
       on-premises networks.
 
   - id: CCC.VPC.CP13
+    group: Networking
     title: Connectivity Options - Site-to-site VPN
     description: |
       Provides an encrypted connection over the internet between
       a VPC and an on-premises network.
 
   - id: CCC.VPC.CP14
+    group: Networking
     title: Built-in DNS Resolution
     description: |
       Resolves hostnames to IP addresses for instances within the VPC
        allowing instances to communicate using hostnames instead of IP addresses.
 
   - id: CCC.VPC.CP15
+    group: Networking
     title: Built-in DHCP Resolution
     description: |
       Automatically assign IP addresses, subnet masks, default gateways
       and other network configurations to instances within the VPC.
 
   - id: CCC.VPC.CP16
+    group: Observability
     title: Flow Logs
     description: |
       Ability to capture information about the IP traffic going through the VPC.
 
   - id: CCC.VPC.CP17
+    group: Networking
     title: VPC Endpoints
     description: |
       Ability to allow secure, private connectivity between resources within a VPC

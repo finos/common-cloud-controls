@@ -49,6 +49,7 @@ imported-threats:
 
 threats:
   - id: CCC.DataWar.TH01
+    group: Access
     title: Unauthorized Public Access to Datasets
     description: |
       Datasets may be unintentionally made publicly accessible,
@@ -64,6 +65,7 @@ threats:
           - reference-id: T1530
           - reference-id: T1078
   - id: CCC.DataWar.TH02
+    group: Data
     title: Data Exfiltration via Unauthorized Views
     description: |
       Attackers may create or exploit unauthorized views to access sensitive data without proper permissions,
@@ -78,6 +80,7 @@ threats:
           - reference-id: T1020
           - reference-id: T1002
   - id: CCC.DataWar.TH03
+    group: Access
     title: Exposure of Sensitive Data through Inadequate Column-Level Security
     description: |
       Lack of proper column-level security can lead to unauthorized users accessing sensitive data fields,

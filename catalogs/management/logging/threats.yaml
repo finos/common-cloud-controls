@@ -52,6 +52,7 @@ imported-threats:
 
 threats:
   - id: CCC.Logging.TH01
+    group: Observability
     title: Log Ingestion Performance Degradation
     description: |
       The logging service's ingestion pipeline experiences performance
@@ -83,6 +84,7 @@ threats:
             strength: 0 # Not yet specified
             remarks: "Impair Defenses: Disable Cloud Logs"
   - id: CCC.Logging.TH02
+    group: Data
     title: Unauthorized Data Transfer Out of a Trusted Boundary
     description: |
       Sensitive log data, including PII, financial transaction details,
@@ -116,6 +118,7 @@ threats:
             strength: 0 # Not yet specified
             remarks: Automated Exfiltration
   - id: CCC.Logging.TH03
+    group: Observability
     title: Log Schema or Format Drift
     description: |
       Changes in source application or cloud service log formats, schemas,
@@ -144,6 +147,7 @@ threats:
             strength: 0 # Not yet specified
             remarks: "Impair Defenses: Disable Cloud Logs (can lead to effective disablement)"
   - id: CCC.Logging.TH04
+    group: Observability
     title: Inadequate Log Anonymization/Masking
     description: |
       Sensitive data (e.g., PII, secrets, authentication tokens) is ingested
@@ -172,6 +176,7 @@ threats:
             strength: 0 # Not yet specified
             remarks: Data Manipulation (if attacker is masking their own activity)
   - id: CCC.Logging.TH05
+    group: Observability
     title: Log Retention Policy Evasion or Misconfiguration
     description: |
       Log data is deleted prematurely or retained longer than legally required
@@ -203,6 +208,7 @@ threats:
             strength: 0 # Not yet specified
             remarks: "Impair Defenses: Disable Cloud Logs"
   - id: CCC.Logging.TH06
+    group: Ingestion
     title: Log Injection
     description: |
       User-supplied data such as scripts, control characters, escape sequences,
@@ -233,6 +239,7 @@ threats:
           - reference-id: CWE-117
           - reference-id: CWE-116
   - id: CCC.Logging.TH07
+    group: Observability
     title: Insufficient Logging
     description: |
       If security-critical actions are not logged, it becomes more difficult to
