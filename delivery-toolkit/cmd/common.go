@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"os"
@@ -52,26 +51,6 @@ func addPageBreaksBeforeH2(content []byte) []byte {
 	return re.ReplaceAllFunc(content, func(match []byte) []byte {
 		return append(pageBreak, match...)
 	})
-}
-
-func removeDuplicates[T comparable](slice []T) []T {
-	uniqueMap := make(map[T]bool)
-	var result []T
-	for _, item := range slice {
-		if _, exists := uniqueMap[item]; !exists {
-			uniqueMap[item] = true
-			result = append(result, item)
-		}
-	}
-	return result
-}
-
-func createLink(id, title string) string {
-	var buffer bytes.Buffer
-	buffer.WriteString(strings.ToLower(strings.ReplaceAll(id, ".", "")))
-	buffer.WriteString("---")
-	buffer.WriteString(strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(title, ",", ""), " ", "-")))
-	return buffer.String()
 }
 
 // Participant represents a single participant
