@@ -2,5 +2,5 @@
 
 Creates Azure fixtures for:
 
-- `virtual-machines`: Linux VM in a dedicated VNet/subnet with NSG-restricted SSH ingress.
-- `serverless-computing`: two Linux Function Apps (`good` with public access disabled, `bad` with public access enabled).
+- `virtual-machines`: one Linux VM in a dedicated VNet/subnet with NSG-restricted SSH ingress.
+- `serverless-computing`: one Linux Function App with public network access disabled.

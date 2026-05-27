@@ -4,7 +4,7 @@ write: true
 output: yaml
 
 services:
-  gcpServerlessGood:
+  gcpServerlessComputing:
     plugin: ccc-behavioural-plugin
     policy:
       catalogs:
@@ -19,8 +19,8 @@ services:
       provider: gcp
       region: us-central1
       gcp-project-id: "${GCP_PROJECT_ID}"
-      resource: "cfi-20260527t120000z-fn-good"
-      function-name: "cfi-20260527t120000z-fn-good"
+      resource: "finos-ccc-integration-20260527t120000z-fn-main"
+      function-name: "finos-ccc-integration-20260527t120000z-fn-main"
       private-endpoint-url: "internal-only"
       public-invoke-url: ""
       rate-limit-threshold: 10

@@ -1,17 +1,13 @@
-output "good_function_name" {
-  value = google_cloudfunctions2_function.good.name
+output "function_name" {
+  value = google_cloudfunctions2_function.main.name
 }
 
-output "bad_function_name" {
-  value = google_cloudfunctions2_function.bad.name
-}
-
-output "good_private_url" {
+output "private_endpoint_url" {
   value = "internal-only"
 }
 
-output "bad_public_url" {
-  value = google_cloudfunctions2_function.bad.service_config[0].uri
+output "public_invoke_url" {
+  value = ""
 }
 
 output "rate_limit_threshold" {

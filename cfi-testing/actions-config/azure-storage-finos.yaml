@@ -8,8 +8,6 @@ cfi:
     monitoring, and advanced security features.
   path: https://github.com/finos-labs/ccc-cfi-compliance/tree/main/remote/azure/storageaccount
   test-on-branches:
-    - policy-matching
-    - azure-storage
     - main
   git: https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount
-  test-configuration: ../privateer-config/azure-cloud-storage.yml
+  test-configuration: ../privateer-config/finos-integration/cloud-storage/azure-cloud-storage.yml

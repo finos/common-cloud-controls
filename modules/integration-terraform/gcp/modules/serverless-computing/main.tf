@@ -3,7 +3,7 @@ resource "random_id" "suffix" {
 }
 
 resource "google_storage_bucket" "source" {
-  name                        = "cfi-${var.deployment_suffix}-fn-src-${random_id.suffix.hex}"
+  name                        = "finoscccintegration${var.deployment_suffix}fn${random_id.suffix.hex}"
   location                    = var.region
   uniform_bucket_level_access = true
 }
@@ -25,8 +25,8 @@ resource "google_storage_bucket_object" "source" {
   source = data.archive_file.function_zip.output_path
 }
 
-resource "google_cloudfunctions2_function" "good" {
-  name     = "cfi-${var.deployment_suffix}-fn-good"
+resource "google_cloudfunctions2_function" "main" {
+  name     = "finos-ccc-integration-${var.deployment_suffix}-fn-main"
   location = var.region
 
   build_config {
@@ -45,34 +45,4 @@ resource "google_cloudfunctions2_function" "good" {
   }
 
   labels = merge(var.common_labels, { cficontrolset = "ccc-svlscomp" })
-}
-
-resource "google_cloudfunctions2_function" "bad" {
-  name     = "cfi-${var.deployment_suffix}-fn-bad"
-  location = var.region
-
-  build_config {
-    runtime     = "python312"
-    entry_point = "handler"
-    source {
-      storage_source {
-        bucket = google_storage_bucket.source.name
-        object = google_storage_bucket_object.source.name
-      }
-    }
-  }
-
-  service_config {
-    ingress_settings = "ALLOW_ALL"
-  }
-
-  labels = merge(var.common_labels, { cficontrolset = "ccc-svlscomp" })
-}
-
-resource "google_cloud_run_service_iam_member" "bad_public_invoker" {
-  project  = var.project_id
-  location = var.region
-  service  = google_cloudfunctions2_function.bad.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
 }

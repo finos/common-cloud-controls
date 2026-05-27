@@ -1,17 +1,17 @@
 resource "google_compute_network" "this" {
-  name                    = "cfi-${var.deployment_suffix}-vm-vpc"
+  name                    = "finos-ccc-integration-${var.deployment_suffix}-vm-vpc"
   auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "this" {
-  name          = "cfi-${var.deployment_suffix}-vm-subnet"
+  name          = "finos-ccc-integration-${var.deployment_suffix}-vm-subnet"
   ip_cidr_range = "10.80.1.0/24"
   region        = var.region
   network       = google_compute_network.this.id
 }
 
 resource "google_compute_firewall" "ssh" {
-  name    = "cfi-${var.deployment_suffix}-vm-ssh"
+  name    = "finos-ccc-integration-${var.deployment_suffix}-vm-ssh"
   network = google_compute_network.this.name
 
   allow {
@@ -23,8 +23,8 @@ resource "google_compute_firewall" "ssh" {
   target_tags   = ["cfi-vm"]
 }
 
-resource "google_compute_instance" "good" {
-  name         = "cfi-${var.deployment_suffix}-vm-good"
+resource "google_compute_instance" "main" {
+  name         = "finos-ccc-integration-${var.deployment_suffix}-vm-main"
   machine_type = "e2-micro"
   zone         = var.zone
   tags         = ["cfi-vm"]

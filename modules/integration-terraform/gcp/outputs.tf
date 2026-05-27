@@ -12,23 +12,12 @@ output "virtual_machines" {
   }
 }
 
-output "serverless_computing_good" {
+output "serverless_computing" {
   value = {
-    resource_name        = module.serverless_computing.good_function_name
-    function_name        = module.serverless_computing.good_function_name
-    private_endpoint_url = module.serverless_computing.good_private_url
-    public_invoke_url    = ""
-    rate_limit_threshold = module.serverless_computing.rate_limit_threshold
-    burst_overrun        = module.serverless_computing.burst_overrun
-  }
-}
-
-output "serverless_computing_bad" {
-  value = {
-    resource_name        = module.serverless_computing.bad_function_name
-    function_name        = module.serverless_computing.bad_function_name
-    private_endpoint_url = module.serverless_computing.good_private_url
-    public_invoke_url    = module.serverless_computing.bad_public_url
+    resource_name        = module.serverless_computing.function_name
+    function_name        = module.serverless_computing.function_name
+    private_endpoint_url = module.serverless_computing.private_endpoint_url
+    public_invoke_url    = module.serverless_computing.public_invoke_url
     rate_limit_threshold = module.serverless_computing.rate_limit_threshold
     burst_overrun        = module.serverless_computing.burst_overrun
   }

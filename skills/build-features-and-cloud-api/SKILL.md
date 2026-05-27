@@ -33,7 +33,7 @@ Turn an **approved** [`analysis.md`](../../modules/features/<service-folder>/ana
 | One **modular** terraform root per cloud provider covering **all services that already have behavioural tests** | Production-hardened infra |
 | Privateer configs wired to terraform **outputs** | Magical discovery of log sinks or resource names |
 
-Terraform and configs may use **minimal** resources (single “good” fixture per service). Optional “bad” fixtures are only required when analysis explicitly calls for negative-path validation.
+Terraform and configs may use **minimal** resources (one VM, one function, one VPC). Optional good/bad fixtures apply **only to `vpc`**. Missing optional controls on other services is acceptable if analysis documents `@NotTestable` or honesty gaps.
 
 ## Outputs
 
@@ -222,12 +222,19 @@ modules/integration-terraform/
 
 1. **Modular**: each service = one terraform submodule under `<cloud>/modules/<service>/`.
 2. **Single apply per cloud**: `terraform apply` in `aws/` (or `azure/`, `gcp/`) stands up **all** services that have behavioural tests for that provider.
-3. **Deployment suffix** (terraform only): optional variable `deployment_suffix` (e.g. `20260527t120000z`) — prefix resource names `cfi-${var.deployment_suffix}-...`. Values are copied **literally** into privateer-config after apply; do not use `${INSTANCE_ID}` or other runtime indirection in YAML.
+3. **Resource naming contract**:
+   - Every integration fixture name should include the integration marker string `finos-ccc-integration`.
+   - Standard pattern where allowed: `finos-ccc-integration-${var.deployment_suffix}-<role>`.
+   - For providers with naming restrictions (no hyphens, lowercase only, tight length): use normalized marker `finoscccintegration` (example: `finoscccintegration${var.deployment_suffix}<role>`).
+- If a resource type has naming constraints (for example, lowercase alphanumeric only or no hyphens), use a normalized marker such as `finoscccintegration` while keeping the same semantic pattern.
+- Keep `deployment_suffix` (e.g. `20260527t120000z`) as a terraform variable to avoid collisions across runs.
+- **One testable resource per service type** (`virtual-machines`, `serverless-computing`, …). Supporting network/storage/IAM for that resource is fine. **Exception: `vpc`** may provision good/bad fixtures and CN03 peer networks for negative-path testing.
+- Values are copied **literally** into privateer-config after apply; do not use `${INSTANCE_ID}` or other runtime indirection in YAML.
 4. **Consistent tags** on every resource:
 
    ```hcl
    CFIControlSet = "CCC.VPC"   # or CCC.ObjStor, CCC.VM, etc.
-   Name          = "cfi-${var.deployment_suffix}-<role>"
+   Name          = "finos-ccc-integration-${var.deployment_suffix}-<role>"
    ManagedBy     = "Terraform"
    Project       = "CCC-CFI-Compliance"
    ```
@@ -250,7 +257,7 @@ modules/integration-terraform/
    output "virtual_machines" { value = { ... } }
    ```
 
-6. **Exercise code, not compliance**: resources may be minimal (one VPC, one bucket, one VM). Missing optional controls is acceptable if analysis documents `@NotTestable` or honesty gaps.
+6. **Exercise code, not compliance**: one testable resource per service type (except `vpc`, which may include good/bad fixtures). Missing optional controls is acceptable if analysis documents `@NotTestable` or honesty gaps.
 7. **No secrets in terraform state files in git** — output client ids; secrets via `azure-env.sh`, `aws-env.sh` etc.
 
 #### README
