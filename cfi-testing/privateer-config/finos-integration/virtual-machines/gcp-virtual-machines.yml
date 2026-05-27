@@ -19,7 +19,7 @@ services:
       provider: gcp
       region: us-central1
       gcp-project-id: "${GCP_PROJECT_ID}"
-      resource: "finos-ccc-integration-20260527t120000z-vm-main"
+      resource: "finos-ccc-integration-vm-main"
       permitted-regions:
         - us-central1
       hostName: "${GCP_VM_HOSTNAME}"

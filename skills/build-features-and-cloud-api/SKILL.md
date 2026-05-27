@@ -224,17 +224,15 @@ modules/integration-terraform/
 2. **Single apply per cloud**: `terraform apply` in `aws/` (or `azure/`, `gcp/`) stands up **all** services that have behavioural tests for that provider.
 3. **Resource naming contract**:
    - Every integration fixture name should include the integration marker string `finos-ccc-integration`.
-   - Standard pattern where allowed: `finos-ccc-integration-${var.deployment_suffix}-<role>`.
-   - For providers with naming restrictions (no hyphens, lowercase only, tight length): use normalized marker `finoscccintegration` (example: `finoscccintegration${var.deployment_suffix}<role>`).
-- If a resource type has naming constraints (for example, lowercase alphanumeric only or no hyphens), use a normalized marker such as `finoscccintegration` while keeping the same semantic pattern.
-- Keep `deployment_suffix` (e.g. `20260527t120000z`) as a terraform variable to avoid collisions across runs.
-- **One testable resource per service type** (`virtual-machines`, `serverless-computing`, …). Supporting network/storage/IAM for that resource is fine. **Exception: `vpc`** may provision good/bad fixtures and CN03 peer networks for negative-path testing.
-- Values are copied **literally** into privateer-config after apply; do not use `${INSTANCE_ID}` or other runtime indirection in YAML.
+   - Standard pattern where allowed: `finos-ccc-integration-<role>` (for example `finos-ccc-integration-fn-main`, `finos-ccc-integration-vpc-bad`).
+   - For providers with naming restrictions (no hyphens, lowercase only, tight length): use normalized marker `finoscccintegration` (example: `finoscccintegration<random>` for globally unique storage account names).
+   - **One testable resource per service type** (`virtual-machines`, `serverless-computing`, …). Supporting network/storage/IAM for that resource is fine. **Exception: `vpc`** may provision good/bad fixtures and CN03 peer networks for negative-path testing.
+   - Values are copied **literally** into privateer-config after apply; do not use `${INSTANCE_ID}` or other runtime indirection in YAML.
 4. **Consistent tags** on every resource:
 
    ```hcl
    CFIControlSet = "CCC.VPC"   # or CCC.ObjStor, CCC.VM, etc.
-   Name          = "finos-ccc-integration-${var.deployment_suffix}-<role>"
+   Name          = "finos-ccc-integration-<role>"
    ManagedBy     = "Terraform"
    Project       = "CCC-CFI-Compliance"
    ```
@@ -242,8 +240,6 @@ modules/integration-terraform/
 5. **Outputs contract**: root `outputs.tf` exposes a **stable shape** Privateer can consume — prefer a map per service plus shared logging/identity outputs:
 
    ```hcl
-   output "deployment_suffix" { value = var.deployment_suffix }
-
    output "vpc" {
      value = {
        resource_name            = module.vpc.vpc_name
@@ -265,7 +261,7 @@ modules/integration-terraform/
 `modules/integration-terraform/README.md` must document:
 
 - Prerequisites (AWS CLI, `az login`, gcloud ADC)
-- `terraform init && terraform apply -var=deployment_suffix=...` per cloud
+- `terraform init && terraform apply` per cloud
 - How outputs map to Privateer vars
 - That **passing all behavioural tests is not required** for the example stack
 

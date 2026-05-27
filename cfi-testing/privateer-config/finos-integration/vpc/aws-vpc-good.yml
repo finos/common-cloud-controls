@@ -3,13 +3,8 @@ write-directory: evaluation_results
 write: true
 output: yaml
 
-# Targets the compliant (good) VPC: cfi-20260526t102301z-vpc.
-# All scenarios are expected to PASS.
-#
-# Behavioural plugin auto-discovers every VPC tagged CFIControlSet=CCC.VPC, so
-# the `resource` var below filters the run down to just the good VPC by Name tag.
-#
-# All values hard-coded against the 20260526t102301z deployment in us-east-1.
+# Targets the compliant (good) VPC: finos-ccc-integration-vpc.
+# Populate VPC IDs from `terraform output vpc` after apply.
 
 services:
   awsVpcGood:
@@ -26,18 +21,18 @@ services:
       tags: "@MAIN @CCC.VPC"
       provider: aws
       region: us-east-1
-      resource: "cfi-20260526t102301z-vpc"
+      resource: "finos-ccc-integration-vpc"
       permitted-regions:
         - us-east-1
-      # In-scope receiver and requester VPC fixtures (cfi-20260526t102301z deployment).
+      # In-scope receiver and requester VPC fixtures — populate from `terraform output vpc`.
       receiver-vpc-id: "vpc-0d5625cb163976d86"
       non-allowlisted-requester-vpc-id: "vpc-0666381e8a3976bde"
       allowed-requester-vpc-ids:
-        - "vpc-0a591620e00092dc2"  # cfi-20260526t102301z-vpc-cn03-allowed-requester-01     (10.40.0.0/20)
-        - "vpc-0dae16d47368ba7ae"  # cfi-20260526t102301z-vpc-cn03-allowed-requester-02     (10.40.16.0/20)
+        - "vpc-0a591620e00092dc2"  # finos-ccc-integration-vpc-cn03-allowed-01
+        - "vpc-0dae16d47368ba7ae"  # finos-ccc-integration-vpc-cn03-allowed-02
       disallowed-requester-vpc-ids:
-        - "vpc-0eadc3a916f373b88"  # cfi-20260526t102301z-vpc-cn03-disallowed-requester-01  (10.30.0.0/20)
-        - "vpc-0a7d07499ce3992e8"  # cfi-20260526t102301z-vpc-cn03-disallowed-requester-02  (10.30.16.0/20)
+        - "vpc-0eadc3a916f373b88"  # finos-ccc-integration-vpc-cn03-disallowed-01
+        - "vpc-0a7d07499ce3992e8"  # finos-ccc-integration-vpc-cn03-disallowed-02
       # Reference to the intentionally non-compliant VPC, used by any future
       # cross-VPC negative-check scenarios. Behavioural features don't read it today.
       bad-vpc-id: "vpc-0f3af4b6986f1e0ab"
@@ -45,4 +40,4 @@ services:
       # Explicit destinations consumed by the logging service (no discovery).
       # CN04 reads flow log records from this CloudWatch Logs group; the
       # terraform default is /aws/vpc/flow-logs/<vpc-name>.
-      aws-flow-log-group-name: "/aws/vpc/flow-logs/cfi-20260526t102301z-vpc"
+      aws-flow-log-group-name: "/aws/vpc/flow-logs/finos-ccc-integration-vpc"

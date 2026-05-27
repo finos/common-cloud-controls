@@ -4,8 +4,9 @@ write: true
 output: yaml
 
 # Azure object-storage behavioural tests.
-# Resource names match terraform apply -var=instance_id=20260526t102301z
-# (see ccc-cfi-compliance/remote/azure/storageaccount).
+# Resource names follow the finos-ccc-integration-<role> convention.
+# Populate from terraform outputs after apply (see ccc-cfi-compliance/remote/azure/storageaccount
+# until migrated to modules/integration-terraform).
 # Source azure-env.sh for test principal credentials before running.
 
 services:
@@ -25,11 +26,11 @@ services:
       tags: "@Behavioural"
       provider: azure
       region: eastus
-      resource: "ccc-test-container-20260526t102301z"
+      resource: "finos-ccc-integration-container-main"
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
       azure-tenant-id: "${AZURE_TENANT_ID}"
-      azure-resource-group: "cfi_test_20260526t102301z"
-      azure-storage-account: "storagecfitest20260526t102301z"
+      azure-resource-group: "finos-ccc-integration-storage-rg"
+      azure-storage-account: "finoscccintegrationmain"
       object-storage-retention-period-days: 2
       azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
       permitted-regions:
@@ -38,7 +39,7 @@ services:
       replication-locations:
         - eastus
         - westus
-      default-container: "ccc-test-container-20260526t102301z"
+      default-container: "finos-ccc-integration-container-main"
       test-identities:
         testUserNoAccess:
           user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"

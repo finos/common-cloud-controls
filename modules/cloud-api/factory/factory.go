@@ -11,6 +11,11 @@ import (
 // Cache for factories (one per provider)
 var factoryCache = make(map[types.CloudProvider]Factory)
 
+// ResetFactoryCache clears cached factories between integration test cases.
+func ResetFactoryCache() {
+	factoryCache = make(map[types.CloudProvider]Factory)
+}
+
 // Factory creates cloud service API clients for different providers
 type Factory interface {
 	// GetServiceAPI returns a generic service API client for the given service ID

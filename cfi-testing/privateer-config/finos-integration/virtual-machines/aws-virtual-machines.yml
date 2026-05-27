@@ -21,7 +21,7 @@ services:
       tags: "@Behavioural @virtual-machines"
       provider: aws
       region: us-east-1
-      resource: "finos-ccc-integration-20260527t120000z-vm-main"
+      resource: "finos-ccc-integration-vm-main"
       permitted-regions:
         - us-east-1
       hostName: "203.0.113.10"
