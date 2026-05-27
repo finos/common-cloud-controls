@@ -10,8 +10,7 @@ data "aws_ami" "amazon_linux_2" {
 resource "aws_vpc" "this" {
   cidr_block = "10.60.0.0/16"
   tags = merge(var.common_tags, {
-    Name          = "cfi-${var.deployment_suffix}-vm-vpc"
-    CFIControlSet = "CCC.VM"
+    Name = "finos-ccc-integration-${var.deployment_suffix}-vm-vpc"
   })
 }
 
@@ -20,7 +19,7 @@ resource "aws_subnet" "this" {
   cidr_block              = "10.60.1.0/24"
   map_public_ip_on_launch = true
   tags = merge(var.common_tags, {
-    Name = "cfi-${var.deployment_suffix}-vm-subnet"
+    Name = "finos-ccc-integration-${var.deployment_suffix}-vm-subnet"
   })
 }
 
@@ -42,7 +41,7 @@ resource "aws_route_table_association" "this" {
 }
 
 resource "aws_security_group" "vm" {
-  name   = "cfi-${var.deployment_suffix}-vm-sg"
+  name   = "finos-ccc-integration-${var.deployment_suffix}-vm-sg"
   vpc_id = aws_vpc.this.id
 
   ingress {
@@ -60,7 +59,7 @@ resource "aws_security_group" "vm" {
   }
 }
 
-resource "aws_instance" "good" {
+resource "aws_instance" "main" {
   ami                         = data.aws_ami.amazon_linux_2.id
   instance_type               = var.instance_type
   subnet_id                   = aws_subnet.this.id
@@ -74,7 +73,7 @@ resource "aws_instance" "good" {
   }
 
   tags = merge(var.common_tags, {
-    Name          = "cfi-${var.deployment_suffix}-vm-good"
+    Name          = "finos-ccc-integration-${var.deployment_suffix}-vm-main"
     CFIControlSet = "CCC.VM"
   })
 }

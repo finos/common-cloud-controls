@@ -3,10 +3,8 @@ write-directory: evaluation_results
 write: true
 output: yaml
 
-# Good fixture: no public function URL.
-
 services:
-  awsServerlessGood:
+  awsServerlessComputing:
     plugin: ccc-behavioural-plugin
     policy:
       catalogs:
@@ -20,15 +18,15 @@ services:
       tags: "@Behavioural @serverless-computing"
       provider: aws
       region: us-east-1
-      resource: "cfi-20260527t120000z-fn-good"
-      function-name: "cfi-20260527t120000z-fn-good"
-      private-endpoint-url: "https://private-fn-good.internal.example.com/invoke"
+      resource: "finos-ccc-integration-20260527t120000z-fn-main"
+      function-name: "finos-ccc-integration-20260527t120000z-fn-main"
+      private-endpoint-url: "https://private-serverless-endpoint.internal.example.com/invoke"
       public-invoke-url: ""
       rate-limit-threshold: 10
       burst-overrun: 15
       permitted-regions:
         - us-east-1
-      aws-flow-log-group-name: "/aws/lambda/cfi-20260527t120000z-fn-good"
+      aws-flow-log-group-name: "/aws/lambda/finos-ccc-integration-20260527t120000z-fn-main"
       test-identities:
         testUserNoAccess:
           user-name: "${AWS_TEST_USER_NO_ACCESS_USER_NAME}"

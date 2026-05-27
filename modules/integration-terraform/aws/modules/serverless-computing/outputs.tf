@@ -1,17 +1,13 @@
-output "good_function_name" {
-  value = aws_lambda_function.good.function_name
-}
-
-output "bad_function_name" {
-  value = aws_lambda_function.bad.function_name
-}
-
-output "bad_public_url" {
-  value = aws_lambda_function_url.bad.function_url
+output "function_name" {
+  value = aws_lambda_function.main.function_name
 }
 
 output "private_endpoint_url" {
   value = "https://private-serverless-endpoint.internal.example.com/invoke"
+}
+
+output "public_invoke_url" {
+  value = ""
 }
 
 output "rate_limit_threshold" {

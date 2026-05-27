@@ -2,5 +2,5 @@
 
 Creates GCP fixtures for:
 
-- `virtual-machines`: Compute Engine VM in a dedicated VPC/subnet with firewall-restricted SSH ingress.
-- `serverless-computing`: two Cloud Functions Gen2 (`good` internal-only ingress, `bad` public ingress).
+- `virtual-machines`: one Compute Engine VM in a dedicated VPC/subnet with firewall-restricted SSH ingress.
+- `serverless-computing`: one Cloud Functions Gen2 function with internal-only ingress.

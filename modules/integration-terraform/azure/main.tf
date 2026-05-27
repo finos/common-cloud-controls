@@ -11,7 +11,7 @@ locals {
 }
 
 resource "azurerm_resource_group" "this" {
-  name     = "cfi-${var.deployment_suffix}-rg"
+  name     = "finos-ccc-integration-${var.deployment_suffix}-rg"
   location = var.location
   tags     = local.common_tags
 }

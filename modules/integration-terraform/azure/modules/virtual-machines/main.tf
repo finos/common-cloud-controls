@@ -1,5 +1,5 @@
 resource "azurerm_virtual_network" "this" {
-  name                = "cfi-${var.deployment_suffix}-vm-vnet"
+  name                = "finos-ccc-integration-${var.deployment_suffix}-vm-vnet"
   address_space       = ["10.70.0.0/16"]
   location            = var.location
   resource_group_name = var.resource_group
@@ -7,14 +7,14 @@ resource "azurerm_virtual_network" "this" {
 }
 
 resource "azurerm_subnet" "this" {
-  name                 = "cfi-${var.deployment_suffix}-vm-subnet"
+  name                 = "finos-ccc-integration-${var.deployment_suffix}-vm-subnet"
   resource_group_name  = var.resource_group
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = ["10.70.1.0/24"]
 }
 
 resource "azurerm_network_security_group" "this" {
-  name                = "cfi-${var.deployment_suffix}-vm-nsg"
+  name                = "finos-ccc-integration-${var.deployment_suffix}-vm-nsg"
   location            = var.location
   resource_group_name = var.resource_group
 
@@ -32,7 +32,7 @@ resource "azurerm_network_security_group" "this" {
 }
 
 resource "azurerm_public_ip" "this" {
-  name                = "cfi-${var.deployment_suffix}-vm-pip"
+  name                = "finos-ccc-integration-${var.deployment_suffix}-vm-pip"
   location            = var.location
   resource_group_name = var.resource_group
   allocation_method   = "Static"
@@ -45,7 +45,7 @@ resource "random_password" "vm_admin" {
 }
 
 resource "azurerm_network_interface" "this" {
-  name                = "cfi-${var.deployment_suffix}-vm-nic"
+  name                = "finos-ccc-integration-${var.deployment_suffix}-vm-nic"
   location            = var.location
   resource_group_name = var.resource_group
 
@@ -62,19 +62,19 @@ resource "azurerm_network_interface_security_group_association" "this" {
   network_security_group_id = azurerm_network_security_group.this.id
 }
 
-resource "azurerm_linux_virtual_machine" "good" {
-  name                  = "cfi-${var.deployment_suffix}-vm-good"
-  resource_group_name   = var.resource_group
-  location              = var.location
-  size                  = "Standard_B2s"
-  admin_username        = "cfiadmin"
-  admin_password        = random_password.vm_admin.result
+resource "azurerm_linux_virtual_machine" "main" {
+  name                            = "finos-ccc-integration-${var.deployment_suffix}-vm-main"
+  resource_group_name             = var.resource_group
+  location                        = var.location
+  size                            = "Standard_B2s"
+  admin_username                  = "cfiadmin"
+  admin_password                  = random_password.vm_admin.result
   disable_password_authentication = false
-  network_interface_ids = [azurerm_network_interface.this.id]
-  encryption_at_host_enabled = true
+  network_interface_ids           = [azurerm_network_interface.this.id]
+  encryption_at_host_enabled      = true
 
   os_disk {
-    name                 = "cfi-${var.deployment_suffix}-vm-osdisk"
+    name                 = "finos-ccc-integration-${var.deployment_suffix}-vm-osdisk"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
   }
@@ -87,7 +87,7 @@ resource "azurerm_linux_virtual_machine" "good" {
   }
 
   tags = merge(var.common_tags, {
-    Name          = "cfi-${var.deployment_suffix}-vm-good"
+    Name          = "finos-ccc-integration-${var.deployment_suffix}-vm-main"
     CFIControlSet = "CCC.VM"
   })
 }

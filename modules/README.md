@@ -27,5 +27,5 @@ done
 Or run compliance tests (builds the workspace automatically):
 
 ```bash
-../cfi-testing/run-compliance-tests.sh -e config/azure-storage-finos.yaml -i cfi_test_<suffix>
+../cfi-testing/run-compliance-tests.sh -e ../cfi-testing.privateer-config/object-storage/azure-storage-finos.yaml
 ```

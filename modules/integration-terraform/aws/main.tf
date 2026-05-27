@@ -21,3 +21,9 @@ module "serverless_computing" {
   deployment_suffix = var.deployment_suffix
   common_tags       = local.common_tags
 }
+
+module "vpc" {
+  source            = "./modules/vpc"
+  deployment_suffix = var.deployment_suffix
+  common_tags       = local.common_tags
+}

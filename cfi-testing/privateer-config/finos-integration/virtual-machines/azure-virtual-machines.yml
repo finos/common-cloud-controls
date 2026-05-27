@@ -18,9 +18,9 @@ services:
       tags: "@Behavioural @virtual-machines"
       provider: azure
       region: eastus
-      resource: "cfi-20260527t120000z-vm-good"
+      resource: "finos-ccc-integration-20260527t120000z-vm-main"
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
-      azure-resource-group: "cfi-20260527t120000z-rg"
+      azure-resource-group: "finos-ccc-integration-20260527t120000z-rg"
       permitted-regions:
         - eastus
       hostName: "${AZURE_VM_HOSTNAME}"
