@@ -22,6 +22,7 @@ services:
         - tlp-red
     vars:
       service: vpc
+      ServiceType: vpc
       tags: "@MAIN @CCC.VPC"
       provider: aws
       region: us-east-1

@@ -1,0 +1,38 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+services:
+  gcpVirtualMachines:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.VM
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: virtual-machines
+      ServiceType: virtual-machines
+      tags: "@Behavioural @virtual-machines"
+      provider: gcp
+      region: us-central1
+      gcp-project-id: "${GCP_PROJECT_ID}"
+      resource: "cfi-20260527t120000z-vm-good"
+      permitted-regions:
+        - us-central1
+      hostName: "${GCP_VM_HOSTNAME}"
+      portNumber: "22"
+      test-listener-port: 22
+      allowed-source-cidr: "10.0.0.0/8"
+      test-identities:
+        testUserNoAccess:
+          user-name: "${GCP_TEST_USER_NO_ACCESS_NAME}"
+          service_account_key: "${GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON}"
+        testUserWrite:
+          user-name: "${GCP_TEST_USER_WRITE_NAME}"
+          service_account_key: "${GCP_TEST_USER_WRITE_SA_KEY_JSON}"
+        testUserAdmin:
+          user-name: "${GCP_TEST_USER_ADMIN_NAME}"
+          service_account_key: "${GCP_TEST_USER_ADMIN_SA_KEY_JSON}"
