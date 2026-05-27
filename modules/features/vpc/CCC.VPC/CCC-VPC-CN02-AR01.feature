@@ -10,7 +10,10 @@ Feature: CCC.VPC.CN02.AR01 - No external IP by default in public subnets
     And I call "{api}" with "GetServiceAPI" using argument "vpc"
     And I refer to "{result}" as "vpcService"
 
-@Behavioural @MAIN @CCC.VPC
+  # Public subnet: has a route to an Internet Gateway (IGW)
+  # Default external IP assignment: subnet setting MapPublicIpOnLaunch = true
+
+  @Behavioural @MAIN @CCC.VPC
   # Uses CN_TEST_AMI_ID from compliance-testing.env when set (region-specific AMI ID).
   # If CN_TEST_AMI_ID is blank, the VPC service resolves a default AMI and still launches an instance.
   # This scenario is tagged @MAIN and runs by default — it will launch and delete a short-lived EC2 instance.

@@ -36,14 +36,14 @@ func (ic InstanceConfig) ServiceProperties(serviceType string) map[string]interf
 
 // VpcServiceConfig holds typed VPC service properties from config.
 type VpcServiceConfig struct {
-	Cn03ReceiverVpcId                string
-	Cn03NonAllowlistedRequesterVpcId string
-	Cn03AllowedRequesterVpcIds       []string
-	Cn03DisallowedRequesterVpcIds    []string
-	Cn03AllowedRequesterVpcIdsCsv    string
-	Cn03DisallowedRequesterVpcIdsCsv string
-	Cn04FlowLogGroupName             string
-	BadVpcId                         string
+	ReceiverVpcId                string
+	NonAllowlistedRequesterVpcId string
+	AllowedRequesterVpcIds       []string
+	DisallowedRequesterVpcIds    []string
+	AllowedRequesterVpcIdsCsv    string
+	DisallowedRequesterVpcIdsCsv string
+	FlowLogGroupName             string
+	BadVpcId                     string
 }
 
 func (ic InstanceConfig) VpcServiceConfig() VpcServiceConfig {
@@ -73,14 +73,14 @@ func (s *ServiceConfig) UnmarshalYAML(value *yaml.Node) error {
 
 func vpcConfigFromProps(props map[string]interface{}) VpcServiceConfig {
 	return VpcServiceConfig{
-		Cn03ReceiverVpcId:                propString(props, "cn03-receiver-vpc-id"),
-		Cn03NonAllowlistedRequesterVpcId: propString(props, "cn03-non-allowlisted-requester-vpc-id"),
-		Cn03AllowedRequesterVpcIds:       propStringSlice(props, "cn03-allowed-requester-vpc-ids"),
-		Cn03DisallowedRequesterVpcIds:    propStringSlice(props, "cn03-disallowed-requester-vpc-ids"),
-		Cn03AllowedRequesterVpcIdsCsv:    propString(props, "cn03-allowed-requester-vpc-ids-csv"),
-		Cn03DisallowedRequesterVpcIdsCsv: propString(props, "cn03-disallowed-requester-vpc-ids-csv"),
-		Cn04FlowLogGroupName:             propString(props, "cn04-flow-log-group-name"),
-		BadVpcId:                         propString(props, "bad-vpc-id"),
+		ReceiverVpcId:                propString(props, "receiver-vpc-id"),
+		NonAllowlistedRequesterVpcId: propString(props, "non-allowlisted-requester-vpc-id"),
+		AllowedRequesterVpcIds:       propStringSlice(props, "allowed-requester-vpc-ids"),
+		DisallowedRequesterVpcIds:    propStringSlice(props, "disallowed-requester-vpc-ids"),
+		AllowedRequesterVpcIdsCsv:    propString(props, "allowed-requester-vpc-ids-csv"),
+		DisallowedRequesterVpcIdsCsv: propString(props, "disallowed-requester-vpc-ids-csv"),
+		FlowLogGroupName:             propString(props, "flow-log-group-name"),
+		BadVpcId:                     propString(props, "bad-vpc-id"),
 	}
 }
 

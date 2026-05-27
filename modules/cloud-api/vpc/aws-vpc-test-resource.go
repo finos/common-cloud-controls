@@ -15,11 +15,10 @@ import (
 	"github.com/aws/smithy-go"
 )
 
-// ── TestResourceService implementation ──────────────────────────────────────
-// Shared lifecycle operations used by CN02 (behavioral IP-assignment checks)
-// and CN04 (traffic generation for flow log observation).
-// Private helpers (listPublicSubnets, describeInstance, etc.) are also used by
-// CN02's public API methods (ListPublicSubnets, EvaluatePublicSubnetDefaultIPControl).
+// ── Test resource lifecycle ─────────────────────────────────────────────────
+// Public subnet selection plus short-lived EC2 instance create/inspect/delete
+// used by CN02 (IP-assignment behavioural check) and CN04 (GenerateTestTraffic
+// for flow log delivery observation).
 
 func (s *AWSVPCService) SelectPublicSubnetForTest(vpcID string) (map[string]interface{}, error) {
 	vpcIDStr := strings.TrimSpace(fmt.Sprintf("%v", vpcID))

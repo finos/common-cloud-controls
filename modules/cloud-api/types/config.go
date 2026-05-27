@@ -66,6 +66,45 @@ func (c Config) VpcServiceConfig() VpcServiceConfig {
 	return vpcConfigFromProps(c.vars)
 }
 
+// LoggingConfig holds the explicit log-sink coordinates each cloud needs to
+// answer QueryLogs. There is no discovery: if a value isn't here the
+// corresponding QueryLogs call must fail with a clear error rather than guess.
+type LoggingConfig struct {
+	// AWS — CloudTrail is queried via the account-scoped LookupEvents API so
+	// no trail name is required for admin/data-write/data-read. Flow logs are
+	// read from the CloudWatch Logs group below.
+	AWSFlowLogGroupName string
+
+	// Azure
+	// Customer GUID for the Log Analytics workspace that receives data-plane
+	// diagnostic logs and (Traffic-Analytics) flow logs.
+	AzureLogAnalyticsWorkspaceID string
+	// KQL table name for storage data-plane logs (default: StorageBlobLogs).
+	AzureStorageLogTable string
+	// KQL filter value for storage data-plane logs (typically the storage account name).
+	AzureStorageAccountName string
+	// KQL table name for flow logs (default: AzureNetworkAnalytics_CL when
+	// Traffic Analytics is enabled).
+	AzureFlowLogTable string
+
+	// GCP — Cloud Logging is project-scoped via gcp-project-id in CloudParams.
+	// Optional override for the flow logs log name (default:
+	// compute.googleapis.com%2Fvpc_flows).
+	GCPFlowLogName string
+}
+
+// LoggingConfig returns typed logging settings from flat Privateer vars.
+func (c Config) LoggingConfig() LoggingConfig {
+	return LoggingConfig{
+		AWSFlowLogGroupName:          c.Get("aws-flow-log-group-name", "flow-log-group-name"),
+		AzureLogAnalyticsWorkspaceID: c.Get("azure-log-analytics-workspace-id"),
+		AzureStorageLogTable:         c.Get("azure-storage-log-table"),
+		AzureStorageAccountName:      c.Get("azure-storage-account"),
+		AzureFlowLogTable:            c.Get("azure-flow-log-table"),
+		GCPFlowLogName:               c.Get("gcp-flow-log-name"),
+	}
+}
+
 // ConfigFromInstance builds Config from a legacy environment YAML instance.
 func ConfigFromInstance(ic InstanceConfig) Config {
 	vars := make(map[string]interface{})

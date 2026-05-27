@@ -25,6 +25,7 @@ services:
       azure-resource-group: "cfi_test_${INSTANCE_ID}"
       azure-storage-account: "stgcfi${INSTANCE_ID}"
       object-storage-retention-period-days: 2
+      azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
       permitted-regions:
         - eastus
         - westus

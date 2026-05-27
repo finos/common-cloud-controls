@@ -6,42 +6,41 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 )
 
-// LogEntry represents a log entry from cloud logging services (CloudTrail, Cloud Audit Logs, Azure Monitor)
+// Log type discriminators accepted by Service.QueryLogs. Implementations are
+// allowed to support a subset; callers will get a clear error for any type the
+// cloud doesn't implement.
+const (
+	LogTypeAdmin     = "admin"      // control-plane / management events
+	LogTypeDataWrite = "data-write" // data-plane mutations
+	LogTypeDataRead  = "data-read"  // data-plane reads
+	LogTypeFlow      = "flow"       // network/packet flow logs
+)
+
+// LogEntry is the common shape returned across all query types. Identity-shape
+// fields are populated for admin/data-write/data-read; flow-log records leave
+// them empty and populate the 5-tuple via Fields. Fields is the type-specific
+// escape hatch — its keys vary per logType (e.g. srcaddr/dstaddr/srcport for
+// flow; category/operation for storage data events).
 type LogEntry struct {
-	Identity  string    `json:"identity"`  // Who performed the action
-	Action    string    `json:"action"`    // What action was performed
-	Resource  string    `json:"resource"`  // What resource was affected
-	Timestamp time.Time `json:"timestamp"` // When the action occurred
-	Result    string    `json:"result"`    // Result/status of the action
+	Identity  string            `json:"identity,omitempty"`
+	Action    string            `json:"action,omitempty"`
+	Resource  string            `json:"resource,omitempty"`
+	Timestamp time.Time         `json:"timestamp"`
+	Result    string            `json:"result,omitempty"`
+	Fields    map[string]string `json:"fields,omitempty"`
 }
 
-// serviceParamString retrieves a string value from service params by camelCase key
-func serviceParamString(serviceParams map[string]interface{}, key string) string {
-	if serviceParams == nil {
-		return ""
-	}
-	if v, ok := serviceParams[key]; ok {
-		if s, ok := v.(string); ok {
-			return s
-		}
-	}
-	return ""
-}
-
-// Service provides operations for cloud logging testing
-// This interface abstracts CloudTrail (AWS), Cloud Audit Logs (GCP), and Azure Monitor
+// Service queries the cloud's log sinks. Each provider's implementation reads
+// its destination coordinates from the privateer config (see
+// types.Config.LoggingConfig) — there is no discovery / fallback. If a
+// destination isn't configured for a given logType, QueryLogs returns an error.
+//
+// resourceID is interpreted by the implementation in a logType-appropriate way
+// (e.g. storage account name for storage data events; ENI / VPC id for flow
+// logs; left as a hint for admin events where the cloud's query API doesn't
+// support fine-grained resource filtering).
 type Service interface {
-	generic.Service // Extends the base Service interface
+	generic.Service
 
-	// QueryAdminLogs queries for administrative/management events
-	// Returns log entries for admin actions like resource creation, configuration changes
-	QueryAdminLogs(resourceID string, lookbackMinutes int) ([]LogEntry, error)
-
-	// QueryDataWriteLogs queries for data write events
-	// Returns log entries for data modification operations (create, update, delete)
-	QueryDataWriteLogs(resourceID string, lookbackMinutes int) ([]LogEntry, error)
-
-	// QueryDataReadLogs queries for data read events
-	// Returns log entries for data read operations
-	QueryDataReadLogs(resourceID string, lookbackMinutes int) ([]LogEntry, error)
+	QueryLogs(resourceID string, logType string, lookbackMinutes int) ([]LogEntry, error)
 }

@@ -1,0 +1,39 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Targets the intentionally non-compliant (bad) VPC: cfi-20260526t102301z-vpc-bad
+# (vpc-0f3af4b6986f1e0ab). Provisioned with map_public_ip_on_launch=true and no
+# flow logs, so the CN02 and CN04 @Behavioural scenarios are EXPECTED TO FAIL.
+#
+# Use this config to verify that behavioural checks correctly detect non-compliance.
+# CN03 @Destructive scenarios are excluded because the bad VPC has no role in
+# CN03 peering guardrail tests (it is not an in-scope receiver).
+#
+# All values hard-coded against the 20260526t102301z deployment in us-east-1.
+
+services:
+  awsVpcBad:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.VPC
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: vpc
+      tags: "@Behavioural"
+      instance-id: "20260526t102301z"
+      provider: aws
+      region: us-east-1
+      resource: "cfi-20260526t102301z-vpc-bad"
+      permitted-regions:
+        - us-east-1
+      # ── Logging service coordinates ──────────────────────────────────────
+      # Intentionally unset: the bad VPC has no flow logs configured, so any
+      # QueryLogs("flow", ...) call should fail with a clear "no group
+      # configured" error. The CN04 @Behavioural scenario is expected to fail.
+      # aws-flow-log-group-name: <unset>
+

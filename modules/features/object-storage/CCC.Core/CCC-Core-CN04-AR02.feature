@@ -17,7 +17,7 @@ Feature: CCC.Core.CN04.AR02 - Log Data Modification Attempts
     When I call "{theService}" with "TriggerDataWrite" using argument "{ResourceName}"
     And I attach "{result}" to the test output as "Data Write Trigger Result"
     And we wait for a period of "10000" ms
-    Then I call "{loggingService}" with "QueryDataWriteLogs" using arguments "{ResourceName}" and "{20}"
+    Then I call "{loggingService}" with "QueryLogs" using arguments "{ResourceName}", "data-write", and "{20}"
     And I refer to "{result}" as "dataLogs"
     And I attach "{dataLogs}" to the test output as "Data Write Logs"
     Then "{dataLogs}" is an array of objects with at least the following contents

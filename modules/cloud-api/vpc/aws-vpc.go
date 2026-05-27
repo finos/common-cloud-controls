@@ -13,10 +13,14 @@ import (
 	ccctypes "github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
+// Compile-time assertion that AWSVPCService satisfies the VPC Service contract.
+// Without this, missing methods only surface at runtime via reflection in the DSL.
+var _ Service = (*AWSVPCService)(nil)
+
 // AWSVPCService implements VPC Service for AWS EC2/VPC.
 type AWSVPCService struct {
-	client      *ec2.Client
-	ctx         context.Context
+	client *ec2.Client
+	ctx    context.Context
 	config ccctypes.Config
 }
 
