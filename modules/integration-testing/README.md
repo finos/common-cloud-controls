@@ -21,7 +21,6 @@ logging,QueryLogs,finos-ccc-integration-fn-main,admin,60,
 ## Run locally
 
 ```bash
-export RUN_CLOUD_API_INTEGRATION=1
 export INTEGRATION_PROVIDER=aws   # required: aws | azure | gcp
 
 cd modules/integration-testing
@@ -31,6 +30,8 @@ go test -tags=integration -timeout=45m \
   -coverprofile=coverage-integration.out \
   ./...
 ```
+
+Each CSV row prints `PASS` or `FAIL` to the console when the test finishes (and live with `-v`). `INTEGRATION_PROVIDER` must be set or the test exits immediately.
 
 Unit checks:
 
