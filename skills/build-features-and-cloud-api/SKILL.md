@@ -270,20 +270,21 @@ Add YAML under [`cfi-testing/privateer-config/`](../../cfi-testing/privateer-con
 
 - **one file per cloud / service combination**.
 - include any vars described in the analysis.
-- create examples to test the integration terraform
+- create examples to test the integration terraform created in step 3.
 
-e#### Structure (follow existing configs)
-created i
+#### Structure (follow existing configs)
+
 Reference [`aws-vpc-good.yml`](../../cfi-testing/privateer-config/aws-vpc-good.yml) and [`azure-cloud-storage.yml`](../../cfi-testing/privateer-config/azure-cloud-storage.yml):
 
 **Rules:**
 
 1. **Hard-code resource names** from terraform outputs in YAML (see `aws-vpc-good.yml`). Comment which terraform output each value came from.
-2. Use `${AZURE_*}` / `${AWS_*}` env vars **only for credentials and account/subscription ids** — expanded by `ExpandVars` in the plugin. Do **not** use `${INSTANCE_ID}`.
+2. Use `${AZURE_*}` / `${AWS_*}` env vars **only for credentials and account/subscription ids** — expanded by `ExpandVars` in the plugin. 
 3. Every **logging** var must match terraform outputs (`aws-flow-log-group-name`, `azure-log-analytics-workspace-id`, …).
 4. `resource` var filters the run to one fixture (Name tag, container name, etc.).
 5. `test-identities` block shape must match [`types.Config.Identity`](../../modules/cloud-api/types/config.go); prefer `${AZURE_TEST_USER_*_USER_NAME}` from `azure-env.sh` for `user-name` fields.
 6. Document in config header: `terraform output` commands used to populate vars after apply.
+7. Log service details must match [`types.Config.LoggingConfig](../../modules/cloud-api/types/config.go).
 
 #### env helper
 
@@ -297,10 +298,7 @@ Optional `aws-env.sh`, `azure-env.sh` etc.  Update this with any environment nee
 # From repo root
 export GOWORK=modules/go.work
 ./cfi-testing/run-compliance-tests.sh \
-  -c cfi-testing/privateer-config/aws-integration.yml \
-  -S awsVirtualMachinesIntegration \
-  -g '@Behavioural @virtual-machines' \
-  --debug
+  -c cfi-testing/privateer-config/aws-integration.yml 
 ```
 
 Expect **some failures** until terraform and implementations mature — success for this skill means:
@@ -309,8 +307,6 @@ Expect **some failures** until terraform and implementations mature — success 
 - Godog discovers features (no “no feature directories” error)
 - Scenarios **execute** cloud-api methods (not compile/skip panics)
 
-Record known failures in `analysis.md` **Gaps** or terraform README — do not hide behind `@ignore`.
-
 ---
 
 ## Cross-cutting reference
@@ -318,15 +314,6 @@ Record known failures in `analysis.md` **Gaps** or terraform README — do not h
 ### Services with behavioural tests today
 
 When extending **integration-terraform**, include modules for each row that has features under `modules/features/`:
-
-| Factory `service` | Features folder | Catalog(s) | AWS | Azure | GCP |
-|-------------------|-----------------|------------|-----|-------|-----|
-| `vpc` | `vpc/` | CCC.VPC | yes | partial | partial |
-| `object-storage` | `object-storage/` | CCC.ObjStor, CCC.Core | yes | yes | yes |
-| `virtual-machines` | `virtual-machines/` | CCC.VM, CCC.Core | planned | planned | planned |
-| `serverless-computing` | `serverless-computing/` | CCC.SvlsComp | planned | planned | planned |
-
-Add rows as new `analysis.md` files land.
 
 ### generic.Service implementation map (typical VM / serverless)
 
@@ -341,11 +328,10 @@ Add rows as new `analysis.md` files land.
 
 ### What not to create
 
-- Duplicate generic Core features under `<service-folder>/` when analysis says reuse
-- Placeholder `README.md` in every catalog subfolder
-- Terraform that tries to pass every test on first apply (unless user explicitly asks)
-- Log sink discovery in Go — all sinks explicit in vars
-- Commits unless the user asks
+- Don't Duplicate generic Core features under `<service-folder>/` when analysis says reuse
+- Don't add Placeholder `README.md` in every catalog subfolder
+- Don't try to create terraform that tries to pass every test on first apply (unless user explicitly asks)
+- Don't rewrite Log sink discovery in Go — all sinks explicit in vars
 
 ---
 
@@ -362,6 +348,7 @@ Before finishing:
 - [ ] `modules/features/README.md` updated if new service tag added
 - [ ] No secrets committed; `*.tfstate` gitignored
 - [ ] Analysis skill cross-link satisfied: implementation matches **Feature reuse** and **method count** in analysis
+- [ ] All assessment requirements have an associated feature file (whether inherited from generic or created for this service)
 
 ---
 
