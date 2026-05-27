@@ -566,6 +566,12 @@ func (s *GCPStorageService) TriggerDataWrite(resourceID string) error {
 	return fmt.Errorf("not yet implemented")
 }
 
+// TriggerDataRead performs a data read against a fixed probe object (CN05.AR06).
+func (s *GCPStorageService) TriggerDataRead(resourceID string) error {
+	_, err := s.ReadObject(resourceID, TriggerDataReadProbeObjectKey)
+	return err
+}
+
 // GetResourceRegion returns the resource region (CN06.AR01)
 func (s *GCPStorageService) GetResourceRegion(resourceID string) (string, error) {
 	return "", fmt.Errorf("not yet implemented")

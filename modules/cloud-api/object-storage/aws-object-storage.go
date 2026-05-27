@@ -627,6 +627,12 @@ func (s *AWSS3Service) TriggerDataWrite(resourceID string) error {
 	return fmt.Errorf("not yet implemented")
 }
 
+// TriggerDataRead performs a data read against a fixed probe object (CN05.AR06).
+func (s *AWSS3Service) TriggerDataRead(resourceID string) error {
+	_, err := s.ReadObject(resourceID, TriggerDataReadProbeObjectKey)
+	return err
+}
+
 // GetResourceRegion returns the bucket region (CN06.AR01)
 func (s *AWSS3Service) GetResourceRegion(resourceID string) (string, error) {
 	return "", fmt.Errorf("not yet implemented")

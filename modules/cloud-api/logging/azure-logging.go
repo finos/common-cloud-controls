@@ -80,6 +80,9 @@ func (s *AzureLoggingService) UpdateResourcePolicy() error       { return nil }
 func (s *AzureLoggingService) TriggerDataWrite(_ string) error {
 	return fmt.Errorf("not supported for logging service")
 }
+func (s *AzureLoggingService) TriggerDataRead(_ string) error {
+	return fmt.Errorf("not supported for logging service")
+}
 func (s *AzureLoggingService) GetResourceRegion(_ string) (string, error) {
 	return "", fmt.Errorf("not supported for logging service")
 }

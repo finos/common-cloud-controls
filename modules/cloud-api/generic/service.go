@@ -52,8 +52,11 @@ type Service interface {
 
 	// TriggerDataWrite performs a logged data modification (create/update/delete).
 	// Service-specific: object-storage creates/deletes an object; RDMS inserts a row; etc.
-	// Used for CN04.AR02 behavioural tests (data write logging verification).
 	TriggerDataWrite(resourceID string) error
+
+	// TriggerDataRead performs a logged data read (read/list/describe).
+	// Service-specific: object-storage reads an object; RDMS reads a row; etc.
+	TriggerDataRead(resourceID string) error
 
 	// GetResourceRegion returns the region/availability zone of the resource.
 	// Used for CN06.AR01 (resource location compliance).
