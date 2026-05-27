@@ -18,11 +18,11 @@ services:
       tags: "@Behavioural @serverless-computing"
       provider: azure
       region: eastus
-      resource: "finos-ccc-integration-20260527t120000z-fn-main"
-      function-name: "finos-ccc-integration-20260527t120000z-fn-main"
+      resource: "finos-ccc-integration-fn-main"
+      function-name: "finos-ccc-integration-fn-main"
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
-      azure-resource-group: "finos-ccc-integration-20260527t120000z-rg"
-      private-endpoint-url: "https://finos-ccc-integration-20260527t120000z-fn-main.privatelink.azurewebsites.net/api/HttpTrigger"
+      azure-resource-group: "finos-ccc-integration-rg"
+      private-endpoint-url: "https://finos-ccc-integration-fn-main.privatelink.azurewebsites.net/api/HttpTrigger"
       public-invoke-url: ""
       rate-limit-threshold: 10
       burst-overrun: 15

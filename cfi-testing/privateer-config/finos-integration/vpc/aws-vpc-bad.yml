@@ -3,15 +3,8 @@ write-directory: evaluation_results
 write: true
 output: yaml
 
-# Targets the intentionally non-compliant (bad) VPC: cfi-20260526t102301z-vpc-bad
-# (vpc-0f3af4b6986f1e0ab). Provisioned with map_public_ip_on_launch=true and no
-# flow logs, so the CN02 and CN04 @Behavioural scenarios are EXPECTED TO FAIL.
-#
-# Use this config to verify that behavioural checks correctly detect non-compliance.
-# CN03 @Destructive scenarios are excluded because the bad VPC has no role in
-# CN03 peering guardrail tests (it is not an in-scope receiver).
-#
-# All values hard-coded against the 20260526t102301z deployment in us-east-1.
+# Targets the intentionally non-compliant (bad) VPC: finos-ccc-integration-vpc-bad.
+# Populate from `terraform output vpc` after apply.
 
 services:
   awsVpcBad:
@@ -28,7 +21,7 @@ services:
       tags: "@Behavioural"
       provider: aws
       region: us-east-1
-      resource: "cfi-20260526t102301z-vpc-bad"
+      resource: "finos-ccc-integration-vpc-bad"
       permitted-regions:
         - us-east-1
       # ── Logging service coordinates ──────────────────────────────────────

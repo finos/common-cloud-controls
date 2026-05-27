@@ -19,8 +19,8 @@ services:
       provider: gcp
       region: us-central1
       gcp-project-id: "${GCP_PROJECT_ID}"
-      resource: "finos-ccc-integration-20260527t120000z-fn-main"
-      function-name: "finos-ccc-integration-20260527t120000z-fn-main"
+      resource: "finos-ccc-integration-fn-main"
+      function-name: "finos-ccc-integration-fn-main"
       private-endpoint-url: "internal-only"
       public-invoke-url: ""
       rate-limit-threshold: 10
