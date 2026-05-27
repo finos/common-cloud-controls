@@ -32,3 +32,4 @@ modules/ccc-behavioural-plugin/privateer-plugin
 
 # ccc module integration testing
 **/.terraform
+modules/integration-testing/coverage-integration*.out

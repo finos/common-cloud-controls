@@ -1,0 +1,18 @@
+# Minimal vars for cloud-api integration tests (integration_calls.csv).
+# VPC IDs and flow-log group must match terraform output after apply.
+
+services:
+  integration:
+    vars:
+      provider: aws
+      region: us-east-1
+      function-name: "finos-ccc-integration-fn-main"
+      resource: "finos-ccc-integration-vm-main"
+      private-endpoint-url: "https://private-serverless-endpoint.internal.example.com/invoke"
+      aws-flow-log-group-name: "/aws/vpc/flow-logs/finos-ccc-integration-vpc"
+      allowed-requester-vpc-ids:
+        - "vpc-0a591620e00092dc2"
+        - "vpc-0dae16d47368ba7ae"
+      disallowed-requester-vpc-ids:
+        - "vpc-0eadc3a916f373b88"
+        - "vpc-0a7d07499ce3992e8"

@@ -1,0 +1,158 @@
+name: Cloud API integration
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "modules/cloud-api/**"
+      - "modules/integration-testing/**"
+      - "modules/integration-testing/privateer-config/**"
+      - ".github/workflows/cloud-api-integration.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "modules/cloud-api/**"
+      - "modules/integration-testing/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  integration-aws:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
+    env:
+      RUN_CLOUD_API_INTEGRATION: "1"
+      INTEGRATION_PROVIDER: aws
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: modules/cloud-api/go.mod
+          cache-dependency-path: |
+            modules/cloud-api/go.sum
+            modules/integration-testing/go.sum
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Run AWS integration tests with coverage
+        working-directory: modules/integration-testing
+        run: |
+          go mod download
+          go test -tags=integration -timeout=45m \
+            -coverpkg=../cloud-api/... \
+            -covermode=atomic \
+            -coverprofile=coverage-integration-aws.out \
+            ./...
+
+      - name: Upload AWS integration coverage
+        if: always() && hashFiles('modules/integration-testing/coverage-integration-aws.out') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: modules/integration-testing/coverage-integration-aws.out
+          flags: cloud-api-integration-aws
+          fail_ci_if_error: false
+
+  integration-azure:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
+    env:
+      RUN_CLOUD_API_INTEGRATION: "1"
+      INTEGRATION_PROVIDER: azure
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: modules/cloud-api/go.mod
+          cache-dependency-path: |
+            modules/cloud-api/go.sum
+            modules/integration-testing/go.sum
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Run Azure integration tests with coverage
+        working-directory: modules/integration-testing
+        env:
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_LOG_ANALYTICS_WORKSPACE_ID: ${{ secrets.AZURE_LOG_ANALYTICS_WORKSPACE_ID }}
+          AZURE_TEST_USER_NO_ACCESS_USER_NAME: ${{ secrets.AZURE_TEST_USER_NO_ACCESS_USER_NAME }}
+          AZURE_TEST_USER_NO_ACCESS_CLIENT_ID: ${{ secrets.AZURE_TEST_USER_NO_ACCESS_CLIENT_ID }}
+          AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET: ${{ secrets.AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET }}
+          AZURE_TEST_USER_NO_ACCESS_OBJECT_ID: ${{ secrets.AZURE_TEST_USER_NO_ACCESS_OBJECT_ID }}
+        run: |
+          go mod download
+          go test -tags=integration -timeout=45m \
+            -coverpkg=../cloud-api/... \
+            -covermode=atomic \
+            -coverprofile=coverage-integration-azure.out \
+            ./...
+
+      - name: Upload Azure integration coverage
+        if: always() && hashFiles('modules/integration-testing/coverage-integration-azure.out') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: modules/integration-testing/coverage-integration-azure.out
+          flags: cloud-api-integration-azure
+          fail_ci_if_error: false
+
+  integration-gcp:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
+    env:
+      RUN_CLOUD_API_INTEGRATION: "1"
+      INTEGRATION_PROVIDER: gcp
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: modules/cloud-api/go.mod
+          cache-dependency-path: |
+            modules/cloud-api/go.sum
+            modules/integration-testing/go.sum
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_JSON }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Run GCP integration tests with coverage
+        working-directory: modules/integration-testing
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_TEST_USER_NO_ACCESS_NAME: ${{ secrets.GCP_TEST_USER_NO_ACCESS_NAME }}
+          GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON: ${{ secrets.GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON }}
+        run: |
+          go mod download
+          go test -tags=integration -timeout=45m \
+            -coverpkg=../cloud-api/... \
+            -covermode=atomic \
+            -coverprofile=coverage-integration-gcp.out \
+            ./...
+
+      - name: Upload GCP integration coverage
+        if: always() && hashFiles('modules/integration-testing/coverage-integration-gcp.out') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: modules/integration-testing/coverage-integration-gcp.out
+          flags: cloud-api-integration-gcp
+          fail_ci_if_error: false

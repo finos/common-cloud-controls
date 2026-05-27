@@ -36,3 +36,10 @@ jobs:
     uses: ./.github/workflows/modules.yml
     permissions:
       contents: read
+
+  cloud-api-integration:
+    uses: ./.github/workflows/cloud-api-integration.yml
+    secrets: inherit
+    permissions:
+      contents: read
+      pull-requests: write

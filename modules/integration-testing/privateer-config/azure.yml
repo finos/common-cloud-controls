@@ -1,0 +1,16 @@
+# Minimal vars for cloud-api integration tests (integration_calls.csv).
+
+services:
+  integration:
+    vars:
+      provider: azure
+      region: eastus
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-tenant-id: "${AZURE_TENANT_ID}"
+      azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
+      azure-resource-group: "finos-ccc-integration-rg"
+      azure-storage-account: "finoscccintegrationmain"
+      default-container: "finos-ccc-integration-container-main"
+      object-storage-retention-period-days: 2
+      function-name: "finos-ccc-integration-fn-main"
+      private-endpoint-url: "https://finos-ccc-integration-fn-main.privatelink.azurewebsites.net/api/HttpTrigger"
