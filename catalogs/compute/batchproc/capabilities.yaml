@@ -36,81 +36,96 @@ imported-capabilities:
 
 capabilities:
   - id: CCC.BatchProc.CP01
+    group: Processing
     title: Data Processing
     description: |
       Processing large volumes of data or time consuming operations in batches (groups)
       without requiring user interaction during execution.
 
   - id: CCC.BatchProc.CP02
+    group: Orchestration
     title: Job Scheduling
     description: |
       Allows workloads to be executed base on a schedules.
 
   - id: CCC.BatchProc.CP03
+    group: Orchestration
     title: Event Triggers
     description: |
       Allows workloads to be executed base on an event.
 
   - id: CCC.BatchProc.CP04
+    group: Orchestration
     title: Manual Triggers
     description: |
       Ability to trigger a job manually when needed.
 
   - id: CCC.BatchProc.CP05
+    group: Resource
     title: Dynamic Resource Allocation
     description: |
       Automatically provision computing resources based on job requirements at the start
       of execution and deallocate them once the job is completed.
 
   - id: CCC.BatchProc.CP06
+    group: Networking
     title: VPC Support
     description: |
       Ability to deploy compute resources in your VPC for network isolation.
 
   - id: CCC.BatchProc.CP07
+    group: Orchestration
     title: Job Definitions
     description: |
       Defines job configurations, including compute resources, environment variables,
       and execution parameters.
 
   - id: CCC.BatchProc.CP08
+    group: Orchestration
     title: Job Queues
     description: |
       Ability to organize jobs into queues with execution priorities.
 
   - id: CCC.BatchProc.CP09
+    group: Orchestration
     title: Job Dependencies
     description: |
       Ability to define dependencies between jobs to execute them in a specific order.
 
   - id: CCC.BatchProc.CP10
+    group: Orchestration
     title: Job Orchestration
     description: |
       Ability to coordinate and manage the execution of multiple jobs to ensure they run
       in order based on conditions to meet performance or business requirements.
 
   - id: CCC.BatchProc.CP11
+    group: Compute
     title: Multinode Parallel Jobs
     description: |
       Support for running HPC (High Performance Computing) workloads that
       span multiple computing instances.
 
   - id: CCC.BatchProc.CP12
+    group: Compute
     title: Array Jobs
     description: |
       Ability to run a single job across multiple data inputs or parameters concurrently.
 
   - id: CCC.BatchProc.CP13
+    group: Compute
     title: Container Support
     description: |
       Native support for containerized workloads using Docker containers.
 
   - id: CCC.BatchProc.CP14
+    group: Orchestration
     title: Retry Policy
     description: |
       Ability to configure retry logic for failed jobs.
 
   - id: CCC.BatchProc.CP15
+    group: Data
     title: Integration with Data Sources and Sinks
     description: |
       Seamlessly integrates with various data sources (for reading inputs) and
@@ -118,17 +133,20 @@ capabilities:
       data streams and data warehouses.
 
   - id: CCC.BatchProc.CP16
+    group: Resource
     title: List Jobs
     description: |
       Ability to list the jobs with their job status such as succeeded, failed,
       running, pending or submitted.
 
   - id: CCC.BatchProc.CP17
+    group: Resource
     title: Cancel Jobs
     description: |
       Ability to cancel jobs that are in submitted, pending or runnable states.
 
   - id: CCC.BatchProc.CP18
+    group: Resource
     title: Terminate Jobs
     description: |
       Ability to terminate jobs that are already running.
