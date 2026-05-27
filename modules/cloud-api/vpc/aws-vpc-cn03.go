@@ -393,7 +393,7 @@ func (s *AWSVPCService) resolveCN03AllowedVpcEntriesWithOrigin() ([]cn03AllowedV
 	return s.resolveCN03VpcEntriesWithOrigin(
 		[]string{"CN03_ALLOWED_REQUESTER_VPC_ID_", "CN03_ALLOWED_PEER_VPC_ID_"},
 		[]string{"CN03_ALLOWED_REQUESTER_VPC_IDS", "CN03_ALLOWED_PEER_VPC_IDS"},
-		"cn03-allowed-requester-vpc-ids",
+		"allowed-requester-vpc-ids",
 		func(matrix cn03TrialMatrix) []string { return matrix.AllowedRequesterVpcIDs },
 	)
 }
@@ -404,7 +404,7 @@ func (s *AWSVPCService) resolveCN03DisallowedVpcEntriesWithOrigin() ([]cn03Allow
 	return s.resolveCN03VpcEntriesWithOrigin(
 		[]string{"CN03_DISALLOWED_REQUESTER_VPC_ID_"},
 		[]string{"CN03_DISALLOWED_REQUESTER_VPC_IDS"},
-		"cn03-disallowed-requester-vpc-ids",
+		"disallowed-requester-vpc-ids",
 		func(matrix cn03TrialMatrix) []string { return matrix.DisallowedRequesterVpcIDs },
 	)
 }
@@ -448,50 +448,20 @@ func (s *AWSVPCService) resolveCN03VpcEntriesWithOrigin(
 		add([]string{os.Getenv(key)}, "env-guardrail")
 	}
 
-	// yaml-guardrail: defined in Privateer vpc vars
+	// yaml-guardrail: defined in Privateer vpc vars. Both list-form
+	// (allowed-requester-vpc-ids: [a, b]) and CSV-form (...-csv: "a,b") are
+	// accepted; entries are deduplicated by the shared `add` closure.
 	vpcCfg := s.config.VpcServiceConfig()
 	switch yamlKey {
-	case "cn03-allowed-requester-vpc-ids":
-		add(cn03StringSlice(vpcCfg.Cn03AllowedRequesterVpcIdsCsv), "yaml-guardrail")
-	case "cn03-disallowed-requester-vpc-ids":
-		add(cn03StringSlice(vpcCfg.Cn03DisallowedRequesterVpcIdsCsv), "yaml-guardrail")
+	case "allowed-requester-vpc-ids":
+		add(vpcCfg.AllowedRequesterVpcIds, "yaml-guardrail")
+		add(cn03StringSlice(vpcCfg.AllowedRequesterVpcIdsCsv), "yaml-guardrail")
+	case "disallowed-requester-vpc-ids":
+		add(vpcCfg.DisallowedRequesterVpcIds, "yaml-guardrail")
+		add(cn03StringSlice(vpcCfg.DisallowedRequesterVpcIdsCsv), "yaml-guardrail")
 	}
 
 	return entries, nil
-}
-
-// ValidateAllowListClassification evaluates every VPC in the CN03 allow-list
-// from all sources and returns an aggregate result with per-VPC origin info.
-// Attach "{result.Results}" to the test output to see the full per-VPC breakdown.
-func (s *AWSVPCService) ValidateAllowListClassification() (map[string]interface{}, error) {
-	entries, err := s.resolveCN03AllowedVpcEntriesWithOrigin()
-	if err != nil {
-		return nil, err
-	}
-
-	results := make([]interface{}, 0, len(entries))
-	misclassified := make([]string, 0)
-
-	for _, entry := range entries {
-		eval, err := s.EvaluatePeerAgainstAllowList(entry.VpcID)
-		if err != nil {
-			return nil, err
-		}
-		eval["Origin"] = entry.Origin
-		results = append(results, eval)
-		if !boolFromEvidence(eval["Allowed"]) {
-			misclassified = append(misclassified, entry.VpcID)
-		}
-	}
-
-	return map[string]interface{}{
-		"AllowedCount":           len(entries),
-		"AllowListDefined":       len(entries) > 0,
-		"AllClassifiedCorrectly": len(misclassified) == 0,
-		"MisclassifiedCount":     len(misclassified),
-		"MisclassifiedIds":       misclassified,
-		"Results":                results,
-	}, nil
 }
 
 // ValidateDisallowListEnforcement dry-runs every VPC in the CN03 disallow-list

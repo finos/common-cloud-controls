@@ -16,7 +16,7 @@ Feature: CCC.Core.CN04.AR01 - Log Administrative Access Attempts
     Then "{result}" is not an error
     And I attach "{result}" to the test output as "Policy Update Result"
     And we wait for a period of "10000" ms
-    When I call "{loggingService}" with "QueryAdminLogs" using arguments "{ResourceName}" and "{20}"
+    When I call "{loggingService}" with "QueryLogs" using arguments "{ResourceName}", "admin", and "{20}"
     Then "{result}" is not an error
     And I refer to "{result}" as "adminLogs"
     And I attach "{adminLogs}" to the test output as "Admin Activity Logs"

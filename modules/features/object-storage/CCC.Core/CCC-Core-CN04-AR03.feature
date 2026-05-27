@@ -22,7 +22,7 @@ Feature: CCC.Core.CN04.AR03 - Log Data Read Attempts
     And I refer to "{result}" as "readResult"
     And I attach "{readResult}" to the test output as "Object Read Result"
     And we wait for a period of "10000" ms
-    When I call "{loggingService}" with "QueryDataReadLogs" using arguments "{ResourceName}" and "{20}"
+    When I call "{loggingService}" with "QueryLogs" using arguments "{ResourceName}", "data-read", and "{20}"
     Then "{result}" is not an error
     And I refer to "{result}" as "readLogs"
     And I attach "{readLogs}" to the test output as "Data Read Logs"

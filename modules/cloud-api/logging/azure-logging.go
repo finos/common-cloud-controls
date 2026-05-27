@@ -4,31 +4,29 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/monitor/azquery"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/generic/retry"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
-// AzureLoggingService implements Service for Azure Monitor/Log Analytics
+// Compile-time assertion that AzureLoggingService satisfies the Service contract.
+var _ Service = (*AzureLoggingService)(nil)
+
+// AzureLoggingService implements Service for Azure Monitor (Activity Log) and
+// Log Analytics (data-plane diagnostics + Traffic-Analytics flow logs). All
+// sink coordinates come from the privateer config — no discovery.
 type AzureLoggingService struct {
-	activityLogsClient       *armmonitor.ActivityLogsClient
-	logsClient               *azquery.LogsClient
-	workspacesClient         *armoperationalinsights.WorkspacesClient
-	diagnosticSettingsClient *armmonitor.DiagnosticSettingsClient
-	credential               azcore.TokenCredential
-	ctx                      context.Context
-	config                   types.Config
-	workspaceIDCache         string
-	workspaceIDInit          sync.Once
-	workspaceIDInitErr       error
+	activityLogsClient *armmonitor.ActivityLogsClient
+	logsClient         *azquery.LogsClient
+	credential         azcore.TokenCredential
+	ctx                context.Context
+	config             types.Config
 }
 
 // NewAzureLoggingService creates a new Azure logging service using default credential chain
@@ -48,24 +46,12 @@ func NewAzureLoggingService(ctx context.Context, config types.Config) (*AzureLog
 		return nil, err
 	}
 
-	workspacesClient, err := armoperationalinsights.NewWorkspacesClient(config.CloudParams().AzureSubscriptionID, cred, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	diagnosticSettingsClient, err := armmonitor.NewDiagnosticSettingsClient(cred, nil)
-	if err != nil {
-		return nil, err
-	}
-
 	return &AzureLoggingService{
-		activityLogsClient:       activityLogsClient,
-		logsClient:               logsClient,
-		workspacesClient:         workspacesClient,
-		diagnosticSettingsClient: diagnosticSettingsClient,
-		credential:               cred,
-		ctx:                      ctx,
-		config:                   config,
+		activityLogsClient: activityLogsClient,
+		logsClient:         logsClient,
+		credential:         cred,
+		ctx:                ctx,
+		config:             config,
 	}, nil
 }
 
@@ -87,78 +73,68 @@ func (s *AzureLoggingService) GetOrProvisionTestableResources() ([]types.TestPar
 	}, nil
 }
 
-// CheckUserProvisioned validates that the service's identity is properly provisioned
-func (s *AzureLoggingService) CheckUserProvisioned() error {
-	return nil
-}
-
-// ElevateAccessForInspection temporarily elevates access permissions
-func (s *AzureLoggingService) ElevateAccessForInspection() error {
-	return nil
-}
-
-// ResetAccess restores the original access permissions
-func (s *AzureLoggingService) ResetAccess() error {
-	return nil
-}
-
-// UpdateResourcePolicy is not applicable for logging service
-func (s *AzureLoggingService) UpdateResourcePolicy() error {
-	return nil
-}
-
-// TriggerDataWrite is not applicable for logging service
-func (s *AzureLoggingService) TriggerDataWrite(resourceID string) error {
+func (s *AzureLoggingService) CheckUserProvisioned() error       { return nil }
+func (s *AzureLoggingService) ElevateAccessForInspection() error { return nil }
+func (s *AzureLoggingService) ResetAccess() error                { return nil }
+func (s *AzureLoggingService) UpdateResourcePolicy() error       { return nil }
+func (s *AzureLoggingService) TriggerDataWrite(_ string) error {
 	return fmt.Errorf("not supported for logging service")
 }
-
-// GetResourceRegion is not applicable for logging service
-func (s *AzureLoggingService) GetResourceRegion(resourceID string) (string, error) {
+func (s *AzureLoggingService) GetResourceRegion(_ string) (string, error) {
 	return "", fmt.Errorf("not supported for logging service")
 }
-
-// IsDataReplicatedToSeparateLocation is not applicable for logging service
-func (s *AzureLoggingService) IsDataReplicatedToSeparateLocation(resourceID string) (bool, error) {
+func (s *AzureLoggingService) IsDataReplicatedToSeparateLocation(_ string) (bool, error) {
 	return false, fmt.Errorf("not supported for logging service")
 }
-
-// GetReplicationStatus is not applicable for logging service
-func (s *AzureLoggingService) GetReplicationStatus(resourceID string) (*generic.ReplicationStatus, error) {
+func (s *AzureLoggingService) GetReplicationStatus(_ string) (*generic.ReplicationStatus, error) {
 	return nil, fmt.Errorf("not supported for logging service")
 }
+func (s *AzureLoggingService) TearDown() error { return nil }
 
-// TearDown is a no-op for logging service (does not create resources)
-func (s *AzureLoggingService) TearDown() error {
-	return nil
-}
-
-// QueryAdminLogs queries Azure Activity Log for admin events
-func (s *AzureLoggingService) QueryAdminLogs(resourceID string, lookbackMinutes int) ([]LogEntry, error) {
+// QueryLogs dispatches on logType. admin reads Azure Activity Log (filtered by
+// the resource group from cloud params). data-write / data-read / flow read
+// from the Log Analytics workspace configured at
+// logging.azure-log-analytics-workspace-id.
+func (s *AzureLoggingService) QueryLogs(resourceID, logType string, lookbackMinutes int) ([]LogEntry, error) {
 	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() ([]LogEntry, error) {
-		return s.queryAdminLogs(resourceID, lookbackMinutes)
+		switch logType {
+		case LogTypeAdmin:
+			return s.queryActivityLog(resourceID, lookbackMinutes)
+		case LogTypeDataWrite:
+			return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageWrite")
+		case LogTypeDataRead:
+			return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageRead")
+		case LogTypeFlow:
+			return s.queryFlowLogs(resourceID, lookbackMinutes)
+		default:
+			return nil, fmt.Errorf("Azure logging service does not support log type %q", logType)
+		}
 	}, retry.IsAzureRBACPropagationError)
 }
 
-func (s *AzureLoggingService) queryAdminLogs(resourceID string, lookbackMinutes int) ([]LogEntry, error) {
+// queryActivityLog returns Activity Log records for the resource group from
+// cloud params. resourceID is matched client-side against the event's ResourceID
+// (substring) when non-empty.
+func (s *AzureLoggingService) queryActivityLog(resourceID string, lookbackMinutes int) ([]LogEntry, error) {
+	rg := s.config.CloudParams().AzureResourceGroup
+	if rg == "" {
+		return nil, fmt.Errorf("azure-resource-group is required to query admin logs but is not set in config")
+	}
+
 	startTime := time.Now().Add(-time.Duration(lookbackMinutes) * time.Minute)
 	endTime := time.Now()
-
-	// Build the filter for Activity Log query
-	// Filter by time range and resource group (storage account operations are logged at resource group level)
 	filter := fmt.Sprintf("eventTimestamp ge '%s' and eventTimestamp le '%s' and resourceGroupName eq '%s'",
 		startTime.UTC().Format(time.RFC3339),
 		endTime.UTC().Format(time.RFC3339),
-		s.config.CloudParams().AzureResourceGroup)
+		rg)
 
 	pager := s.activityLogsClient.NewListPager(filter, nil)
-
 	entries := make([]LogEntry, 0)
 	for pager.More() {
 		page, err := pager.NextPage(s.ctx)
 		if err != nil {
-			return nil, fmt.Errorf("failed to get activity log page: %w", err)
+			return nil, fmt.Errorf("activity log query: %w", err)
 		}
-
 		for _, event := range page.Value {
 			entry := LogEntry{
 				Timestamp: azureGetTime(event.EventTimestamp),
@@ -173,156 +149,93 @@ func (s *AzureLoggingService) queryAdminLogs(resourceID string, lookbackMinutes 
 			if event.Caller != nil {
 				entry.Identity = *event.Caller
 			}
+			if resourceID != "" && entry.Resource != "" {
+				if !strings.Contains(strings.ToLower(entry.Resource), strings.ToLower(resourceID)) {
+					continue
+				}
+			}
 			entries = append(entries, entry)
 		}
 	}
-
 	return entries, nil
 }
 
-// QueryDataWriteLogs queries Azure Log Analytics for storage write events
-// Note: Requires Diagnostic Settings configured to send StorageWrite logs to a Log Analytics workspace
-func (s *AzureLoggingService) QueryDataWriteLogs(resourceID string, lookbackMinutes int) ([]LogEntry, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() ([]LogEntry, error) {
-		return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageWrite")
-	}, retry.IsAzureRBACPropagationError)
-}
-
-// QueryDataReadLogs queries Azure Log Analytics for storage read events
-// Note: Requires Diagnostic Settings configured to send StorageRead logs to a Log Analytics workspace
-func (s *AzureLoggingService) QueryDataReadLogs(resourceID string, lookbackMinutes int) ([]LogEntry, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() ([]LogEntry, error) {
-		return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageRead")
-	}, retry.IsAzureRBACPropagationError)
-}
-
-// getOrDiscoverWorkspaceID returns the Log Analytics workspace ID (CustomerID).
-// Discovery order: 1) workspace from
-// storage account diagnostic settings (where logs are actually sent); 2) first
-// workspace in the instance's resource group.
-func (s *AzureLoggingService) getOrDiscoverWorkspaceID() (string, error) {
-	s.workspaceIDInit.Do(func() {
-		cp := s.config.CloudParams()
-		rg := cp.AzureResourceGroup
-		if rg == "" {
-			s.workspaceIDInitErr = fmt.Errorf("Azure resource group is empty")
-			return
-		}
-		// Try to get workspace from diagnostic settings on the storage account's blob service.
-		// This matches where the policy says logs are sent; workspace may be in a different RG.
-		storageAccount := s.config.Get("azure-storage-account")
-		if storageAccount != "" && cp.AzureSubscriptionID != "" {
-			blobServiceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s/blobServices/default",
-				cp.AzureSubscriptionID, rg, storageAccount)
-			if customerID := s.workspaceFromDiagnosticSettings(blobServiceURI); customerID != "" {
-				s.workspaceIDCache = customerID
-				return
-			}
-		}
-		// Fallback: first workspace in the instance's resource group.
-		pager := s.workspacesClient.NewListByResourceGroupPager(rg, nil)
-		for pager.More() {
-			page, err := pager.NextPage(s.ctx)
-			if err != nil {
-				s.workspaceIDInitErr = fmt.Errorf("failed to list Log Analytics workspaces: %w", err)
-				return
-			}
-			if len(page.Value) == 0 {
-				continue
-			}
-			w := page.Value[0]
-			if w.Properties != nil && w.Properties.CustomerID != nil {
-				s.workspaceIDCache = *w.Properties.CustomerID
-				return
-			}
-			break
-		}
-		if s.workspaceIDCache == "" {
-			s.workspaceIDInitErr = fmt.Errorf("ensure logs go to Log Analytics in resource group %s", rg)
-		}
-	})
-	if s.workspaceIDInitErr != nil {
-		return "", s.workspaceIDInitErr
-	}
-	return s.workspaceIDCache, nil
-}
-
-// workspaceFromDiagnosticSettings lists diagnostic settings for the resource and returns
-// the CustomerID of the first workspace destination found, or "" if none.
-func (s *AzureLoggingService) workspaceFromDiagnosticSettings(resourceURI string) string {
-	pager := s.diagnosticSettingsClient.NewListPager(resourceURI, nil)
-	for pager.More() {
-		page, err := pager.NextPage(s.ctx)
-		if err != nil {
-			return ""
-		}
-		for _, ds := range page.Value {
-			if ds.Properties == nil || ds.Properties.WorkspaceID == nil || *ds.Properties.WorkspaceID == "" {
-				continue
-			}
-			workspaceARMID := *ds.Properties.WorkspaceID
-			customerID, err := s.customerIDFromWorkspaceARMID(workspaceARMID)
-			if err == nil && customerID != "" {
-				return customerID
-			}
-		}
-	}
-	return ""
-}
-
-// customerIDFromWorkspaceARMID parses an ARM resource ID and fetches the workspace CustomerID.
-// Format: /subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.OperationalInsights/workspaces/{name}
-func (s *AzureLoggingService) customerIDFromWorkspaceARMID(armID string) (string, error) {
-	parts := strings.Split(strings.Trim(armID, "/"), "/")
-	var resourceGroup, workspaceName string
-	for i := 0; i < len(parts)-1; i++ {
-		if parts[i] == "resourceGroups" && i+1 < len(parts) {
-			resourceGroup = parts[i+1]
-		}
-		if parts[i] == "workspaces" && i+1 < len(parts) {
-			workspaceName = parts[i+1]
-			break
-		}
-	}
-	if resourceGroup == "" || workspaceName == "" {
-		return "", fmt.Errorf("invalid workspace ARM ID: %s", armID)
-	}
-	w, err := s.workspacesClient.Get(s.ctx, resourceGroup, workspaceName, nil)
-	if err != nil {
-		return "", err
-	}
-	if w.Properties == nil || w.Properties.CustomerID == nil {
-		return "", fmt.Errorf("workspace has no CustomerID")
-	}
-	return *w.Properties.CustomerID, nil
-}
-
+// queryStorageLogs runs a KQL query against the configured Log Analytics
+// workspace. Table defaults to StorageBlobLogs but can be overridden via
+// azure-storage-log-table. The KQL filter on AccountName uses the resourceID
+// argument; when empty it falls back to azure-storage-account from config.
 func (s *AzureLoggingService) queryStorageLogs(resourceID string, lookbackMinutes int, category string) ([]LogEntry, error) {
-	workspaceID, err := s.getOrDiscoverWorkspaceID()
-	if err != nil {
-		return nil, err
-	}
+	cfg := s.config.LoggingConfig()
+	workspaceID := cfg.AzureLogAnalyticsWorkspaceID
 	if workspaceID == "" {
-		return []LogEntry{}, nil
+		return nil, fmt.Errorf("azure-log-analytics-workspace-id is required to query data logs but is not set in config")
 	}
 
-	storageAccount := s.config.Get("azure-storage-account")
+	accountName := resourceID
+	if accountName == "" {
+		accountName = cfg.AzureStorageAccountName
+	}
+	if accountName == "" {
+		return nil, fmt.Errorf("storage account name is required (pass via resourceID or set azure-storage-account)")
+	}
 
-	kql := fmt.Sprintf(`StorageBlobLogs
+	table := cfg.AzureStorageLogTable
+	if table == "" {
+		table = "StorageBlobLogs"
+	}
+
+	kql := fmt.Sprintf(`%s
 | where TimeGenerated >= ago(%dm)
 | where Category == '%s'
 | where AccountName == '%s'
-| project TimeGenerated, CallerIpAddress, AuthenticationType, OperationName, StatusText, Uri
+| project TimeGenerated, CallerIpAddress, OperationName, StatusText, Uri
 | order by TimeGenerated desc`,
-		lookbackMinutes, category, storageAccount)
+		table, lookbackMinutes, category, accountName)
 
+	return s.runKQL(workspaceID, kql)
+}
+
+// queryFlowLogs runs a KQL query against the Traffic-Analytics flow log table.
+// Defaults to AzureNetworkAnalytics_CL (legacy Traffic Analytics schema);
+// override via azure-flow-log-table for the newer NTANetAnalytics schema or a
+// custom table. resourceID is applied as a substring match on FlowType_s when
+// non-empty (best-effort given the variable schemas).
+func (s *AzureLoggingService) queryFlowLogs(resourceID string, lookbackMinutes int) ([]LogEntry, error) {
+	cfg := s.config.LoggingConfig()
+	workspaceID := cfg.AzureLogAnalyticsWorkspaceID
+	if workspaceID == "" {
+		return nil, fmt.Errorf("azure-log-analytics-workspace-id is required to query flow logs but is not set in config")
+	}
+
+	table := cfg.AzureFlowLogTable
+	if table == "" {
+		table = "AzureNetworkAnalytics_CL"
+	}
+
+	resourceFilter := ""
+	if resourceID != "" {
+		resourceFilter = fmt.Sprintf("\n| where TargetResourceID_s contains '%s' or SrcIP_s == '%s' or DestIP_s == '%s'",
+			resourceID, resourceID, resourceID)
+	}
+
+	kql := fmt.Sprintf(`%s
+| where TimeGenerated >= ago(%dm)%s
+| order by TimeGenerated desc`, table, lookbackMinutes, resourceFilter)
+
+	return s.runKQL(workspaceID, kql)
+}
+
+// runKQL executes a KQL query and flattens the response into LogEntry rows.
+// Standard identity-shape columns (CallerIpAddress, OperationName, etc.) are
+// mapped onto LogEntry fields; everything else is preserved verbatim in Fields.
+func (s *AzureLoggingService) runKQL(workspaceID, kql string) ([]LogEntry, error) {
 	query := azquery.Body{Query: &kql}
 	resp, err := s.logsClient.QueryWorkspace(s.ctx, workspaceID, query, nil)
 	if err != nil {
-		return nil, fmt.Errorf("failed to query Log Analytics workspace: %w", err)
+		return nil, fmt.Errorf("Log Analytics workspace query: %w", err)
 	}
 
-	var entries []LogEntry
+	entries := make([]LogEntry, 0)
 	for _, table := range resp.Tables {
 		colIdx := map[string]int{}
 		for i, col := range table.Columns {
@@ -331,23 +244,27 @@ func (s *AzureLoggingService) queryStorageLogs(resourceID string, lookbackMinute
 			}
 		}
 		for _, row := range table.Rows {
-			entry := LogEntry{}
-			if i, ok := colIdx["CallerIpAddress"]; ok && i < len(row) && row[i] != nil {
-				entry.Identity = fmt.Sprintf("%v", row[i])
-			}
-			if i, ok := colIdx["OperationName"]; ok && i < len(row) && row[i] != nil {
-				entry.Action = fmt.Sprintf("%v", row[i])
-			}
-			if i, ok := colIdx["TimeGenerated"]; ok && i < len(row) && row[i] != nil {
-				if t, err := time.Parse(time.RFC3339, fmt.Sprintf("%v", row[i])); err == nil {
-					entry.Timestamp = t
+			entry := LogEntry{Fields: map[string]string{}}
+			for name, i := range colIdx {
+				if i >= len(row) || row[i] == nil {
+					continue
 				}
-			}
-			if i, ok := colIdx["Uri"]; ok && i < len(row) && row[i] != nil {
-				entry.Resource = fmt.Sprintf("%v", row[i])
-			}
-			if i, ok := colIdx["StatusText"]; ok && i < len(row) && row[i] != nil {
-				entry.Result = fmt.Sprintf("%v", row[i])
+				value := fmt.Sprintf("%v", row[i])
+				entry.Fields[name] = value
+				switch name {
+				case "CallerIpAddress":
+					entry.Identity = value
+				case "OperationName":
+					entry.Action = value
+				case "Uri", "TargetResourceID_s":
+					entry.Resource = value
+				case "StatusText":
+					entry.Result = value
+				case "TimeGenerated":
+					if t, err := time.Parse(time.RFC3339, value); err == nil {
+						entry.Timestamp = t
+					}
+				}
 			}
 			entries = append(entries, entry)
 		}
