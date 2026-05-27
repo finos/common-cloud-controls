@@ -7,7 +7,7 @@ Feature: CCC.Core.CN06.AR01 - Resource Location Compliance
   Background:
     Given a cloud api for "{Config}" in "api"
 
-  @Behavioural @object-storage @vpc
+  @Behavioural @object-storage @vpc @virtual-machines @serverless-computing
   Scenario: Resource region can be retrieved for compliance verification
     Given I call "{api}" with "GetServiceAPI" using argument "{ServiceType}"
     And I refer to "{result}" as "theService"

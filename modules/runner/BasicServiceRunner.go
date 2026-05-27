@@ -377,7 +377,9 @@ func (r *BasicServiceRunner) printSummary(stats TestStats) {
 
 // discoverFeaturePaths returns Godog paths under modules/features/{service}/<catalog>/,
 // always including modules/features/generic/ (shared CCC.Core scenarios).
-// object-storage runs also include modules/features/port/ (PerPort TLS scenarios).
+// Services with PerPort scenarios also include modules/features/port/.
+// virtual-machines and serverless-computing also include modules/features/vpc/
+// for shared CN06 coverage until that scenario is moved to generic.
 func (r *BasicServiceRunner) discoverFeaturePaths() ([]string, error) {
 	return collectFeaturePaths(RepoRoot(), r.Config.ServiceName)
 }
@@ -405,8 +407,11 @@ func collectFeaturePaths(repoRoot, serviceName string) ([]string, error) {
 
 	appendCatalogDirs(filepath.Join(featuresRoot, "generic"))
 
-	if serviceName == "object-storage" {
+	if serviceName == "object-storage" || serviceName == "virtual-machines" {
 		appendCatalogDirs(filepath.Join(featuresRoot, "port"))
+	}
+	if serviceName == "virtual-machines" || serviceName == "serverless-computing" {
+		appendCatalogDirs(filepath.Join(featuresRoot, "vpc"))
 	}
 
 	if len(paths) == 0 {

@@ -1,0 +1,19 @@
+output "vm_id" {
+  value = azurerm_linux_virtual_machine.good.id
+}
+
+output "vm_name" {
+  value = azurerm_linux_virtual_machine.good.name
+}
+
+output "public_ip" {
+  value = azurerm_public_ip.this.ip_address
+}
+
+output "listener_port" {
+  value = 22
+}
+
+output "allowed_source_cidr" {
+  value = "10.0.0.0/8"
+}

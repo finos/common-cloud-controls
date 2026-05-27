@@ -5,7 +5,7 @@ Feature: CCC.Core.CN01.AR03
   So that no data is transmitted in plaintext
 
 
-@PerPort @Behavioural @http @tls @object-storage
+@PerPort @Behavioural @http @tls @object-storage @virtual-machines
   Scenario: HTTP redirects to HTTPS
     If HTTP is accessible, it should immediately redirect to HTTPS (301/302 status codes).
     This ensures that all web traffic is encrypted.
@@ -20,7 +20,7 @@ Feature: CCC.Core.CN01.AR03
     Then "{connection.State}" is "closed"
 
 
-@PerPort @Behavioural @ftp @tls @object-storage
+@PerPort @Behavioural @ftp @tls @object-storage @virtual-machines
   Scenario: FTP traffic is blocked or not exposed
     Unencrypted FTP should not be accessible. The service should either refuse connections
     or not expose FTP on standard ports (21).
@@ -31,7 +31,7 @@ Feature: CCC.Core.CN01.AR03
     Then "{connection}" is an error
 
 
-@PerPort @Behavioural @telnet @tls @object-storage
+@PerPort @Behavioural @telnet @tls @object-storage @virtual-machines
   Scenario: Telnet traffic is blocked or not exposed
     Telnet transmits credentials in plaintext and should be completely disabled.
     SSH should be used instead for remote shell access.
@@ -42,7 +42,7 @@ Feature: CCC.Core.CN01.AR03
     Then "{connection}" is an error
 
 
-@PerPort @Behavioural @tls @object-storage
+@PerPort @Behavioural @tls @object-storage @virtual-machines
   Scenario: Only secure protocols are exposed
     Verify that the service only exposes encrypted protocols by checking that
     all exposed ports use TLS/SSL or other encryption.

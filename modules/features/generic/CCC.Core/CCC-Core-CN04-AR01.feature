@@ -5,7 +5,7 @@ Feature: CCC.Core.CN04.AR01 - Log Administrative Access Attempts
   So that audit trails are maintained for compliance
 
 
-@Behavioural @object-storage
+@Behavioural @object-storage @virtual-machines @serverless-computing
   Scenario: Verify admin actions are logged with identity and timestamp
     Given a cloud api for "{Config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "{ServiceType}"

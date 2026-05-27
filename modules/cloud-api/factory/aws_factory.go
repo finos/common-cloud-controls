@@ -8,7 +8,9 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
+	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	vpcapi "github.com/finos/common-cloud-controls/cloud-api/vpc"
+	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
@@ -63,6 +65,16 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
 		}
 		return service, nil
+	case "virtual-machines":
+		service, err = virtualmachines.NewAWSVirtualMachinesService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
+		}
+	case "serverless-computing":
+		service, err = serverlesscomputing.NewAWSServerlessComputingService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for AWS: %s", serviceID)
@@ -108,6 +120,26 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 
 	case "vpc":
 		return nil, fmt.Errorf("vpc with identity not yet implemented for AWS")
+	case "virtual-machines":
+		service, err = virtualmachines.NewAWSVirtualMachinesServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+		if testAccess {
+			if err = waitForUserProvisioning(service); err != nil {
+				return nil, fmt.Errorf("user provisioning validation failed: %w", err)
+			}
+		}
+	case "serverless-computing":
+		service, err = serverlesscomputing.NewAWSServerlessComputingServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+		if testAccess {
+			if err = waitForUserProvisioning(service); err != nil {
+				return nil, fmt.Errorf("user provisioning validation failed: %w", err)
+			}
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for AWS: %s", serviceID)
