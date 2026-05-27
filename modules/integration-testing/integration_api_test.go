@@ -100,26 +100,29 @@ func serviceFor(f factory.Factory, cache map[string]generic.Service, api string)
 
 func invokeMethod(svc generic.Service, method string, args []string) error {
 	rv := reflect.ValueOf(svc)
-	m := rv.MethodByName(method)
-	if !m.IsValid() {
-		return fmt.Errorf("method not found on %T", svc)
+	for rv.Kind() == reflect.Interface && !rv.IsNil() {
+		rv = rv.Elem()
+	}
+	mt, ok := rv.Type().MethodByName(method)
+	if !ok {
+		return fmt.Errorf("method %q not found on %s", method, rv.Type())
 	}
 	trimmed := trimArgs(args)
-	mt := m.Type()
-	want := mt.NumIn() - 1
+	fnType := mt.Func.Type()
+	want := fnType.NumIn() - 1
 	if len(trimmed) != want {
 		return fmt.Errorf("method wants %d argument(s), CSV has %d", want, len(trimmed))
 	}
-	in := make([]reflect.Value, mt.NumIn())
+	in := make([]reflect.Value, fnType.NumIn())
 	in[0] = rv
-	for i := 0; i < want; i++ {
-		v, err := coerceArg(mt.In(i+1), trimmed[i])
+	for i := range trimmed {
+		v, err := coerceArg(fnType.In(i+1), trimmed[i])
 		if err != nil {
 			return fmt.Errorf("arg%d: %w", i+1, err)
 		}
 		in[i+1] = v
 	}
-	out := m.Call(in)
+	out := mt.Func.Call(in)
 	return firstError(out)
 }
 

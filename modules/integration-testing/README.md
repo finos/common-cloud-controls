@@ -4,9 +4,9 @@ Live integration tests for `modules/cloud-api`. They assume integration terrafor
 
 ## What it does
 
-1. Loads Privateer config for the active cloud: `privateer-config/{aws,azure,gcp}.yml` (credentials, regions, VPC IDs, storage account, etc.).
+1. Loads minimal Privateer config for the active cloud: `privateer-config/{aws,azure,gcp}.yml` (only keys required by the CSV + cloud-api implementations).
 2. Reads `integration_calls.csv` — `api` (factory service id), `method`, and literal `arg1`…`arg4`.
-3. Invokes every CSV row on the active provider via reflection (no skipping by cloud). `GetServiceAPI` and method errors—including unimplemented APIs—are logged as non-fatal; the run continues. Only `Delete*` methods are omitted from the CSV.
+3. Invokes every CSV row on the active provider via reflection (no skipping by cloud). `GetServiceAPI` and method errors—including unimplemented APIs—are logged as non-fatal; the run continues. (Delete currently skipped)
 4. Calls `factory.TearDown()` once at the end of the run.
 5. Emits Go coverage for `modules/cloud-api` when run with `-coverpkg`.
 
