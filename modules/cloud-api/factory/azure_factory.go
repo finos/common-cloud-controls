@@ -8,7 +8,9 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
+	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
 )
 
 // AzureFactory implements the Factory interface for Azure
@@ -57,6 +59,16 @@ func (f *AzureFactory) GetServiceAPI(serviceID string) (generic.Service, error) 
 		if err != nil {
 			return nil, fmt.Errorf("failed to create Azure logging service: %w", err)
 		}
+	case "virtual-machines":
+		service, err = virtualmachines.NewAzureVirtualMachinesService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create Azure service '%s': %w", serviceID, err)
+		}
+	case "serverless-computing":
+		service, err = serverlesscomputing.NewAzureServerlessComputingService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create Azure service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for Azure: %s", serviceID)
@@ -95,6 +107,16 @@ func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identityKey s
 			if err = waitForUserProvisioning(service); err != nil {
 				return nil, fmt.Errorf("user provisioning validation failed: %w", err)
 			}
+		}
+	case "virtual-machines":
+		service, err = virtualmachines.NewAzureVirtualMachinesServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create Azure service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "serverless-computing":
+		service, err = serverlesscomputing.NewAzureServerlessComputingServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create Azure service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}
 
 	default:

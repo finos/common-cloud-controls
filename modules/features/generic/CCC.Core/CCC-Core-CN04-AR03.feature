@@ -8,7 +8,7 @@ Feature: CCC.Core.CN04.AR03 - Log Data Read Attempts
   Background:
     Given a cloud api for "{Config}" in "api"
 
-@Behavioural
+@Behavioural @object-storage @virtual-machines @serverless-computing
   Scenario: Verify data read operations are logged with identity and timestamp
     Given I call "{api}" with "GetServiceAPI" using argument "{ServiceType}"
     And I refer to "{result}" as "theService"

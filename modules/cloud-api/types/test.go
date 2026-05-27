@@ -60,4 +60,6 @@ var ServiceTypes = []string{
 	"load-balancer",
 	"security-group",
 	"vpc",
+	"virtual-machines",
+	"serverless-computing",
 }

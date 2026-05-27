@@ -8,7 +8,9 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
+	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
 )
 
 // GCPFactory implements the Factory interface for GCP
@@ -52,6 +54,16 @@ func (f *GCPFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP logging service: %w", err)
 		}
+	case "virtual-machines":
+		service, err = virtualmachines.NewGCPVirtualMachinesService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
+		}
+	case "serverless-computing":
+		service, err = serverlesscomputing.NewGCPServerlessComputingService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for GCP: %s", serviceID)
@@ -90,6 +102,16 @@ func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 			if err := service.CheckUserProvisioned(); err != nil {
 				return nil, fmt.Errorf("credentials not ready: %w", err)
 			}
+		}
+	case "virtual-machines":
+		service, err = virtualmachines.NewGCPVirtualMachinesServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "serverless-computing":
+		service, err = serverlesscomputing.NewGCPServerlessComputingServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}
 
 	default:

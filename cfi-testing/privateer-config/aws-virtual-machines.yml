@@ -1,0 +1,46 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Example config for virtual-machines behavioural scenarios.
+# Values should match modules/integration-terraform/aws outputs.
+
+services:
+  awsVirtualMachines:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.VM
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: virtual-machines
+      ServiceType: virtual-machines
+      tags: "@Behavioural @virtual-machines"
+      provider: aws
+      region: us-east-1
+      resource: "cfi-20260527t120000z-vm-good"
+      permitted-regions:
+        - us-east-1
+      hostName: "203.0.113.10"
+      portNumber: "22"
+      test-listener-port: 22
+      allowed-source-cidr: "10.0.0.0/8"
+      test-identities:
+        testUserNoAccess:
+          user-name: "${AWS_TEST_USER_NO_ACCESS_USER_NAME}"
+          access_key_id: "${AWS_TEST_USER_NO_ACCESS_ACCESS_KEY_ID}"
+          secret_access_key: "${AWS_TEST_USER_NO_ACCESS_SECRET_ACCESS_KEY}"
+          session_token: "${AWS_TEST_USER_NO_ACCESS_SESSION_TOKEN}"
+        testUserWrite:
+          user-name: "${AWS_TEST_USER_WRITE_USER_NAME}"
+          access_key_id: "${AWS_TEST_USER_WRITE_ACCESS_KEY_ID}"
+          secret_access_key: "${AWS_TEST_USER_WRITE_SECRET_ACCESS_KEY}"
+          session_token: "${AWS_TEST_USER_WRITE_SESSION_TOKEN}"
+        testUserAdmin:
+          user-name: "${AWS_TEST_USER_ADMIN_USER_NAME}"
+          access_key_id: "${AWS_TEST_USER_ADMIN_ACCESS_KEY_ID}"
+          secret_access_key: "${AWS_TEST_USER_ADMIN_SECRET_ACCESS_KEY}"
+          session_token: "${AWS_TEST_USER_ADMIN_SESSION_TOKEN}"

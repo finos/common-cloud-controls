@@ -8,7 +8,7 @@ Feature: CCC.Core.CN07.AR01 - Publish Enumeration Activity Events
   Background:
     Given a cloud api for "{Config}" in "api"
 
-@Behavioural @NotTestable @object-storage
+@Behavioural @NotTestable @object-storage @virtual-machines @serverless-computing
   Scenario: Enumeration event publishing cannot be tested automatically
     # Verifying enumeration activities trigger events to monitored channels requires
     # performing enumeration operations and verifying events reach the correct channels
