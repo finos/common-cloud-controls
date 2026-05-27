@@ -3,53 +3,36 @@ write-directory: evaluation_results
 write: true
 output: yaml
 
-# Azure object-storage behavioural tests.
-# Resource names match terraform apply -var=instance_id=20260526t102301z
-# (see ccc-cfi-compliance/remote/azure/storageaccount).
-# Source azure-env.sh for test principal credentials before running.
-
 services:
-  azureStorageBehavioural:
+  azureVirtualMachines:
     plugin: ccc-behavioural-plugin
     policy:
       catalogs:
-        - CCC.ObjStor
+        - CCC.VM
       applicability:
         - tlp-amber
-        - tlp-clear
-        - tlp-green
         - tlp-red
     vars:
-      service: object-storage
-      ServiceType: object-storage
-      tags: "@Behavioural"
+      service: virtual-machines
+      ServiceType: virtual-machines
+      tags: "@Behavioural @virtual-machines"
       provider: azure
       region: eastus
-      resource: "ccc-test-container-20260526t102301z"
+      resource: "cfi-20260527t120000z-vm-good"
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
-      azure-tenant-id: "${AZURE_TENANT_ID}"
-      azure-resource-group: "cfi_test_20260526t102301z"
-      azure-storage-account: "storagecfitest20260526t102301z"
-      object-storage-retention-period-days: 2
-      azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
+      azure-resource-group: "cfi-20260527t120000z-rg"
       permitted-regions:
         - eastus
-        - westus
-      replication-locations:
-        - eastus
-        - westus
-      default-container: "ccc-test-container-20260526t102301z"
+      hostName: "${AZURE_VM_HOSTNAME}"
+      portNumber: "22"
+      test-listener-port: 22
+      allowed-source-cidr: "10.0.0.0/8"
       test-identities:
         testUserNoAccess:
           user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
           client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
           object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
-        testUserRead:
-          user-name: "${AZURE_TEST_USER_READ_USER_NAME}"
-          client_id: "${AZURE_TEST_USER_READ_CLIENT_ID}"
-          client_secret: "${AZURE_TEST_USER_READ_CLIENT_SECRET}"
-          object_id: "${AZURE_TEST_USER_READ_OBJECT_ID}"
         testUserWrite:
           user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
           client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"

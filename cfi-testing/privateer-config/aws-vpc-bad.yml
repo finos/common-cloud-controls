@@ -24,6 +24,7 @@ services:
         - tlp-red
     vars:
       service: vpc
+      ServiceType: vpc
       tags: "@Behavioural"
       provider: aws
       region: us-east-1
