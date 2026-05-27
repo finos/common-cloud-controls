@@ -8,7 +8,7 @@ Feature: CCC.Core.CN03.AR01 - Multi-Factor Authentication for Destructive Operat
   Background:
     Given a cloud api for "{Config}" in "api"
 
-@Behavioural @object-storage @load-balancer
+  @Behavioural @object-storage @load-balancer @NotTestable
   Scenario: MFA requirement for destructive operations cannot be tested automatically
     # Multi-factor authentication (MFA) for destructive operations requires human interaction
     # to complete the second factor challenge (e.g., TOTP code, push notification, hardware key).

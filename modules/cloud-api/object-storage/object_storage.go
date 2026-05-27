@@ -30,6 +30,11 @@ type ObjectVersion struct {
 	ObjectID  string // Object key/name
 }
 
+// TriggerDataReadProbeObjectKey is the blob key used by TriggerDataRead (CN05.AR06 and
+// similar). Callers must ensure the object exists (e.g. admin CreateObject) before an
+// identity-scoped TriggerDataRead attempt.
+const TriggerDataReadProbeObjectKey = "cfi-trigger-data-read-probe.txt"
+
 // Object represents a stored object/blob
 type Object struct {
 	ID                  string   // Unique identifier (key/path)

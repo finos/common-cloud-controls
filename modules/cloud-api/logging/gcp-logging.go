@@ -68,6 +68,9 @@ func (s *GCPLoggingService) UpdateResourcePolicy() error       { return nil }
 func (s *GCPLoggingService) TriggerDataWrite(_ string) error {
 	return fmt.Errorf("not supported for logging service")
 }
+func (s *GCPLoggingService) TriggerDataRead(_ string) error {
+	return fmt.Errorf("not supported for logging service")
+}
 func (s *GCPLoggingService) GetResourceRegion(_ string) (string, error) {
 	return "", fmt.Errorf("not supported for logging service")
 }

@@ -23,8 +23,12 @@ Scenarios are placed using the first matching tag:
 2. `@vpc` → `vpc/`
 3. `@object-storage` → `object-storage/`
 4. `@load-balancer` → `load-balancer/`
+5. `@virtual-machines` → `virtual-machines/`
+6. `@serverless-computing` → `serverless-computing/`
 
 CCC.ObjStor features default to `object-storage/`. CCC.VPC defaults to `vpc/`. Other `@PerService` CCC.Core scenarios without a service tag default to `object-storage/`.
+
+See `virtual-machines/analysis.md` and `serverless-computing/analysis.md` for planned behavioural coverage.
 
 ## Test identities
 

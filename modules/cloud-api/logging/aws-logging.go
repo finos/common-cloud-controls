@@ -67,6 +67,9 @@ func (s *AWSLoggingService) UpdateResourcePolicy() error       { return nil }
 func (s *AWSLoggingService) TriggerDataWrite(_ string) error {
 	return fmt.Errorf("not supported for logging service")
 }
+func (s *AWSLoggingService) TriggerDataRead(_ string) error {
+	return fmt.Errorf("not supported for logging service")
+}
 func (s *AWSLoggingService) GetResourceRegion(_ string) (string, error) {
 	return "", fmt.Errorf("not supported for logging service")
 }

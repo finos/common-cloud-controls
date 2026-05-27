@@ -23,9 +23,19 @@ Produce **`analysis.md`** and a **minimal `cloud-api` interface sketch** before 
 
 | Output | Location |
 |--------|----------|
-| Feature tree (empty dirs + placeholder README optional) | `modules/features/<service-folder>/` |
 | Analysis document | `modules/features/<service-folder>/analysis.md` |
 | Interface sketch (in analysis only — no Go yet) | Section inside `analysis.md` |
+
+**Create only `analysis.md`.** Do not create catalog subdirectories, `.feature` files, Go code, or any other files in this skill unless the user explicitly asks.
+
+Do **not** create:
+
+- Placeholder `README.md` files under `<CatalogId>/` or `CCC.Core/` (e.g. `CCC.VM/README.md`)
+- Empty catalog subdirectories “for later”
+- `.gitkeep` or other scaffold files
+- Updates to `modules/features/README.md` routing rules (that belongs in the implementation skill or a separate docs change)
+
+The analysis document itself describes the planned feature tree (`<CatalogId>/<AR>.feature`); physical directories and features are created when implementing tests.
 
 Do **not** create `.feature` files or implement Go in this skill unless the user explicitly asks to continue to implementation.
 
@@ -38,7 +48,7 @@ Copy and track progress:
 ```
 Analysis progress:
 - [ ] Step 1: Ingest catalog + metadata
-- [ ] Step 2: Create features folder layout
+- [ ] Step 2: Plan features folder layout (document in analysis.md only — do not create dirs)
 - [ ] Step 3: Classify every AR (testable / not / inherited)
 - [ ] Step 4: Draft per-AR test approach
 - [ ] Step 5: Design minimal cloud-api interface(s)
@@ -80,16 +90,18 @@ Map to test shape:
 | **Attempt** + **verify denied** | Identity-scoped client + expect error (secrets, CN01-style) |
 | **Log** / **capture** | `Trigger*` or service action + `logging.QueryLogs(type, …)` |
 
-### Step 2: Create the features folder
+### Step 2: Plan the features folder layout
 
-Follow [modules/features/README.md](../../modules/features/README.md).
+Document the intended layout in `analysis.md`. **Do not create directories or files** on disk — only `analysis.md` is written in this skill.
+
+Reference [modules/features/README.md](../../modules/features/README.md) for naming conventions:
 
 ```
 modules/features/<service-folder>/
-  analysis.md                 # this skill's main deliverable
-  <CatalogId>/                # e.g. CCC.VPC, CCC.SecMgmt, CCC.ObjStor
-    <AR-id>.feature           # created later — not in this skill
-  CCC.Core/                   # only if imported Core ARs need service-specific scenarios
+  analysis.md                 # sole file created by this skill
+  <CatalogId>/                # planned — created during implementation
+    <AR-id>.feature           # planned — e.g. CCC-VPC-CN02-AR01.feature
+  CCC.Core/                   # planned — only if inherited Core ARs need service-specific scenarios
 ```
 
 **Service folder naming** (kebab-case, plural where existing):
@@ -256,4 +268,4 @@ Before finishing:
 - [ ] AWS / Azure / GCP columns filled or marked unsupported with reason
 - [ ] Inherited Core ARs either referenced or given a service-specific plan
 - [ ] Subscription-init / alert / MFA-at-account-layer ARs not falsely marked Behavioural
-
+- [ ] **Only** `modules/features/<service-folder>/analysis.md` was created — no placeholder READMEs, empty catalog dirs, or `.feature` files
