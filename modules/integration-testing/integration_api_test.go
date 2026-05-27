@@ -4,7 +4,6 @@ package integrationtesting_test
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -17,11 +16,18 @@ import (
 	"github.com/finos/common-cloud-controls/runner"
 )
 
-func TestCloudAPIIntegration(t *testing.T) {
-	if os.Getenv("RUN_CLOUD_API_INTEGRATION") == "" {
-		t.Skip("set RUN_CLOUD_API_INTEGRATION=1 to run live cloud-api integration tests")
-	}
+// Printed from TestMain after the run (go test hides os.Stdout from tests unless -v).
+var callReportLines []string
 
+func TestMain(m *testing.M) {
+	code := m.Run()
+	if len(callReportLines) > 0 {
+		fmt.Print(strings.Join(callReportLines, ""))
+	}
+	os.Exit(code)
+}
+
+func TestCloudAPIIntegration(t *testing.T) {
 	provider := strings.ToLower(strings.TrimSpace(os.Getenv("INTEGRATION_PROVIDER")))
 	if provider == "" {
 		t.Fatal("INTEGRATION_PROVIDER is required (aws, azure, or gcp)")
@@ -62,28 +68,52 @@ func TestCloudAPIIntegration(t *testing.T) {
 	}()
 
 	services := make(map[string]generic.Service)
-	var calls int
+	var passed, failed int
+	emitCallLine(fmt.Sprintf("integration_calls.csv on provider %s\n", provider), t)
 	for _, row := range rows {
 		if strings.HasPrefix(row.Method, "Delete") {
 			continue
 		}
+		label := formatCallRow(row)
 		svc, err := serviceFor(f, services, row.API)
 		if err != nil {
-			t.Logf("non-fatal: %s.%s (GetServiceAPI): %v", row.API, row.Method, err)
-			calls++
+			failed++
+			emitCallLine(formatCallResult("FAIL", label, err), t)
 			continue
 		}
 		if err := invokeMethod(svc, row.Method, row.Args); err != nil {
-			t.Logf("non-fatal: %s.%s: %v", row.API, row.Method, err)
-		} else {
-			log.Printf("  ✓ %s.%s", row.API, row.Method)
+			failed++
+			emitCallLine(formatCallResult("FAIL", label, err), t)
+			continue
 		}
-		calls++
+		passed++
+		emitCallLine(formatCallResult("PASS", label, nil), t)
 	}
-	if calls == 0 {
+	total := passed + failed
+	if total == 0 {
 		t.Fatal("no API methods were invoked for this provider")
 	}
-	t.Logf("invoked %d method(s) on %s", calls, provider)
+	emitCallLine(fmt.Sprintf("--- %d passed, %d failed (%d total) on %s\n", passed, failed, total, provider), t)
+}
+
+func emitCallLine(line string, t *testing.T) {
+	callReportLines = append(callReportLines, line)
+	t.Log(strings.TrimSuffix(line, "\n"))
+}
+
+func formatCallRow(row callRow) string {
+	parts := []string{row.API, row.Method}
+	for _, a := range trimArgs(row.Args) {
+		parts = append(parts, a)
+	}
+	return strings.Join(parts, " ")
+}
+
+func formatCallResult(status, label string, err error) string {
+	if err != nil {
+		return fmt.Sprintf("%-4s  %s  %v\n", status, label, err)
+	}
+	return fmt.Sprintf("%-4s  %s\n", status, label)
 }
 
 func serviceFor(f factory.Factory, cache map[string]generic.Service, api string) (generic.Service, error) {
@@ -99,6 +129,9 @@ func serviceFor(f factory.Factory, cache map[string]generic.Service, api string)
 }
 
 func invokeMethod(svc generic.Service, method string, args []string) error {
+	if strings.HasPrefix(method, "Delete") {
+		return nil
+	}
 	rv := reflect.ValueOf(svc)
 	for rv.Kind() == reflect.Interface && !rv.IsNil() {
 		rv = rv.Elem()
