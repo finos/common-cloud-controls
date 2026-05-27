@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 # Build service behavioural test analysis
 
-Produce **`analysis.md`** and a **minimal `cloud-api` interface sketch** before writing feature files or Go implementations. This skill covers **analysis and design only** — implementation belongs in [build-service-behavioural-tests](../build-service-behavioural-tests/SKILL.md) (when present).
+Produce **`analysis.md`** and a **minimal `cloud-api` interface sketch** before writing feature files or Go implementations. 
 
 ## When to use
 
@@ -48,8 +48,8 @@ Copy and track progress:
 ```
 Analysis progress:
 - [ ] Step 1: Ingest catalog + metadata
-- [ ] Step 2: Plan features folder layout (document in analysis.md only — do not create dirs)
-- [ ] Step 3: Classify every AR (testable / not / inherited)
+- [ ] Step 2: Inventory generic/ + plan layout (reuse table + new-only paths)
+- [ ] Step 3: Classify every AR (testable / not / inherited / reuse generic)
 - [ ] Step 4: Draft per-AR test approach
 - [ ] Step 5: Design minimal cloud-api interface(s)
 - [ ] Step 6: Cross-cloud implementation notes (AWS / Azure / GCP)
@@ -73,7 +73,9 @@ From `controls.yaml` extract for each AR:
 | Applicability | `assessment-requirements[].applicability` (TLP tags) |
 | Parent control | `controls[].id`, `title`, `objective` |
 
-From `imported-controls` list **inherited** CCC.Core (or other) ARs that apply to this service but are defined elsewhere. Plan separate feature files under `CCC.Core/` when those ARs need service-specific scenarios (see existing `modules/features/vpc/CCC.Core/`).
+From `imported-controls` list **inherited** CCC.Core (or other) ARs that apply to this service but are defined elsewhere.
+
+**Reuse `modules/features/generic/` first.** That folder holds shared `@PerService` and `@PerPort` Core scenarios (CN01, CN03, CN04, CN05, CN07, CN10, …) that already use `{ServiceType}` or port probes. For a new service, the default plan is to **add a service tag** (e.g. `@virtual-machines`) to existing generic scenarios — not to copy feature files into `<service-folder>/CCC.Core/`. Only plan **new** feature files when generic steps cannot express the AR (service-specific cloud-api methods, probes that differ from `@PerPort` patterns). See `modules/features/virtual-machines/analysis.md` for a reuse table example.
 
 **Parse the AR sentence.** Most ARs follow:
 
@@ -90,19 +92,41 @@ Map to test shape:
 | **Attempt** + **verify denied** | Identity-scoped client + expect error (secrets, CN01-style) |
 | **Log** / **capture** | `Trigger*` or service action + `logging.QueryLogs(type, …)` |
 
-### Step 2: Plan the features folder layout
+### Step 2: Inventory generic features and plan layout
 
-Document the intended layout in `analysis.md`. **Do not create directories or files** on disk — only `analysis.md` is written in this skill.
+Before planning new files, read **`modules/features/generic/CCC.Core/`** and note which inherited ARs already have scenarios there (or in another shared folder such as `vpc/CCC.Core/` for CN06).
 
-Reference [modules/features/README.md](../../modules/features/README.md) for naming conventions:
+Document in `analysis.md`:
+
+1. A **Feature reuse from generic** table: Core AR → existing generic (or shared) feature path → action (`add @<service> tag` vs `new feature under <service-folder>/`).
+2. The intended on-disk layout for **new-only** scenarios.
+
+**Do not create directories or files** on disk — only `analysis.md` is written in this skill.
+
+Reference [modules/features/README.md](../../modules/features/README.md) for naming and routing:
 
 ```
-modules/features/<service-folder>/
-  analysis.md                 # sole file created by this skill
-  <CatalogId>/                # planned — created during implementation
-    <AR-id>.feature           # planned — e.g. CCC-VPC-CN02-AR01.feature
-  CCC.Core/                   # planned — only if inherited Core ARs need service-specific scenarios
+modules/features/
+  generic/                    # shared Core — tag new services here when steps are generic
+    CCC.Core/
+      CCC-Core-CN04-AR01.feature   # @PerService + {ServiceType}
+  <service-folder>/
+    analysis.md               # sole file created by this skill
+    <CatalogId>/              # planned — native ARs only, typically
+      <AR-id>.feature
+    CCC.Core/                 # planned — ONLY when generic steps do not fit (rare)
+  port/                       # @PerPort TLS/SSH/TCP probes (CN01, CN12-style)
 ```
+
+**Reuse rules:**
+
+| Situation | Plan |
+|-----------|------|
+| AR uses `generic.Service` methods (`UpdateResourcePolicy`, `TriggerDataWrite`, `GetResourceRegion`, …) | Add `@<service>` to existing file in `generic/` (or shared `vpc/` CN06) |
+| AR is `@NotTestable` stub already in generic | Add `@<service>` to same stub |
+| AR is `@PerPort` (TLS, SSH, protocol, TCP deny) | Add `@<service>` in `generic/` or `port/`; routed by `@PerPort` |
+| AR needs a method not on `generic.Service` | New feature under `<service-folder>/` + minimal cloud-api method |
+| AR copied from object-storage with hardcoded service API (`CreateBucket`, …) | **Do not copy** — generalize to `{ServiceType}` + generic methods, or write service-specific steps only if unavoidable |
 
 **Service folder naming** (kebab-case, plural where existing):
 
@@ -129,9 +153,12 @@ Document **gaps** explicitly in `analysis.md` (e.g. “AR text says ‘all relev
 For each **Behavioural** or **Destructive** AR, write a short subsection in `analysis.md`:
 
 1. **Requirement (quote)** — verbatim `text` from catalog
-2. **Interpretation** — what “when” and “must” mean operationally
-3. **Approach** - the steps you would take to test the service
+2. **Reuse** — generic/shared feature path, or “new under `<service-folder>/`” with reason
+3. **Interpretation** — what “when” and “must” mean operationally
+4. **Approach** — the steps you would take to test the service
 5. **Fixtures / config** — what must exist in terraform or privateer vars (no discovery or resource creation)
+
+For ARs covered by **tag-only reuse**, a brief **VM/service implementation note** under the generic feature is enough — do not repeat full Gherkin steps already in `generic/`.
 
 Notes:
 
@@ -150,7 +177,7 @@ Follow the same interface design as with other services (see modules/cloud-api/l
 
 **Rules:**
 
-1. **Do not add a method** if an existing `generic.Service` method fits (check [generic/service.go](../../modules/cloud-api/generic/service.go)).
+1. **Do not add a method** if an existing `generic.Service` method fits (check [generic/service.go](../../modules/cloud-api/generic/service.go) — `UpdateResourcePolicy`, `TriggerDataWrite`, `TriggerDataRead`, `GetResourceRegion`, etc.).
 2. **Do not add a method** if the scenario can call an existing method with different arguments.
 3. **Return maps for exploratory ops**, typed structs for stable domain objects (see `object-storage` `Bucket` / `Object`).  This allows us to write in a cloud-agnostic manner.
 4. **Every method must appear in at least one planned scenario** — otherwise omit.
@@ -194,13 +221,23 @@ Use this template:
 
 ## Summary
 
-<2–4 sentences: scope, number of ARs, how many behavioural vs not testable>
+<2–4 sentences: scope, number of ARs, how many behavioural vs not testable, **how many reuse generic/ vs need new features>
+
+## Feature reuse from generic
+
+| Core control | Generic (or shared) feature | Action for this service |
+|--------------|----------------------------|-------------------------|
+| CCC.Core.CN04 | `generic/CCC.Core/CCC-Core-CN04-AR01.feature` | Add `@<service>`; `{ServiceType}` in config |
+| … | … | … |
+
+List **new-only** ARs separately (native controls + Core ARs that generic steps cannot cover).
 
 ## Imported controls
 
 | Reference | Action |
 |-----------|--------|
-| CCC.Core.CN04 | Reuse CCC.Core features; add <service> scenario for … |
+| CCC.Core.CN04 | Reuse `generic/…`; add `@<service>` — implement generic embed methods only |
+| CCC.Core.CN02 | **New** feature — service-specific `Get…Status` method |
 
 ## Assessment requirements
 
@@ -263,9 +300,11 @@ Use this template:
 Before finishing:
 
 - [ ] Every native AR in `controls.yaml` appears in `analysis.md`
+- [ ] **Feature reuse from generic** table lists each inherited Core AR with path + tag-only vs new-file decision
+- [ ] No planned duplication of feature files that already exist under `modules/features/generic/`
 - [ ] Each behavioural AR has trigger + observation + fixtures
-- [ ] Interface method count is minimal; no duplicate “query logs” on service interface
+- [ ] Interface method count is minimal; prefer `generic.Service` embed over new methods; no duplicate “query logs” on service interface
 - [ ] AWS / Azure / GCP columns filled or marked unsupported with reason
-- [ ] Inherited Core ARs either referenced or given a service-specific plan
+- [ ] Inherited Core ARs either point at generic/shared features or justify new service-specific scenarios
 - [ ] Subscription-init / alert / MFA-at-account-layer ARs not falsely marked Behavioural
 - [ ] **Only** `modules/features/<service-folder>/analysis.md` was created — no placeholder READMEs, empty catalog dirs, or `.feature` files

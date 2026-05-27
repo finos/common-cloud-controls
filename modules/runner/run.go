@@ -42,7 +42,21 @@ func DefaultOptions(testingDir string) Options {
 // Returns 0 on success, 1 on test failures or fatal configuration errors.
 func Run(opts Options) int {
 	if opts.InstanceID == "" {
-		log.Fatal("Error: instance ID is required")
+		if len(opts.Config.Vars()) > 0 {
+			if r := opts.Config.Get("resource"); r != "" {
+				opts.InstanceID = r
+			}
+		} else if opts.Vars != nil {
+			if r, _ := ExpandVars(opts.Vars)["resource"].(string); strings.TrimSpace(r) != "" {
+				opts.InstanceID = strings.TrimSpace(r)
+			}
+		}
+	}
+	if opts.InstanceID == "" {
+		opts.InstanceID = opts.Service
+	}
+	if opts.InstanceID == "" {
+		log.Fatal("Error: set vars.resource in Privateer config, or pass -instance for legacy env-file mode")
 	}
 	if opts.Timeout == 0 {
 		opts.Timeout = 30 * time.Minute

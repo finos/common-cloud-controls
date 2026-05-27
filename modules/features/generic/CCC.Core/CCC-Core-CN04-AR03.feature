@@ -8,19 +8,14 @@ Feature: CCC.Core.CN04.AR03 - Log Data Read Attempts
   Background:
     Given a cloud api for "{Config}" in "api"
 
-@Behavioural @object-storage
+@Behavioural
   Scenario: Verify data read operations are logged with identity and timestamp
-    Given I call "{api}" with "GetServiceAPI" using argument "object-storage"
-    And I refer to "{result}" as "storage"
-    Given I call "{api}" with "GetServiceAPI" using argument "logging"
+    Given I call "{api}" with "GetServiceAPI" using argument "{ServiceType}"
+    And I refer to "{result}" as "theService"
+    And I call "{api}" with "GetServiceAPI" using argument "logging"
     And I refer to "{result}" as "loggingService"
-    When I call "{storage}" with "CreateObject" using arguments "{ResourceName}", "test-read-logging-object={Timestamp}.txt", and "test data for read logging verification"
-    Then "{result}" is not an error
-    And I refer to "{result}" as "createResult"
-    When I call "{storage}" with "ReadObject" using arguments "{ResourceName}" and "test-read-logging-object={Timestamp}.txt"
-    Then "{result}" is not an error
-    And I refer to "{result}" as "readResult"
-    And I attach "{readResult}" to the test output as "Object Read Result"
+    When I call "{theService}" with "TriggerDataRead" using argument "{ResourceName}"
+    And I attach "{result}" to the test output as "Data Read Trigger Result"
     And we wait for a period of "10000" ms
     When I call "{loggingService}" with "QueryLogs" using arguments "{ResourceName}", "data-read", and "{20}"
     Then "{result}" is not an error

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"strings"
@@ -15,6 +16,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	s3types "github.com/aws/aws-sdk-go-v2/service/s3/types"
+	"github.com/aws/smithy-go"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
@@ -627,10 +629,18 @@ func (s *AWSS3Service) TriggerDataWrite(resourceID string) error {
 	return fmt.Errorf("not yet implemented")
 }
 
-// TriggerDataRead performs a data read against a fixed probe object (CN05.AR06).
+// TriggerDataRead performs a data read against a fixed probe object (CN04.AR03, CN05.AR06).
 func (s *AWSS3Service) TriggerDataRead(resourceID string) error {
+	if err := ensureTriggerDataReadProbe(s, resourceID, isS3ObjectNotFound); err != nil {
+		return err
+	}
 	_, err := s.ReadObject(resourceID, TriggerDataReadProbeObjectKey)
 	return err
+}
+
+func isS3ObjectNotFound(err error) bool {
+	var apiErr smithy.APIError
+	return errors.As(err, &apiErr) && apiErr.ErrorCode() == "NoSuchKey"
 }
 
 // GetResourceRegion returns the bucket region (CN06.AR01)

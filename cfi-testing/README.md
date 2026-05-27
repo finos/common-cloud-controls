@@ -7,26 +7,33 @@ Godog runner for scenarios under `modules/features/`.
 - Go 1.24+
 - Privateer (pvtr)
 - Cloud credentials for the target provider (AWS CLI, `az login`, or GCP ADC)
-- For Azure behavioural tests: provision infra and test principals, then source credentials.
-
-# In common-cloud-controls (this repo)
-export INSTANCE_ID   # same value as above
-./cfi-testing/run-compliance-tests.sh -i cfi_test_${INSTANCE_ID}
+- For Azure behavioural tests: source credentials from `azure-env.sh` (see repo root or terraform provision script)
 
 ## Run
 
-From this directory (`cfi-testing/`), after sourcing Azure credentials (see Prerequisites):
+From this directory (`cfi-testing/`), after sourcing Azure credentials:
 
 ```bash
-source ../ccc-cfi-compliance/remote/azure/storageaccount/azure-env.sh   # or repo-root azure-env.sh
-export INSTANCE_ID=20260408t161043z
-./run-compliance-tests.sh -i cfi_test_${INSTANCE_ID} -g '@Behavioural'
+source ../azure-env.sh
+./run-compliance-tests.sh -g '@Behavioural'
+```
+
+AWS VPC example:
+
+```bash
+./run-compliance-tests.sh \
+  -c privateer-config/aws-vpc-good.yml \
+  -S awsVpcGood \
+  -s vpc \
+  -g '@Behavioural'
 ```
 
 This runs **Privateer** (`pvtr run`) → **ccc-behavioural-plugin** → Godog scenarios under `modules/features/`.
 
+Privateer config YAML holds **explicit resource names** (matching terraform outputs). Use `${AZURE_*}` / `${AWS_*}` env vars only for credentials and subscription/project ids — not `${INSTANCE_ID}`.
+
 From the repository root:
 
 ```bash
-./cfi-testing/run-compliance-tests.sh -i cfi_test_<suffix> -g '@Behavioural'
+./cfi-testing/run-compliance-tests.sh -g '@Behavioural'
 ```

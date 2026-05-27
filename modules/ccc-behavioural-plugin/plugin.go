@@ -46,12 +46,9 @@ func runBehavioural() int {
 		return 1
 	}
 
-	instanceID := strings.TrimSpace(os.Getenv("INSTANCE_ID"))
-	if instanceID == "" {
-		instanceID = cfg.Get("instance-id")
-	}
-	if instanceID == "" {
-		instanceID = privateerService
+	runLabel := cfg.Get("resource")
+	if runLabel == "" {
+		runLabel = privateerService
 	}
 
 	writeDir := viper.GetString("write-directory")
@@ -66,7 +63,7 @@ func runBehavioural() int {
 
 	opts := runner.Options{
 		Config:         cfg,
-		InstanceID:     instanceID,
+		InstanceID:     runLabel,
 		Vars:           vars,
 		Service:        godogService,
 		OutputDir:      writeDir,

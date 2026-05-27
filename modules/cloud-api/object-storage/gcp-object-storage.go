@@ -2,6 +2,7 @@ package objstorage
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"strconv"
@@ -566,10 +567,17 @@ func (s *GCPStorageService) TriggerDataWrite(resourceID string) error {
 	return fmt.Errorf("not yet implemented")
 }
 
-// TriggerDataRead performs a data read against a fixed probe object (CN05.AR06).
+// TriggerDataRead performs a data read against a fixed probe object (CN04.AR03, CN05.AR06).
 func (s *GCPStorageService) TriggerDataRead(resourceID string) error {
+	if err := ensureTriggerDataReadProbe(s, resourceID, isGCPObjectNotFound); err != nil {
+		return err
+	}
 	_, err := s.ReadObject(resourceID, TriggerDataReadProbeObjectKey)
 	return err
+}
+
+func isGCPObjectNotFound(err error) bool {
+	return errors.Is(err, storage.ErrObjectNotExist)
 }
 
 // GetResourceRegion returns the resource region (CN06.AR01)

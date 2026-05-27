@@ -14,9 +14,9 @@ import (
 	"github.com/cucumber/godog"
 	"github.com/finos/common-cloud-controls/cloud-api/factory"
 	"github.com/finos/common-cloud-controls/cloud-api/generic/login"
+	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/cloud-testing-dsl"
 	"github.com/finos/common-cloud-controls/reporters"
-	"github.com/finos/common-cloud-controls/cloud-api/types"
 	generic "github.com/robmoffat/standard-cucumber-steps/go"
 )
 
@@ -375,7 +375,8 @@ func (r *BasicServiceRunner) printSummary(stats TestStats) {
 	}
 }
 
-// discoverFeaturePaths returns Godog paths under modules/features/{service}/<catalog>/.
+// discoverFeaturePaths returns Godog paths under modules/features/{service}/<catalog>/,
+// always including modules/features/generic/ (shared CCC.Core scenarios).
 // object-storage runs also include modules/features/port/ (PerPort TLS scenarios).
 func (r *BasicServiceRunner) discoverFeaturePaths() ([]string, error) {
 	return collectFeaturePaths(RepoRoot(), r.Config.ServiceName)
@@ -402,6 +403,8 @@ func collectFeaturePaths(repoRoot, serviceName string) ([]string, error) {
 		appendCatalogDirs(serviceDir)
 	}
 
+	appendCatalogDirs(filepath.Join(featuresRoot, "generic"))
+
 	if serviceName == "object-storage" {
 		appendCatalogDirs(filepath.Join(featuresRoot, "port"))
 	}
@@ -424,4 +427,3 @@ func sanitizeFilename(s string) string {
 	}
 	return result
 }
-
