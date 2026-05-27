@@ -3,6 +3,7 @@ go 1.26.2
 use (
 	./cloud-api
 	./cloud-testing-dsl
+	./integration-testing
 	./reporters
 	./runner
 	./ccc-behavioural-plugin

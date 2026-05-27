@@ -1,0 +1,10 @@
+# Minimal vars for cloud-api integration tests (integration_calls.csv).
+
+services:
+  integration:
+    vars:
+      provider: gcp
+      region: us-central1
+      gcp-project-id: "${GCP_PROJECT_ID}"
+      function-name: "finos-ccc-integration-fn-main"
+      private-endpoint-url: "internal-only"
