@@ -30,10 +30,31 @@ type ObjectVersion struct {
 	ObjectID  string // Object key/name
 }
 
-// TriggerDataReadProbeObjectKey is the blob key used by TriggerDataRead (CN05.AR06 and
-// similar). Callers must ensure the object exists (e.g. admin CreateObject) before an
-// identity-scoped TriggerDataRead attempt.
+// TriggerDataReadProbeObjectKey is the blob key used by TriggerDataRead (CN04.AR03, CN05.AR06).
 const TriggerDataReadProbeObjectKey = "cfi-trigger-data-read-probe.txt"
+
+// TriggerDataReadProbeContent is written when the probe object does not yet exist.
+const TriggerDataReadProbeContent = "cfi probe data for read logging verification"
+
+type triggerDataReadProbeService interface {
+	ReadObject(bucketID string, objectID string) (*Object, error)
+	CreateObject(bucketID string, objectID string, data string) (*Object, error)
+}
+
+// ensureTriggerDataReadProbe creates the probe object when missing so TriggerDataRead
+// is self-contained for admin-scoped CN04.AR03 runs. Access-denied read errors are
+// not treated as missing-object and are returned unchanged (CN05.AR06).
+func ensureTriggerDataReadProbe(s triggerDataReadProbeService, resourceID string, isNotFound func(error) bool) error {
+	_, err := s.ReadObject(resourceID, TriggerDataReadProbeObjectKey)
+	if err == nil {
+		return nil
+	}
+	if !isNotFound(err) {
+		return err
+	}
+	_, err = s.CreateObject(resourceID, TriggerDataReadProbeObjectKey, TriggerDataReadProbeContent)
+	return err
+}
 
 // Object represents a stored object/blob
 type Object struct {

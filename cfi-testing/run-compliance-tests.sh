@@ -4,7 +4,6 @@ set -euo pipefail
 # CCC CFI Compliance Test Runner — invokes Privateer (pvtr), which runs ccc-behavioural-plugin, which runs Godog.
 
 # Defaults
-INSTANCE=""
 CONFIG_FILE=""
 PRIVATEER_SERVICE="azureStorageBehavioural"
 SERVICE=""
@@ -21,9 +20,6 @@ Usage: run-compliance-tests.sh [OPTIONS]
 Runs behavioural compliance tests via Privateer:
   run-compliance-tests.sh → pvtr run → ccc-behavioural-plugin → Godog (Cucumber)
 
-Required:
-  -i, --instance ID          Instance id or cfi_test_<suffix> (sets INSTANCE_ID for Azure)
-
 Optional:
   -c, --config PATH          Privateer config YAML (default: privateer-config/azure-cloud-storage.yml)
   -e, --env-file PATH        Alias for --config (legacy flag name)
@@ -37,22 +33,21 @@ Optional:
   -h, --help                 Show this help
 
 Environment:
-  INSTANCE_ID                Used in ${INSTANCE_ID} placeholders (set automatically for cfi_test_* instances)
-  source azure-env.sh        Required for Azure test principal credentials (see ccc-cfi-compliance remote/azure/storageaccount)
+  source azure-env.sh        Required for Azure test principal credentials
+  AZURE_* / AWS_*            Credential and resource env vars referenced in privateer-config YAML
   PVTR, PRIVATEER            Privateer CLI binary name (default: first of pvtr, privateer in PATH)
 
 Examples:
-  source ../ccc-cfi-compliance/remote/azure/storageaccount/azure-env.sh
-  export INSTANCE_ID=20260408t161043z
-  ./run-compliance-tests.sh -i cfi_test_20260408t161043z -g '@Behavioural'
+  source ../azure-env.sh
+  ./run-compliance-tests.sh -g '@Behavioural'
 
-  ./run-compliance-tests.sh -c privateer-config/azure-cloud-storage.yml -i cfi_test_20260408t161043z
+  ./run-compliance-tests.sh -c privateer-config/aws-vpc-good.yml -S awsVpcGood -s vpc -g '@Behavioural'
 EOF
 }
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    -i|--instance) INSTANCE="$2"; shift 2 ;;
+    -i|--instance) echo "Warning: --instance is ignored; resource names are set in privateer-config YAML" >&2; shift 2 ;;
     -c|--config) CONFIG_FILE="$2"; shift 2 ;;
     -e|--env-file) CONFIG_FILE="$2"; shift 2 ;;
     -S|--privateer-service) PRIVATEER_SERVICE="$2"; shift 2 ;;
@@ -71,24 +66,10 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [ -z "$INSTANCE" ]; then
-  echo "Error: --instance is required" >&2
-  usage >&2
-  exit 1
-fi
-
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 MODULES_DIR="$REPO_ROOT/modules"
 export GOWORK="$MODULES_DIR/go.work"
-
-# cfi_test_<suffix> → INSTANCE_ID + default Azure privateer config
-if [[ "$INSTANCE" == cfi_test_* ]]; then
-  export INSTANCE_ID="${INSTANCE#cfi_test_}"
-  echo "   INSTANCE_ID=$INSTANCE_ID (from resource group prefix)"
-elif [[ -z "${INSTANCE_ID:-}" ]]; then
-  export INSTANCE_ID="$INSTANCE"
-fi
 
 if [ -z "$CONFIG_FILE" ]; then
   CONFIG_FILE="$SCRIPT_DIR/privateer-config/azure-cloud-storage.yml"

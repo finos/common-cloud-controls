@@ -78,14 +78,17 @@ func TestExpandVars(t *testing.T) {
 	}
 }
 
-func TestExpandVarsInstanceIDNotCorrupted(t *testing.T) {
-	t.Setenv("INSTANCE_ID", "20260408t161043z")
+func TestExpandVarsAzureEnv(t *testing.T) {
+	t.Setenv("AZURE_SUBSCRIPTION_ID", "sub-1")
 
 	out := ExpandVars(map[string]interface{}{
-		"azure-resource-group": "cfi_test_${INSTANCE_ID}",
-		"instance-id":          "${INSTANCE_ID}",
+		"azure-subscription-id": "${AZURE_SUBSCRIPTION_ID}",
+		"azure-resource-group":  "cfi_test_20260410t121838z",
 	})
-	if got := out["azure-resource-group"]; got != "cfi_test_20260408t161043z" {
+	if got := out["azure-resource-group"]; got != "cfi_test_20260410t121838z" {
 		t.Errorf("azure-resource-group = %v", got)
+	}
+	if got := out["azure-subscription-id"]; got != "sub-1" {
+		t.Errorf("azure-subscription-id = %v, want sub-1", got)
 	}
 }

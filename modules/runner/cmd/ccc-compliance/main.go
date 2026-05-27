@@ -46,9 +46,6 @@ func main() {
 			log.Fatalf("Error loading Privateer config: %v", err)
 		}
 		vars := cfg.Vars()
-		if suffix := cfg.Get("instance-id"); suffix != "" {
-			_ = os.Setenv("INSTANCE_ID", suffix)
-		}
 		godogService := cfg.Get("service")
 		if *service != "" {
 			godogService = *service
@@ -56,12 +53,12 @@ func main() {
 		if godogService == "" {
 			log.Fatal("Error: vars.service is required in Privateer config")
 		}
-		instanceID := cfg.Get("instance-id")
-		if instanceID == "" {
-			instanceID = *privateerService
+		runLabel := cfg.Get("resource")
+		if runLabel == "" {
+			runLabel = *privateerService
 		}
 		opts.Config = cfg
-		opts.InstanceID = instanceID
+		opts.InstanceID = runLabel
 		opts.Vars = vars
 		opts.Service = godogService
 		if t := cfg.Get("tags"); t != "" && *tags == "" {

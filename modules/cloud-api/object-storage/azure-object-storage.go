@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
+	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/bloberror"
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/container"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/generic/retry"
@@ -985,10 +986,17 @@ func (s *AzureBlobService) TriggerDataWrite(resourceID string) error {
 	return fmt.Errorf("not yet implemented")
 }
 
-// TriggerDataRead performs a data read against a fixed probe object (CN05.AR06).
+// TriggerDataRead performs a data read against a fixed probe object (CN04.AR03, CN05.AR06).
 func (s *AzureBlobService) TriggerDataRead(resourceID string) error {
+	if err := ensureTriggerDataReadProbe(s, resourceID, isAzureBlobNotFound); err != nil {
+		return err
+	}
 	_, err := s.ReadObject(resourceID, TriggerDataReadProbeObjectKey)
 	return err
+}
+
+func isAzureBlobNotFound(err error) bool {
+	return bloberror.HasCode(err, bloberror.BlobNotFound)
 }
 
 // GetResourceRegion returns the resource region (CN06.AR01)

@@ -8,7 +8,7 @@ Configuration comes from **Privateer** `services.<id>.vars` only (no separate `e
 
 ## Config
 
-See [azure-cloud-storage.yml](../../cfi-testing/privateer-config/azure-cloud-storage.yml).
+See [azure-cloud-storage.yml](../../cfi-testing/privateer-config/azure-cloud-storage.yml) and [aws-vpc-good.yml](../../cfi-testing/privateer-config/aws-vpc-good.yml).
 
 Required `services.<name>.vars`:
 
@@ -16,16 +16,17 @@ Required `services.<name>.vars`:
 |-----|-------------|
 | `service` | Godog service type (e.g. `object-storage`) |
 | `provider` | Cloud provider (`azure`, `aws`, `gcp`) |
-| `instance-id` | Substituted as `${INSTANCE_ID}` in other vars |
+| `resource` | Resource name filter (container name, VPC name tag, etc.) |
 | `tags` | Optional Cucumber tag filter (e.g. `@Behavioural`) |
 | `test-identities` | Pre-provisioned principals |
+
+Resource names (storage account, resource group, VPC ids, log sink names) are **hard-coded in YAML** to match terraform outputs. Credential env vars (`AZURE_TEST_USER_*`, `AZURE_SUBSCRIPTION_ID`, …) are expanded at runtime via `ExpandVars`.
 
 ## Run
 
 Recommended — from `cfi-testing/` (builds plugin, installs to `.privateer/bin`, runs `pvtr`):
 
 ```bash
-source ../../ccc-cfi-compliance/remote/azure/storageaccount/azure-env.sh
-export INSTANCE_ID=...
-./run-compliance-tests.sh -i cfi_test_${INSTANCE_ID} -g '@Behavioural'
+source ../azure-env.sh
+./run-compliance-tests.sh -g '@Behavioural'
 ```

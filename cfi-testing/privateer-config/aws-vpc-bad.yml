@@ -25,7 +25,6 @@ services:
     vars:
       service: vpc
       tags: "@Behavioural"
-      instance-id: "20260526t102301z"
       provider: aws
       region: us-east-1
       resource: "cfi-20260526t102301z-vpc-bad"

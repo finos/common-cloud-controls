@@ -27,7 +27,6 @@ var reservedVarKeys = map[string]bool{
 	"tags":            true,
 	"timeout":         true,
 	"resource":        true,
-	"instance-id":     true,
 	"instance":        true,
 	"env-file":        true,
 	"test-identities": true,
@@ -143,7 +142,7 @@ func expandVarValue(v interface{}) interface{} {
 	}
 }
 
-// MergePrivateerVars copies Privateer vars into Props for Godog substitution (tags, instance-id, etc.).
+// MergePrivateerVars copies Privateer vars into Props for Godog substitution (tags, resource, etc.).
 // test-identities and testUser* keys are omitted (credentials stay in Config only).
 func MergePrivateerVars(props map[string]interface{}, vars map[string]interface{}) {
 	if props == nil || len(vars) == 0 {

@@ -27,5 +27,5 @@ cfi-testing/.privateer/
 
 # CCC behavioural plugin build artifact (go build -o ccc-behavioural-plugin)
 modules/ccc-behavioural-plugin/ccc-behavioural-plugin
-azure-env.sh
+*-env.sh
 modules/ccc-behavioural-plugin/privateer-plugin
