@@ -29,6 +29,7 @@ cfi-testing/.privateer/
 modules/ccc-behavioural-plugin/ccc-behavioural-plugin
 *-env.sh
 modules/ccc-behavioural-plugin/privateer-plugin
+modules/integration-testing/user-creation/.keys
 
 # ccc module integration testing
 **/.terraform
