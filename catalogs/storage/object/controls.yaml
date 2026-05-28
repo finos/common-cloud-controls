@@ -22,6 +22,7 @@ imported-controls:
 
 controls:
   - id: CCC.ObjStor.CN01
+    group: Encryption
     family: CCC.ObjStor.Data
     title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     objective: |
@@ -91,6 +92,7 @@ controls:
             remarks: Sensitive Data Protection
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN03
+    group: Data
     family: CCC.ObjStor.Data
     title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
     objective: |
@@ -133,6 +135,7 @@ controls:
             remarks: Sensitive Data Protection
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN04
+    group: Data
     family: CCC.ObjStor.Data
     title: Objects have an Effective Retention Policy by Default
     objective: |
@@ -183,6 +186,7 @@ controls:
             remarks: Sensitive Data Protection
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN05
+    group: Data
     family: CCC.ObjStor.Data
     title: Versioning is Enabled for All Objects in the Bucket
     objective: |
@@ -247,6 +251,7 @@ controls:
             remarks: Sensitive Data Protection
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN07
+    group: Access
     family: CCC.ObjStor.Data
     title: Multi-Factor Authentication Is Required for Object Deletion
     objective: |
@@ -310,6 +315,7 @@ controls:
             strength: 9
 
   - id: CCC.ObjStor.CN02
+    group: Access
     family: CCC.ObjStor.IAM
     title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
     objective: |

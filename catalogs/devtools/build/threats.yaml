@@ -43,6 +43,7 @@ imported-threats:
 
 threats:
   - id: CCC.Build.TH01
+    group: Orchestration
     title: Unauthorized Build Execution
     description: |
       Attackers may trigger builds using unauthorized build agents or external services,
@@ -57,6 +58,7 @@ threats:
         entries:
           - reference-id: T1195
   - id: CCC.Build.TH02
+    group: Access
     title: External Exposure of Build Environments
     description: |
       If build environments have external network access, they may be accessed by unauthorized parties,

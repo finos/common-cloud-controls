@@ -40,6 +40,7 @@ imported-capabilities:
 
 capabilities:
   - id: CCC.VM.CP01
+    group: Compute
     title: General Purpose Instances
     description: |
       Provides a computing instance that provides a balance of compute,
@@ -47,6 +48,7 @@ capabilities:
       of applications.
 
   - id: CCC.VM.CP02
+    group: Compute
     title: Compute Optimized Instances
     description: |
       Provides instances that are suited for compute-bound applications that
@@ -54,6 +56,7 @@ capabilities:
       workloads, media transcoding and high performance web servers.
 
   - id: CCC.VM.CP03
+    group: Compute
     title: Memory Optimized Instances
     description: |
       Provides instances that are suited for memory intensive applications
@@ -61,6 +64,7 @@ capabilities:
       big data analytics.
 
   - id: CCC.VM.CP04
+    group: Compute
     title: Storage Optimized Instances
     description: |
       Provides instances that are optimized for applications that require
@@ -69,6 +73,7 @@ capabilities:
       high-frequency online transaction processing (OLTP) systems.
 
   - id: CCC.VM.CP05
+    group: Compute
     title: Accelerated Computing Instances
     description: |
       Provides instances that use hardware accelerator, or co-processors, such
@@ -76,6 +81,7 @@ capabilities:
       graphics processing, or data pattern matching more efficiently.
 
   - id: CCC.VM.CP06
+    group: Compute
     title: Preemptible Instances
     description: |
       Providing the option for using preemptible virtual machine (spot) instances
@@ -83,30 +89,35 @@ capabilities:
       terminated by the cloud provider after a notice period.
 
   - id: CCC.VM.CP07
+    group: Compute
     title: Dedicated Instances
     description: |
       Ability to reserve a physical server dedicated to a single customer
       for regulatory compliance.
 
   - id: CCC.VM.CP08
+    group: Resource
     title: Vertical Scaling
     description: |
       Ability to increase or decrease resources such as cpu, memory, and
       storage of an existing virtual machine instance.
 
   - id: CCC.VM.CP09
+    group: Resource
     title: Horizontal Scaling
     description: |
       Ability to add or remove VM instances assigned to the application to
       handle increased or decreased workload.
 
   - id: CCC.VM.CP10
+    group: Compute
     title: VM Images
     description: |
       Provides templates to create new virtual machines. They usually includes
       operating system, configuration settings and installed applications.
 
   - id: CCC.VM.CP11
+    group: Compute
     title: Custom Images
     description: |
       Ability to create virtual machines with images what are created and owned
@@ -114,12 +125,14 @@ capabilities:
       customer.
 
   - id: CCC.VM.CP12
+    group: Data
     title: Interoperability with Storage Options
     description: |
       Capability to read/write to non-ephemeral external storage including
       object storage and encrypted block storage.
 
   - id: CCC.VM.CP13
+    group: Resource
     title: Patch Management
     description: |
       Offering patch management services and compatibility with third-party
@@ -127,6 +140,7 @@ capabilities:
       with security patches and updates.
 
   - id: CCC.VM.CP14
+    group: Compute
     title: Isolated Secure Environments
     description: |
       Providing an isolated "enclave" within a virtual machine for processing
@@ -136,59 +150,69 @@ capabilities:
       no interactive access, and no external networking.
 
   - id: CCC.VM.CP15
+    group: Compute
     title: Nested Virtualization
     description: |
       Ability to create and manage virtual machines within instances.
 
   - id: CCC.VM.CP16
+    group: Resource
     title: Instance Metadata
     description: |
       Providing metadata about virtual machine instances for configuration
       and management purposes.
 
   - id: CCC.VM.CP17
+    group: Data
     title: Instance Snapshots
     description: |
       Creation of snapshots of virtual machine instances to capture and
       preserve state and data for backup and cloning purposes.
 
   - id: CCC.VM.CP18
+    group: Compute
     title: Instance Templates
     description: |
       Offering templates for provisioning virtual machine instances with
       pre-configured images, instance types, and network configurations.
 
   - id: CCC.VM.CP19
+    group: Compute
     title: Bootstrap Scripts
     description: |
       Ability to provide bootstrap scripts to a VM to run during the
       instance boot process.
 
   - id: CCC.VM.CP20
+    group: Compute
     title: Instance Affinity/Anti-affinity
     description: |
       Enabling control over the location of virtual machine instances to ensure or
       prevent co-location on the same physical hardware.
 
   - id: CCC.VM.CP21
+    group: Observability
     title: Instance Health Checks
     description: |
       Exposing health checks on virtual machine instances so that unhealthy
       instances can be automatically replaced or repaired.
 
   - id: CCC.VM.CP22
+    group: Compute
     title: Instance Remote Access
     description: |
       Offering remote access to virtual machine instances through methods
       such as SSH or RDP for troubleshooting, debugging, and maintenance purposes.
 
   - id: CCC.VM.CP23
+    group: Compute
     title: Instance Live Migration
     description: |
       Ability to perform live migration of virtual machine instances between physical
       hosts for maintenance or load balancing purposes without downtime.
 
   - id: CCC.VM.CP24
+    group: Encryption
     title: TPM Support
     description: |
       Providing support for Trusted Platform Module (TPM) for hardware-based

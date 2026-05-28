@@ -101,8 +101,14 @@ func validateMetadata(catalog *layer2.Catalog) error {
 	if catalog.Metadata.Id == "" {
 		return fmt.Errorf("metadata.id is required")
 	}
+	// metadata.version is intentionally NOT required. Source metadata.yaml no longer
+	// carries a real version — the compile/release pipeline stamps it at release time
+	// (compile --version). NOTE: this validator runs ONLY on the legacy
+	// generate-release-artifacts path; compile uses loadSourceMetadata and never
+	// reaches here. An empty version on the legacy path yields version-less output
+	// filenames (e.g. CCC.ObjStor_.yaml), so warn rather than fail.
 	if catalog.Metadata.Version == "" {
-		return fmt.Errorf("metadata.version is required")
+		log.Printf("warning: metadata.version is empty; generated artifact filenames will omit the version")
 	}
 	if catalog.Metadata.Title == "" {
 		return fmt.Errorf("metadata.title is required")
@@ -195,7 +201,7 @@ func loadImportSection(filename, sectionName string, target *[]layer2.Mapping) e
 		return fmt.Errorf("error reading file %s: %v", filename, err)
 	}
 
-	var yamlData map[string]interface{}
+	var yamlData map[string]any
 	err = yaml.Unmarshal(data, &yamlData)
 	if err != nil {
 		return fmt.Errorf("error parsing YAML from %s: %v", filename, err)

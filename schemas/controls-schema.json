@@ -28,7 +28,7 @@
                     "type": "string"
                   }
                 },
-                "required": ["reference-id", "strength"],
+                "required": ["reference-id"],
                 "additionalProperties": false
               }
             },
@@ -182,11 +182,17 @@
               }
             }
           },
-          "required": ["id", "title", "description"],
+          "required": ["title", "description"],
           "additionalProperties": false
+        }
+      },
+      "controls": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["id", "title"]
         }
       }
     },
-    "required": ["control-families"],
     "additionalProperties": false
 }

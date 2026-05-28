@@ -28,6 +28,7 @@ imported-threats:
 
 threats:
   - id: CCC.VM.TH01
+    group: Resource
     title: Images Contain Vulnerabilities
     description: |
       Virtual machine images may include outdated software, insecure
@@ -44,6 +45,7 @@ threats:
           - reference-id: T1584.001
 
   - id: CCC.VM.TH02
+    group: Access
     title: Instance Metadata is Unprotected
     description: |
       Instance metadata services may be exposed within virtual machines without
@@ -59,6 +61,7 @@ threats:
           - reference-id: T1552.005
 
   - id: CCC.VM.TH03
+    group: Compute
     title: Bootstrap Scripts Introduce Unintended Behavior
     description: |
       Bootstrap scripts executed at startup may include unvalidated commands or
@@ -75,6 +78,7 @@ threats:
           - reference-id: T1059.004
 
   - id: CCC.VM.TH04
+    group: Resource
     title: Instance Templates Propagate Insecure Defaults
     description: |
       Instance templates may contain hardcoded credentials, open ports, or
@@ -90,6 +94,7 @@ threats:
           - reference-id: T1601.002
 
   - id: CCC.VM.TH05
+    group: Networking
     title: Network Access Rules Allow Unintended Communication
     description: |
       Inadequately scoped network access rules may permit communication between
@@ -106,6 +111,7 @@ threats:
           - reference-id: T1071
 
   - id: CCC.VM.TH06
+    group: Access
     title: Remote Access Interfaces Are Insufficiently Restricted
     description: |
       Virtual machine instances may expose remote access methods such as SSH or
@@ -122,6 +128,7 @@ threats:
           - reference-id: T1078
 
   - id: CCC.VM.TH07
+    group: Resource
     title: Resource Starvation Through Preemptible (spot) VM Termination
     description: |
       Workloads running on preemptible (spot) instances may experience unexpected termination
@@ -143,6 +150,7 @@ threats:
             remarks: Service Stop
 
   - id: CCC.VM.TH08
+    group: Data
     title: Co-Residency Risk on Non-Dedicated Infrastructure
     description: |
       Virtual machines operating on shared infrastructure, rather than dedicated instances, may be
@@ -163,6 +171,7 @@ threats:
             remarks: Exploitation for Client Execution
 
   - id: CCC.VM.TH09
+    group: Access
     title: Misconfigured Vertical Scaling Leads to Privilege Escalation
     description: |
       Inadequate permissions or automation logic in vertical scaling processes may allow unauthorized
@@ -184,6 +193,7 @@ threats:
             remarks: "Create or Modify Cloud Compute Infrastructure: Virtual Machine"
 
   - id: CCC.VM.TH10
+    group: Resource
     title: Auto-Scaling Abuse for Resource Exhaustion
     description: |
       Automated horizontal scaling mechanisms may be manipulated through forced load generation, such
@@ -202,6 +212,7 @@ threats:
             remarks: Resource Hijacking
 
   - id: CCC.VM.TH11
+    group: Resource
     title: VM Image Tampering or Poisoning
     description: |
       Virtual machine images may be created or modified to include backdoors, malware, or misconfigurations.
