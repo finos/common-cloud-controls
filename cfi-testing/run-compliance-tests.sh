@@ -95,6 +95,16 @@ BINARIES_PATH="${PRIVATEER_BINARIES_PATH:-$SCRIPT_DIR/.privateer/bin}"
 mkdir -p "$BINARIES_PATH"
 PLUGIN_BINARY="$BINARIES_PATH/ccc-behavioural-plugin"
 
+# Ensure behavioural plugin embed source directory has catalog YAMLs.
+# In CI, release catalogs are generated under website/src/data/ccc-releases.
+PLUGIN_CATALOG_DIR="$MODULES_DIR/ccc-behavioural-plugin/catalogs"
+RELEASE_CATALOG_DIR="$REPO_ROOT/website/src/data/ccc-releases"
+mkdir -p "$PLUGIN_CATALOG_DIR"
+if ls "$RELEASE_CATALOG_DIR"/CCC*.yaml >/dev/null 2>&1; then
+  echo "📚 Syncing release catalogs into plugin embed directory..."
+  cp "$RELEASE_CATALOG_DIR"/CCC*.yaml "$PLUGIN_CATALOG_DIR"/
+fi
+
 echo "🔨 Building Go workspace (modules/go.work)..."
 BUILD_MODULES=(cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin)
 for mod in "${BUILD_MODULES[@]}"; do

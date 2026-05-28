@@ -19,6 +19,13 @@ output "serverless_computing" {
   }
 }
 
+output "object_storage" {
+  value = {
+    resource_name = module.object_storage.bucket_name
+    bucket_name   = module.object_storage.bucket_name
+  }
+}
+
 output "vpc" {
   value = {
     resource_name                    = module.vpc.resource_name
@@ -28,5 +35,12 @@ output "vpc" {
     disallowed_requester_vpc_ids     = module.vpc.disallowed_requester_vpc_ids
     bad_vpc_id                       = module.vpc.bad_vpc_id
     aws_flow_log_group_name          = module.vpc.aws_flow_log_group_name
+  }
+}
+
+output "logging" {
+  value = {
+    resource_name = module.logging.resource_name
+    cloudtrail_name = module.logging.cloudtrail_name
   }
 }

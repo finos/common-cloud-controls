@@ -18,3 +18,28 @@ output "serverless_computing" {
     burst_overrun        = module.serverless_computing.burst_overrun
   }
 }
+
+output "object_storage" {
+  value = {
+    resource_name = module.object_storage.bucket_name
+    bucket_name   = module.object_storage.bucket_name
+  }
+}
+
+output "vpc" {
+  value = {
+    resource_name                    = module.vpc.resource_name
+    receiver_vpc_id                  = module.vpc.receiver_vpc_id
+    non_allowlisted_requester_vpc_id = module.vpc.non_allowlisted_requester_vpc_id
+    allowed_requester_vpc_ids        = module.vpc.allowed_requester_vpc_ids
+    disallowed_requester_vpc_ids     = module.vpc.disallowed_requester_vpc_ids
+    bad_vpc_id                       = module.vpc.bad_vpc_id
+  }
+}
+
+output "logging" {
+  value = {
+    resource_name    = module.logging.resource_name
+    gcp_flow_log_name = module.logging.gcp_flow_log_name
+  }
+}
