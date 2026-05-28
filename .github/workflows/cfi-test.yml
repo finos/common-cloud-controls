@@ -218,7 +218,7 @@ jobs:
 
           ./cfi-testing/run-compliance-tests.sh \
             --debug \
-            -c "$TARGET_TEST_CONFIG" \
+            -c "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
             -S "$TARGET_PRIVATEER_SERVICE" \
             -s "$SERVICE_TYPE" \
             -o "$OUTPUT_DIR" \
