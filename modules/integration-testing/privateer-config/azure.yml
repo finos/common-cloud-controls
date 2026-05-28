@@ -4,9 +4,10 @@ services:
   integration:
     vars:
       provider: azure
-      region: eastus
+      region: westus2
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
       azure-tenant-id: "${AZURE_TENANT_ID}"
+      # Prefer terraform output: logging.azure_log_analytics_workspace_id
       azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
       azure-resource-group: "finos-ccc-integration-rg"
       azure-storage-account: "finoscccintegrationmain"

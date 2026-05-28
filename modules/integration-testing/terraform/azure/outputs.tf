@@ -14,12 +14,12 @@ output "virtual_machines" {
 
 output "serverless_computing" {
   value = {
-    resource_name        = module.serverless_computing.function_name
-    function_name        = module.serverless_computing.function_name
-    private_endpoint_url = module.serverless_computing.private_endpoint_url
-    public_invoke_url    = module.serverless_computing.public_invoke_url
-    rate_limit_threshold = module.serverless_computing.rate_limit_threshold
-    burst_overrun        = module.serverless_computing.burst_overrun
+    resource_name        = try(module.serverless_computing[0].function_name, null)
+    function_name        = try(module.serverless_computing[0].function_name, null)
+    private_endpoint_url = try(module.serverless_computing[0].private_endpoint_url, null)
+    public_invoke_url    = try(module.serverless_computing[0].public_invoke_url, null)
+    rate_limit_threshold = try(module.serverless_computing[0].rate_limit_threshold, null)
+    burst_overrun        = try(module.serverless_computing[0].burst_overrun, null)
   }
 }
 

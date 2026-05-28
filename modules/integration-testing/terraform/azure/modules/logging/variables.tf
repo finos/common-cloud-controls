@@ -23,9 +23,17 @@ variable "vm_network_security_group_id" {
 }
 
 variable "function_app_id" {
-  type = string
+  type     = string
+  default  = null
+  nullable = true
 }
 
 variable "common_tags" {
   type = map(string)
+}
+
+variable "enable_legacy_nsg_flow_logs" {
+  type        = bool
+  default     = false
+  description = "NSG flow logs creation is retired in Azure; keep false unless targeting legacy subscriptions."
 }

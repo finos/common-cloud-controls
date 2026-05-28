@@ -6,7 +6,7 @@ resource "random_string" "suffix" {
 }
 
 resource "azurerm_storage_account" "func" {
-  name                     = "finoscccintegration${random_string.suffix.result}"
+  name                     = "finoscccfn${random_string.suffix.result}"
   resource_group_name      = var.resource_group
   location                 = var.location
   account_tier             = "Standard"

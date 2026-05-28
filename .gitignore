@@ -33,4 +33,6 @@ modules/integration-testing/user-creation/.keys
 
 # ccc module integration testing
 **/.terraform
+**/*.tfstate
+**/*.tfstate.*
 modules/integration-testing/coverage-integration*.out

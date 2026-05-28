@@ -24,8 +24,9 @@ module "virtual_machines" {
 }
 
 module "serverless_computing" {
+  count          = var.enable_serverless_computing ? 1 : 0
   source         = "./modules/serverless-computing"
-  location         = var.location
+  location       = var.location
   resource_group = azurerm_resource_group.this.name
   common_tags    = local.common_tags
 }
@@ -38,13 +39,13 @@ module "object_storage" {
 }
 
 module "logging" {
-  source                  = "./modules/logging"
-  location                = var.location
-  resource_group          = azurerm_resource_group.this.name
-  storage_account_id      = module.object_storage.storage_account_id
-  storage_account_name    = module.object_storage.storage_account_name
-  vm_id                   = module.virtual_machines.vm_id
+  source                        = "./modules/logging"
+  location                      = var.location
+  resource_group                = azurerm_resource_group.this.name
+  storage_account_id            = module.object_storage.storage_account_id
+  storage_account_name          = module.object_storage.storage_account_name
+  vm_id                         = module.virtual_machines.vm_id
   vm_network_security_group_id = module.virtual_machines.nsg_id
-  function_app_id         = module.serverless_computing.function_app_id
-  common_tags             = local.common_tags
+  function_app_id               = var.enable_serverless_computing ? module.serverless_computing[0].function_app_id : null
+  common_tags                   = local.common_tags
 }

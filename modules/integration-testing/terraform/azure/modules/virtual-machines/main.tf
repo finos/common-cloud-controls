@@ -66,24 +66,24 @@ resource "azurerm_linux_virtual_machine" "main" {
   name                            = "finos-ccc-integration-vm-main"
   resource_group_name             = var.resource_group
   location                        = var.location
-  size                            = "Standard_B2s"
+  size                            = var.vm_size
   admin_username                  = "cfiadmin"
   admin_password                  = random_password.vm_admin.result
   disable_password_authentication = false
   network_interface_ids           = [azurerm_network_interface.this.id]
-  encryption_at_host_enabled      = true
+  encryption_at_host_enabled      = var.encryption_at_host_enabled
 
   os_disk {
     name                 = "finos-ccc-integration-vm-osdisk"
     caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+    storage_account_type = "Standard_LRS"
   }
 
   source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts-gen2"
-    version   = "latest"
+    sku     = "22_04-lts-gen2"
+    version = "latest"
   }
 
   tags = merge(var.common_tags, {
