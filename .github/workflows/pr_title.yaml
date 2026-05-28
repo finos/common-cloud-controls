@@ -20,19 +20,3 @@ jobs:
         id: lint_pr_title
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          types: |
-            add
-            change
-            remove
-            fix
-          scopes: |
-            ci
-            docs
-            capability
-            threat
-            control
-            category
-            family
-            arch
-          requireScope: true
