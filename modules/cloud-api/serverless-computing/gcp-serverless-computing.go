@@ -13,6 +13,7 @@ import (
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/cloudfunctions/v2"
 	"google.golang.org/api/googleapi"
@@ -20,6 +21,8 @@ import (
 )
 
 var _ Service = (*GCPServerlessComputingService)(nil)
+
+const gcpCloudPlatformScope = "https://www.googleapis.com/auth/cloud-platform"
 
 type GCPServerlessComputingService struct {
 	ctx        context.Context
@@ -44,7 +47,7 @@ func NewGCPServerlessComputingService(ctx context.Context, cfg types.Config) (*G
 		region = "us-central1"
 	}
 
-	httpClient, err := google.DefaultClient(ctx, cloudfunctions.CloudPlatformScope)
+	httpClient, err := google.DefaultClient(ctx, gcpCloudPlatformScope)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create default GCP client: %w", err)
 	}
@@ -82,7 +85,7 @@ func NewGCPServerlessComputingServiceWithCredentials(ctx context.Context, cfg ty
 	if serviceAccountKey == "" {
 		return nil, fmt.Errorf("service_account_key not found for test identity %q", identity.UserName)
 	}
-	creds, err := google.CredentialsFromJSON(ctx, []byte(serviceAccountKey), cloudfunctions.CloudPlatformScope)
+	creds, err := google.CredentialsFromJSON(ctx, []byte(serviceAccountKey), gcpCloudPlatformScope)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse GCP service account key for %q: %w", identity.UserName, err)
 	}
@@ -211,9 +214,8 @@ func (s *GCPServerlessComputingService) AttemptPublicInternetInvoke(functionID s
 	}
 	return s.invokeHTTP(url, map[string]string{"function": functionID, "path": "public"})
 }
-func (s *GCPServerlessComputingService) InvokeFunctionBurst(string, int) (*BurstInvokeResult, error) {
-	functionID := s.config.Get("function-name", "resource")
-	return s.InvokeFunctionBurstWithID(functionID, s.config.Get("burst-overrun"), 0)
+func (s *GCPServerlessComputingService) InvokeFunctionBurst(functionID string, count int) (*BurstInvokeResult, error) {
+	return s.invokeFunctionBurstInternal(functionID, count)
 }
 func (s *GCPServerlessComputingService) GetFunctionEncryptionStatus(functionID string) (*FunctionEncryptionStatus, error) {
 	fn, err := s.getFunction(s.functionResourceName(functionID))
@@ -232,17 +234,7 @@ func (s *GCPServerlessComputingService) GetFunctionEncryptionStatus(functionID s
 	}, nil
 }
 
-func (s *GCPServerlessComputingService) InvokeFunctionBurstWithID(functionID, configuredCount string, fallback int) (*BurstInvokeResult, error) {
-	count := fallback
-	if strings.TrimSpace(configuredCount) != "" {
-		if _, err := fmt.Sscanf(strings.TrimSpace(configuredCount), "%d", &count); err != nil {
-			return nil, fmt.Errorf("invalid burst count %q", configuredCount)
-		}
-	}
-	return s.InvokeFunctionBurstInternal(functionID, count)
-}
-
-func (s *GCPServerlessComputingService) InvokeFunctionBurstInternal(functionID string, count int) (*BurstInvokeResult, error) {
+func (s *GCPServerlessComputingService) invokeFunctionBurstInternal(functionID string, count int) (*BurstInvokeResult, error) {
 	if count <= 0 {
 		return nil, fmt.Errorf("count must be > 0")
 	}
@@ -279,10 +271,6 @@ func (s *GCPServerlessComputingService) InvokeFunctionBurstInternal(functionID s
 	}
 	result.AllSucceeded = result.SuccessCount == count
 	return result, nil
-}
-
-func (s *GCPServerlessComputingService) InvokeFunctionBurst(functionID string, count int) (*BurstInvokeResult, error) {
-	return s.InvokeFunctionBurstInternal(functionID, count)
 }
 
 func (s *GCPServerlessComputingService) triggerFunction(resourceID, action string) error {
@@ -359,39 +347,8 @@ func (s *GCPServerlessComputingService) invokeHTTP(url string, payload map[strin
 	}, nil
 }
 
-func oauth2HTTPClient(ctx context.Context, tokenSource oauth2TokenSource) *http.Client {
-	return &http.Client{
-		Transport: &tokenTransport{
-			base:   http.DefaultTransport,
-			source: tokenSource,
-		},
-		Timeout: 15 * time.Second,
-	}
-}
-
-type oauth2TokenSource interface {
-	Token() (*oauth2Token, error)
-}
-
-type oauth2Token struct {
-	AccessToken string
-	TokenType   string
-}
-
-type tokenTransport struct {
-	base   http.RoundTripper
-	source oauth2TokenSource
-}
-
-func (t *tokenTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	token, err := t.source.Token()
-	if err != nil {
-		return nil, err
-	}
-	cloned := req.Clone(req.Context())
-	if token.TokenType == "" {
-		token.TokenType = "Bearer"
-	}
-	cloned.Header.Set("Authorization", token.TokenType+" "+token.AccessToken)
-	return t.base.RoundTrip(cloned)
+func oauth2HTTPClient(ctx context.Context, tokenSource oauth2.TokenSource) *http.Client {
+	client := oauth2.NewClient(ctx, tokenSource)
+	client.Timeout = 15 * time.Second
+	return client
 }

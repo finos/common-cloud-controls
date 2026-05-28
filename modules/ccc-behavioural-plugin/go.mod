@@ -7,7 +7,7 @@ require (
 	github.com/finos/common-cloud-controls/reporters v0.0.0
 	github.com/finos/common-cloud-controls/runner v0.0.0
 	github.com/gemaraproj/go-gemara v0.4.0
-	github.com/privateerproj/privateer-sdk v0.0.0
+	github.com/privateerproj/privateer-sdk v1.24.1
 	github.com/spf13/viper v1.21.0
 )
 
@@ -154,5 +154,4 @@ replace (
 	github.com/finos/common-cloud-controls/cloud-testing-dsl => ../cloud-testing-dsl
 	github.com/finos/common-cloud-controls/reporters => ../reporters
 	github.com/finos/common-cloud-controls/runner => ../runner
-	github.com/privateerproj/privateer-sdk => ../../../privateer-sdk
 )
