@@ -1,103 +1,162 @@
-name: Release Workflow
+name: Release Catalog
+
+# Release a single typed catalog asset.
+#
+# Pick the catalog (family/service, e.g. storage/object) + the asset type. The
+# delivery-toolkit compiles ONE typed catalog — CapabilityCatalog / ControlCatalog
+# / ThreatCatalog — there is no omnibus. The release artifact IS that single typed
+# catalog.
+#
+# Then (augmenting the old release flow) two publishing steps run:
+#   1. NEW: grcli validates the artifact against the Gemara spec and publishes it to
+#      grc.store. repository = metadata.author.id/metadata.id, tag = metadata.version
+#      — both inferred from the artifact, nothing else to supply.
+#   2. OLD: a GitHub release is cut carrying the same typed catalog YAML.
+#
+# `version` is supplied here at release time — it is intentionally NOT stored in
+# source metadata.yaml — and `compile` stamps it into the artifact.
+#
+# Auth: no secrets for publish. grcli mints a GitHub Actions OIDC token (id-token:
+# write below) for the grc.store hub sync and cosign keyless signing.
+#
+# compile produces all three typed catalogs (capabilities / threats / controls), and
+# every asset type is run through grcli validate against the Gemara CUE spec (below).
+# capabilities has been verified end-to-end; threats and controls take the same path
+# but have not yet been exercised through a full validate + publish run.
 
 on:
   workflow_dispatch:
     inputs:
       build_target:
-        description: "Build Target (e.g storage/object)"
+        description: "Catalog to release — family/service (e.g. storage/object)"
         required: true
-      tag:
-        description: "Tag for this release"
+        type: string
+      asset_type:
+        description: "Asset type to release"
         required: true
+        type: choice
+        options:
+          - capabilities
+          - threats
+          - controls
+      version:
+        description: "Release version (e.g. v2026.04 or v2026.04-rc1) — stamped into the artifact"
+        required: true
+        type: string
+      dry_run:
+        description: "Dry run — compile + validate + build the bundle, but do not push to grc.store or cut a GitHub release"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # cut the GitHub release
+  id-token: write # grcli mints a GHA OIDC token for hub auth + cosign keyless signing
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./delivery-toolkit
+    # Inputs are funneled through env to keep free-text values out of run: scripts.
+    env:
+      BUILD_TARGET: ${{ inputs.build_target }}
+      ASSET_TYPE: ${{ inputs.asset_type }}
+      VERSION: ${{ inputs.version }}
+      DRY_RUN: ${{ inputs.dry_run }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
-        name: Build
 
-      - name: Configure Go
-        uses: actions/setup-go@v5
-
-      - name: Install dependencies
-        run: go mod download
-
-      - name: Get Build Target
-        id: process_target
+      - name: Verify source file exists
         run: |
-          # Read the input for a single build target
-          build_target="${{ github.event.inputs.build_target }}"
+          src="catalogs/${BUILD_TARGET}/${ASSET_TYPE}.yaml"
+          if [ ! -f "$src" ]; then
+            echo "::error::No source file at ${src} — check the build target and asset type."
+            exit 1
+          fi
+          echo "Source: ${src}"
 
-          # Print and save the build target
-          echo "Build target: $build_target"
-          echo "target=$build_target" >> $GITHUB_OUTPUT
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: delivery-toolkit/go.mod
 
-      - name: Create Release Artifacts
+      - name: Compile the typed catalog
+        working-directory: delivery-toolkit
         run: |
-          # Create all artifacts for the specified build target
-          build_target="${{ steps.process_target.outputs.target }}"
-          echo "Creating Artifacts for: $build_target"
-          go run . generate-release-artifacts --build-target $build_target
+          go run . compile \
+            --build-target "$BUILD_TARGET" \
+            --type "$ASSET_TYPE" \
+            --version "$VERSION" \
+            --catalogs-dir ../catalogs \
+            --output-dir ../artifacts
 
-          # Create PDF files from MD files
-          echo "Converting MD file to PDF"
-          for md_file in ./artifacts/*.md; do
-            filename=$(basename "$md_file" .md)
+      - name: Locate compiled artifact
+        id: artifact
+        run: |
+          file="$(find "artifacts/${BUILD_TARGET}" -name "${ASSET_TYPE}.yaml" | head -1)"
+          if [ -z "$file" ]; then
+            echo "::error::compile produced no ${ASSET_TYPE}.yaml under artifacts/${BUILD_TARGET}"
+            exit 1
+          fi
+          gemara_version="$(grep -E '^[[:space:]]*gemara-version:' "$file" | head -1 | awk '{print $2}')"
+          echo "file=${file}" >> "$GITHUB_OUTPUT"
+          echo "gemara_version=${gemara_version}" >> "$GITHUB_OUTPUT"
+          echo "Compiled: ${file} (gemara ${gemara_version})"
 
-            # Check if the filename contains "release-notes"
-            if [[ $filename != *"release_notes"* ]]; then
-              echo "Converting $md_file to $filename.pdf"
-              docker run --rm -v "$PWD:/app" jmaupetit/md2pdf "./artifacts/$filename.md" "./artifacts/$filename.pdf"
-              rm "$md_file"
-            else
-                echo "Skipping $md_file as it contains 'release-notes'"
-            fi
-          done
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4.4.0
-        with:
-          name: ccc-catalogs
-          path: ./delivery-toolkit/artifacts/*
-          if-no-files-found: error
-          retention-days: 1 # Maximum Retention
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4.1.8
-        with:
-          name: ccc-catalogs
-
-      # Create a GitHub release
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        with:
-          body_path: ./release_notes.md
-          tag_name: ${{ github.event.inputs.tag }}-rc
-          release_name: Release ${{ github.event.inputs.tag }}-rc
-          draft: false
-          prerelease: true
+      # grcli, pulled from its OCI distribution exactly as documented.
+      - uses: oras-project/setup-oras@v1
+      - name: Install grcli
+        # Pinned for reproducibility (not :latest). Bump deliberately after testing.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Upload the artifacts to the release
-      - name: Upload Release Assets
+          GRCLI_VERSION: v0.1.0
         run: |
-          for file in ./*
-          do
-            echo "Uploading $file"
-            filename=$(basename "$file")
-            curl -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Content-Type: application/octet-stream" \
-              --data-binary @"$file" \
-              "${{ steps.create_release.outputs.upload_url }}=$filename&label=$filename"
-          done
+          oras pull "ghcr.io/revanite-io/grcli:${GRCLI_VERSION}" --platform linux/amd64
+          sudo install grcli /usr/local/bin/grcli
+          grcli --version
+
+      # validate shells out to `cue vet`; publish keyless-signs via `cosign`.
+      - name: Install cue
+        run: go install cuelang.org/go/cmd/cue@v0.16.1
+      - uses: sigstore/cosign-installer@v3
+
+      - name: Validate against the Gemara spec
+        env:
+          ARTIFACT: ${{ steps.artifact.outputs.file }}
+          GEMARA_VERSION: ${{ steps.artifact.outputs.gemara_version }}
+        run: |
+          git clone --depth 1 --branch "$GEMARA_VERSION" \
+            https://github.com/gemaraproj/gemara /tmp/gemara-spec
+          grcli validate -f "$ARTIFACT" --spec /tmp/gemara-spec
+
+      # NEW publishing step: push the typed catalog to grc.store.
+      - name: Publish to grc.store
+        env:
+          ARTIFACT: ${{ steps.artifact.outputs.file }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            grcli publish "$ARTIFACT" --dry-run --output artifacts/oci
+          else
+            grcli publish "$ARTIFACT"
+          fi
+
+      # Augmented old flow: cut a GitHub release carrying the single typed catalog.
+      # (Redundant with grc.store — kept per "augment"; safe to drop later.)
+      - name: Cut GitHub release
+        if: ${{ inputs.dry_run == false }}
+        env:
+          ARTIFACT: ${{ steps.artifact.outputs.file }}
+        run: |
+          prerelease=""
+          case "$VERSION" in *rc*) prerelease="--prerelease" ;; esac
+          # The asset name must be unique per catalog: multiple catalogs (and asset
+          # types) share one version tag, and gh derives the asset name from the file
+          # basename — so a bare capabilities.yaml from two catalogs would clobber.
+          # Qualify it with the build target (storage/object -> storage_object).
+          asset="${BUILD_TARGET//\//_}_${ASSET_TYPE}.yaml"
+          cp "$ARTIFACT" "$asset"
+          # Create the release for this version if it doesn't exist yet; otherwise
+          # just add this asset to it (multiple catalogs/asset types share one tag).
+          gh release create "$VERSION" "$asset" \
+            --title "${BUILD_TARGET} ${ASSET_TYPE} ${VERSION}" \
+            --notes "Release of ${BUILD_TARGET} ${ASSET_TYPE} (${VERSION}), published to grc.store." \
+            $prerelease \
+          || gh release upload "$VERSION" "$asset" --clobber
