@@ -70,7 +70,7 @@ resource "aws_s3_bucket_policy" "cloudtrail" {
 
 resource "aws_cloudwatch_log_group" "cloudtrail" {
   name              = "/aws/cloudtrail/finos-ccc-integration"
-  retention_in_days = 7
+  retention_in_days = 3
   tags              = var.common_tags
 }
 
@@ -113,8 +113,8 @@ resource "aws_iam_role_policy" "cloudtrail_to_cw" {
 resource "aws_cloudtrail" "main" {
   name                          = "finos-ccc-integration-trail"
   s3_bucket_name                = aws_s3_bucket.cloudtrail.id
-  include_global_service_events = true
-  is_multi_region_trail         = true
+  include_global_service_events = false
+  is_multi_region_trail         = false
   enable_log_file_validation    = true
 
   cloud_watch_logs_group_arn = "${aws_cloudwatch_log_group.cloudtrail.arn}:*"

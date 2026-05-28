@@ -32,8 +32,8 @@ resource "google_compute_instance" "main" {
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-12"
-      size  = 20
-      type  = "pd-ssd"
+      size  = 10
+      type  = "pd-standard"
     }
   }
 

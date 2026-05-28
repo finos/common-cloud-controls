@@ -51,6 +51,10 @@ Workflow: `.github/workflows/cloud-api-integration.yml`. Sets `INTEGRATION_PROVI
 
 Provision fixtures first — see `modules/integration-testing/terraform/`.
 
+Ideally, the terraform here should be just enough to allow us to integration test the `cloud-cfi` module.  **NOTE**:  it should be the cheapest, most minimal installation possible.  
+
+When adding extra terraform, please take this into account.
+
 ## User Creation
 
 Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Provision them with scripts in `modules/integration-testing/user-creation/`. e.g: 

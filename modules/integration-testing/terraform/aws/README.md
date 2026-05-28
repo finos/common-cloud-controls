@@ -6,3 +6,4 @@ Creates AWS fixtures for:
 - `virtual-machines`: one EC2 instance in a dedicated VPC/subnet with restricted SSH ingress.
 - `serverless-computing`: one Lambda function with basic execution role.
 - `vpc`: dedicated VPC fixtures for VPC control validation tests.
+- `logging`: one CloudTrail trail with S3+Lambda data events and CloudWatch delivery.

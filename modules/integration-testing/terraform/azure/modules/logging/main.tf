@@ -7,33 +7,29 @@ resource "azurerm_log_analytics_workspace" "main" {
   tags                = var.common_tags
 }
 
-data "azurerm_monitor_diagnostic_categories" "storage" {
-  resource_id = var.storage_account_id
-}
-
 resource "azurerm_monitor_diagnostic_setting" "storage" {
   name                       = "finos-ccc-integration-storage-diag"
-  target_resource_id         = var.storage_account_id
+  # Storage data-plane categories (StorageRead/Write/Delete) are exposed on
+  # the blob service child resource, not the storage-account root.
+  target_resource_id         = "${var.storage_account_id}/blobServices/default"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
-  dynamic "enabled_log" {
-    for_each = toset(data.azurerm_monitor_diagnostic_categories.storage.log_category_types)
-    content {
-      category = enabled_log.value
-    }
+  enabled_log {
+    category = "StorageRead"
   }
 
-  dynamic "metric" {
-    for_each = toset(data.azurerm_monitor_diagnostic_categories.storage.metric_category_types)
-    content {
-      category = metric.value
-      enabled  = true
-    }
+  enabled_log {
+    category = "StorageWrite"
   }
-}
 
-data "azurerm_monitor_diagnostic_categories" "vm" {
-  resource_id = var.vm_id
+  enabled_log {
+    category = "StorageDelete"
+  }
+
+  metric {
+    category = "AllMetrics"
+    enabled  = true
+  }
 }
 
 resource "azurerm_monitor_diagnostic_setting" "vm" {
@@ -41,44 +37,30 @@ resource "azurerm_monitor_diagnostic_setting" "vm" {
   target_resource_id         = var.vm_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
-  dynamic "enabled_log" {
-    for_each = toset(data.azurerm_monitor_diagnostic_categories.vm.log_category_types)
-    content {
-      category = enabled_log.value
-    }
+  enabled_log {
+    category_group = "allLogs"
   }
 
-  dynamic "metric" {
-    for_each = toset(data.azurerm_monitor_diagnostic_categories.vm.metric_category_types)
-    content {
-      category = metric.value
-      enabled  = true
-    }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
   }
-}
-
-data "azurerm_monitor_diagnostic_categories" "function_app" {
-  resource_id = var.function_app_id
 }
 
 resource "azurerm_monitor_diagnostic_setting" "function_app" {
+  count = var.function_app_id != null && var.function_app_id != "" ? 1 : 0
+
   name                       = "finos-ccc-integration-fn-diag"
   target_resource_id         = var.function_app_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
-  dynamic "enabled_log" {
-    for_each = toset(data.azurerm_monitor_diagnostic_categories.function_app.log_category_types)
-    content {
-      category = enabled_log.value
-    }
+  enabled_log {
+    category_group = "allLogs"
   }
 
-  dynamic "metric" {
-    for_each = toset(data.azurerm_monitor_diagnostic_categories.function_app.metric_category_types)
-    content {
-      category = metric.value
-      enabled  = true
-    }
+  metric {
+    category = "AllMetrics"
+    enabled  = true
   }
 }
 
@@ -90,13 +72,15 @@ resource "azurerm_network_watcher" "main" {
 }
 
 resource "azurerm_network_watcher_flow_log" "vm_nsg" {
-  name                 = "finos-ccc-integration-vm-nsg-flowlog"
-  network_watcher_name = azurerm_network_watcher.main.name
-  resource_group_name  = var.resource_group
+  count = var.enable_legacy_nsg_flow_logs ? 1 : 0
+
+  name                      = "finos-ccc-integration-vm-nsg-flowlog"
+  network_watcher_name      = azurerm_network_watcher.main.name
+  resource_group_name       = var.resource_group
   network_security_group_id = var.vm_network_security_group_id
-  storage_account_id        = var.storage_account_id
-  enabled                   = true
-  version                   = 2
+  storage_account_id         = var.storage_account_id
+  enabled                    = true
+  version                    = 2
   retention_policy {
     enabled = true
     days    = 7
