@@ -8,6 +8,7 @@ import (
 	"github.com/finos/common-cloud-controls/reporters"
 	"github.com/gemaraproj/go-gemara"
 	"github.com/privateerproj/privateer-sdk/command"
+	"github.com/spf13/viper"
 )
 
 // godogScenarioStep returns a step that reads a pre-collected Godog result (suite must run before Mobilize).
@@ -60,7 +61,15 @@ var (
 // ensureBehaviouralEvaluationSuite registers the evaluation suite from collected Godog results.
 func ensureBehaviouralEvaluationSuite() error {
 	suiteConfigured.Do(func() {
-		catalogARs, err := objectStorageCatalogARs()
+		privateerService := viper.GetString("service")
+		if privateerService == "" {
+			suiteConfigureErr = fmt.Errorf("service is required to configure evaluation suite")
+			return
+		}
+		cfg := loadPluginConfig(privateerService)
+		catalogIDs := selectedCatalogIDs(privateerService)
+
+		catalogARs, err := allCatalogARs(cfg, catalogIDs)
 		if err != nil {
 			suiteConfigureErr = err
 			return
@@ -74,7 +83,12 @@ func ensureBehaviouralEvaluationSuite() error {
 			suiteConfigureErr = fmt.Errorf("evaluation orchestrator not initialized")
 			return
 		}
-		suiteConfigureErr = command.ActiveEvaluationOrchestrator.AddEvaluationSuite(objectStorageCatalogID, nil, steps)
+		for _, catalogID := range catalogIDs {
+			if err := command.ActiveEvaluationOrchestrator.AddEvaluationSuite(catalogID, nil, steps); err != nil {
+				suiteConfigureErr = err
+				return
+			}
+		}
 	})
 	return suiteConfigureErr
 }

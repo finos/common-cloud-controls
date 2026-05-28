@@ -17,6 +17,9 @@ services:
       ServiceType: serverless-computing
       tags: "@Behavioural @serverless-computing"
       provider: gcp
+      catalog-locations:
+        CCC.Core: website/src/data/ccc-releases/CCC.Core_v2025.10.yaml
+        CCC.SvlsComp: website/src/data/ccc-releases/CCC.SvlsComp_DEV.yaml
       region: us-central1
       gcp-project-id: "${GCP_PROJECT_ID}"
       resource: "finos-ccc-integration-fn-main"

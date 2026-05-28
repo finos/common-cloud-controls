@@ -20,6 +20,9 @@ services:
       ServiceType: virtual-machines
       tags: "@Behavioural @virtual-machines"
       provider: aws
+      catalog-locations:
+        CCC.Core: website/src/data/ccc-releases/CCC.Core_v2025.10.yaml
+        CCC.VM: website/src/data/ccc-releases/CCC.VM_DEV.yaml
       region: us-east-1
       resource: "finos-ccc-integration-vm-main"
       permitted-regions:
