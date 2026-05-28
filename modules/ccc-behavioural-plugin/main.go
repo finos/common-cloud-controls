@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"os"
 
@@ -18,6 +19,9 @@ var (
 	RequiredVars = []string{"provider", "service"}
 )
 
+//go:embed catalogs/*.yaml
+var embeddedCatalogs embed.FS
+
 func main() {
 	if VersionPostfix != "" {
 		Version = fmt.Sprintf("%s-%s", Version, VersionPostfix)
@@ -30,13 +34,8 @@ func main() {
 	}
 	orchestrator.AddRequiredVars(RequiredVars)
 
-	// Reference catalog: Object Storage release only (dir has many catalogs; loading all duplicates Core).
-	catalogPath, err := objectStorageCatalogPath()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error resolving catalog: %v\n", err)
-		os.Exit(1)
-	}
-	if err := orchestrator.AddReferenceCatalogFromFile(catalogPath); err != nil {
+	// Load embedded plugin catalogs.
+	if err := orchestrator.AddReferenceCatalogs("catalogs", embeddedCatalogs); err != nil {
 		fmt.Fprintf(os.Stderr, "error loading catalog: %v\n", err)
 		os.Exit(1)
 	}
