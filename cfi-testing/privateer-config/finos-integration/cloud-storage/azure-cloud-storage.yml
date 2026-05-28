@@ -25,6 +25,9 @@ services:
       ServiceType: object-storage
       tags: "@Behavioural"
       provider: azure
+      catalog-locations:
+        CCC.Core: website/src/data/ccc-releases/CCC.Core_v2025.10.yaml
+        CCC.ObjStor: website/src/data/ccc-releases/CCC.ObjStor_v2025.09.yaml
       region: eastus
       resource: "finos-ccc-integration-container-main"
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"

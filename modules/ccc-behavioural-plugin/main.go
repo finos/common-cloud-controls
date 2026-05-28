@@ -19,7 +19,7 @@ var (
 	RequiredVars = []string{"provider", "service"}
 )
 
-//go:embed catalogs (temporary)
+//go:embed catalogs
 var embeddedCatalogs embed.FS
 
 func main() {

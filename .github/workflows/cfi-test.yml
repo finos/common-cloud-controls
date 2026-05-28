@@ -175,6 +175,19 @@ jobs:
         with:
           go-version-file: modules/go.work
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Generate release catalogs for behavioural plugin
+        run: |
+          set -euo pipefail
+          npm ci --prefix website
+          npm run --prefix website generate:catalogs
+
       - name: Configure AWS Credentials (OIDC)
         if: matrix.target.provider == 'aws'
         uses: aws-actions/configure-aws-credentials@v4
