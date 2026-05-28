@@ -29,6 +29,7 @@ jobs:
       RUN_CLOUD_API_INTEGRATION: "1"
       INTEGRATION_PROVIDER: aws
       AWS_REGION: ${{ secrets.AWS_REGION }}
+      GOWORK: off
     steps:
       - uses: actions/checkout@v4
 
@@ -70,6 +71,7 @@ jobs:
     env:
       RUN_CLOUD_API_INTEGRATION: "1"
       INTEGRATION_PROVIDER: azure
+      GOWORK: off
     steps:
       - uses: actions/checkout@v4
 
@@ -120,6 +122,7 @@ jobs:
     env:
       RUN_CLOUD_API_INTEGRATION: "1"
       INTEGRATION_PROVIDER: gcp
+      GOWORK: off
     steps:
       - uses: actions/checkout@v4
 
