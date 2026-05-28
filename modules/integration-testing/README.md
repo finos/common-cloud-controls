@@ -50,3 +50,22 @@ Workflow: `.github/workflows/cloud-api-integration.yml`. Sets `INTEGRATION_PROVI
 ## Terraform
 
 Provision fixtures first — see `modules/integration-testing/terraform/`.
+
+## User Creation
+
+Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Provision them with scripts in `modules/integration-testing/user-creation/`. e.g: 
+```bash
+cd modules/integration-testing/user-creation
+./provision-azure-test-users.sh
+source ./azure-env.sh
+```
+
+### GitHub Actions secret model
+
+For CI, store each generated env file as a single multiline secret:
+- `AZURE_ENV` (contents of `azure-env.sh`)
+- `GCP_ENV` (contents of `gcp-env.sh`)
+- `AWS_ENV` (if you maintain an AWS env script)
+
+Core platform values can still come from existing repo secrets (for example `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `GCP_PROJECT_ID`, `GCP_PROJECT_NUMBER`, `AWS_REGION`).
+

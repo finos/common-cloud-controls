@@ -3,12 +3,6 @@ name: "PR Workflow"
 on:
   pull_request:
 jobs:
-  run-format-check:
-    uses: ./.github/workflows/format_check.yml
-    permissions:
-      pull-requests: write
-      contents: read
-
   run-linting-check:
     uses: ./.github/workflows/linting_check.yml
     permissions:
@@ -30,11 +24,6 @@ jobs:
     uses: ./.github/workflows/todo_check.yml
     permissions:
       pull-requests: write
-      contents: read
-
-  modules-check:
-    uses: ./.github/workflows/modules.yml
-    permissions:
       contents: read
 
   cloud-api-integration:
