@@ -8,7 +8,6 @@ import (
 	"github.com/finos/common-cloud-controls/reporters"
 	"github.com/gemaraproj/go-gemara"
 	"github.com/privateerproj/privateer-sdk/command"
-	"github.com/privateerproj/privateer-sdk/pluginkit"
 )
 
 // godogScenarioStep returns a step that reads a pre-collected Godog result (suite must run before Mobilize).
@@ -28,7 +27,6 @@ func noGodogCoverageStep(requirementID string) gemara.AssessmentStep {
 
 // behaviouralStepsFromCollector builds steps from PrivateerFormatter results (after Godog has run).
 func behaviouralStepsFromCollector(catalogARs []string) (map[string][]gemara.AssessmentStep, error) {
-	pluginkit.ClearAssessmentStepDisplayNames()
 	byAR := reporters.ScenariosByRequirement()
 
 	log.Printf("ccc-behavioural-plugin: %d catalog ARs, %d ARs with Godog scenario results",
@@ -38,7 +36,6 @@ func behaviouralStepsFromCollector(catalogARs []string) (map[string][]gemara.Ass
 	for _, arID := range catalogARs {
 		scenarios := byAR[arID]
 		if len(scenarios) == 0 {
-			pluginkit.SetAssessmentStepDisplayNames(arID, []string{"No Godog coverage"})
 			steps[arID] = []gemara.AssessmentStep{noGodogCoverageStep(arID)}
 			continue
 		}
@@ -49,7 +46,6 @@ func behaviouralStepsFromCollector(catalogARs []string) (map[string][]gemara.Ass
 			labels = append(labels, sc.Scenario)
 			arSteps = append(arSteps, godogScenarioStep(arID, sc.Scenario))
 		}
-		pluginkit.SetAssessmentStepDisplayNames(arID, labels)
 		steps[arID] = arSteps
 	}
 
