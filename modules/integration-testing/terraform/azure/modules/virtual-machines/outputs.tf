@@ -2,6 +2,10 @@ output "vm_id" {
   value = azurerm_linux_virtual_machine.main.id
 }
 
+output "nsg_id" {
+  value = azurerm_network_security_group.this.id
+}
+
 output "vm_name" {
   value = azurerm_linux_virtual_machine.main.name
 }

@@ -2,6 +2,10 @@ output "function_name" {
   value = azurerm_linux_function_app.main.name
 }
 
+output "function_app_id" {
+  value = azurerm_linux_function_app.main.id
+}
+
 output "private_endpoint_url" {
   value = "https://${azurerm_linux_function_app.main.name}.privatelink.azurewebsites.net/api/HttpTrigger"
 }

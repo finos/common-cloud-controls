@@ -25,3 +25,22 @@ module "serverless_computing" {
   region        = var.region
   common_labels = local.common_labels
 }
+
+module "object_storage" {
+  source        = "./modules/object-storage"
+  project_id    = var.project_id
+  region        = var.region
+  common_labels = local.common_labels
+}
+
+module "vpc" {
+  source        = "./modules/vpc"
+  project_id    = var.project_id
+  region        = var.region
+  common_labels = local.common_labels
+}
+
+module "logging" {
+  source     = "./modules/logging"
+  project_id = var.project_id
+}

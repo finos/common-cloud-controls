@@ -255,6 +255,7 @@ modules/integration-terraform/
 
 6. **Exercise code, not compliance**: one testable resource per service type (except `vpc`, which may include good/bad fixtures). Missing optional controls is acceptable if analysis documents `@NotTestable` or honesty gaps.
 7. **No secrets in terraform state files in git** — output client ids; secrets via `azure-env.sh`, `aws-env.sh` etc.
+8.  MINIMAL terraform, minimize expense - we are just creating an integration environment here to test `cloud-cfi` - we should not be trying to pass the CCC conformance suite.
 
 #### README
 

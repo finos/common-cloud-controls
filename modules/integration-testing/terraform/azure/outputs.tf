@@ -22,3 +22,20 @@ output "serverless_computing" {
     burst_overrun        = module.serverless_computing.burst_overrun
   }
 }
+
+output "object_storage" {
+  value = {
+    resource_name        = module.object_storage.container_name
+    storage_account_name = module.object_storage.storage_account_name
+    container_name       = module.object_storage.container_name
+  }
+}
+
+output "logging" {
+  value = {
+    resource_name                     = module.logging.resource_name
+    azure_log_analytics_workspace_id  = module.logging.log_analytics_workspace_id
+    azure_log_analytics_workspace_rid = module.logging.log_analytics_workspace_resource_id
+    azure_storage_account             = module.logging.storage_account_name
+  }
+}

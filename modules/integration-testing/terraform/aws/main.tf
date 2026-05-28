@@ -20,7 +20,19 @@ module "serverless_computing" {
   common_tags = local.common_tags
 }
 
+module "object_storage" {
+  source      = "./modules/object-storage"
+  common_tags = local.common_tags
+}
+
 module "vpc" {
   source      = "./modules/vpc"
   common_tags = local.common_tags
+}
+
+module "logging" {
+  source              = "./modules/logging"
+  bucket_arn          = module.object_storage.bucket_arn
+  lambda_function_arn = module.serverless_computing.function_arn
+  common_tags         = local.common_tags
 }

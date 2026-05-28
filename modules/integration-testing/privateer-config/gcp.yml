@@ -8,3 +8,4 @@ services:
       gcp-project-id: "${GCP_PROJECT_ID}"
       function-name: "finos-ccc-integration-fn-main"
       private-endpoint-url: "internal-only"
+      gcp-flow-log-name: "compute.googleapis.com%2Fvpc_flows"
