@@ -22,7 +22,13 @@ var callReportLines []string
 func TestMain(m *testing.M) {
 	code := m.Run()
 	if len(callReportLines) > 0 {
-		fmt.Print(strings.Join(callReportLines, ""))
+		report := strings.Join(callReportLines, "")
+		fmt.Print(report)
+		if path := strings.TrimSpace(os.Getenv("INTEGRATION_RESULTS_FILE")); path != "" {
+			if err := os.WriteFile(path, []byte(report), 0o644); err != nil {
+				fmt.Fprintf(os.Stderr, "write integration results file: %v\n", err)
+			}
+		}
 	}
 	os.Exit(code)
 }

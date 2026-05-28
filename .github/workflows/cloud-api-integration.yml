@@ -48,6 +48,8 @@ jobs:
 
       - name: Run AWS integration tests with coverage
         working-directory: modules/integration-testing
+        env:
+          INTEGRATION_RESULTS_FILE: integration-results-aws.txt
         run: |
           go mod download
           go test -tags=integration -timeout=45m \
@@ -55,6 +57,32 @@ jobs:
             -covermode=atomic \
             -coverprofile=coverage-integration-aws.out \
             ./...
+
+      - name: Publish AWS integration results summary
+        if: always()
+        run: |
+          results="modules/integration-testing/integration-results-aws.txt"
+          if [ ! -f "$results" ]; then
+            echo "No integration results file at $results"
+            exit 0
+          fi
+          {
+            echo "## AWS cloud-api integration (${INTEGRATION_PROVIDER})"
+            echo ""
+            echo '```text'
+            cat "$results"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload AWS integration test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-api-integration-results-aws
+          path: |
+            modules/integration-testing/integration-results-aws.txt
+            modules/integration-testing/coverage-integration-aws.out
+          if-no-files-found: ignore
 
       - name: Upload AWS integration coverage
         if: always() && hashFiles('modules/integration-testing/coverage-integration-aws.out') != ''
@@ -92,6 +120,7 @@ jobs:
       - name: Run Azure integration tests with coverage
         working-directory: modules/integration-testing
         env:
+          INTEGRATION_RESULTS_FILE: integration-results-azure.txt
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_LOG_ANALYTICS_WORKSPACE_ID: ${{ secrets.AZURE_LOG_ANALYTICS_WORKSPACE_ID }}
@@ -106,6 +135,32 @@ jobs:
             -covermode=atomic \
             -coverprofile=coverage-integration-azure.out \
             ./...
+
+      - name: Publish Azure integration results summary
+        if: always()
+        run: |
+          results="modules/integration-testing/integration-results-azure.txt"
+          if [ ! -f "$results" ]; then
+            echo "No integration results file at $results"
+            exit 0
+          fi
+          {
+            echo "## Azure cloud-api integration (${INTEGRATION_PROVIDER})"
+            echo ""
+            echo '```text'
+            cat "$results"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Azure integration test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-api-integration-results-azure
+          path: |
+            modules/integration-testing/integration-results-azure.txt
+            modules/integration-testing/coverage-integration-azure.out
+          if-no-files-found: ignore
 
       - name: Upload Azure integration coverage
         if: always() && hashFiles('modules/integration-testing/coverage-integration-azure.out') != ''
@@ -146,6 +201,7 @@ jobs:
       - name: Run GCP integration tests with coverage
         working-directory: modules/integration-testing
         env:
+          INTEGRATION_RESULTS_FILE: integration-results-gcp.txt
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_TEST_USER_NO_ACCESS_NAME: ${{ secrets.GCP_TEST_USER_NO_ACCESS_NAME }}
           GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON: ${{ secrets.GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON }}
@@ -156,6 +212,32 @@ jobs:
             -covermode=atomic \
             -coverprofile=coverage-integration-gcp.out \
             ./...
+
+      - name: Publish GCP integration results summary
+        if: always()
+        run: |
+          results="modules/integration-testing/integration-results-gcp.txt"
+          if [ ! -f "$results" ]; then
+            echo "No integration results file at $results"
+            exit 0
+          fi
+          {
+            echo "## GCP cloud-api integration (${INTEGRATION_PROVIDER})"
+            echo ""
+            echo '```text'
+            cat "$results"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload GCP integration test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-api-integration-results-gcp
+          path: |
+            modules/integration-testing/integration-results-gcp.txt
+            modules/integration-testing/coverage-integration-gcp.out
+          if-no-files-found: ignore
 
       - name: Upload GCP integration coverage
         if: always() && hashFiles('modules/integration-testing/coverage-integration-gcp.out') != ''
