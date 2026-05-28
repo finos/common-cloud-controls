@@ -1,11 +1,8 @@
 package serverlesscomputing
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -165,30 +162,4 @@ func (s *AzureServerlessComputingService) triggerFunction(resourceID, action str
 		return fmt.Errorf("invoke did not succeed: status=%d error=%s", result.StatusCode, result.Error)
 	}
 	return nil
-}
-
-func invokeHTTP(url string, payload map[string]string) (*InvokeAttemptResult, error) {
-	body, _ := json.Marshal(payload)
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Content-Type", "application/json")
-	client := &http.Client{Timeout: 5 * time.Second}
-	resp, err := client.Do(req)
-	if err != nil {
-		return &InvokeAttemptResult{
-			Invoked:      false,
-			AccessDenied: true,
-			Error:        err.Error(),
-		}, nil
-	}
-	defer resp.Body.Close()
-	out, _ := io.ReadAll(io.LimitReader(resp.Body, 2048))
-	return &InvokeAttemptResult{
-		Invoked:      resp.StatusCode >= 200 && resp.StatusCode < 300,
-		AccessDenied: resp.StatusCode >= 400,
-		StatusCode:   resp.StatusCode,
-		Error:        strings.TrimSpace(string(out)),
-	}, nil
 }
