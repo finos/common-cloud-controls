@@ -33,6 +33,8 @@ go test -tags=integration -timeout=45m \
 
 Each CSV row prints `PASS` or `FAIL` to the console when the test finishes (and live with `-v`). `INTEGRATION_PROVIDER` must be set or the test exits immediately.
 
+Optional: set `INTEGRATION_RESULTS_FILE=integration-results.txt` to write the same report to a file (used in CI for artifacts and the Actions job summary).
+
 Unit checks:
 
 ```bash

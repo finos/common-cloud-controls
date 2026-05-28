@@ -36,3 +36,4 @@ modules/integration-testing/user-creation/.keys
 **/*.tfstate
 **/*.tfstate.*
 modules/integration-testing/coverage-integration*.out
+modules/integration-testing/integration-results-*.txt
