@@ -116,7 +116,7 @@ func (s *AWSVirtualMachinesService) GetOrProvisionTestableResources() ([]types.T
 }
 
 func (s *AWSVirtualMachinesService) CheckUserProvisioned() error {
-	_, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{MaxResults: aws.Int32(1)})
+	_, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{MaxResults: aws.Int32(5)})
 	if err != nil {
 		return fmt.Errorf("credentials not ready for EC2: %w", err)
 	}
@@ -128,11 +128,11 @@ func (s *AWSVirtualMachinesService) ResetAccess() error                { return 
 func (s *AWSVirtualMachinesService) TearDown() error                   { return nil }
 
 func (s *AWSVirtualMachinesService) UpdateResourcePolicy() error {
-	instanceID := s.config.Get("resource")
-	if instanceID == "" {
-		return fmt.Errorf("resource config var is required for UpdateResourcePolicy")
+	instanceID, err := s.resolveInstanceID(s.config.Get("resource"))
+	if err != nil {
+		return err
 	}
-	_, err := s.client.CreateTags(s.ctx, &ec2.CreateTagsInput{
+	_, err = s.client.CreateTags(s.ctx, &ec2.CreateTagsInput{
 		Resources: []string{instanceID},
 		Tags: []ec2types.Tag{
 			{Key: aws.String("ccc_compliance_test"), Value: aws.String(time.Now().UTC().Format(time.RFC3339))},
@@ -142,8 +142,12 @@ func (s *AWSVirtualMachinesService) UpdateResourcePolicy() error {
 }
 
 func (s *AWSVirtualMachinesService) TriggerDataWrite(resourceID string) error {
-	_, err := s.client.CreateTags(s.ctx, &ec2.CreateTagsInput{
-		Resources: []string{resourceID},
+	instanceID, err := s.resolveInstanceID(resourceID)
+	if err != nil {
+		return err
+	}
+	_, err = s.client.CreateTags(s.ctx, &ec2.CreateTagsInput{
+		Resources: []string{instanceID},
 		Tags: []ec2types.Tag{
 			{Key: aws.String("ccc_data_write_probe"), Value: aws.String(time.Now().UTC().Format(time.RFC3339Nano))},
 		},
@@ -155,8 +159,12 @@ func (s *AWSVirtualMachinesService) TriggerDataWrite(resourceID string) error {
 }
 
 func (s *AWSVirtualMachinesService) TriggerDataRead(resourceID string) error {
-	_, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{
-		InstanceIds: []string{resourceID},
+	instanceID, err := s.resolveInstanceID(resourceID)
+	if err != nil {
+		return err
+	}
+	_, err = s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{
+		InstanceIds: []string{instanceID},
 	})
 	if err != nil {
 		return fmt.Errorf("failed to trigger VM data-read event: %w", err)
@@ -169,11 +177,15 @@ func (s *AWSVirtualMachinesService) GetResourceRegion(_ string) (string, error) 
 }
 
 func (s *AWSVirtualMachinesService) GetReplicationStatus(_ string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("replication status not applicable for virtual-machines")
+	return generic.ReplicationStatusNotApplicable()
 }
 
 func (s *AWSVirtualMachinesService) GetVolumeEncryptionStatus(instanceID string) (*VolumeEncryptionResult, error) {
-	out, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{InstanceIds: []string{instanceID}})
+	resolved, err := s.resolveInstanceID(instanceID)
+	if err != nil {
+		return nil, err
+	}
+	out, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{InstanceIds: []string{resolved}})
 	if err != nil {
 		return nil, fmt.Errorf("failed to describe instance %q: %w", instanceID, err)
 	}
@@ -207,9 +219,13 @@ func (s *AWSVirtualMachinesService) GetVolumeEncryptionStatus(instanceID string)
 }
 
 func (s *AWSVirtualMachinesService) AttemptInboundConnection(instanceID string, port int) (*ConnectionAttemptResult, error) {
+	resolved, err := s.resolveInstanceID(instanceID)
+	if err != nil {
+		return nil, err
+	}
 	host := strings.TrimSpace(s.config.Get("hostName"))
 	if host == "" {
-		out, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{InstanceIds: []string{instanceID}})
+		out, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{InstanceIds: []string{resolved}})
 		if err != nil {
 			return nil, fmt.Errorf("failed to resolve VM host for %q: %w", instanceID, err)
 		}

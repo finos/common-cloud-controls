@@ -67,7 +67,7 @@ resource "aws_subnet" "bad_public" {
 resource "aws_vpc" "cn03_allowed_01" {
   cidr_block = "10.92.0.0/20"
   tags = merge(var.common_tags, {
-    Name      = "finos-ccc-integration-vpc-cn03-allowed-01"
+    Name      = "finos-ccc-integration-vpc-cn03-allow-01"
     PeerClass = "allowed"
   })
 }

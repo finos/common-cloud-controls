@@ -9,7 +9,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cloudtrail"
-	cttypes "github.com/aws/aws-sdk-go-v2/service/cloudtrail/types"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
@@ -77,7 +76,7 @@ func (s *AWSLoggingService) IsDataReplicatedToSeparateLocation(_ string) (bool, 
 	return false, fmt.Errorf("not supported for logging service")
 }
 func (s *AWSLoggingService) GetReplicationStatus(_ string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("not supported for logging service")
+	return generic.ReplicationStatusNotApplicable()
 }
 func (s *AWSLoggingService) TearDown() error { return nil }
 
@@ -103,21 +102,14 @@ func (s *AWSLoggingService) queryCloudTrail(resourceID, logType string, lookback
 	startTime := time.Now().Add(-time.Duration(lookbackMinutes) * time.Minute)
 	endTime := time.Now()
 
-	// CloudTrail's EventCategory enum values: "management", "data", "insight".
-	// We use string literals because the SDK exposes the underlying string
-	// type but doesn't always surface the values as exported constants.
-	var eventCategory cttypes.EventCategory = "management"
-	if logType != LogTypeAdmin {
-		eventCategory = "data"
-	}
-
+	// LookupEvents does not accept EventCategory on all API versions; filter client-side.
 	input := &cloudtrail.LookupEventsInput{
-		StartTime:     &startTime,
-		EndTime:       &endTime,
-		EventCategory: eventCategory,
+		StartTime: &startTime,
+		EndTime:   &endTime,
 	}
 
 	wantReadOnly := logType == LogTypeDataRead
+	isAdmin := logType == LogTypeAdmin
 
 	entries := make([]LogEntry, 0)
 	paginator := cloudtrail.NewLookupEventsPaginator(s.cloudTrailClient, input)
@@ -127,23 +119,27 @@ func (s *AWSLoggingService) queryCloudTrail(resourceID, logType string, lookback
 			return nil, fmt.Errorf("CloudTrail LookupEvents: %w", err)
 		}
 		for _, event := range page.Events {
+			eventName := aws.ToString(event.EventName)
+			if isAdmin {
+				if isDataPlaneEventName(eventName) {
+					continue
+				}
+			} else {
+				if !isDataPlaneEventName(eventName) {
+					continue
+				}
+				if isReadOnlyEventName(eventName) != wantReadOnly {
+					continue
+				}
+			}
 			entry := LogEntry{
-				Action:   aws.ToString(event.EventName),
+				Action:   eventName,
 				Resource: aws.ToString(event.EventSource),
 				Identity: aws.ToString(event.Username),
 				Result:   "Succeeded",
 			}
 			if event.EventTime != nil {
 				entry.Timestamp = *event.EventTime
-			}
-			// For data events, the ReadOnly field discriminates read vs write.
-			// LookupEvents response doesn't expose ReadOnly directly on Event
-			// but it does appear inside CloudTrailEvent JSON. For simplicity
-			// we filter data-write/data-read by event-name heuristic.
-			if logType == LogTypeDataWrite || logType == LogTypeDataRead {
-				if isReadOnlyEventName(aws.ToString(event.EventName)) != wantReadOnly {
-					continue
-				}
 			}
 			// Client-side scope to the requested resource when one is given.
 			if resourceID != "" && !strings.Contains(strings.ToLower(aws.ToString(event.CloudTrailEvent)), strings.ToLower(resourceID)) {
@@ -229,6 +225,19 @@ func parseFlowLogMessage(raw string) LogEntry {
 	out.Action = fields[12]  // ACCEPT/REJECT
 	out.Result = fields[13]  // OK/NODATA/SKIPDATA
 	return out
+}
+
+// isDataPlaneEventName classifies CloudTrail event names as data-plane (vs management).
+func isDataPlaneEventName(name string) bool {
+	for _, prefix := range []string{
+		"Put", "Delete", "Create", "Update", "Upload", "Copy", "Invoke",
+		"Complete", "Abort", "Restore", "Select", "GetObject", "HeadObject",
+	} {
+		if strings.HasPrefix(name, prefix) {
+			return true
+		}
+	}
+	return false
 }
 
 // isReadOnlyEventName uses a coarse heuristic over CloudTrail event names to

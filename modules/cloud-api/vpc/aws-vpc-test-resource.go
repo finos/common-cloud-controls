@@ -26,7 +26,11 @@ func (s *AWSVPCService) SelectPublicSubnetForTest(vpcID string) (map[string]inte
 		return nil, fmt.Errorf("vpcID is required")
 	}
 
-	publicSubnets, err := s.listPublicSubnets(vpcIDStr)
+	resolvedVpcID, err := s.resolveVpcID(vpcIDStr)
+	if err != nil {
+		return nil, err
+	}
+	publicSubnets, err := s.listPublicSubnets(resolvedVpcID)
 	if err != nil {
 		return nil, err
 	}

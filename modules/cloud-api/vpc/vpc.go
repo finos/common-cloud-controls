@@ -15,7 +15,6 @@ type Service interface {
 	AttemptVpcPeeringDryRun(requesterVpcID, peerVpcID string) (map[string]interface{}, error)
 	ValidateAllowListEnforcement(receiverVpcID string) (map[string]interface{}, error)
 	ValidateDisallowListEnforcement(receiverVpcID string) (map[string]interface{}, error)
-	RunVpcPeeringDryRunTrialsFromFile(filePath string) (map[string]interface{}, error)
 
 	// Flow log observation is the responsibility of the logging service; this
 	// method only triggers traffic. The CN04 feature then calls

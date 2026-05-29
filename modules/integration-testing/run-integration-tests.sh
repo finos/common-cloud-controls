@@ -57,7 +57,7 @@ go mod download
 
 echo "==> go test -tags=integration"
 go test -tags=integration -timeout=45m -v \
-  -coverpkg=../cloud-api/... \
+  -coverpkg=../cloud-api/factory/...,../cloud-api/generic/...,../cloud-api/iam/...,../cloud-api/logging/...,../cloud-api/object-storage/...,../cloud-api/serverless-computing/...,../cloud-api/types/...,../cloud-api/virtual-machines/...,../cloud-api/vpc/... \
   -covermode=atomic \
   -coverprofile="$COVER_PROFILE" \
   ./...
