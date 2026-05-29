@@ -21,6 +21,15 @@ logging,QueryLogs,finos-ccc-integration-fn-main,admin,60,
 ## Run locally
 
 ```bash
+cd modules/integration-testing
+./run-integration-tests.sh aws    # or azure | gcp
+```
+
+The script sets `INTEGRATION_PROVIDER`, sources `user-creation/azure-env.sh` or `gcp-env.sh` when present, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
+
+Manual equivalent:
+
+```bash
 export INTEGRATION_PROVIDER=aws   # required: aws | azure | gcp
 
 cd modules/integration-testing
@@ -33,8 +42,6 @@ go test -tags=integration -timeout=45m \
 
 Each CSV row prints `PASS` or `FAIL` to the console when the test finishes (and live with `-v`). `INTEGRATION_PROVIDER` must be set or the test exits immediately.
 
-Optional: set `INTEGRATION_RESULTS_FILE=integration-results.txt` to write the same report to a file (used in CI for artifacts and the Actions job summary).
-
 Unit checks:
 
 ```bash
@@ -43,7 +50,7 @@ go test ./...
 
 ## After re-provisioning terraform
 
-Update `privateer-config/aws.yml` and VPC literals in `integration_calls.csv` to match `terraform output`.
+VPC names in `integration_calls.csv` and `privateer-config/*.yml` match the integration terraform VNet/VPC `name` values (for example `finos-ccc-integration-vpc`, `finos-ccc-integration-vpc-bad`, `finos-ccc-integration-vpc-cn03-allow-01`). Update those files if you rename resources in terraform.
 
 ## GitHub Actions
 

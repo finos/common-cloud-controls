@@ -1,5 +1,5 @@
-# Five VPCs: good (receiver + VM subnet + flow logs), bad, two allow-list peers,
-# one disallow-list peer. non_allowlisted and second disallowed reuse bad in outputs.
+# Three VPCs: good (receiver + VM subnet + flow logs), bad, one allow-list peer.
+# Extra allow-list / disallowed / non-allowlisted ids in outputs reuse the same VPCs.
 
 resource "aws_vpc" "good" {
   cidr_block = "10.90.0.0/16"
@@ -69,22 +69,6 @@ resource "aws_vpc" "cn03_allowed_01" {
   tags = merge(var.common_tags, {
     Name      = "finos-ccc-integration-vpc-cn03-allowed-01"
     PeerClass = "allowed"
-  })
-}
-
-resource "aws_vpc" "cn03_allowed_02" {
-  cidr_block = "10.92.16.0/20"
-  tags = merge(var.common_tags, {
-    Name      = "finos-ccc-integration-vpc-cn03-allowed-02"
-    PeerClass = "allowed"
-  })
-}
-
-resource "aws_vpc" "cn03_disallowed_01" {
-  cidr_block = "10.93.0.0/20"
-  tags = merge(var.common_tags, {
-    Name      = "finos-ccc-integration-vpc-cn03-disallowed-01"
-    PeerClass = "disallowed"
   })
 }
 

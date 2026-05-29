@@ -34,9 +34,8 @@ resource "aws_lambda_function" "main" {
   handler                        = "index.handler"
   filename                       = data.archive_file.lambda_zip.output_path
   source_code_hash               = data.archive_file.lambda_zip.output_base64sha256
-  timeout                        = 3
-  memory_size                    = 128
-  reserved_concurrent_executions = 10
+  timeout      = 3
+  memory_size  = 128
   tags = merge(var.common_tags, {
     CFIControlSet = "CCC.SvlsComp"
   })

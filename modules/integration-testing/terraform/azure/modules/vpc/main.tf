@@ -1,5 +1,5 @@
-# Five VNets: good (receiver + VM subnet), bad, two allow-list peers, one disallow-list peer.
-# non_allowlisted and second disallowed reuse bad in outputs.
+# Three VNets: good (receiver + VM subnet), bad, one allow-list peer.
+# Extra allow-list / disallowed / non-allowlisted ids in outputs reuse the same VNets.
 
 resource "azurerm_virtual_network" "good" {
   name                = "finos-ccc-integration-vpc"
@@ -50,25 +50,5 @@ resource "azurerm_virtual_network" "cn03_allowed_01" {
   resource_group_name = var.resource_group
   tags = merge(var.common_tags, {
     PeerClass = "allowed"
-  })
-}
-
-resource "azurerm_virtual_network" "cn03_allowed_02" {
-  name                = "finos-ccc-integration-vpc-cn03-allow-02"
-  address_space       = ["10.102.16.0/20"]
-  location            = var.location
-  resource_group_name = var.resource_group
-  tags = merge(var.common_tags, {
-    PeerClass = "allowed"
-  })
-}
-
-resource "azurerm_virtual_network" "cn03_disallowed_01" {
-  name                = "finos-ccc-integration-vpc-cn03-deny-01"
-  address_space       = ["10.103.0.0/20"]
-  location            = var.location
-  resource_group_name = var.resource_group
-  tags = merge(var.common_tags, {
-    PeerClass = "disallowed"
   })
 }

@@ -9,18 +9,19 @@ locals {
   }
 }
 
-module "vpc" {
-  source      = "./modules/vpc"
-  common_tags = local.common_tags
-}
+# Disabled until VPCs-per-Region quota increase is approved (Service Quotas).
+# module "vpc" {
+#   source      = "./modules/vpc"
+#   common_tags = local.common_tags
+# }
 
-module "virtual_machines" {
-  source        = "./modules/virtual-machines"
-  instance_type = var.vm_instance_type
-  subnet_id     = module.vpc.vm_subnet_id
-  vpc_id        = module.vpc.receiver_vpc_id
-  common_tags   = local.common_tags
-}
+# module "virtual_machines" {
+#   source        = "./modules/virtual-machines"
+#   instance_type = var.vm_instance_type
+#   subnet_id     = module.vpc.vm_subnet_id
+#   vpc_id        = module.vpc.receiver_vpc_id
+#   common_tags   = local.common_tags
+# }
 
 module "serverless_computing" {
   source      = "./modules/serverless-computing"

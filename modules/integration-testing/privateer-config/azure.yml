@@ -12,6 +12,13 @@ services:
       azure-storage-account: "finoscccintegrationmain"
       default-container: "finos-ccc-integration-container-main"
       object-storage-retention-period-days: 2
-      # serverless-computing (requires enable_serverless_computing = true)
       function-name: "finos-ccc-integration-fn-main"
       private-endpoint-url: "https://finos-ccc-integration-fn-main.privatelink.azurewebsites.net/api/HttpTrigger"
+      resource: "finos-ccc-integration-vm-main"
+      hostName: "${AZURE_VM_HOSTNAME}"
+      allowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+      disallowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-bad"
+        - "finos-ccc-integration-vpc-bad"

@@ -1,6 +1,4 @@
 # Minimal vars for cloud-api integration tests (integration_calls.csv).
-# VPC IDs and flow-log group must match terraform output -json vpc after apply.
-# Five VPCs: two allow-list peers, bad (also non-allowlisted + second disallowed), receiver.
 
 services:
   integration:
@@ -12,8 +10,8 @@ services:
       private-endpoint-url: "https://private-serverless-endpoint.internal.example.com/invoke"
       aws-flow-log-group-name: "/aws/vpc/flow-logs/finos-ccc-integration-vpc"
       allowed-requester-vpc-ids:
-        - "vpc-0a591620e00092dc2"
-        - "vpc-0dae16d47368ba7ae"
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+        - "finos-ccc-integration-vpc-cn03-allow-01"
       disallowed-requester-vpc-ids:
-        - "vpc-0eadc3a916f373b88"
-        - "vpc-0a7d07499ce3992e8"
+        - "finos-ccc-integration-vpc-bad"
+        - "finos-ccc-integration-vpc-bad"

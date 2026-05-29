@@ -36,4 +36,7 @@ modules/integration-testing/user-creation/.keys
 **/*.tfstate
 **/*.tfstate.*
 modules/integration-testing/coverage-integration*.out
+modules/integration-testing/coverage-integration*.html
 modules/integration-testing/integration-results-*.txt
+modules/integration-testing/terraform/aws/.terraform.lock.hcl
+modules/integration-testing/terraform/aws/modules/serverless-computing/lambda-function.zip
