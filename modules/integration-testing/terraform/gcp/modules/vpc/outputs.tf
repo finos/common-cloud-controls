@@ -11,19 +11,19 @@ output "bad_vpc_id" {
 }
 
 output "non_allowlisted_requester_vpc_id" {
-  value = google_compute_network.cn03_non_allowlisted.id
+  value = google_compute_network.bad.id
 }
 
 output "allowed_requester_vpc_ids" {
   value = [
     google_compute_network.cn03_allowed_01.id,
-    google_compute_network.cn03_allowed_02.id,
+    google_compute_network.cn03_allowed_01.id,
   ]
 }
 
 output "disallowed_requester_vpc_ids" {
   value = [
-    google_compute_network.cn03_disallowed_01.id,
-    google_compute_network.cn03_disallowed_02.id,
+    google_compute_network.bad.id,
+    google_compute_network.bad.id,
   ]
 }

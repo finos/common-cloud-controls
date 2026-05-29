@@ -1,3 +1,6 @@
+# Five VPCs: good (receiver + VM subnet + flow logs), bad, two allow-list peers,
+# one disallow-list peer. non_allowlisted and second disallowed reuse bad in outputs.
+
 resource "aws_vpc" "good" {
   cidr_block = "10.90.0.0/16"
   tags = merge(var.common_tags, {
@@ -13,6 +16,34 @@ resource "aws_subnet" "good_public" {
   tags = merge(var.common_tags, {
     Name = "finos-ccc-integration-vpc-public"
   })
+}
+
+resource "aws_internet_gateway" "good" {
+  vpc_id = aws_vpc.good.id
+  tags   = var.common_tags
+}
+
+resource "aws_subnet" "vm" {
+  vpc_id                  = aws_vpc.good.id
+  cidr_block              = "10.90.2.0/24"
+  map_public_ip_on_launch = true
+  tags = merge(var.common_tags, {
+    Name = "finos-ccc-integration-vm-subnet"
+  })
+}
+
+resource "aws_route_table" "good_public" {
+  vpc_id = aws_vpc.good.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.good.id
+  }
+  tags = var.common_tags
+}
+
+resource "aws_route_table_association" "vm" {
+  subnet_id      = aws_subnet.vm.id
+  route_table_id = aws_route_table.good_public.id
 }
 
 resource "aws_vpc" "bad" {
@@ -54,21 +85,6 @@ resource "aws_vpc" "cn03_disallowed_01" {
   tags = merge(var.common_tags, {
     Name      = "finos-ccc-integration-vpc-cn03-disallowed-01"
     PeerClass = "disallowed"
-  })
-}
-
-resource "aws_vpc" "cn03_disallowed_02" {
-  cidr_block = "10.93.16.0/20"
-  tags = merge(var.common_tags, {
-    Name      = "finos-ccc-integration-vpc-cn03-disallowed-02"
-    PeerClass = "disallowed"
-  })
-}
-
-resource "aws_vpc" "cn03_non_allowlisted" {
-  cidr_block = "10.94.0.0/20"
-  tags = merge(var.common_tags, {
-    Name = "finos-ccc-integration-vpc-cn03-non-allowlisted-01"
   })
 }
 

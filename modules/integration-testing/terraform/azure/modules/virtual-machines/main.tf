@@ -1,18 +1,3 @@
-resource "azurerm_virtual_network" "this" {
-  name                = "finos-ccc-integration-vm-vnet"
-  address_space       = ["10.70.0.0/16"]
-  location            = var.location
-  resource_group_name = var.resource_group
-  tags                = var.common_tags
-}
-
-resource "azurerm_subnet" "this" {
-  name                 = "finos-ccc-integration-vm-subnet"
-  resource_group_name  = var.resource_group
-  virtual_network_name = azurerm_virtual_network.this.name
-  address_prefixes     = ["10.70.1.0/24"]
-}
-
 resource "azurerm_network_security_group" "this" {
   name                = "finos-ccc-integration-vm-nsg"
   location            = var.location
@@ -51,7 +36,7 @@ resource "azurerm_network_interface" "this" {
 
   ip_configuration {
     name                          = "ipconfig1"
-    subnet_id                     = azurerm_subnet.this.id
+    subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.this.id
   }
@@ -82,8 +67,8 @@ resource "azurerm_linux_virtual_machine" "main" {
   source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-jammy"
-    sku     = "22_04-lts-gen2"
-    version = "latest"
+    sku       = "22_04-lts-gen2"
+    version   = "latest"
   }
 
   tags = merge(var.common_tags, {
