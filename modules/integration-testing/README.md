@@ -5,18 +5,22 @@ Live integration tests for `modules/cloud-api`. They assume integration terrafor
 ## What it does
 
 1. Loads minimal Privateer config for the active cloud: `privateer-config/{aws,azure,gcp}.yml` (only keys required by the CSV + cloud-api implementations).
-2. Reads `integration_calls.csv` — `api` (factory service id), `method`, and literal `arg1`…`arg4`.
-3. Invokes every CSV row on the active provider via reflection (no skipping by cloud). `GetServiceAPI` and method errors—including unimplemented APIs—are logged as non-fatal; the run continues. (Delete currently skipped)
+2. Reads `integration_calls.csv` — `api` (factory service id), `method`, `cloud` (`aws`|`azure`|`gcp`|`all`), `expect_error`, and literal `arg1`…`arg4`. Rows whose `cloud` does not match `INTEGRATION_PROVIDER` are skipped.
+3. Invokes each matching CSV row via reflection. A row with `expect_error=true` passes when the method returns an error. Any other failing row fails the test run (non-zero exit). `DeleteObject` and `DeleteBucket` run for `object-storage` only (paired after create rows in the CSV); other `Delete*` methods are skipped.
 4. Calls `factory.TearDown()` once at the end of the run.
 5. Emits Go coverage for `modules/cloud-api` when run with `-coverpkg`.
 
 ## CSV format
 
 ```csv
-api,method,arg1,arg2,arg3,arg4
-serverless-computing,TriggerDataWrite,finos-ccc-integration-fn-main,,,
-logging,QueryLogs,finos-ccc-integration-fn-main,admin,60,
+api,method,cloud,expect_error,arg1,arg2,arg3,arg4
+serverless-computing,TriggerDataWrite,all,,finos-ccc-integration-fn-main,,
+virtual-machines,UpdateResourcePolicy,aws,true,,,
+logging,QueryLogs,all,,finos-ccc-integration-fn-main,admin,60,
 ```
+
+- `cloud`: `all` runs on every provider; otherwise only that cloud.
+- `expect_error`: `true` when the call is expected to fail (missing fixture, optional API, etc.).
 
 ## Run locally
 
@@ -40,7 +44,9 @@ go test -tags=integration -timeout=45m \
   ./...
 ```
 
-Each CSV row prints `PASS` or `FAIL` to the console when the test finishes (and live with `-v`). `INTEGRATION_PROVIDER` must be set or the test exits immediately.
+Each CSV row prints `PASS` or `FAIL` to the console when the test finishes (and live with `-v`). `INTEGRATION_PROVIDER` must be set or the test exits immediately. If any row fails, `go test` exits with code 1.
+
+Coverage with `-coverpkg=../cloud-api/...` counts all provider implementations; an AWS-only run will show a low percentage until Azure/GCP jobs run or you scope `-coverpkg` to packages you care about for that cloud.
 
 Unit checks:
 

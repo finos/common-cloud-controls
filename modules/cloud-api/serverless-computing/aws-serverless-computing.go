@@ -135,7 +135,7 @@ func (s *AWSServerlessComputingService) GetResourceRegion(_ string) (string, err
 }
 
 func (s *AWSServerlessComputingService) GetReplicationStatus(_ string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("replication status not applicable for serverless-computing")
+	return generic.ReplicationStatusNotApplicable()
 }
 
 func (s *AWSServerlessComputingService) GetInvokeEndpointExposure(functionID string) (*InvokeEndpointExposure, error) {

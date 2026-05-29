@@ -20,12 +20,14 @@ func providerConfigFile(provider string) string {
 }
 
 type callRow struct {
-	API    string
-	Method string
-	Args   []string
+	API         string
+	Method      string
+	Cloud       string
+	ExpectError bool
+	Args        []string
 }
 
-func loadCallRows(csvData string) ([]callRow, error) {
+func loadCallRows(csvData, provider string) ([]callRow, error) {
 	r := csv.NewReader(strings.NewReader(csvData))
 	r.Comment = '#'
 	r.FieldsPerRecord = -1
@@ -53,30 +55,49 @@ func loadCallRows(csvData string) ([]callRow, error) {
 		}
 	}
 
+	provider = strings.ToLower(strings.TrimSpace(provider))
 	var rows []callRow
 	for _, rec := range records[1:] {
 		if len(rec) == 0 || strings.TrimSpace(rec[col["api"]]) == "" {
 			continue
 		}
 		get := func(name string) string {
-			i := col[name]
-			if i >= len(rec) {
+			i, ok := col[name]
+			if !ok || i >= len(rec) {
 				return ""
 			}
 			return strings.TrimSpace(rec[i])
 		}
 		method := get("method")
-		if method == "" || strings.HasPrefix(method, "Delete") {
+		if method == "" {
 			continue
+		}
+		api := get("api")
+		if strings.HasPrefix(method, "Delete") &&
+			(api != "object-storage" || (method != "DeleteObject" && method != "DeleteBucket")) {
+			continue
+		}
+		cloud := strings.ToLower(get("cloud"))
+		if cloud == "" {
+			cloud = "all"
+		}
+		if cloud != "all" && cloud != provider {
+			continue
+		}
+		expectErr := false
+		if raw := strings.ToLower(get("expect_error")); raw == "true" || raw == "yes" || raw == "1" {
+			expectErr = true
 		}
 		args := make([]string, 0, len(argCols))
 		for _, a := range argCols {
 			args = append(args, get(a))
 		}
 		rows = append(rows, callRow{
-			API:    get("api"),
-			Method: method,
-			Args:   args,
+			API:         get("api"),
+			Method:      method,
+			Cloud:       cloud,
+			ExpectError: expectErr,
+			Args:        args,
 		})
 	}
 	return rows, nil

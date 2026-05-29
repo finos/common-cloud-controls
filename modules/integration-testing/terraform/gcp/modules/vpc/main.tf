@@ -36,7 +36,7 @@ resource "google_compute_subnetwork" "bad_public" {
 }
 
 resource "google_compute_network" "cn03_allowed_01" {
-  name                    = "finos-ccc-integration-vpc-cn03-allowed-01"
+  name                    = "finos-ccc-integration-vpc-cn03-allow-01"
   auto_create_subnetworks = false
   project                 = var.project_id
 }

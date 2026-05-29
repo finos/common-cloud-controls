@@ -20,6 +20,14 @@ type ReplicationStatus struct {
 	SyncStatus string           // Data sync state: "InSync", "Lagging", "Unknown"
 }
 
+// ReplicationStatusNotApplicable returns a standard status for services without replication.
+func ReplicationStatusNotApplicable() (*ReplicationStatus, error) {
+	return &ReplicationStatus{
+		Status:     "Disabled",
+		SyncStatus: "Unknown",
+	}, nil
+}
+
 // Service is the generic interface for cloud services
 // This interface can be extended in the future with common methods
 // that all cloud services should implement

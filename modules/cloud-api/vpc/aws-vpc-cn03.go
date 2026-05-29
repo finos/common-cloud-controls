@@ -1,24 +1,15 @@
 package vpc
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/smithy-go"
 )
-
-type cn03TrialMatrix struct {
-	ReceiverVpcID             string
-	PeerOwnerID               string
-	AllowedRequesterVpcIDs    []string
-	DisallowedRequesterVpcIDs []string
-}
 
 func (s *AWSVPCService) EvaluatePeerAgainstAllowList(peerVpcID string) (map[string]interface{}, error) {
 	peerVpcIDStr := strings.TrimSpace(fmt.Sprintf("%v", peerVpcID))
@@ -57,71 +48,15 @@ func (s *AWSVPCService) EvaluatePeerAgainstAllowList(peerVpcID string) (map[stri
 }
 
 func (s *AWSVPCService) AttemptVpcPeeringDryRun(requesterVpcID, peerVpcID string) (map[string]interface{}, error) {
-	return s.attemptVpcPeeringDryRunWithOwner(requesterVpcID, peerVpcID, cn03PeerOwnerID())
-}
-
-func (s *AWSVPCService) RunVpcPeeringDryRunTrialsFromFile(filePath string) (map[string]interface{}, error) {
-	matrix, resolvedPath, err := s.loadCN03TrialMatrix(filePath)
+	requester, err := s.resolveVpcID(requesterVpcID)
 	if err != nil {
 		return nil, err
 	}
-	if matrix.ReceiverVpcID == "" {
-		return nil, fmt.Errorf("CN03 trial matrix file %s is missing receiver_vpc_id", resolvedPath)
-	}
-
-	trials := make([]interface{}, 0, len(matrix.AllowedRequesterVpcIDs)+len(matrix.DisallowedRequesterVpcIDs))
-	unexpectedCount := 0
-
-	runTrials := func(requesterIDs []string, expectedAllowed bool) error {
-		for _, requesterID := range requesterIDs {
-			evidence, dryRunErr := s.attemptVpcPeeringDryRunWithOwner(requesterID, matrix.ReceiverVpcID, matrix.PeerOwnerID)
-			if dryRunErr != nil {
-				return dryRunErr
-			}
-
-			actualAllowed := boolFromEvidence(evidence["DryRunAllowed"])
-			matchesExpectation := actualAllowed == expectedAllowed
-			if !matchesExpectation {
-				unexpectedCount++
-			}
-
-			trial := map[string]interface{}{
-				"RequesterVpcId":     requesterID,
-				"ReceiverVpcId":      matrix.ReceiverVpcID,
-				"ExpectedAllowed":    expectedAllowed,
-				"DryRunAllowed":      actualAllowed,
-				"MatchesExpectation": matchesExpectation,
-				"ExitCode":           evidence["ExitCode"],
-				"ErrorCode":          evidence["ErrorCode"],
-				"Stderr":             evidence["Stderr"],
-			}
-
-			trials = append(trials, trial)
-		}
-		return nil
-	}
-
-	if err := runTrials(matrix.DisallowedRequesterVpcIDs, false); err != nil {
+	peer, err := s.resolveVpcID(peerVpcID)
+	if err != nil {
 		return nil, err
 	}
-	if err := runTrials(matrix.AllowedRequesterVpcIDs, true); err != nil {
-		return nil, err
-	}
-
-	totalTrials := len(trials)
-	return map[string]interface{}{
-		"FilePath":                  resolvedPath,
-		"ReceiverVpcId":             matrix.ReceiverVpcID,
-		"PeerOwnerId":               matrix.PeerOwnerID,
-		"AllowedRequesterVpcIds":    matrix.AllowedRequesterVpcIDs,
-		"DisallowedRequesterVpcIds": matrix.DisallowedRequesterVpcIDs,
-		"AllowedCount":              len(matrix.AllowedRequesterVpcIDs),
-		"DisallowedCount":           len(matrix.DisallowedRequesterVpcIDs),
-		"TotalTrials":               totalTrials,
-		"UnexpectedCount":           unexpectedCount,
-		"Compliant":                 totalTrials > 0 && unexpectedCount == 0,
-		"Trials":                    trials,
-	}, nil
+	return s.attemptVpcPeeringDryRunWithOwner(requester, peer, cn03PeerOwnerID())
 }
 
 func (s *AWSVPCService) attemptVpcPeeringDryRunWithOwner(requesterVpcID, peerVpcID, peerOwnerID string) (map[string]interface{}, error) {
@@ -258,65 +193,6 @@ func (s *AWSVPCService) enrichCN03EnforcementEvidence(requesterVpcID string, evi
 	return evidence
 }
 
-func (s *AWSVPCService) loadCN03TrialMatrix(filePath string) (cn03TrialMatrix, string, error) {
-	resolvedPath := strings.TrimSpace(filePath)
-	if resolvedPath == "" {
-		resolvedPath = strings.TrimSpace(os.Getenv("CN03_PEER_TRIAL_MATRIX_FILE"))
-	}
-	if resolvedPath == "" {
-		return cn03TrialMatrix{}, "", fmt.Errorf("filePath is required (or set CN03_PEER_TRIAL_MATRIX_FILE)")
-	}
-
-	if !filepath.IsAbs(resolvedPath) {
-		if absPath, absErr := filepath.Abs(resolvedPath); absErr == nil {
-			resolvedPath = absPath
-		}
-	}
-
-	fileData, err := os.ReadFile(resolvedPath)
-	if err != nil {
-		return cn03TrialMatrix{}, "", fmt.Errorf("failed to read CN03 trial matrix file %s: %w", resolvedPath, err)
-	}
-
-	raw := make(map[string]interface{})
-	if err := json.Unmarshal(fileData, &raw); err != nil {
-		return cn03TrialMatrix{}, "", fmt.Errorf("failed to parse CN03 trial matrix file %s: %w", resolvedPath, err)
-	}
-
-	// Canonical field names match export-cn03-artifacts.sh / terraform outputs.
-	receiverVpcID := cn03String(raw["receiver_vpc_id"])
-	allowedRequesterIDs := normalizeStringList(cn03StringSlice(raw["allowed_requester_vpc_ids"]))
-	disallowedRequesterIDs := normalizeStringList(cn03StringSlice(raw["disallowed_requester_vpc_ids"]))
-	if len(allowedRequesterIDs) == 0 && len(disallowedRequesterIDs) == 0 {
-		return cn03TrialMatrix{}, "", fmt.Errorf("CN03 trial matrix file %s does not define any requester VPC IDs", resolvedPath)
-	}
-
-	peerOwnerID := firstNonEmptyString(cn03String(raw["peer_owner_id"]), cn03PeerOwnerID())
-
-	return cn03TrialMatrix{
-		ReceiverVpcID:             receiverVpcID,
-		PeerOwnerID:               peerOwnerID,
-		AllowedRequesterVpcIDs:    allowedRequesterIDs,
-		DisallowedRequesterVpcIDs: disallowedRequesterIDs,
-	}, resolvedPath, nil
-}
-
-// cn03IndexedEnvValues reads up to 99 sequentially numbered env vars with the
-// given prefix (e.g. CN03_ALLOWED_REQUESTER_VPC_ID_1..99). All indices are
-// scanned; empty entries are skipped without stopping iteration.
-func cn03IndexedEnvValues(prefix string) []string {
-	values := make([]string, 0)
-	for i := 1; i <= 99; i++ {
-		envKey := fmt.Sprintf("%s%d", prefix, i)
-		rawValue := strings.TrimSpace(os.Getenv(envKey))
-		if rawValue == "" {
-			continue
-		}
-		values = append(values, rawValue)
-	}
-	return normalizeStringList(values)
-}
-
 func cn03String(value interface{}) string {
 	if value == nil {
 		return ""
@@ -390,35 +266,17 @@ type cn03AllowedVpcEntry struct {
 // First-seen wins on deduplication — terraform-fixture sources are resolved
 // first so they take precedence over looser env or yaml definitions.
 func (s *AWSVPCService) resolveCN03AllowedVpcEntriesWithOrigin() ([]cn03AllowedVpcEntry, error) {
-	return s.resolveCN03VpcEntriesWithOrigin(
-		[]string{"CN03_ALLOWED_REQUESTER_VPC_ID_", "CN03_ALLOWED_PEER_VPC_ID_"},
-		[]string{"CN03_ALLOWED_REQUESTER_VPC_IDS", "CN03_ALLOWED_PEER_VPC_IDS"},
-		"allowed-requester-vpc-ids",
-		func(matrix cn03TrialMatrix) []string { return matrix.AllowedRequesterVpcIDs },
-	)
+	return s.resolveCN03VpcEntriesWithOrigin("allowed-requester-vpc-ids")
 }
 
 // resolveCN03DisallowedVpcEntriesWithOrigin resolves the full CN03 disallow-list
 // and tags each entry with the source that introduced it.
 func (s *AWSVPCService) resolveCN03DisallowedVpcEntriesWithOrigin() ([]cn03AllowedVpcEntry, error) {
-	return s.resolveCN03VpcEntriesWithOrigin(
-		[]string{"CN03_DISALLOWED_REQUESTER_VPC_ID_"},
-		[]string{"CN03_DISALLOWED_REQUESTER_VPC_IDS"},
-		"disallowed-requester-vpc-ids",
-		func(matrix cn03TrialMatrix) []string { return matrix.DisallowedRequesterVpcIDs },
-	)
+	return s.resolveCN03VpcEntriesWithOrigin("disallowed-requester-vpc-ids")
 }
 
-// resolveCN03VpcEntriesWithOrigin is the shared resolver for both allow and
-// disallow lists. indexedPrefixes are scanned for indexed env vars; csvEnvKeys
-// are read as comma-separated lists; yamlKey is the environment.yaml vpc
-// service property key; matrixFn extracts the relevant IDs from the trial matrix.
-func (s *AWSVPCService) resolveCN03VpcEntriesWithOrigin(
-	indexedPrefixes []string,
-	csvEnvKeys []string,
-	yamlKey string,
-	matrixFn func(cn03TrialMatrix) []string,
-) ([]cn03AllowedVpcEntry, error) {
+// resolveCN03VpcEntriesWithOrigin reads allow/disallow lists from Privateer vpc vars.
+func (s *AWSVPCService) resolveCN03VpcEntriesWithOrigin(yamlKey string) ([]cn03AllowedVpcEntry, error) {
 	seen := make(map[string]struct{})
 	entries := make([]cn03AllowedVpcEntry, 0)
 
@@ -431,26 +289,6 @@ func (s *AWSVPCService) resolveCN03VpcEntriesWithOrigin(
 		}
 	}
 
-	// terraform-fixture: indexed vars written by export-cn03-artifacts.sh
-	for _, prefix := range indexedPrefixes {
-		add(cn03IndexedEnvValues(prefix), "terraform-fixture")
-	}
-
-	// terraform-fixture: trial matrix file (also written by export-cn03-artifacts.sh)
-	if path := strings.TrimSpace(os.Getenv("CN03_PEER_TRIAL_MATRIX_FILE")); path != "" {
-		if matrix, _, err := s.loadCN03TrialMatrix(path); err == nil {
-			add(matrixFn(matrix), "terraform-fixture")
-		}
-	}
-
-	// env-guardrail: CSV env vars — may be set outside terraform (CI config or user)
-	for _, key := range csvEnvKeys {
-		add([]string{os.Getenv(key)}, "env-guardrail")
-	}
-
-	// yaml-guardrail: defined in Privateer vpc vars. Both list-form
-	// (allowed-requester-vpc-ids: [a, b]) and CSV-form (...-csv: "a,b") are
-	// accepted; entries are deduplicated by the shared `add` closure.
 	vpcCfg := s.config.VpcServiceConfig()
 	switch yamlKey {
 	case "allowed-requester-vpc-ids":
@@ -485,23 +323,23 @@ func (s *AWSVPCService) ValidateAllowListEnforcement(receiverVpcID string) (map[
 // and the passing condition is DryRunAllowed=false. When expectAllowed is true,
 // entries come from the allow-list and the passing condition is DryRunAllowed=true.
 func (s *AWSVPCService) validateEnforcementBatch(receiverVpcID string, expectAllowed bool) (map[string]interface{}, error) {
-	receiverVpcIDStr := strings.TrimSpace(fmt.Sprintf("%v", receiverVpcID))
-	if receiverVpcIDStr == "" {
-		return nil, fmt.Errorf("receiverVpcID is required")
+	receiverVpcIDStr, err := s.resolveVpcID(receiverVpcID)
+	if err != nil {
+		return nil, err
 	}
 
 	var entries []cn03AllowedVpcEntry
-	var err error
+	var listErr error
 	var listType string
 	if expectAllowed {
-		entries, err = s.resolveCN03AllowedVpcEntriesWithOrigin()
+		entries, listErr = s.resolveCN03AllowedVpcEntriesWithOrigin()
 		listType = "allow-list"
 	} else {
-		entries, err = s.resolveCN03DisallowedVpcEntriesWithOrigin()
+		entries, listErr = s.resolveCN03DisallowedVpcEntriesWithOrigin()
 		listType = "disallow-list"
 	}
-	if err != nil {
-		return nil, err
+	if listErr != nil {
+		return nil, listErr
 	}
 
 	results := make([]interface{}, 0, len(entries))
@@ -509,7 +347,11 @@ func (s *AWSVPCService) validateEnforcementBatch(receiverVpcID string, expectAll
 	peerOwnerID := cn03PeerOwnerID()
 
 	for _, entry := range entries {
-		evidence, dryRunErr := s.attemptVpcPeeringDryRunWithOwner(entry.VpcID, receiverVpcIDStr, peerOwnerID)
+		requesterID, resolveErr := s.resolveVpcID(entry.VpcID)
+		if resolveErr != nil {
+			return nil, resolveErr
+		}
+		evidence, dryRunErr := s.attemptVpcPeeringDryRunWithOwner(requesterID, receiverVpcIDStr, peerOwnerID)
 		if dryRunErr != nil {
 			return nil, dryRunErr
 		}

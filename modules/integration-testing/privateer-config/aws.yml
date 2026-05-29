@@ -7,6 +7,7 @@ services:
       region: us-east-1
       function-name: "finos-ccc-integration-fn-main"
       resource: "finos-ccc-integration-vm-main"
+      default-container: "finos-ccc-integration-container-main"
       private-endpoint-url: "https://private-serverless-endpoint.internal.example.com/invoke"
       aws-flow-log-group-name: "/aws/vpc/flow-logs/finos-ccc-integration-vpc"
       allowed-requester-vpc-ids:

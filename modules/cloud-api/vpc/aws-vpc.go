@@ -96,7 +96,7 @@ func (s *AWSVPCService) GetResourceRegion(_ string) (string, error) {
 	return s.config.CloudParams().Region, nil
 }
 func (s *AWSVPCService) GetReplicationStatus(_ string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("replication status not applicable for VPC service")
+	return generic.ReplicationStatusNotApplicable()
 }
 
 func tagValue(tags []types.Tag, key string) string {

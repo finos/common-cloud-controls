@@ -19,6 +19,9 @@ import (
 // Printed from TestMain after the run (go test hides os.Stdout from tests unless -v).
 var callReportLines []string
 
+// integrationFailedCount is set by TestCloudAPIIntegration for TestMain exit code.
+var integrationFailedCount int
+
 func TestMain(m *testing.M) {
 	code := m.Run()
 	if len(callReportLines) > 0 {
@@ -30,6 +33,9 @@ func TestMain(m *testing.M) {
 			}
 		}
 	}
+	if integrationFailedCount > 0 {
+		code = 1
+	}
 	os.Exit(code)
 }
 
@@ -39,7 +45,7 @@ func TestCloudAPIIntegration(t *testing.T) {
 		t.Fatal("INTEGRATION_PROVIDER is required (aws, azure, or gcp)")
 	}
 
-	rows, err := loadCallRows(integrationCallsCSV)
+	rows, err := loadCallRows(integrationCallsCSV, provider)
 	if err != nil {
 		t.Fatalf("load integration_calls.csv: %v", err)
 	}
@@ -77,29 +83,59 @@ func TestCloudAPIIntegration(t *testing.T) {
 	var passed, failed int
 	emitCallLine(fmt.Sprintf("integration_calls.csv on provider %s\n", provider), t)
 	for _, row := range rows {
-		if strings.HasPrefix(row.Method, "Delete") {
+		if !integrationMethodAllowed(row) {
 			continue
 		}
 		label := formatCallRow(row)
 		svc, err := serviceFor(f, services, row.API)
 		if err != nil {
-			failed++
-			emitCallLine(formatCallResult("FAIL", label, err), t)
+			if recordResult(row.ExpectError, true, &passed, &failed) {
+				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", err)), t)
+			} else {
+				emitCallLine(formatCallResult("FAIL", label, err), t)
+			}
 			continue
 		}
-		if err := invokeMethod(svc, row.Method, row.Args); err != nil {
-			failed++
-			emitCallLine(formatCallResult("FAIL", label, err), t)
-			continue
+		callErr := invokeMethod(svc, row.Method, row.Args)
+		if recordResult(row.ExpectError, callErr != nil, &passed, &failed) {
+			if callErr != nil {
+				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", callErr)), t)
+			} else {
+				emitCallLine(formatCallResult("PASS", label, nil), t)
+			}
+		} else if callErr != nil {
+			emitCallLine(formatCallResult("FAIL", label, callErr), t)
+		} else {
+			emitCallLine(formatCallResult("FAIL", label, fmt.Errorf("expected error, got nil")), t)
 		}
-		passed++
-		emitCallLine(formatCallResult("PASS", label, nil), t)
 	}
 	total := passed + failed
 	if total == 0 {
 		t.Fatal("no API methods were invoked for this provider")
 	}
+	integrationFailedCount = failed
 	emitCallLine(fmt.Sprintf("--- %d passed, %d failed (%d total) on %s\n", passed, failed, total, provider), t)
+	if failed > 0 {
+		t.Fatalf("%d integration call(s) failed on %s", failed, provider)
+	}
+}
+
+// recordResult updates pass/fail counts for expect_error semantics. Returns true if the outcome is a pass.
+func recordResult(expectError, gotError bool, passed, failed *int) bool {
+	if expectError {
+		if gotError {
+			*passed++
+			return true
+		}
+		*failed++
+		return false
+	}
+	if gotError {
+		*failed++
+		return false
+	}
+	*passed++
+	return true
 }
 
 func emitCallLine(line string, t *testing.T) {
@@ -134,10 +170,15 @@ func serviceFor(f factory.Factory, cache map[string]generic.Service, api string)
 	return svc, nil
 }
 
-func invokeMethod(svc generic.Service, method string, args []string) error {
-	if strings.HasPrefix(method, "Delete") {
-		return nil
+func integrationMethodAllowed(row callRow) bool {
+	if !strings.HasPrefix(row.Method, "Delete") {
+		return true
 	}
+	return row.API == "object-storage" &&
+		(row.Method == "DeleteObject" || row.Method == "DeleteBucket")
+}
+
+func invokeMethod(svc generic.Service, method string, args []string) error {
 	rv := reflect.ValueOf(svc)
 	for rv.Kind() == reflect.Interface && !rv.IsNil() {
 		rv = rv.Elem()
