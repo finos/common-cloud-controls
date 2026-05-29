@@ -16,10 +16,18 @@ resource "azurerm_resource_group" "this" {
   tags     = local.common_tags
 }
 
+module "vpc" {
+  source         = "./modules/vpc"
+  location       = var.location
+  resource_group = azurerm_resource_group.this.name
+  common_tags    = local.common_tags
+}
+
 module "virtual_machines" {
   source         = "./modules/virtual-machines"
   location         = var.location
   resource_group = azurerm_resource_group.this.name
+  subnet_id      = module.vpc.vm_subnet_id
   common_tags    = local.common_tags
 }
 

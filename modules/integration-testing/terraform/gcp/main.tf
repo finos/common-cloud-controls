@@ -11,6 +11,13 @@ locals {
   }
 }
 
+module "vpc" {
+  source        = "./modules/vpc"
+  project_id    = var.project_id
+  region        = var.region
+  common_labels = local.common_labels
+}
+
 module "virtual_machines" {
   source        = "./modules/virtual-machines"
   project_id    = var.project_id
@@ -28,13 +35,6 @@ module "serverless_computing" {
 
 module "object_storage" {
   source        = "./modules/object-storage"
-  project_id    = var.project_id
-  region        = var.region
-  common_labels = local.common_labels
-}
-
-module "vpc" {
-  source        = "./modules/vpc"
   project_id    = var.project_id
   region        = var.region
   common_labels = local.common_labels

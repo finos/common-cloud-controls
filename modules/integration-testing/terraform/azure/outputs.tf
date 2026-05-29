@@ -31,6 +31,17 @@ output "object_storage" {
   }
 }
 
+output "vpc" {
+  value = {
+    resource_name                    = module.vpc.resource_name
+    receiver_vpc_id                  = module.vpc.receiver_vpc_id
+    non_allowlisted_requester_vpc_id = module.vpc.non_allowlisted_requester_vpc_id
+    allowed_requester_vpc_ids        = module.vpc.allowed_requester_vpc_ids
+    disallowed_requester_vpc_ids     = module.vpc.disallowed_requester_vpc_ids
+    bad_vpc_id                       = module.vpc.bad_vpc_id
+  }
+}
+
 output "logging" {
   value = {
     resource_name                     = module.logging.resource_name

@@ -6,12 +6,16 @@ output "receiver_vpc_id" {
   value = aws_vpc.good.id
 }
 
+output "vm_subnet_id" {
+  value = aws_subnet.vm.id
+}
+
 output "bad_vpc_id" {
   value = aws_vpc.bad.id
 }
 
 output "non_allowlisted_requester_vpc_id" {
-  value = aws_vpc.cn03_non_allowlisted.id
+  value = aws_vpc.bad.id
 }
 
 output "allowed_requester_vpc_ids" {
@@ -24,7 +28,7 @@ output "allowed_requester_vpc_ids" {
 output "disallowed_requester_vpc_ids" {
   value = [
     aws_vpc.cn03_disallowed_01.id,
-    aws_vpc.cn03_disallowed_02.id,
+    aws_vpc.bad.id,
   ]
 }
 

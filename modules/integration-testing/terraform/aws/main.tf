@@ -9,9 +9,16 @@ locals {
   }
 }
 
+module "vpc" {
+  source      = "./modules/vpc"
+  common_tags = local.common_tags
+}
+
 module "virtual_machines" {
   source        = "./modules/virtual-machines"
   instance_type = var.vm_instance_type
+  subnet_id     = module.vpc.vm_subnet_id
+  vpc_id        = module.vpc.receiver_vpc_id
   common_tags   = local.common_tags
 }
 
@@ -22,11 +29,6 @@ module "serverless_computing" {
 
 module "object_storage" {
   source      = "./modules/object-storage"
-  common_tags = local.common_tags
-}
-
-module "vpc" {
-  source      = "./modules/vpc"
   common_tags = local.common_tags
 }
 

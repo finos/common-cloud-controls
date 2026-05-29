@@ -1,5 +1,6 @@
 variable "location" { type = string }
 variable "resource_group" { type = string }
+variable "subnet_id" { type = string }
 variable "common_tags" { type = map(string) }
 
 variable "vm_size" {

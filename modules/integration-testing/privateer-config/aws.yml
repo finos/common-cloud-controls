@@ -1,5 +1,6 @@
 # Minimal vars for cloud-api integration tests (integration_calls.csv).
-# VPC IDs and flow-log group must match terraform output after apply.
+# VPC IDs and flow-log group must match terraform output -json vpc after apply.
+# Five VPCs: two allow-list peers, bad (also non-allowlisted + second disallowed), receiver.
 
 services:
   integration:

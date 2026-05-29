@@ -7,42 +7,9 @@ data "aws_ami" "amazon_linux_2" {
   }
 }
 
-resource "aws_vpc" "this" {
-  cidr_block = "10.60.0.0/16"
-  tags = merge(var.common_tags, {
-    Name = "finos-ccc-integration-vm-vpc"
-  })
-}
-
-resource "aws_subnet" "this" {
-  vpc_id                  = aws_vpc.this.id
-  cidr_block              = "10.60.1.0/24"
-  map_public_ip_on_launch = true
-  tags = merge(var.common_tags, {
-    Name = "finos-ccc-integration-vm-subnet"
-  })
-}
-
-resource "aws_internet_gateway" "this" {
-  vpc_id = aws_vpc.this.id
-}
-
-resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.this.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.this.id
-  }
-}
-
-resource "aws_route_table_association" "this" {
-  subnet_id      = aws_subnet.this.id
-  route_table_id = aws_route_table.public.id
-}
-
 resource "aws_security_group" "vm" {
   name   = "finos-ccc-integration-vm-sg"
-  vpc_id = aws_vpc.this.id
+  vpc_id = var.vpc_id
 
   ingress {
     from_port   = 22
@@ -62,7 +29,7 @@ resource "aws_security_group" "vm" {
 resource "aws_instance" "main" {
   ami                         = data.aws_ami.amazon_linux_2.id
   instance_type               = var.instance_type
-  subnet_id                   = aws_subnet.this.id
+  subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [aws_security_group.vm.id]
   associate_public_ip_address = true
 
