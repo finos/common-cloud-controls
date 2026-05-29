@@ -70,7 +70,7 @@ func (s *AzureVirtualMachinesService) GetResourceRegion(string) (string, error) 
 	return s.config.CloudParams().Region, nil
 }
 func (s *AzureVirtualMachinesService) GetReplicationStatus(string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("replication status not applicable for virtual-machines")
+	return generic.ReplicationStatusNotApplicable()
 }
 func (s *AzureVirtualMachinesService) TearDown() error { return nil }
 func (s *AzureVirtualMachinesService) GetVolumeEncryptionStatus(string) (*VolumeEncryptionResult, error) {
