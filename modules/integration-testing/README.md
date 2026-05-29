@@ -26,10 +26,12 @@ logging,QueryLogs,all,,finos-ccc-integration-fn-main,admin,60,
 
 ```bash
 cd modules/integration-testing
-./run-integration-tests.sh aws    # or azure | gcp
+./run-integration-tests.sh aws    # or azure | gcp | all
 ```
 
 The script sets `INTEGRATION_PROVIDER`, sources `user-creation/azure-env.sh` or `gcp-env.sh` when present, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
+
+`./run-integration-tests.sh all` runs aws, then azure, then gcp (continues on failure), writes per-cloud artifacts as above, and merges coverage into `coverage-integration-all.out` / `.html` via [`gocovmerge`](https://github.com/wadey/gocovmerge) (`go run` on first use).
 
 Manual equivalent:
 
