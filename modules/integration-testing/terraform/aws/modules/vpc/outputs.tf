@@ -21,13 +21,13 @@ output "non_allowlisted_requester_vpc_id" {
 output "allowed_requester_vpc_ids" {
   value = [
     aws_vpc.cn03_allowed_01.id,
-    aws_vpc.cn03_allowed_02.id,
+    aws_vpc.cn03_allowed_01.id,
   ]
 }
 
 output "disallowed_requester_vpc_ids" {
   value = [
-    aws_vpc.cn03_disallowed_01.id,
+    aws_vpc.bad.id,
     aws_vpc.bad.id,
   ]
 }

@@ -9,3 +9,9 @@ services:
       function-name: "finos-ccc-integration-fn-main"
       private-endpoint-url: "internal-only"
       gcp-flow-log-name: "compute.googleapis.com%2Fvpc_flows"
+      allowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+      disallowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-bad"
+        - "finos-ccc-integration-vpc-bad"

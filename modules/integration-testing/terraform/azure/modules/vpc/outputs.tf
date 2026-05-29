@@ -21,13 +21,13 @@ output "non_allowlisted_requester_vpc_id" {
 output "allowed_requester_vpc_ids" {
   value = [
     azurerm_virtual_network.cn03_allowed_01.id,
-    azurerm_virtual_network.cn03_allowed_02.id,
+    azurerm_virtual_network.cn03_allowed_01.id,
   ]
 }
 
 output "disallowed_requester_vpc_ids" {
   value = [
-    azurerm_virtual_network.cn03_disallowed_01.id,
+    azurerm_virtual_network.bad.id,
     azurerm_virtual_network.bad.id,
   ]
 }
