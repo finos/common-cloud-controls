@@ -5,8 +5,8 @@ variable "common_tags" { type = map(string) }
 
 variable "vm_size" {
   type        = string
-  default     = "Standard_B1ls_v2"
-  description = "Small Gen2 burstable (Bsv2) size for integration fixtures; override if unavailable in region."
+  default     = "Standard_D2s_v3"
+  description = "General-purpose size for integration fixtures; B-series often lacks capacity in westus2. Override via TF_VAR_vm_size."
 }
 
 variable "encryption_at_host_enabled" {

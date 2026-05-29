@@ -33,24 +33,40 @@ object-storage,ListBuckets,all,,,,
 object-storage,GetBucketRegion,all,,finos-ccc-integration-container-main,,
 object-storage,GetBucketRetentionDurationDays,all,,finos-ccc-integration-container-main,,
 object-storage,ListObjects,all,,finos-ccc-integration-container-main,,
-object-storage,CreateObject,all,,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,integration test probe
+object-storage,CreateObject,aws,,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,integration test probe
+object-storage,CreateObject,azure,,finos-ccc-integration-container-main,finos-ccc-integration-azure-write-probe.txt,integration test probe
+object-storage,CreateObject,gcp,,finos-ccc-integration-container-main,finos-ccc-integration-gcp-write-probe.txt,integration test probe
 object-storage,TriggerDataWrite,all,,finos-ccc-integration-container-main,,
 object-storage,TriggerDataRead,all,,finos-ccc-integration-container-main,,
 object-storage,ReadObject,all,,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,
 object-storage,GetObjectRetentionDurationDays,all,,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,
 object-storage,GetResourceRegion,all,,finos-ccc-integration-container-main,,
 object-storage,GetReplicationStatus,all,,finos-ccc-integration-container-main,,
-object-storage,ListObjectVersions,all,,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,
+object-storage,ListObjectVersions,aws,,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,
+object-storage,ListObjectVersions,azure,,finos-ccc-integration-container-main,finos-ccc-integration-azure-write-probe.txt,
+object-storage,ListObjectVersions,gcp,,finos-ccc-integration-container-main,finos-ccc-integration-gcp-write-probe.txt,
 object-storage,UpdateBucketPolicy,all,,finos-ccc-integration-container-main,integration-test,
 object-storage,ListDeletedBuckets,all,,,,
 object-storage,CreateBucket,aws,,finos-ccc-integration-temp-csv,,
 object-storage,CreateObject,aws,,finos-ccc-integration-temp-csv,finos-ccc-integration-temp-csv.txt,temp
 object-storage,DeleteObject,aws,,finos-ccc-integration-temp-csv,finos-ccc-integration-temp-csv.txt,
 object-storage,DeleteBucket,aws,,finos-ccc-integration-temp-csv,,
+object-storage,CreateBucket,gcp,,finos-ccc-integration-temp-csv-gcp,,
+object-storage,CreateObject,gcp,,finos-ccc-integration-temp-csv-gcp,finos-ccc-integration-temp-csv-gcp.txt,temp
+object-storage,DeleteObject,gcp,,finos-ccc-integration-temp-csv-gcp,finos-ccc-integration-temp-csv-gcp.txt,
+object-storage,DeleteBucket,gcp,,finos-ccc-integration-temp-csv-gcp,,
 object-storage,SetObjectPermission,all,true,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,read
 object-storage,RestoreBucket,all,true,finos-ccc-integration-container-main,,
-object-storage,SetBucketRetentionDurationDays,all,true,finos-ccc-integration-container-main,7,
-object-storage,ReadObjectAtVersion,all,,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,latest
+object-storage,SetBucketRetentionDurationDays,aws,true,finos-ccc-integration-container-main,7,
+object-storage,SetBucketRetentionDurationDays,gcp,,finos-ccc-integration-container-main,7,
+object-storage,ReadObjectAtVersion,gcp,,finos-ccc-integration-container-main,finos-ccc-integration-gcp-write-probe.txt,latest
+object-storage,ReadObjectAtVersion,aws,,finos-ccc-integration-container-main,finos-ccc-integration-probe.txt,latest
+object-storage,ReadObjectAtVersion,azure,,finos-ccc-integration-container-main,finos-ccc-integration-azure-write-probe.txt,latest
+object-storage,CreateBucket,azure,,finos-ccc-integration-temp-csv-azure,,
+object-storage,CreateObject,azure,,finos-ccc-integration-temp-csv-azure,finos-ccc-integration-temp-csv-azure.txt,temp
+object-storage,DeleteObject,azure,,finos-ccc-integration-temp-csv-azure,finos-ccc-integration-temp-csv-azure.txt,
+object-storage,DeleteBucket,azure,,finos-ccc-integration-temp-csv-azure,,
+object-storage,SetBucketRetentionDurationDays,azure,,finos-ccc-integration-container-main,7,
 object-storage,IsDataReplicatedToSeparateLocation,all,,finos-ccc-integration-container-main,,
 object-storage,ResetAccess,all,,,,
 vpc,CheckUserProvisioned,all,,,,

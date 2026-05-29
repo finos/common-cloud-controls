@@ -6,6 +6,7 @@ services:
       provider: gcp
       region: us-central1
       gcp-project-id: "${GCP_PROJECT_ID}"
+      default-container: "finos-ccc-integration-container-main"
       function-name: "finos-ccc-integration-fn-main"
       private-endpoint-url: "internal-only"
       gcp-flow-log-name: "compute.googleapis.com%2Fvpc_flows"

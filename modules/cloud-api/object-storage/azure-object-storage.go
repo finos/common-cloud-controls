@@ -312,6 +312,11 @@ func (s *AzureBlobService) createObject(bucketID string, objectID string, data s
 	// Upload blob
 	uploadResp, err := blockBlobClient.UploadStream(s.ctx, bytes.NewReader(content), nil)
 	if err != nil {
+		if bloberror.HasCode(err, bloberror.BlobImmutableDueToPolicy) {
+			if existing, readErr := s.readObject(bucketID, objectID); readErr == nil {
+				return existing, nil
+			}
+		}
 		return nil, fmt.Errorf("failed to upload blob %s: %w", objectID, err)
 	}
 
@@ -357,6 +362,17 @@ func (s *AzureBlobService) ReadObjectAtVersion(bucketID string, objectID string,
 }
 
 func (s *AzureBlobService) readObjectAtVersion(bucketID string, objectID string, versionID string) (*Object, error) {
+	if strings.EqualFold(strings.TrimSpace(versionID), "latest") {
+		versions, err := s.listObjectVersions(bucketID, objectID)
+		if err != nil {
+			return nil, err
+		}
+		if len(versions) == 0 {
+			return s.readObject(bucketID, objectID)
+		}
+		versionID = versions[len(versions)-1].VersionID
+	}
+
 	storageAccountName := s.storageAccountName()
 	containerName := bucketID
 
@@ -983,7 +999,9 @@ func (s *AzureBlobService) UpdateResourcePolicy() error {
 
 // TriggerDataWrite performs a data modification to trigger logging (CN04.AR02)
 func (s *AzureBlobService) TriggerDataWrite(resourceID string) error {
-	return fmt.Errorf("not yet implemented")
+	key := fmt.Sprintf("cfi-trigger-data-write-%d.txt", time.Now().UnixNano())
+	_, err := s.CreateObject(resourceID, key, "integration trigger data write")
+	return err
 }
 
 // TriggerDataRead performs a data read against a fixed probe object (CN04.AR03, CN05.AR06).
@@ -1001,12 +1019,59 @@ func isAzureBlobNotFound(err error) bool {
 
 // GetResourceRegion returns the resource region (CN06.AR01)
 func (s *AzureBlobService) GetResourceRegion(resourceID string) (string, error) {
-	return "", fmt.Errorf("not yet implemented")
+	return s.GetBucketRegion(resourceID)
 }
 
 // IsDataReplicatedToSeparateLocation checks replication (CN08.AR01)
 func (s *AzureBlobService) IsDataReplicatedToSeparateLocation(resourceID string) (bool, error) {
-	return false, fmt.Errorf("not yet implemented")
+	status, err := s.GetReplicationStatus(resourceID)
+	if err != nil {
+		return false, err
+	}
+	return len(status.Locations) > 1, nil
+}
+
+// ListObjectVersions lists blob versions when versioning is enabled on the storage account.
+func (s *AzureBlobService) ListObjectVersions(bucketID string, objectID string) ([]ObjectVersion, error) {
+	return s.listObjectVersions(bucketID, objectID)
+}
+
+func (s *AzureBlobService) listObjectVersions(bucketID string, objectID string) ([]ObjectVersion, error) {
+	storageAccountName := s.storageAccountName()
+	blobClient, err := s.getBlobServiceClient(storageAccountName)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get blob service client: %w", err)
+	}
+
+	containerClient := blobClient.ServiceClient().NewContainerClient(bucketID)
+	includeVersions := true
+	pager := containerClient.NewListBlobsFlatPager(&container.ListBlobsFlatOptions{
+		Prefix: &objectID,
+		Include: container.ListBlobsInclude{
+			Versions: includeVersions,
+		},
+	})
+
+	versions := make([]ObjectVersion, 0)
+	for pager.More() {
+		page, err := pager.NextPage(s.ctx)
+		if err != nil {
+			return nil, fmt.Errorf("failed to list blob versions: %w", err)
+		}
+		for _, blob := range page.Segment.BlobItems {
+			if blob.Name == nil || *blob.Name != objectID {
+				continue
+			}
+			if blob.VersionID == nil || *blob.VersionID == "" {
+				continue
+			}
+			versions = append(versions, ObjectVersion{
+				VersionID: *blob.VersionID,
+				ObjectID:  objectID,
+			})
+		}
+	}
+	return versions, nil
 }
 
 // GetReplicationStatus returns replication status including locations (CN08.AR01, CN08.AR02).

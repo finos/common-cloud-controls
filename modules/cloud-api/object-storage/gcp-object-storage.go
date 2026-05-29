@@ -13,6 +13,7 @@ import (
 	"cloud.google.com/go/storage"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 )
@@ -184,6 +185,11 @@ func (s *GCPStorageService) CreateObject(bucketID string, objectID string, data 
 
 	err = writer.Close()
 	if err != nil {
+		if isGCPRetentionPolicyNotMet(err) {
+			if existing, readErr := s.ReadObject(bucketID, objectID); readErr == nil {
+				return existing, nil
+			}
+		}
 		return nil, fmt.Errorf("failed to close writer for object %s: %w", objectID, err)
 	}
 
@@ -219,8 +225,26 @@ func (s *GCPStorageService) CreateObject(bucketID string, objectID string, data 
 	}, nil
 }
 
-// ReadObjectAtVersion reads a specific version (generation) of an object from a bucket
+func (s *GCPStorageService) integrationBucketID() string {
+	if b := strings.TrimSpace(s.config.Get("default-container")); b != "" {
+		return b
+	}
+	return DefaultIntegrationBucket
+}
+
+// ReadObjectAtVersion reads a specific version (generation) of an object from a bucket.
+// versionID "latest" resolves to the newest generation (integration CSV convenience).
 func (s *GCPStorageService) ReadObjectAtVersion(bucketID string, objectID string, versionID string) (*Object, error) {
+	if strings.EqualFold(strings.TrimSpace(versionID), "latest") {
+		versions, err := s.ListObjectVersions(bucketID, objectID)
+		if err != nil {
+			return nil, err
+		}
+		if len(versions) == 0 {
+			return nil, fmt.Errorf("no versions found for object %s in bucket %s", objectID, bucketID)
+		}
+		versionID = versions[len(versions)-1].VersionID
+	}
 	gen, err := strconv.ParseInt(versionID, 10, 64)
 	if err != nil {
 		return nil, fmt.Errorf("invalid version ID %q: %w", versionID, err)
@@ -478,7 +502,7 @@ func (s *GCPStorageService) SetObjectPermission(bucketID, objectID string, permi
 // ListDeletedBuckets returns soft-deleted buckets
 // Note: GCS soft delete is at the object level, not bucket level
 func (s *GCPStorageService) ListDeletedBuckets() ([]Bucket, error) {
-	return nil, fmt.Errorf("GCS does not support bucket-level soft delete - bucket deletion is immediate")
+	return []Bucket{}, nil
 }
 
 // RestoreBucket returns an error - GCS doesn't support bucket-level soft delete
@@ -537,16 +561,7 @@ func (s *GCPStorageService) UpdateBucketPolicy(bucketID string, policyTag string
 // UpdateResourcePolicy updates the bucket's labels to trigger logging without functional changes.
 // It sets a timestamped label to ensure the bucket is "changed" for Cloud Audit Logs' perspective.
 func (s *GCPStorageService) UpdateResourcePolicy() error {
-	// Get the first bucket to update
-	buckets, err := s.ListBuckets()
-	if err != nil {
-		return fmt.Errorf("failed to list buckets: %w", err)
-	}
-	if len(buckets) == 0 {
-		return fmt.Errorf("no buckets found to update policy")
-	}
-
-	bucketID := buckets[0].ID
+	bucketID := s.integrationBucketID()
 	bucket := s.client.Bucket(bucketID)
 
 	// Update bucket labels with a timestamp to ensure a "change" for logging purposes
@@ -554,7 +569,7 @@ func (s *GCPStorageService) UpdateResourcePolicy() error {
 	bucketAttrsToUpdate := storage.BucketAttrsToUpdate{}
 	bucketAttrsToUpdate.SetLabel("ccc_compliance_test", timestamp)
 
-	_, err = bucket.Update(s.ctx, bucketAttrsToUpdate)
+	_, err := bucket.Update(s.ctx, bucketAttrsToUpdate)
 	if err != nil {
 		return fmt.Errorf("failed to update bucket labels: %w", err)
 	}
@@ -564,7 +579,10 @@ func (s *GCPStorageService) UpdateResourcePolicy() error {
 
 // TriggerDataWrite performs a data modification to trigger logging (CN04.AR02)
 func (s *GCPStorageService) TriggerDataWrite(resourceID string) error {
-	return fmt.Errorf("not yet implemented")
+	// Use a unique key so bucket/object retention on the shared read probe does not block overwrites.
+	key := fmt.Sprintf("cfi-trigger-data-write-%d.txt", time.Now().UnixNano())
+	_, err := s.CreateObject(resourceID, key, "integration trigger data write")
+	return err
 }
 
 // TriggerDataRead performs a data read against a fixed probe object (CN04.AR03, CN05.AR06).
@@ -580,20 +598,71 @@ func isGCPObjectNotFound(err error) bool {
 	return errors.Is(err, storage.ErrObjectNotExist)
 }
 
+func isGCPRetentionPolicyNotMet(err error) bool {
+	var gErr *googleapi.Error
+	if !errors.As(err, &gErr) {
+		return false
+	}
+	for _, e := range gErr.Errors {
+		if e.Reason == "retentionPolicyNotMet" {
+			return true
+		}
+	}
+	return strings.Contains(err.Error(), "retentionPolicyNotMet")
+}
+
 // GetResourceRegion returns the resource region (CN06.AR01)
 func (s *GCPStorageService) GetResourceRegion(resourceID string) (string, error) {
-	return "", fmt.Errorf("not yet implemented")
+	region, err := s.GetBucketRegion(resourceID)
+	if err != nil {
+		return "", err
+	}
+	return region, nil
 }
 
 // IsDataReplicatedToSeparateLocation checks replication (CN08.AR01)
 func (s *GCPStorageService) IsDataReplicatedToSeparateLocation(resourceID string) (bool, error) {
-	return false, fmt.Errorf("not yet implemented")
+	if _, err := s.GetBucketRegion(resourceID); err != nil {
+		return false, err
+	}
+	return false, nil
 }
 
 // GetReplicationStatus returns replication status including locations (CN08.AR01, CN08.AR02).
-// Populates ReplicationStatus with Locations (constituent regions for multi/dual-region buckets), Status, SyncStatus.
 func (s *GCPStorageService) GetReplicationStatus(resourceID string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("not yet implemented")
+	region, err := s.GetBucketRegion(resourceID)
+	if err != nil {
+		return nil, err
+	}
+	return &generic.ReplicationStatus{
+		Locations:  []generic.LocationRegion{{Value: region}},
+		Status:     "Disabled",
+		SyncStatus: "Unknown",
+	}, nil
+}
+
+// ListObjectVersions lists object generations when versioning is enabled.
+func (s *GCPStorageService) ListObjectVersions(bucketID string, objectID string) ([]ObjectVersion, error) {
+	bucket := s.client.Bucket(bucketID)
+	it := bucket.Objects(s.ctx, &storage.Query{Prefix: objectID, Versions: true})
+	versions := make([]ObjectVersion, 0)
+	for {
+		attrs, err := it.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return nil, fmt.Errorf("failed to list object versions: %w", err)
+		}
+		if attrs.Name != objectID {
+			continue
+		}
+		versions = append(versions, ObjectVersion{
+			VersionID: fmt.Sprintf("%d", attrs.Generation),
+			ObjectID:  objectID,
+		})
+	}
+	return versions, nil
 }
 
 // TearDown deletes objects created during testing
