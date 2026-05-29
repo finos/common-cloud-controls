@@ -66,7 +66,7 @@ func (s *AzureServerlessComputingService) GetResourceRegion(string) (string, err
 	return s.config.CloudParams().Region, nil
 }
 func (s *AzureServerlessComputingService) GetReplicationStatus(string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("replication status not applicable for serverless-computing")
+	return generic.ReplicationStatusNotApplicable()
 }
 func (s *AzureServerlessComputingService) TearDown() error { return nil }
 func (s *AzureServerlessComputingService) GetInvokeEndpointExposure(string) (*InvokeEndpointExposure, error) {
@@ -92,12 +92,7 @@ func (s *AzureServerlessComputingService) AttemptPrivateInvoke(functionID string
 func (s *AzureServerlessComputingService) AttemptPublicInternetInvoke(functionID string) (*InvokeAttemptResult, error) {
 	url := strings.TrimSpace(s.config.Get("public-invoke-url"))
 	if url == "" {
-		return &InvokeAttemptResult{
-			Invoked:      false,
-			AccessDenied: true,
-			StatusCode:   0,
-			Error:        "no public invoke URL available",
-		}, nil
+		return nil, fmt.Errorf("no public invoke URL available (set public-invoke-url)")
 	}
 	return invokeHTTP(url, map[string]string{"function": functionID, "path": "public"})
 }
@@ -107,7 +102,10 @@ func (s *AzureServerlessComputingService) InvokeFunctionBurst(functionID string,
 	}
 	url := strings.TrimSpace(s.config.Get("public-invoke-url"))
 	if url == "" {
-		return nil, fmt.Errorf("no public invoke URL available for burst invoke")
+		url = strings.TrimSpace(s.config.Get("private-endpoint-url"))
+	}
+	if url == "" || url == "internal-only" {
+		return nil, fmt.Errorf("no invoke URL available for burst invoke")
 	}
 	result := &BurstInvokeResult{}
 	for i := 0; i < count; i++ {

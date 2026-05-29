@@ -11,6 +11,7 @@ import (
 	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
+	vpcapi "github.com/finos/common-cloud-controls/cloud-api/vpc"
 )
 
 // GCPFactory implements the Factory interface for GCP
@@ -64,6 +65,11 @@ func (f *GCPFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
 		}
+	case "vpc":
+		service, err = vpcapi.NewGCPVPCService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for GCP: %s", serviceID)
@@ -110,6 +116,11 @@ func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		}
 	case "serverless-computing":
 		service, err = serverlesscomputing.NewGCPServerlessComputingServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "vpc":
+		service, err = vpcapi.NewGCPVPCServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}

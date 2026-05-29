@@ -143,13 +143,22 @@ func (s *GCPServerlessComputingService) UpdateResourcePolicy() error {
 		fn.Labels = map[string]string{}
 	}
 	fn.Labels["ccc-compliance-touch"] = time.Now().UTC().Format("20060102t150405z")
-	_, err = s.cfService.Projects.Locations.Functions.Patch(fn.Name, &cloudfunctions.Function{
+	patch := s.cfService.Projects.Locations.Functions.Patch(fn.Name, &cloudfunctions.Function{
 		Labels: fn.Labels,
-	}).UpdateMask("labels").Do()
-	if err != nil {
+	}).UpdateMask("labels")
+	for attempt := 0; attempt < 5; attempt++ {
+		_, err = patch.Do()
+		if err == nil {
+			return nil
+		}
+		var gErr *googleapi.Error
+		if errors.As(err, &gErr) && gErr.Code == http.StatusConflict {
+			time.Sleep(time.Duration(attempt+1) * 2 * time.Second)
+			continue
+		}
 		return fmt.Errorf("failed to update function labels: %w", err)
 	}
-	return nil
+	return fmt.Errorf("failed to update function labels after retries: %w", err)
 }
 func (s *GCPServerlessComputingService) TriggerDataWrite(resourceID string) error {
 	return s.triggerFunction(resourceID, "write")
@@ -161,7 +170,7 @@ func (s *GCPServerlessComputingService) GetResourceRegion(string) (string, error
 	return s.config.CloudParams().Region, nil
 }
 func (s *GCPServerlessComputingService) GetReplicationStatus(string) (*generic.ReplicationStatus, error) {
-	return nil, fmt.Errorf("replication status not applicable for serverless-computing")
+	return generic.ReplicationStatusNotApplicable()
 }
 func (s *GCPServerlessComputingService) TearDown() error { return nil }
 func (s *GCPServerlessComputingService) GetInvokeEndpointExposure(functionID string) (*InvokeEndpointExposure, error) {
@@ -205,14 +214,9 @@ func (s *GCPServerlessComputingService) AttemptPublicInternetInvoke(functionID s
 		url = strings.TrimSpace(exposure.PublicEndpointURL)
 	}
 	if url == "" {
-		return &InvokeAttemptResult{
-			Invoked:      false,
-			AccessDenied: true,
-			StatusCode:   0,
-			Error:        "no public invoke URL available",
-		}, nil
+		return nil, fmt.Errorf("no public invoke URL available (set public-invoke-url or expose function with ALLOW_ALL ingress)")
 	}
-	return s.invokeHTTP(url, map[string]string{"function": functionID, "path": "public"})
+	return s.invokeHTTPUnauthenticated(url, map[string]string{"function": functionID, "path": "public"})
 }
 func (s *GCPServerlessComputingService) InvokeFunctionBurst(functionID string, count int) (*BurstInvokeResult, error) {
 	return s.invokeFunctionBurstInternal(functionID, count)
@@ -238,16 +242,9 @@ func (s *GCPServerlessComputingService) invokeFunctionBurstInternal(functionID s
 	if count <= 0 {
 		return nil, fmt.Errorf("count must be > 0")
 	}
-	url := strings.TrimSpace(s.config.Get("public-invoke-url"))
-	if url == "" {
-		exposure, err := s.GetInvokeEndpointExposure(functionID)
-		if err != nil {
-			return nil, err
-		}
-		url = strings.TrimSpace(exposure.PublicEndpointURL)
-	}
-	if url == "" {
-		return nil, fmt.Errorf("no invoke URL available for burst invoke")
+	url, err := s.functionAuthenticatedInvokeURL(functionID)
+	if err != nil {
+		return nil, err
 	}
 	result := &BurstInvokeResult{}
 	for i := 0; i < count; i++ {
@@ -316,6 +313,46 @@ func (s *GCPServerlessComputingService) getFunction(functionName string) (*cloud
 		return nil, fmt.Errorf("failed to get function %q: %w", functionName, err)
 	}
 	return fn, nil
+}
+
+func (s *GCPServerlessComputingService) functionAuthenticatedInvokeURL(functionID string) (string, error) {
+	if url := strings.TrimSpace(s.config.Get("public-invoke-url")); url != "" {
+		return url, nil
+	}
+	fn, err := s.getFunction(s.functionResourceName(functionID))
+	if err != nil {
+		return "", err
+	}
+	if fn.ServiceConfig == nil || strings.TrimSpace(fn.ServiceConfig.Uri) == "" {
+		return "", fmt.Errorf("no invoke URL available for function %s", functionID)
+	}
+	return strings.TrimSpace(fn.ServiceConfig.Uri), nil
+}
+
+func (s *GCPServerlessComputingService) invokeHTTPUnauthenticated(url string, payload map[string]string) (*InvokeAttemptResult, error) {
+	body, _ := json.Marshal(payload)
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return &InvokeAttemptResult{
+			Invoked:      false,
+			AccessDenied: true,
+			Error:        err.Error(),
+		}, nil
+	}
+	defer resp.Body.Close()
+	out, _ := io.ReadAll(io.LimitReader(resp.Body, 2048))
+	return &InvokeAttemptResult{
+		Invoked:      resp.StatusCode >= 200 && resp.StatusCode < 300,
+		AccessDenied: resp.StatusCode >= 400,
+		StatusCode:   resp.StatusCode,
+		Error:        strings.TrimSpace(string(out)),
+	}, nil
 }
 
 func (s *GCPServerlessComputingService) invokeHTTP(url string, payload map[string]string) (*InvokeAttemptResult, error) {

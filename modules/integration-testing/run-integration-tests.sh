@@ -47,6 +47,25 @@ if [[ "$CLOUD" == "azure" || "$CLOUD" == "gcp" ]]; then
   fi
 fi
 
+if [[ "$CLOUD" == "azure" && -z "${AZURE_LOG_ANALYTICS_WORKSPACE_ID:-}" ]]; then
+  TFSTATE="$SCRIPT_DIR/terraform/azure/terraform.tfstate"
+  if [[ -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
+    AZURE_LOG_ANALYTICS_WORKSPACE_ID="$(jq -r '.outputs.logging.value.azure_log_analytics_workspace_id // empty' "$TFSTATE" | tr -d '\n')"
+    if [[ -n "$AZURE_LOG_ANALYTICS_WORKSPACE_ID" ]]; then
+      export AZURE_LOG_ANALYTICS_WORKSPACE_ID
+      echo "==> AZURE_LOG_ANALYTICS_WORKSPACE_ID from terraform state"
+    fi
+  fi
+fi
+
+if [[ "$CLOUD" == "gcp" && -z "${GCP_PROJECT_ID:-}" ]] && command -v gcloud >/dev/null 2>&1; then
+  GCP_PROJECT_ID="$(gcloud config get-value project 2>/dev/null | tr -d '\n')"
+  export GCP_PROJECT_ID
+  if [[ -n "$GCP_PROJECT_ID" ]]; then
+    echo "==> GCP_PROJECT_ID from gcloud config: $GCP_PROJECT_ID"
+  fi
+fi
+
 cd "$SCRIPT_DIR"
 
 COVER_PROFILE="coverage-integration-${CLOUD}.out"

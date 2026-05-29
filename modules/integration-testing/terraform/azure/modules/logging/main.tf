@@ -37,10 +37,7 @@ resource "azurerm_monitor_diagnostic_setting" "vm" {
   target_resource_id         = var.vm_id
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
 
-  enabled_log {
-    category_group = "allLogs"
-  }
-
+  # Linux VM platform logs to LAW require guest/agent configuration; metrics only here.
   metric {
     category = "AllMetrics"
     enabled  = true
