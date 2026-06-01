@@ -234,23 +234,23 @@ jobs:
                 0)
                   released+=("${build_target} ${asset_type}")
                   if [ "$DRY_RUN" = "true" ]; then
-                    result="✅ Built (dry run — not published)"
+                    result="Built (dry run, not published)"
                   else
                     gh_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${build_target}/${VERSION}"
                     grc_url="https://grc.store/search/${R_AUTHOR}/${R_ARTIFACT}/versions/${VERSION}"
-                    result="✅ [GitHub release](${gh_url}) · [grc.store](${grc_url})"
+                    result="Released — [GitHub release](${gh_url}) · [grc.store](${grc_url})"
                   fi
                   ;;
                 2)
                   skipped_imports_only+=("${build_target} ${asset_type}")
                   echo "::notice::${build_target} ${asset_type}: ${R_REASON} — nothing to release"
-                  result="⏭️ Skipped — ${R_REASON}"
+                  result="Skipped: ${R_REASON}"
                   ;;
                 *)
                   unreleased+=("${build_target} ${asset_type}")
                   # Logged as un-released; per the batch contract this does NOT fail CI.
                   echo "::warning::${build_target} ${asset_type}: ${R_REASON:-unknown failure}"
-                  result="❌ ${R_REASON:-Unknown failure — see the log group above}"
+                  result="Failed: ${R_REASON:-unknown failure — see the log group above}"
                   ;;
               esac
               rows+=("| \`catalogs/${build_target}/${asset_type}.yaml\` | ${result} |")
