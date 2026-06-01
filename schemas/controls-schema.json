@@ -40,157 +40,132 @@
           "additionalProperties": false
         }
       },
-      "control-families": {
+      "controls": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
             "id": {
               "type": "string",
-              "description": "Unique identifier for the control family (e.g., 'Data', 'IAM', 'LM')"
+              "pattern": "^((CCC\\.CN\\d{2,8})|(CCC\\.\\w{1,8}\\.CN\\d{2,8}))$",
+              "description": "Full control ID (e.g., CCC.ObjStor.CN01)"
+            },
+            "group": {
+              "type": "string",
+              "description": "Group id from core/ccc/groups.yaml (e.g., Encryption, Access, Observability, Data, MachineLearning)"
             },
             "title": {
               "type": "string",
-              "description": "Name of the control family (e.g., 'Data')"
+              "description": "Title of the control"
             },
-            "description": {
+            "objective": {
               "type": "string",
-              "description": "Short description of the control family"
+              "description": "Multi-line objective of the control"
             },
-            "controls": {
+            "assessment-requirements": {
               "type": "array",
               "items": {
                 "type": "object",
                 "properties": {
                   "id": {
                     "type": "string",
-                    "pattern": "^((CCC\\.CN\\d{2,8})|(CCC\\.\\w{1,8}\\.CN\\d{2,8}))$",
-                    "description": "Full control ID (e.g., CCC.ObjStor.CN01)"
+                    "pattern": "^((CCC\\.CN\\d{2,8})|(CCC\\.\\w{1,8}\\.CN\\d{2,8}\\.AR\\d{2,8}))$",
+                    "description": "Test requirement ID"
                   },
-                  "title": {
+                  "text": {
                     "type": "string",
-                    "description": "Title of the control"
+                    "description": "Detailed description of the requirement"
                   },
-                  "objective": {
+                  "applicability": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["tlp-clear", "tlp-green", "tlp-amber", "tlp-red"]
+                    }
+                  },
+                  "recommendation": {
                     "type": "string",
-                    "description": "Multi-line objective of the control"
-                  },
-                  "assessment-requirements": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "pattern": "^((CCC\\.CN\\d{2,8})|(CCC\\.\\w{1,8}\\.CN\\d{2,8}\\.AR\\d{2,8}))$",
-                          "description": "Test requirement ID"
-                        },
-                        "text": {
-                          "type": "string",
-                          "description": "Detailed description of the requirement"
-                        },
-                        "applicability": {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "enum": ["tlp-clear", "tlp-green", "tlp-amber", "tlp-red"]
-                          }
-                        },
-                        "recommendation": {
-                          "type": "string",
-                          "description": "Optional recommendation to satisfy this requirement"
-                        }
-                      },
-                      "required": ["id", "text", "applicability"],
-                      "additionalProperties": false
-                    }
-                  },
-                  "threat-mappings": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "reference-id": {
-                          "type": "string"
-                        },
-                        "entries": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "reference-id": {
-                                "type": "string",
-                                "pattern": "^((CCC\\.TH\\d{2,8})|(CCC\\.\\w{1,8}\\.TH\\d{2,8}))$"
-                              },
-                              "strength": {
-                                "type": "integer"
-                              },
-                              "remarks": {
-                                "type": "string"
-                              }
-                            },
-                            "required": ["reference-id"],
-                            "additionalProperties": false
-                          }
-                        },
-                        "remarks": {
-                          "type": "string"
-                        }
-                      },
-                      "required": ["reference-id", "entries"],
-                      "additionalProperties": false
-                    }
-                  },
-                  "guideline-mappings": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "reference-id": {
-                          "type": "string"
-                        },
-                        "entries": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "reference-id": {
-                                "type": "string"
-                              },
-                              "strength": {
-                                "type": "integer"
-                              },
-                              "remarks": {
-                                "type": "string"
-                              }
-                            },
-                            "required": ["reference-id"],
-                            "additionalProperties": false
-                          }
-                        },
-                        "remarks": {
-                          "type": "string"
-                        }
-                      },
-                      "required": ["reference-id", "entries"],
-                      "additionalProperties": false
-                    }
+                    "description": "Optional recommendation to satisfy this requirement"
                   }
                 },
-                "required": ["id", "title", "objective", "assessment-requirements", "threat-mappings", "guideline-mappings"],
+                "required": ["id", "text", "applicability"],
+                "additionalProperties": false
+              }
+            },
+            "threat-mappings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "reference-id": {
+                    "type": "string"
+                  },
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reference-id": {
+                          "type": "string",
+                          "pattern": "^((CCC\\.TH\\d{2,8})|(CCC\\.\\w{1,8}\\.TH\\d{2,8}))$"
+                        },
+                        "strength": {
+                          "type": "integer"
+                        },
+                        "remarks": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["reference-id"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "remarks": {
+                    "type": "string"
+                  }
+                },
+                "required": ["reference-id", "entries"],
+                "additionalProperties": false
+              }
+            },
+            "guideline-mappings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "reference-id": {
+                    "type": "string"
+                  },
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reference-id": {
+                          "type": "string"
+                        },
+                        "strength": {
+                          "type": "integer"
+                        },
+                        "remarks": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["reference-id"],
+                      "additionalProperties": false
+                    }
+                  },
+                  "remarks": {
+                    "type": "string"
+                  }
+                },
+                "required": ["reference-id", "entries"],
                 "additionalProperties": false
               }
             }
           },
-          "required": ["title", "description"],
+          "required": ["id", "group", "title", "objective", "assessment-requirements"],
           "additionalProperties": false
-        }
-      },
-      "controls": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": ["id", "title"]
         }
       }
     },
