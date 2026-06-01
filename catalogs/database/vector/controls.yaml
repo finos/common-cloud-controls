@@ -32,179 +32,183 @@ imported-controls:
         strength: 0 # Not yet specified
         remarks: Secure Network Access Rules
 
-control-families:
-  - title: Vector Indexing
-    description: Controls specific to the management and protection of vector embedding and index operations.
-    controls:
-      - id: CCC.Vector.CN01
-        title: Validate Embeddings Before Indexing
-        objective: |
-          Ensure all incoming embeddings are structurally and statistically validated
-          before indexing to prevent poisoning or corruption.
-        assessment-requirements:
-          - id: CCC.Vector.CN01.AR01
-            text: |
-              When a vector embedding is submitted for indexing, the system MUST validate that it
-              matches expected schema, dimension, and format profiles.
-            applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Vector.TH02
-                remarks: Embedding and Index Poisoning
-              - reference-id: CCC.Vector.TH05
-                remarks: Embedding Format or Dimension Attacks
-              - reference-id: CCC.Core.TH12
-                remarks: Resource Constraints are Exhausted
-        guideline-mappings:
-          - reference-id: FINOS-AIGF
-            entries:
-              - reference-id: AIR-PREV-002
-                remarks: Data Filtering From External Knowledge Bases
-      - id: CCC.Vector.CN02
-        title: Enforce Role-Based Index Lifecycle Management
-        objective: |
-          Restrict index lifecycle operations (create, delete, rollback) to privileged
-          identities using fine-grained access controls.
-        assessment-requirements:
-          - id: CCC.Vector.CN02.AR01
-            text: |
-              When an index lifecycle event is triggered, the service MUST
-              verify that the actor has explicit permissions for the operation type.
-            applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Vector.TH02
-                remarks: Embedding and Index Poisoning
-              - reference-id: CCC.Vector.TH04
-                remarks: Index Corruption or Downgrade
-              - reference-id: CCC.Core.TH01
-                remarks: Access Control is Misconfigured
-        guideline-mappings:
-          - reference-id: FINOS-AIGF
-            entries:
-              - reference-id: AIR-PREV-012
-                remarks: Role-Based Access Control for AI Data
-      - id: CCC.Vector.CN03
-        title: Enforce Metadata-Level Access Controls
-        objective: |
-          Apply access control policies to metadata fields used in filtering to
-          prevent unauthorized exposure or inference.
-        assessment-requirements:
-          - id: CCC.Vector.CN03.AR01
-            text: |
-              When a metadata filter is applied to a query, the service MUST
-              verify the requester is authorized to access that field.
-            applicability: [tlp-amber, tlp-red]
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Vector.TH03
-                remarks: Cross-modal or Metadata Leakage
-              - reference-id: CCC.Core.TH01
-                remarks: Access Control is Misconfigured
-        guideline-mappings:
-          - reference-id: FINOS-AIGF
-            entries:
-              - reference-id: AIR-DET-001
-                remarks: AI Data Leakage Prevention and Detection
-              - reference-id: AIR-PREV-012
-                remarks: Role-Based Access Control for AI Data
-              - reference-id: AIR-DET-016
-                remarks: Preserving Source Data Access Controls in AI Systems
-      - id: CCC.Vector.CN04
-        title: Enforce Ingestion Quotas and Throttling
-        objective: |
-          Prevent ingestion-based DoS or index pollution by
-          rate-limiting vector submissions and enforcing quotas.
-        assessment-requirements:
-          - id: CCC.Vector.CN04.AR01
-            text: |
-              When ingestion exceeds pre-defined thresholds, the service MUST
-              throttle or reject excess vector write operations.
-            applicability: [tlp-green, tlp-amber, tlp-red]
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Vector.TH02
-                remarks: Embedding and Index Poisoning
-              - reference-id: CCC.Core.TH12
-                remarks: Resource Constraints are Exhausted
-        guideline-mappings:
-          - reference-id: FINOS-AIGF
-            entries:
-              - reference-id: AIR-PREV-008
-                remarks: Quality of Service (QoS) and DDoS Prevention for AI Systems
-      - id: CCC.Vector.CN05
-        title: Enforce Index Versioning with Rollback Protection
-        objective: |
-          Ensure vector indexes are versioned and that rollback
-          operations are authorized and auditable.
-        assessment-requirements:
-          - id: CCC.Vector.CN05.AR01
-            text: |
-              When a rollback is attempted, the system MUST log
-              the action and verify rollback authorization.
-            applicability: [tlp-amber, tlp-red]
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Vector.TH04
-                remarks: Index Corruption or Downgrade
-              - reference-id: CCC.Core.TH09
-                remarks: Logs or Monitoring Data are Read by Unauthorized Users
-              - reference-id: CCC.Core.TH04
-                remarks: Data is Replicated to Untrusted or External Locations
-        guideline-mappings:
-          - reference-id: AIR-DET-004
-            entries:
-              - reference-id: AIR-PREV-008
-                remarks: AI System Observability
-      - id: CCC.Vector.CN06
-        title: Enforce Dimensional and Format Constraints
-        objective: |
-          Reject embeddings that do not conform to expected model
-          specifications (dimensions, format, etc).
-        assessment-requirements:
-          - id: CCC.Vector.CN06.AR01
-            text: |
-              When an embedding is submitted, the service MUST validate
-              that its format and dimensionality match allowed profiles.
-            applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Vector.TH05
-                remarks: Embedding Format or Dimension Attacks
-              - reference-id: CCC.Core.TH06
-                remarks: Data is Lost or Corrupted
-        guideline-mappings:
-            - reference-id: FINOS-AIGF
-              entries:
-              - reference-id: AIR-PREV-002
-                remarks: Data Filtering From External Knowledge Bases
-      - id: CCC.Vector.CN07
-        title: Support Explicit ANN vs. Exact Search Configuration
-        objective: |
-          Provide clients with the option to enforce exact-match
-          (non-ANN) search where search fidelity is critical.
-        assessment-requirements:
-          - id: CCC.Vector.CN07.AR01
-            text: |
-              When a search request is issued, clients MUST be allowed
-              to declare their requirement for exact vs approximate results.
-            applicability: [tlp-amber, tlp-red]
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Vector.TH06
-                remarks: Search Result Manipulation via ANN Bias
-        guideline-mappings: []
+controls:
+  - id: CCC.Vector.CN01
+    group: Ingestion
+    title: Validate Embeddings Before Indexing
+    objective: |
+      Ensure all incoming embeddings are structurally and statistically validated
+      before indexing to prevent poisoning or corruption.
+    assessment-requirements:
+      - id: CCC.Vector.CN01.AR01
+        text: |
+          When a vector embedding is submitted for indexing, the system MUST validate that it
+          matches expected schema, dimension, and format profiles.
+        applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH02
+            remarks: Embedding and Index Poisoning
+          - reference-id: CCC.Vector.TH05
+            remarks: Embedding Format or Dimension Attacks
+          - reference-id: CCC.Core.TH12
+            remarks: Resource Constraints are Exhausted
+    guideline-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-PREV-002
+            remarks: Data Filtering From External Knowledge Bases
+  - id: CCC.Vector.CN02
+    group: Access
+    title: Enforce Role-Based Index Lifecycle Management
+    objective: |
+      Restrict index lifecycle operations (create, delete, rollback) to privileged
+      identities using fine-grained access controls.
+    assessment-requirements:
+      - id: CCC.Vector.CN02.AR01
+        text: |
+          When an index lifecycle event is triggered, the service MUST
+          verify that the actor has explicit permissions for the operation type.
+        applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH02
+            remarks: Embedding and Index Poisoning
+          - reference-id: CCC.Vector.TH04
+            remarks: Index Corruption or Downgrade
+          - reference-id: CCC.Core.TH01
+            remarks: Access Control is Misconfigured
+    guideline-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-PREV-012
+            remarks: Role-Based Access Control for AI Data
+  - id: CCC.Vector.CN03
+    group: Access
+    title: Enforce Metadata-Level Access Controls
+    objective: |
+      Apply access control policies to metadata fields used in filtering to
+      prevent unauthorized exposure or inference.
+    assessment-requirements:
+      - id: CCC.Vector.CN03.AR01
+        text: |
+          When a metadata filter is applied to a query, the service MUST
+          verify the requester is authorized to access that field.
+        applicability: [tlp-amber, tlp-red]
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH03
+            remarks: Cross-modal or Metadata Leakage
+          - reference-id: CCC.Core.TH01
+            remarks: Access Control is Misconfigured
+    guideline-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-DET-001
+            remarks: AI Data Leakage Prevention and Detection
+          - reference-id: AIR-PREV-012
+            remarks: Role-Based Access Control for AI Data
+          - reference-id: AIR-DET-016
+            remarks: Preserving Source Data Access Controls in AI Systems
+  - id: CCC.Vector.CN04
+    group: Ingestion
+    title: Enforce Ingestion Quotas and Throttling
+    objective: |
+      Prevent ingestion-based DoS or index pollution by
+      rate-limiting vector submissions and enforcing quotas.
+    assessment-requirements:
+      - id: CCC.Vector.CN04.AR01
+        text: |
+          When ingestion exceeds pre-defined thresholds, the service MUST
+          throttle or reject excess vector write operations.
+        applicability: [tlp-green, tlp-amber, tlp-red]
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH02
+            remarks: Embedding and Index Poisoning
+          - reference-id: CCC.Core.TH12
+            remarks: Resource Constraints are Exhausted
+    guideline-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-PREV-008
+            remarks: Quality of Service (QoS) and DDoS Prevention for AI Systems
+  - id: CCC.Vector.CN05
+    group: Resource
+    title: Enforce Index Versioning with Rollback Protection
+    objective: |
+      Ensure vector indexes are versioned and that rollback
+      operations are authorized and auditable.
+    assessment-requirements:
+      - id: CCC.Vector.CN05.AR01
+        text: |
+          When a rollback is attempted, the system MUST log
+          the action and verify rollback authorization.
+        applicability: [tlp-amber, tlp-red]
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH04
+            remarks: Index Corruption or Downgrade
+          - reference-id: CCC.Core.TH09
+            remarks: Logs or Monitoring Data are Read by Unauthorized Users
+          - reference-id: CCC.Core.TH04
+            remarks: Data is Replicated to Untrusted or External Locations
+    guideline-mappings:
+      - reference-id: AIR-DET-004
+        entries:
+          - reference-id: AIR-PREV-008
+            remarks: AI System Observability
+  - id: CCC.Vector.CN06
+    group: Ingestion
+    title: Enforce Dimensional and Format Constraints
+    objective: |
+      Reject embeddings that do not conform to expected model
+      specifications (dimensions, format, etc).
+    assessment-requirements:
+      - id: CCC.Vector.CN06.AR01
+        text: |
+          When an embedding is submitted, the service MUST validate
+          that its format and dimensionality match allowed profiles.
+        applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH05
+            remarks: Embedding Format or Dimension Attacks
+          - reference-id: CCC.Core.TH06
+            remarks: Data is Lost or Corrupted
+    guideline-mappings:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-PREV-002
+            remarks: Data Filtering From External Knowledge Bases
+  - id: CCC.Vector.CN07
+    group: Processing
+    title: Support Explicit ANN vs. Exact Search Configuration
+    objective: |
+      Provide clients with the option to enforce exact-match
+      (non-ANN) search where search fidelity is critical.
+    assessment-requirements:
+      - id: CCC.Vector.CN07.AR01
+        text: |
+          When a search request is issued, clients MUST be allowed
+          to declare their requirement for exact vs approximate results.
+        applicability: [tlp-amber, tlp-red]
+        recommendation: ""
+    threat-mappings:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH06
+            remarks: Search Result Manipulation via ANN Bias
+    guideline-mappings: []
