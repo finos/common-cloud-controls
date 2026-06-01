@@ -20,11 +20,10 @@ name: Batch Release All Catalogs
 # race to create its tag) and keeps the run log easy to follow.
 #
 # Best-effort by design: the batch releases everything it can and LOGS the rest — it
-# never fails CI over an individual catalog. Each asset lands in one of four buckets
-# (released / skipped-no-file / skipped-imports-only / un-released) reported in the
-# job summary, and the job always exits 0. The single-target release.yml is the hard
-# gate that fails on any problem; this sweep is not. So "un-released" here means
-# "needs attention", not "broke the build".
+# never fails CI over an individual catalog. The job summary is a Source/Result table
+# (links to the GitHub release + grc.store page on success, a parsed reason on
+# failure) and the job always exits 0. The single-target release.yml is the hard gate
+# that fails on any problem; this sweep is not.
 
 on:
   workflow_dispatch:
@@ -78,8 +77,39 @@ jobs:
         run: |
           set -u
 
+          # Flatten multi-line tool output into one table-cell-safe phrase: collapse
+          # newlines/runs of whitespace, escape pipes, trim.
+          sanitize() {
+            tr '\n' ' ' | sed -E -e 's/[[:space:]]+/ /g' -e 's/\|/\\|/g' -e 's/^ //' -e 's/ $//'
+          }
+
+          # Friendly one-liner for a failed `compile` (the cobra usage dump is noise —
+          # keep only the "Error: <path>: <message>" line, minus the path).
+          friendly_compile() {
+            local msg
+            msg="$(printf '%s\n' "$1" | grep -m1 '^Error:' | sed -E 's/^Error: [^:]*: //')"
+            [ -z "$msg" ] && msg="$(printf '%s\n' "$1" | grep -vE '^[[:space:]]*$' | head -1)"
+            printf '%s' "$msg" | sanitize
+          }
+
+          # Friendly one-liner for a failed `grcli validate` — surface cue's top-level
+          # error lines (e.g. "threats.1.capabilities: incompatible list lengths"),
+          # dropping indented source locations and the FAIL/grcli summary lines.
+          friendly_validate() {
+            local all n shown
+            all="$(printf '%s\n' "$1" | grep -E '^[^[:space:]].+: ' | grep -vE '^(FAIL|grcli|panic|Error)' | sed -E 's/: *$//' | sort -u)"
+            n="$(printf '%s' "$all" | grep -c .)"
+            shown="$(printf '%s\n' "$all" | head -3 | paste -sd ';' - | sed 's/;/; /g')"
+            if [ -z "$shown" ]; then
+              printf '%s\n' "$1" | grep -vE '^[[:space:]]*$' | tail -2 | sanitize
+              return
+            fi
+            { if [ "$n" -gt 3 ]; then printf '%s (+%d more)' "$shown" "$((n - 3))"; else printf '%s' "$shown"; fi; } | sanitize
+          }
+
           # Release one typed catalog asset. Args: <build_target> <asset_type>.
-          # Mirrors the steps of release.yml. Return codes the caller dispatches on:
+          # Communicates back via globals: R_REASON (failure text), R_AUTHOR / R_ARTIFACT
+          # (lowercased ids for the grc.store link). Return codes the caller dispatches on:
           #   0 = released (or built, on a dry run)
           #   2 = imports-only catalog, nothing native to release — an expected skip
           #   1 = real failure (compile error, validation, publish, or release)
@@ -90,6 +120,7 @@ jobs:
           release_asset() {
             local build_target="$1" asset_type="$2"
             local file gemara_version prerelease="" spec_dir tag out
+            R_REASON=""; R_AUTHOR=""; R_ARTIFACT=""
 
             # Compile the typed catalog. Capture output so an imports-only catalog
             # (no native entries — `compile` exits with "no native … to compile") can
@@ -102,8 +133,10 @@ jobs:
                 --output-dir ../artifacts 2>&1)"; then
               echo "$out"
               case "$out" in
-                *"no native "*" to compile"*) return 2 ;;
-                *) return 1 ;;
+                *"no native "*" to compile"*)
+                  R_REASON="imports-only (no native ${asset_type})"; return 2 ;;
+                *)
+                  R_REASON="Compile failed — $(friendly_compile "$out")"; return 1 ;;
               esac
             fi
             echo "$out"
@@ -111,27 +144,46 @@ jobs:
             # Locate the compiled artifact + its pinned Gemara spec version.
             file="$(find "artifacts/${build_target}" -name "${asset_type}.yaml" | head -1)"
             if [ -z "$file" ]; then
-              echo "::error::compile produced no ${asset_type}.yaml under artifacts/${build_target}"
+              R_REASON="compile produced no ${asset_type}.yaml"
+              echo "::error::${R_REASON}"
               return 1
             fi
             gemara_version="$(grep -E '^[[:space:]]*gemara-version:' "$file" | head -1 | awk '{print $2}')"
-            echo "Compiled: ${file} (gemara ${gemara_version})"
+            # metadata.id (4-space indent) and author.id (8-space indent, first under
+            # the author: block) drive the grc.store URL: search/<author>/<id>/versions/<ver>.
+            R_ARTIFACT="$(awk '/^metadata:/{m=1} m && /^    id:/{print tolower($2); exit}' "$file")"
+            R_AUTHOR="$(awk '/^    author:/{a=1} a && /^        id:/{print tolower($2); exit}' "$file")"
+            echo "Compiled: ${file} (gemara ${gemara_version}, ${R_AUTHOR}/${R_ARTIFACT})"
 
             # Validate against the Gemara spec. Clone each spec version once and reuse
             # it across catalogs that pin the same version.
             spec_dir="/tmp/gemara-spec-${gemara_version}"
             if [ ! -d "$spec_dir" ]; then
-              git clone --depth 1 --branch "$gemara_version" \
-                https://github.com/gemaraproj/gemara "$spec_dir" || return 1
+              if ! out="$(git clone --depth 1 --branch "$gemara_version" \
+                  https://github.com/gemaraproj/gemara "$spec_dir" 2>&1)"; then
+                echo "$out"
+                R_REASON="could not fetch Gemara spec ${gemara_version}"
+                return 1
+              fi
             fi
-            grcli validate -f "$file" --spec "$spec_dir" || return 1
+            if ! out="$(grcli validate -f "$file" --spec "$spec_dir" 2>&1)"; then
+              echo "$out"
+              R_REASON="Schema validation failed — $(friendly_validate "$out")"
+              return 1
+            fi
+            echo "$out"
 
             # Publish to grc.store (or build the bundle only, on a dry run).
             if [ "$DRY_RUN" = "true" ]; then
-              grcli publish "$file" --dry-run --output artifacts/oci || return 1
-              return 0
+              if ! out="$(grcli publish "$file" --dry-run --output artifacts/oci 2>&1)"; then
+                echo "$out"; R_REASON="Dry-run bundle build failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
+              fi
+              echo "$out"; return 0
             fi
-            grcli publish "$file" || return 1
+            if ! out="$(grcli publish "$file" 2>&1)"; then
+              echo "$out"; R_REASON="Publish to grc.store failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
+            fi
+            echo "$out"
 
             # Cut/append a per-target GitHub release. Each family/service gets its own
             # release tagged <family>/<service>/<version>, carrying that target's three
@@ -140,17 +192,21 @@ jobs:
             # uploaded under its plain name (capabilities.yaml / threats.yaml / ...).
             case "$VERSION" in *rc*) prerelease="--prerelease" ;; esac
             tag="${build_target}/${VERSION}"
-            gh release create "$tag" "$file" \
-              --title "${build_target} ${VERSION}" \
-              --notes "Release of ${build_target} typed catalogs (${VERSION}), published to grc.store." \
-              $prerelease \
-            || gh release upload "$tag" "$file" --clobber || return 1
+            if ! out="$( { gh release create "$tag" "$file" \
+                  --title "${build_target} ${VERSION}" \
+                  --notes "Release of ${build_target} typed catalogs (${VERSION}), published to grc.store." \
+                  $prerelease \
+                || gh release upload "$tag" "$file" --clobber; } 2>&1)"; then
+              echo "$out"; R_REASON="GitHub release failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
+            fi
+            echo "$out"
           }
 
           released=()
           skipped_nofile=()
           skipped_imports_only=()
           unreleased=()
+          rows=()
 
           # One asset at a time, in directory order, so the run log is easy to follow.
           for dir in $(find catalogs -mindepth 2 -maxdepth 2 -type d | sort); do
@@ -159,6 +215,7 @@ jobs:
 
             for asset_type in capabilities threats controls; do
               src="${dir}/${asset_type}.yaml"
+              # No source file means there's nothing to process — not a table row.
               if [ ! -f "$src" ]; then
                 skipped_nofile+=("${build_target} ${asset_type}")
                 continue
@@ -172,36 +229,42 @@ jobs:
               rc=0
               release_asset "$build_target" "$asset_type" || rc=$?
               echo "::endgroup::"
+
               case "$rc" in
-                0) released+=("${build_target} ${asset_type}") ;;
+                0)
+                  released+=("${build_target} ${asset_type}")
+                  if [ "$DRY_RUN" = "true" ]; then
+                    result="✅ Built (dry run — not published)"
+                  else
+                    gh_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${build_target}/${VERSION}"
+                    grc_url="https://grc.store/search/${R_AUTHOR}/${R_ARTIFACT}/versions/${VERSION}"
+                    result="✅ [GitHub release](${gh_url}) · [grc.store](${grc_url})"
+                  fi
+                  ;;
                 2)
-                  echo "::notice::${build_target} ${asset_type}: imports-only (no native entries) — nothing to release"
-                  skipped_imports_only+=("${build_target} ${asset_type}") ;;
+                  skipped_imports_only+=("${build_target} ${asset_type}")
+                  echo "::notice::${build_target} ${asset_type}: ${R_REASON} — nothing to release"
+                  result="⏭️ Skipped — ${R_REASON}"
+                  ;;
                 *)
+                  unreleased+=("${build_target} ${asset_type}")
                   # Logged as un-released; per the batch contract this does NOT fail CI.
-                  echo "::warning::${build_target} ${asset_type}: not released (compile/validation/publish failed) — see the log group above"
-                  unreleased+=("${build_target} ${asset_type}") ;;
+                  echo "::warning::${build_target} ${asset_type}: ${R_REASON:-unknown failure}"
+                  result="❌ ${R_REASON:-Unknown failure — see the log group above}"
+                  ;;
               esac
+              rows+=("| \`catalogs/${build_target}/${asset_type}.yaml\` | ${result} |")
             done
           done
 
           {
             echo "## Batch release ${VERSION} (dry_run=${DRY_RUN})"
             echo ""
-            echo "- Released: ${#released[@]}"
-            echo "- Skipped — no source file: ${#skipped_nofile[@]}"
-            echo "- Skipped — imports-only (no native entries): ${#skipped_imports_only[@]}"
-            echo "- Un-released — failed compile/validation/publish: ${#unreleased[@]}"
-            if [ "${#unreleased[@]}" -gt 0 ]; then
-              echo ""
-              echo "### Un-released (logged for follow-up; did NOT fail this batch run)"
-              for f in "${unreleased[@]}"; do echo "- ${f}"; done
-            fi
-            if [ "${#skipped_imports_only[@]}" -gt 0 ]; then
-              echo ""
-              echo "### Skipped — imports-only (no native entries of their own)"
-              for f in "${skipped_imports_only[@]}"; do echo "- ${f}"; done
-            fi
+            echo "Released: ${#released[@]} · Imports-only: ${#skipped_imports_only[@]} · Un-released: ${#unreleased[@]} · No source file: ${#skipped_nofile[@]}"
+            echo ""
+            echo "| Source | Result |"
+            echo "| --- | --- |"
+            for r in "${rows[@]}"; do echo "$r"; done
           } >> "$GITHUB_STEP_SUMMARY"
 
           # Best-effort sweep: per-catalog failures are surfaced above but never fail
