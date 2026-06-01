@@ -1,0 +1,183 @@
+name: Batch Release All Catalogs
+
+# Batch sibling of release.yml: release EVERY typed catalog in one run.
+#
+# Where release.yml releases ONE family/service + ONE asset type, this loops over
+# every catalogs/<family>/<service> directory and releases each capabilities.yaml,
+# threats.yaml, and controls.yaml it finds. Directories that lack a given asset
+# (e.g. a service with only capabilities.yaml) are skipped, not errored.
+#
+# Each family/service gets its OWN GitHub release, tagged <family>/<service>/<version>,
+# carrying that target's three typed catalogs — not one shared release for the batch.
+#
+# The per-asset pipeline (the release_asset bash function below) is identical to
+# release.yml — compile, locate, validate against the Gemara spec, publish to
+# grc.store, then cut/append the per-target GitHub release — so see that file for the
+# rationale on each step (OIDC auth, version stamping, the create-or-upload dance).
+#
+# This is one sequential job, not a matrix: it keeps the create-or-upload of each
+# per-target release single-threaded (the three assets of a target would otherwise
+# race to create its tag) and keeps the run log easy to follow. Sequential is slower
+# but predictable. A failure on one asset is recorded and the loop continues; the job
+# fails at the end if anything failed, so a single bad catalog can't silently abort
+# the batch.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. v2026.04 or v2026.04-rc1) — stamped into every artifact"
+        required: true
+        type: string
+      dry_run:
+        description: "Dry Run (No Release) — compile + validate + build bundles, but do not push to grc.store or cut a GitHub release"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # cut the GitHub release
+  id-token: write # grcli mints a GHA OIDC token for hub auth + cosign keyless signing
+
+jobs:
+  batch-release:
+    runs-on: ubuntu-latest
+    # Inputs are funneled through env to keep free-text values out of run: scripts.
+    env:
+      VERSION: ${{ inputs.version }}
+      DRY_RUN: ${{ inputs.dry_run }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: delivery-toolkit/go.mod
+
+      # grcli, pulled from its OCI distribution exactly as documented.
+      - uses: oras-project/setup-oras@v1
+      - name: Install grcli
+        # Pinned for reproducibility (not :latest). Bump deliberately after testing.
+        env:
+          GRCLI_VERSION: v0.2.2
+        run: |
+          oras pull "ghcr.io/revanite-io/grcli:${GRCLI_VERSION}" --platform linux/amd64
+          sudo install grcli /usr/local/bin/grcli
+          grcli --version
+
+      # validate shells out to `cue vet`; publish keyless-signs via `cosign`.
+      - name: Install cue
+        run: go install cuelang.org/go/cmd/cue@v0.16.1
+      - uses: sigstore/cosign-installer@v3
+
+      - name: Release every catalog asset
+        run: |
+          set -u
+
+          # Release one typed catalog asset. Args: <build_target> <asset_type>.
+          # Mirrors the steps of release.yml; returns non-zero on any failure so the
+          # caller can record it and keep going. `set -e` inside the subshell that
+          # invokes this is avoided — we check the return code explicitly.
+          release_asset() {
+            local build_target="$1" asset_type="$2"
+            local file gemara_version asset prerelease="" spec_dir
+
+            # Compile the typed catalog.
+            ( cd delivery-toolkit && go run . compile \
+                --build-target "$build_target" \
+                --type "$asset_type" \
+                --version "$VERSION" \
+                --catalogs-dir ../catalogs \
+                --output-dir ../artifacts ) || return 1
+
+            # Locate the compiled artifact + its pinned Gemara spec version.
+            file="$(find "artifacts/${build_target}" -name "${asset_type}.yaml" | head -1)"
+            if [ -z "$file" ]; then
+              echo "::error::compile produced no ${asset_type}.yaml under artifacts/${build_target}"
+              return 1
+            fi
+            gemara_version="$(grep -E '^[[:space:]]*gemara-version:' "$file" | head -1 | awk '{print $2}')"
+            echo "Compiled: ${file} (gemara ${gemara_version})"
+
+            # Validate against the Gemara spec. Clone each spec version once and reuse
+            # it across catalogs that pin the same version.
+            spec_dir="/tmp/gemara-spec-${gemara_version}"
+            if [ ! -d "$spec_dir" ]; then
+              git clone --depth 1 --branch "$gemara_version" \
+                https://github.com/gemaraproj/gemara "$spec_dir" || return 1
+            fi
+            grcli validate -f "$file" --spec "$spec_dir" || return 1
+
+            # Publish to grc.store (or build the bundle only, on a dry run).
+            if [ "$DRY_RUN" = "true" ]; then
+              grcli publish "$file" --dry-run --output artifacts/oci || return 1
+              return 0
+            fi
+            grcli publish "$file" || return 1
+
+            # Cut/append a per-target GitHub release. Each family/service gets its own
+            # release tagged <family>/<service>/<version>, carrying that target's three
+            # typed catalogs. The first asset for a target creates the release; the rest
+            # upload into it. Within one target the basenames are unique, so the file is
+            # uploaded under its plain name (capabilities.yaml / threats.yaml / ...).
+            case "$VERSION" in *rc*) prerelease="--prerelease" ;; esac
+            local tag="${build_target}/${VERSION}"
+            gh release create "$tag" "$file" \
+              --title "${build_target} ${VERSION}" \
+              --notes "Release of ${build_target} typed catalogs (${VERSION}), published to grc.store." \
+              $prerelease \
+            || gh release upload "$tag" "$file" --clobber || return 1
+          }
+
+          released=()
+          skipped=()
+          failed=()
+
+          # One asset at a time, in directory order, so the run log is easy to follow.
+          for dir in $(find catalogs -mindepth 2 -maxdepth 2 -type d | sort); do
+            # catalogs/<family>/<service> -> <family>/<service>
+            build_target="${dir#catalogs/}"
+
+            for asset_type in capabilities threats controls; do
+              src="${dir}/${asset_type}.yaml"
+              if [ ! -f "$src" ]; then
+                skipped+=("${build_target} ${asset_type}")
+                continue
+              fi
+
+              echo "::group::Release ${build_target} ${asset_type}"
+              if release_asset "$build_target" "$asset_type"; then
+                released+=("${build_target} ${asset_type}")
+              else
+                echo "::error::Failed to release ${build_target} ${asset_type}"
+                failed+=("${build_target} ${asset_type}")
+              fi
+              echo "::endgroup::"
+            done
+          done
+
+          {
+            echo "## Batch release ${VERSION} (dry_run=${DRY_RUN})"
+            echo ""
+            echo "- Released: ${#released[@]}"
+            echo "- Skipped (no source file): ${#skipped[@]}"
+            echo "- Failed: ${#failed[@]}"
+            if [ "${#failed[@]}" -gt 0 ]; then
+              echo ""
+              echo "### Failed"
+              for f in "${failed[@]}"; do echo "- ${f}"; done
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "${#failed[@]}" -gt 0 ]; then
+            echo "::error::${#failed[@]} asset(s) failed to release."
+            exit 1
+          fi
+
+      - name: Upload built bundles (dry run artifacts)
+        if: ${{ inputs.dry_run == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: batch-release-${{ inputs.version }}-bundles
+          path: artifacts/
+          if-no-files-found: ignore
