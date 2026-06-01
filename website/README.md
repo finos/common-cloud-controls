@@ -2,6 +2,14 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
+## Install Docusaurus
+
+If you don't have Docusaurus installed run the following command.
+
+```bash
+yarn add docusaurus --dev
+```
+
 ## Installation
 
 ```bash
