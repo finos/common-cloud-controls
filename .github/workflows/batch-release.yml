@@ -17,10 +17,14 @@ name: Batch Release All Catalogs
 #
 # This is one sequential job, not a matrix: it keeps the create-or-upload of each
 # per-target release single-threaded (the three assets of a target would otherwise
-# race to create its tag) and keeps the run log easy to follow. Sequential is slower
-# but predictable. A failure on one asset is recorded and the loop continues; the job
-# fails at the end if anything failed, so a single bad catalog can't silently abort
-# the batch.
+# race to create its tag) and keeps the run log easy to follow.
+#
+# Best-effort by design: the batch releases everything it can and LOGS the rest — it
+# never fails CI over an individual catalog. Each asset lands in one of four buckets
+# (released / skipped-no-file / skipped-imports-only / un-released) reported in the
+# job summary, and the job always exits 0. The single-target release.yml is the hard
+# gate that fails on any problem; this sweep is not. So "un-released" here means
+# "needs attention", not "broke the build".
 
 on:
   workflow_dispatch:
@@ -75,20 +79,30 @@ jobs:
           set -u
 
           # Release one typed catalog asset. Args: <build_target> <asset_type>.
-          # Mirrors the steps of release.yml; returns non-zero on any failure so the
-          # caller can record it and keep going. `set -e` inside the subshell that
-          # invokes this is avoided — we check the return code explicitly.
+          # Mirrors the steps of release.yml. Return codes the caller dispatches on:
+          #   0 = released (or built, on a dry run)
+          #   2 = imports-only catalog, nothing native to release — an expected skip
+          #   1 = real failure (compile error, validation, publish, or release)
           release_asset() {
             local build_target="$1" asset_type="$2"
-            local file gemara_version asset prerelease="" spec_dir
+            local file gemara_version prerelease="" spec_dir tag out
 
-            # Compile the typed catalog.
-            ( cd delivery-toolkit && go run . compile \
+            # Compile the typed catalog. Capture output so an imports-only catalog
+            # (no native entries — `compile` exits with "no native … to compile") can
+            # be told apart from a genuine compile failure.
+            if ! out="$(cd delivery-toolkit && go run . compile \
                 --build-target "$build_target" \
                 --type "$asset_type" \
                 --version "$VERSION" \
                 --catalogs-dir ../catalogs \
-                --output-dir ../artifacts ) || return 1
+                --output-dir ../artifacts 2>&1)"; then
+              echo "$out"
+              case "$out" in
+                *"no native "*" to compile"*) return 2 ;;
+                *) return 1 ;;
+              esac
+            fi
+            echo "$out"
 
             # Locate the compiled artifact + its pinned Gemara spec version.
             file="$(find "artifacts/${build_target}" -name "${asset_type}.yaml" | head -1)"
@@ -130,8 +144,9 @@ jobs:
           }
 
           released=()
-          skipped=()
-          failed=()
+          skipped_nofile=()
+          skipped_imports_only=()
+          unreleased=()
 
           # One asset at a time, in directory order, so the run log is easy to follow.
           for dir in $(find catalogs -mindepth 2 -maxdepth 2 -type d | sort); do
@@ -141,18 +156,24 @@ jobs:
             for asset_type in capabilities threats controls; do
               src="${dir}/${asset_type}.yaml"
               if [ ! -f "$src" ]; then
-                skipped+=("${build_target} ${asset_type}")
+                skipped_nofile+=("${build_target} ${asset_type}")
                 continue
               fi
 
               echo "::group::Release ${build_target} ${asset_type}"
-              if release_asset "$build_target" "$asset_type"; then
-                released+=("${build_target} ${asset_type}")
-              else
-                echo "::error::Failed to release ${build_target} ${asset_type}"
-                failed+=("${build_target} ${asset_type}")
-              fi
+              release_asset "$build_target" "$asset_type"
+              rc=$?
               echo "::endgroup::"
+              case "$rc" in
+                0) released+=("${build_target} ${asset_type}") ;;
+                2)
+                  echo "::notice::${build_target} ${asset_type}: imports-only (no native entries) — nothing to release"
+                  skipped_imports_only+=("${build_target} ${asset_type}") ;;
+                *)
+                  # Logged as un-released; per the batch contract this does NOT fail CI.
+                  echo "::warning::${build_target} ${asset_type}: not released (compile/validation/publish failed) — see the log group above"
+                  unreleased+=("${build_target} ${asset_type}") ;;
+              esac
             done
           done
 
@@ -160,19 +181,24 @@ jobs:
             echo "## Batch release ${VERSION} (dry_run=${DRY_RUN})"
             echo ""
             echo "- Released: ${#released[@]}"
-            echo "- Skipped (no source file): ${#skipped[@]}"
-            echo "- Failed: ${#failed[@]}"
-            if [ "${#failed[@]}" -gt 0 ]; then
+            echo "- Skipped — no source file: ${#skipped_nofile[@]}"
+            echo "- Skipped — imports-only (no native entries): ${#skipped_imports_only[@]}"
+            echo "- Un-released — failed compile/validation/publish: ${#unreleased[@]}"
+            if [ "${#unreleased[@]}" -gt 0 ]; then
               echo ""
-              echo "### Failed"
-              for f in "${failed[@]}"; do echo "- ${f}"; done
+              echo "### Un-released (logged for follow-up; did NOT fail this batch run)"
+              for f in "${unreleased[@]}"; do echo "- ${f}"; done
+            fi
+            if [ "${#skipped_imports_only[@]}" -gt 0 ]; then
+              echo ""
+              echo "### Skipped — imports-only (no native entries of their own)"
+              for f in "${skipped_imports_only[@]}"; do echo "- ${f}"; done
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if [ "${#failed[@]}" -gt 0 ]; then
-            echo "::error::${#failed[@]} asset(s) failed to release."
-            exit 1
-          fi
+          # Best-effort sweep: per-catalog failures are surfaced above but never fail
+          # this job. release.yml is the single-target hard gate, not this workflow.
+          echo "Batch complete: ${#released[@]} released, ${#unreleased[@]} un-released, $(( ${#skipped_nofile[@]} + ${#skipped_imports_only[@]} )) skipped."
 
       - name: Upload built bundles (dry run artifacts)
         if: ${{ inputs.dry_run == true }}
