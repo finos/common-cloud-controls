@@ -45,6 +45,11 @@ var groupDefsPath = filepath.Join("core", "ccc", "groups.yaml")
 // mapping-reference version.
 const defaultCoreVersion = "v2025.10"
 
+// gemaraSpecVersion is the Gemara CUE spec version compiled artifacts target.
+// Pinned locally because gemaraproj/go-gemara v0.5.0 still hardcodes
+// SchemaVersion="v1.0.0"; bump here when go-gemara catches up.
+const gemaraSpecVersion = "v1.2.0"
+
 // coreImportName maps an asset type to the import/mapping-reference id used for
 // the shared CCC Core catalog of that type.
 var coreImportName = map[string]string{
@@ -419,7 +424,7 @@ func newMetadata(id string, t gemara.ArtifactType, desc, version string, refs []
 	return gemara.Metadata{
 		Id:                id,
 		Type:              t,
-		GemaraVersion:     gemara.SchemaVersion,
+		GemaraVersion:     gemaraSpecVersion,
 		Version:           version,
 		Description:       desc,
 		Author:            gemara.Actor{Id: "FINOS-CCC", Name: "FINOS Common Cloud Controls", Type: gemara.Human},
