@@ -1,11 +1,12 @@
 section.nst {
 	margin: auto;
+	margin-top: 2rem;
 	max-width: 1200px;
 	text-align: center;
 }
 
 svg.logo {
-	height: calc(70vh);
+	height: calc(10vh);
 	width: 100%;
 }
 

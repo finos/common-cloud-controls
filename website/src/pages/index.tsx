@@ -12,6 +12,7 @@ import LearnMore from "../components/LearnMore";
 import Releases from "../components/Releases";
 import NewSplashTop from "../components/NewSplashTop";
 import Contributors from "../components/Contributors";
+import SimpleIntro from "../components/SimpleIntro";
 
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
@@ -19,6 +20,7 @@ export default function Home(): ReactNode {
     <Layout title="Common Cloud Controls" description="Description will go into a meta tag in <head />">
       <NewSplashTop />
       <main>
+        <SimpleIntro />
         <WhatIsIt />
         <Contributors />
         <Benefits />
