@@ -1,7 +1,6 @@
 controls:
   - id: CCC.Core.CN01
     group: Encryption
-    family: CCC.Core.Data
     title: Encrypt Data for Transmission
     objective: |
       Ensure that all communications are encrypted in transit to protect
@@ -98,7 +97,6 @@ controls:
             strength: 2
   - id: CCC.Core.CN13
     group: Encryption
-    family: CCC.Core.Data
     title: Minimize Lifetime of Encryption and Authentication Certificates
     objective: |
       Ensure that encryption and authentication certificates have a limited
@@ -148,7 +146,6 @@ controls:
     guideline-mappings: []
   - id: CCC.Core.CN06
     group: Data
-    family: CCC.Core.Data
     title: Restrict Deployments to Trust Perimeter
     objective: |
       Ensure that the service and its child resources are only deployed on
@@ -195,7 +192,6 @@ controls:
             strength: 10
   - id: CCC.Core.CN08
     group: Data
-    family: CCC.Core.Data
     title: Replicate Data to Multiple Locations
     objective: |
       Ensure that data is replicated across multiple physical locations to
@@ -244,7 +240,6 @@ controls:
             strength: 1
   - id: CCC.Core.CN09
     group: Observability
-    family: CCC.Core.LM
     title: Ensure Integrity of Access Logs
     objective: |
       Ensure that access logs are always recorded to an external location
@@ -313,7 +308,6 @@ controls:
             strength: 5
   - id: CCC.Core.CN10
     group: Data
-    family: CCC.Core.Data
     title: Restrict Data Replication to Trust Perimeter
     objective: |
       Ensure that data is only replicated on infrastructure in locations
@@ -344,7 +338,6 @@ controls:
             strength: 10
   - id: CCC.Core.CN02
     group: Encryption
-    family: CCC.Core.Data
     title: Encrypt Data for Storage
     objective: |
       Ensure that all data stored is encrypted at rest using strong
@@ -378,7 +371,6 @@ controls:
           - reference-id: DSP-17
   - id: CCC.Core.CN11
     group: Encryption
-    family: CCC.Core.Data
     title: Protect Encryption Keys
     objective: |
       Ensure that encryption keys are managed securely by enforcing
@@ -451,7 +443,6 @@ controls:
             strength: 10
   - id: CCC.Core.CN14
     group: Data
-    family: CCC.Core.Data
     title: Maintain Recent Backups
     objective: |
       Ensure that all backups used for disaster recovery are recent and
@@ -503,7 +494,6 @@ controls:
     guideline-mappings: []
   - id: CCC.Core.CN03
     group: Access
-    family: CCC.Core.IAM
     title: Implement Multi-factor Authentication (MFA) for Access
     objective: |
       Ensure that all sensitive activities require two or more identity
@@ -563,7 +553,6 @@ controls:
             strength: 3
   - id: CCC.Core.CN05
     group: Access
-    family: CCC.Core.IAM
     title: Prevent Access from Untrusted Entities
     objective: |
       Ensure that secure access controls enforce the principle of least
@@ -652,7 +641,6 @@ controls:
             remarks: Sensitive Data Protection
   - id: CCC.Core.CN04
     group: Observability
-    family: CCC.Core.LM
     title: Log All Access and Changes
     objective: |
       Ensure that all access attempts are logged to maintain a detailed
@@ -697,7 +685,6 @@ controls:
             strength: 5
   - id: CCC.Core.CN07
     group: Observability
-    family: CCC.Core.LM
     title: Alert on Unusual Enumeration Activity
     objective: |
       Ensure that logs and associated alerts are generated when
