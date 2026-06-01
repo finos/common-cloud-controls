@@ -83,6 +83,10 @@ jobs:
           #   0 = released (or built, on a dry run)
           #   2 = imports-only catalog, nothing native to release — an expected skip
           #   1 = real failure (compile error, validation, publish, or release)
+          #
+          # GitHub runs this step with `bash -e`, but this function is always invoked
+          # via `|| rc=$?` (a condition context) so errexit is ignored inside it — the
+          # explicit `|| return N` guards below are what govern the outcome.
           release_asset() {
             local build_target="$1" asset_type="$2"
             local file gemara_version prerelease="" spec_dir tag out
@@ -135,7 +139,7 @@ jobs:
             # upload into it. Within one target the basenames are unique, so the file is
             # uploaded under its plain name (capabilities.yaml / threats.yaml / ...).
             case "$VERSION" in *rc*) prerelease="--prerelease" ;; esac
-            local tag="${build_target}/${VERSION}"
+            tag="${build_target}/${VERSION}"
             gh release create "$tag" "$file" \
               --title "${build_target} ${VERSION}" \
               --notes "Release of ${build_target} typed catalogs (${VERSION}), published to grc.store." \
@@ -161,8 +165,12 @@ jobs:
               fi
 
               echo "::group::Release ${build_target} ${asset_type}"
-              release_asset "$build_target" "$asset_type"
-              rc=$?
+              # `|| rc=$?` keeps this errexit-safe: the step runs under `bash -e`, so a
+              # bare call returning non-zero (e.g. 2 for imports-only) would abort the
+              # whole step before we could classify it. The `||` makes it a condition
+              # context where -e is ignored and lets us capture the code.
+              rc=0
+              release_asset "$build_target" "$asset_type" || rc=$?
               echo "::endgroup::"
               case "$rc" in
                 0) released+=("${build_target} ${asset_type}") ;;

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "gemara-mcp": {
+      "type": "stdio",
+      "command": "/Users/home/dev/common-cloud-controls/.gemara-mcp/gemara-mcp",
+      "args": [
+        "serve"
+      ],
+      "env": {}
+    }
+  }
+}
