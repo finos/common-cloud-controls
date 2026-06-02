@@ -35,7 +35,7 @@ func (i Identity) ClientSecret() string { return i.Get("client_secret") }
 // ObjectID returns a directory/principal object id when present (Azure service principal, etc.).
 func (i Identity) ObjectID() string { return i.Get("object_id") }
 
-// Identity resolves a named test principal from Config (e.g. "testUserRead").
+// Identity resolves a named test principal from Config (e.g. "test-user-read").
 func (c Config) Identity(key string) (Identity, error) {
 	return resolveIdentity(c.vars, key)
 }

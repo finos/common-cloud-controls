@@ -6,7 +6,7 @@ Feature: CCC.Core.CN06.AR02 - Child Resource Location Compliance
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
 
 @Behavioural @NotTestable @object-storage
   Scenario: Child resource region compliance

@@ -88,7 +88,7 @@ func (s *AWSVirtualMachinesService) GetOrProvisionTestableResources() ([]types.T
 				UID:                 id,
 				ResourceName:        name,
 				HostName:            host,
-				PortNumber:          s.config.Get("portNumber", "test-listener-port"),
+				PortNumber:          s.config.Get("port-number", "test-listener-port"),
 				Protocol:            "tcp",
 				ProviderServiceType: "ec2:instance",
 				ServiceType:         "virtual-machines",
@@ -102,8 +102,8 @@ func (s *AWSVirtualMachinesService) GetOrProvisionTestableResources() ([]types.T
 		resources = append(resources, types.TestParams{
 			UID:                 resourceFilter,
 			ResourceName:        resourceFilter,
-			HostName:            s.config.Get("hostName"),
-			PortNumber:          s.config.Get("portNumber", "test-listener-port"),
+			HostName:            s.config.Get("host-name"),
+			PortNumber:          s.config.Get("port-number", "test-listener-port"),
 			Protocol:            "tcp",
 			ProviderServiceType: "ec2:instance",
 			ServiceType:         "virtual-machines",
@@ -223,7 +223,7 @@ func (s *AWSVirtualMachinesService) AttemptInboundConnection(instanceID string, 
 	if err != nil {
 		return nil, err
 	}
-	host := strings.TrimSpace(s.config.Get("hostName"))
+	host := strings.TrimSpace(s.config.Get("host-name"))
 	if host == "" {
 		out, err := s.client.DescribeInstances(s.ctx, &ec2.DescribeInstancesInput{InstanceIds: []string{resolved}})
 		if err != nil {

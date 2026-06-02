@@ -14,7 +14,7 @@ services:
         - tlp-red
     vars:
       service: serverless-computing
-      ServiceType: serverless-computing
+      service-type: serverless-computing
       tags: "@Behavioural @serverless-computing"
       provider: azure
       catalog-locations:
@@ -33,7 +33,7 @@ services:
         - eastus
       azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
       test-identities:
-        testUserNoAccess:
+        test-user-no-access:
           user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
           client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"

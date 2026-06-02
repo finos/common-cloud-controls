@@ -75,7 +75,7 @@ From `controls.yaml` extract for each AR:
 
 From `imported-controls` list **inherited** CCC.Core (or other) ARs that apply to this service but are defined elsewhere.
 
-**Reuse `modules/features/generic/` first.** That folder holds shared `@PerService` and `@PerPort` Core scenarios (CN01, CN03, CN04, CN05, CN07, CN10, …) that already use `{ServiceType}` or port probes. For a new service, the default plan is to **add a service tag** (e.g. `@virtual-machines`) to existing generic scenarios — not to copy feature files into `<service-folder>/CCC.Core/`. Only plan **new** feature files when generic steps cannot express the AR (service-specific cloud-api methods, probes that differ from `@PerPort` patterns). See `modules/features/virtual-machines/analysis.md` for a reuse table example.
+**Reuse `modules/features/generic/` first.** That folder holds shared `@PerService` and `@PerPort` Core scenarios (CN01, CN03, CN04, CN05, CN07, CN10, …) that already use `{service-type}` or port probes. For a new service, the default plan is to **add a service tag** (e.g. `@virtual-machines`) to existing generic scenarios — not to copy feature files into `<service-folder>/CCC.Core/`. Only plan **new** feature files when generic steps cannot express the AR (service-specific cloud-api methods, probes that differ from `@PerPort` patterns). See `modules/features/virtual-machines/analysis.md` for a reuse table example.
 
 **Parse the AR sentence.** Most ARs follow:
 
@@ -109,7 +109,7 @@ Reference [modules/features/README.md](../../modules/features/README.md) for nam
 modules/features/
   generic/                    # shared Core — tag new services here when steps are generic
     CCC.Core/
-      CCC-Core-CN04-AR01.feature   # @PerService + {ServiceType}
+      CCC-Core-CN04-AR01.feature   # @PerService + {service-type}
   <service-folder>/
     analysis.md               # sole file created by this skill
     <CatalogId>/              # planned — native ARs only, typically
@@ -126,7 +126,7 @@ modules/features/
 | AR is `@NotTestable` stub already in generic | Add `@<service>` to same stub |
 | AR is `@PerPort` (TLS, SSH, protocol, TCP deny) | Add `@<service>` in `generic/` or `port/`; routed by `@PerPort` |
 | AR needs a method not on `generic.Service` | New feature under `<service-folder>/` + minimal cloud-api method |
-| AR copied from object-storage with hardcoded service API (`CreateBucket`, …) | **Do not copy** — generalize to `{ServiceType}` + generic methods, or write service-specific steps only if unavoidable |
+| AR copied from object-storage with hardcoded service API (`CreateBucket`, …) | **Do not copy** — generalize to `{service-type}` + generic methods, or write service-specific steps only if unavoidable |
 
 **Service folder naming** (kebab-case, plural where existing):
 
@@ -167,7 +167,7 @@ Notes:
   - use the `logging` service: `QueryLogs(resourceID, logType, lookbackMinutes)` with explicit sink config in privateer vars
   - Do **not** embed log-query logic on the resource service interface since it's already on the logging service.
 
-- **Prefer test identities** for access-denial ARs: `GetServiceAPIWithIdentity` + `testUserNoAccess` / `testUserRead` from privateer `test-identities` — never `ProvisionUserWithAccess` in features.
+- **Prefer test identities** for access-denial ARs: `GetServiceAPIWithIdentity` + `test-user-no-access` / `test-user-read` from privateer `test-identities` — never `ProvisionUserWithAccess` in features.
 
 - **Service Interaction**: where the service under test interacts with another service (iam, logging, object storage etc.) assume that the service will be available via the cloud-api layer. 
 
@@ -227,7 +227,7 @@ Use this template:
 
 | Core control | Generic (or shared) feature | Action for this service |
 |--------------|----------------------------|-------------------------|
-| CCC.Core.CN04 | `generic/CCC.Core/CCC-Core-CN04-AR01.feature` | Add `@<service>`; `{ServiceType}` in config |
+| CCC.Core.CN04 | `generic/CCC.Core/CCC-Core-CN04-AR01.feature` | Add `@<service>`; `{service-type}` in config |
 | … | … | … |
 
 List **new-only** ARs separately (native controls + Core ARs that generic steps cannot cover).

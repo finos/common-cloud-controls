@@ -5,13 +5,13 @@ Feature: CCC.Core.CN02.AR01 - Encrypt Data For Storage
   So that stored data is protected
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
 
   @Behavioural @virtual-machines
   Scenario: VM attached volumes report encryption enabled
     Given I call "{api}" with "GetServiceAPI" using argument "virtual-machines"
     And I refer to "{result}" as "vmService"
-    When I call "{vmService}" with "GetVolumeEncryptionStatus" using argument "{UID}"
+    When I call "{vmService}" with "GetVolumeEncryptionStatus" using argument "{uid}"
     Then "{result}" is not an error
     And I refer to "{result}" as "encryption"
     And I attach "{encryption}" to the test output as "Volume Encryption Status"

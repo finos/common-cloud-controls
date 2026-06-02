@@ -14,7 +14,7 @@ services:
         - tlp-red
     vars:
       service: virtual-machines
-      ServiceType: virtual-machines
+      service-type: virtual-machines
       tags: "@Behavioural @virtual-machines"
       provider: azure
       catalog-locations:
@@ -26,22 +26,22 @@ services:
       azure-resource-group: "finos-ccc-integration-rg"
       permitted-regions:
         - eastus
-      hostName: "${AZURE_VM_HOSTNAME}"
-      portNumber: "22"
+      host-name: "${AZURE_VM_HOSTNAME}"
+      port-number: "22"
       test-listener-port: 22
       allowed-source-cidr: "10.0.0.0/8"
       test-identities:
-        testUserNoAccess:
+        test-user-no-access:
           user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
           client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
           object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
-        testUserWrite:
+        test-user-write:
           user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
           client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
           object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
-        testUserAdmin:
+        test-user-admin:
           user-name: "${AZURE_TEST_USER_ADMIN_USER_NAME}"
           client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"

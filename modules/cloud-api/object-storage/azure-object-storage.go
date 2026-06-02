@@ -91,7 +91,7 @@ func NewAzureBlobServiceWithCredentials(ctx context.Context, config types.Config
 	if clientSecret == "" {
 		return nil, fmt.Errorf("client_secret not found for test identity %q", identity.UserName)
 	}
-	tenantID := config.Get("azure-tenant-id", "tenant_id")
+	tenantID := config.Get("azure-tenant-id")
 	if tenantID == "" {
 		return nil, fmt.Errorf("azure-tenant-id not found in config")
 	}

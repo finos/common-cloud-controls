@@ -11,7 +11,7 @@ Feature: CCC.Core.CN01.AR02
     including man-in-the-middle attacks and session hijacking. This test ensures that the
     server advertises SSH-2.0 in its protocol banner and successfully establishes a connection.
 
-    Given an openssl s_client request to "{portNumber}" on "{hostName}" protocol "ssh"
+    Given an openssl s_client request to "{port-number}" on "{host-name}" protocol "ssh"
     And I refer to "{result}" as "connection"
     And "{connection}" state is open
     And I close connection "{connection}"
@@ -25,7 +25,7 @@ Feature: CCC.Core.CN01.AR02
     that the SSH server does not offer these deprecated ciphers during negotiation, forcing
     clients to use modern, secure encryption algorithms like AES-256-GCM or ChaCha20-Poly1305.
 
-    Given "report" contains details of SSL Support type "each-cipher" for "{hostName}" on port "{portNumber}"
+    Given "report" contains details of SSL Support type "each-cipher" for "{host-name}" on port "{port-number}"
     Then "{report}" is an array of objects which doesn't contain any of
       | id           | finding |
       |     3DES-CBC | offered |
@@ -40,7 +40,7 @@ Feature: CCC.Core.CN01.AR02
     and that encrypted connections are established with verified endpoints, preventing
     man-in-the-middle attacks.
 
-    Given "report" contains details of SSL Support type "server-defaults" for "{hostName}" on port "{portNumber}"
+    Given "report" contains details of SSL Support type "server-defaults" for "{host-name}" on port "{port-number}"
     Then "{report}" is an array of objects with at least the following contents
       | id                    | finding |
       | cert_expirationStatus | ok      |

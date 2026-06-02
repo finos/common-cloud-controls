@@ -14,7 +14,7 @@ services:
         - tlp-red
     vars:
       service: serverless-computing
-      ServiceType: serverless-computing
+      service-type: serverless-computing
       tags: "@Behavioural @serverless-computing"
       provider: aws
       catalog-locations:
@@ -31,7 +31,7 @@ services:
         - us-east-1
       aws-flow-log-group-name: "/aws/lambda/finos-ccc-integration-fn-main"
       test-identities:
-        testUserNoAccess:
+        test-user-no-access:
           user-name: "${AWS_TEST_USER_NO_ACCESS_USER_NAME}"
           access_key_id: "${AWS_TEST_USER_NO_ACCESS_ACCESS_KEY_ID}"
           secret_access_key: "${AWS_TEST_USER_NO_ACCESS_SECRET_ACCESS_KEY}"

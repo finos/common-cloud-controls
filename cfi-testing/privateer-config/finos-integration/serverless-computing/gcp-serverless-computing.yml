@@ -14,7 +14,7 @@ services:
         - tlp-red
     vars:
       service: serverless-computing
-      ServiceType: serverless-computing
+      service-type: serverless-computing
       tags: "@Behavioural @serverless-computing"
       provider: gcp
       catalog-locations:
@@ -31,6 +31,6 @@ services:
       permitted-regions:
         - us-central1
       test-identities:
-        testUserNoAccess:
+        test-user-no-access:
           user-name: "${GCP_TEST_USER_NO_ACCESS_NAME}"
           service_account_key: "${GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON}"

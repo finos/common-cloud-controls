@@ -6,7 +6,7 @@ Feature: CCC.VPC.CN04.AR01 - Flow logs must capture all VPC traffic
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "vpc"
     And I refer to "{result}" as "vpcService"
     And I call "{api}" with "GetServiceAPI" using argument "logging"
@@ -19,7 +19,7 @@ Feature: CCC.VPC.CN04.AR01 - Flow logs must capture all VPC traffic
   # holds the truth (logging.aws-flow-log-group-name etc.).
   @Behavioural @MAIN @CCC.VPC
   Scenario: Behavioral check (active): traffic produces flow log records
-    Given I refer to "{UID}" as "TargetVpcId"
+    Given I refer to "{uid}" as "TargetVpcId"
     When I call "{vpcService}" with "GenerateTestTraffic" using argument "{TargetVpcId}"
     And I refer to "{result.ResourceId}" as "TestResourceId"
     And I refer to "{result.CleanupDeleted}" as "TrafficCleanupDeleted"

@@ -15,7 +15,7 @@ services:
       function-name: "finos-ccc-integration-fn-main"
       private-endpoint-url: "https://finos-ccc-integration-fn-main.privatelink.azurewebsites.net/api/HttpTrigger"
       resource: "finos-ccc-integration-vm-main"
-      hostName: "${AZURE_VM_HOSTNAME}"
+      host-name: "${AZURE_VM_HOSTNAME}"
       allowed-requester-vpc-ids:
         - "finos-ccc-integration-vpc-cn03-allow-01"
         - "finos-ccc-integration-vpc-cn03-allow-01"

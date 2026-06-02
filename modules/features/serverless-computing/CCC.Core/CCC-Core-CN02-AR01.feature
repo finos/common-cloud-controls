@@ -5,13 +5,13 @@ Feature: CCC.Core.CN02.AR01 - Encrypt Data For Storage
   So that sensitive values remain protected
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
 
   @Behavioural @serverless-computing
   Scenario: Function encryption status reports enabled controls
     Given I call "{api}" with "GetServiceAPI" using argument "serverless-computing"
     And I refer to "{result}" as "svc"
-    When I call "{svc}" with "GetFunctionEncryptionStatus" using argument "{UID}"
+    When I call "{svc}" with "GetFunctionEncryptionStatus" using argument "{uid}"
     Then "{result}" is not an error
     And I refer to "{result}" as "encryption"
     And I attach "{encryption}" to the test output as "Function Encryption Status"

@@ -16,11 +16,9 @@ import (
 
 // Options configures a full compliance test run (CLI or Privateer plugin).
 type Options struct {
-	Config         types.Config          // set from Privateer Vars (preferred)
-	Instance       *types.InstanceConfig // legacy env-file path only
+	Config         types.Config
 	Vars           map[string]interface{}
 	InstanceID     string
-	EnvFile        string
 	Service        string
 	OutputDir      string
 	Timeout        time.Duration
@@ -56,49 +54,35 @@ func Run(opts Options) int {
 		opts.InstanceID = opts.Service
 	}
 	if opts.InstanceID == "" {
-		log.Fatal("Error: set vars.resource in Privateer config, or pass -instance for legacy env-file mode")
+		log.Fatal("Error: set vars.resource in Privateer config")
 	}
 	if opts.Timeout == 0 {
 		opts.Timeout = 30 * time.Minute
 	}
 
 	var cfg types.Config
-	var inst *types.InstanceConfig
 	if len(opts.Config.Vars()) > 0 {
 		cfg = opts.Config
 	} else if opts.Vars != nil {
 		cfg = types.NewConfig(ExpandVars(opts.Vars))
-	} else if opts.Instance != nil {
-		inst = opts.Instance
-		cfg = types.ConfigFromInstance(*inst)
 	} else {
-		if opts.EnvFile == "" {
-			log.Fatal("Error: env file path is required (or pass Config/Vars via Privateer)")
-		}
-		envConfig, err := LoadEnvironment(opts.EnvFile)
-		if err != nil {
-			log.Fatalf("Error loading environment file: %v", err)
-		}
-		inst, err = FindInstance(envConfig, opts.InstanceID)
-		if err != nil {
-			log.Fatalf("Error: %v", err)
-		}
-		cfg = types.ConfigFromInstance(*inst)
+		log.Fatal("Error: Config or Vars is required (load from Privateer services.*.vars)")
 	}
 
 	cp := cfg.CloudParams()
 	log.Printf("🚀 Starting CCC CFI Compliance Tests")
-	if inst != nil {
-		log.Printf("   Instance: %s (%s)", inst.ID, cp.Provider)
-	} else {
-		log.Printf("   Instance: %s (%s)", opts.InstanceID, cp.Provider)
-	}
+	log.Printf("   Instance: %s (%s)", opts.InstanceID, cp.Provider)
 	log.Println()
 
 	if opts.CleanOutput {
 		log.Printf("🧹 Cleaning output directory: %s", opts.OutputDir)
-		if err := os.RemoveAll(opts.OutputDir); err != nil && !os.IsNotExist(err) {
-			log.Printf("⚠️  Warning: Failed to clean output directory: %v", err)
+		// Preserve non-runner artifacts in the root output directory (e.g. Privateer
+		// files) and only clean runner-managed subdirectories.
+		for _, subDir := range []string{"html", "ocsf"} {
+			target := filepath.Join(opts.OutputDir, subDir)
+			if err := os.RemoveAll(target); err != nil && !os.IsNotExist(err) {
+				log.Printf("⚠️  Warning: Failed to clean %s: %v", target, err)
+			}
 		}
 	}
 	if err := os.MkdirAll(opts.OutputDir, 0755); err != nil {
@@ -107,49 +91,31 @@ func Run(opts Options) int {
 	log.Printf("✅ Output directory ready")
 	log.Println()
 
-	servicesToRun := []types.ServiceConfig{{Type: opts.Service}}
-	if inst != nil {
-		servicesToRun = inst.Services
+	if opts.Service == "" {
+		log.Fatal("Error: service is required (Privateer vars.service)")
 	}
-	if opts.Service != "" {
-		validService := false
-		for _, st := range types.ServiceTypes {
-			if st == opts.Service {
-				validService = true
-				break
-			}
+	validService := false
+	for _, st := range types.ServiceTypes {
+		if st == opts.Service {
+			validService = true
+			break
 		}
-		if !validService {
-			log.Fatalf("Error: invalid service '%s'. Valid services are: %s", opts.Service, strings.Join(types.ServiceTypes, ", "))
-		}
-		if inst != nil {
-			var filtered []types.ServiceConfig
-			for _, svc := range inst.Services {
-				if svc.Type == opts.Service {
-					filtered = append(filtered, svc)
-				}
-			}
-			if len(filtered) == 0 {
-				log.Fatalf("Error: service '%s' is not defined in instance '%s'", opts.Service, inst.ID)
-			}
-			servicesToRun = filtered
-		} else {
-			servicesToRun = []types.ServiceConfig{{Type: opts.Service}}
-		}
-		log.Printf("   Service: %s", opts.Service)
-		log.Println()
 	}
+	if !validService {
+		log.Fatalf("Error: invalid service %q. Valid services are: %s", opts.Service, strings.Join(types.ServiceTypes, ", "))
+	}
+	log.Printf("   Service: %s", opts.Service)
+	log.Println()
 
-	var runners []ServiceRunner
-	for i := range servicesToRun {
-		runners = append(runners, NewBasicServiceRunner(RunConfig{
-			ServiceName:    servicesToRun[i].Type,
+	runners := []ServiceRunner{
+		NewBasicServiceRunner(RunConfig{
+			ServiceName:    opts.Service,
 			Config:         cfg,
 			OutputDir:      opts.OutputDir,
 			Timeout:        opts.Timeout,
 			ResourceFilter: opts.ResourceFilter,
 			Tags:           opts.Tags,
-		}))
+		}),
 	}
 
 	log.Printf("📋 Running %d service runner(s)", len(runners))

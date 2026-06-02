@@ -56,8 +56,8 @@ The serverless catalog defines **two native controls** with **two behavioural AR
 
 #### Approach
 
-1. **`GetInvokeEndpointExposure("{UID}")`** — read the function resource via cloud API (not log-sink discovery): returns `PublicEndpointConfigured`, `PublicEndpointURL`, `PrivateEndpointConfigured`, `PrivateEndpointURL`. Catches **false passes** when a function is publicly invokable but an operator omitted `public-invoke-url` from YAML.
-2. **Scenario A**: `AttemptPrivateInvoke("{UID}")` using `private-endpoint-url` from config → assert success.
+1. **`GetInvokeEndpointExposure("{uid}")`** — read the function resource via cloud API (not log-sink discovery): returns `PublicEndpointConfigured`, `PublicEndpointURL`, `PrivateEndpointConfigured`, `PrivateEndpointURL`. Catches **false passes** when a function is publicly invokable but an operator omitted `public-invoke-url` from YAML.
+2. **Scenario A**: `AttemptPrivateInvoke("{uid}")` using `private-endpoint-url` from config → assert success.
 3. **Scenario B (good)**:
    - Assert `PublicEndpointConfigured` is false; **or**
    - If `public-invoke-url` is explicitly set (edge-case dual-homed test fixture), assert `AttemptPublicInternetInvoke` → `AccessDenied` true (connection refused, timeout, or HTTP error — **not** merely 403 from IAM auth on an intentionally public URL).
@@ -69,15 +69,15 @@ The serverless catalog defines **two native controls** with **two behavioural AR
 Background: api + serverless-computing service
 
 Scenario A (@SANITY @OPT_IN): private path works
-  When AttemptPrivateInvoke("{UID}")
+  When AttemptPrivateInvoke("{uid}")
   Then success
 
 Scenario B (@MAIN): no public internet invoke surface (good fixture)
-  When GetInvokeEndpointExposure("{UID}")
+  When GetInvokeEndpointExposure("{uid}")
   Then PublicEndpointConfigured is false
 
 Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API provides a URL)
-  When AttemptPublicInternetInvoke("{UID}")
+  When AttemptPublicInternetInvoke("{uid}")
   Then AccessDenied is true          # good fixture: public path blocked or unreachable
 
 # Bad-fixture validation (separate privateer config, e.g. aws-serverless-bad.yml):
@@ -107,8 +107,8 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 - **Interpretation**: Same **entity** (same principal / same concurrency bucket) must hit account or function reserved concurrency / throttle limit.
 - **Approach**:
   1. Read `rate-limit-threshold` from config (must match terraform reserved concurrency or API GW throttle).
-  2. `InvokeFunctionBurst("{UID}", threshold)` → assert all succeed.
-  3. `InvokeFunctionBurst("{UID}", threshold + N)` → assert additional invocations return throttled/denied (`TooManyRequestsException`, 429, etc.).
+  2. `InvokeFunctionBurst("{uid}", threshold)` → assert all succeed.
+  3. `InvokeFunctionBurst("{uid}", threshold + N)` → assert additional invocations return throttled/denied (`TooManyRequestsException`, 429, etc.).
   4. Use synchronous invoke with short handler (minimal duration) to maximize request rate.
 - **Feature sketch**:
   - Given `{RateLimitThreshold}` from config
@@ -128,7 +128,7 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 
 - **Requirement**: > When data is stored, it MUST be encrypted using the latest industry-standard encryption methods.
 - **Disposition**: Behavioural (config inspection)
-- **Approach**: `GetFunctionEncryptionStatus("{UID}")` — environment variables KMS key, secrets integration, platform encryption flags.
+- **Approach**: `GetFunctionEncryptionStatus("{uid}")` — environment variables KMS key, secrets integration, platform encryption flags.
 - **Gaps**: No user “data” stored on function itself except env/secrets; honesty note in feature.
 
 ### CCC.Core.CN04.AR01 — Log admin changes
@@ -145,12 +145,12 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 ### CCC.Core.CN05.AR01 / AR02 — Unauthorized invoke / admin
 
 - **Disposition**: Destructive + Behavioural
-- **Approach**: `GetServiceAPIWithIdentity(..., "testUserNoAccess")` + `InvokeFunction` → error; admin identity + `UpdateFunctionConfiguration` → success optional.
+- **Approach**: `GetServiceAPIWithIdentity(..., "test-user-no-access")` + `InvokeFunction` → error; admin identity + `UpdateFunctionConfiguration` → success optional.
 
 ### CCC.Core.CN06.AR01 — Region compliance
 
 - **Disposition**: Behavioural
-- **Approach**: `GetResourceRegion` + `{PermittedRegions}` check.
+- **Approach**: `GetResourceRegion` + `{permitted-regions}` check.
 
 ### CCC.Core.CN01.*, CN03.*, CN07.*, CN09.*, CN10.*
 

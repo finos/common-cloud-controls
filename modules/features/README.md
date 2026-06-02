@@ -32,16 +32,31 @@ See `virtual-machines/analysis.md` and `serverless-computing/analysis.md` for pl
 
 ## Test identities
 
-Scenarios that call `GetServiceAPIWithIdentity` pass a **literal identity key** (e.g. `"testUserRead"`). The factory resolves credentials from `test-identities` in Privateer `services.*.vars`. Features do **not** call `ProvisionUserWithAccess`.
+Scenarios that call `GetServiceAPIWithIdentity` pass a **literal identity key** (e.g. `"test-user-read"`). The factory resolves credentials from `test-identities` in Privateer `services.*.vars`. Features do **not** call `ProvisionUserWithAccess`.
 
 | Key | Typical access level |
 |-----|----------------------|
-| `testUserNoAccess` | none |
-| `testUserRead` | read |
-| `testUserWrite` | write |
-| `testUserAdmin` | admin |
+| `test-user-no-access` | none |
+| `test-user-read` | read |
+| `test-user-write` | write |
+| `test-user-admin` | admin |
 
-Use `Given a cloud api for "{Config}" in "api"` so the factory receives the expanded vars map.
+Use `Given a cloud api for "{config}" in "api"` so the factory receives the expanded vars map.
+
+## Step placeholders (Props)
+
+Use **lower-kebab-case** names that match Privateer `services.*.vars` keys, for example:
+
+| Placeholder | Privateer var |
+|-------------|----------------|
+| `{config}` | (runtime `types.Config`) |
+| `{service-type}` | `service-type` |
+| `{resource-name}` | discovered resource / `resource` |
+| `{host-name}` | `host-name` |
+| `{port-number}` | `port-number` |
+| `{uid}` | discovered resource ID |
+| `{timestamp}` | scenario start (ms) |
+| `{permitted-regions}` | `permitted-regions` |
 
 ## Refreshing from ccc-cfi-compliance
 

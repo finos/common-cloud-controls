@@ -6,7 +6,7 @@ Feature: CCC.Core.CN03.AR01 - Multi-Factor Authentication for Destructive Operat
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
 
   @Behavioural @object-storage @load-balancer @virtual-machines @serverless-computing @NotTestable
   Scenario: MFA requirement for destructive operations cannot be tested automatically

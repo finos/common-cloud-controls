@@ -6,27 +6,27 @@ Feature: CCC.ObjStor.CN01.AR04
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
     And "{result}" is not an error
 
 @Behavioural
   Scenario: Service prevents writing object with read-only access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserRead", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-read", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
-    When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "test-write-object={Timestamp}.txt", and "test content"
+    When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "test-write-object={timestamp}.txt", and "test content"
     Then "{result}" is an error
     And I attach "{result}" to the test output as "read-create-object-error.txt"
 
 
 @Behavioural
   Scenario: Service allows writing object with write access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserWrite", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-write", and "{true}"
     And "{result}" is not an error
     And I attach "{result}" to the test output as "write-storage-service.json"
     And I refer to "{result}" as "userStorage"
-    When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "test-write-object={Timestamp}.txt", and "test content"
+    When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "test-write-object={timestamp}.txt", and "test content"
     Then "{result}" is not an error
     And I attach "{result}" to the test output as "write-create-object-result.json"
