@@ -113,6 +113,7 @@
   top: 0;
   align-self: flex-start;
   z-index: 1000;
+  width: stretch;
   /* So it stays above the main content */
 }
 
