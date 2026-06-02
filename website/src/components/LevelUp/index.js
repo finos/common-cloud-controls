@@ -60,7 +60,7 @@ export default function LevelUp() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "#3b82f6"
+                  background: "#777c85"
                 }}>
                   {step.icon}
                 </div>
