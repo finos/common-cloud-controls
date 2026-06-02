@@ -13,6 +13,7 @@ import Releases from "../components/Releases";
 import NewSplashTop from "../components/NewSplashTop";
 import Contributors from "../components/Contributors";
 import SimpleIntro from "../components/SimpleIntro";
+import LevelUp from "../components/LevelUp";
 
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
@@ -21,11 +22,7 @@ export default function Home(): ReactNode {
       <NewSplashTop />
       <main>
         <SimpleIntro />
-        <WhatIsIt />
-        <Contributors />
-        <Benefits />
-        <LearnMore />
-        <Releases />
+        <LevelUp />
       </main>
     </Layout>
   );
