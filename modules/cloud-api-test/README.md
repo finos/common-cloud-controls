@@ -25,7 +25,7 @@ logging,QueryLogs,all,,finos-ccc-integration-fn-main,admin,60,
 ## Run locally
 
 ```bash
-cd modules/integration-testing
+cd modules/cloud-api-test
 ./run-integration-tests.sh aws    # or azure | gcp | all
 ```
 
@@ -38,7 +38,7 @@ Manual equivalent:
 ```bash
 export INTEGRATION_PROVIDER=aws   # required: aws | azure | gcp
 
-cd modules/integration-testing
+cd modules/cloud-api-test
 go test -tags=integration -timeout=45m \
   -coverpkg=../cloud-api/... \
   -covermode=atomic \
@@ -66,7 +66,7 @@ Workflow: `.github/workflows/cloud-api-integration.yml`. Runs `./run-integration
 
 ## Terraform
 
-Provision fixtures first — see `modules/integration-testing/terraform/`.
+Provision fixtures first — see `modules/cloud-api-test/terraform/`.
 
 Ideally, the terraform here should be just enough to allow us to integration test the `cloud-cfi` module.  **NOTE**:  it should be the cheapest, most minimal installation possible.  
 
@@ -74,9 +74,9 @@ When adding extra terraform, please take this into account.
 
 ## User Creation
 
-Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Provision them with scripts in `modules/integration-testing/user-creation/`. e.g: 
+Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Provision them with scripts in `modules/cloud-api-test/user-creation/`. e.g: 
 ```bash
-cd modules/integration-testing/user-creation
+cd modules/cloud-api-test/user-creation
 ./provision-azure-test-users.sh
 source ./azure-env.sh
 ```

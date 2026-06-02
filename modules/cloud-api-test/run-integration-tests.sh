@@ -149,7 +149,7 @@ run_single_cloud() {
   local cover_profile="coverage-integration-${cloud}.out"
   local cover_html="coverage-integration-${cloud}.html"
 
-  echo "==> integration-testing (provider=$cloud)"
+  echo "==> cloud-api-test (provider=$cloud)"
   go mod download
 
   echo "==> go test -tags=integration"
@@ -177,7 +177,7 @@ run_all_clouds() {
   for cloud in "${clouds[@]}"; do
     echo ""
     echo "========================================"
-    echo "==> integration-testing (provider=$cloud)"
+    echo "==> cloud-api-test (provider=$cloud)"
     echo "========================================"
 
     setup_cloud_env "$cloud"
