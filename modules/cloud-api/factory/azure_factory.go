@@ -89,7 +89,7 @@ func (f *AzureFactory) GetServiceAPI(serviceID string) (generic.Service, error) 
 }
 
 // GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. test-user-read).
-func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string, testAccess bool) (generic.Service, error) {
+func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string) (generic.Service, error) {
 	identity, err := f.config.Identity(identityKey)
 	if err != nil {
 		return nil, err
@@ -108,11 +108,6 @@ func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identityKey s
 		service, err = objstorage.NewAzureBlobServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create Azure service '%s' with identity %q: %w", serviceID, identityKey, err)
-		}
-		if testAccess {
-			if err = waitForUserProvisioning(service); err != nil {
-				return nil, fmt.Errorf("user provisioning validation failed: %w", err)
-			}
 		}
 	case "virtual-machines":
 		service, err = virtualmachines.NewAzureVirtualMachinesServiceWithCredentials(f.ctx, f.config, identity)

@@ -100,7 +100,7 @@ _None — catalog contains no `CCC.VM.CN*.AR*` entries._
 ### CCC.Core.CN05.AR01 — Block unauthorized data modification
 
 - **Disposition**: Destructive + Behavioural — **extend generic CN05** (same pattern as `CCC-Core-CN05-AR06.feature`)
-- **Approach**: `GetServiceAPIWithIdentity("{service-type}", "test-user-no-access", false)` + `TriggerDataWrite("{resource-name}")` → assert error. Positive path with `test-user-write` optional `@OPT_IN`.
+- **Approach**: `GetServiceAPIWithIdentity("{service-type}", "test-user-no-access")` + `TriggerDataWrite("{resource-name}")` → assert error. Positive path with `test-user-write` optional `@OPT_IN`.
 
 ### CCC.Core.CN05.AR02 — Block unauthorized administrative access
 

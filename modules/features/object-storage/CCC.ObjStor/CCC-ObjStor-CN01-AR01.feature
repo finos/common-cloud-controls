@@ -12,7 +12,7 @@ Feature: CCC.ObjStor.CN01.AR01
 
 @Behavioural
   Scenario: Service prevents reading bucket with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-no-access", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-no-access"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "ListObjects" using argument "{resource-name}"
@@ -22,7 +22,7 @@ Feature: CCC.ObjStor.CN01.AR01
 
 @Behavioural
   Scenario: Service allows reading bucket with read access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-read", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-read"
     And "{result}" is not an error
     And I attach "{result}" to the test output as "read-storage-service.json"
     And I refer to "{result}" as "userStorage"

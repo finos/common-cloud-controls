@@ -12,7 +12,7 @@ Feature: CCC.Core.CN05.AR02 - Block Unauthorized Administrative Access
 
 @Destructive @Behavioural @object-storage
   Scenario: Service prevents administrative action (creating a new bucket) by user with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-no-access", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-no-access"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateBucket" using argument "test-cn05-unauthorized-admin-container"
@@ -22,7 +22,7 @@ Feature: CCC.Core.CN05.AR02 - Block Unauthorized Administrative Access
 
 @Destructive @Behavioural @object-storage
   Scenario: Service prevents administrative action (creating a new bucket) by user with read-only access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-read", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-read"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateBucket" using argument "test-cn05-read-only-create-container"
@@ -32,7 +32,7 @@ Feature: CCC.Core.CN05.AR02 - Block Unauthorized Administrative Access
 
 @Behavioural @object-storage
   Scenario: Service allows administrative action (creating a new bucket) by user with admin access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-admin", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-admin"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateBucket" using argument "test-cn05-authorized-admin-container"

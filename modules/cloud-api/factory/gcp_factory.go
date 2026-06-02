@@ -84,7 +84,7 @@ func (f *GCPFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 }
 
 // GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. test-user-read).
-func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string, testAccess bool) (generic.Service, error) {
+func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string) (generic.Service, error) {
 	identity, err := f.config.Identity(identityKey)
 	if err != nil {
 		return nil, err
@@ -103,11 +103,6 @@ func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		service, err = objstorage.NewGCPStorageServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCS service with identity %q: %w", identityKey, err)
-		}
-		if testAccess {
-			if err := service.CheckUserProvisioned(); err != nil {
-				return nil, fmt.Errorf("credentials not ready: %w", err)
-			}
 		}
 	case "virtual-machines":
 		service, err = virtualmachines.NewGCPVirtualMachinesServiceWithCredentials(f.ctx, f.config, identity)

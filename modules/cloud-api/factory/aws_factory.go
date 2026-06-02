@@ -89,7 +89,7 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 }
 
 // GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. test-user-read).
-func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string, testAccess bool) (generic.Service, error) {
+func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string) (generic.Service, error) {
 	identity, err := f.config.Identity(identityKey)
 	if err != nil {
 		return nil, err
@@ -112,11 +112,6 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		if err := service.ElevateAccessForInspection(); err != nil {
 			fmt.Printf("⚠️  Warning: Failed to elevate access for %s: %v\n", serviceID, err)
 		}
-		if testAccess {
-			if err = waitForUserProvisioning(service); err != nil {
-				return nil, fmt.Errorf("user provisioning validation failed: %w", err)
-			}
-		}
 
 	case "vpc":
 		return nil, fmt.Errorf("vpc with identity not yet implemented for AWS")
@@ -125,20 +120,10 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}
-		if testAccess {
-			if err = waitForUserProvisioning(service); err != nil {
-				return nil, fmt.Errorf("user provisioning validation failed: %w", err)
-			}
-		}
 	case "serverless-computing":
 		service, err = serverlesscomputing.NewAWSServerlessComputingServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
-		}
-		if testAccess {
-			if err = waitForUserProvisioning(service); err != nil {
-				return nil, fmt.Errorf("user provisioning validation failed: %w", err)
-			}
 		}
 
 	default:
