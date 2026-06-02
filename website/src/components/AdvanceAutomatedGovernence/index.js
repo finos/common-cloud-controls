@@ -163,12 +163,12 @@ export default function AdvanceAutomatedGovernance() {
         <div style={{ width: "300px", flexShrink: 0, minWidth: "280px" }}>
           <div className="video-list">
             {videos.map((v) => (
-              <figure key={v.url} className="video-item" style={{ margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              <figure key={v.url} className="video-item" style={{ margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "2rem" }}>
                 <div style={{
-                  borderRadius: "var(--gf-radius-lg)",
+                  borderRadius: "0.5rem",
                   overflow: "hidden",
-                  background: "var(--gf-color-surface)",
-                  border: "1px solid var(--gf-color-border-strong)",
+                  background: "#777c85",
+                  border: "1px solid #777c85",
                   aspectRatio: "16/9",
                   position: "relative"
                 }}>
@@ -176,19 +176,18 @@ export default function AdvanceAutomatedGovernance() {
                     <ReactPlayer url={v.url} width="100%" height="100%" controls light={videoThumbnail(v.url)} style={{ position: "absolute", top: 0, left: 0 }} />
                   </React.Suspense>
                 </div>
-                <figcaption style={{ fontSize: "0.9rem", color: "var(--gf-color-text-subtle)", lineHeight: 1.5 }}>
+                <figcaption style={{ fontSize: "0.9rem", lineHeight: 1.5 }}>
                   {v.caption}
                 </figcaption>
               </figure>
             ))}
           </div>
-          <p style={{ textAlign: "center", marginTop: "var(--gf-space-lg)", color: "var(--gf-color-text-subtle)" }}>
+          <p style={{ textAlign: "center", marginTop: "1rem" }}>
             Further videos on the{" "}
             <a
               href="https://www.youtube.com/watch?v=8hMRahzwK3k&list=PLmPXh6nBuhJuWoOHDqG4AMPVerlWYDacD"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "var(--gf-color-accent)" }}
             >
               YouTube playlist
             </a>.
