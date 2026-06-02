@@ -11,3 +11,4 @@ cfi:
     - main
   git: https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount
   test-configuration: ../privateer-config/finos-integration/cloud-storage/azure-cloud-storage.yml
+  privateer-service: azureStorageBehavioural

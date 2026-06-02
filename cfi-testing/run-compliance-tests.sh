@@ -5,7 +5,7 @@ set -euo pipefail
 
 # Defaults
 CONFIG_FILE=""
-PRIVATEER_SERVICE="azureStorageBehavioural"
+PRIVATEER_SERVICE=""
 SERVICE=""
 OUTPUT_DIR=""
 TIMEOUT="30m"
@@ -23,7 +23,7 @@ Runs behavioural compliance tests via Privateer:
 Optional:
   -c, --config PATH          Privateer config YAML (default: privateer-config/azure-cloud-storage.yml)
   -e, --env-file PATH        Alias for --config (legacy flag name)
-  -S, --privateer-service ID Privateer services.<id> key (default: azureStorageBehavioural)
+  -S, --privateer-service ID Privateer services.<id> key (required)
   -s, --service TYPE         Godog service type in config vars (default: object-storage for Azure storage)
   -o, --output DIR           Report directory (maps to pvtr --write-directory)
   -r, --resource NAME        Filter to a specific resource name
@@ -82,6 +82,12 @@ if [ ! -f "$CONFIG_FILE" ]; then
   exit 1
 fi
 
+if [ -z "$PRIVATEER_SERVICE" ]; then
+  echo "Error: -S/--privateer-service is required." >&2
+  usage >&2
+  exit 1
+fi
+
 if [ -z "$SERVICE" ]; then
   SERVICE="object-storage"
 fi
@@ -98,11 +104,16 @@ PLUGIN_BINARY="$BINARIES_PATH/ccc-behavioural-plugin"
 # Ensure behavioural plugin embed source directory has catalog YAMLs.
 # In CI, release catalogs are generated under website/src/data/ccc-releases.
 PLUGIN_CATALOG_DIR="$MODULES_DIR/ccc-behavioural-plugin/catalogs"
-RELEASE_CATALOG_DIR="$REPO_ROOT/website/src/data/ccc-releases"
 mkdir -p "$PLUGIN_CATALOG_DIR"
-if ls "$RELEASE_CATALOG_DIR"/CCC*.yaml >/dev/null 2>&1; then
-  echo "📚 Syncing release catalogs into plugin embed directory..."
-  cp "$RELEASE_CATALOG_DIR"/CCC*.yaml "$PLUGIN_CATALOG_DIR"/
+echo "📚 Syncing service-specific catalogs into plugin embed directory..."
+if ! (cd "$MODULES_DIR/runner" && go run ./cmd/ccc-compliance \
+  -config "$CONFIG_FILE" \
+  -privateer-service "$PRIVATEER_SERVICE" \
+  -repo-root "$REPO_ROOT" \
+  -sync-catalogs-dest "$PLUGIN_CATALOG_DIR" \
+  -sync-catalogs-only); then
+  echo "❌ Catalog sync failed" >&2
+  exit 1
 fi
 
 echo "🔨 Building Go workspace (modules/go.work)..."
