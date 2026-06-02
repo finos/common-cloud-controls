@@ -99,7 +99,8 @@ jobs:
 
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      # Do not set AZURE_CLIENT_ID here: DefaultAzureCredential treats it as a
+      # user-assigned managed identity ID and skips Azure CLI auth on GHA runners.
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -205,9 +206,9 @@ jobs:
         if: matrix.target.provider == 'azure'
         uses: azure/login@v2
         with:
-          client-id: ${{ env.AZURE_CLIENT_ID }}
-          tenant-id: ${{ env.AZURE_TENANT_ID }}
-          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Authenticate to Google Cloud (OIDC)
         if: matrix.target.provider == 'gcp'
