@@ -15,7 +15,7 @@ Feature: CCC.ObjStor.CN02.AR01 - Uniform Bucket-Level Access (Consistent Allow)
   Scenario: Service enforces uniform bucket-level access by rejecting object-level permissions
     When I call "{storage}" with "CreateObject" using arguments "{resource-name}", "test-object={timestamp}.txt", and "test data"
     Then "{result}" is not an error
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-read"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage" and "test-user-read"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "ReadObject" using arguments "{resource-name}" and "test-object={timestamp}.txt"

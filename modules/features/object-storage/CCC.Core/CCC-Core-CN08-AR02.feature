@@ -18,5 +18,5 @@ Feature: CCC.Core.CN08.AR02 - Replication Status Visibility
     And I refer to "{replicationStatus.Locations}" as "locations"
     Then "{locations}" is an array of objects with at least the following contents
       | value   |
-      | {ReplicationLocations[0]}  |
-      | {ReplicationLocations[1]}  |
+      | {replication-locations[0]}  |
+      | {replication-locations[1]}  |
