@@ -6,14 +6,14 @@ Feature: CCC.Core.CN02.AR01 - Data Encryption at Rest
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
 
 @Behavioural @object-storage
   Scenario: Verify objects are encrypted at rest
     Given I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
     And "{result}" is not an error
-    When I call "{storage}" with "CreateObject" using arguments "{ResourceName}", "test-encryption-check={Timestamp}.txt", and "encryption test data"
+    When I call "{storage}" with "CreateObject" using arguments "{resource-name}", "test-encryption-check={timestamp}.txt", and "encryption test data"
     Then "{result}" is not an error
     And I refer to "{result}" as "uploadResult"
     And "{uploadResult.Encryption}" is not null

@@ -21,7 +21,7 @@ type Factory interface {
 	// GetServiceAPI returns a generic service API client for the given service ID
 	GetServiceAPI(serviceID string) (generic.Service, error)
 
-	// GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. testUserRead).
+	// GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. test-user-read).
 	// Credentials are resolved from config test-identities. If testAccess is true, validates propagation.
 	GetServiceAPIWithIdentity(serviceID string, identityKey string, testAccess bool) (generic.Service, error)
 

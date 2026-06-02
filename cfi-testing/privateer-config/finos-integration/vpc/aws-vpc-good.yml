@@ -17,7 +17,7 @@ services:
         - tlp-red
     vars:
       service: vpc
-      ServiceType: vpc
+      service-type: vpc
       tags: "@MAIN @CCC.VPC"
       provider: aws
       catalog-locations:

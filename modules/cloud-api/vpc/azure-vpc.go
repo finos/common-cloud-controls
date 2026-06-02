@@ -43,7 +43,7 @@ func NewAzureVPCServiceWithCredentials(ctx context.Context, config ccctypes.Conf
 func identityAzureCredential(ctx context.Context, config ccctypes.Config, identity ccctypes.Identity) (azcore.TokenCredential, error) {
 	clientID := identity.ClientID()
 	clientSecret := identity.ClientSecret()
-	tenantID := config.Get("azure-tenant-id", "tenant_id")
+	tenantID := config.Get("azure-tenant-id")
 	if clientID != "" && clientSecret != "" && tenantID != "" {
 		return azidentity.NewClientSecretCredential(tenantID, clientID, clientSecret, nil)
 	}

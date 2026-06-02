@@ -6,13 +6,13 @@ Feature: CCC.Core.CN05.AR06 - Block All Unauthorized Requests
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
 
 @Destructive @Behavioural @object-storage @virtual-machines @serverless-computing
   Scenario: Service prevents data read by user with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "{ServiceType}", "testUserNoAccess", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "{service-type}", "test-user-no-access", and "{false}"
     And "{result}" is not an error
     And I refer to "{result}" as "userReadableService"
-    When I call "{userReadableService}" with "TriggerDataRead" using argument "{ResourceName}"
+    When I call "{userReadableService}" with "TriggerDataRead" using argument "{resource-name}"
     Then "{result}" is an error
     And I attach "{result}" to the test output as "no-access-trigger-data-read-error.txt"

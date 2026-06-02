@@ -17,7 +17,7 @@ services:
         - tlp-red
     vars:
       service: virtual-machines
-      ServiceType: virtual-machines
+      service-type: virtual-machines
       tags: "@Behavioural @virtual-machines"
       provider: aws
       catalog-locations:
@@ -27,22 +27,22 @@ services:
       resource: "finos-ccc-integration-vm-main"
       permitted-regions:
         - us-east-1
-      hostName: "203.0.113.10"
-      portNumber: "22"
+      host-name: "203.0.113.10"
+      port-number: "22"
       test-listener-port: 22
       allowed-source-cidr: "10.0.0.0/8"
       test-identities:
-        testUserNoAccess:
+        test-user-no-access:
           user-name: "${AWS_TEST_USER_NO_ACCESS_USER_NAME}"
           access_key_id: "${AWS_TEST_USER_NO_ACCESS_ACCESS_KEY_ID}"
           secret_access_key: "${AWS_TEST_USER_NO_ACCESS_SECRET_ACCESS_KEY}"
           session_token: "${AWS_TEST_USER_NO_ACCESS_SESSION_TOKEN}"
-        testUserWrite:
+        test-user-write:
           user-name: "${AWS_TEST_USER_WRITE_USER_NAME}"
           access_key_id: "${AWS_TEST_USER_WRITE_ACCESS_KEY_ID}"
           secret_access_key: "${AWS_TEST_USER_WRITE_SECRET_ACCESS_KEY}"
           session_token: "${AWS_TEST_USER_WRITE_SESSION_TOKEN}"
-        testUserAdmin:
+        test-user-admin:
           user-name: "${AWS_TEST_USER_ADMIN_USER_NAME}"
           access_key_id: "${AWS_TEST_USER_ADMIN_ACCESS_KEY_ID}"
           secret_access_key: "${AWS_TEST_USER_ADMIN_SECRET_ACCESS_KEY}"

@@ -6,20 +6,20 @@ Feature: CCC.Core.CN08.AR01 - Data Replication and Redundancy
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
 
 @Behavioural @object-storage
   Scenario: Bucket data is replicated to physically separate locations
-    When I call "{storage}" with "GetReplicationStatus" using argument "{ResourceName}"
+    When I call "{storage}" with "GetReplicationStatus" using argument "{resource-name}"
     And I refer to "{result}" as "replicationStatus"
     And I refer to "{replicationStatus.Locations}" as "locations"
     And I attach "{replicationStatus}" to the test output as "Replication Status"
     Then "{locations}" is an array of objects with length "2"
-    And "{PermittedRegions}" is an array of objects with at least the following contents
+    And "{permitted-regions}" is an array of objects with at least the following contents
       | value           |
       | {locations[0]}  |
-    And "{PermittedRegions}" is an array of objects with at least the following contents
+    And "{permitted-regions}" is an array of objects with at least the following contents
       | value           |
       | {locations[1]}  |

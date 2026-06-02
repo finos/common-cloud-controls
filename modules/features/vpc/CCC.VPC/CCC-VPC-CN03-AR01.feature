@@ -5,11 +5,11 @@ Feature: CCC.VPC.CN03.AR01 - Restrict VPC peering requests from non-allowlisted 
   So that network connectivity is restricted to authorized boundaries
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "vpc"
     And I refer to "{result}" as "vpcService"
-    And I refer to "{UID}" as "ReceiverVpcId"
-    And I refer to "{NonAllowlistedRequesterVpcId}" as "NonAllowlistedRequesterVpcId"
+    And I refer to "{uid}" as "ReceiverVpcId"
+    And I refer to "{non-allowlisted-requester-vpc-id}" as "NonAllowlistedRequesterVpcId"
     And "{ReceiverVpcId}" is not nil
 
   @Destructive @MAIN @DEFAULT @CCC.VPC
@@ -26,11 +26,11 @@ Feature: CCC.VPC.CN03.AR01 - Restrict VPC peering requests from non-allowlisted 
   @Destructive @MAIN @CCC.VPC
   # Requester outside allow and disallow lists must be classified as not allowed and denied on dry-run.
   Scenario: Enforcement proof (dry-run): non-allowlisted requester is denied even when not explicitly listed as disallowed
-    Given "{NonAllowlistedRequesterVpcId}" is not nil
-    When I call "{vpcService}" with "EvaluatePeerAgainstAllowList" using argument "{NonAllowlistedRequesterVpcId}"
+    Given "{non-allowlisted-requester-vpc-id}" is not nil
+    When I call "{vpcService}" with "EvaluatePeerAgainstAllowList" using argument "{non-allowlisted-requester-vpc-id}"
     Then "{result.AllowedListDefined}" is true
     And "{result.Allowed}" is false
-    When I call "{vpcService}" with "AttemptVpcPeeringDryRun" using arguments "{NonAllowlistedRequesterVpcId}" and "{ReceiverVpcId}"
+    When I call "{vpcService}" with "AttemptVpcPeeringDryRun" using arguments "{non-allowlisted-requester-vpc-id}" and "{ReceiverVpcId}"
     Then "{result.DryRunAllowed}" is false
     And "{result.AllowListDefined}" is true
     And "{result.RequesterInAllowList}" is false

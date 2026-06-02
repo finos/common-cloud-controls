@@ -5,11 +5,11 @@ Feature: CCC.Core.CN01.AR01
   So that data integrity and confidentiality are protected during transmission
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
 
   @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Service accepts TLS 1.3 encrypted traffic
-    Given an openssl s_client request using "tls1_3" to "{portNumber}" on "{hostName}" protocol "{protocol}"
+    Given an openssl s_client request using "tls1_3" to "{port-number}" on "{host-name}" protocol "{protocol}"
     And I refer to "{result}" as "connection"
     And "{connection}" state is open
     And "{connection.State}" is "open"
@@ -18,28 +18,28 @@ Feature: CCC.Core.CN01.AR01
 
   @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Service rejects TLS 1.2 traffic
-    Given an openssl s_client request using "tls1_2" to "{portNumber}" on "{hostName}" protocol "{protocol}"
+    Given an openssl s_client request using "tls1_2" to "{port-number}" on "{host-name}" protocol "{protocol}"
     And I refer to "{result}" as "connection"
     And we wait for a period of "40" ms
     Then "{connection.State}" is "closed"
 
   @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Service rejects TLS 1.1 traffic
-    Given an openssl s_client request using "tls1_1" to "{portNumber}" on "{hostName}" protocol "{protocol}"
+    Given an openssl s_client request using "tls1_1" to "{port-number}" on "{host-name}" protocol "{protocol}"
     And I refer to "{result}" as "connection"
     And we wait for a period of "40" ms
     Then "{connection.State}" is "closed"
 
   @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Service rejects TLS 1.0 traffic
-    Given an openssl s_client request using "tls1" to "{portNumber}" on "{hostName}" protocol "{protocol}"
+    Given an openssl s_client request using "tls1" to "{port-number}" on "{host-name}" protocol "{protocol}"
     And I refer to "{result}" as "connection"
     And we wait for a period of "40" ms
     Then "{connection.State}" is "closed"
 
   @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Verify SSL/TLS protocol support
-    Given "report" contains details of SSL Support type "protocols" for "{hostName}" on port "{portNumber}"
+    Given "report" contains details of SSL Support type "protocols" for "{host-name}" on port "{port-number}"
     Then "{report}" is an array of objects which doesn't contain any of
       | id     | finding |
       | SSLv2  | offered |
@@ -53,7 +53,7 @@ Feature: CCC.Core.CN01.AR01
 
   @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Verify no known SSL/TLS vulnerabilities
-    Given "report" contains details of SSL Support type "vulnerable" for "{hostName}" on port "{portNumber}"
+    Given "report" contains details of SSL Support type "vulnerable" for "{host-name}" on port "{port-number}"
     Then "{report}" is an array of objects with at least the following contents
       | id            | severity |
       | heartbleed    | OK       |
@@ -64,7 +64,7 @@ Feature: CCC.Core.CN01.AR01
 
   @Behavioural @PerPort @tls @object-storage @virtual-machines
   Scenario: Verify TLS 1.3 only certificate validity
-    Given "report" contains details of SSL Support type "server-defaults" for "{hostName}" on port "{portNumber}"
+    Given "report" contains details of SSL Support type "server-defaults" for "{host-name}" on port "{port-number}"
     Then "{report}" is an array of objects with at least the following contents
       | id                    | severity |
       | cert_expirationStatus | OK       |

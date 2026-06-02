@@ -21,7 +21,7 @@ services:
         - tlp-red
     vars:
       service: object-storage
-      ServiceType: object-storage
+      service-type: object-storage
       tags: "@Behavioural"
       provider: azure
       catalog-locations:
@@ -44,22 +44,22 @@ services:
         - westus
       default-container: "finos-ccc-integration-container-main"
       test-identities:
-        testUserNoAccess:
+        test-user-no-access:
           user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
           client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
           object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
-        testUserRead:
+        test-user-read:
           user-name: "${AZURE_TEST_USER_READ_USER_NAME}"
           client_id: "${AZURE_TEST_USER_READ_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_READ_CLIENT_SECRET}"
           object_id: "${AZURE_TEST_USER_READ_OBJECT_ID}"
-        testUserWrite:
+        test-user-write:
           user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
           client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
           object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
-        testUserAdmin:
+        test-user-admin:
           user-name: "${AZURE_TEST_USER_ADMIN_USER_NAME}"
           client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
           client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"

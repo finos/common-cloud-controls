@@ -88,7 +88,7 @@ func (f *AzureFactory) GetServiceAPI(serviceID string) (generic.Service, error) 
 	return service, nil
 }
 
-// GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. testUserRead).
+// GetServiceAPIWithIdentity returns a service API client for identityKey (e.g. test-user-read).
 func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identityKey string, testAccess bool) (generic.Service, error) {
 	identity, err := f.config.Identity(identityKey)
 	if err != nil {

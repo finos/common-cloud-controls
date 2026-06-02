@@ -22,7 +22,6 @@ Runs behavioural compliance tests via Privateer:
 
 Optional:
   -c, --config PATH          Privateer config YAML (default: privateer-config/azure-cloud-storage.yml)
-  -e, --env-file PATH        Alias for --config (legacy flag name)
   -S, --privateer-service ID Privateer services.<id> key (required)
   -s, --service TYPE         Godog service type in config vars (default: object-storage for Azure storage)
   -o, --output DIR           Report directory (maps to pvtr --write-directory)
@@ -47,9 +46,7 @@ EOF
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    -i|--instance) echo "Warning: --instance is ignored; resource names are set in privateer-config YAML" >&2; shift 2 ;;
     -c|--config) CONFIG_FILE="$2"; shift 2 ;;
-    -e|--env-file) CONFIG_FILE="$2"; shift 2 ;;
     -S|--privateer-service) PRIVATEER_SERVICE="$2"; shift 2 ;;
     -s|--service) SERVICE="$2"; shift 2 ;;
     -o|--output) OUTPUT_DIR="$2"; shift 2 ;;

@@ -41,12 +41,12 @@ fi
 
 INSTANCE_ID="${INSTANCE_ID:-$(date -u +"%Y%m%dt%H%M%Sz")}"
 
-# runner_key|display_name_suffix|role_name|env_prefix
+# identity_key|display_name_suffix|role_name|env_prefix
 USERS=(
-  "testUserNoAccess|test-user-no-access||AZURE_TEST_USER_NO_ACCESS"
-  "testUserRead|test-user-read|Storage Blob Data Reader|AZURE_TEST_USER_READ"
-  "testUserWrite|test-user-write|Storage Blob Data Contributor|AZURE_TEST_USER_WRITE"
-  "testUserAdmin|test-user-admin-access|Storage Blob Data Owner|AZURE_TEST_USER_ADMIN"
+  "test-user-no-access|test-user-no-access||AZURE_TEST_USER_NO_ACCESS"
+  "test-user-read|test-user-read|Storage Blob Data Reader|AZURE_TEST_USER_READ"
+  "test-user-write|test-user-write|Storage Blob Data Contributor|AZURE_TEST_USER_WRITE"
+  "test-user-admin|test-user-admin-access|Storage Blob Data Owner|AZURE_TEST_USER_ADMIN"
 )
 
 ensure_app_and_sp() {
@@ -117,7 +117,7 @@ assign_role_if_needed() {
 } >"$OUT_FILE"
 
 for spec in "${USERS[@]}"; do
-  IFS='|' read -r _runner_key suffix role_name env_prefix <<<"$spec"
+  IFS='|' read -r _identity_key suffix role_name env_prefix <<<"$spec"
   display_name="cfi-${INSTANCE_ID}-${suffix}"
 
   echo "--- $display_name ---"

@@ -5,8 +5,7 @@ import (
 	"strings"
 )
 
-// Config is the Privateer services.*.vars map (expanded). Factories read settings and
-// test-identities directly instead of marshalling into InstanceConfig.
+// Config is the Privateer services.*.vars map (expanded).
 type Config struct {
 	vars map[string]interface{}
 }
@@ -24,7 +23,7 @@ func (c Config) Vars() map[string]interface{} {
 	return c.vars
 }
 
-// Get returns a string var by kebab-case or camelCase key.
+// Get returns the first non-empty string var for the given lower-kebab-case keys.
 func (c Config) Get(keys ...string) string {
 	for _, key := range keys {
 		if v, ok := c.vars[key]; ok && v != nil {
@@ -96,41 +95,11 @@ type LoggingConfig struct {
 // LoggingConfig returns typed logging settings from flat Privateer vars.
 func (c Config) LoggingConfig() LoggingConfig {
 	return LoggingConfig{
-		AWSFlowLogGroupName:          c.Get("aws-flow-log-group-name", "flow-log-group-name"),
+		AWSFlowLogGroupName:          c.Get("aws-flow-log-group-name"),
 		AzureLogAnalyticsWorkspaceID: c.Get("azure-log-analytics-workspace-id"),
 		AzureStorageLogTable:         c.Get("azure-storage-log-table"),
 		AzureStorageAccountName:      c.Get("azure-storage-account"),
 		AzureFlowLogTable:            c.Get("azure-flow-log-table"),
 		GCPFlowLogName:               c.Get("gcp-flow-log-name"),
 	}
-}
-
-// ConfigFromInstance builds Config from a legacy environment YAML instance.
-func ConfigFromInstance(ic InstanceConfig) Config {
-	vars := make(map[string]interface{})
-	cp := ic.CloudParams()
-	if cp.Provider != "" {
-		vars["provider"] = cp.Provider
-	}
-	if cp.Region != "" {
-		vars["region"] = cp.Region
-	}
-	if cp.AzureResourceGroup != "" {
-		vars["azure-resource-group"] = cp.AzureResourceGroup
-	}
-	if cp.AzureSubscriptionID != "" {
-		vars["azure-subscription-id"] = cp.AzureSubscriptionID
-	}
-	if cp.GcpProjectId != "" {
-		vars["gcp-project-id"] = cp.GcpProjectId
-	}
-	for k, v := range ic.Rules {
-		vars[k] = v
-	}
-	for _, svc := range ic.Services {
-		for k, v := range svc.Properties {
-			vars[k] = v
-		}
-	}
-	return NewConfig(vars)
 }

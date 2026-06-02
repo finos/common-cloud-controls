@@ -10,7 +10,7 @@ Feature: CCC.Core.CN01.AR07
     HTTP must use port 80 as assigned by IANA.
     Running HTTP on non-standard ports violates IANA assignments.
 
-    Then "{portNumber}" is "80"
+    Then "{port-number}" is "80"
 
 
 @Behavioural @PerPort @http @tls @object-storage @virtual-machines
@@ -18,7 +18,7 @@ Feature: CCC.Core.CN01.AR07
     HTTPS must use port 443 as assigned by IANA.
     This is the standard port for encrypted web traffic.
 
-    Then "{portNumber}" is "443"
+    Then "{port-number}" is "443"
 
 
 @Behavioural @PerPort @ssh
@@ -26,7 +26,7 @@ Feature: CCC.Core.CN01.AR07
     SSH must use port 22 as assigned by IANA.
     Running SSH on non-standard ports or other services on port 22 violates IANA assignments.
 
-    Then "{portNumber}" is "22"
+    Then "{port-number}" is "22"
 
 
 @Behavioural @PerPort @smtp @plaintext
@@ -34,14 +34,14 @@ Feature: CCC.Core.CN01.AR07
     SMTP must use port 25 as assigned by IANA.
     This is the standard port for mail transfer between servers.
 
-    Then "{portNumber}" is "25"
+    Then "{port-number}" is "25"
 
 
 @Behavioural @PerPort @smtp @tls
   Scenario: Verify SMTPS uses IANA-assigned port 465 or 587
     SMTPS can use port 465 (implicit TLS) or 587 (STARTTLS) as assigned by IANA.
 
-    Then "{portNumber}" is "465"
+    Then "{port-number}" is "465"
 
 
 @Behavioural @PerPort @dns
@@ -49,7 +49,7 @@ Feature: CCC.Core.CN01.AR07
     DNS must use port 53 as assigned by IANA.
     Both TCP and UDP port 53 are reserved for domain name resolution.
 
-    Then "{portNumber}" is "53"
+    Then "{port-number}" is "53"
 
 
 @Behavioural @PerPort @ftp @plaintext
@@ -57,7 +57,7 @@ Feature: CCC.Core.CN01.AR07
     FTP must use port 21 as assigned by IANA.
     If FTP is disabled for security, this port should not be exposed.
 
-    Then "{portNumber}" is "21"
+    Then "{port-number}" is "21"
 
 
 @Behavioural @PerPort @ldap @plaintext
@@ -65,7 +65,7 @@ Feature: CCC.Core.CN01.AR07
     LDAP must use port 389 as assigned by IANA.
     This is the standard port for directory services.
 
-    Then "{portNumber}" is "389"
+    Then "{port-number}" is "389"
 
 
 @Behavioural @PerPort @ldap @tls
@@ -73,4 +73,4 @@ Feature: CCC.Core.CN01.AR07
     LDAPS must use port 636 as assigned by IANA.
     This is the secure LDAP port with implicit TLS.
 
-    Then "{portNumber}" is "636"
+    Then "{port-number}" is "636"

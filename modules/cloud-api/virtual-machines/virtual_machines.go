@@ -32,7 +32,7 @@ type Service interface {
 }
 
 func cfgPort(cfg types.Config) int {
-	p := strings.TrimSpace(cfg.Get("portNumber", "test-listener-port"))
+	p := strings.TrimSpace(cfg.Get("port-number", "test-listener-port"))
 	if p == "" {
 		return 22
 	}

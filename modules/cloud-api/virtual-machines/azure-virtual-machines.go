@@ -84,7 +84,7 @@ func (s *AzureVirtualMachinesService) GetVolumeEncryptionStatus(string) (*Volume
 	}, nil
 }
 func (s *AzureVirtualMachinesService) AttemptInboundConnection(_ string, port int) (*ConnectionAttemptResult, error) {
-	host := strings.TrimSpace(s.config.Get("hostName"))
+	host := strings.TrimSpace(s.config.Get("host-name"))
 	if host == "" {
 		return nil, fmt.Errorf("hostName is required for inbound connection checks")
 	}

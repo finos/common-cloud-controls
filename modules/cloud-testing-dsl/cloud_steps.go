@@ -368,7 +368,7 @@ func (cw *CloudWorld) transmitToConnection(data, connectionName string) error {
 		return fmt.Errorf("connection has no writable input")
 	}
 
-	// Resolve any variables in the data string (e.g., {hostName})
+	// Resolve any variables in the data string (e.g., {host-name})
 	dataStr := fmt.Sprintf("%v", cw.HandleResolve(data))
 	// Handle escape sequences for HTTP requests
 	dataStr = strings.ReplaceAll(dataStr, "\\r", "\r")
@@ -535,16 +535,10 @@ func (cw *CloudWorld) getSSLSupportReportWithSTARTTLS(reportName, testType, host
 // aCloudAPIForProviderIn initializes a cloud API factory from the given instance.
 // Example: Given a cloud api for "{Instance}" in "api"
 func (cw *CloudWorld) aCloudAPIForProviderIn(instanceArg string, apiName string) error {
-	// Resolve the argument — expects types.Config or legacy InstanceConfig (e.g. from {Config})
 	resolved := cw.HandleResolve(instanceArg)
-	var cfg types.Config
-	switch v := resolved.(type) {
-	case types.Config:
-		cfg = v
-	case types.InstanceConfig:
-		cfg = types.ConfigFromInstance(v)
-	default:
-		return fmt.Errorf("expected Config or InstanceConfig for %q, got %T", instanceArg, resolved)
+	cfg, ok := resolved.(types.Config)
+	if !ok {
+		return fmt.Errorf("expected Config for %q, got %T", instanceArg, resolved)
 	}
 
 	provider, err := cfg.Provider()

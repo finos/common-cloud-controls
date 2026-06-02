@@ -6,19 +6,19 @@ Feature: CCC.ObjStor.CN04.AR02
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "object-storage"
     And I refer to "{result}" as "storage"
 
 @Behavioural
   Scenario: Service prevents object deletion by write user during retention period
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserWrite", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-write", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
-    When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "protected-object={Timestamp}.txt", and "immutable data"
+    When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "protected-object={timestamp}.txt", and "immutable data"
     Then "{result}" is not an error
     And I attach "{result}" to the test output as "protected-object.json"
-    When I call "{userStorage}" with "DeleteObject" using arguments "{ResourceName}" and "protected-object={Timestamp}.txt"
+    When I call "{userStorage}" with "DeleteObject" using arguments "{resource-name}" and "protected-object={timestamp}.txt"
     Then "{result}" is an error
     And I attach "{result}" to the test output as "delete-protected-error.txt"
     And "{result}" should contain one of "retention, locked, immutable, protected"
@@ -26,22 +26,22 @@ Feature: CCC.ObjStor.CN04.AR02
 
 @Behavioural
   Scenario: Service prevents object deletion by admin user during retention period
-    When I call "{storage}" with "CreateObject" using arguments "{ResourceName}", "admin-protected-object={Timestamp}.txt", and "compliance data"
+    When I call "{storage}" with "CreateObject" using arguments "{resource-name}", "admin-protected-object={timestamp}.txt", and "compliance data"
     Then "{result}" is not an error
-    When I call "{storage}" with "DeleteObject" using arguments "{ResourceName}" and "admin-protected-object={Timestamp}.txt"
+    When I call "{storage}" with "DeleteObject" using arguments "{resource-name}" and "admin-protected-object={timestamp}.txt"
     Then "{result}" is an error
     And I attach "{result}" to the test output as "admin-delete-protected-error.txt"
 
 
 @Behavioural
   Scenario: Service prevents object modification during retention period
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserWrite", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-write", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
-    When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "modify-test-object={Timestamp}.txt", and "original content"
+    When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "modify-test-object={timestamp}.txt", and "original content"
     Then "{result}" is not an error
     And I attach "{result}" to the test output as "original-object.json"
-    When I call "{userStorage}" with "CreateObject" using arguments "{ResourceName}", "modify-test-object={Timestamp}.txt", and "modified content"
+    When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "modify-test-object={timestamp}.txt", and "modified content"
     Then "{result}" is an error
     And I attach "{result}" to the test output as "modify-protected-error.txt"
     And "{result}" should contain one of "retention, locked, immutable, protected, exists"
@@ -49,13 +49,13 @@ Feature: CCC.ObjStor.CN04.AR02
 
 @Behavioural
   Scenario: Service allows object read access during retention period
-    When I call "{storage}" with "CreateObject" using arguments "{ResourceName}", "readable-protected-object={Timestamp}.txt", and "readable data"
+    When I call "{storage}" with "CreateObject" using arguments "{resource-name}", "readable-protected-object={timestamp}.txt", and "readable data"
     Then "{result}" is not an error
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "testUserRead", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-read", and "{true}"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
-    When I call "{userStorage}" with "ReadObject" using arguments "{ResourceName}" and "readable-protected-object={Timestamp}.txt"
+    When I call "{userStorage}" with "ReadObject" using arguments "{resource-name}" and "readable-protected-object={timestamp}.txt"
     Then "{result}" is not an error
     And I refer to "{result}" as "readResult"
     And I attach "{result}" to the test output as "read-protected-object.json"
-    And "{readResult.Name}" is "readable-protected-object={Timestamp}.txt"
+    And "{readResult.Name}" is "readable-protected-object={timestamp}.txt"

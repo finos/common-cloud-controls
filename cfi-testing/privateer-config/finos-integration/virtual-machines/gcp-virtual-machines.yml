@@ -14,7 +14,7 @@ services:
         - tlp-red
     vars:
       service: virtual-machines
-      ServiceType: virtual-machines
+      service-type: virtual-machines
       tags: "@Behavioural @virtual-machines"
       provider: gcp
       catalog-locations:
@@ -25,17 +25,17 @@ services:
       resource: "finos-ccc-integration-vm-main"
       permitted-regions:
         - us-central1
-      hostName: "${GCP_VM_HOSTNAME}"
-      portNumber: "22"
+      host-name: "${GCP_VM_HOSTNAME}"
+      port-number: "22"
       test-listener-port: 22
       allowed-source-cidr: "10.0.0.0/8"
       test-identities:
-        testUserNoAccess:
+        test-user-no-access:
           user-name: "${GCP_TEST_USER_NO_ACCESS_NAME}"
           service_account_key: "${GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON}"
-        testUserWrite:
+        test-user-write:
           user-name: "${GCP_TEST_USER_WRITE_NAME}"
           service_account_key: "${GCP_TEST_USER_WRITE_SA_KEY_JSON}"
-        testUserAdmin:
+        test-user-admin:
           user-name: "${GCP_TEST_USER_ADMIN_NAME}"
           service_account_key: "${GCP_TEST_USER_ADMIN_SA_KEY_JSON}"

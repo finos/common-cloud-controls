@@ -47,7 +47,11 @@ func (suite *TestSuite) setupServiceParams(params any) {
 		for i := 0; i < v.NumField(); i++ {
 			field := t.Field(i)
 			value := v.Field(i)
-			suite.Props[field.Name] = value.Interface()
+			key := types.StructFieldToKebab(field.Name)
+			if key == "" {
+				continue
+			}
+			suite.Props[key] = value.Interface()
 		}
 	case reflect.Map:
 		for _, key := range v.MapKeys() {
@@ -68,9 +72,9 @@ func (suite *TestSuite) InitializeServiceScenario(sc *godog.ScenarioContext, par
 		// Populate Props (already enriched with CloudParams, service props, and rules)
 		suite.setupServiceParams(params.Props)
 		// Expose config so the factory can be created in cloud_steps.go
-		suite.Props["Config"] = params.Config
-		// Timestamp (ms since Unix epoch) for unique object names in immutable storage scenarios
-		suite.Props["Timestamp"] = time.Now().UnixMilli()
+		suite.Props["config"] = params.Config
+		ts := time.Now().UnixMilli()
+		suite.Props["timestamp"] = ts
 		return ctx, nil
 	})
 
@@ -78,55 +82,17 @@ func (suite *TestSuite) InitializeServiceScenario(sc *godog.ScenarioContext, par
 	suite.RegisterSteps(sc)
 }
 
-// kebabToTitleCase converts a kebab-case string to TitleCase.
-// e.g. "azure-storage-account" → "AzureStorageAccount"
-func kebabToTitleCase(s string) string {
-	parts := strings.Split(s, "-")
-	for i, p := range parts {
-		if len(p) > 0 {
-			parts[i] = strings.ToUpper(p[:1]) + p[1:]
-		}
-	}
-	return strings.Join(parts, "")
-}
-
-// enrichParamsProps populates params.Props with all instance-level properties so they are
-// visible in the HTML report. Props are also used for step template substitution at runtime.
+// enrichParamsProps copies Privateer vars into Props for Godog substitution and HTML reports.
+// Keys are lower-kebab-case, matching services.*.vars and feature placeholders.
 func enrichParamsProps(params types.TestParams) types.TestParams {
 	if params.Props == nil {
 		params.Props = make(map[string]interface{})
 	}
-	// CloudParams struct fields already use Go field names (TitleCase)
-	cp := params.Config.CloudParams()
-	cpVal := reflect.ValueOf(cp)
-	cpType := cpVal.Type()
-	for i := 0; i < cpVal.NumField(); i++ {
-		s := fmt.Sprintf("%v", cpVal.Field(i).Interface())
-		if s != "" {
-			params.Props[cpType.Field(i).Name] = s
-		}
-	}
-	// Alias Azure names to policy-standard names (CCC.ObjStor uses AccountName, ResourceGroup, SubscriptionId)
-	if v, ok := params.Props["AzureStorageAccount"]; ok {
-		params.Props["AccountName"] = v
-	}
-	if v, ok := params.Props["AzureResourceGroup"]; ok {
-		params.Props["ResourceGroup"] = v
-	}
-	if v, ok := params.Props["AzureSubscriptionID"]; ok {
-		params.Props["SubscriptionId"] = v
-	}
-	// Flat vars and rules (kebab-case) — convert to TitleCase for report/step substitution
-	skipKeys := map[string]bool{
-		"provider": true, "region": true,
-		"azure-subscription-id": true, "azure-resource-group": true, "gcp-project-id": true,
-		"test-identities": true,
-	}
 	for k, v := range params.Config.Vars() {
-		if skipKeys[k] {
+		if k == "test-identities" {
 			continue
 		}
-		params.Props[kebabToTitleCase(k)] = v
+		params.Props[k] = v
 	}
 	return params
 }

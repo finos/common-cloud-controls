@@ -94,7 +94,7 @@ For each row in **Feature reuse from generic**:
 
 1. Open the listed file under `modules/features/generic/CCC.Core/` (or shared path such as `vpc/CCC.Core/`).
 2. Add the service tag to **every scenario** that should run for this service (e.g. `@virtual-machines`), alongside existing tags (`@Behavioural`, `@PerService`, etc.).
-3. Ensure scenarios use `{ServiceType}` (not a hardcoded service id) where the file already does — set `ServiceType: <factory-id>` in Privateer vars.
+3. Ensure scenarios use `{service-type}` (not a hardcoded service id) where the file already does — set `service-type: <factory-id>` in Privateer vars.
 4. Do **not** copy the file into `<service-folder>/CCC.Core/`.
 
 #### 1b. New service-specific features
@@ -113,9 +113,9 @@ Naming: `CCC-<ControlFamily>-<AR>.feature` (match existing repos).
 
 **Gherkin conventions** (match object-storage / generic):
 
-- `Given a cloud api for "{Config}" in "api"`
-- `GetServiceAPI` / `GetServiceAPIWithIdentity` with `{ServiceType}` or literal factory id per analysis
-- Identity keys: `testUserNoAccess`, `testUserRead`, `testUserWrite`, `testUserAdmin` — never `ProvisionUserWithAccess`
+- `Given a cloud api for "{config}" in "api"`
+- `GetServiceAPI` / `GetServiceAPIWithIdentity` with `{service-type}` or literal factory id per analysis
+- Identity keys: `test-user-no-access`, `test-user-read`, `test-user-write`, `test-user-admin` — never `ProvisionUserWithAccess`
 - Logging ARs: `GetServiceAPI` → `logging`, then `QueryLogs` with explicit `logType` (`admin`, `data-write`, `data-read`)
 - Attach results for reports: `I attach "{result}" to the test output as "..."`
 - Steps use the DSL provided by https://github.com/robmoffat/standard-cucumber-steps/blob/main/README.md (which you should either read or see examples of in the other feature files)

@@ -6,7 +6,7 @@ Feature: CCC.VPC.CN02.AR01 - No external IP by default in public subnets
 
 
   Background:
-    Given a cloud api for "{Config}" in "api"
+    Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "vpc"
     And I refer to "{result}" as "vpcService"
 
@@ -18,7 +18,7 @@ Feature: CCC.VPC.CN02.AR01 - No external IP by default in public subnets
   # If CN_TEST_AMI_ID is blank, the VPC service resolves a default AMI and still launches an instance.
   # This scenario is tagged @MAIN and runs by default — it will launch and delete a short-lived EC2 instance.
   Scenario: Behavioural check (active): resource launched in public subnet is not assigned an external IP
-    Given I refer to "{UID}" as "TargetVpcId"
+    Given I refer to "{uid}" as "TargetVpcId"
     When I call "{vpcService}" with "SelectPublicSubnetForTest" using argument "{TargetVpcId}"
     And I refer to "{result.SubnetId}" as "TestSubnetId"
     And I call "{vpcService}" with "CreateTestResourceInSubnet" using argument "{TestSubnetId}"
