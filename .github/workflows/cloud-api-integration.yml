@@ -35,7 +35,8 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          go-version-file: modules/cloud-api/go.mod
+          # Coverage merge pulls gocovmerge dependencies that require Go >= 1.25.
+          go-version: "1.25.x"
           cache-dependency-path: |
             modules/cloud-api/go.sum
             modules/cloud-api-test/go.sum
