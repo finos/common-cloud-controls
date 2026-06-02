@@ -62,7 +62,7 @@ VPC names in `integration_calls.csv` and `privateer-config/*.yml` match the inte
 
 ## GitHub Actions
 
-Workflow: `.github/workflows/cloud-api-integration.yml`. Sets `INTEGRATION_PROVIDER` per job.
+Workflow: `.github/workflows/cloud-api-integration.yml`. Runs `./run-integration-tests.sh all` (aws → azure → gcp) and uploads merged `coverage-integration-all.out` to Codecov.
 
 ## Terraform
 

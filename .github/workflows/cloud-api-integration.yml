@@ -22,14 +22,14 @@ permissions:
   id-token: write
 
 jobs:
-  integration-aws:
+  integration-all:
     runs-on: ubuntu-latest
+    timeout-minutes: 135
     if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
     env:
       RUN_CLOUD_API_INTEGRATION: "1"
-      INTEGRATION_PROVIDER: aws
-      AWS_REGION: ${{ secrets.AWS_REGION }}
       GOWORK: off
+      AWS_REGION: ${{ secrets.AWS_REGION }}
     steps:
       - uses: actions/checkout@v4
 
@@ -46,147 +46,12 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/TerraformRole
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Run AWS integration tests with coverage
-        working-directory: modules/integration-testing
-        env:
-          INTEGRATION_RESULTS_FILE: integration-results-aws.txt
-        run: |
-          go mod download
-          go test -tags=integration -timeout=45m \
-            -coverpkg=../cloud-api/... \
-            -covermode=atomic \
-            -coverprofile=coverage-integration-aws.out \
-            ./...
-
-      - name: Publish AWS integration results summary
-        if: always()
-        run: |
-          results="modules/integration-testing/integration-results-aws.txt"
-          if [ ! -f "$results" ]; then
-            echo "No integration results file at $results"
-            exit 0
-          fi
-          {
-            echo "## AWS cloud-api integration (${INTEGRATION_PROVIDER})"
-            echo ""
-            echo '```text'
-            cat "$results"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload AWS integration test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cloud-api-integration-results-aws
-          path: |
-            modules/integration-testing/integration-results-aws.txt
-            modules/integration-testing/coverage-integration-aws.out
-          if-no-files-found: ignore
-
-      - name: Upload AWS integration coverage
-        if: always() && hashFiles('modules/integration-testing/coverage-integration-aws.out') != ''
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: modules/integration-testing/coverage-integration-aws.out
-          flags: cloud-api-integration-aws
-          fail_ci_if_error: false
-
-  integration-azure:
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
-    env:
-      RUN_CLOUD_API_INTEGRATION: "1"
-      INTEGRATION_PROVIDER: azure
-      GOWORK: off
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-go@v5
-        with:
-          go-version-file: modules/cloud-api/go.mod
-          cache-dependency-path: |
-            modules/cloud-api/go.sum
-            modules/integration-testing/go.sum
-
       - name: Azure login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Run Azure integration tests with coverage
-        working-directory: modules/integration-testing
-        env:
-          INTEGRATION_RESULTS_FILE: integration-results-azure.txt
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_LOG_ANALYTICS_WORKSPACE_ID: ${{ secrets.AZURE_LOG_ANALYTICS_WORKSPACE_ID }}
-          AZURE_TEST_USER_NO_ACCESS_USER_NAME: ${{ secrets.AZURE_TEST_USER_NO_ACCESS_USER_NAME }}
-          AZURE_TEST_USER_NO_ACCESS_CLIENT_ID: ${{ secrets.AZURE_TEST_USER_NO_ACCESS_CLIENT_ID }}
-          AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET: ${{ secrets.AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET }}
-          AZURE_TEST_USER_NO_ACCESS_OBJECT_ID: ${{ secrets.AZURE_TEST_USER_NO_ACCESS_OBJECT_ID }}
-        run: |
-          go mod download
-          go test -tags=integration -timeout=45m \
-            -coverpkg=../cloud-api/... \
-            -covermode=atomic \
-            -coverprofile=coverage-integration-azure.out \
-            ./...
-
-      - name: Publish Azure integration results summary
-        if: always()
-        run: |
-          results="modules/integration-testing/integration-results-azure.txt"
-          if [ ! -f "$results" ]; then
-            echo "No integration results file at $results"
-            exit 0
-          fi
-          {
-            echo "## Azure cloud-api integration (${INTEGRATION_PROVIDER})"
-            echo ""
-            echo '```text'
-            cat "$results"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload Azure integration test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cloud-api-integration-results-azure
-          path: |
-            modules/integration-testing/integration-results-azure.txt
-            modules/integration-testing/coverage-integration-azure.out
-          if-no-files-found: ignore
-
-      - name: Upload Azure integration coverage
-        if: always() && hashFiles('modules/integration-testing/coverage-integration-azure.out') != ''
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: modules/integration-testing/coverage-integration-azure.out
-          flags: cloud-api-integration-azure
-          fail_ci_if_error: false
-
-  integration-gcp:
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
-    env:
-      RUN_CLOUD_API_INTEGRATION: "1"
-      INTEGRATION_PROVIDER: gcp
-      GOWORK: off
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-go@v5
-        with:
-          go-version-file: modules/cloud-api/go.mod
-          cache-dependency-path: |
-            modules/cloud-api/go.sum
-            modules/integration-testing/go.sum
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -198,52 +63,74 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
-      - name: Run GCP integration tests with coverage
+      - name: Run all-cloud integration tests with combined coverage
         working-directory: modules/integration-testing
         env:
-          INTEGRATION_RESULTS_FILE: integration-results-gcp.txt
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          GCP_TEST_USER_NO_ACCESS_NAME: ${{ secrets.GCP_TEST_USER_NO_ACCESS_NAME }}
-          GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON: ${{ secrets.GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON }}
+          AWS_ENV: ${{ secrets.AWS_ENV }}
+          AZURE_ENV: ${{ secrets.AZURE_ENV }}
+          GCP_ENV: ${{ secrets.GCP_ENV }}
         run: |
-          go mod download
-          go test -tags=integration -timeout=45m \
-            -coverpkg=../cloud-api/... \
-            -covermode=atomic \
-            -coverprofile=coverage-integration-gcp.out \
-            ./...
+          if [ -n "${AWS_ENV:-}" ]; then
+            printf '%s\n' "$AWS_ENV" > user-creation/aws-env.sh
+            set -a
+            # shellcheck source=/dev/null
+            source user-creation/aws-env.sh
+            set +a
+          fi
+          if [ -n "${AZURE_ENV:-}" ]; then
+            printf '%s\n' "$AZURE_ENV" > user-creation/azure-env.sh
+            set -a
+            # shellcheck source=/dev/null
+            source user-creation/azure-env.sh
+            set +a
+          fi
+          if [ -n "${GCP_ENV:-}" ]; then
+            printf '%s\n' "$GCP_ENV" > user-creation/gcp-env.sh
+            set -a
+            # shellcheck source=/dev/null
+            source user-creation/gcp-env.sh
+            set +a
+          fi
+          ./run-integration-tests.sh all
 
-      - name: Publish GCP integration results summary
+      - name: Publish integration results summary
         if: always()
         run: |
-          results="modules/integration-testing/integration-results-gcp.txt"
+          results="modules/integration-testing/integration-results-all.txt"
           if [ ! -f "$results" ]; then
             echo "No integration results file at $results"
             exit 0
           fi
           {
-            echo "## GCP cloud-api integration (${INTEGRATION_PROVIDER})"
+            echo "## Cloud API integration (aws + azure + gcp)"
             echo ""
             echo '```text'
             cat "$results"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload GCP integration test results
+      - name: Upload integration test results and coverage
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cloud-api-integration-results-gcp
+          name: cloud-api-integration-results
           path: |
+            modules/integration-testing/integration-results-all.txt
+            modules/integration-testing/integration-results-aws.txt
+            modules/integration-testing/integration-results-azure.txt
             modules/integration-testing/integration-results-gcp.txt
+            modules/integration-testing/coverage-integration-all.out
+            modules/integration-testing/coverage-integration-all.html
+            modules/integration-testing/coverage-integration-aws.out
+            modules/integration-testing/coverage-integration-azure.out
             modules/integration-testing/coverage-integration-gcp.out
           if-no-files-found: ignore
 
-      - name: Upload GCP integration coverage
-        if: always() && hashFiles('modules/integration-testing/coverage-integration-gcp.out') != ''
+      - name: Upload combined integration coverage
+        if: always() && hashFiles('modules/integration-testing/coverage-integration-all.out') != ''
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: modules/integration-testing/coverage-integration-gcp.out
-          flags: cloud-api-integration-gcp
+          files: modules/integration-testing/coverage-integration-all.out
+          flags: cloud-api-integration
           fail_ci_if_error: false
