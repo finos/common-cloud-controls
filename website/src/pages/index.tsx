@@ -15,6 +15,7 @@ import Contributors from "../components/Contributors";
 import SimpleIntro from "../components/SimpleIntro";
 import LevelUp from "../components/LevelUp";
 import AdvanceAutomatedGovernance from "../components/AdvanceAutomatedGovernence";
+import JoinCommunity from "../components/JoinCommunity";
 
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
@@ -25,6 +26,7 @@ export default function Home(): ReactNode {
         <SimpleIntro />
         <LevelUp />
         <AdvanceAutomatedGovernance/>
+        <JoinCommunity />
       </main>
     </Layout>
   );
