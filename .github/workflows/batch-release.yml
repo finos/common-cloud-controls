@@ -150,7 +150,7 @@ jobs:
             fi
             gemara_version="$(grep -E '^[[:space:]]*gemara-version:' "$file" | head -1 | awk '{print $2}')"
             # metadata.id (4-space indent) and author.id (8-space indent, first under
-            # the author: block) drive the grc.store URL: search/<author>/<id>/versions/<ver>.
+            # the author: block) drive the grc.store URL: <author>/<id>/versions/<ver>.
             R_ARTIFACT="$(awk '/^metadata:/{m=1} m && /^    id:/{print tolower($2); exit}' "$file")"
             R_AUTHOR="$(awk '/^    author:/{a=1} a && /^        id:/{print tolower($2); exit}' "$file")"
             echo "Compiled: ${file} (gemara ${gemara_version}, ${R_AUTHOR}/${R_ARTIFACT})"
@@ -237,7 +237,7 @@ jobs:
                     result="Built (dry run, not published)"
                   else
                     gh_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${build_target}/${VERSION}"
-                    grc_url="https://grc.store/search/${R_AUTHOR}/${R_ARTIFACT}/versions/${VERSION}"
+                    grc_url="https://grc.store/${R_AUTHOR}/${R_ARTIFACT}/versions/${VERSION}"
                     result="Released — [GitHub release](${gh_url}) · [grc.store](${grc_url})"
                   fi
                   ;;
