@@ -12,7 +12,7 @@ Feature: CCC.ObjStor.CN04.AR02
 
 @Behavioural
   Scenario: Service prevents object deletion by write user during retention period
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-write"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage" and "test-user-write"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "protected-object={timestamp}.txt", and "immutable data"
@@ -35,7 +35,7 @@ Feature: CCC.ObjStor.CN04.AR02
 
 @Behavioural
   Scenario: Service prevents object modification during retention period
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-write"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage" and "test-user-write"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "modify-test-object={timestamp}.txt", and "original content"
@@ -51,7 +51,7 @@ Feature: CCC.ObjStor.CN04.AR02
   Scenario: Service allows object read access during retention period
     When I call "{storage}" with "CreateObject" using arguments "{resource-name}", "readable-protected-object={timestamp}.txt", and "readable data"
     Then "{result}" is not an error
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-read"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage" and "test-user-read"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "ReadObject" using arguments "{resource-name}" and "readable-protected-object={timestamp}.txt"

@@ -14,7 +14,7 @@ Feature: CCC.ObjStor.CN01.AR02
 
 @Behavioural
   Scenario: Service prevents reading object with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-no-access"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage" and "test-user-no-access"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "ReadObject" using arguments "{resource-name}" and "test-object={timestamp}.txt"
@@ -24,7 +24,7 @@ Feature: CCC.ObjStor.CN01.AR02
 
 @Behavioural
   Scenario: Service allows reading object with read access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-read"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage" and "test-user-read"
     And "{result}" is not an error
     And I attach "{result}" to the test output as "read-storage-service.json"
     And I refer to "{result}" as "userStorage"
