@@ -12,7 +12,7 @@ Feature: CCC.ObjStor.CN04.AR01
 
 @Behavioural
   Scenario: Service applies default retention policy to newly uploaded object
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-write", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-write"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "test-retention-object={timestamp}.txt", and "protected data"

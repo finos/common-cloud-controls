@@ -13,7 +13,7 @@ Feature: CCC.ObjStor.CN01.AR04
 
 @Behavioural
   Scenario: Service prevents writing object with read-only access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-read", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-read"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "test-write-object={timestamp}.txt", and "test content"
@@ -23,7 +23,7 @@ Feature: CCC.ObjStor.CN01.AR04
 
 @Behavioural
   Scenario: Service allows writing object with write access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-write", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-write"
     And "{result}" is not an error
     And I attach "{result}" to the test output as "write-storage-service.json"
     And I refer to "{result}" as "userStorage"

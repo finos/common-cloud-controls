@@ -10,7 +10,7 @@ Feature: CCC.Core.CN05.AR06 - Block All Unauthorized Requests
 
 @Destructive @Behavioural @object-storage @virtual-machines @serverless-computing
   Scenario: Service prevents data read by user with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "{service-type}", "test-user-no-access", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "{service-type}", and "test-user-no-access"
     And "{result}" is not an error
     And I refer to "{result}" as "userReadableService"
     When I call "{userReadableService}" with "TriggerDataRead" using argument "{resource-name}"

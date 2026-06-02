@@ -12,7 +12,7 @@ Feature: CCC.Core.CN05.AR01 - Block Unauthorized Data Modification
 
 @Destructive @Behavioural @object-storage
   Scenario: Service prevents data modification by user with no access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-no-access", and "{false}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-no-access"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "test-cn05-unauthorized-modify={timestamp}.txt", and "unauthorized data"
@@ -22,7 +22,7 @@ Feature: CCC.Core.CN05.AR01 - Block Unauthorized Data Modification
 
 @Destructive @Behavioural @object-storage
   Scenario: Service allows data modification by user with write access
-    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", "test-user-write", and "{true}"
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "object-storage", and "test-user-write"
     And "{result}" is not an error
     And I refer to "{result}" as "userStorage"
     When I call "{userStorage}" with "CreateObject" using arguments "{resource-name}", "test-cn05-authorized-modify={timestamp}.txt", and "authorized data"

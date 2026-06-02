@@ -16,7 +16,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/bloberror"
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/container"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
-	"github.com/finos/common-cloud-controls/cloud-api/generic/retry"
 	"github.com/finos/common-cloud-controls/cloud-api/object-storage/elevation"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
@@ -135,9 +134,7 @@ func NewAzureBlobServiceWithCredentials(ctx context.Context, config types.Config
 // ListBuckets lists all containers in the identified storage account
 // In Azure, a "bucket" is represented as "resourceGroup/storageAccount/containerName"
 func (s *AzureBlobService) ListBuckets() ([]Bucket, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() ([]Bucket, error) {
-		return s.listBuckets()
-	}, retry.IsAzureRBACPropagationError)
+	return s.listBuckets()
 }
 
 func (s *AzureBlobService) listBuckets() ([]Bucket, error) {
@@ -179,9 +176,7 @@ func (s *AzureBlobService) listBuckets() ([]Bucket, error) {
 // CreateBucket creates a new container in the storage account
 // bucketID is the container name
 func (s *AzureBlobService) CreateBucket(bucketID string) (*Bucket, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() (*Bucket, error) {
-		return s.createBucket(bucketID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.createBucket(bucketID)
 }
 
 func (s *AzureBlobService) createBucket(bucketID string) (*Bucket, error) {
@@ -207,9 +202,7 @@ func (s *AzureBlobService) createBucket(bucketID string) (*Bucket, error) {
 // DeleteBucket deletes a container from the storage account
 // bucketID is the container name
 func (s *AzureBlobService) DeleteBucket(bucketID string) error {
-	return retry.DoVoid(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() error {
-		return s.deleteBucket(bucketID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.deleteBucket(bucketID)
 }
 
 func (s *AzureBlobService) deleteBucket(bucketID string) error {
@@ -237,9 +230,7 @@ func (s *AzureBlobService) GetBucketRegion(bucketID string) (string, error) {
 // ListObjects lists all blobs in a container
 // bucketID is the container name
 func (s *AzureBlobService) ListObjects(bucketID string) ([]Object, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() ([]Object, error) {
-		return s.listObjects(bucketID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.listObjects(bucketID)
 }
 
 func (s *AzureBlobService) listObjects(bucketID string) ([]Object, error) {
@@ -288,9 +279,7 @@ func (s *AzureBlobService) listObjects(bucketID string) ([]Object, error) {
 // CreateObject creates a new blob in a container
 // bucketID is the container name
 func (s *AzureBlobService) CreateObject(bucketID string, objectID string, data string) (*Object, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() (*Object, error) {
-		return s.createObject(bucketID, objectID, data)
-	}, retry.IsAzureRBACPropagationError)
+	return s.createObject(bucketID, objectID, data)
 }
 
 func (s *AzureBlobService) createObject(bucketID string, objectID string, data string) (*Object, error) {
@@ -356,9 +345,7 @@ func (s *AzureBlobService) createObject(bucketID string, objectID string, data s
 
 // ReadObjectAtVersion reads a specific version of a blob from a container
 func (s *AzureBlobService) ReadObjectAtVersion(bucketID string, objectID string, versionID string) (*Object, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() (*Object, error) {
-		return s.readObjectAtVersion(bucketID, objectID, versionID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.readObjectAtVersion(bucketID, objectID, versionID)
 }
 
 func (s *AzureBlobService) readObjectAtVersion(bucketID string, objectID string, versionID string) (*Object, error) {
@@ -416,9 +403,7 @@ func (s *AzureBlobService) readObjectAtVersion(bucketID string, objectID string,
 // ReadObject reads a blob from a container
 // bucketID is the container name
 func (s *AzureBlobService) ReadObject(bucketID string, objectID string) (*Object, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() (*Object, error) {
-		return s.readObject(bucketID, objectID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.readObject(bucketID, objectID)
 }
 
 func (s *AzureBlobService) readObject(bucketID string, objectID string) (*Object, error) {
@@ -464,9 +449,7 @@ func (s *AzureBlobService) readObject(bucketID string, objectID string) (*Object
 // DeleteObject deletes a blob from a container
 // bucketID is the container name
 func (s *AzureBlobService) DeleteObject(bucketID string, objectID string) error {
-	return retry.DoVoid(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() error {
-		return s.deleteObject(bucketID, objectID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.deleteObject(bucketID, objectID)
 }
 
 func (s *AzureBlobService) deleteObject(bucketID string, objectID string) error {
@@ -602,9 +585,7 @@ func (s *AzureBlobService) EnsureDefaultResourceExists(buckets []Bucket, err err
 
 // GetBucketRetentionDurationDays retrieves the retention policy duration in days for a container
 func (s *AzureBlobService) GetBucketRetentionDurationDays(bucketID string) (int, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() (int, error) {
-		return s.getBucketRetentionDurationDays(bucketID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.getBucketRetentionDurationDays(bucketID)
 }
 
 func (s *AzureBlobService) getBucketRetentionDurationDays(bucketID string) (int, error) {
@@ -646,9 +627,7 @@ func retentionDaysFromConfig(config types.Config) int {
 
 // GetObjectRetentionDurationDays retrieves the retention policy duration in days for a blob
 func (s *AzureBlobService) GetObjectRetentionDurationDays(bucketID string, objectID string) (int, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() (int, error) {
-		return s.getObjectRetentionDurationDays(bucketID, objectID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.getObjectRetentionDurationDays(bucketID, objectID)
 }
 
 func (s *AzureBlobService) getObjectRetentionDurationDays(bucketID string, objectID string) (int, error) {
@@ -770,9 +749,7 @@ func (s *AzureBlobService) SetObjectPermission(bucketID, objectID string, permis
 // ListDeletedBuckets lists all soft-deleted containers in the storage account
 // Azure supports container-level soft delete for CN03.AR01
 func (s *AzureBlobService) ListDeletedBuckets() ([]Bucket, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() ([]Bucket, error) {
-		return s.listDeletedBuckets()
-	}, retry.IsAzureRBACPropagationError)
+	return s.listDeletedBuckets()
 }
 
 func (s *AzureBlobService) listDeletedBuckets() ([]Bucket, error) {
@@ -820,9 +797,7 @@ func (s *AzureBlobService) listDeletedBuckets() ([]Bucket, error) {
 // RestoreBucket restores a soft-deleted container
 // Azure supports container-level soft delete for CN03.AR01
 func (s *AzureBlobService) RestoreBucket(bucketID string) error {
-	return retry.DoVoid(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() error {
-		return s.restoreBucket(bucketID)
-	}, retry.IsAzureRBACPropagationError)
+	return s.restoreBucket(bucketID)
 }
 
 func (s *AzureBlobService) restoreBucket(bucketID string) error {
@@ -931,9 +906,7 @@ func (s *AzureBlobService) ResetAccess() error {
 // UpdateBucketPolicy updates container access policy (used for admin action logging tests)
 // containerName is just the container name; storage account is taken from cloudParams
 func (s *AzureBlobService) UpdateBucketPolicy(containerName string, policyTag string) (*Bucket, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() (*Bucket, error) {
-		return s.updateBucketPolicy(containerName, policyTag)
-	}, retry.IsAzureRBACPropagationError)
+	return s.updateBucketPolicy(containerName, policyTag)
 }
 
 func (s *AzureBlobService) updateBucketPolicy(containerName string, policyTag string) (*Bucket, error) {

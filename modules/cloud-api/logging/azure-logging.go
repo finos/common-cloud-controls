@@ -11,7 +11,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/monitor/azquery"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
-	"github.com/finos/common-cloud-controls/cloud-api/generic/retry"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
@@ -99,20 +98,18 @@ func (s *AzureLoggingService) TearDown() error { return nil }
 // from the Log Analytics workspace configured at
 // logging.azure-log-analytics-workspace-id.
 func (s *AzureLoggingService) QueryLogs(resourceID, logType string, lookbackMinutes int) ([]LogEntry, error) {
-	return retry.Do(retry.DefaultPropagationAttempts, retry.DefaultPropagationDelay, func() ([]LogEntry, error) {
-		switch logType {
-		case LogTypeAdmin:
-			return s.queryActivityLog(resourceID, lookbackMinutes)
-		case LogTypeDataWrite:
-			return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageWrite")
-		case LogTypeDataRead:
-			return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageRead")
-		case LogTypeFlow:
-			return s.queryFlowLogs(resourceID, lookbackMinutes)
-		default:
-			return nil, fmt.Errorf("Azure logging service does not support log type %q", logType)
-		}
-	}, retry.IsAzureRBACPropagationError)
+	switch logType {
+	case LogTypeAdmin:
+		return s.queryActivityLog(resourceID, lookbackMinutes)
+	case LogTypeDataWrite:
+		return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageWrite")
+	case LogTypeDataRead:
+		return s.queryStorageLogs(resourceID, lookbackMinutes, "StorageRead")
+	case LogTypeFlow:
+		return s.queryFlowLogs(resourceID, lookbackMinutes)
+	default:
+		return nil, fmt.Errorf("Azure logging service does not support log type %q", logType)
+	}
 }
 
 // queryActivityLog returns Activity Log records for the resource group from
