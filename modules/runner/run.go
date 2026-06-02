@@ -172,14 +172,15 @@ func Run(opts Options) int {
 	if err := combineOCSFFiles(opts.OutputDir); err != nil {
 		log.Printf("⚠️  Warning: Failed to combine OCSF files: %v", err)
 	} else {
-		log.Printf("   ✅ Combined OCSF file created: %s", filepath.Join(opts.OutputDir, "combined.ocsf.json"))
+		log.Printf("   ✅ Combined OCSF file created: %s", filepath.Join(opts.OutputDir, "ocsf", "combined.ocsf.json"))
 	}
 
 	log.Println("\n📋 Generating summary report...")
-	if err := reporters.GenerateSummaryReport(opts.OutputDir); err != nil {
+	htmlDir := filepath.Join(opts.OutputDir, "html")
+	if err := reporters.GenerateSummaryReport(htmlDir); err != nil {
 		log.Printf("⚠️  Warning: Failed to generate summary report: %v", err)
 	} else {
-		log.Printf("   ✅ Summary report created: %s", filepath.Join(opts.OutputDir, "summary.html"))
+		log.Printf("   ✅ Summary report created: %s", filepath.Join(htmlDir, "summary.html"))
 	}
 
 	log.Println("\n" + strings.Repeat("=", 60))
@@ -206,7 +207,8 @@ func Run(opts Options) int {
 }
 
 func combineOCSFFiles(outputDir string) error {
-	pattern := filepath.Join(outputDir, "*ocsf.json")
+	ocsfDir := filepath.Join(outputDir, "ocsf")
+	pattern := filepath.Join(ocsfDir, "*.ocsf.json")
 	files, err := filepath.Glob(pattern)
 	if err != nil {
 		return fmt.Errorf("failed to find OCSF files: %w", err)
@@ -235,7 +237,7 @@ func combineOCSFFiles(outputDir string) error {
 		log.Printf("   Added %d item(s) from %s", len(items), filepath.Base(file))
 	}
 
-	combinedPath := filepath.Join(outputDir, "combined.ocsf.json")
+	combinedPath := filepath.Join(ocsfDir, "combined.ocsf.json")
 	combinedData, err := json.MarshalIndent(combined, "", "  ")
 	if err != nil {
 		return fmt.Errorf("failed to marshal combined data: %w", err)

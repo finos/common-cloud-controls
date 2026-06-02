@@ -289,12 +289,14 @@ func (r *BasicServiceRunner) runResourceTest(ctx context.Context, params types.T
 		baseName = params.ResourceName
 	}
 	filename := sanitizeFilename(baseName)
-	reportPath := filepath.Join(r.Config.OutputDir, filename)
-
-	// Create output directory if it doesn't exist
-	outputDir := filepath.Dir(reportPath)
-	if err := os.MkdirAll(outputDir, 0755); err != nil {
-		log.Printf("Failed to create output directory: %v", err)
+	htmlDir := filepath.Join(r.Config.OutputDir, "html")
+	ocsfDir := filepath.Join(r.Config.OutputDir, "ocsf")
+	if err := os.MkdirAll(htmlDir, 0755); err != nil {
+		log.Printf("Failed to create HTML output directory: %v", err)
+		return "failed"
+	}
+	if err := os.MkdirAll(ocsfDir, 0755); err != nil {
+		log.Printf("Failed to create OCSF output directory: %v", err)
 		return "failed"
 	}
 
@@ -302,8 +304,8 @@ func (r *BasicServiceRunner) runResourceTest(ctx context.Context, params types.T
 	suite := NewTestSuite()
 
 	// Create HTML and OCSF output files
-	htmlReportPath := reportPath + ".html"
-	ocsfReportPath := reportPath + ".ocsf.json"
+	htmlReportPath := filepath.Join(htmlDir, filename+".html")
+	ocsfReportPath := filepath.Join(ocsfDir, filename+".ocsf.json")
 
 	// Enrich params.Props with instance/service/rules properties before creating the formatter
 	// so they appear in the HTML report and are available for step template substitution.
@@ -324,7 +326,7 @@ func (r *BasicServiceRunner) runResourceTest(ctx context.Context, params types.T
 	godog.Format(privateerFormat, "Privateer results", formatterFactory.GetPrivateerFormatterFunc())
 
 	// Summary/privateer formatters collect to global; output path is unused (report generated at end of all runs)
-	summaryOutputPath := filepath.Join(r.Config.OutputDir, "summary.html")
+	summaryOutputPath := filepath.Join(htmlDir, "summary.html")
 
 	// Log the tag filter (already set in runTests)
 	tagFilterExpr := strings.Join(params.TagFilter, " && ")
