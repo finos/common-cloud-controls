@@ -14,6 +14,7 @@ import NewSplashTop from "../components/NewSplashTop";
 import Contributors from "../components/Contributors";
 import SimpleIntro from "../components/SimpleIntro";
 import LevelUp from "../components/LevelUp";
+import AdvanceAutomatedGovernance from "../components/AdvanceAutomatedGovernence";
 
 export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
@@ -23,6 +24,7 @@ export default function Home(): ReactNode {
       <main>
         <SimpleIntro />
         <LevelUp />
+        <AdvanceAutomatedGovernance/>
       </main>
     </Layout>
   );
