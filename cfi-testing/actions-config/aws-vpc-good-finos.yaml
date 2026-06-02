@@ -10,3 +10,4 @@ cfi:
     - main
   git: https://github.com/finos/common-cloud-controls
   test-configuration: ../privateer-config/finos-integration/vpc/aws-vpc-good.yml
+  privateer-service: awsVpcGood

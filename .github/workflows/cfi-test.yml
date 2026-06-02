@@ -52,6 +52,9 @@ jobs:
               test_config_rel = cfi.get("test-configuration")
               if not test_config_rel:
                   raise RuntimeError(f"Missing cfi.test-configuration in {target_file}")
+              privateer_service = cfi.get("privateer-service")
+              if not privateer_service:
+                  raise RuntimeError(f"Missing cfi.privateer-service in {target_file}")
 
               test_config = os.path.normpath(os.path.join(os.path.dirname(target_file), test_config_rel))
               if not os.path.exists(test_config):
@@ -62,7 +65,10 @@ jobs:
               services = test_doc.get("services") or {}
               if not services:
                   raise RuntimeError(f"No services found in {test_config}")
-              privateer_service = next(iter(services.keys()))
+              if privateer_service not in services:
+                  raise RuntimeError(
+                      f"cfi.privateer-service {privateer_service!r} not found in services of {test_config}"
+                  )
 
               targets.append(
                   {

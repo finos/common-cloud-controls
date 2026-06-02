@@ -14,14 +14,17 @@ import (
 
 var (
 	privateerConfig = flag.String("config", "", "Privateer config YAML (uses services.<name>.vars; requires --privateer-service)")
-	privateerService  = flag.String("privateer-service", "", "Privateer services.<id> key (e.g. azureStorageBehavioural)")
-	envFile           = flag.String("env-file", "", "Legacy environment YAML with instances: block")
-	instance          = flag.String("instance", "", "Instance id (legacy env-file only)")
-	service           = flag.String("service", "", "Service type (legacy env-file, or override Privateer vars.service)")
-	outputDir         = flag.String("output", "", "Output directory for test reports")
-	timeout           = flag.Duration("timeout", 30*time.Minute, "Timeout for all tests")
-	resourceFilter    = flag.String("resource", "", "Filter tests to a specific resource name")
-	tags              = flag.String("tags", "", "Space-separated tag filters ANDed with service tags")
+	privateerService = flag.String("privateer-service", "", "Privateer services.<id> key (e.g. azureStorageBehavioural)")
+	syncCatalogsDest = flag.String("sync-catalogs-dest", "", "Directory where resolved catalogs are copied")
+	repoRoot         = flag.String("repo-root", "", "Repository root used to resolve relative catalog paths")
+	syncCatalogsOnly = flag.Bool("sync-catalogs-only", false, "Resolve/sync catalogs and exit")
+	envFile          = flag.String("env-file", "", "Legacy environment YAML with instances: block")
+	instance         = flag.String("instance", "", "Instance id (legacy env-file only)")
+	service          = flag.String("service", "", "Service type (legacy env-file, or override Privateer vars.service)")
+	outputDir        = flag.String("output", "", "Output directory for test reports")
+	timeout          = flag.Duration("timeout", 30*time.Minute, "Timeout for all tests")
+	resourceFilter   = flag.String("resource", "", "Filter tests to a specific resource name")
+	tags             = flag.String("tags", "", "Space-separated tag filters ANDed with service tags")
 )
 
 func main() {
@@ -35,6 +38,22 @@ func main() {
 
 	if *outputDir != "" {
 		opts.OutputDir = *outputDir
+	}
+
+	if *syncCatalogsDest != "" {
+		if *privateerConfig == "" || *privateerService == "" {
+			log.Fatal("Error: -config and -privateer-service are required with -sync-catalogs-dest")
+		}
+		effectiveRepoRoot := *repoRoot
+		if effectiveRepoRoot == "" {
+			effectiveRepoRoot = runner.RepoRoot()
+		}
+		if err := runner.SyncPrivateerCatalogs(*privateerConfig, *privateerService, effectiveRepoRoot, *syncCatalogsDest); err != nil {
+			log.Fatalf("Error syncing catalogs: %v", err)
+		}
+		if *syncCatalogsOnly {
+			return
+		}
 	}
 
 	if *privateerConfig != "" {
