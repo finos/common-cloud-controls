@@ -70,6 +70,38 @@ export default function AdvanceAutomatedGovernance() {
                 </div>
               ))}
             </div>
+            <div style={{ position: "relative", paddingLeft: "2rem", marginTop: "2rem" }}>
+              <h3 style={{ fontSize: "1.3rem", fontWeight: 700 }}>
+                Where CCC Fits In
+              </h3>
+               <p style={{lineHeight: 1.75, fontSize: "0.975rem" }}>
+                Automated governance pipelines are built in layers, and FINOS Common Cloud Controls (CCC) operates at <strong style={{ color: "var(--gf-color-text)" }}>Layer 2</strong> of the{" "}
+                <a href="https://github.com/gemaraproj/go-gemara" target="_blank" rel="noopener noreferrer" style={{ color: "var(--gf-color-accent)" }}>Gemara</a>
+                {" "}model: Threats and Controls. Sitting above high-level guidance (Layer 1) and below your organization's specific policies (Layer 3), CCC acts as the vital bridge that translates abstract best practices into actionable, threat-informed safeguards.
+              </p>
+              <p style={{lineHeight: 1.75, fontSize: "0.975rem" }}>
+                At this layer, your team defines what a secure system looks like in a reusable, technology-agnostic way. By focusing on specifically scoped threats and controls with clear assessment requirements, CCC empowers you to build interoperable resources that seamlessly inform your policies and guide automated evaluation tools across different environments.
+              </p>
+              <p style={{ lineHeight: 1.75, fontSize: "0.975rem" }}>
+                Furthermore, the practical needs of projects like CCC actually helped form the genesis of the Gemara model itself. Because real-world automated governance requires separating high-level concepts from specific implementations, Gemara provides the machine-optimized document schemas that allow CCC's layered artifacts to interoperate flawlessly throughout your secure software factory.
+              </p>
+            </div> 
+            <div style={{ position: "relative", paddingLeft: "2rem", marginTop: "2rem" }}>
+              <h3 style={{ fontSize: "1.3rem", fontWeight: 700 }}>
+                Three Catalogs, One Complete Picture
+              </h3>
+              <p style={{ lineHeight: 1.75, fontSize: "0.975rem" }}>
+                Each cloud service is covered by three interlocking catalog types — Capabilities, Threats, and Controls — because real-world governance requires all three layers to be explicit and independently reusable.
+              </p>
+              <p style={{ lineHeight: 1.75, fontSize: "0.975rem" }}>
+                Keeping them separate means your team can import only what is relevant, compose new service catalogs from existing building blocks, and map controls directly to the threats they mitigate — without carrying the weight of definitions you don't need.
+              </p>
+              <img
+                src="/img/diagrams/catalogs-diagram.svg"
+                alt="CCC catalog structure diagram"
+                style={{ display: "block", maxWidth: "350px", width: "100%", height: "auto", margin: "0 auto" }}
+              />
+            </div>
     </HomeSection>
   );
 }
