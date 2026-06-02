@@ -6,15 +6,15 @@ on:
   pull_request:
     paths:
       - "modules/cloud-api/**"
-      - "modules/integration-testing/**"
-      - "modules/integration-testing/privateer-config/**"
+      - "modules/cloud-api-test/**"
+      - "modules/cloud-api-test/privateer-config/**"
       - ".github/workflows/cloud-api-integration.yml"
   push:
     branches:
       - main
     paths:
       - "modules/cloud-api/**"
-      - "modules/integration-testing/**"
+      - "modules/cloud-api-test/**"
 
 permissions:
   contents: read
@@ -38,7 +38,7 @@ jobs:
           go-version-file: modules/cloud-api/go.mod
           cache-dependency-path: |
             modules/cloud-api/go.sum
-            modules/integration-testing/go.sum
+            modules/cloud-api-test/go.sum
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -64,7 +64,7 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v2
 
       - name: Run all-cloud integration tests with combined coverage
-        working-directory: modules/integration-testing
+        working-directory: modules/cloud-api-test
         env:
           AWS_ENV: ${{ secrets.AWS_ENV }}
           AZURE_ENV: ${{ secrets.AZURE_ENV }}
@@ -96,7 +96,7 @@ jobs:
       - name: Publish integration results summary
         if: always()
         run: |
-          results="modules/integration-testing/integration-results-all.txt"
+          results="modules/cloud-api-test/integration-results-all.txt"
           if [ ! -f "$results" ]; then
             echo "No integration results file at $results"
             exit 0
@@ -115,22 +115,22 @@ jobs:
         with:
           name: cloud-api-integration-results
           path: |
-            modules/integration-testing/integration-results-all.txt
-            modules/integration-testing/integration-results-aws.txt
-            modules/integration-testing/integration-results-azure.txt
-            modules/integration-testing/integration-results-gcp.txt
-            modules/integration-testing/coverage-integration-all.out
-            modules/integration-testing/coverage-integration-all.html
-            modules/integration-testing/coverage-integration-aws.out
-            modules/integration-testing/coverage-integration-azure.out
-            modules/integration-testing/coverage-integration-gcp.out
+            modules/cloud-api-test/integration-results-all.txt
+            modules/cloud-api-test/integration-results-aws.txt
+            modules/cloud-api-test/integration-results-azure.txt
+            modules/cloud-api-test/integration-results-gcp.txt
+            modules/cloud-api-test/coverage-integration-all.out
+            modules/cloud-api-test/coverage-integration-all.html
+            modules/cloud-api-test/coverage-integration-aws.out
+            modules/cloud-api-test/coverage-integration-azure.out
+            modules/cloud-api-test/coverage-integration-gcp.out
           if-no-files-found: ignore
 
       - name: Upload combined integration coverage
-        if: always() && hashFiles('modules/integration-testing/coverage-integration-all.out') != ''
+        if: always() && hashFiles('modules/cloud-api-test/coverage-integration-all.out') != ''
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: modules/integration-testing/coverage-integration-all.out
+          files: modules/cloud-api-test/coverage-integration-all.out
           flags: cloud-api-integration
           fail_ci_if_error: false

@@ -5,7 +5,7 @@ output: yaml
 
 # Azure object-storage behavioural tests.
 # Resource names follow the finos-ccc-integration-<role> convention.
-# Populate from terraform outputs after apply (modules/integration-testing/terraform/azure).
+# Populate from terraform outputs after apply (modules/cloud-api-test/terraform/azure).
 # Source azure-env.sh for test principal credentials before running.
 
 services:

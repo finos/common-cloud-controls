@@ -29,14 +29,17 @@ cfi-testing/.privateer/
 modules/ccc-behavioural-plugin/ccc-behavioural-plugin
 *-env.sh
 modules/ccc-behavioural-plugin/privateer-plugin
-modules/integration-testing/user-creation/.keys
+modules/cloud-api-test/user-creation/.keys
 
 # ccc module integration testing
 **/.terraform
 **/*.tfstate
 **/*.tfstate.*
-modules/integration-testing/coverage-integration*.out
-modules/integration-testing/coverage-integration*.html
-modules/integration-testing/integration-results-*.txt
-modules/integration-testing/terraform/aws/.terraform.lock.hcl
-modules/integration-testing/terraform/aws/modules/serverless-computing/lambda-function.zip
+modules/cloud-api-test/coverage-integration*.out
+modules/cloud-api-test/coverage-integration*.html
+modules/cloud-api-test/integration-results-*.txt
+modules/cloud-api-test/terraform/aws/.terraform.lock.hcl
+modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-function.zip
+
+# Ignore local cloud API test keys
+modules/cloud-api-test/user-creation/.keys/*.json

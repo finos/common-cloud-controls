@@ -1,4 +1,4 @@
-module github.com/finos/common-cloud-controls/integration-testing
+module github.com/finos/common-cloud-controls/cloud-api-test
 
 go 1.25.0
 
