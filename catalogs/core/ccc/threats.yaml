@@ -55,7 +55,11 @@ threats:
       impacting the confidentiality or integrity of the transmitted data.
     capabilities:
       - reference-id: CCC
-        entries: []
+        entries:
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
+          - reference-id: CCC.Core.CP14
+            remarks: API Access
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
@@ -263,6 +267,11 @@ threats:
       Unauthorized access to runtime metrics may expose valuable information
       about the system's design, performance, and usage patterns. This can
       support the planning of attacks on the service, system, or network.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP09
+            remarks: Metrics Publication
   - title: State-change Events are Read by Unauthorized Entities
     id: CCC.Core.TH10
     group: Observability
