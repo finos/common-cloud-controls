@@ -11,3 +11,4 @@ delivery-toolkit/artifacts
 # CFI Test Results
 website/src/data/test-results/**/*
 website/static/downloads/cfi/**/*
+node_modules
