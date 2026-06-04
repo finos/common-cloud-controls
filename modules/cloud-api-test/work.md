@@ -14,7 +14,7 @@ Re-run: `./run-integration-tests.sh aws`
 
 Re-run after VM `all` expansion: expect **77** rows (adds 11 `virtual-machines` calls).
 
-Re-run: `./run-integration-tests.sh gcp` (sources `user-creation/gcp-env.sh`; sets `GCP_PROJECT_ID` from `gcloud` when unset).
+Re-run: `./run-integration-tests.sh gcp` (sources `environment-config/gcp-env.sh`; sets `GCP_PROJECT_ID` from `gcloud` when unset).
 
 **CSV / scope:** VPC rows use `cloud=all` (AWS EC2 dry-run + GCP simulated CN03 guardrail). Object-storage retention-sensitive rows split per cloud (`gcp-write-probe` key, `SetBucketRetentionDurationDays` without `expect_error` on GCP). Temp bucket create/delete pairs use `finos-ccc-integration-temp-csv-gcp`.
 
@@ -26,7 +26,7 @@ Re-run: `./run-integration-tests.sh gcp` (sources `user-creation/gcp-env.sh`; se
 
 Re-run after VM `all` expansion: expect **77** rows (adds 11 `virtual-machines` calls). `run-integration-tests.sh` exports `AZURE_VM_HOSTNAME` from terraform when unset.
 
-Re-run: `./run-integration-tests.sh azure` (sources `user-creation/azure-env.sh`; sets `AZURE_LOG_ANALYTICS_WORKSPACE_ID` from `terraform/azure/terraform.tfstate` when unset).
+Re-run: `./run-integration-tests.sh azure` (sources `environment-config/azure-env.sh`; may set `AZURE_LOG_ANALYTICS_WORKSPACE_ID` from `terraform/azure/terraform.tfstate` when unset).
 
 **Terraform:** VM default size **`Standard_D2s_v3`** (B-series had no capacity in westus2). Apply under [`terraform/azure`](terraform/azure) before first run.
 

@@ -10,7 +10,7 @@
 # Prerequisites:
 #   - Go toolchain (see modules/go.work)
 #   - Terraform fixtures applied for the target cloud(s)
-#   - user-creation/<cloud>-env.sh (from provision-*-test-users.sh) when present
+#   - environment-config/<cloud>-env.sh (from provision-<cloud>.sh) when present
 
 set -euo pipefail
 
@@ -40,14 +40,14 @@ setup_cloud_env() {
   export INTEGRATION_PROVIDER="$cloud"
   export INTEGRATION_RESULTS_FILE="$SCRIPT_DIR/integration-results-${cloud}.txt"
 
-  local env_file="$SCRIPT_DIR/user-creation/${cloud}-env.sh"
+  local env_file="$SCRIPT_DIR/environment-config/${cloud}-env.sh"
   if [[ -f "$env_file" ]]; then
     set -a
     # shellcheck source=/dev/null
     source "$env_file"
     set +a
   else
-    echo "Warning: $env_file not found — run user-creation/provision-${cloud}-test-users.sh" >&2
+    echo "Warning: $env_file not found — run environment-config/provision-${cloud}.sh" >&2
   fi
 
   if [[ "$cloud" == "azure" ]]; then
@@ -65,13 +65,6 @@ setup_cloud_env() {
         if [[ -n "$AZURE_VM_HOSTNAME" ]]; then
           export AZURE_VM_HOSTNAME
           echo "==> AZURE_VM_HOSTNAME from terraform state"
-        fi
-      fi
-      if [[ -z "${STALE_VERSION_ID:-}" ]]; then
-        STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$tfstate" | tr -d '\n')"
-        if [[ -n "$STALE_VERSION_ID" ]]; then
-          export STALE_VERSION_ID
-          echo "==> STALE_VERSION_ID from terraform state"
         fi
       fi
     fi
@@ -93,24 +86,10 @@ setup_cloud_env() {
         echo "==> GCP_PROJECT_ID from gcloud config: $GCP_PROJECT_ID"
       fi
     fi
-    if [[ -z "${STALE_VERSION_ID:-}" && -f "$tfstate" ]] && command -v jq >/dev/null 2>&1; then
-      STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$tfstate" | tr -d '\n')"
-      if [[ -n "$STALE_VERSION_ID" ]]; then
-        export STALE_VERSION_ID
-        echo "==> STALE_VERSION_ID from terraform state"
-      fi
-    fi
   fi
 
-  if [[ "$cloud" == "aws" ]]; then
-    local tfstate="$SCRIPT_DIR/terraform/aws/terraform.tfstate"
-    if [[ -z "${STALE_VERSION_ID:-}" && -f "$tfstate" ]] && command -v jq >/dev/null 2>&1; then
-      STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$tfstate" | tr -d '\n')"
-      if [[ -n "$STALE_VERSION_ID" ]]; then
-        export STALE_VERSION_ID
-        echo "==> STALE_VERSION_ID from terraform state"
-      fi
-    fi
+  if [[ -z "${STALE_VERSION_ID:-}" ]]; then
+    echo "Warning: STALE_VERSION_ID unset — add to environment-config/${cloud}-env.sh (regenerate via provision-${cloud}.sh after secrets terraform apply)" >&2
   fi
 }
 

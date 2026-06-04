@@ -29,7 +29,7 @@ cd modules/cloud-api-test
 ./run-integration-tests.sh aws    # or azure | gcp | all
 ```
 
-The script sets `INTEGRATION_PROVIDER`, sources `user-creation/azure-env.sh` or `gcp-env.sh` when present, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
+The script sets `INTEGRATION_PROVIDER`, sources `environment-config/azure-env.sh` or `gcp-env.sh` when present, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
 
 `./run-integration-tests.sh all` runs aws, then azure, then gcp (continues on failure), writes per-cloud artifacts as above, and merges coverage into `coverage-integration-all.out` / `.html` via [`gocovmerge`](https://github.com/wadey/gocovmerge) (`go run` on first use).
 
@@ -74,15 +74,15 @@ When adding extra terraform, please take this into account.
 
 ## User Creation
 
-Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Provision them with scripts in `modules/cloud-api-test/user-creation/`:
+Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Regenerate env files with idempotent scripts in `modules/cloud-api-test/environment-config/`:
 
 ```bash
-cd modules/cloud-api-test/user-creation
-./provision-aws-test-users.sh    # or provision-azure-test-users.sh / provision-gcp-test-users.sh
-source ./aws-env.sh              # matching *-env.sh for your cloud
+cd modules/cloud-api-test/environment-config
+./provision-aws.sh    # or provision-azure.sh / provision-gcp.sh
+source ./aws-env.sh   # matching *-env.sh for your cloud
 ```
 
-`STALE_VERSION_ID` (CCC.SecMgmt CN01) is written to `*-env.sh` from `terraform/<cloud>` state when the secrets module is applied; `run-integration-tests.sh` also exports it from state if missing after sourcing the env file.
+Re-run the same `provision-<cloud>.sh` after `terraform apply` to refresh fixture vars (`STALE_VERSION_ID`, hostnames, …) without creating new users. `STALE_VERSION_ID` must be present in `*-env.sh` (AWS value comes from local terraform when you provision). CI copies env files into `AZURE_ENV` / `GCP_ENV` / `AWS_ENV` secrets.
 
 ### GitHub Actions secret model
 
