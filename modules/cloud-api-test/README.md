@@ -74,11 +74,12 @@ When adding extra terraform, please take this into account.
 
 ## User Creation
 
-Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Provision them with scripts in `modules/cloud-api-test/user-creation/`. e.g: 
+Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Provision them with scripts in `modules/cloud-api-test/user-creation/`:
+
 ```bash
 cd modules/cloud-api-test/user-creation
-./provision-azure-test-users.sh
-source ./azure-env.sh
+./provision-aws-test-users.sh    # or provision-azure-test-users.sh / provision-gcp-test-users.sh
+source ./aws-env.sh              # matching *-env.sh for your cloud
 ```
 
 ### GitHub Actions secret model

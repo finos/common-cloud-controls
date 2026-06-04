@@ -128,10 +128,9 @@ func loadPrivateerServiceVars(path, serviceID string) (map[string]interface{}, e
 	if err != nil {
 		return nil, fmt.Errorf("read Privateer config %s: %w", path, err)
 	}
-	expanded := []byte(os.ExpandEnv(string(data)))
 
 	var raw map[string]interface{}
-	if err := yaml.Unmarshal(expanded, &raw); err != nil {
+	if err := yaml.Unmarshal(data, &raw); err != nil {
 		return nil, fmt.Errorf("parse Privateer config %s: %w", path, err)
 	}
 	services, _ := raw["services"].(map[string]interface{})

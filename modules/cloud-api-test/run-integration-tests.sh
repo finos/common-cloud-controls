@@ -10,8 +10,7 @@
 # Prerequisites:
 #   - Go toolchain (see modules/go.work)
 #   - Terraform fixtures applied for the target cloud(s)
-#   - Azure/GCP: user-creation/<cloud>-env.sh (from provision-*-test-users.sh)
-#   - AWS: credentials via AWS CLI / env (e.g. aws configure)
+#   - user-creation/<cloud>-env.sh (from provision-*-test-users.sh) when present
 
 set -euo pipefail
 
@@ -40,16 +39,14 @@ setup_cloud_env() {
   export INTEGRATION_PROVIDER="$cloud"
   export INTEGRATION_RESULTS_FILE="$SCRIPT_DIR/integration-results-${cloud}.txt"
 
-  if [[ "$cloud" == "azure" || "$cloud" == "gcp" ]]; then
-    local env_file="$SCRIPT_DIR/user-creation/${cloud}-env.sh"
-    if [[ -f "$env_file" ]]; then
-      set -a
-      # shellcheck source=/dev/null
-      source "$env_file"
-      set +a
-    else
-      echo "Warning: $env_file not found — run user-creation/provision-${cloud}-test-users.sh" >&2
-    fi
+  local env_file="$SCRIPT_DIR/user-creation/${cloud}-env.sh"
+  if [[ -f "$env_file" ]]; then
+    set -a
+    # shellcheck source=/dev/null
+    source "$env_file"
+    set +a
+  else
+    echo "Warning: $env_file not found — run user-creation/provision-${cloud}-test-users.sh" >&2
   fi
 
   if [[ "$cloud" == "azure" ]]; then
