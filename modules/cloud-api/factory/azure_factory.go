@@ -8,6 +8,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
+	secretsapi "github.com/finos/common-cloud-controls/cloud-api/secrets"
 	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
@@ -75,6 +76,11 @@ func (f *AzureFactory) GetServiceAPI(serviceID string) (generic.Service, error) 
 		if err != nil {
 			return nil, fmt.Errorf("failed to create Azure service '%s': %w", serviceID, err)
 		}
+	case "secrets":
+		service, err = secretsapi.NewAzureSecretsService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create Azure service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for Azure: %s", serviceID)
@@ -121,6 +127,11 @@ func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identityKey s
 		}
 	case "vpc":
 		service, err = vpcapi.NewAzureVPCServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create Azure service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "secrets":
+		service, err = secretsapi.NewAzureSecretsServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create Azure service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}

@@ -25,6 +25,7 @@ Scenarios are placed using the first matching tag:
 4. `@load-balancer` → `load-balancer/`
 5. `@virtual-machines` → `virtual-machines/`
 6. `@serverless-computing` → `serverless-computing/`
+7. `@secrets` → `secrets/`
 
 CCC.ObjStor features default to `object-storage/`. CCC.VPC defaults to `vpc/`. Other `@PerService` CCC.Core scenarios without a service tag default to `object-storage/`.
 

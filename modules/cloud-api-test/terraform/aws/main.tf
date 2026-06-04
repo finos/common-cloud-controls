@@ -38,3 +38,8 @@ module "logging" {
   lambda_function_arn = module.serverless_computing.function_arn
   common_tags         = local.common_tags
 }
+
+module "secrets" {
+  source      = "./modules/secrets"
+  common_tags = local.common_tags
+}

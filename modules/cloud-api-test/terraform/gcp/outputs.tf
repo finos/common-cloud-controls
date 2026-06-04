@@ -43,3 +43,14 @@ output "logging" {
     gcp_flow_log_name = module.logging.gcp_flow_log_name
   }
 }
+
+output "secrets" {
+  value = {
+    resource_name       = module.secrets.secret_name
+    secret_name         = module.secrets.secret_name
+    gcp_secret_id       = module.secrets.secret_id
+    stale_version_id    = module.secrets.stale_version_id
+    authorized_region   = module.secrets.authorized_region
+    unauthorized_region = module.secrets.unauthorized_region
+  }
+}

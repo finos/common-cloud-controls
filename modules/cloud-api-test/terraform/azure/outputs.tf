@@ -50,3 +50,15 @@ output "logging" {
     azure_storage_account             = module.logging.storage_account_name
   }
 }
+
+output "secrets" {
+  value = {
+    resource_name         = module.secrets.secret_name
+    azure_secret_name     = module.secrets.azure_secret_name
+    azure_key_vault_name  = module.secrets.azure_key_vault_name
+    azure_key_vault_uri   = module.secrets.azure_key_vault_uri
+    stale_version_id      = module.secrets.stale_version_id
+    authorized_region     = module.secrets.authorized_region
+    unauthorized_region   = module.secrets.unauthorized_region
+  }
+}

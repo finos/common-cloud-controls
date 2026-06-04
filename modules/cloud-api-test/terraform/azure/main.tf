@@ -57,3 +57,12 @@ module "logging" {
   function_app_id               = var.enable_serverless_computing ? module.serverless_computing[0].function_app_id : null
   common_tags                   = local.common_tags
 }
+
+module "secrets" {
+  source              = "./modules/secrets"
+  location            = var.location
+  resource_group      = azurerm_resource_group.this.name
+  key_vault_name      = "finoscccintkvsec"
+  common_tags         = local.common_tags
+  unauthorized_region = "westeurope"
+}

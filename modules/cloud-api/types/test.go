@@ -62,4 +62,5 @@ var ServiceTypes = []string{
 	"vpc",
 	"virtual-machines",
 	"serverless-computing",
+	"secrets",
 }

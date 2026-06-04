@@ -31,7 +31,8 @@ case "$TARGET" in
 esac
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-COVERPKG="../cloud-api/factory/...,../cloud-api/generic/...,../cloud-api/iam/...,../cloud-api/logging/...,../cloud-api/object-storage/...,../cloud-api/serverless-computing/...,../cloud-api/types/...,../cloud-api/virtual-machines/...,../cloud-api/vpc/..."
+# Full cloud-api module (incl. generic/login). Low login % in HTML report is intentional — fix via W-46.
+COVERPKG="../cloud-api/..."
 
 setup_cloud_env() {
   local cloud="$1"
@@ -66,6 +67,13 @@ setup_cloud_env() {
           echo "==> AZURE_VM_HOSTNAME from terraform state"
         fi
       fi
+      if [[ -z "${STALE_VERSION_ID:-}" ]]; then
+        STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$tfstate" | tr -d '\n')"
+        if [[ -n "$STALE_VERSION_ID" ]]; then
+          export STALE_VERSION_ID
+          echo "==> STALE_VERSION_ID from terraform state"
+        fi
+      fi
     fi
   fi
 
@@ -83,6 +91,24 @@ setup_cloud_env() {
       export GCP_PROJECT_ID
       if [[ -n "$GCP_PROJECT_ID" ]]; then
         echo "==> GCP_PROJECT_ID from gcloud config: $GCP_PROJECT_ID"
+      fi
+    fi
+    if [[ -z "${STALE_VERSION_ID:-}" && -f "$tfstate" ]] && command -v jq >/dev/null 2>&1; then
+      STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$tfstate" | tr -d '\n')"
+      if [[ -n "$STALE_VERSION_ID" ]]; then
+        export STALE_VERSION_ID
+        echo "==> STALE_VERSION_ID from terraform state"
+      fi
+    fi
+  fi
+
+  if [[ "$cloud" == "aws" ]]; then
+    local tfstate="$SCRIPT_DIR/terraform/aws/terraform.tfstate"
+    if [[ -z "${STALE_VERSION_ID:-}" && -f "$tfstate" ]] && command -v jq >/dev/null 2>&1; then
+      STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$tfstate" | tr -d '\n')"
+      if [[ -n "$STALE_VERSION_ID" ]]; then
+        export STALE_VERSION_ID
+        echo "==> STALE_VERSION_ID from terraform state"
       fi
     fi
   fi

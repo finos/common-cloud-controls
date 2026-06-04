@@ -8,6 +8,14 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUT_FILE="$SCRIPT_DIR/azure-env.sh"
+TFSTATE="$SCRIPT_DIR/../terraform/azure/terraform.tfstate"
+
+# CN01 secrets fixture (terraform/modules/secrets); override via STALE_VERSION_ID if set.
+STALE_VERSION_ID="${STALE_VERSION_ID:-}"
+if [[ -z "$STALE_VERSION_ID" && -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
+  STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$TFSTATE" | tr -d '\n')"
+fi
+STALE_VERSION_ID="${STALE_VERSION_ID:-00000000000000000000000000000000}"
 
 if ! command -v az >/dev/null 2>&1; then
   echo "error: Azure CLI (az) is required" >&2
@@ -113,6 +121,7 @@ assign_role_if_needed() {
   if [ -n "$VM_HOSTNAME" ]; then
     printf 'export AZURE_VM_HOSTNAME=%q\n' "$VM_HOSTNAME"
   fi
+  printf 'export STALE_VERSION_ID=%q\n' "$STALE_VERSION_ID"
   echo ""
 } >"$OUT_FILE"
 
