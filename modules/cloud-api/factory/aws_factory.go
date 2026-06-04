@@ -8,6 +8,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
+	secretsapi "github.com/finos/common-cloud-controls/cloud-api/secrets"
 	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	vpcapi "github.com/finos/common-cloud-controls/cloud-api/vpc"
 	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
@@ -75,6 +76,11 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
 		}
+	case "secrets":
+		service, err = secretsapi.NewAWSSecretsService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for AWS: %s", serviceID)
@@ -122,6 +128,11 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		}
 	case "serverless-computing":
 		service, err = serverlesscomputing.NewAWSServerlessComputingServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "secrets":
+		service, err = secretsapi.NewAWSSecretsServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}

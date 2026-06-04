@@ -13,6 +13,7 @@ import (
 
 	"github.com/finos/common-cloud-controls/cloud-api/factory"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"github.com/finos/common-cloud-controls/runner"
 )
 
@@ -96,7 +97,7 @@ func TestCloudAPIIntegration(t *testing.T) {
 			}
 			continue
 		}
-		callErr := invokeMethod(svc, row.Method, row.Args)
+		callErr := invokeMethod(svc, cfg, row.Method, row.Args)
 		if recordResult(row.ExpectError, callErr != nil, &passed, &failed) {
 			if callErr != nil {
 				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", callErr)), t)
@@ -178,7 +179,7 @@ func integrationMethodAllowed(row callRow) bool {
 		(row.Method == "DeleteObject" || row.Method == "DeleteBucket")
 }
 
-func invokeMethod(svc generic.Service, method string, args []string) error {
+func invokeMethod(svc generic.Service, cfg types.Config, method string, args []string) error {
 	rv := reflect.ValueOf(svc)
 	for rv.Kind() == reflect.Interface && !rv.IsNil() {
 		rv = rv.Elem()
@@ -188,6 +189,9 @@ func invokeMethod(svc generic.Service, method string, args []string) error {
 		return fmt.Errorf("method %q not found on %s", method, rv.Type())
 	}
 	trimmed := trimArgs(args)
+	for i := range trimmed {
+		trimmed[i] = substituteConfigArg(cfg, trimmed[i])
+	}
 	fnType := mt.Func.Type()
 	want := fnType.NumIn() - 1
 	if len(trimmed) != want {
@@ -239,6 +243,17 @@ func firstError(out []reflect.Value) error {
 		}
 	}
 	return nil
+}
+
+func substituteConfigArg(cfg types.Config, raw string) string {
+	const prefix = "config:"
+	if strings.HasPrefix(raw, prefix) {
+		key := strings.TrimPrefix(raw, prefix)
+		if v := strings.TrimSpace(cfg.Get(key)); v != "" {
+			return v
+		}
+	}
+	return raw
 }
 
 func trimArgs(args []string) []string {

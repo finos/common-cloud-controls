@@ -9,6 +9,14 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 OUT_FILE="$SCRIPT_DIR/gcp-env.sh"
+TFSTATE="$SCRIPT_DIR/../terraform/gcp/terraform.tfstate"
+
+# CN01 secrets fixture (terraform/modules/secrets); override via STALE_VERSION_ID if set.
+STALE_VERSION_ID="${STALE_VERSION_ID:-}"
+if [[ -z "$STALE_VERSION_ID" && -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
+  STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$TFSTATE" | tr -d '\n')"
+fi
+STALE_VERSION_ID="${STALE_VERSION_ID:-1}"
 KEY_DIR="$SCRIPT_DIR/.keys"
 mkdir -p "$KEY_DIR"
 
@@ -152,6 +160,7 @@ VM_HOSTNAME="$(guess_vm_hostname)"
   printf "export GCP_TEST_USER_ADMIN_SA_KEY_JSON='%s'\n" "$ADMIN_KEY_JSON"
   echo ""
   printf 'export GCP_VM_HOSTNAME=%q\n' "$VM_HOSTNAME"
+  printf 'export STALE_VERSION_ID=%q\n' "$STALE_VERSION_ID"
   echo ""
   echo "# GitHub secrets helper (optional):"
   echo "# gh secret set GCP_TEST_USER_NO_ACCESS_NAME --body \"\$GCP_TEST_USER_NO_ACCESS_NAME\" --repo finos/common-cloud-controls"

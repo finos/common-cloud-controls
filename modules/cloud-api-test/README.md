@@ -48,7 +48,7 @@ go test -tags=integration -timeout=45m \
 
 Each CSV row prints `PASS` or `FAIL` to the console when the test finishes (and live with `-v`). `INTEGRATION_PROVIDER` must be set or the test exits immediately. If any row fails, `go test` exits with code 1.
 
-Coverage with `-coverpkg=../cloud-api/...` counts all provider implementations; an AWS-only run will show a low percentage until Azure/GCP jobs run or you scope `-coverpkg` to packages you care about for that cloud.
+Coverage uses `-coverpkg=../cloud-api/...` (entire module, including `generic/login`). An AWS-only run shows a low overall percentage until Azure/GCP jobs run; packages not hit by the CSV (e.g. `generic/login`) appear at 0% in `coverage-integration-*.html` as work to address (see `work.md` W-46).
 
 Unit checks:
 
@@ -81,6 +81,8 @@ cd modules/cloud-api-test/user-creation
 ./provision-aws-test-users.sh    # or provision-azure-test-users.sh / provision-gcp-test-users.sh
 source ./aws-env.sh              # matching *-env.sh for your cloud
 ```
+
+`STALE_VERSION_ID` (CCC.SecMgmt CN01) is written to `*-env.sh` from `terraform/<cloud>` state when the secrets module is applied; `run-integration-tests.sh` also exports it from state if missing after sourcing the env file.
 
 ### GitHub Actions secret model
 

@@ -44,3 +44,11 @@ module "logging" {
   source     = "./modules/logging"
   project_id = var.project_id
 }
+
+module "secrets" {
+  source              = "./modules/secrets"
+  project_id          = var.project_id
+  region              = var.region
+  common_tags         = local.common_labels
+  unauthorized_region = "europe-west1"
+}

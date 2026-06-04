@@ -4,13 +4,13 @@
 
 ## AWS
 
-**Last run:** **77 pass / 0 fail** (77 rows: 66 shared `all` + 11 `aws`-only temp bucket) · exit **0** · coverage **~21%** (scoped `-coverpkg`, excludes `generic/login`).
+**Last run:** **77 pass / 0 fail** (77 rows: 66 shared `all` + 11 `aws`-only temp bucket) · exit **0** · coverage **~21%** (`-coverpkg=../cloud-api/...`, incl. `generic/login`).
 
 Re-run: `./run-integration-tests.sh aws`
 
 ## GCP
 
-**Last run:** **66 pass / 0 fail** (66 `gcp` rows) · exit **0** · coverage **~18%** (scoped `-coverpkg`, excludes `generic/login`).
+**Last run:** **66 pass / 0 fail** (66 `gcp` rows) · exit **0** · coverage **~18%** (`-coverpkg=../cloud-api/...`, incl. `generic/login`).
 
 Re-run after VM `all` expansion: expect **77** rows (adds 11 `virtual-machines` calls).
 
@@ -22,7 +22,7 @@ Re-run: `./run-integration-tests.sh gcp` (sources `user-creation/gcp-env.sh`; se
 
 ## Azure
 
-**Last run:** **66 pass / 0 fail** (66 `azure` rows) · exit **0** · coverage **~23.5%** (scoped `-coverpkg`, excludes `generic/login`).
+**Last run:** **66 pass / 0 fail** (66 `azure` rows) · exit **0** · coverage **~23.5%** (`-coverpkg=../cloud-api/...`, incl. `generic/login`).
 
 Re-run after VM `all` expansion: expect **77** rows (adds 11 `virtual-machines` calls). `run-integration-tests.sh` exports `AZURE_VM_HOSTNAME` from terraform when unset.
 
@@ -54,7 +54,7 @@ Legacy NSG flow logs cannot be created (retired June 2025). Integration CSV uses
 
 ### W-07 — Coverage scope
 
-`-coverpkg` lists exercised packages only (no `generic/login`). Per-cloud jobs still optional.
+`-coverpkg=../cloud-api/...` (full module). Per-cloud jobs still optional; overall % stays low until all clouds run.
 
 ### W-41 — VPC CN04
 
@@ -62,7 +62,7 @@ Not in integration CSV.
 
 ### W-46 — `generic/login`
 
-**Keep** — used by [`BasicServiceRunner`](../runner/BasicServiceRunner.go) for Azure CLI refresh before TearDown. Not in integration CSV by design; excluded from coverage scope.
+**Keep** — used by [`BasicServiceRunner`](../runner/BasicServiceRunner.go) for Azure CLI refresh before TearDown. Not in integration CSV yet; **included** in `-coverpkg` so HTML report flags 0% / low coverage until login paths are tested or exercised.
 
 ### Azure/GCP VPC CN02 / CN04
 

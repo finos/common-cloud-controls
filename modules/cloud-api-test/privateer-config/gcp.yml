@@ -18,3 +18,9 @@ services:
       disallowed-requester-vpc-ids:
         - "finos-ccc-integration-vpc-bad"
         - "finos-ccc-integration-vpc-bad"
+      stale-version-id: "${STALE_VERSION_ID}"
+      authorized-region: "us-central1"
+      unauthorized-region: "europe-west1"
+      permitted-regions:
+        - "us-central1"
+      gcp-secret-id: "finos-ccc-integration-secret-main"

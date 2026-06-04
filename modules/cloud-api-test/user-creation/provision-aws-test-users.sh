@@ -8,6 +8,12 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUT_FILE="$SCRIPT_DIR/aws-env.sh"
+TFSTATE="$SCRIPT_DIR/../terraform/aws/terraform.tfstate"
+
+STALE_VERSION_ID="${STALE_VERSION_ID:-}"
+if [[ -z "$STALE_VERSION_ID" && -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
+  STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$TFSTATE" | tr -d '\n')"
+fi
 KEY_DIR="$SCRIPT_DIR/.keys"
 mkdir -p "$KEY_DIR"
 
@@ -167,6 +173,9 @@ attach_policies "$USER_ADMIN" "$ADMIN_POLICY"
   echo ""
   printf 'export AWS_REGION=%q\n' "$AWS_REGION"
   printf 'export AWS_ACCOUNT_ID=%q\n' "$ACCOUNT_ID"
+  if [ -n "$STALE_VERSION_ID" ]; then
+    printf 'export STALE_VERSION_ID=%q\n' "$STALE_VERSION_ID"
+  fi
   echo ""
 } >"$OUT_FILE"
 

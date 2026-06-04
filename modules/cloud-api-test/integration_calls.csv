@@ -99,3 +99,13 @@ logging,QueryLogs,all,,finos-ccc-integration-fn-main,data-read,60
 logging,QueryLogs,aws,,finos-ccc-integration-vpc,flow,60
 logging,QueryLogs,gcp,,finos-ccc-integration-vpc,flow,60
 logging,QueryLogs,azure,true,finos-ccc-integration-vpc,flow,60
+secrets,GetOrProvisionTestableResources,all,,,,
+secrets,CheckUserProvisioned,all,,,,
+secrets,RetrieveSecretVersion,all,,finos-ccc-integration-secret-main,latest,
+secrets,RetrieveSecretVersion,all,true,finos-ccc-integration-secret-main,config:stale-version-id,
+secrets,RetrieveSecretInRegion,aws,,finos-ccc-integration-secret-main,config:authorized-region,
+secrets,RetrieveSecretInRegion,aws,true,finos-ccc-integration-secret-main,config:unauthorized-region,
+secrets,RetrieveSecretInRegion,azure,,finos-ccc-integration-secret-main,config:authorized-region,
+secrets,RetrieveSecretInRegion,azure,true,finos-ccc-integration-secret-main,config:unauthorized-region,
+secrets,RetrieveSecretInRegion,gcp,,finos-ccc-integration-secret-main,config:authorized-region,
+secrets,RetrieveSecretInRegion,gcp,true,finos-ccc-integration-secret-main,config:unauthorized-region,

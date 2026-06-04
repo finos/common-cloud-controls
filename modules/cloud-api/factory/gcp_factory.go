@@ -8,6 +8,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
+	secretsapi "github.com/finos/common-cloud-controls/cloud-api/secrets"
 	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
@@ -70,6 +71,11 @@ func (f *GCPFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
 		}
+	case "secrets":
+		service, err = secretsapi.NewGCPSecretsService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for GCP: %s", serviceID)
@@ -116,6 +122,11 @@ func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		}
 	case "vpc":
 		service, err = vpcapi.NewGCPVPCServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "secrets":
+		service, err = secretsapi.NewGCPSecretsServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}
