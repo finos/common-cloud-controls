@@ -44,3 +44,4 @@ modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-functio
 
 # Ignore local cloud API test keys
 modules/cloud-api-test/user-creation/.keys/*.json
+modules/cloud-api-test/user-creation/.keys/*.credentials
