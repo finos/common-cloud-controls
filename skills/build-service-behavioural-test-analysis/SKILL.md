@@ -3,15 +3,16 @@ name: build-service-behavioural-test-analysis
 description: >-
   Analyse a CCC service control catalog and produce analysis.md plus a minimal
   cloud-api interface design for behavioural tests. Use when ingesting
-  catalogs/networking/vpc/controls.yaml, catalogs/crypto/secrets/controls.yaml,
-  or other catalogs/*/*/controls.yaml, creating modules/features folders, or
-  planning @Behavioural Gherkin scenarios before implementation.
+  catalogs/*/*/controls.yaml, creating modules/features folders, or planning
+  @Behavioural Gherkin scenarios before implementation. Downstream implementation
+  uses modules/cloud-api-test (terraform, integration_calls.csv) and
+  cfi-testing/privateer-config/finos-integration.
 disable-model-invocation: true
 ---
 
 # Build service behavioural test analysis
 
-Produce **`analysis.md`** and a **minimal `cloud-api` interface sketch** before writing feature files or Go implementations. 
+Produce **`analysis.md`** and a **minimal `cloud-api` interface sketch** before writing feature files or Go implementations. Implementation is covered by [build-features-and-cloud-api](../build-features-and-cloud-api/SKILL.md).
 
 ## When to use
 
@@ -26,16 +27,16 @@ Produce **`analysis.md`** and a **minimal `cloud-api` interface sketch** before 
 | Analysis document | `modules/features/<service-folder>/analysis.md` |
 | Interface sketch (in analysis only — no Go yet) | Section inside `analysis.md` |
 
-**Create only `analysis.md`.** Do not create catalog subdirectories, `.feature` files, Go code, or any other files in this skill unless the user explicitly asks.
+**Create only `analysis.md`.** Do not create catalog subdirectories, `.feature` files, Go code, terraform, privateer YAML, `integration_calls.csv`, or `actions-config` in this skill unless the user explicitly asks.
 
 Do **not** create:
 
 - Placeholder `README.md` files under `<CatalogId>/` or `CCC.Core/` (e.g. `CCC.VM/README.md`)
 - Empty catalog subdirectories “for later”
 - `.gitkeep` or other scaffold files
-- Updates to `modules/features/README.md` routing rules (that belongs in the implementation skill or a separate docs change)
+- Updates to `modules/features/README.md` routing rules (that belongs in the implementation skill)
 
-The analysis document itself describes the planned feature tree (`<CatalogId>/<AR>.feature`); physical directories and features are created when implementing tests.
+The analysis document describes the planned feature tree, terraform fixture roles, and config vars; physical artifacts are created in the implementation skill.
 
 Do **not** create `.feature` files or implement Go in this skill unless the user explicitly asks to continue to implementation.
 
@@ -53,8 +54,9 @@ Analysis progress:
 - [ ] Step 4: Draft per-AR test approach
 - [ ] Step 5: Design minimal cloud-api interface(s)
 - [ ] Step 6: Cross-cloud implementation notes (AWS / Azure / GCP)
-- [ ] Step 7: Write analysis.md
-- [ ] Step 8: Review — interface count, AR coverage, gaps
+- [ ] Step 7: Plan fixtures, config vars, and integration CSV rows
+- [ ] Step 8: Write analysis.md
+- [ ] Step 9: Review — interface count, AR coverage, gaps
 ```
 
 ### Step 1: Ingest the control catalog
@@ -75,7 +77,7 @@ From `controls.yaml` extract for each AR:
 
 From `imported-controls` list **inherited** CCC.Core (or other) ARs that apply to this service but are defined elsewhere.
 
-**Reuse `modules/features/generic/` first.** That folder holds shared `@PerService` and `@PerPort` Core scenarios (CN01, CN03, CN04, CN05, CN07, CN10, …) that already use `{service-type}` or port probes. For a new service, the default plan is to **add a service tag** (e.g. `@virtual-machines`) to existing generic scenarios — not to copy feature files into `<service-folder>/CCC.Core/`. Only plan **new** feature files when generic steps cannot express the AR (service-specific cloud-api methods, probes that differ from `@PerPort` patterns). See `modules/features/virtual-machines/analysis.md` for a reuse table example.
+**Reuse `modules/features/generic/` first.** That folder holds shared `@PerService` and `@PerPort` Core scenarios (CN01, CN03, CN04, CN05, CN07, CN10, …) that already use `{service-type}` or port probes. For a new service, the default plan is to **add a service tag** (e.g. `@virtual-machines`) to existing generic scenarios — not to copy feature files into `<service-folder>/CCC.Core/`. Only plan **new** feature files when generic steps cannot express the AR (service-specific cloud-api methods, probes that differ from `@PerPort` patterns). See [`modules/features/virtual-machines/analysis.md`](../../modules/features/virtual-machines/analysis.md) for a reuse table example.
 
 **Parse the AR sentence.** Most ARs follow:
 
@@ -100,6 +102,7 @@ Document in `analysis.md`:
 
 1. A **Feature reuse from generic** table: Core AR → existing generic (or shared) feature path → action (`add @<service> tag` vs `new feature under <service-folder>/`).
 2. The intended on-disk layout for **new-only** scenarios.
+3. Whether the service needs **`port/`** (PerPort TLS/SSH/TCP) catalog dirs in runner discovery — see [BasicServiceRunner.go](../../modules/runner/BasicServiceRunner.go): today `port/` is loaded for `object-storage` and `virtual-machines`; `vpc/` for `virtual-machines` and `serverless-computing`.
 
 **Do not create directories or files** on disk — only `analysis.md` is written in this skill.
 
@@ -122,7 +125,7 @@ modules/features/
 
 | Situation | Plan |
 |-----------|------|
-| AR uses `generic.Service` methods (`UpdateResourcePolicy`, `TriggerDataWrite`, `GetResourceRegion`, …) | Add `@<service>` to existing file in `generic/` (or shared `vpc/` CN06) |
+| AR uses `generic.Service` methods (`UpdateResourcePolicy`, `TriggerDataWrite`, `GetResourceRegion`, …) | Add `@<service>` to existing file in `generic/` |
 | AR is `@NotTestable` stub already in generic | Add `@<service>` to same stub |
 | AR is `@PerPort` (TLS, SSH, protocol, TCP deny) | Add `@<service>` in `generic/` or `port/`; routed by `@PerPort` |
 | AR needs a method not on `generic.Service` | New feature under `<service-folder>/` + minimal cloud-api method |
@@ -134,6 +137,8 @@ modules/features/
 |--------------|---------------|-----------------|----------------------|
 | `catalogs/networking/vpc` | `CCC.VPC` | `vpc` | `vpc` |
 | `catalogs/storage/object` | `CCC.ObjStor` | `object-storage` | `object-storage` |
+| `catalogs/compute/virtual-machines` | `CCC.VM` | `virtual-machines` | `virtual-machines` |
+| `catalogs/compute/serverless-computing` | `CCC.SvlsComp` | `serverless-computing` | `serverless-computing` |
 | `catalogs/crypto/secrets` | `CCC.SecMgmt` | `secrets` (new) | `secrets` (new) |
 
 ### Step 3: Classify each AR
@@ -156,30 +161,30 @@ For each **Behavioural** or **Destructive** AR, write a short subsection in `ana
 2. **Reuse** — generic/shared feature path, or “new under `<service-folder>/`” with reason
 3. **Interpretation** — what “when” and “must” mean operationally
 4. **Approach** — the steps you would take to test the service
-5. **Fixtures / config** — what must exist in terraform or privateer vars (no discovery or resource creation)
+5. **Fixtures / config** — what must exist in `modules/cloud-api-test/terraform` and privateer vars (no discovery or resource creation in Go)
 
-For ARs covered by **tag-only reuse**, a brief **VM/service implementation note** under the generic feature is enough — do not repeat full Gherkin steps already in `generic/`.
+For ARs covered by **tag-only reuse**, a brief **service implementation note** under the generic feature is enough — do not repeat full Gherkin steps already in `generic/`.
 
 Notes:
 
 - **Prefer the two-service logging pattern** for any “must log / capture” AR:
   - trigger the loggable activity (`TriggerDataWrite`, `GenerateTestTraffic`, `UpdateResourcePolicy`, …)
   - use the `logging` service: `QueryLogs(resourceID, logType, lookbackMinutes)` with explicit sink config in privateer vars
-  - Do **not** embed log-query logic on the resource service interface since it's already on the logging service.
+  - Do **not** embed log-query logic on the resource service interface — it belongs on `logging.Service`.
 
 - **Prefer test identities** for access-denial ARs: `GetServiceAPIWithIdentity` + `test-user-no-access` / `test-user-read` from privateer `test-identities` — never `ProvisionUserWithAccess` in features.
 
-- **Service Interaction**: where the service under test interacts with another service (iam, logging, object storage etc.) assume that the service will be available via the cloud-api layer. 
+- **Service interaction**: where the service under test interacts with another service (IAM, logging, object storage, etc.), assume it is available via the cloud-api factory.
 
 ### Step 5: Minimal cloud-api interface
 
-Follow the same interface design as with other services (see modules/cloud-api/logging/logging.go for an example).  
+Follow the same interface design as other services (see [`modules/cloud-api/logging/logging.go`](../../modules/cloud-api/logging/logging.go) for an example).
 
 **Rules:**
 
 1. **Do not add a method** if an existing `generic.Service` method fits (check [generic/service.go](../../modules/cloud-api/generic/service.go) — `UpdateResourcePolicy`, `TriggerDataWrite`, `TriggerDataRead`, `GetResourceRegion`, etc.).
 2. **Do not add a method** if the scenario can call an existing method with different arguments.
-3. **Return maps for exploratory ops**, typed structs for stable domain objects (see `object-storage` `Bucket` / `Object`).  This allows us to write in a cloud-agnostic manner.
+3. **Return maps for exploratory ops**, typed structs for stable domain objects (see `object-storage` `Bucket` / `Object`). This allows cloud-agnostic feature steps.
 4. **Every method must appear in at least one planned scenario** — otherwise omit.
 5. Design the **smallest** interface that supports all planned scenarios.
 
@@ -285,17 +290,53 @@ List **new-only** ARs separately (native controls + Core ARs that generic steps 
 
 (repeat per method)
 
+## Terraform fixtures (planned)
+
+| Fixture name | Role | AR(s) | Cloud(s) |
+|--------------|------|-------|----------|
+| `finos-ccc-integration-<role>` | main test resource | … | aws, azure, gcp |
+
+Note vpc good/bad/CN03 peers if applicable. Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/<service>/`.
+
+## Integration test coverage (planned)
+
+| api | method | cloud | expect_error | arg1 | Notes |
+|-----|--------|-------|--------------|------|-------|
+| `<service-id>` | `ExampleMethod` | all | | `finos-ccc-integration-…` | … |
+| `logging` | `QueryLogs` | all | | `<resource>`, `admin`, `60` | … |
+
+Vars for `modules/cloud-api-test/privateer-config/*.yml`: …
+
 ## Privateer config (planned vars)
+
+### Behavioural (`cfi-testing/privateer-config/finos-integration/<service>/`)
 
 | Var | Purpose | Example |
 |-----|---------|---------|
+| `service` / `service-type` | factory id | `virtual-machines` |
+| `tags` | scenario filter | `@Behavioural @virtual-machines` |
+| `resource` | resource filter (Name tag) | `finos-ccc-integration-vm-main` |
+| `test-identities` | CN05 | same shape as object-storage |
+
+### Integration (`modules/cloud-api-test/privateer-config/<cloud>.yml`)
+
+| Var | Purpose | Example |
+|-----|---------|---------|
+| `resource` | CSV / GetOrProvision filter | `finos-ccc-integration-vm-main` |
+| `aws-flow-log-group-name` | logging | from terraform output |
+
+## CI actions-config (planned)
+
+| File | `privateer-service` | `test-configuration` |
+|------|---------------------|----------------------|
+| `cfi-testing/actions-config/aws-<service>-finos.yaml` | `aws<Service>` | `../privateer-config/finos-integration/<service>/aws-….yml` |
 
 ## Open questions
 
 - …
 ```
 
-### Step 8: Review checklist
+### Step 9: Review checklist
 
 Before finishing:
 
@@ -307,4 +348,17 @@ Before finishing:
 - [ ] AWS / Azure / GCP columns filled or marked unsupported with reason
 - [ ] Inherited Core ARs either point at generic/shared features or justify new service-specific scenarios
 - [ ] Subscription-init / alert / MFA-at-account-layer ARs not falsely marked Behavioural
+- [ ] Terraform fixtures use `finos-ccc-integration-*` naming; one main resource per service type (vpc exception documented)
+- [ ] **Integration test coverage** table lists every new method + planned `expect_error` where honest
+- [ ] **Privateer config** split documented: finos-integration (behavioural) vs `cloud-api-test/privateer-config` (integration)
+- [ ] **actions-config** entry planned with `path` under `modules/cloud-api-test/terraform/<cloud>`
 - [ ] **Only** `modules/features/<service-folder>/analysis.md` was created — no placeholder READMEs, empty catalog dirs, or `.feature` files
+
+---
+
+## Related skills
+
+| Skill | Role |
+|-------|------|
+| This skill | Produces `analysis.md` only — planning and interface design |
+| [build-features-and-cloud-api](../build-features-and-cloud-api/SKILL.md) | Implements features, cloud-api, terraform, CSV, privateer configs — run **after** approval |

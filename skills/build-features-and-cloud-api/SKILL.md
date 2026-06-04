@@ -3,9 +3,10 @@ name: build-features-and-cloud-api
 description: >-
   Implement an approved modules/features/<service>/analysis.md: Gherkin features
   (reusing generic/ where planned), cloud-api Go package and factory wiring,
-  modules/integration-terraform fixtures per cloud, and cfi-testing/privateer-config.
-  Use after build-service-behavioural-test-analysis when the user approves analysis
-  and wants behavioural tests runnable end-to-end.
+  modules/cloud-api-test/terraform fixtures per cloud, integration_calls.csv,
+  modules/cloud-api-test/privateer-config, cfi-testing/privateer-config/finos-integration,
+  and cfi-testing/actions-config. Use after build-service-behavioural-test-analysis
+  when the user approves analysis and wants behavioural tests runnable end-to-end.
 disable-model-invocation: true
 ---
 
@@ -16,24 +17,23 @@ Turn an **approved** [`analysis.md`](../../modules/features/<service-folder>/ana
 ## When to use
 
 - `modules/features/<service-folder>/analysis.md` exists and the user has approved it.
-- You need feature files, `cloud-api` implementations, integration terraform, and Privateer YAML together.
+- You need feature files, `cloud-api` implementations, integration terraform and Privateer YAML together (see outputs below).
 - You are adding a **new factory service id** (e.g. `virtual-machines`) or extending an existing one.
 
 ## Prerequisites
 
 1. Read the service **`analysis.md`** end-to-end — especially **Feature reuse from generic**, **Cloud-api interface**, **Privateer config**, and **Cross-cloud implementation**.
 2. Confirm **factory service id**, **features folder name**, and **catalog id(s)** match the analysis header.
-3. Have cloud credentials available only for **optional** verification runs; implementation must not depend on live cloud access.
 
 ## Scope and honesty
 
 | Goal | Non-goal |
 |------|----------|
-| Exercise **all** planned cloud-api methods and feature steps in CI/dev | Every scenario **passes** on first terraform apply |
+| Exercise **all** planned cloud-api methods via `modules/cloud-api-test` (`integration_calls.csv` + Godog features) | Every scenario **passes** on first terraform apply |
 | One **modular** terraform root per cloud provider covering **all services that already have behavioural tests** | Production-hardened infra |
 | Privateer configs wired to terraform **outputs** | Magical discovery of log sinks or resource names |
 
-Terraform and configs may use **minimal** resources (one VM, one function, one VPC). Optional good/bad fixtures apply **only to `vpc`**. Missing optional controls on other services is acceptable if analysis documents `@NotTestable` or honesty gaps.
+Terraform and configs may use **minimal** and **cheap** resources (one VM, one function, one VPC). Optional good/bad fixtures apply **only to `vpc`**. Missing optional controls on other services is acceptable if analysis documents `@NotTestable` or honesty gaps.
 
 ## Outputs
 
@@ -44,9 +44,12 @@ Terraform and configs may use **minimal** resources (one VM, one function, one V
 | Factory registration | `modules/cloud-api/factory/*_factory.go` |
 | Runner feature discovery (if needed) | `modules/runner/BasicServiceRunner.go` |
 | Service type registry (if new id) | `modules/cloud-api/types/test.go` |
-| Integration terraform | `modules/integration-terraform/<aws\|azure\|gcp>/` |
-| Privateer configs | `cfi-testing/privateer-config/` |
-| Env helper (optional) | `modules/integration-terraform/<cloud>/env.sh.example` |
+| Integration terraform | `modules/cloud-api-test/terraform/<aws\|azure\|gcp>/` |
+| Integration test CSV | `modules/cloud-api-test/integration_calls.csv` |
+| Minimal Privateer vars (integration) | `modules/cloud-api-test/privateer-config/{aws,azure,gcp}.yml` |
+| Behavioural Privateer configs | `cfi-testing/privateer-config/finos-integration/<service>/` |
+| CI action wiring | `cfi-testing/actions-config/<provider>-<service>-finos.yaml` |
+| Access control provisioning | `modules/cloud-api-test/user-creation/provision-{aws,azure,gcp}-test-users.sh` |
 
 Update `modules/features/README.md` routing rules when adding a **new** service tag.
 
@@ -62,10 +65,11 @@ Implementation progress:
 - [ ] Step 1: Features (generic tags → new .feature files)
 - [ ] Step 2: cloud-api package + factory (AWS, Azure, GCP)
 - [ ] Step 3: Runner discovery + ServiceTypes (if new service)
-- [ ] Step 4: integration-terraform (per cloud, all services)
-- [ ] Step 5: privateer-config + outputs mapping
-- [ ] Step 6: Build workspace + smoke notes
-- [ ] Step 7: Review checklist
+- [ ] Step 4: cloud-api-test terraform (per cloud, all services)
+- [ ] Step 5: integration_calls.csv + minimal privateer-config
+- [ ] Step 6: finos-integration privateer-config + actions-config
+- [ ] Step 7: Build workspace + smoke (integration + behavioural)
+- [ ] Step 8: Review checklist
 ```
 
 ### Step 0: Extract implementation checklist from analysis
@@ -79,7 +83,7 @@ From `analysis.md`, build a working checklist:
 | Cloud-api interface table | Go interface + methods per cloud |
 | generic.Service methods | Implement on service struct (embed or delegate) |
 | logging.Service | Reuse package; set explicit sink vars in terraform outputs |
-| Privateer config (planned vars) | Keys in `services.*.vars` |
+| Privateer config (planned vars) | Keys in behavioural `services.*.vars` and integration YAML |
 | Cross-cloud implementation | SDK calls per method |
 
 ---
@@ -140,7 +144,7 @@ modules/cloud-api/<package>/
   gcp-<service>.go
 ```
 
-Do not provide mocks or tests, we are going to test with integration tests later.
+Do not provide mocks or unit tests in `cloud-api` — exercise implementations via `modules/cloud-api-test` integration tests and Godog features.
 
 **Rules** (from analysis + [generic/service.go](../../modules/cloud-api/generic/service.go)):
 
@@ -148,7 +152,7 @@ Do not provide mocks or tests, we are going to test with integration tests later
 2. Do **not** add methods that duplicate `generic.Service` or `logging.Service` (or any other service).
 3. Implement only methods in the analysis **Cloud-api interface** table.
 4. Read config via `types.Config` — `config.Get("kebab-key")`, `config.LoggingConfig()`, etc. **No discovery** of log sinks or accounts.
-5. `GetOrProvisionTestableResources`: return pre-provisioned resources tagged in terraform (`CFIControlSet`, `Name` = `cfi-<deployment>-...`); do not create production resources in CI unless analysis requires it.
+5. `GetOrProvisionTestableResources`: return pre-provisioned resources from terraform (`CFIControlSet`, `Name` = `finos-ccc-integration-<role>`); filter by `resource` var when set. Do not create production resources in CI unless analysis requires it.
 6. `TearDown`: remove only resources created during the test run; no-op if nothing created.
 7. Identity-scoped clients: follow [`factory.GetServiceAPIWithIdentity`](../../modules/cloud-api/factory/factory.go) pattern in `aws_factory.go` / `azure_factory.go` / `gcp_factory.go`.
 
@@ -179,44 +183,42 @@ cd modules/ccc-behavioural-plugin && go build .
 
 - `modules/features/<serviceName>/*` (catalog subdirs), when present
 - `modules/features/generic/*` — **always** (shared CCC.Core scenarios)
-- `modules/features/port/*` — for `object-storage` only (PerPort TLS scenarios)
+- `modules/features/port/*` — for `object-storage` and `virtual-machines` (PerPort TLS / connection probes)
 
-**PerPort for other services** (e.g. `virtual-machines`): extend the `port` branch in `collectFeaturePaths` when that service needs `modules/features/port/`, and document in `modules/features/README.md`.
 
-**Shared CN06** in `vpc/CCC.Core/`: tag scenarios with `@<service>` and append `vpc` catalog dirs for that service if needed, or move CN06 to `generic/` long-term.
+**PerPort for other services**: extend the `port` branch in `collectFeaturePaths` when that service needs `modules/features/port/`, and document in `modules/features/README.md`.
 
 **Tag filtering**: Privateer `vars.tags` (e.g. `@Behavioural @virtual-machines`) is ANDed with runner tags; every implemented scenario must include both the service tag and `@Behavioural` (or `@Destructive`, `@NotTestable`) as appropriate.
 
 ---
 
-### Step 3: integration-terraform
+### Step 4: cloud-api-test terraform
 
-Create **`modules/integration-terraform/`** as the **single place** for CFI behavioural fixtures in this repo (legacy stacks may remain under `ccc-cfi-compliance/remote/` until migrated).
+Create or extend **`modules/cloud-api-test/terraform/`** as the **single place** for CFI integration fixtures in this repo (legacy stacks may remain under `ccc-cfi-compliance/remote/` until migrated).
 
 #### Layout (one root per cloud)
 
 ```
-modules/integration-terraform/
-  README.md
+modules/cloud-api-test/terraform/
   aws/
     versions.tf
     variables.tf
     main.tf                 # wires child modules
-    outputs.tf              # unified map for privateer / env.sh
+    outputs.tf              # unified map per service
     provider.tf.example
     modules/
-      shared/               # tags, naming locals
       logging/              # CloudTrail, Log Analytics, etc. — shared sinks
-      test-identities/      # IAM users / Entra apps / GCP SAs (optional per service)
       vpc/
       object-storage/
       virtual-machines/
-      serverless-computing/ # when implemented
+      serverless-computing/
   azure/
     ... same pattern ...
   gcp/
     ... same pattern ...
 ```
+
+See [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md) for apply prerequisites and output mapping.
 
 #### Design principles
 
@@ -227,7 +229,7 @@ modules/integration-terraform/
    - Standard pattern where allowed: `finos-ccc-integration-<role>` (for example `finos-ccc-integration-fn-main`, `finos-ccc-integration-vpc-bad`).
    - For providers with naming restrictions (no hyphens, lowercase only, tight length): use normalized marker `finoscccintegration` (example: `finoscccintegration<random>` for globally unique storage account names).
    - **One testable resource per service type** (`virtual-machines`, `serverless-computing`, …). Supporting network/storage/IAM for that resource is fine. **Exception: `vpc`** may provision good/bad fixtures and CN03 peer networks for negative-path testing.
-   - Values are copied **literally** into privateer-config after apply; do not use `${INSTANCE_ID}` or other runtime indirection in YAML.
+   - Values are copied **literally** into privateer YAML after apply; do not use `${INSTANCE_ID}` or other runtime indirection in YAML.
 4. **Consistent tags** on every resource:
 
    ```hcl
@@ -237,14 +239,14 @@ modules/integration-terraform/
    Project       = "CCC-CFI-Compliance"
    ```
 
-5. **Outputs contract**: root `outputs.tf` exposes a **stable shape** Privateer can consume — prefer a map per service plus shared logging/identity outputs:
+5. **Outputs contract**: root `outputs.tf` exposes a **stable shape** — prefer a map per service plus shared logging outputs:
 
    ```hcl
    output "vpc" {
      value = {
        resource_name            = module.vpc.vpc_name
        receiver_vpc_id          = module.vpc.receiver_vpc_id
-       aws_flow_log_group_name  = module.logging.flow_log_group_name
+       aws_flow_log_group_name  = module.vpc.aws_flow_log_group_name
        # ...
      }
    }
@@ -254,60 +256,144 @@ modules/integration-terraform/
    ```
 
 6. **Exercise code, not compliance**: one testable resource per service type (except `vpc`, which may include good/bad fixtures). Missing optional controls is acceptable if analysis documents `@NotTestable` or honesty gaps.
-7. **No secrets in terraform state files in git** — output client ids; secrets via `azure-env.sh`, `aws-env.sh` etc.
-8.  MINIMAL terraform, minimize expense - we are just creating an integration environment here to test `cloud-cfi` - we should not be trying to pass the CCC conformance suite.
-
-#### README
-
-`modules/integration-terraform/README.md` must document:
-
-- Prerequisites (AWS CLI, `az login`, gcloud ADC)
-- `terraform init && terraform apply` per cloud
-- How outputs map to Privateer vars
-- That **passing all behavioural tests is not required** for the example stack
+7. **No secrets in terraform state files in git** — output client ids; secrets via `modules/cloud-api-test/user-creation/*-env.sh`.
+8. **MINIMAL terraform, minimize expense** — we are creating an integration environment to test `cloud-api`, not passing the full CCC conformance suite on first apply.
 
 ---
 
-### Step 4: privateer-config
+### Step 5: integration_calls.csv + minimal privateer-config
 
-Add YAML under [`cfi-testing/privateer-config/`](../../cfi-testing/privateer-config/).
+After terraform and cloud-api methods exist, wire the **reflection integration test** layer ([`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md)).
 
-- **one file per cloud / service combination**.
-- include any vars described in the analysis.
-- create examples to test the integration terraform created in step 3.
+#### integration_calls.csv
 
-#### Structure (follow existing configs)
+Add rows for every new or changed method on the factory service id (and `logging` rows where applicable):
 
-Reference [`aws-vpc-good.yml`](../../cfi-testing/privateer-config/aws-vpc-good.yml) and [`azure-cloud-storage.yml`](../../cfi-testing/privateer-config/azure-cloud-storage.yml):
+```csv
+api,method,cloud,expect_error,arg1,arg2,arg3,arg4
+virtual-machines,UpdateResourcePolicy,all,,finos-ccc-integration-vm-main,,
+logging,QueryLogs,all,,finos-ccc-integration-vm-main,admin,60,
+```
+
+- `api`: factory service id (`virtual-machines`, `object-storage`, `logging`, …).
+- `cloud`: `all` runs on every provider; otherwise `aws`, `azure`, or `gcp` only.
+- `expect_error`: `true` when the call is expected to fail (optional API, missing fixture, provider limitation).
+- `arg1`…`arg4`: literal values matching terraform fixture names (not env var placeholders).
+
+Update [`privateer-config/{aws,azure,gcp}.yml`](../../modules/cloud-api-test/privateer-config/aws.yml) with any new vars the CSV rows need (`resource`, `function-name`, `host-name`, logging keys, etc.). These files are **one per cloud**, minimal keys only — not full behavioural catalog config.
+
+#### Smoke (integration)
+
+```bash
+cd modules/cloud-api-test
+# After: terraform apply under terraform/<cloud>/ and source user-creation/*-env.sh
+./run-integration-tests.sh aws    # or azure | gcp | all
+```
+
+Success means all relevant CSV rows **PASS** for that provider (some `expect_error=true` rows are PASS by design). See [`work.md`](../../modules/cloud-api-test/work.md) for provider-specific notes.
+
+---
+
+### Step 6: finos-integration privateer-config + actions-config
+
+Behavioural Godog runs use a **second** config surface under `cfi-testing/`.
+
+#### finos-integration privateer-config
+
+Add one YAML per **cloud / service** under [`cfi-testing/privateer-config/finos-integration/`](../../cfi-testing/privateer-config/finos-integration/):
+
+```
+cfi-testing/privateer-config/finos-integration/
+  virtual-machines/
+    aws-virtual-machines.yml
+    azure-virtual-machines.yml
+    gcp-virtual-machines.yml
+  serverless-computing/
+    ...
+  cloud-storage/
+    azure-cloud-storage.yml
+    ...
+```
+
+Reference existing configs:
+
+- [`azure-cloud-storage.yml`](../../cfi-testing/privateer-config/finos-integration/cloud-storage/azure-cloud-storage.yml)
+- [`aws-virtual-machines.yml`](../../cfi-testing/privateer-config/finos-integration/virtual-machines/aws-virtual-machines.yml)
 
 **Rules:**
 
-1. **Hard-code resource names** from terraform outputs in YAML (see `aws-vpc-good.yml`). Comment which terraform output each value came from.
-2. Use `${AZURE_*}` / `${AWS_*}` env vars **only for credentials and account/subscription ids** — expanded by `ExpandVars` in the plugin. 
+1. **Hard-code resource names** from `modules/cloud-api-test/terraform/<cloud>` outputs. Comment which `terraform output` each value came from.
+2. Use `${AZURE_*}` / `${AWS_*}` / `${GCP_*}` env vars **only for credentials and account/subscription/project ids** — expanded by `ExpandVars` in the plugin.
 3. Every **logging** var must match terraform outputs (`aws-flow-log-group-name`, `azure-log-analytics-workspace-id`, …).
 4. `resource` var filters the run to one fixture (Name tag, container name, etc.).
-5. `test-identities` block shape must match [`types.Config.Identity`](../../modules/cloud-api/types/config.go); prefer `${AZURE_TEST_USER_*_USER_NAME}` from `azure-env.sh` for `user-name` fields.
+5. `test-identities` block shape must match [`types.Config.Identity`](../../modules/cloud-api/types/config.go); prefer `${AZURE_TEST_USER_*_USER_NAME}` from `modules/cloud-api-test/user-creation/azure-env.sh` (and AWS/GCP equivalents).
 6. Document in config header: `terraform output` commands used to populate vars after apply.
-7. Log service details must match [`types.Config.LoggingConfig](../../modules/cloud-api/types/config.go).
+7. Log service details must match [`types.Config.LoggingConfig`](../../modules/cloud-api/types/config.go).
+8. Include `plugin: ccc-behavioural-plugin`, `service` / `service-type`, `tags`, and `catalog-locations` per analysis.
 
-#### env helper
+#### actions-config (CI matrix)
 
-Optional `aws-env.sh`, `azure-env.sh` etc.  Update this with any environment needed. 
+Add [`cfi-testing/actions-config/<provider>-<service>-finos.yaml`](../../cfi-testing/actions-config/) so [`.github/workflows/cfi-test.yml`](../../.github/workflows/cfi-test.yml) picks up the new target:
+
+```yaml
+cfi:
+  id: aws-virtual-machines
+  provider: aws
+  service: ec2
+  name: CCC AWS Virtual Machines Fixture
+  description: >-
+    Runs behavioural checks for CCC.VM against the AWS virtual machines fixture.
+  path: https://github.com/finos/common-cloud-controls/tree/main/modules/cloud-api-test/terraform/aws
+  test-on-branches:
+    - main
+  git: https://github.com/finos/common-cloud-controls
+  test-configuration: ../privateer-config/finos-integration/virtual-machines/aws-virtual-machines.yml
+  privateer-service: awsVirtualMachines
+```
+
+- `path` must point at `modules/cloud-api-test/terraform/<cloud>` (not the legacy `modules/integration-terraform` path).
+- `test-configuration` is relative to the actions-config file and must match the finos-integration YAML you added.
+- `privateer-service` must match the top-level `services.<id>` key in that YAML.
+
+#### User provisioning
+
+This contains a very limited set of generic user accounts we can use to test different test cases.  Extend the privileges of these accounts for the integration testing terraform.  Avoid creating too many accounts.  
+
+```bash
+cd modules/cloud-api-test/user-creation
+./provision-aws-test-users.sh    # or provision-azure-test-users.sh / provision-gcp-test-users.sh
+source ./aws-env.sh              # matching *-env.sh for your cloud
+```
 
 ---
 
-### Step 6: Build and smoke test
+### Step 7: Build and smoke test
+
+#### Integration (fast API coverage)
 
 ```bash
-# From repo root
 export GOWORK=modules/go.work
-./cfi-testing/run-compliance-tests.sh \
-  -c cfi-testing/privateer-config/aws-integration.yml 
+cd modules/cloud-api-test
+./run-integration-tests.sh aws
 ```
 
-Expect **some failures** until terraform and implementations mature — success for this skill means:
+#### Behavioural (Godog via Privateer)
+
+```bash
+export GOWORK=modules/go.work
+source modules/cloud-api-test/user-creation/aws-env.sh   # or azure-env.sh / gcp-env.sh
+
+./cfi-testing/run-compliance-tests.sh \
+  -c cfi-testing/privateer-config/finos-integration/virtual-machines/aws-virtual-machines.yml \
+  -S awsVirtualMachines \
+  -s virtual-machines \
+  -g '@Behavioural'
+```
+
+Expect **some behavioural failures** until terraform and implementations mature. Success for this skill means:
 
 - Workspace builds (`go build ./...` in go.work modules)
+- Integration CSV rows for new methods **PASS** (or `expect_error` as documented)
 - Godog discovers features (no “no feature directories” error)
 - Scenarios **execute** cloud-api methods (not compile/skip panics)
 
@@ -315,9 +401,18 @@ Expect **some failures** until terraform and implementations mature — success 
 
 ## Cross-cutting reference
 
+### Two verification layers
+
+| Layer | What it tests | How to run |
+|-------|---------------|------------|
+| **Integration** | Every `integration_calls.csv` row hits cloud-api via reflection | `modules/cloud-api-test/run-integration-tests.sh` |
+| **Behavioural** | Gherkin scenarios + catalog applicability | `cfi-testing/run-compliance-tests.sh` + finos-integration YAML |
+
+Both share the same terraform fixtures under `modules/cloud-api-test/terraform/`.
+
 ### Services with behavioural tests today
 
-When extending **integration-terraform**, include modules for each row that has features under `modules/features/`:
+When extending **cloud-api-test terraform**, include submodules for each service that has features under `modules/features/` (e.g. `object-storage`, `vpc`, `virtual-machines`, `serverless-computing`).
 
 ### generic.Service implementation map (typical VM / serverless)
 
@@ -332,10 +427,10 @@ When extending **integration-terraform**, include modules for each row that has 
 
 ### What not to create
 
-- Don't Duplicate generic Core features under `<service-folder>/` when analysis says reuse
-- Don't add Placeholder `README.md` in every catalog subfolder
-- Don't try to create terraform that tries to pass every test on first apply (unless user explicitly asks)
-- Don't rewrite Log sink discovery in Go — all sinks explicit in vars
+- Don't duplicate generic Core features under `<service-folder>/` when analysis says reuse
+- Don't add placeholder `README.md` in every catalog subfolder
+- Don't try to create terraform that passes every behavioural test on first apply (unless user explicitly asks)
+- Don't rewrite log sink discovery in Go — all sinks explicit in vars
 
 ---
 
@@ -346,9 +441,11 @@ Before finishing:
 - [ ] Every **new** feature path from analysis exists; every **reuse** row has service tags on generic/shared files
 - [ ] `cloud-api` builds; factory registers service on AWS, Azure, GCP (or documents `—` unsupported per analysis)
 - [ ] `generic.Service` methods from analysis implemented or honestly return errors
-- [ ] Runner loads `generic/` automatically; extend `port/` in `collectFeaturePaths` if the service needs PerPort scenarios
-- [ ] `integration-terraform/<cloud>/` applies as one root; submodules per service; README documents apply + outputs
-- [ ] `privateer-config` entries use explicit resource names from terraform outputs (no `${INSTANCE_ID}`)
+- [ ] Runner loads `generic/` automatically; extend `port/` / `vpc/` in `collectFeaturePaths` if the service needs those dirs
+- [ ] `modules/cloud-api-test/terraform/<cloud>/` applies as one root; submodules per service
+- [ ] `integration_calls.csv` has rows for new methods; `privateer-config/{aws,azure,gcp}.yml` updated
+- [ ] `cfi-testing/privateer-config/finos-integration/<service>/` YAML uses explicit resource names from terraform outputs
+- [ ] `cfi-testing/actions-config/*-finos.yaml` added; `path` points at `modules/cloud-api-test/terraform/<cloud>`
 - [ ] `modules/features/README.md` updated if new service tag added
 - [ ] No secrets committed; `*.tfstate` gitignored
 - [ ] Analysis skill cross-link satisfied: implementation matches **Feature reuse** and **method count** in analysis
@@ -361,4 +458,4 @@ Before finishing:
 | Skill | Role |
 |-------|------|
 | [build-service-behavioural-test-analysis](../build-service-behavioural-test-analysis/SKILL.md) | Produces `analysis.md` only — run **before** this skill |
-| This skill | Implements features, cloud-api, terraform, privateer |
+| This skill | Implements features, cloud-api, terraform, integration CSV, privateer configs |
