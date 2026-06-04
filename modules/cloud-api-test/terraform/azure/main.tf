@@ -3,11 +3,23 @@ provider "azurerm" {
   subscription_id = var.subscription_id
 }
 
+data "azurerm_client_config" "current" {}
+
+data "azuread_service_principal" "integration_runner" {
+  count     = var.integration_runner_client_id != "" ? 1 : 0
+  client_id = var.integration_runner_client_id
+}
+
 locals {
   common_tags = {
     ManagedBy = "Terraform"
     Project   = "CCC-CFI-Compliance"
   }
+
+  key_vault_secret_reader_object_ids = distinct(compact(concat(
+    var.key_vault_secret_reader_object_ids,
+    var.integration_runner_client_id != "" ? [data.azuread_service_principal.integration_runner[0].object_id] : [],
+  )))
 }
 
 resource "azurerm_resource_group" "this" {
@@ -59,10 +71,11 @@ module "logging" {
 }
 
 module "secrets" {
-  source              = "./modules/secrets"
-  location            = var.location
-  resource_group      = azurerm_resource_group.this.name
-  key_vault_name      = "finoscccintkvsec"
-  common_tags         = local.common_tags
-  unauthorized_region = "westeurope"
+  source                   = "./modules/secrets"
+  location                 = var.location
+  resource_group           = azurerm_resource_group.this.name
+  key_vault_name           = "finoscccintkvsec"
+  common_tags              = local.common_tags
+  unauthorized_region      = "westeurope"
+  secret_reader_object_ids = local.key_vault_secret_reader_object_ids
 }

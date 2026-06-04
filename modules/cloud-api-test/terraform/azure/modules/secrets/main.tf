@@ -27,6 +27,19 @@ resource "azurerm_key_vault_access_policy" "deployer" {
   ]
 }
 
+resource "azurerm_key_vault_access_policy" "readers" {
+  for_each = toset([
+    for oid in var.secret_reader_object_ids : oid
+    if oid != data.azurerm_client_config.current.object_id
+  ])
+
+  key_vault_id = azurerm_key_vault.main.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = each.value
+
+  secret_permissions = ["Get", "List"]
+}
+
 resource "azurerm_key_vault_secret" "main" {
   name         = "finos-ccc-integration-secret-main"
   value        = "ccc-integration-secret-v2"
