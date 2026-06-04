@@ -15,3 +15,15 @@ variable "enable_serverless_computing" {
   default     = false
   description = "Toggle serverless fixtures when Microsoft.Web capacity/quota is unavailable."
 }
+
+variable "integration_runner_client_id" {
+  type        = string
+  default     = ""
+  description = "Application (client) ID of the principal that runs integration tests (GitHub AZURE_CLIENT_ID). Resolved to a Key Vault secret reader policy on apply."
+}
+
+variable "key_vault_secret_reader_object_ids" {
+  type        = list(string)
+  default     = []
+  description = "Additional Entra object IDs granted Key Vault secret Get/List on finoscccintkvsec."
+}

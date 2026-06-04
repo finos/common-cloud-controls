@@ -40,3 +40,5 @@ Set `INSTANCE_ID=<suffix>` only when intentionally creating a new identity cohor
 ## CI
 
 GitHub Actions writes multiline `AWS_ENV` / `AZURE_ENV` / `GCP_ENV` into `environment-config/*-env.sh` before tests (no terraform state in CI).
+
+**Azure Key Vault (secrets):** Integration uses `DefaultAzureCredential` (in GHA that is the `AZURE_CLIENT_ID` service principal). Grant it vault access in Terraform, not in the workflow: set `integration_runner_client_id` in `terraform/azure/terraform.tfvars` to the same app id as `AZURE_CLIENT_ID`, then `terraform apply` in `terraform/azure`.
