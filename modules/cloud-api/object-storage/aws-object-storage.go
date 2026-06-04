@@ -117,43 +117,91 @@ func (s *AWSS3Service) ListBuckets() ([]Bucket, error) {
 	return buckets, nil
 }
 
-// CreateBucket creates a new S3 bucket in the configured region
-func (s *AWSS3Service) CreateBucket(bucketID string) (*Bucket, error) {
-	// Create a regional client
+func (s *AWSS3Service) regionalClientForBucket(bucketID string) (*s3.Client, string, error) {
+	region, err := s.GetBucketRegion(bucketID)
+	if err != nil {
+		return nil, "", err
+	}
 	regionalConfig := s.awsCfg.Copy()
-	regionalConfig.Region = s.config.CloudParams().Region
+	regionalConfig.Region = region
+	return s3.NewFromConfig(regionalConfig), region, nil
+}
+
+func isS3BucketNotFound(err error) bool {
+	var apiErr smithy.APIError
+	return errors.As(err, &apiErr) && (apiErr.ErrorCode() == "NoSuchBucket" || apiErr.ErrorCode() == "NotFound")
+}
+
+// CreateBucket creates a new S3 bucket in the configured region (idempotent if it already exists).
+func (s *AWSS3Service) CreateBucket(bucketID string) (*Bucket, error) {
+	region := s.config.CloudParams().Region
+	regionalConfig := s.awsCfg.Copy()
+	regionalConfig.Region = region
 	regionalClient := s3.NewFromConfig(regionalConfig)
 
-	input := &s3.CreateBucketInput{
-		Bucket: aws.String(bucketID),
+	if _, err := regionalClient.HeadBucket(s.ctx, &s3.HeadBucketInput{Bucket: aws.String(bucketID)}); err == nil {
+		return &Bucket{ID: bucketID, Name: bucketID, Region: region}, nil
 	}
 
+	input := &s3.CreateBucketInput{Bucket: aws.String(bucketID)}
+	if region != "us-east-1" {
+		loc := s3types.BucketLocationConstraint(region)
+		input.CreateBucketConfiguration = &s3types.CreateBucketConfiguration{LocationConstraint: loc}
+	}
 	_, err := regionalClient.CreateBucket(s.ctx, input)
 	if err != nil {
+		var apiErr smithy.APIError
+		if errors.As(err, &apiErr) && apiErr.ErrorCode() == "BucketAlreadyOwnedByYou" {
+			return &Bucket{ID: bucketID, Name: bucketID, Region: region}, nil
+		}
 		return nil, fmt.Errorf("failed to create bucket %s: %w", bucketID, err)
 	}
 
-	return &Bucket{
-		ID:     bucketID,
-		Name:   bucketID,
-		Region: s.config.CloudParams().Region,
-	}, nil
+	return &Bucket{ID: bucketID, Name: bucketID, Region: region}, nil
 }
 
-// DeleteBucket deletes an S3 bucket
-func (s *AWSS3Service) DeleteBucket(bucketID string) error {
-	// Create a regional client
-	regionalConfig := s.awsCfg.Copy()
-	regionalConfig.Region = s.config.CloudParams().Region
-	regionalClient := s3.NewFromConfig(regionalConfig)
-
-	_, err := regionalClient.DeleteBucket(s.ctx, &s3.DeleteBucketInput{
-		Bucket: aws.String(bucketID),
-	})
+func (s *AWSS3Service) emptyBucket(regionalClient *s3.Client, bucketID string) error {
+	listOut, err := regionalClient.ListObjectsV2(s.ctx, &s3.ListObjectsV2Input{Bucket: aws.String(bucketID)})
 	if err != nil {
+		return err
+	}
+	for _, obj := range listOut.Contents {
+		_, err := regionalClient.DeleteObject(s.ctx, &s3.DeleteObjectInput{
+			Bucket: aws.String(bucketID),
+			Key:    obj.Key,
+		})
+		if err != nil {
+			return err
+		}
+	}
+	if listOut.IsTruncated != nil && *listOut.IsTruncated {
+		return fmt.Errorf("bucket %s has more objects than one ListObjectsV2 page; empty manually", bucketID)
+	}
+	return nil
+}
+
+// DeleteBucket deletes an S3 bucket (must be empty).
+func (s *AWSS3Service) DeleteBucket(bucketID string) error {
+	regionalClient, _, err := s.regionalClientForBucket(bucketID)
+	if err != nil {
+		if isS3BucketNotFound(err) {
+			return nil
+		}
+		return err
+	}
+	if err := s.emptyBucket(regionalClient, bucketID); err != nil {
+		if isS3BucketNotFound(err) {
+			return nil
+		}
+		return fmt.Errorf("failed to empty bucket %s: %w", bucketID, err)
+	}
+	_, err = regionalClient.DeleteBucket(s.ctx, &s3.DeleteBucketInput{Bucket: aws.String(bucketID)})
+	if err != nil {
+		if isS3BucketNotFound(err) {
+			return nil
+		}
 		return fmt.Errorf("failed to delete bucket %s: %w", bucketID, err)
 	}
-
 	return nil
 }
 
@@ -286,10 +334,10 @@ func (s *AWSS3Service) ReadObjectAtVersion(bucketID string, objectID string, ver
 
 // ReadObject reads an object from a bucket
 func (s *AWSS3Service) ReadObject(bucketID string, objectID string) (*Object, error) {
-	// Create a regional client
-	regionalConfig := s.awsCfg.Copy()
-	regionalConfig.Region = s.config.CloudParams().Region
-	regionalClient := s3.NewFromConfig(regionalConfig)
+	regionalClient, _, err := s.regionalClientForBucket(bucketID)
+	if err != nil {
+		return nil, err
+	}
 
 	output, err := regionalClient.GetObject(s.ctx, &s3.GetObjectInput{
 		Bucket: aws.String(bucketID),
@@ -317,22 +365,22 @@ func (s *AWSS3Service) ReadObject(bucketID string, objectID string) (*Object, er
 
 // DeleteObject deletes an object from a bucket
 func (s *AWSS3Service) DeleteObject(bucketID string, objectID string) error {
-	// Get the bucket's actual region
-	bucketRegion, err := s.GetBucketRegion(bucketID)
+	regionalClient, _, err := s.regionalClientForBucket(bucketID)
 	if err != nil {
+		if isS3BucketNotFound(err) {
+			return nil
+		}
 		return fmt.Errorf("failed to get bucket region: %w", err)
 	}
-
-	// Create a regional client for the bucket's region
-	regionalConfig := s.awsCfg.Copy()
-	regionalConfig.Region = bucketRegion
-	regionalClient := s3.NewFromConfig(regionalConfig)
 
 	_, err = regionalClient.DeleteObject(s.ctx, &s3.DeleteObjectInput{
 		Bucket: aws.String(bucketID),
 		Key:    aws.String(objectID),
 	})
 	if err != nil {
+		if isS3BucketNotFound(err) {
+			return nil
+		}
 		return fmt.Errorf("failed to delete object %s from bucket %s: %w", objectID, bucketID, err)
 	}
 
