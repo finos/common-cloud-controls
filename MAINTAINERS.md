@@ -16,7 +16,7 @@ This file lists the maintainers of this repository.
 | @mlysaght2017 | Michael Lysaght | *please add organization* | *please add email* |
 | @rgriffiths-scottlogic | Robert Griffiths | @ScottLogic  | *please add email* |
 | @smendis-scottlogic | Sonali Mendis | Scott Logic | *please add email* |
-| @sshiells-scottlogic | *please add name* | *please add organization* | *please add email* |
+| @sshiells-scottlogic | Stevie Shiells | Scott Logic | sshiells@scottlogic.com |
 | @sublimino | Andrew Martin | @controlplaneio  | *please add email* |
 | @zigmax | Maxime Coquerel | *please add organization* | *please add email* |
 
