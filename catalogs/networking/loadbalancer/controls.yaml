@@ -55,7 +55,7 @@ controls:
         recommendation: |
           Enable access logging and configure metric filters
           on HTTP 429 counts to trigger alerts.
-    threat-mappings:
+    threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.TH01
@@ -64,7 +64,7 @@ controls:
           - reference-id: CCC.LB.TH09
             strength: 0 # Not yet specified
             remarks: Resource Exhaustion
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-1
@@ -107,13 +107,13 @@ controls:
           Instrument metrics for health check results and target
           removal events. Configure monitoring alarms to alert
           on abnormal spikes in unhealthy targets.
-    threat-mappings:
+    threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.TH05
             strength: 0 # Not yet specified
             remarks: Health Checks Exploited
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.AE-2
@@ -145,13 +145,13 @@ controls:
           Define a list of trusted principals allowed to modify
           routing configurations. Enforce via conditional access
           policies, and log changes using audit logging.
-    threat-mappings:
+    threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.TH03
             strength: 0 # Not yet specified
             remarks: Traffic Distribution Manipulated
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-1
@@ -179,13 +179,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: Audit CCC.LB.CP15 parameters via configuration scans.
-    threat-mappings:
+    threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.TH04
             strength: 0 # Not yet specified
             remarks: Session Persistence Exploited
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-7
@@ -214,13 +214,13 @@ controls:
           - tlp-red
         recommendation: Combine VPC endpoints with IAM condition-key filters
           for protected APIs.
-    threat-mappings:
+    threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.TH08
             strength: 0 # Not yet specified
             remarks: API Exposed and Attacked
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-5
@@ -249,13 +249,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: Enable autoscaling policies.
-    threat-mappings:
+    threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.TH09
             strength: 0 # Not yet specified
             remarks: Resource Exhaustion
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: ID.BE-5
@@ -283,13 +283,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: Configure header-transformation rules.
-    threat-mappings:
+    threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.Core.TH15
             strength: 0 # Not yet specified
             remarks: Automated Enumeration and Reconnaissance by Non-human
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.DS-2
@@ -317,13 +317,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: Use certificate-manager auto-renewal workflows.
-    threat-mappings:
+    threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.TH07
             strength: 0 # Not yet specified
             remarks: Certificates Expired or Invalid
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.DS-6

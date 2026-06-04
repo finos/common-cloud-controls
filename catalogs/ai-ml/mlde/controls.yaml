@@ -40,13 +40,13 @@ controls:
           - tlp-green
           - tlp-clear
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.MLDE.TH01
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-3
@@ -88,11 +88,11 @@ controls:
           - tlp-green
           - tlp-clear
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.MLDE.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-4
@@ -131,11 +131,11 @@ controls:
           - tlp-green
           - tlp-clear
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.MLDE.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-4
@@ -170,13 +170,13 @@ controls:
           - tlp-green
           - tlp-clear
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.MLDE.TH02
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH02
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.DS-5
@@ -213,11 +213,11 @@ controls:
         applicability:
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.MLDE.TH04
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.IP-1
@@ -254,13 +254,13 @@ controls:
           - tlp-green
           - tlp-clear
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.MLDE.TH04
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH06
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.IP-12
@@ -297,13 +297,13 @@ controls:
           - tlp-green
           - tlp-clear
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.MLDE.TH02
             strength: 0 # Not yet specified
           - reference-id: CCC.VPC.TH02
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-3
@@ -340,13 +340,13 @@ controls:
           - tlp-green
           - tlp-clear
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.MLDE.TH01
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-4

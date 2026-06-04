@@ -253,7 +253,7 @@ func compileThreats(path, service, version, coreVersion string, groupDefs map[st
 }
 
 // sourceControl mirrors the source controls.yaml shape, which uses
-// threat-mappings / guideline-mappings keys that the published schema renames to
+// threats / guidelines keys that the published schema renames to
 // threats / guidelines. State is not in source and defaults to Active.
 type sourceControl struct {
 	Id                     string                     `yaml:"id"`
@@ -261,8 +261,8 @@ type sourceControl struct {
 	Objective              string                     `yaml:"objective"`
 	Group                  string                     `yaml:"group"`
 	AssessmentRequirements []sourceAR                 `yaml:"assessment-requirements"`
-	ThreatMappings         []gemara.MultiEntryMapping `yaml:"threat-mappings"`
-	GuidelineMappings      []gemara.MultiEntryMapping `yaml:"guideline-mappings"`
+	ThreatMappings         []gemara.MultiEntryMapping `yaml:"threats"`
+	GuidelineMappings      []gemara.MultiEntryMapping `yaml:"guidelines"`
 }
 
 type sourceAR struct {

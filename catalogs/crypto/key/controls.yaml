@@ -41,13 +41,13 @@ controls:
         recommendation: Use native event services (e.g., CloudWatch Events,
           Azure Monitor, Cloud Audit Logs) to route notifications to an
           incident-response channel.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH01
             strength: 0 # Not yet specified
             remarks: Deletion or disabling of key versions
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: RS.AN-1
@@ -74,13 +74,13 @@ controls:
           - tlp-green
         recommendation: Periodically audit policy documents via automated
           tooling and report any deviations.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH02
             strength: 0 # Not yet specified
             remarks: Unrestricted use of a KMS key to decrypt data
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-4
@@ -107,13 +107,13 @@ controls:
           - tlp-green
         recommendation: Use cloud-provider rotation features and verify via
           configuration scanning.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH03
             strength: 0 # Not yet specified
             remarks: Key rotation is disabled or delayed
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.DS-1
@@ -141,13 +141,13 @@ controls:
           - tlp-green
         recommendation: Implement an approval workflow that validates
           attestation data before import.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH04
             strength: 0 # Not yet specified
             remarks: Weak or compromised key material
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.DS-1

@@ -46,7 +46,7 @@ controls:
           matches expected schema, dimension, and format profiles.
         applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH02
@@ -55,7 +55,7 @@ controls:
             remarks: Embedding Format or Dimension Attacks
           - reference-id: CCC.Core.TH12
             remarks: Resource Constraints are Exhausted
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-002
@@ -73,7 +73,7 @@ controls:
           verify that the actor has explicit permissions for the operation type.
         applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH02
@@ -82,7 +82,7 @@ controls:
             remarks: Index Corruption or Downgrade
           - reference-id: CCC.Core.TH01
             remarks: Access Control is Misconfigured
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-012
@@ -100,14 +100,14 @@ controls:
           verify the requester is authorized to access that field.
         applicability: [tlp-amber, tlp-red]
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH03
             remarks: Cross-modal or Metadata Leakage
           - reference-id: CCC.Core.TH01
             remarks: Access Control is Misconfigured
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-DET-001
@@ -129,14 +129,14 @@ controls:
           throttle or reject excess vector write operations.
         applicability: [tlp-green, tlp-amber, tlp-red]
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH02
             remarks: Embedding and Index Poisoning
           - reference-id: CCC.Core.TH12
             remarks: Resource Constraints are Exhausted
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-008
@@ -154,7 +154,7 @@ controls:
           the action and verify rollback authorization.
         applicability: [tlp-amber, tlp-red]
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH04
@@ -163,7 +163,7 @@ controls:
             remarks: Logs or Monitoring Data are Read by Unauthorized Users
           - reference-id: CCC.Core.TH04
             remarks: Data is Replicated to Untrusted or External Locations
-    guideline-mappings:
+    guidelines:
       - reference-id: AIR-DET-004
         entries:
           - reference-id: AIR-PREV-008
@@ -181,14 +181,14 @@ controls:
           that its format and dimensionality match allowed profiles.
         applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH05
             remarks: Embedding Format or Dimension Attacks
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-002
@@ -206,9 +206,9 @@ controls:
           to declare their requirement for exact vs approximate results.
         applicability: [tlp-amber, tlp-red]
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH06
             remarks: Search Result Manipulation via ANN Bias
-    guideline-mappings: []
+    guidelines: []

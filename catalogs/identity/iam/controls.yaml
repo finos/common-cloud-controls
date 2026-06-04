@@ -50,13 +50,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH03
             strength: 0 # Not yet specified
             remarks: Additional Cloud Credentials Creation
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-05
@@ -96,13 +96,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH06
             strength: 0 # Not yet specified
             remarks: IAM Policies Modification
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-05
@@ -142,13 +142,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH02
             strength: 0 # Not yet specified
             remarks: Overly-Permissive Identity Trust Policy
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-3
@@ -178,7 +178,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH01
@@ -187,7 +187,7 @@ controls:
           - reference-id: CCC.IAM.TH02
             strength: 0 # Not yet specified
             remarks: Overly-Permissive IAM Policy
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-6
@@ -222,13 +222,13 @@ controls:
             - Prevention of the use of previously used passwords (password history).
             - Password expiration at a defined interval (e.g., every 90 days).
             - Account lockout after a defined number of failed login attempts.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-05
@@ -265,7 +265,7 @@ controls:
           and credentials that are no longer in use should be deactivated or deleted promptly.
           Where possible, prefer temporary, short-lived credentials over long-lived static ones
           to further minimize risk.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH09
@@ -274,7 +274,7 @@ controls:
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-01
@@ -299,7 +299,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH10
@@ -308,7 +308,7 @@ controls:
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-01
@@ -335,7 +335,7 @@ controls:
         recommendation: |
           IAM user credentials (such as passwords or access keys) that have not been used
           for 90 days or more must be automatically removed or deactivated.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH11
@@ -344,7 +344,7 @@ controls:
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-01
@@ -370,7 +370,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH01
@@ -379,7 +379,7 @@ controls:
           - reference-id: CCC.IAM.TH09
             strength: 0 # Not yet specified
             remarks: Long-Lived Static Credentials
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-01
@@ -413,13 +413,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-03
@@ -453,7 +453,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH02
@@ -465,7 +465,7 @@ controls:
           - reference-id: CCC.IAM.TH11
             strength: 0 # Not yet specified
             remarks: Unused Credentials
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: ID.RA-01

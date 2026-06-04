@@ -64,13 +64,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Logging.TH07
             strength: 0 # Not yet specified
             remarks: Insufficient Logging
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -106,13 +106,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Logging.TH05
             strength: 0 # Not yet specified
             remarks: Log Retention Policy Evasion or Misconfiguration
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: GV.PO-01
@@ -137,13 +137,13 @@ controls:
           - tlp-amber
         recommendation: |
           Configure object lock policy.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH07
             strength: 0 # Not yet specified
             remarks: Logs are Tampered With or Deleted
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -168,13 +168,13 @@ controls:
           - tlp-amber
         recommendation: |
           Review field level access controls on log data.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Logging.TH04
             strength: 0 # Not yet specified
             remarks: Inadequate Log Anonymization/Masking
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -221,13 +221,13 @@ controls:
         recommendation: |
           Configure bucket policies and access control lists (ACLs) to restrict public access.
           Regularly review bucket permissions to ensure no public access has been inadvertently granted.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
             strength: 0 # Not yet specified
             remarks: Access Control is Misconfigured
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-05
@@ -252,13 +252,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Logging.TH02
             strength: 0 # Not yet specified
             remarks: Log Data Exfiltration via Query Interfaces
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-03
@@ -289,13 +289,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH16
             strength: 0 # Not yet specified
             remarks: Logging and Monitoring are Disabled
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-03

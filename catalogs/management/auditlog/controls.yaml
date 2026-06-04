@@ -57,13 +57,13 @@ controls:
           - tlp-red
         recommendation: |
           Ensure verification process includes a chained hash function.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH07
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.DS-01
@@ -85,11 +85,11 @@ controls:
           - tlp-red
           - tlp-amber
         recommendation: "Review audit log configuration"
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -126,11 +126,11 @@ controls:
           - tlp-amber
         recommendation: |
           Ensure alerting is correctly configured
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH07
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-1
@@ -158,13 +158,13 @@ controls:
           Configure the audit log bucket to enable server access logging.
           Ensure the target logging bucket is configured for appropriate security,
           including restricted access and immutability.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH09
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-1
@@ -188,11 +188,11 @@ controls:
           - tlp-amber
         recommendation: |
           Configure audit log exporting.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH07
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -221,13 +221,13 @@ controls:
         recommendation: |
           Configure the audit log bucket's lifecycle rules or object retention settings to enforce
           the required data retention period.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH07
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -254,13 +254,13 @@ controls:
         recommendation: |
           Enable MFA Delete (or equivalent multi-factor authentication for delete operations)
           on the audit log bucket.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH07
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -286,11 +286,11 @@ controls:
           - tlp-amber
         recommendation: |
           Configure object lock policy.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH07
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -315,11 +315,11 @@ controls:
           - tlp-amber
         recommendation: |
           Review field level access controls on audit data.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH07
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.PS-04
@@ -365,11 +365,11 @@ controls:
         recommendation: |
           Configure bucket policies and access control lists (ACLs) to restrict public access.
           Regularly review bucket permissions to ensure no public access has been inadvertently granted.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-05

@@ -69,7 +69,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
@@ -78,7 +78,7 @@ controls:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: IAM-01
@@ -117,13 +117,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-16
@@ -162,7 +162,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
@@ -173,7 +173,7 @@ controls:
           - reference-id: CCC.ObjStor.TH01
             remarks: Data Exfiltration via Insecure Lifecycle Policies
             strength: 10 # mmmm... lifecycle policies
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-16
@@ -231,13 +231,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-16
@@ -287,7 +287,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
@@ -299,7 +299,7 @@ controls:
           - reference-id: CCC.Core.TH17
             remarks: Ensures deletion requests from unauthorized entities do not result in action
             strength: 8
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-16
@@ -341,13 +341,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
             remarks: Access is Granted to Unauthorized Users
             strength: 2 # This helps reduce errors and oversight when the intent is on point
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: IAM-08

@@ -40,11 +40,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.TH03
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.IR-01
@@ -71,11 +71,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.TH06
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-01
@@ -105,11 +105,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.TH04
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-06
@@ -136,11 +136,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.TH02
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: DE.CM-09
@@ -167,11 +167,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH10
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.IR-01
@@ -196,11 +196,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.TH05
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AA-05

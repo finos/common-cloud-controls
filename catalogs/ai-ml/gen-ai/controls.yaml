@@ -62,7 +62,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH01
@@ -71,7 +71,7 @@ controls:
           - reference-id: CCC.GenAI.TH03
             strength: 0 # Not yet specified
             remarks: Sensitive Information Disclosure
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-003
@@ -131,7 +131,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH01
@@ -149,7 +149,7 @@ controls:
           - reference-id: CCC.GenAI.TH06
             strength: 0 # Not yet specified
             remarks: Unintended Action by a Model-Based Agent
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-003
@@ -205,7 +205,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH02
@@ -214,7 +214,7 @@ controls:
           - reference-id: CCC.GenAI.TH03
             strength: 0 # Not yet specified
             remarks: Sensitive Information Disclosure
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-006
@@ -261,7 +261,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH02
@@ -270,7 +270,7 @@ controls:
           - reference-id: CCC.GenAI.TH03
             strength: 0 # Not yet specified
             remarks: Sensitive Information Disclosure
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-002
@@ -306,7 +306,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH09
@@ -315,7 +315,7 @@ controls:
           - reference-id: CCC.GenAI.TH04
             strength: 0 # Not yet specified
             remarks: Insecure / Unreliable Model Output
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-DET-013
@@ -343,7 +343,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH07
@@ -352,7 +352,7 @@ controls:
           - reference-id: CCC.GenAI.TH06
             strength: 0 # Not yet specified
             remarks: Unintended Action by a Model-Based Agent
-    guideline-mappings:
+    guidelines:
       - reference-id: SAIF
         entries:
           - reference-id: Agent Permissions
@@ -377,13 +377,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH10
             strength: 0 # Not yet specified
             remarks: Model Version Drift
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-010
@@ -420,7 +420,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH01
@@ -438,7 +438,7 @@ controls:
           - reference-id: CCC.GenAI.TH10
             strength: 0 # Not yet specified
             remarks: Model Version Drift
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-005

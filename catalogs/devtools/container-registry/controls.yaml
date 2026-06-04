@@ -39,11 +39,11 @@ controls:
           - tlp-red
           - tlp-amber
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.CntrReg.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: ID.RA-1
@@ -67,11 +67,11 @@ controls:
           - tlp-red
           - tlp-amber
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH14
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.IP-6

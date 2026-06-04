@@ -76,11 +76,11 @@ controls:
           sensitive data. Ensure both client and server certificates are
           validated and managed securely. Regularly review certificate
           authorities and automate certificate rotation where possible.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH02
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: CEK-03
@@ -139,11 +139,11 @@ controls:
           Track certificate expiration dates and automate certificate
           renewal where possible. Use certificate management tools to ensure
           only certificates from trusted authorities are deployed.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH18
-    guideline-mappings: []
+    guidelines: []
   - id: CCC.Core.CN06
     group: Data
     title: Restrict Deployments to Trust Perimeter
@@ -180,11 +180,11 @@ controls:
           Maintain an up-to-date list of trusted and approved regions based
           on organizational policies. Validate that child resources can only
           be deployed to locations included in this list.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH03
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-19
@@ -222,11 +222,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: BCR-08
@@ -288,13 +288,13 @@ controls:
           access. Ensure that logging configurations are immutable during
           service operation so that any changes require stopping the service
           and publishing corresponding events to monitored channels.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH07
           - reference-id: CCC.Core.TH09
           - reference-id: CCC.Core.TH04
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: LOG-02
@@ -323,11 +323,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH04
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-10
@@ -352,11 +352,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: CEK-03
@@ -425,11 +425,11 @@ controls:
           within 90 days of issuance.
         applicability:
           - tlp-red
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH16
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: CEK-08
@@ -486,12 +486,12 @@ controls:
           Implement automated backup processes to ensure that backups are
           created regularly. Monitor backup schedules and verify that the
           most recent backup creation date is within the last 14 days.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
-    guideline-mappings: []
+    guidelines: []
   - id: CCC.Core.CN03
     group: Access
     title: Implement Multi-factor Authentication (MFA) for Access
@@ -541,11 +541,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: IAM-14
@@ -618,11 +618,11 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-01
@@ -673,11 +673,11 @@ controls:
           result of the attempt.
         applicability:
           - tlp-red
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: LOG-08
@@ -719,11 +719,11 @@ controls:
           nature. Retain logs according to organizational policies, and
           occasionally review them for patterns that may indicate
           reconnaissance activities.
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH15
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: LOG-05

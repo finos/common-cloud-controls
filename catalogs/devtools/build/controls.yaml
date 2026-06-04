@@ -35,11 +35,11 @@ controls:
           - tlp-red
           - tlp-amber
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-4
@@ -64,11 +64,11 @@ controls:
           - tlp-red
           - tlp-amber
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-4
@@ -92,13 +92,13 @@ controls:
           - tlp-red
           - tlp-amber
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH02
             strength: 0 # Not yet specified
           - reference-id: CCC.Core.TH05
-    guideline-mappings:
+    guidelines:
       - reference-id: NIST-CSF
         entries:
           - reference-id: PR.AC-5

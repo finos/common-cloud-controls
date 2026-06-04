@@ -92,7 +92,7 @@
                 "additionalProperties": false
               }
             },
-            "threat-mappings": {
+            "threats": {
               "type": "array",
               "items": {
                 "type": "object",
@@ -128,7 +128,7 @@
                 "additionalProperties": false
               }
             },
-            "guideline-mappings": {
+            "guidelines": {
               "type": "array",
               "items": {
                 "type": "object",
