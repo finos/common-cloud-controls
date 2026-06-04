@@ -35,7 +35,6 @@ imported-controls:
 controls:
   - id: CCC.GenAI.CN01
     group: MachineLearning
-    family: CCC.GenAI.Data
     title: Model Input Filtering and Sanitisation
     objective: |
       Inspect and validate input before it is passed to a GenAI
@@ -63,7 +62,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH01
@@ -72,7 +71,7 @@ controls:
           - reference-id: CCC.GenAI.TH03
             strength: 0 # Not yet specified
             remarks: Sensitive Information Disclosure
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-003
@@ -105,7 +104,6 @@ controls:
 
   - id: CCC.GenAI.CN02
     group: MachineLearning
-    family: CCC.GenAI.Data
     title: Model Output Filtering and Sanitisation
     objective: |
       Inspect and validate GenAI model output before passing it to
@@ -133,7 +131,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH01
@@ -151,7 +149,7 @@ controls:
           - reference-id: CCC.GenAI.TH06
             strength: 0 # Not yet specified
             remarks: Unintended Action by a Model-Based Agent
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-003
@@ -181,7 +179,6 @@ controls:
 
   - id: CCC.GenAI.CN03
     group: MachineLearning
-    family: CCC.GenAI.Data
     title: Data Provenance and Source Vetting
     objective: |
       Ensure that all data for training, fine-tuning or RAG comes
@@ -208,7 +205,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH02
@@ -217,7 +214,7 @@ controls:
           - reference-id: CCC.GenAI.TH03
             strength: 0 # Not yet specified
             remarks: Sensitive Information Disclosure
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-006
@@ -235,7 +232,6 @@ controls:
 
   - id: CCC.GenAI.CN04
     group: MachineLearning
-    family: CCC.GenAI.Data
     title: Sanitisation of Ingested Data
     objective: |
       Validate and sanitise all data ingested by GenAI systems
@@ -265,7 +261,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH02
@@ -274,7 +270,7 @@ controls:
           - reference-id: CCC.GenAI.TH03
             strength: 0 # Not yet specified
             remarks: Sensitive Information Disclosure
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-002
@@ -292,7 +288,6 @@ controls:
 
   - id: CCC.GenAI.CN05
     group: MachineLearning
-    family: CCC.GenAI.Data
     title: Citations and Source Traceability
     objective: |
       Require the GenAI system to provide citations or direct links
@@ -311,7 +306,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH09
@@ -320,7 +315,7 @@ controls:
           - reference-id: CCC.GenAI.TH04
             strength: 0 # Not yet specified
             remarks: Insecure / Unreliable Model Output
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-DET-013
@@ -330,7 +325,6 @@ controls:
 
   - id: CCC.GenAI.CN06
     group: Access
-    family: CCC.GenAI.IAM
     title: Least Privilege for Plugins
     objective: |
       Restricts the permissions of any external tools the GenAI system
@@ -349,7 +343,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH07
@@ -358,7 +352,7 @@ controls:
           - reference-id: CCC.GenAI.TH06
             strength: 0 # Not yet specified
             remarks: Unintended Action by a Model-Based Agent
-    guideline-mappings:
+    guidelines:
       - reference-id: SAIF
         entries:
           - reference-id: Agent Permissions
@@ -366,7 +360,6 @@ controls:
 
   - id: CCC.GenAI.CN07
     group: MachineLearning
-    family: CCC.GenAI.CM
     title: Model Version Pinning
     objective: |
       Mandate that applications are locked ("pinned") to a specific,
@@ -384,13 +377,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH10
             strength: 0 # Not yet specified
             remarks: Model Version Drift
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-010
@@ -399,7 +392,6 @@ controls:
 
   - id: CCC.GenAI.CN08
     group: MachineLearning
-    family: CCC.GenAI.MAE
     title: Quality Control and Red Teaming
     objective: |
       Establish a formal program for quality evaluation and adversarial
@@ -428,7 +420,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.GenAI.TH01
@@ -446,7 +438,7 @@ controls:
           - reference-id: CCC.GenAI.TH10
             strength: 0 # Not yet specified
             remarks: Model Version Drift
-    guideline-mappings:
+    guidelines:
       - reference-id: FINOS-AIGF
         entries:
           - reference-id: AIR-PREV-005

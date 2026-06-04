@@ -8,7 +8,7 @@ MITRE Engenuity is a non-profit organization that operates under the MITRE Corpo
 
 > "This project created a comprehensive set of mappings between MITRE ATT&CK® and NIST Special Publication 800-53 with supporting documentation and resources. These mappings provide a critically important resource for organizations to assess their security control coverage against real-world threats as described in the ATT&CK knowledge base and provide a foundation for integrating ATT&CK-based threat information into the risk management process. With over 6,300 individual mappings between NIST 800-53 and ATT&CK, this resource greatly reduces the burden on the community to do their own baseline mappings– allowing organizations to focus their limited time and resources on understanding how controls map to threats in their specific environment. "
 
-- [Project Link (Now Archived)](https://github.com/center-for-threat-informed-defense/attack-control-framework-mappings)
+- [Project Link (Now Archived)](https://github.com/center-for-threat-informed-defense/attack-control-frameworks)
 - [NIST 800-53 Mappings Explorer (New Reference)](https://center-for-threat-informed-defense.github.io/mappings-explorer/external/nist/)
 
 ### Example

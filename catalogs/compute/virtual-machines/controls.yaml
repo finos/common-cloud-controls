@@ -19,5 +19,3 @@ imported-controls:
         strength: 0 # Not yet specified
       - reference-id: CCC.Core.CN12
         strength: 0 # Not yet specified
-
-control-families: []
