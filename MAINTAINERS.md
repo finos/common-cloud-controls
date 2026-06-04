@@ -18,7 +18,7 @@ This file lists the maintainers of this repository.
 | @smendis-scottlogic | Sonali Mendis | Scott Logic | *please add email* |
 | @sshiells-scottlogic | Stevie Shiells | Scott Logic | sshiells@scottlogic.com |
 | @sublimino | Andrew Martin | @controlplaneio  | *please add email* |
-| @zigmax | Maxime Coquerel | *please add organization* | *please add email* |
+| @zigmax | Maxime Coquerel | Royal Bank of Canada (RBC) | max.coquerel@gmail.com |
 
 For information about maintainer responsibilities and resources, see the [FINOS Maintainers Cheatsheet](https://community.finos.org/docs/finos-maintainers-cheatsheet).
 
