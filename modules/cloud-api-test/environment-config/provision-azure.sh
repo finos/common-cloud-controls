@@ -1,20 +1,15 @@
 #!/usr/bin/env bash
-# Creates behavioural-test Entra ID apps/SPs for Azure fixtures and writes gitignored azure-env.sh.
-# Run from anywhere:
-#   ./modules/cloud-api-test/user-creation/provision-azure-test-users.sh
-# Then:
-#   source modules/cloud-api-test/user-creation/azure-env.sh
+# Idempotent: reuses Entra apps/SPs; refreshes azure-env.sh from terraform outputs when set.
+# Run: ./modules/cloud-api-test/environment-config/provision-azure.sh
+# Use ROTATE_SECRETS=1 to force new client secrets.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=lib.sh
+source "$SCRIPT_DIR/lib.sh"
+
 OUT_FILE="$SCRIPT_DIR/azure-env.sh"
 TFSTATE="$SCRIPT_DIR/../terraform/azure/terraform.tfstate"
-
-# CN01 secrets fixture (terraform/modules/secrets); override via STALE_VERSION_ID if set.
-STALE_VERSION_ID="${STALE_VERSION_ID:-}"
-if [[ -z "$STALE_VERSION_ID" && -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
-  STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$TFSTATE" | tr -d '\n')"
-fi
 STALE_VERSION_ID="${STALE_VERSION_ID:-00000000000000000000000000000000}"
 
 if ! command -v az >/dev/null 2>&1; then
@@ -32,8 +27,16 @@ SUBSCRIPTION_ID="${AZURE_SUBSCRIPTION_ID:-$(az account show --query id -o tsv)}"
 LOG_ANALYTICS_WORKSPACE_ID="${AZURE_LOG_ANALYTICS_WORKSPACE_ID:-}"
 VM_HOSTNAME="${AZURE_VM_HOSTNAME:-}"
 
-# Defaults match cfi-testing/privateer-config/finos-integration/cloud-storage/azure-cloud-storage.yml
-RESOURCE_GROUP="${AZURE_STORAGE_RESOURCE_GROUP:-finos-ccc-integration-storage-rg}"
+if [[ -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
+  if [[ -z "$LOG_ANALYTICS_WORKSPACE_ID" ]]; then
+    LOG_ANALYTICS_WORKSPACE_ID="$(jq -r '.outputs.logging.value.azure_log_analytics_workspace_id // empty' "$TFSTATE" | tr -d '\n')"
+  fi
+  if [[ -z "$VM_HOSTNAME" ]]; then
+    VM_HOSTNAME="$(jq -r '.outputs.virtual_machines.value.host_name // empty' "$TFSTATE" | tr -d '\n')"
+  fi
+fi
+
+RESOURCE_GROUP="${AZURE_STORAGE_RESOURCE_GROUP:-finos-ccc-integration-rg}"
 STORAGE_ACCOUNT="${AZURE_STORAGE_ACCOUNT:-finoscccintegrationmain}"
 
 STORAGE_SCOPE="$(az storage account show \
@@ -41,15 +44,21 @@ STORAGE_SCOPE="$(az storage account show \
   --resource-group "$RESOURCE_GROUP" \
   --query id -o tsv 2>/dev/null || true)"
 
-if [ -z "$STORAGE_SCOPE" ] || [ "$STORAGE_SCOPE" = "null" ]; then
+if [[ -z "$STORAGE_SCOPE" || "$STORAGE_SCOPE" == "null" ]]; then
   echo "error: storage account $STORAGE_ACCOUNT not found in $RESOURCE_GROUP" >&2
-  echo "set AZURE_STORAGE_RESOURCE_GROUP / AZURE_STORAGE_ACCOUNT and retry" >&2
   exit 1
 fi
 
-INSTANCE_ID="${INSTANCE_ID:-$(date -u +"%Y%m%dt%H%M%Sz")}"
+INSTANCE_ID="${INSTANCE_ID:-}"
+if [[ -z "$INSTANCE_ID" ]]; then
+  existing_name="$(read_env_export "$OUT_FILE" "AZURE_TEST_USER_NO_ACCESS_USER_NAME" || true)"
+  if [[ -n "$existing_name" && "$existing_name" =~ ^cfi-(.+)-test-user-no-access$ ]]; then
+    INSTANCE_ID="${BASH_REMATCH[1]}"
+    echo "==> Reusing instance id from $OUT_FILE: $INSTANCE_ID"
+  fi
+fi
+INSTANCE_ID="${INSTANCE_ID:-integration}"
 
-# identity_key|display_name_suffix|role_name|env_prefix
 USERS=(
   "test-user-no-access|test-user-no-access||AZURE_TEST_USER_NO_ACCESS"
   "test-user-read|test-user-read|Storage Blob Data Reader|AZURE_TEST_USER_READ"
@@ -58,11 +67,11 @@ USERS=(
 )
 
 ensure_app_and_sp() {
-  local display_name="$1"
-  local app_id sp_id client_secret
+  local display_name="$1" env_prefix="$2"
+  local app_id sp_id client_secret existing_secret
 
   app_id="$(az ad app list --display-name "$display_name" --query "[0].appId" -o tsv 2>/dev/null || true)"
-  if [ -z "$app_id" ] || [ "$app_id" = "null" ]; then
+  if [[ -z "$app_id" || "$app_id" == "null" ]]; then
     echo "Creating app: $display_name"
     app_id="$(az ad app create --display-name "$display_name" --query appId -o tsv)"
   else
@@ -70,14 +79,26 @@ ensure_app_and_sp() {
   fi
 
   sp_id="$(az ad sp list --display-name "$display_name" --query "[0].id" -o tsv 2>/dev/null || true)"
-  if [ -z "$sp_id" ] || [ "$sp_id" = "null" ]; then
+  if [[ -z "$sp_id" || "$sp_id" == "null" ]]; then
+    echo "Creating service principal: $display_name"
     sp_id="$(az ad sp create --id "$app_id" --query id -o tsv)"
+  else
+    echo "Reusing service principal: $display_name"
   fi
 
-  # New secret each run (secrets are write-only).
-  client_secret="$(az ad app credential reset --id "$app_id" --query password -o tsv)"
-  if [ -z "$client_secret" ] || [ "$client_secret" = "null" ]; then
-    echo "error: failed to create client secret for $display_name" >&2
+  client_secret=""
+  if [[ "${ROTATE_SECRETS:-0}" != "1" && -f "$OUT_FILE" ]]; then
+    client_secret="$(read_env_export "$OUT_FILE" "${env_prefix}_CLIENT_SECRET" || true)"
+  fi
+  if [[ -z "$client_secret" ]]; then
+    echo "Creating client secret for $display_name"
+    client_secret="$(az ad app credential reset --id "$app_id" --query password -o tsv)"
+  else
+    echo "Reusing client secret from $OUT_FILE for $display_name"
+  fi
+
+  if [[ -z "$client_secret" || "$client_secret" == "null" ]]; then
+    echo "error: failed to obtain client secret for $display_name" >&2
     exit 1
   fi
 
@@ -87,9 +108,8 @@ ensure_app_and_sp() {
 }
 
 assign_role_if_needed() {
-  local sp_id="$1"
-  local role_name="$2"
-  [ -z "$role_name" ] && return 0
+  local sp_id="$1" role_name="$2"
+  [[ -z "$role_name" ]] && return 0
 
   if az role assignment list \
     --assignee "$sp_id" \
@@ -109,18 +129,14 @@ assign_role_if_needed() {
 }
 
 {
-  echo "# Generated by provision-azure-test-users.sh — do not commit."
-  echo "# Source before integration / behavioural runs:"
-  echo "#   source modules/cloud-api-test/user-creation/azure-env.sh"
+  echo "# Generated by provision-azure.sh — do not commit."
+  echo "# Source: source modules/cloud-api-test/environment-config/azure-env.sh"
+  echo "# Re-run after terraform apply to refresh fixture vars (identities reused unless ROTATE_SECRETS=1)."
   echo ""
   printf 'export AZURE_TENANT_ID=%q\n' "$TENANT_ID"
   printf 'export AZURE_SUBSCRIPTION_ID=%q\n' "$SUBSCRIPTION_ID"
-  if [ -n "$LOG_ANALYTICS_WORKSPACE_ID" ]; then
-    printf 'export AZURE_LOG_ANALYTICS_WORKSPACE_ID=%q\n' "$LOG_ANALYTICS_WORKSPACE_ID"
-  fi
-  if [ -n "$VM_HOSTNAME" ]; then
-    printf 'export AZURE_VM_HOSTNAME=%q\n' "$VM_HOSTNAME"
-  fi
+  [[ -n "$LOG_ANALYTICS_WORKSPACE_ID" ]] && printf 'export AZURE_LOG_ANALYTICS_WORKSPACE_ID=%q\n' "$LOG_ANALYTICS_WORKSPACE_ID"
+  [[ -n "$VM_HOSTNAME" ]] && printf 'export AZURE_VM_HOSTNAME=%q\n' "$VM_HOSTNAME"
   printf 'export STALE_VERSION_ID=%q\n' "$STALE_VERSION_ID"
   echo ""
 } >"$OUT_FILE"
@@ -130,7 +146,7 @@ for spec in "${USERS[@]}"; do
   display_name="cfi-${INSTANCE_ID}-${suffix}"
 
   echo "--- $display_name ---"
-  ensure_app_and_sp "$display_name"
+  ensure_app_and_sp "$display_name" "$env_prefix"
   assign_role_if_needed "$SP_ID_RESULT" "$role_name"
 
   {

@@ -1,21 +1,14 @@
 #!/usr/bin/env bash
-# Creates behavioural-test GCP service accounts and writes gitignored gcp-env.sh.
-# Run from anywhere:
-#   ./modules/cloud-api-test/user-creation/provision-gcp-test-users.sh
-# Then:
-#   source modules/cloud-api-test/user-creation/gcp-env.sh
+# Idempotent: reuses service accounts and key files; refreshes gcp-env.sh.
+# Run: ./modules/cloud-api-test/environment-config/provision-gcp.sh
+# Use ROTATE_KEYS=1 to create new SA keys.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-OUT_FILE="$SCRIPT_DIR/gcp-env.sh"
-TFSTATE="$SCRIPT_DIR/../terraform/gcp/terraform.tfstate"
+# shellcheck source=lib.sh
+source "$SCRIPT_DIR/lib.sh"
 
-# CN01 secrets fixture (terraform/modules/secrets); override via STALE_VERSION_ID if set.
-STALE_VERSION_ID="${STALE_VERSION_ID:-}"
-if [[ -z "$STALE_VERSION_ID" && -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
-  STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$TFSTATE" | tr -d '\n')"
-fi
+OUT_FILE="$SCRIPT_DIR/gcp-env.sh"
 STALE_VERSION_ID="${STALE_VERSION_ID:-1}"
 KEY_DIR="$SCRIPT_DIR/.keys"
 mkdir -p "$KEY_DIR"
@@ -31,13 +24,13 @@ if ! command -v jq >/dev/null 2>&1; then
 fi
 
 PROJECT_ID="${GCP_PROJECT_ID:-$(gcloud config get-value project 2>/dev/null || true)}"
-if [ -z "${PROJECT_ID:-}" ] || [ "$PROJECT_ID" = "(unset)" ]; then
+if [[ -z "${PROJECT_ID:-}" || "$PROJECT_ID" == "(unset)" ]]; then
   echo "error: set GCP_PROJECT_ID or run 'gcloud config set project <id>'" >&2
   exit 1
 fi
 
 PROJECT_NUMBER="$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')"
-if [ -z "$PROJECT_NUMBER" ]; then
+if [[ -z "$PROJECT_NUMBER" ]]; then
   echo "error: unable to resolve project number for $PROJECT_ID" >&2
   exit 1
 fi
@@ -47,8 +40,16 @@ if ! gcloud auth list --filter=status:ACTIVE --format='value(account)' | grep -q
   exit 1
 fi
 
-# Optional instance id suffix for uniqueness across shared projects.
-INSTANCE_ID="${INSTANCE_ID:-$(date -u +"%Y%m%dt%H%M%Sz")}"
+INSTANCE_ID="${INSTANCE_ID:-}"
+if [[ -z "$INSTANCE_ID" ]]; then
+  existing_email="$(read_env_export "$OUT_FILE" "GCP_TEST_USER_NO_ACCESS_NAME" || true)"
+  if [[ -n "$existing_email" && "$existing_email" =~ ^cfi-([^@]+)-no-access@ ]]; then
+    INSTANCE_ID="${BASH_REMATCH[1]}"
+    echo "==> Reusing instance id from $OUT_FILE: $INSTANCE_ID"
+  fi
+fi
+INSTANCE_ID="${INSTANCE_ID:-integration}"
+
 SA_NO_ACCESS_ID="${SA_NO_ACCESS_ID:-cfi-${INSTANCE_ID}-no-access}"
 SA_WRITE_ID="${SA_WRITE_ID:-cfi-${INSTANCE_ID}-write}"
 SA_ADMIN_ID="${SA_ADMIN_ID:-cfi-${INSTANCE_ID}-admin}"
@@ -62,8 +63,7 @@ WRITE_KEY_FILE="$KEY_DIR/${SA_WRITE_ID}.json"
 ADMIN_KEY_FILE="$KEY_DIR/${SA_ADMIN_ID}.json"
 
 ensure_sa() {
-  local sa_id="$1"
-  local display_name="$2"
+  local sa_id="$1" display_name="$2"
   if gcloud iam service-accounts describe "${sa_id}@${PROJECT_ID}.iam.gserviceaccount.com" --project "$PROJECT_ID" >/dev/null 2>&1; then
     echo "Reusing service account: $sa_id"
   else
@@ -76,8 +76,14 @@ ensure_sa() {
 }
 
 ensure_binding() {
-  local member="$1"
-  local role="$2"
+  local member="$1" role="$2"
+  if gcloud projects get-iam-policy "$PROJECT_ID" \
+    --flatten="bindings[].members" \
+    --filter="bindings.role:$role AND bindings.members:serviceAccount:${member}" \
+    --format="value(bindings.role)" 2>/dev/null | grep -q .; then
+    echo "Role already bound: $role -> $member"
+    return 0
+  fi
   echo "Ensuring role binding: $role -> $member"
   gcloud projects add-iam-policy-binding "$PROJECT_ID" \
     --member "serviceAccount:${member}" \
@@ -86,16 +92,15 @@ ensure_binding() {
 }
 
 create_key() {
-  local sa_email="$1"
-  local key_file="$2"
+  local sa_email="$1" key_file="$2"
   local rotate="${ROTATE_KEYS:-0}"
 
-  if [ -f "$key_file" ] && [ "$rotate" != "1" ]; then
+  if [[ -f "$key_file" && "$rotate" != "1" ]]; then
     echo "Reusing existing key file: $key_file"
     return
   fi
 
-  if [ "$rotate" = "1" ]; then
+  if [[ "$rotate" == "1" ]]; then
     rm -f "$key_file"
   fi
 
@@ -110,17 +115,24 @@ json_for_env() {
 }
 
 guess_vm_hostname() {
-  if [ -n "${GCP_VM_HOSTNAME:-}" ]; then
+  if [[ -n "${GCP_VM_HOSTNAME:-}" ]]; then
     echo "$GCP_VM_HOSTNAME"
     return
   fi
-
-  local vm_name=""
+  local tfstate="$SCRIPT_DIR/../terraform/gcp/terraform.tfstate"
+  if [[ -f "$tfstate" ]] && command -v jq >/dev/null 2>&1; then
+    local from_state
+    from_state="$(jq -r '.outputs.virtual_machines.value.host_name // empty' "$tfstate" | tr -d '\n')"
+    if [[ -n "$from_state" ]]; then
+      echo "$from_state"
+      return
+    fi
+  fi
+  local vm_name
   vm_name="$(gcloud compute instances list \
     --project "$PROJECT_ID" \
     --format='value(name)' \
     --filter='name~finos-ccc-integration-vm-main' 2>/dev/null | head -n 1 || true)"
-
   echo "${vm_name:-finos-ccc-integration-vm-main}"
 }
 
@@ -128,7 +140,6 @@ ensure_sa "$SA_NO_ACCESS_ID" "CFI Test No Access"
 ensure_sa "$SA_WRITE_ID" "CFI Test Write"
 ensure_sa "$SA_ADMIN_ID" "CFI Test Admin"
 
-# No-access account intentionally gets no project roles.
 ensure_binding "$SA_WRITE_EMAIL" "roles/cloudfunctions.developer"
 ensure_binding "$SA_WRITE_EMAIL" "roles/compute.instanceAdmin.v1"
 ensure_binding "$SA_ADMIN_EMAIL" "roles/editor"
@@ -143,9 +154,9 @@ ADMIN_KEY_JSON="$(json_for_env "$ADMIN_KEY_FILE")"
 VM_HOSTNAME="$(guess_vm_hostname)"
 
 {
-  echo "# Generated by provision-gcp-test-users.sh — do not commit."
-  echo "# Source before running integration / behavioural tests:"
-  echo "#   source modules/cloud-api-test/user-creation/gcp-env.sh"
+  echo "# Generated by provision-gcp.sh — do not commit."
+  echo "# Source: source modules/cloud-api-test/environment-config/gcp-env.sh"
+  echo "# Re-run after terraform apply to refresh fixture vars (SAs/keys reused unless ROTATE_KEYS=1)."
   echo ""
   printf 'export GCP_PROJECT_ID=%q\n' "$PROJECT_ID"
   printf 'export GCP_PROJECT_NUMBER=%q\n' "$PROJECT_NUMBER"
@@ -162,24 +173,7 @@ VM_HOSTNAME="$(guess_vm_hostname)"
   printf 'export GCP_VM_HOSTNAME=%q\n' "$VM_HOSTNAME"
   printf 'export STALE_VERSION_ID=%q\n' "$STALE_VERSION_ID"
   echo ""
-  echo "# GitHub secrets helper (optional):"
-  echo "# gh secret set GCP_TEST_USER_NO_ACCESS_NAME --body \"\$GCP_TEST_USER_NO_ACCESS_NAME\" --repo finos/common-cloud-controls"
-  echo "# gh secret set GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON --body \"\$GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON\" --repo finos/common-cloud-controls"
-  echo "# gh secret set GCP_TEST_USER_WRITE_NAME --body \"\$GCP_TEST_USER_WRITE_NAME\" --repo finos/common-cloud-controls"
-  echo "# gh secret set GCP_TEST_USER_WRITE_SA_KEY_JSON --body \"\$GCP_TEST_USER_WRITE_SA_KEY_JSON\" --repo finos/common-cloud-controls"
-  echo "# gh secret set GCP_TEST_USER_ADMIN_NAME --body \"\$GCP_TEST_USER_ADMIN_NAME\" --repo finos/common-cloud-controls"
-  echo "# gh secret set GCP_TEST_USER_ADMIN_SA_KEY_JSON --body \"\$GCP_TEST_USER_ADMIN_SA_KEY_JSON\" --repo finos/common-cloud-controls"
-  echo "# gh secret set GCP_VM_HOSTNAME --body \"\$GCP_VM_HOSTNAME\" --repo finos/common-cloud-controls"
 } >"$OUT_FILE"
 
 chmod 600 "$OUT_FILE"
-
 echo "Wrote $OUT_FILE"
-echo "Service accounts:"
-echo "  - $SA_NO_ACCESS_EMAIL"
-echo "  - $SA_WRITE_EMAIL"
-echo "  - $SA_ADMIN_EMAIL"
-echo "Key files (keep secure):"
-echo "  - $NO_ACCESS_KEY_FILE"
-echo "  - $WRITE_KEY_FILE"
-echo "  - $ADMIN_KEY_FILE"

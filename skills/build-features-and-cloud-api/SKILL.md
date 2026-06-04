@@ -49,7 +49,7 @@ Terraform and configs may use **minimal** and **cheap** resources (one VM, one f
 | Minimal Privateer vars (integration) | `modules/cloud-api-test/privateer-config/{aws,azure,gcp}.yml` |
 | Behavioural Privateer configs | `cfi-testing/privateer-config/finos-integration/<service>/` |
 | CI action wiring | `cfi-testing/actions-config/<provider>-<service>-finos.yaml` |
-| Access control provisioning | `modules/cloud-api-test/user-creation/provision-{aws,azure,gcp}-test-users.sh` |
+| Access control provisioning | `modules/cloud-api-test/environment-config/provision-{aws,azure,gcp}.sh` |
 
 Update `modules/features/README.md` routing rules when adding a **new** service tag.
 
@@ -256,7 +256,7 @@ See [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md)
    ```
 
 6. **Exercise code, not compliance**: one testable resource per service type (except `vpc`, which may include good/bad fixtures). Missing optional controls is acceptable if analysis documents `@NotTestable` or honesty gaps.
-7. **No secrets in terraform state files in git** — output client ids; secrets via `modules/cloud-api-test/user-creation/*-env.sh`.
+7. **No secrets in terraform state files in git** — output client ids; secrets via `modules/cloud-api-test/environment-config/*-env.sh`.
 8. **MINIMAL terraform, minimize expense** — we are creating an integration environment to test `cloud-api`, not passing the full CCC conformance suite on first apply.
 
 ---
@@ -286,7 +286,7 @@ Update [`privateer-config/{aws,azure,gcp}.yml`](../../modules/cloud-api-test/pri
 
 ```bash
 cd modules/cloud-api-test
-# After: terraform apply under terraform/<cloud>/ and source user-creation/*-env.sh
+# After: terraform apply under terraform/<cloud>/ and source environment-config/*-env.sh
 ./run-integration-tests.sh aws    # or azure | gcp | all
 ```
 
@@ -326,7 +326,7 @@ Reference existing configs:
 2. Use `${AZURE_*}` / `${AWS_*}` / `${GCP_*}` env vars **only for credentials and account/subscription/project ids** — expanded by `ExpandVars` in the plugin.
 3. Every **logging** var must match terraform outputs (`aws-flow-log-group-name`, `azure-log-analytics-workspace-id`, …).
 4. `resource` var filters the run to one fixture (Name tag, container name, etc.).
-5. `test-identities` block shape must match [`types.Config.Identity`](../../modules/cloud-api/types/config.go); prefer `${AZURE_TEST_USER_*_USER_NAME}` from `modules/cloud-api-test/user-creation/azure-env.sh` (and AWS/GCP equivalents).
+5. `test-identities` block shape must match [`types.Config.Identity`](../../modules/cloud-api/types/config.go); prefer `${AZURE_TEST_USER_*_USER_NAME}` from `modules/cloud-api-test/environment-config/azure-env.sh` (and AWS/GCP equivalents).
 6. Document in config header: `terraform output` commands used to populate vars after apply.
 7. Log service details must match [`types.Config.LoggingConfig`](../../modules/cloud-api/types/config.go).
 8. Include `plugin: ccc-behavioural-plugin`, `service` / `service-type`, `tags`, and `catalog-locations` per analysis.
@@ -360,8 +360,8 @@ cfi:
 This contains a very limited set of generic user accounts we can use to test different test cases.  Extend the privileges of these accounts for the integration testing terraform.  Avoid creating too many accounts.  
 
 ```bash
-cd modules/cloud-api-test/user-creation
-./provision-aws-test-users.sh    # or provision-azure-test-users.sh / provision-gcp-test-users.sh
+cd modules/cloud-api-test/environment-config
+./provision-aws.sh    # or provision-azure.sh / provision-gcp.sh
 source ./aws-env.sh              # matching *-env.sh for your cloud
 ```
 
@@ -381,7 +381,7 @@ cd modules/cloud-api-test
 
 ```bash
 export GOWORK=modules/go.work
-source modules/cloud-api-test/user-creation/aws-env.sh   # or azure-env.sh / gcp-env.sh
+source modules/cloud-api-test/environment-config/aws-env.sh   # or azure-env.sh / gcp-env.sh
 
 ./cfi-testing/run-compliance-tests.sh \
   -c cfi-testing/privateer-config/finos-integration/virtual-machines/aws-virtual-machines.yml \
