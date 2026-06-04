@@ -162,6 +162,9 @@ participants:
     - name: Anna Aloshine
       enrollment_date: June/4/2026
       github_id: AAloshine-scottlogic
+    - name: Jakob Vidal
+      enrollment_date: June/4/2026
+      github_id: jakobv-sl
 
   Sonatype:
     - name: Eddie Knight
