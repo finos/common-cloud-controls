@@ -5,6 +5,7 @@ import SimpleIntro from "../components/SimpleIntro";
 import LevelUp from "../components/LevelUp";
 import AdvanceAutomatedGovernance from "../components/AdvanceAutomatedGovernence";
 import TheStory from "../components/TheStory";
+import JoinCommunity from "../components/JoinCommunity";
 
 export default function Home(): ReactNode {
   return (
@@ -14,7 +15,8 @@ export default function Home(): ReactNode {
         <SimpleIntro />
         <TheStory />
         <LevelUp />
-        <AdvanceAutomatedGovernance/>
+        <AdvanceAutomatedGovernance />
+        <JoinCommunity />
       </main>
     </Layout>
   );
