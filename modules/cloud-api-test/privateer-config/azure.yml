@@ -23,10 +23,10 @@ services:
         - "finos-ccc-integration-vpc-bad"
         - "finos-ccc-integration-vpc-bad"
       stale-version-id: "${STALE_VERSION_ID}"
-      authorized-region: "eastus"
+      authorized-region: "westus2"
       unauthorized-region: "westeurope"
       permitted-regions:
-        - "eastus"
+        - "westus2"
       azure-key-vault-name: "finoscccintkvsec"
       azure-key-vault-uri: "https://finoscccintkvsec.vault.azure.net/"
       azure-secret-name: "finos-ccc-integration-secret-main"
