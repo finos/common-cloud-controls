@@ -44,6 +44,6 @@ A member of this WG should be present on any calls scheduled by the SC for parti
 ## Governance and Changes
 
 - Steering Committee Sponsor: Stevie Shiells
-- Working Group Lead: Stevie Shiells
+- Working Group Lead: Gabriele Balysevaite
 
 Changes to this charter must be approved through a majority vote by the Steering Committee.
