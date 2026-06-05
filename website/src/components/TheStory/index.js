@@ -56,22 +56,25 @@ export default function TheStory() {
     <HomeSection title="The Problem">
       <div style={sectionStyle}>
         <p style={bodyStyle}>
-          Financial institutions are moving to the public cloud, but the cloud wasn't built with
-          financial services in mind.
+          Financial institutions are rapidly adopting public cloud infrastructure,
+          yet today's cloud platforms were not designed with the specific requirements
+          of financial services in mind.
+
         </p>
         <p style={bodyStyle}>
-          Every major cloud provider works differently. That means every bank, insurer, and asset
-          manager has to figure out, largely on their own, how to configure cloud services securely,
-          meet their regulatory obligations, and prove to auditors that they've done it right.
-          Multiply that effort across dozens of cloud services and a patchwork of regulators in the
-          US, UK, EU, and beyond, and the result is enormous duplication of work, inconsistent
-          security outcomes, and spiralling compliance costs.
+          Each major cloud provider operates differently, requiring banks, insurers, and
+          asset managers to independently determine how to configure services securely, satisfy
+          regulatory requirements, and demonstrate compliance to auditors. Multiply that effort across a growing portfolio
+          of cloud services and a patchwork regulatory landscape spanning the US, UK, EU,
+          and other jurisdictions, this results in enormous duplication of effort, inconsistent security
+          practices, and spiralling compliance costs.
         </p>
         <p style={bodyStyle}>
-          Regulators have taken notice. The US Treasury, UK HM Treasury, EU DORA, and the Monetary
-          Authority of Singapore have all flagged the same core concerns: cloud providers lack
-          transparency, no single firm can manage concentration risk alone, and the fragmented
-          regulatory landscape is creating systemic vulnerability across the sector.
+          Regulators have recognised these challenges. Authorities including the US Treasury, UK HM Treasury,
+          the EU through DORA, and the Monetary Authority of Singapore have highlighted common concerns: limited
+          transparency from cloud providers, the inability of individual firms to address concentration risk in
+          isolation, and a fragmented regulatory environment that may introduce systemic vulnerabilities across
+          the financial sector.
         </p>
       </div>
 
