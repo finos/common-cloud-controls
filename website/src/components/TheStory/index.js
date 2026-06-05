@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HomeSection from "../HomeSection";
 
 const sectionStyle = {
@@ -9,13 +9,14 @@ const sectionStyle = {
 const bodyStyle = {
   color: "var(--gf-color-text-subtle)",
   fontSize: "1.05rem",
+  textAlign: "center",
   lineHeight: 1.75,
 };
 
 const h3Style = {
-  fontSize: "1.2rem",
+  fontSize: "2rem",
   fontWeight: 700,
-  marginBottom: "0.75rem",
+  marginBottom: "1.5rem",
 };
 
 const audienceGridStyle = {
@@ -28,8 +29,11 @@ const audienceGridStyle = {
 
 const audienceCardStyle = {
   border: "1px solid",
+  borderColor: "#00b5e2",
   borderRadius: "1rem",
   padding: "1.25rem 1.5rem",
+  backgroundColor: "#00b5e2",
+  color: "#ffffff",
 };
 
 const audiences = [
@@ -51,53 +55,103 @@ const audiences = [
   },
 ];
 
+function ChevronIcon({ open }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{
+        width: "1.1rem",
+        height: "1.1rem",
+        transition: "transform 0.25s ease",
+        transform: open ? "rotate(180deg)" : "rotate(0deg)",
+        flexShrink: 0,
+      }}
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
+
+function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div
+      style={{
+        ...sectionStyle,
+        border: "1px solid #00b5e2",
+        borderRadius: "1rem",
+        padding: "1.5rem 2rem",
+        overflow: "hidden",
+      }}
+    >
+      {title && <h3 style={{ ...h3Style, textAlign: "center" }}>{title}</h3>}
+      <p style={{ ...bodyStyle, margin: 0 }}>{firstParagraph}</p>
+
+      {open && (
+        <div style={{ marginTop: "1rem" }}>
+          {extraParagraphs.map((para, i) => (
+            <p key={i} style={{ ...bodyStyle, marginTop: i > 0 ? "1rem" : 0, marginBottom: 0 }}>
+              {para}
+            </p>
+          ))}
+        </div>
+      )}
+
+      <div style={{ textAlign: "center", marginTop: "1rem" }}>
+        <button
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            color: "#00b5e2",
+            padding: "0.25rem 0.75rem",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.4rem",
+            fontSize: "0.9rem",
+            fontWeight: 600,
+            borderRadius: "999px",
+            transition: "background 0.15s",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,181,226,0.1)")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+        >
+          {open ? "Show less" : "Read more"}
+          <ChevronIcon open={open} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function TheStory() {
   return (
-    <HomeSection title="The Problem">
-      <div style={sectionStyle}>
-        <p style={bodyStyle}>
-          Financial institutions are rapidly adopting public cloud infrastructure,
-          yet today's cloud platforms were not designed with the specific requirements
-          of financial services in mind.
+    <HomeSection>
+      <CollapsibleBox
+        title="The Problem"
+        firstParagraph="Financial institutions are rapidly adopting public cloud infrastructure, yet today's cloud platforms were not designed with the specific requirements of financial services in mind."
+        extraParagraphs={[
+          "Each major cloud provider operates differently, requiring banks, insurers, and asset managers to independently determine how to configure services securely, satisfy regulatory requirements, and demonstrate compliance to auditors. Multiply that effort across a growing portfolio of cloud services and a patchwork regulatory landscape spanning the US, UK, EU, and other jurisdictions, this results in enormous duplication of effort, inconsistent security practices, and spiralling compliance costs.",
+          "Regulators have recognised these challenges. Authorities including the US Treasury, UK HM Treasury, the EU through DORA, and the Monetary Authority of Singapore have highlighted common concerns: limited transparency from cloud providers, the inability of individual firms to address concentration risk in isolation, and a fragmented regulatory environment that may introduce systemic vulnerabilities across the financial sector.",
+        ]}
+      />
 
-        </p>
-        <p style={bodyStyle}>
-          Each major cloud provider operates differently, requiring banks, insurers, and
-          asset managers to independently determine how to configure services securely, satisfy
-          regulatory requirements, and demonstrate compliance to auditors. Multiply that effort across a growing portfolio
-          of cloud services and a patchwork regulatory landscape spanning the US, UK, EU,
-          and other jurisdictions, this results in enormous duplication of effort, inconsistent security
-          practices, and spiralling compliance costs.
-        </p>
-        <p style={bodyStyle}>
-          Regulators have recognised these challenges. Authorities including the US Treasury, UK HM Treasury,
-          the EU through DORA, and the Monetary Authority of Singapore have highlighted common concerns: limited
-          transparency from cloud providers, the inability of individual firms to address concentration risk in
-          isolation, and a fragmented regulatory environment that may introduce systemic vulnerabilities across
-          the financial sector.
-        </p>
-      </div>
-
-      <div style={sectionStyle}>
-        <h3 style={{ ...h3Style, textAlign: "center" }}>The Solution: FINOS Common Cloud Controls</h3>
-        <p style={bodyStyle}>
-          FINOS CCC is an open industry standard that defines a consistent set of security,
-          resiliency, and compliance controls for public cloud services, written once and usable
-          across every major cloud provider.
-        </p>
-        <p style={bodyStyle}>
-          Instead of each institution reinventing the wheel, CCC gives the whole financial services
-          industry a shared baseline. Cloud providers can certify against it. Regulators can map
-          their requirements to it. And banks can use it to deploy compliant cloud infrastructure
-          with confidence, regardless of which cloud they're on.
-        </p>
-        <p style={bodyStyle}>
-          CCC classifies cloud services into a common taxonomy, builds a threat model for each
-          service type using the MITRE ATT&CK framework, identifies the controls that mitigate
-          those threats, and defines what compliant implementation looks like on each cloud
-          provider. The result is a machine-verifiable standard that removes ambiguity for everyone.
-        </p>
-      </div>
+      <CollapsibleBox
+        title="The Solution: FINOS Common Cloud Controls"
+        firstParagraph="FINOS CCC is an open industry standard that defines a consistent set of security, resiliency, and compliance controls for public cloud services, written once and usable across every major cloud provider."
+        extraParagraphs={[
+          "Instead of each institution reinventing the wheel, CCC gives the whole financial services industry a shared baseline. Cloud providers can certify against it. Regulators can map their requirements to it. And banks can use it to deploy compliant cloud infrastructure with confidence, regardless of which cloud they're on.",
+          "CCC classifies cloud services into a common taxonomy, builds a threat model for each service type using the MITRE ATT&CK framework, identifies the controls that mitigate those threats, and defines what compliant implementation looks like on each cloud provider. The result is a machine-verifiable standard that removes ambiguity for everyone.",
+        ]}
+      />
 
       <div style={{ maxWidth: "780px", margin: "0 auto 2.5rem auto" }}>
         <h3 style={{ ...h3Style, textAlign: "center" }}>Who Is It For?</h3>
@@ -105,7 +159,7 @@ export default function TheStory() {
       <div style={audienceGridStyle}>
         {audiences.map(({ label, body }) => (
           <div key={label} style={audienceCardStyle}>
-            <p style={{ fontWeight: 700, marginBottom: "0.5rem" }}>{label}</p>
+            <p style={{ fontWeight: 700, marginBottom: "1.0rem" }}>{label}</p>
             <p style={{ ...bodyStyle, fontSize: "0.95rem", margin: 0 }}>{body}</p>
           </div>
         ))}
