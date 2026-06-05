@@ -139,7 +139,7 @@
             }
           }
         },
-        "required": ["id", "title", "description"],
+        "required": ["id", "title", "description", "group"],
         "additionalProperties": false
       }
     }
