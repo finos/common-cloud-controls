@@ -13,6 +13,8 @@
   --ifm-color-primary-light: #4b4b4b;
   --ifm-color-primary-lighter: #4e4e4e;
   --ifm-color-primary-lightest: #585858;
+  --ifm-navbar-link-color: #0086bf;
+  --ifm-footer-background-color: #effbff;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -24,6 +26,7 @@
   --ifm-color-primary-light: #ffffff;
   --ifm-color-primary-lighter: #ffffff;
   --ifm-color-primary-lightest: #ffffff;
+  --ifm-footer-background-color: #effbff;
 }
 
 @import url("/fonts/metropolis/metropolis.css");
@@ -114,15 +117,21 @@
   align-self: flex-start;
   z-index: 1000;
   width: stretch;
+  background-color: #effbff;
   /* So it stays above the main content */
 }
 
 /* Optional: Give it a background to avoid overlap artifacts */
 .navbar__inner {
-  background-color: white;
+  background-color: #effbff;
+  color: #0086bf;
 }
 
 html[data-theme="dark"] .navbar__inner {
+  background-color: #111;
+}
+
+html[data-theme="dark"] .navbar {
   background-color: #111;
 }
 

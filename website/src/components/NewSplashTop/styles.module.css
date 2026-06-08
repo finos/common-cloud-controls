@@ -1,13 +1,13 @@
 section.nst {
 	margin: auto;
-	margin-top: 2rem;
+	margin-top: 1.5rem;
 	max-width: 1200px;
 	text-align: center;
 }
 
 svg.logo {
 	height: calc(10vh);
-	width: 100%;
+	width: 95%;
 }
 
 html[data-theme=dark] .fill {
