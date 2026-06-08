@@ -52,7 +52,7 @@ const boxes = [
 
 export default function JoinCommunity() {
   return (
-    <HomeSection title="Join the Community">
+    <HomeSection title="Join the Community" id="join-the-community">
       <p className={styles.intro}>
         Common Cloud Controls is an open, community-driven project. There are many ways to get involved — pick the one that works best for you.
       </p>

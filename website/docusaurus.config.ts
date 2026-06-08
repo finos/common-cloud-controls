@@ -67,6 +67,11 @@ const config: Config = {
         { to: '/ccc', label: 'CCC Catalog', position: 'left' },
         { to: '/cfi', label: 'CFI Catalog', position: 'left' },
         {
+          href: '/#join-the-community',
+          label: 'Join the Community',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
           position: 'right',
