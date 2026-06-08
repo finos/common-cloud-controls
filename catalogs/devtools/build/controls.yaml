@@ -20,93 +20,90 @@ imported-controls:
         strength: 0 # Not yet specified
         remarks: Prevent data replication to destinations outside of defined trust perimeter
 
-control-families:
-  - title: Access Control
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.Build.CN01
-        title: Restrict Allowed Build Agents
-        objective: |
-          Ensure that builds are executed only on authorized build agents to maintain
-          control over the build environment and prevent unauthorized code execution.
-        assessment-requirements:
-          - id: CCC.Build.CN01.AR01
-            text: |
-              Attempt to initiate a build using an unauthorized build agent and verify that the build is rejected.
-            applicability:
-              - tlp-red
-              - tlp-amber
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH01
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-4
-                strength: 0 # Not yet specified
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-3
-                strength: 0 # Not yet specified
-              - reference-id: AC-6
-      - id: CCC.Build.CN02
-        title: Restrict Allowed External Services for Build Triggers
-        objective: |
-          Ensure that builds can only be triggered by authorized external services or
-          repositories to prevent unauthorized code execution or tampering.
-        assessment-requirements:
-          - id: CCC.Build.CN02.AR01
-            text: |
-              Attempt to trigger a build from an unauthorized external service or
-              repository and verify that the build does not start.
-            applicability:
-              - tlp-red
-              - tlp-amber
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH01
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-4
-                strength: 0 # Not yet specified
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: AC-3
-                strength: 0 # Not yet specified
-              - reference-id: AC-6
-  - title: Network Security
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.Build.CN03
-        title: Deny External Network Access for Build Environments
-        objective: |
-          Ensure that build environments do not have external network access to
-          prevent unauthorized external access and data exfiltration.
-        assessment-requirements:
-          - id: CCC.Build.CN03.AR01
-            text: |
-              Attempt to access the build environment from an external network and verify that access is denied.
-            applicability:
-              - tlp-red
-              - tlp-amber
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH02
-                strength: 0 # Not yet specified
-              - reference-id: CCC.Core.TH05
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-5
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-7
-                strength: 0 # Not yet specified
-              - reference-id: SC-5
+controls:
+  - id: CCC.Build.CN01
+    group: Orchestration
+    title: Restrict Allowed Build Agents
+    objective: |
+      Ensure that builds are executed only on authorized build agents to maintain
+      control over the build environment and prevent unauthorized code execution.
+    assessment-requirements:
+      - id: CCC.Build.CN01.AR01
+        text: |
+          Attempt to initiate a build using an unauthorized build agent and verify that the build is rejected.
+        applicability:
+          - tlp-red
+          - tlp-amber
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.AC-4
+            strength: 0 # Not yet specified
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-3
+            strength: 0 # Not yet specified
+          - reference-id: AC-6
+  - id: CCC.Build.CN02
+    group: Orchestration
+    title: Restrict Allowed External Services for Build Triggers
+    objective: |
+      Ensure that builds can only be triggered by authorized external services or
+      repositories to prevent unauthorized code execution or tampering.
+    assessment-requirements:
+      - id: CCC.Build.CN02.AR01
+        text: |
+          Attempt to trigger a build from an unauthorized external service or
+          repository and verify that the build does not start.
+        applicability:
+          - tlp-red
+          - tlp-amber
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.AC-4
+            strength: 0 # Not yet specified
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-3
+            strength: 0 # Not yet specified
+          - reference-id: AC-6
+  - id: CCC.Build.CN03
+    group: Networking
+    title: Deny External Network Access for Build Environments
+    objective: |
+      Ensure that build environments do not have external network access to
+      prevent unauthorized external access and data exfiltration.
+    assessment-requirements:
+      - id: CCC.Build.CN03.AR01
+        text: |
+          Attempt to access the build environment from an external network and verify that access is denied.
+        applicability:
+          - tlp-red
+          - tlp-amber
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH02
+            strength: 0 # Not yet specified
+          - reference-id: CCC.Core.TH05
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.AC-5
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+            strength: 0 # Not yet specified
+          - reference-id: SC-5

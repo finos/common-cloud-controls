@@ -29,76 +29,72 @@ imported-controls:
         strength: 0 # Not yet specified
         remarks: Prevent data replication to destinations outside of defined trust perimeter
 
-control-families:
-  - title: Network Security
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.SvlsComp.CN01
-        title: Enforce Use of Private Endpoints for Serverless Function
-        objective: |
-          Ensure that the serverless function is accessible only through a private endpoint,
-          allowing it to communicate securely within a virtual private network and preventing
-          unauthorized external access.
-        assessment-requirements:
-          - id: CCC.SvlsComp.CN01.AR01
-            text: |
-              Attempt to access the serverless function over the public internet and verify that access is denied.
-            applicability:
-              - tlp-red
-              - tlp-amber
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH01
-                strength: 0 # Not yet specified
-                remarks: Access control is misconfigured
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.AC-5
-                strength: 0 # Not yet specified
-                remarks: Network integrity is protected
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-7
-                strength: 0 # Not yet specified
-                remarks: Boundary Protection
-              - reference-id: SC-8
-                strength: 0 # Not yet specified
-                remarks: Transmission Confidentiality and Integrity
-  - title: Availability
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.SvlsComp.CN02
-        title: Implement Function Invocation Rate Limits
-        objective: |
-          Ensure that function invocation is limited to a specified threshold from any single entity,
-          preventing resource exhaustion and denial of service attacks.
-        assessment-requirements:
-          - id: CCC.SvlsComp.CN02.AR01
-            text: |
-              Send requests to invoke the function up to the allowed threshold and confirm they
-              are successful; then send additional requests exceeding the threshold from the same
-              entity and verify that they are denied.
-            applicability:
-              - tlp-red
-              - tlp-amber
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH12
-                strength: 0 # Not yet specified
-                remarks: Resource constraints are exhausted
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.DS-4
-                strength: 0 # Not yet specified
-                remarks: Adequate capacity to ensure availability
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SC-5
-                strength: 0 # Not yet specified
-                remarks: Denial of Service Protection
+controls:
+  - id: CCC.SvlsComp.CN01
+    group: Networking
+    title: Enforce Use of Private Endpoints for Serverless Function
+    objective: |
+      Ensure that the serverless function is accessible only through a private endpoint,
+      allowing it to communicate securely within a virtual private network and preventing
+      unauthorized external access.
+    assessment-requirements:
+      - id: CCC.SvlsComp.CN01.AR01
+        text: |
+          Attempt to access the serverless function over the public internet and verify that access is denied.
+        applicability:
+          - tlp-red
+          - tlp-amber
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+            strength: 0 # Not yet specified
+            remarks: Access control is misconfigured
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.AC-5
+            strength: 0 # Not yet specified
+            remarks: Network integrity is protected
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+            strength: 0 # Not yet specified
+            remarks: Boundary Protection
+          - reference-id: SC-8
+            strength: 0 # Not yet specified
+            remarks: Transmission Confidentiality and Integrity
+  - id: CCC.SvlsComp.CN02
+    group: Resource
+    title: Implement Function Invocation Rate Limits
+    objective: |
+      Ensure that function invocation is limited to a specified threshold from any single entity,
+      preventing resource exhaustion and denial of service attacks.
+    assessment-requirements:
+      - id: CCC.SvlsComp.CN02.AR01
+        text: |
+          Send requests to invoke the function up to the allowed threshold and confirm they
+          are successful; then send additional requests exceeding the threshold from the same
+          entity and verify that they are denied.
+        applicability:
+          - tlp-red
+          - tlp-amber
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH12
+            strength: 0 # Not yet specified
+            remarks: Resource constraints are exhausted
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.DS-4
+            strength: 0 # Not yet specified
+            remarks: Adequate capacity to ensure availability
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-5
+            strength: 0 # Not yet specified
+            remarks: Denial of Service Protection

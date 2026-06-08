@@ -43,9 +43,7 @@ func init() {
 	viper.BindPFlag("output-dir", baseCmd.PersistentFlags().Lookup("output-dir"))
 	viper.BindPFlag("catalogs-dir", baseCmd.PersistentFlags().Lookup("catalogs-dir"))
 
-	// Add subcommands
 	baseCmd.AddCommand(
-		cmd.GenerateReleaseArtifacts,
 		cmd.Compile,
 	)
 }
