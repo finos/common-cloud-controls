@@ -159,8 +159,11 @@ participants:
     - name: Gabriele Balysevaite
       enrollment: May/14/2025
       github_id: gbalysevaite
+    - name: Anna Aloshine
+      enrollment_date: June/4/2026
+      github_id: AAloshine-scottlogic
     - name: Jakob Vidal
-      enrollment: Jun/04/2026
+      enrollment_date: June/4/2026
       github_id: jakobv-sl
 
   Sonatype:

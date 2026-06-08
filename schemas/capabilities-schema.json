@@ -63,7 +63,7 @@
             "description": "Group id this capability belongs to (defined in core/ccc/groups.yaml)"
           }
         },
-        "required": ["id", "title", "description"],
+        "required": ["id", "title", "description", "group"],
         "additionalProperties": false
       }
     }
