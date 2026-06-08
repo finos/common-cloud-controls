@@ -51,7 +51,9 @@ export default function LevelUp() {
                 textAlign: "center",
                 border: "1px solid",
                 borderRadius: "1rem",
-                padding: "1rem"
+                padding: "1rem",
+                backgroundColor: "rgb(0, 181, 226)",
+                color: "#ffffff",
               }}>
                 <div style={{
                   borderRadius: "50%",
@@ -60,7 +62,7 @@ export default function LevelUp() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "#777c85"
+                  background: "#0086bf"
                 }}>
                   {step.icon}
                 </div>

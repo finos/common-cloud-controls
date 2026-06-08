@@ -52,11 +52,11 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/logo/2023_FinosCCC_Horizontal.png',
     navbar: {
-      title: 'CCC',
+      title: '',
       logo: {
         alt: 'CCC Logo',
-        src: 'img/logo/2023_FinosCCC_Icon_BLK.svg',
-        srcDark: 'img/logo/2023_FinosCCC_Icon_WHT.svg'
+        src: 'img/logo/2023_FinosCCC_Horizontal.svg',
+        srcDark: 'img/logo/2023_FinosCCC_Horizontal_WHT.svg'
       },
       items: [
         {
