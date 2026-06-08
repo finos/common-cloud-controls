@@ -9,6 +9,10 @@ locals {
     managed_by = "terraform"
     project    = "ccc-cfi-compliance"
   }
+
+  secret_accessor_members = compact([
+    var.integration_runner_service_account_email != "" ? "serviceAccount:${var.integration_runner_service_account_email}" : "",
+  ])
 }
 
 module "vpc" {
@@ -46,9 +50,10 @@ module "logging" {
 }
 
 module "secrets" {
-  source              = "./modules/secrets"
-  project_id          = var.project_id
-  region              = var.region
-  common_tags         = local.common_labels
-  unauthorized_region = "europe-west1"
+  source                  = "./modules/secrets"
+  project_id              = var.project_id
+  region                  = var.region
+  common_tags             = local.common_labels
+  unauthorized_region     = "europe-west1"
+  secret_accessor_members = local.secret_accessor_members
 }

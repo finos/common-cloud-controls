@@ -48,3 +48,4 @@ modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-functio
 modules/cloud-api-test/environment-config/.keys/*.json
 modules/cloud-api-test/environment-config/.keys/*.credentials
 modules/cloud-api-test/terraform/azure/.terraform.lock.hcl
+modules/cloud-api-test/terraform/azure/.terraform.lock.hcl

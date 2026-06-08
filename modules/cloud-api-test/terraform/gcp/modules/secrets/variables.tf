@@ -18,3 +18,9 @@ variable "unauthorized_region" {
   description = "Region used for CN02 negative tests."
   default     = "europe-west1"
 }
+
+variable "secret_accessor_members" {
+  type        = list(string)
+  default     = []
+  description = "IAM members with roles/secretmanager.secretAccessor on the integration secret."
+}
