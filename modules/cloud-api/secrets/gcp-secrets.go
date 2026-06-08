@@ -17,7 +17,6 @@ import (
 var _ Service = (*GCPSecretsService)(nil)
 
 type GCPSecretsService struct {
-	client    *secretmanager.Client
 	ctx       context.Context
 	config    types.Config
 	projectID string
@@ -34,12 +33,7 @@ func NewGCPSecretsService(ctx context.Context, cfg types.Config) (*GCPSecretsSer
 	if strings.TrimSpace(cfg.Get("authorized-region")) == "" {
 		return nil, fmt.Errorf("authorized-region is required in config")
 	}
-	client, err := secretmanager.NewClient(ctx, option.WithScopes("https://www.googleapis.com/auth/cloud-platform"))
-	if err != nil {
-		return nil, fmt.Errorf("secret manager client: %w", err)
-	}
 	return &GCPSecretsService{
-		client:    client,
 		ctx:       ctx,
 		config:    cfg,
 		projectID: projectID,
@@ -61,13 +55,26 @@ func (s *GCPSecretsService) secretID(secretID string) string {
 	return s.config.Get("resource")
 }
 
-func (s *GCPSecretsService) versionResourceName(secretID, versionSpecifier string) string {
-	id := s.secretID(secretID)
+func normalizeVersionSpecifier(versionSpecifier string) string {
 	version := strings.TrimSpace(versionSpecifier)
 	if version == "" || strings.EqualFold(version, "latest") {
-		version = "latest"
+		return "latest"
 	}
-	return fmt.Sprintf("projects/%s/secrets/%s/versions/%s", s.projectID, id, version)
+	return version
+}
+
+func (s *GCPSecretsService) regionalVersionResourceName(secretID, location, versionSpecifier string) string {
+	id := s.secretID(secretID)
+	return fmt.Sprintf("projects/%s/locations/%s/secrets/%s/versions/%s",
+		s.projectID, location, id, normalizeVersionSpecifier(versionSpecifier))
+}
+
+func (s *GCPSecretsService) homeLocation() (string, error) {
+	authorized := strings.TrimSpace(s.config.Get("authorized-region"))
+	if authorized == "" {
+		return "", fmt.Errorf("authorized-region is required in config")
+	}
+	return authorized, nil
 }
 
 func (s *GCPSecretsService) GetOrProvisionTestableResources() ([]types.TestParams, error) {
@@ -87,8 +94,11 @@ func (s *GCPSecretsService) GetOrProvisionTestableResources() ([]types.TestParam
 }
 
 func (s *GCPSecretsService) CheckUserProvisioned() error {
-	name := s.versionResourceName(s.secretID(""), "latest")
-	_, err := s.client.AccessSecretVersion(s.ctx, &secretmanagerpb.AccessSecretVersionRequest{Name: name})
+	home, err := s.homeLocation()
+	if err != nil {
+		return err
+	}
+	_, err = s.accessRegionalSecretVersion(s.secretID(""), home, "latest")
 	if err != nil {
 		return fmt.Errorf("secret manager access not ready: %w", err)
 	}
@@ -109,24 +119,23 @@ func (s *GCPSecretsService) TriggerDataRead(string) error {
 	return fmt.Errorf("TriggerDataRead not implemented for secrets")
 }
 func (s *GCPSecretsService) GetResourceRegion(string) (string, error) {
-	authorized := strings.TrimSpace(s.config.Get("authorized-region"))
-	if authorized == "" {
-		return "", fmt.Errorf("authorized-region is required in config")
-	}
-	return authorized, nil
+	return s.homeLocation()
 }
 func (s *GCPSecretsService) GetReplicationStatus(string) (*generic.ReplicationStatus, error) {
 	return generic.ReplicationStatusNotApplicable()
 }
 
 func (s *GCPSecretsService) RetrieveSecretVersion(secretID, versionSpecifier string) (*SecretValue, error) {
-	name := s.versionResourceName(secretID, versionSpecifier)
-	resp, err := s.client.AccessSecretVersion(s.ctx, &secretmanagerpb.AccessSecretVersionRequest{Name: name})
+	home, err := s.homeLocation()
+	if err != nil {
+		return nil, err
+	}
+	data, err := s.accessRegionalSecretVersion(secretID, home, versionSpecifier)
 	if err != nil {
 		return nil, classifyGCPDeny(err)
 	}
 	return &SecretValue{
-		Plaintext: string(resp.Payload.Data),
+		Plaintext: string(data),
 		VersionID: versionSpecifier,
 		Denied:    false,
 	}, nil
@@ -137,19 +146,26 @@ func (s *GCPSecretsService) RetrieveSecretInRegion(secretID, region string) (*Se
 	if region == "" {
 		return nil, fmt.Errorf("region is required")
 	}
-	// Use the regional replication endpoint for the requested location (same idea as AWS
-	// regional SM). The global client ignores region and would not satisfy CN02.
-	client, err := newRegionalSecretManagerClient(s.ctx, region)
-	if err != nil {
-		return nil, classifyGCPDeny(err)
-	}
-	defer client.Close()
-	name := s.versionResourceName(secretID, "latest")
-	_, err = client.AccessSecretVersion(s.ctx, &secretmanagerpb.AccessSecretVersionRequest{Name: name})
+	_, err := s.accessRegionalSecretVersion(secretID, region, "latest")
 	if err != nil {
 		return nil, classifyGCPDeny(err)
 	}
 	return &SecretValue{Denied: false}, nil
+}
+
+func (s *GCPSecretsService) accessRegionalSecretVersion(secretID, location, versionSpecifier string) ([]byte, error) {
+	client, err := newRegionalSecretManagerClient(s.ctx, location)
+	if err != nil {
+		return nil, err
+	}
+	defer client.Close()
+
+	name := s.regionalVersionResourceName(secretID, location, versionSpecifier)
+	resp, err := client.AccessSecretVersion(s.ctx, &secretmanagerpb.AccessSecretVersionRequest{Name: name})
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Data, nil
 }
 
 func newRegionalSecretManagerClient(ctx context.Context, location string) (*secretmanager.Client, error) {
