@@ -59,13 +59,13 @@ const config: Config = {
         srcDark: 'img/logo/2023_FinosCCC_Horizontal_WHT.svg'
       },
       items: [
-        {
-          position: 'left',
-          label: 'Primer',
-          to: 'https://github.com/finos/common-cloud-controls/blob/main/docs/resources/training/FINOS-CCC-Primer-June-2024.pdf'
-        },
-        { to: '/ccc', label: 'CCC Catalog', position: 'left' },
+        { to: '/ccc', label: 'CCC Catalogs', position: 'left' },
         { to: '/cfi', label: 'CFI Catalog', position: 'left' },
+        {
+          href: '/#join-the-community',
+          label: 'Join the Community',
+          position: 'right',
+        },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
