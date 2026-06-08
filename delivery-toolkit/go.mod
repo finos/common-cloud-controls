@@ -3,7 +3,6 @@ module github.com/finos/common-cloud-controls
 go 1.25.0
 
 require (
-	github.com/defenseunicorns/go-oscal v0.7.0
 	github.com/gemaraproj/go-gemara v0.5.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -11,14 +10,12 @@ require (
 require (
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/sagikazarmark/locafero v0.6.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
-	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.7.0 // indirect
@@ -32,7 +29,6 @@ require (
 
 require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/ossf/gemara v0.7.1
 	github.com/spf13/cobra v1.10.1
 	github.com/spf13/pflag v1.0.9 // indirect
 	github.com/spf13/viper v1.19.0

@@ -39,7 +39,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-02
@@ -60,7 +60,7 @@ control-families:
                 strength: 0
               - reference-id: SC-13
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH02
@@ -94,7 +94,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
@@ -113,7 +113,7 @@ control-families:
             entries:
               - reference-id: AC-6
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH03
@@ -143,7 +143,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.PT-5
@@ -160,7 +160,7 @@ control-families:
                 strength: 0
               - reference-id: CP-10
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH06
@@ -199,7 +199,7 @@ control-families:
               - tlp-red
               - tlp-green
               - tlp-clear
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-6
@@ -218,7 +218,7 @@ control-families:
                 strength: 0
           - reference-id: ISO_27001
             entries: []
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH07
@@ -243,7 +243,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-5
@@ -260,7 +260,7 @@ control-families:
             entries:
               - reference-id: AC-4
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH04
@@ -285,7 +285,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
@@ -302,7 +302,7 @@ control-families:
                 strength: 0
               - reference-id: SC-28
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
@@ -349,7 +349,7 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.DS-1
@@ -370,7 +370,7 @@ control-families:
                 strength: 0
               - reference-id: SC-17
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH16
@@ -442,7 +442,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-7
@@ -461,7 +461,7 @@ control-families:
             entries:
               - reference-id: IA-2
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
@@ -512,7 +512,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-3
@@ -529,7 +529,7 @@ control-families:
             entries:
               - reference-id: AC-3
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
@@ -569,7 +569,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: DE.AE-3
@@ -588,7 +588,7 @@ control-families:
                 strength: 0
               - reference-id: AU-12
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
@@ -617,7 +617,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: DE.AE-1
@@ -632,7 +632,7 @@ control-families:
             entries:
               - reference-id: AU-6
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH15
@@ -659,7 +659,7 @@ control-families:
             applicability:
               - tlp-red
               - tlp-amber
-        guideline-mappings:
+        guidelines:
           - reference-id: NIST-CSF
             entries:
               - reference-id: PR.AC-3
@@ -668,7 +668,7 @@ control-families:
             entries:
               - reference-id: AC-4
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH17
