@@ -57,7 +57,7 @@ function NavButton({ onClick, direction }) {
       onMouseLeave={() => setHovered(false)}
       aria-label={direction === "prev" ? "Previous video" : "Next video"}
       style={{
-        background: hovered ? "rgba(0,181,226,0.15)" : "rgba(0,0,0,0.35)",
+        background: hovered ? "rgba(0,181,226,0.15)" : "rgba(0, 134, 191, 1)",
         border: "none",
         borderRadius: "50%",
         width: "2.75rem",
