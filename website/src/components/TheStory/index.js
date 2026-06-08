@@ -57,30 +57,41 @@ const audiences = [
 
 function ChevronIcon({ open }) {
   return (
-    <HomeSection title="The Problem">
-      <div style={sectionStyle}>
-        <p style={bodyStyle}>
-          Financial institutions are rapidly adopting public cloud infrastructure,
-          yet today's cloud platforms were not designed with the specific requirements
-          of financial services in mind.
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{
+        width: "1.1rem",
+        height: "1.1rem",
+        transition: "transform 0.25s ease",
+        transform: open ? "rotate(180deg)" : "rotate(0deg)",
+        flexShrink: 0,
+      }}
+    >
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
 
-        </p>
-        <p style={bodyStyle}>
-          Each major cloud provider operates differently, requiring banks, insurers, and
-          asset managers to independently determine how to configure services securely, satisfy
-          regulatory requirements, and demonstrate compliance to auditors. Multiply that effort across a growing portfolio
-          of cloud services and a patchwork regulatory landscape spanning the US, UK, EU,
-          and other jurisdictions, this results in enormous duplication of effort, inconsistent security
-          practices, and spiralling compliance costs.
-        </p>
-        <p style={bodyStyle}>
-          Regulators have recognised these challenges. Authorities including the US Treasury, UK HM Treasury,
-          the EU through DORA, and the Monetary Authority of Singapore have highlighted common concerns: limited
-          transparency from cloud providers, the inability of individual firms to address concentration risk in
-          isolation, and a fragmented regulatory environment that may introduce systemic vulnerabilities across
-          the financial sector.
-        </p>
-      </div>
+function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div
+      style={{
+        ...sectionStyle,
+        border: "1px solid #00b5e2",
+        borderRadius: "1rem",
+        padding: "1.5rem 2rem",
+        overflow: "hidden",
+      }}
+    >
+      {title && <h3 style={{ ...h3Style, textAlign: "center" }}>{title}</h3>}
+      <p style={{ ...bodyStyle, margin: 0 }}>{firstParagraph}</p>
 
       {open && (
         <div style={{ marginTop: "1rem" }}>
