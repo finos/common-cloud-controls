@@ -41,11 +41,8 @@ modules/cloud-api-test/environment-config/.keys
 modules/cloud-api-test/coverage-integration*.out
 modules/cloud-api-test/coverage-integration*.html
 modules/cloud-api-test/integration-results-*.txt
-modules/cloud-api-test/terraform/aws/.terraform.lock.hcl
 modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-function.zip
 
 # Ignore local cloud API test keys
 modules/cloud-api-test/environment-config/.keys/*.json
 modules/cloud-api-test/environment-config/.keys/*.credentials
-modules/cloud-api-test/terraform/azure/.terraform.lock.hcl
-modules/cloud-api-test/terraform/azure/.terraform.lock.hcl
