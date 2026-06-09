@@ -5,40 +5,16 @@ const ReactPlayer = React.lazy(() => import("react-player/lazy"));
 
 const videos = [
   {
-    url: "https://www.finos.org/hubfs/OSFF%202025%20(Open%20Source%20in%20Finance%20Forum)/OSFF%20London%202025/Video/Breakout%20Talks/Mutualizing%20Risk%20and%20Compliance%20in%20the%20Open/Taming%20Multi-Cloud%20Security_%20Progress%20on%20Common%20Cloud%20Controls%20-%20Michael%20Lysaght%20%26%20Sonali%20Mendis.mp4",
+    url: "https://www.youtube.com/watch?v=niThX5x0_F4",
     caption: "Taming Multi-Cloud Security: Progress on Common Cloud Controls — Michael Lysaght & Sonali Mendis",
   },
   {
-    url: "https://www.finos.org/hubfs/OSFF%202025%20(Open%20Source%20in%20Finance%20Forum)/OSFF%20New%20York%20NYC%202025/OSFF%20NYC%202025%20Videos/The%20Launchpad%20Incubating%20FINOS%20Projects/Before%20You%20Build%2C%20Check%20What%20You%20Have_%20Practical%20Approaches%20To%20Assess%20Compliance%20B...%20Santosh%20Maurya.mp4",
+    url: "https://www.youtube.com/watch?v=5TL_EReeC_Y",
     caption: "Before You Build, Check What You Have: Practical Approaches To Assess Compliance — Santosh Maurya",
   },
   {
-    url: "https://www.youtube.com/watch?v=XjBXGHK2a9c",
-    caption: "Turn CCC into Real Checks: Multi-Cloud Security with Prowler + AI (OSFF NY Preview)",
-  },
-  {
-    url: "https://youtu.be/8hMRahzwK3k",
-    caption: "Damien Burks (Citi) and Gupta Rudra (Krumware) discuss CCC at OSFF New York 2024.",
-  },
-  {
-    url: "https://youtu.be/t0gksHTRTVw",
-    caption: "Jared Lambert (Microsoft) talks about the compliance landscape at OSFF New York 2024.",
-  },
-  {
-    url: "https://youtu.be/AoGH_uw5M2Y",
-    caption: "Eddie Knight (Sonatype)'s vertical slice demo of CCC at OSFF New York 2023.",
-  },
-  {
-    url: "https://youtu.be/dE6eOYvpauU",
-    caption: "Jim Adams (Citi) and others discuss the need for CCC at OSFF New York 2023.",
-  },
-  {
-    url: "https://youtu.be/ITFNeStAebs",
-    caption: "Naseer Mohammed (Google) and Simon Zhang (BMO) discuss CCC at OSFF New York 2023.",
-  },
-  {
-    url: "https://youtu.be/cg3I53R59Iw",
-    caption: "Kim Prado (BMO)'s keynote session on Cloud Controls at OSFF 2023.",
+    url: "https://www.youtube.com/watch?v=M7dnHNp0WCE",
+    caption: "From CCC To Automated Cloud Detections and Remediations — Pedro Martín & Toni de la Fuente",
   },
 ];
 
@@ -114,20 +90,8 @@ export default function VideoCarousel() {
                 overflow: "hidden",
               }}
             >
-              <React.Suspense
-                fallback={
-                  <div style={{ width: "100%", height: "100%", background: "#333" }} />
-                }
-              >
-                <ReactPlayer
-                  key={v.url}
-                  url={v.url}
-                  width="100%"
-                  height="100%"
-                  controls
-                  light={videoThumbnail(v.url)}
-                  style={{ position: "absolute", top: 0, left: 0 }}
-                />
+              <React.Suspense fallback={<div style={{ width: "100%", height: "100%", background: "#333" }} />}>
+                <ReactPlayer key={v.url} url={v.url} width="100%" height="100%" controls light={videoThumbnail(v.url)} style={{ position: "absolute", top: 0, left: 0 }} />
               </React.Suspense>
             </div>
           </div>
@@ -170,11 +134,7 @@ export default function VideoCarousel() {
 
           <p style={{ fontSize: "0.85rem", color: "var(--gf-color-text-subtle)", margin: 0 }}>
             {current + 1} / {videos.length} — Further videos on the{" "}
-            <a
-              href="https://www.youtube.com/watch?v=8hMRahzwK3k&list=PLmPXh6nBuhJuWoOHDqG4AMPVerlWYDacD"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://www.youtube.com/watch?v=8hMRahzwK3k&list=PLmPXh6nBuhJuWoOHDqG4AMPVerlWYDacD" target="_blank" rel="noopener noreferrer">
               YouTube playlist
             </a>
             .
