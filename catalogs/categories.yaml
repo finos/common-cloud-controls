@@ -28,12 +28,13 @@ categories:
       data and communications through encryption and decryption. They also provide secure
       methods for storing and managing keys, secrets, and certificates. These services
       ensure the confidentiality, integrity, and authenticity of data in both storage and transmission.
-  - id: CCC.RDMS
+  - id: CCC.Database
     name: CCC Database Services
     description: |
       Database services in the context of cloud computing refer to managed database
       solutions provided by cloud service providers. These services enable users to
-      store, manage, and access structured data in a scalable, reliable, and
+      store, manage, and access structured, semi-structured, and vector data
+      (relational, warehouse, and embedding stores) in a scalable, reliable, and
   - id: CCC.DevTools
     name: CCC Developer Tools
     description: |
@@ -67,6 +68,22 @@ categories:
       connectivity, and security within and between cloud environments, data centers,
       and end-users. These services enable users to build, manage, and optimize
       network infrastructure in a flexible, scalable, and cost-effective manner.
+  - id: CCC.Orchestration
+    name: CCC Orchestration Services
+    description: |
+      Orchestration services in the context of cloud computing refer to platforms
+      that automate the deployment, scaling, and lifecycle management of
+      containerized workloads and distributed application components. These
+      services coordinate scheduling, networking, and state across many compute
+      units so that applications run reliably at scale.
+  - id: CCC.Pipeline
+    name: CCC Data Pipeline Services
+    description: |
+      Data pipeline services in the context of cloud computing refer to managed
+      offerings that ingest, transform, and move data between systems. These
+      services orchestrate extract-transform-load (ETL) and streaming workflows,
+      enabling reliable data movement and processing across heterogeneous
+      sources and sinks.
   - id: CCC.Storage
     name: Storage Services
     description: |
