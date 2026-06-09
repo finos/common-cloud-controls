@@ -34,7 +34,7 @@ categories:
       Database services in the context of cloud computing refer to managed database
       solutions provided by cloud service providers. These services enable users to
       store, manage, and access structured, semi-structured, and vector data
-      (relational, warehouse, and embedding stores) in a scalable, reliable, and
+      (relational, warehouse, and embedding stores) in a scalable, reliable manner.
   - id: CCC.DevTools
     name: CCC Developer Tools
     description: |
