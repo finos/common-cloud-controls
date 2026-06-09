@@ -1,5 +1,6 @@
 output "endpoint_name" {
-  value = local.endpoint_name
+  description = "Logical integration endpoint id (maps to publisher model invoke, not a dedicated Vertex endpoint resource)."
+  value       = local.endpoint_name
 }
 
 output "guardrail_name" {
@@ -7,7 +8,15 @@ output "guardrail_name" {
 }
 
 output "pinned_model_version" {
-  value = var.pinned_model_version
+  value = local.vertex_model_id
+}
+
+output "vertex_model_id" {
+  value = local.vertex_model_id
+}
+
+output "vertex_api_base" {
+  value = "https://${var.region}-aiplatform.googleapis.com"
 }
 
 output "kb_id" {

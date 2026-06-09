@@ -61,6 +61,8 @@ output "gen_ai" {
     endpoint_name        = module.gen_ai.endpoint_name
     guardrail_name       = module.gen_ai.guardrail_name
     pinned_model_version = module.gen_ai.pinned_model_version
+    vertex_model_id      = module.gen_ai.vertex_model_id
+    vertex_api_base      = module.gen_ai.vertex_api_base
     kb_id                = module.gen_ai.kb_id
     approved_source_id   = module.gen_ai.approved_source_id
     unvetted_source_id   = module.gen_ai.unvetted_source_id

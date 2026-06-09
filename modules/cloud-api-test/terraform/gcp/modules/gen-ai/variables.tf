@@ -1,6 +1,16 @@
+variable "project_id" {
+  type        = string
+  description = "GCP project id for Vertex AI integration fixtures."
+}
+
+variable "region" {
+  type        = string
+  description = "GCP region for Vertex generateContent calls."
+}
+
 variable "common_tags" {
   type        = map(string)
-  description = "Tags applied to gen-ai integration metadata."
+  description = "Labels applied to gen-ai integration metadata."
 }
 
 variable "blocked_input_term" {
@@ -14,6 +24,7 @@ variable "blocked_output_term" {
 }
 
 variable "pinned_model_version" {
-  type    = string
-  default = "publishers/google/models/gemini-1.5-flash-002"
+  type        = string
+  default     = "gemini-2.0-flash-001"
+  description = "Publisher model id for cheap Vertex generateContent (no custom endpoint)."
 }

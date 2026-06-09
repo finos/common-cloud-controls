@@ -7,7 +7,20 @@ output "guardrail_name" {
 }
 
 output "pinned_model_version" {
-  value = var.pinned_model_version
+  description = "Azure OpenAI deployment name used as pinned-model-version in privateer config."
+  value       = local.endpoint_name
+}
+
+output "openai_endpoint" {
+  value = azurerm_cognitive_account.openai.endpoint
+}
+
+output "openai_account_name" {
+  value = azurerm_cognitive_account.openai.name
+}
+
+output "openai_deployment_model" {
+  value = local.deployment_model
 }
 
 output "kb_id" {

@@ -60,5 +60,7 @@ module "secrets" {
 
 module "gen_ai" {
   source      = "./modules/gen-ai"
+  project_id  = var.project_id
+  region      = var.region
   common_tags = local.common_labels
 }

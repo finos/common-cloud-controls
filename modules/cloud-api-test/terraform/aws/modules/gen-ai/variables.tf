@@ -18,5 +18,5 @@ variable "blocked_output_term" {
 variable "pinned_model_version" {
   type        = string
   description = "Pinned foundation model version id for CN07 describe checks."
-  default     = "anthropic.claude-3-haiku-20240307-v1:0"
+  default     = "amazon.nova-micro-v1:0"
 }

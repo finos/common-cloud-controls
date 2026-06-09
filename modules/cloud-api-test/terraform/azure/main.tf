@@ -81,6 +81,9 @@ module "secrets" {
 }
 
 module "gen_ai" {
-  source      = "./modules/gen-ai"
-  common_tags = local.common_tags
+  source                       = "./modules/gen-ai"
+  location                     = var.location
+  resource_group               = azurerm_resource_group.this.name
+  common_tags                  = local.common_tags
+  integration_runner_object_id = var.integration_runner_client_id != "" ? data.azuread_service_principal.integration_runner[0].object_id : ""
 }
