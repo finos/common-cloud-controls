@@ -18,3 +18,5 @@ services/service-families.yaml @finos/ccc-wg-taxonomy
 **/*.feature @finos/ccc-wg-security
 
 /docs/governance/working-groups/communications @finos/ccc-wg-communications @finos/ccc-steerco
+
+/website @finos/ccc-wg-website

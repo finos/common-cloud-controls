@@ -32,66 +32,77 @@ imported-capabilities:
 
 capabilities:
   - id: CCC.ETL.CP01
+    group: Processing
     title: Batch Processing
     description: |
       Supports the processing of bounded (batch) data sources
       using a consistent programming model or engine.
   
   - id: CCC.ETL.CP02
+    group: Processing
     title: Stream Processing
     description: |
       Supports the processing of unbounded (streaming) data sources
       using a consistent programming model or engine.
 
   - id: CCC.ETL.CP03
+    group: Processing
     title: Schema Evolution
     description: |
       Automatically detects source data structures and manages changes in
       schema (e.g., column additions) over time without pipeline failure.
 
   - id: CCC.ETL.CP04
+    group: Processing
     title: Distributed Data Shuffling
     description: |
       Provides an internal service to re-partition and group data across
       distributed workers for complex operations like joins and aggregations.
 
   - id: CCC.ETL.CP05
+    group: Processing
     title: Windowing and Event-Time Processing
     description: |
       Enables grouping of data based on time attributes, supporting tumbling,
       hopping, and session windows with late-data handling (watermarking).
 
   - id: CCC.ETL.CP06
+    group: Ingestion
     title: Change Data Capture (CDC) Integration
     description: |
       Supports incremental data ingestion by tracking changes in source
       transaction logs rather than full table scans.
 
   - id: CCC.ETL.CP07
+    group: Ingestion
     title: Connectivity and Connector Library
     description: |
       Provides pre-built, managed connectors for a variety of sources and
       sinks (e.g., Object Storage, RDBMS, NoSQL, Pub/Sub).
 
   - id: CCC.ETL.CP08
+    group: Processing
     title: Job Bookmarks
     description: |
       Persists the state of a processing job (e.g., checkpointing or bookmarks)
       to ensure exactly-once processing and fault tolerance.
 
   - id: CCC.ETL.CP09
+    group: Processing
     title: Pushdown Optimization
     description: |
       The ability to translate transformation logic into the native language
       of the source or sink (e.g., SQL) to minimize data movement.
 
   - id: CCC.ETL.CP10
+    group: Orchestration
     title: Visual Orchestration
     description: |
       Provides a graphical interface to define dependencies
       between extraction, transformation, and loading tasks.
 
   - id: CCC.ETL.CP11
+    group: Processing
     title: Data Lineage & Metadata Tracking
     description: |
       Captures and exports metadata regarding the data sources,
@@ -99,17 +110,20 @@ capabilities:
       flow from source to destination for compliance and debugging.
 
   - id: CCC.ETL.CP12
+    group: Processing
     title: User-Defined Function (UDF) Support
     description: |
       Allows developers to inject custom logic (Python, Java, SQL) into the
       managed processing pipeline for complex transformations.
 
   - id: CCC.ETL.CP13
+    group: Orchestration
     title: Time-Based Job Triggering
     description: |
       Supports time-based (cron) mechanisms to initiate data processing workflows.
 
   - id: CCC.ETL.CP14
+    group: Orchestration
     title: Event Based Job Triggering
     description: |
       Supports event-based (file arrival) mechanisms to initiate

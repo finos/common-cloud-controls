@@ -18,8 +18,8 @@
               "properties": {
                 "reference-id": {
                   "type": "string",
-                  "pattern": "^CCC\\.Core.CP\\d{2,8}$",
-                  "description": "Global/common capability IDs"
+                  "pattern": "^CCC\\.Core\\..+$",
+                  "description": "Global/common capability IDs (CP## or F## during migration)"
                 },
                 "strength": {
                   "type": "integer"
@@ -28,7 +28,7 @@
                   "type": "string"
                 }
               },
-              "required": ["reference-id", "strength"],
+              "required": ["reference-id"],
               "additionalProperties": false
             }
           },
@@ -47,8 +47,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^CCC\\.\\w{1,8}\\.CP\\d{2,8}$",
-            "description": "Capability ID (e.g., CCC.ObjStor.CP01)"
+            "pattern": "^CCC\\.\\w+\\..+$",
+            "description": "Capability ID (e.g., CCC.ObjStor.CP01; CP## or F## during migration)"
           },
           "title": {
             "type": "string",
@@ -57,9 +57,13 @@
           "description": {
             "type": "string",
             "description": "Detailed explanation of what the capability enables or enforces"
+          },
+          "group": {
+            "type": "string",
+            "description": "Group id this capability belongs to (defined in core/ccc/groups.yaml)"
           }
         },
-        "required": ["id", "title", "description"],
+        "required": ["id", "title", "description", "group"],
         "additionalProperties": false
       }
     }

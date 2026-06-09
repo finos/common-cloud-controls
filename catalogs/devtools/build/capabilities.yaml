@@ -28,66 +28,78 @@ imported-capabilities:
 
 capabilities:
   - id: CCC.Build.CP01
+    group: Orchestration
     title: Build Automation
     description: |
       Provides fully managed continuous integration service that compiles source code,
       run tests and produce software packages based on triggers or schedules.
 
   - id: CCC.Build.CP02
+    group: Orchestration
     title: CI/CD Pipelines
     description: |
       Provides or integrates with continuous integration and continuous delivery/deployment (CI/CD)
       services.
 
   - id: CCC.Build.CP03
+    group: Orchestration
     title: Source Repository Integration
     description: |
       Integrates with cloud native or external source code repositories such as
       GitHub, Bitbucket, GitLab to trigger builds on code changes.
 
   - id: CCC.Build.CP04
+    group: Data
     title: Artifact Storage
     description: |
       Ability to securely store build artifacts for later use.
 
   - id: CCC.Build.CP05
+    group: Orchestration
     title: Multi-language Support
     description: |
       Provides pre-configured build environments for popular programming languages such as Java,
       Python, Node.js, .NET, etc.
 
   - id: CCC.Build.CP06
+    group: Orchestration
     title: Custom Build Environments
     description: |
       Allows custom build environments by specifying the operating system, runtime, or
       providing a custom docker runtime image.
 
   - id: CCC.Build.CP07
+    group: Orchestration
     title: Build Docker Image
     description: |
       Support for building docker container images in the pipelines.
 
   - id: CCC.Build.CP08
+    group: Orchestration
     title: Environment Variables
     description: |
       Ability to set environment variables within the build project.
 
   - id: CCC.Build.CP09
+    group: Orchestration
     title: Concurrent Builds
     description: |
       Support for concurrent, parallel builds to improve build performance.
 
   - id: CCC.Build.CP10
+    group: Orchestration
     title: Caching
     description: |
       Caching of dependencies between builds for faster builds.
 
   - id: CCC.Build.CP11
+    group: Observability
     title: Realtime Build Logs
     description: |
       Providing the ability to monitor builds and view logs in the real-time.
 
   - id: CCC.Build.CP12
+    group: Observability
     title: List and View Builds
     description: |
       Ability to list, view logs and download artifacts of old builds.

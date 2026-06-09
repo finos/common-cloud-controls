@@ -48,72 +48,84 @@ imported-capabilities:
 
 capabilities:
   - id: CCC.Vector.CP01
+    group: Data
     title: Embedding Storage
     description: |
       Supports storage of high-dimensional vector embeddings derived
       from raw input data such as text, images, or audio.
 
   - id: CCC.Vector.CP02
+    group: Data
     title: Vector Indexing
     description: |
       Provides creation and management of indexes optimized for similarity
       search, such as HNSW, IVF, or PQ.
 
   - id: CCC.Vector.CP03
+    group: Data
     title: Similarity Search
     description: |
       Enables nearest-neighbor queries using a query embedding to return
       the most similar vectors from the store.
 
   - id: CCC.Vector.CP04
+    group: Data
     title: Metadata Filtering
     description: |
       Supports structured filtering on metadata fields alongside vector
       similarity search queries.
 
   - id: CCC.Vector.CP05
+    group: Ingestion
     title: Batch Ingestion
     description: |
       Allows for high-throughput batch upload and deletion of vectors and
       associated metadata.
 
   - id: CCC.Vector.CP06
+    group: Data
     title: Real-Time Querying
     description: |
       Provides low-latency response to vector similarity queries suitable
       for interactive applications.
 
   - id: CCC.Vector.CP07
+    group: Resource
     title: Index Lifecycle Management
     description: |
       Enables automated or manual creation, optimization, and removal of
       vector indexes.
 
   - id: CCC.Vector.CP08
+    group: MachineLearning
     title: Embedding Format Compatibility
     description: |
       Supports standard vector formats and integrates with common embedding
       generators (e.g., OpenAI, HuggingFace, TensorFlow).
 
   - id: CCC.Vector.CP09
+    group: Data
     title: Vector Dimension Management
     description: |
       Supports storing and managing vectors of specific or dynamic
       dimensionality, depending on model needs.
 
   - id: CCC.Vector.CP10
+    group: Data
     title: Multi-modal Vector Support
     description: |
       Supports storing and searching across vectors derived from multiple
       modalities (e.g., text, image, audio).
 
   - id: CCC.Vector.CP11
+    group: Access
     title: Query Access Control
     description: |
       Provides the ability to restrict who can run vector similarity or
       metadata filter queries, separate from data modification rights.
 
   - id: CCC.Vector.CP12
+    group: Data
     title: Approximate or Exact Search Modes
     description: |
       Supports both approximate nearest neighbor (ANN) algorithms for speed

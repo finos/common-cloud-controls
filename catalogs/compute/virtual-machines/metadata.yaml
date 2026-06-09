@@ -22,5 +22,8 @@ metadata:
     - provider: GCP
       service: Compute Engine
       url: https://cloud.google.com/compute/docs/
+    - provider: Oracle Cloud Infrastructure
+      service: Compute
+      url: https://docs.oracle.com/en-us/iaas/Content/Compute/home.htm
   applicability-categories: []
   mapping-references: []

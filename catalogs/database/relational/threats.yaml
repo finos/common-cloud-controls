@@ -49,6 +49,7 @@ imported-threats:
 
 threats:
   - id: CCC.RDMS.TH01
+    group: Access
     title: Unauthorized Access via Default Credentials
     description: |
       If default credentials are not disabled or changed, unauthorized access
@@ -64,6 +65,7 @@ threats:
         entries:
           - reference-id: T1078
   - id: CCC.RDMS.TH02
+    group: Access
     title: Brute Force Attempts on Database Authentication
     description: |
       Repeated attempts to guess database user passwords may be made
@@ -79,6 +81,7 @@ threats:
         entries:
           - reference-id: T1110
   - id: CCC.RDMS.TH03
+    group: Data
     title: Database Backups Stopped
     description: |
       Database backups may be halted, potentially impairing the organization's
@@ -93,6 +96,7 @@ threats:
         entries:
           - reference-id: T1490
   - id: CCC.RDMS.TH04
+    group: Data
     title: Unintentional Database Backup Restoration
     description: |
       A database backup may be restored unintentionally, potentially
@@ -108,6 +112,7 @@ threats:
         entries:
           - reference-id: T1485
   - id: CCC.RDMS.TH05
+    group: Data
     title: Unauthorized Snapshot Sharing
     description: |
       Snapshots may be shared with untrusted accounts, which can lead to
