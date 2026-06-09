@@ -4,7 +4,7 @@ import HomeSection from "../HomeSection";
 
 export default function SimpleIntro() {
   return (
-    <HomeSection title="Technology-agnostic security controls for public and private cloud.">
+    <HomeSection title="Automated Governance is Within Reach.">
         <img
     src="/img/diagrams/ccc-diagram.svg"
     alt="CCC architecture diagram"
@@ -18,7 +18,7 @@ export default function SimpleIntro() {
     }}
   />
         <p className={styles.strap}>
-          Automated Governance is Within Reach.
+          Technology-agnostic security controls for public and private cloud.
         </p>
     </HomeSection>
   );

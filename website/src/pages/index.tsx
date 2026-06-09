@@ -29,7 +29,7 @@ export default function Home(): ReactNode {
           margin: "auto",
           paddingBottom: "4rem",
           marginBottom: "0",
-
+          color: "#1e3b8a",
         }}>
           <NewSplashTop />
           <SimpleIntro />

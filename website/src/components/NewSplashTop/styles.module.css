@@ -10,6 +10,10 @@ svg.logo {
 	width: 95%;
 }
 
+.fill {
+	fill: #1e3b8a;
+}
+
 html[data-theme=dark] .fill {
-	fill: white;
+	fill: #1e3b8a;
 }
