@@ -28,4 +28,5 @@ div.footerImage {
 @media screen and  (max-width: 600px) {
   h2.sectionTitle {font-size: 1.25rem;}
   section.homeSection {font-size: 0.875rem;}
+  div.sectionContents { padding: 0.25rem;}
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import HomeSection from "../HomeSection";
+import styles from "./styles.module.css";
 
 const sectionStyle = {
   maxWidth: "780px",
@@ -17,14 +18,6 @@ const h3Style = {
   fontSize: "2rem",
   fontWeight: 700,
   marginBottom: "1.5rem",
-};
-
-const audienceGridStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(2, 1fr)",
-  gap: "1.25rem",
-  maxWidth: "780px",
-  margin: "0 auto",
 };
 
 const audienceCardStyle = {
@@ -156,7 +149,7 @@ export default function TheStory() {
       <div style={{ maxWidth: "780px", margin: "0 auto 2.5rem auto" }}>
         <h3 style={{ ...h3Style, textAlign: "center" }}>Who Is It For?</h3>
       </div>
-      <div style={audienceGridStyle}>
+      <div className={styles.audienceGridStyle}>
         {audiences.map(({ label, body }) => (
           <div key={label} style={audienceCardStyle}>
             <p style={{ fontWeight: 700, marginBottom: "1.0rem" }}>{label}</p>
