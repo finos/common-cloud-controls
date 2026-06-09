@@ -1,9 +1,25 @@
+.bodyStyle {
+  color: var(--gf-color-text-subtle);
+  font-size: 1.05rem;
+  text-align: center;
+  line-height: 1.75;
+}
+
 .audienceGridStyle {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
   max-width: 780px;
   margin: 0 auto;
+}
+
+.audienceCardStyle {
+  border: 1px solid;
+  border-color: #00b5e2;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  background-color: #00b5e2;
+  color: #ffffff;
 }
 
 @media screen and (max-width: 600px) {

@@ -1,13 +1,47 @@
+
+.chart { 
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0 auto;
+  /**/
+  color: #ffffff;
+}
+
+.chartBox{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  place-items: center;
+
+  min-width: 220px;
+  max-width: 360px;
+  min-height: 300px;
+  border: 1px solid;
+  border-radius: 1rem;
+  padding: 1rem;
+  background-color: #00b5e2;
+}
+
 .arrow {
   font-size: 1.5rem;
-  margin: auto 0;
+  margin: auto ;
   padding: 0 0.5rem;
 }
 
-.desktopOnly { display: inline; }
-.mobileOnly { display: none; }
+.sideArrow { display: inline; }
+.downArrow { display: none; }
 
-@media screen and (max-width: 600px) {
-  .desktopOnly { display: none; }
-  .mobileOnly { display: inline; }
+@media screen and (max-width: 900px) {
+  .chart{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    place-items: center;
+  }
+
+  .sideArrow { display: none; }
+  .downArrow { display: inline; }
 }
+

@@ -10,7 +10,7 @@ export default function LevelUp() {
         </p>
 
         {/* Horizontal process flow */}
-        <div style={{ display: "flex", alignItems: "flex-start", flexWrap: "wrap", gap: "0", maxWidth: "1000px", margin: "0 auto", justifyContent: "center" }}>
+        <div className={styles.chart}>
           {[
             {
               icon: (
@@ -42,42 +42,29 @@ export default function LevelUp() {
             }
           ].map((step, i, arr) => (
             <React.Fragment key={step.title}>
-              <div style={{
-                flex: "1",
-                minWidth: "220px",
-                maxWidth: "360px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                border: "1px solid",
-                borderRadius: "1rem",
-                padding: "1rem",
-                backgroundColor: "rgb(0, 181, 226)",
-                color: "#ffffff",
-              }}>
-                <div style={{
-                  borderRadius: "50%",
-                  width: "3.5rem",
-                  height: "3.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "#0086bf"
-                }}>
-                  {step.icon}
-                </div>
-                <p style={{ margin: "0 0 0.5rem", fontWeight: 700, fontSize: "1rem" }}>{step.title}</p>
-                <p style={{ margin: 0, lineHeight: 1.7, fontSize: "0.9rem" }}>{step.body}</p>
-              </div>
-              {i < arr.length - 1 && (
-                <>
-                  <div className={styles.arrow}>
-                    <span className={styles.desktopOnly}>→</span>
-                    <span className={styles.mobileOnly}>↓</span>
+                <div className={styles.chartBox}>
+                  <div style={{
+                    borderRadius: "50%",
+                    width: "3.5rem",
+                    height: "3.5rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "#0086bf"
+                  }}>
+                    {step.icon}
                   </div>
-                </>
+                  <p style={{ margin: "0 0 0.5rem", fontWeight: 700, fontSize: "1rem" }}>{step.title}</p>
+                  <p style={{ margin: 0, lineHeight: 1.7, fontSize: "0.9rem" }}>{step.body}</p>
+                </div>
+
+              {i < arr.length - 1 && (
+                  <div className={styles.arrow}>
+                    <span className={styles.sideArrow}>→</span>
+                    <span className={styles.downArrow}>↓</span>
+                  </div>
               )}
+
             </React.Fragment>
           ))}
         </div>

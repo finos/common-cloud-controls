@@ -20,15 +20,6 @@ const h3Style = {
   marginBottom: "1.5rem",
 };
 
-const audienceCardStyle = {
-  border: "1px solid",
-  borderColor: "#00b5e2",
-  borderRadius: "1rem",
-  padding: "1.25rem 1.5rem",
-  backgroundColor: "#00b5e2",
-  color: "#ffffff",
-};
-
 const audiences = [
   {
     label: "Financial institutions",
@@ -79,7 +70,7 @@ function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
         ...sectionStyle,
         border: "1px solid #00b5e2",
         borderRadius: "1rem",
-        padding: "1.5rem 2rem",
+        padding: "1.5rem 1rem",
         overflow: "hidden",
       }}
     >
@@ -151,7 +142,7 @@ export default function TheStory() {
       </div>
       <div className={styles.audienceGridStyle}>
         {audiences.map(({ label, body }) => (
-          <div key={label} style={audienceCardStyle}>
+          <div key={label} className={styles.audienceCardStyle}>
             <p style={{ fontWeight: 700, marginBottom: "1.0rem" }}>{label}</p>
             <p style={{ ...bodyStyle, fontSize: "0.95rem", margin: 0 }}>{body}</p>
           </div>
