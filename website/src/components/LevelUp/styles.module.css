@@ -1,0 +1,13 @@
+.arrow {
+  font-size: 1.5rem;
+  margin: auto 0;
+  padding: 0 0.5rem;
+}
+
+.desktopOnly { display: inline; }
+.mobileOnly { display: none; }
+
+@media screen and (max-width: 600px) {
+  .desktopOnly { display: none; }
+  .mobileOnly { display: inline; }
+}

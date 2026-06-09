@@ -1,5 +1,6 @@
 import React from "react";
 import HomeSection from "../HomeSection";
+import styles from "./styles.module.css";
 
 export default function LevelUp() {
   return (
@@ -71,7 +72,10 @@ export default function LevelUp() {
               </div>
               {i < arr.length - 1 && (
                 <>
-                  <div style={{margin: "auto 0", padding: "0 0.5rem"}}>→</div>
+                  <div className={styles.arrow}>
+                    <span className={styles.desktopOnly}>→</span>
+                    <span className={styles.mobileOnly}>↓</span>
+                  </div>
                 </>
               )}
             </React.Fragment>

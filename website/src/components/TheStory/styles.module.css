@@ -1,0 +1,11 @@
+.audienceGridStyle {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+  .audienceGridStyle {grid-template-columns: repeat(1,1fr); margin: 0;}
+}
