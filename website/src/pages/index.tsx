@@ -3,9 +3,7 @@ import Layout from "@theme/Layout";
 import NewSplashTop from "../components/NewSplashTop";
 import SimpleIntro from "../components/SimpleIntro";
 import LevelUp from "../components/LevelUp";
-import AdvanceAutomatedGovernance from "../components/AdvanceAutomatedGovernence";
 import TheStory from "../components/TheStory";
-import VideoCarousel from "../components/VideoCarousel";
 import JoinCommunity from "../components/JoinCommunity";
 
 export default function Home(): ReactNode {
@@ -37,8 +35,6 @@ export default function Home(): ReactNode {
         </section>
         <TheStory />
         <LevelUp />
-        <AdvanceAutomatedGovernance />
-        <VideoCarousel />
         <JoinCommunity />
       </main>
     </Layout>
