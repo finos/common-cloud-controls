@@ -59,8 +59,21 @@ const config: Config = {
         srcDark: 'img/logo/2023_FinosCCC_Horizontal_WHT.svg'
       },
       items: [
-        { to: '/ccc', label: 'CCC Catalogs', position: 'left' },
-        { to: '/cfi', label: 'CFI Catalog', position: 'left' },
+        { to: '/about', label: 'About', position: 'left' },
+        {
+          label: 'Catalogs',
+          position: 'left',
+          type: 'dropdown',
+          items: [
+            { to: '/ccc', label: 'CCC Catalogs' },
+            { to: '/cfi', label: 'CFI Catalog' },
+            { to: '/threats', label: 'Threats' },
+            { to: '/controls', label: 'Controls' },
+            { to: '/capabilities', label: 'Capabilities' },
+            { to: '/ecosystems', label: 'Ecosystems' },
+            { to: '/testresults', label: 'Test Results' },
+          ],
+        },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
