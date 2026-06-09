@@ -135,6 +135,49 @@ html[data-theme="dark"] .navbar {
   background-color: #111;
 }
 
+/* Navbar dropdown menu styling to match navbar */
+.dropdown__menu {
+  background-color: #effbff;
+  border: 1px solid rgba(0, 134, 191, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 134, 191, 0.1);
+}
+
+.dropdown__link {
+  color: #0086bf;
+  font-size: 0.9rem;
+}
+
+.dropdown__link:hover,
+.dropdown__link--active {
+  background-color: rgba(0, 181, 226, 0.1);
+  color: #0086bf;
+}
+
+html[data-theme="dark"] .dropdown__menu {
+  background-color: #111;
+  border-color: rgba(0, 181, 226, 0.15);
+}
+
+html[data-theme="dark"] .dropdown__link {
+  color: #00b5e2;
+}
+
+html[data-theme="dark"] .dropdown__link:hover,
+html[data-theme="dark"] .dropdown__link--active {
+  background-color: rgba(0, 181, 226, 0.15);
+  color: #00b5e2;
+}
+
+/* Catalog page layout: sidebar + main content side by side */
+.page-layout {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  align-items: flex-start;
+}
+
 /* Anchor target styling for test requirements */
 .anchor-target {
   display: block;

@@ -5,12 +5,12 @@ const journey = [
   {
     verb: "Research",
     title: "System Capabilities",
-    body: "Capabilities Examine your specific technology stack to pinpoint exactly where you are exposed to negative impacts. By identifying specific threats, you can seamlessly apply precise, actionable controls to mitigate those exact vulnerabilities.",
+    body: "Examine your specific technology stack to pinpoint exactly where you are exposed to negative impacts. By identifying specific threats, you can seamlessly apply precise, actionable controls to mitigate those exact vulnerabilities.",
   },
   {
     verb: "Import",
     title: "Reusable Definitions",
-    body: "Establish a foundational baseline of reusable, technology-agnostic threat and control definitions. This prevents your team from needing to write arbitrary security rules from scratch and ensures interoperability."
+    body: "Establish a foundational baseline of reusable, technology-agnostic threat and control definitions. This prevents your team from needing to write arbitrary security rules from scratch and ensures interoperability.",
   },
   {
     verb: "Define",
@@ -37,22 +37,21 @@ const journey = [
 export default function AdvanceAutomatedGovernance() {
   return (
     <HomeSection title="Advance Your Automated Governance">
-      <div style={{ maxWidth: 650, margin: "0 auto" }}>
-        <div style={{ position: "relative", paddingLeft: "2rem" }}>
-          {/* vertical line */}
+      <div style={{ maxWidth: "850px", margin: "0 auto", marginTop: "2rem" }}>
+
+        <div style={{ maxWidth: "850px", margin: "0 auto 3rem auto", position: "relative", paddingLeft: "2rem" }}>
           <div style={{
             position: "absolute",
-            left: "0.45rem",
+            left: "0.4rem",
             top: "0.6rem",
             bottom: "0.6rem",
             width: "2px",
-            background: "#777c85",
+            background: "rgb(0, 181, 226)",
             borderRadius: "1px",
             opacity: 0.4,
           }} />
           {journey.map((step, i) => (
             <div key={step.verb} style={{ position: "relative", marginBottom: i < journey.length - 1 ? "var(--gf-space-xl)" : 0 }}>
-              {/* node dot */}
               <div style={{
                 position: "absolute",
                 left: "-2rem",
@@ -60,10 +59,10 @@ export default function AdvanceAutomatedGovernance() {
                 width: "0.85rem",
                 height: "0.85rem",
                 borderRadius: "50%",
-                background: "#777c85",
+                background: "rgb(0, 134, 191)",
               }} />
               <p style={{ margin: "0 0 0.35rem", fontSize: "1.1rem", fontWeight: 700, lineHeight: 1.2 }}>
-                <span style={{ color: "#777c85" }}>{step.verb} </span>
+                <span style={{ color: "rgb(0, 134, 191)" }}>{step.verb} </span>
                 <span>{step.title}</span>
               </p>
               <p style={{ margin: 0, color: "var(--gf-color-text-subtle)", lineHeight: 1.7, fontSize: "0.975rem" }}>
