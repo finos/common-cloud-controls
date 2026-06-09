@@ -1,11 +1,11 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { markdownComponents } from "../components/Catalogs/markdownComponents";
-import { getSectionItemByPath } from "../content/sections";
-import { useItemBody } from "../content/useItemBody";
-import { useManifest } from "../content/useManifest";
-import { CatalogSidebar } from "../components/Catalogs/CatalogSidebar";
+import { markdownComponents } from "./markdownComponents";
+import { getSectionItemByPath } from "../../content/sections";
+import { useItemBody } from "../../content/useItemBody";
+import { useManifest } from "../../content/useManifest";
+import { CatalogSidebar } from "./CatalogSidebar";
 
 interface CatalogTypeOverviewPageProps {
   type: "capabilities" | "threats" | "controls";
@@ -26,11 +26,10 @@ export const CatalogTypeOverviewPage: React.FC<CatalogTypeOverviewPageProps> = (
   const title = item?.title ?? config.title;
 
   return (
-      <div className="page-layout">
-          <CatalogSidebar typeFilter={type} />
+    <div className="page-layout">
+      <CatalogSidebar typeFilter={type} />
 
-       <article style={{ flex: 1, minWidth: 0 }}>
-        {/* Type header */}
+      <article style={{ flex: 1, minWidth: 0 }}>
         <div style={{ marginBottom: "var(--gf-space-xl)" }}>
           <p style={{ margin: "0 0 0.35rem", color: "var(--gf-color-text-subtle)", fontSize: "1rem", lineHeight: 1.5 }}>
             {config.label}
@@ -50,14 +49,13 @@ export const CatalogTypeOverviewPage: React.FC<CatalogTypeOverviewPageProps> = (
           </div>
         )}
 
-        {/* Contribute */}
         <div className="surface-card" style={{
           marginTop: "var(--gf-space-xl)",
           padding: "var(--gf-space-lg)",
         }}>
           <h2 style={{ margin: "0 0 var(--gf-space-sm)", fontSize: "1.25rem" }}>Contribute to the Next Release</h2>
           <p style={{ margin: "0 0 var(--gf-space-md)", color: "var(--gf-color-text-subtle)", fontSize: "1rem", lineHeight: 1.6 }}>
-            {item?.title} are maintained as versioned YAML files. Generated artifacts are published here as each release is cut.
+            {title} are maintained as versioned YAML files. Generated artifacts are published here as each release is cut.
           </p>
           <a
             href={`https://github.com/common-cloud-controls/${config.repo}`}

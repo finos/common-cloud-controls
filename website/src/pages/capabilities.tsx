@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Layout from "@theme/Layout";
-import { CatalogTypeOverviewPage } from "./catalogTypeOverview";
+import { CatalogTypeOverviewPage } from "../components/Catalogs/CatalogTypeOverviewPage";
 
 export default function Capabilities(): ReactNode {
   return (
