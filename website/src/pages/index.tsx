@@ -6,6 +6,7 @@ import LevelUp from "../components/LevelUp";
 import AdvanceAutomatedGovernance from "../components/AdvanceAutomatedGovernence";
 import TheStory from "../components/TheStory";
 import VideoCarousel from "../components/VideoCarousel";
+import SteeringCommittee from "../components/SteeringCommittee";
 import JoinCommunity from "../components/JoinCommunity";
 
 export default function Home(): ReactNode {
@@ -19,6 +20,7 @@ export default function Home(): ReactNode {
         <AdvanceAutomatedGovernance />
         <VideoCarousel />
         <JoinCommunity />
+        <SteeringCommittee />
       </main>
     </Layout>
   );
