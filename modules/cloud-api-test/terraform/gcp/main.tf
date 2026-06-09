@@ -57,3 +57,8 @@ module "secrets" {
   unauthorized_region     = "europe-west1"
   secret_accessor_members = local.secret_accessor_members
 }
+
+module "gen_ai" {
+  source      = "./modules/gen-ai"
+  common_tags = local.common_labels
+}

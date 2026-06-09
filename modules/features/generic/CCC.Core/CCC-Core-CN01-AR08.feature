@@ -5,7 +5,7 @@ Feature: CCC.Core.CN01.AR08
   So that both client and server are authenticated to prevent unauthorized access
 
 
-@Behavioural @PerPort @tls @object-storage @virtual-machines
+@Behavioural @PerPort @tls @object-storage @virtual-machines @gen-ai
   Scenario: Verify mTLS requires client certificate authentication
     Mutual TLS (mTLS) requires both server and client certificates for authentication.
     This test verifies that the server is configured to require client certificates,

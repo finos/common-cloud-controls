@@ -8,6 +8,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
+	genaiapi "github.com/finos/common-cloud-controls/cloud-api/gen-ai"
 	secretsapi "github.com/finos/common-cloud-controls/cloud-api/secrets"
 	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	vpcapi "github.com/finos/common-cloud-controls/cloud-api/vpc"
@@ -81,6 +82,11 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
 		}
+	case "gen-ai":
+		service, err = genaiapi.NewAWSGenAIService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for AWS: %s", serviceID)
@@ -133,6 +139,11 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		}
 	case "secrets":
 		service, err = secretsapi.NewAWSSecretsServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "gen-ai":
+		service, err = genaiapi.NewAWSGenAIServiceWithCredentials(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}

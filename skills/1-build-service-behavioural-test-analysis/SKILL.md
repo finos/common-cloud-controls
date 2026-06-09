@@ -4,15 +4,20 @@ description: >-
   Analyse a CCC service control catalog and produce analysis.md plus a minimal
   cloud-api interface design for behavioural tests. Use when ingesting
   catalogs/*/*/controls.yaml, creating modules/features folders, or planning
-  @Behavioural Gherkin scenarios before implementation. Downstream implementation
-  uses modules/cloud-api-test (terraform, integration_calls.csv) and
-  cfi-testing/privateer-config/finos-integration.
+  @Behavioural Gherkin scenarios before implementation. Downstream:
+  write-cloud-api-interface-and-features, then
+  implement-cloud-api-and-integration-tests, then
+  build-integration-fixtures-and-cfi.
 disable-model-invocation: true
 ---
 
 # Build service behavioural test analysis
 
-Produce **`analysis.md`** and a **minimal `cloud-api` interface sketch** before writing feature files or Go implementations. Implementation is covered by [build-features-and-cloud-api](../build-features-and-cloud-api/SKILL.md).
+Produce **`analysis.md`** and a **minimal `cloud-api` interface sketch** before implementation. Downstream skills:
+
+1. [write-cloud-api-interface-and-features](../2-write-cloud-api-interface/SKILL.md) — `Service` interface + Gherkin features — **review together**.
+2. [implement-cloud-api-and-integration-tests](../3-implement-cloud-api-and-integration-tests/SKILL.md) — AWS/Azure/GCP code + `integration_calls.csv`.
+3. [build-integration-fixtures-and-cfi](../4-build-integration-fixtures-and-cfi/SKILL.md) — minimal terraform + privateer + CFI to run integration and behavioural tests.
 
 ## When to use
 
@@ -361,4 +366,6 @@ Before finishing:
 | Skill | Role |
 |-------|------|
 | This skill | Produces `analysis.md` only — planning and interface design |
-| [build-features-and-cloud-api](../build-features-and-cloud-api/SKILL.md) | Implements features, cloud-api, terraform, CSV, privateer configs — run **after** approval |
+| [write-cloud-api-interface-and-features](../2-write-cloud-api-interface/SKILL.md) | Interface + features — **review gate** |
+| [implement-cloud-api-and-integration-tests](../3-implement-cloud-api-and-integration-tests/SKILL.md) | Go implementations + integration CSV |
+| [build-integration-fixtures-and-cfi](../4-build-integration-fixtures-and-cfi/SKILL.md) | Terraform + privateer + CFI |

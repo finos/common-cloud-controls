@@ -43,3 +43,8 @@ module "secrets" {
   source      = "./modules/secrets"
   common_tags = local.common_tags
 }
+
+module "gen_ai" {
+  source      = "./modules/gen-ai"
+  common_tags = local.common_tags
+}

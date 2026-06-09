@@ -24,6 +24,11 @@ if [[ -z "$STALE_VERSION_ID" ]]; then
   exit 1
 fi
 
+GENAI_GUARDRAIL_ID="${GENAI_GUARDRAIL_ID:-}"
+if [[ -z "$GENAI_GUARDRAIL_ID" && -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
+  GENAI_GUARDRAIL_ID="$(jq -r '.outputs.gen_ai.value.guardrail_id // empty' "$TFSTATE" | tr -d '\n')"
+fi
+
 if ! command -v aws >/dev/null 2>&1; then
   echo "error: AWS CLI (aws) is required" >&2
   exit 1
@@ -176,6 +181,9 @@ attach_policies "$USER_ADMIN" "$ADMIN_POLICY"
   printf 'export AWS_REGION=%q\n' "$AWS_REGION"
   printf 'export AWS_ACCOUNT_ID=%q\n' "$ACCOUNT_ID"
   printf 'export STALE_VERSION_ID=%q\n' "$STALE_VERSION_ID"
+  if [[ -n "$GENAI_GUARDRAIL_ID" ]]; then
+    printf 'export GENAI_GUARDRAIL_ID=%q\n' "$GENAI_GUARDRAIL_ID"
+  fi
   echo ""
 } >"$OUT_FILE"
 

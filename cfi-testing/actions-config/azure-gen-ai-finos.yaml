@@ -1,0 +1,13 @@
+cfi:
+  id: azure-gen-ai
+  provider: azure
+  service: gen-ai
+  name: CCC Azure Generative AI Fixture
+  description: >-
+    Runs behavioural checks for CCC.GenAI against the Azure integration gen-ai fixture.
+  path: https://github.com/finos/common-cloud-controls/tree/main/modules/cloud-api-test/terraform/azure
+  test-on-branches:
+    - main
+  git: https://github.com/finos/common-cloud-controls
+  test-configuration: ../privateer-config/finos-integration/gen-ai/azure-gen-ai.yml
+  privateer-service: azureGenAI

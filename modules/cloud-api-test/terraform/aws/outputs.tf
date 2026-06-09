@@ -54,3 +54,21 @@ output "secrets" {
     unauthorized_region = module.secrets.unauthorized_region
   }
 }
+
+output "gen_ai" {
+  value = {
+    resource_name        = module.gen_ai.endpoint_name
+    endpoint_name        = module.gen_ai.endpoint_name
+    guardrail_id         = module.gen_ai.guardrail_id
+    guardrail_name       = module.gen_ai.guardrail_name
+    guardrail_version    = module.gen_ai.guardrail_version
+    pinned_model_version = module.gen_ai.pinned_model_version
+    kb_id                = module.gen_ai.kb_id
+    approved_source_id   = module.gen_ai.approved_source_id
+    unvetted_source_id   = module.gen_ai.unvetted_source_id
+    acceptable_sources   = module.gen_ai.acceptable_sources
+    blocked_input_terms  = module.gen_ai.blocked_input_terms
+    blocked_output_terms = module.gen_ai.blocked_output_terms
+    plugin_tool_name     = module.gen_ai.plugin_tool_name
+  }
+}

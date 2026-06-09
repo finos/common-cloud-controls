@@ -8,7 +8,7 @@ Feature: CCC.Core.CN05.AR06 - Block All Unauthorized Requests
   Background:
     Given a cloud api for "{config}" in "api"
 
-@Destructive @Behavioural @object-storage @virtual-machines @serverless-computing
+@Destructive @Behavioural @object-storage @virtual-machines @serverless-computing @gen-ai
   Scenario: Service prevents data read by user with no access
     And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "{service-type}" and "test-user-no-access"
     And "{result}" is not an error

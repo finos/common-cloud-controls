@@ -8,7 +8,7 @@ Feature: CCC.Core.CN04.AR02 - Log Data Modification Attempts
   Background:
     Given a cloud api for "{config}" in "api"
 
-@Behavioural @object-storage @virtual-machines @serverless-computing
+@Behavioural @object-storage @virtual-machines @serverless-computing @gen-ai
   Scenario: Verify data modifications are logged with identity and timestamp
     Given I call "{api}" with "GetServiceAPI" using argument "{service-type}"
     And I refer to "{result}" as "theService"

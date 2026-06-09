@@ -79,3 +79,8 @@ module "secrets" {
   unauthorized_region      = "westeurope"
   secret_reader_object_ids = local.key_vault_secret_reader_object_ids
 }
+
+module "gen_ai" {
+  source      = "./modules/gen-ai"
+  common_tags = local.common_tags
+}

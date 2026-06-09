@@ -1,0 +1,44 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+services:
+  azureGenAI:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.GenAI
+      applicability:
+        - tlp-clear
+        - tlp-green
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: gen-ai
+      service-type: gen-ai
+      tags: "@Behavioural @gen-ai"
+      provider: azure
+      catalog-locations:
+        CCC.Core: website/src/data/ccc-releases/CCC.Core_v2025.10.yaml
+        CCC.GenAI: website/src/data/ccc-releases/CCC.GenAI_DEV.yaml
+      region: westus2
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-resource-group: "finos-ccc-integration-rg"
+      resource: "finos-ccc-integration-genai-endpoint"
+      guardrail-id: "finos-ccc-integration-genai-guardrail"
+      genai-guardrail-name: "finos-ccc-integration-genai-guardrail"
+      kb-id: "finos-ccc-integration-genai-kb"
+      azure-openai-endpoint: "${AZURE_OPENAI_ENDPOINT}"
+      pinned-model-version: "finos-ccc-integration-genai-endpoint"
+      benign-probe-prompt: "Reply with exactly the single word: lemon"
+      benign-probe-expected: "lemon"
+      blocked-input-terms: "CCC_PROBE_INPUT_BLOCK"
+      blocked-output-terms: "CCC_PROBE_OUTPUT_BLOCK"
+      acceptable-sources: "finos-ccc-integration-genai-approved-bucket"
+      approved-source-id: "finos-ccc-integration-genai-approved-bucket"
+      unvetted-source-id: "finos-ccc-integration-genai-unvetted-bucket"
+      plugin-tool-name: "finos-ccc-integration-genai-plugin"
+      plugin-allowed-action: "allowed"
+      permitted-regions:
+        - westus2

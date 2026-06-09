@@ -13,7 +13,7 @@ Feature: CCC.Core.CN01.AR07
     Then "{port-number}" is "80"
 
 
-@Behavioural @PerPort @http @tls @object-storage @virtual-machines
+@Behavioural @PerPort @http @tls @object-storage @virtual-machines @gen-ai
   Scenario: Verify HTTPS uses IANA-assigned port 443
     HTTPS must use port 443 as assigned by IANA.
     This is the standard port for encrypted web traffic.

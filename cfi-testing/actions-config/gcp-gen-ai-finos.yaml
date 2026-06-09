@@ -1,0 +1,13 @@
+cfi:
+  id: gcp-gen-ai
+  provider: gcp
+  service: gen-ai
+  name: CCC GCP Generative AI Fixture
+  description: >-
+    Runs behavioural checks for CCC.GenAI against the GCP integration gen-ai fixture.
+  path: https://github.com/finos/common-cloud-controls/tree/main/modules/cloud-api-test/terraform/gcp
+  test-on-branches:
+    - main
+  git: https://github.com/finos/common-cloud-controls
+  test-configuration: ../privateer-config/finos-integration/gen-ai/gcp-gen-ai.yml
+  privateer-service: gcpGenAI

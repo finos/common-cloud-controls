@@ -8,7 +8,7 @@ Feature: CCC.Core.CN10.AR01 - Replication Destination Trust
   Background:
     Given a cloud api for "{config}" in "api"
 
-@Behavioural @NotTestable @object-storage @virtual-machines @serverless-computing
+@Behavioural @NotTestable @object-storage @virtual-machines @serverless-computing @gen-ai
   Scenario: Replication destination trust cannot be verified automatically
     # Verifying data replicates only to trusted destinations requires inspecting
     # replication configuration and validating destination regions/accounts against

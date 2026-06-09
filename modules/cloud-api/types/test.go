@@ -63,4 +63,5 @@ var ServiceTypes = []string{
 	"virtual-machines",
 	"serverless-computing",
 	"secrets",
+	"gen-ai",
 }
