@@ -375,10 +375,10 @@ func collectFeaturePaths(repoRoot, serviceName string) ([]string, error) {
 
 	appendCatalogDirs(filepath.Join(featuresRoot, "generic"))
 
-	if serviceName == "object-storage" || serviceName == "virtual-machines" {
+	if serviceName == "object-storage" || serviceName == "virtual-machines" || serviceName == "gen-ai" {
 		appendCatalogDirs(filepath.Join(featuresRoot, "port"))
 	}
-	if serviceName == "virtual-machines" || serviceName == "serverless-computing" {
+	if serviceName == "virtual-machines" || serviceName == "serverless-computing" || serviceName == "gen-ai" {
 		appendCatalogDirs(filepath.Join(featuresRoot, "vpc"))
 	}
 

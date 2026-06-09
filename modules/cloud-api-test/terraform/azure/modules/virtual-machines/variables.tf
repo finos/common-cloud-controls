@@ -5,7 +5,7 @@ variable "common_tags" { type = map(string) }
 
 variable "vm_size" {
   type        = string
-  default     = "Standard_D2s_v3"
+  default     = "Standard_B1s"
   description = "General-purpose size for integration fixtures; B-series often lacks capacity in westus2. Override via TF_VAR_vm_size."
 }
 

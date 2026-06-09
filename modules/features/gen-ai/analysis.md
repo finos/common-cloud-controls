@@ -80,8 +80,8 @@ Planned service-specific interface: **8–9 methods** plus `generic.Service` emb
 - **Interpretation**: Every inference request passes through an input guardrail / content filter stage before the foundation model runs. Observable as guardrail invocation metadata or pre-model block.
 - **Approach**:
   1. Fixture: guardrail with **custom blocked input terms** (see [Deterministic word-list guardrails](#deterministic-word-list-guardrails-v1-test-strategy)).
-  2. `ApplyContentFilter("{guardrail-id}", benignText, direction="input")` → `Blocked=false`.
-  3. Optional end-to-end: `SubmitPrompt` with benign text (no blocked term) → `InputValidated=true`.
+  2. `ApplyContentFilter(benignText, direction="input")` → `Blocked=false`.
+  3. Optional end-to-end: `InvokeModel` with benign text (no blocked term) → `InputValidated=true`.
 - **Feature sketch**:
   - When benign prompt is submitted
   - Then request completes without input-block
@@ -97,8 +97,8 @@ Planned service-specific interface: **8–9 methods** plus `generic.Service` emb
 - **Interpretation**: Adversarial or PII-bearing prompts must not reach the model unchanged — `Blocked` or `Sanitized` with no raw secret in model input.
 - **Approach** (deterministic word-list — **preferred v1**):
   1. `blocked-input-terms` in privateer config (e.g. `CCC_PROBE_INPUT_BLOCK`) — same strings in terraform guardrail `wordsConfig` / Azure blocklist / GCP custom filter.
-  2. `ApplyContentFilter("{guardrail-id}", "harmless preamble CCC_PROBE_INPUT_BLOCK", direction="input")` → `Blocked=true`, `Reason=word_filter` (exact match).
-  3. Optional `@OPT_IN` full-path: `SubmitPrompt` containing blocked term → blocked before model runs.
+  2. `ApplyContentFilter("harmless preamble CCC_PROBE_INPUT_BLOCK", direction="input")` → `Blocked=true`, `Reason=word_filter` (exact match).
+  3. Optional `@OPT_IN` full-path: `InvokeModel` containing blocked term → `InputBlocked=true` before completion.
   4. Optional profiles `pii-ssn-pattern` via guardrail **regex/sensitive-info** filters where cloud supports — secondary to word list.
 - **Feature sketch**:
   - When text containing a `blocked-input-terms` entry is filtered
@@ -113,7 +113,7 @@ Planned service-specific interface: **8–9 methods** plus `generic.Service` emb
 - **Applicability**: tlp-clear, tlp-green, tlp-amber, tlp-red
 - **Interpretation**: Output passes through post-model policy filter before returning to caller.
 - **Approach**:
-  1. `ApplyContentFilter("{guardrail-id}", benignCompletion, direction="output")` → `Blocked=false` (output path exercised).
+  1. `ApplyContentFilter(benignCompletion, direction="output")` → `Blocked=false` (output path exercised).
   2. Optional: `InvokeModel` with benign prompt (no blocked output term) → `OutputValidated=true`.
 - **Feature sketch**:
   - When model is invoked with output guardrails enabled
@@ -129,7 +129,7 @@ Planned service-specific interface: **8–9 methods** plus `generic.Service` emb
 - **Interpretation**: When output filter fires, caller receives reject/empty/redacted body — not raw violating text.
 - **Approach** (deterministic word-list — **preferred v1**):
   1. `blocked-output-terms` in config (e.g. `CCC_PROBE_OUTPUT_BLOCK`) — configured on guardrail output filter.
-  2. `ApplyContentFilter("{guardrail-id}", "Model says: CCC_PROBE_OUTPUT_BLOCK", direction="output")` → `Blocked=true` — **no model invoke** (synthetic completion text).
+  2. `ApplyContentFilter("Model says: CCC_PROBE_OUTPUT_BLOCK", direction="output")` → `Blocked=true` — **no model invoke** (synthetic completion text).
   3. Optional `@OPT_IN`: `InvokeModel` with prompt engineered to elicit blocked term — flaky; defer to word-list path.
 - **Feature sketch**:
   - When synthetic output contains a `blocked-output-terms` entry
@@ -308,17 +308,17 @@ Terraform creates the guardrail/blocklist with these terms. Tests read the same 
 | Mechanism | Use |
 |-----------|-----|
 | **Terraform only** (preferred) | Guardrail created with word list; tests only **read** via `GetGuardrailBlockedTerms` + `ApplyContentFilter` |
-| **`UpdateGuardrailWordList` method** | Wraps `UpdateGuardrail` / blocklist PATCH — for integration CSV admin path; **avoid in behavioural features** (mutates shared fixture) |
+| **`SetGuardrailBlockedTerms` method** | Wraps `UpdateGuardrail` / blocklist PATCH — for integration CSV admin path; **avoid in behavioural features** (mutates shared fixture) |
 | **Privateer vars** | Source of truth for probe strings; must match terraform outputs |
 
 **Test flow (no model tokens):**
 
-1. `GetGuardrailBlockedTerms("{guardrail-id}")` → contains `CCC_PROBE_INPUT_BLOCK` / `CCC_PROBE_OUTPUT_BLOCK`.
-2. `ApplyContentFilter(guardrail, "text with CCC_PROBE_INPUT_BLOCK", input)` → blocked.
-3. `ApplyContentFilter(guardrail, "text with CCC_PROBE_OUTPUT_BLOCK", output)` → blocked.
-4. `ApplyContentFilter(guardrail, "benign text", input)` → not blocked.
+1. `GetGuardrailBlockedTerms()` → contains `CCC_PROBE_INPUT_BLOCK` / `CCC_PROBE_OUTPUT_BLOCK`.
+2. `ApplyContentFilter("text with CCC_PROBE_INPUT_BLOCK", input)` → blocked.
+3. `ApplyContentFilter("text with CCC_PROBE_OUTPUT_BLOCK", output)` → blocked.
+4. `ApplyContentFilter("benign text", input)` → not blocked.
 
-Optional fifth step: `SubmitPrompt` / `InvokeModel` with guardrail attached — `@OPT_IN` end-to-end confirmation.
+Optional fifth step: `InvokeModel` with guardrail attached — `@OPT_IN` end-to-end confirmation.
 
 ---
 
@@ -328,18 +328,17 @@ Optional fifth step: `SubmitPrompt` / `InvokeModel` with guardrail attached — 
 
 | Method | Used by AR(s) | Args | Returns (key fields) |
 |--------|---------------|------|----------------------|
-| `SubmitPrompt` | CN01.AR01, CN01.AR02 | `endpointID`, `prompt`, `profile string` | `Blocked`, `Sanitized`, `InputValidated`, `Reason`, `Completion` |
-| `InvokeModel` | CN02.AR01, CN02.AR02, CN07 | `endpointID`, `prompt`, `profile string` | `OutputBlocked`, `Redacted`, `OutputValidated`, `Completion`, `ModelVersionUsed` |
+| `InvokeModel` | CN01/CN02 `@OPT_IN`, CN07 | `prompt string` | `InputBlocked`, `InputSanitized`, `InputValidated`, `OutputBlocked`, `OutputRedacted`, `OutputValidated`, `Reason`, `Completion`, `ModelVersionUsed` — endpoint from config `resource` |
 | `IngestDocument` | CN03.AR02, CN04.AR01, CN04.AR02 | `kbID`, `sourceID`, `documentRef`, `profile string` | `Action` (`rejected`/`redacted`/`flagged`/`indexed`), `DocumentID`, `DeniedReason` |
 | `GetKnowledgeBaseSources` | CN03.AR01 (`@OPT_IN`), CN03.AR02 | `kbID string` | `SourceIDs[]` |
 | `InvokeTool` | CN06 | `endpointID`, `toolName`, `action string` | `Allowed`, `Error` |
 | `GetDeployedModelVersion` | CN07 | `endpointID string` | `VersionID`, `IsPinned` |
 | `GetToolPrincipalPermissions` | CN06 (optional describe) | `endpointID`, `toolName` | `Actions[]`, `OverPrivileged bool` |
 | `GetEncryptionConfiguration` | Core CN02, CN11 | `resourceID string` | `EncryptionEnabled`, `KMSKeyID` |
-| `GetGuardrailConfiguration` | CN01/CN02 sanity | `guardrailID string` | `InputFilterEnabled`, `OutputFilterEnabled` |
-| `GetGuardrailBlockedTerms` | CN01, CN02 | `guardrailID string` | `InputTerms[]`, `OutputTerms[]` |
-| `UpdateGuardrailWordList` | Integration / Core CN04 admin | `guardrailID`, `inputTerms[]`, `outputTerms[]` | error — **terraform preferred** for behavioural tests |
-| `ApplyContentFilter` | CN01.AR02, CN02.AR02 (**primary**) | `guardrailID`, `text`, `direction` (`input`\|`output`) | `Blocked`, `Sanitized`, `Reason` |
+| `GetGuardrailConfiguration` | CN01/CN02 sanity | — (guardrail from config `guardrail-id`) | `InputFilterEnabled`, `OutputFilterEnabled` |
+| `GetGuardrailBlockedTerms` | CN01, CN02 | — | `InputTerms[]`, `OutputTerms[]` |
+| `SetGuardrailBlockedTerms` | Integration / Core CN04 admin | `GuardrailTerms` | `GuardrailTerms` — **terraform preferred** for behavioural tests |
+| `ApplyContentFilter` | CN01.AR02, CN02.AR02 (**primary**) | `text`, `direction` (`input`\|`output`) | `Blocked`, `Sanitized`, `Reason` |
 
 Embed `generic.Service` for `GetOrProvisionTestableResources`, `UpdateResourcePolicy`, `TriggerDataRead`/`Write`, `GetResourceRegion`, `CheckUserProvisioned`, `TearDown`.
 
@@ -368,8 +367,7 @@ Embed `generic.Service` for `GetOrProvisionTestableResources`, `UpdateResourcePo
 
 | Method | AWS | Azure | GCP |
 |--------|-----|-------|-----|
-| `SubmitPrompt` | Bedrock `InvokeModel` + guardrail `guardrailIdentifier` | Azure OpenAI + content filter | Vertex `generateContent` + safety settings |
-| `InvokeModel` | Bedrock guardrail interleaved on output | Content filter on completion | `safetySettings` block / blockReason |
+| `InvokeModel` | Bedrock Converse / InvokeModel + guardrail | Azure OpenAI chat + content filter | Vertex `generateContent` + safety / Model Armor |
 | `IngestDocument` | Bedrock KB ingest; reject if `sourceID` ∉ allowlist | AI Search datasource guard | Vertex corpus import + source URI check |
 | `GetKnowledgeBaseSources` | `ListDataSources` on KB | Indexer datasource names | Corpus `sourceGcsUris` / registered sources |
 | `InvokeTool` | Bedrock Agent action group → Lambda IAM role | AOAI + Function / APIM backend MI | Vertex extension / Cloud Function |
@@ -377,7 +375,7 @@ Embed `generic.Service` for `GetOrProvisionTestableResources`, `UpdateResourcePo
 | `GetEncryptionConfiguration` | KB S3 SSE-KMS | Storage CMK | CMEK on corpus bucket |
 | `GetGuardrailConfiguration` | `GetGuardrail` | Content filter on deployment | Model Armor / safety config |
 | `GetGuardrailBlockedTerms` | `wordPolicyConfig.wordsConfig` | Blocklist terms on deployment | Model Armor word lists |
-| `UpdateGuardrailWordList` | `UpdateGuardrail` | Blocklist PATCH | Model Armor update API |
+| `SetGuardrailBlockedTerms` | `UpdateGuardrail` | Blocklist PATCH | Model Armor update API |
 | `ApplyContentFilter` | `ApplyGuardrail` | Content Safety `AnalyzeText` | `sanitizeUserPrompt` / `sanitizeModelResponse` |
 
 **Prerequisites:** `guardrail-id`, `blocked-input-terms`, `blocked-output-terms`, `pinned-model-version`, `kb-id` from privateer vars — no discovery.
@@ -392,8 +390,9 @@ Embed `generic.Service` for `GetOrProvisionTestableResources`, `UpdateResourcePo
 - **Azure**: Content Safety analyze with deployment blocklist attached; or pre-deployment filter test endpoint.
 - **GCP**: Model Armor sanitize APIs when available; else `@OPT_IN` category filters only.
 
-#### `SubmitPrompt` / `InvokeModel` (`@OPT_IN` end-to-end)
+#### `InvokeModel` (`@OPT_IN` end-to-end)
 
+- Single invoke on all clouds; assert `InputValidated` / `InputBlocked` for CN01, `OutputValidated` / `OutputBlocked` for CN02.
 - Use only when word-list + `ApplyContentFilter` path is insufficient; smallest/cheapest model; minimize tokens.
 
 #### `InvokeTool`
@@ -430,12 +429,12 @@ Submodule: `modules/cloud-api-test/terraform/<cloud>/modules/gen-ai/`.
 |-----|--------|-------|--------------|------|------|-------|
 | `gen-ai` | `GetOrProvisionTestableResources` | all | | | | factory |
 | `gen-ai` | `CheckUserProvisioned` | all | | main | | endpoint exists |
-| `gen-ai` | `GetGuardrailBlockedTerms` | all | | guardrail | | CN01/CN02 — terms present |
-| `gen-ai` | `ApplyContentFilter` | all | true | guardrail | `input-block` | CN01.AR02 — blocked input term |
-| `gen-ai` | `ApplyContentFilter` | all | true | guardrail | `output-block` | CN02.AR02 — blocked output term |
-| `gen-ai` | `ApplyContentFilter` | all | | guardrail | `benign-input` | CN01 — not blocked |
-| `gen-ai` | `UpdateGuardrailWordList` | all | | guardrail | | admin API exercise — optional |
-| `gen-ai` | `SubmitPrompt` | all | | main | `benign` | `@OPT_IN` end-to-end |
+| `gen-ai` | `GetGuardrailBlockedTerms` | all | | | | CN01/CN02 — terms present |
+| `gen-ai` | `ApplyContentFilter` | all | true | `config:input-block-probe-prompt` | `input` | CN01.AR02 — blocked input term |
+| `gen-ai` | `ApplyContentFilter` | all | true | `config:output-block-probe-prompt` | `output` | CN02.AR02 — blocked output term |
+| `gen-ai` | `ApplyContentFilter` | all | | `config:benign-probe-prompt` | `input` | CN01 — not blocked |
+| `gen-ai` | `SetGuardrailBlockedTerms` | all | | | | admin API exercise — optional |
+| `gen-ai` | `InvokeModel` | all | | main | `config:benign-probe-prompt` | `@OPT_IN` end-to-end |
 | `gen-ai` | `InvokeTool` | all | true | main | `escalated` | CN06 — deny |
 | `gen-ai` | `GetDeployedModelVersion` | all | | main | | CN07 — matches pinned |
 | `gen-ai` | `GetKnowledgeBaseSources` | all | | kb | | CN03 — ⊆ `acceptable-sources` |

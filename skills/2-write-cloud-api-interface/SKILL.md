@@ -35,13 +35,13 @@ Next skill: [implement-cloud-api-and-integration-tests](../3-implement-cloud-api
 
 The cloud-api package **abstracts the cloud provider**, not the behavioural test harness.
 
-1. **Explicit parameters** — pass resource ids, prompts, filter text from features/config; no hidden probe profiles on invoke methods (e.g. `SubmitPrompt(endpointID, prompt string)`).
+1. **Explicit parameters** — pass resource ids, prompts, filter text from features/config; no hidden probe profiles on invoke methods (e.g. `InvokeModel(prompt string)` with endpoint from config `resource`).
 2. **Reuse** `generic.Service` and `logging.Service` — check [generic/service.go](../../modules/cloud-api/generic/service.go).
 3. **Smallest interface** justified by `analysis.md` and the feature files you write.
 4. **Typed structs** for stable returns; maps only when exploratory.
 5. **Config keys** documented in godoc (`config.Get("kebab-key")`); no discovery in the interface contract.
 
-`ApplyContentFilter` and similar **filter** methods may take explicit arguments (guardrail id + text + direction) as defined in analysis — keep harness logic in features (probe strings in privateer vars), not inside the service API.
+`ApplyContentFilter` and similar **filter** methods take explicit text + direction; guardrail and endpoint ids come from config (`guardrail-id`, `resource`) when the fixture is singular — keep probe strings in privateer vars, not inside the service API.
 
 ### Output: interface file only
 
@@ -118,7 +118,7 @@ Present together:
 
 1. Full `Service` interface (signatures + godoc + result types)
 2. Feature file list mapped to AR ids
-3. Placeholder vars scenarios need (`{uid}`, `{guardrail-id}`, probe prompts, etc.)
+3. Placeholder vars scenarios need (probe prompts, `{kb-id}`, `{approved-source-id}`, etc.; endpoint and guardrail from config when singular)
 4. Deviations from `analysis.md`
 
 **Wait for approval** before [implement-cloud-api-and-integration-tests](../3-implement-cloud-api-and-integration-tests/SKILL.md).

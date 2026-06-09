@@ -84,7 +84,7 @@ One row per method (plus `logging` if planned):
 
 ```csv
 api,method,cloud,expect_error,arg1,arg2,arg3,arg4
-gen-ai,SubmitPrompt,aws,,finos-ccc-integration-genai-endpoint,config:benign-probe-prompt,
+gen-ai,InvokeModel,aws,,,config:benign-probe-prompt,
 ```
 
 | Column | Meaning |
