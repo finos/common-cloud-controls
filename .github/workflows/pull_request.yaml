@@ -26,6 +26,12 @@ jobs:
       pull-requests: write
       contents: read
 
+  gemara-schema-checker:
+    uses: ./.github/workflows/gemara_check.yml
+    permissions:
+      contents: read
+      pull-requests: read
+
   todo-checker:
     uses: ./.github/workflows/todo_check.yml
     permissions:
