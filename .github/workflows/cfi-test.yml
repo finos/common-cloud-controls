@@ -241,9 +241,11 @@ jobs:
       - name: Build behavioural plugin
         run: |
           set -euo pipefail
+          mkdir -p "$(dirname "$PLUGIN_BINARY")"
           bash ./modules/build.sh \
             cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin \
             --plugin-output "$PLUGIN_BINARY"
+          test -x "$PLUGIN_BINARY"
 
       - name: Configure AWS Credentials (OIDC)
         if: matrix.target.provider == 'aws'

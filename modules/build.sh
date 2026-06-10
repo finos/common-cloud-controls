@@ -3,7 +3,17 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+INVOCATION_DIR="$(pwd)"
 export GOWORK="$SCRIPT_DIR/go.work"
+
+resolve_output_path() {
+  local path="$1"
+  if [[ "$path" == /* ]]; then
+    echo "$path"
+  else
+    echo "$INVOCATION_DIR/$path"
+  fi
+}
 
 PLUGIN_OUTPUT=""
 COMPLIANCE_BIN=""
@@ -75,21 +85,26 @@ build_module() {
   fi
 
   if [ "$mod" = "runner" ] && [ -n "$COMPLIANCE_BIN" ]; then
-    echo "→ $mod (ccc-compliance → $COMPLIANCE_BIN)"
-    if ! (cd "$dir" && go build -o "$COMPLIANCE_BIN" ./cmd/ccc-compliance/); then
+    local compliance_out
+    compliance_out="$(resolve_output_path "$COMPLIANCE_BIN")"
+    mkdir -p "$(dirname "$compliance_out")"
+    echo "→ $mod (ccc-compliance → $compliance_out)"
+    if ! (cd "$dir" && go build -o "$compliance_out" ./cmd/ccc-compliance/); then
       echo "Build failed: runner/cmd/ccc-compliance" >&2
       exit 1
     fi
   fi
 
   if [ "$mod" = "ccc-behavioural-plugin" ] && [ -n "$PLUGIN_OUTPUT" ]; then
-    mkdir -p "$(dirname "$PLUGIN_OUTPUT")"
-    echo "→ $mod (plugin → $PLUGIN_OUTPUT)"
-    if ! (cd "$dir" && go build -o "$PLUGIN_OUTPUT" .); then
+    local plugin_out
+    plugin_out="$(resolve_output_path "$PLUGIN_OUTPUT")"
+    mkdir -p "$(dirname "$plugin_out")"
+    echo "→ $mod (plugin → $plugin_out)"
+    if ! (cd "$dir" && go build -o "$plugin_out" .); then
       echo "Build failed: ccc-behavioural-plugin" >&2
       exit 1
     fi
-    chmod +x "$PLUGIN_OUTPUT"
+    chmod +x "$plugin_out"
   fi
 }
 
