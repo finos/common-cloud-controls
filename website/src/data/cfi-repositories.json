@@ -9,9 +9,9 @@
             "artifact-filter": "cfi-results-*"
         },
         {
-            "name": "common-cloud-controls",
+            "name": "common-cloud-controls-integration",
             "url": "https://github.com/finos/common-cloud-controls",
-            "description": "CCC CFI from FINOS Common Cloud Controls",
+            "description": "FINOS Common Cloud Controls Integration Tests",
             "destination": "finos-common-cloud-controls",
             "workflow": "cfi-test.yml",
             "branches": [

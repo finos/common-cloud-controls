@@ -13,12 +13,6 @@ function extractCatalogId(testRequirement: string): string {
   return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : testRequirement;
 }
 
-// Helper function to generate catalog component URL
-function getCatalogComponentUrl(catalogId: string): string {
-  // Catalog IDs like "CCC.ObjStor" map to component URLs like "/ccc/CCC.ObjStor"
-  return `/ccc/${catalogId}`;
-}
-
 function minus(setA: Set<string>, setB: Set<string>): Set<string> {
   const result = new Set<string>();
   setA.forEach((item) => {
@@ -132,9 +126,6 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
   // Now for each unique catalog ID, count this test result once and collect all resources
   const catalogsInThisResult = Array.from(allRequirementsByCatalog.keys());
   const summaries = catalogsInThisResult.map((catalogId) => {
-    // Generate URL to the catalog component page
-    const catalogUrl = getCatalogComponentUrl(catalogId);
-
     const testsInCatalog = testResults.filter((result) => {
       return result.test_requirements?.some((testReq) => {
         return extractCatalogId(testReq) === catalogId;
@@ -155,7 +146,6 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
 
     const out = {
       catalogId,
-      catalogUrl,
       resources: [...new Set(resourcesInCatalog)],
       totalTests: testsInCatalog.length,
       passingTests: testsInCatalog.filter((result) => result.status_code === "PASS").length,
@@ -361,13 +351,24 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   // Group download links by base name (e.g., "results.ocsf.json" and "results.html" as "results")
   const groupedDownloadLinks = (configurationResult.download_links || []).reduce(
     (acc, link) => {
-      const baseName = link.name.replace(".ocsf.json", "").replace(".html", "");
+      const baseName = link.name.replace(/\.(ocsf\.json|html|ya?ml)$/i, "");
       if (!acc[baseName]) acc[baseName] = [];
       acc[baseName].push(link);
       return acc;
     },
     {} as Record<string, DownloadLink[]>,
   );
+
+  const downloadLinkClassName = (type: string): string => {
+    switch (type) {
+      case "html":
+        return "bg-orange-100 text-orange-800";
+      case "gemara":
+        return "bg-purple-100 text-purple-800";
+      default:
+        return "bg-blue-100 text-blue-800";
+    }
+  };
 
   return (
     <Layout
@@ -430,7 +431,9 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           <Card>
             <CardHeader>
               <CardTitle>Download Raw Results</CardTitle>
-              <p className="text-sm text-muted-foreground">Download the original OCSF or HTML result files used to generate this page</p>
+              <p className="text-sm text-muted-foreground">
+                Download the original OCSF, Gemara, or HTML result files used to generate this page
+              </p>
             </CardHeader>
             <CardContent>
               <Table>
@@ -452,9 +455,9 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`inline-flex px-2 py-1 text-xs rounded-full font-medium no-underline hover:opacity-80 ${link.type === "html" ? "bg-orange-100 text-orange-800" : "bg-blue-100 text-blue-800"}`}
+                              className={`inline-flex px-2 py-1 text-xs rounded-full font-medium no-underline hover:opacity-80 ${downloadLinkClassName(link.type)}`}
                             >
-                              {link.type.toUpperCase()}
+                              {link.type === "gemara" ? "GEMARA" : link.type.toUpperCase()}
                             </a>
                           ))}
                         </div>
@@ -507,9 +510,9 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                       <div className="flex flex-wrap gap-1">
                         {testSummary.catalogsTested.length > 0 ? (
                           testSummary.catalogsTested.map((catalog, catalogIndex) => (
-                            <Link key={catalogIndex} to={getCatalogComponentUrl(catalog)} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors">
+                            <span key={catalogIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
                               {catalog}
-                            </Link>
+                            </span>
                           ))
                         ) : (
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
@@ -550,10 +553,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                   <TableBody>
                     {catalogSummary.map((summary, index) => (
                       <TableRow key={index}>
-                        <TableCell>
-                          <Link to={summary.catalogUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
-                            {summary.catalogId}
-                          </Link>
+                        <TableCell className="font-medium">
+                          {summary.catalogId}
                         </TableCell>
                         <TableCell className="font-mono text-sm">
                           <div className="flex flex-wrap gap-1">
@@ -661,10 +662,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                   <TableBody>
                     {testMappingSummary.map((mapping, index) => (
                       <TableRow key={index}>
-                        <TableCell>
-                          <Link to={getCatalogComponentUrl(mapping.controlCatalog)} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
-                            {mapping.controlCatalog}
-                          </Link>
+                        <TableCell className="font-medium">
+                          {mapping.controlCatalog}
                         </TableCell>
                         <TableCell>
                           {(() => {
@@ -754,9 +753,9 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                           <div className="flex flex-wrap gap-1">
                             {summary.catalogs.length > 0 ? (
                               summary.catalogs.map((catalog, catalogIndex) => (
-                                <Link key={catalogIndex} to={getCatalogComponentUrl(catalog)} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors">
+                                <span key={catalogIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
                                   {catalog}
-                                </Link>
+                                </span>
                               ))
                             ) : (
                               <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>

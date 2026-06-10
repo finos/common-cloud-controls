@@ -181,7 +181,6 @@ export interface RequirementLink {
 
 export interface ControlCatalogSummary {
   catalogId: string;
-  catalogUrl: string;
   resources: string[];
   totalTests: number;
   passingTests: number;

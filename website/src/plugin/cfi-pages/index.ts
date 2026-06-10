@@ -106,6 +106,88 @@ function collectStandaloneHtmlFiles(configDir: string, pairedHtml: Set<string>):
   return htmlFiles;
 }
 
+/** Roots that may contain Privateer Gemara evaluation YAML (control-evaluations). */
+function collectGemaraScanRoots(configDir: string): string[] {
+  const roots: string[] = [];
+  const seen = new Set<string>();
+
+  const addRoot = (candidate: string) => {
+    const resolved = path.resolve(candidate);
+    if (seen.has(resolved)) {
+      return;
+    }
+    if (fs.existsSync(resolved) && fs.statSync(resolved).isDirectory()) {
+      seen.add(resolved);
+      roots.push(resolved);
+    }
+  };
+
+  for (const prefix of ["", "cfi-testing"]) {
+    const base = prefix ? path.join(configDir, prefix) : configDir;
+    addRoot(path.join(base, "evaluation_results"));
+
+    const outputDir = path.join(base, "output");
+    if (fs.existsSync(outputDir) && fs.statSync(outputDir).isDirectory()) {
+      addRoot(outputDir);
+      for (const entry of fs.readdirSync(outputDir, { withFileTypes: true })) {
+        if (entry.isDirectory() && entry.name !== "ocsf" && entry.name !== "html") {
+          addRoot(path.join(outputDir, entry.name));
+        }
+      }
+    }
+  }
+
+  return roots;
+}
+
+function collectGemaraFiles(configDir: string): OcsfFileRef[] {
+  const refs: OcsfFileRef[] = [];
+  const seen = new Set<string>();
+  const skipDirNames = new Set(["ocsf", "html", "actions-config", "config", "catalogs"]);
+
+  const walk = (dir: string) => {
+    if (skipDirNames.has(path.basename(dir))) {
+      return;
+    }
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const filePath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(filePath);
+        continue;
+      }
+      if (!/\.ya?ml$/i.test(entry.name) || seen.has(filePath)) {
+        continue;
+      }
+      seen.add(filePath);
+      refs.push({ filePath, fileName: entry.name });
+    }
+  };
+
+  for (const root of collectGemaraScanRoots(configDir)) {
+    walk(root);
+  }
+
+  return refs;
+}
+
+function uniqueDownloadFileName(destDir: string, filePath: string, fileName: string): string {
+  if (!fs.existsSync(path.join(destDir, fileName))) {
+    return fileName;
+  }
+  const parent = path.basename(path.dirname(filePath));
+  const ext = path.extname(fileName);
+  const base = path.basename(fileName, ext);
+  const candidate = `${parent}-${base}${ext}`;
+  if (!fs.existsSync(path.join(destDir, candidate))) {
+    return candidate;
+  }
+  let i = 2;
+  while (fs.existsSync(path.join(destDir, `${parent}-${base}-${i}${ext}`))) {
+    i++;
+  }
+  return `${parent}-${base}-${i}${ext}`;
+}
+
 function isCfiResultDirectory(repoPath: string, dirName: string): boolean {
   const fullPath = path.join(repoPath, dirName);
   if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isDirectory()) {
@@ -304,6 +386,16 @@ async function createConfiguration(
     const htmlName = path.basename(htmlPath);
     fs.copyFileSync(htmlPath, path.join(staticDownloadsDir, htmlName));
     downloadLinks.push({ name: htmlName, url: `/downloads/cfi/${repoDir}/${configFolderName}/${htmlName}`, type: "html" });
+  }
+
+  for (const { filePath, fileName } of collectGemaraFiles(configDir)) {
+    const staticName = uniqueDownloadFileName(staticDownloadsDir, filePath, fileName);
+    fs.copyFileSync(filePath, path.join(staticDownloadsDir, staticName));
+    downloadLinks.push({
+      name: staticName,
+      url: `/downloads/cfi/${repoDir}/${configFolderName}/${staticName}`,
+      type: "gemara",
+    });
   }
 
   // Create a page for each ConfigurationResult
