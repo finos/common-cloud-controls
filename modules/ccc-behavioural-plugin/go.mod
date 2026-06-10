@@ -154,4 +154,5 @@ replace (
 	github.com/finos/common-cloud-controls/cloud-testing-dsl => ../cloud-testing-dsl
 	github.com/finos/common-cloud-controls/reporters => ../reporters
 	github.com/finos/common-cloud-controls/runner => ../runner
+	github.com/privateerproj/privateer-sdk => ../../../privateer-sdk
 )

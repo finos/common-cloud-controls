@@ -22,7 +22,7 @@ func LoadPrivateerConfig(path, serviceID string) (types.Config, error) {
 	return types.NewConfig(ExpandVars(vars)), nil
 }
 
-// ResolvePrivateerCatalogPaths resolves services.<serviceID>.vars.catalog-locations
+// ResolvePrivateerCatalogPaths resolves services.<serviceID>.vars.catalog-versions
 // from a Privateer config into absolute filesystem paths.
 func ResolvePrivateerCatalogPaths(path, serviceID, repoRoot string) ([]string, error) {
 	vars, err := loadPrivateerServiceVars(path, serviceID)
@@ -30,35 +30,21 @@ func ResolvePrivateerCatalogPaths(path, serviceID, repoRoot string) ([]string, e
 		return nil, err
 	}
 
-	rawCatalogs, ok := vars["catalog-locations"]
-	if !ok || rawCatalogs == nil {
-		return nil, fmt.Errorf("no vars.catalog-locations found for service %q in %s", serviceID, path)
+	locations, err := ResolvePrivateerCatalogLocations(vars, repoRoot)
+	if err != nil {
+		return nil, fmt.Errorf("service %q in %s: %w", serviceID, path, err)
 	}
 
-	catalogMap, ok := rawCatalogs.(map[string]interface{})
-	if !ok {
-		return nil, fmt.Errorf("vars.catalog-locations must be a mapping in %s", path)
-	}
-
-	keys := make([]string, 0, len(catalogMap))
-	for k := range catalogMap {
-		keys = append(keys, k)
+	keys := make([]string, 0, len(locations))
+	for catalogID := range locations {
+		keys = append(keys, catalogID)
 	}
 	sort.Strings(keys)
 
 	resolved := make([]string, 0, len(keys))
-	for _, key := range keys {
-		raw := fmt.Sprintf("%v", catalogMap[key])
-		if raw == "" {
-			return nil, fmt.Errorf("vars.catalog-locations.%s is empty in %s", key, path)
-		}
-		if filepath.IsAbs(raw) {
-			resolved = append(resolved, filepath.Clean(raw))
-			continue
-		}
-		resolved = append(resolved, filepath.Clean(filepath.Join(repoRoot, raw)))
+	for _, catalogID := range keys {
+		resolved = append(resolved, locations[catalogID])
 	}
-
 	return resolved, nil
 }
 

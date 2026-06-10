@@ -20,9 +20,9 @@ services:
       service-type: vpc
       tags: "@MAIN @CCC.VPC"
       provider: aws
-      catalog-locations:
-        CCC.Core: website/src/data/ccc-releases/CCC.Core_v2025.10.yaml
-        CCC.VPC: website/src/data/ccc-releases/CCC.VPC_v2025.01-MP.yaml
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.VPC: DEV
       region: us-east-1
       resource: "finos-ccc-integration-vpc"
       permitted-regions:

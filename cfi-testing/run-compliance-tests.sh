@@ -12,6 +12,7 @@ TIMEOUT="30m"
 RESOURCE_FILTER=""
 TAGS=""
 USE_DEBUG=0
+SKIP_BUILD=0
 
 usage() {
   cat <<'EOF'
@@ -29,6 +30,7 @@ Optional:
   -g, --tags 'TAG ...'       Cucumber tag filter ANDed with service tags (e.g. '@Behavioural')
   -t, --timeout DURATION     Test timeout (default: 30m)
   --debug                    Run ccc-behavioural-plugin in-process (no pvtr host; for development)
+  --skip-build               Skip Go module build (use when modules/build.sh already ran)
   -h, --help                 Show this help
 
 Environment:
@@ -54,6 +56,7 @@ while [[ $# -gt 0 ]]; do
     -r|--resource) RESOURCE_FILTER="$2"; shift 2 ;;
     -g|--tags) TAGS="$2"; shift 2 ;;
     --debug) USE_DEBUG=1; shift ;;
+    --skip-build) SKIP_BUILD=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *)
       echo "Unknown option: $1" >&2
@@ -113,22 +116,17 @@ if ! (cd "$MODULES_DIR/runner" && go run ./cmd/ccc-compliance \
   exit 1
 fi
 
-echo "🔨 Building Go workspace (modules/go.work)..."
-BUILD_MODULES=(cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin)
-for mod in "${BUILD_MODULES[@]}"; do
-  echo "   → $mod"
-  if ! (cd "$MODULES_DIR/$mod" && go build ./...); then
-    echo "❌ Build failed: $mod" >&2
+if [ "$SKIP_BUILD" -eq 0 ]; then
+  if ! bash "$MODULES_DIR/build.sh" \
+    cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin \
+    --plugin-output "$PLUGIN_BINARY"; then
+    echo "❌ Module build failed" >&2
     exit 1
   fi
-done
-
-echo "   → ccc-behavioural-plugin (install to $PLUGIN_BINARY)"
-if ! (cd "$MODULES_DIR/ccc-behavioural-plugin" && go build -o "$PLUGIN_BINARY" .); then
-  echo "❌ Build failed: ccc-behavioural-plugin" >&2
+elif [ ! -x "$PLUGIN_BINARY" ]; then
+  echo "Error: --skip-build set but plugin binary not found: $PLUGIN_BINARY" >&2
   exit 1
 fi
-chmod +x "$PLUGIN_BINARY"
 
 # pvtr only runs plugins listed in plugins.json (binary copy alone is not enough).
 cat >"$BINARIES_PATH/plugins.json" <<EOF

@@ -4,12 +4,13 @@ All Go code for CCC cloud testing lives under this directory.
 
 ## Workspace
 
-[`go.work`](go.work) links the modules for local development:
+[`go.work`](go.work) links the modules for local development. CI uses the same workspace via [`.github/actions/setup-go-workspace`](../.github/actions/setup-go-workspace/action.yml) (`go-version-file: modules/go.work`, `GOWORK` enabled).
 
 | Module | Path |
 |--------|------|
 | `cloud-api` | [`cloud-api/`](cloud-api/) — provider APIs and shared types |
 | `cloud-testing-dsl` | [`cloud-testing-dsl/`](cloud-testing-dsl/) — Cucumber/Godog cloud steps |
+| `cloud-api-test` | [`cloud-api-test/`](cloud-api-test/) — live integration tests for `cloud-api` against terraform fixtures |
 | `reporters` | [`reporters/`](reporters/) — HTML, OCSF, summary formatters |
 | `runner` | [`runner/`](runner/) — behavioural test runner library and `ccc-compliance` CLI |
 | `ccc-behavioural-plugin` | [`ccc-behavioural-plugin/`](ccc-behavioural-plugin/) — Privateer plugin (same tests as `runner`) |
@@ -17,15 +18,11 @@ All Go code for CCC cloud testing lives under this directory.
 Build everything:
 
 ```bash
-export GOWORK=go.work   # when cwd is modules/
-for d in cloud-api cloud-testing-dsl reporters runner; do
-  (cd "$d" && go build ./...)
-done
-(cd runner && go build -o ../../cfi-testing/ccc-compliance ./cmd/ccc-compliance/)
+./modules/build.sh
 ```
 
 Or run compliance tests (builds the workspace automatically):
 
 ```bash
-../cfi-testing/run-compliance-tests.sh -e ../cfi-testing.privateer-config/object-storage/azure-storage-finos.yaml
+../cfi-testing/run-compliance-tests.sh -S <privateer-service> ...
 ```

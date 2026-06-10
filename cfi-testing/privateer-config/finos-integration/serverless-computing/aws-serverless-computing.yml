@@ -17,9 +17,9 @@ services:
       service-type: serverless-computing
       tags: "@Behavioural @serverless-computing"
       provider: aws
-      catalog-locations:
-        CCC.Core: website/src/data/ccc-releases/CCC.Core_v2025.10.yaml
-        CCC.SvlsComp: website/src/data/ccc-releases/CCC.SvlsComp_DEV.yaml
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.SvlsComp: DEV
       region: us-east-1
       resource: "finos-ccc-integration-fn-main"
       function-name: "finos-ccc-integration-fn-main"
