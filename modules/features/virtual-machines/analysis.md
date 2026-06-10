@@ -152,7 +152,7 @@ _None — catalog contains no `CCC.VM.CN*.AR*` entries._
 
 ## Cloud-api interface (minimal)
 
-Most inherited Core ARs need **no new methods** — they use existing [`generic.Service`](../../modules/cloud-api/generic/service.go) and [`logging.Service`](../../modules/cloud-api/logging/logging.go).
+Most inherited Core ARs need **no new methods** — they use existing [`generic.Service`](../../cloud-api/generic/service.go) and [`logging.Service`](../../cloud-api/logging/logging.go).
 
 ### `virtualmachines.Service`
 
@@ -234,7 +234,7 @@ Optional: fold CN05 into `TriggerDataWrite` / `UpdateResourcePolicy` on the embe
 
 ### `logging.QueryLogs`
 
-Reuse existing [`logging.Service`](../../modules/cloud-api/logging/logging.go) — CloudTrail / Activity Log / Cloud Audit Logs per existing implementations.
+Reuse existing [`logging.Service`](../../cloud-api/logging/logging.go) — CloudTrail / Activity Log / Cloud Audit Logs per existing implementations.
 
 ---
 

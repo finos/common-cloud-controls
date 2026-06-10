@@ -9,7 +9,7 @@ go build -o ccc-compliance ./cmd/ccc-compliance/
 ./ccc-compliance -config ../cfi-testing/privateer-config/.../azure-cloud-storage.yml -privateer-service azureStorageBehavioural
 ```
 
-[`cfi-testing`](../cfi-testing) wraps this via `run-compliance-tests.sh` (builds the binary into that directory).
+[`cfi-testing`](../../cfi-testing) wraps this via `run-compliance-tests.sh` (builds the binary into that directory).
 
 ## Consumers
 
@@ -19,5 +19,5 @@ go build -o ccc-compliance ./cmd/ccc-compliance/
 
 - `runner.Run(opts Options) int` — full test run
 - `runner.LoadPrivateerConfig(path, serviceID)` — read `services.<id>.vars`
-- `runner.TestingDir()` — `modules/cfi-testing` (config and default output)
+- `runner.TestingDir()` — `cfi-testing` at repository root (config and default output)
 - `runner.RepoRoot()` — repository root

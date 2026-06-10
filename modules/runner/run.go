@@ -240,7 +240,7 @@ func RepoRoot() string {
 	return filepath.Dir(filepath.Dir(filepath.Dir(filename)))
 }
 
-// TestingDir returns modules/cfi-testing (config, scripts, default output).
+// TestingDir returns cfi-testing at the repository root (config, scripts, default output).
 func TestingDir() string {
-	return filepath.Join(RepoRoot(), "modules", "cfi-testing")
+	return filepath.Join(RepoRoot(), "cfi-testing")
 }

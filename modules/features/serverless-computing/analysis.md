@@ -277,7 +277,7 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 
 ### `UpdateResourcePolicy` / logging
 
-Same pattern as object-storage: harmless metadata change + [`logging.QueryLogs`](../../modules/cloud-api/logging/logging.go). Explicit log sink vars per cloud (`types.LoggingConfig`).
+Same pattern as object-storage: harmless metadata change + [`logging.QueryLogs`](../../cloud-api/logging/logging.go). Explicit log sink vars per cloud (`types.LoggingConfig`).
 
 ---
 

@@ -48,7 +48,7 @@ go test -tags=integration -timeout=45m \
 
 Each CSV row prints `PASS` or `FAIL` to the console when the test finishes (and live with `-v`). `INTEGRATION_PROVIDER` must be set or the test exits immediately. If any row fails, `go test` exits with code 1.
 
-Coverage uses `-coverpkg=../cloud-api/...` (entire module, including `generic/login`). An AWS-only run shows a low overall percentage until Azure/GCP jobs run; packages not hit by the CSV (e.g. `generic/login`) appear at 0% in `coverage-integration-*.html` as work to address (see `work.md` W-46).
+Coverage uses `-coverpkg=../cloud-api/...` (entire module, including `generic/login`). An AWS-only run shows a low overall percentage until Azure/GCP jobs run; packages not hit by the CSV (e.g. `generic/login`) appear at 0% in `coverage-integration-*.html` as work to address (see this README, W-46).
 
 Unit checks:
 

@@ -75,4 +75,4 @@ The `vpc/` package implements AWS VPC helpers (including CN03/CN04 classificatio
 
 ## Releases
 
-Tag releases with `cloud-api/vX.Y.Z` (for example `cloud-api/v0.1.0`). The [release-cloud-api workflow](.github/workflows/release-cloud-api.yml) verifies the module and creates a GitHub release.
+Tag releases with `cloud-api/vX.Y.Z` (for example `cloud-api/v0.1.0`). The [release-cloud-api workflow](../../.github/workflows/release-cloud-api.yml) verifies the module and creates a GitHub release.

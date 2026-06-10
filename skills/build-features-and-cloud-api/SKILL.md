@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 # Build features, cloud-api, terraform, and privateer config
 
-Turn an **approved** [`analysis.md`](../../modules/features/<service-folder>/analysis.md) into runnable behavioural tests. This skill implements the full stack; analysis-only work stays in [build-service-behavioural-test-analysis](../build-service-behavioural-test-analysis/SKILL.md).
+Turn an **approved** `modules/features/<service-folder>/analysis.md` into runnable behavioural tests. This skill implements the full stack; analysis-only work stays in [build-service-behavioural-test-analysis](../build-service-behavioural-test-analysis/SKILL.md).
 
 ## When to use
 
@@ -290,7 +290,7 @@ cd modules/cloud-api-test
 ./run-integration-tests.sh aws    # or azure | gcp | all
 ```
 
-Success means all relevant CSV rows **PASS** for that provider (some `expect_error=true` rows are PASS by design). See [`work.md`](../../modules/cloud-api-test/work.md) for provider-specific notes.
+Success means all relevant CSV rows **PASS** for that provider (some `expect_error=true` rows are PASS by design). See [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md) for provider-specific notes (including W-46 login coverage).
 
 ---
 

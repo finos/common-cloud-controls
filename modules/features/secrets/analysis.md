@@ -266,4 +266,4 @@ Extend `services.integration.vars` with secret outputs above; no separate servic
 - [x] Integration test coverage table lists both methods + expect_error rows
 - [x] Privateer split documented (finos-integration vs cloud-api-test)
 - [x] actions-config entries planned
-- [x] Implementation complete per [build-features-and-cloud-api skill](../../skills/build-features-and-cloud-api/SKILL.md) (features, cloud-api, terraform, integration CSV, Privateer, actions-config)
+- [x] Implementation complete per [build-features-and-cloud-api skill](../../../skills/build-features-and-cloud-api/SKILL.md) (features, cloud-api, terraform, integration CSV, Privateer, actions-config)

@@ -2,13 +2,13 @@
 
 Privateer **evaluation** plugin that runs CCC **behavioural** Godog scenarios via [runner](../runner).
 
-**Reference catalog:** resolved from `catalog-versions` in Privateer config via `cfi-testing/scripts/resolve-catalog-version.sh` (DEV → `website/src/data/ccc-releases`; published releases → local when present, download TBD). Override search dir with `CCC_CATALOG_RELEASES_DIR`.
+**Reference catalog:** resolved from `catalog-versions` in Privateer config (DEV → `website/src/data/ccc-releases`; published releases → local when present, download TBD). Override search dir with `CCC_CATALOG_RELEASES_DIR`.
 
 Configuration comes from **Privateer** `services.<id>.vars` only (no separate `environment.yaml`).
 
 ## Config
 
-See [azure-cloud-storage.yml](../../cfi-testing/privateer-config/azure-cloud-storage.yml) and [aws-vpc-good.yml](../../cfi-testing/privateer-config/aws-vpc-good.yml).
+See [azure-cloud-storage.yml](../../cfi-testing/privateer-config/finos-integration/cloud-storage/azure-cloud-storage.yml) and [aws-vpc-good.yml](../../cfi-testing/privateer-config/finos-integration/vpc/aws-vpc-good.yml).
 
 Required `services.<name>.vars`:
 
