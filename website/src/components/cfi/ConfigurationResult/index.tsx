@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { ConfigurationResultPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail, DownloadLink, RequirementLink } from "@site/src/types/cfi";
@@ -334,7 +334,10 @@ function generateTestMappingSummary(testResults: TestResultItem[]): TestMappingS
 
 export default function CFIConfigurationResult({ pageData }: { pageData: ConfigurationResultPageData }): React.ReactElement {
   const { configuration, configurationResult } = pageData;
-  const { cfi_details } = configuration;
+  const { cfi_details, results_relative_path, source_details } = configuration;
+  const repoDestination = results_relative_path.split("/")[0];
+  const repoHref = `/cfi/${repoDestination}`;
+  const configurationHref = `/cfi/${results_relative_path}`;
   const { releases } = useCCCData();
 
   // Use test results from this specific configuration result
@@ -367,9 +370,28 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   );
 
   return (
-    <Layout title={`${configurationResult.product} ${configurationResult.version} - ${cfi_details.name}`} description={`Test results for ${configurationResult.vendor} ${configurationResult.product} ${configurationResult.version}`}>
+    <Layout
+      title={`${configurationResult.product} ${configurationResult.version} - ${cfi_details.name}`}
+      description={`Test results for ${configurationResult.vendor} ${configurationResult.product} ${configurationResult.version}`}
+    >
       <main className="container margin-vert--lg space-y-6">
-        {/* Configuration Result Header */}
+        <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+          <Link to="/cfi" className="hover:text-foreground">
+            CFI
+          </Link>
+          <span>/</span>
+          <Link to={repoHref} className="hover:text-foreground">
+            {source_details?.repository_description ?? repoDestination}
+          </Link>
+          <span>/</span>
+          <Link to={configurationHref} className="hover:text-foreground">
+            {cfi_details.id}
+          </Link>
+          <span>/</span>
+          <span className="text-foreground">
+            {configurationResult.product} {configurationResult.version}
+          </span>
+        </nav>
         <Card>
           <CardHeader>
             <CardTitle>

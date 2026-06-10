@@ -1,5 +1,6 @@
 cfi:
   id: gcp-virtual-machines
+  artifact-name: finos-integration-gcp-virtual-machines
   provider: gcp
   service: compute
   name: CCC GCP Virtual Machines Fixture

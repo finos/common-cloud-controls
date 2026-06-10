@@ -1,5 +1,6 @@
 cfi:
   id: aws-vpc-good
+  artifact-name: finos-integration-aws-vpc-good
   provider: aws
   service: networking
   name: CCC AWS VPC Good Fixture

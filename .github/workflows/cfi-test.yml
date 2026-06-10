@@ -72,6 +72,10 @@ jobs:
                       f"cfi.privateer-service {privateer_service!r} not found in services of {test_config}"
                   )
 
+              artifact_name = cfi.get("artifact-name")
+              if not artifact_name:
+                  raise RuntimeError(f"Missing cfi.artifact-name in {target_file}")
+
               targets.append(
                   {
                       "id": cfi.get("id"),
@@ -81,6 +85,7 @@ jobs:
                       "action_config": target_file,
                       "test_config": test_config,
                       "privateer_service": privateer_service,
+                      "artifact_name": artifact_name,
                   }
               )
 
@@ -301,7 +306,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cfi-results-${{ matrix.target.id }}
+          name: ${{ matrix.target.artifact_name }}
           path: |
             cfi-testing/output/${{ matrix.target.id }}
             cfi-testing/evaluation_results

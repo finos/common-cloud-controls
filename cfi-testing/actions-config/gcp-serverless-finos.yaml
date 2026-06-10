@@ -1,5 +1,6 @@
 cfi:
   id: gcp-serverless-computing
+  artifact-name: finos-integration-gcp-serverless-computing
   provider: gcp
   service: serverless
   name: CCC GCP Serverless Computing Fixture

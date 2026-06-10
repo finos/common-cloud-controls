@@ -1,5 +1,6 @@
 cfi:
   id: azure-storage-account
+  artifact-name: finos-integration-azure-storage-account
   provider: azure
   service: storage
   name: CCC Azure Storage Account Terraform Module
