@@ -1,6 +1,6 @@
 style_guide:
   general:
-    - "Structure each control with id, title, objective, assessment-requirements, threat-mappings, and guideline-mappings."
+    - "Structure each control with id, title, objective, assessment-requirements, threats, and guidelines."
     - "Controls are grouped under control-families with a title and description."
     - "Use a formal, objective, and prescriptive tone throughout."
 
