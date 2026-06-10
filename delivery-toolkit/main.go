@@ -15,11 +15,15 @@ var (
 		Use:   "",
 		Short: "A CLI for the Common Cloud Controls project",
 		PersistentPreRun: func(command *cobra.Command, args []string) {
-			fmt.Println(cmd.Divider)
-			fmt.Println(cmd.Logo)
+			if isInteractive() {
+				fmt.Println(cmd.Divider)
+				fmt.Println(cmd.Logo)
+			}
 		},
 		PersistentPostRun: func(command *cobra.Command, args []string) {
-			fmt.Println(cmd.Divider)
+			if isInteractive() {
+				fmt.Println(cmd.Divider)
+			}
 		},
 		Run: func(command *cobra.Command, args []string) {
 			fmt.Println("Welcome to the CCC Delivery Toolkit CLI")
@@ -39,12 +43,16 @@ func init() {
 	viper.BindPFlag("output-dir", baseCmd.PersistentFlags().Lookup("output-dir"))
 	viper.BindPFlag("catalogs-dir", baseCmd.PersistentFlags().Lookup("catalogs-dir"))
 
-	// Add subcommands
 	baseCmd.AddCommand(
-		cmd.VerifyContent,
-		cmd.UpdateMetadata,
-		cmd.GenerateReleaseArtifacts,
+		cmd.Compile,
 	)
+}
+
+// isInteractive reports whether stdout is a terminal, so the decorative banner
+// is shown to humans but kept out of CI/pipeline logs.
+func isInteractive() bool {
+	fi, err := os.Stdout.Stat()
+	return err == nil && fi.Mode()&os.ModeCharDevice != 0
 }
 
 func main() {

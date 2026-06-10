@@ -23,62 +23,58 @@ imported-controls:
         strength: 0 # Not yet specified
         remarks: Prevent data replication to destinations outside of defined trust perimeter
 
-control-families:
-  - title: Risk Management
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.CntrReg.CN01
-        title: Implement Vulnerability Scanning for Artifacts
-        objective: |
-          Ensure that container images and artifacts stored in the container registry are scanned for
-          vulnerabilities to identify and remediate security issues before deployment.
-        assessment-requirements:
-          - id: CCC.CntrReg.CN01.AR01
-            text: |
-              Attempt to push an artifact with known vulnerabilities to the registry
-              and observe if it is flagged or rejected by the vulnerability scanning process.
-            applicability:
-              - tlp-red
-              - tlp-amber
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.CntrReg.TH01
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: ID.RA-1
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: RA-5
-                strength: 0 # Not yet specified
-              - reference-id: SI-5
-  - title: Data Management
-    description: 'TODO: Describe this control family'
-    controls:
-      - id: CCC.CntrReg.CN02
-        title: Implement Cleanup Policies for Artifacts
-        objective: |
-          Ensure that unused or outdated artifacts are cleaned up according to defined policies to
-          manage storage effectively and reduce security risks associated with outdated versions.
-        assessment-requirements:
-          - id: CCC.CntrReg.CN02.AR01
-            text: |
-              Confirm that artifacts older than the specified retention period are automatically
-              deleted from the registry.
-            applicability:
-              - tlp-red
-              - tlp-amber
-            recommendation: ""
-        threat-mappings:
-          - reference-id: CCC
-            entries:
-              - reference-id: CCC.Core.TH14
-        guideline-mappings:
-          - reference-id: NIST-CSF
-            entries:
-              - reference-id: PR.IP-6
-          - reference-id: NIST_800_53
-            entries:
-              - reference-id: SI-12
+controls:
+  - id: CCC.CntrReg.CN01
+    group: Orchestration
+    title: Implement Vulnerability Scanning for Artifacts
+    objective: |
+      Ensure that container images and artifacts stored in the container registry are scanned for
+      vulnerabilities to identify and remediate security issues before deployment.
+    assessment-requirements:
+      - id: CCC.CntrReg.CN01.AR01
+        text: |
+          Attempt to push an artifact with known vulnerabilities to the registry
+          and observe if it is flagged or rejected by the vulnerability scanning process.
+        applicability:
+          - tlp-red
+          - tlp-amber
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.CntrReg.TH01
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: ID.RA-1
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: RA-5
+            strength: 0 # Not yet specified
+          - reference-id: SI-5
+  - id: CCC.CntrReg.CN02
+    group: Resource
+    title: Implement Cleanup Policies for Artifacts
+    objective: |
+      Ensure that unused or outdated artifacts are cleaned up according to defined policies to
+      manage storage effectively and reduce security risks associated with outdated versions.
+    assessment-requirements:
+      - id: CCC.CntrReg.CN02.AR01
+        text: |
+          Confirm that artifacts older than the specified retention period are automatically
+          deleted from the registry.
+        applicability:
+          - tlp-red
+          - tlp-amber
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH14
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.IP-6
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SI-12

@@ -757,13 +757,13 @@ control-families:
             text: When a vector embedding is submitted for indexing, the system MUST validate that it matches expected schema, dimension, and format profiles.
             applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
             recommendation: ""
-        threat-mappings:
+        threats:
           - reference-id: CCC
             identifiers:
               - CCC.Vector.TH02 # Embedding and Index Poisoning
               - CCC.Vector.TH06 # Embedding Format or Dimension Attacks
               - CCC.TH12 # Resource Constraints are Exhausted
-        guideline-mappings: []
+        guidelines: []
       - id: CCC.Vector.CN02
         title: Enforce Role-Based Index Lifecycle Management
         objective: Restrict index lifecycle operations (create, delete, rollback) to privileged identities using fine-grained access controls.
@@ -772,13 +772,13 @@ control-families:
             text: When an index lifecycle event is triggered, the service MUST verify that the actor has explicit permissions for the operation type.
             applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
             recommendation: ""
-        threat-mappings:
+        threats:
           - reference-id: CCC
             identifiers:
               - CCC.Vector.TH02 # Embedding and Index Poisoning
               - CCC.Vector.TH05 # Index Corruption or Downgrade
               - CCC.TH01 # Access Control is Misconfigured
-        guideline-mappings: []
+        guidelines: []
       - id: CCC.Vector.CN03
         title: Enforce Metadata-Level Access Controls
         objective: Apply access control policies to metadata fields used in filtering to prevent unauthorized exposure or inference.
@@ -787,12 +787,12 @@ control-families:
             text: When a metadata filter is applied to a query, the service MUST verify the requester is authorized to access that field.
             applicability: [tlp-amber, tlp-red]
             recommendation: ""
-        threat-mappings:
+        threats:
           - reference-id: CCC
             identifiers:
               - CCC.Vector.TH03 # Cross-modal or Metadata Leakage
               - CCC.TH01 # Access Control is Misconfigured
-        guideline-mappings: []
+        guidelines: []
       - id: CCC.Vector.CN04
         title: Enforce Ingestion Quotas and Throttling
         objective: Prevent ingestion-based DoS or index pollution by rate-limiting vector submissions and enforcing quotas.
@@ -801,13 +801,13 @@ control-families:
             text: When ingestion exceeds pre-defined thresholds, the service MUST throttle or reject excess vector write operations.
             applicability: [tlp-green, tlp-amber, tlp-red]
             recommendation: ""
-        threat-mappings:
+        threats:
           - reference-id: CCC
             identifiers:
               - CCC.Vector.TH02 # Embedding and Index Poisoning
               - CCC.Vector.TH04 # Denial of Service via Query or Ingestion Flooding
               - CCC.TH12 # Resource Constraints are Exhausted
-        guideline-mappings: []
+        guidelines: []
       - id: CCC.Vector.CN05
         title: Enforce Index Versioning with Rollback Protection
         objective: Ensure vector indexes are versioned and that rollback operations are authorized and auditable.
@@ -816,13 +816,13 @@ control-families:
             text: When a rollback is attempted, the system MUST log the action and verify rollback authorization.
             applicability: [tlp-amber, tlp-red]
             recommendation: ""
-        threat-mappings:
+        threats:
           - reference-id: CCC
             identifiers:
               - CCC.Vector.TH05 # Index Corruption or Downgrade
               - CCC.TH09 # Logs or Monitoring Data are Read by Unauthorized Users
               - CCC.TH04 # Data is Replicated to Untrusted or External Locations
-        guideline-mappings: []
+        guidelines: []
       - id: CCC.Vector.CN06
         title: Enforce Dimensional and Format Constraints
         objective: Reject embeddings that do not conform to expected model specifications (dimensions, format, etc).
@@ -831,12 +831,12 @@ control-families:
             text: When an embedding is submitted, the service MUST validate that its format and dimensionality match allowed profiles.
             applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
             recommendation: ""
-        threat-mappings:
+        threats:
           - reference-id: CCC
             identifiers:
               - CCC.Vector.TH06 # Embedding Format or Dimension Attacks
               - CCC.TH06 # Data is Lost or Corrupted
-        guideline-mappings: []
+        guidelines: []
       - id: CCC.Vector.CN07
         title: Support Explicit ANN vs. Exact Search Configuration
         objective: Provide clients with the option to enforce exact-match (non-ANN) search where search fidelity is critical.
@@ -845,11 +845,11 @@ control-families:
             text: When a search request is issued, clients MUST be allowed to declare their requirement for exact vs approximate results.
             applicability: [tlp-amber, tlp-red]
             recommendation: ""
-        threat-mappings:
+        threats:
           - reference-id: CCC
             identifiers:
               - CCC.Vector.TH07 # Search Result Manipulation via ANN Bias
-        guideline-mappings: []
+        guidelines: []
 
 ```
 

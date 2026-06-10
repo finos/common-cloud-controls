@@ -22,7 +22,7 @@ imported-controls:
 
 controls:
   - id: CCC.ObjStor.CN01
-    family: CCC.ObjStor.Data
+    group: Encryption
     title: Prevent Requests to Buckets or Objects with Untrusted KMS Keys
     objective: |
       Prevent any requests to object storage buckets or objects using
@@ -69,7 +69,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
@@ -78,7 +78,7 @@ controls:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: IAM-01
@@ -91,7 +91,7 @@ controls:
             remarks: Sensitive Data Protection
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN03
-    family: CCC.ObjStor.Data
+    group: Data
     title: Prevent Bucket Deletion Through Irrevocable Bucket Retention Policy
     objective: |
       Ensure that object storage bucket is not deleted after creation,
@@ -117,13 +117,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-16
@@ -133,7 +133,7 @@ controls:
             remarks: Sensitive Data Protection
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN04
-    family: CCC.ObjStor.Data
+    group: Data
     title: Objects have an Effective Retention Policy by Default
     objective: |
       Ensure that all objects stored in the object storage system have a
@@ -162,7 +162,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
@@ -173,7 +173,7 @@ controls:
           - reference-id: CCC.ObjStor.TH01
             remarks: Data Exfiltration via Insecure Lifecycle Policies
             strength: 10 # mmmm... lifecycle policies
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-16
@@ -183,7 +183,7 @@ controls:
             remarks: Sensitive Data Protection
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN05
-    family: CCC.ObjStor.Data
+    group: Data
     title: Versioning is Enabled for All Objects in the Bucket
     objective: |
       Ensure that versioning is enabled for all objects stored in the object
@@ -231,13 +231,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-16
@@ -247,7 +247,7 @@ controls:
             remarks: Sensitive Data Protection
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN07
-    family: CCC.ObjStor.Data
+    group: Access
     title: Multi-Factor Authentication Is Required for Object Deletion
     objective: |
       Ensure that deletion of objects stored in the object storage system is
@@ -287,7 +287,7 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
@@ -299,7 +299,7 @@ controls:
           - reference-id: CCC.Core.TH17
             remarks: Ensures deletion requests from unauthorized entities do not result in action
             strength: 8
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: DSP-16
@@ -310,7 +310,7 @@ controls:
             strength: 9
 
   - id: CCC.ObjStor.CN02
-    family: CCC.ObjStor.IAM
+    group: Access
     title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
     objective: |
       Ensure that uniform bucket-level access is enforced across all
@@ -341,13 +341,13 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threat-mappings:
+    threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
             remarks: Access is Granted to Unauthorized Users
             strength: 2 # This helps reduce errors and oversight when the intent is on point
-    guideline-mappings:
+    guidelines:
       - reference-id: CCM
         entries:
           - reference-id: IAM-08

@@ -28,6 +28,7 @@ imported-threats:
 
 threats:
   - id: CCC.VPC.TH01
+    group: Networking
     title: Unauthorized Access via Insecure Default Networks
     description: |
       Default network configurations may include insecure settings and open
@@ -42,6 +43,7 @@ threats:
         entries:
           - reference-id: T1040
   - id: CCC.VPC.TH02
+    group: Networking
     title: Exposure of Resources to Public Internet
     description: |
       Assignment of external IP addresses to resources exposes resources to the
@@ -57,6 +59,7 @@ threats:
           - reference-id: T1133
           - reference-id: T1078
   - id: CCC.VPC.TH03
+    group: Networking
     title: Unauthorized Network Access Through VPC Peering
     description: |
       Unauthorized VPC peering connections can allow network traffic between
@@ -71,6 +74,7 @@ threats:
         entries:
           - reference-id: T1599
   - id: CCC.VPC.TH04
+    group: Observability
     title: Lack of Network Visibility due to Disabled VPC Flow Logs
     description: |
       VPC subnets with disabled flow logs lack critical network traffic
@@ -86,6 +90,7 @@ threats:
         entries:
           - reference-id: T1562
   - id: CCC.VPC.TH05
+    group: Networking
     title: Overly Permissive VPC Endpoint Policies
     description: |
       VPC Endpoint policies that are overly permissive may inadvertently expose

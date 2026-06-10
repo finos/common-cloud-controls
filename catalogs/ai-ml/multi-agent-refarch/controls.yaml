@@ -1,0 +1,811 @@
+title: Multi-Agent Reference Architecture Control Catalog
+metadata:
+  id: CCC.MARefArch.CN
+  type: ControlCatalog
+  gemara-version: "1.2.0"
+  version: "dev"
+  date: "2026-05-31T00:00:00Z"
+  description: >-
+    Controls for the multi-agent reference architecture. Each control is this
+    architecture's realization of a FINOS AIGF mitigation (finos-air 0.2.0,
+    Layer 1 guidance) and is mapped to the AIGF guideline it implements and to
+    the architecture threats it mitigates.
+  mapping-references:
+    - id: finos-air
+      title: FINOS AI Governance Framework
+      version: "0.2.0"
+      description: >-
+        AIGF mitigations expressed as Gemara guidelines; each control
+        implements one of these guidelines.
+      url: https://grc.store/search/finos-aigf/finos-air/versions/0.2.0
+    - id: ma-ref-arch-threats
+      title: Multi-Agent Reference Architecture Threat Catalog
+      version: "1.0.0"
+      description: >-
+        Architecture threats that these controls mitigate.
+      url: file://ma_threat_catalog.yaml
+  applicability-groups:
+    - id: all
+      title: All Deployments
+      description: >-
+        Applies to all deployments of the multi-agent reference architecture,
+        which by definition includes every subsystem layer. Adopters deploying
+        a subset may refine this scope.
+groups:
+  - id: PREV
+    title: Preventive
+    description: Prevention and Risk Mitigation
+  - id: DET
+    title: Detective
+    description: Detection and Continuous Improvement
+controls:
+  - id: CTL-PREV-002
+    title: Data Filtering From External Knowledge Bases
+    objective: >-
+      Sanitize, filter, and classify data ingested by the Knowledge Layer from
+      internal and external source bases before it is embedded into the vector
+      store or used for retrieval-augmented generation, preventing inadvertent
+      exposure or manipulation of sensitive organizational knowledge.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-002-1
+        text: >-
+          Data ingested into the Knowledge Layer MUST be scanned and filtered
+          for sensitive content before it is embedded or indexed for retrieval.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-002-2
+        text: >-
+          Ingestion pipelines MUST enforce source-level allow and deny rules so
+          that unapproved repositories cannot be embedded into the vector store.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-002
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-DP-01
+          - reference-id: THR-DP-02
+          - reference-id: THR-IL-01
+          - reference-id: THR-IL-02
+  - id: CTL-PREV-003
+    title: User, Application, and Model Firewalling
+    objective: >-
+      Establish enforced trust boundaries between the user, the application,
+      and the models and tools by routing all traffic through the agent, LLM,
+      and MCP gateways where guardrails inspect and constrain requests and
+      responses.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-003-1
+        text: >-
+          All traffic between the user-facing application and the agent layer
+          MUST traverse the Agent Gateway guardrails; direct
+          application-to-agent paths that bypass the gateway MUST be denied.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-003-2
+        text: >-
+          All model and tool invocations MUST traverse the LLM and MCP gateway
+          guardrails respectively, with inputs and outputs inspected against
+          policy.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-003
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-MA-01
+          - reference-id: THR-MA-02
+          - reference-id: THR-MA-03
+          - reference-id: THR-OP-01
+          - reference-id: THR-OP-02
+          - reference-id: THR-PI-01
+          - reference-id: THR-PI-02
+          - reference-id: THR-PI-03
+  - id: CTL-PREV-005
+    title: System Acceptance Testing
+    objective: >-
+      Validate agents, models, and end-to-end workflows against accuracy,
+      robustness, bias, drift, and compliance criteria before promotion to
+      production, and re-validate after material changes.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-005-1
+        text: >-
+          Each agent and model configuration MUST pass a documented acceptance
+          test suite covering accuracy, bias and fairness, and compliance
+          criteria before being onboarded into the respective registry.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-005-2
+        text: >-
+          Acceptance testing MUST be repeated when a pinned model version,
+          system prompt, or deployment configuration changes.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-005
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-FA-01
+          - reference-id: THR-GC-02
+          - reference-id: THR-MI-01
+          - reference-id: THR-OI-01
+          - reference-id: THR-OI-02
+          - reference-id: THR-OI-03
+  - id: CTL-PREV-006
+    title: Data Quality and Classification
+    objective: >-
+      Assess the quality of, and assign classification and sensitivity labels
+      to, all data used for grounding, training, and fine-tuning, and enforce
+      handling rules derived from those labels throughout the Knowledge and LLM
+      layers.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-006-1
+        text: >-
+          All data sources feeding the Knowledge Layer or used for fine-tuning
+          MUST carry a classification and sensitivity label.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-006-2
+        text: >-
+          Data quality checks for accuracy, completeness, freshness, and bias
+          MUST be applied to grounding and training data, and data failing
+          thresholds MUST be quarantined from production use.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-006
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-DP-01
+          - reference-id: THR-DP-02
+          - reference-id: THR-DQ-01
+          - reference-id: THR-FA-01
+          - reference-id: THR-GC-02
+          - reference-id: THR-GC-03
+          - reference-id: THR-IL-01
+          - reference-id: THR-IL-02
+          - reference-id: THR-IL-03
+          - reference-id: THR-IL-04
+          - reference-id: THR-IL-05
+          - reference-id: THR-OI-01
+  - id: CTL-PREV-007
+    title: Legal and Contractual Frameworks for AI Systems
+    objective: >-
+      Establish contractual controls with model and MCP service providers
+      covering data handling, retention and deletion, intellectual property,
+      liability, and supply-chain integrity.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-007-1
+        text: >-
+          Every approved model and MCP server provider MUST be governed by a
+          contract specifying data handling, retention and deletion, and
+          intellectual-property terms before it is added to the registry.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-007-2
+        text: >-
+          Provider contracts MUST include supply-chain integrity and
+          breach-notification obligations.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-007
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-GC-02
+          - reference-id: THR-GC-03
+          - reference-id: THR-IL-01
+          - reference-id: THR-IL-02
+          - reference-id: THR-MI-02
+          - reference-id: THR-MI-03
+          - reference-id: THR-OP-02
+  - id: CTL-PREV-008
+    title: Quality of Service and DDoS Prevention
+    objective: >-
+      Protect model and tool availability by enforcing quality-of-service
+      controls, rate limits, and abuse and DDoS mitigation at the gateways.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-008-1
+        text: >-
+          The LLM and MCP gateways MUST enforce per-consumer rate limits and
+          quotas.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-008-2
+        text: >-
+          Gateways MUST apply DDoS and abuse detection and load shedding to
+          preserve availability under load.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-008
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-MA-01
+          - reference-id: THR-MA-02
+          - reference-id: THR-MA-03
+  - id: CTL-PREV-010
+    title: AI Model Version Pinning
+    objective: >-
+      Pin and record explicit model versions in the Model Registry so that
+      model behaviour is reproducible and provider-side changes are surfaced
+      rather than silently absorbed.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-010-1
+        text: >-
+          The Model Registry MUST pin an explicit, immutable model version for
+          each approved model used in production.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-010-2
+        text: >-
+          A change to the underlying provider model version MUST require
+          re-approval through the registry before use.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-010
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-MI-01
+          - reference-id: THR-OI-02
+  - id: CTL-PREV-012
+    title: Role-Based Access Control for AI Data
+    objective: >-
+      Enforce least-privilege, role-based access control over all AI data
+      stores, including source bases, the vector store, and model artifacts.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-012-1
+        text: >-
+          Access to AI data stores, including source bases, the vector store,
+          and model artifacts, MUST be governed by role-based access control
+          with least privilege.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-012-2
+        text: >-
+          Access grants MUST be reviewed periodically and revoked when no
+          longer required.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-012
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-DP-01
+          - reference-id: THR-DP-02
+          - reference-id: THR-IL-01
+          - reference-id: THR-IL-02
+          - reference-id: THR-MI-02
+          - reference-id: THR-MI-03
+  - id: CTL-PREV-014
+    title: Encryption of AI Data at Rest
+    objective: >-
+      Encrypt AI data at rest, including the vector store and source
+      repositories, so that storage-level access does not expose embeddings or
+      sensitive content.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-014-1
+        text: >-
+          The vector store and all AI data repositories MUST be encrypted at
+          rest using managed keys.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-014-2
+        text: >-
+          Access to encryption keys MUST be restricted and audited.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-014
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-GC-02
+          - reference-id: THR-IL-03
+          - reference-id: THR-IL-04
+          - reference-id: THR-IL-05
+  - id: CTL-PREV-017
+    title: AI Firewall Implementation and Management
+    objective: >-
+      Implement and operate an AI firewall within the guardrail components that
+      inspects prompts, content, and responses for injection, sensitive data,
+      and policy violations.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-017-1
+        text: >-
+          The gateway guardrails MUST include an AI firewall that screens
+          inputs for prompt injection and policy violations and screens outputs
+          for sensitive-data disclosure and harmful content.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-017-2
+        text: >-
+          AI firewall rules MUST be centrally managed and versioned.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-017
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-MA-01
+          - reference-id: THR-MA-02
+          - reference-id: THR-MA-03
+          - reference-id: THR-OP-01
+          - reference-id: THR-OP-02
+          - reference-id: THR-PI-01
+          - reference-id: THR-PI-02
+          - reference-id: THR-PI-03
+  - id: CTL-PREV-018
+    title: Agent Authority Least Privilege Framework
+    objective: >-
+      Constrain each agent's authority to the minimum set of tools, APIs, and
+      data required for its task, enforced by the runtime and MCP guardrails,
+      and prevent permission creep during operation.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-018-1
+        text: >-
+          Each agent MUST be granted only the tools, endpoints, and scopes
+          required for its registered purpose.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-018-2
+        text: >-
+          Agent permissions MUST be enforced at invocation time and MUST NOT
+          expand during a session without explicit reauthorization.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-018
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-AS-01
+          - reference-id: THR-OP-01
+  - id: CTL-PREV-019
+    title: Tool Chain Validation and Sanitization
+    objective: >-
+      Validate tool selection, sanitize tool-call parameters, and constrain
+      tool sequencing within the runtime and MCP guardrails to prevent
+      manipulation of agent tool use.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-019-1
+        text: >-
+          Tool-call parameters MUST be validated and sanitized against a schema
+          before execution.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-019-2
+        text: >-
+          Tool selection and sequencing MUST be constrained to patterns
+          authorized for the agent's task.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-019
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-AS-01
+          - reference-id: THR-AS-02
+          - reference-id: THR-PI-01
+          - reference-id: THR-PI-02
+          - reference-id: THR-PI-03
+  - id: CTL-PREV-020
+    title: MCP Server Security Governance
+    objective: >-
+      Govern the onboarding, verification, and ongoing monitoring of MCP
+      servers so that only approved, integrity-verified servers are reachable,
+      and supply-chain compromise is detected.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-020-1
+        text: >-
+          Only MCP servers registered and verified in the MCP Server Registry
+          MUST be reachable by agents.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-020-2
+        text: >-
+          MCP server updates MUST be integrity-verified, and connections MUST
+          be authenticated and transport-encrypted.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-020
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-AS-03
+          - reference-id: THR-IL-01
+          - reference-id: THR-IL-02
+          - reference-id: THR-MI-02
+          - reference-id: THR-MI-03
+  - id: CTL-PREV-022
+    title: Multi-Agent Isolation and Segmentation
+    objective: >-
+      Isolate agents and their memory and state so that compromise or failure
+      of one agent cannot propagate to others, and enforce segmentation of
+      agent-to-agent communication.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-022-1
+        text: >-
+          Each agent's runtime, memory, and workspace MUST be isolated such
+          that one agent cannot read or modify another's state without
+          authorization.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-022-2
+        text: >-
+          Agent-to-agent communication MUST be authenticated and segmented to
+          prevent privilege inheritance and cascade failures.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-022
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-AS-01
+          - reference-id: THR-AS-04
+          - reference-id: THR-AS-05
+  - id: CTL-PREV-023
+    title: Agentic System Credential Protection Framework
+    objective: >-
+      Prevent agents from discovering, extracting, or misusing credentials by
+      brokering secrets outside agent-accessible surfaces and constraining tool
+      access to credential stores.
+    group: PREV
+    state: Active
+    assessment-requirements:
+      - id: AR-PREV-023-1
+        text: >-
+          Credentials MUST be brokered by the runtime and MUST NOT be exposed
+          to agent-accessible memory, prompts, logs, or the workspace file
+          system.
+        applicability: [all]
+        state: Active
+      - id: AR-PREV-023-2
+        text: >-
+          Agent tools MUST be denied access to credential stores, environment
+          secrets, and instance metadata except through the secure-execution
+          broker.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-PREV-023
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-AS-01
+          - reference-id: THR-AS-03
+          - reference-id: THR-AS-06
+  - id: CTL-DET-001
+    title: AI Data Leakage Prevention and Detection
+    objective: >-
+      Detect leakage of sensitive data in model inputs and outputs and in
+      telemetry, and alert and respond when disclosure is detected.
+    group: DET
+    state: Active
+    assessment-requirements:
+      - id: AR-DET-001-1
+        text: >-
+          Model outputs and telemetry MUST be monitored for disclosure of
+          classified or sensitive data, with alerts raised on detection.
+        applicability: [all]
+        state: Active
+      - id: AR-DET-001-2
+        text: >-
+          Detected leakage events MUST trigger a documented response and
+          escalation workflow.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-DET-001
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-IL-01
+          - reference-id: THR-IL-02
+  - id: CTL-DET-004
+    title: AI System Observability
+    objective: >-
+      Instrument every layer to emit logs, traces, metrics, and events to the
+      Observability Layer so that behaviour, drift, availability, and data
+      handling are continuously visible and auditable.
+    group: DET
+    state: Active
+    assessment-requirements:
+      - id: AR-DET-004-1
+        text: >-
+          Every layer MUST emit logs, traces, metrics, and events covering
+          requests, model interactions, retrievals, and policy decisions to the
+          Observability Layer.
+        applicability: [all]
+        state: Active
+      - id: AR-DET-004-2
+        text: >-
+          Telemetry MUST be retained and queryable for the period required to
+          support audit and incident investigation.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-DET-004
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-DQ-01
+          - reference-id: THR-IL-01
+          - reference-id: THR-IL-02
+          - reference-id: THR-MA-01
+          - reference-id: THR-MA-02
+          - reference-id: THR-MA-03
+          - reference-id: THR-MI-01
+          - reference-id: THR-OI-02
+          - reference-id: THR-OI-03
+          - reference-id: THR-OP-01
+  - id: CTL-DET-009
+    title: AI System Alerting and Denial of Wallet Monitoring
+    objective: >-
+      Monitor spend and usage of models and tools, and alert on anomalous
+      consumption indicative of Denial of Wallet or runaway agentic loops.
+    group: DET
+    state: Active
+    assessment-requirements:
+      - id: AR-DET-009-1
+        text: >-
+          Model and tool consumption MUST be metered per consumer and monitored
+          against budget and rate thresholds.
+        applicability: [all]
+        state: Active
+      - id: AR-DET-009-2
+        text: >-
+          Anomalous spend or call volume MUST raise alerts and MUST be able to
+          trigger throttling or suspension.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-DET-009
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-MA-01
+          - reference-id: THR-MA-02
+          - reference-id: THR-MA-03
+  - id: CTL-DET-011
+    title: Human Feedback Loop for AI Systems
+    objective: >-
+      Capture human feedback on agent outputs through the Feedback Engine and
+      Human Supervision capabilities and feed it into evaluation and
+      improvement of agents and models.
+    group: DET
+    state: Active
+    assessment-requirements:
+      - id: AR-DET-011-1
+        text: >-
+          The system MUST provide a mechanism for humans to rate, correct, or
+          reject agent outputs, and MUST capture that feedback in the Feedback
+          Engine.
+        applicability: [all]
+        state: Active
+      - id: AR-DET-011-2
+        text: >-
+          Captured feedback MUST be reviewable and MUST inform retraining,
+          prompt, or configuration changes.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-DET-011
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-FA-01
+          - reference-id: THR-MI-01
+          - reference-id: THR-OI-02
+          - reference-id: THR-OI-03
+          - reference-id: THR-OP-02
+  - id: CTL-DET-013
+    title: Citations and Source Traceability for AI-Generated Information
+    objective: >-
+      Attach citations and source traceability to AI-generated information so
+      that outputs can be verified against retrieved sources and decisions can
+      be explained.
+    group: DET
+    state: Active
+    assessment-requirements:
+      - id: AR-DET-013-1
+        text: >-
+          Outputs grounded in retrieved content MUST include citations
+          identifying the source documents.
+        applicability: [all]
+        state: Active
+      - id: AR-DET-013-2
+        text: >-
+          The system MUST retain the linkage between an output and the
+          retrieved sources used to produce it.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-DET-013
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-GC-01
+          - reference-id: THR-GC-02
+          - reference-id: THR-OI-01
+          - reference-id: THR-OP-02
+  - id: CTL-DET-015
+    title: Automated Evaluation Using LLM-as-a-Judge
+    objective: >-
+      Use automated model-based evaluation in the Evaluation Layer to assess
+      output quality, grounding, bias, and policy compliance at scale.
+    group: DET
+    state: Active
+    assessment-requirements:
+      - id: AR-DET-015-1
+        text: >-
+          Agent outputs MUST be subject to automated model-based evaluation for
+          grounding, accuracy, and policy compliance.
+        applicability: [all]
+        state: Active
+      - id: AR-DET-015-2
+        text: >-
+          Automated evaluation results MUST feed runtime protection and human
+          supervision when thresholds are breached.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-DET-015
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-DQ-01
+          - reference-id: THR-FA-01
+          - reference-id: THR-IL-01
+          - reference-id: THR-IL-02
+          - reference-id: THR-MI-01
+          - reference-id: THR-OI-01
+          - reference-id: THR-OI-02
+          - reference-id: THR-OI-03
+  - id: CTL-DET-016
+    title: Preserving Source Data Access Controls in AI Systems
+    objective: >-
+      Propagate the access controls of source data into the retrieval path so
+      that retrieval and generation cannot expose content a requesting user is
+      not authorized to see.
+    group: DET
+    state: Active
+    assessment-requirements:
+      - id: AR-DET-016-1
+        text: >-
+          Retrieval MUST enforce the access controls of the underlying source
+          data for the requesting principal.
+        applicability: [all]
+        state: Active
+      - id: AR-DET-016-2
+        text: >-
+          Embeddings and retrieved context MUST be filtered by the requester's
+          entitlements before being supplied to the model.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-DET-016
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-GC-02
+          - reference-id: THR-IL-03
+          - reference-id: THR-IL-04
+          - reference-id: THR-IL-05
+  - id: CTL-DET-021
+    title: Agent Decision Audit and Explainability
+    objective: >-
+      Record an auditable trace of agent decisions, including tool selections,
+      inputs, and rationale, sufficient to explain and review autonomous
+      actions after the fact.
+    group: DET
+    state: Active
+    assessment-requirements:
+      - id: AR-DET-021-1
+        text: >-
+          The system MUST record an auditable decision trace for each agent
+          action, including the tools invoked and the inputs and rationale
+          leading to them.
+        applicability: [all]
+        state: Active
+      - id: AR-DET-021-2
+        text: >-
+          Decision traces MUST be retained and reviewable to support
+          explainability and post-incident analysis.
+        applicability: [all]
+        state: Active
+    guidelines:
+      - reference-id: finos-air
+        entries:
+          - reference-id: AIR-DET-021
+    threats:
+      - reference-id: ma-ref-arch-threats
+        entries:
+          - reference-id: THR-AS-01
+          - reference-id: THR-AS-02
+          - reference-id: THR-GC-02
