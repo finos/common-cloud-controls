@@ -174,7 +174,9 @@ jobs:
     steps:
       - name: Comment on pull request
         run: |
-          gh pr comment "${{ inputs.pr_number }}" --body "$(cat <<EOF
+          gh pr comment "${{ inputs.pr_number }}" \
+            --repo "${{ github.repository }}" \
+            --body "$(cat <<EOF
           ## Capabilities added
 
           \`${{ needs.generate.outputs.catalog_path }}/capabilities.yaml\` was generated and passed schema validation.
