@@ -547,6 +547,9 @@ func (s *AzureBlobService) deleteContainer(storageAccountName, containerName str
 	containerClient := blobClient.ServiceClient().NewContainerClient(containerName)
 	_, err = containerClient.Delete(s.ctx, nil)
 	if err != nil {
+		if isAzureContainerNotFound(err) {
+			return nil
+		}
 		return fmt.Errorf("failed to delete container %s: %w", containerName, err)
 	}
 
@@ -988,6 +991,10 @@ func (s *AzureBlobService) TriggerDataRead(resourceID string) error {
 
 func isAzureBlobNotFound(err error) bool {
 	return bloberror.HasCode(err, bloberror.BlobNotFound)
+}
+
+func isAzureContainerNotFound(err error) bool {
+	return bloberror.HasCode(err, bloberror.ContainerNotFound)
 }
 
 // GetResourceRegion returns the resource region (CN06.AR01)
