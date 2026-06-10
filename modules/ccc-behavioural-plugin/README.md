@@ -2,7 +2,7 @@
 
 Privateer **evaluation** plugin that runs CCC **behavioural** Godog scenarios via [runner](../runner).
 
-**Reference catalog:** `website/src/data/ccc-releases/` (e.g. `CCC.ObjStor_v2025.09.yaml`). Override with `CCC_CATALOG_DIR`. Release download from GitHub will replace this path later.
+**Reference catalog:** resolved from `catalog-versions` in Privateer config via `cfi-testing/scripts/resolve-catalog-version.sh` (DEV → `website/src/data/ccc-releases`; published releases → local when present, download TBD). Override search dir with `CCC_CATALOG_RELEASES_DIR`.
 
 Configuration comes from **Privateer** `services.<id>.vars` only (no separate `environment.yaml`).
 

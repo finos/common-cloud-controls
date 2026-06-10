@@ -6,12 +6,14 @@ on:
     paths:
       - "modules/**"
       - ".github/workflows/modules.yml"
+      - ".github/actions/setup-go-workspace/**"
   push:
     branches:
       - main
     paths:
       - "modules/**"
       - ".github/workflows/modules.yml"
+      - ".github/actions/setup-go-workspace/**"
 
 permissions:
   contents: read
@@ -54,25 +56,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-go@v5
-        with:
-          go-version-file: ${{ matrix.path }}/go.mod
-          cache-dependency-path: ${{ matrix.path }}/go.sum
+      - name: Set up Go workspace
+        uses: ./.github/actions/setup-go-workspace
 
       - name: Verify module
         run: go mod verify
 
       - name: Build
+        working-directory: .
         run: |
-          if [ "${{ matrix.module }}" = "runner" ]; then
-            go build ./...
-            go build -o ccc-compliance ./cmd/ccc-compliance/
-          elif [ "${{ matrix.module }}" = "cloud-api-test" ]; then
-            go build ./...
-            go build -tags=integration ./...
-          else
-            go build ./...
+          set -euo pipefail
+          args=("${{ matrix.module }}")
+          if [ "${{ matrix.module }}" = "cloud-api-test" ]; then
+            args+=(--integration)
           fi
+          if [ "${{ matrix.module }}" = "runner" ]; then
+            args+=(--compliance-bin "${{ matrix.path }}/ccc-compliance")
+          fi
+          bash ./modules/build.sh "${args[@]}"
 
       - name: Unit tests with coverage
         run: go test -coverprofile=coverage-unit.out -covermode=atomic ./...

@@ -34,8 +34,8 @@ func main() {
 	}
 	orchestrator.AddRequiredVars(RequiredVars)
 
-	// Load embedded plugin catalogs.
-	if err := orchestrator.AddReferenceCatalogs("catalogs", embeddedCatalogs); err != nil {
+	// Load embedded plugin catalogs (registered under CCC release ids from filenames).
+	if err := loadEmbeddedReferenceCatalogs(&orchestrator, embeddedCatalogs); err != nil {
 		fmt.Fprintf(os.Stderr, "error loading catalog: %v\n", err)
 		os.Exit(1)
 	}

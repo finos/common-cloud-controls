@@ -17,9 +17,9 @@ services:
       service-type: virtual-machines
       tags: "@Behavioural @virtual-machines"
       provider: gcp
-      catalog-locations:
-        CCC.Core: website/src/data/ccc-releases/CCC.Core_v2025.10.yaml
-        CCC.VM: website/src/data/ccc-releases/CCC.VM_DEV.yaml
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.VM: DEV
       region: us-central1
       gcp-project-id: "${GCP_PROJECT_ID}"
       resource: "finos-ccc-integration-vm-main"

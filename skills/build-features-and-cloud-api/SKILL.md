@@ -329,7 +329,7 @@ Reference existing configs:
 5. `test-identities` block shape must match [`types.Config.Identity`](../../modules/cloud-api/types/config.go); prefer `${AZURE_TEST_USER_*_USER_NAME}` from `modules/cloud-api-test/environment-config/azure-env.sh` (and AWS/GCP equivalents).
 6. Document in config header: `terraform output` commands used to populate vars after apply.
 7. Log service details must match [`types.Config.LoggingConfig`](../../modules/cloud-api/types/config.go).
-8. Include `plugin: ccc-behavioural-plugin`, `service` / `service-type`, `tags`, and `catalog-locations` per analysis.
+8. Include `plugin: ccc-behavioural-plugin`, `service` / `service-type`, `tags`, and `catalog-versions` per analysis (e.g. `CCC.Core: v2025.10`, `CCC.SecMgmt: DEV`).
 
 #### actions-config (CI matrix)
 

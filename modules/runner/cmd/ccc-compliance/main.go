@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -20,6 +21,9 @@ var (
 	timeout          = flag.Duration("timeout", 30*time.Minute, "Timeout for all tests")
 	resourceFilter   = flag.String("resource", "", "Filter tests to a specific resource name")
 	tags             = flag.String("tags", "", "Space-separated tag filters ANDed with service tags")
+	catalogID        = flag.String("catalog-id", "", "Catalog id to resolve (with -resolve-catalog-version)")
+	catalogVersion   = flag.String("catalog-version", "", "Catalog version to resolve (with -resolve-catalog-version)")
+	resolveCatalogVersion = flag.Bool("resolve-catalog-version", false, "Resolve catalog-versions entry and print path")
 )
 
 func main() {
@@ -33,6 +37,22 @@ func main() {
 
 	if *outputDir != "" {
 		opts.OutputDir = *outputDir
+	}
+
+	if *resolveCatalogVersion {
+		if *catalogID == "" || *catalogVersion == "" {
+			log.Fatal("Error: -catalog-id and -catalog-version are required with -resolve-catalog-version")
+		}
+		effectiveRepoRoot := *repoRoot
+		if effectiveRepoRoot == "" {
+			effectiveRepoRoot = runner.RepoRoot()
+		}
+		path, err := runner.ResolveCatalogControlPath(*catalogID, *catalogVersion, effectiveRepoRoot)
+		if err != nil {
+			log.Fatalf("Error resolving catalog: %v", err)
+		}
+		fmt.Println(path)
+		return
 	}
 
 	if *syncCatalogsDest != "" {

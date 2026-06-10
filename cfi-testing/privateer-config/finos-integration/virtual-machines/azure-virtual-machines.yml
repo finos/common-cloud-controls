@@ -17,9 +17,9 @@ services:
       service-type: virtual-machines
       tags: "@Behavioural @virtual-machines"
       provider: azure
-      catalog-locations:
-        CCC.Core: website/src/data/ccc-releases/CCC.Core_v2025.10.yaml
-        CCC.VM: website/src/data/ccc-releases/CCC.VM_DEV.yaml
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.VM: DEV
       region: eastus
       resource: "finos-ccc-integration-vm-main"
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"

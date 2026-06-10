@@ -1,0 +1,17 @@
+name: Set up Go workspace
+description: Install Go from modules/go.work and enable workspace mode for all module builds and tests.
+
+runs:
+  using: composite
+  steps:
+    - name: Install Go toolchain
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: modules/go.work
+        cache-dependency-path: |
+          modules/go.work
+          modules/**/go.sum
+
+    - name: Enable Go workspace
+      shell: bash
+      run: echo "GOWORK=${{ github.workspace }}/modules/go.work" >> "$GITHUB_ENV"

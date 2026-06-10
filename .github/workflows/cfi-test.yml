@@ -11,6 +11,7 @@ on:
       - "cfi-testing/**"
       - "modules/**"
       - ".github/workflows/cfi-test.yml"
+      - ".github/actions/setup-go-workspace/**"
   push:
     branches:
       - main
@@ -18,6 +19,7 @@ on:
       - "cfi-testing/**"
       - "modules/**"
       - ".github/workflows/cfi-test.yml"
+      - ".github/actions/setup-go-workspace/**"
 
 jobs:
   prepare-matrix:
@@ -177,10 +179,8 @@ jobs:
             env | grep -E '^GCP_(TEST_USER_|VM_HOSTNAME)' >> "$GITHUB_ENV"
           fi
 
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: modules/go.work
+      - name: Set up Go workspace
+        uses: ./.github/actions/setup-go-workspace
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -194,6 +194,12 @@ jobs:
           set -euo pipefail
           npm ci --prefix website
           npm run --prefix website generate:catalogs
+
+      - name: Build modules
+        run: |
+          set -euo pipefail
+          bash ./modules/build.sh cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin \
+            --plugin-output cfi-testing/.privateer/bin/ccc-behavioural-plugin
 
       - name: Configure AWS Credentials (OIDC)
         if: matrix.target.provider == 'aws'
@@ -237,6 +243,7 @@ jobs:
           echo "Privateer service: $TARGET_PRIVATEER_SERVICE"
 
           ./cfi-testing/run-compliance-tests.sh \
+            --skip-build \
             --debug \
             -c "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
             -S "$TARGET_PRIVATEER_SERVICE" \
