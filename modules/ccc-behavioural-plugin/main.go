@@ -34,8 +34,9 @@ func main() {
 	}
 	orchestrator.AddRequiredVars(RequiredVars)
 
-	// Load embedded plugin catalogs (registered under CCC release ids from filenames).
-	if err := loadEmbeddedReferenceCatalogs(&orchestrator, embeddedCatalogs); err != nil {
+	// Catalog YAML is synced into catalogs/ before build; metadata.id is patched at sync time
+	// (see runner.SyncPrivateerCatalogs) so catalogs register under policy.catalogs ids.
+	if err := orchestrator.AddReferenceCatalogs("catalogs", embeddedCatalogs); err != nil {
 		fmt.Fprintf(os.Stderr, "error loading catalog: %v\n", err)
 		os.Exit(1)
 	}

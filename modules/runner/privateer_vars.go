@@ -2,7 +2,6 @@ package runner
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 	"sort"
@@ -50,12 +49,14 @@ func ResolvePrivateerCatalogPaths(path, serviceID, repoRoot string) ([]string, e
 
 // SyncPrivateerCatalogs copies configured catalog files into destinationDir.
 // Existing CCC*.yaml files in destinationDir are removed first.
+// metadata.id in each controls artifact is rewritten to the catalog-versions key
+// (e.g. CCC.SecMgmt) so privateer-sdk registers catalogs under policy.catalogs ids.
 func SyncPrivateerCatalogs(path, serviceID, repoRoot, destinationDir string) error {
-	catalogPaths, err := ResolvePrivateerCatalogPaths(path, serviceID, repoRoot)
+	locations, err := resolvePrivateerCatalogLocationsFromConfig(path, serviceID, repoRoot)
 	if err != nil {
 		return err
 	}
-	if len(catalogPaths) == 0 {
+	if len(locations) == 0 {
 		return fmt.Errorf("no catalog paths resolved for service %q in %s", serviceID, path)
 	}
 
@@ -73,8 +74,9 @@ func SyncPrivateerCatalogs(path, serviceID, repoRoot, destinationDir string) err
 		}
 	}
 
-	for _, src := range catalogPaths {
-		if err := copyFile(src, filepath.Join(destinationDir, filepath.Base(src))); err != nil {
+	for catalogID, src := range locations {
+		dest := filepath.Join(destinationDir, filepath.Base(src))
+		if err := copyCatalogControlsFile(src, dest, catalogID); err != nil {
 			return err
 		}
 	}
@@ -82,31 +84,48 @@ func SyncPrivateerCatalogs(path, serviceID, repoRoot, destinationDir string) err
 	return nil
 }
 
-func copyFile(src, dest string) error {
-	in, err := os.Open(src)
+func resolvePrivateerCatalogLocationsFromConfig(path, serviceID, repoRoot string) (map[string]string, error) {
+	vars, err := loadPrivateerServiceVars(path, serviceID)
 	if err != nil {
-		return fmt.Errorf("open catalog %s: %w", src, err)
+		return nil, err
 	}
-	defer in.Close()
-
-	info, err := in.Stat()
+	locations, err := ResolvePrivateerCatalogLocations(vars, repoRoot)
 	if err != nil {
-		return fmt.Errorf("stat catalog %s: %w", src, err)
+		return nil, fmt.Errorf("service %q in %s: %w", serviceID, path, err)
 	}
-	if info.IsDir() {
-		return fmt.Errorf("catalog path is a directory, expected file: %s", src)
-	}
+	return locations, nil
+}
 
-	out, err := os.Create(dest)
+func copyCatalogControlsFile(src, dest, catalogID string) error {
+	data, err := os.ReadFile(src)
 	if err != nil {
-		return fmt.Errorf("create destination catalog %s: %w", dest, err)
+		return fmt.Errorf("read catalog %s: %w", src, err)
 	}
-	defer out.Close()
-
-	if _, err := io.Copy(out, in); err != nil {
-		return fmt.Errorf("copy catalog %s to %s: %w", src, dest, err)
+	patched, err := patchControlCatalogMetadataID(data, catalogID)
+	if err != nil {
+		return fmt.Errorf("catalog %s: %w", src, err)
+	}
+	if err := os.WriteFile(dest, patched, 0o644); err != nil {
+		return fmt.Errorf("write destination catalog %s: %w", dest, err)
 	}
 	return nil
+}
+
+func patchControlCatalogMetadataID(data []byte, catalogID string) ([]byte, error) {
+	var doc map[string]any
+	if err := yaml.Unmarshal(data, &doc); err != nil {
+		return nil, fmt.Errorf("parse catalog YAML: %w", err)
+	}
+	metadata, ok := doc["metadata"].(map[string]any)
+	if !ok {
+		return nil, fmt.Errorf("missing metadata block")
+	}
+	metadata["id"] = catalogID
+	out, err := yaml.Marshal(doc)
+	if err != nil {
+		return nil, fmt.Errorf("marshal catalog YAML: %w", err)
+	}
+	return out, nil
 }
 
 func loadPrivateerServiceVars(path, serviceID string) (map[string]interface{}, error) {
