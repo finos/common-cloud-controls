@@ -36,10 +36,11 @@ const journey = [
 
 export default function AdvanceAutomatedGovernance() {
   return (
-    <HomeSection title="Advance Your Automated Governance">
-      <div style={{ maxWidth: "850px", margin: "0 auto", marginTop: "2rem" }}>
+    <div>
+      <HomeSection title="Advance Your Automated Governance">
+      <div style={{ maxWidth: "850px", margin: "0 auto", marginTop: "4rem" }}>
 
-        <div style={{ maxWidth: "850px", margin: "0 auto 3rem auto", position: "relative", paddingLeft: "2rem" }}>
+        <div style={{ maxWidth: "850px", margin: "0 auto", position: "relative", paddingLeft: "2rem" }}>
           <div style={{
             position: "absolute",
             left: "0.4rem",
@@ -51,7 +52,7 @@ export default function AdvanceAutomatedGovernance() {
             opacity: 0.4,
           }} />
           {journey.map((step, i) => (
-            <div key={step.verb} style={{ position: "relative", marginBottom: i < journey.length - 1 ? "var(--gf-space-xl)" : 0 }}>
+            <div key={step.verb} style={{ position: "relative"}}>
               <div style={{
                 position: "absolute",
                 left: "-2rem",
@@ -65,15 +66,17 @@ export default function AdvanceAutomatedGovernance() {
                 <span style={{ color: "rgb(0, 134, 191)" }}>{step.verb} </span>
                 <span>{step.title}</span>
               </p>
-              <p style={{ margin: 0, color: "var(--gf-color-text-subtle)", lineHeight: 1.7, fontSize: "0.975rem" }}>
+              <p style={{ margin: 0, color: "var(--gf-color-text-subtle)", lineHeight: 1.7, fontSize: "0.975rem", marginTop: ".75rem", marginBottom: "1.50rem" }}>
                 {step.body}
               </p>
             </div>
           ))}
         </div>
-        <HomeSection></HomeSection>
+      </div>
+      </HomeSection>
+      <HomeSection>
         <div>
-          <h3 style={{ fontSize: "1.3rem", fontWeight: 700, textAlign: "center", marginBottom: "2rem" }}>
+          <h3 style={{ fontSize: "1.3rem", fontWeight: 700, textAlign: "center", marginTop: "1rem" , marginBottom: "2rem" }}>
             Where CCC Fits In
           </h3>
           <p style={{ lineHeight: 1.75, fontSize: "0.975rem" }}>
@@ -89,7 +92,7 @@ export default function AdvanceAutomatedGovernance() {
           </p>
         </div>
         <div>
-          <h3 style={{ fontSize: "1.3rem", fontWeight: 700, textAlign: "center", marginTop: "2rem", marginBottom: "2rem" }}>
+          <h3 style={{ fontSize: "1.3rem", fontWeight: 700, textAlign: "center", marginTop: "4rem", marginBottom: "2rem" }}>
             Three Catalogs, One Complete Picture
           </h3>
         </div>
@@ -110,7 +113,7 @@ export default function AdvanceAutomatedGovernance() {
             />
           </div>
         </div>
-      </div>
-    </HomeSection>
+      </HomeSection >
+    </div>  
   );
 }
