@@ -5,7 +5,7 @@
     "path": "/catalogs/capabilities",
     "title": "Capability Catalogs",
     "description": "Capabilities define the functional properties a cloud service must support — the scope of what CCC controls are written against.",
-    "file": "catalogs/capabilities.md"
+    "file": "capabilities.md"
   },
   {
     "section": "catalogs",
@@ -13,7 +13,7 @@
     "path": "/catalogs/controls",
     "title": "Control Catalogs",
     "description": "Control catalogs specify the concrete security measures that mitigate identified threats for each cloud service.",
-    "file": "catalogs/controls.md"
+    "file": "controls.md"
   },
   {
     "section": "catalogs",
@@ -21,6 +21,6 @@
     "path": "/catalogs/threats",
     "title": "Threat Catalogs",
     "description": "Threat catalogs identify the security and resiliency risks relevant to each cloud service capability.",
-    "file": "catalogs/threats.md"
+    "file": "threats.md"
   }
 ]
