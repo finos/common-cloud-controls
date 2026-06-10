@@ -11,6 +11,7 @@ runs:
         cache-dependency-path: |
           modules/go.work
           modules/**/go.sum
+          delivery-toolkit/go.sum
 
     - name: Enable Go workspace
       shell: bash

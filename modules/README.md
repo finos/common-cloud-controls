@@ -14,6 +14,7 @@ All Go code for CCC cloud testing lives under this directory.
 | `reporters` | [`reporters/`](reporters/) — HTML, OCSF, summary formatters |
 | `runner` | [`runner/`](runner/) — behavioural test runner library and `ccc-compliance` CLI |
 | `ccc-behavioural-plugin` | [`ccc-behavioural-plugin/`](ccc-behavioural-plugin/) — Privateer plugin (same tests as `runner`) |
+| `delivery-toolkit` | [`../delivery-toolkit/`](../delivery-toolkit/) — catalog compile CLI (used by website `generate:catalogs` and release workflows) |
 
 Build everything:
 
