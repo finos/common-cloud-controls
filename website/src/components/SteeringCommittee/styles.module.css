@@ -24,7 +24,7 @@
 
 .card:hover .label,
 .card:hover .name {
-  color: rgb(0, 181, 226);
+  color: #ffffff;
 }
 
 .logoWrapper {
@@ -58,7 +58,7 @@
   flex-direction: column;
   gap: 0.6rem;
   flex: 1;
-  background: #effbff;
+  background: #00b5e2;
 }
 
 .orgName {
@@ -79,13 +79,13 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #0086bf;
+  color: rgba(255, 255, 255, 0.75);
   transition: color 0.2s;
 }
 
 .name {
   font-size: 0.85rem;
-  color: #0086bf;
+  color: #ffffff;
   line-height: 1.4;
   transition: color 0.2s;
 }
