@@ -2,6 +2,11 @@ name: YAML Check
 
 on:
   workflow_call:
+    inputs:
+      ref:
+        description: Git ref to checkout (branch name or SHA). Defaults to caller ref.
+        required: false
+        type: string
 
 jobs:
   yaml-check:
@@ -9,7 +14,9 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
 
       - name: Validate Catalogs Against Schemas
         uses: InoUno/yaml-ls-check@develop

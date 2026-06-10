@@ -1,0 +1,184 @@
+name: Add Catalogue Capabilities
+
+# Phase 2: add capabilities.yaml to a PR that already has reviewed metadata.yaml.
+# Phase 1: draft-catalogue-metadata.yml
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Pull request number from draft-catalogue-metadata workflow"
+        required: true
+        type: number
+      catalog_path:
+        description: "Catalog folder (e.g. catalogs/storage/object). Auto-detected from PR diff if omitted."
+        required: false
+        type: string
+      allow_overwrite:
+        description: "Replace existing capabilities.yaml if present"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  models: read
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.ref.outputs.branch }}
+      catalog_path: ${{ steps.path.outputs.catalog_path }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_TOKEN: ${{ github.token }}
+      PR_NUMBER: ${{ inputs.pr_number }}
+      CATALOG_PATH_INPUT: ${{ inputs.catalog_path }}
+      ALLOW_OVERWRITE: ${{ inputs.allow_overwrite }}
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout pull request branch
+        run: gh pr checkout "$PR_NUMBER"
+
+      - name: Resolve PR head branch
+        id: ref
+        run: |
+          BRANCH=$(gh pr view "$PR_NUMBER" --json headRefName -q .headRefName)
+          echo "branch=${BRANCH}" >> "$GITHUB_OUTPUT"
+
+      - name: Detect catalogue path
+        id: path
+        run: |
+          if [ -n "$CATALOG_PATH_INPUT" ]; then
+            CATALOG="$CATALOG_PATH_INPUT"
+          else
+            git fetch origin "$DEFAULT_BRANCH"
+            files=$(git diff "origin/${DEFAULT_BRANCH}" --name-only -- 'catalogs/**/metadata.yaml' || true)
+            count=$(echo "$files" | grep -c . || true)
+            if [ "$count" -ne 1 ]; then
+              echo "::error::Expected exactly one changed metadata.yaml on PR ${PR_NUMBER} (found ${count}). Set catalog_path to override."
+              exit 1
+            fi
+            CATALOG=$(dirname "$files")
+          fi
+          echo "catalog_path=${CATALOG}" >> "$GITHUB_OUTPUT"
+          echo "Using catalog path: ${CATALOG}"
+
+      - name: Preflight capabilities
+        run: |
+          CATALOG="${{ steps.path.outputs.catalog_path }}"
+          test -f "${CATALOG}/metadata.yaml" || { echo "::error::${CATALOG}/metadata.yaml missing"; exit 1; }
+          if [ -f "${CATALOG}/capabilities.yaml" ] && [ "$ALLOW_OVERWRITE" != "true" ]; then
+            echo "::error::${CATALOG}/capabilities.yaml already exists (set allow_overwrite=true to replace)"
+            exit 1
+          fi
+
+      - name: Build core capability index
+        run: |
+          awk '
+            /^  - id: CCC\.Core\./ { id=$3; next }
+            /^    title:/ && id { print id " | " substr($0, index($0,$2)); id="" }
+          ' catalogs/core/ccc/capabilities.yaml > /tmp/core-cap-index.txt
+
+      - name: Build capabilities prompt
+        run: |
+          CATALOG="${{ steps.path.outputs.catalog_path }}"
+          {
+            echo "GitHub Actions mode. Run Step 5 from skills/create-capability-catalogue-capabilities/SKILL.md."
+            echo "catalog_path: ${CATALOG}"
+            echo "Return raw YAML for capabilities.yaml only (no markdown fences)."
+            echo "---"
+            cat skills/create-capability-catalogue-capabilities/SKILL.md
+            echo "---"
+            echo "${CATALOG}/metadata.yaml:"
+            cat "${CATALOG}/metadata.yaml"
+            echo "---"
+            echo "schemas/capabilities-schema.json:"
+            cat schemas/capabilities-schema.json
+            echo "---"
+            echo "style-guides/catalogs/capability-style-guide.yaml:"
+            cat style-guides/catalogs/capability-style-guide.yaml
+            echo "---"
+            echo "Core capability index (id | title):"
+            cat /tmp/core-cap-index.txt
+            echo "---"
+            echo "Example capabilities.yaml (catalogs/database/vector/capabilities.yaml):"
+            cat catalogs/database/vector/capabilities.yaml
+          } > /tmp/capabilities-prompt.txt
+
+      - name: Call C — capabilities YAML
+        run: |
+          jq -n \
+            --rawfile content /tmp/capabilities-prompt.txt \
+            '{
+              model: "openai/gpt-4.1",
+              messages: [
+                { role: "system", content: "Follow the skill exactly. Output raw YAML for capabilities.yaml only." },
+                { role: "user", content: $content }
+              ]
+            }' > /tmp/capabilities-request.json
+
+          curl -sf https://models.github.ai/inference/chat/completions \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @/tmp/capabilities-request.json > /tmp/capabilities-response.json
+
+          jq -r '.choices[0].message.content' /tmp/capabilities-response.json > /tmp/capabilities-raw.txt
+
+      - name: Parse response and write capabilities.yaml
+        run: |
+          CATALOG="${{ steps.path.outputs.catalog_path }}"
+          RAW=$(cat /tmp/capabilities-raw.txt)
+
+          echo "$RAW" | awk '/^imported-capabilities:|^capabilities:/{found=1} found{print}' | sed '/^```/d' > /tmp/capabilities.yaml
+          if ! grep -qE '^(imported-capabilities:|capabilities:)' /tmp/capabilities.yaml; then
+            echo "$RAW" | sed -n '/^```yaml/,/^```/p' | sed '1d;$d' > /tmp/capabilities.yaml
+          fi
+          if ! grep -qE '^(imported-capabilities:|capabilities:)' /tmp/capabilities.yaml; then
+            echo "::error::Could not extract capabilities YAML from model response"
+            echo "$RAW"
+            exit 1
+          fi
+
+          cp /tmp/capabilities.yaml "${CATALOG}/capabilities.yaml"
+          echo "Wrote ${CATALOG}/capabilities.yaml"
+
+      - name: Commit and push
+        run: |
+          CATALOG="${{ steps.path.outputs.catalog_path }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${CATALOG}/capabilities.yaml"
+          git commit -m "feat: add capabilities for ${CATALOG}"
+          git push
+
+  validate:
+    needs: generate
+    permissions:
+      contents: read
+    uses: ./.github/workflows/yaml_check.yml
+    with:
+      ref: ${{ needs.generate.outputs.ref }}
+
+  publish:
+    needs: [generate, validate]
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Comment on pull request
+        run: |
+          gh pr comment "${{ inputs.pr_number }}" --body "$(cat <<EOF
+          ## Capabilities added
+
+          \`${{ needs.generate.outputs.catalog_path }}/capabilities.yaml\` was generated and passed schema validation.
+
+          Ready for full PR review.
+          EOF
+          )"
