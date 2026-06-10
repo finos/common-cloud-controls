@@ -28,77 +28,90 @@ imported-capabilities:
 
 capabilities:
   - id: CCC.Logging.CP01
+    group: Observability
     title: Service Log Capture
     description: |
       Ability to capture logs from all relevant cloud services at varying
       levels of verbosity.
 
   - id: CCC.Logging.CP02
+    group: Observability
     title: Application Log Ingestion
     description: |
       Support for ingesting logs from custom applications deployed within the
       cloud environment.
 
   - id: CCC.Logging.CP03
+    group: Observability
     title: Real-Time Log Ingestion
     description: |
       Logs should be ingested in near real-time to enable timely detection and
       response.
 
   - id: CCC.Logging.CP04
+    group: Observability
     title: Centralised Log Collection
     description: |
       Ability to centralise logs from different resources within a signle
       logging solution or platform.
 
   - id: CCC.Logging.CP05
+    group: Observability
     title: Custom Log Format Support
     description: |
       Ability to ingest custom log formats or data from on-premises systems or
       other cloud environments via agents.
 
   - id: CCC.Logging.CP06
+    group: Observability
     title: Log Filtering & Transformation
     description: |
       Ability to to filter, normalise, and transform raw log data at ingestion
       to optimise storage and enhance usability.
 
   - id: CCC.Logging.CP07
+    group: Observability
     title: Immutable Storage
     description: |
       Ability to prevent unauthorized alteration or deletion of logs, ensuring
       their integrity for auditing and forensic purposes.
 
   - id: CCC.Logging.CP08
+    group: Observability
     title: Retention Policies
     description: |
       Ability to define and enforce granular retention periods for different
       log types based on regulatory requirements and internal policies.
 
   - id: CCC.Logging.CP09
+    group: Observability
     title: Internal Sink
     description: |
       Ability to continuously stream log data to a hosted storage bucket or data lake
       solution within the cloud service provider.
 
   - id: CCC.Logging.CP10
+    group: Observability
     title: External Sink
     description: |
       Log events can be configured to be sent to a external SIEM or data analysis
       provider outside of the cloud platform.
 
   - id: CCC.Logging.CP11
+    group: Observability
     title: Log-based Metrics
     description: |
       Ability to extract quantitative metrics from log data for performance
       monitoring and operational analysis.
 
   - id: CCC.Logging.CP12
+    group: Observability
     title: Log Archiving
     description: |
       Ability to archive logs that are no longer needed but must be retained.
 
   - id: CCC.Logging.CP13
+    group: Observability
     title: Field Indexing
     description: |
       Supports field-based indexing to improve log query performace.

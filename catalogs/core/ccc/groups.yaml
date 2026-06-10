@@ -1,0 +1,89 @@
+# Canonical CCC group definitions — the single source of truth.
+#
+# Catalog entries (capabilities, controls, threats) reference a group by `id`.
+# At compile time the toolkit injects the full definition below into the
+# artifact's `groups`. Referencing a group id that is not defined here is a
+# compile error, which keeps every catalog's grouping consistent.
+groups:
+  - id: Encryption
+    title: Encryption
+    description: |
+      The Encryption group covers entries related to protecting data
+      confidentiality and integrity through cryptographic mechanisms. This
+      includes encryption in transit and at rest, key management, and
+      certificate lifecycle management.
+  - id: Access
+    title: Access Control
+    description: |
+      The Access Control group covers entries related to authentication,
+      authorization, and trust perimeter enforcement. This includes
+      multi-factor authentication, least privilege access, network access
+      rules, and prevention of unauthorized access or reconnaissance.
+  - id: Observability
+    title: Observability
+    description: |
+      The Observability group covers entries related to logging, monitoring,
+      metrics, alerting, and event publication. This includes audit trail
+      integrity, enumeration detection, and protection against tampering or
+      unauthorized access to operational telemetry.
+  - id: Data
+    title: Data Resilience
+    description: |
+      The Data Resilience group covers entries related to ensuring data
+      availability, integrity, and sovereignty across its lifecycle. This
+      includes replication, backup, recovery, region restrictions, and
+      protection against data loss or corruption.
+  - id: Resource
+    title: Resource Management
+    description: |
+      The Resource Management group covers entries related to the lifecycle,
+      configuration, and operational integrity of cloud resources. This
+      includes resource exhaustion, tag manipulation, version rollback,
+      scaling, and cost management.
+  - id: Compute
+    title: Compute
+    description: |
+      The Compute group covers entries related to processing, execution, and
+      runtime infrastructure. This includes CPU, memory, storage allocation,
+      network ports, command-line interfaces, and elastic scaling.
+  - id: Ingestion
+    title: Ingestion
+    description: |
+      The Ingestion group covers entries related to how a service receives or
+      retrieves data, inputs, or commands for processing. This includes both
+      active (pull-based) and passive (push-based) ingestion patterns.
+  - id: Networking
+    title: Networking
+    description: |
+      The Networking group covers entries related to network infrastructure,
+      connectivity, and traffic management. This includes virtual networks,
+      subnets, load balancing, DNS, routing, peering, and network-level access
+      controls.
+  - id: Orchestration
+    title: Orchestration
+    description: |
+      The Orchestration group covers entries related to coordinating and
+      managing workloads across distributed systems. This includes container
+      orchestration, job scheduling, CI/CD pipelines, build automation, and
+      service mesh management.
+  - id: Processing
+    title: Data Processing
+    description: |
+      The Data Processing group covers entries related to transforming,
+      enriching, and moving data through pipelines. This includes ETL/ELT,
+      stream and batch processing, data lineage, schema evolution, and
+      workflow orchestration for data workloads.
+  - id: Messaging
+    title: Messaging
+    description: |
+      The Messaging group covers entries related to asynchronous communication
+      between services. This includes publish-subscribe, message queuing, topic
+      management, delivery guarantees, ordering, filtering, and dead-letter
+      handling.
+  - id: MachineLearning
+    title: Machine Learning
+    description: |
+      The Machine Learning group covers entries related to building, training,
+      deploying, and managing ML models and AI systems. This includes
+      development environments, experiment tracking, model registries,
+      inference, generative AI, prompt engineering, and model governance.

@@ -28,7 +28,7 @@
                   "type": "string"
                 }
               },
-              "required": ["reference-id", "strength"],
+              "required": ["reference-id"],
               "additionalProperties": false
             }
           },
@@ -58,6 +58,10 @@
           "description": {
             "type": "string",
             "description": "Detailed explanation of the threat"
+          },
+          "group": {
+            "type": "string",
+            "description": "Group id this threat belongs to (defined in core/ccc/groups.yaml)"
           },
           "capabilities": {
             "type": "array",
@@ -135,7 +139,7 @@
             }
           }
         },
-        "required": ["id", "title", "description", "capabilities", "external-mappings"],
+        "required": ["id", "title", "description", "group"],
         "additionalProperties": false
       }
     }

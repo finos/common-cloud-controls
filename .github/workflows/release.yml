@@ -1,103 +1,258 @@
-name: Release Workflow
+name: Release Catalog
+
+# Release a single typed catalog asset.
+#
+# Pick the catalog (family/service, e.g. storage/object) + the asset type. The
+# delivery-toolkit compiles ONE typed catalog — CapabilityCatalog / ControlCatalog
+# / ThreatCatalog — there is no omnibus. The release artifact IS that single typed
+# catalog.
+#
+# Then (augmenting the old release flow) two publishing steps run:
+#   1. NEW: grcli validates the artifact against the Gemara spec and publishes it to
+#      grc.store. repository = metadata.author.id/metadata.id, tag = metadata.version
+#      — both inferred from the artifact, nothing else to supply.
+#   2. OLD: a GitHub release is cut carrying the same typed catalog YAML.
+#
+# `version` is supplied here at release time — it is intentionally NOT stored in
+# source metadata.yaml — and `compile` stamps it into the artifact.
+#
+# Auth: no secrets for publish. grcli mints a GitHub Actions OIDC token (id-token:
+# write below) for the grc.store hub sync and cosign keyless signing.
+#
+# compile produces all three typed catalogs (capabilities / threats / controls), and
+# every asset type is run through grcli validate against the Gemara CUE spec (below).
+# capabilities has been verified end-to-end; threats and controls take the same path
+# but have not yet been exercised through a full validate + publish run.
+#
+# Unlike batch-release.yml (a best-effort sweep that never fails CI), this single-asset
+# workflow is the HARD GATE: any failing stage fails the job. The final summary step
+# runs `if: always()` purely to report — it renders a Source/Result table (links to the
+# GitHub release + grc.store page on success, a parsed reason on failure) plus a
+# per-stage pipeline line, and never changes the job's pass/fail.
 
 on:
   workflow_dispatch:
     inputs:
       build_target:
-        description: "Build Target (e.g storage/object)"
+        description: "Catalog to release — family/service (e.g. storage/object)"
         required: true
-      tag:
-        description: "Tag for this release"
+        type: string
+      asset_type:
+        description: "Asset type to release"
         required: true
+        type: choice
+        options:
+          - capabilities
+          - threats
+          - controls
+      version:
+        description: "Release version (e.g. v2026.04 or v2026.04-rc1) — stamped into the artifact"
+        required: true
+        type: string
+      dry_run:
+        description: "Dry run — compile + validate + build the bundle, but do not push to grc.store or cut a GitHub release"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # cut the GitHub release
+  id-token: write # grcli mints a GHA OIDC token for hub auth + cosign keyless signing
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./delivery-toolkit
+    # Inputs are funneled through env to keep free-text values out of run: scripts.
+    env:
+      BUILD_TARGET: ${{ inputs.build_target }}
+      ASSET_TYPE: ${{ inputs.asset_type }}
+      VERSION: ${{ inputs.version }}
+      DRY_RUN: ${{ inputs.dry_run }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
-        name: Build
 
-      - name: Configure Go
-        uses: actions/setup-go@v5
-
-      - name: Install dependencies
-        run: go mod download
-
-      - name: Get Build Target
-        id: process_target
+      - name: Verify source file exists
+        id: verify
         run: |
-          # Read the input for a single build target
-          build_target="${{ github.event.inputs.build_target }}"
+          src="catalogs/${BUILD_TARGET}/${ASSET_TYPE}.yaml"
+          if [ ! -f "$src" ]; then
+            echo "::error::No source file at ${src} — check the build target and asset type."
+            exit 1
+          fi
+          echo "Source: ${src}"
 
-          # Print and save the build target
-          echo "Build target: $build_target"
-          echo "target=$build_target" >> $GITHUB_OUTPUT
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: delivery-toolkit/go.mod
 
-      - name: Create Release Artifacts
+      - name: Compile the typed catalog
+        id: compile
+        working-directory: delivery-toolkit
+        # tee to a log so the summary step can parse a friendly reason if this fails.
+        # pipefail (the GHA default) keeps the step's exit status that of `go run`.
         run: |
-          # Create all artifacts for the specified build target
-          build_target="${{ steps.process_target.outputs.target }}"
-          echo "Creating Artifacts for: $build_target"
-          go run . generate-release-artifacts --build-target $build_target
+          go run . compile \
+            --build-target "$BUILD_TARGET" \
+            --type "$ASSET_TYPE" \
+            --version "$VERSION" \
+            --catalogs-dir ../catalogs \
+            --output-dir ../artifacts 2>&1 | tee /tmp/compile.log
 
-          # Create PDF files from MD files
-          echo "Converting MD file to PDF"
-          for md_file in ./artifacts/*.md; do
-            filename=$(basename "$md_file" .md)
+      - name: Locate compiled artifact
+        id: artifact
+        run: |
+          file="$(find "artifacts/${BUILD_TARGET}" -name "${ASSET_TYPE}.yaml" | head -1)"
+          if [ -z "$file" ]; then
+            echo "::error::compile produced no ${ASSET_TYPE}.yaml under artifacts/${BUILD_TARGET}"
+            exit 1
+          fi
+          gemara_version="$(grep -E '^[[:space:]]*gemara-version:' "$file" | head -1 | awk '{print $2}')"
+          # author.id (8-space indent, under author:) + metadata.id (4-space indent),
+          # lowercased, drive the grc.store link: <author>/<id>/versions/<ver>.
+          author="$(awk '/^    author:/{a=1} a && /^        id:/{print tolower($2); exit}' "$file")"
+          artifact_id="$(awk '/^metadata:/{m=1} m && /^    id:/{print tolower($2); exit}' "$file")"
+          {
+            echo "file=${file}"
+            echo "gemara_version=${gemara_version}"
+            echo "author=${author}"
+            echo "artifact_id=${artifact_id}"
+          } >> "$GITHUB_OUTPUT"
+          echo "Compiled: ${file} (gemara ${gemara_version}, ${author}/${artifact_id})"
 
-            # Check if the filename contains "release-notes"
-            if [[ $filename != *"release_notes"* ]]; then
-              echo "Converting $md_file to $filename.pdf"
-              docker run --rm -v "$PWD:/app" jmaupetit/md2pdf "./artifacts/$filename.md" "./artifacts/$filename.pdf"
-              rm "$md_file"
-            else
-                echo "Skipping $md_file as it contains 'release-notes'"
-            fi
-          done
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4.4.0
-        with:
-          name: ccc-catalogs
-          path: ./delivery-toolkit/artifacts/*
-          if-no-files-found: error
-          retention-days: 1 # Maximum Retention
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4.1.8
-        with:
-          name: ccc-catalogs
-
-      # Create a GitHub release
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        with:
-          body_path: ./release_notes.md
-          tag_name: ${{ github.event.inputs.tag }}-rc
-          release_name: Release ${{ github.event.inputs.tag }}-rc
-          draft: false
-          prerelease: true
+      # grcli, pulled from its OCI distribution exactly as documented.
+      - uses: oras-project/setup-oras@v1
+      - name: Install grcli
+        # Pinned for reproducibility (not :latest). Bump deliberately after testing.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Upload the artifacts to the release
-      - name: Upload Release Assets
+          GRCLI_VERSION: v0.2.2
         run: |
-          for file in ./*
-          do
-            echo "Uploading $file"
-            filename=$(basename "$file")
-            curl -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Content-Type: application/octet-stream" \
-              --data-binary @"$file" \
-              "${{ steps.create_release.outputs.upload_url }}=$filename&label=$filename"
-          done
+          oras pull "ghcr.io/revanite-io/grcli:${GRCLI_VERSION}" --platform linux/amd64
+          sudo install grcli /usr/local/bin/grcli
+          grcli --version
+
+      # validate shells out to `cue vet`; publish keyless-signs via `cosign`.
+      - name: Install cue
+        run: go install cuelang.org/go/cmd/cue@v0.16.1
+      - uses: sigstore/cosign-installer@v3
+
+      - name: Validate against the Gemara spec
+        id: validate
+        env:
+          ARTIFACT: ${{ steps.artifact.outputs.file }}
+          GEMARA_VERSION: ${{ steps.artifact.outputs.gemara_version }}
+        run: |
+          { git clone --depth 1 --branch "$GEMARA_VERSION" \
+              https://github.com/gemaraproj/gemara /tmp/gemara-spec \
+            && grcli validate -f "$ARTIFACT" --spec /tmp/gemara-spec; } 2>&1 | tee /tmp/validate.log
+
+      # NEW publishing step: push the typed catalog to grc.store.
+      - name: Publish to grc.store
+        id: publish
+        env:
+          ARTIFACT: ${{ steps.artifact.outputs.file }}
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            grcli publish "$ARTIFACT" --dry-run --output artifacts/oci 2>&1 | tee /tmp/publish.log
+          else
+            grcli publish "$ARTIFACT" 2>&1 | tee /tmp/publish.log
+          fi
+
+      # Augmented old flow: cut a GitHub release carrying the single typed catalog.
+      # (Redundant with grc.store — kept per "augment"; safe to drop later.)
+      - name: Cut GitHub release
+        id: release
+        if: ${{ inputs.dry_run == false }}
+        env:
+          ARTIFACT: ${{ steps.artifact.outputs.file }}
+        run: |
+          prerelease=""
+          case "$VERSION" in *rc*) prerelease="--prerelease" ;; esac
+          # Per-target release tagged <family>/<service>/<version>, identical to
+          # batch-release.yml so the single and batch paths converge on the SAME
+          # release. Within a target the asset basenames (capabilities/threats/
+          # controls.yaml) are unique, so the artifact uploads under its plain name.
+          # The first asset for a target creates the release; later ones upload into it.
+          tag="${BUILD_TARGET}/${VERSION}"
+          { gh release create "$tag" "$ARTIFACT" \
+              --title "${BUILD_TARGET} ${VERSION}" \
+              --notes "Release of ${BUILD_TARGET} typed catalogs (${VERSION}), published to grc.store." \
+              $prerelease \
+            || gh release upload "$tag" "$ARTIFACT" --clobber; } 2>&1 | tee /tmp/release.log
+
+      # Report-only: runs even when a stage above failed, never changes job status.
+      - name: Write job summary
+        if: always()
+        env:
+          AUTHOR: ${{ steps.artifact.outputs.author }}
+          ARTIFACT_ID: ${{ steps.artifact.outputs.artifact_id }}
+          O_VERIFY: ${{ steps.verify.outcome }}
+          O_COMPILE: ${{ steps.compile.outcome }}
+          O_LOCATE: ${{ steps.artifact.outcome }}
+          O_VALIDATE: ${{ steps.validate.outcome }}
+          O_PUBLISH: ${{ steps.publish.outcome }}
+          O_RELEASE: ${{ steps.release.outcome }}
+        # set +e: this is a best-effort reporter — it must always finish and write the
+        # summary, so it overrides the shell's default errexit.
+        run: |
+          set +e
+
+          # Flatten multi-line tool output into one table-cell-safe phrase.
+          sanitize() { tr '\n' ' ' | sed -E -e 's/[[:space:]]+/ /g' -e 's/\|/\\|/g' -e 's/^ //' -e 's/ $//'; }
+
+          # Friendly one-liner for a failed `compile` (drop the cobra usage dump; keep
+          # the "Error: <path>: <message>" line, minus the path).
+          friendly_compile() {
+            local msg
+            msg="$(printf '%s\n' "$1" | grep -m1 '^Error:' | sed -E 's/^Error: [^:]*: //')"
+            [ -z "$msg" ] && msg="$(printf '%s\n' "$1" | grep -vE '^[[:space:]]*$' | head -1)"
+            printf '%s' "$msg" | sanitize
+          }
+
+          # Friendly one-liner for a failed `grcli validate` — surface cue's top-level
+          # error lines, dropping indented locations and the FAIL/grcli summary lines.
+          friendly_validate() {
+            local all n shown
+            all="$(printf '%s\n' "$1" | grep -E '^[^[:space:]].+: ' | grep -vE '^(FAIL|grcli|panic|Error)' | sed -E 's/: *$//' | sort -u)"
+            n="$(printf '%s' "$all" | grep -c .)"
+            shown="$(printf '%s\n' "$all" | head -3 | paste -sd ';' - | sed 's/;/; /g')"
+            if [ -z "$shown" ]; then
+              printf '%s\n' "$1" | grep -vE '^[[:space:]]*$' | tail -2 | sanitize
+              return
+            fi
+            { if [ "$n" -gt 3 ]; then printf '%s (+%d more)' "$shown" "$((n - 3))"; else printf '%s' "$shown"; fi; } | sanitize
+          }
+
+          # Plain-text stage status for the pipeline line.
+          stat() { case "$1" in success) printf 'ok' ;; failure) printf 'FAIL' ;; skipped) printf 'skipped' ;; *) printf 'n/a' ;; esac; }
+
+          # First failing stage wins; otherwise it's a success (or a dry-run build).
+          if [ "$O_VERIFY" = "failure" ]; then
+            result="Failed: no source file at \`catalogs/${BUILD_TARGET}/${ASSET_TYPE}.yaml\`"
+          elif [ "$O_COMPILE" = "failure" ]; then
+            result="Failed: compile — $(friendly_compile "$(cat /tmp/compile.log 2>/dev/null)")"
+          elif [ "$O_LOCATE" = "failure" ]; then
+            result="Failed: compile produced no ${ASSET_TYPE}.yaml"
+          elif [ "$O_VALIDATE" = "failure" ]; then
+            result="Failed: schema validation — $(friendly_validate "$(cat /tmp/validate.log 2>/dev/null)")"
+          elif [ "$O_PUBLISH" = "failure" ]; then
+            result="Failed: publish to grc.store — $(tail -3 /tmp/publish.log 2>/dev/null | sanitize)"
+          elif [ "$O_RELEASE" = "failure" ]; then
+            result="Failed: GitHub release — $(tail -3 /tmp/release.log 2>/dev/null | sanitize)"
+          elif [ "$DRY_RUN" = "true" ]; then
+            result="Built (dry run, not published)"
+          else
+            gh_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${BUILD_TARGET}/${VERSION}"
+            grc_url="https://grc.store/${AUTHOR}/${ARTIFACT_ID}/versions/${VERSION}"
+            result="Released — [GitHub release](${gh_url}) · [grc.store](${grc_url})"
+          fi
+
+          {
+            echo "## Release ${BUILD_TARGET} ${ASSET_TYPE} ${VERSION} (dry_run=${DRY_RUN})"
+            echo ""
+            echo "Pipeline: compile $(stat "$O_COMPILE") · validate $(stat "$O_VALIDATE") · publish $(stat "$O_PUBLISH") · release $(stat "$O_RELEASE")"
+            echo ""
+            echo "| Source | Result |"
+            echo "| --- | --- |"
+            echo "| \`catalogs/${BUILD_TARGET}/${ASSET_TYPE}.yaml\` | ${result} |"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -23,35 +23,43 @@ imported-capabilities:
         remarks: Alerting
 capabilities:
   - id: CCC.AuditLog.CP01
+    group: Observability
     title: Default Retention Period
     description: |
      Cloud providers support a default minimum retention of audit log data.
   - id: CCC.AuditLog.CP02
+    group: Observability
     title: Export
     description: |
       Support for manual "one off" exporting or downloading of raw log events.
   - id: CCC.AuditLog.CP03
+    group: Observability
     title: Sink
     description: |
       Ability to continually stream audit log data to a hosted storage bucket or data lake solution.
   - id: CCC.AuditLog.CP04
+    group: Observability
     title: Event Types
     description: |
       Audit events are generated with different data types to provide specific fields for the system
       which generated the event, such as Management Event, Data Event and  Policy Event.
   - id: CCC.AuditLog.CP05
+    group: Observability
     title: Time Search
     description: |
       Ability to search for audit events across a specific time range.
   - id: CCC.AuditLog.CP06
+    group: Observability
     title: Filtering
     description: |
       Ability to filter audit events based on specific attribute.
   - id: CCC.AuditLog.CP07
+    group: Observability
     title: Immutable Log Entries
     description: |
       Audit Log events are immutable and cannot be altered or deleted once generated.
   - id: CCC.AuditLog.CP08
+    group: Observability
     title: External Sink
     description: |
       Audit log events can be configured to be sent to a external SIEM or data analysis

@@ -43,6 +43,7 @@ imported-threats:
 
 threats:
   - id: CCC.CntrReg.TH01
+    group: Resource
     title: Vulnerabilities in Artifacts are Exploited
     description: |
       Attackers exploit known vulnerabilities in container images or artifacts stored in
@@ -57,6 +58,7 @@ threats:
           - reference-id: T1190
           - reference-id: T1195
   - id: CCC.CntrReg.TH02
+    group: Resource
     title: Accumulation of Unused Artifacts
     description: |
       The registry accumulates outdated or unused artifacts, increasing storage

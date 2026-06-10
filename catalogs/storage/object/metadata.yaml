@@ -8,7 +8,6 @@ metadata:
         of unstructured data such as multimedia files, backups, and archives. It is
         highly scalable and often used in cloud environments due to its flexibility
         and accessibility.
-    version: "2025.10"
     mapping-references:
         - id: CCC.Core
           title: FINOS CCC Core Catalog

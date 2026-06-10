@@ -5,7 +5,7 @@ import { CapabilityPageData } from "@site/src/types/ccc";
 import { ThreatsTable } from "../ThreatsTable";
 
 export default function CCCCapabilityTemplate({ pageData }: { pageData: CapabilityPageData }) {
-  const { releaseSlug, capability, related_threats } = pageData;
+  const { releaseSlug, capability, related_threats, entrySlugs } = pageData;
 
   return (
     <Layout title={`${capability.id} - ${capability.title}`}>
@@ -31,7 +31,7 @@ export default function CCCCapabilityTemplate({ pageData }: { pageData: Capabili
             </div>
           </div>
 
-          <ThreatsTable threats={related_threats || []} releaseSlug={releaseSlug} title="Mapped Threats" />
+          <ThreatsTable threats={related_threats || []} releaseSlug={releaseSlug} title="Mapped Threats" entrySlugs={entrySlugs} />
         </CardContent>
       </Card>
     </Layout>
