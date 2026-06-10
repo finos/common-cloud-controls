@@ -90,8 +90,43 @@ jobs:
           print(f"Generated matrix with {len(targets)} targets")
           PY
 
-  test:
+  build:
     needs: prepare-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Set up Go workspace
+        uses: ./.github/actions/setup-go-workspace
+
+      - name: Generate release catalogs
+        run: |
+          set -euo pipefail
+          npm ci --prefix website
+          npm run --prefix website generate:catalogs
+
+      - name: Build shared modules
+        run: |
+          set -euo pipefail
+          bash ./modules/build.sh cloud-api cloud-testing-dsl reporters runner
+
+      - name: Upload generated catalogs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ccc-release-catalogs
+          path: website/src/data/ccc-releases/
+          retention-days: 1
+
+  test:
+    needs: [prepare-matrix, build]
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 3
@@ -115,10 +150,21 @@ jobs:
       TARGET_TEST_CONFIG: ${{ matrix.target.test_config }}
       TARGET_PRIVATEER_SERVICE: ${{ matrix.target.privateer_service }}
       OUTPUT_DIR: cfi-testing/output/${{ matrix.target.id }}
+      PLUGIN_CATALOG_DIR: modules/ccc-behavioural-plugin/catalogs
+      PLUGIN_BINARY: cfi-testing/.privateer/bin/ccc-behavioural-plugin
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
+      - name: Download generated catalogs
+        uses: actions/download-artifact@v4
+        with:
+          name: ccc-release-catalogs
+          path: website/src/data/ccc-releases
+
+      - name: Set up Go workspace
+        uses: ./.github/actions/setup-go-workspace
 
       - name: Load cloud env script secret
         shell: bash
@@ -179,27 +225,25 @@ jobs:
             env | grep -E '^GCP_(TEST_USER_|VM_HOSTNAME)' >> "$GITHUB_ENV"
           fi
 
-      - name: Set up Go workspace
-        uses: ./.github/actions/setup-go-workspace
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: website/package-lock.json
-
-      - name: Generate release catalogs for behavioural plugin
+      - name: Sync catalogs into plugin embed directory
         run: |
           set -euo pipefail
-          npm ci --prefix website
-          npm run --prefix website generate:catalogs
+          mkdir -p "$PLUGIN_CATALOG_DIR"
+          cd modules/runner
+          go run ./cmd/ccc-compliance \
+            -config "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
+            -privateer-service "$TARGET_PRIVATEER_SERVICE" \
+            -repo-root "$GITHUB_WORKSPACE" \
+            -sync-catalogs-dest "$GITHUB_WORKSPACE/$PLUGIN_CATALOG_DIR" \
+            -sync-catalogs-only
+          ls -la "$GITHUB_WORKSPACE/$PLUGIN_CATALOG_DIR"
 
-      - name: Build modules
+      - name: Build behavioural plugin
         run: |
           set -euo pipefail
-          bash ./modules/build.sh cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin \
-            --plugin-output cfi-testing/.privateer/bin/ccc-behavioural-plugin
+          bash ./modules/build.sh \
+            cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin \
+            --plugin-output "$PLUGIN_BINARY"
 
       - name: Configure AWS Credentials (OIDC)
         if: matrix.target.provider == 'aws'
