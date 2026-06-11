@@ -126,7 +126,7 @@ control-families:
               sensitive data. Ensure both client and server certificates are
               validated and managed securely. Regularly review certificate
               authorities and automate certificate rotation where possible.
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: CEK-03
@@ -141,7 +141,7 @@ control-families:
               - reference-id: IVS-07
                 strength: 2
                 remarks: Migration to Cloud Environments (encrypt when migrating servers)
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH02
@@ -189,7 +189,7 @@ control-families:
               Track certificate expiration dates and automate certificate
               renewal where possible. Use certificate management tools to ensure
               only certificates from trusted authorities are deployed.
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH18
@@ -229,13 +229,13 @@ control-families:
               Maintain an up-to-date list of trusted and approved regions based
               on organizational policies. Validate that child resources can only
               be deployed to locations included in this list.
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: DSP-19
                 strength: 10
                 remarks: Data Location (specify and document processing and backup locations)
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH03
@@ -270,7 +270,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: BCR-08
@@ -282,7 +282,7 @@ control-families:
               - reference-id: BCR-11
                 strength: 1
                 remarks: Equipment Redundancy
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH06
@@ -335,7 +335,7 @@ control-families:
               access. Ensure that logging configurations are immutable during
               service operation so that any changes require stopping the service
               and publishing corresponding events to monitored channels.
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: LOG-02
@@ -347,7 +347,7 @@ control-families:
               - reference-id: LOG-09
                 strength: 5
                 remarks: Log Protection (protects audit records from unauthorized access)
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH07
@@ -371,7 +371,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: DSP-10
@@ -380,7 +380,7 @@ control-families:
               - reference-id: DSP-19
                 strength: 10
                 remarks: Data Location (specify and document the physical locations of data)
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH04
@@ -399,7 +399,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: CEK-03
@@ -413,7 +413,7 @@ control-families:
                 remarks: Storage Encryption (on managed endpoint devices)
               - reference-id: DSP-17
                 strength: 0
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
@@ -469,7 +469,7 @@ control-families:
               within 90 days of issuance.
             applicability:
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: CEK-08
@@ -481,7 +481,7 @@ control-families:
               - reference-id: CEK-12
                 strength: 10
                 remarks: Key Rotation
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH16
@@ -530,7 +530,7 @@ control-families:
               Implement automated backup processes to ensure that backups are
               created regularly. Monitor backup schedules and verify that the
               most recent backup creation date is within the last 14 days.
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH06
@@ -589,13 +589,13 @@ control-families:
             applicability:
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: IAM-14
                 strength: 3
                 remarks: Strong Authentication (Define, implement and evaluate processes - including MFA)
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
@@ -660,7 +660,7 @@ control-families:
               - tlp-green
               - tlp-amber
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: DSP-01
@@ -678,7 +678,7 @@ control-families:
               - reference-id: DSP-17
                 strength: 0
                 remarks: Sensitive Data Protection
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
@@ -722,13 +722,13 @@ control-families:
               result of the attempt.
             applicability:
               - tlp-red
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: LOG-08
                 strength: 5
                 remarks: Log Records (Generate audit records containing relevant security information)
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH01
@@ -768,7 +768,7 @@ control-families:
               nature. Retain logs according to organizational policies, and
               occasionally review them for patterns that may indicate
               reconnaissance activities.
-        guideline-mappings:
+        guidelines:
           - reference-id: CCM
             entries:
               - reference-id: LOG-05
@@ -777,7 +777,7 @@ control-families:
               - reference-id: SEF-05
                 strength: 3
                 remarks: Incident Response Metrics (establish and monitor metrics)
-        threat-mappings:
+        threats:
           - reference-id: CCC
             entries:
               - reference-id: CCC.Core.TH15

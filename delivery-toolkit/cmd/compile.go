@@ -45,6 +45,11 @@ var groupDefsPath = filepath.Join("core", "ccc", "groups.yaml")
 // mapping-reference version.
 const defaultCoreVersion = "v2025.10"
 
+// gemaraSpecVersion is the Gemara CUE spec version compiled artifacts target.
+// Pinned locally because gemaraproj/go-gemara v0.5.0 still hardcodes
+// SchemaVersion="v1.0.0"; bump here when go-gemara catches up.
+const gemaraSpecVersion = "v1.2.0"
+
 // coreImportName maps an asset type to the import/mapping-reference id used for
 // the shared CCC Core catalog of that type.
 var coreImportName = map[string]string{
@@ -248,7 +253,7 @@ func compileThreats(path, service, version, coreVersion string, groupDefs map[st
 }
 
 // sourceControl mirrors the source controls.yaml shape, which uses
-// threat-mappings / guideline-mappings keys that the published schema renames to
+// threats / guidelines keys that the published schema renames to
 // threats / guidelines. State is not in source and defaults to Active.
 type sourceControl struct {
 	Id                     string                     `yaml:"id"`
@@ -256,8 +261,8 @@ type sourceControl struct {
 	Objective              string                     `yaml:"objective"`
 	Group                  string                     `yaml:"group"`
 	AssessmentRequirements []sourceAR                 `yaml:"assessment-requirements"`
-	ThreatMappings         []gemara.MultiEntryMapping `yaml:"threat-mappings"`
-	GuidelineMappings      []gemara.MultiEntryMapping `yaml:"guideline-mappings"`
+	ThreatMappings         []gemara.MultiEntryMapping `yaml:"threats"`
+	GuidelineMappings      []gemara.MultiEntryMapping `yaml:"guidelines"`
 }
 
 type sourceAR struct {
@@ -419,7 +424,7 @@ func newMetadata(id string, t gemara.ArtifactType, desc, version string, refs []
 	return gemara.Metadata{
 		Id:                id,
 		Type:              t,
-		GemaraVersion:     gemara.SchemaVersion,
+		GemaraVersion:     gemaraSpecVersion,
 		Version:           version,
 		Description:       desc,
 		Author:            gemara.Actor{Id: "FINOS-CCC", Name: "FINOS Common Cloud Controls", Type: gemara.Human},

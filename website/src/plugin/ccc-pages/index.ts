@@ -58,8 +58,8 @@ function parseControl(control: any): Control {
         id: control.id,
         title: control.title,
         objective: control.objective,
-        threat_mappings: control['threat-mappings'] || [],
-        guideline_mappings: control['guideline-mappings'] || [],
+        threat_mappings: control['threats'] || [],
+        guideline_mappings: control['guidelines'] || [],
         test_requirements: testRequirements,
         family: {
             id: control.control_family || '',
