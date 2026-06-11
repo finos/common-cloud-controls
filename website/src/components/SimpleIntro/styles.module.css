@@ -10,7 +10,7 @@
 	transition: background .3s, color .3s;
 	max-width: 35rem;
 	text-align: center;
-		font-family: 'Inter, system-ui, -apple-system, BlinkMacSystemFont';
+	font-family: 'Inter, system-ui, -apple-system, BlinkMacSystemFont';
 
 	font-weight: 600;
 	margin: auto
@@ -51,7 +51,7 @@ html[data-theme=dark] .cta {
 	border-radius: 0.75rem;
 	box-shadow: 0 4px 14px rgba(67, 77, 103, 0.4);
 
-	background: #1e3a8a;
+	background: var(--gf-color-flair);
 	color: #fff;
 
 	font-weight: 600;

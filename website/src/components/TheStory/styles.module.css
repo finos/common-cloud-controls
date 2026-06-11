@@ -1,8 +1,26 @@
+.h3Style {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--gf-color-text);
+}
+
 .bodyStyle {
   color: var(--gf-color-text-subtle);
   font-size: 1.05rem;
   text-align: center;
   line-height: 1.75;
+}
+
+.sectionStyle {
+  max-width: 780px;
+  margin: 0 auto 2.5rem auto;
+  border: 1px solid var( --gf-color-border-strong);
+  border-radius: 1rem;
+  padding: 1.5rem 1rem;
+  overflow: hidden;
+  background-color: var(--gf-color-surface);
 }
 
 .audienceGridStyle {
@@ -15,10 +33,10 @@
 
 .audienceCardStyle {
   border: 1px solid;
-  border-color: #00b5e2;
+  border-color: var( --gf-color-border-strong);
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
-  background-color: #00b5e2;
+  background-color: var(--gf-color-surface);
   color: #ffffff;
 }
 

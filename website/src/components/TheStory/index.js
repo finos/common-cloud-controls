@@ -2,22 +2,13 @@ import React, { useState } from "react";
 import HomeSection from "../HomeSection";
 import styles from "./styles.module.css";
 
-const sectionStyle = {
-  maxWidth: "780px",
-  margin: "0 auto 2.5rem auto",
-};
+
 
 const bodyStyle = {
   color: "var(--gf-color-text-subtle)",
   fontSize: "1.05rem",
   textAlign: "center",
   lineHeight: 1.75,
-};
-
-const h3Style = {
-  fontSize: "2rem",
-  fontWeight: 700,
-  marginBottom: "1.5rem",
 };
 
 const audiences = [
@@ -66,15 +57,9 @@ function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
 
   return (
     <div
-      style={{
-        ...sectionStyle,
-        border: "1px solid #00b5e2",
-        borderRadius: "1rem",
-        padding: "1.5rem 1rem",
-        overflow: "hidden",
-      }}
+      className={styles.sectionStyle}
     >
-      {title && <h3 style={{ ...h3Style, textAlign: "center" }}>{title}</h3>}
+      {title && <h3 className={styles.h3Style}>{title}</h3>}
       <p style={{ ...bodyStyle, margin: 0 }}>{firstParagraph}</p>
 
       {open && (
@@ -87,6 +72,7 @@ function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
         </div>
       )}
 
+      {/*read more*/}
       <div style={{ textAlign: "center", marginTop: "1rem" }}>
         <button
           onClick={() => setOpen(!open)}
@@ -95,7 +81,7 @@ function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
             background: "none",
             border: "none",
             cursor: "pointer",
-            color: "#00b5e2",
+            color: "var(--gf-color-accent)",
             padding: "0.25rem 0.75rem",
             display: "inline-flex",
             alignItems: "center",
@@ -138,7 +124,7 @@ export default function TheStory() {
       />
 
       <div style={{ maxWidth: "780px", margin: "0 auto 2.5rem auto" }}>
-        <h3 style={{ ...h3Style, textAlign: "center" }}>Who Is It For?</h3>
+        <h3 className={styles.h3Style} style={{color: "var(--gf-color-accent)"}}>Who Is It For?</h3>
       </div>
       <div className={styles.audienceGridStyle}>
         {audiences.map(({ label, body }) => (

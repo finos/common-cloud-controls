@@ -3,5 +3,5 @@
 }
 
 html[data-theme=dark] .fill {
-	fill: white;
+	fill: var(--gf-color-flair);
 }
