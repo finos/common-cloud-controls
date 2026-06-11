@@ -1,29 +1,45 @@
 import type { ReactNode } from "react";
-import clsx from "clsx";
-import Link from "@docusaurus/Link";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
-import Heading from "@theme/Heading";
-
-import styles from "./index.module.css";
-import Benefits from "../components/Benefits";
-import WhatIsIt from "../components/WhatIsIt";
-import LearnMore from "../components/LearnMore";
-import Releases from "../components/Releases";
 import NewSplashTop from "../components/NewSplashTop";
-import Contributors from "../components/Contributors";
+import SimpleIntro from "../components/SimpleIntro";
+import LevelUp from "../components/LevelUp";
+import TheStory from "../components/TheStory";
+import SteeringCommittee from "../components/SteeringCommittee";
+import JoinCommunity from "../components/JoinCommunity";
 
 export default function Home(): ReactNode {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout title="Common Cloud Controls" description="Description will go into a meta tag in <head />">
-      <NewSplashTop />
+      {/* SVG clip-path: full-width rectangle, bottom edge curves down at centre */}
+      <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }}>
+        <defs>
+          <clipPath id="hero-wave-clip" clipPathUnits="objectBoundingBox">
+            <path d="M0,0 L1,0 L1,0.82 Q0.5,1 0,0.82 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
       <main>
-        <WhatIsIt />
-        <Contributors />
-        <Benefits />
-        <LearnMore />
-        <Releases />
+        <section
+          style={{
+            clipPath: "url(#hero-wave-clip)",
+            backgroundColor: "var(--gf-color-background-strong)",
+            padding: "2rem 2rem",
+            maxWidth: "100rem",
+            margin: "auto",
+            paddingBottom: "4rem",
+            marginBottom: "0",
+            color: "#1e3b8a",
+          }}
+        >
+          <NewSplashTop />
+          <SimpleIntro />
+          <p />
+        </section>
+        <TheStory />
+        <LevelUp />
+        <JoinCommunity />
+        <SteeringCommittee />
       </main>
     </Layout>
   );
