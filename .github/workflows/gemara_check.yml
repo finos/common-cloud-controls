@@ -13,12 +13,14 @@ on:
   workflow_call:
 
 env:
-  # Gemara CUE schema tag the source catalogs target. Bump in lockstep with
-  # `gemaraSpecVersion` in delivery-toolkit/cmd/compile.go.
+  # Gemara CUE module version the source catalogs target, resolved from the
+  # CUE Central Registry. Bump in lockstep with `gemaraSpecVersion` in
+  # delivery-toolkit/cmd/compile.go.
   GEMARA_SPEC_REF: v1.2.0
-  # Pin cue so CI is reproducible. cue vet is the validator: it loads the
-  # Gemara CUE package and unifies each compiled YAML against the matching
-  # #<ArtifactType> definition.
+  GEMARA_MODULE: github.com/gemaraproj/gemara
+  # Pin cue so CI is reproducible. cue vet is the validator: it resolves the
+  # Gemara module from the registry and unifies each compiled YAML against
+  # the matching #<ArtifactType> definition.
   CUE_VERSION: v0.16.0
 
 jobs:
@@ -40,18 +42,10 @@ jobs:
           go-version-file: delivery-toolkit/go.mod
           cache-dependency-path: delivery-toolkit/go.sum
 
-      - name: Checkout Gemara CUE spec
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          repository: gemaraproj/gemara
-          ref: ${{ env.GEMARA_SPEC_REF }}
-          path: gemara-spec
-
       - name: Install cue
-        run: |
-          set -euo pipefail
-          GOBIN="$RUNNER_TEMP/bin" go install "cuelang.org/go/cmd/cue@${CUE_VERSION}"
-          "$RUNNER_TEMP/bin/cue" version
+        uses: cue-lang/setup-cue@a93fa358375740cd8b0078f76355512b9208acb1 # v1.0.1
+        with:
+          version: ${{ env.CUE_VERSION }}
 
       - name: Build delivery-toolkit
         run: |
@@ -117,10 +111,6 @@ jobs:
           out_dir="$RUNNER_TEMP/compiled"
           rm -rf "$out_dir" && mkdir -p "$out_dir"
 
-          # cue vet expects a relative package path; resolve the gemara-spec
-          # checkout once so each invocation can `cd` into it.
-          spec_dir="$GITHUB_WORKSPACE/gemara-spec"
-
           # Each asset type maps to its #ArtifactType CUE definition.
           declare -A cue_def=(
             [capabilities]='#CapabilityCatalog'
@@ -154,7 +144,7 @@ jobs:
               compiled="$out_dir/$tgt/$asset.yaml"
               def="${cue_def[$asset]}"
               echo "::group::validate $tgt $asset against $def"
-              if ! (cd "$spec_dir" && "$RUNNER_TEMP/bin/cue" vet -d "$def" . "$compiled"); then
+              if ! cue vet -d "$def" "${GEMARA_MODULE}@${GEMARA_SPEC_REF}" "$compiled"; then
                 echo "::error file=$src::compiled $tgt/$asset failed Gemara $GEMARA_SPEC_REF schema validation"
                 fail=1
               fi
