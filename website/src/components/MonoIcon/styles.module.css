@@ -3,5 +3,5 @@
 }
 
 html[data-theme=dark] .fill {
-	fill: var(--gf-color-flair);
+	fill: var(--gf-color-accent);
 }

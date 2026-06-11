@@ -23,7 +23,7 @@ export default function Home(): ReactNode {
         <section
           style={{
             clipPath: "url(#hero-wave-clip)",
-            backgroundColor: "#dbeafe",
+            backgroundColor: "var(--gf-color-background-strong)",
             padding: "2rem 2rem",
             maxWidth: "100rem",
             margin: "auto",

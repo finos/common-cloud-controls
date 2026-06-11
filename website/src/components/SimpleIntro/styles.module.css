@@ -25,6 +25,14 @@
 	margin: 0;
 }
 
+h2{
+	font-size: 2.25rem;
+	text-align: center;
+	font-family: 'metropolis';
+	font-weight: 600;
+	color: var(--gf-color-flair);
+}
+
 .strap {
 	font-size: 1.5rem;
 	font-weight: 500;
