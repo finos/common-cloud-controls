@@ -1,6 +1,6 @@
 ---
 name: create-capability-catalogue-capabilities
-description: Create capabilities.yaml for a CCC catalogue from confirmed metadata.yaml (Step 5). Used by Cursor and GitHub Actions add-catalogue-capabilities workflow.
+description: Create capabilities.yaml for a CCC catalogue from confirmed metadata.yaml Used by Cursor and GitHub Actions add-catalogue-capabilities workflow.
 ---
 
 # Capability Catalogue — Capabilities Phase
@@ -21,9 +21,11 @@ When invoked from `.github/workflows/add-catalogue-capabilities.yml`:
 - Do **not** modify `metadata.yaml`.
 - Return **raw YAML only** for `capabilities.yaml` (no markdown fences, no commentary). File must validate against `schemas/capabilities-schema.json`.
 
-Companion files appended below this skill: PR-branch `metadata.yaml`, `schemas/capabilities-schema.json`, `style-guides/catalogs/capability-style-guide.yaml`, core capability id+title index, and an example `capabilities.yaml`.
+## Coding Agent mode
 
-## Step 5: Create `capabilities.yaml`
+When the user requests to perform this skill, ask for the `catalog_path` to work from.  
+
+## Steps to create `capabilities.yaml`
 
 1. Create `capabilities.yaml` in the same folder as `metadata.yaml`.
 2. Use `schemas/capabilities-schema.json` as the source of truth.
@@ -61,11 +63,3 @@ Use the abbreviation from `metadata.id` (strip `CCC.` prefix) for capability ids
 11. Validate against `schemas/capabilities-schema.json` before finishing.
 12. Write to `<catalog-path>/capabilities.yaml`.
 
-### Output Format (interactive / Cursor)
-
-First output line must be: **Step 5: Create `capabilities.yaml`**
-
-Capabilities File: <catalogs/.../.../capabilities.yaml>
-Capabilities Status: <created|updated>
-Validation: <passed|failed>
-Confidence: <High|Medium|Low>

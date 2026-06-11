@@ -1,6 +1,6 @@
 ---
 name: create-capability-catalogue-metadata
-description: Create metadata.yaml and folder structure for a new CCC capability catalogue (Steps 1-4). Used by Cursor and GitHub Actions draft-catalogue-metadata workflow.
+description: Create metadata.yaml and folder structure for a new CCC capability catalogue. Used by Coding Agent and GitHub Actions draft-catalogue-metadata workflow.
 ---
 
 # Capability Catalogue — Metadata Phase
@@ -11,30 +11,16 @@ Draft cross-cloud mapping, taxonomy, target folder, and `metadata.yaml` for a ne
 
 ## Final Outcome
 
-Target folder and `metadata.yaml` under the correct category path. Human review on the PR replaces interactive CONFIRM.
+Target folder and `metadata.yaml` under the correct category path.
 
 ## GitHub Actions mode
 
-When invoked from `.github/workflows/draft-catalogue-metadata.yml`:
+Invoked from `.github/workflows/draft-catalogue-metadata.yml`:
+- `example_service` and `source_cloud` are supplied in the prompt wrapper 
 
-- `example_service` and `source_cloud` are supplied in the prompt wrapper — do not ask for them.
-- Do **not** wait for CONFIRM or EDIT; complete all assigned steps in one response.
-- **Call A (Step 1 only):** return **JSON only** (no markdown, no prose):
+## Coding Agent mode (e.g Cursor)
 
-```json
-{
-  "aws": { "name": "...", "url": "..." },
-  "azure": { "name": "...", "url": "..." },
-  "gcp": { "name": "...", "url": "..." },
-  "confidence": "High|Medium|Low"
-}
-```
-
-- **Call B (Steps 2–4):** return exactly two parts:
-  1. Line 1: `TARGET_PATH: catalogs/<category>/<folder>` (no trailing slash)
-  2. Blank line, then **raw YAML only** for `metadata.yaml` (no markdown fences, no commentary). File must validate against `schemas/metadata-schema.json`.
-
-Companion files are appended below this skill in the prompt: `catalogs/categories.yaml`, `schemas/metadata-schema.json`, example metadata, and Call A mapping JSON.
+- You will need to ask the user for the `example_service` and `source_cloud` parameters.
 
 ## Step 1: Cross-Cloud Service Mapping
 
@@ -45,20 +31,6 @@ Companion files are appended below this skill in the prompt: `catalogs/categorie
    - Azure: `learn.microsoft.com/azure`
    - GCP: `cloud.google.com`
 4. If multiple mappings exist, choose the closest functional match.
-
-### Output Format (interactive / Cursor)
-
-First output line must be: **Step 1: Cross-Cloud Service Mapping**
-
-Return only the cross-cloud mapping in a markdown table:
-
-| Cloud | Service Name | Official Documentation |
-|---|---|---|
-| AWS | <service> | <url> |
-| Azure | <service> | <url> |
-| GCP | <service> | <url> |
-
-Confidence: <High|Medium|Low>
 
 ## Step 2: Service Taxonomy Planning
 
@@ -81,33 +53,11 @@ Confidence: <High|Medium|Low>
    - If category is `CCC.Storage`, create the service folder under `catalogs/storage/`.
    - If there is no folder for the category, create one with the category name in lowercase (e.g., `catalogs/storage/`).
 
-### Output Format (interactive / Cursor)
-
-First output line must be: **Step 2: Service Taxonomy Planning**
-
-At the end of Step 2, return a single confirmation block:
-
-Common Name: <provider-neutral-name>
-Abbreviation: <ALL-CAPS-max-8-char-abbreviation>
-Folder name: <kebab-case-folder-name>
-Target path: <catalogs/.../...>
-Categories: <CCC.Category1, CCC.Category2, ...>
-
-Reply with CONFIRM or EDIT. Do not proceed to Step 3 until the user replies CONFIRM.
-
 ## Step 3: Create Target Folder
 
-1. Use the confirmed target path from Step 2.
+1. Use the path from Step 2.
 2. Create the target folder when it does not already exist.
 3. If the folder already exists, do not recreate it and continue.
-
-### Output Format
-
-First output line must be: **Step 3: Create Target Folder**
-
-Target path: <catalogs/.../...>
-Folder Status: <created|exists>
-Confidence: <High|Medium|Low>
 
 ## Step 4: Create `metadata.yaml`
 
@@ -120,16 +70,7 @@ Confidence: <High|Medium|Low>
    - `metadata.title` as `CCC <Common Name>`.
    - Concise provider-neutral `metadata.description`.
    - `metadata.category-ids` from confirmed categories.
-   - `metadata.example-csp-services` with exactly AWS, Azure, and GCP entries from the mapping.
+   - `metadata.example-csp-services` with exactly AWS, Azure, and GCP entries from the mapping from step 1.
    - Include schema-required fields: `version`, `last-modified`, `applicability-categories`, `mapping-references` when required.
 4. Validate against `schemas/metadata-schema.json` before finishing.
 5. Write to `<target-path>/metadata.yaml`.
-
-### Output Format (interactive / Cursor)
-
-First output line must be: **Step 4: Create `metadata.yaml`**
-
-Metadata File: <catalogs/.../.../metadata.yaml>
-Metadata Status: <created|updated>
-Validation: <passed|failed>
-Confidence: <High|Medium|Low>
