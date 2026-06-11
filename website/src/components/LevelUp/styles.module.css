@@ -34,6 +34,7 @@
   font-size: 1.5rem;
   margin: auto ;
   padding: 0 0.5rem;
+  color: var(--gf-color-text);
 }
 
 .sideArrow { display: inline; }

@@ -30,7 +30,7 @@ h2{
 	text-align: center;
 	font-family: 'metropolis';
 	font-weight: 600;
-	color: var(--gf-color-flair);
+	color: var(--gf-color-accent-strong);
 }
 
 .strap {
@@ -59,7 +59,7 @@ html[data-theme=dark] .cta {
 	border-radius: 0.75rem;
 	box-shadow: 0 4px 14px rgba(67, 77, 103, 0.4);
 
-	background: var(--gf-color-flair);
+	background: var(--gf-color-accent-strong);
 	color: #fff;
 
 	font-weight: 600;

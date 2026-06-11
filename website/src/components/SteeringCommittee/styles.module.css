@@ -24,7 +24,7 @@
 
 .card:hover .label,
 .card:hover .name {
-  color: #ffffff;
+  color: var(--gf-color-text);
 }
 
 .logoWrapper {
@@ -79,13 +79,13 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--gf-color-text);
   transition: color 0.2s;
 }
 
 .name {
   font-size: 0.85rem;
-  color: #ffffff;
+  color: var(--gf-color-text-subtle);
   line-height: 1.4;
   transition: color 0.2s;
 }
