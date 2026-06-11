@@ -1,13 +1,11 @@
 name: Cloud API integration
 
 on:
-  workflow_call:
   workflow_dispatch:
   pull_request:
     paths:
       - "modules/cloud-api/**"
       - "modules/cloud-api-test/**"
-      - "modules/cloud-api-test/privateer-config/**"
       - ".github/workflows/cloud-api-integration.yml"
   push:
     branches:

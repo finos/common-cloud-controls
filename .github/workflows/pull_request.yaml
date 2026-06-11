@@ -25,11 +25,3 @@ jobs:
     permissions:
       pull-requests: write
       contents: read
-
-  cloud-api-integration:
-    uses: ./.github/workflows/cloud-api-integration.yml
-    secrets: inherit
-    permissions:
-      contents: read
-      pull-requests: write
-      id-token: write
