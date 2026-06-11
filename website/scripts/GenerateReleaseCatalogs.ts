@@ -67,7 +67,7 @@ function flatControlsDocToFamilies(doc: Record<string, unknown>): Record<string,
     const byFamily = new Map<string, Record<string, unknown>[]>();
 
     for (const ctrl of flat) {
-        const fam = ctrl.family;
+        const fam = typeof ctrl.family === 'string' ? ctrl.family : (ctrl.group as string | undefined);
         if (typeof fam !== 'string' || !fam.trim()) {
             const id = typeof ctrl.id === 'string' ? ctrl.id : '(unknown id)';
             throw new Error(`controls.yaml: control "${id}" must have a non-empty string "family" for flat format`);
@@ -75,7 +75,7 @@ function flatControlsDocToFamilies(doc: Record<string, unknown>): Record<string,
         if (!byFamily.has(fam)) {
             byFamily.set(fam, []);
         }
-        const { family: _drop, ...rest } = ctrl;
+        const { family: _dropFamily, group: _dropGroup, ...rest } = ctrl;
         byFamily.get(fam)!.push(rest);
     }
 
