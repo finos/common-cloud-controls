@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 
 export default function SimpleIntro() {
   return (
-    <HomeSection title="Automated Governance is Within Reach.">
+    <HomeSection title="">
+        <h2>
+          Automated Governance is Within Reach.
+        </h2>
         <img
           src="/img/diagrams/ccc-diagram.svg"
           alt="CCC architecture diagram"

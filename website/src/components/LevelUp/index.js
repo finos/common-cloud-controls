@@ -14,7 +14,7 @@ export default function LevelUp() {
           {[
             {
               icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "2rem", height: "2rem" }}>
+                <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2v13M8 11l4 4 4-4M4 18h16" />
                 </svg>
               ),
@@ -23,7 +23,7 @@ export default function LevelUp() {
             },
             {
               icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "2rem", height: "2rem" }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="6" cy="12" r="2" /><circle cx="18" cy="6" r="2" /><circle cx="18" cy="18" r="2" />
                   <path d="M8 12h4m2-4.5L10 10m4 2.5L10 15" />
                 </svg>
@@ -33,7 +33,7 @@ export default function LevelUp() {
             },
             {
               icon: (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "2rem", height: "2rem" }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
                 </svg>
               ),
@@ -50,12 +50,12 @@ export default function LevelUp() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    background: "#0086bf"
+                    background: "var(--gf-color-accent-soft)"
                   }}>
                     {step.icon}
                   </div>
-                  <p style={{ margin: "0 0 0.5rem", fontWeight: 700, fontSize: "1rem" }}>{step.title}</p>
-                  <p style={{ margin: 0, lineHeight: 1.7, fontSize: "0.9rem" }}>{step.body}</p>
+                  <p style={{ margin: "0 0 0.5rem", fontWeight: 700, fontSize: "1rem", color: "var(--gf-color-text)"}}>{step.title}</p>
+                  <p style={{ margin: 0, lineHeight: 1.7, fontSize: "0.9rem", color: "var(--gf-color-text-subtle)" }}>{step.body}</p>
                 </div>
 
               {i < arr.length - 1 && (

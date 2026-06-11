@@ -9,7 +9,7 @@
   flex: 1;
   min-width: 180px;
   max-width: 220px;
-  border: 1px solid var(--ifm-color-emphasis-200);
+  border: 1px solid var(--gf-color-accent-soft);
   border-radius: 1rem;
   overflow: hidden;
   display: flex;
@@ -19,16 +19,16 @@
 }
 
 .card:hover {
-  border-color: rgb(0, 181, 226);
+  border-color: var(--gf-color-accent);
 }
 
 .card:hover .label,
 .card:hover .name {
-  color: #ffffff;
+  color: var(--gf-color-text);
 }
 
 .logoWrapper {
-  background: #ffffff;
+  background: var(--gf-color-background-strong);
   padding: 1.25rem;
   display: flex;
   align-items: center;
@@ -49,7 +49,7 @@
   width: 7rem;
   border-radius: 0.375rem;
   background: var(--ifm-color-emphasis-200);
-  border: 1px dashed var(--ifm-color-emphasis-400);
+  border: 1px dashed var(--gf-color-border-strong);
 }
 
 .body {
@@ -58,7 +58,7 @@
   flex-direction: column;
   gap: 0.6rem;
   flex: 1;
-  background: #00b5e2;
+  background: var(--gf-color-surface);
 }
 
 .orgName {
@@ -79,13 +79,13 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--gf-color-text);
   transition: color 0.2s;
 }
 
 .name {
   font-size: 0.85rem;
-  color: #ffffff;
+  color: var(--gf-color-text-subtle);
   line-height: 1.4;
   transition: color 0.2s;
 }

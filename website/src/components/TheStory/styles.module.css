@@ -32,12 +32,11 @@
 }
 
 .audienceCardStyle {
-  border: 1px solid;
-  border-color: var( --gf-color-border-strong);
+  border: 1px solid var( --gf-color-border-strong);
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
   background-color: var(--gf-color-surface);
-  color: #ffffff;
+  color: var(--gf-color-text);
 }
 
 @media screen and (max-width: 600px) {

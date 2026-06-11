@@ -15,6 +15,19 @@
   --ifm-color-primary-lightest: #585858;
   --ifm-navbar-link-color: #0086bf;
   --ifm-footer-background-color: #effbff;
+
+
+  --gf-color-text: #0086bf;
+  --gf-color-text-subtle: #94a3b8;
+
+  --gf-color-background: #e2e8f0;
+  --gf-color-background-strong: #dbeafe;
+  --gf-color-surface: #effbff;
+  --gf-color-border-strong: rgba(59, 130, 246, 0.25);
+
+  --gf-color-accent: #0086bf;
+  --gf-color-accent-soft: rgba(59, 130, 246, 0.2);
+  --gf-color-accent-strong: #1e3a8a;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -28,13 +41,18 @@
   --ifm-color-primary-lightest: #ffffff;
   --ifm-footer-background-color: #effbff;
 
-  --gf-color-accent: #3b82f6;
+
   --gf-color-text: #e2e8f0;
   --gf-color-text-subtle: #94a3b8;
+
   --gf-color-background: #020817;
-  --gf-color-surface: rgba(15, 23, 64, 0.65);
+  --gf-color-background-strong: #dbeafe;
+  --gf-color-surface: rgba(15, 21, 62, 0.65);
   --gf-color-border-strong: rgba(59, 130, 246, 0.25);
-  --gf-color-flair: #1e3a8a;
+
+  --gf-color-accent: #3b82f6;
+  --gf-color-accent-soft: rgba(59, 130, 246, 0.2);
+  --gf-color-accent-strong: #1e3a8a;
 
     background-color:var(--gf-color-background);
 }
