@@ -46,6 +46,7 @@ const config: Config = {
   plugins: [
     './src/plugin/ccc-pages/index.ts',
     './src/plugin/cfi-pages/index.ts',
+    './src/plugin/catalog-routes/index.ts',
   ],
 
   themeConfig: {
@@ -65,8 +66,7 @@ const config: Config = {
           position: 'left',
           type: 'dropdown',
           items: [
-            { to: '/ccc', label: 'CCC Catalogs' },
-            { to: '/cfi', label: 'CFI Catalog' },
+            { to: '/catalogs/core', label: 'CCC Catalogs' },
             { to: '/threats', label: 'Threats' },
             { to: '/controls', label: 'Controls' },
             { to: '/capabilities', label: 'Capabilities' },

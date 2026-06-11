@@ -1,26 +1,1700 @@
-[
-  {
-    "section": "catalogs",
-    "slug": "capabilities",
-    "path": "/catalogs/capabilities",
-    "title": "Capability Catalogs",
-    "description": "Capabilities define the functional properties a cloud service must support — the scope of what CCC controls are written against.",
-    "file": "capabilities.md"
-  },
-  {
-    "section": "catalogs",
-    "slug": "controls",
-    "path": "/catalogs/controls",
-    "title": "Control Catalogs",
-    "description": "Control catalogs specify the concrete security measures that mitigate identified threats for each cloud service.",
-    "file": "controls.md"
-  },
-  {
-    "section": "catalogs",
-    "slug": "threats",
-    "path": "/catalogs/threats",
-    "title": "Threat Catalogs",
-    "description": "Threat catalogs identify the security and resiliency risks relevant to each cloud service capability.",
-    "file": "threats.md"
-  }
+﻿[
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/ai-ml/gen-ai/capabilities/v2025.04-rc6",
+        "title":  "CCC Generative AI Capabilities",
+        "file":  "catalogs/ai-ml/gen-ai/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/ai-ml/gen-ai/capabilities/v2026.04-rc1",
+        "title":  "CCC Generative AI Capabilities",
+        "file":  "catalogs/ai-ml/gen-ai/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/ai-ml/gen-ai/capabilities/v2026.04-rc4",
+        "title":  "CCC Generative AI Capabilities",
+        "file":  "catalogs/ai-ml/gen-ai/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/ai-ml/gen-ai/capabilities/v2026.04-rc5",
+        "title":  "CCC Generative AI Capabilities",
+        "file":  "catalogs/ai-ml/gen-ai/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/ai-ml/gen-ai/capabilities/v2026.04-rc6",
+        "title":  "CCC Generative AI Capabilities",
+        "file":  "catalogs/ai-ml/gen-ai/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/capabilities/v2026.04",
+        "path":  "/catalogs/ai-ml/gen-ai/capabilities/v2026.04",
+        "title":  "CCC Generative AI Capabilities",
+        "file":  "catalogs/ai-ml/gen-ai/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/controls/v2025.04-rc6",
+        "path":  "/catalogs/ai-ml/gen-ai/controls/v2025.04-rc6",
+        "title":  "CCC Generative AI Controls",
+        "file":  "catalogs/ai-ml/gen-ai/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/controls/v2026.04-rc4",
+        "path":  "/catalogs/ai-ml/gen-ai/controls/v2026.04-rc4",
+        "title":  "CCC Generative AI Controls",
+        "file":  "catalogs/ai-ml/gen-ai/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/controls/v2026.04-rc5",
+        "path":  "/catalogs/ai-ml/gen-ai/controls/v2026.04-rc5",
+        "title":  "CCC Generative AI Controls",
+        "file":  "catalogs/ai-ml/gen-ai/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/controls/v2026.04-rc6",
+        "path":  "/catalogs/ai-ml/gen-ai/controls/v2026.04-rc6",
+        "title":  "CCC Generative AI Controls",
+        "file":  "catalogs/ai-ml/gen-ai/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/threats/v2025.04-rc6",
+        "path":  "/catalogs/ai-ml/gen-ai/threats/v2025.04-rc6",
+        "title":  "CCC Generative AI Threats",
+        "file":  "catalogs/ai-ml/gen-ai/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/gen-ai/threats/v2026.04-rc5",
+        "path":  "/catalogs/ai-ml/gen-ai/threats/v2026.04-rc5",
+        "title":  "CCC Generative AI Threats",
+        "file":  "catalogs/ai-ml/gen-ai/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/ai-ml/mlde/capabilities/v2025.04-rc6",
+        "title":  "CCC ML Development Environments Capabilities",
+        "file":  "catalogs/ai-ml/mlde/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/ai-ml/mlde/capabilities/v2026.04-rc1",
+        "title":  "CCC ML Development Environments Capabilities",
+        "file":  "catalogs/ai-ml/mlde/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/ai-ml/mlde/capabilities/v2026.04-rc4",
+        "title":  "CCC ML Development Environments Capabilities",
+        "file":  "catalogs/ai-ml/mlde/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/ai-ml/mlde/capabilities/v2026.04-rc5",
+        "title":  "CCC ML Development Environments Capabilities",
+        "file":  "catalogs/ai-ml/mlde/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/ai-ml/mlde/capabilities/v2026.04-rc6",
+        "title":  "CCC ML Development Environments Capabilities",
+        "file":  "catalogs/ai-ml/mlde/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/capabilities/v2026.04",
+        "path":  "/catalogs/ai-ml/mlde/capabilities/v2026.04",
+        "title":  "CCC ML Development Environments Capabilities",
+        "file":  "catalogs/ai-ml/mlde/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/controls/v2025.04-rc6",
+        "path":  "/catalogs/ai-ml/mlde/controls/v2025.04-rc6",
+        "title":  "CCC ML Development Environments Controls",
+        "file":  "catalogs/ai-ml/mlde/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/controls/v2026.04-rc4",
+        "path":  "/catalogs/ai-ml/mlde/controls/v2026.04-rc4",
+        "title":  "CCC ML Development Environments Controls",
+        "file":  "catalogs/ai-ml/mlde/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/controls/v2026.04-rc5",
+        "path":  "/catalogs/ai-ml/mlde/controls/v2026.04-rc5",
+        "title":  "CCC ML Development Environments Controls",
+        "file":  "catalogs/ai-ml/mlde/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "ai-ml/mlde/controls/v2026.04-rc6",
+        "path":  "/catalogs/ai-ml/mlde/controls/v2026.04-rc6",
+        "title":  "CCC ML Development Environments Controls",
+        "file":  "catalogs/ai-ml/mlde/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "app-integration/message/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/app-integration/message/capabilities/v2025.04-rc6",
+        "title":  "CCC Messaging Capabilities",
+        "file":  "catalogs/app-integration/message/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "app-integration/message/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/app-integration/message/capabilities/v2026.04-rc1",
+        "title":  "CCC Messaging Capabilities",
+        "file":  "catalogs/app-integration/message/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "app-integration/message/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/app-integration/message/capabilities/v2026.04-rc4",
+        "title":  "CCC Messaging Capabilities",
+        "file":  "catalogs/app-integration/message/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "app-integration/message/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/app-integration/message/capabilities/v2026.04-rc6",
+        "title":  "CCC Messaging Capabilities",
+        "file":  "catalogs/app-integration/message/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "app-integration/message/capabilities/v2026.04",
+        "path":  "/catalogs/app-integration/message/capabilities/v2026.04",
+        "title":  "CCC Messaging Capabilities",
+        "file":  "catalogs/app-integration/message/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "app-integration/message/controls/v2026.04-rc4",
+        "path":  "/catalogs/app-integration/message/controls/v2026.04-rc4",
+        "title":  "CCC Messaging Controls",
+        "file":  "catalogs/app-integration/message/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "app-integration/message/controls/v2026.04-rc5",
+        "path":  "/catalogs/app-integration/message/controls/v2026.04-rc5",
+        "title":  "CCC Messaging Controls",
+        "file":  "catalogs/app-integration/message/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "app-integration/message/controls/v2026.04-rc6",
+        "path":  "/catalogs/app-integration/message/controls/v2026.04-rc6",
+        "title":  "CCC Messaging Controls",
+        "file":  "catalogs/app-integration/message/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/batchproc/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/compute/batchproc/capabilities/v2025.04-rc6",
+        "title":  "CCC Batch Processing Capabilities",
+        "file":  "catalogs/compute/batchproc/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/batchproc/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/compute/batchproc/capabilities/v2026.04-rc1",
+        "title":  "CCC Batch Processing Capabilities",
+        "file":  "catalogs/compute/batchproc/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/batchproc/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/compute/batchproc/capabilities/v2026.04-rc4",
+        "title":  "CCC Batch Processing Capabilities",
+        "file":  "catalogs/compute/batchproc/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/batchproc/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/compute/batchproc/capabilities/v2026.04-rc5",
+        "title":  "CCC Batch Processing Capabilities",
+        "file":  "catalogs/compute/batchproc/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/batchproc/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/compute/batchproc/capabilities/v2026.04-rc6",
+        "title":  "CCC Batch Processing Capabilities",
+        "file":  "catalogs/compute/batchproc/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/batchproc/capabilities/v2026.04",
+        "path":  "/catalogs/compute/batchproc/capabilities/v2026.04",
+        "title":  "CCC Batch Processing Capabilities",
+        "file":  "catalogs/compute/batchproc/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/compute/serverless-computing/capabilities/v2025.04-rc6",
+        "title":  "CCC Serverless Computing Capabilities",
+        "file":  "catalogs/compute/serverless-computing/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/compute/serverless-computing/capabilities/v2026.04-rc1",
+        "title":  "CCC Serverless Computing Capabilities",
+        "file":  "catalogs/compute/serverless-computing/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/compute/serverless-computing/capabilities/v2026.04-rc4",
+        "title":  "CCC Serverless Computing Capabilities",
+        "file":  "catalogs/compute/serverless-computing/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/compute/serverless-computing/capabilities/v2026.04-rc5",
+        "title":  "CCC Serverless Computing Capabilities",
+        "file":  "catalogs/compute/serverless-computing/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/compute/serverless-computing/capabilities/v2026.04-rc6",
+        "title":  "CCC Serverless Computing Capabilities",
+        "file":  "catalogs/compute/serverless-computing/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/capabilities/v2026.04",
+        "path":  "/catalogs/compute/serverless-computing/capabilities/v2026.04",
+        "title":  "CCC Serverless Computing Capabilities",
+        "file":  "catalogs/compute/serverless-computing/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/controls/v2025.04-rc6",
+        "path":  "/catalogs/compute/serverless-computing/controls/v2025.04-rc6",
+        "title":  "CCC Serverless Computing Controls",
+        "file":  "catalogs/compute/serverless-computing/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/controls/v2026.04-rc4",
+        "path":  "/catalogs/compute/serverless-computing/controls/v2026.04-rc4",
+        "title":  "CCC Serverless Computing Controls",
+        "file":  "catalogs/compute/serverless-computing/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/controls/v2026.04-rc5",
+        "path":  "/catalogs/compute/serverless-computing/controls/v2026.04-rc5",
+        "title":  "CCC Serverless Computing Controls",
+        "file":  "catalogs/compute/serverless-computing/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/serverless-computing/controls/v2026.04-rc6",
+        "path":  "/catalogs/compute/serverless-computing/controls/v2026.04-rc6",
+        "title":  "CCC Serverless Computing Controls",
+        "file":  "catalogs/compute/serverless-computing/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/virtual-machines/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/compute/virtual-machines/capabilities/v2025.04-rc6",
+        "title":  "CCC Virtual Machines Capabilities",
+        "file":  "catalogs/compute/virtual-machines/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/virtual-machines/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/compute/virtual-machines/capabilities/v2026.04-rc4",
+        "title":  "CCC Virtual Machines Capabilities",
+        "file":  "catalogs/compute/virtual-machines/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/virtual-machines/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/compute/virtual-machines/capabilities/v2026.04-rc6",
+        "title":  "CCC Virtual Machines Capabilities",
+        "file":  "catalogs/compute/virtual-machines/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/virtual-machines/capabilities/v2026.04",
+        "path":  "/catalogs/compute/virtual-machines/capabilities/v2026.04",
+        "title":  "CCC Virtual Machines Capabilities",
+        "file":  "catalogs/compute/virtual-machines/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/virtual-machines/threats/v2025.04-rc6",
+        "path":  "/catalogs/compute/virtual-machines/threats/v2025.04-rc6",
+        "title":  "CCC Virtual Machines Threats",
+        "file":  "catalogs/compute/virtual-machines/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/virtual-machines/threats/v2026.04-rc4",
+        "path":  "/catalogs/compute/virtual-machines/threats/v2026.04-rc4",
+        "title":  "CCC Virtual Machines Threats",
+        "file":  "catalogs/compute/virtual-machines/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/virtual-machines/threats/v2026.04-rc5",
+        "path":  "/catalogs/compute/virtual-machines/threats/v2026.04-rc5",
+        "title":  "CCC Virtual Machines Threats",
+        "file":  "catalogs/compute/virtual-machines/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "compute/virtual-machines/threats/v2026.04-rc6",
+        "path":  "/catalogs/compute/virtual-machines/threats/v2026.04-rc6",
+        "title":  "CCC Virtual Machines Threats",
+        "file":  "catalogs/compute/virtual-machines/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/core/ccc/capabilities/v2026.04-rc4",
+        "title":  "CCC Core Capabilities",
+        "file":  "catalogs/core/ccc/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/core/ccc/capabilities/v2026.04-rc5",
+        "title":  "CCC Core Capabilities",
+        "file":  "catalogs/core/ccc/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/core/ccc/capabilities/v2026.04-rc6",
+        "title":  "CCC Core Capabilities",
+        "file":  "catalogs/core/ccc/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/controls/v2026.04-rc4",
+        "path":  "/catalogs/core/ccc/controls/v2026.04-rc4",
+        "title":  "CCC Core Controls",
+        "file":  "catalogs/core/ccc/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/controls/v2026.04-rc5",
+        "path":  "/catalogs/core/ccc/controls/v2026.04-rc5",
+        "title":  "CCC Core Controls",
+        "file":  "catalogs/core/ccc/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/controls/v2026.04-rc6",
+        "path":  "/catalogs/core/ccc/controls/v2026.04-rc6",
+        "title":  "CCC Core Controls",
+        "file":  "catalogs/core/ccc/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/threats/v2026.04-rc4",
+        "path":  "/catalogs/core/ccc/threats/v2026.04-rc4",
+        "title":  "CCC Core Threats",
+        "file":  "catalogs/core/ccc/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/threats/v2026.04-rc5",
+        "path":  "/catalogs/core/ccc/threats/v2026.04-rc5",
+        "title":  "CCC Core Threats",
+        "file":  "catalogs/core/ccc/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core/ccc/threats/v2026.04-rc6",
+        "path":  "/catalogs/core/ccc/threats/v2026.04-rc6",
+        "title":  "CCC Core Threats",
+        "file":  "catalogs/core/ccc/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/crypto/key/capabilities/v2025.04-rc6",
+        "title":  "CCC Key Management Capabilities",
+        "file":  "catalogs/crypto/key/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/crypto/key/capabilities/v2026.04-rc1",
+        "title":  "CCC Key Management Capabilities",
+        "file":  "catalogs/crypto/key/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/crypto/key/capabilities/v2026.04-rc4",
+        "title":  "CCC Key Management Capabilities",
+        "file":  "catalogs/crypto/key/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/crypto/key/capabilities/v2026.04-rc6",
+        "title":  "CCC Key Management Capabilities",
+        "file":  "catalogs/crypto/key/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/capabilities/v2026.04",
+        "path":  "/catalogs/crypto/key/capabilities/v2026.04",
+        "title":  "CCC Key Management Capabilities",
+        "file":  "catalogs/crypto/key/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/controls/v2025.04-rc6",
+        "path":  "/catalogs/crypto/key/controls/v2025.04-rc6",
+        "title":  "CCC Key Management Controls",
+        "file":  "catalogs/crypto/key/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/controls/v2026.04-rc4",
+        "path":  "/catalogs/crypto/key/controls/v2026.04-rc4",
+        "title":  "CCC Key Management Controls",
+        "file":  "catalogs/crypto/key/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/threats/v2025.04-rc6",
+        "path":  "/catalogs/crypto/key/threats/v2025.04-rc6",
+        "title":  "CCC Key Management Threats",
+        "file":  "catalogs/crypto/key/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/threats/v2026.04-rc4",
+        "path":  "/catalogs/crypto/key/threats/v2026.04-rc4",
+        "title":  "CCC Key Management Threats",
+        "file":  "catalogs/crypto/key/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/threats/v2026.04-rc5",
+        "path":  "/catalogs/crypto/key/threats/v2026.04-rc5",
+        "title":  "CCC Key Management Threats",
+        "file":  "catalogs/crypto/key/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/key/threats/v2026.04-rc6",
+        "path":  "/catalogs/crypto/key/threats/v2026.04-rc6",
+        "title":  "CCC Key Management Threats",
+        "file":  "catalogs/crypto/key/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/secrets/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/crypto/secrets/capabilities/v2026.04-rc1",
+        "title":  "CCC Secrets Management Capabilities",
+        "file":  "catalogs/crypto/secrets/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/secrets/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/crypto/secrets/capabilities/v2026.04-rc4",
+        "title":  "CCC Secrets Management Capabilities",
+        "file":  "catalogs/crypto/secrets/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/secrets/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/crypto/secrets/capabilities/v2026.04-rc5",
+        "title":  "CCC Secrets Management Capabilities",
+        "file":  "catalogs/crypto/secrets/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/secrets/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/crypto/secrets/capabilities/v2026.04-rc6",
+        "title":  "CCC Secrets Management Capabilities",
+        "file":  "catalogs/crypto/secrets/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/secrets/capabilities/v2026.04",
+        "path":  "/catalogs/crypto/secrets/capabilities/v2026.04",
+        "title":  "CCC Secrets Management Capabilities",
+        "file":  "catalogs/crypto/secrets/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/secrets/controls/v2025.04-rc6",
+        "path":  "/catalogs/crypto/secrets/controls/v2025.04-rc6",
+        "title":  "CCC Secrets Management Controls",
+        "file":  "catalogs/crypto/secrets/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/secrets/controls/v2026.04-rc4",
+        "path":  "/catalogs/crypto/secrets/controls/v2026.04-rc4",
+        "title":  "CCC Secrets Management Controls",
+        "file":  "catalogs/crypto/secrets/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "crypto/secrets/controls/v2026.04-rc6",
+        "path":  "/catalogs/crypto/secrets/controls/v2026.04-rc6",
+        "title":  "CCC Secrets Management Controls",
+        "file":  "catalogs/crypto/secrets/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/database/relational/capabilities/v2025.04-rc6",
+        "title":  "CCC Relational Database Capabilities",
+        "file":  "catalogs/database/relational/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/database/relational/capabilities/v2026.04-rc1",
+        "title":  "CCC Relational Database Capabilities",
+        "file":  "catalogs/database/relational/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/database/relational/capabilities/v2026.04-rc5",
+        "title":  "CCC Relational Database Capabilities",
+        "file":  "catalogs/database/relational/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/capabilities/v2026.04",
+        "path":  "/catalogs/database/relational/capabilities/v2026.04",
+        "title":  "CCC Relational Database Capabilities",
+        "file":  "catalogs/database/relational/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/controls/v2025.04-rc6",
+        "path":  "/catalogs/database/relational/controls/v2025.04-rc6",
+        "title":  "CCC Relational Database Controls",
+        "file":  "catalogs/database/relational/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/controls/v2026.04-rc4",
+        "path":  "/catalogs/database/relational/controls/v2026.04-rc4",
+        "title":  "CCC Relational Database Controls",
+        "file":  "catalogs/database/relational/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/controls/v2026.04-rc5",
+        "path":  "/catalogs/database/relational/controls/v2026.04-rc5",
+        "title":  "CCC Relational Database Controls",
+        "file":  "catalogs/database/relational/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/controls/v2026.04-rc6",
+        "path":  "/catalogs/database/relational/controls/v2026.04-rc6",
+        "title":  "CCC Relational Database Controls",
+        "file":  "catalogs/database/relational/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/threats/v2025.04-rc6",
+        "path":  "/catalogs/database/relational/threats/v2025.04-rc6",
+        "title":  "CCC Relational Database Threats",
+        "file":  "catalogs/database/relational/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/threats/v2026.04-rc4",
+        "path":  "/catalogs/database/relational/threats/v2026.04-rc4",
+        "title":  "CCC Relational Database Threats",
+        "file":  "catalogs/database/relational/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/threats/v2026.04-rc5",
+        "path":  "/catalogs/database/relational/threats/v2026.04-rc5",
+        "title":  "CCC Relational Database Threats",
+        "file":  "catalogs/database/relational/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/relational/threats/v2026.04-rc6",
+        "path":  "/catalogs/database/relational/threats/v2026.04-rc6",
+        "title":  "CCC Relational Database Threats",
+        "file":  "catalogs/database/relational/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/database/vector/capabilities/v2026.04-rc1",
+        "title":  "CCC Vector Database Capabilities",
+        "file":  "catalogs/database/vector/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/database/vector/capabilities/v2026.04-rc4",
+        "title":  "CCC Vector Database Capabilities",
+        "file":  "catalogs/database/vector/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/database/vector/capabilities/v2026.04-rc5",
+        "title":  "CCC Vector Database Capabilities",
+        "file":  "catalogs/database/vector/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/database/vector/capabilities/v2026.04-rc6",
+        "title":  "CCC Vector Database Capabilities",
+        "file":  "catalogs/database/vector/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/capabilities/v2026.04",
+        "path":  "/catalogs/database/vector/capabilities/v2026.04",
+        "title":  "CCC Vector Database Capabilities",
+        "file":  "catalogs/database/vector/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/controls/v2025.04-rc6",
+        "path":  "/catalogs/database/vector/controls/v2025.04-rc6",
+        "title":  "CCC Vector Database Controls",
+        "file":  "catalogs/database/vector/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/controls/v2026.04-rc4",
+        "path":  "/catalogs/database/vector/controls/v2026.04-rc4",
+        "title":  "CCC Vector Database Controls",
+        "file":  "catalogs/database/vector/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/controls/v2026.04-rc5",
+        "path":  "/catalogs/database/vector/controls/v2026.04-rc5",
+        "title":  "CCC Vector Database Controls",
+        "file":  "catalogs/database/vector/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/controls/v2026.04-rc6",
+        "path":  "/catalogs/database/vector/controls/v2026.04-rc6",
+        "title":  "CCC Vector Database Controls",
+        "file":  "catalogs/database/vector/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/threats/v2026.04-rc4",
+        "path":  "/catalogs/database/vector/threats/v2026.04-rc4",
+        "title":  "CCC Vector Database Threats",
+        "file":  "catalogs/database/vector/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/threats/v2026.04-rc5",
+        "path":  "/catalogs/database/vector/threats/v2026.04-rc5",
+        "title":  "CCC Vector Database Threats",
+        "file":  "catalogs/database/vector/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/vector/threats/v2026.04-rc6",
+        "path":  "/catalogs/database/vector/threats/v2026.04-rc6",
+        "title":  "CCC Vector Database Threats",
+        "file":  "catalogs/database/vector/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/database/warehouse/capabilities/v2026.04-rc1",
+        "title":  "CCC Data Warehouse Capabilities",
+        "file":  "catalogs/database/warehouse/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/database/warehouse/capabilities/v2026.04-rc4",
+        "title":  "CCC Data Warehouse Capabilities",
+        "file":  "catalogs/database/warehouse/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/database/warehouse/capabilities/v2026.04-rc5",
+        "title":  "CCC Data Warehouse Capabilities",
+        "file":  "catalogs/database/warehouse/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/database/warehouse/capabilities/v2026.04-rc6",
+        "title":  "CCC Data Warehouse Capabilities",
+        "file":  "catalogs/database/warehouse/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/capabilities/v2026.04",
+        "path":  "/catalogs/database/warehouse/capabilities/v2026.04",
+        "title":  "CCC Data Warehouse Capabilities",
+        "file":  "catalogs/database/warehouse/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/controls/v2026.04-rc4",
+        "path":  "/catalogs/database/warehouse/controls/v2026.04-rc4",
+        "title":  "CCC Data Warehouse Controls",
+        "file":  "catalogs/database/warehouse/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/controls/v2026.04-rc5",
+        "path":  "/catalogs/database/warehouse/controls/v2026.04-rc5",
+        "title":  "CCC Data Warehouse Controls",
+        "file":  "catalogs/database/warehouse/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/threats/v2025.04-rc6",
+        "path":  "/catalogs/database/warehouse/threats/v2025.04-rc6",
+        "title":  "CCC Data Warehouse Threats",
+        "file":  "catalogs/database/warehouse/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/threats/v2026.04-rc4",
+        "path":  "/catalogs/database/warehouse/threats/v2026.04-rc4",
+        "title":  "CCC Data Warehouse Threats",
+        "file":  "catalogs/database/warehouse/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "database/warehouse/threats/v2026.04-rc6",
+        "path":  "/catalogs/database/warehouse/threats/v2026.04-rc6",
+        "title":  "CCC Data Warehouse Threats",
+        "file":  "catalogs/database/warehouse/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/devtools/build/capabilities/v2025.04-rc6",
+        "title":  "CCC Build Systems Capabilities",
+        "file":  "catalogs/devtools/build/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/devtools/build/capabilities/v2026.04-rc1",
+        "title":  "CCC Build Systems Capabilities",
+        "file":  "catalogs/devtools/build/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/devtools/build/capabilities/v2026.04-rc4",
+        "title":  "CCC Build Systems Capabilities",
+        "file":  "catalogs/devtools/build/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/devtools/build/capabilities/v2026.04-rc5",
+        "title":  "CCC Build Systems Capabilities",
+        "file":  "catalogs/devtools/build/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/devtools/build/capabilities/v2026.04-rc6",
+        "title":  "CCC Build Systems Capabilities",
+        "file":  "catalogs/devtools/build/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/capabilities/v2026.04",
+        "path":  "/catalogs/devtools/build/capabilities/v2026.04",
+        "title":  "CCC Build Systems Capabilities",
+        "file":  "catalogs/devtools/build/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/controls/v2025.04-rc6",
+        "path":  "/catalogs/devtools/build/controls/v2025.04-rc6",
+        "title":  "CCC Build Systems Controls",
+        "file":  "catalogs/devtools/build/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/controls/v2026.04-rc4",
+        "path":  "/catalogs/devtools/build/controls/v2026.04-rc4",
+        "title":  "CCC Build Systems Controls",
+        "file":  "catalogs/devtools/build/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/controls/v2026.04-rc6",
+        "path":  "/catalogs/devtools/build/controls/v2026.04-rc6",
+        "title":  "CCC Build Systems Controls",
+        "file":  "catalogs/devtools/build/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/threats/v2025.04-rc6",
+        "path":  "/catalogs/devtools/build/threats/v2025.04-rc6",
+        "title":  "CCC Build Systems Threats",
+        "file":  "catalogs/devtools/build/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/threats/v2026.04-rc4",
+        "path":  "/catalogs/devtools/build/threats/v2026.04-rc4",
+        "title":  "CCC Build Systems Threats",
+        "file":  "catalogs/devtools/build/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/threats/v2026.04-rc5",
+        "path":  "/catalogs/devtools/build/threats/v2026.04-rc5",
+        "title":  "CCC Build Systems Threats",
+        "file":  "catalogs/devtools/build/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/build/threats/v2026.04-rc6",
+        "path":  "/catalogs/devtools/build/threats/v2026.04-rc6",
+        "title":  "CCC Build Systems Threats",
+        "file":  "catalogs/devtools/build/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/devtools/container-registry/capabilities/v2025.04-rc6",
+        "title":  "CCC Container Registry Capabilities",
+        "file":  "catalogs/devtools/container-registry/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/devtools/container-registry/capabilities/v2026.04-rc1",
+        "title":  "CCC Container Registry Capabilities",
+        "file":  "catalogs/devtools/container-registry/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/devtools/container-registry/capabilities/v2026.04-rc4",
+        "title":  "CCC Container Registry Capabilities",
+        "file":  "catalogs/devtools/container-registry/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/devtools/container-registry/capabilities/v2026.04-rc5",
+        "title":  "CCC Container Registry Capabilities",
+        "file":  "catalogs/devtools/container-registry/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/devtools/container-registry/capabilities/v2026.04-rc6",
+        "title":  "CCC Container Registry Capabilities",
+        "file":  "catalogs/devtools/container-registry/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/capabilities/v2026.04",
+        "path":  "/catalogs/devtools/container-registry/capabilities/v2026.04",
+        "title":  "CCC Container Registry Capabilities",
+        "file":  "catalogs/devtools/container-registry/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/controls/v2026.04-rc4",
+        "path":  "/catalogs/devtools/container-registry/controls/v2026.04-rc4",
+        "title":  "CCC Container Registry Controls",
+        "file":  "catalogs/devtools/container-registry/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/controls/v2026.04-rc5",
+        "path":  "/catalogs/devtools/container-registry/controls/v2026.04-rc5",
+        "title":  "CCC Container Registry Controls",
+        "file":  "catalogs/devtools/container-registry/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/threats/v2025.04-rc6",
+        "path":  "/catalogs/devtools/container-registry/threats/v2025.04-rc6",
+        "title":  "CCC Container Registry Threats",
+        "file":  "catalogs/devtools/container-registry/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/threats/v2026.04-rc4",
+        "path":  "/catalogs/devtools/container-registry/threats/v2026.04-rc4",
+        "title":  "CCC Container Registry Threats",
+        "file":  "catalogs/devtools/container-registry/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/threats/v2026.04-rc5",
+        "path":  "/catalogs/devtools/container-registry/threats/v2026.04-rc5",
+        "title":  "CCC Container Registry Threats",
+        "file":  "catalogs/devtools/container-registry/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "devtools/container-registry/threats/v2026.04-rc6",
+        "path":  "/catalogs/devtools/container-registry/threats/v2026.04-rc6",
+        "title":  "CCC Container Registry Threats",
+        "file":  "catalogs/devtools/container-registry/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/identity/iam/capabilities/v2025.04-rc6",
+        "title":  "CCC Identity and Access Management Capabilities",
+        "file":  "catalogs/identity/iam/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/identity/iam/capabilities/v2026.04-rc1",
+        "title":  "CCC Identity and Access Management Capabilities",
+        "file":  "catalogs/identity/iam/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/identity/iam/capabilities/v2026.04-rc4",
+        "title":  "CCC Identity and Access Management Capabilities",
+        "file":  "catalogs/identity/iam/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/capabilities/v2026.04",
+        "path":  "/catalogs/identity/iam/capabilities/v2026.04",
+        "title":  "CCC Identity and Access Management Capabilities",
+        "file":  "catalogs/identity/iam/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/controls/v2026.04-rc4",
+        "path":  "/catalogs/identity/iam/controls/v2026.04-rc4",
+        "title":  "CCC Identity and Access Management Controls",
+        "file":  "catalogs/identity/iam/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/controls/v2026.04-rc5",
+        "path":  "/catalogs/identity/iam/controls/v2026.04-rc5",
+        "title":  "CCC Identity and Access Management Controls",
+        "file":  "catalogs/identity/iam/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/threats/v2025.04-rc6",
+        "path":  "/catalogs/identity/iam/threats/v2025.04-rc6",
+        "title":  "CCC Identity and Access Management Threats",
+        "file":  "catalogs/identity/iam/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/threats/v2026.04-rc4",
+        "path":  "/catalogs/identity/iam/threats/v2026.04-rc4",
+        "title":  "CCC Identity and Access Management Threats",
+        "file":  "catalogs/identity/iam/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/threats/v2026.04-rc5",
+        "path":  "/catalogs/identity/iam/threats/v2026.04-rc5",
+        "title":  "CCC Identity and Access Management Threats",
+        "file":  "catalogs/identity/iam/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "identity/iam/threats/v2026.04-rc6",
+        "path":  "/catalogs/identity/iam/threats/v2026.04-rc6",
+        "title":  "CCC Identity and Access Management Threats",
+        "file":  "catalogs/identity/iam/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/management/auditlog/capabilities/v2026.04-rc1",
+        "title":  "CCC Audit Logging Capabilities",
+        "file":  "catalogs/management/auditlog/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/management/auditlog/capabilities/v2026.04-rc4",
+        "title":  "CCC Audit Logging Capabilities",
+        "file":  "catalogs/management/auditlog/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/management/auditlog/capabilities/v2026.04-rc6",
+        "title":  "CCC Audit Logging Capabilities",
+        "file":  "catalogs/management/auditlog/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/capabilities/v2026.04",
+        "path":  "/catalogs/management/auditlog/capabilities/v2026.04",
+        "title":  "CCC Audit Logging Capabilities",
+        "file":  "catalogs/management/auditlog/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/controls/v2025.04-rc6",
+        "path":  "/catalogs/management/auditlog/controls/v2025.04-rc6",
+        "title":  "CCC Audit Logging Controls",
+        "file":  "catalogs/management/auditlog/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/controls/v2026.04-rc4",
+        "path":  "/catalogs/management/auditlog/controls/v2026.04-rc4",
+        "title":  "CCC Audit Logging Controls",
+        "file":  "catalogs/management/auditlog/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/controls/v2026.04-rc5",
+        "path":  "/catalogs/management/auditlog/controls/v2026.04-rc5",
+        "title":  "CCC Audit Logging Controls",
+        "file":  "catalogs/management/auditlog/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/threats/v2025.04-rc6",
+        "path":  "/catalogs/management/auditlog/threats/v2025.04-rc6",
+        "title":  "CCC Audit Logging Threats",
+        "file":  "catalogs/management/auditlog/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/threats/v2026.04-rc4",
+        "path":  "/catalogs/management/auditlog/threats/v2026.04-rc4",
+        "title":  "CCC Audit Logging Threats",
+        "file":  "catalogs/management/auditlog/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/threats/v2026.04-rc5",
+        "path":  "/catalogs/management/auditlog/threats/v2026.04-rc5",
+        "title":  "CCC Audit Logging Threats",
+        "file":  "catalogs/management/auditlog/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/auditlog/threats/v2026.04-rc6",
+        "path":  "/catalogs/management/auditlog/threats/v2026.04-rc6",
+        "title":  "CCC Audit Logging Threats",
+        "file":  "catalogs/management/auditlog/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/management/logging/capabilities/v2026.04-rc1",
+        "title":  "CCC Logging Capabilities",
+        "file":  "catalogs/management/logging/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/management/logging/capabilities/v2026.04-rc4",
+        "title":  "CCC Logging Capabilities",
+        "file":  "catalogs/management/logging/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/management/logging/capabilities/v2026.04-rc6",
+        "title":  "CCC Logging Capabilities",
+        "file":  "catalogs/management/logging/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/capabilities/v2026.04",
+        "path":  "/catalogs/management/logging/capabilities/v2026.04",
+        "title":  "CCC Logging Capabilities",
+        "file":  "catalogs/management/logging/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/controls/v2025.04-rc6",
+        "path":  "/catalogs/management/logging/controls/v2025.04-rc6",
+        "title":  "CCC Logging Controls",
+        "file":  "catalogs/management/logging/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/controls/v2026.04-rc4",
+        "path":  "/catalogs/management/logging/controls/v2026.04-rc4",
+        "title":  "CCC Logging Controls",
+        "file":  "catalogs/management/logging/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/controls/v2026.04-rc5",
+        "path":  "/catalogs/management/logging/controls/v2026.04-rc5",
+        "title":  "CCC Logging Controls",
+        "file":  "catalogs/management/logging/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/threats/v2025.04-rc6",
+        "path":  "/catalogs/management/logging/threats/v2025.04-rc6",
+        "title":  "CCC Logging Threats",
+        "file":  "catalogs/management/logging/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/threats/v2026.04-rc4",
+        "path":  "/catalogs/management/logging/threats/v2026.04-rc4",
+        "title":  "CCC Logging Threats",
+        "file":  "catalogs/management/logging/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/threats/v2026.04-rc5",
+        "path":  "/catalogs/management/logging/threats/v2026.04-rc5",
+        "title":  "CCC Logging Threats",
+        "file":  "catalogs/management/logging/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/logging/threats/v2026.04-rc6",
+        "path":  "/catalogs/management/logging/threats/v2026.04-rc6",
+        "title":  "CCC Logging Threats",
+        "file":  "catalogs/management/logging/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/management/monitoring/capabilities/v2025.04-rc6",
+        "title":  "CCC Monitoring Capabilities",
+        "file":  "catalogs/management/monitoring/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/management/monitoring/capabilities/v2026.04-rc1",
+        "title":  "CCC Monitoring Capabilities",
+        "file":  "catalogs/management/monitoring/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/management/monitoring/capabilities/v2026.04-rc4",
+        "title":  "CCC Monitoring Capabilities",
+        "file":  "catalogs/management/monitoring/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/management/monitoring/capabilities/v2026.04-rc6",
+        "title":  "CCC Monitoring Capabilities",
+        "file":  "catalogs/management/monitoring/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/capabilities/v2026.04",
+        "path":  "/catalogs/management/monitoring/capabilities/v2026.04",
+        "title":  "CCC Monitoring Capabilities",
+        "file":  "catalogs/management/monitoring/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/controls/v2025.04-rc6",
+        "path":  "/catalogs/management/monitoring/controls/v2025.04-rc6",
+        "title":  "CCC Monitoring Controls",
+        "file":  "catalogs/management/monitoring/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/controls/v2026.04-rc4",
+        "path":  "/catalogs/management/monitoring/controls/v2026.04-rc4",
+        "title":  "CCC Monitoring Controls",
+        "file":  "catalogs/management/monitoring/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/controls/v2026.04-rc5",
+        "path":  "/catalogs/management/monitoring/controls/v2026.04-rc5",
+        "title":  "CCC Monitoring Controls",
+        "file":  "catalogs/management/monitoring/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/controls/v2026.04-rc6",
+        "path":  "/catalogs/management/monitoring/controls/v2026.04-rc6",
+        "title":  "CCC Monitoring Controls",
+        "file":  "catalogs/management/monitoring/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/threats/v2025.04-rc6",
+        "path":  "/catalogs/management/monitoring/threats/v2025.04-rc6",
+        "title":  "CCC Monitoring Threats",
+        "file":  "catalogs/management/monitoring/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/threats/v2026.04-rc4",
+        "path":  "/catalogs/management/monitoring/threats/v2026.04-rc4",
+        "title":  "CCC Monitoring Threats",
+        "file":  "catalogs/management/monitoring/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/threats/v2026.04-rc5",
+        "path":  "/catalogs/management/monitoring/threats/v2026.04-rc5",
+        "title":  "CCC Monitoring Threats",
+        "file":  "catalogs/management/monitoring/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/monitoring/threats/v2026.04-rc6",
+        "path":  "/catalogs/management/monitoring/threats/v2026.04-rc6",
+        "title":  "CCC Monitoring Threats",
+        "file":  "catalogs/management/monitoring/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/tracing/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/management/tracing/capabilities/v2026.04-rc1",
+        "title":  "CCC Distributed Tracing Capabilities",
+        "file":  "catalogs/management/tracing/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/tracing/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/management/tracing/capabilities/v2026.04-rc4",
+        "title":  "CCC Distributed Tracing Capabilities",
+        "file":  "catalogs/management/tracing/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/tracing/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/management/tracing/capabilities/v2026.04-rc5",
+        "title":  "CCC Distributed Tracing Capabilities",
+        "file":  "catalogs/management/tracing/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "management/tracing/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/management/tracing/capabilities/v2026.04-rc6",
+        "title":  "CCC Distributed Tracing Capabilities",
+        "file":  "catalogs/management/tracing/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/networking/loadbalancer/capabilities/v2025.04-rc6",
+        "title":  "CCC Load Balancer Capabilities",
+        "file":  "catalogs/networking/loadbalancer/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/networking/loadbalancer/capabilities/v2026.04-rc1",
+        "title":  "CCC Load Balancer Capabilities",
+        "file":  "catalogs/networking/loadbalancer/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/networking/loadbalancer/capabilities/v2026.04-rc4",
+        "title":  "CCC Load Balancer Capabilities",
+        "file":  "catalogs/networking/loadbalancer/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/networking/loadbalancer/capabilities/v2026.04-rc5",
+        "title":  "CCC Load Balancer Capabilities",
+        "file":  "catalogs/networking/loadbalancer/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/networking/loadbalancer/capabilities/v2026.04-rc6",
+        "title":  "CCC Load Balancer Capabilities",
+        "file":  "catalogs/networking/loadbalancer/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/capabilities/v2026.04",
+        "path":  "/catalogs/networking/loadbalancer/capabilities/v2026.04",
+        "title":  "CCC Load Balancer Capabilities",
+        "file":  "catalogs/networking/loadbalancer/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/controls/v2025.04-rc6",
+        "path":  "/catalogs/networking/loadbalancer/controls/v2025.04-rc6",
+        "title":  "CCC Load Balancer Controls",
+        "file":  "catalogs/networking/loadbalancer/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/controls/v2026.04-rc4",
+        "path":  "/catalogs/networking/loadbalancer/controls/v2026.04-rc4",
+        "title":  "CCC Load Balancer Controls",
+        "file":  "catalogs/networking/loadbalancer/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/controls/v2026.04-rc5",
+        "path":  "/catalogs/networking/loadbalancer/controls/v2026.04-rc5",
+        "title":  "CCC Load Balancer Controls",
+        "file":  "catalogs/networking/loadbalancer/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/threats/v2025.04-rc6",
+        "path":  "/catalogs/networking/loadbalancer/threats/v2025.04-rc6",
+        "title":  "CCC Load Balancer Threats",
+        "file":  "catalogs/networking/loadbalancer/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/threats/v2026.04-rc4",
+        "path":  "/catalogs/networking/loadbalancer/threats/v2026.04-rc4",
+        "title":  "CCC Load Balancer Threats",
+        "file":  "catalogs/networking/loadbalancer/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/threats/v2026.04-rc5",
+        "path":  "/catalogs/networking/loadbalancer/threats/v2026.04-rc5",
+        "title":  "CCC Load Balancer Threats",
+        "file":  "catalogs/networking/loadbalancer/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/loadbalancer/threats/v2026.04-rc6",
+        "path":  "/catalogs/networking/loadbalancer/threats/v2026.04-rc6",
+        "title":  "CCC Load Balancer Threats",
+        "file":  "catalogs/networking/loadbalancer/threats/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/networking/vpc/capabilities/v2025.04-rc6",
+        "title":  "CCC Virtual Private Cloud Capabilities",
+        "file":  "catalogs/networking/vpc/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/networking/vpc/capabilities/v2026.04-rc1",
+        "title":  "CCC Virtual Private Cloud Capabilities",
+        "file":  "catalogs/networking/vpc/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/networking/vpc/capabilities/v2026.04-rc4",
+        "title":  "CCC Virtual Private Cloud Capabilities",
+        "file":  "catalogs/networking/vpc/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/networking/vpc/capabilities/v2026.04-rc5",
+        "title":  "CCC Virtual Private Cloud Capabilities",
+        "file":  "catalogs/networking/vpc/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/networking/vpc/capabilities/v2026.04-rc6",
+        "title":  "CCC Virtual Private Cloud Capabilities",
+        "file":  "catalogs/networking/vpc/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/capabilities/v2026.04",
+        "path":  "/catalogs/networking/vpc/capabilities/v2026.04",
+        "title":  "CCC Virtual Private Cloud Capabilities",
+        "file":  "catalogs/networking/vpc/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/controls/v2025.04-rc6",
+        "path":  "/catalogs/networking/vpc/controls/v2025.04-rc6",
+        "title":  "CCC Virtual Private Cloud Controls",
+        "file":  "catalogs/networking/vpc/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/controls/v2026.04-rc4",
+        "path":  "/catalogs/networking/vpc/controls/v2026.04-rc4",
+        "title":  "CCC Virtual Private Cloud Controls",
+        "file":  "catalogs/networking/vpc/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/controls/v2026.04-rc5",
+        "path":  "/catalogs/networking/vpc/controls/v2026.04-rc5",
+        "title":  "CCC Virtual Private Cloud Controls",
+        "file":  "catalogs/networking/vpc/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/controls/v2026.04-rc6",
+        "path":  "/catalogs/networking/vpc/controls/v2026.04-rc6",
+        "title":  "CCC Virtual Private Cloud Controls",
+        "file":  "catalogs/networking/vpc/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/threats/v2025.04-rc6",
+        "path":  "/catalogs/networking/vpc/threats/v2025.04-rc6",
+        "title":  "CCC Virtual Private Cloud Threats",
+        "file":  "catalogs/networking/vpc/threats/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/threats/v2026.04-rc4",
+        "path":  "/catalogs/networking/vpc/threats/v2026.04-rc4",
+        "title":  "CCC Virtual Private Cloud Threats",
+        "file":  "catalogs/networking/vpc/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "networking/vpc/threats/v2026.04-rc5",
+        "path":  "/catalogs/networking/vpc/threats/v2026.04-rc5",
+        "title":  "CCC Virtual Private Cloud Threats",
+        "file":  "catalogs/networking/vpc/threats/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/etl/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/orchestration/etl/capabilities/v2026.04-rc1",
+        "title":  "CCC ETL Orchestration Capabilities",
+        "file":  "catalogs/orchestration/etl/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/etl/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/orchestration/etl/capabilities/v2026.04-rc4",
+        "title":  "CCC ETL Orchestration Capabilities",
+        "file":  "catalogs/orchestration/etl/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/etl/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/orchestration/etl/capabilities/v2026.04-rc5",
+        "title":  "CCC ETL Orchestration Capabilities",
+        "file":  "catalogs/orchestration/etl/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/etl/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/orchestration/etl/capabilities/v2026.04-rc6",
+        "title":  "CCC ETL Orchestration Capabilities",
+        "file":  "catalogs/orchestration/etl/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/etl/capabilities/v2026.04",
+        "path":  "/catalogs/orchestration/etl/capabilities/v2026.04",
+        "title":  "CCC ETL Orchestration Capabilities",
+        "file":  "catalogs/orchestration/etl/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/k8s/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/orchestration/k8s/capabilities/v2025.04-rc6",
+        "title":  "CCC Kubernetes Capabilities",
+        "file":  "catalogs/orchestration/k8s/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/k8s/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/orchestration/k8s/capabilities/v2026.04-rc1",
+        "title":  "CCC Kubernetes Capabilities",
+        "file":  "catalogs/orchestration/k8s/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/k8s/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/orchestration/k8s/capabilities/v2026.04-rc4",
+        "title":  "CCC Kubernetes Capabilities",
+        "file":  "catalogs/orchestration/k8s/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/k8s/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/orchestration/k8s/capabilities/v2026.04-rc5",
+        "title":  "CCC Kubernetes Capabilities",
+        "file":  "catalogs/orchestration/k8s/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/k8s/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/orchestration/k8s/capabilities/v2026.04-rc6",
+        "title":  "CCC Kubernetes Capabilities",
+        "file":  "catalogs/orchestration/k8s/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "orchestration/k8s/capabilities/v2026.04",
+        "path":  "/catalogs/orchestration/k8s/capabilities/v2026.04",
+        "title":  "CCC Kubernetes Capabilities",
+        "file":  "catalogs/orchestration/k8s/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/capabilities/v2025.04-rc6",
+        "path":  "/catalogs/storage/object/capabilities/v2025.04-rc6",
+        "title":  "CCC Object Storage Capabilities",
+        "file":  "catalogs/storage/object/capabilities/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/capabilities/v2026.04-rc1",
+        "path":  "/catalogs/storage/object/capabilities/v2026.04-rc1",
+        "title":  "CCC Object Storage Capabilities",
+        "file":  "catalogs/storage/object/capabilities/v2026.04-rc1.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/capabilities/v2026.04-rc4",
+        "path":  "/catalogs/storage/object/capabilities/v2026.04-rc4",
+        "title":  "CCC Object Storage Capabilities",
+        "file":  "catalogs/storage/object/capabilities/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/capabilities/v2026.04-rc5",
+        "path":  "/catalogs/storage/object/capabilities/v2026.04-rc5",
+        "title":  "CCC Object Storage Capabilities",
+        "file":  "catalogs/storage/object/capabilities/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/capabilities/v2026.04-rc6",
+        "path":  "/catalogs/storage/object/capabilities/v2026.04-rc6",
+        "title":  "CCC Object Storage Capabilities",
+        "file":  "catalogs/storage/object/capabilities/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/capabilities/v2026.04",
+        "path":  "/catalogs/storage/object/capabilities/v2026.04",
+        "title":  "CCC Object Storage Capabilities",
+        "file":  "catalogs/storage/object/capabilities/v2026.04.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/controls/v2025.04-rc6",
+        "path":  "/catalogs/storage/object/controls/v2025.04-rc6",
+        "title":  "CCC Object Storage Controls",
+        "file":  "catalogs/storage/object/controls/v2025.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/controls/v2026.04-rc4",
+        "path":  "/catalogs/storage/object/controls/v2026.04-rc4",
+        "title":  "CCC Object Storage Controls",
+        "file":  "catalogs/storage/object/controls/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/controls/v2026.04-rc5",
+        "path":  "/catalogs/storage/object/controls/v2026.04-rc5",
+        "title":  "CCC Object Storage Controls",
+        "file":  "catalogs/storage/object/controls/v2026.04-rc5.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/controls/v2026.04-rc6",
+        "path":  "/catalogs/storage/object/controls/v2026.04-rc6",
+        "title":  "CCC Object Storage Controls",
+        "file":  "catalogs/storage/object/controls/v2026.04-rc6.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "storage/object/threats/v2026.04-rc4",
+        "path":  "/catalogs/storage/object/threats/v2026.04-rc4",
+        "title":  "CCC Object Storage Threats",
+        "file":  "catalogs/storage/object/threats/v2026.04-rc4.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "core",
+        "path":  "/catalogs/core",
+        "title":  "Core Catalog",
+        "description":  "The core catalog defines the baseline capabilities, threats, and controls that apply across all cloud service categories.",
+        "file":  "core.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "capabilities",
+        "path":  "/catalogs/capabilities",
+        "title":  "Capability Catalogs",
+        "description":  "Capabilities define the functional properties a cloud service must support.",
+        "file":  "capabilities.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "threats",
+        "path":  "/catalogs/threats",
+        "title":  "Threat Catalogs",
+        "description":  "Threat catalogs identify the security and resiliency risks relevant to each cloud service capability.",
+        "file":  "threats.md"
+    },
+    {
+        "section":  "catalogs",
+        "slug":  "controls",
+        "path":  "/catalogs/controls",
+        "title":  "Control Catalogs",
+        "description":  "Control catalogs specify the concrete security measures that mitigate identified threats for each cloud service.",
+        "file":  "controls.md"
+    }
 ]

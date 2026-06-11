@@ -30,8 +30,8 @@ export const CatalogTypeOverviewPage: React.FC<CatalogTypeOverviewPageProps> = (
       <CatalogSidebar typeFilter={type} />
 
       <article style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ marginBottom: "var(--gf-space-xl)" }}>
-          <p style={{ margin: "0 0 0.35rem", color: "var(--gf-color-text-subtle)", fontSize: "1rem", lineHeight: 1.5 }}>
+        <div style={{ marginBottom: "2rem" }}>
+          <p style={{ margin: "0 .5 0.35rem", color: "#0086bf", fontSize: "1rem", lineHeight: 1.5 }}>
             {config.label}
           </p>
           <h1 className="page-h1" style={{ margin: 0 }}>{item?.title}</h1>
@@ -49,33 +49,22 @@ export const CatalogTypeOverviewPage: React.FC<CatalogTypeOverviewPageProps> = (
           </div>
         )}
 
-        <div className="surface-card" style={{
-          marginTop: "var(--gf-space-xl)",
-          padding: "var(--gf-space-lg)",
-        }}>
-          <h2 style={{ margin: "0 0 var(--gf-space-sm)", fontSize: "1.25rem" }}>Contribute to the Next Release</h2>
-          <p style={{ margin: "0 0 var(--gf-space-md)", color: "var(--gf-color-text-subtle)", fontSize: "1rem", lineHeight: 1.6 }}>
+        <div className="surface-card">
+          <div style={{ margin:"1rem 1rem"}}>
+          <h2 style={{ margin: "0 0 1rem", fontSize: "1.25rem", color: "#0086bf" }}>Contribute to the Next Release</h2>
+          <p style={{ margin: "0 0 2rem", color: "#0086bf", fontSize: "1rem", lineHeight: 1.6 }}>
             {title} are maintained as versioned YAML files. Generated artifacts are published here as each release is cut.
           </p>
           <a
-            href={`https://github.com/common-cloud-controls/${config.repo}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-block",
-              padding: "0.6rem 1.5rem",
-              background: "var(--gf-color-accent)",
-              color: "var(--gf-color-button-text, #fff)",
-              borderRadius: "var(--gf-radius-lg)",
-              textDecoration: "none",
-              fontWeight: 600,
-              fontSize: "0.95rem",
-              whiteSpace: "nowrap",
-            }}
-          >
-            View on GitHub →
-          </a>
-        </div>
+                href="https://github.com/common-cloud-controls/core-catalog"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="catalog-type-btn"
+                >
+                View on GitHub →
+                 </a>
+          </div>
+          </div>
       </article>
     </div>
   );

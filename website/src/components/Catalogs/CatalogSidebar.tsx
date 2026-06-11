@@ -6,6 +6,7 @@ import "./CatalogSidebar.css";
 interface Service {
   slug: string;
   label: string;
+  href?: string; // optional override for the generated /catalogs/<cat>/<svc> path
 }
 
 interface Category {
@@ -14,7 +15,7 @@ interface Category {
   services: Service[];
 }
 
-const CATALOG_STRUCTURE: Category[] = [
+export const CATALOG_STRUCTURE: Category[] = [
   { slug: "ai-ml",      label: "AI/ML",       services: [
     { slug: "gen-ai", label: "Gen AI" },
     { slug: "mlde",   label: "MLDE" },
@@ -25,7 +26,7 @@ const CATALOG_STRUCTURE: Category[] = [
     { slug: "virtual-machines",      label: "Virtual Machines" },
   ]},
   { slug: "core",       label: "Core",        services: [
-    { slug: "ccc", label: "CCC" },
+    { slug: "ccc", label: "CCC", href: "/catalogs/core" },
   ]},
   { slug: "crypto",     label: "Crypto",      services: [
     { slug: "key",     label: "Key" },
@@ -71,8 +72,8 @@ export const CatalogSidebar: React.FC<CatalogSidebarProps> = () => {
   return (
     <nav className="catalog-sidebar">
       {CATALOG_STRUCTURE.map(({ slug, label, services }) => {
-        const categoryActive = services.some(({ slug: svc }) =>
-          isActive(`/catalogs/${slug}/${svc}`)
+        const categoryActive = services.some(({ slug: svc, href }) =>
+          isActive(href ?? `/catalogs/${slug}/${svc}`)
         );
 
         return (
@@ -82,11 +83,11 @@ export const CatalogSidebar: React.FC<CatalogSidebarProps> = () => {
               <span className="chevron">▾</span>
             </summary>
             <div className="service-links">
-              {services.map(({ slug: svcSlug, label: svcLabel }) => {
-                const path = `/catalogs/${slug}/${svcSlug}`;
+              {services.map(({ slug: svcSlug, label: svcLabel, href }) => {
+                const path = href ?? `/catalogs/${slug}/${svcSlug}`;
                 return (
                   <Link
-                    key={path}
+                    key={svcSlug}
                     to={path}
                     className={`sidebar-service-link${isActive(path) ? " active" : ""}`}
                   >
