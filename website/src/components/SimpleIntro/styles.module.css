@@ -10,7 +10,7 @@
 	transition: background .3s, color .3s;
 	max-width: 35rem;
 	text-align: center;
-		font-family: 'Inter, system-ui, -apple-system, BlinkMacSystemFont';
+	font-family: 'Inter, system-ui, -apple-system, BlinkMacSystemFont';
 
 	font-weight: 600;
 	margin: auto
@@ -25,6 +25,14 @@
 	margin: 0;
 }
 
+h2{
+	font-size: 2.25rem;
+	text-align: center;
+	font-family: 'metropolis';
+	font-weight: 600;
+	color: var(--gf-color-accent-strong);
+}
+
 .strap {
 	font-size: 1.5rem;
 	font-weight: 500;
@@ -35,6 +43,32 @@ html[data-theme=dark] .cta {
 	color: white;
 	background-color: black;
 	border: 2px dashed white;
+}
+
+.button{
+	display: flex;
+	justify-content: center;
+
+
+	padding: 1rem;
+
+	margin: auto;
+	margin-bottom: 1.5rem;
+	max-width: 15rem;
+
+	border-radius: 0.75rem;
+	box-shadow: 0 4px 14px rgba(67, 77, 103, 0.4);
+
+	background: var(--gf-color-accent-strong);
+	color: #fff;
+
+	font-weight: 600;
+
+	transition: filter 0.2s, transform 0.2s;
+}
+
+.button:hover {
+	text-decoration: none;
 }
 
 @media screen and (max-width: 600px) {

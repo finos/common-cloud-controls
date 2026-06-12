@@ -4,6 +4,7 @@ import NewSplashTop from "../components/NewSplashTop";
 import SimpleIntro from "../components/SimpleIntro";
 import LevelUp from "../components/LevelUp";
 import TheStory from "../components/TheStory";
+import SteeringCommittee from "../components/SteeringCommittee";
 import JoinCommunity from "../components/JoinCommunity";
 
 export default function Home(): ReactNode {
@@ -19,23 +20,26 @@ export default function Home(): ReactNode {
       </svg>
 
       <main>
-        <section  style ={{
-          clipPath: "url(#hero-wave-clip)",
-          backgroundColor: "#dbeafe",
-          padding: "2rem 2rem",
-          maxWidth: "100rem",
-          margin: "auto",
-          paddingBottom: "4rem",
-          marginBottom: "0",
-          color: "#1e3b8a",
-        }}>
+        <section
+          style={{
+            clipPath: "url(#hero-wave-clip)",
+            backgroundColor: "var(--gf-color-background-strong)",
+            padding: "2rem 2rem",
+            maxWidth: "100rem",
+            margin: "auto",
+            paddingBottom: "4rem",
+            marginBottom: "0",
+            color: "#1e3b8a",
+          }}
+        >
           <NewSplashTop />
           <SimpleIntro />
-          <p/>
+          <p />
         </section>
         <TheStory />
         <LevelUp />
         <JoinCommunity />
+        <SteeringCommittee />
       </main>
     </Layout>
   );
