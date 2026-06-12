@@ -20,7 +20,7 @@ const config: Config = {
   organizationName: 'finos', // Usually your GitHub org/user name.
   projectName: 'commmon-cloud-controls', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -52,20 +52,28 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/logo/2023_FinosCCC_Horizontal.png',
     navbar: {
-      title: 'CCC',
+      title: '',
       logo: {
         alt: 'CCC Logo',
-        src: 'img/logo/2023_FinosCCC_Icon_BLK.svg',
-        srcDark: 'img/logo/2023_FinosCCC_Icon_WHT.svg'
+        src: 'img/logo/2023_FinosCCC_Horizontal.svg',
+        srcDark: 'img/logo/2023_FinosCCC_Horizontal_WHT.svg'
       },
       items: [
+        { to: '/about', label: 'About', position: 'left' },
         {
+          label: 'Catalogs',
           position: 'left',
-          label: 'Primer',
-          to: 'https://github.com/finos/common-cloud-controls/blob/main/docs/resources/training/FINOS-CCC-Primer-June-2024.pdf'
+          type: 'dropdown',
+          items: [
+            { to: '/ccc', label: 'CCC Catalogs' },
+            { to: '/cfi', label: 'CFI Catalog' },
+            { to: '/threats', label: 'Threats' },
+            { to: '/controls', label: 'Controls' },
+            { to: '/capabilities', label: 'Capabilities' },
+            { to: '/ecosystems', label: 'Ecosystems' },
+            { to: '/testresults', label: 'Test Results' },
+          ],
         },
-        { to: '/ccc', label: 'CCC Catalog', position: 'left' },
-        { to: '/cfi', label: 'CFI Catalog', position: 'left' },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',

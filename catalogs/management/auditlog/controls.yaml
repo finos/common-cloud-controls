@@ -356,8 +356,8 @@ controls:
           Regularly review bucket permissions to ensure no public access has been inadvertently granted.
       - id: CCC.AuditLog.CN10.AR02
         text: |
-          When the URL of a audit log storage bucket's object is accessed publicly then,
-          it should be denied by bucket policy.
+          When the URL of an audit log storage bucket's object is accessed publicly,
+          the request MUST be denied by bucket policy.
         applicability:
           - tlp-red
           - tlp-amber

@@ -211,4 +211,3 @@ controls:
         entries:
           - reference-id: CCC.Vector.TH06
             remarks: Search Result Manipulation via ANN Bias
-    guidelines: []

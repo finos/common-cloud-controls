@@ -233,6 +233,7 @@ threats:
             remarks: User Execution
 
   - id: CCC.VM.TH12
+    group: Resource
     title: Instance Snapshots Expose Sensitive Data
     description: |
       Instance snapshots may be created or shared with insufficient access restrictions or retention controls.
