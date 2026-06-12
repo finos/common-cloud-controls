@@ -19,7 +19,6 @@ const members = [
     org: "Morgan Stanley",
     logo: "/img/firms/MorganStanley.svg",
     cloudLead: "Dave Reeve",
-    cyberLead: "Nick Williams",
   },
   {
     org: "ScottLogic",
@@ -42,8 +41,7 @@ const members = [
   {
     org: "BlackRock",
     logo: "/img/firms/BlackRock.svg",
-    cloudLead: "Eli Hamburger",
-    cyberLead: "Praveen Nallasamy, Sankara Ramakrishnan",
+    cyberLead: "Sankara Ramakrishnan",
   },
 ];
 
