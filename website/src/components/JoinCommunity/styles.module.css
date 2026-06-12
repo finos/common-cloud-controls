@@ -24,12 +24,12 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  border: 1px solid var(--gf-color-border-strong);
+  border: 1px solid;
   border-radius: 1rem;
   padding: 1.5rem 1.25rem;
   gap: 0.75rem;
-  background-color: var(--gf-color-surface);
-  color: var(--gf-color-text);
+  background-color: rgb(0, 181, 226);
+  color: rgb(255, 255, 255);
 }
 
 .iconWrapper {
@@ -39,14 +39,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gf-color-accent-soft);
+  background: rgb(0, 134, 191);
   flex-shrink: 0;
 }
 
 .icon {
   width: 2rem;
   height: 2rem;
-  stroke: var(--gf-color-accent);
 }
 
 .boxTitle {

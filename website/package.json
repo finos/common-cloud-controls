@@ -16,7 +16,7 @@
     "fetch:ccc": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/DownloadCCCReleases.ts /*disabled for now*/",
     "fetch:cfi": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/DownloadCFIArtifacts.ts",
     "generate:catalogs": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/assembleWebsiteCatalog.ts",
-    "prebuild": "npm run fetch:cfi && npm run generate:catalogs"  
+    "prebuild": "npm run fetch:cfi && npm run generate:catalogs"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",
