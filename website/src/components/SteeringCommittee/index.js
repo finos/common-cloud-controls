@@ -58,14 +58,19 @@ export default function SteeringCommittee() {
               }
             </div>
             <div className={styles.body}>
+              {m.cloudLead && 
               <div className={styles.row}>
                 <span className={styles.label}>Cloud Lead</span>
                 <span className={styles.name}>{m.cloudLead}</span>
               </div>
+              }
+              
+              {m.cyberLead && 
               <div className={styles.row}>
                 <span className={styles.label}>Cyber Security Lead</span>
                 <span className={styles.name}>{m.cyberLead}</span>
               </div>
+              }
             </div>
           </div>
         ))}
