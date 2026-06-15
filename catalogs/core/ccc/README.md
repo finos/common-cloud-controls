@@ -31,7 +31,7 @@ Simply add a block like the one below at the top level of your catalog's YAML, p
 This block will list every imported capability by the ID, directing parsers to pull the rest of the data from the mapping reference that you provided in the Metadata.
 
 ```yaml
-imported-capabilities:
+imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CP01
@@ -47,7 +47,7 @@ imported-capabilities:
 Similar to capabilities, add a block like the following to the top level of your catalog's YAML:
 
 ```yaml
-imported-threats:
+imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.TH01
@@ -66,7 +66,7 @@ imported-threats:
 Similar to capabilities, add a block like the following to the top level of your catalog's YAML:
 
 ```yaml
-imported-controls:
+imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CN01
