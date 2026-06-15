@@ -4,16 +4,27 @@ import { useLocation } from "@docusaurus/router";
 import { CatalogCategoryPage } from "./CatalogCategoryPage";
 import { CatalogTypePage } from "./CatalogTypePage";
 import { CatalogVersionPage } from "./CatalogVersionPage";
+import { CatalogTypeOverviewPage } from "./CatalogTypeOverviewPage";
 import type { CatalogTypeData } from "./CatalogTypePage";
 import type { CatalogVersionData } from "./CatalogVersionPage";
+import type { CatalogCategoryData } from "./CatalogCategoryPage";
+import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 import { prettifySegment } from "@site/src/content/catalogUtils";
+
+const TYPE_LABELS: Record<string, string> = {
+  capabilities: "Capabilities",
+  threats: "Threats",
+  controls: "Controls",
+};
 
 interface Props {
   catalogVersionData?: CatalogVersionData;
   catalogTypeData?: CatalogTypeData;
+  catalogCategoryData?: CatalogCategoryData;
+  catalogTypeIndexData?: CatalogTypeIndexData;
 }
 
-export default function CatalogPage({ catalogVersionData, catalogTypeData }: Props): React.ReactElement {
+export default function CatalogPage({ catalogVersionData, catalogTypeData, catalogCategoryData, catalogTypeIndexData }: Props): React.ReactElement {
   const { pathname } = useLocation();
   const parts = pathname.replace(/\/$/, "").split("/").filter(Boolean);
 
@@ -21,17 +32,18 @@ export default function CatalogPage({ catalogVersionData, catalogTypeData }: Pro
   let content: React.ReactNode = null;
 
   if (catalogVersionData) {
-    title = `${prettifySegment(parts[2] ?? "")} ${parts[3] ?? ""}`;
-    content = <CatalogVersionPage data={catalogVersionData} />;
+    title = `${prettifySegment(catalogVersionData.service)} – ${catalogVersionData.version}`;
+    content = <CatalogVersionPage data={catalogVersionData} typeIndexData={catalogTypeIndexData} />;
   } else if (catalogTypeData) {
-    title = `${prettifySegment(parts[2] ?? "")} – ${parts[3] ?? ""}`;
-    content = <CatalogTypePage data={catalogTypeData} />;
-  } else if (parts.length === 2) {
-    title = `${prettifySegment(parts[1])} Catalog`;
-    content = <CatalogCategoryPage category={parts[1]} />;
-  } else if (parts.length === 3) {
-    title = prettifySegment(parts[2]);
-    content = <CatalogCategoryPage category={parts[1]} service={parts[2]} />;
+    title = `${prettifySegment(catalogTypeData.service)} – ${TYPE_LABELS[catalogTypeData.type] ?? catalogTypeData.type}`;
+    content = <CatalogTypePage data={catalogTypeData} typeIndexData={catalogTypeIndexData} />;
+  } else if (catalogTypeIndexData) {
+    title = TYPE_LABELS[catalogTypeIndexData.type] ?? prettifySegment(catalogTypeIndexData.type);
+    content = <CatalogTypeOverviewPage data={catalogTypeIndexData} />;
+  } else if (catalogCategoryData) {
+    const service = parts.length >= 3 ? parts[2] : undefined;
+    title = service ? prettifySegment(service) : prettifySegment(catalogCategoryData.category);
+    content = <CatalogCategoryPage data={catalogCategoryData} service={service} />;
   }
 
   return (

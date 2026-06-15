@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import { useLocation } from "@docusaurus/router";
+import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 import "./CatalogSidebar.css";
 
 interface Service {
@@ -59,22 +60,46 @@ export const CATALOG_STRUCTURE: Category[] = [
   ]},
 ];
 
+const TYPE_TITLE: Record<string, string> = {
+  capabilities: "Capabilities",
+  threats: "Threats",
+  controls: "Controls",
+};
+
 interface CatalogSidebarProps {
-  typeFilter?: string;
+  // When provided, filter to only these services and show a type heading
+  typeIndexData?: CatalogTypeIndexData;
 }
 
-export const CatalogSidebar: React.FC<CatalogSidebarProps> = () => {
+export const CatalogSidebar: React.FC<CatalogSidebarProps> = ({ typeIndexData }) => {
   const { pathname } = useLocation();
+
+  const typeLinkMap = typeIndexData
+    ? new Map(typeIndexData.serviceEntries.map((e) => [`${e.category}/${e.service}`, e.typePath]))
+    : null;
+
+  const title = typeIndexData
+    ? (TYPE_TITLE[typeIndexData.type] ?? typeIndexData.type.charAt(0).toUpperCase() + typeIndexData.type.slice(1))
+    : null;
 
   const isActive = (path: string) =>
     pathname === path || pathname.startsWith(path + "/");
 
   return (
     <nav className="catalog-sidebar">
+      {title && <div className="catalog-sidebar-type-title">{title}</div>}
       {CATALOG_STRUCTURE.map(({ slug, label, services }) => {
-        const categoryActive = services.some(({ slug: svc, href }) =>
-          isActive(href ?? `/catalogs/${slug}/${svc}`)
-        );
+        // When filtering, only show services that have the type
+        const visibleServices = typeLinkMap
+          ? services.filter((svc) => typeLinkMap.has(`${slug}/${svc.slug}`))
+          : services;
+
+        if (visibleServices.length === 0) return null;
+
+        const categoryActive = visibleServices.some(({ slug: svc, href }) => {
+          const path = typeLinkMap?.get(`${slug}/${svc}`) ?? href ?? `/catalogs/${slug}/${svc}`;
+          return isActive(path);
+        });
 
         return (
           <details key={slug} open={categoryActive}>
@@ -83,8 +108,11 @@ export const CatalogSidebar: React.FC<CatalogSidebarProps> = () => {
               <span className="chevron">▾</span>
             </summary>
             <div className="service-links">
-              {services.map(({ slug: svcSlug, label: svcLabel, href }) => {
-                const path = href ?? `/catalogs/${slug}/${svcSlug}`;
+              {visibleServices.map(({ slug: svcSlug, label: svcLabel, href }) => {
+                const path =
+                  typeLinkMap?.get(`${slug}/${svcSlug}`) ??
+                  href ??
+                  `/catalogs/${slug}/${svcSlug}`;
                 return (
                   <Link
                     key={svcSlug}

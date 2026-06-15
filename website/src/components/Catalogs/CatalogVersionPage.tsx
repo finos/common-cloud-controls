@@ -1,6 +1,7 @@
 import React from "react";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
+import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 
 export interface CatalogEntry {
   id: string;
@@ -20,11 +21,12 @@ export interface CatalogVersionData {
 
 interface Props {
   data: CatalogVersionData;
+  typeIndexData?: CatalogTypeIndexData;
 }
 
-export const CatalogVersionPage: React.FC<Props> = ({ data }) => (
+export const CatalogVersionPage: React.FC<Props> = ({ data, typeIndexData }) => (
   <div className="page-layout">
-    <CatalogSidebar />
+    <CatalogSidebar typeIndexData={typeIndexData} />
     <article style={{ flex: 1, minWidth: 0 }}>
       <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
         {prettifySegment(data.category)} / {prettifySegment(data.service)}

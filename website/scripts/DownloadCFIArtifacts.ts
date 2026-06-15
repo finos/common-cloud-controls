@@ -222,7 +222,11 @@ async function unzipArtifact(
         fs.mkdirSync(repoDir, { recursive: true });
 
         try {
-            await execAsync(`unzip -o "${zipPath}" -d "${extractDir}"`);
+            if (process.platform === 'win32') {
+                await execAsync(`powershell -Command "Expand-Archive -Force -Path '${zipPath}' -DestinationPath '${extractDir}'"`);
+            } else {
+                await execAsync(`unzip -o "${zipPath}" -d "${extractDir}"`);
+            }
             console.log(`📦 Extraction completed for ${cleanName}-${branchDirSuffix}`);
         } catch (error) {
             console.error(`❌ Extraction failed for ${cleanName}-${branchDirSuffix}:`, error);
@@ -286,13 +290,17 @@ async function downloadCFIArtifacts(): Promise<void> {
         return;
     }
 
-    // Check if unzip command is available
-    try {
-        await execAsync('which unzip');
-        console.log('✅ System unzip command found');
-    } catch (error) {
-        console.error('❌ System unzip command not found. Please install unzip or ensure it\'s in your PATH');
-        return;
+    // Check extraction capability (unzip on Unix, Expand-Archive on Windows)
+    if (process.platform !== 'win32') {
+        try {
+            await execAsync('which unzip');
+            console.log('✅ System unzip command found');
+        } catch (error) {
+            console.error('❌ System unzip command not found. Please install unzip or ensure it\'s in your PATH');
+            return;
+        }
+    } else {
+        console.log('✅ Windows detected — will use PowerShell Expand-Archive for extraction');
     }
 
     // Read the CFI repositories configuration
