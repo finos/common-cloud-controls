@@ -124,7 +124,7 @@ export default function TheStory() {
       />
 
       <div style={{ maxWidth: "780px", margin: "0 auto 2.5rem auto" }}>
-        <h3 className={styles.h3Style} style={{color: "var(--gf-color-accent)"}}>Who Is It For?</h3>
+        <h3 className={styles.h3Style} style={{color: "var(--gf-color-text)"}}>Who Is It For?</h3>
       </div>
       <div className={styles.audienceGridStyle}>
         {audiences.map(({ label, body }) => (

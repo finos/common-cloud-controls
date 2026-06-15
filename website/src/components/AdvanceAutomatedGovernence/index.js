@@ -47,7 +47,7 @@ export default function AdvanceAutomatedGovernance() {
             top: "0.6rem",
             bottom: "0.6rem",
             width: "2px",
-            background: "rgb(0, 181, 226)",
+            background: "var(--gf-color-accent)",
             borderRadius: "1px",
             opacity: 0.4,
           }} />
@@ -60,11 +60,11 @@ export default function AdvanceAutomatedGovernance() {
                 width: "0.85rem",
                 height: "0.85rem",
                 borderRadius: "50%",
-                background: "rgb(0, 134, 191)",
+                background: "var(--gf-color-accent)",
               }} />
               <p style={{ margin: "0 0 0.35rem", fontSize: "1.1rem", fontWeight: 700, lineHeight: 1.2 }}>
-                <span style={{ color: "rgb(0, 134, 191)" }}>{step.verb} </span>
-                <span>{step.title}</span>
+                <span style={{ color: "var(--gf-color-text)" }}>{step.verb} </span>
+                <span style={{ color: "var(--gf-color-text-subtle)" }}>{step.title}</span>
               </p>
               <p style={{ margin: 0, color: "var(--gf-color-text-subtle)", lineHeight: 1.7, fontSize: "0.975rem", marginTop: ".75rem", marginBottom: "1.50rem" }}>
                 {step.body}

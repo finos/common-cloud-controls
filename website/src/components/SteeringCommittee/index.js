@@ -19,7 +19,6 @@ const members = [
     org: "Morgan Stanley",
     logo: "/img/firms/MorganStanley.svg",
     cloudLead: "Dave Reeve",
-    cyberLead: "Nick Williams",
   },
   {
     org: "ScottLogic",
@@ -42,8 +41,7 @@ const members = [
   {
     org: "BlackRock",
     logo: "/img/firms/BlackRock.svg",
-    cloudLead: "Eli Hamburger",
-    cyberLead: "Praveen Nallasamy, Sankara Ramakrishnan",
+    cyberLead: "Sankara Ramakrishnan",
   },
 ];
 
@@ -60,14 +58,19 @@ export default function SteeringCommittee() {
               }
             </div>
             <div className={styles.body}>
+              {m.cloudLead && 
               <div className={styles.row}>
                 <span className={styles.label}>Cloud Lead</span>
                 <span className={styles.name}>{m.cloudLead}</span>
               </div>
+              }
+              
+              {m.cyberLead && 
               <div className={styles.row}>
                 <span className={styles.label}>Cyber Security Lead</span>
                 <span className={styles.name}>{m.cyberLead}</span>
               </div>
+              }
             </div>
           </div>
         ))}
