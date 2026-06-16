@@ -106,7 +106,12 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
           threats={threats}
         />
 
-        <ThreatsTable threats={threats} releaseSlug={pageData.slug} controls={controls} entrySlugs={pageData.entrySlugs} />
+        <ThreatsTable
+          threats={threats}
+          releaseSlug={pageData.slug}
+          controls={controls}
+          entrySlugs={pageData.entrySlugs}
+        />
 
         <ControlsTable controls={controls} releaseSlug={pageData.slug} entrySlugs={pageData.entrySlugs} />
       </main>
