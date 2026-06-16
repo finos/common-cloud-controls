@@ -1,6 +1,6 @@
 title: Multi-Agent Reference Architecture Control Catalog
 metadata:
-  id: CCC.MARefArch.CN
+  id: CCC.MARefArc.CN
   type: ControlCatalog
   gemara-version: "1.2.0"
   version: "dev"
@@ -39,7 +39,7 @@ groups:
     title: Detective
     description: Detection and Continuous Improvement
 controls:
-  - id: CTL-PREV-002
+  - id: CCC.MARefArc.CN01
     title: Data Filtering From External Knowledge Bases
     objective: >-
       Sanitize, filter, and classify data ingested by the Knowledge Layer from
@@ -49,13 +49,13 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-002-1
+      - id: CCC.MARefArc.CN01.AR01
         text: >-
           Data ingested into the Knowledge Layer MUST be scanned and filtered
           for sensitive content before it is embedded or indexed for retrieval.
         applicability: [all]
         state: Active
-      - id: AR-PREV-002-2
+      - id: CCC.MARefArc.CN01.AR02
         text: >-
           Ingestion pipelines MUST enforce source-level allow and deny rules so
           that unapproved repositories cannot be embedded into the vector store.
@@ -68,11 +68,11 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-DP-01
-          - reference-id: THR-DP-02
-          - reference-id: THR-IL-01
-          - reference-id: THR-IL-02
-  - id: CTL-PREV-003
+          - reference-id: CCC.MARefArc.TH06
+          - reference-id: CCC.MARefArc.TH07
+          - reference-id: CCC.MARefArc.TH01
+          - reference-id: CCC.MARefArc.TH02
+  - id: CCC.MARefArc.CN02
     title: User, Application, and Model Firewalling
     objective: >-
       Establish enforced trust boundaries between the user, the application,
@@ -82,14 +82,14 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-003-1
+      - id: CCC.MARefArc.CN02.AR01
         text: >-
           All traffic between the user-facing application and the agent layer
           MUST traverse the Agent Gateway guardrails; direct
           application-to-agent paths that bypass the gateway MUST be denied.
         applicability: [all]
         state: Active
-      - id: AR-PREV-003-2
+      - id: CCC.MARefArc.CN02.AR02
         text: >-
           All model and tool invocations MUST traverse the LLM and MCP gateway
           guardrails respectively, with inputs and outputs inspected against
@@ -103,15 +103,15 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-MA-01
-          - reference-id: THR-MA-02
-          - reference-id: THR-MA-03
-          - reference-id: THR-OP-01
-          - reference-id: THR-OP-02
-          - reference-id: THR-PI-01
-          - reference-id: THR-PI-02
-          - reference-id: THR-PI-03
-  - id: CTL-PREV-005
+          - reference-id: CCC.MARefArc.TH08
+          - reference-id: CCC.MARefArc.TH09
+          - reference-id: CCC.MARefArc.TH10
+          - reference-id: CCC.MARefArc.TH14
+          - reference-id: CCC.MARefArc.TH15
+          - reference-id: CCC.MARefArc.TH11
+          - reference-id: CCC.MARefArc.TH12
+          - reference-id: CCC.MARefArc.TH13
+  - id: CCC.MARefArc.CN03
     title: System Acceptance Testing
     objective: >-
       Validate agents, models, and end-to-end workflows against accuracy,
@@ -120,14 +120,14 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-005-1
+      - id: CCC.MARefArc.CN03.AR01
         text: >-
           Each agent and model configuration MUST pass a documented acceptance
           test suite covering accuracy, bias and fairness, and compliance
           criteria before being onboarded into the respective registry.
         applicability: [all]
         state: Active
-      - id: AR-PREV-005-2
+      - id: CCC.MARefArc.CN03.AR02
         text: >-
           Acceptance testing MUST be repeated when a pinned model version,
           system prompt, or deployment configuration changes.
@@ -140,13 +140,13 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-FA-01
-          - reference-id: THR-GC-02
-          - reference-id: THR-MI-01
-          - reference-id: THR-OI-01
-          - reference-id: THR-OI-02
-          - reference-id: THR-OI-03
-  - id: CTL-PREV-006
+          - reference-id: CCC.MARefArc.TH23
+          - reference-id: CCC.MARefArc.TH25
+          - reference-id: CCC.MARefArc.TH19
+          - reference-id: CCC.MARefArc.TH16
+          - reference-id: CCC.MARefArc.TH17
+          - reference-id: CCC.MARefArc.TH18
+  - id: CCC.MARefArc.CN04
     title: Data Quality and Classification
     objective: >-
       Assess the quality of, and assign classification and sensitivity labels
@@ -156,13 +156,13 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-006-1
+      - id: CCC.MARefArc.CN04.AR01
         text: >-
           All data sources feeding the Knowledge Layer or used for fine-tuning
           MUST carry a classification and sensitivity label.
         applicability: [all]
         state: Active
-      - id: AR-PREV-006-2
+      - id: CCC.MARefArc.CN04.AR02
         text: >-
           Data quality checks for accuracy, completeness, freshness, and bias
           MUST be applied to grounding and training data, and data failing
@@ -176,19 +176,19 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-DP-01
-          - reference-id: THR-DP-02
-          - reference-id: THR-DQ-01
-          - reference-id: THR-FA-01
-          - reference-id: THR-GC-02
-          - reference-id: THR-GC-03
-          - reference-id: THR-IL-01
-          - reference-id: THR-IL-02
-          - reference-id: THR-IL-03
-          - reference-id: THR-IL-04
-          - reference-id: THR-IL-05
-          - reference-id: THR-OI-01
-  - id: CTL-PREV-007
+          - reference-id: CCC.MARefArc.TH06
+          - reference-id: CCC.MARefArc.TH07
+          - reference-id: CCC.MARefArc.TH22
+          - reference-id: CCC.MARefArc.TH23
+          - reference-id: CCC.MARefArc.TH25
+          - reference-id: CCC.MARefArc.TH26
+          - reference-id: CCC.MARefArc.TH01
+          - reference-id: CCC.MARefArc.TH02
+          - reference-id: CCC.MARefArc.TH03
+          - reference-id: CCC.MARefArc.TH04
+          - reference-id: CCC.MARefArc.TH05
+          - reference-id: CCC.MARefArc.TH16
+  - id: CCC.MARefArc.CN05
     title: Legal and Contractual Frameworks for AI Systems
     objective: >-
       Establish contractual controls with model and MCP service providers
@@ -197,14 +197,14 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-007-1
+      - id: CCC.MARefArc.CN05.AR01
         text: >-
           Every approved model and MCP server provider MUST be governed by a
           contract specifying data handling, retention and deletion, and
           intellectual-property terms before it is added to the registry.
         applicability: [all]
         state: Active
-      - id: AR-PREV-007-2
+      - id: CCC.MARefArc.CN05.AR02
         text: >-
           Provider contracts MUST include supply-chain integrity and
           breach-notification obligations.
@@ -217,14 +217,14 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-GC-02
-          - reference-id: THR-GC-03
-          - reference-id: THR-IL-01
-          - reference-id: THR-IL-02
-          - reference-id: THR-MI-02
-          - reference-id: THR-MI-03
-          - reference-id: THR-OP-02
-  - id: CTL-PREV-008
+          - reference-id: CCC.MARefArc.TH25
+          - reference-id: CCC.MARefArc.TH26
+          - reference-id: CCC.MARefArc.TH01
+          - reference-id: CCC.MARefArc.TH02
+          - reference-id: CCC.MARefArc.TH20
+          - reference-id: CCC.MARefArc.TH21
+          - reference-id: CCC.MARefArc.TH15
+  - id: CCC.MARefArc.CN06
     title: Quality of Service and DDoS Prevention
     objective: >-
       Protect model and tool availability by enforcing quality-of-service
@@ -232,13 +232,13 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-008-1
+      - id: CCC.MARefArc.CN06.AR01
         text: >-
           The LLM and MCP gateways MUST enforce per-consumer rate limits and
           quotas.
         applicability: [all]
         state: Active
-      - id: AR-PREV-008-2
+      - id: CCC.MARefArc.CN06.AR02
         text: >-
           Gateways MUST apply DDoS and abuse detection and load shedding to
           preserve availability under load.
@@ -251,10 +251,10 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-MA-01
-          - reference-id: THR-MA-02
-          - reference-id: THR-MA-03
-  - id: CTL-PREV-010
+          - reference-id: CCC.MARefArc.TH08
+          - reference-id: CCC.MARefArc.TH09
+          - reference-id: CCC.MARefArc.TH10
+  - id: CCC.MARefArc.CN07
     title: AI Model Version Pinning
     objective: >-
       Pin and record explicit model versions in the Model Registry so that
@@ -263,13 +263,13 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-010-1
+      - id: CCC.MARefArc.CN07.AR01
         text: >-
           The Model Registry MUST pin an explicit, immutable model version for
           each approved model used in production.
         applicability: [all]
         state: Active
-      - id: AR-PREV-010-2
+      - id: CCC.MARefArc.CN07.AR02
         text: >-
           A change to the underlying provider model version MUST require
           re-approval through the registry before use.
@@ -282,9 +282,9 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-MI-01
-          - reference-id: THR-OI-02
-  - id: CTL-PREV-012
+          - reference-id: CCC.MARefArc.TH19
+          - reference-id: CCC.MARefArc.TH17
+  - id: CCC.MARefArc.CN08
     title: Role-Based Access Control for AI Data
     objective: >-
       Enforce least-privilege, role-based access control over all AI data
@@ -292,14 +292,14 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-012-1
+      - id: CCC.MARefArc.CN08.AR01
         text: >-
           Access to AI data stores, including source bases, the vector store,
           and model artifacts, MUST be governed by role-based access control
           with least privilege.
         applicability: [all]
         state: Active
-      - id: AR-PREV-012-2
+      - id: CCC.MARefArc.CN08.AR02
         text: >-
           Access grants MUST be reviewed periodically and revoked when no
           longer required.
@@ -312,13 +312,13 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-DP-01
-          - reference-id: THR-DP-02
-          - reference-id: THR-IL-01
-          - reference-id: THR-IL-02
-          - reference-id: THR-MI-02
-          - reference-id: THR-MI-03
-  - id: CTL-PREV-014
+          - reference-id: CCC.MARefArc.TH06
+          - reference-id: CCC.MARefArc.TH07
+          - reference-id: CCC.MARefArc.TH01
+          - reference-id: CCC.MARefArc.TH02
+          - reference-id: CCC.MARefArc.TH20
+          - reference-id: CCC.MARefArc.TH21
+  - id: CCC.MARefArc.CN09
     title: Encryption of AI Data at Rest
     objective: >-
       Encrypt AI data at rest, including the vector store and source
@@ -327,13 +327,13 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-014-1
+      - id: CCC.MARefArc.CN09.AR01
         text: >-
           The vector store and all AI data repositories MUST be encrypted at
           rest using managed keys.
         applicability: [all]
         state: Active
-      - id: AR-PREV-014-2
+      - id: CCC.MARefArc.CN09.AR02
         text: >-
           Access to encryption keys MUST be restricted and audited.
         applicability: [all]
@@ -345,11 +345,11 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-GC-02
-          - reference-id: THR-IL-03
-          - reference-id: THR-IL-04
-          - reference-id: THR-IL-05
-  - id: CTL-PREV-017
+          - reference-id: CCC.MARefArc.TH25
+          - reference-id: CCC.MARefArc.TH03
+          - reference-id: CCC.MARefArc.TH04
+          - reference-id: CCC.MARefArc.TH05
+  - id: CCC.MARefArc.CN10
     title: AI Firewall Implementation and Management
     objective: >-
       Implement and operate an AI firewall within the guardrail components that
@@ -358,14 +358,14 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-017-1
+      - id: CCC.MARefArc.CN10.AR01
         text: >-
           The gateway guardrails MUST include an AI firewall that screens
           inputs for prompt injection and policy violations and screens outputs
           for sensitive-data disclosure and harmful content.
         applicability: [all]
         state: Active
-      - id: AR-PREV-017-2
+      - id: CCC.MARefArc.CN10.AR02
         text: >-
           AI firewall rules MUST be centrally managed and versioned.
         applicability: [all]
@@ -377,15 +377,15 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-MA-01
-          - reference-id: THR-MA-02
-          - reference-id: THR-MA-03
-          - reference-id: THR-OP-01
-          - reference-id: THR-OP-02
-          - reference-id: THR-PI-01
-          - reference-id: THR-PI-02
-          - reference-id: THR-PI-03
-  - id: CTL-PREV-018
+          - reference-id: CCC.MARefArc.TH08
+          - reference-id: CCC.MARefArc.TH09
+          - reference-id: CCC.MARefArc.TH10
+          - reference-id: CCC.MARefArc.TH14
+          - reference-id: CCC.MARefArc.TH15
+          - reference-id: CCC.MARefArc.TH11
+          - reference-id: CCC.MARefArc.TH12
+          - reference-id: CCC.MARefArc.TH13
+  - id: CCC.MARefArc.CN11
     title: Agent Authority Least Privilege Framework
     objective: >-
       Constrain each agent's authority to the minimum set of tools, APIs, and
@@ -394,13 +394,13 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-018-1
+      - id: CCC.MARefArc.CN11.AR01
         text: >-
           Each agent MUST be granted only the tools, endpoints, and scopes
           required for its registered purpose.
         applicability: [all]
         state: Active
-      - id: AR-PREV-018-2
+      - id: CCC.MARefArc.CN11.AR02
         text: >-
           Agent permissions MUST be enforced at invocation time and MUST NOT
           expand during a session without explicit reauthorization.
@@ -413,9 +413,9 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-AS-01
-          - reference-id: THR-OP-01
-  - id: CTL-PREV-019
+          - reference-id: CCC.MARefArc.TH27
+          - reference-id: CCC.MARefArc.TH14
+  - id: CCC.MARefArc.CN12
     title: Tool Chain Validation and Sanitization
     objective: >-
       Validate tool selection, sanitize tool-call parameters, and constrain
@@ -424,13 +424,13 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-019-1
+      - id: CCC.MARefArc.CN12.AR01
         text: >-
           Tool-call parameters MUST be validated and sanitized against a schema
           before execution.
         applicability: [all]
         state: Active
-      - id: AR-PREV-019-2
+      - id: CCC.MARefArc.CN12.AR02
         text: >-
           Tool selection and sequencing MUST be constrained to patterns
           authorized for the agent's task.
@@ -443,12 +443,12 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-AS-01
-          - reference-id: THR-AS-02
-          - reference-id: THR-PI-01
-          - reference-id: THR-PI-02
-          - reference-id: THR-PI-03
-  - id: CTL-PREV-020
+          - reference-id: CCC.MARefArc.TH27
+          - reference-id: CCC.MARefArc.TH28
+          - reference-id: CCC.MARefArc.TH11
+          - reference-id: CCC.MARefArc.TH12
+          - reference-id: CCC.MARefArc.TH13
+  - id: CCC.MARefArc.CN13
     title: MCP Server Security Governance
     objective: >-
       Govern the onboarding, verification, and ongoing monitoring of MCP
@@ -457,13 +457,13 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-020-1
+      - id: CCC.MARefArc.CN13.AR01
         text: >-
           Only MCP servers registered and verified in the MCP Server Registry
           MUST be reachable by agents.
         applicability: [all]
         state: Active
-      - id: AR-PREV-020-2
+      - id: CCC.MARefArc.CN13.AR02
         text: >-
           MCP server updates MUST be integrity-verified, and connections MUST
           be authenticated and transport-encrypted.
@@ -476,12 +476,12 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-AS-03
-          - reference-id: THR-IL-01
-          - reference-id: THR-IL-02
-          - reference-id: THR-MI-02
-          - reference-id: THR-MI-03
-  - id: CTL-PREV-022
+          - reference-id: CCC.MARefArc.TH29
+          - reference-id: CCC.MARefArc.TH01
+          - reference-id: CCC.MARefArc.TH02
+          - reference-id: CCC.MARefArc.TH20
+          - reference-id: CCC.MARefArc.TH21
+  - id: CCC.MARefArc.CN14
     title: Multi-Agent Isolation and Segmentation
     objective: >-
       Isolate agents and their memory and state so that compromise or failure
@@ -490,14 +490,14 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-022-1
+      - id: CCC.MARefArc.CN14.AR01
         text: >-
           Each agent's runtime, memory, and workspace MUST be isolated such
           that one agent cannot read or modify another's state without
           authorization.
         applicability: [all]
         state: Active
-      - id: AR-PREV-022-2
+      - id: CCC.MARefArc.CN14.AR02
         text: >-
           Agent-to-agent communication MUST be authenticated and segmented to
           prevent privilege inheritance and cascade failures.
@@ -510,10 +510,10 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-AS-01
-          - reference-id: THR-AS-04
-          - reference-id: THR-AS-05
-  - id: CTL-PREV-023
+          - reference-id: CCC.MARefArc.TH27
+          - reference-id: CCC.MARefArc.TH30
+          - reference-id: CCC.MARefArc.TH31
+  - id: CCC.MARefArc.CN15
     title: Agentic System Credential Protection Framework
     objective: >-
       Prevent agents from discovering, extracting, or misusing credentials by
@@ -522,14 +522,14 @@ controls:
     group: PREV
     state: Active
     assessment-requirements:
-      - id: AR-PREV-023-1
+      - id: CCC.MARefArc.CN15.AR01
         text: >-
           Credentials MUST be brokered by the runtime and MUST NOT be exposed
           to agent-accessible memory, prompts, logs, or the workspace file
           system.
         applicability: [all]
         state: Active
-      - id: AR-PREV-023-2
+      - id: CCC.MARefArc.CN15.AR02
         text: >-
           Agent tools MUST be denied access to credential stores, environment
           secrets, and instance metadata except through the secure-execution
@@ -543,10 +543,10 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-AS-01
-          - reference-id: THR-AS-03
-          - reference-id: THR-AS-06
-  - id: CTL-DET-001
+          - reference-id: CCC.MARefArc.TH27
+          - reference-id: CCC.MARefArc.TH29
+          - reference-id: CCC.MARefArc.TH32
+  - id: CCC.MARefArc.CN16
     title: AI Data Leakage Prevention and Detection
     objective: >-
       Detect leakage of sensitive data in model inputs and outputs and in
@@ -554,13 +554,13 @@ controls:
     group: DET
     state: Active
     assessment-requirements:
-      - id: AR-DET-001-1
+      - id: CCC.MARefArc.CN16.AR01
         text: >-
           Model outputs and telemetry MUST be monitored for disclosure of
           classified or sensitive data, with alerts raised on detection.
         applicability: [all]
         state: Active
-      - id: AR-DET-001-2
+      - id: CCC.MARefArc.CN16.AR02
         text: >-
           Detected leakage events MUST trigger a documented response and
           escalation workflow.
@@ -573,9 +573,9 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-IL-01
-          - reference-id: THR-IL-02
-  - id: CTL-DET-004
+          - reference-id: CCC.MARefArc.TH01
+          - reference-id: CCC.MARefArc.TH02
+  - id: CCC.MARefArc.CN17
     title: AI System Observability
     objective: >-
       Instrument every layer to emit logs, traces, metrics, and events to the
@@ -584,14 +584,14 @@ controls:
     group: DET
     state: Active
     assessment-requirements:
-      - id: AR-DET-004-1
+      - id: CCC.MARefArc.CN17.AR01
         text: >-
           Every layer MUST emit logs, traces, metrics, and events covering
           requests, model interactions, retrievals, and policy decisions to the
           Observability Layer.
         applicability: [all]
         state: Active
-      - id: AR-DET-004-2
+      - id: CCC.MARefArc.CN17.AR02
         text: >-
           Telemetry MUST be retained and queryable for the period required to
           support audit and incident investigation.
@@ -604,17 +604,17 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-DQ-01
-          - reference-id: THR-IL-01
-          - reference-id: THR-IL-02
-          - reference-id: THR-MA-01
-          - reference-id: THR-MA-02
-          - reference-id: THR-MA-03
-          - reference-id: THR-MI-01
-          - reference-id: THR-OI-02
-          - reference-id: THR-OI-03
-          - reference-id: THR-OP-01
-  - id: CTL-DET-009
+          - reference-id: CCC.MARefArc.TH22
+          - reference-id: CCC.MARefArc.TH01
+          - reference-id: CCC.MARefArc.TH02
+          - reference-id: CCC.MARefArc.TH08
+          - reference-id: CCC.MARefArc.TH09
+          - reference-id: CCC.MARefArc.TH10
+          - reference-id: CCC.MARefArc.TH19
+          - reference-id: CCC.MARefArc.TH17
+          - reference-id: CCC.MARefArc.TH18
+          - reference-id: CCC.MARefArc.TH14
+  - id: CCC.MARefArc.CN18
     title: AI System Alerting and Denial of Wallet Monitoring
     objective: >-
       Monitor spend and usage of models and tools, and alert on anomalous
@@ -622,13 +622,13 @@ controls:
     group: DET
     state: Active
     assessment-requirements:
-      - id: AR-DET-009-1
+      - id: CCC.MARefArc.CN18.AR01
         text: >-
           Model and tool consumption MUST be metered per consumer and monitored
           against budget and rate thresholds.
         applicability: [all]
         state: Active
-      - id: AR-DET-009-2
+      - id: CCC.MARefArc.CN18.AR02
         text: >-
           Anomalous spend or call volume MUST raise alerts and MUST be able to
           trigger throttling or suspension.
@@ -641,10 +641,10 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-MA-01
-          - reference-id: THR-MA-02
-          - reference-id: THR-MA-03
-  - id: CTL-DET-011
+          - reference-id: CCC.MARefArc.TH08
+          - reference-id: CCC.MARefArc.TH09
+          - reference-id: CCC.MARefArc.TH10
+  - id: CCC.MARefArc.CN19
     title: Human Feedback Loop for AI Systems
     objective: >-
       Capture human feedback on agent outputs through the Feedback Engine and
@@ -653,14 +653,14 @@ controls:
     group: DET
     state: Active
     assessment-requirements:
-      - id: AR-DET-011-1
+      - id: CCC.MARefArc.CN19.AR01
         text: >-
           The system MUST provide a mechanism for humans to rate, correct, or
           reject agent outputs, and MUST capture that feedback in the Feedback
           Engine.
         applicability: [all]
         state: Active
-      - id: AR-DET-011-2
+      - id: CCC.MARefArc.CN19.AR02
         text: >-
           Captured feedback MUST be reviewable and MUST inform retraining,
           prompt, or configuration changes.
@@ -673,12 +673,12 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-FA-01
-          - reference-id: THR-MI-01
-          - reference-id: THR-OI-02
-          - reference-id: THR-OI-03
-          - reference-id: THR-OP-02
-  - id: CTL-DET-013
+          - reference-id: CCC.MARefArc.TH23
+          - reference-id: CCC.MARefArc.TH19
+          - reference-id: CCC.MARefArc.TH17
+          - reference-id: CCC.MARefArc.TH18
+          - reference-id: CCC.MARefArc.TH15
+  - id: CCC.MARefArc.CN20
     title: Citations and Source Traceability for AI-Generated Information
     objective: >-
       Attach citations and source traceability to AI-generated information so
@@ -687,13 +687,13 @@ controls:
     group: DET
     state: Active
     assessment-requirements:
-      - id: AR-DET-013-1
+      - id: CCC.MARefArc.CN20.AR01
         text: >-
           Outputs grounded in retrieved content MUST include citations
           identifying the source documents.
         applicability: [all]
         state: Active
-      - id: AR-DET-013-2
+      - id: CCC.MARefArc.CN20.AR02
         text: >-
           The system MUST retain the linkage between an output and the
           retrieved sources used to produce it.
@@ -706,11 +706,11 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-GC-01
-          - reference-id: THR-GC-02
-          - reference-id: THR-OI-01
-          - reference-id: THR-OP-02
-  - id: CTL-DET-015
+          - reference-id: CCC.MARefArc.TH24
+          - reference-id: CCC.MARefArc.TH25
+          - reference-id: CCC.MARefArc.TH16
+          - reference-id: CCC.MARefArc.TH15
+  - id: CCC.MARefArc.CN21
     title: Automated Evaluation Using LLM-as-a-Judge
     objective: >-
       Use automated model-based evaluation in the Evaluation Layer to assess
@@ -718,13 +718,13 @@ controls:
     group: DET
     state: Active
     assessment-requirements:
-      - id: AR-DET-015-1
+      - id: CCC.MARefArc.CN21.AR01
         text: >-
           Agent outputs MUST be subject to automated model-based evaluation for
           grounding, accuracy, and policy compliance.
         applicability: [all]
         state: Active
-      - id: AR-DET-015-2
+      - id: CCC.MARefArc.CN21.AR02
         text: >-
           Automated evaluation results MUST feed runtime protection and human
           supervision when thresholds are breached.
@@ -737,15 +737,15 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-DQ-01
-          - reference-id: THR-FA-01
-          - reference-id: THR-IL-01
-          - reference-id: THR-IL-02
-          - reference-id: THR-MI-01
-          - reference-id: THR-OI-01
-          - reference-id: THR-OI-02
-          - reference-id: THR-OI-03
-  - id: CTL-DET-016
+          - reference-id: CCC.MARefArc.TH22
+          - reference-id: CCC.MARefArc.TH23
+          - reference-id: CCC.MARefArc.TH01
+          - reference-id: CCC.MARefArc.TH02
+          - reference-id: CCC.MARefArc.TH19
+          - reference-id: CCC.MARefArc.TH16
+          - reference-id: CCC.MARefArc.TH17
+          - reference-id: CCC.MARefArc.TH18
+  - id: CCC.MARefArc.CN22
     title: Preserving Source Data Access Controls in AI Systems
     objective: >-
       Propagate the access controls of source data into the retrieval path so
@@ -754,13 +754,13 @@ controls:
     group: DET
     state: Active
     assessment-requirements:
-      - id: AR-DET-016-1
+      - id: CCC.MARefArc.CN22.AR01
         text: >-
           Retrieval MUST enforce the access controls of the underlying source
           data for the requesting principal.
         applicability: [all]
         state: Active
-      - id: AR-DET-016-2
+      - id: CCC.MARefArc.CN22.AR02
         text: >-
           Embeddings and retrieved context MUST be filtered by the requester's
           entitlements before being supplied to the model.
@@ -773,11 +773,11 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-GC-02
-          - reference-id: THR-IL-03
-          - reference-id: THR-IL-04
-          - reference-id: THR-IL-05
-  - id: CTL-DET-021
+          - reference-id: CCC.MARefArc.TH25
+          - reference-id: CCC.MARefArc.TH03
+          - reference-id: CCC.MARefArc.TH04
+          - reference-id: CCC.MARefArc.TH05
+  - id: CCC.MARefArc.CN23
     title: Agent Decision Audit and Explainability
     objective: >-
       Record an auditable trace of agent decisions, including tool selections,
@@ -786,14 +786,14 @@ controls:
     group: DET
     state: Active
     assessment-requirements:
-      - id: AR-DET-021-1
+      - id: CCC.MARefArc.CN23.AR01
         text: >-
           The system MUST record an auditable decision trace for each agent
           action, including the tools invoked and the inputs and rationale
           leading to them.
         applicability: [all]
         state: Active
-      - id: AR-DET-021-2
+      - id: CCC.MARefArc.CN23.AR02
         text: >-
           Decision traces MUST be retained and reviewable to support
           explainability and post-incident analysis.
@@ -806,6 +806,6 @@ controls:
     threats:
       - reference-id: ma-ref-arch-threats
         entries:
-          - reference-id: THR-AS-01
-          - reference-id: THR-AS-02
-          - reference-id: THR-GC-02
+          - reference-id: CCC.MARefArc.TH27
+          - reference-id: CCC.MARefArc.TH28
+          - reference-id: CCC.MARefArc.TH25

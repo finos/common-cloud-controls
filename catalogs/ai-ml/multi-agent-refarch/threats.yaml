@@ -1,6 +1,6 @@
 title: Multi-Agent Reference Architecture Threat Catalog
 metadata:
-  id: CCC.MARefArch.TH
+  id: CCC.MARefArc.TH
   type: ThreatCatalog
   gemara-version: "1.2.0"
   version: "dev"
@@ -83,7 +83,7 @@ groups:
       authorization bypass, tool-chain manipulation, supply-chain compromise,
       state poisoning, multi-agent trust violations, and credential harvesting.
 threats:
-  - id: THR-IL-01
+  - id: CCC.MARefArc.TH01
     title: Model memorization leaks sensitive data across sessions
     description: >-
       The hosted models accessed through the LLM layer may memorize sensitive
@@ -94,15 +94,15 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-03
-          - reference-id: LLM-01
+          - reference-id: CCC.MARefArc.CP16
+          - reference-id: CCC.MARefArc.CP14
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-RC-001-01
           - reference-id: AIR-RC-001-02
           - reference-id: AIR-RC-001-05
-  - id: THR-IL-02
+  - id: CCC.MARefArc.TH02
     title: Hosted-provider data-handling exposure
     description: >-
       Sensitive data submitted through the LLM gateway to third-party hosted
@@ -113,14 +113,14 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-01
-          - reference-id: LLM-03
+          - reference-id: CCC.MARefArc.CP14
+          - reference-id: CCC.MARefArc.CP16
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-RC-001-03
           - reference-id: AIR-RC-001-04
-  - id: THR-IL-03
+  - id: CCC.MARefArc.TH03
     title: Embedding inversion and membership inference on the vector store
     description: >-
       Vectors stored for semantic retrieval can be inverted to reconstruct
@@ -131,13 +131,13 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: KNW-02
+          - reference-id: CCC.MARefArc.CP13
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-002-01
           - reference-id: AIR-SEC-002-02
-  - id: THR-IL-04
+  - id: CCC.MARefArc.TH04
     title: Embedding-store poisoning degrades retrieved context
     description: >-
       An actor with write access injects malicious or misleading embeddings
@@ -148,12 +148,12 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: KNW-02
+          - reference-id: CCC.MARefArc.CP13
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-002-03
-  - id: THR-IL-05
+  - id: CCC.MARefArc.TH05
     title: Vector-store access-control, encryption, and audit gaps
     description: >-
       Missing role-based access control, encryption at rest, or audit logging
@@ -164,13 +164,13 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: KNW-02
+          - reference-id: CCC.MARefArc.CP13
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-002-04
           - reference-id: AIR-SEC-002-05
-  - id: THR-DP-01
+  - id: CCC.MARefArc.TH06
     title: Foundation-model training and fine-tuning data poisoning
     description: >-
       Adversaries tamper with training, fine-tuning, or third-party data feeds
@@ -181,14 +181,14 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-01
+          - reference-id: CCC.MARefArc.CP14
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-009-01
           - reference-id: AIR-SEC-009-03
           - reference-id: AIR-SEC-009-04
-  - id: THR-DP-02
+  - id: CCC.MARefArc.TH07
     title: Adaptive-learning and continuous-learning exploitation
     description: >-
       The adaptive-learning capability that refines prompts and configurations
@@ -199,12 +199,12 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: AGT-06
+          - reference-id: CCC.MARefArc.CP11
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-009-02
-  - id: THR-MA-01
+  - id: CCC.MARefArc.TH08
     title: Denial of Wallet via token-expensive or unthrottled agentic calls
     description: >-
       Token-expensive prompts, large-document chunking, or poorly throttled
@@ -215,13 +215,13 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-03
-          - reference-id: AGT-01
+          - reference-id: CCC.MARefArc.CP16
+          - reference-id: CCC.MARefArc.CP06
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-007-01
-  - id: THR-MA-02
+  - id: CCC.MARefArc.TH09
     title: Technology service provider outage or degradation
     description: >-
       Tight coupling to a specific external model provider with limited
@@ -231,13 +231,13 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-02
-          - reference-id: LLM-01
+          - reference-id: CCC.MARefArc.CP15
+          - reference-id: CCC.MARefArc.CP14
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-007-02
-  - id: THR-MA-03
+  - id: CCC.MARefArc.TH10
     title: VRAM exhaustion on model-serving infrastructure
     description: >-
       Configuration changes, aggressive caching, or memory leaks in
@@ -247,12 +247,12 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-02
+          - reference-id: CCC.MARefArc.CP15
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-007-03
-  - id: THR-PI-01
+  - id: CCC.MARefArc.TH11
     title: Direct prompt injection overrides guardrails
     description: >-
       An actor interacting through the application crafts inputs that override
@@ -263,14 +263,14 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: AGW-03
-          - reference-id: LLM-03
-          - reference-id: UI-01
+          - reference-id: CCC.MARefArc.CP05
+          - reference-id: CCC.MARefArc.CP16
+          - reference-id: CCC.MARefArc.CP01
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-010-01
-  - id: THR-PI-02
+  - id: CCC.MARefArc.TH12
     title: Indirect prompt injection via retrieved or processed content
     description: >-
       Malicious instructions hidden in retrieved documents, web-search results,
@@ -282,15 +282,15 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: KNW-01
-          - reference-id: KNW-02
-          - reference-id: AGT-03
-          - reference-id: AGT-04
+          - reference-id: CCC.MARefArc.CP12
+          - reference-id: CCC.MARefArc.CP13
+          - reference-id: CCC.MARefArc.CP08
+          - reference-id: CCC.MARefArc.CP09
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-010-02
-  - id: THR-PI-03
+  - id: CCC.MARefArc.TH13
     title: Model profiling and system-prompt extraction
     description: >-
       Crafted prompt sequences probe model internals to extract proprietary
@@ -301,12 +301,12 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-03
+          - reference-id: CCC.MARefArc.CP16
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-010-03
-  - id: THR-OP-01
+  - id: CCC.MARefArc.TH14
     title: Model overreach and scope creep beyond validated use
     description: >-
       Agents are used beyond their validated scope as users discover new
@@ -317,13 +317,13 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: AGT-01
-          - reference-id: AGW-01
+          - reference-id: CCC.MARefArc.CP06
+          - reference-id: CCC.MARefArc.CP03
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-018
-  - id: THR-OP-02
+  - id: CCC.MARefArc.TH15
     title: Reputational harm from offensive or misleading outputs
     description: >-
       The system generates offensive, misleading, or inappropriate outputs, or
@@ -334,14 +334,14 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-03
-          - reference-id: EVL-03
-          - reference-id: UI-02
+          - reference-id: CCC.MARefArc.CP16
+          - reference-id: CCC.MARefArc.CP22
+          - reference-id: CCC.MARefArc.CP02
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-020
-  - id: THR-OI-01
+  - id: CCC.MARefArc.TH16
     title: Confident hallucination and fabricated facts
     description: >-
       Lacking ground truth and faced with ambiguous prompts or
@@ -352,9 +352,9 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-03
-          - reference-id: EVL-03
-          - reference-id: UI-02
+          - reference-id: CCC.MARefArc.CP16
+          - reference-id: CCC.MARefArc.CP22
+          - reference-id: CCC.MARefArc.CP02
     vectors:
       - reference-id: air-vec
         entries:
@@ -362,7 +362,7 @@ threats:
           - reference-id: AIR-OP-004-02
           - reference-id: AIR-OP-004-03
           - reference-id: AIR-OP-004-04
-  - id: THR-OI-02
+  - id: CCC.MARefArc.TH17
     title: Non-deterministic and non-reproducible outputs
     description: >-
       Probabilistic sampling, internal-state variation, context sensitivity,
@@ -373,9 +373,9 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-01
-          - reference-id: LLM-02
-          - reference-id: EVL-01
+          - reference-id: CCC.MARefArc.CP14
+          - reference-id: CCC.MARefArc.CP15
+          - reference-id: CCC.MARefArc.CP20
     vectors:
       - reference-id: air-vec
         entries:
@@ -383,7 +383,7 @@ threats:
           - reference-id: AIR-OP-006-02
           - reference-id: AIR-OP-006-03
           - reference-id: AIR-OP-006-04
-  - id: THR-OI-03
+  - id: CCC.MARefArc.TH18
     title: RAG grounding failures
     description: >-
       Even with retrieval, responses may contradict retrieved documents, drop
@@ -394,9 +394,9 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: KNW-01
-          - reference-id: KNW-02
-          - reference-id: LLM-03
+          - reference-id: CCC.MARefArc.CP12
+          - reference-id: CCC.MARefArc.CP13
+          - reference-id: CCC.MARefArc.CP16
     vectors:
       - reference-id: air-vec
         entries:
@@ -405,7 +405,7 @@ threats:
           - reference-id: AIR-OP-014-03
           - reference-id: AIR-OP-014-04
           - reference-id: AIR-OP-014-05
-  - id: THR-MI-01
+  - id: CCC.MARefArc.TH19
     title: Silent model version, prompt, and deployment drift
     description: >-
       Providers silently retrain, re-prompt, or re-architect models, or change
@@ -416,7 +416,7 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-01
+          - reference-id: CCC.MARefArc.CP14
     vectors:
       - reference-id: air-vec
         entries:
@@ -424,7 +424,7 @@ threats:
           - reference-id: AIR-OP-005-02
           - reference-id: AIR-OP-005-03
           - reference-id: AIR-OP-005-04
-  - id: THR-MI-02
+  - id: CCC.MARefArc.TH20
     title: Model supply-chain tampering
     description: >-
       Adversaries tamper with training data, weights, GPU firmware and
@@ -435,14 +435,14 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-01
+          - reference-id: CCC.MARefArc.CP14
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-008-01
           - reference-id: AIR-SEC-008-02
           - reference-id: AIR-SEC-008-03
-  - id: THR-MI-03
+  - id: CCC.MARefArc.TH21
     title: Backdoor triggers and safety-mechanism disablement
     description: >-
       Where weights are accessible, adversarial fine-tuning, engineered trigger
@@ -452,14 +452,14 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-03
-          - reference-id: LLM-01
+          - reference-id: CCC.MARefArc.CP16
+          - reference-id: CCC.MARefArc.CP14
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-008-04
           - reference-id: AIR-SEC-008-05
-  - id: THR-DQ-01
+  - id: CCC.MARefArc.TH22
     title: Poor-quality, drifting, and bias-amplifying data
     description: >-
       Inaccurate, incomplete, outdated, or biased grounding and training data
@@ -469,16 +469,16 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: KNW-01
-          - reference-id: KNW-02
-          - reference-id: LLM-01
+          - reference-id: CCC.MARefArc.CP12
+          - reference-id: CCC.MARefArc.CP13
+          - reference-id: CCC.MARefArc.CP14
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-019-01
           - reference-id: AIR-OP-019-02
           - reference-id: AIR-OP-019-03
-  - id: THR-FA-01
+  - id: CCC.MARefArc.TH23
     title: Discriminatory outputs from bias
     description: >-
       Biased training data, architectural and feature choices, proxy variables
@@ -489,10 +489,10 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: LLM-01
-          - reference-id: KNW-01
-          - reference-id: EVL-01
-          - reference-id: EVL-02
+          - reference-id: CCC.MARefArc.CP14
+          - reference-id: CCC.MARefArc.CP12
+          - reference-id: CCC.MARefArc.CP20
+          - reference-id: CCC.MARefArc.CP21
     vectors:
       - reference-id: air-vec
         entries:
@@ -500,7 +500,7 @@ threats:
           - reference-id: AIR-OP-016-02
           - reference-id: AIR-OP-016-03
           - reference-id: AIR-OP-016-04
-  - id: THR-GC-01
+  - id: CCC.MARefArc.TH24
     title: Lack of explainability and traceable rationale
     description: >-
       Black-box foundation models produce outputs without traceable rationale,
@@ -512,14 +512,14 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: OBS-01
-          - reference-id: OBS-03
-          - reference-id: EVL-02
+          - reference-id: CCC.MARefArc.CP23
+          - reference-id: CCC.MARefArc.CP25
+          - reference-id: CCC.MARefArc.CP21
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-017
-  - id: THR-GC-02
+  - id: CCC.MARefArc.TH25
     title: Non-compliant outputs and model-risk-management gaps
     description: >-
       AI-generated advice, marketing, or communications that fail KYC,
@@ -530,9 +530,9 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: EVL-02
-          - reference-id: AGW-03
-          - reference-id: UI-02
+          - reference-id: CCC.MARefArc.CP21
+          - reference-id: CCC.MARefArc.CP05
+          - reference-id: CCC.MARefArc.CP02
     vectors:
       - reference-id: air-vec
         entries:
@@ -540,7 +540,7 @@ threats:
           - reference-id: AIR-RC-022-02
           - reference-id: AIR-RC-022-03
           - reference-id: AIR-RC-022-04
-  - id: THR-GC-03
+  - id: CCC.MARefArc.TH26
     title: Intellectual-property leakage and licensing violations
     description: >-
       Outputs may replicate copyrighted training material, employees may leak
@@ -550,16 +550,16 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: UI-01
-          - reference-id: AGW-03
-          - reference-id: LLM-03
+          - reference-id: CCC.MARefArc.CP01
+          - reference-id: CCC.MARefArc.CP05
+          - reference-id: CCC.MARefArc.CP16
     vectors:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-RC-023-01
           - reference-id: AIR-RC-023-02
           - reference-id: AIR-RC-023-03
-  - id: THR-AS-01
+  - id: CCC.MARefArc.TH27
     title: Authorization bypass and tool-chain privilege escalation
     description: >-
       Agents discover and invoke API endpoints outside their use case, chain
@@ -570,9 +570,9 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: MCP-03
-          - reference-id: AGT-02
-          - reference-id: AGT-03
+          - reference-id: CCC.MARefArc.CP19
+          - reference-id: CCC.MARefArc.CP07
+          - reference-id: CCC.MARefArc.CP08
     vectors:
       - reference-id: air-vec
         entries:
@@ -580,7 +580,7 @@ threats:
           - reference-id: AIR-SEC-024-02
           - reference-id: AIR-SEC-024-03
           - reference-id: AIR-SEC-024-04
-  - id: THR-AS-02
+  - id: CCC.MARefArc.TH28
     title: Tool selection, parameter, and sequencing manipulation
     description: >-
       Crafted inputs cause agents to select inappropriate tools, inject
@@ -591,9 +591,9 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: AGT-03
-          - reference-id: AGT-02
-          - reference-id: MCP-03
+          - reference-id: CCC.MARefArc.CP08
+          - reference-id: CCC.MARefArc.CP07
+          - reference-id: CCC.MARefArc.CP19
     vectors:
       - reference-id: air-vec
         entries:
@@ -602,7 +602,7 @@ threats:
           - reference-id: AIR-SEC-025-03
           - reference-id: AIR-SEC-025-04
           - reference-id: AIR-SEC-025-05
-  - id: THR-AS-03
+  - id: CCC.MARefArc.TH29
     title: MCP supply-chain compromise
     description: >-
       External MCP servers are compromised, receive poisoned updates, are
@@ -614,9 +614,9 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: MCP-01
-          - reference-id: MCP-03
-          - reference-id: AGT-03
+          - reference-id: CCC.MARefArc.CP17
+          - reference-id: CCC.MARefArc.CP19
+          - reference-id: CCC.MARefArc.CP08
     vectors:
       - reference-id: air-vec
         entries:
@@ -625,7 +625,7 @@ threats:
           - reference-id: AIR-SEC-026-03
           - reference-id: AIR-SEC-026-04
           - reference-id: AIR-SEC-026-05
-  - id: THR-AS-04
+  - id: CCC.MARefArc.TH30
     title: Agent memory and state poisoning
     description: >-
       Injected instructions or corrupted reasoning patterns are written into
@@ -636,9 +636,9 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: AGT-04
-          - reference-id: AGT-02
-          - reference-id: AGT-06
+          - reference-id: CCC.MARefArc.CP09
+          - reference-id: CCC.MARefArc.CP07
+          - reference-id: CCC.MARefArc.CP11
     vectors:
       - reference-id: air-vec
         entries:
@@ -647,7 +647,7 @@ threats:
           - reference-id: AIR-SEC-027-03
           - reference-id: AIR-SEC-027-04
           - reference-id: AIR-SEC-027-05
-  - id: THR-AS-05
+  - id: CCC.MARefArc.TH31
     title: Multi-agent collaboration compromise
     description: >-
       Malicious or compromised agents inject harmful data into agent-to-agent
@@ -658,8 +658,8 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: AGT-01
-          - reference-id: AGW-01
+          - reference-id: CCC.MARefArc.CP06
+          - reference-id: CCC.MARefArc.CP03
     vectors:
       - reference-id: air-vec
         entries:
@@ -668,7 +668,7 @@ threats:
           - reference-id: AIR-OP-028-03
           - reference-id: AIR-OP-028-04
           - reference-id: AIR-OP-028-05
-  - id: THR-AS-06
+  - id: CCC.MARefArc.TH32
     title: Credential harvesting via agent tools and storage
     description: >-
       Agents are manipulated into using file, database, API, and
@@ -680,10 +680,10 @@ threats:
     capabilities:
       - reference-id: ma-ref-arch-capabilities
         entries:
-          - reference-id: AGT-03
-          - reference-id: AGT-05
-          - reference-id: AGT-02
-          - reference-id: KNW-01
+          - reference-id: CCC.MARefArc.CP08
+          - reference-id: CCC.MARefArc.CP10
+          - reference-id: CCC.MARefArc.CP07
+          - reference-id: CCC.MARefArc.CP12
     vectors:
       - reference-id: air-vec
         entries:
