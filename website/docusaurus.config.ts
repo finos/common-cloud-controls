@@ -46,6 +46,7 @@ const config: Config = {
   plugins: [
     './src/plugin/ccc-pages/index.ts',
     './src/plugin/cfi-pages/index.ts',
+    './src/plugin/catalog-routes/index.ts',
   ],
 
   themeConfig: {
@@ -60,21 +61,13 @@ const config: Config = {
         srcDark: 'img/logo/2023_FinosCCC_Horizontal_WHT.svg'
       },
       items: [
-        { to: '/about', label: 'About', position: 'right' },
-        {
-          label: 'Catalogs',
-          position: 'right',
-          type: 'dropdown',
-          items: [
-            { to: '/ccc', label: 'CCC Catalogs' },
-            { to: '/cfi', label: 'CFI Catalog' },
-            { to: '/threats', label: 'Threats' },
-            { to: '/controls', label: 'Controls' },
-            { to: '/capabilities', label: 'Capabilities' },
-            { to: '/ecosystems', label: 'Ecosystems' },
-            { to: '/testresults', label: 'Test Results' },
-          ],
-        },
+        { to: '/about', label: 'About', position: 'left' },
+        { to: '/catalogs/core', label: 'CCC Catalogs', position: 'left' },
+        { to: '/threats', label: 'Threats', position: 'left' },
+        { to: '/controls', label: 'Controls', position: 'left' },
+        { to: '/capabilities', label: 'Capabilities', position: 'left' },
+        { to: '/metadata', label: 'Metadata', position: 'left' },
+        { to: '/cfi', label: 'Test Results', position: 'left' },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',

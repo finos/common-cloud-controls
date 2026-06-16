@@ -8,9 +8,10 @@ interface CapabilitiesTableProps {
   capabilities: Capability[];
   releaseSlug: string;
   title?: string;
+  entrySlugs?: Record<string, string>;
 }
 
-export function CapabilitiesTable({ capabilities, releaseSlug, title = "Related Capabilities" }: CapabilitiesTableProps) {
+export function CapabilitiesTable({ capabilities, releaseSlug, title = "Related Capabilities", entrySlugs }: CapabilitiesTableProps) {
   if (!capabilities || capabilities.length === 0) {
     return null;
   }
@@ -35,7 +36,7 @@ export function CapabilitiesTable({ capabilities, releaseSlug, title = "Related 
             {sortedCapabilities.map((capability) => (
               <TableRow key={capability.id}>
                 <TableCell>
-                  <Link to={`${releaseSlug}/${capability.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                  <Link to={entrySlugs?.[capability.id] ?? `${releaseSlug}/${capability.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
                     {capability.id}
                   </Link>
                 </TableCell>
