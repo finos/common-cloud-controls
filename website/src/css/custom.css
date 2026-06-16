@@ -39,7 +39,7 @@
   --ifm-color-primary-light: #ffffff;
   --ifm-color-primary-lighter: #ffffff;
   --ifm-color-primary-lightest: #ffffff;
-  --ifm-footer-background-color: #effbff;
+  --ifm-footer-background-color: rgba(15, 21, 62, 0.65);;
 
 
   --gf-color-text: #e2e8f0;
@@ -156,11 +156,11 @@
 }
 
 html[data-theme="dark"] .navbar__inner {
-  background-color: #111;
+  background-color: rgba(15, 21, 62, 1);
 }
 
 html[data-theme="dark"] .navbar {
-  background-color: #111;
+  background-color: rgba(15, 21, 62, 1);
 }
 
 /* Navbar dropdown menu styling to match navbar */

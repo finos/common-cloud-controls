@@ -50,6 +50,7 @@ const config: Config = {
   ],
 
   themeConfig: {
+    style: "dark",
     // Replace with your project's social card
     image: 'img/logo/2023_FinosCCC_Horizontal.png',
     navbar: {
@@ -75,7 +76,16 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      links: [
+      {
+        label: 'Contributors',
+        href: '/contributors',
+      },
+      {
+        label: 'Github',
+        href: 'https://github.com/finos/common-cloud-controls',
+      },
+    ],
 
       copyright: `Copyright © ${new Date().getFullYear()} finos.org. Built with Docusaurus.`,
     },
