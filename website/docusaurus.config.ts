@@ -46,7 +46,6 @@ const config: Config = {
   plugins: [
     './src/plugin/ccc-pages/index.ts',
     './src/plugin/cfi-pages/index.ts',
-    './src/plugin/contributor-pages/index.ts',
   ],
 
   themeConfig: {
