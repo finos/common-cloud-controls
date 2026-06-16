@@ -49,6 +49,7 @@ const config: Config = {
   ],
 
   themeConfig: {
+    style: "dark",
     // Replace with your project's social card
     image: 'img/logo/2023_FinosCCC_Horizontal.png',
     navbar: {
@@ -59,10 +60,10 @@ const config: Config = {
         srcDark: 'img/logo/2023_FinosCCC_Horizontal_WHT.svg'
       },
       items: [
-        { to: '/about', label: 'About', position: 'left' },
+        { to: '/about', label: 'About', position: 'right' },
         {
           label: 'Catalogs',
-          position: 'left',
+          position: 'right',
           type: 'dropdown',
           items: [
             { to: '/ccc', label: 'CCC Catalogs' },
@@ -82,7 +83,20 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      links: [
+      {
+        label: 'Stack Overflow',
+        href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+      },
+      {
+        label: 'Discord',
+        href: 'https://discordapp.com/invite/docusaurus',
+      },
+      {
+        label: 'Github',
+        href: 'https://github.com/finos/common-cloud-controls',
+      },
+    ],
 
       copyright: `Copyright © ${new Date().getFullYear()} finos.org. Built with Docusaurus.`,
     },
