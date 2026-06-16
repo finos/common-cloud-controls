@@ -2,10 +2,9 @@ import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { Badge } from "../../ui/badge";
 import { User } from "../User";
-import { MappingCountBadge } from "../MappingCountBadge";
+import { CapabilitiesTable } from "../CapabilitiesTable";
 import { ThreatsTable } from "../ThreatsTable";
 import { ControlsTable } from "../ControlsTable";
 import { ReleasePageData } from "@site/src/types/ccc";
@@ -99,43 +98,17 @@ export default function CCCReleaseTemplate({ pageData }: { pageData: ReleasePage
           </Card>
         )}
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Capabilities</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Threat Mappings</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {capabilities.map((capability) => (
-                  <TableRow key={capability.id}>
-                    <TableCell>
-                      <Link to={`${pageData.slug}/${capability.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
-                        {capability.id}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{capability.title}</TableCell>
-                    <TableCell>{capability.description}</TableCell>
-                    <TableCell>
-                      <MappingCountBadge count={threats.filter((threat) => threat.capabilities?.some((cap) => cap.entries?.some((entry) => entry["reference-id"] === capability.id))).length} />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <CapabilitiesTable
+          capabilities={capabilities}
+          releaseSlug={pageData.slug}
+          title="Capabilities"
+          entrySlugs={pageData.entrySlugs}
+          threats={threats}
+        />
 
-        <ThreatsTable threats={threats} releaseSlug={pageData.slug} controls={controls} />
+        <ThreatsTable threats={threats} releaseSlug={pageData.slug} controls={controls} entrySlugs={pageData.entrySlugs} />
 
-        <ControlsTable controls={controls} releaseSlug={pageData.slug} />
+        <ControlsTable controls={controls} releaseSlug={pageData.slug} entrySlugs={pageData.entrySlugs} />
       </main>
     </Layout>
   );

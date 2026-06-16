@@ -20,6 +20,7 @@ export interface TypedReleaseBundle {
 
 export interface CatalogIndex {
     capabilities: Map<string, Capability>;
+    controls: Map<string, Control>;
     threats: Map<string, Threat>;
     capabilitySlugs: Map<string, string>;
     threatSlugs: Map<string, string>;
@@ -160,12 +161,12 @@ function parseNativeCapabilities(catalog: Record<string, unknown> | undefined): 
     return ((catalog?.capabilities as Record<string, unknown>[]) ?? []).map(parseCapability);
 }
 
-function resolveImportedCapabilities(
+function resolveImportedEntries<T extends { id: string }>(
     catalog: Record<string, unknown> | undefined,
-    index: CatalogIndex
-): Capability[] {
-    const native = parseNativeCapabilities(catalog);
-    const seen = new Set(native.map((c) => c.id));
+    native: T[],
+    lookup: (id: string) => T | undefined
+): T[] {
+    const seen = new Set(native.map((entry) => entry.id));
     const merged = [...native];
 
     for (const block of (catalog?.imports as Mapping[]) ?? []) {
@@ -174,7 +175,7 @@ function resolveImportedCapabilities(
             if (seen.has(id)) {
                 continue;
             }
-            const resolved = index.capabilities.get(id);
+            const resolved = lookup(id);
             if (resolved) {
                 seen.add(id);
                 merged.push(resolved);
@@ -183,6 +184,33 @@ function resolveImportedCapabilities(
     }
 
     return merged;
+}
+
+function resolveImportedCapabilities(
+    catalog: Record<string, unknown> | undefined,
+    index: CatalogIndex
+): Capability[] {
+    return resolveImportedEntries(
+        catalog,
+        parseNativeCapabilities(catalog),
+        (id) => index.capabilities.get(id)
+    );
+}
+
+function resolveImportedControls(
+    catalog: Record<string, unknown> | undefined,
+    nativeControls: Control[],
+    index: CatalogIndex
+): Control[] {
+    return resolveImportedEntries(catalog, nativeControls, (id) => index.controls.get(id));
+}
+
+function resolveImportedThreats(
+    catalog: Record<string, unknown> | undefined,
+    nativeThreats: Threat[],
+    index: CatalogIndex
+): Threat[] {
+    return resolveImportedEntries(catalog, nativeThreats, (id) => index.threats.get(id));
 }
 
 /** First pass: native entries only (for building the cross-release index). */
@@ -206,6 +234,7 @@ export function parseReleaseNative(bundle: TypedReleaseBundle): Release {
 
 export function buildCatalogIndex(releases: Release[]): CatalogIndex {
     const capabilities = new Map<string, Capability>();
+    const controls = new Map<string, Control>();
     const threats = new Map<string, Threat>();
     const capabilitySlugs = new Map<string, string>();
     const threatSlugs = new Map<string, string>();
@@ -217,23 +246,26 @@ export function buildCatalogIndex(releases: Release[]): CatalogIndex {
             capabilities.set(capability.id, capability);
             capabilitySlugs.set(capability.id, `${releaseSlug}/${capability.id}`);
         }
+        for (const control of release.controls) {
+            controls.set(control.id, control);
+            controlSlugs.set(control.id, `${releaseSlug}/${control.id}`);
+        }
         for (const threat of release.threats) {
             threats.set(threat.id, threat);
             threatSlugs.set(threat.id, `${releaseSlug}/${threat.id}`);
         }
-        for (const control of release.controls) {
-            controlSlugs.set(control.id, `${releaseSlug}/${control.id}`);
-        }
     }
 
-    return { capabilities, threats, capabilitySlugs, threatSlugs, controlSlugs };
+    return { capabilities, controls, threats, capabilitySlugs, threatSlugs, controlSlugs };
 }
 
-/** Second pass: merge imported capabilities from the global index. */
+/** Second pass: merge imported capabilities, controls, and threats from the global index. */
 export function resolveReleaseImports(release: Release, bundle: TypedReleaseBundle, index: CatalogIndex): Release {
     return {
         ...release,
         capabilities: resolveImportedCapabilities(bundle.capabilities, index),
+        controls: resolveImportedControls(bundle.controls, release.controls, index),
+        threats: resolveImportedThreats(bundle.threats, release.threats, index),
     };
 }
 

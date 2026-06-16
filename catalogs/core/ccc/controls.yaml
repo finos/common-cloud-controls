@@ -143,7 +143,6 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH18
-    guidelines: []
   - id: CCC.Core.CN06
     group: Data
     title: Restrict Deployments to Trust Perimeter
@@ -491,7 +490,6 @@ controls:
         entries:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
-    guidelines: []
   - id: CCC.Core.CN03
     group: Access
     title: Implement Multi-factor Authentication (MFA) for Access
