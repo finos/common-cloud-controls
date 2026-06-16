@@ -309,7 +309,7 @@ async function unzipArtifact(
 
         fs.mkdirSync(path.join(OUTPUT_DIR, 'test-results'), { recursive: true });
         fs.mkdirSync(repoDir, { recursive: true });
-
+ 
         try {
             await execAsync(`unzip -o "${zipPath}" -d "${extractDir}"`);
             console.log(`📦 Extraction completed for ${cleanName}-${branchDirSuffix}`);

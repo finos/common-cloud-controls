@@ -46,9 +46,11 @@ const config: Config = {
   plugins: [
     './src/plugin/ccc-pages/index.ts',
     './src/plugin/cfi-pages/index.ts',
+    './src/plugin/catalog-routes/index.ts',
   ],
 
   themeConfig: {
+    style: "dark",
     // Replace with your project's social card
     image: 'img/logo/2023_FinosCCC_Horizontal.png',
     navbar: {
@@ -60,20 +62,12 @@ const config: Config = {
       },
       items: [
         { to: '/about', label: 'About', position: 'left' },
-        {
-          label: 'Catalogs',
-          position: 'left',
-          type: 'dropdown',
-          items: [
-            { to: '/ccc', label: 'CCC Catalogs' },
-            { to: '/cfi', label: 'CFI Catalog' },
-            { to: '/threats', label: 'Threats' },
-            { to: '/controls', label: 'Controls' },
-            { to: '/capabilities', label: 'Capabilities' },
-            { to: '/ecosystems', label: 'Ecosystems' },
-            { to: '/testresults', label: 'Test Results' },
-          ],
-        },
+        { to: '/catalogs/core', label: 'CCC Catalogs', position: 'left' },
+        { to: '/threats', label: 'Threats', position: 'left' },
+        { to: '/controls', label: 'Controls', position: 'left' },
+        { to: '/capabilities', label: 'Capabilities', position: 'left' },
+        { to: '/metadata', label: 'Metadata', position: 'left' },
+        { to: '/cfi', label: 'Test Results', position: 'left' },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
@@ -82,7 +76,16 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      links: [
+      {
+        label: 'Contributors',
+        href: '/contributors',
+      },
+      {
+        label: 'Github',
+        href: 'https://github.com/finos/common-cloud-controls',
+      },
+    ],
 
       copyright: `Copyright © ${new Date().getFullYear()} finos.org. Built with Docusaurus.`,
     },

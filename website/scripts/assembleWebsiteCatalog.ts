@@ -3,6 +3,7 @@ import path from 'path';
 import { execFile } from 'child_process';
 import { promisify } from 'util';
 import yaml from 'js-yaml';
+import { normalizeControlsYamlInPlace, restoreControlsYamlBackup } from './normalizeFlatControls';
 
 const execFileAsync = promisify(execFile);
 
@@ -239,50 +240,92 @@ function cleanupStaging(): void {
     fs.rmSync(STAGING_DIR, { recursive: true, force: true });
 }
 
+function catalogPathsForControlsNormalization(): string[] {
+    const paths = [path.join(CATALOGS_DIR, CORE_BUILD_TARGET)];
+    for (const target of discoverCatalogTargets()) {
+        paths.push(target.catalogPath);
+    }
+    return paths;
+}
+
+function normalizeFlatControlsForCompile(): string[] {
+    const normalizedPaths: string[] = [];
+
+    console.log('\n📝 Normalizing flat controls.yaml files for Gemara compile...\n');
+    for (const catalogPath of catalogPathsForControlsNormalization()) {
+        const controlsPath = path.join(catalogPath, 'controls.yaml');
+        if (!fs.existsSync(controlsPath)) {
+            continue;
+        }
+        const buildTarget = path.relative(CATALOGS_DIR, catalogPath);
+        console.log(`  ${buildTarget}`);
+        if (normalizeControlsYamlInPlace(catalogPath)) {
+            normalizedPaths.push(catalogPath);
+        }
+    }
+
+    return normalizedPaths;
+}
+
+function restoreNormalizedControls(normalizedPaths: string[]): void {
+    if (normalizedPaths.length === 0) {
+        return;
+    }
+    console.log('\n🧹 Restoring original controls.yaml files...\n');
+    for (const catalogPath of normalizedPaths) {
+        restoreControlsYamlBackup(catalogPath);
+    }
+}
+
 export async function assembleAllWebsiteCatalogs(version = 'DEV'): Promise<void> {
     console.log('\n📦 Building Gemara catalogs for website...\n');
 
     removeLegacyOmnibusDevFiles();
-    await runBatchCompile(version);
+    const normalizedPaths = normalizeFlatControlsForCompile();
 
-    const results: PublishResult[] = [];
+    try {
+        await runBatchCompile(version);
 
-    console.log(`\n🔨 Publishing ${CORE_BUILD_TARGET} (${CORE_VERSION})...`);
-    const coreResult = publishCoreCatalog();
-    results.push(coreResult);
-    if (coreResult.success) {
-        coreResult.outputFiles.forEach((file) => console.log(`  ✅ ${path.basename(file)}`));
-    } else {
-        console.log(`  ⏭️  Skipped: ${coreResult.error}`);
-    }
+        const results: PublishResult[] = [];
 
-    for (const target of discoverCatalogTargets()) {
-        console.log(`\n🔨 Publishing ${target.buildTarget} (${target.metadataId})...`);
-        const result = publishCatalogTarget(target, version);
-        results.push(result);
-        if (result.success) {
-            result.outputFiles.forEach((file) => console.log(`  ✅ ${path.basename(file)}`));
+        console.log(`\n🔨 Publishing ${CORE_BUILD_TARGET} (${CORE_VERSION})...`);
+        const coreResult = publishCoreCatalog();
+        results.push(coreResult);
+        if (coreResult.success) {
+            coreResult.outputFiles.forEach((file) => console.log(`  ✅ ${path.basename(file)}`));
         } else {
-            console.log(`  ⏭️  Skipped: ${result.error}`);
+            console.log(`  ⏭️  Skipped: ${coreResult.error}`);
         }
-    }
 
-    cleanupStaging();
+        for (const target of discoverCatalogTargets()) {
+            console.log(`\n🔨 Publishing ${target.buildTarget} (${target.metadataId})...`);
+            const result = publishCatalogTarget(target, version);
+            results.push(result);
+            if (result.success) {
+                result.outputFiles.forEach((file) => console.log(`  ✅ ${path.basename(file)}`));
+            } else {
+                console.log(`  ⏭️  Skipped: ${result.error}`);
+            }
+        }
 
-    const successful = results.filter((r) => r.success);
-    const skipped = results.filter((r) => !r.success);
+        const successful = results.filter((r) => r.success);
+        const skipped = results.filter((r) => !r.success);
 
-    console.log('\n📊 Publish Summary:');
-    console.log('='.repeat(50));
-    console.log(`✅ Published: ${successful.length}`);
-    successful.forEach((r) => console.log(`  - ${r.buildTarget}`));
-    if (skipped.length > 0) {
-        console.log(`⏭️  Skipped: ${skipped.length}`);
-        skipped.forEach((r) => console.log(`  - ${r.buildTarget}: ${r.error}`));
-    }
+        console.log('\n📊 Publish Summary:');
+        console.log('='.repeat(50));
+        console.log(`✅ Published: ${successful.length}`);
+        successful.forEach((r) => console.log(`  - ${r.buildTarget}`));
+        if (skipped.length > 0) {
+            console.log(`⏭️  Skipped: ${skipped.length}`);
+            skipped.forEach((r) => console.log(`  - ${r.buildTarget}: ${r.error}`));
+        }
 
-    if (successful.length === 0) {
-        throw new Error('No Gemara catalogs were published');
+        if (successful.length === 0) {
+            throw new Error('No Gemara catalogs were published');
+        }
+    } finally {
+        restoreNormalizedControls(normalizedPaths);
+        cleanupStaging();
     }
 }
 
