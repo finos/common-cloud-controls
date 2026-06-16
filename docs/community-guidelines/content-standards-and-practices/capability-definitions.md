@@ -30,7 +30,7 @@ When creating or updating a `capabilities.yaml` file for a service category, fol
 
 ## Capability Definition Format
 
-To maintain consistency, all capabilities—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [feature template](../../resources/templates/capabilities.yaml) before release.
+To maintain consistency, all capabilities—whether common or specific—must follow the same format, style, and tone. Each feature should adhere to the [capability style guide](../../../style-guides/catalogs/capability-style-guide.yaml) before release.
 
 ### Capability Definition Values
 
@@ -45,6 +45,6 @@ When creating a new feature definition, use the following values:
 
 Although a review from the [Communications WG] is optional, it may be useful if additional support is needed to match the writing style or tone of the document.
 
-[core capabilities]: /catalogs/core/ccc/controls.yaml
+[core capabilities]: /catalogs/core/ccc/capabilities.yaml
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [Delivery Toolkit]: /delivery-toolkit

@@ -1,0 +1,26 @@
+# Minimal vars for cloud-api integration tests (integration_calls.csv).
+
+services:
+  integration:
+    vars:
+      provider: gcp
+      region: us-central1
+      gcp-project-id: "${GCP_PROJECT_ID}"
+      default-container: "finos-ccc-integration-container-main"
+      function-name: "finos-ccc-integration-fn-main"
+      resource: "finos-ccc-integration-vm-main"
+      host-name: "${GCP_VM_HOSTNAME}"
+      private-endpoint-url: "internal-only"
+      gcp-flow-log-name: "compute.googleapis.com%2Fvpc_flows"
+      allowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+      disallowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-bad"
+        - "finos-ccc-integration-vpc-bad"
+      stale-version-id: "${STALE_VERSION_ID}"
+      authorized-region: "us-central1"
+      unauthorized-region: "europe-west1"
+      permitted-regions:
+        - "us-central1"
+      gcp-secret-id: "finos-ccc-integration-secret-main"
