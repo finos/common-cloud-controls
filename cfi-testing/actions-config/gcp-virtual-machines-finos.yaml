@@ -2,6 +2,7 @@ cfi:
   id: gcp-virtual-machines
   artifact-name: finos-integration-gcp-virtual-machines
   provider: gcp
+  source-secrets: GCP_ENV
   service: compute
   name: CCC GCP Virtual Machines Fixture
   description: >-

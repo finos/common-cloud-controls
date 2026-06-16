@@ -2,6 +2,7 @@ cfi:
   id: aws-vpc-bad
   artifact-name: finos-integration-aws-vpc-bad
   provider: aws
+  source-secrets: AWS_ENV
   service: networking
   name: CCC AWS VPC Bad Fixture
   description: >-
