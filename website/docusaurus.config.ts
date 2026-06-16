@@ -46,6 +46,7 @@ const config: Config = {
   plugins: [
     './src/plugin/ccc-pages/index.ts',
     './src/plugin/cfi-pages/index.ts',
+    './src/plugin/contributor-pages/index.ts',
   ],
 
   themeConfig: {
@@ -85,12 +86,8 @@ const config: Config = {
     footer: {
       links: [
       {
-        label: 'Stack Overflow',
-        href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-      },
-      {
-        label: 'Discord',
-        href: 'https://discordapp.com/invite/docusaurus',
+        label: 'Contributors',
+        href: '/contributors',
       },
       {
         label: 'Github',
