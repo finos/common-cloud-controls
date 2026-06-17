@@ -33,7 +33,7 @@ function NavButton({ onClick, direction }) {
       onMouseLeave={() => setHovered(false)}
       aria-label={direction === "prev" ? "Previous video" : "Next video"}
       style={{
-        background: hovered ? "rgba(0,181,226,0.15)" : "rgba(0, 134, 191, 1)",
+        background: hovered ? "var(--gf-color-accent-soft)" : "var(--gf-color-accent)",
         border: "none",
         borderRadius: "50%",
         width: "2.75rem",
@@ -121,7 +121,7 @@ export default function VideoCarousel() {
                   width: i === current ? "1.5rem" : "0.5rem",
                   height: "0.5rem",
                   borderRadius: "999px",
-                  background: i === current ? "#00b5e2" : "var(--gf-color-text-subtle)",
+                  background: i === current ? "var(--gf-color-accent)": "var(--gf-color-text-subtle)",
                   border: "none",
                   cursor: "pointer",
                   padding: 0,

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "@docusaurus/Link";
 import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import Link from "@docusaurus/Link";
@@ -6,18 +7,10 @@ import { HomePageData } from "@site/src/types/cfi";
 import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
 
 export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }) {
-  const { configurations } = pageData;
-
-  // Sort configurations by provider then by name
-  const sortedConfigurations = [...configurations].sort((a, b) => {
-    if (a.cfi_details.provider !== b.cfi_details.provider) {
-      return a.cfi_details.provider.localeCompare(b.cfi_details.provider);
-    }
-    return a.cfi_details.name.localeCompare(b.cfi_details.name);
-  });
+  const { repositories } = pageData;
 
   return (
-    <Layout title="Compliant Financial Infrastructure">
+    <Layout title="Compliant Financial Infrastructure" description="CFI behavioural compliance test results">
       <main className="container margin-vert--lg space-y-8">
         <div className="text-center">
           <h1>Compliant Financial Infrastructure</h1>
@@ -26,8 +19,10 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
 
         <Card>
           <CardHeader>
-            <CardTitle>CFI Configurations</CardTitle>
-            <p className="text-sm text-muted-foreground">Available CFI configurations across different cloud providers and services</p>
+            <CardTitle>CFI result sources</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Test results are grouped by the GitHub repository that publishes CI artifacts
+            </p>
           </CardHeader>
           <CardContent>
             <div className="library-article-body">
@@ -108,13 +103,16 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
               </table>
             </div>
 
-            {sortedConfigurations.length === 0 && <div className="text-center py-8 text-gray-500">No CFI configurations found. Please check that configuration files exist in the test-results directory.</div>}
+            {repositories.length === 0 && (
+              <div className="text-center py-8 text-gray-500">
+                No CFI repositories configured. Check <code>cfi-repositories.json</code> and downloaded test results.
+              </div>
+            )}
           </CardContent>
         </Card>
 
         <p className="text-sm text-muted-foreground text-center">
-          Page generated{" "}
-          <time dateTime={pageData.generatedAt}>{formatGeneratedAt(pageData.generatedAt)}</time>
+          Page generated <time dateTime={pageData.generatedAt}>{formatGeneratedAt(pageData.generatedAt)}</time>
         </p>
       </main>
     </Layout>

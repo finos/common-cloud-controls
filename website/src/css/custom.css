@@ -39,7 +39,7 @@
   --ifm-color-primary-light: #ffffff;
   --ifm-color-primary-lighter: #ffffff;
   --ifm-color-primary-lightest: #ffffff;
-  --ifm-footer-background-color: #effbff;
+  --ifm-footer-background-color: rgba(15, 21, 62, 0.65);;
 
 
   --gf-color-text: #e2e8f0;
@@ -145,40 +145,40 @@
   align-self: flex-start;
   z-index: 1000;
   width: stretch;
-  background-color: #effbff;
+  background-color: var(--gf-color-surface);
   /* So it stays above the main content */
 }
 
 /* Optional: Give it a background to avoid overlap artifacts */
 .navbar__inner {
-  background-color: #effbff;
-  color: #0086bf;
+  background-color: var(--gf-color-surface);
+  color: var(--gf-color-text);
 }
 
 html[data-theme="dark"] .navbar__inner {
-  background-color: #111;
+  background-color: rgba(15, 21, 62, 1);
 }
 
 html[data-theme="dark"] .navbar {
-  background-color: #111;
+  background-color: rgba(15, 21, 62, 1);
 }
 
 /* Navbar dropdown menu styling to match navbar */
 .dropdown__menu {
-  background-color: #effbff;
+  background-color: var(--gf-color-surface);
   border: 1px solid rgba(0, 134, 191, 0.2);
   box-shadow: 0 4px 12px rgba(0, 134, 191, 0.1);
 }
 
 .dropdown__link {
-  color: #0086bf;
+  color: var(--gf-color-text);
   font-size: 0.9rem;
 }
 
 .dropdown__link:hover,
 .dropdown__link--active {
   background-color: rgba(0, 181, 226, 0.1);
-  color: #0086bf;
+  color: var(--gf-color-accent);
 }
 
 html[data-theme="dark"] .dropdown__menu {

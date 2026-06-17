@@ -1,4 +1,3 @@
-
 import React from "react";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";

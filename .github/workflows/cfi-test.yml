@@ -1,0 +1,314 @@
+name: CFI Build and Test
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "cfi-testing/**"
+      - "modules/**"
+      - ".github/workflows/cfi-test.yml"
+      - ".github/actions/setup-go-workspace/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "cfi-testing/**"
+      - "modules/**"
+      - ".github/workflows/cfi-test.yml"
+      - ".github/actions/setup-go-workspace/**"
+
+jobs:
+  prepare-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Python YAML dependency
+        run: pip3 install pyyaml
+
+      - name: Generate matrix from cfi action configs
+        id: set-matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import glob
+          import json
+          import os
+          import sys
+          import yaml
+
+          targets = []
+          for target_file in sorted(glob.glob("cfi-testing/actions-config/*.yaml")):
+              with open(target_file, "r", encoding="utf-8") as fh:
+                  doc = yaml.safe_load(fh) or {}
+
+              cfi = doc.get("cfi") or {}
+              test_config_rel = cfi.get("test-configuration")
+              if not test_config_rel:
+                  raise RuntimeError(f"Missing cfi.test-configuration in {target_file}")
+              privateer_service = cfi.get("privateer-service")
+              if not privateer_service:
+                  raise RuntimeError(f"Missing cfi.privateer-service in {target_file}")
+
+              test_config = os.path.normpath(os.path.join(os.path.dirname(target_file), test_config_rel))
+              if not os.path.exists(test_config):
+                  raise RuntimeError(f"Resolved test config does not exist: {test_config} (from {target_file})")
+
+              with open(test_config, "r", encoding="utf-8") as fh:
+                  test_doc = yaml.safe_load(fh) or {}
+              services = test_doc.get("services") or {}
+              if not services:
+                  raise RuntimeError(f"No services found in {test_config}")
+              if privateer_service not in services:
+                  raise RuntimeError(
+                      f"cfi.privateer-service {privateer_service!r} not found in services of {test_config}"
+                  )
+
+              artifact_name = cfi.get("artifact-name")
+              if not artifact_name:
+                  raise RuntimeError(f"Missing cfi.artifact-name in {target_file}")
+
+              targets.append(
+                  {
+                      "id": cfi.get("id"),
+                      "name": cfi.get("name"),
+                      "provider": cfi.get("provider"),
+                      "service": cfi.get("service"),
+                      "action_config": target_file,
+                      "test_config": test_config,
+                      "privateer_service": privateer_service,
+                      "artifact_name": artifact_name,
+                  }
+              )
+
+          matrix_payload = json.dumps({"target": targets})
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
+              out.write(f"matrix={matrix_payload}\n")
+          print(f"Generated matrix with {len(targets)} targets")
+          PY
+
+  build:
+    needs: prepare-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Set up Go workspace
+        uses: ./.github/actions/setup-go-workspace
+
+      - name: Generate release catalogs
+        run: |
+          set -euo pipefail
+          npm ci --prefix website
+          npm run --prefix website generate:catalogs
+
+      - name: Build shared modules
+        run: |
+          set -euo pipefail
+          bash ./modules/build.sh cloud-api cloud-testing-dsl reporters runner
+
+      - name: Upload generated catalogs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ccc-release-catalogs
+          path: website/src/data/ccc-releases/
+          retention-days: 1
+
+  test:
+    needs: [prepare-matrix, build]
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 3
+      matrix:
+        target: ${{ fromJson(needs.prepare-matrix.outputs.matrix).target }}
+      fail-fast: false
+
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      # Do not set AZURE_CLIENT_ID here: DefaultAzureCredential treats it as a
+      # user-assigned managed identity ID and skips Azure CLI auth on GHA runners.
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
+      TARGET_ID: ${{ matrix.target.id }}
+      TARGET_NAME: ${{ matrix.target.name }}
+      TARGET_PROVIDER: ${{ matrix.target.provider }}
+      TARGET_SERVICE: ${{ matrix.target.service }}
+      TARGET_ACTION_CONFIG: ${{ matrix.target.action_config }}
+      TARGET_TEST_CONFIG: ${{ matrix.target.test_config }}
+      TARGET_PRIVATEER_SERVICE: ${{ matrix.target.privateer_service }}
+      OUTPUT_DIR: cfi-testing/output/${{ matrix.target.id }}
+      PLUGIN_CATALOG_DIR: modules/ccc-behavioural-plugin/catalogs
+      PLUGIN_BINARY: cfi-testing/.privateer/bin/ccc-behavioural-plugin
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download generated catalogs
+        uses: actions/download-artifact@v4
+        with:
+          name: ccc-release-catalogs
+          path: website/src/data/ccc-releases
+
+      - name: Set up Go workspace
+        uses: ./.github/actions/setup-go-workspace
+
+      - name: Load cloud env script secret
+        shell: bash
+        env:
+          AWS_ENV_SECRET: ${{ secrets.AWS_ENV }}
+          AZURE_ENV_SECRET: ${{ secrets.AZURE_ENV }}
+          GCP_ENV_SECRET: ${{ secrets.GCP_ENV }}
+        run: |
+          set -euo pipefail
+
+          load_secret_file() {
+            local content="$1"
+            local out_file="$2"
+            if [ -z "$content" ]; then
+              return 1
+            fi
+            printf '%s\n' "$content" > "$out_file"
+            chmod 600 "$out_file"
+            return 0
+          }
+
+          case "$TARGET_PROVIDER" in
+            aws)
+              load_secret_file "$AWS_ENV_SECRET" "$RUNNER_TEMP/provider-env.sh" || {
+                echo "Missing AWS_ENV secret for aws target" >&2
+                exit 1
+              }
+              ;;
+            azure)
+              load_secret_file "$AZURE_ENV_SECRET" "$RUNNER_TEMP/provider-env.sh" || {
+                echo "Missing AZURE_ENV secret for azure target" >&2
+                exit 1
+              }
+              ;;
+            gcp)
+              load_secret_file "$GCP_ENV_SECRET" "$RUNNER_TEMP/provider-env.sh" || {
+                echo "Missing GCP_ENV secret for gcp target" >&2
+                exit 1
+              }
+              ;;
+            *)
+              echo "Unknown target provider: $TARGET_PROVIDER" >&2
+              exit 1
+              ;;
+          esac
+
+          set -a
+          source "$RUNNER_TEMP/provider-env.sh"
+          set +a
+
+          if [ "$TARGET_PROVIDER" = "aws" ]; then
+            env | grep -E '^(AWS_)' >> "$GITHUB_ENV"
+          elif [ "$TARGET_PROVIDER" = "azure" ]; then
+            # Keep Azure login core vars from GitHub secrets; load only test identity vars from AZURE_ENV.
+            env | grep -E '^AZURE_(LOG_ANALYTICS_WORKSPACE_ID|TEST_USER_)' >> "$GITHUB_ENV"
+          elif [ "$TARGET_PROVIDER" = "gcp" ]; then
+            # Keep project identifiers from GitHub secrets; load identity + VM vars from GCP_ENV.
+            env | grep -E '^GCP_(TEST_USER_|VM_HOSTNAME)' >> "$GITHUB_ENV"
+          fi
+
+      - name: Sync catalogs into plugin embed directory
+        run: |
+          set -euo pipefail
+          mkdir -p "$PLUGIN_CATALOG_DIR"
+          cd modules/runner
+          go run ./cmd/ccc-compliance \
+            -config "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
+            -privateer-service "$TARGET_PRIVATEER_SERVICE" \
+            -repo-root "$GITHUB_WORKSPACE" \
+            -sync-catalogs-dest "$GITHUB_WORKSPACE/$PLUGIN_CATALOG_DIR" \
+            -sync-catalogs-only
+          ls -la "$GITHUB_WORKSPACE/$PLUGIN_CATALOG_DIR"
+
+      - name: Build behavioural plugin
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "$PLUGIN_BINARY")"
+          bash ./modules/build.sh \
+            cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin \
+            --plugin-output "$PLUGIN_BINARY"
+          test -x "$PLUGIN_BINARY"
+
+      - name: Configure AWS Credentials (OIDC)
+        if: matrix.target.provider == 'aws'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/TerraformRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Configure Azure Credentials (OIDC)
+        if: matrix.target.provider == 'azure'
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Authenticate to Google Cloud (OIDC)
+        if: matrix.target.provider == 'gcp'
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/${{ env.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider
+          service_account: gha-deployer@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
+      - name: Run compliance tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x cfi-testing/run-compliance-tests.sh
+
+          case "$TARGET_SERVICE" in
+            storage) SERVICE_TYPE="object-storage" ;;
+            networking) SERVICE_TYPE="vpc" ;;
+            serverless) SERVICE_TYPE="serverless-computing" ;;
+            compute) SERVICE_TYPE="virtual-machines" ;;
+            *) SERVICE_TYPE="$TARGET_SERVICE" ;;
+          esac
+
+          echo "Running target: $TARGET_ID ($TARGET_PROVIDER/$TARGET_SERVICE)"
+          echo "Action config: $TARGET_ACTION_CONFIG"
+          echo "Privateer config: $TARGET_TEST_CONFIG"
+          echo "Privateer service: $TARGET_PRIVATEER_SERVICE"
+
+          ./cfi-testing/run-compliance-tests.sh \
+            --skip-build \
+            --debug \
+            -c "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
+            -S "$TARGET_PRIVATEER_SERVICE" \
+            -s "$SERVICE_TYPE" \
+            -o "$OUTPUT_DIR" \
+            -g '@Behavioural'
+
+      - name: Upload cfi results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target.artifact_name }}
+          path: |
+            cfi-testing/output/${{ matrix.target.id }}
+            cfi-testing/evaluation_results
+            ${{ matrix.target.action_config }}
+            ${{ matrix.target.test_config }}
