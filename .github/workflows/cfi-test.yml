@@ -57,13 +57,14 @@ jobs:
             item=$(jq -cn \
               --arg action_config "$f" \
               --arg id "$(yq -r '.cfi.id // ""' "$f")" \
+              --arg artifact_name "$(yq -r '.cfi."artifact-name" // .cfi.id // ""' "$f")" \
               --arg name "$(yq -r '.cfi.name // ""' "$f")" \
               --arg provider "$(yq -r '.cfi.provider // ""' "$f")" \
               --arg service "$(yq -r '.cfi.service // ""' "$f")" \
               --arg test_config "$test_config" \
               --arg privateer_service "$(yq -r '.cfi."privateer-service" // ""' "$f")" \
               --arg source_secrets "$(yq -r '.cfi."source-secrets" // ""' "$f")" \
-              '{action_config: $action_config, id: $id, name: $name, provider: $provider, service: $service, test_config: $test_config, privateer_service: $privateer_service, source_secrets: $source_secrets}')
+              '{action_config: $action_config, id: $id, artifact_name: $artifact_name, name: $name, provider: $provider, service: $service, test_config: $test_config, privateer_service: $privateer_service, source_secrets: $source_secrets}')
             items+=("$item")
             count=$((count + 1))
           done
@@ -211,7 +212,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cfi-results-${{ matrix.target.id }}
+          name: ${{ matrix.target.artifact_name }}
           path: |
             cfi-testing/output/${{ matrix.target.id }}
             cfi-testing/evaluation_results
