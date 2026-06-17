@@ -29,10 +29,7 @@ func init() {
 	Compile.Flags().String("version", "", "Release version stamped into the artifact (e.g. v2026.04)")
 }
 
-var trailingDigits = regexp.MustCompile(`\d+$`)
 
-// entryRef matches a CCC entry id like CCC.ObjStor.CP08 or CCC.Core.TH01,
-// capturing the namespace (ObjStor / Core) and the type abbreviation (CP/CN/TH).
 var entryRef = regexp.MustCompile(`^CCC\.([A-Za-z0-9]+)\.(CP|CN|TH)\d+$`)
 
 var abbrToWord = map[string]string{"CP": "Capabilities", "CN": "Controls", "TH": "Threats"}
@@ -93,11 +90,11 @@ func runCompile(cmd *cobra.Command, args []string) error {
 	var artifact any
 	switch assetType {
 	case "capabilities":
-		artifact, err = compileCapabilities(filepath.Join(srcDir, "capabilities.yaml"), service, version, meta.coreVersion, groupDefs)
+		artifact, err = compileCapabilities(filepath.Join(srcDir, "capabilities.yaml"), meta.id, service, version, meta.coreVersion, groupDefs)
 	case "threats":
-		artifact, err = compileThreats(filepath.Join(srcDir, "threats.yaml"), service, version, meta.coreVersion, groupDefs)
+		artifact, err = compileThreats(filepath.Join(srcDir, "threats.yaml"), meta.id, service, version, meta.coreVersion, groupDefs)
 	case "controls":
-		artifact, err = compileControls(filepath.Join(srcDir, "controls.yaml"), service, version, meta.coreVersion, groupDefs)
+		artifact, err = compileControls(filepath.Join(srcDir, "controls.yaml"), meta.id, service, version, meta.coreVersion, groupDefs)
 	}
 	if err != nil {
 		return err
@@ -181,7 +178,7 @@ func serviceNameFromTitle(title string) string {
 	return title
 }
 
-func compileCapabilities(path, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.CapabilityCatalog, error) {
+func compileCapabilities(path, catalogID, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.CapabilityCatalog, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %w", path, err)
@@ -193,8 +190,8 @@ func compileCapabilities(path, service, version, coreVersion string, groupDefs m
 	if err := yaml.Unmarshal(data, &src); err != nil {
 		return nil, fmt.Errorf("parsing %s: %w", path, err)
 	}
-	if len(src.Capabilities) == 0 {
-		return nil, fmt.Errorf("%s: no native capabilities to compile", path)
+	if len(src.Capabilities) == 0 && len(src.Imported) == 0 {
+		return nil, fmt.Errorf("%s: no capabilities to compile", path)
 	}
 
 	groups, err := resolveGroups(capabilityGroups(src.Capabilities), groupDefs)
@@ -205,7 +202,7 @@ func compileCapabilities(path, service, version, coreVersion string, groupDefs m
 
 	return &gemara.CapabilityCatalog{
 		Title: fmt.Sprintf("CCC %s Capabilities", service),
-		Metadata: newMetadata(inferID(src.Capabilities[0].Id), gemara.CapabilityCatalogArtifact,
+		Metadata: newMetadata(artifactCatalogID(catalogID, "capabilities"), gemara.CapabilityCatalogArtifact,
 			fmt.Sprintf("Capabilities for %s technologies, as defined by the FINOS Common Cloud Controls project.", service),
 			version, refs),
 		Capabilities: src.Capabilities,
@@ -214,7 +211,7 @@ func compileCapabilities(path, service, version, coreVersion string, groupDefs m
 	}, nil
 }
 
-func compileThreats(path, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.ThreatCatalog, error) {
+func compileThreats(path, catalogID, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.ThreatCatalog, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %w", path, err)
@@ -228,8 +225,8 @@ func compileThreats(path, service, version, coreVersion string, groupDefs map[st
 	if err := yaml.Unmarshal(data, &src); err != nil {
 		return nil, fmt.Errorf("parsing %s: %w", path, err)
 	}
-	if len(src.Threats) == 0 {
-		return nil, fmt.Errorf("%s: no native threats to compile", path)
+	if len(src.Threats) == 0 && len(src.Imported) == 0 {
+		return nil, fmt.Errorf("%s: no threats to compile", path)
 	}
 	// Rewrite each threat's capability mappings from the source "CCC" shorthand
 	// to the real per-catalog reference-ids (CCC.ObjStor.Capabilities / CCC.Core.Capabilities).
@@ -241,9 +238,10 @@ func compileThreats(path, service, version, coreVersion string, groupDefs map[st
 		return nil, err
 	}
 	imports, refs := reshapeImports(src.Imported, "threats", coreVersion)
+
 	return &gemara.ThreatCatalog{
 		Title: fmt.Sprintf("CCC %s Threats", service),
-		Metadata: newMetadata(inferID(src.Threats[0].Id), gemara.ThreatCatalogArtifact,
+		Metadata: newMetadata(artifactCatalogID(catalogID, "threats"), gemara.ThreatCatalogArtifact,
 			fmt.Sprintf("Threats for %s technologies, as defined by the FINOS Common Cloud Controls project.", service),
 			version, refs),
 		Threats: src.Threats,
@@ -272,7 +270,7 @@ type sourceAR struct {
 	Recommendation string   `yaml:"recommendation"`
 }
 
-func compileControls(path, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.ControlCatalog, error) {
+func compileControls(path, catalogID, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.ControlCatalog, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %w", path, err)
@@ -329,7 +327,8 @@ func compileControls(path, service, version, coreVersion string, groupDefs map[s
 		return nil, err
 	}
 	imports, refs := reshapeImports(src.Imported, "controls", coreVersion)
-	md := newMetadata(inferID(src.Controls[0].Id), gemara.ControlCatalogArtifact,
+
+	md := newMetadata(artifactCatalogID(catalogID, "controls"), gemara.ControlCatalogArtifact,
 		fmt.Sprintf("Controls for %s technologies, as defined by the FINOS Common Cloud Controls project.", service),
 		version, refs)
 	// ControlCatalog requires applicability-groups that cover every assessment
@@ -432,10 +431,18 @@ func newMetadata(id string, t gemara.ArtifactType, desc, version string, refs []
 	}
 }
 
-// inferID derives the per-type catalog id from the first native entry id by
-// stripping its trailing number, e.g. "CCC.ObjStor.CP01" -> "CCC.ObjStor.CP".
-func inferID(firstEntryID string) string {
-	return trailingDigits.ReplaceAllString(firstEntryID, "")
+// artifactCatalogID derives the published per-type catalog id from metadata.id.
+func artifactCatalogID(catalogID, assetType string) string {
+	base := strings.TrimSpace(catalogID)
+	suffix := map[string]string{
+		"capabilities": ".CP",
+		"threats":      ".TH",
+		"controls":     ".CN",
+	}[assetType]
+	if suffix == "" || strings.HasSuffix(base, suffix) {
+		return base
+	}
+	return base + suffix
 }
 
 // reshapeImports rewrites source imported-* sections (reference-id "CCC") into
