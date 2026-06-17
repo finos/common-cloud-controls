@@ -11,7 +11,6 @@ on:
       - "cfi-testing/**"
       - "modules/**"
       - ".github/workflows/cfi-test.yml"
-      - ".github/actions/setup-go-workspace/**"
   push:
     branches:
       - main
@@ -19,7 +18,6 @@ on:
       - "cfi-testing/**"
       - "modules/**"
       - ".github/workflows/cfi-test.yml"
-      - ".github/actions/setup-go-workspace/**"
 
 jobs:
   prepare-matrix:
@@ -42,11 +40,8 @@ jobs:
           import glob
           import json
           import os
-          import re
           import sys
           import yaml
-
-          SOURCE_SECRETS_PATTERN = re.compile(r"^[A-Z][A-Z0-9_]*$")
 
           targets = []
           for target_file in sorted(glob.glob("cfi-testing/actions-config/*.yaml")):
@@ -75,19 +70,6 @@ jobs:
                       f"cfi.privateer-service {privateer_service!r} not found in services of {test_config}"
                   )
 
-              artifact_name = cfi.get("artifact-name")
-              if not artifact_name:
-                  raise RuntimeError(f"Missing cfi.artifact-name in {target_file}")
-
-              source_secrets = cfi.get("source-secrets")
-              if not source_secrets:
-                  raise RuntimeError(f"Missing cfi.source-secrets in {target_file}")
-              if not SOURCE_SECRETS_PATTERN.fullmatch(source_secrets):
-                  raise RuntimeError(
-                      f"Invalid cfi.source-secrets {source_secrets!r} in {target_file}; "
-                      "expected a GitHub secret name (uppercase letters, digits, underscores)"
-                  )
-
               targets.append(
                   {
                       "id": cfi.get("id"),
@@ -97,8 +79,6 @@ jobs:
                       "action_config": target_file,
                       "test_config": test_config,
                       "privateer_service": privateer_service,
-                      "artifact_name": artifact_name,
-                      "source_secrets": source_secrets,
                   }
               )
 
@@ -108,43 +88,8 @@ jobs:
           print(f"Generated matrix with {len(targets)} targets")
           PY
 
-  build:
-    needs: prepare-matrix
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: website/package-lock.json
-
-      - name: Set up Go workspace
-        uses: ./.github/actions/setup-go-workspace
-
-      - name: Generate release catalogs
-        run: |
-          set -euo pipefail
-          npm ci --prefix website
-          npm run --prefix website generate:catalogs
-
-      - name: Build shared modules
-        run: |
-          set -euo pipefail
-          bash ./modules/build.sh cloud-api cloud-testing-dsl reporters runner
-
-      - name: Upload generated catalogs
-        uses: actions/upload-artifact@v4
-        with:
-          name: ccc-release-catalogs
-          path: website/src/data/ccc-releases/
-          retention-days: 1
-
   test:
-    needs: [prepare-matrix, build]
+    needs: prepare-matrix
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 3
@@ -167,28 +112,18 @@ jobs:
       TARGET_ACTION_CONFIG: ${{ matrix.target.action_config }}
       TARGET_TEST_CONFIG: ${{ matrix.target.test_config }}
       TARGET_PRIVATEER_SERVICE: ${{ matrix.target.privateer_service }}
-      TARGET_SOURCE_SECRETS: ${{ matrix.target.source_secrets }}
       OUTPUT_DIR: cfi-testing/output/${{ matrix.target.id }}
-      PLUGIN_CATALOG_DIR: modules/ccc-behavioural-plugin/catalogs
-      PLUGIN_BINARY: cfi-testing/.privateer/bin/ccc-behavioural-plugin
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Download generated catalogs
-        uses: actions/download-artifact@v4
-        with:
-          name: ccc-release-catalogs
-          path: website/src/data/ccc-releases
-
-      - name: Set up Go workspace
-        uses: ./.github/actions/setup-go-workspace
-
       - name: Load cloud env script secret
         shell: bash
         env:
-          ENV_SECRET_CONTENT: ${{ secrets[matrix.target.source_secrets] }}
+          AWS_ENV_SECRET: ${{ secrets.AWS_ENV }}
+          AZURE_ENV_SECRET: ${{ secrets.AZURE_ENV }}
+          GCP_ENV_SECRET: ${{ secrets.GCP_ENV }}
         run: |
           set -euo pipefail
 
@@ -203,35 +138,62 @@ jobs:
             return 0
           }
 
-          load_secret_file "$ENV_SECRET_CONTENT" "$RUNNER_TEMP/provider-env.sh" || {
-            echo "Missing GitHub secret $TARGET_SOURCE_SECRETS for target $TARGET_ID" >&2
-            exit 1
-          }
+          case "$TARGET_PROVIDER" in
+            aws)
+              load_secret_file "$AWS_ENV_SECRET" "$RUNNER_TEMP/provider-env.sh" || {
+                echo "Missing AWS_ENV secret for aws target" >&2
+                exit 1
+              }
+              ;;
+            azure)
+              load_secret_file "$AZURE_ENV_SECRET" "$RUNNER_TEMP/provider-env.sh" || {
+                echo "Missing AZURE_ENV secret for azure target" >&2
+                exit 1
+              }
+              ;;
+            gcp)
+              load_secret_file "$GCP_ENV_SECRET" "$RUNNER_TEMP/provider-env.sh" || {
+                echo "Missing GCP_ENV secret for gcp target" >&2
+                exit 1
+              }
+              ;;
+            *)
+              echo "Unknown target provider: $TARGET_PROVIDER" >&2
+              exit 1
+              ;;
+          esac
 
-          # Promote exports from the env script into later steps (KEY=VALUE lines for GITHUB_ENV).
-          grep -E '^export ' "$RUNNER_TEMP/provider-env.sh" | sed 's/^export //' >> "$GITHUB_ENV"
+          set -a
+          source "$RUNNER_TEMP/provider-env.sh"
+          set +a
 
-      - name: Sync catalogs into plugin embed directory
+          if [ "$TARGET_PROVIDER" = "aws" ]; then
+            env | grep -E '^(AWS_)' >> "$GITHUB_ENV"
+          elif [ "$TARGET_PROVIDER" = "azure" ]; then
+            # Keep Azure login core vars from GitHub secrets; load only test identity vars from AZURE_ENV.
+            env | grep -E '^AZURE_(LOG_ANALYTICS_WORKSPACE_ID|TEST_USER_)' >> "$GITHUB_ENV"
+          elif [ "$TARGET_PROVIDER" = "gcp" ]; then
+            # Keep project identifiers from GitHub secrets; load identity + VM vars from GCP_ENV.
+            env | grep -E '^GCP_(TEST_USER_|VM_HOSTNAME)' >> "$GITHUB_ENV"
+          fi
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: modules/go.work
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Generate release catalogs for behavioural plugin
         run: |
           set -euo pipefail
-          mkdir -p "$PLUGIN_CATALOG_DIR"
-          cd modules/runner
-          go run ./cmd/ccc-compliance \
-            -config "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
-            -privateer-service "$TARGET_PRIVATEER_SERVICE" \
-            -repo-root "$GITHUB_WORKSPACE" \
-            -sync-catalogs-dest "$GITHUB_WORKSPACE/$PLUGIN_CATALOG_DIR" \
-            -sync-catalogs-only
-          ls -la "$GITHUB_WORKSPACE/$PLUGIN_CATALOG_DIR"
-
-      - name: Build behavioural plugin
-        run: |
-          set -euo pipefail
-          mkdir -p "$(dirname "$PLUGIN_BINARY")"
-          bash ./modules/build.sh \
-            cloud-api cloud-testing-dsl reporters runner ccc-behavioural-plugin \
-            --plugin-output "$PLUGIN_BINARY"
-          test -x "$PLUGIN_BINARY"
+          npm ci --prefix website
+          npm run --prefix website generate:catalogs
 
       - name: Configure AWS Credentials (OIDC)
         if: matrix.target.provider == 'aws'
@@ -275,7 +237,6 @@ jobs:
           echo "Privateer service: $TARGET_PRIVATEER_SERVICE"
 
           ./cfi-testing/run-compliance-tests.sh \
-            --skip-build \
             --debug \
             -c "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
             -S "$TARGET_PRIVATEER_SERVICE" \
@@ -287,7 +248,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.target.artifact_name }}
+          name: cfi-results-${{ matrix.target.id }}
           path: |
             cfi-testing/output/${{ matrix.target.id }}
             cfi-testing/evaluation_results

@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=lib.sh
 source "$SCRIPT_DIR/lib.sh"
 
-OUT_FILE="${OUT_FILE:-$SCRIPT_DIR/azure-env.sh}"
+OUT_FILE="$SCRIPT_DIR/azure-env.sh"
 TFSTATE="$SCRIPT_DIR/../terraform/azure/terraform.tfstate"
 STALE_VERSION_ID="${STALE_VERSION_ID:-00000000000000000000000000000000}"
 

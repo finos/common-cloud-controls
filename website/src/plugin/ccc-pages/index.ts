@@ -98,7 +98,7 @@ function createThreatPageData(threat: Release['threats'][0], release: Release, i
     };
 }
 
-function createReleasePageData(release: Release): ReleasePageData {
+function createReleasePageData(release: Release, index: CatalogIndex): ReleasePageData {
     const releaseSlug = `/ccc/${release.metadata.id}/${release.metadata.version}`;
 
     const releaseDetails = release.metadata.release_details?.[0] || {
@@ -124,6 +124,20 @@ function createReleasePageData(release: Release): ReleasePageData {
         releaseTitle: release.metadata.title,
         releaseSlug,
         slug: releaseSlug,
+        entrySlugs: {
+            ...slugsForIds(
+                release.capabilities.map((capability) => capability.id),
+                index.capabilitySlugs
+            ),
+            ...slugsForIds(
+                release.threats.map((threat) => threat.id),
+                index.threatSlugs
+            ),
+            ...slugsForIds(
+                release.controls.map((control) => control.id),
+                index.controlSlugs
+            ),
+        },
     };
 }
 
@@ -207,7 +221,7 @@ export default function pluginCCCPages(_: LoadContext): Plugin<PluginContent> {
             console.log('Step 2: Creating page data with relationships...');
 
             for (const release of cccReleases) {
-                const releasePageData = createReleasePageData(release);
+                const releasePageData = createReleasePageData(release, index);
                 await pageCreator.createPage(
                     releasePageData,
                     releasePageData.slug,

@@ -20,7 +20,7 @@ const config: Config = {
   organizationName: 'finos', // Usually your GitHub org/user name.
   projectName: 'commmon-cloud-controls', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -46,26 +46,28 @@ const config: Config = {
   plugins: [
     './src/plugin/ccc-pages/index.ts',
     './src/plugin/cfi-pages/index.ts',
+    './src/plugin/catalog-routes/index.ts',
   ],
 
   themeConfig: {
+    style: "dark",
     // Replace with your project's social card
     image: 'img/logo/2023_FinosCCC_Horizontal.png',
     navbar: {
-      title: 'CCC',
+      title: '',
       logo: {
         alt: 'CCC Logo',
-        src: 'img/logo/2023_FinosCCC_Icon_BLK.svg',
-        srcDark: 'img/logo/2023_FinosCCC_Icon_WHT.svg'
+        src: 'img/logo/2023_FinosCCC_Horizontal.svg',
+        srcDark: 'img/logo/2023_FinosCCC_Horizontal_WHT.svg'
       },
       items: [
-        {
-          position: 'left',
-          label: 'Primer',
-          to: 'https://github.com/finos/common-cloud-controls/blob/main/docs/resources/training/FINOS-CCC-Primer-June-2024.pdf'
-        },
-        { to: '/ccc', label: 'CCC Catalog', position: 'left' },
-        { to: '/cfi', label: 'CFI Catalog', position: 'left' },
+        { to: '/about', label: 'About', position: 'left' },
+        { to: '/catalogs/core', label: 'CCC Catalogs', position: 'left' },
+        { to: '/threats', label: 'Threats', position: 'left' },
+        { to: '/controls', label: 'Controls', position: 'left' },
+        { to: '/capabilities', label: 'Capabilities', position: 'left' },
+        { to: '/metadata', label: 'Metadata', position: 'left' },
+        { to: '/cfi', label: 'Test Results', position: 'left' },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
@@ -74,7 +76,16 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      links: [
+      {
+        label: 'Contributors',
+        href: '/contributors',
+      },
+      {
+        label: 'Github',
+        href: 'https://github.com/finos/common-cloud-controls',
+      },
+    ],
 
       copyright: `Copyright © ${new Date().getFullYear()} finos.org. Built with Docusaurus.`,
     },

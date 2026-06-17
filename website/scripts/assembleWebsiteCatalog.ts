@@ -223,66 +223,54 @@ function discoverCatalogTargets(): CatalogTarget[] {
     return targets.sort((a, b) => a.buildTarget.localeCompare(b.buildTarget));
 }
 
-function removeLegacyOmnibusDevFiles(): void {
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        return;
-    }
-    for (const file of fs.readdirSync(OUTPUT_DIR)) {
-        if (/^CCC\.[A-Za-z0-9]+_DEV\.yaml$/.test(file)) {
-            fs.unlinkSync(path.join(OUTPUT_DIR, file));
-            console.log(`  🧹 Removed legacy omnibus file: ${file}`);
-        }
-    }
-}
-
 function cleanupStaging(): void {
     fs.rmSync(STAGING_DIR, { recursive: true, force: true });
 }
 
 export async function assembleAllWebsiteCatalogs(version = 'DEV'): Promise<void> {
     console.log('\n📦 Building Gemara catalogs for website...\n');
+    try {
+        await runBatchCompile(version);
 
-    removeLegacyOmnibusDevFiles();
-    await runBatchCompile(version);
+        const results: PublishResult[] = [];
 
-    const results: PublishResult[] = [];
-
-    console.log(`\n🔨 Publishing ${CORE_BUILD_TARGET} (${CORE_VERSION})...`);
-    const coreResult = publishCoreCatalog();
-    results.push(coreResult);
-    if (coreResult.success) {
-        coreResult.outputFiles.forEach((file) => console.log(`  ✅ ${path.basename(file)}`));
-    } else {
-        console.log(`  ⏭️  Skipped: ${coreResult.error}`);
-    }
-
-    for (const target of discoverCatalogTargets()) {
-        console.log(`\n🔨 Publishing ${target.buildTarget} (${target.metadataId})...`);
-        const result = publishCatalogTarget(target, version);
-        results.push(result);
-        if (result.success) {
-            result.outputFiles.forEach((file) => console.log(`  ✅ ${path.basename(file)}`));
+        console.log(`\n🔨 Publishing ${CORE_BUILD_TARGET} (${CORE_VERSION})...`);
+        const coreResult = publishCoreCatalog();
+        results.push(coreResult);
+        if (coreResult.success) {
+            coreResult.outputFiles.forEach((file) => console.log(`  ✅ ${path.basename(file)}`));
         } else {
-            console.log(`  ⏭️  Skipped: ${result.error}`);
+            console.log(`  ⏭️  Skipped: ${coreResult.error}`);
         }
-    }
 
-    cleanupStaging();
+        for (const target of discoverCatalogTargets()) {
+            console.log(`\n🔨 Publishing ${target.buildTarget} (${target.metadataId})...`);
+            const result = publishCatalogTarget(target, version);
+            results.push(result);
+            if (result.success) {
+                result.outputFiles.forEach((file) => console.log(`  ✅ ${path.basename(file)}`));
+            } else {
+                console.log(`  ⏭️  Skipped: ${result.error}`);
+            }
+        }
 
-    const successful = results.filter((r) => r.success);
-    const skipped = results.filter((r) => !r.success);
+        const successful = results.filter((r) => r.success);
+        const skipped = results.filter((r) => !r.success);
 
-    console.log('\n📊 Publish Summary:');
-    console.log('='.repeat(50));
-    console.log(`✅ Published: ${successful.length}`);
-    successful.forEach((r) => console.log(`  - ${r.buildTarget}`));
-    if (skipped.length > 0) {
-        console.log(`⏭️  Skipped: ${skipped.length}`);
-        skipped.forEach((r) => console.log(`  - ${r.buildTarget}: ${r.error}`));
-    }
+        console.log('\n📊 Publish Summary:');
+        console.log('='.repeat(50));
+        console.log(`✅ Published: ${successful.length}`);
+        successful.forEach((r) => console.log(`  - ${r.buildTarget}`));
+        if (skipped.length > 0) {
+            console.log(`⏭️  Skipped: ${skipped.length}`);
+            skipped.forEach((r) => console.log(`  - ${r.buildTarget}: ${r.error}`));
+        }
 
-    if (successful.length === 0) {
-        throw new Error('No Gemara catalogs were published');
+        if (successful.length === 0) {
+            throw new Error('No Gemara catalogs were published');
+        }
+    } finally {
+        cleanupStaging();
     }
 }
 

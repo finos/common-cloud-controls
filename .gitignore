@@ -4,7 +4,7 @@ build/oscal-cli
 .DS_Store
 # Delivery Tooling
 delivery-toolkit/artifacts
-# Temporary backup during website/scripts/GenerateReleaseCatalogs.ts (flat controls normalization)
+# Temporary backup during website catalog build (flat controls normalization)
 **/controls.yaml.backup
 .env/
 
@@ -46,3 +46,4 @@ modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-functio
 # Ignore local cloud API test keys
 modules/cloud-api-test/environment-config/.keys/*.json
 modules/cloud-api-test/environment-config/.keys/*.credentials
+node_modules

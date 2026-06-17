@@ -16,7 +16,7 @@
     "fetch:ccc": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/DownloadCCCReleases.ts /*disabled for now*/",
     "fetch:cfi": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/DownloadCFIArtifacts.ts",
     "generate:catalogs": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' scripts/assembleWebsiteCatalog.ts",
-    "prebuild": "npm run fetch:cfi && npm run generate:catalogs"  
+    "prebuild": "npm run fetch:cfi && npm run generate:catalogs"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",
@@ -32,7 +32,9 @@
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
     "react-player": "^2.16.0",
+    "remark-gfm": "^4.0.1",
     "tailwind-merge": "^2.2.1",
     "tailwind-variants": "^1.0.0",
     "tailwindcss-animate": "^1.0.7",
@@ -45,6 +47,7 @@
     "@types/js-yaml": "^4.0.9",
     "autoprefixer": "^10.4.21",
     "axios": "^1.8.4",
+    "docusaurus": "^1.14.7",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
@@ -63,6 +66,9 @@
     ]
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.18.1"
+  },
+  "resolutions": {
+    "webpackbar": "^7.0.0"
   }
 }
