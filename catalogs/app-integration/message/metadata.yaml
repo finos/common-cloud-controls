@@ -20,3 +20,4 @@ metadata:
       service: Pub/Sub
       url: https://cloud.google.com/pubsub/docs/
   applicability-categories: []
+  mapping-references: []
