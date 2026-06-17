@@ -64,7 +64,8 @@
 
 .prose {
   line-height: 1.75;
-  font-size: 0.975rem;
+  font-size: 1.05rem;
+  color: var(--gf-color-text);
 }
 
 .accentLink {
@@ -78,8 +79,7 @@
 .catalogsTitle {
   font-size: 1.3rem;
   font-weight: 700;
-  text-align: center;
-  margin-top: 4rem;
+  text-align: left;
   margin-bottom: 2rem;
 }
 
