@@ -7,7 +7,7 @@ import { ExternalMappingsTable } from "../ExternalMappingsTable";
 import { ControlsTable } from "../ControlsTable";
 
 export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageData }) {
-  const { releaseSlug, threat, releaseTitle, related_capabilities, related_controls } = pageData;
+  const { releaseSlug, threat, related_capabilities, related_controls, entrySlugs } = pageData;
 
   return (
     <Layout title={`${threat.id} - ${threat.title}`}>
@@ -35,11 +35,11 @@ export default function CCCThreatTemplate({ pageData }: { pageData: ThreatPageDa
         </CardContent>
       </Card>
 
-      <CapabilitiesTable capabilities={related_capabilities || []} releaseSlug={releaseSlug} />
+      <CapabilitiesTable capabilities={related_capabilities || []} releaseSlug={releaseSlug} entrySlugs={entrySlugs} />
 
       <ExternalMappingsTable mappings={threat["external-mappings"] || []} />
 
-      <ControlsTable controls={related_controls || []} releaseSlug={releaseSlug} />
+      <ControlsTable controls={related_controls || []} releaseSlug={releaseSlug} entrySlugs={entrySlugs} />
     </Layout>
   );
 }

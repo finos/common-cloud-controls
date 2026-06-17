@@ -107,6 +107,8 @@ interface PageData {
     releaseTitle: string;
     releaseSlug: string;
     slug: string;
+    /** Full page slug per entry id when the target lives in another release catalog. */
+    entrySlugs?: Record<string, string>;
 }
 
 export interface ThreatPageData extends PageData {

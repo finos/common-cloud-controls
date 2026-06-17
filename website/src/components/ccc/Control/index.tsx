@@ -11,7 +11,7 @@ import { ExternalMappingsTable } from "../ExternalMappingsTable";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 
 export default function CCCControlTemplate({ pageData }: { pageData: ControlPageData }) {
-  const { control, releaseTitle, releaseSlug, related_threats, related_capabilities } = pageData;
+  const { control, releaseSlug, related_threats, related_capabilities, entrySlugs } = pageData;
   const brokenLinks = useBrokenLinks();
 
   return (
@@ -46,9 +46,9 @@ export default function CCCControlTemplate({ pageData }: { pageData: ControlPage
         </CardContent>
       </Card>
 
-      <ThreatsTable threats={related_threats || []} releaseSlug={releaseSlug} title="Related Threats" />
+      <ThreatsTable threats={related_threats || []} releaseSlug={releaseSlug} title="Related Threats" entrySlugs={entrySlugs} />
 
-      <CapabilitiesTable capabilities={related_capabilities || []} releaseSlug={releaseSlug} title="Related Capabilities" />
+      <CapabilitiesTable capabilities={related_capabilities || []} releaseSlug={releaseSlug} title="Related Capabilities" entrySlugs={entrySlugs} />
 
       <ExternalMappingsTable mappings={control.guideline_mappings || []} title="Guideline Mappings" />
 
