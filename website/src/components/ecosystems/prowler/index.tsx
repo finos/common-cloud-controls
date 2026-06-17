@@ -7,7 +7,6 @@ export default function Prowler() {
 
   return (
     <Layout title="Prowler">
-      <Contributors/>
     </Layout>
   );
 }

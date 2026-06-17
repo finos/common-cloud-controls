@@ -7,7 +7,6 @@ export default function AzurePolicy() {
 
   return (
     <Layout title="Azure Policy">
-      <Contributors/>
     </Layout>
   );
 }

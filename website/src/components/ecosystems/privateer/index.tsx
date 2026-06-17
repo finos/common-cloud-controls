@@ -7,7 +7,6 @@ export default function Privateer() {
 
   return (
     <Layout title="Privateer">
-      <Contributors/>
     </Layout>
   );
 }

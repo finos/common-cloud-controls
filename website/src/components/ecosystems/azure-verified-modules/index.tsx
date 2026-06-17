@@ -7,7 +7,6 @@ export default function AzureVerifiedModules() {
 
   return (
     <Layout title="Azure Verified Modules">
-      <Contributors/>
     </Layout>
   );
 }

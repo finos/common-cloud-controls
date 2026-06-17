@@ -7,7 +7,6 @@ export default function Gemara() {
 
   return (
     <Layout title="Gemara">
-      <Contributors/>
     </Layout>
   );
 }

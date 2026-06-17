@@ -7,7 +7,6 @@ export default function GitHubReleases() {
 
   return (
     <Layout title="GitHub Releases">
-      <Contributors/>
     </Layout>
   );
 }

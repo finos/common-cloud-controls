@@ -7,7 +7,6 @@ export default function GRCStore() {
 
   return (
     <Layout title="GRC.Store">
-      <Contributors/>
     </Layout>
   );
 }

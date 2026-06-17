@@ -7,7 +7,6 @@ export default function AWSLightningLane() {
 
   return (
     <Layout title="AWS Lightning Lane">
-      <Contributors/>
     </Layout>
   );
 }

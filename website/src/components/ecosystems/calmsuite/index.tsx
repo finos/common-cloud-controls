@@ -7,7 +7,6 @@ export default function CALMSuite() {
 
   return (
     <Layout title="CALMSuite">
-      <Contributors/>
     </Layout>
   );
 }
