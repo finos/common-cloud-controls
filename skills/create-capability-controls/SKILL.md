@@ -10,6 +10,52 @@ A `controls.yaml` file created in the service folder that imports applicable cor
 ## When to Use
 When the user asks to identify or create controls for a cloud service. For example, "Identify controls for <service>", "Create a control catalogue for <service>", or "Create controls.yaml for the service in <path>".
 
+## Source Frameworks
+Guideline mappings in this catalogue draw from the following source frameworks. Only `reference-id` values declared in the service's `metadata.mapping-references` may be used in a control's `guidelines` block, but for this catalogue the standard source set is:
+
+| reference-id | Framework | Canonical source URL | Identifier convention used in `entries` |
+|---|---|---|---|
+| `FS_ISAC` | FS-ISAC (Financial Services Information Sharing and Analysis Center) | https://www.fsisac.com/ | FS-ISAC control / practice reference IDs |
+| `NIST_800_53` | NIST SP 800-53 Rev. 5 (Security and Privacy Controls for Information Systems and Organizations) | https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final | Control IDs (e.g., `SC-13`, `AC-3`) |
+| `CRI` | Cyber Risk Institute — CRI Profile (Financial Services Cybersecurity Profile) | https://cyberriskinstitute.org/the-profile/ | Diagnostic statement IDs (e.g., `PR.DS-2.1`) |
+| `DORA` | Digital Operational Resilience Act — Regulation (EU) 2022/2554 | https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng | Article / section references (e.g., `Art. 9`) |
+| `CRA` | Cyber Resilience Act — Regulation (EU) 2024/2847 | https://eur-lex.europa.eu/eli/reg/2024/2847/oj/eng | Article / annex references (e.g., `Annex I`) |
+| `AIGF` | FINOS AI Governance Framework | https://air-governance-framework.finos.org/ | Risk / mitigation IDs (e.g., `mi-1`, `ri-6`) |
+
+> Source notes: NIST 800-53 is also published via DOI `https://doi.org/10.6028/NIST.SP.800-53r5` and in OSCAL (JSON/XML/YAML). The CRI Profile (currently v2.2, aligned to NIST CSF v2) is a free download after registration at the URL above. DORA and CRA texts are the EUR-Lex ELI permalinks (the stable, versioned official records). The AIGF spec is also mirrored at `https://github.com/finos/ai-governance-framework`. Confirm the version/revision in use at onboarding time, since these sources are periodically revised.
+
+### Provenance: knowing where each mapping came from
+Every guideline mapping is traceable through a two-part chain, so any control can be audited back to an exact, citable origin:
+
+1. **Source identity + URL** is declared once in `metadata.yaml` under `mapping-references`. Each entry carries the `id` (the `reference-id` used in controls), a human-readable `title`, and the canonical `url` from the table above.
+2. **Specific clause** is recorded per control in the `guidelines` block: the framework `reference-id` plus the precise control/article/risk id and its title in `remarks`.
+
+This means the trail for any control is: `control.guidelines[].entries[].reference-id` (the exact clause) → resolved against `metadata.mapping-references[reference-id]` (the source + URL). Declare the references in `metadata.yaml` like so:
+
+```yaml
+mapping-references:
+  - id: FS_ISAC
+    title: FS-ISAC
+    url: https://www.fsisac.com/
+  - id: NIST_800_53
+    title: NIST SP 800-53 Rev. 5
+    url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+  - id: CRI
+    title: Cyber Risk Institute — CRI Profile
+    url: https://cyberriskinstitute.org/the-profile/
+  - id: DORA
+    title: Digital Operational Resilience Act (EU) 2022/2554
+    url: https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng
+  - id: CRA
+    title: Cyber Resilience Act (EU) 2024/2847
+    url: https://eur-lex.europa.eu/eli/reg/2024/2847/oj/eng
+  - id: AIGF
+    title: FINOS AI Governance Framework
+    url: https://air-governance-framework.finos.org/
+```
+
+If `metadata.yaml` uses a different `mapping-references` shape (e.g., no `url` field), follow the schema the file already establishes and confirm whether the schema permits a `url`/`source` field before adding one.
+
 ## Prerequisites
 The target service folder must already contain:
 - `metadata.yaml` (provides the service abbreviation, CSP service links, and `mapping-references`)
@@ -26,7 +72,7 @@ If `metadata.yaml` or `capabilities.yaml` is missing, stop and instruct the user
 3. Read `metadata.yaml` and extract:
    - The service abbreviation from `metadata.id` (e.g., `ObjStor` from `CCC.ObjStor`).
    - The `example-csp-services` entries (AWS, Azure, GCP names and documentation links).
-   - The `mapping-references` list (e.g., `CCM`, `NIST_800_53`, `ISO_27001`) — only these may be used as guideline `reference-id` values later.
+   - The `mapping-references` list — only IDs declared here may be used as guideline `reference-id` values later. For this catalogue the standard source frameworks are: `FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, `AIGF`. If `metadata.mapping-references` declares a different or narrower set, defer to what is declared in the file and note the discrepancy.
 4. Check whether a `controls.yaml` already exists in the folder and note it.
 
 ### Output Format
@@ -38,7 +84,7 @@ Target path: <catalogs/.../...>
 Service ID: CCC.<ABBREVIATION>
 Prerequisites: <metadata.yaml: found|missing> | <capabilities.yaml: found|missing> | <threats.yaml: found|missing>
 Existing controls.yaml: <yes|no>
-Mapping references: <CCM, NIST_800_53, ...>
+Mapping references: <FS_ISAC, NIST_800_53, CRI, DORA, CRA, AIGF>
 Confidence: <High|Medium|Low>
 
 Do not proceed to Step 2 if any prerequisite is missing.
@@ -159,10 +205,30 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
                remarks: <threat title>
                strength: <1-10>
        guidelines:
-         - reference-id: <id from metadata.mapping-references>
+         - reference-id: NIST_800_53
            entries:
-             - reference-id: <framework control id>
-               remarks: <framework control title>
+             - reference-id: SC-13
+               remarks: Cryptographic Protection
+         - reference-id: CRI
+           entries:
+             - reference-id: <CRI Profile diagnostic statement id>
+               remarks: <diagnostic statement title>
+         - reference-id: DORA
+           entries:
+             - reference-id: <article reference, e.g. Art. 9>
+               remarks: <article title>
+         - reference-id: FS_ISAC
+           entries:
+             - reference-id: <FS-ISAC control reference id>
+               remarks: <control title>
+         - reference-id: CRA
+           entries:
+             - reference-id: <annex / article reference>
+               remarks: <requirement title>
+         - reference-id: AIGF
+           entries:
+             - reference-id: <FINOS AI Governance Framework risk/mitigation id>
+               remarks: <risk or mitigation title>
    ```
 4. Assessment requirement rules:
    - Number sequentially within each control: `AR01`, `AR02`, ...
@@ -174,10 +240,11 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
    - Every control must reference at least one threat from the Step 2 inventory.
    - Use `strength` (1–10) to indicate how completely the control mitigates the threat, with a brief inline comment justifying the score when partial.
 6. Guideline mapping rules:
-   - Only use `reference-id` values defined in `metadata.mapping-references`.
+   - Only use `reference-id` values defined in `metadata.mapping-references`. For this catalogue the recognized sources are `FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, and `AIGF`.
+   - Use the identifier convention appropriate to each source: `NIST_800_53` → control IDs (e.g., `SC-13`, `AC-3`); `CRI` → CRI Profile diagnostic statement IDs; `DORA` → article/section references (e.g., `Art. 9`); `CRA` → article/annex references; `FS_ISAC` → control/practice reference IDs; `AIGF` → FINOS AI Governance Framework risk/mitigation IDs.
    - Group entries by framework; include `remarks` with the framework control title for readability.
-   - Omit the `guidelines` block entirely when no confident mapping exists rather than guessing.
-7. Validate the final object against `schemas/controls-schema.json` before writing the file. Verify every `group` id exists in `catalogs/core/ccc/groups.yaml` and every threat `reference-id` exists in the service `threats.yaml` or core threats.
+   - Omit the `guidelines` block entirely (or a specific framework entry) when no confident mapping exists rather than guessing. Do not fabricate control identifiers; map only where the source actually addresses the control's objective.
+7. Validate the final object against `schemas/controls-schema.json` before writing the file. Verify every `group` id exists in `catalogs/core/ccc/groups.yaml`, every threat `reference-id` exists in the service `threats.yaml` or core threats, and every guideline `reference-id` is one of the declared `metadata.mapping-references` (`FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, `AIGF`).
 8. Write the file to `<target-path>/controls.yaml`.
 9. If a `controls.yaml` already exists, show a diff-style summary and ask for confirmation before overwrite.
 

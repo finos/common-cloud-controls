@@ -20,4 +20,10 @@ metadata:
       service: Pub/Sub
       url: https://cloud.google.com/pubsub/docs/
   applicability-categories: []
-  mapping-references: []
+  mapping-references:
+    - id: NIST_800_53
+      title: NIST SP 800-53 Rev. 5
+      url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    - id: CRI
+      title: Cyber Risk Institute — CRI Profile
+      url: https://cyberriskinstitute.org/the-profile/
