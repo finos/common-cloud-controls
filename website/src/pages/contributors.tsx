@@ -7,7 +7,7 @@ export default function Contributor() {
 
   return (
     <Layout title="Contributors">
-      <Contributors/>
+      <Contributors />
     </Layout>
   );
 }

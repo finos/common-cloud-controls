@@ -1,0 +1,42 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+services:
+  gcpServerlessComputing:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.SvlsComp
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: serverless-computing
+      service-type: serverless-computing
+      tags: "@Behavioural @serverless-computing"
+      provider: gcp
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.SvlsComp: DEV
+      region: us-central1
+      gcp-project-id: "${GCP_PROJECT_ID}"
+      resource: "finos-ccc-integration-fn-main"
+      function-name: "finos-ccc-integration-fn-main"
+      private-endpoint-url: "internal-only"
+      public-invoke-url: ""
+      rate-limit-threshold: 10
+      burst-overrun: 15
+      permitted-regions:
+        - us-central1
+      test-identities:
+        test-user-no-access:
+          user-name: "${GCP_TEST_USER_NO_ACCESS_NAME}"
+          service_account_key: "${GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON}"
+        test-user-write:
+          user-name: "${GCP_TEST_USER_WRITE_NAME}"
+          service_account_key: "${GCP_TEST_USER_WRITE_SA_KEY_JSON}"
+        test-user-admin:
+          user-name: "${GCP_TEST_USER_ADMIN_NAME}"
+          service_account_key: "${GCP_TEST_USER_ADMIN_SA_KEY_JSON}"
