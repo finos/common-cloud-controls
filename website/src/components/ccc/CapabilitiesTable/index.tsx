@@ -10,10 +10,9 @@ interface CapabilitiesTableProps {
   releaseSlug: string;
   title?: string;
   entrySlugs?: Record<string, string>;
-  threats?: Threat[];
 }
 
-export function CapabilitiesTable({ capabilities, releaseSlug, title = "Related Capabilities", entrySlugs, threats }: CapabilitiesTableProps) {
+export function CapabilitiesTable({ capabilities, releaseSlug, title = "Related Capabilities", entrySlugs }: CapabilitiesTableProps) {
   if (!capabilities || capabilities.length === 0) {
     return null;
   }

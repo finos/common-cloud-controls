@@ -12,7 +12,6 @@ h2.sectionTitle {
 	text-align: center;
 	font-family: 'metropolis';
 	font-weight: 600;
-	color: var(--gf-color-text);
 }
 
 div.sectionContents {

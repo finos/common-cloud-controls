@@ -3,6 +3,7 @@ import path from 'path';
 import { execFile } from 'child_process';
 import { promisify } from 'util';
 import yaml from 'js-yaml';
+import { normalizeControlsYamlInPlace, restoreControlsYamlBackup } from './normalizeFlatControls';
 
 const execFileAsync = promisify(execFile);
 
@@ -223,12 +224,65 @@ function discoverCatalogTargets(): CatalogTarget[] {
     return targets.sort((a, b) => a.buildTarget.localeCompare(b.buildTarget));
 }
 
+function removeLegacyOmnibusDevFiles(): void {
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        return;
+    }
+    for (const file of fs.readdirSync(OUTPUT_DIR)) {
+        if (/^CCC\.[A-Za-z0-9]+_DEV\.yaml$/.test(file)) {
+            fs.unlinkSync(path.join(OUTPUT_DIR, file));
+            console.log(`  🧹 Removed legacy omnibus file: ${file}`);
+        }
+    }
+}
+
 function cleanupStaging(): void {
     fs.rmSync(STAGING_DIR, { recursive: true, force: true });
 }
 
+function catalogPathsForControlsNormalization(): string[] {
+    const paths = [path.join(CATALOGS_DIR, CORE_BUILD_TARGET)];
+    for (const target of discoverCatalogTargets()) {
+        paths.push(target.catalogPath);
+    }
+    return paths;
+}
+
+function normalizeFlatControlsForCompile(): string[] {
+    const normalizedPaths: string[] = [];
+
+    console.log('\n📝 Normalizing flat controls.yaml files for Gemara compile...\n');
+    for (const catalogPath of catalogPathsForControlsNormalization()) {
+        const controlsPath = path.join(catalogPath, 'controls.yaml');
+        if (!fs.existsSync(controlsPath)) {
+            continue;
+        }
+        const buildTarget = path.relative(CATALOGS_DIR, catalogPath);
+        console.log(`  ${buildTarget}`);
+        if (normalizeControlsYamlInPlace(catalogPath)) {
+            normalizedPaths.push(catalogPath);
+        }
+    }
+
+    return normalizedPaths;
+}
+
+function restoreNormalizedControls(normalizedPaths: string[]): void {
+    if (normalizedPaths.length === 0) {
+        return;
+    }
+    console.log('\n🧹 Restoring original controls.yaml files...\n');
+    for (const catalogPath of normalizedPaths) {
+        restoreControlsYamlBackup(catalogPath);
+    }
+}
+
 export async function assembleAllWebsiteCatalogs(version = 'DEV'): Promise<void> {
     console.log('\n📦 Building Gemara catalogs for website...\n');
+
+    removeLegacyOmnibusDevFiles();
+    const normalizedPaths = normalizeFlatControlsForCompile();
+
     try {
         await runBatchCompile(version);
 
@@ -270,6 +324,7 @@ export async function assembleAllWebsiteCatalogs(version = 'DEV'): Promise<void>
             throw new Error('No Gemara catalogs were published');
         }
     } finally {
+        restoreNormalizedControls(normalizedPaths);
         cleanupStaging();
     }
 }

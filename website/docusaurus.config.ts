@@ -43,7 +43,11 @@ const config: Config = {
     ],
   ],
 
-  plugins: ["./src/plugin/ccc-pages/index.ts", "./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts"],
+  plugins: [
+    './src/plugin/ccc-pages/index.ts',
+    './src/plugin/cfi-pages/index.ts',
+    './src/plugin/catalog-routes/index.ts',
+  ],
 
   themeConfig: {
     style: "dark",
@@ -64,10 +68,10 @@ const config: Config = {
         { to: "/capabilities", label: "Capabilities", position: "left" },
         { to: "/cfi", label: "Test Results", position: "left" },
         {
-          href: "https://github.com/finos/common-cloud-controls",
-          label: "GitHub",
-          position: "right",
-        },
+          href: 'https://github.com/finos/common-cloud-controls',
+          label: 'GitHub',
+          position: 'right',
+        }
       ],
     },
     footer: {
