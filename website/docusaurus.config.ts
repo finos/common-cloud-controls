@@ -67,7 +67,7 @@ const config: Config = {
         {
           label: 'Ecosystems',
           to: '/ecosystems',
-          position: 'right',
+          position: 'left',
           type: 'dropdown',
           items: [
             { to: '/ecosystems/prowler', label: 'Prowler' },
@@ -78,6 +78,7 @@ const config: Config = {
             { to: '/ecosystems/gemara', label: 'Gemara' },
             { to: '/ecosystems/grc-store', label: 'GRC.Store' },
             { to: '/ecosystems/github-releases', label: 'GitHub releases' },
+            { to: '/ecosystems/CALMSuite', label: 'CALMSuite' },
 
           ],
         },

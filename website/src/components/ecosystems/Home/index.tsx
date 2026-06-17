@@ -11,7 +11,8 @@ const pages = [
   'aws-lightning-lane', 
   'gemara', 
   'grc-store', 
-  'github-releases'
+  'github-releases',
+  'calmsuite'
 ];
 export default function EcosystemHomePage() {
 

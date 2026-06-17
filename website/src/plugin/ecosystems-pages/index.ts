@@ -9,7 +9,8 @@ const pages = [
   'aws-lightning-lane', 
   'gemara', 
   'grc-store', 
-  'github-releases'
+  'github-releases',
+  'calmsuite'
 ];
 export default function pluginEcosystemsPages(context: LoadContext): Plugin<void> {
   return {
@@ -31,8 +32,6 @@ export default function pluginEcosystemsPages(context: LoadContext): Plugin<void
         component: "@site/src/components/ecosystems/Home/index.tsx",
         exact: true,
       });
-
-      console.log("Added route for /ecosystems");
     },
   };
 }

@@ -3,10 +3,10 @@ import Layout from "@theme/Layout";
 import Contributors from "../../Contributors";
 
 
-export default function Prowler() {
+export default function GitHubReleases() {
 
   return (
-    <Layout title="Github Releases">
+    <Layout title="GitHub Releases">
       <Contributors/>
     </Layout>
   );

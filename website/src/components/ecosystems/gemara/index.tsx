@@ -3,7 +3,7 @@ import Layout from "@theme/Layout";
 import Contributors from "../../Contributors";
 
 
-export default function Prowler() {
+export default function Gemara() {
 
   return (
     <Layout title="Gemara">
