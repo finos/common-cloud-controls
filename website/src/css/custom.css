@@ -13,6 +13,21 @@
   --ifm-color-primary-light: #4b4b4b;
   --ifm-color-primary-lighter: #4e4e4e;
   --ifm-color-primary-lightest: #585858;
+  --ifm-navbar-link-color: #0086bf;
+  --ifm-footer-background-color: #effbff;
+
+
+  --gf-color-text: #0086bf;
+  --gf-color-text-subtle: #94a3b8;
+
+  --gf-color-background: #e2e8f0;
+  --gf-color-background-strong: #dbeafe;
+  --gf-color-surface: #effbff;
+  --gf-color-border-strong: rgba(59, 130, 246, 0.25);
+
+  --gf-color-accent: #0086bf;
+  --gf-color-accent-soft: rgba(59, 130, 246, 0.2);
+  --gf-color-accent-strong: #1e3a8a;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -24,6 +39,22 @@
   --ifm-color-primary-light: #ffffff;
   --ifm-color-primary-lighter: #ffffff;
   --ifm-color-primary-lightest: #ffffff;
+  --ifm-footer-background-color: rgba(15, 21, 62, 0.65);;
+
+
+  --gf-color-text: #e2e8f0;
+  --gf-color-text-subtle: #94a3b8;
+
+  --gf-color-background: #020817;
+  --gf-color-background-strong: #dbeafe;
+  --gf-color-surface: rgba(15, 21, 62, 0.65);
+  --gf-color-border-strong: rgba(59, 130, 246, 0.25);
+
+  --gf-color-accent: #3b82f6;
+  --gf-color-accent-soft: rgba(59, 130, 246, 0.2);
+  --gf-color-accent-strong: #1e3a8a;
+
+    background-color:var(--gf-color-background);
 }
 
 @import url("/fonts/metropolis/metropolis.css");
@@ -113,16 +144,180 @@
   top: 0;
   align-self: flex-start;
   z-index: 1000;
+  width: stretch;
+  background-color: var(--gf-color-surface);
   /* So it stays above the main content */
 }
 
 /* Optional: Give it a background to avoid overlap artifacts */
 .navbar__inner {
-  background-color: white;
+  background-color: var(--gf-color-surface);
+  color: var(--gf-color-text);
 }
 
 html[data-theme="dark"] .navbar__inner {
+  background-color: rgba(15, 21, 62, 1);
+}
+
+html[data-theme="dark"] .navbar {
+  background-color: rgba(15, 21, 62, 1);
+}
+
+/* Navbar dropdown menu styling to match navbar */
+.dropdown__menu {
+  background-color: var(--gf-color-surface);
+  border: 1px solid rgba(0, 134, 191, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 134, 191, 0.1);
+}
+
+.dropdown__link {
+  color: var(--gf-color-text);
+  font-size: 0.9rem;
+}
+
+.dropdown__link:hover,
+.dropdown__link--active {
+  background-color: rgba(0, 181, 226, 0.1);
+  color: var(--gf-color-accent);
+}
+
+html[data-theme="dark"] .dropdown__menu {
   background-color: #111;
+  border-color: rgba(0, 181, 226, 0.15);
+}
+
+html[data-theme="dark"] .dropdown__link {
+  color: #00b5e2;
+}
+
+html[data-theme="dark"] .dropdown__link:hover,
+html[data-theme="dark"] .dropdown__link--active {
+  background-color: rgba(0, 181, 226, 0.15);
+  color: #00b5e2;
+}
+
+/* Catalog page layout: sidebar + main content side by side */
+.page-layout {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  align-items: flex-start;
+}
+
+/* Catalog type buttons (Capabilities / Threats / Controls) */
+.catalog-type-btn {
+  display: inline-block;
+  padding: 0.6rem 1.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: rgb(0, 181, 226);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+
+.catalog-type-btn:hover {
+  background: rgb(0, 134, 191);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 134, 191, 0.3);
+}
+
+.catalog-type-btn--disabled {
+  display: inline-block;
+  padding: 0.6rem 1.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: rgba(0, 181, 226, 0.2);
+  color: rgba(0, 100, 140, 0.5);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: not-allowed;
+  white-space: nowrap;
+}
+
+.surface-card {
+  margin-top: 3rem;
+  padding: 1rem;
+  background-color: #effbff;
+  border: 1px solid rgba(0, 134, 191, 0.2);
+  border-radius: 8px;
+}
+
+html[data-theme="dark"] .surface-card {
+  background-color: #111;
+  border-color: rgba(0, 181, 226, 0.15);
+}
+
+html[data-theme="dark"] .catalog-type-btn {
+  background: rgb(0, 134, 191);
+}
+
+html[data-theme="dark"] .catalog-type-btn:hover {
+  background: rgb(0, 100, 150);
+}
+
+html[data-theme="dark"] .catalog-type-btn--disabled {
+  background: rgba(0, 181, 226, 0.1);
+  color: rgba(0, 181, 226, 0.35);
+}
+
+/* Tables inside rendered markdown content */
+.library-article-body table {
+  border-collapse: collapse;
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  font-size: 0.925rem;
+}
+
+.library-article-body th,
+.library-article-body td {
+  border: 1px solid rgba(0, 134, 191, 0.2);
+  padding: 0.5rem 0.875rem;
+  line-height: 1.55;
+  vertical-align: top;
+}
+
+.library-article-body thead th {
+  background-color: #effbff;
+  color: #0086bf;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.library-article-body tbody tr:nth-child(even) {
+  background-color: rgba(0, 181, 226, 0.04);
+}
+
+.library-article-body tbody tr:hover {
+  background-color: rgba(0, 181, 226, 0.08);
+}
+
+html[data-theme="dark"] .library-article-body th,
+html[data-theme="dark"] .library-article-body td {
+  border-color: rgba(0, 181, 226, 0.2);
+}
+
+html[data-theme="dark"] .library-article-body thead th {
+  background-color: rgba(0, 134, 191, 0.15);
+  color: #00b5e2;
+}
+
+html[data-theme="dark"] .library-article-body tbody tr:nth-child(even) {
+  background-color: rgba(0, 181, 226, 0.06);
+}
+
+html[data-theme="dark"] .library-article-body tbody tr:hover {
+  background-color: rgba(0, 181, 226, 0.12);
 }
 
 /* Anchor target styling for test requirements */

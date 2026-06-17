@@ -1,6 +1,7 @@
 name: YAML Check
 
 on:
+  pull_request:
   workflow_call:
     inputs:
       ref:

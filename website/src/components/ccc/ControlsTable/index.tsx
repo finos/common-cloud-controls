@@ -9,9 +9,10 @@ interface ControlsTableProps {
   controls: Control[];
   releaseSlug: string;
   title?: string;
+  entrySlugs?: Record<string, string>;
 }
 
-export function ControlsTable({ controls, releaseSlug, title = "Controls" }: ControlsTableProps) {
+export function ControlsTable({ controls, releaseSlug, title = "Controls", entrySlugs }: ControlsTableProps) {
   if (!controls || controls.length === 0) {
     return null;
   }
@@ -40,7 +41,7 @@ export function ControlsTable({ controls, releaseSlug, title = "Controls" }: Con
             {sortedControls.map((control) => (
               <TableRow key={control.id}>
                 <TableCell>
-                  <Link to={`${releaseSlug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                  <Link to={entrySlugs?.[control.id] ?? `${releaseSlug}/${control.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
                     {control.id}
                   </Link>
                 </TableCell>

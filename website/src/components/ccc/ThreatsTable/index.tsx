@@ -9,10 +9,11 @@ interface ThreatsTableProps {
   threats: Threat[];
   releaseSlug: string;
   title?: string;
-  controls?: Control[]; // Optional controls array to count control mappings
+  controls?: Control[];
+  entrySlugs?: Record<string, string>;
 }
 
-export function ThreatsTable({ threats, releaseSlug, title = "Threats", controls }: ThreatsTableProps) {
+export function ThreatsTable({ threats, releaseSlug, title = "Threats", controls, entrySlugs }: ThreatsTableProps) {
   if (!threats || threats.length === 0) {
     return null;
   }
@@ -40,7 +41,7 @@ export function ThreatsTable({ threats, releaseSlug, title = "Threats", controls
             {sortedThreats.map((threat) => (
               <TableRow key={threat.id}>
                 <TableCell>
-                  <Link to={`${releaseSlug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+                  <Link to={entrySlugs?.[threat.id] ?? `${releaseSlug}/${threat.id}`} className="text-blue-600 hover:text-blue-800 hover:underline">
                     {threat.id}
                   </Link>
                 </TableCell>
@@ -53,7 +54,7 @@ export function ThreatsTable({ threats, releaseSlug, title = "Threats", controls
                   <MappingCountBadge count={threat.capabilities?.length || 0} />
                 </TableCell>
                 <TableCell>
-                  <MappingCountBadge count={controls ? controls.filter((control) => control.threat_mappings?.find((mapping) => mapping["reference-id"] === "CCC")?.entries?.some((entry) => entry["reference-id"] === threat.id)).length : 0} />
+                  <MappingCountBadge count={controls ? controls.filter((control) => control.threat_mappings?.some((mapping) => mapping.entries?.some((entry) => entry["reference-id"] === threat.id))).length : 0} />
                 </TableCell>
               </TableRow>
             ))}

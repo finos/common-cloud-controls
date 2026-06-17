@@ -1,6 +1,6 @@
 import React from "react";
-import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { ConfigurationPageData } from "@site/src/types/cfi";
@@ -9,6 +9,8 @@ import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
 export default function CFIConfiguration({ pageData }: { pageData: ConfigurationPageData }): React.ReactElement {
   const { configuration, configurationResultSummaries } = pageData;
   const { cfi_details, source_details, results_relative_path } = configuration;
+  const repoDestination = results_relative_path.split("/")[0];
+  const repoHref = `/cfi/${repoDestination}`;
 
   const complianceRepoUrl = source_details?.repository_url;
   const terraformUrl =
@@ -17,10 +19,13 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
   return (
     <Layout title={`CFI - ${cfi_details.name}`} description={cfi_details.description}>
       <main className="container margin-vert--lg space-y-6">
-        {/* Breadcrumbs */}
         <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
           <Link to="/cfi" className="hover:text-foreground">
             CFI
+          </Link>
+          <span>/</span>
+          <Link to={repoHref} className="hover:text-foreground">
+            {source_details?.repository_description ?? repoDestination}
           </Link>
           <span>/</span>
           <span className="text-foreground">{cfi_details.id}</span>

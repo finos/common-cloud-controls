@@ -187,7 +187,7 @@ func compileCapabilities(path, service, version, coreVersion string, groupDefs m
 		return nil, fmt.Errorf("reading %s: %w", path, err)
 	}
 	var src struct {
-		Imported     []gemara.MultiEntryMapping `yaml:"imported-capabilities"`
+		Imported     []gemara.MultiEntryMapping `yaml:"imports"`
 		Capabilities []gemara.Capability        `yaml:"capabilities"`
 	}
 	if err := yaml.Unmarshal(data, &src); err != nil {
@@ -222,7 +222,7 @@ func compileThreats(path, service, version, coreVersion string, groupDefs map[st
 	// external-mappings in source is intentionally dropped — the published
 	// ThreatCatalog schema has no such field.
 	var src struct {
-		Imported []gemara.MultiEntryMapping `yaml:"imported-threats"`
+		Imported []gemara.MultiEntryMapping `yaml:"imports"`
 		Threats  []gemara.Threat            `yaml:"threats"`
 	}
 	if err := yaml.Unmarshal(data, &src); err != nil {
@@ -278,7 +278,7 @@ func compileControls(path, service, version, coreVersion string, groupDefs map[s
 		return nil, fmt.Errorf("reading %s: %w", path, err)
 	}
 	var src struct {
-		Imported []gemara.MultiEntryMapping `yaml:"imported-controls"`
+		Imported []gemara.MultiEntryMapping `yaml:"imports"`
 		Controls []sourceControl            `yaml:"controls"`
 	}
 	if err := yaml.Unmarshal(data, &src); err != nil {
