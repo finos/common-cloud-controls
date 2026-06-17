@@ -54,7 +54,7 @@ jobs:
             else
               test_config=""
             fi
-            item=$(jq -n \
+            item=$(jq -cn \
               --arg action_config "$f" \
               --arg id "$(yq -r '.cfi.id // ""' "$f")" \
               --arg name "$(yq -r '.cfi.name // ""' "$f")" \
@@ -63,21 +63,16 @@ jobs:
               --arg test_config "$test_config" \
               --arg privateer_service "$(yq -r '.cfi."privateer-service" // ""' "$f")" \
               --arg source_secrets "$(yq -r '.cfi."source-secrets" // ""' "$f")" \
-              '{
-                action_config: $action_config,
-                id: $id,
-                name: $name,
-                provider: $provider,
-                service: $service,
-                test_config: $test_config,
-                privateer_service: $privateer_service,
-                source_secrets: $source_secrets
-              }')
+              '{action_config: $action_config, id: $id, name: $name, provider: $provider, service: $service, test_config: $test_config, privateer_service: $privateer_service, source_secrets: $source_secrets}')
             items+=("$item")
             count=$((count + 1))
           done
-          matrix=$(jq -n --argjson target "$(printf '%s\n' "${items[@]}" | jq -s '.')" '{target: $target}')
-          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          matrix=$(jq -cn --argjson target "$(printf '%s\n' "${items[@]}" | jq -sc '.')" '{target: $target}')
+          {
+            echo 'matrix<<EOF'
+            echo "$matrix"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
           echo "Generated matrix with ${count} targets"
 
   build-artifacts:
