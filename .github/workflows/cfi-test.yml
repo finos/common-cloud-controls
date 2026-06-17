@@ -50,7 +50,7 @@ jobs:
             dir=$(dirname "$f")
             test_config_rel=$(yq -r '.cfi."test-configuration" // ""' "$f")
             if [ -n "$test_config_rel" ]; then
-              test_config=$(realpath -m "$dir/$test_config_rel")
+              test_config=$(realpath -m --relative-to=. "$dir/$test_config_rel")
             else
               test_config=""
             fi
