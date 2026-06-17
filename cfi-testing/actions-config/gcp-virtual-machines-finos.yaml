@@ -3,7 +3,7 @@ cfi:
   artifact-name: finos-integration-gcp-virtual-machines
   provider: gcp
   source-secrets: GCP_ENV
-  service: compute
+  service: virtual-machines
   name: CCC GCP Virtual Machines Fixture
   description: >-
     Runs behavioural checks for CCC.VM against the GCP virtual machines fixture.

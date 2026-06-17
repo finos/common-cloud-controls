@@ -3,7 +3,7 @@ cfi:
   artifact-name: azure-avm-virtual-machines
   provider: azure
   source-secrets: AZURE_AVM_ENV
-  service: compute
+  service: virtual-machines
   name: CCC Azure AVM Virtual Machine Terraform Module
   description: >-
     Control-informed AVM virtual machine deployment from ccc-cfi-compliance

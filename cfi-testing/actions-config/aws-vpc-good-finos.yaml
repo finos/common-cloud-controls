@@ -3,7 +3,7 @@ cfi:
   artifact-name: finos-integration-aws-vpc-good
   provider: aws
   source-secrets: AWS_ENV
-  service: networking
+  service: vpc
   name: CCC AWS VPC Good Fixture
   description: >-
     Runs behavioural checks against the compliant AWS VPC fixture.

@@ -3,7 +3,7 @@ cfi:
   artifact-name: azure-avm-serverless-computing
   provider: azure
   source-secrets: AZURE_AVM_ENV
-  service: serverless
+  service: serverless-computing
   name: CCC Azure AVM Serverless Function Terraform Module
   description: >-
     Control-informed AVM Flex Consumption function app deployment from

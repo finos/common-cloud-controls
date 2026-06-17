@@ -3,7 +3,7 @@ cfi:
   artifact-name: azure-avm-storage-account
   provider: azure
   source-secrets: AZURE_AVM_ENV
-  service: storage
+  service: object-storage
   name: CCC Azure AVM Storage Account Terraform Module
   description: >-
     Control-informed AVM storage account deployment from ccc-cfi-compliance
