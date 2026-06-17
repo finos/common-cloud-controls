@@ -103,8 +103,8 @@ const config: Config = {
           to: "/about",
         },
         {
-          label: "CCC Catalogs",
-          to: "/catalogs/core",
+          label: "Catalogs",
+          to: "/catalogs",
         },
         {
           label: "Threats",
@@ -117,10 +117,6 @@ const config: Config = {
         {
           label: "Capabilities",
           to: "/capabilities",
-        },
-        {
-          label: "Metadata",
-          to: "/metadata",
         },
         {
           label: "Test Results",

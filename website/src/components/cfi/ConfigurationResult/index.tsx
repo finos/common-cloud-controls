@@ -551,10 +551,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                   <tbody>
                     {catalogSummary.map((summary, index) => (
                       <tr key={index}>
-                        <td>
-                          <Link to={summary.catalogUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
-                            {summary.catalogId}
-                          </Link>
+                        <td className="font-medium">
+                          {summary.catalogId}
                         </td>
                         <td className="font-mono text-sm">
                           <div className="flex flex-wrap gap-1">
@@ -660,10 +658,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                   <tbody>
                     {testMappingSummary.map((mapping, index) => (
                       <tr key={index}>
-                        <td>
-                          <Link to={getCatalogComponentUrl(mapping.controlCatalog)} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
-                            {mapping.controlCatalog}
-                          </Link>
+                        <td className="font-medium">
+                          {mapping.controlCatalog}
                         </td>
                         <td>
                           {(() => {
