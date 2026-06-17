@@ -10,7 +10,7 @@ const pages = [
   'gemara', 
   'grc-store', 
   'github-releases',
-  'calmsuite'
+  'calmsuite',
 ];
 export default function pluginEcosystemsPages(context: LoadContext): Plugin<void> {
   return {

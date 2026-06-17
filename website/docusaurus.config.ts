@@ -78,8 +78,7 @@ const config: Config = {
             { to: '/ecosystems/gemara', label: 'Gemara' },
             { to: '/ecosystems/grc-store', label: 'GRC.Store' },
             { to: '/ecosystems/github-releases', label: 'GitHub releases' },
-            { to: '/ecosystems/CALMSuite', label: 'CALMSuite' },
-
+            { to: '/ecosystems/calmsuite', label: 'CALMSuite' },
           ],
         },
         {
