@@ -65,6 +65,9 @@ const format = (part: string): string => {
   if (part === "ccc") {
     return "Common Cloud Controls";
   }
+  if (part === "cfi") {
+    return "CFI";
+  }
 
   return part;
 };

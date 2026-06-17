@@ -1,0 +1,14 @@
+cfi:
+  id: aws-vpc-bad
+  artifact-name: finos-integration-aws-vpc-bad
+  provider: aws
+  service: networking
+  name: CCC AWS VPC Bad Fixture
+  description: >-
+    Runs behavioural checks against the intentionally non-compliant AWS VPC fixture.
+  path: https://github.com/finos/common-cloud-controls/tree/main/modules/integration-terraform/aws
+  test-on-branches:
+    - main
+  git: https://github.com/finos/common-cloud-controls
+  test-configuration: ../privateer-config/finos-integration/vpc/aws-vpc-bad.yml
+  privateer-service: awsVpcBad

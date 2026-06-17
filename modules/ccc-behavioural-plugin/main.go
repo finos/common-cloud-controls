@@ -1,0 +1,50 @@
+package main
+
+import (
+	"embed"
+	"fmt"
+	"os"
+
+	"github.com/privateerproj/privateer-sdk/command"
+	"github.com/privateerproj/privateer-sdk/pluginkit"
+)
+
+var (
+	Version        = "0.0.0"
+	VersionPostfix = "dev"
+	GitCommitHash  = ""
+	BuiltAt        = ""
+
+	// RequiredVars must be present in services.*.vars (see Privateer config.NewConfig).
+	RequiredVars = []string{"provider", "service"}
+)
+
+//go:embed catalogs
+var embeddedCatalogs embed.FS
+
+func main() {
+	if VersionPostfix != "" {
+		Version = fmt.Sprintf("%s-%s", Version, VersionPostfix)
+	}
+
+	orchestrator := pluginkit.EvaluationOrchestrator{
+		PluginName:    pluginName,
+		PluginVersion: Version,
+		PluginUri:     "https://github.com/finos/common-cloud-controls",
+	}
+	orchestrator.AddRequiredVars(RequiredVars)
+
+	// Catalog YAML is synced into catalogs/ before build; metadata.id is patched at sync time
+	// (see runner.SyncPrivateerCatalogs) so catalogs register under policy.catalogs ids.
+	if err := orchestrator.AddReferenceCatalogs("catalogs", embeddedCatalogs); err != nil {
+		fmt.Fprintf(os.Stderr, "error loading catalog: %v\n", err)
+		os.Exit(1)
+	}
+
+	// Evaluation suite is registered after Godog runs (see ensureBehaviouralEvaluationSuite).
+	runCmd := command.NewPluginCommands(pluginName, Version, GitCommitHash, BuiltAt, &orchestrator)
+	wrapBehaviouralCommands(runCmd)
+	if err := runCmd.Execute(); err != nil {
+		os.Exit(1)
+	}
+}
