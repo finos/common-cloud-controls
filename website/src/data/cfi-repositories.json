@@ -23,7 +23,7 @@
         {
             "name": "common-cloud-controls-avm",
             "url": "https://github.com/finos/common-cloud-controls",
-            "description": "Experimental: Azure Verified Modules (AVM) CFI runs against ccc-cfi-compliance/remote/azure/avm. Harness and results are incomplete while this approach is evaluated.",
+            "description": "Experimental: Azure Verified Modules (AVM)",
             "destination": "common-cloud-controls-avm",
             "workflow": "cfi-test.yml",
             "branches": [
