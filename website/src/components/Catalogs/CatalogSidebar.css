@@ -12,6 +12,22 @@
   border-radius: 8px;
 }
 
+.catalog-sidebar-type-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #0086bf;
+  padding: 0.5rem 0.75rem 0.4rem;
+  border-bottom: 1px solid rgba(0, 134, 191, 0.2);
+  margin-bottom: 0.4rem;
+}
+
+html[data-theme="dark"] .catalog-sidebar-type-title {
+  color: #00b5e2;
+  border-bottom-color: rgba(0, 181, 226, 0.15);
+}
+
 .catalog-sidebar details {
   margin-bottom: 0.1rem;
 }

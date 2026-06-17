@@ -78,15 +78,15 @@ The CCC Steering Committee is the governing body of the CCC project, providing d
 
 Each organizational seat has a **Primary** (Cloud Lead) and **Alternate** (Cyber Security Lead) representative; the Alternate participates when the Primary is unavailable.
 
-| Representing   | Cloud Lead (Primary) | Cyber Security Lead (Alternate)         |
-|----------------|----------------------|-----------------------------------------|
-| Citi           | Alsaloom, Mohamed    | Michael Lysaght                         |
-| LSEG           | Dean Bryen           | Leroy Abhikui                           |
-| Morgan Stanley | Dave Reeve           | Nick Williams                           |
-| ScottLogic     | Stevie Shiells       | Sonali Mendis                           |
-| Red Hat        | Aric Rosenbaum       | Jenn Power                              |
-| RBC            | Ernani Cecon         | Maxime Coquerel                         |
-| BlackRock      | Eli Hamburger        | Praveen Nallasamy, Sankara Ramakrishnan |
+| Representing   | Cloud Lead (Primary) | Cyber Security Lead (Alternate) |
+|----------------|----------------------|---------------------------------|
+| Citi           | Alsaloom, Mohamed    | Michael Lysaght                 |
+| LSEG           | Dean Bryen           | Leroy Abhikui                   |
+| Morgan Stanley | Dave Reeve           | -                               |
+| ScottLogic     | Stevie Shiells       | Sonali Mendis                   |
+| Red Hat        | Aric Rosenbaum       | Jenn Power                      |
+| RBC            | Ernani Cecon         | Maxime Coquerel                 |
+| BlackRock      | -                    | Sankara Ramakrishnan            |
 
 @robmoffat is the current [FINOS Point of Contact](docs/governance/finos-poc.md) for the CCC project.
 

@@ -855,7 +855,7 @@ control-families:
 
 ### Build A PR
 
-![Screenshot 2025-06-20 at 17.32.17.png](:/ade179e0eb6340e68e0e9962f005c0ae)
+Open a pull request with the new catalog files and pass the repository checks (schema validation, linting, and link checks).
 
 ### Pass The Checks
 

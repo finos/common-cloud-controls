@@ -4,7 +4,21 @@
             "name": "ccc-cfi-compliance",
             "url": "https://github.com/finos-labs/ccc-cfi-compliance",
             "description": "CCC CFI Compliance from FINOS Labs",
-            "destination": "finos-labs-ccc-cfi-compliance"
+            "destination": "finos-labs-ccc-cfi-compliance",
+            "workflow": "cfi-test.yml",
+            "artifact-filter": "cfi-results-*"
+        },
+        {
+            "name": "common-cloud-controls-integration",
+            "url": "https://github.com/finos/common-cloud-controls",
+            "description": "FINOS Common Cloud Controls Integration Tests",
+            "destination": "finos-common-cloud-controls",
+            "workflow": "cfi-test.yml",
+            "branches": [
+                "monorepo-2-service-buildout-cla-fix",
+                "main"
+            ],
+            "artifact-filter": "finos-integration-*"
         }
     ]
 }

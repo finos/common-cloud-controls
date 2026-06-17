@@ -16,6 +16,9 @@ interface CFIRepository {
     url: string;
     description: string;
     destination: string;
+    workflow: string;
+    branches?: string[];
+    'artifact-filter': string;
 }
 
 interface CFIRepositories {
@@ -32,9 +35,120 @@ interface GitHubArtifact {
     updated_at: string;
 }
 
+const workflowIdCache = new Map<string, number>();
+
+function githubHeaders(): Record<string, string> {
+    return GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+}
+
+function workflowPathFromFile(workflowFile: string): string {
+    return `.github/workflows/${workflowFile}`;
+}
+
+/** Turn a simple glob (only `*` wildcards) into a anchored RegExp. */
+function artifactFilterToRegExp(artifactFilter: string): RegExp {
+    const escaped = artifactFilter.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+    return new RegExp(`^${escaped}$`);
+}
+
+function artifactMatchesFilter(artifactName: string, artifactFilter: string): boolean {
+    if (!artifactFilter.includes('*')) {
+        return artifactName.startsWith(artifactFilter);
+    }
+    return artifactFilterToRegExp(artifactFilter).test(artifactName);
+}
+
+/** Literal prefix before the first `*` (or the whole pattern when none). Used for extract dir names. */
+function artifactFilterPrefix(artifactFilter: string): string {
+    const starIndex = artifactFilter.indexOf('*');
+    return starIndex === -1 ? artifactFilter : artifactFilter.slice(0, starIndex);
+}
+
+/** Config id segment used in extract directory names (strip repository artifact-filter prefix). */
+function artifactBaseId(artifactName: string, artifactFilter: string): string {
+    const prefix = artifactFilterPrefix(artifactFilter);
+    if (artifactName.startsWith(prefix)) {
+        return artifactName.slice(prefix.length);
+    }
+    return artifactName;
+}
+
+/** Resolve numeric workflow id (required for reliable run filtering). */
+async function getWorkflowId(owner: string, repo: string, workflowFile: string): Promise<number | null> {
+    const cacheKey = `${owner}/${repo}/${workflowFile}`;
+    const cached = workflowIdCache.get(cacheKey);
+    if (cached !== undefined) {
+        return cached;
+    }
+
+    const workflowPath = workflowPathFromFile(workflowFile);
+
+    try {
+        const response = await axios.get<{ id: number; path: string }>(
+            `${GITHUB_API}/repos/${owner}/${repo}/actions/workflows/${workflowFile}`,
+            { headers: githubHeaders() }
+        );
+        if (response.data.path !== workflowPath) {
+            console.warn(
+                `⚠️  Unexpected workflow path for ${owner}/${repo}: ${response.data.path} (expected ${workflowPath})`
+            );
+        }
+        workflowIdCache.set(cacheKey, response.data.id);
+        return response.data.id;
+    } catch (error) {
+        console.warn(`⚠️  Could not resolve ${workflowFile} workflow id for ${owner}/${repo}: ${error}`);
+        return null;
+    }
+}
+
+async function resolveBranchNames(owner: string, repo: string, repository: CFIRepository): Promise<string[]> {
+    if (repository.branches && repository.branches.length > 0) {
+        return repository.branches;
+    }
+    return listAllBranchNames(owner, repo);
+}
+
+/** Latest completed workflow run on the branch that uploaded matching artifacts. */
+async function getLatestRunWithArtifactsForBranch(
+    owner: string,
+    repo: string,
+    branchName: string,
+    workflowId: number,
+    workflowPath: string,
+    artifactFilter: string
+): Promise<GitHubWorkflowRun | null> {
+    const branchQuery = `&branch=${encodeURIComponent(branchName)}`;
+
+    try {
+        const response = await axios.get<GitHubWorkflowRuns>(
+            `${GITHUB_API}/repos/${owner}/${repo}/actions/runs?workflow_id=${workflowId}&status=completed&per_page=30${branchQuery}`,
+            { headers: githubHeaders() }
+        );
+
+        for (const candidate of response.data.workflow_runs) {
+            if (candidate.path !== workflowPath) {
+                continue;
+            }
+            if (candidate.conclusion === 'cancelled') {
+                continue;
+            }
+
+            const artifacts = await getArtifacts(owner, repo, candidate.id);
+            if (artifacts.some((artifact) => artifactMatchesFilter(artifact.name, artifactFilter))) {
+                return candidate;
+            }
+        }
+        return null;
+    } catch (error) {
+        console.warn(`⚠️  Could not fetch workflow runs for ${owner}/${repo} branch ${branchName}: ${error}`);
+        return null;
+    }
+}
+
 interface GitHubWorkflowRun {
     id: number;
     name: string;
+    path: string;
     status: string;
     conclusion: string;
     created_at: string;
@@ -69,7 +183,7 @@ function branchNameToDirSuffix(branchName: string): string {
 }
 
 async function listAllBranchNames(owner: string, repo: string): Promise<string[]> {
-    const headers = GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+    const headers = githubHeaders();
     const names: string[] = [];
     let page = 1;
 
@@ -95,33 +209,8 @@ async function listAllBranchNames(owner: string, repo: string): Promise<string[]
     }
 }
 
-/** Latest *successful* workflow run for cfi-test.yml on the given branch (per_page=1, newest first among successes). */
-async function getLatestWorkflowRunForBranch(
-    owner: string,
-    repo: string,
-    branchName: string
-): Promise<GitHubWorkflowRun | null> {
-    const headers = GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
-    const branchQuery = `&branch=${encodeURIComponent(branchName)}`;
-
-    try {
-        const response = await axios.get<GitHubWorkflowRuns>(
-            `${GITHUB_API}/repos/${owner}/${repo}/actions/runs?workflow_id=cfi-test.yml&status=success&per_page=1${branchQuery}`,
-            { headers }
-        );
-
-        if (response.data.workflow_runs.length > 0) {
-            return response.data.workflow_runs[0];
-        }
-        return null;
-    } catch (error) {
-        console.warn(`⚠️  Could not fetch workflow runs for ${owner}/${repo} branch ${branchName}: ${error}`);
-        return null;
-    }
-}
-
 async function getArtifacts(owner: string, repo: string, runId: number): Promise<GitHubArtifact[]> {
-    const headers = GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+    const headers = githubHeaders();
 
     try {
         const response = await axios.get<{ artifacts: GitHubArtifact[] }>(
@@ -136,7 +225,7 @@ async function getArtifacts(owner: string, repo: string, runId: number): Promise
 }
 
 async function downloadArtifact(owner: string, repo: string, artifact: GitHubArtifact, outputPath: string): Promise<void> {
-    const headers = GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+    const headers = githubHeaders();
 
     try {
         console.log(`⬇️  Downloading ${artifact.name} from ${owner}/${repo}...`);
@@ -214,13 +303,13 @@ async function unzipArtifact(
     try {
         console.log(`📦 Unzipping ${artifactName} (${branchDirSuffix})...`);
 
-        const cleanName = artifactName.replace(/^cfi-results-/, '');
+        const cleanName = artifactBaseId(artifactName, repositoryInfo['artifact-filter']);
         const repoDir = path.join(OUTPUT_DIR, 'test-results', repositoryInfo.destination);
         const extractDir = path.join(repoDir, `${cleanName}-${branchDirSuffix}`);
 
         fs.mkdirSync(path.join(OUTPUT_DIR, 'test-results'), { recursive: true });
         fs.mkdirSync(repoDir, { recursive: true });
-
+ 
         try {
             await execAsync(`unzip -o "${zipPath}" -d "${extractDir}"`);
             console.log(`📦 Extraction completed for ${cleanName}-${branchDirSuffix}`);
@@ -318,12 +407,24 @@ async function downloadCFIArtifacts(): Promise<void> {
             const { owner, repo: repoName } = await getRepositoryOwnerAndName(repo.url);
             console.log(`📍 Repository: ${owner}/${repoName}`);
 
-            const branchNames = await listAllBranchNames(owner, repoName);
-            if (branchNames.length === 0) {
-                console.log(`⚠️  No branches found for ${repo.name}`);
+            const workflowPath = workflowPathFromFile(repo.workflow);
+            const artifactFilter = repo['artifact-filter'];
+
+            const workflowId = await getWorkflowId(owner, repoName, repo.workflow);
+            if (workflowId === null) {
+                console.log(`⚠️  Skipping ${repo.name}: ${repo.workflow} workflow not found`);
                 continue;
             }
-            console.log(`🌿 ${branchNames.length} branch(es) to check for cfi-test.yml runs`);
+            console.log(`🔧 Workflow ${repo.workflow} id: ${workflowId}`);
+
+            const branchNames = await resolveBranchNames(owner, repoName, repo);
+            if (branchNames.length === 0) {
+                console.log(`⚠️  No branches to check for ${repo.name}`);
+                continue;
+            }
+            console.log(
+                `🌿 ${branchNames.length} branch(es) to check (${repo.branches?.length ? 'configured allow-list' : 'all remote branches'})`
+            );
 
             const repoOutputDir = path.join(OUTPUT_DIR, 'cfi-configurations', repo.name);
             fs.mkdirSync(repoOutputDir, { recursive: true });
@@ -334,17 +435,17 @@ async function downloadCFIArtifacts(): Promise<void> {
                 branchLabel: string
             ): Promise<void> {
                 const artifacts = await getArtifacts(owner, repoName, run.id);
-                const resultArtifacts = artifacts.filter((a) => a.name.startsWith('cfi-results-'));
+                const resultArtifacts = artifacts.filter((a) => artifactMatchesFilter(a.name, artifactFilter));
 
                 if (resultArtifacts.length === 0) {
                     console.log(
-                        `⚠️  No cfi-results-* artifacts for ${repo.name} (branch ${branchLabel}, run ${run.id})`
+                        `⚠️  No artifacts matching ${artifactFilter} for ${repo.name} (branch ${branchLabel}, run ${run.id}: ${run.name})`
                     );
                     return;
                 }
 
                 console.log(
-                    `📦 Found ${resultArtifacts.length} result artifacts (branch ${branchLabel}, run ${run.id})`
+                    `📦 Found ${resultArtifacts.length} matching artifacts (branch ${branchLabel}, run ${run.id})`
                 );
 
                 for (const artifact of resultArtifacts) {
@@ -357,13 +458,23 @@ async function downloadCFIArtifacts(): Promise<void> {
 
             for (const branchName of branchNames) {
                 const branchDirSuffix = branchNameToDirSuffix(branchName);
-                const run = await getLatestWorkflowRunForBranch(owner, repoName, branchName);
+                const run = await getLatestRunWithArtifactsForBranch(
+                    owner,
+                    repoName,
+                    branchName,
+                    workflowId,
+                    workflowPath,
+                    artifactFilter
+                );
                 if (!run) {
-                    console.log(`⏭️  No cfi-test.yml run for branch ${branchName}, skipping`);
+                    console.log(
+                        `⏭️  No completed ${repo.workflow} run with ${artifactFilter} artifacts for branch ${branchName}, skipping`
+                    );
                     continue;
                 }
+                const partialNote = run.conclusion !== 'success' ? ' (partial matrix; workflow did not fully pass)' : '';
                 console.log(
-                    `📋 Branch ${branchName}: latest run ${run.id} (${run.status}/${run.conclusion ?? 'n/a'})`
+                    `📋 Branch ${branchName}: using CFI run ${run.id} (${run.status}/${run.conclusion ?? 'n/a'})${partialNote}`
                 );
                 await processRunArtifacts(run, branchDirSuffix, branchName);
             }
