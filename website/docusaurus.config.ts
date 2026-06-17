@@ -61,11 +61,10 @@ const config: Config = {
       },
       items: [
         { to: '/about', label: 'About', position: 'left' },
-        { to: '/catalogs/core', label: 'CCC Catalogs', position: 'left' },
+        { to: '/catalogs', label: 'Catalogs', position: 'left' },
         { to: '/threats', label: 'Threats', position: 'left' },
         { to: '/controls', label: 'Controls', position: 'left' },
         { to: '/capabilities', label: 'Capabilities', position: 'left' },
-        { to: '/metadata', label: 'Metadata', position: 'left' },
         { to: '/cfi', label: 'Test Results', position: 'left' },
         {
           href: 'https://github.com/finos/common-cloud-controls',

@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import Link from "@docusaurus/Link";
 import { HomePageData } from "@site/src/types/cfi";
 import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
@@ -31,22 +30,22 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
             <p className="text-sm text-muted-foreground">Available CFI configurations across different cloud providers and services</p>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>ID</TableHead>
-                    <TableHead>Provider</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Branch</TableHead>
-                    <TableHead>Results set</TableHead>
-                    <TableHead>Source (from results)</TableHead>
-                    <TableHead>CI artifact</TableHead>
-                    <TableHead>Fetched</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+            <div className="library-article-body">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Provider</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Branch</th>
+                    <th>Results set</th>
+                    <th>Source (from results)</th>
+                    <th>CI artifact</th>
+                    <th>Fetched</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {sortedConfigurations.map((config) => {
                     const s = config.source_details;
                     const resultsRel = config.results_relative_path || "—";
@@ -56,26 +55,26 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                     const externalGitUrl = s?.repository_url ?? config.cfi_details.git;
 
                     return (
-                      <TableRow key={config.results_relative_path}>
-                        <TableCell className="font-medium">
+                      <tr key={config.results_relative_path}>
+                        <td className="font-medium">
                           <Link to={configPagePath} className="text-blue-600 hover:text-blue-800 hover:underline">
                             {config.cfi_details.id}
                           </Link>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 uppercase">{config.cfi_details.provider}</span>
-                        </TableCell>
-                        <TableCell className="font-medium">{config.cfi_details.name}</TableCell>
-                        <TableCell className="max-w-md">
+                        </td>
+                        <td className="font-medium">{config.cfi_details.name}</td>
+                        <td className="max-w-md">
                           <div className="truncate" title={config.cfi_details.description}>
                             {config.cfi_details.description}
                           </div>
-                        </TableCell>
-                        <TableCell className="text-sm">{s?.branch ?? "—"}</TableCell>
-                        <TableCell>
+                        </td>
+                        <td className="text-sm">{s?.branch ?? "—"}</td>
+                        <td>
                           <code className="text-xs text-muted-foreground block">{resultsRel}</code>
-                        </TableCell>
-                        <TableCell className="max-w-xs">
+                        </td>
+                        <td className="max-w-xs">
                           <div className="text-sm line-clamp-2 text-muted-foreground" title={sourceRepoDescription || undefined}>
                             {sourceRepoDescription || "—"}
                           </div>
@@ -87,26 +86,26 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                               {(sourceRepoUrl || externalGitUrl).replace(/^https?:\/\/github\.com\//, "").replace(/\/$/, "")}
                             </a>
                           )}
-                        </TableCell>
-                        <TableCell className="text-sm whitespace-nowrap">
+                        </td>
+                        <td className="text-sm whitespace-nowrap">
                           {s?.artifact_created_at ? (
                             <time dateTime={s.artifact_created_at}>{formatGeneratedAt(s.artifact_created_at)}</time>
                           ) : (
                             "—"
                           )}
-                        </TableCell>
-                        <TableCell className="text-sm whitespace-nowrap">
+                        </td>
+                        <td className="text-sm whitespace-nowrap">
                           {s?.downloaded_at ? (
                             <time dateTime={s.downloaded_at}>{formatGeneratedAt(s.downloaded_at)}</time>
                           ) : (
                             "—"
                           )}
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     );
                   })}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table>
             </div>
 
             {sortedConfigurations.length === 0 && <div className="text-center py-8 text-gray-500">No CFI configurations found. Please check that configuration files exist in the test-results directory.</div>}

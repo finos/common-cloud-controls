@@ -2,7 +2,6 @@ import React from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { ConfigurationResultPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail, DownloadLink, RequirementLink } from "@site/src/types/cfi";
 import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
 
@@ -378,28 +377,28 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
             <p className="text-sm text-muted-foreground">Test results for this specific product, vendor, and version combination</p>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium w-32">Vendor</TableCell>
-                  <TableCell>
+            <div className="library-article-body"><table>
+              <tbody>
+                <tr>
+                  <td className="font-medium w-32">Vendor</td>
+                  <td>
                     <span className="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800">{configurationResult.vendor}</span>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium">Product</TableCell>
-                  <TableCell>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Product</td>
+                  <td>
                     <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">{configurationResult.product}</span>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium">Version</TableCell>
-                  <TableCell>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Version</td>
+                  <td>
                     <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">{configurationResult.version}</span>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+                  </td>
+                </tr>
+              </tbody>
+            </table></div>
           </CardContent>
         </Card>
 
@@ -411,18 +410,18 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
               <p className="text-sm text-muted-foreground">Download the original OCSF or HTML result files used to generate this page</p>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>File Name</TableHead>
-                    <TableHead>Download</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+              <div className="library-article-body"><table>
+                <thead>
+                  <tr>
+                    <th>File Name</th>
+                    <th>Download</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {Object.entries(groupedDownloadLinks).map(([baseName, links], index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-mono text-sm">{baseName}</TableCell>
-                      <TableCell>
+                    <tr key={index}>
+                      <td className="font-mono text-sm">{baseName}</td>
+                      <td>
                         <div className="flex gap-2">
                           {links.map((link, linkIndex) => (
                             <a
@@ -436,11 +435,11 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                             </a>
                           ))}
                         </div>
-                      </TableCell>
-                    </TableRow>
+                      </td>
+                    </tr>
                   ))}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table></div>
             </CardContent>
           </Card>
         )}
@@ -453,35 +452,35 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {testSummary ? (
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium w-48">Resources In Configuration</TableCell>
-                    <TableCell>
+              <div className="library-article-body"><table>
+                <tbody>
+                  <tr>
+                    <td className="font-medium w-48">Resources In Configuration</td>
+                    <td>
                       <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-medium">{testSummary.resourcesInConfiguration}</span>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Count of Tests</TableCell>
-                    <TableCell>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="font-medium">Count of Tests</td>
+                    <td>
                       <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{testSummary.countOfTests}</span>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Passing Tests</TableCell>
-                    <TableCell>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="font-medium">Passing Tests</td>
+                    <td>
                       <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{testSummary.passingTests}</span>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Failing Tests</TableCell>
-                    <TableCell>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="font-medium">Failing Tests</td>
+                    <td>
                       <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{testSummary.failingTests}</span>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Catalogs Tested</TableCell>
-                    <TableCell>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="font-medium">Catalogs Tested</td>
+                    <td>
                       <div className="flex flex-wrap gap-1">
                         {testSummary.catalogsTested.length > 0 ? (
                           testSummary.catalogsTested.map((catalog, catalogIndex) => (
@@ -493,10 +492,10 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
                         )}
                       </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test summary data available.</div>
             )}
@@ -511,29 +510,28 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {catalogSummary && catalogSummary.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Control Catalog</TableHead>
-                      <TableHead>Resources</TableHead>
-                      <TableHead>Total Tests</TableHead>
-                      <TableHead>Passing</TableHead>
-                      <TableHead>Failing</TableHead>
-                      <TableHead>Tested Requirements</TableHead>
-                      <TableHead>Missing Requirements</TableHead>
-                      <TableHead>Unused Core Requirements</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="library-article-body"><table>
+                  <thead>
+                    <tr>
+                      <th>Control Catalog</th>
+                      <th>Resources</th>
+                      <th>Total Tests</th>
+                      <th>Passing</th>
+                      <th>Failing</th>
+                      <th>Tested Requirements</th>
+                      <th>Missing Requirements</th>
+                      <th>Unused Core Requirements</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {catalogSummary.map((summary, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
+                      <tr key={index}>
+                        <td>
                           <Link to={summary.catalogUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
                             {summary.catalogId}
                           </Link>
-                        </TableCell>
-                        <TableCell className="font-mono text-sm">
+                        </td>
+                        <td className="font-mono text-sm">
                           <div className="flex flex-wrap gap-1">
                             {summary.resources.map((resource, resourceIndex) => (
                               <span key={resourceIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800" title={resource}>
@@ -541,17 +539,17 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               </span>
                             ))}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {summary.testedRequirements.length > 0 ? (
                               summary.testedRequirements.map((tested, testedIndex) =>
@@ -569,8 +567,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">None tested</span>
                             )}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {summary.missingRequirements.length > 0 ? (
                               summary.missingRequirements.map((missing, missingIndex) =>
@@ -588,8 +586,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">All covered</span>
                             )}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {summary.unusedRequirements.length > 0 ? (
                               summary.unusedRequirements.map((unused, unusedIndex) =>
@@ -607,12 +605,11 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">None</span>
                             )}
                           </div>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  </tbody>
+                </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No control catalog data available for summarization.</div>
             )}
@@ -627,24 +624,23 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {testMappingSummary && testMappingSummary.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Control Catalog</TableHead>
-                      <TableHead>Test Requirement</TableHead>
-                      <TableHead>Mapped Tests (Event Code | Total | Passing | Failing)</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="library-article-body"><table>
+                  <thead>
+                    <tr>
+                      <th>Control Catalog</th>
+                      <th>Test Requirement</th>
+                      <th>Mapped Tests (Event Code | Total | Passing | Failing)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {testMappingSummary.map((mapping, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
+                      <tr key={index}>
+                        <td>
                           <Link to={getCatalogComponentUrl(mapping.controlCatalog)} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
                             {mapping.controlCatalog}
                           </Link>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           {(() => {
                             const requirementData = findAssessmentRequirements(releases, [mapping.testRequirementId])[0];
                             if (requirementData) {
@@ -667,8 +663,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               );
                             }
                           })()}
-                        </TableCell>
-                        <TableCell className="w-full">
+                        </td>
+                        <td className="w-full">
                           <div className="p-2 rounded">
                             <div className="w-full">
                               {mapping.mappedTests.map((test, testIndex) => (
@@ -685,12 +681,11 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               ))}
                             </div>
                           </div>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  </tbody>
+                </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test mapping data available.</div>
             )}
@@ -705,30 +700,29 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {resourceSummary && resourceSummary.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Resource Name</TableHead>
-                      <TableHead>Resource Type</TableHead>
-                      <TableHead>Control Catalogs</TableHead>
-                      <TableHead>Total Tests</TableHead>
-                      <TableHead>Passing</TableHead>
-                      <TableHead>Failing</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="library-article-body"><table>
+                  <thead>
+                    <tr>
+                      <th>Resource Name</th>
+                      <th>Resource Type</th>
+                      <th>Control Catalogs</th>
+                      <th>Total Tests</th>
+                      <th>Passing</th>
+                      <th>Failing</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {resourceSummary.map((summary, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-mono text-sm">
+                      <tr key={index}>
+                        <td className="font-mono text-sm">
                           <div className="truncate max-w-xs" title={summary.resourceName}>
                             {summary.resourceName}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{summary.resourceType}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {summary.catalogs.length > 0 ? (
                               summary.catalogs.map((catalog, catalogIndex) => (
@@ -740,21 +734,20 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
                             )}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  </tbody>
+                </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No resource data available.</div>
             )}
@@ -769,40 +762,39 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {testResultsWithCCC && testResultsWithCCC.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Finding</TableHead>
-                      <TableHead>Resource Name</TableHead>
-                      <TableHead>Resource Type</TableHead>
-                      <TableHead>Message</TableHead>
-                      <TableHead>Test Requirements</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="library-article-body"><table>
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Finding</th>
+                      <th>Resource Name</th>
+                      <th>Resource Type</th>
+                      <th>Message</th>
+                      <th>Test Requirements</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {testResultsWithCCC.map((result) => (
-                      <TableRow key={result.id}>
-                        <TableCell>
+                      <tr key={result.id}>
+                        <td>
                           <span className={`px-2 py-1 text-xs rounded-full font-medium ${result.status_code === "PASS" ? "bg-green-100 text-green-800" : result.status_code === "FAIL" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}>{result.status_code}</span>
-                        </TableCell>
-                        <TableCell className="max-w-md">
+                        </td>
+                        <td className="max-w-md">
                           <div className="font-medium text-sm whitespace-normal break-words">{result.finding_title || result.name}</div>
                           {result.status_detail && <div className="text-xs text-gray-600 mt-1 whitespace-normal break-words">{result.status_detail}</div>}
-                        </TableCell>
-                        <TableCell className="font-mono text-sm">
+                        </td>
+                        <td className="font-mono text-sm">
                           <div className="truncate max-w-xs" title={result.resource_name}>
                             {result.resource_name}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{result.resource_type}</span>
-                        </TableCell>
-                        <TableCell className="max-w-md">
+                        </td>
+                        <td className="max-w-md">
                           <div className="text-sm whitespace-normal break-words">{result.message}</div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {result.test_requirements?.map((requirementId, index) => {
                               const requirementData = findAssessmentRequirements(releases, [requirementId])[0];
@@ -824,12 +816,11 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               }
                             })}
                           </div>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  </tbody>
+                </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test results found with CCC compliance mappings.</div>
             )}

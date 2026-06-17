@@ -73,26 +73,6 @@ export default function AdvanceAutomatedGovernance() {
             Furthermore, the practical needs of projects like CCC actually helped form the genesis of the Gemara model itself. Because real-world automated governance requires separating high-level concepts from specific implementations, Gemara provides the machine-optimized document schemas that allow CCC's layered artifacts to interoperate flawlessly throughout your secure software factory.
           </p>
         </div>
-        <div>
-          <h3 className={styles.catalogsTitle}>Three Catalogs, One Complete Picture</h3>
-        </div>
-        <div className={styles.catalogsLayout}>
-          <div className={styles.catalogsText}>
-            <p className={styles.prose}>
-              Each cloud service is covered by three interlocking catalog types — Capabilities, Threats, and Controls — because real-world governance requires all three layers to be explicit and independently reusable.
-            </p>
-            <p className={styles.prose}>
-              Keeping them separate means your team can import only what is relevant, compose new service catalogs from existing building blocks, and map controls directly to the threats they mitigate — without carrying the weight of definitions you don't need.
-            </p>
-          </div>
-          <div className={styles.catalogsImageWrapper}>
-            <img
-              src="/img/diagrams/catalogs-diagram.svg"
-              alt="CCC catalog structure diagram"
-              className={styles.catalogsImage}
-            />
-          </div>
-        </div>
       </HomeSection>
     </div>
   );
