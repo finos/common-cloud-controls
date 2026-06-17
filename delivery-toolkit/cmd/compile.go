@@ -284,8 +284,8 @@ func compileControls(path, service, version, coreVersion string, groupDefs map[s
 	if err := yaml.Unmarshal(data, &src); err != nil {
 		return nil, fmt.Errorf("parsing %s: %w", path, err)
 	}
-	if len(src.Controls) == 0 {
-		return nil, fmt.Errorf("%s: no native controls to compile", path)
+	if len(src.Controls) == 0 && len(src.Imported) == 0 {
+		return nil, fmt.Errorf("%s: no controls to compile", path)
 	}
 
 	controls := make([]gemara.Control, len(src.Controls))
