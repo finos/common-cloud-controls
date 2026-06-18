@@ -58,11 +58,20 @@ const config: Config = {
       },
       items: [
         { to: "/about", label: "About", position: "left" },
-        { to: "/catalogs", label: "Catalogs", position: "left" },
-        { to: "/threats", label: "Threats", position: "left" },
-        { to: "/controls", label: "Controls", position: "left" },
-        { to: "/capabilities", label: "Capabilities", position: "left" },
+        {
+          label: "Catalogs",
+          to: "/catalogs/core",
+          position: "left",
+          type: "dropdown",
+          items: [
+            { to: "/threats", label: "Threats" },
+            { to: "/controls", label: "Controls" },
+            { to: "/capabilities", label: "Capabilities" },
+          ],
+        },
+        { to: "/metadata", label: "Metadata", position: "left" },
         { to: "/cfi", label: "Test Results", position: "left" },
+        { to: "/contributors", label: "Contributors", position: "left" },
         {
           label: 'Ecosystems',
           to: '/ecosystems',
@@ -118,18 +127,6 @@ const config: Config = {
         {
           label: "Catalogs",
           to: "/catalogs",
-        },
-        {
-          label: "Threats",
-          to: "/threats",
-        },
-        {
-          label: "Controls",
-          to: "/controls",
-        },
-        {
-          label: "Capabilities",
-          to: "/capabilities",
         },
         {
           label: "Test Results",
