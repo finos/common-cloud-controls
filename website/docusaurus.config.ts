@@ -72,6 +72,7 @@ const config: Config = {
         },
         { to: "/metadata", label: "Metadata", position: "left" },
         { to: "/cfi", label: "Test Results", position: "left" },
+        { to: "/contributors", label: "Contributors", position: "left" },
         {
           label: 'Ecosystems',
           to: '/ecosystems',
