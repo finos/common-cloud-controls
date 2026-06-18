@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import Layout from '@theme/Layout';
 import EcosystemLogo from './EcosystemLogo';
+import EcosystemScreenshot from './EcosystemScreenshot';
+import EcosystemVideo from './EcosystemVideo';
 import styles from './styles.module.css';
 
 type EcosystemPageProps = {
@@ -18,6 +20,8 @@ export default function EcosystemPage({ slug, title, children }: EcosystemPagePr
             <EcosystemLogo slug={slug} className={styles.pageLogo} />
           </div>
         </header>
+        <EcosystemVideo slug={slug} />
+        <EcosystemScreenshot slug={slug} />
         {children}
       </div>
     </Layout>

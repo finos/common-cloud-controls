@@ -2,8 +2,8 @@ import type { LoadContext, Plugin } from "@docusaurus/types";
 
 
 const pages = [
-  { slug: 'prowler', ext: 'tsx' },
-  { slug: 'privateer', ext: 'tsx' },
+  { slug: 'prowler', ext: 'mdx' },
+  { slug: 'privateer', ext: 'mdx' },
   { slug: 'azure-policy', ext: 'mdx' },
   { slug: 'azure-verified-modules', ext: 'mdx' },
   { slug: 'aws-lightning-lane', ext: 'mdx' },

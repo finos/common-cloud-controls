@@ -4,4 +4,23 @@ import EcosystemPage from '../EcosystemPage';
 
 # Azure Policy
 
+[Azure Policy](https://learn.microsoft.com/en-us/azure/governance/policy/overview) is Azure's governance service for enforcing organizational standards and assessing compliance at scale. It evaluates resources by comparing their properties against business rules defined in JSON — known as **policy definitions** — and reports whether each resource is compliant.
+
+Policy definitions can be grouped into **initiatives** (policy sets) for managing related rules together. Once assigned to a scope — a management group, subscription, resource group, or individual resource — Azure Policy continuously evaluates resources and can respond to non-compliance through effects such as audit, deny, modify, or deploy-if-not-exists remediation.
+
+## Common use cases
+
+- Restricting resource deployments to allowed regions or resource types
+- Enforcing consistent tagging and taxonomic standards
+- Requiring diagnostic logging to a Log Analytics workspace
+- Remediating existing non-compliant resources without manual intervention
+
+Through Azure Arc, policy-based governance can extend beyond Azure to other cloud providers and on-premises datacenters.
+
+## Connection to CCC
+
+CCC catalogs define vendor-neutral controls and assessment requirements for cloud services. Azure Policy provides the enforcement layer on Azure — CCC controls can be mapped to policy definitions and initiatives that continuously evaluate and remediate resources, turning open standards into automated compliance in your Azure environment.
+
+[Learn more about Azure Policy →](https://learn.microsoft.com/en-us/azure/governance/policy/overview)
+
 </EcosystemPage>
