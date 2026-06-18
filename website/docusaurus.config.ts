@@ -23,6 +23,12 @@ const config: Config = {
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
 
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid'],
+
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
@@ -57,11 +63,11 @@ const config: Config = {
         srcDark: "img/logo/2023_FinosCCC_Horizontal_WHT.svg",
       },
       items: [
-        { to: "/about", label: "About", position: "left" },
+        { to: '/about', label: 'About', position: 'right' },
         {
           label: "Catalogs",
           to: "/catalogs/core",
-          position: "left",
+          position: "right",
           type: "dropdown",
           items: [
             { to: "/threats", label: "Threats" },
@@ -69,13 +75,10 @@ const config: Config = {
             { to: "/capabilities", label: "Capabilities" },
           ],
         },
-        { to: "/metadata", label: "Metadata", position: "left" },
-        { to: "/cfi", label: "Test Results", position: "left" },
-        { to: "/contributors", label: "Contributors", position: "left" },
         {
-          label: 'Ecosystems',
+          label: 'Ecosystem',
           to: '/ecosystems',
-          position: 'left',
+          position: 'right',
           type: 'dropdown',
           items: [
             { to: '/ecosystems/prowler', label: 'Prowler' },
@@ -89,6 +92,9 @@ const config: Config = {
             { to: '/ecosystems/calmsuite', label: 'CALMSuite' },
           ],
         },
+        { to: '/validators', label: 'Validators', position: 'right' },
+        { to: "/cfi", label: "Test Results", position: "right" },
+        { to: "/contributors", label: "Contributors", position: "right" },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
@@ -127,6 +133,10 @@ const config: Config = {
         {
           label: "Catalogs",
           to: "/catalogs",
+        },
+        { 
+          to: '/validators', 
+          label: 'Validators' 
         },
         {
           label: "Test Results",
