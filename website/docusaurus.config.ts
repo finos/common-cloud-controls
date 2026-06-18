@@ -111,14 +111,6 @@ const config: Config = {
       },
       links: [
         {
-          label: "Contributors",
-          href: "/contributors",
-        },
-        {
-          label: "Github",
-          href: "https://github.com/finos/common-cloud-controls/blob/main/README.md",
-        },
-        {
           label: "Calendar",
           href: "https://zoom-lfx.platform.linuxfoundation.org/meetings/finos?view=month",
         },
@@ -134,6 +126,10 @@ const config: Config = {
           label: "Catalogs",
           to: "/catalogs",
         },
+        {
+          label: "Ecosystem",
+          to: "/ecosystems",
+        },
         { 
           to: '/validators', 
           label: 'Validators' 
@@ -141,6 +137,14 @@ const config: Config = {
         {
           label: "Test Results",
           to: "/cfi",
+        },
+        {
+          label: "Contributors",
+          href: "/contributors",
+        },
+        {
+          label: "Github",
+          href: "https://github.com/finos/common-cloud-controls/blob/main/README.md",
         },
       ],
 
