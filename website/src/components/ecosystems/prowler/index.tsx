@@ -1,12 +1,10 @@
 import React from "react";
-import Layout from "@theme/Layout";
-import Contributors from "../../Contributors";
-
+import EcosystemPage from "../EcosystemPage";
 
 export default function Prowler() {
-
   return (
-    <Layout title="Prowler">
-    </Layout>
+    <EcosystemPage slug="prowler" title="Prowler">
+      <h1>Prowler</h1>
+    </EcosystemPage>
   );
 }

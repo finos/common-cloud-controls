@@ -1,12 +1,10 @@
 import React from "react";
-import Layout from "@theme/Layout";
-import Contributors from "../../Contributors";
-
+import EcosystemPage from "../EcosystemPage";
 
 export default function Privateer() {
-
   return (
-    <Layout title="Privateer">
-    </Layout>
+    <EcosystemPage slug="privateer" title="Privateer">
+      <h1>Privateer</h1>
+    </EcosystemPage>
   );
 }

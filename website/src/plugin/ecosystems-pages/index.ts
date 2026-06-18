@@ -2,15 +2,15 @@ import type { LoadContext, Plugin } from "@docusaurus/types";
 
 
 const pages = [
-  'prowler',
-  'privateer', 
-  'azure-policy',
-  'azure-verified-modules',
-  'aws-lightning-lane', 
-  'gemara', 
-  'grc-store', 
-  'github-releases',
-  'calmsuite',
+  { slug: 'prowler', ext: 'tsx' },
+  { slug: 'privateer', ext: 'tsx' },
+  { slug: 'azure-policy', ext: 'mdx' },
+  { slug: 'azure-verified-modules', ext: 'mdx' },
+  { slug: 'aws-lightning-lane', ext: 'mdx' },
+  { slug: 'gemara', ext: 'mdx' },
+  { slug: 'grc-store', ext: 'mdx' },
+  { slug: 'github-releases', ext: 'mdx' },
+  { slug: 'calmsuite', ext: 'mdx' },
 ];
 export default function pluginEcosystemsPages(context: LoadContext): Plugin<void> {
   return {
@@ -19,10 +19,10 @@ export default function pluginEcosystemsPages(context: LoadContext): Plugin<void
     async contentLoaded({ actions }) {
       const { createData, addRoute } = actions;
 
-      pages.forEach(page => {
+      pages.forEach(({ slug, ext }) => {
         addRoute({
-          path: "/ecosystems/"+page,
-          component: "@site/src/components/ecosystems/"+page+"/index.tsx",
+          path: "/ecosystems/"+slug,
+          component: `@site/src/components/ecosystems/${slug}/index.${ext}`,
           exact: true,
         });
       });
