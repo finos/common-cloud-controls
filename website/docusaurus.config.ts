@@ -43,7 +43,7 @@ const config: Config = {
     ],
   ],
 
-  plugins: ["./src/plugin/ccc-pages/index.ts", "./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts"],
+  plugins: ["./src/plugin/ccc-pages/index.ts", "./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts", "./src/plugin/ecosystems-pages/index.ts"],
 
   themeConfig: {
     style: "dark",
@@ -65,10 +65,27 @@ const config: Config = {
         { to: "/metadata", label: "Metadata", position: "left" },
         { to: "/cfi", label: "Test Results", position: "left" },
         {
-          href: "https://github.com/finos/common-cloud-controls",
-          label: "GitHub",
-          position: "right",
+          label: 'Ecosystems',
+          to: '/ecosystems',
+          position: 'left',
+          type: 'dropdown',
+          items: [
+            { to: '/ecosystems/prowler', label: 'Prowler' },
+            { to: '/ecosystems/privateer', label: 'Privateer' },
+            { to: '/ecosystems/azure-policy', label: 'Azure Policy' },
+            { to: '/ecosystems/azure-verified-modules', label: 'Azure Verified Modules' },
+            { to: '/ecosystems/aws-lightning-lane', label: 'AWS Lightning Lane' },
+            { to: '/ecosystems/gemara', label: 'Gemara' },
+            { to: '/ecosystems/grc-store', label: 'GRC.Store' },
+            { to: '/ecosystems/github-releases', label: 'GitHub releases' },
+            { to: '/ecosystems/calmsuite', label: 'CALMSuite' },
+          ],
         },
+        {
+          href: 'https://github.com/finos/common-cloud-controls',
+          label: 'GitHub',
+          position: 'right',
+        }
       ],
     },
     footer: {
