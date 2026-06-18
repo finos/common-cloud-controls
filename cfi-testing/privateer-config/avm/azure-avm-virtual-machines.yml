@@ -1,0 +1,62 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Azure virtual-machines behavioural tests against the AVM deployment in
+# ccc-cfi-compliance/remote/azure/avm.
+#
+# Populated from terraform output after apply (instance_id = 20260611):
+#   resource_group_name = avm-testing
+#   virtual_machine.name = avmvm20260611
+#
+# Source azure-env.sh for test principal credentials before running.
+# Set AZURE_VM_HOSTNAME to the VM private IP or reachable hostname (bastion/jump).
+#
+# Known gaps vs full CFI VM harness (tests may skip or fail until addressed):
+#   - VM has no public IP; openssl/SSH probes need private network access
+#   - Password auth disabled; SSH key access only
+
+services:
+  azureVirtualMachines:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.VM
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: virtual-machines
+      service-type: virtual-machines
+      tags: "@Behavioural @virtual-machines"
+      provider: azure
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.VM: DEV
+      region: westus2
+      resource: "avmvm20260611"
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-resource-group: "avm-testing"
+      permitted-regions:
+        - westus2
+      host-name: "${AZURE_VM_HOSTNAME}"
+      port-number: "22"
+      test-listener-port: 22
+      allowed-source-cidr: "10.0.0.0/8"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
+        test-user-write:
+          user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
+        test-user-admin:
+          user-name: "${AZURE_TEST_USER_ADMIN_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_ADMIN_OBJECT_ID}"
