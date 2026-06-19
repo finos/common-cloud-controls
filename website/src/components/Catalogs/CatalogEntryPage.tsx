@@ -3,7 +3,7 @@ import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
-import type { CatalogEntry } from "./CatalogVersionPage";
+import type { CatalogEntry, CatalogGuidelineMapping } from "./CatalogVersionPage";
 
 export interface CatalogRelatedEntry {
   id: string;
@@ -54,6 +54,43 @@ const RelatedList: React.FC<{ title: string; items?: CatalogRelatedEntry[] }> = 
                 <td>{item.url !== "#" ? <Link to={item.url}>{item.id}</Link> : item.id}</td>
                 <td>{item.title}</td>
                 <td>{item.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] }> = ({ title, items }) => {
+  if (!items || items.length === 0) return null;
+  return (
+    <div style={{ marginBottom: "1.5rem" }}>
+      <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>{title}</h3>
+      <div className="library-article-body">
+        <table>
+          <thead>
+            <tr>
+              <th>Framework</th>
+              <th>ID</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((m, i) => (
+              <tr key={`${m.framework}-${m.id}-${i}`}>
+                <td>{m.framework}</td>
+                <td>
+                  {m.url ? (
+                    <a href={m.url} target="_blank" rel="noopener noreferrer">
+                      {m.id}
+                    </a>
+                  ) : (
+                    m.id
+                  )}
+                </td>
+                <td>{m.remarks}</td>
               </tr>
             ))}
           </tbody>
@@ -120,6 +157,9 @@ export const CatalogEntryPage: React.FC<Props> = ({ data, typeIndexData }) => {
             </div>
           </div>
         )}
+
+        <MappingTable title="Guideline Mappings" items={entry.guidelineMappings} />
+        <MappingTable title="External Mappings" items={entry.externalMappings} />
       </article>
     </div>
   );
