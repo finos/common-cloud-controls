@@ -2,7 +2,6 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { CFIRepositoryPageData } from "@site/src/types/cfi";
 import { configurationSidebarLabel } from "@site/src/utils/cfiNavigation";
 import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
@@ -39,42 +38,42 @@ export default function CFIRepositoryTemplate({ pageData }: { pageData: CFIRepos
           </CardHeader>
           <CardContent>
             {sortedConfigurations.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>ID</TableHead>
-                      <TableHead>Provider</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Branch</TableHead>
-                      <TableHead>Result sets</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+              <div className="library-article-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Provider</th>
+                      <th>Name</th>
+                      <th>Branch</th>
+                      <th>Result sets</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {sortedConfigurations.map((configuration) => {
                       const configPagePath = `/cfi/${configuration.results_relative_path}`;
                       const summaries = configurationResultSummariesByPath[configuration.results_relative_path] ?? [];
 
                       return (
-                        <TableRow key={configuration.results_relative_path}>
-                          <TableCell>
+                        <tr key={configuration.results_relative_path}>
+                          <td>
                             <Link to={configPagePath} className="text-blue-600 hover:text-blue-800 hover:underline">
                               {configuration.cfi_details.id}
                             </Link>
-                          </TableCell>
-                          <TableCell>
+                          </td>
+                          <td>
                             <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 uppercase">
                               {configuration.cfi_details.provider}
                             </span>
-                          </TableCell>
-                          <TableCell>{configuration.cfi_details.name}</TableCell>
-                          <TableCell>{configuration.source_details?.branch ?? "—"}</TableCell>
-                          <TableCell>{summaries.length}</TableCell>
-                        </TableRow>
+                          </td>
+                          <td>{configuration.cfi_details.name}</td>
+                          <td>{configuration.source_details?.branch ?? "—"}</td>
+                          <td>{summaries.length}</td>
+                        </tr>
                       );
                     })}
-                  </TableBody>
-                </Table>
+                  </tbody>
+                </table>
               </div>
             ) : (
               <div className="text-center py-8 text-gray-500">No configurations found for this repository.</div>
