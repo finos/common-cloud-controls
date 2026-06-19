@@ -1,87 +1,3 @@
-title: Multi-Agent Reference Architecture Threat Catalog
-metadata:
-  id: CCC.MARefArc.TH
-  type: ThreatCatalog
-  gemara-version: "1.2.0"
-  version: "dev"
-  date: "2026-05-31T00:00:00Z"
-  description: >-
-    Threats to the multi-agent reference architecture, grounded in the FINOS
-    AIGF risk vectors (air-vec 0.2.0). Threats are grouped by AIGF vector group;
-    each threat maps to the AIGF vector(s) it is based on and to the
-    architecture capability(ies) it endangers.
-  mapping-references:
-    - id: air-vec
-      title: AI Governance Framework Risk Vectors
-      version: "0.2.0"
-      description: >-
-        FINOS AIGF risks expressed as Gemara vectors; the grounding source for
-        every threat in this catalog.
-      url: https://grc.store/search/finos-aigf/air-vec/versions/0.2.0
-    - id: ma-ref-arch-capabilities
-      title: Multi-Agent Reference Architecture Capability Catalog
-      version: "1.0.0"
-      description: >-
-        Subsystem-level capabilities of the multi-agent reference architecture
-        that these threats endanger.
-      url: file://ma_capability_catalog.yaml
-groups:
-  - id: information-leakage
-    title: Information Leakage
-    description: >-
-      Sensitive data exposed through model memorization, hosted-provider
-      controls, or the knowledge layer's vector store.
-  - id: data-poisoning
-    title: Data Poisoning
-    description: >-
-      Manipulation of training, fine-tuning, third-party, or adaptive-learning
-      data to corrupt model and agent behaviour.
-  - id: model-availability
-    title: Model Availability
-    description: >-
-      Disruption of model serving through cost exhaustion, provider outages, or
-      resource exhaustion on serving infrastructure.
-  - id: prompt-injection
-    title: Prompt Injection
-    description: >-
-      Direct or indirect manipulation of model inputs to override intended
-      behaviour, hijack workflows, or extract internal state.
-  - id: operational
-    title: Operational
-    description: >-
-      Risks arising from how the system is used and perceived, including scope
-      creep beyond validated use and reputational harm.
-  - id: output-integrity
-    title: Output Integrity
-    description: >-
-      Confident but incorrect, fabricated, inconsistent, or ungrounded outputs
-      that diverge from facts, retrieved sources, or business intent.
-  - id: model-integrity
-    title: Model Integrity
-    description: >-
-      Threats to the integrity, stability, and provenance of the foundation
-      model through silent drift or adversarial tampering.
-  - id: data-quality
-    title: Data Quality
-    description: >-
-      Inaccurate, outdated, biased, or drifting data that degrades the
-      reliability and fairness of outputs over time.
-  - id: fairness
-    title: Fairness
-    description: >-
-      Systematically discriminatory outcomes arising from biased data, design
-      choices, proxy variables, or uncorrected feedback loops.
-  - id: governance-compliance
-    title: Governance and Compliance
-    description: >-
-      Regulatory, supervisory, explainability, and intellectual-property
-      exposure for the system's outputs and operation.
-  - id: agentic-security
-    title: Agentic Security
-    description: >-
-      Risks specific to autonomous and multi-agent operation, including
-      authorization bypass, tool-chain manipulation, supply-chain compromise,
-      state poisoning, multi-agent trust violations, and credential harvesting.
 threats:
   - id: CCC.MARefArc.TH01
     title: Model memorization leaks sensitive data across sessions
@@ -96,7 +12,7 @@ threats:
         entries:
           - reference-id: CCC.MARefArc.CP16
           - reference-id: CCC.MARefArc.CP14
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-RC-001-01
@@ -115,7 +31,7 @@ threats:
         entries:
           - reference-id: CCC.MARefArc.CP14
           - reference-id: CCC.MARefArc.CP16
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-RC-001-03
@@ -132,7 +48,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP13
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-002-01
@@ -149,7 +65,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP13
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-002-03
@@ -165,7 +81,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP13
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-002-04
@@ -182,7 +98,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP14
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-009-01
@@ -200,7 +116,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP11
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-009-02
@@ -217,7 +133,7 @@ threats:
         entries:
           - reference-id: CCC.MARefArc.CP16
           - reference-id: CCC.MARefArc.CP06
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-007-01
@@ -233,7 +149,7 @@ threats:
         entries:
           - reference-id: CCC.MARefArc.CP15
           - reference-id: CCC.MARefArc.CP14
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-007-02
@@ -248,7 +164,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP15
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-007-03
@@ -266,7 +182,7 @@ threats:
           - reference-id: CCC.MARefArc.CP05
           - reference-id: CCC.MARefArc.CP16
           - reference-id: CCC.MARefArc.CP01
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-010-01
@@ -286,7 +202,7 @@ threats:
           - reference-id: CCC.MARefArc.CP13
           - reference-id: CCC.MARefArc.CP08
           - reference-id: CCC.MARefArc.CP09
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-010-02
@@ -302,7 +218,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP16
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-010-03
@@ -319,7 +235,7 @@ threats:
         entries:
           - reference-id: CCC.MARefArc.CP06
           - reference-id: CCC.MARefArc.CP03
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-018
@@ -337,7 +253,7 @@ threats:
           - reference-id: CCC.MARefArc.CP16
           - reference-id: CCC.MARefArc.CP22
           - reference-id: CCC.MARefArc.CP02
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-020
@@ -355,7 +271,7 @@ threats:
           - reference-id: CCC.MARefArc.CP16
           - reference-id: CCC.MARefArc.CP22
           - reference-id: CCC.MARefArc.CP02
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-004-01
@@ -376,7 +292,7 @@ threats:
           - reference-id: CCC.MARefArc.CP14
           - reference-id: CCC.MARefArc.CP15
           - reference-id: CCC.MARefArc.CP20
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-006-01
@@ -397,7 +313,7 @@ threats:
           - reference-id: CCC.MARefArc.CP12
           - reference-id: CCC.MARefArc.CP13
           - reference-id: CCC.MARefArc.CP16
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-014-01
@@ -417,7 +333,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP14
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-005-01
@@ -436,7 +352,7 @@ threats:
       - reference-id: ma-ref-arch-capabilities
         entries:
           - reference-id: CCC.MARefArc.CP14
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-008-01
@@ -454,7 +370,7 @@ threats:
         entries:
           - reference-id: CCC.MARefArc.CP16
           - reference-id: CCC.MARefArc.CP14
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-008-04
@@ -472,7 +388,7 @@ threats:
           - reference-id: CCC.MARefArc.CP12
           - reference-id: CCC.MARefArc.CP13
           - reference-id: CCC.MARefArc.CP14
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-019-01
@@ -493,7 +409,7 @@ threats:
           - reference-id: CCC.MARefArc.CP12
           - reference-id: CCC.MARefArc.CP20
           - reference-id: CCC.MARefArc.CP21
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-016-01
@@ -515,7 +431,7 @@ threats:
           - reference-id: CCC.MARefArc.CP23
           - reference-id: CCC.MARefArc.CP25
           - reference-id: CCC.MARefArc.CP21
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-017
@@ -533,7 +449,7 @@ threats:
           - reference-id: CCC.MARefArc.CP21
           - reference-id: CCC.MARefArc.CP05
           - reference-id: CCC.MARefArc.CP02
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-RC-022-01
@@ -553,7 +469,7 @@ threats:
           - reference-id: CCC.MARefArc.CP01
           - reference-id: CCC.MARefArc.CP05
           - reference-id: CCC.MARefArc.CP16
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-RC-023-01
@@ -573,7 +489,7 @@ threats:
           - reference-id: CCC.MARefArc.CP19
           - reference-id: CCC.MARefArc.CP07
           - reference-id: CCC.MARefArc.CP08
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-024-01
@@ -594,7 +510,7 @@ threats:
           - reference-id: CCC.MARefArc.CP08
           - reference-id: CCC.MARefArc.CP07
           - reference-id: CCC.MARefArc.CP19
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-025-01
@@ -617,7 +533,7 @@ threats:
           - reference-id: CCC.MARefArc.CP17
           - reference-id: CCC.MARefArc.CP19
           - reference-id: CCC.MARefArc.CP08
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-026-01
@@ -639,7 +555,7 @@ threats:
           - reference-id: CCC.MARefArc.CP09
           - reference-id: CCC.MARefArc.CP07
           - reference-id: CCC.MARefArc.CP11
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-027-01
@@ -660,7 +576,7 @@ threats:
         entries:
           - reference-id: CCC.MARefArc.CP06
           - reference-id: CCC.MARefArc.CP03
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-OP-028-01
@@ -684,7 +600,7 @@ threats:
           - reference-id: CCC.MARefArc.CP10
           - reference-id: CCC.MARefArc.CP07
           - reference-id: CCC.MARefArc.CP12
-    vectors:
+    external-mappings:
       - reference-id: air-vec
         entries:
           - reference-id: AIR-SEC-029-01

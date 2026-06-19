@@ -142,7 +142,7 @@ Here are some example commands for testing the toolkit locally:
   > **NOTE**: `--output-dir` defaults to the current directory, so without it the
   > artifact lands at `storage/object/capabilities.yaml`. Swap `--type` for
   > `threats` or `controls` to compile those catalogs.
-
+  >
   > **NOTE**: Produces a single self-describing Gemara artifact ready for `grcli validate` / `grcli publish`.
 
 ## Triggering the Artifact Pipeline

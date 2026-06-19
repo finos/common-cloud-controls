@@ -28,6 +28,10 @@ jobs:
       RUN_CLOUD_API_INTEGRATION: "1"
       GOWORK: off
       AWS_REGION: ${{ secrets.AWS_REGION }}
+      # yamllint disable rule:line-length
+      GCP_ID_TOKEN_AUD: https://iam.googleapis.com/projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider
+      GCP_WIP: projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider
+      # yamllint enable rule:line-length
     steps:
       - uses: actions/checkout@v4
 
@@ -56,8 +60,8 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           token_format: "id_token"
-          id_token_audience: "https://iam.googleapis.com/projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider"
-          workload_identity_provider: "projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider"
+          id_token_audience: ${{ env.GCP_ID_TOKEN_AUD }}
+          workload_identity_provider: ${{ env.GCP_WIP }}
           service_account: "gha-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
 
       - uses: google-github-actions/setup-gcloud@v2

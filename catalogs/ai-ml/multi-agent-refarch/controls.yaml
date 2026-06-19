@@ -1,43 +1,3 @@
-title: Multi-Agent Reference Architecture Control Catalog
-metadata:
-  id: CCC.MARefArc.CN
-  type: ControlCatalog
-  gemara-version: "1.2.0"
-  version: "dev"
-  date: "2026-05-31T00:00:00Z"
-  description: >-
-    Controls for the multi-agent reference architecture. Each control is this
-    architecture's realization of a FINOS AIGF mitigation (finos-air 0.2.0,
-    Layer 1 guidance) and is mapped to the AIGF guideline it implements and to
-    the architecture threats it mitigates.
-  mapping-references:
-    - id: finos-air
-      title: FINOS AI Governance Framework
-      version: "0.2.0"
-      description: >-
-        AIGF mitigations expressed as Gemara guidelines; each control
-        implements one of these guidelines.
-      url: https://grc.store/search/finos-aigf/finos-air/versions/0.2.0
-    - id: ma-ref-arch-threats
-      title: Multi-Agent Reference Architecture Threat Catalog
-      version: "1.0.0"
-      description: >-
-        Architecture threats that these controls mitigate.
-      url: file://ma_threat_catalog.yaml
-  applicability-groups:
-    - id: all
-      title: All Deployments
-      description: >-
-        Applies to all deployments of the multi-agent reference architecture,
-        which by definition includes every subsystem layer. Adopters deploying
-        a subset may refine this scope.
-groups:
-  - id: PREV
-    title: Preventive
-    description: Prevention and Risk Mitigation
-  - id: DET
-    title: Detective
-    description: Detection and Continuous Improvement
 controls:
   - id: CCC.MARefArc.CN01
     title: Data Filtering From External Knowledge Bases
@@ -47,20 +7,25 @@ controls:
       store or used for retrieval-augmented generation, preventing inadvertent
       exposure or manipulation of sensitive organizational knowledge.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN01.AR01
         text: >-
           Data ingested into the Knowledge Layer MUST be scanned and filtered
           for sensitive content before it is embedded or indexed for retrieval.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN01.AR02
         text: >-
           Ingestion pipelines MUST enforce source-level allow and deny rules so
           that unapproved repositories cannot be embedded into the vector store.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -80,22 +45,27 @@ controls:
       and MCP gateways where guardrails inspect and constrain requests and
       responses.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN02.AR01
         text: >-
           All traffic between the user-facing application and the agent layer
           MUST traverse the Agent Gateway guardrails; direct
           application-to-agent paths that bypass the gateway MUST be denied.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN02.AR02
         text: >-
           All model and tool invocations MUST traverse the LLM and MCP gateway
           guardrails respectively, with inputs and outputs inspected against
           policy.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -118,21 +88,26 @@ controls:
       robustness, bias, drift, and compliance criteria before promotion to
       production, and re-validate after material changes.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN03.AR01
         text: >-
           Each agent and model configuration MUST pass a documented acceptance
           test suite covering accuracy, bias and fairness, and compliance
           criteria before being onboarded into the respective registry.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN03.AR02
         text: >-
           Acceptance testing MUST be repeated when a pinned model version,
           system prompt, or deployment configuration changes.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -154,21 +129,26 @@ controls:
       handling rules derived from those labels throughout the Knowledge and LLM
       layers.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN04.AR01
         text: >-
           All data sources feeding the Knowledge Layer or used for fine-tuning
           MUST carry a classification and sensitivity label.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN04.AR02
         text: >-
           Data quality checks for accuracy, completeness, freshness, and bias
           MUST be applied to grounding and training data, and data failing
           thresholds MUST be quarantined from production use.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -195,21 +175,26 @@ controls:
       covering data handling, retention and deletion, intellectual property,
       liability, and supply-chain integrity.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN05.AR01
         text: >-
           Every approved model and MCP server provider MUST be governed by a
           contract specifying data handling, retention and deletion, and
           intellectual-property terms before it is added to the registry.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN05.AR02
         text: >-
           Provider contracts MUST include supply-chain integrity and
           breach-notification obligations.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -230,20 +215,25 @@ controls:
       Protect model and tool availability by enforcing quality-of-service
       controls, rate limits, and abuse and DDoS mitigation at the gateways.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN06.AR01
         text: >-
           The LLM and MCP gateways MUST enforce per-consumer rate limits and
           quotas.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN06.AR02
         text: >-
           Gateways MUST apply DDoS and abuse detection and load shedding to
           preserve availability under load.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -261,20 +251,25 @@ controls:
       model behaviour is reproducible and provider-side changes are surfaced
       rather than silently absorbed.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN07.AR01
         text: >-
           The Model Registry MUST pin an explicit, immutable model version for
           each approved model used in production.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN07.AR02
         text: >-
           A change to the underlying provider model version MUST require
           re-approval through the registry before use.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -290,21 +285,26 @@ controls:
       Enforce least-privilege, role-based access control over all AI data
       stores, including source bases, the vector store, and model artifacts.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN08.AR01
         text: >-
           Access to AI data stores, including source bases, the vector store,
           and model artifacts, MUST be governed by role-based access control
           with least privilege.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN08.AR02
         text: >-
           Access grants MUST be reviewed periodically and revoked when no
           longer required.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -325,19 +325,24 @@ controls:
       repositories, so that storage-level access does not expose embeddings or
       sensitive content.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN09.AR01
         text: >-
           The vector store and all AI data repositories MUST be encrypted at
           rest using managed keys.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN09.AR02
         text: >-
           Access to encryption keys MUST be restricted and audited.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -356,20 +361,25 @@ controls:
       inspects prompts, content, and responses for injection, sensitive data,
       and policy violations.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN10.AR01
         text: >-
           The gateway guardrails MUST include an AI firewall that screens
           inputs for prompt injection and policy violations and screens outputs
           for sensitive-data disclosure and harmful content.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN10.AR02
         text: >-
           AI firewall rules MUST be centrally managed and versioned.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -392,20 +402,25 @@ controls:
       data required for its task, enforced by the runtime and MCP guardrails,
       and prevent permission creep during operation.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN11.AR01
         text: >-
           Each agent MUST be granted only the tools, endpoints, and scopes
           required for its registered purpose.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN11.AR02
         text: >-
           Agent permissions MUST be enforced at invocation time and MUST NOT
           expand during a session without explicit reauthorization.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -422,20 +437,25 @@ controls:
       tool sequencing within the runtime and MCP guardrails to prevent
       manipulation of agent tool use.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN12.AR01
         text: >-
           Tool-call parameters MUST be validated and sanitized against a schema
           before execution.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN12.AR02
         text: >-
           Tool selection and sequencing MUST be constrained to patterns
           authorized for the agent's task.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -455,20 +475,25 @@ controls:
       servers so that only approved, integrity-verified servers are reachable,
       and supply-chain compromise is detected.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN13.AR01
         text: >-
           Only MCP servers registered and verified in the MCP Server Registry
           MUST be reachable by agents.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN13.AR02
         text: >-
           MCP server updates MUST be integrity-verified, and connections MUST
           be authenticated and transport-encrypted.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -488,21 +513,26 @@ controls:
       of one agent cannot propagate to others, and enforce segmentation of
       agent-to-agent communication.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN14.AR01
         text: >-
           Each agent's runtime, memory, and workspace MUST be isolated such
           that one agent cannot read or modify another's state without
           authorization.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN14.AR02
         text: >-
           Agent-to-agent communication MUST be authenticated and segmented to
           prevent privilege inheritance and cascade failures.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -520,22 +550,27 @@ controls:
       brokering secrets outside agent-accessible surfaces and constraining tool
       access to credential stores.
     group: PREV
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN15.AR01
         text: >-
           Credentials MUST be brokered by the runtime and MUST NOT be exposed
           to agent-accessible memory, prompts, logs, or the workspace file
           system.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN15.AR02
         text: >-
           Agent tools MUST be denied access to credential stores, environment
           secrets, and instance metadata except through the secure-execution
           broker.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -552,20 +587,25 @@ controls:
       Detect leakage of sensitive data in model inputs and outputs and in
       telemetry, and alert and respond when disclosure is detected.
     group: DET
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN16.AR01
         text: >-
           Model outputs and telemetry MUST be monitored for disclosure of
           classified or sensitive data, with alerts raised on detection.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN16.AR02
         text: >-
           Detected leakage events MUST trigger a documented response and
           escalation workflow.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -582,21 +622,26 @@ controls:
       Observability Layer so that behaviour, drift, availability, and data
       handling are continuously visible and auditable.
     group: DET
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN17.AR01
         text: >-
           Every layer MUST emit logs, traces, metrics, and events covering
           requests, model interactions, retrievals, and policy decisions to the
           Observability Layer.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN17.AR02
         text: >-
           Telemetry MUST be retained and queryable for the period required to
           support audit and incident investigation.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -620,20 +665,25 @@ controls:
       Monitor spend and usage of models and tools, and alert on anomalous
       consumption indicative of Denial of Wallet or runaway agentic loops.
     group: DET
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN18.AR01
         text: >-
           Model and tool consumption MUST be metered per consumer and monitored
           against budget and rate thresholds.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN18.AR02
         text: >-
           Anomalous spend or call volume MUST raise alerts and MUST be able to
           trigger throttling or suspension.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -651,21 +701,26 @@ controls:
       Human Supervision capabilities and feed it into evaluation and
       improvement of agents and models.
     group: DET
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN19.AR01
         text: >-
           The system MUST provide a mechanism for humans to rate, correct, or
           reject agent outputs, and MUST capture that feedback in the Feedback
           Engine.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN19.AR02
         text: >-
           Captured feedback MUST be reviewable and MUST inform retraining,
           prompt, or configuration changes.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -685,20 +740,25 @@ controls:
       that outputs can be verified against retrieved sources and decisions can
       be explained.
     group: DET
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN20.AR01
         text: >-
           Outputs grounded in retrieved content MUST include citations
           identifying the source documents.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN20.AR02
         text: >-
           The system MUST retain the linkage between an output and the
           retrieved sources used to produce it.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -716,20 +776,25 @@ controls:
       Use automated model-based evaluation in the Evaluation Layer to assess
       output quality, grounding, bias, and policy compliance at scale.
     group: DET
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN21.AR01
         text: >-
           Agent outputs MUST be subject to automated model-based evaluation for
           grounding, accuracy, and policy compliance.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN21.AR02
         text: >-
           Automated evaluation results MUST feed runtime protection and human
           supervision when thresholds are breached.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -752,20 +817,25 @@ controls:
       that retrieval and generation cannot expose content a requesting user is
       not authorized to see.
     group: DET
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN22.AR01
         text: >-
           Retrieval MUST enforce the access controls of the underlying source
           data for the requesting principal.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN22.AR02
         text: >-
           Embeddings and retrieved context MUST be filtered by the requester's
           entitlements before being supplied to the model.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:
@@ -784,21 +854,26 @@ controls:
       inputs, and rationale, sufficient to explain and review autonomous
       actions after the fact.
     group: DET
-    state: Active
     assessment-requirements:
       - id: CCC.MARefArc.CN23.AR01
         text: >-
           The system MUST record an auditable decision trace for each agent
           action, including the tools invoked and the inputs and rationale
           leading to them.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
       - id: CCC.MARefArc.CN23.AR02
         text: >-
           Decision traces MUST be retained and reviewable to support
           explainability and post-incident analysis.
-        applicability: [all]
-        state: Active
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
     guidelines:
       - reference-id: finos-air
         entries:

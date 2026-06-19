@@ -4,6 +4,7 @@ ignore:
   - .config
   - website
   - .gitvote.yml
+  - .git
 
 rules:
   indentation:

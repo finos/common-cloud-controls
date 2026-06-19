@@ -33,7 +33,9 @@ on:
         required: true
         type: string
       dry_run:
-        description: "Dry Run (No Release) — compile + validate + build bundles, but do not push to grc.store or cut a GitHub release"
+        description: >-
+          Dry Run (No Release) — compile + validate + build bundles, but do not
+          push to grc.store or cut a GitHub release
         required: false
         type: boolean
         default: false
@@ -97,14 +99,26 @@ jobs:
           # dropping indented source locations and the FAIL/grcli summary lines.
           friendly_validate() {
             local all n shown
-            all="$(printf '%s\n' "$1" | grep -E '^[^[:space:]].+: ' | grep -vE '^(FAIL|grcli|panic|Error)' | sed -E 's/: *$//' | sort -u)"
+            all="$(
+              printf '%s\n' "$1" \
+                | grep -E '^[^[:space:]].+: ' \
+                | grep -vE '^(FAIL|grcli|panic|Error)' \
+                | sed -E 's/: *$//' \
+                | sort -u
+            )"
             n="$(printf '%s' "$all" | grep -c .)"
             shown="$(printf '%s\n' "$all" | head -3 | paste -sd ';' - | sed 's/;/; /g')"
             if [ -z "$shown" ]; then
               printf '%s\n' "$1" | grep -vE '^[[:space:]]*$' | tail -2 | sanitize
               return
             fi
-            { if [ "$n" -gt 3 ]; then printf '%s (+%d more)' "$shown" "$((n - 3))"; else printf '%s' "$shown"; fi; } | sanitize
+            {
+              if [ "$n" -gt 3 ]; then
+                printf '%s (+%d more)' "$shown" "$((n - 3))"
+              else
+                printf '%s' "$shown"
+              fi
+            } | sanitize
           }
 
           # Release one typed catalog asset. Args: <build_target> <asset_type>.
@@ -176,7 +190,9 @@ jobs:
             # Publish to grc.store (or build the bundle only, on a dry run).
             if [ "$DRY_RUN" = "true" ]; then
               if ! out="$(grcli publish "$file" --dry-run --output artifacts/oci 2>&1)"; then
-                echo "$out"; R_REASON="Dry-run bundle build failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
+                echo "$out"
+                R_REASON="Dry-run bundle build failed — $(printf '%s' "$out" | tail -2 | sanitize)"
+                return 1
               fi
               echo "$out"; return 0
             fi
@@ -260,7 +276,8 @@ jobs:
           {
             echo "## Batch release ${VERSION} (dry_run=${DRY_RUN})"
             echo ""
-            echo "Released: ${#released[@]} · Imports-only: ${#skipped_imports_only[@]} · Un-released: ${#unreleased[@]} · No source file: ${#skipped_nofile[@]}"
+            echo "Released: ${#released[@]} · Imports-only: ${#skipped_imports_only[@]} ·"
+            echo "Un-released: ${#unreleased[@]} · No source file: ${#skipped_nofile[@]}"
             echo ""
             echo "| Source | Result |"
             echo "| --- | --- |"
@@ -269,7 +286,8 @@ jobs:
 
           # Best-effort sweep: per-catalog failures are surfaced above but never fail
           # this job. release.yml is the single-target hard gate, not this workflow.
-          echo "Batch complete: ${#released[@]} released, ${#unreleased[@]} un-released, $(( ${#skipped_nofile[@]} + ${#skipped_imports_only[@]} )) skipped."
+          echo "Batch complete: ${#released[@]} released, ${#unreleased[@]} un-released,"
+          echo "$(( ${#skipped_nofile[@]} + ${#skipped_imports_only[@]} )) skipped."
 
       - name: Upload built bundles (dry run artifacts)
         if: ${{ inputs.dry_run == true }}
