@@ -109,7 +109,7 @@ export const CatalogEntryPage: React.FC<Props> = ({ data, typeIndexData }) => {
                 </thead>
                 <tbody>
                   {entry.assessmentRequirements.map((ar) => (
-                    <tr key={ar.id}>
+                    <tr key={ar.id} id={ar.id}>
                       <td>{ar.id}</td>
                       <td>{ar.text}</td>
                       <td>{ar.applicability?.join(", ")}</td>

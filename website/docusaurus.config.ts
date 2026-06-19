@@ -43,7 +43,7 @@ const config: Config = {
     ],
   ],
 
-  plugins: ["./src/plugin/ccc-pages/index.ts", "./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts", "./src/plugin/ecosystems-pages/index.ts"],
+  plugins: ["./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts", "./src/plugin/ecosystems-pages/index.ts"],
 
   themeConfig: {
     style: "dark",
