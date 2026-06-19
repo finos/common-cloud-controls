@@ -50,9 +50,7 @@ on:
         required: true
         type: string
       dry_run:
-        description: >-
-          Dry run — compile + validate + build the bundle, but do not push to
-          grc.store or cut a GitHub release
+        description: "Dry run — compile + validate + build the bundle, but do not push to grc.store or cut a GitHub release"
         required: false
         type: boolean
         default: false
@@ -215,37 +213,18 @@ jobs:
           # error lines, dropping indented locations and the FAIL/grcli summary lines.
           friendly_validate() {
             local all n shown
-            all="$(
-              printf '%s\n' "$1" \
-                | grep -E '^[^[:space:]].+: ' \
-                | grep -vE '^(FAIL|grcli|panic|Error)' \
-                | sed -E 's/: *$//' \
-                | sort -u
-            )"
+            all="$(printf '%s\n' "$1" | grep -E '^[^[:space:]].+: ' | grep -vE '^(FAIL|grcli|panic|Error)' | sed -E 's/: *$//' | sort -u)"
             n="$(printf '%s' "$all" | grep -c .)"
             shown="$(printf '%s\n' "$all" | head -3 | paste -sd ';' - | sed 's/;/; /g')"
             if [ -z "$shown" ]; then
               printf '%s\n' "$1" | grep -vE '^[[:space:]]*$' | tail -2 | sanitize
               return
             fi
-            {
-              if [ "$n" -gt 3 ]; then
-                printf '%s (+%d more)' "$shown" "$((n - 3))"
-              else
-                printf '%s' "$shown"
-              fi
-            } | sanitize
+            { if [ "$n" -gt 3 ]; then printf '%s (+%d more)' "$shown" "$((n - 3))"; else printf '%s' "$shown"; fi; } | sanitize
           }
 
           # Plain-text stage status for the pipeline line.
-          stat() {
-            case "$1" in
-              success) printf 'ok' ;;
-              failure) printf 'FAIL' ;;
-              skipped) printf 'skipped' ;;
-              *) printf 'n/a' ;;
-            esac
-          }
+          stat() { case "$1" in success) printf 'ok' ;; failure) printf 'FAIL' ;; skipped) printf 'skipped' ;; *) printf 'n/a' ;; esac; }
 
           # First failing stage wins; otherwise it's a success (or a dry-run build).
           if [ "$O_VERIFY" = "failure" ]; then
@@ -271,8 +250,7 @@ jobs:
           {
             echo "## Release ${BUILD_TARGET} ${ASSET_TYPE} ${VERSION} (dry_run=${DRY_RUN})"
             echo ""
-            echo "Pipeline: compile $(stat "$O_COMPILE") · validate $(stat "$O_VALIDATE") ·"
-            echo "publish $(stat "$O_PUBLISH") · release $(stat "$O_RELEASE")"
+            echo "Pipeline: compile $(stat "$O_COMPILE") · validate $(stat "$O_VALIDATE") · publish $(stat "$O_PUBLISH") · release $(stat "$O_RELEASE")"
             echo ""
             echo "| Source | Result |"
             echo "| --- | --- |"

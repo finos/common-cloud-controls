@@ -64,9 +64,7 @@ jobs:
               --arg test_config "$test_config" \
               --arg privateer_service "$(yq -r '.cfi."privateer-service" // ""' "$f")" \
               --arg source_secrets "$(yq -r '.cfi."source-secrets" // ""' "$f")" \
-              '{action_config: $action_config, id: $id, artifact_name: $artifact_name, name: $name,' \
-              ' provider: $provider, service: $service, test_config: $test_config,' \
-              ' privateer_service: $privateer_service, source_secrets: $source_secrets}')
+              '{action_config: $action_config, id: $id, artifact_name: $artifact_name, name: $name, provider: $provider, service: $service, test_config: $test_config, privateer_service: $privateer_service, source_secrets: $source_secrets}')
             items+=("$item")
             count=$((count + 1))
           done
@@ -133,9 +131,6 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
-      # yamllint disable rule:line-length
-      GCP_WIP: projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider
-      # yamllint enable rule:line-length
 
     steps:
       - name: Checkout repo
@@ -191,7 +186,7 @@ jobs:
         if: matrix.target.provider == 'gcp'
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ env.GCP_WIP }}
+          workload_identity_provider: projects/${{ env.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider
           service_account: gha-deployer@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
       - name: Run compliance tests
