@@ -66,7 +66,7 @@ const config: Config = {
         { to: '/about', label: 'About', position: 'right' },
         {
           label: "Catalogs",
-          to: "/catalogs/core",
+          to: "/catalogs",
           position: "right",
           type: "dropdown",
           items: [
