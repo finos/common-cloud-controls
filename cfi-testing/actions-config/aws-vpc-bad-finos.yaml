@@ -2,7 +2,8 @@ cfi:
   id: aws-vpc-bad
   artifact-name: finos-integration-aws-vpc-bad
   provider: aws
-  service: networking
+  source-secrets: AWS_ENV
+  service: vpc
   name: CCC AWS VPC Bad Fixture
   description: >-
     Runs behavioural checks against the intentionally non-compliant AWS VPC fixture.
