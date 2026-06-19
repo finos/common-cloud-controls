@@ -60,17 +60,15 @@ const config: Config = {
         { to: "/about", label: "About", position: "left" },
         {
           label: "Catalogs",
-          to: "/catalogs/core",
+          to: "/catalogs",
           position: "left",
           type: "dropdown",
           items: [
-            { to: "/catalogs/core", label: "CCC Catalogs" },
             { to: "/threats", label: "Threats" },
             { to: "/controls", label: "Controls" },
             { to: "/capabilities", label: "Capabilities" },
           ],
         },
-        { to: "/metadata", label: "Metadata", position: "left" },
         { to: "/cfi", label: "Test Results", position: "left" },
         { to: "/contributors", label: "Contributors", position: "left" },
         {
@@ -126,8 +124,8 @@ const config: Config = {
           to: "/about",
         },
         {
-          label: "CCC Catalogs",
-          to: "/catalogs/core",
+          label: "Catalogs",
+          to: "/catalogs",
         },
         {
           label: "Threats",
@@ -140,10 +138,6 @@ const config: Config = {
         {
           label: "Capabilities",
           to: "/capabilities",
-        },
-        {
-          label: "Metadata",
-          to: "/metadata",
         },
         {
           label: "Test Results",

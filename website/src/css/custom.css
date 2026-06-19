@@ -269,11 +269,15 @@ html[data-theme="dark"] .catalog-type-btn--disabled {
 }
 
 /* Tables inside rendered markdown content */
+.library-article-body {
+  overflow-x: auto;
+}
+
 .library-article-body table {
   border-collapse: collapse;
-  width: 100%;
-  display: block;
-  overflow-x: auto;
+  display: table;
+  width: auto;
+  max-width: 100%;
   margin-bottom: 1.5rem;
   font-size: 0.925rem;
 }
@@ -291,7 +295,7 @@ html[data-theme="dark"] .catalog-type-btn--disabled {
   color: #0086bf;
   font-weight: 600;
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .library-article-body tbody tr:nth-child(even) {
