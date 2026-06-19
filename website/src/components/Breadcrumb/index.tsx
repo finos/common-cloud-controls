@@ -33,7 +33,7 @@ const Breadcrumb = () => {
   const pathParts = location.pathname.split("/").filter(Boolean);
 
   return (
-    <nav className="text-sm text-gray-500 mb-4 mx-4 py-5">
+    <nav className="text-sm text-gray-500 mb-4 mx-32 py-5">
       <Link to="/" className="px-3 hover:bg-gray-200 rounded-full hover:no-underline">
         Home
       </Link>
