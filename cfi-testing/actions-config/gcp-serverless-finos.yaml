@@ -2,7 +2,8 @@ cfi:
   id: gcp-serverless-computing
   artifact-name: finos-integration-gcp-serverless-computing
   provider: gcp
-  service: serverless
+  source-secrets: GCP_ENV
+  service: serverless-computing
   name: CCC GCP Serverless Computing Fixture
   description: >-
     Runs behavioural checks against the GCP serverless-computing fixture.

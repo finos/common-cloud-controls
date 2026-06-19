@@ -2,7 +2,6 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { HomePageData } from "@site/src/types/cfi";
 import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
 
@@ -25,33 +24,33 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
             </p>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Source</TableHead>
-                    <TableHead>Repository</TableHead>
-                    <TableHead>Configurations</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+            <div className="library-article-body">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Source</th>
+                    <th>Repository</th>
+                    <th>Configurations</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {repositories.map((repository) => (
-                    <TableRow key={repository.destination}>
-                      <TableCell className="font-medium">
+                    <tr key={repository.destination}>
+                      <td className="font-medium">
                         <Link to={repository.href} className="text-blue-600 hover:text-blue-800 hover:underline">
                           {repository.description}
                         </Link>
-                      </TableCell>
-                      <TableCell>
+                      </td>
+                      <td>
                         <a href={repository.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">
                           {repository.url.replace(/^https?:\/\/github\.com\//, "")}
                         </a>
-                      </TableCell>
-                      <TableCell>{repository.configurationCount}</TableCell>
-                    </TableRow>
+                      </td>
+                      <td>{repository.configurationCount}</td>
+                    </tr>
                   ))}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table>
             </div>
 
             {repositories.length === 0 && (

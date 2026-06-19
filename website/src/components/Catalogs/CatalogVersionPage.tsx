@@ -1,13 +1,23 @@
+
 import React from "react";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
+import { MappingCountBadge } from "../ccc/MappingCountBadge";
 
 export interface CatalogEntry {
   id: string;
   title: string;
   description?: string;
   objective?: string;
+  threatMappings?: string[];
+  externalMappingsCount?: number;
+  capabilityMappingsCount?: number;
+  controlMappings?: string[];
+  family?: string;
+  threatMappingsCount?: number;
+  guidelineMappingsCount?: number;
+  assessmentRequirementsCount?: number;
 }
 
 export interface CatalogVersionData {
@@ -42,18 +52,74 @@ export const CatalogVersionPage: React.FC<Props> = ({ data, typeIndexData }) => 
 
 export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) => {
   const valueHeader = data.type === "controls" ? "Objective" : "Description";
+  const showThreatMappings = data.type === "capabilities";
+  const showThreatColumns = data.type === "threats";
+  const showControlColumns = data.type === "controls";
+  const sortedEntries = [...data.entries].sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
   return (
     <div className="library-article-body">
       <table>
         <thead>
-          <tr><th>ID</th><th>Title</th><th>{valueHeader}</th></tr>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>{valueHeader}</th>
+            {showThreatMappings && <th>Threat Mappings</th>}
+            {showThreatColumns && (
+              <>
+                <th>External Mappings</th>
+                <th>Capability Mappings</th>
+                <th>Control Mappings</th>
+              </>
+            )}
+            {showControlColumns && (
+              <>
+                <th>Control Family</th>
+                <th>Threat Mappings</th>
+                <th>Guideline Mappings</th>
+                <th>Assessment Requirements</th>
+              </>
+            )}
+          </tr>
         </thead>
         <tbody>
-          {data.entries.map((entry) => (
+          {sortedEntries.map((entry) => (
             <tr key={entry.id}>
               <td>{entry.id}</td>
               <td>{entry.title}</td>
               <td>{data.type === "controls" ? entry.objective : entry.description}</td>
+              {showThreatMappings && (
+                <td>
+                  <MappingCountBadge count={entry.threatMappings?.length ?? 0} />
+                </td>
+              )}
+              {showThreatColumns && (
+                <>
+                  <td>
+                    <MappingCountBadge count={entry.externalMappingsCount ?? 0} />
+                  </td>
+                  <td>
+                    <MappingCountBadge count={entry.capabilityMappingsCount ?? 0} />
+                  </td>
+                  <td>
+                    <MappingCountBadge count={entry.controlMappings?.length ?? 0} />
+                  </td>
+                </>
+              )}
+              {showControlColumns && (
+                <>
+                  <td>{entry.family}</td>
+                  <td>
+                    <MappingCountBadge count={entry.threatMappingsCount ?? 0} />
+                  </td>
+                  <td>
+                    <MappingCountBadge count={entry.guidelineMappingsCount ?? 0} />
+                  </td>
+                  <td>
+                    <MappingCountBadge count={entry.assessmentRequirementsCount ?? 0} />
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

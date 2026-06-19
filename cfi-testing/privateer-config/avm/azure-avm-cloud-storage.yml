@@ -1,0 +1,73 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Azure object-storage behavioural tests against the AVM deployment in
+# ccc-cfi-compliance/remote/azure/avm.
+#
+# Populated from terraform output after apply (2026-06-16, instance_id = 20260616):
+#   resource_group_name = avm-testing
+#   storage_account.name = avmstor20260616
+#   log_analytics_workspace.name = avmlaw20260616
+#   log_analytics_workspace.workspace_id = 433b7b84-1ba6-4f5c-8375-6d2016f07e6a
+#
+# Source azure-env.sh for test principal credentials before running.
+#
+# Known gaps vs full CFI storage harness (tests may skip or fail until addressed):
+#   - No blob container immutability policy in AVM terraform yet
+#   - public_network_access_enabled = false (data-plane access needs network/RBAC setup)
+
+services:
+  azureStorageBehavioural:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.ObjStor
+      applicability:
+        - tlp-amber
+        - tlp-clear
+        - tlp-green
+        - tlp-red
+    vars:
+      service: object-storage
+      service-type: object-storage
+      tags: "@Behavioural"
+      provider: azure
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.ObjStor: DEV
+      region: westus2
+      resource: "ccc-avm-test-container-20260616"
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-tenant-id: "${AZURE_TENANT_ID}"
+      azure-resource-group: "avm-testing"
+      azure-storage-account: "avmstor20260616"
+      object-storage-retention-period-days: 2
+      azure-log-analytics-workspace-id: "433b7b84-1ba6-4f5c-8375-6d2016f07e6a"
+      permitted-regions:
+        - westus2
+      replication-locations:
+        - westus2
+      default-container: "ccc-avm-test-container-20260616"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
+        test-user-read:
+          user-name: "${AZURE_TEST_USER_READ_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_READ_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_READ_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_READ_OBJECT_ID}"
+        test-user-write:
+          user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
+        test-user-admin:
+          user-name: "${AZURE_TEST_USER_ADMIN_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_ADMIN_OBJECT_ID}"

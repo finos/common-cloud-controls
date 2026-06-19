@@ -5,10 +5,33 @@ import remarkGfm from "remark-gfm";
 import { CatalogSidebar, CATALOG_STRUCTURE } from "./CatalogSidebar";
 import { markdownComponents } from "./markdownComponents";
 import { prettifySegment } from "@site/src/content/catalogUtils";
+import { User } from "../ccc/User";
+import type { Contributor } from "@site/src/types/ccc";
+
+function toContributor(c: CatalogContributor): Contributor {
+  return { name: c.name, "github-id": c["github-id"] ?? "", company: c.company ?? "" };
+}
+
+export interface CatalogContributor {
+  name: string;
+  "github-id"?: string;
+  company?: string;
+}
+
+export interface CatalogReleaseSummary {
+  version: string;
+  releaseManager?: CatalogContributor;
+  contributors?: CatalogContributor[];
+  capabilitiesCount: number;
+  threatsCount: number;
+  controlsCount: number;
+  typePaths: { capabilities?: string; threats?: string; controls?: string };
+}
 
 export interface CatalogServiceInfo {
   slug: string;
   types: Array<{ type: string; typePath: string }>;
+  releases: CatalogReleaseSummary[];
 }
 
 export interface CatalogCategoryData {
@@ -56,6 +79,48 @@ function TypeButtons({ svcInfo }: { svcInfo: CatalogServiceInfo }) {
   );
 }
 
+function ReleasesTable({ releases }: { releases: CatalogReleaseSummary[] }) {
+  if (!releases.length) return null;
+  return (
+    <div className="library-article-body" style={{ marginTop: "1.5rem" }}>
+      <table>
+        <thead>
+          <tr>
+            <th>Version</th>
+            <th>Release Manager</th>
+            <th>Authors</th>
+            <th>Controls</th>
+            <th>Threats</th>
+            <th>Capabilities</th>
+          </tr>
+        </thead>
+        <tbody>
+          {releases.map((release) => (
+            <tr key={release.version}>
+              <td>{release.version}</td>
+              <td>{release.releaseManager?.name ? <User contributor={toContributor(release.releaseManager)} /> : "Development Team"}</td>
+              <td>
+                {release.contributors?.length ? (
+                  <div className="flex flex-col gap-2">
+                    {release.contributors.map((c, i) => (
+                      <User key={i} contributor={toContributor(c)} />
+                    ))}
+                  </div>
+                ) : (
+                  "Development Team"
+                )}
+              </td>
+              <td>{release.typePaths.controls ? <Link to={release.typePaths.controls}>{release.controlsCount}</Link> : release.controlsCount}</td>
+              <td>{release.typePaths.threats ? <Link to={release.typePaths.threats}>{release.threatsCount}</Link> : release.threatsCount}</td>
+              <td>{release.typePaths.capabilities ? <Link to={release.typePaths.capabilities}>{release.capabilitiesCount}</Link> : release.capabilitiesCount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
   const [descBody, setDescBody] = useState("");
   const { category, services } = data;
@@ -80,7 +145,10 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
             {getServiceLabel(category, service)}
           </h1>
           {svcInfo ? (
-            <TypeButtons svcInfo={svcInfo} />
+            <>
+              <TypeButtons svcInfo={svcInfo} />
+              <ReleasesTable releases={svcInfo.releases} />
+            </>
           ) : (
             <p style={{ color: "var(--ifm-color-emphasis-600)" }}>No published catalogs yet.</p>
           )}

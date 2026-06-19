@@ -6,6 +6,7 @@ import LevelUp from "../components/LevelUp";
 import TheStory from "../components/TheStory";
 import SteeringCommittee from "../components/SteeringCommittee";
 import JoinCommunity from "../components/JoinCommunity";
+import styles from "./index.module.css";
 
 export default function Home(): ReactNode {
   return (
@@ -36,6 +37,15 @@ export default function Home(): ReactNode {
           <SimpleIntro />
           <p />
         </section>
+        <div className={styles.videoWrapper}>
+          <div className={styles.videoContainer}>
+            <iframe
+              src="https://www.youtube.com/embed/w0o_KH_in98?start=7"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        </div>
         <TheStory />
         <LevelUp />
         <JoinCommunity />
