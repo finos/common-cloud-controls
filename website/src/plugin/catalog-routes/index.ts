@@ -18,6 +18,33 @@ export interface CatalogEntry {
   threatMappingsCount?: number;
   guidelineMappingsCount?: number;
   assessmentRequirementsCount?: number;
+  capabilityRefs?: string[];
+  threatRefs?: string[];
+  assessmentRequirements?: CatalogAssessmentRequirement[];
+}
+
+export interface CatalogAssessmentRequirement {
+  id: string;
+  text: string;
+  applicability?: string[];
+}
+
+export interface CatalogRelatedEntry {
+  id: string;
+  title: string;
+  description?: string;
+  url: string;
+}
+
+export interface CatalogEntryDetailData {
+  category: string;
+  service: string;
+  version: string;
+  type: 'capabilities' | 'threats' | 'controls';
+  entry: CatalogEntry;
+  relatedCapabilities?: CatalogRelatedEntry[];
+  relatedThreats?: CatalogRelatedEntry[];
+  relatedControls?: CatalogRelatedEntry[];
 }
 
 export interface CatalogVersionData {
@@ -79,6 +106,7 @@ interface PluginContent {
   versions: Map<string, CatalogVersionData>;
   types: Map<string, CatalogTypeData>;
   categories: Map<string, CatalogCategoryData>;
+  entryDetails: Map<string, CatalogEntryDetailData>;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -118,18 +146,31 @@ function mapEntries(
     ...(type === 'threats' ? {
       externalMappingsCount: (e['external-mappings'] ?? []).length,
       capabilityMappingsCount: (e.capabilities ?? []).length,
+      capabilityRefs: extractRefIds(e.capabilities),
     } : {}),
     ...(type === 'controls' ? {
       family: cleanStr(e._familyTitle ?? e.group ?? ''),
       threatMappingsCount: sumMappingEntries(e.threats),
       guidelineMappingsCount: sumMappingEntries(e.guidelines),
       assessmentRequirementsCount: (e['assessment-requirements'] ?? []).length,
+      threatRefs: extractRefIds(e.threats),
+      assessmentRequirements: ((e['assessment-requirements'] ?? []) as any[]).map((ar) => ({
+        id: String(ar?.id ?? ''),
+        text: cleanStr(ar?.text),
+        applicability: (ar?.applicability ?? []) as string[],
+      })),
     } : {}),
   }));
 }
 
 function sumMappingEntries(mappingGroups: any[] | undefined): number {
   return (mappingGroups ?? []).reduce((sum: number, m: any) => sum + (m.entries?.length ?? 0), 0);
+}
+
+function extractRefIds(mappingGroups: any[] | undefined): string[] {
+  return (mappingGroups ?? []).flatMap((m: any) =>
+    (m.entries ?? []).map((e: any) => String(e?.['reference-id'] ?? '')),
+  ).filter(Boolean);
 }
 
 // Resolves each control's family/group title using a top-level `groups` lookup
@@ -347,6 +388,59 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         }
       }
 
+      // Build global id -> { entry, url } indices per type, for resolving cross-catalog references
+      const globalIndex: Record<CatalogVersionData['type'], Map<string, { entry: CatalogEntry; url: string }>> = {
+        capabilities: new Map(),
+        threats: new Map(),
+        controls: new Map(),
+      };
+      for (const [urlPath, data] of versions) {
+        for (const entry of data.entries) {
+          if (!globalIndex[data.type].has(entry.id)) {
+            globalIndex[data.type].set(entry.id, { entry, url: `${urlPath}/${entry.id}` });
+          }
+        }
+      }
+
+      const resolveRefs = (ids: string[] | undefined, index: Map<string, { entry: CatalogEntry; url: string }>): CatalogRelatedEntry[] =>
+        (ids ?? []).map((id) => {
+          const found = index.get(id);
+          return found
+            ? { id, title: found.entry.title, description: found.entry.description ?? found.entry.objective, url: found.url }
+            : { id, title: id, url: '#' };
+        });
+
+      // Build per-entry detail data, keyed by the entry's own url path
+      const entryDetails = new Map<string, CatalogEntryDetailData>();
+      for (const [urlPath, data] of versions) {
+        for (const entry of data.entries) {
+          const detail: CatalogEntryDetailData = {
+            category: data.category,
+            service: data.service,
+            version: data.version,
+            type: data.type,
+            entry,
+          };
+          if (data.type === 'capabilities') {
+            detail.relatedThreats = resolveRefs(entry.threatMappings, globalIndex.threats);
+          } else if (data.type === 'threats') {
+            detail.relatedCapabilities = resolveRefs(entry.capabilityRefs, globalIndex.capabilities);
+            detail.relatedControls = resolveRefs(entry.controlMappings, globalIndex.controls);
+          } else if (data.type === 'controls') {
+            detail.relatedThreats = resolveRefs(entry.threatRefs, globalIndex.threats);
+            // Related capabilities for a control are derived transitively: control -> its threats -> those threats' capabilities
+            const capIds = new Set<string>();
+            for (const threatId of entry.threatRefs ?? []) {
+              for (const capId of globalIndex.threats.get(threatId)?.entry.capabilityRefs ?? []) {
+                capIds.add(capId);
+              }
+            }
+            detail.relatedCapabilities = resolveRefs([...capIds], globalIndex.capabilities);
+          }
+          entryDetails.set(`${urlPath}/${entry.id}`, detail);
+        }
+      }
+
       // Build per-service release summaries: category/service -> version -> summary
       const releaseSummaries = new Map<string, Map<string, CatalogReleaseSummary>>();
       for (const [urlPath, data] of versions) {
@@ -423,10 +517,10 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         });
       }
 
-      return { versions, types, categories };
+      return { versions, types, categories, entryDetails };
     },
 
-    async contentLoaded({ content: { versions, types, categories }, actions }) {
+    async contentLoaded({ content: { versions, types, categories, entryDetails }, actions }) {
       const { createData, addRoute } = actions;
       const added = new Set<string>();
 
@@ -468,6 +562,18 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         const typeIndexFile = typeIndexFiles.get(data.type);
         if (typeIndexFile) modules.catalogTypeIndexData = typeIndexFile;
         add(urlPath, modules);
+      }
+
+      // Entry routes — /catalogs/<cat>/<svc>/<type>/<version>/<entryId>
+      for (const [entryUrlPath, detail] of entryDetails) {
+        const dataFile = await createData(
+          `catalog-entry${entryUrlPath.replace(/\//g, '-')}.json`,
+          JSON.stringify(detail),
+        );
+        const modules: Record<string, string> = { catalogEntryData: dataFile };
+        const typeIndexFile = typeIndexFiles.get(detail.type);
+        if (typeIndexFile) modules.catalogTypeIndexData = typeIndexFile;
+        add(entryUrlPath, modules);
       }
 
       // Type routes — include type index so sidebar stays filtered
