@@ -21,12 +21,21 @@ export interface CatalogEntry {
   capabilityRefs?: string[];
   threatRefs?: string[];
   assessmentRequirements?: CatalogAssessmentRequirement[];
+  guidelineMappings?: CatalogGuidelineMapping[];
+  externalMappings?: CatalogGuidelineMapping[];
 }
 
 export interface CatalogAssessmentRequirement {
   id: string;
   text: string;
   applicability?: string[];
+}
+
+export interface CatalogGuidelineMapping {
+  framework: string;
+  id: string;
+  remarks?: string;
+  url?: string;
 }
 
 export interface CatalogRelatedEntry {
@@ -147,6 +156,7 @@ function mapEntries(
       externalMappingsCount: (e['external-mappings'] ?? []).length,
       capabilityMappingsCount: (e.capabilities ?? []).length,
       capabilityRefs: extractRefIds(e.capabilities),
+      externalMappings: extractGuidelineMappings(e['external-mappings']),
     } : {}),
     ...(type === 'controls' ? {
       family: cleanStr(e._familyTitle ?? e.group ?? ''),
@@ -159,12 +169,43 @@ function mapEntries(
         text: cleanStr(ar?.text),
         applicability: (ar?.applicability ?? []) as string[],
       })),
+      guidelineMappings: extractGuidelineMappings(e.guidelines),
     } : {}),
   }));
 }
 
 function sumMappingEntries(mappingGroups: any[] | undefined): number {
   return (mappingGroups ?? []).reduce((sum: number, m: any) => sum + (m.entries?.length ?? 0), 0);
+}
+
+function extractGuidelineMappings(mappingGroups: any[] | undefined): CatalogGuidelineMapping[] {
+  return (mappingGroups ?? []).flatMap((g: any) =>
+    (g.entries ?? []).map((entry: any) => {
+      const framework = String(g?.['reference-id'] ?? '');
+      const id = String(entry?.['reference-id'] ?? '');
+      return {
+        framework,
+        id,
+        remarks: cleanStr(entry?.remarks),
+        url: getExternalFrameworkUrl(framework, id) ?? undefined,
+      };
+    }),
+  );
+}
+
+// Known external-framework URL generators (MITRE ATT&CK, NIST, CSA CCM, etc.) for
+// linking guideline/external mapping IDs back to their source standard.
+function getExternalFrameworkUrl(framework: string, entryId: string): string | null {
+  const urlGenerators: Record<string, (id: string) => string> = {
+    'MITRE-ATT&CK': (id) => `https://attack.mitre.org/techniques/${id}`,
+    'NIST-CSF': (id) => `https://csrc.nist.gov/Projects/cybersecurity-framework/glossary#term-${id.toLowerCase()}`,
+    NIST_800_53: (id) => `https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/SP_800_53_5_2_0/home?keyword=${id}`,
+    ISO_27001: () => `https://www.iso.org/standard/27001`,
+    CCM: () => `https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4/`,
+  };
+
+  const generate = urlGenerators[framework];
+  return generate ? generate(entryId) : null;
 }
 
 function extractRefIds(mappingGroups: any[] | undefined): string[] {

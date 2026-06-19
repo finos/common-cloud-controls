@@ -12,6 +12,13 @@ export interface CatalogAssessmentRequirement {
   applicability?: string[];
 }
 
+export interface CatalogGuidelineMapping {
+  framework: string;
+  id: string;
+  remarks?: string;
+  url?: string;
+}
+
 export interface CatalogEntry {
   id: string;
   title: string;
@@ -28,6 +35,8 @@ export interface CatalogEntry {
   capabilityRefs?: string[];
   threatRefs?: string[];
   assessmentRequirements?: CatalogAssessmentRequirement[];
+  guidelineMappings?: CatalogGuidelineMapping[];
+  externalMappings?: CatalogGuidelineMapping[];
 }
 
 export interface CatalogVersionData {
