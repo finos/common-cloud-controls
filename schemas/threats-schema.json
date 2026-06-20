@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "CCC Threat Catalog",
-  "description": "Validates CCC threat catalogs. Accepts the full Gemara 1.2.0 layer-2 ThreatCatalog shape (title + metadata + groups + threats, with vectors). The Gemara-required top-level title/metadata are kept OPTIONAL, and the non-Gemara per-threat external-mappings field is still allowed, so legacy CCC catalogs that predate Gemara 1.2.0 continue to validate during the transition.",
+  "description": "Validates CCC threat catalogs against the Gemara 1.2.0 layer-2 ThreatCatalog shape: a top-level title, metadata, groups, threats, and per-threat imports/capabilities/vectors/actors. Threat-to-external-framework mappings live in standalone MappingDocuments under catalogs/**/mappings/ (see schemas/mappingdocument-schema.json).",
   "type": "object",
   "definitions": {
     "multiEntryMapping": {
@@ -268,13 +268,6 @@
             "description": "Gemara 1.2.0: relevant internal or external threat actors",
             "items": {
               "$ref": "#/definitions/actor"
-            }
-          },
-          "external-mappings": {
-            "type": "array",
-            "description": "Legacy CCC shape: mappings to external frameworks (e.g., MITRE ATT&CK)",
-            "items": {
-              "$ref": "#/definitions/multiEntryMapping"
             }
           }
         },
