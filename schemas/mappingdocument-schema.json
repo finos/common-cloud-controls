@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Gemara 1.2.0 MappingDocument",
+  "description": "Validates standalone Gemara 1.2.0 layer-2 MappingDocument files, which capture how entries in a source artifact relate to entries in a target artifact. Ported from gemaraproj/go-gemara MappingDocument.",
+  "type": "object",
+  "definitions": {
+    "entryType": {
+      "type": "string",
+      "enum": [
+        "Guideline",
+        "Statement",
+        "Control",
+        "AssessmentRequirement",
+        "Capability",
+        "Threat",
+        "Risk",
+        "Vector",
+        "Principle"
+      ]
+    },
+    "relationshipType": {
+      "type": "string",
+      "enum": [
+        "implements",
+        "implemented-by",
+        "supports",
+        "supported-by",
+        "equivalent",
+        "subsumes",
+        "no-match",
+        "relates-to"
+      ]
+    },
+    "typedMapping": {
+      "type": "object",
+      "properties": {
+        "reference-id": {
+          "type": "string",
+          "description": "Identifies a mapping-reference entry declared in metadata.mapping-references"
+        },
+        "entry-type": {
+          "$ref": "#/definitions/entryType"
+        },
+        "remarks": {
+          "type": "string"
+        }
+      },
+      "required": ["reference-id", "entry-type"],
+      "additionalProperties": false
+    },
+    "mappingTarget": {
+      "type": "object",
+      "properties": {
+        "entry-id": {
+          "type": "string",
+          "description": "Identifies the specific entry in the target artifact"
+        },
+        "strength": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "confidence-level": {
+          "type": "string",
+          "enum": ["Undetermined", "Low", "Medium", "High"]
+        },
+        "applicability": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "remarks": {
+          "type": "string"
+        }
+      },
+      "required": ["entry-id"],
+      "additionalProperties": false
+    },
+    "mapping": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Allows this mapping to be referenced by other elements"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source entry being mapped from, by its entry-id"
+        },
+        "relationship": {
+          "$ref": "#/definitions/relationshipType"
+        },
+        "targets": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/mappingTarget" }
+        },
+        "remarks": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "source", "relationship"],
+      "additionalProperties": false,
+      "if": {
+        "properties": { "relationship": { "const": "no-match" } }
+      },
+      "then": {},
+      "else": {
+        "required": ["targets"],
+        "properties": {
+          "targets": { "minItems": 1 }
+        }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["Human", "Software", "Software Assisted"]
+        },
+        "version": { "type": "string" },
+        "description": { "type": "string" },
+        "uri": { "type": "string" },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "affiliation": { "type": "string" },
+            "email": { "type": "string" },
+            "social": { "type": "string" }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["id", "name", "type"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "const": "MappingDocument" },
+        "gemara-version": { "type": "string" },
+        "version": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "description": { "type": "string" },
+        "author": { "$ref": "#/definitions/actor" },
+        "mapping-references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "version": { "type": "string" },
+              "description": { "type": "string" },
+              "url": {
+                "type": "string",
+                "pattern": "^(https?|file)://[^\\s]+$"
+              }
+            },
+            "required": ["id", "title", "version"],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "draft": { "type": "boolean" }
+      },
+      "required": ["id", "type", "gemara-version", "description", "mapping-references"],
+      "additionalProperties": false
+    },
+    "source-reference": {
+      "$ref": "#/definitions/typedMapping"
+    },
+    "target-reference": {
+      "$ref": "#/definitions/typedMapping"
+    },
+    "mappings": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/mapping" },
+      "minItems": 1
+    },
+    "remarks": {
+      "type": "string"
+    }
+  },
+  "required": ["title", "metadata", "source-reference", "target-reference", "mappings"],
+  "additionalProperties": false
+}

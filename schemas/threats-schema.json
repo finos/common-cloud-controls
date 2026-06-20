@@ -1,9 +1,196 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CCC Threat Catalog",
+  "description": "Validates CCC threat catalogs. Accepts the full Gemara 1.2.0 layer-2 ThreatCatalog shape (title + metadata + groups + threats, with vectors). The Gemara-required top-level title/metadata are kept OPTIONAL, and the non-Gemara per-threat external-mappings field is still allowed, so legacy CCC catalogs that predate Gemara 1.2.0 continue to validate during the transition.",
   "type": "object",
+  "definitions": {
+    "multiEntryMapping": {
+      "type": "object",
+      "properties": {
+        "reference-id": {
+          "type": "string",
+          "description": "Identifies a mapping-reference entry declared in metadata.mapping-references"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "reference-id": {
+                "type": "string",
+                "description": "Identifier of the entry being mapped to in the referenced artifact"
+              },
+              "strength": {
+                "type": "integer"
+              },
+              "remarks": {
+                "type": "string"
+              }
+            },
+            "required": ["reference-id"],
+            "additionalProperties": false
+          }
+        },
+        "remarks": {
+          "type": "string"
+        }
+      },
+      "required": ["reference-id", "entries"],
+      "additionalProperties": false
+    },
+    "capabilityMapping": {
+      "type": "object",
+      "properties": {
+        "reference-id": {
+          "type": "string",
+          "description": "Capability mapping namespace or mapping-reference id (e.g., CCC, ma-ref-arch-capabilities)"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "reference-id": {
+                "type": "string",
+                "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.CP\\d+$",
+                "description": "Feature/Capability ID"
+              },
+              "strength": {
+                "type": "integer"
+              },
+              "remarks": {
+                "type": "string"
+              }
+            },
+            "required": ["reference-id"],
+            "additionalProperties": false
+          }
+        },
+        "remarks": {
+          "type": "string"
+        }
+      },
+      "required": ["reference-id", "entries"],
+      "additionalProperties": false
+    },
+    "actor": {
+      "type": "object",
+      "description": "Gemara entity (human or tool)",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["Human", "Software", "Software Assisted"]
+        },
+        "version": { "type": "string" },
+        "description": { "type": "string" },
+        "uri": { "type": "string" },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "affiliation": { "type": "string" },
+            "email": { "type": "string" },
+            "social": { "type": "string" }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["id", "name", "type"],
+      "additionalProperties": false
+    }
+  },
   "properties": {
+    "title": {
+      "type": "string",
+      "description": "Gemara 1.2.0: human-readable title of the threat catalog"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Gemara 1.2.0: catalog metadata",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the threat catalog"
+        },
+        "type": {
+          "type": "string",
+          "const": "ThreatCatalog"
+        },
+        "gemara-version": {
+          "type": "string",
+          "description": "Version of the Gemara specification this artifact conforms to"
+        },
+        "version": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string"
+        },
+        "author": {
+          "$ref": "#/definitions/actor"
+        },
+        "mapping-references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "version": { "type": "string" },
+              "description": { "type": "string" },
+              "url": {
+                "type": "string",
+                "pattern": "^(https?|file)://[^\\s]+$"
+              }
+            },
+            "required": ["id", "title", "version"],
+            "additionalProperties": false
+          }
+        },
+        "applicability-groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "description": { "type": "string" }
+            },
+            "required": ["id", "title", "description"],
+            "additionalProperties": false
+          }
+        },
+        "draft": {
+          "type": "boolean"
+        }
+      },
+      "required": ["id", "type", "gemara-version", "description"],
+      "additionalProperties": false
+    },
+    "groups": {
+      "type": "array",
+      "description": "Gemara 1.2.0: groups that threats may be classified under",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "required": ["id", "title", "description"],
+        "additionalProperties": false
+      }
+    },
     "imports": {
       "type": "array",
+      "description": "Gemara 1.2.0 #Catalog field: threats imported from another catalog (entries constrained to CCC core threat IDs)",
       "items": {
         "type": "object",
         "properties": {
@@ -61,81 +248,33 @@
           },
           "group": {
             "type": "string",
-            "description": "Group id this threat belongs to (defined in core/ccc/groups.yaml)"
+            "description": "Group id this threat belongs to (defined in core/ccc/groups.yaml or this catalog's groups)"
           },
           "capabilities": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "reference-id": {
-                  "type": "string",
-                  "description": "Capability mapping namespace (e.g., CCC)"
-                },
-                "entries": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "reference-id": {
-                        "type": "string",
-                        "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.CP\\d+$",
-                        "description": "Feature/Capability ID"
-                      },
-                      "strength": {
-                        "type": "integer"
-                      },
-                      "remarks": {
-                        "type": "string"
-                      }
-                    },
-                    "required": ["reference-id"],
-                    "additionalProperties": false
-                  }
-                },
-                "remarks": {
-                  "type": "string"
-                }
-              },
-              "required": ["reference-id", "entries"],
-              "additionalProperties": false
+              "$ref": "#/definitions/capabilityMapping"
+            }
+          },
+          "vectors": {
+            "type": "array",
+            "description": "Gemara 1.2.0: mappings between this threat and one or more vectors",
+            "items": {
+              "$ref": "#/definitions/multiEntryMapping"
+            }
+          },
+          "actors": {
+            "type": "array",
+            "description": "Gemara 1.2.0: relevant internal or external threat actors",
+            "items": {
+              "$ref": "#/definitions/actor"
             }
           },
           "external-mappings": {
             "type": "array",
+            "description": "Legacy CCC shape: mappings to external frameworks (e.g., MITRE ATT&CK)",
             "items": {
-              "type": "object",
-              "properties": {
-                "reference-id": {
-                  "type": "string",
-                  "description": "Framework name (e.g., MITRE-ATT&CK)"
-                },
-                "entries": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "reference-id": {
-                        "type": "string",
-                        "description": "Mapping identifier (e.g., MITRE technique ID)"
-                      },
-                      "strength": {
-                        "type": "integer"
-                      },
-                      "remarks": {
-                        "type": "string"
-                      }
-                    },
-                    "required": ["reference-id"],
-                    "additionalProperties": false
-                  }
-                },
-                "remarks": {
-                  "type": "string"
-                }
-              },
-              "required": ["reference-id", "entries"],
-              "additionalProperties": false
+              "$ref": "#/definitions/multiEntryMapping"
             }
           }
         },

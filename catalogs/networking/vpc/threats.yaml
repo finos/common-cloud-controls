@@ -38,10 +38,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP01
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1040
   - id: CCC.VPC.TH02
     group: Networking
     title: Exposure of Resources to Public Internet
@@ -53,11 +49,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP04
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1133
-          - reference-id: T1078
   - id: CCC.VPC.TH03
     group: Networking
     title: Unauthorized Network Access Through VPC Peering
@@ -69,10 +60,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP11
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1599
   - id: CCC.VPC.TH04
     group: Observability
     title: Lack of Network Visibility due to Disabled VPC Flow Logs
@@ -85,10 +72,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP16
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1562
   - id: CCC.VPC.TH05
     group: Networking
     title: Overly Permissive VPC Endpoint Policies
@@ -99,8 +82,3 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP17
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078
-          - reference-id: T1071
