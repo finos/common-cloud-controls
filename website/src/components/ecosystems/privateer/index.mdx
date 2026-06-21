@@ -1,0 +1,21 @@
+import EcosystemPage from '../EcosystemPage';
+
+<EcosystemPage slug="privateer" title="Privateer">
+
+# Privateer
+
+[Privateer](https://github.com/privateerproj) is a plugin-based framework for security and compliance evaluations. It actively tests deployed systems — from both normal user and attacker perspectives — to find misconfigurations and vulnerabilities that static analysis alone can miss.
+
+Privateer orchestrates plugin-based validation runs and returns results in a [Gemara](/ecosystems/gemara)-compatible format. Control IDs and their assessment requirements are mapped to evaluation steps, so any resource can be checked against any number of requirements in a consistent, machine-readable way.
+
+## Connection to CCC
+
+Privateer sits at Gemara Layer 5 — evaluation. CCC catalogs define the controls and assessment requirements; Privateer plugins run those checks against real deployments and produce evidence you can feed into compliance pipelines.
+
+The [`ccc-behavioural-plugin`](https://github.com/finos/common-cloud-controls/tree/main/modules/ccc-behavioural-plugin) is CCC's own Privateer evaluation plugin. It runs behavioural Godog scenarios against live cloud resources — object storage, VPCs, and other services — configured through Privateer's `services.<id>.vars`. The plugin loads CCC catalog assessment requirements, maps each one to evaluation steps, executes the Godog suite, and writes Gemara-compatible results that tie scenario outcomes back to specific control IDs.
+
+In practice, this is how CCC behavioural tests run in the [Compliant Financial Infrastructure](/cfi) pipeline: Privateer orchestrates the run, the plugin executes the scenarios, and the output becomes auditable evidence against the catalog requirements you selected.
+
+[Explore the Privateer project on GitHub →](https://github.com/privateerproj)
+
+</EcosystemPage>

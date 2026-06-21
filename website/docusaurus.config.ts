@@ -23,6 +23,12 @@ const config: Config = {
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
 
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid'],
+
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
@@ -57,26 +63,22 @@ const config: Config = {
         srcDark: "img/logo/2023_FinosCCC_Horizontal_WHT.svg",
       },
       items: [
-        { to: "/about", label: "About", position: "left" },
+        { to: '/about', label: 'About', position: 'right' },
         {
           label: "Catalogs",
-          to: "/catalogs/core",
-          position: "left",
+          to: "/catalogs",
+          position: "right",
           type: "dropdown",
           items: [
-            { to: "/catalogs/core", label: "CCC Catalogs" },
             { to: "/threats", label: "Threats" },
             { to: "/controls", label: "Controls" },
             { to: "/capabilities", label: "Capabilities" },
           ],
         },
-        { to: "/metadata", label: "Metadata", position: "left" },
-        { to: "/cfi", label: "Test Results", position: "left" },
-        { to: "/contributors", label: "Contributors", position: "left" },
         {
-          label: 'Ecosystems',
+          label: 'Ecosystem',
           to: '/ecosystems',
-          position: 'left',
+          position: 'right',
           type: 'dropdown',
           items: [
             { to: '/ecosystems/prowler', label: 'Prowler' },
@@ -90,6 +92,9 @@ const config: Config = {
             { to: '/ecosystems/calmsuite', label: 'CALMSuite' },
           ],
         },
+        { to: '/validators', label: 'Validators', position: 'right' },
+        { to: "/cfi", label: "Test Results", position: "right" },
+        { to: "/contributors", label: "Contributors", position: "right" },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
@@ -106,14 +111,6 @@ const config: Config = {
       },
       links: [
         {
-          label: "Contributors",
-          href: "/contributors",
-        },
-        {
-          label: "Github",
-          href: "https://github.com/finos/common-cloud-controls/blob/main/README.md",
-        },
-        {
           label: "Calendar",
           href: "https://zoom-lfx.platform.linuxfoundation.org/meetings/finos?view=month",
         },
@@ -126,28 +123,28 @@ const config: Config = {
           to: "/about",
         },
         {
-          label: "CCC Catalogs",
-          to: "/catalogs/core",
+          label: "Catalogs",
+          to: "/catalogs",
         },
         {
-          label: "Threats",
-          to: "/threats",
+          label: "Ecosystem",
+          to: "/ecosystems",
         },
-        {
-          label: "Controls",
-          to: "/controls",
-        },
-        {
-          label: "Capabilities",
-          to: "/capabilities",
-        },
-        {
-          label: "Metadata",
-          to: "/metadata",
+        { 
+          to: '/validators', 
+          label: 'Validators' 
         },
         {
           label: "Test Results",
           to: "/cfi",
+        },
+        {
+          label: "Contributors",
+          href: "/contributors",
+        },
+        {
+          label: "Github",
+          href: "https://github.com/finos/common-cloud-controls/blob/main/README.md",
         },
       ],
 
