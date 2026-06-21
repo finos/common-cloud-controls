@@ -175,7 +175,7 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
 1. Use `schemas/threats-schema.json` as the source of truth for required and allowed fields.
 2. Build `imported-threats` from the confirmed Step 3 selection using the schema shape:
    ```yaml
-   imported-threats:
+   imports:
      - reference-id: CCC
        entries:
          - reference-id: CCC.Core.TH01
