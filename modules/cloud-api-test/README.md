@@ -87,9 +87,9 @@ Re-run the same `provision-<cloud>.sh` after `terraform apply` to refresh fixtur
 ### GitHub Actions secret model
 
 For CI, store each generated env file as a single multiline secret:
+
 - `AZURE_ENV` (contents of `azure-env.sh`)
 - `GCP_ENV` (contents of `gcp-env.sh`)
 - `AWS_ENV` (if you maintain an AWS env script)
 
 Core platform values can still come from existing repo secrets (for example `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `GCP_PROJECT_ID`, `GCP_PROJECT_NUMBER`, `AWS_REGION`).
-

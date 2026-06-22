@@ -4,7 +4,7 @@ Cloud-specific env files (`*-env.sh`) and idempotent provision scripts for integ
 
 ## Layout
 
-```
+```text
 environment-config/
   lib.sh              # shared helpers
   provision-aws.sh
@@ -27,7 +27,7 @@ cd modules/cloud-api-test/environment-config
 source ./aws-env.sh   # matching cloud
 ```
 
-3. Run tests: `../run-integration-tests.sh <aws|azure|gcp>`
+1. Run tests: `../run-integration-tests.sh <aws|azure|gcp>`
 
 ## Idempotency
 
