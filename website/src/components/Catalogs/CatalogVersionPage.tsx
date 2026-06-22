@@ -1,9 +1,23 @@
 
 import React from "react";
+import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 import { MappingCountBadge } from "../ccc/MappingCountBadge";
+
+export interface CatalogAssessmentRequirement {
+  id: string;
+  text: string;
+  applicability?: string[];
+}
+
+export interface CatalogGuidelineMapping {
+  framework: string;
+  id: string;
+  remarks?: string;
+  url?: string;
+}
 
 export interface CatalogEntry {
   id: string;
@@ -18,6 +32,11 @@ export interface CatalogEntry {
   threatMappingsCount?: number;
   guidelineMappingsCount?: number;
   assessmentRequirementsCount?: number;
+  capabilityRefs?: string[];
+  threatRefs?: string[];
+  assessmentRequirements?: CatalogAssessmentRequirement[];
+  guidelineMappings?: CatalogGuidelineMapping[];
+  externalMappings?: CatalogGuidelineMapping[];
 }
 
 export interface CatalogVersionData {
@@ -56,6 +75,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
   const showThreatColumns = data.type === "threats";
   const showControlColumns = data.type === "controls";
   const sortedEntries = [...data.entries].sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+  const typePath = `/catalogs/${data.category}/${data.service}/${data.type}/${data.version}`;
   return (
     <div className="library-article-body">
       <table>
@@ -85,7 +105,9 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
         <tbody>
           {sortedEntries.map((entry) => (
             <tr key={entry.id}>
-              <td>{entry.id}</td>
+              <td>
+                <Link to={`${typePath}/${entry.id}`}>{entry.id}</Link>
+              </td>
               <td>{entry.title}</td>
               <td>{data.type === "controls" ? entry.objective : entry.description}</td>
               {showThreatMappings && (
