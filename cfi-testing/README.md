@@ -218,7 +218,7 @@ npm start --prefix website
 
 `GITHUB_TOKEN` is required — unauthenticated requests cannot download workflow artifacts. If the token is unset, `fetch:cfi` skips the download with a warning.
 
-Open [http://localhost:3000/cfi](http://localhost:3000/cfi) to browse your results.
+Open `http://localhost:3000/cfi` to browse your results.
 
 ### 5.  Publishing the results on [ccc.finos.org](https://ccc.finos.org)
 
