@@ -14,7 +14,7 @@ The serverless catalog defines **two native controls** with **two behavioural AR
 ## Imported controls
 
 | Reference | Action |
-|-----------|--------|
+| ----------- | -------- |
 | CCC.Core.CN01 | Partial — `@NotTestable` for Lambda unless function URL exposes TLS port; no generic SSH/TLS port on FaaS |
 | CCC.Core.CN02 | Config/behavioural — encryption at rest for env vars/secrets (describe function config) |
 | CCC.Core.CN03 | `@NotTestable` — MFA is IAM/console |
@@ -65,7 +65,7 @@ The serverless catalog defines **two native controls** with **two behavioural AR
 
 #### Feature sketch
 
-```
+```text
 Background: api + serverless-computing service
 
 Scenario A (@SANITY @OPT_IN): private path works
@@ -88,7 +88,7 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 #### Config / fixtures
 
 | Var | Good fixture | Bad fixture |
-|-----|--------------|-------------|
+| ----- | -------------- | ------------- |
 | `private-endpoint-url` | **Required** — URL/ARN for Scenario A | **Required** |
 | `public-invoke-url` | Empty; exposure API must confirm no public surface | **Required** — actual public Function URL / API GW URL |
 | `function-name` | Resource under test | Same |
@@ -163,7 +163,7 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 ### `serverlesscomputing.Service`
 
 | Method | Used by AR(s) | Args | Returns (key fields) |
-|--------|---------------|------|----------------------|
+| -------- | --------------- | ------ | ---------------------- |
 | `GetInvokeEndpointExposure` | SvlsComp.CN01.AR01 | `functionID string` | `PublicEndpointConfigured`, `PublicEndpointURL`, `PrivateEndpointConfigured`, `PrivateEndpointURL` |
 | `AttemptPrivateInvoke` | SvlsComp.CN01.AR01 (Scenario A) | `functionID string` | `Invoked`, `StatusCode`, `Error` |
 | `AttemptPublicInternetInvoke` | SvlsComp.CN01.AR01 (Scenario B) | `functionID string` | `AccessDenied`, `Invoked`, `StatusCode`, `Error` |
@@ -181,7 +181,7 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 ### `logging.Service`
 
 | logType | AR(s) | resourceID meaning |
-|---------|-------|-------------------|
+| --------- | ------- | ------------------- |
 | `admin` | CN04.AR01 | Function name / ARN |
 | `data-write` | CN04.AR02 | Function name |
 | `data-read` | CN04.AR03 | Function name |
@@ -189,7 +189,7 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 ### `generic.Service` methods used
 
 | Method | AR(s) |
-|--------|-------|
+| -------- | ------- |
 | `GetOrProvisionTestableResources` | all |
 | `GetResourceRegion` | CN06.AR01 |
 | `UpdateResourcePolicy` | CN04.AR01 |
@@ -205,73 +205,88 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 ### `GetInvokeEndpointExposure`
 
 #### AWS
+
 - **API**: `lambda:GetFunctionUrlConfig`, `lambda:GetPolicy` (public principal check), `apigateway:GetRestApis` / integration lookup if applicable.
 - **Notes**: `PublicEndpointConfigured=true` when Function URL exists or resource policy allows `Principal: *` on invoke URL path.
 - **Config**: `function-name`, `region`.
 
 #### Azure
+
 - **API**: Functions app settings + private endpoint connection resources; compare public `defaultHostName` vs `*.privatelink.*` hostname.
 - **Config**: `azure-function-app-name`, `azure-resource-group`.
 
 #### GCP
+
 - **API**: `cloudfunctions.v2.GetFunction` — `serviceConfig.ingressSettings` (`ALLOW_ALL` vs `ALLOW_INTERNAL_ONLY`).
 - **Config**: `gcp-project-id`, `region`, `function-name`.
 
 ### `AttemptPrivateInvoke`
 
 #### AWS
+
 - **API**: `lambda:Invoke` via **VPC interface endpoint** or HTTP to private API GW / internal ALB URL from config.
 - **Config**: `private-endpoint-url` (required), `function-name`.
 
 #### Azure
+
 - **API**: HTTP POST to `private-endpoint-url` (Private Link FQDN).
 - **Config**: `private-endpoint-url`.
 
 #### GCP
+
 - **API**: Invoke via internal URL / VPC connector path from config.
 - **Config**: `private-endpoint-url`.
 
 ### `AttemptPublicInternetInvoke`
 
 #### AWS
+
 - **API**: HTTP to Function URL or public API GW URL **without** auth credentials — from test runner on public internet. Expect connection failure, timeout, or non-2xx (not IAM 403 on an auth-gated public URL counted as “private”).
 - **Notes**: Do **not** use `lambda:Invoke` SDK from runner as the CN01 probe — that tests IAM (CN05). Good fixture: no Function URL; exposure API confirms none.
 - **Config**: `public-invoke-url` (required on bad fixture; optional on good if testing dual URL), `function-name`.
 
 #### Azure
+
 - **API**: HTTP to public `*.azurewebsites.net` hostname (not `*.privatelink.*`).
 - **Notes**: Expect timeout / 403 / connection refused when only private endpoint is enabled.
 - **Config**: `public-invoke-url`, `private-endpoint-url`.
 
 #### GCP
+
 - **API**: HTTP to public `cloudfunctions.net` / Cloud Run URL when ingress is internal-only → 403.
 - **Config**: `public-invoke-url`, `function-name`, `ingress-settings`.
 
 ### `InvokeFunctionBurst`
 
 #### AWS
+
 - **API**: `lambda:Invoke` synchronous in loop; detect `TooManyRequestsException`.
 - **Config**: `rate-limit-threshold`, function ARN, reserved concurrency set in terraform.
 
 #### Azure
+
 - **API**: HTTP trigger burst or `Invoke` REST API; watch for 429.
 - **Config**: function key for authorized path only; throttle limit on plan.
 
 #### GCP
+
 - **API**: `cloudfunctions.call` or HTTP repeated invokes; 429 on quota.
 - **Config**: `max-instances` / quota aligned with threshold.
 
 ### `GetFunctionEncryptionStatus`
 
 #### AWS
+
 - **API**: `lambda:GetFunctionConfiguration` — `KMSKeyArn`, env encryption.
 - **Config**: function name.
 
 #### Azure
+
 - **API**: `WebApps/Get` / Functions host config — storage encryption, Key Vault refs.
 - **Config**: resource group, function app name.
 
 #### GCP
+
 - **API**: `cloudfunctions.v2.GetFunction` — `kmsKeyName`, secret env.
 - **Config**: project, region, function name.
 
@@ -284,7 +299,7 @@ Same pattern as object-storage: harmless metadata change + [`logging.QueryLogs`]
 ## Privateer config (planned vars)
 
 | Var | Purpose | Good fixture | Bad fixture |
-|-----|---------|--------------|-------------|
+| ----- | --------- | -------------- | ------------- |
 | `service` | factory id | `serverless-computing` | same |
 | `tags` | filter | `@Behavioural @serverless-computing` | `@Behavioural` |
 | `resource` | resource filter | `cfi-…-fn-good` | `cfi-…-fn-bad` |

@@ -87,3 +87,100 @@ groups:
       deploying, and managing ML models and AI systems. This includes
       development environments, experiment tracking, model registries,
       inference, generative AI, prompt engineering, and model governance.
+  - id: user-interaction
+    title: User Interaction Layer
+    description: |
+      The entry point of the system, providing the interface through which
+      users express intent, submit inputs, and review agent outputs.
+  - id: agent-gateway
+    title: Agent Gateway Layer
+    description: |
+      The controlled entry point into the agent layer, governing how
+      applications discover, reach, and are policed before invoking agents.
+  - id: agent
+    title: Agent Layer
+    description: |
+      The core reasoning, coordination, and task-execution subsystems,
+      including the sandboxed runtime, tools, memory, and learning.
+  - id: knowledge
+    title: Knowledge Layer
+    description: |
+      The information foundation that grounds agent reasoning through
+      authoritative source repositories and semantic retrieval.
+  - id: llm
+    title: LLM Layer
+    description: |
+      The governed interface for accessing approved large language models,
+      including registry, routing, and model-interaction guardrails.
+  - id: mcp
+    title: MCP Layer
+    description: |
+      The governed interface for accessing approved MCP servers, including
+      registry, routing, and tool-interaction guardrails.
+  - id: evaluation
+    title: Evaluation Layer
+    description: |
+      Continuous oversight, quality assurance, and adaptive improvement
+      through feedback, human supervision, and runtime protection.
+  - id: PREV
+    title: Preventive
+    description: Prevention and Risk Mitigation
+  - id: DET
+    title: Detective
+    description: Detection and Continuous Improvement
+  - id: information-leakage
+    title: Information Leakage
+    description: |
+      Sensitive data exposed through model memorization, hosted-provider
+      controls, or the knowledge layer's vector store.
+  - id: data-poisoning
+    title: Data Poisoning
+    description: |
+      Manipulation of training, fine-tuning, third-party, or adaptive-learning
+      data to corrupt model and agent behaviour.
+  - id: model-availability
+    title: Model Availability
+    description: |
+      Disruption of model serving through cost exhaustion, provider outages, or
+      resource exhaustion on serving infrastructure.
+  - id: prompt-injection
+    title: Prompt Injection
+    description: |
+      Direct or indirect manipulation of model inputs to override intended
+      behaviour, hijack workflows, or extract internal state.
+  - id: operational
+    title: Operational
+    description: |
+      Risks arising from how the system is used and perceived, including scope
+      creep beyond validated use and reputational harm.
+  - id: output-integrity
+    title: Output Integrity
+    description: |
+      Confident but incorrect, fabricated, inconsistent, or ungrounded outputs
+      that diverge from facts, retrieved sources, or business intent.
+  - id: model-integrity
+    title: Model Integrity
+    description: |
+      Threats to the integrity, stability, and provenance of the foundation
+      model through silent drift or adversarial tampering.
+  - id: data-quality
+    title: Data Quality
+    description: |
+      Inaccurate, outdated, biased, or drifting data that degrades the
+      reliability and fairness of outputs over time.
+  - id: fairness
+    title: Fairness
+    description: |
+      Systematically discriminatory outcomes arising from biased data, design
+      choices, proxy variables, or uncorrected feedback loops.
+  - id: governance-compliance
+    title: Governance and Compliance
+    description: |
+      Regulatory, supervisory, explainability, and intellectual-property
+      exposure for the system's outputs and operation.
+  - id: agentic-security
+    title: Agentic Security
+    description: |
+      Risks specific to autonomous and multi-agent operation, including
+      authorization bypass, tool-chain manipulation, supply-chain compromise,
+      state poisoning, multi-agent trust violations, and credential harvesting.
