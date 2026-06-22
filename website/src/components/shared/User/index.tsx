@@ -1,7 +1,12 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Badge } from "../../ui/badge";
-import { Contributor } from "@site/src/types/ccc";
+
+export interface Contributor {
+  name: string;
+  "github-id"?: string;
+  company?: string;
+}
 
 interface UserProps {
   contributor: Contributor;
@@ -30,9 +35,11 @@ export function User({ contributor }: UserProps) {
             </a>
           ) : null}
         </div>
-        <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300 w-fit">
-          {company}
-        </Badge>
+        {company && (
+          <Badge variant="outline" className="bg-blue-100 text-blue-800 font-medium border border-blue-300 w-fit">
+            {company}
+          </Badge>
+        )}
       </div>
     </div>
   );
