@@ -64,11 +64,11 @@ For an example of this used by CCC integration testing, take a look at [`modules
 
 Hard-coded resource identifiers in the config (VPC IDs, storage account names, etc.) must match the Terraform outputs from the fixture you applied. Update those literals after `terraform apply` when provisioning a new environment.
 
-In CI, the same variables are injected from GitHub Actions secrets (see [Configuring GitHub Actions](#configuring-github-actions) below).
+In CI, the same variables are injected from GitHub Actions secrets (see [Running Tests inside CCC's GitHub Actions](#running-tests-inside-cccs-github-actions) below).
 
 ### 4. Generating DEV catalogs
 
-Privateer requires CCC catalogs in order to report Gemara results.   You can download the catalogs from the [CCC GitHub Releases page](https://github.com/finos/common-cloud-controls/releases), [grc.store](https://grc.store) or generate development versions locally (as in the above example). 
+Privateer requires CCC catalogs in order to report Gemara results. You can download the catalogs from the [CCC GitHub Releases page](https://github.com/finos/common-cloud-controls/releases), [grc.store](https://grc.store) or generate development versions locally (as in the above example).
 
 To generate locally, from the repository root run:
 
@@ -118,11 +118,11 @@ By default, Privateer writes YAML evaluation output to the directory named in th
 
 ## Running Tests inside CCC's GitHub Actions
 
-You can run these tests and publish results on the [CCC website](https://ccc.finos.org). 
+You can run these tests and publish results on the [CCC website](https://ccc.finos.org).
 
-### 0. Create a Privateer config 
+### 0. Create a Privateer config
 
-As described above - create a privateer configuration file that you have tested locally.  Do not include secrets or other sensitive information in the file, use the environment variable replacement approach as described in step 3 above.  
+As described above - create a privateer configuration file that you have tested locally. Do not include secrets or other sensitive information in the file, use the environment variable replacement approach as described in step 3 above.
 
 ### 1. Create an `actions-config` file
 
@@ -222,4 +222,4 @@ Open `http://localhost:3000/cfi` to browse your results.
 
 ### 5.  Publishing the results on [ccc.finos.org](https://ccc.finos.org)
 
-Create a PR containing your changes to `cfi-repositories.json` if you made any.   The CCC website updates either when the PR is merged or daily to show new runs.  
+Create a PR containing your changes to `cfi-repositories.json` if you made any. The CCC website updates either when the PR is merged or daily to show new runs.
