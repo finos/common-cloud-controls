@@ -56,6 +56,21 @@ export interface CatalogEntryDetailData {
   relatedControls?: CatalogRelatedEntry[];
 }
 
+// Flat, global cross-reference for a single control's assessment requirement —
+// exposed as plugin global data so other plugins (e.g. cfi-pages) can link to
+// /catalogs/* control pages without depending on the ccc-pages data model.
+export interface CatalogAssessmentRequirementRef {
+  id: string;
+  text: string;
+  controlId: string;
+  controlTitle: string;
+  url: string;
+}
+
+export interface CatalogGlobalData {
+  assessmentRequirements: CatalogAssessmentRequirementRef[];
+}
+
 export interface CatalogVersionData {
   title: string;
   type: 'capabilities' | 'threats' | 'controls';
@@ -562,8 +577,25 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
     },
 
     async contentLoaded({ content: { versions, types, categories, entryDetails }, actions }) {
-      const { createData, addRoute } = actions;
+      const { createData, addRoute, setGlobalData } = actions;
       const added = new Set<string>();
+
+      // Expose a flat assessment-requirement index as global data so other plugins
+      // (e.g. cfi-pages) can cross-link to /catalogs/* control pages directly.
+      const assessmentRequirements: CatalogAssessmentRequirementRef[] = [];
+      for (const [entryUrl, detail] of entryDetails) {
+        if (detail.type !== 'controls') continue;
+        for (const ar of detail.entry.assessmentRequirements ?? []) {
+          assessmentRequirements.push({
+            id: ar.id,
+            text: ar.text,
+            controlId: detail.entry.id,
+            controlTitle: detail.entry.title,
+            url: `${entryUrl}#${ar.id}`,
+          });
+        }
+      }
+      setGlobalData({ assessmentRequirements } satisfies CatalogGlobalData);
 
       const add = (routePath: string, modules?: Record<string, string>) => {
         if (added.has(routePath)) return;

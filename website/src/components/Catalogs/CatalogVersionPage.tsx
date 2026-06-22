@@ -4,7 +4,20 @@ import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
-import { MappingCountBadge } from "../ccc/MappingCountBadge";
+import { MappingCountBadge } from "../shared/MappingCountBadge";
+
+export interface CatalogAssessmentRequirement {
+  id: string;
+  text: string;
+  applicability?: string[];
+}
+
+export interface CatalogGuidelineMapping {
+  framework: string;
+  id: string;
+  remarks?: string;
+  url?: string;
+}
 
 export interface CatalogAssessmentRequirement {
   id: string;

@@ -3,7 +3,8 @@ import Link from "@docusaurus/Link";
 import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { ConfigurationResultPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail, DownloadLink, RequirementLink } from "@site/src/types/cfi";
-import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
+import { useCatalogAssessmentRequirements, buildAssessmentRequirementIndex } from "@site/src/utils/catalogDataLookup";
+import type { CatalogAssessmentRequirementRef } from "@site/src/plugin/catalog-routes";
 
 // Helper function to extract catalog ID from test requirement
 function extractCatalogId(testRequirement: string): string {
@@ -32,54 +33,43 @@ function serviceCatalogsFromTests(testedRequirementsByCatalog: Map<string, Set<s
 }
 
 /**
- * Whether an assessment requirement from `release` counts toward the "necessary" set.
- * When service catalogs are known from tests, only those releases contribute (e.g. only CCC.ObjStor
+ * Whether an assessment requirement belonging to `catalogId` counts toward the "necessary" set.
+ * When service catalogs are known from tests, only those catalogs contribute (e.g. only CCC.ObjStor
  * for object-storage runs), so Core ARs from other catalogs (Logging, VM, …) are excluded.
  */
 function shouldAddToNecessaryRequirementIds(
-  release: { metadata: { id: string } },
   catalogId: string,
   serviceCatalogIds: string[],
   useServiceCatalogScope: boolean,
   testedRequirementsByCatalog: Map<string, Set<string>>
 ): boolean {
-  if (release.metadata.id === "CCC.Core") {
+  if (catalogId === "CCC.Core") {
     return false;
   }
-  if (useServiceCatalogScope && !serviceCatalogIds.includes(release.metadata.id)) {
+  if (useServiceCatalogScope && !serviceCatalogIds.includes(catalogId)) {
     return false;
   }
   if (testedRequirementsByCatalog.has(catalogId)) {
     return true;
   }
-  // Core controls inlined under a scoped service release belong to that catalog bundle.
-  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(release.metadata.id)) {
+  // Core controls inlined under a scoped service catalog belong to that catalog bundle.
+  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(catalogId)) {
     return true;
   }
   return false;
 }
 
-function convertToLink(reqId: string, releases: any[]): RequirementLink {
-  let title = reqId;
-  let catalogId = extractCatalogId(reqId);
-  let url = "#";
-  for (const release of releases) {
-    if (release.metadata.id === catalogId) {
-      for (const control of release.controls) {
-        const requirement = control.test_requirements?.find((req) => req.id === reqId);
-        if (requirement) {
-          title = requirement.text || reqId;
-          url = getControlUrl(release, control, reqId);
-          break;
-        }
-      }
-    }
-  }
-  return { id: reqId, url, title };
+function convertToLink(reqId: string, requirementIndex: Map<string, CatalogAssessmentRequirementRef>): RequirementLink {
+  const found = requirementIndex.get(reqId);
+  return { id: reqId, url: found?.url ?? "#", title: found?.text || reqId };
 }
 
 // Helper function to generate catalog summary data
-function generateCatalogSummary(testResults: TestResultItem[], releases: any[]): ControlCatalogSummary[] {
+function generateCatalogSummary(
+  testResults: TestResultItem[],
+  allRequirements: CatalogAssessmentRequirementRef[],
+  requirementIndex: Map<string, CatalogAssessmentRequirementRef>,
+): ControlCatalogSummary[] {
   // First, collect all tested requirements by catalog
   const testedRequirementsByCatalog = new Map<string, Set<string>>();
   testResults.forEach((result) => {
@@ -100,26 +90,17 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
   const serviceCatalogIds = serviceCatalogsFromTests(testedRequirementsByCatalog);
   const useServiceCatalogScope = serviceCatalogIds.length > 0;
 
-  releases.forEach((release) => {
-    release.controls.forEach((control) => {
-      control.test_requirements?.forEach((req) => {
-        const catalogId = extractCatalogId(req.id);
-        if (testedRequirementsByCatalog.has(catalogId)) {
-          if (!allRequirementsByCatalog.has(catalogId)) {
-            allRequirementsByCatalog.set(catalogId, new Set());
-          }
-          if (catalogId == release.metadata.id) {
-            // this means we only include non-imported requirements
-            allRequirementsByCatalog.get(catalogId)!.add(req.id);
-          }
-        }
-        if (
-          shouldAddToNecessaryRequirementIds(release, catalogId, serviceCatalogIds, useServiceCatalogScope, testedRequirementsByCatalog)
-        ) {
-          allNecessaryRequirementIds.add(req.id);
-        }
-      });
-    });
+  allRequirements.forEach((req) => {
+    const catalogId = extractCatalogId(req.id);
+    if (testedRequirementsByCatalog.has(catalogId)) {
+      if (!allRequirementsByCatalog.has(catalogId)) {
+        allRequirementsByCatalog.set(catalogId, new Set());
+      }
+      allRequirementsByCatalog.get(catalogId)!.add(req.id);
+    }
+    if (shouldAddToNecessaryRequirementIds(catalogId, serviceCatalogIds, useServiceCatalogScope, testedRequirementsByCatalog)) {
+      allNecessaryRequirementIds.add(req.id);
+    }
   });
 
   // Now for each unique catalog ID, count this test result once and collect all resources
@@ -149,9 +130,9 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
       totalTests: testsInCatalog.length,
       passingTests: testsInCatalog.filter((result) => result.status_code === "PASS").length,
       failingTests: testsInCatalog.filter((result) => result.status_code === "FAIL").length,
-      unusedRequirements: Array.from(unusedRequirementIds).map((reqId) => convertToLink(reqId, releases)),
-      testedRequirements: Array.from(testedRequirementIds).map((reqId) => convertToLink(reqId, releases)),
-      missingRequirements: Array.from(missingRequirementIds).map((reqId) => convertToLink(reqId, releases)),
+      unusedRequirements: Array.from(unusedRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
+      testedRequirements: Array.from(testedRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
+      missingRequirements: Array.from(missingRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
     };
 
     return out;
@@ -327,7 +308,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   const repoDestination = results_relative_path.split("/")[0];
   const repoHref = `/cfi/${repoDestination}`;
   const configurationHref = `/cfi/${results_relative_path}`;
-  const { releases } = useCCCData();
+  const allRequirements = useCatalogAssessmentRequirements();
+  const requirementIndex = buildAssessmentRequirementIndex(allRequirements);
 
   // Use test results from this specific configuration result
   const testResults = configurationResult.test_results;
@@ -336,7 +318,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   const testResultsWithCCC = testResults.filter((result) => result.test_requirements && result.test_requirements.length > 0);
 
   // Generate catalog summary data
-  const catalogSummary = testResultsWithCCC.length > 0 ? generateCatalogSummary(testResultsWithCCC, releases) : [];
+  const catalogSummary = testResultsWithCCC.length > 0 ? generateCatalogSummary(testResultsWithCCC, allRequirements, requirementIndex) : [];
 
   // Generate resource summary data from test results
   const resourceSummary = testResults.length > 0 ? generateResourceSummary(testResults) : [];
@@ -663,16 +645,14 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                         </td>
                         <td>
                           {(() => {
-                            const requirementData = findAssessmentRequirements(releases, [mapping.testRequirementId])[0];
+                            const requirementData = requirementIndex.get(mapping.testRequirementId);
                             if (requirementData) {
-                              const { requirement, control, release } = requirementData;
-                              const linkUrl = getControlUrl(release, control, requirement.id);
                               return (
                                 <div>
-                                  <Link to={linkUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
+                                  <Link to={requirementData.url} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
                                     {mapping.testRequirementId}
                                   </Link>
-                                  <div className="text-sm text-gray-600 mt-1">{requirement.text || "No description"}</div>
+                                  <div className="text-sm text-gray-600 mt-1">{requirementData.text || "No description"}</div>
                                 </div>
                               );
                             } else {
@@ -818,12 +798,10 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                         <td>
                           <div className="flex flex-wrap gap-1">
                             {result.test_requirements?.map((requirementId, index) => {
-                              const requirementData = findAssessmentRequirements(releases, [requirementId])[0];
+                              const requirementData = requirementIndex.get(requirementId);
                               if (requirementData) {
-                                const { requirement, control, release } = requirementData;
-                                const linkUrl = getControlUrl(release, control, requirement.id);
                                 return (
-                                  <Link key={index} to={linkUrl} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono hover:bg-blue-200 hover:text-blue-900 transition-colors" title={`${control.title}: ${requirement.text}`}>
+                                  <Link key={index} to={requirementData.url} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono hover:bg-blue-200 hover:text-blue-900 transition-colors" title={`${requirementData.controlTitle}: ${requirementData.text}`}>
                                     {requirementId}
                                   </Link>
                                 );

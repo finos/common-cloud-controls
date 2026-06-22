@@ -5,12 +5,7 @@ import remarkGfm from "remark-gfm";
 import { CatalogSidebar, CATALOG_STRUCTURE } from "./CatalogSidebar";
 import { markdownComponents } from "./markdownComponents";
 import { prettifySegment } from "@site/src/content/catalogUtils";
-import { User } from "../ccc/User";
-import type { Contributor } from "@site/src/types/ccc";
-
-function toContributor(c: CatalogContributor): Contributor {
-  return { name: c.name, "github-id": c["github-id"] ?? "", company: c.company ?? "" };
-}
+import { User } from "../shared/User";
 
 export interface CatalogContributor {
   name: string;
@@ -98,12 +93,12 @@ function ReleasesTable({ releases }: { releases: CatalogReleaseSummary[] }) {
           {releases.map((release) => (
             <tr key={release.version}>
               <td>{release.version}</td>
-              <td>{release.releaseManager?.name ? <User contributor={toContributor(release.releaseManager)} /> : "Development Team"}</td>
+              <td>{release.releaseManager?.name ? <User contributor={release.releaseManager} /> : "Development Team"}</td>
               <td>
                 {release.contributors?.length ? (
                   <div className="flex flex-col gap-2">
                     {release.contributors.map((c, i) => (
-                      <User key={i} contributor={toContributor(c)} />
+                      <User key={i} contributor={c} />
                     ))}
                   </div>
                 ) : (
