@@ -15,9 +15,7 @@ export default function EcosystemHomePage() {
               <EcosystemLogo slug={ecosystem.slug} />
             </div>
             <div className={styles.body}>
-              <div className={styles.row}>
                 <span className={styles.label}>{ecosystem.title}</span>
-              </div>
             </div>
           </Link>
         ))}
