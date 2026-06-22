@@ -1,0 +1,15 @@
+metadata:
+  id: CCC.MARefArc
+  title: CCC Multi-Agent Reference Architecture
+  description: |
+    Multi-Agent Reference Architecture describes the subsystem-level capabilities,
+    threats, and controls for systems in which multiple autonomous or semi-autonomous
+    agents coordinate to interpret user intent, plan, and act across tools and data
+    sources. Capabilities are grouped by architectural layer, threats are grounded in
+    the FINOS AI Governance Framework (AIGF) risk vectors, and controls realize the
+    corresponding AIGF mitigations.
+  category-ids:
+    - CCC.AIML
+  version: ""
+  last-modified: "2026-05-31T00:00:00Z"
+  mapping-references: []
