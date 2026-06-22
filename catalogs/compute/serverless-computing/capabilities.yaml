@@ -33,7 +33,7 @@ imports:
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP25
         remarks: Random Access Memory Allocation
-      - reference-id:  CCC.Core.CP28
+      - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
       - reference-id: CCC.Core.CP29
         remarks: Active Ingestion

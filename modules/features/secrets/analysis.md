@@ -112,7 +112,7 @@ type SecretValue struct {
 ### `generic.Service` methods used
 
 | Method | AR(s) | Notes |
-|--------|-------|-------|
+| -------- | ------- | ------- |
 | `GetOrProvisionTestableResources` | Background | List secret matching `resource` / `CFIControlSet=CCC.SecMgmt` |
 | `CheckUserProvisioned` | identity sanity | When using `GetServiceAPIWithIdentity` |
 | `TearDown` | — | no-op (fixtures are terraform-managed) |
@@ -128,16 +128,19 @@ type SecretValue struct {
 ### `RetrieveSecretVersion`
 
 #### AWS
+
 - **API**: `secretsmanager:GetSecretValue` with `VersionId` or `VersionStage`.
 - **Good fixture**: resource policy or rotation config so stale `VersionId` from terraform output is not readable; current stage `AWSCURRENT` succeeds.
 - **Config**: `resource` (secret name/ARN suffix), `stale-version-id`, `current-version-stage`.
 
 #### Azure
+
 - **API**: Key Vault `Get Secret` — `https://{vault}.vault.azure.net/secrets/{name}/{version}`.
 - **Notes**: Use explicit version string for stale; `latest` for sanity.
 - **Config**: `azure-key-vault-name`, `azure-secret-name`, `stale-version-id`, `azure-resource-group`.
 
 #### GCP
+
 - **API**: `secretmanager.AccessSecretVersion` — `.../secrets/{id}/versions/{version}`.
 - **Notes**: Disabled versions should fail; `latest` for sanity.
 - **Config**: `gcp-project-id`, `secret-id`, `stale-version-id`, authorized `region` as location.
@@ -145,20 +148,24 @@ type SecretValue struct {
 ### `RetrieveSecretInRegion`
 
 #### AWS
+
 - **API**: Regional Secrets Manager client for `unauthorized-region`; `GetSecretValue` on same secret **name** (secret is regional).
 - **Config**: `permitted-regions`, `unauthorized-region`, `resource`.
 
 #### Azure
+
 - **API**: Construct vault URI for wrong region/location (or secondary replica geography if applicable) — expect failure.
 - **Config**: `azure-key-vault-uri` (authorized), `unauthorized-region` mapped to alternate vault URI template from terraform.
 
 #### GCP
+
 - **API**: `AccessSecretVersion` with parent `locations/{unauthorized-region}/secrets/{id}`.
 - **Config**: `gcp-project-id`, `secret-id`, `permitted-regions`, `unauthorized-region`.
 
 ### `GetOrProvisionTestableResources`
 
 #### AWS / Azure / GCP
+
 - List/describe single pre-provisioned secret by `resource` var and optional `CFIControlSet=CCC.SecMgmt` tag — no create in test run.
 
 ---
@@ -174,7 +181,7 @@ Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/secrets/` (new
 **Per-cloud minimum:**
 
 | Output | Purpose |
-|--------|---------|
+| -------- | --------- |
 | `secret_name` / `secret_id` | `resource` var |
 | `authorized_region` | CN02 sanity |
 | `stale_version_id` | CN01 deny probe |
@@ -190,7 +197,7 @@ Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/secrets/` (new
 ## Integration test coverage (planned)
 
 | api | method | cloud | expect_error | arg1 | arg2 | Notes |
-|-----|--------|-------|--------------|------|------|-------|
+| ----- | -------- | ------- | -------------- | ------ | ------ | ------- |
 | `secrets` | `RetrieveSecretVersion` | all | | `finos-ccc-integration-secret-main` | `AWSCURRENT` or `latest` | sanity |
 | `secrets` | `RetrieveSecretVersion` | all | true | `finos-ccc-integration-secret-main` | `${STALE_VERSION_ID}` | CN01 |
 | `secrets` | `RetrieveSecretInRegion` | all | | `finos-ccc-integration-secret-main` | authorized region | sanity |
@@ -205,7 +212,7 @@ Vars for [modules/cloud-api-test/privateer-config](../../../modules/cloud-api-te
 ### Behavioural (`cfi-testing/privateer-config/finos-integration/secrets/`)
 
 | Var | Purpose | Example |
-|-----|---------|---------|
+| ----- | --------- | --------- |
 | `service` / `service-type` | factory id | `secrets` |
 | `tags` | scenario filter | `@Behavioural @secrets` |
 | `resource` | secret filter | `finos-ccc-integration-secret-main` |
@@ -230,7 +237,7 @@ Extend `services.integration.vars` with secret outputs above; no separate servic
 ## CI actions-config (planned)
 
 | File | `privateer-service` | `test-configuration` |
-|------|---------------------|----------------------|
+| ------ | --------------------- | ---------------------- |
 | `cfi-testing/actions-config/aws-secrets-finos.yaml` | `awsSecrets` | `../privateer-config/finos-integration/secrets/aws-secrets.yml` |
 | `cfi-testing/actions-config/azure-secrets-finos.yaml` | `azureSecrets` | `../privateer-config/finos-integration/secrets/azure-secrets.yml` |
 | `cfi-testing/actions-config/gcp-secrets-finos.yaml` | `gcpSecrets` | `../privateer-config/finos-integration/secrets/gcp-secrets.yml` |
@@ -242,14 +249,14 @@ Extend `services.integration.vars` with secret outputs above; no separate servic
 ## Open questions
 
 - Should CN01 use **version stage** vs **version id** in features for cross-cloud consistency (`latest` + explicit stale id only)?
-  - use version id consistently. 
+  - use version id consistently.
 - Azure: single Key Vault vs Managed HSM — v1 assumes standard Key Vault secrets (not HSM keys).
 - AWS: is `ResourceNotFoundException` on wrong region sufficient evidence for CN02, or require explicit `AccessDeniedException`?
   - yes that's fine.  Any exception will do.
 - When will CCC.Core imports be added to SecMgmt (would enable generic CN04/CN05 without duplicating features)?
-   - tag the CCC.Core tests with @secrets in `generic/CCC.Core` where you need them to run for this service too.
+  - tag the CCC.Core tests with @secrets in `generic/CCC.Core` where you need them to run for this service too.
 - Add `secrets` to [modules/features/README.md](../README.md) routing (`@secrets` → `secrets/`) and [types/test.go](../../cloud-api/types/test.go) `ServiceTypes` during implementation.
-   - Yes.
+  - Yes.
 
 ---
 
