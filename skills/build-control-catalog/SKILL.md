@@ -1,4 +1,9 @@
-# Control Catalogue Skill
+---
+name: build-control-catalog
+description: Create a CCC control catalog (controls.yaml) for a cloud service — import applicable core controls, define service-specific controls mapped to identified threats, and include testable assessment requirements that validate against schemas/controls-schema.json. Use when the user asks to "identify controls for <service>", "create a control catalog for <service>", or "create controls.yaml" for a service.
+---
+
+# Control Catalog Skill
 
 ## Purpose
 Identify and create security controls for a cloud service, supporting the onboarding process for new cloud service controls in the CCC repository.
@@ -8,10 +13,10 @@ Identify and create security controls for a cloud service, supporting the onboar
 A `controls.yaml` file created in the service folder that imports applicable core controls from `catalogs/core/ccc/controls.yaml`, defines service-specific controls mapped to identified threats, includes testable assessment requirements with TLP applicability, and validates against `schemas/controls-schema.json`.
 
 ## When to Use
-When the user asks to identify or create controls for a cloud service. For example, "Identify controls for <service>", "Create a control catalogue for <service>", or "Create controls.yaml for the service in <path>".
+When the user asks to identify or create controls for a cloud service. For example, "Identify controls for <service>", "Create a control catalog for <service>", or "Create controls.yaml for the service in <path>".
 
 ## Source Frameworks
-Guideline mappings in this catalogue draw from the following source frameworks. Only `reference-id` values declared in the service's `metadata.mapping-references` may be used in a control's `guidelines` block, but for this catalogue the standard source set is:
+Guideline mappings in this catalog draw from the following source frameworks. Only `reference-id` values declared in the service's `metadata.mapping-references` may be used in a control's `guidelines` block, but for this catalog the standard source set is:
 
 | reference-id | Framework | Canonical source URL | Identifier convention used in `entries` |
 |---|---|---|---|
@@ -62,7 +67,7 @@ The target service folder must already contain:
 - `capabilities.yaml` (provides the capability surface controls must protect)
 - `threats.yaml` (provides the threats controls must mitigate)
 
-If `metadata.yaml` or `capabilities.yaml` is missing, stop and instruct the user to run the Capability Catalogue skill first. If `threats.yaml` is missing, stop and inform the user that threats must be identified before controls can be derived, since every control must map to at least one threat.
+If `metadata.yaml` or `capabilities.yaml` is missing, stop and instruct the user to run the Capability Catalog skill first. If `threats.yaml` is missing, stop and inform the user that threats must be identified before controls can be derived, since every control must map to at least one threat.
 
 ## Step 1: Locate Service and Validate Prerequisites
 1. Request the target service folder path (e.g., `catalogs/storage/object/`).
@@ -72,7 +77,7 @@ If `metadata.yaml` or `capabilities.yaml` is missing, stop and instruct the user
 3. Read `metadata.yaml` and extract:
    - The service abbreviation from `metadata.id` (e.g., `ObjStor` from `CCC.ObjStor`).
    - The `example-csp-services` entries (AWS, Azure, GCP names and documentation links).
-   - The `mapping-references` list — only IDs declared here may be used as guideline `reference-id` values later. For this catalogue the standard source frameworks are: `FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, `AIGF`. If `metadata.mapping-references` declares a different or narrower set, defer to what is declared in the file and note the discrepancy.
+   - The `mapping-references` list — only IDs declared here may be used as guideline `reference-id` values later. For this catalog the standard source frameworks are: `FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, `AIGF`. If `metadata.mapping-references` declares a different or narrower set, defer to what is declared in the file and note the discrepancy.
 4. Check whether a `controls.yaml` already exists in the folder and note it.
 
 ### Output Format
@@ -174,7 +179,7 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
 1. Use `schemas/controls-schema.json` as the source of truth for required and allowed fields.
 2. Build `imported-controls` from the confirmed Step 3 selection using the schema shape:
    ```yaml
-   imported-controls:
+   imports:
      - reference-id: CCC
        entries:
          - reference-id: CCC.Core.CN01
@@ -240,7 +245,7 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
    - Every control must reference at least one threat from the Step 2 inventory.
    - Use `strength` (1–10) to indicate how completely the control mitigates the threat, with a brief inline comment justifying the score when partial.
 6. Guideline mapping rules:
-   - Only use `reference-id` values defined in `metadata.mapping-references`. For this catalogue the recognized sources are `FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, and `AIGF`.
+   - Only use `reference-id` values defined in `metadata.mapping-references`. For this catalog the recognized sources are `FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, and `AIGF`.
    - Use the identifier convention appropriate to each source: `NIST_800_53` → control IDs (e.g., `SC-13`, `AC-3`); `CRI` → CRI Profile diagnostic statement IDs; `DORA` → article/section references (e.g., `Art. 9`); `CRA` → article/annex references; `FS_ISAC` → control/practice reference IDs; `AIGF` → FINOS AI Governance Framework risk/mitigation IDs.
    - Group entries by framework; include `remarks` with the framework control title for readability.
    - Omit the `guidelines` block entirely (or a specific framework entry) when no confident mapping exists rather than guessing. Do not fabricate control identifiers; map only where the source actually addresses the control's objective.
