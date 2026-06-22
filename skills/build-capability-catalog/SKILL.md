@@ -6,6 +6,7 @@ description: Create a CCC capability catalog (metadata.yaml + capabilities.yaml)
 # Capability Catalog Skill
 
 ## Purpose
+
 Create a capability catalog for a cloud service, supporting the onboarding process for new cloud service capabilities.
 
 ## Final Outcome
@@ -13,6 +14,7 @@ Create a capability catalog for a cloud service, supporting the onboarding proce
 `metadata.yaml` and `capabilities.yaml` files created for a new CCC service that maps to equivalent offerings across AWS, Azure, and GCP, with a new folder created in the correct category path in the repository.
 
 ## When to Use
+
 When the user asks to create a capability catalog for a cloud service. For example, "Create a capability catalog for a service similar to <known_service_name>" or "Create a capability catalog".
 
 ## Step 1: Cross-Cloud Service Mapping
@@ -152,16 +154,16 @@ Confidence: <High|Medium|Low>
 3. Review the official documentation links from Step 1 and identify the shared capabilities or features across AWS, Azure, and GCP.
 4. Prefer granular, service-specific capabilities over broad umbrella statements when the service behavior is meaningfully distinct.
 5. Decompose the service into the smallest useful capability units that still remain provider-neutral. For example, separate key-based access, secondary indexes, transactional writes, conditional updates, backup/restore, streams, capacity modes, replication, and change notification when the service supports them.
-	- Include only capabilities that are genuinely shared across all three mapped providers (AWS, Azure, and GCP). Verify each candidate against every provider's official documentation before including it.
-	- Exclude features that exist on only one provider, and exclude capabilities that belong to a different service category. For example, do not add relational SQL engine options (MySQL, PostgreSQL) to a NoSQL catalog, because the example NoSQL service cannot provide them.
-	- Express each capability in terms of the provider-neutral behavior, not a single provider's product feature name.
+   - Include only capabilities that are genuinely shared across all three mapped providers (AWS, Azure, and GCP). Verify each candidate against every provider's official documentation before including it.
+   - Exclude features that exist on only one provider, and exclude capabilities that belong to a different service category. For example, do not add relational SQL engine options (MySQL, PostgreSQL) to a NoSQL catalog, because the example NoSQL service cannot provide them.
+   - Express each capability in terms of the provider-neutral behavior, not a single provider's product feature name.
 6. Look at the imported core capabilities in `catalogs/core/ccc/capabilities.yaml` and select any matching shared capabilities that should be reused.
 7. Do not duplicate capabilities already covered by `imported-capabilities` as service-specific entries in `capabilities`.
 
 - If a capability is imported from core, keep it in `imported-capabilities` only.
 - If a capability is already represented by a core capability such as `CCC.Core.CP11` or `CCC.Core.CP12`, do not create a second service-specific capability with the same intent.
 
-8. Add matching core capabilities under `imported-capabilities` using the schema shape:
+1. Add matching core capabilities under `imported-capabilities` using the schema shape:
 
 ```yaml
 imported-capabilities:
@@ -171,7 +173,7 @@ imported-capabilities:
     remarks: <core-capability-title>
 ```
 
-9. Add service-specific capabilities under `capabilities` using the schema and style guide only for capabilities that are not already covered by imported core capabilities:
+1. Add service-specific capabilities under `capabilities` using the schema and style guide only for capabilities that are not already covered by imported core capabilities:
 
 ```yaml
 capabilities:
@@ -182,13 +184,13 @@ capabilities:
    <Provider-neutral capability description>
 ```
 
-10. Follow `style-guides/catalogs/capability-style-guide.yaml` when writing titles and descriptions.
-	- Write each `description` as 1 to 3 explanatory lines, not a single terse fragment. State what the capability does and how or why it is used, while remaining provider-neutral.
-	- Start every description with "The service" and include a temporal term: "always" or "automatically" for behavior present by default, and "can" or "may be configured" for optional or configurable behavior.
-	- Keep each `title` short and in title case (10 words or fewer); put the detail in the description, not the title.
-11. Validate the final object against `schemas/capabilities-schema.json` before writing the file.
-12. Write the file to `<confirmed-target-path>/capabilities.yaml`.
-13. If a `capabilities.yaml` already exists, replace it with the validated content and record the update status.
+1. Follow `style-guides/catalogs/capability-style-guide.yaml` when writing titles and descriptions.
+   - Write each `description` as 1 to 3 explanatory lines, not a single terse fragment. State what the capability does and how or why it is used, while remaining provider-neutral.
+   - Start every description with "The service" and include a temporal term: "always" or "automatically" for behavior present by default, and "can" or "may be configured" for optional or configurable behavior.
+   - Keep each `title` short and in title case (10 words or fewer); put the detail in the description, not the title.
+1. Validate the final object against `schemas/capabilities-schema.json` before writing the file.
+1. Write the file to `<confirmed-target-path>/capabilities.yaml`.
+1. If a `capabilities.yaml` already exists, replace it with the validated content and record the update status.
 
 ### Output Format
 
