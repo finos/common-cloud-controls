@@ -19,6 +19,19 @@ export interface CatalogGuidelineMapping {
   url?: string;
 }
 
+export interface CatalogAssessmentRequirement {
+  id: string;
+  text: string;
+  applicability?: string[];
+}
+
+export interface CatalogGuidelineMapping {
+  framework: string;
+  id: string;
+  remarks?: string;
+  url?: string;
+}
+
 export interface CatalogEntry {
   id: string;
   title: string;
