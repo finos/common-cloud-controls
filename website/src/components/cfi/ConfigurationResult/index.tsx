@@ -1,22 +1,16 @@
 import React from "react";
-import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
 import { ConfigurationResultPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail, DownloadLink, RequirementLink } from "@site/src/types/cfi";
-import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
+import { useCatalogAssessmentRequirements, buildAssessmentRequirementIndex } from "@site/src/utils/catalogDataLookup";
+import type { CatalogAssessmentRequirementRef } from "@site/src/plugin/catalog-routes";
 
 // Helper function to extract catalog ID from test requirement
 function extractCatalogId(testRequirement: string): string {
   // Extract catalog from format like "CCC.ObjStor.C01.TR01" -> "CCC.ObjStor"
   const parts = testRequirement.split(".");
   return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : testRequirement;
-}
-
-// Helper function to generate catalog component URL
-function getCatalogComponentUrl(catalogId: string): string {
-  // Catalog IDs like "CCC.ObjStor" map to component URLs like "/ccc/CCC.ObjStor"
-  return `/ccc/${catalogId}`;
 }
 
 function minus(setA: Set<string>, setB: Set<string>): Set<string> {
@@ -39,54 +33,43 @@ function serviceCatalogsFromTests(testedRequirementsByCatalog: Map<string, Set<s
 }
 
 /**
- * Whether an assessment requirement from `release` counts toward the "necessary" set.
- * When service catalogs are known from tests, only those releases contribute (e.g. only CCC.ObjStor
+ * Whether an assessment requirement belonging to `catalogId` counts toward the "necessary" set.
+ * When service catalogs are known from tests, only those catalogs contribute (e.g. only CCC.ObjStor
  * for object-storage runs), so Core ARs from other catalogs (Logging, VM, …) are excluded.
  */
 function shouldAddToNecessaryRequirementIds(
-  release: { metadata: { id: string } },
   catalogId: string,
   serviceCatalogIds: string[],
   useServiceCatalogScope: boolean,
   testedRequirementsByCatalog: Map<string, Set<string>>
 ): boolean {
-  if (release.metadata.id === "CCC.Core") {
+  if (catalogId === "CCC.Core") {
     return false;
   }
-  if (useServiceCatalogScope && !serviceCatalogIds.includes(release.metadata.id)) {
+  if (useServiceCatalogScope && !serviceCatalogIds.includes(catalogId)) {
     return false;
   }
   if (testedRequirementsByCatalog.has(catalogId)) {
     return true;
   }
-  // Core controls inlined under a scoped service release belong to that catalog bundle.
-  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(release.metadata.id)) {
+  // Core controls inlined under a scoped service catalog belong to that catalog bundle.
+  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(catalogId)) {
     return true;
   }
   return false;
 }
 
-function convertToLink(reqId: string, releases: any[]): RequirementLink {
-  let title = reqId;
-  let catalogId = extractCatalogId(reqId);
-  let url = "#";
-  for (const release of releases) {
-    if (release.metadata.id === catalogId) {
-      for (const control of release.controls) {
-        const requirement = control.test_requirements?.find((req) => req.id === reqId);
-        if (requirement) {
-          title = requirement.text || reqId;
-          url = getControlUrl(release, control, reqId);
-          break;
-        }
-      }
-    }
-  }
-  return { id: reqId, url, title };
+function convertToLink(reqId: string, requirementIndex: Map<string, CatalogAssessmentRequirementRef>): RequirementLink {
+  const found = requirementIndex.get(reqId);
+  return { id: reqId, url: found?.url ?? "#", title: found?.text || reqId };
 }
 
 // Helper function to generate catalog summary data
-function generateCatalogSummary(testResults: TestResultItem[], releases: any[]): ControlCatalogSummary[] {
+function generateCatalogSummary(
+  testResults: TestResultItem[],
+  allRequirements: CatalogAssessmentRequirementRef[],
+  requirementIndex: Map<string, CatalogAssessmentRequirementRef>,
+): ControlCatalogSummary[] {
   // First, collect all tested requirements by catalog
   const testedRequirementsByCatalog = new Map<string, Set<string>>();
   testResults.forEach((result) => {
@@ -107,34 +90,22 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
   const serviceCatalogIds = serviceCatalogsFromTests(testedRequirementsByCatalog);
   const useServiceCatalogScope = serviceCatalogIds.length > 0;
 
-  releases.forEach((release) => {
-    release.controls.forEach((control) => {
-      control.test_requirements?.forEach((req) => {
-        const catalogId = extractCatalogId(req.id);
-        if (testedRequirementsByCatalog.has(catalogId)) {
-          if (!allRequirementsByCatalog.has(catalogId)) {
-            allRequirementsByCatalog.set(catalogId, new Set());
-          }
-          if (catalogId == release.metadata.id) {
-            // this means we only include non-imported requirements
-            allRequirementsByCatalog.get(catalogId)!.add(req.id);
-          }
-        }
-        if (
-          shouldAddToNecessaryRequirementIds(release, catalogId, serviceCatalogIds, useServiceCatalogScope, testedRequirementsByCatalog)
-        ) {
-          allNecessaryRequirementIds.add(req.id);
-        }
-      });
-    });
+  allRequirements.forEach((req) => {
+    const catalogId = extractCatalogId(req.id);
+    if (testedRequirementsByCatalog.has(catalogId)) {
+      if (!allRequirementsByCatalog.has(catalogId)) {
+        allRequirementsByCatalog.set(catalogId, new Set());
+      }
+      allRequirementsByCatalog.get(catalogId)!.add(req.id);
+    }
+    if (shouldAddToNecessaryRequirementIds(catalogId, serviceCatalogIds, useServiceCatalogScope, testedRequirementsByCatalog)) {
+      allNecessaryRequirementIds.add(req.id);
+    }
   });
 
   // Now for each unique catalog ID, count this test result once and collect all resources
   const catalogsInThisResult = Array.from(allRequirementsByCatalog.keys());
   const summaries = catalogsInThisResult.map((catalogId) => {
-    // Generate URL to the catalog component page
-    const catalogUrl = getCatalogComponentUrl(catalogId);
-
     const testsInCatalog = testResults.filter((result) => {
       return result.test_requirements?.some((testReq) => {
         return extractCatalogId(testReq) === catalogId;
@@ -155,14 +126,13 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
 
     const out = {
       catalogId,
-      catalogUrl,
       resources: [...new Set(resourcesInCatalog)],
       totalTests: testsInCatalog.length,
       passingTests: testsInCatalog.filter((result) => result.status_code === "PASS").length,
       failingTests: testsInCatalog.filter((result) => result.status_code === "FAIL").length,
-      unusedRequirements: Array.from(unusedRequirementIds).map((reqId) => convertToLink(reqId, releases)),
-      testedRequirements: Array.from(testedRequirementIds).map((reqId) => convertToLink(reqId, releases)),
-      missingRequirements: Array.from(missingRequirementIds).map((reqId) => convertToLink(reqId, releases)),
+      unusedRequirements: Array.from(unusedRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
+      testedRequirements: Array.from(testedRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
+      missingRequirements: Array.from(missingRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
     };
 
     return out;
@@ -334,8 +304,12 @@ function generateTestMappingSummary(testResults: TestResultItem[]): TestMappingS
 
 export default function CFIConfigurationResult({ pageData }: { pageData: ConfigurationResultPageData }): React.ReactElement {
   const { configuration, configurationResult } = pageData;
-  const { cfi_details } = configuration;
-  const { releases } = useCCCData();
+  const { cfi_details, results_relative_path, source_details } = configuration;
+  const repoDestination = results_relative_path.split("/")[0];
+  const repoHref = `/cfi/${repoDestination}`;
+  const configurationHref = `/cfi/${results_relative_path}`;
+  const allRequirements = useCatalogAssessmentRequirements();
+  const requirementIndex = buildAssessmentRequirementIndex(allRequirements);
 
   // Use test results from this specific configuration result
   const testResults = configurationResult.test_results;
@@ -344,7 +318,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   const testResultsWithCCC = testResults.filter((result) => result.test_requirements && result.test_requirements.length > 0);
 
   // Generate catalog summary data
-  const catalogSummary = testResultsWithCCC.length > 0 ? generateCatalogSummary(testResultsWithCCC, releases) : [];
+  const catalogSummary = testResultsWithCCC.length > 0 ? generateCatalogSummary(testResultsWithCCC, allRequirements, requirementIndex) : [];
 
   // Generate resource summary data from test results
   const resourceSummary = testResults.length > 0 ? generateResourceSummary(testResults) : [];
@@ -358,7 +332,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   // Group download links by base name (e.g., "results.ocsf.json" and "results.html" as "results")
   const groupedDownloadLinks = (configurationResult.download_links || []).reduce(
     (acc, link) => {
-      const baseName = link.name.replace(".ocsf.json", "").replace(".html", "");
+      const baseName = link.name.replace(/\.(ocsf\.json|html|ya?ml)$/i, "");
       if (!acc[baseName]) acc[baseName] = [];
       acc[baseName].push(link);
       return acc;
@@ -366,10 +340,40 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
     {} as Record<string, DownloadLink[]>,
   );
 
+  const downloadLinkClassName = (type: string): string => {
+    switch (type) {
+      case "html":
+        return "bg-orange-100 text-orange-800";
+      case "gemara":
+        return "bg-purple-100 text-purple-800";
+      default:
+        return "bg-blue-100 text-blue-800";
+    }
+  };
+
   return (
-    <Layout title={`${configurationResult.product} ${configurationResult.version} - ${cfi_details.name}`} description={`Test results for ${configurationResult.vendor} ${configurationResult.product} ${configurationResult.version}`}>
+    <Layout
+      title={`${configurationResult.product} ${configurationResult.version} - ${cfi_details.name}`}
+      description={`Test results for ${configurationResult.vendor} ${configurationResult.product} ${configurationResult.version}`}
+    >
       <main className="container margin-vert--lg space-y-6">
-        {/* Configuration Result Header */}
+        <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+          <Link to="/cfi" className="hover:text-foreground">
+            CFI
+          </Link>
+          <span>/</span>
+          <Link to={repoHref} className="hover:text-foreground">
+            {source_details?.repository_description ?? repoDestination}
+          </Link>
+          <span>/</span>
+          <Link to={configurationHref} className="hover:text-foreground">
+            {cfi_details.id}
+          </Link>
+          <span>/</span>
+          <span className="text-foreground">
+            {configurationResult.product} {configurationResult.version}
+          </span>
+        </nav>
         <Card>
           <CardHeader>
             <CardTitle>
@@ -378,28 +382,28 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
             <p className="text-sm text-muted-foreground">Test results for this specific product, vendor, and version combination</p>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium w-32">Vendor</TableCell>
-                  <TableCell>
+            <div className="library-article-body"><table>
+              <tbody>
+                <tr>
+                  <td className="font-medium w-32">Vendor</td>
+                  <td>
                     <span className="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800">{configurationResult.vendor}</span>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium">Product</TableCell>
-                  <TableCell>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Product</td>
+                  <td>
                     <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">{configurationResult.product}</span>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium">Version</TableCell>
-                  <TableCell>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="font-medium">Version</td>
+                  <td>
                     <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">{configurationResult.version}</span>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+                  </td>
+                </tr>
+              </tbody>
+            </table></div>
           </CardContent>
         </Card>
 
@@ -408,21 +412,23 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           <Card>
             <CardHeader>
               <CardTitle>Download Raw Results</CardTitle>
-              <p className="text-sm text-muted-foreground">Download the original OCSF or HTML result files used to generate this page</p>
+              <p className="text-sm text-muted-foreground">
+                Download the original OCSF, Gemara, or HTML result files used to generate this page
+              </p>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>File Name</TableHead>
-                    <TableHead>Download</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+              <div className="library-article-body"><table>
+                <thead>
+                  <tr>
+                    <th>File Name</th>
+                    <th>Download</th>
+                  </tr>
+                </thead>
+                <tbody>
                   {Object.entries(groupedDownloadLinks).map(([baseName, links], index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-mono text-sm">{baseName}</TableCell>
-                      <TableCell>
+                    <tr key={index}>
+                      <td className="font-mono text-sm">{baseName}</td>
+                      <td>
                         <div className="flex gap-2">
                           {links.map((link, linkIndex) => (
                             <a
@@ -430,17 +436,17 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               href={link.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`inline-flex px-2 py-1 text-xs rounded-full font-medium no-underline hover:opacity-80 ${link.type === "html" ? "bg-orange-100 text-orange-800" : "bg-blue-100 text-blue-800"}`}
+                              className={`inline-flex px-2 py-1 text-xs rounded-full font-medium no-underline hover:opacity-80 ${downloadLinkClassName(link.type)}`}
                             >
-                              {link.type.toUpperCase()}
+                              {link.type === "gemara" ? "GEMARA" : link.type.toUpperCase()}
                             </a>
                           ))}
                         </div>
-                      </TableCell>
-                    </TableRow>
+                      </td>
+                    </tr>
                   ))}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table></div>
             </CardContent>
           </Card>
         )}
@@ -453,50 +459,50 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {testSummary ? (
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium w-48">Resources In Configuration</TableCell>
-                    <TableCell>
+              <div className="library-article-body"><table>
+                <tbody>
+                  <tr>
+                    <td className="font-medium w-48">Resources In Configuration</td>
+                    <td>
                       <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-medium">{testSummary.resourcesInConfiguration}</span>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Count of Tests</TableCell>
-                    <TableCell>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="font-medium">Count of Tests</td>
+                    <td>
                       <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{testSummary.countOfTests}</span>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Passing Tests</TableCell>
-                    <TableCell>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="font-medium">Passing Tests</td>
+                    <td>
                       <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{testSummary.passingTests}</span>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Failing Tests</TableCell>
-                    <TableCell>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="font-medium">Failing Tests</td>
+                    <td>
                       <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{testSummary.failingTests}</span>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Catalogs Tested</TableCell>
-                    <TableCell>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="font-medium">Catalogs Tested</td>
+                    <td>
                       <div className="flex flex-wrap gap-1">
                         {testSummary.catalogsTested.length > 0 ? (
                           testSummary.catalogsTested.map((catalog, catalogIndex) => (
-                            <Link key={catalogIndex} to={getCatalogComponentUrl(catalog)} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors">
+                            <span key={catalogIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
                               {catalog}
-                            </Link>
+                            </span>
                           ))
                         ) : (
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
                         )}
                       </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test summary data available.</div>
             )}
@@ -511,29 +517,26 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {catalogSummary && catalogSummary.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Control Catalog</TableHead>
-                      <TableHead>Resources</TableHead>
-                      <TableHead>Total Tests</TableHead>
-                      <TableHead>Passing</TableHead>
-                      <TableHead>Failing</TableHead>
-                      <TableHead>Tested Requirements</TableHead>
-                      <TableHead>Missing Requirements</TableHead>
-                      <TableHead>Unused Core Requirements</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="library-article-body"><table>
+                  <thead>
+                    <tr>
+                      <th>Control Catalog</th>
+                      <th>Resources</th>
+                      <th>Total Tests</th>
+                      <th>Passing</th>
+                      <th>Failing</th>
+                      <th>Tested Requirements</th>
+                      <th>Missing Requirements</th>
+                      <th>Unused Core Requirements</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {catalogSummary.map((summary, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
-                          <Link to={summary.catalogUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
-                            {summary.catalogId}
-                          </Link>
-                        </TableCell>
-                        <TableCell className="font-mono text-sm">
+                      <tr key={index}>
+                        <td className="font-medium">
+                          {summary.catalogId}
+                        </td>
+                        <td className="font-mono text-sm">
                           <div className="flex flex-wrap gap-1">
                             {summary.resources.map((resource, resourceIndex) => (
                               <span key={resourceIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800" title={resource}>
@@ -541,17 +544,17 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               </span>
                             ))}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {summary.testedRequirements.length > 0 ? (
                               summary.testedRequirements.map((tested, testedIndex) =>
@@ -569,8 +572,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">None tested</span>
                             )}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {summary.missingRequirements.length > 0 ? (
                               summary.missingRequirements.map((missing, missingIndex) =>
@@ -588,8 +591,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">All covered</span>
                             )}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {summary.unusedRequirements.length > 0 ? (
                               summary.unusedRequirements.map((unused, unusedIndex) =>
@@ -607,12 +610,11 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">None</span>
                             )}
                           </div>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  </tbody>
+                </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No control catalog data available for summarization.</div>
             )}
@@ -627,35 +629,30 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {testMappingSummary && testMappingSummary.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Control Catalog</TableHead>
-                      <TableHead>Test Requirement</TableHead>
-                      <TableHead>Mapped Tests (Event Code | Total | Passing | Failing)</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="library-article-body"><table>
+                  <thead>
+                    <tr>
+                      <th>Control Catalog</th>
+                      <th>Test Requirement</th>
+                      <th>Mapped Tests (Event Code | Total | Passing | Failing)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {testMappingSummary.map((mapping, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
-                          <Link to={getCatalogComponentUrl(mapping.controlCatalog)} className="text-blue-600 hover:text-blue-800 hover:underline font-medium">
-                            {mapping.controlCatalog}
-                          </Link>
-                        </TableCell>
-                        <TableCell>
+                      <tr key={index}>
+                        <td className="font-medium">
+                          {mapping.controlCatalog}
+                        </td>
+                        <td>
                           {(() => {
-                            const requirementData = findAssessmentRequirements(releases, [mapping.testRequirementId])[0];
+                            const requirementData = requirementIndex.get(mapping.testRequirementId);
                             if (requirementData) {
-                              const { requirement, control, release } = requirementData;
-                              const linkUrl = getControlUrl(release, control, requirement.id);
                               return (
                                 <div>
-                                  <Link to={linkUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
+                                  <Link to={requirementData.url} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
                                     {mapping.testRequirementId}
                                   </Link>
-                                  <div className="text-sm text-gray-600 mt-1">{requirement.text || "No description"}</div>
+                                  <div className="text-sm text-gray-600 mt-1">{requirementData.text || "No description"}</div>
                                 </div>
                               );
                             } else {
@@ -667,8 +664,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               );
                             }
                           })()}
-                        </TableCell>
-                        <TableCell className="w-full">
+                        </td>
+                        <td className="w-full">
                           <div className="p-2 rounded">
                             <div className="w-full">
                               {mapping.mappedTests.map((test, testIndex) => (
@@ -685,12 +682,11 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               ))}
                             </div>
                           </div>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  </tbody>
+                </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test mapping data available.</div>
             )}
@@ -705,56 +701,54 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {resourceSummary && resourceSummary.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Resource Name</TableHead>
-                      <TableHead>Resource Type</TableHead>
-                      <TableHead>Control Catalogs</TableHead>
-                      <TableHead>Total Tests</TableHead>
-                      <TableHead>Passing</TableHead>
-                      <TableHead>Failing</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="library-article-body"><table>
+                  <thead>
+                    <tr>
+                      <th>Resource Name</th>
+                      <th>Resource Type</th>
+                      <th>Control Catalogs</th>
+                      <th>Total Tests</th>
+                      <th>Passing</th>
+                      <th>Failing</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {resourceSummary.map((summary, index) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-mono text-sm">
+                      <tr key={index}>
+                        <td className="font-mono text-sm">
                           <div className="truncate max-w-xs" title={summary.resourceName}>
                             {summary.resourceName}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{summary.resourceType}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {summary.catalogs.length > 0 ? (
                               summary.catalogs.map((catalog, catalogIndex) => (
-                                <Link key={catalogIndex} to={getCatalogComponentUrl(catalog)} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors">
+                                <span key={catalogIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
                                   {catalog}
-                                </Link>
+                                </span>
                               ))
                             ) : (
                               <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
                             )}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  </tbody>
+                </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No resource data available.</div>
             )}
@@ -769,48 +763,45 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </CardHeader>
           <CardContent>
             {testResultsWithCCC && testResultsWithCCC.length > 0 ? (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Finding</TableHead>
-                      <TableHead>Resource Name</TableHead>
-                      <TableHead>Resource Type</TableHead>
-                      <TableHead>Message</TableHead>
-                      <TableHead>Test Requirements</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="library-article-body"><table>
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Finding</th>
+                      <th>Resource Name</th>
+                      <th>Resource Type</th>
+                      <th>Message</th>
+                      <th>Test Requirements</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {testResultsWithCCC.map((result) => (
-                      <TableRow key={result.id}>
-                        <TableCell>
+                      <tr key={result.id}>
+                        <td>
                           <span className={`px-2 py-1 text-xs rounded-full font-medium ${result.status_code === "PASS" ? "bg-green-100 text-green-800" : result.status_code === "FAIL" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}>{result.status_code}</span>
-                        </TableCell>
-                        <TableCell className="max-w-md">
+                        </td>
+                        <td className="max-w-md">
                           <div className="font-medium text-sm whitespace-normal break-words">{result.finding_title || result.name}</div>
                           {result.status_detail && <div className="text-xs text-gray-600 mt-1 whitespace-normal break-words">{result.status_detail}</div>}
-                        </TableCell>
-                        <TableCell className="font-mono text-sm">
+                        </td>
+                        <td className="font-mono text-sm">
                           <div className="truncate max-w-xs" title={result.resource_name}>
                             {result.resource_name}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{result.resource_type}</span>
-                        </TableCell>
-                        <TableCell className="max-w-md">
+                        </td>
+                        <td className="max-w-md">
                           <div className="text-sm whitespace-normal break-words">{result.message}</div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td>
                           <div className="flex flex-wrap gap-1">
                             {result.test_requirements?.map((requirementId, index) => {
-                              const requirementData = findAssessmentRequirements(releases, [requirementId])[0];
+                              const requirementData = requirementIndex.get(requirementId);
                               if (requirementData) {
-                                const { requirement, control, release } = requirementData;
-                                const linkUrl = getControlUrl(release, control, requirement.id);
                                 return (
-                                  <Link key={index} to={linkUrl} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono hover:bg-blue-200 hover:text-blue-900 transition-colors" title={`${control.title}: ${requirement.text}`}>
+                                  <Link key={index} to={requirementData.url} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono hover:bg-blue-200 hover:text-blue-900 transition-colors" title={`${requirementData.controlTitle}: ${requirementData.text}`}>
                                     {requirementId}
                                   </Link>
                                 );
@@ -824,12 +815,11 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                               }
                             })}
                           </div>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
-              </div>
+                  </tbody>
+                </table></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test results found with CCC compliance mappings.</div>
             )}

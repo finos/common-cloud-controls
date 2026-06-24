@@ -10,6 +10,7 @@ name: Gemara Schema Check
 # Fails the PR on any compile error or schema violation.
 
 on:
+  pull_request:
   workflow_call:
 
 env:

@@ -1,0 +1,16 @@
+cfi:
+  id: azure-storage-account
+  artifact-name: finos-integration-azure-storage-account
+  provider: azure
+  source-secrets: AZURE_ENV
+  service: object-storage
+  name: CCC Azure Storage Account Terraform Module
+  description: >-
+    This module creates a secure Azure Storage Account with encryption, networking,
+    monitoring, and advanced security features.
+  path: https://github.com/finos-labs/ccc-cfi-compliance/tree/main/remote/azure/storageaccount
+  test-on-branches:
+    - main
+  git: https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount
+  test-configuration: ../privateer-config/finos-integration/cloud-storage/azure-cloud-storage.yml
+  privateer-service: azureStorageBehavioural

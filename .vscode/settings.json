@@ -18,4 +18,7 @@
   "[go]": {
     "editor.defaultFormatter": "golang.go"
   },
+  "[cucumber]": {
+    "editor.defaultFormatter": "CucumberOpen.cucumber-official"
+  },
 }

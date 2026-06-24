@@ -1,0 +1,34 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Targets the intentionally non-compliant (bad) VPC: finos-ccc-integration-vpc-bad.
+# Populate from `terraform output vpc` after apply.
+
+services:
+  awsVpcBad:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.VPC
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: vpc
+      service-type: vpc
+      tags: "@Behavioural"
+      provider: aws
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.VPC: DEV
+      region: us-east-1
+      resource: "finos-ccc-integration-vpc-bad"
+      permitted-regions:
+        - us-east-1
+      # ── Logging service coordinates ──────────────────────────────────────
+      # Intentionally unset: the bad VPC has no flow logs configured, so any
+      # QueryLogs("flow", ...) call should fail with a clear "no group
+      # configured" error. The CN04 @Behavioural scenario is expected to fail.
+      # aws-flow-log-group-name: <unset>

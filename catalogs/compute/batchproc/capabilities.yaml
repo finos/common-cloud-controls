@@ -1,4 +1,4 @@
-imported-capabilities:
+imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CP01
@@ -27,7 +27,7 @@ imported-capabilities:
         remarks: Random Access Memory Allocation
       - reference-id: CCC.Core.F26
         remarks: Persistent Storage
-      - reference-id:  CCC.Core.F28
+      - reference-id: CCC.Core.F28
         remarks: Command-line Interface
       - reference-id: CCC.Core.F29
         remarks: Active Ingestion

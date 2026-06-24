@@ -1,0 +1,107 @@
+.outerContainer {
+  max-width: 850px;
+  margin: 0 auto;
+  margin-top: 4rem;
+}
+
+.timelineContainer {
+  max-width: 850px;
+  margin: 0 auto;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timelineLine {
+  position: absolute;
+  left: 0.4rem;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  width: 2px;
+  background: rgb(0, 181, 226);
+  border-radius: 1px;
+  opacity: 0.4;
+}
+
+.stepItem {
+  position: relative;
+}
+
+.stepDot {
+  position: absolute;
+  left: -2rem;
+  top: 0.35rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: rgb(0, 134, 191);
+}
+
+.stepHeading {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stepVerb {
+  color: rgb(0, 134, 191);
+}
+
+.stepBody {
+  margin: 0.75rem 0 1.5rem;
+  color: var(--gf-color-text-subtle);
+  line-height: 1.7;
+  font-size: 0.975rem;
+}
+
+.sectionTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.prose {
+  line-height: 1.75;
+  font-size: 1.05rem;
+  color: var(--gf-color-text);
+}
+
+.accentLink {
+  color: var(--gf-color-accent);
+}
+
+.accentText {
+  color: var(--gf-color-text);
+}
+
+.catalogsTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.catalogsLayout {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.catalogsText {
+  flex: 1;
+  min-width: 220px;
+}
+
+.catalogsImageWrapper {
+  flex: 0 0 auto;
+}
+
+.catalogsImage {
+  display: block;
+  max-width: 270px;
+  width: 100%;
+  height: auto;
+}
