@@ -21,5 +21,6 @@ jobs:
               "schemas/capabilities-schema.json": [ "catalogs/**/capabilities.yml", "catalogs/**/capabilities.yaml" ],
               "schemas/metadata-schema.json": [ "catalogs/**/metadata.yml", "catalogs/**/metadata.yaml" ],
               "schemas/threats-schema.json": [ "catalogs/**/threats.yml", "catalogs/**/threats.yaml" ],
+              "schemas/mappingdocument-schema.json": [ "catalogs/**/mappings/*.yml", "catalogs/**/mappings/*.yaml" ],
               "schemas/categories-schema.json": [ "catalogs/categories.yml", "catalogs/categories.yaml" ]
             }

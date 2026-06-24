@@ -55,24 +55,6 @@ threats:
           - reference-id: CCC.IAM.CP09
             strength: 0 # Not yet specified
             remarks: Federated Identity - OIDC
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078.004
-            strength: 0 # Not yet specified
-            remarks: "Valid Accounts: Cloud Accounts"
-          - reference-id: T1552
-            strength: 0 # Not yet specified
-            remarks: Unsecured Credentials
-          - reference-id: T1552.005
-            strength: 0 # Not yet specified
-            remarks: "Unsecured Credentials: Cloud Instance Metadata API"
-          - reference-id: T1528
-            strength: 0 # Not yet specified
-            remarks: Steal Application Access Token
-          - reference-id: T1110
-            strength: 0 # Not yet specified
-            remarks: Brute Force
 
   - id: CCC.IAM.TH02
     group: Access
@@ -103,12 +85,6 @@ threats:
           - reference-id: CCC.IAM.CP12
             strength: 0 # Not yet specified
             remarks: Policy Conditions
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078.004
-            strength: 0 # Not yet specified
-            remarks: "Valid Accounts: Cloud Accounts"
 
   - id: CCC.IAM.TH03
     group: Access
@@ -130,12 +106,6 @@ threats:
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption / Delegation
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078.004
-            strength: 0 # Not yet specified
-            remarks: "Valid Accounts: Cloud Accounts"
 
   - id: CCC.IAM.TH04
     group: Access
@@ -165,12 +135,6 @@ threats:
           - reference-id: CCC.IAM.CP11
             strength: 0 # Not yet specified
             remarks: Temporary Credentials
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1098.001
-            strength: 0 # Not yet specified
-            remarks: "Account Manipulation: Additional Cloud Credentials"
 
   - id: CCC.IAM.TH05
     group: Access
@@ -190,12 +154,6 @@ threats:
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption / Delegation
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1098.003
-            strength: 0 # Not yet specified
-            remarks: "Account Manipulation: Additional Cloud Roles"
 
   - id: CCC.IAM.TH06
     group: Access
@@ -215,15 +173,6 @@ threats:
           - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1098.003
-            strength: 0 # Not yet specified
-            remarks: "Account Manipulation: Additional Cloud Roles"
-          - reference-id: T1556.009
-            strength: 0 # Not yet specified
-            remarks: "Modify Authentication Process: Conditional Access Policies"
 
   - id: CCC.IAM.TH07
     group: Access
@@ -239,12 +188,6 @@ threats:
           - reference-id: CCC.IAM.CP05
             strength: 0 # Not yet specified
             remarks: IAM Groups
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1098
-            strength: 0 # Not yet specified
-            remarks: Account Manipulation
 
   - id: CCC.IAM.TH08
     group: Access
@@ -267,12 +210,6 @@ threats:
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption / Delegation
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1548.006
-            strength: 0 # Not yet specified
-            remarks: "Abuse Elevation Control Mechanism: Temporary Elevated Cloud Access"
 
   - id: CCC.IAM.TH09
     group: Access
@@ -290,15 +227,6 @@ threats:
           - reference-id: CCC.IAM.CP03
             strength: 0 # Not yet specified
             remarks: Long-Term Credentials
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078.004
-            strength: 0 # Not yet specified
-            remarks: "Valid Accounts: Cloud Accounts"
-          - reference-id: T1552
-            strength: 0 # Not yet specified
-            remarks: Unsecured Credentials
 
   - id: CCC.IAM.TH10
     group: Access
@@ -318,12 +246,6 @@ threats:
           - reference-id: CCC.IAM.CP09
             strength: 0 # Not yet specified
             remarks: Federated Identity - OIDC
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078
-            strength: 0 # Not yet specified
-            remarks: Valid Accounts
 
   - id: CCC.IAM.TH11
     group: Access
@@ -346,15 +268,6 @@ threats:
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles / Service Principals
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078.004
-            strength: 0 # Not yet specified
-            remarks: "Valid Accounts: Cloud Accounts"
-          - reference-id: T1552
-            strength: 0 # Not yet specified
-            remarks: Unsecured Credentials
 
   - id: CCC.IAM.TH12
     group: Access
@@ -375,12 +288,3 @@ threats:
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption / Delegation
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1199
-            strength: 0 # Not yet specified
-            remarks: Trusted Relationship
-          - reference-id: T1548.005
-            strength: 0 # Not yet specified
-            remarks: "Abuse Elevation Control Mechanism: Temporary Elevated Cloud Access"

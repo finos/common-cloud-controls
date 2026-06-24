@@ -40,18 +40,6 @@ threats:
           - reference-id: CCC.KeyMgmt.CP19
             strength: 0 # Not yet specified
             remarks: Delete Key
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1485
-            strength: 0 # Not yet specified
-            remarks: Data Destruction
-          - reference-id: T1489
-            strength: 0 # Not yet specified
-            remarks: Service Stop
-          - reference-id: T1490
-            strength: 0 # Not yet specified
-            remarks: Inhibit System Recovery
 
   - id: CCC.KeyMgmt.TH02
     group: Encryption
@@ -69,12 +57,6 @@ threats:
           - reference-id: CCC.KeyMgmt.CP17
             strength: 0 # Not yet specified
             remarks: Enable key
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1550
-            strength: 0 # Not yet specified
-            remarks: Use Alternate Authentication Material
 
   - id: CCC.KeyMgmt.TH03
     group: Encryption
@@ -92,12 +74,6 @@ threats:
           - reference-id: CCC.KeyMgmt.CP21
             strength: 0 # Not yet specified
             remarks: Manual Key Rotation
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1562
-            strength: 0 # Not yet specified
-            remarks: Impair Defenses
 
   - id: CCC.KeyMgmt.TH04
     group: Encryption
@@ -112,9 +88,3 @@ threats:
           - reference-id: CCC.KeyMgmt.CP22
             strength: 0 # Not yet specified
             remarks: Key Import
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1600
-            strength: 0 # Not yet specified
-            remarks: Weaken Encryption

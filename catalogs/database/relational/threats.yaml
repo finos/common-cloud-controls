@@ -60,10 +60,6 @@ threats:
         entries:
           - reference-id: CCC.RDMS.CP06
           - reference-id: CCC.RDMS.CP07
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078
   - id: CCC.RDMS.TH02
     group: Access
     title: Brute Force Attempts on Database Authentication
@@ -76,10 +72,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.RDMS.CP07
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1110
   - id: CCC.RDMS.TH03
     group: Data
     title: Database Backups Stopped
@@ -91,10 +83,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP11
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1490
   - id: CCC.RDMS.TH04
     group: Data
     title: Unintentional Database Backup Restoration
@@ -107,10 +95,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP11
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1485
   - id: CCC.RDMS.TH05
     group: Data
     title: Unauthorized Snapshot Sharing
@@ -123,7 +107,3 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP11
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1530

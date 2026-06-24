@@ -51,10 +51,6 @@ threats:
           - reference-id: CCC.Monitoring.CP11
             strength: 0 # Not yet specified
             remarks: Integration with Third-Party Tools
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1589 #Gather Victim Identity Information
   - id: CCC.Monitor.TH02
     group: Observability
     title: Health Checks Used to Identify Attack Targets
@@ -68,12 +64,6 @@ threats:
           - reference-id: CCC.Monitoring.CP04
             strength: 0 # Not yet specified
             remarks: Health Checks
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1590
-            strength: 0 # Not yet specified
-            remarks: Gather Victim Network Information
   - id: CCC.Monitor.TH03
     group: Resource
     title: External Monitoring DoS
@@ -87,15 +77,6 @@ threats:
           - reference-id: CCC.Monitoring.CP06
             strength: 0 # Not yet specified
             remarks: Synthetic Monitoring
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1574
-            strength: 0 # Not yet specified
-            remarks: Hijack Execution Flow
-          - reference-id: T1498
-            strength: 0 # Not yet specified
-            remarks: Network Denial of Service
   - id: CCC.Monitor.TH04
     group: Access
     title: External Monitoring Access
@@ -109,12 +90,6 @@ threats:
           - reference-id: CCC.Monitoring.CP06
             strength: 0 # Not yet specified
             remarks: Synthetic Monitoring
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1133
-            strength: 0 # Not yet specified
-            remarks: External Remote Services
   - id: CCC.Monitor.TH05
     group: Data
     title: Data Exfiltration Through Tampered Metrics
@@ -132,18 +107,6 @@ threats:
           - reference-id: CCC.Monitoring.CP11
             strength: 0 # Not yet specified
             remarks: Integration with Third-Party Tools
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1560
-            strength: 0 # Not yet specified
-            remarks: Archive Collected Data
-          - reference-id: T1074
-            strength: 0 # Not yet specified
-            remarks: Data Staged
-          - reference-id: T1567
-            strength: 0 # Not yet specified
-            remarks: Exfiltration Over Web Service
   - id: CCC.Monitor.TH06
     group: Resource
     title: Cost Exhaustion Through Tampered Alerts or Metrics Collection
@@ -161,12 +124,6 @@ threats:
           - reference-id: CCC.Monitoring.CP11
             strength: 0 # Not yet specified
             remarks: Integration with Third-Party Tools
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1565
-            strength: 0 # Not yet specified
-            remarks: Data Manipulation
   - id: CCC.Monitor.TH07
     group: Compute
     title: Trigger Malicious Code
@@ -186,9 +143,3 @@ threats:
           - reference-id: CCC.Monitoring.CP11
             strength: 0 # Not yet specified
             remarks: Integration with Third-Party Tools
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1546
-            strength: 0 # Not yet specified
-            remarks: Event Triggered Execution

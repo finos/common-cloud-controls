@@ -45,11 +45,3 @@ threats:
         entries:
           - reference-id: CCC.ObjStor.CP08
           - reference-id: CCC.Core.CP11
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1020
-          - reference-id: T1537
-          - reference-id: T1567
-          - reference-id: T1048
-          - reference-id: T1485

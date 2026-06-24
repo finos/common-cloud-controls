@@ -1,7 +1,9 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -25,7 +27,7 @@ var Compile = &cobra.Command{
 }
 
 func init() {
-	Compile.Flags().String("type", "", "Asset type: capabilities | threats | controls")
+	Compile.Flags().String("type", "", "Asset type: capabilities | threats | controls | mappings")
 	Compile.Flags().String("version", "", "Release version stamped into the artifact (e.g. v2026.04)")
 }
 
@@ -71,13 +73,8 @@ func runCompile(cmd *cobra.Command, args []string) error {
 	if buildTarget == "" || assetType == "" || version == "" {
 		return fmt.Errorf("--build-target, --type and --version are all required")
 	}
-	if _, ok := coreImportName[assetType]; !ok {
-		return fmt.Errorf("unknown --type %q (want: capabilities | threats | controls)", assetType)
-	}
-
-	groupDefs, err := loadGroupDefs(catalogsDir)
-	if err != nil {
-		return err
+	if _, ok := coreImportName[assetType]; !ok && assetType != "mappings" {
+		return fmt.Errorf("unknown --type %q (want: capabilities | threats | controls | mappings)", assetType)
 	}
 
 	srcDir := filepath.Join(catalogsDir, buildTarget)
@@ -86,6 +83,18 @@ func runCompile(cmd *cobra.Command, args []string) error {
 		return err
 	}
 	service := serviceNameFromTitle(meta.title)
+
+	// Mapping documents are already authored in canonical Gemara form (no
+	// imports/shorthand to reshape), and a catalog may have several of them.
+	// Compile them as a group, separate from the single-artifact asset types.
+	if assetType == "mappings" {
+		return compileMappings(srcDir, meta, version, outputDir, buildTarget)
+	}
+
+	groupDefs, err := loadGroupDefs(catalogsDir)
+	if err != nil {
+		return err
+	}
 
 	var artifact any
 	switch assetType {
@@ -248,6 +257,65 @@ func compileThreats(path, catalogID, service, version, coreVersion string, group
 		Groups:  groups,
 		Imports: imports,
 	}, nil
+}
+
+// fileFetcher is a minimal gemara.Fetcher that reads from the local filesystem,
+// letting us reuse go-gemara's codec (and its enum (un)marshalers) to decode
+// MappingDocuments — gopkg.in/yaml.v3 cannot, since the enum UnmarshalYAML
+// methods use the goccy/go-yaml signature.
+type fileFetcher struct{}
+
+func (fileFetcher) Fetch(_ context.Context, source string) (io.ReadCloser, error) {
+	return os.Open(source)
+}
+
+// compileMappings compiles every MappingDocument under <srcDir>/mappings into
+// the published output, restamping the spec version and aligning the source
+// catalog's mapping-reference version to the release being built. Catalogs
+// without a mappings directory are a no-op.
+func compileMappings(srcDir string, meta sourceMeta, version, outputDir, buildTarget string) error {
+	mapDir := filepath.Join(srcDir, "mappings")
+	entries, err := os.ReadDir(mapDir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil
+		}
+		return fmt.Errorf("reading %s: %w", mapDir, err)
+	}
+
+	threatsCatalogID := artifactCatalogID(meta.id, "threats")
+	ctx := context.Background()
+	count := 0
+	for _, e := range entries {
+		name := e.Name()
+		if e.IsDir() || !(strings.HasSuffix(name, ".yaml") || strings.HasSuffix(name, ".yml")) {
+			continue
+		}
+		src := filepath.Join(mapDir, name)
+		doc, err := gemara.Load[gemara.MappingDocument](ctx, fileFetcher{}, src)
+		if err != nil {
+			return fmt.Errorf("loading mapping document %s: %w", src, err)
+		}
+
+		doc.Metadata.GemaraVersion = gemaraSpecVersion
+		doc.Metadata.Version = version
+		// The source authors the threats catalog mapping-reference at "dev";
+		// pin it to the release version actually being compiled.
+		for i := range doc.Metadata.MappingReferences {
+			if doc.Metadata.MappingReferences[i].Id == threatsCatalogID {
+				doc.Metadata.MappingReferences[i].Version = version
+			}
+		}
+
+		out := filepath.Join(outputDir, buildTarget, "mappings", name)
+		if err := writeYAML(out, doc); err != nil {
+			return err
+		}
+		count++
+	}
+	fmt.Printf("compiled %s mappings (%d document(s)) -> %s\n",
+		buildTarget, count, filepath.Join(outputDir, buildTarget, "mappings"))
+	return nil
 }
 
 // sourceControl mirrors the source controls.yaml shape, which uses
