@@ -1,0 +1,159 @@
+name: Gemara Schema Check
+
+# Enforce that every catalog YAML touched in a PR compiles cleanly through
+# delivery-toolkit and validates against the Gemara CUE schema (pinned at
+# GEMARA_SPEC_REF). Per-file scope: only build targets whose YAMLs were touched
+# are re-validated. Changes to shared/core files (`catalogs/categories.yaml`,
+# `catalogs/core/ccc/**`) cascade to every target because every catalog depends
+# on them.
+#
+# Fails the PR on any compile error or schema violation.
+
+on:
+  pull_request:
+  workflow_call:
+
+env:
+  # Gemara CUE module version the source catalogs target, resolved from the
+  # CUE Central Registry. Bump in lockstep with `gemaraSpecVersion` in
+  # delivery-toolkit/cmd/compile.go.
+  GEMARA_SPEC_REF: v1.2.0
+  GEMARA_MODULE: github.com/gemaraproj/gemara
+  # Pin cue so CI is reproducible. cue vet is the validator: it resolves the
+  # Gemara module from the registry and unifies each compiled YAML against
+  # the matching #<ArtifactType> definition.
+  CUE_VERSION: v0.16.0
+
+jobs:
+  gemara-schema-check:
+    name: Compile and validate touched catalog YAMLs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version-file: delivery-toolkit/go.mod
+          cache-dependency-path: delivery-toolkit/go.sum
+
+      - name: Install cue
+        uses: cue-lang/setup-cue@a93fa358375740cd8b0078f76355512b9208acb1 # v1.0.1
+        with:
+          version: ${{ env.CUE_VERSION }}
+
+      - name: Build delivery-toolkit
+        run: |
+          set -euo pipefail
+          cd delivery-toolkit
+          go build -o "$RUNNER_TEMP/delivery-toolkit" .
+
+      - name: Determine affected build targets
+        id: targets
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          changed=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- \
+            'catalogs/**.yaml' 'catalogs/**.yml' | sort -u || true)
+
+          if [ -z "$changed" ]; then
+            echo "No catalog YAML files were touched — nothing to validate."
+            printf 'targets=\n' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Changed catalog YAML files:"
+          printf '  %s\n' $changed
+
+          broad=
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              catalogs/categories.yaml|catalogs/categories.yml|catalogs/core/ccc/*)
+                broad=1
+                break
+                ;;
+            esac
+          done <<< "$changed"
+
+          if [ -n "$broad" ]; then
+            echo "Shared/core catalog file touched — every build target will be re-validated."
+            targets=$(find catalogs -mindepth 3 -maxdepth 3 -name metadata.yaml \
+              -printf '%h\n' | sed 's|^catalogs/||' | sort -u)
+          else
+            # Build targets live at catalogs/<category>/<service>/...
+            targets=$(printf '%s\n' $changed | awk -F/ 'NF>=4 {print $2"/"$3}' | sort -u)
+          fi
+
+          echo "Targets to validate:"
+          printf '  %s\n' $targets
+
+          {
+            echo 'targets<<EOF'
+            printf '%s\n' $targets
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Compile and validate affected targets
+        if: steps.targets.outputs.targets != ''
+        env:
+          TARGETS: ${{ steps.targets.outputs.targets }}
+        run: |
+          set -euo pipefail
+          out_dir="$RUNNER_TEMP/compiled"
+          rm -rf "$out_dir" && mkdir -p "$out_dir"
+
+          # Each asset type maps to its #ArtifactType CUE definition.
+          declare -A cue_def=(
+            [capabilities]='#CapabilityCatalog'
+            [threats]='#ThreatCatalog'
+            [controls]='#ControlCatalog'
+          )
+
+          fail=0
+          while IFS= read -r tgt; do
+            [ -z "$tgt" ] && continue
+            for asset in capabilities threats controls; do
+              src="catalogs/$tgt/$asset.yaml"
+              if [ ! -f "$src" ]; then
+                continue
+              fi
+
+              echo "::group::compile $tgt $asset"
+              if ! "$RUNNER_TEMP/delivery-toolkit" compile \
+                    --build-target "$tgt" \
+                    --type "$asset" \
+                    --catalogs-dir catalogs \
+                    --output-dir "$out_dir" \
+                    --version v0.0.0-ci; then
+                echo "::error file=$src::delivery-toolkit failed to compile $tgt/$asset"
+                fail=1
+                echo '::endgroup::'
+                continue
+              fi
+              echo '::endgroup::'
+
+              compiled="$out_dir/$tgt/$asset.yaml"
+              def="${cue_def[$asset]}"
+              echo "::group::validate $tgt $asset against $def"
+              if ! cue vet -d "$def" "${GEMARA_MODULE}@${GEMARA_SPEC_REF}" "$compiled"; then
+                echo "::error file=$src::compiled $tgt/$asset failed Gemara $GEMARA_SPEC_REF schema validation"
+                fail=1
+              fi
+              echo '::endgroup::'
+            done
+          done <<< "$TARGETS"
+
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::One or more touched catalog YAMLs failed Gemara schema validation."
+            exit 1
+          fi
