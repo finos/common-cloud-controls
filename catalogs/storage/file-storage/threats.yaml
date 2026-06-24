@@ -1,0 +1,219 @@
+imports:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        remarks: Access is Granted to Unauthorized Users
+      - reference-id: CCC.Core.TH02
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH04
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH05
+        remarks: Interference with Replication Processes
+      - reference-id: CCC.Core.TH06
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        remarks: Runtime Metrics are Manipulated
+      - reference-id: CCC.Core.TH09
+        remarks: Runtime Logs are Read by Unauthorized Entities
+      - reference-id: CCC.Core.TH10
+        remarks: State-change Events are Read by Unauthorized Entities
+      - reference-id: CCC.Core.TH11
+        remarks: Publications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH15
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        remarks: Publications are Disabled
+      - reference-id: CCC.Core.TH18
+        remarks: Encryption Key is Misused
+
+threats:
+  - id: CCC.FileStor.TH01
+    group: Access
+    title: Unauthorized NFS Mount Access is Permitted
+    description: |
+      Network access rules or mount configuration may allow clients outside the
+      intended virtual network scope to mount the file system over NFS. Mount
+      requests from unauthorized clients are accepted and read-write access to
+      the shared namespace is granted. This impacts confidentiality and
+      integrity of stored file content and may affect availability through
+      unauthorized modification or deletion.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.CP02
+            remarks: NFS Protocol Mount Access
+          - reference-id: CCC.FileStor.CP03
+            remarks: Private Network Mount Access
+          - reference-id: CCC.Core.CP06
+            remarks: Access Control
+          - reference-id: CCC.Core.CP23
+            remarks: Network Access Rules
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1039
+            remarks: Data from Network Shared Drive
+          - reference-id: T1020
+            remarks: Automated Exfiltration
+      - reference-id: D3FEND
+        entries:
+          - reference-id: D3-NI
+            remarks: Network Isolation — counters T1039, T1020
+
+  - id: CCC.FileStor.TH02
+    group: Access
+    title: POSIX Permissions Grant Unintended Shared Access
+    description: |
+      Default file and directory permissions, identity mapping, or access
+      control lists on the shared file system may be configured with broader
+      scope than required for the workload. Users or processes on authorized
+      mount clients can read or modify files outside their intended scope.
+      This impacts confidentiality and integrity of file content stored on the
+      shared file system.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.CP04
+            remarks: POSIX File Semantics
+          - reference-id: CCC.Core.CP06
+            remarks: Access Control
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1222
+            remarks: File and Directory Permissions Modification
+          - reference-id: T1530
+            remarks: Data from Cloud Storage Object
+      - reference-id: D3FEND
+        entries:
+          - reference-id: D3-APA
+            remarks: Access Policy Administration — counters T1222
+      - reference-id: CWE
+        entries:
+          - reference-id: CWE-732
+            remarks: Incorrect Permission Assignment for Critical Resource
+
+  - id: CCC.FileStor.TH03
+    group: Data
+    title: File Content is Modified Through Shared Writable Mount
+    description: |
+      A writable NFS mount exposed to multiple clients may be used to modify,
+      encrypt, or delete files across the shared namespace without
+      application-level coordination. File content is altered or rendered
+      inaccessible at scale across the mounted file system. This impacts
+      integrity and availability of stored data and dependent workloads.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.CP01
+            remarks: Managed File Systems
+          - reference-id: CCC.FileStor.CP02
+            remarks: NFS Protocol Mount Access
+          - reference-id: CCC.FileStor.CP04
+            remarks: POSIX File Semantics
+          - reference-id: CCC.Core.CP01
+            remarks: Encryption in Transit Enabled by Default
+          - reference-id: CCC.Core.CP02
+            remarks: Encryption at Rest Enabled by Default
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1565
+            remarks: Data Manipulation
+          - reference-id: T1486
+            remarks: Data Encrypted for Impact
+      - reference-id: D3FEND
+        entries:
+          - reference-id: D3-RF
+            remarks: Restore File — counters T1486
+          - reference-id: D3-DENCR
+            remarks: Disk Encryption — counters T1565, T1486
+
+  - id: CCC.FileStor.TH04
+    group: Resource
+    title: File System Capacity is Exhausted
+    description: |
+      Storage capacity quotas may be absent, set too high, or bypassed as
+      utilization grows across the shared file system. The file system reaches
+      its effective capacity limit and write operations fail or are rejected.
+      This impacts availability of dependent applications and may affect data
+      integrity when writes cannot complete.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.CP05
+            remarks: Elastic Storage Capacity
+          - reference-id: CCC.FileStor.CP08
+            remarks: Storage Capacity Quotas
+          - reference-id: CCC.Core.CP31
+            remarks: Elastic Scaling
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1496
+            remarks: Resource Hijacking
+      - reference-id: D3FEND
+        entries:
+          - reference-id: D3-APM
+            remarks: Application Performance Monitoring — counters T1496
+
+  - id: CCC.FileStor.TH05
+    group: Data
+    title: Snapshots or Replicas Expose File System Contents
+    description: |
+      Backup snapshots, replicas, or cross-region copies of the file system
+      may be configured with access controls broader than the primary mount.
+      Unauthorized users or external systems can read file content from the
+      copy without mounting the live file system. This impacts confidentiality
+      of data retained in snapshots and replicas.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.CP07
+            remarks: Multi-Availability-Zone Durability
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
+          - reference-id: CCC.Core.CP11
+            remarks: Backup
+          - reference-id: CCC.Core.CP12
+            remarks: Recovery
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1530
+            remarks: Data from Cloud Storage Object
+      - reference-id: D3FEND
+        entries:
+          - reference-id: D3-ACH
+            remarks: Application Configuration Hardening — counters T1530
+
+  - id: CCC.FileStor.TH06
+    group: Resource
+    title: Under-Provisioned Performance Tier Degrades Availability
+    description: |
+      The selected throughput or performance tier may be insufficient for
+      concurrent client I/O against the shared file system. Read and write
+      operations are throttled or delayed beyond application tolerance. This
+      impacts availability of workloads that depend on timely file access.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.CP06
+            remarks: Performance Tiers
+    external-mappings:
+      - reference-id: MITRE-ATT&CK
+        entries:
+          - reference-id: T1499
+            remarks: Endpoint Denial of Service
+      - reference-id: D3FEND
+        entries:
+          - reference-id: D3-APM
+            remarks: Application Performance Monitoring — counters T1499

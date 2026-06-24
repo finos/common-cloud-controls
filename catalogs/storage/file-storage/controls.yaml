@@ -1,0 +1,364 @@
+imports:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.CN01
+        remarks: Encrypt Data for Transmission
+      - reference-id: CCC.Core.CN02
+        remarks: Encrypt Data for Storage
+      - reference-id: CCC.Core.CN04
+        remarks: Log All Access and Changes
+      - reference-id: CCC.Core.CN05
+        remarks: Prevent Access from Untrusted Entities
+      - reference-id: CCC.Core.CN06
+        remarks: Restrict Deployments to Trust Perimeter
+      - reference-id: CCC.Core.CN07
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.CN08
+        remarks: Replicate Data to Multiple Locations
+      - reference-id: CCC.Core.CN09
+        remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN10
+        remarks: Restrict Data Replication to Trust Perimeter
+      - reference-id: CCC.Core.CN11
+        remarks: Protect Encryption Keys
+      - reference-id: CCC.Core.CN13
+        remarks: Minimize Lifetime of Encryption and Authentication Certificates
+      - reference-id: CCC.Core.CN14
+        remarks: Maintain Recent Backups
+      - reference-id: CCC.Core.CN15
+        remarks: Validate Alert and Event Publication Configuration
+
+controls:
+  - id: CCC.FileStor.CN01
+    group: Access
+    title: Restrict NFS Mount to Approved Network Sources
+    objective: |
+      Ensure that NFS mount and data-plane access is limited to explicitly
+      approved virtual network sources within the organizational trust
+      perimeter.
+    assessment-requirements:
+      - id: CCC.FileStor.CN01.AR01
+        text: |
+          When an NFS mount is attempted from a network source outside the
+          approved virtual network scope, the service MUST reject the mount
+          request.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure mount targets, private endpoints, or service firewalls so
+          that only designated subnets or security groups can reach NFS ports.
+      - id: CCC.FileStor.CN01.AR02
+        text: |
+          When mount targets or private connectivity endpoints are configured,
+          the service MUST restrict inbound NFS traffic to an explicit
+          allowlist of source network identifiers.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Review security group, network security group, and firewall rules
+          after each network topology change.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.TH01
+            remarks: Unauthorized NFS Mount Access is Permitted
+            strength: 9
+
+  - id: CCC.FileStor.CN02
+    group: Access
+    title: Enforce Least-Privilege POSIX File Permissions
+    objective: |
+      Ensure that default and mapped POSIX permissions on the shared file
+      system do not grant broader access than required by the workload.
+    assessment-requirements:
+      - id: CCC.FileStor.CN02.AR01
+        text: |
+          When default file or directory permissions are applied on the shared
+          file system, the service MUST NOT grant world-readable or
+          world-writable access unless explicitly configured for a documented
+          exception.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set secure default umask values and validate directory ACLs on
+          deployment.
+      - id: CCC.FileStor.CN02.AR02
+        text: |
+          When client identity mapping is configured for NFS access, the service
+          MUST map connecting clients to POSIX user and group identifiers that
+          enforce least-privilege access.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use root squashing, identity domain integration, or equivalent
+          provider mechanisms to avoid privileged anonymous access.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.TH02
+            remarks: POSIX Permissions Grant Unintended Shared Access
+            strength: 8
+
+  - id: CCC.FileStor.CN03
+    group: Data
+    title: Restrict Writable Mount Access to Authorized Clients
+    objective: |
+      Ensure that write access to the shared file system is granted only to
+      clients explicitly authorized for modification.
+    assessment-requirements:
+      - id: CCC.FileStor.CN03.AR01
+        text: |
+          When a client that is not authorized for write access mounts the file
+          system, the service MUST enforce a read-only mount or MUST reject
+          write operations from that client.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Separate read-only and read-write mount policies by client role or
+          security group where the provider supports it.
+      - id: CCC.FileStor.CN03.AR02
+        text: |
+          When the file system is used by multiple concurrent clients, the
+          service MUST support configuration that limits destructive file
+          operations to authorized administrative principals.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Combine network restrictions, IAM policies, and application-level
+          coordination for shared writable workloads.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.TH03
+            remarks: File Content is Modified Through Shared Writable Mount
+            strength: 7
+
+  - id: CCC.FileStor.CN04
+    group: Resource
+    title: Enforce Storage Capacity Quotas
+    objective: |
+      Ensure that file system capacity growth is bounded by configured quotas
+      to prevent exhaustion that disrupts dependent workloads.
+    assessment-requirements:
+      - id: CCC.FileStor.CN04.AR01
+        text: |
+          When a storage capacity quota is configured, the service MUST reject
+          write operations that would exceed the configured quota.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set quotas below the physical or provisioned maximum and monitor
+          utilization trends.
+      - id: CCC.FileStor.CN04.AR02
+        text: |
+          When storage utilization reaches a configurable threshold below the
+          capacity quota, the service MUST publish a metric or alert to a
+          monitored channel.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Alert at multiple thresholds (for example 70%, 85%, and 95% of quota)
+          to allow proactive remediation.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.TH04
+            remarks: File System Capacity is Exhausted
+            strength: 9
+          - reference-id: CCC.Core.TH12
+            remarks: Resource Constraints are Exhausted
+            strength: 7
+
+  - id: CCC.FileStor.CN05
+    group: Data
+    title: Restrict Snapshot and Replica Access
+    objective: |
+      Ensure that backup snapshots, replicas, and cross-region copies of the
+      file system are not more accessible than the primary file system.
+    assessment-requirements:
+      - id: CCC.FileStor.CN05.AR01
+        text: |
+          When a snapshot or replica of the file system is created, the service
+          MUST apply access controls that are equivalent to or stricter than
+          those on the primary file system.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Review IAM policies and network rules on backup vaults and replica
+          targets independently from the live mount.
+      - id: CCC.FileStor.CN05.AR02
+        text: |
+          When cross-account or cross-subscription replication is configured,
+          the service MUST restrict replica access to an explicit allowlist of
+          authorized destination accounts or projects.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Document approved replication destinations in the organizational
+          trust perimeter.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.TH05
+            remarks: Snapshots or Replicas Expose File System Contents
+            strength: 9
+          - reference-id: CCC.Core.TH05
+            remarks: Interference with Replication Processes
+            strength: 6
+
+  - id: CCC.FileStor.CN06
+    group: Resource
+    title: Monitor Performance Tier Saturation
+    objective: |
+      Ensure that throughput or IOPS saturation on the selected performance
+      tier is detected before workloads experience unacceptable latency.
+    assessment-requirements:
+      - id: CCC.FileStor.CN06.AR01
+        text: |
+          When throughput or IOPS utilization on the file system exceeds a
+          configurable threshold, the service MUST publish a metric or alert
+          to a monitored channel.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Baseline normal I/O patterns and tune alert thresholds per workload.
+      - id: CCC.FileStor.CN06.AR02
+        text: |
+          When a performance tier is provisioned, the service MUST expose the
+          configured throughput or IOPS limits to authorized operators.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Validate tier selection against peak concurrent client I/O during
+          capacity planning.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.FileStor.TH06
+            remarks: Under-Provisioned Performance Tier Degrades Availability
+            strength: 8
+          - reference-id: CCC.Core.TH12
+            remarks: Resource Constraints are Exhausted
+            strength: 5
+
+  - id: CCC.FileStor.CN07
+    group: Observability
+    title: Protect Runtime Metrics from Unauthorized Access
+    objective: |
+      Ensure that operational metrics for the file system cannot be read or
+      modified by unauthorized principals.
+    assessment-requirements:
+      - id: CCC.FileStor.CN07.AR01
+        text: |
+          When runtime metrics are published for the file system, the service
+          MUST restrict read access to authorized principals.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Apply least-privilege IAM or RBAC policies to monitoring dashboards
+          and metric APIs.
+      - id: CCC.FileStor.CN07.AR02
+        text: |
+          When an unauthorized principal attempts to modify metric publication
+          configuration, the service MUST reject the change.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH08
+            remarks: Runtime Metrics are Manipulated
+            strength: 8
+          - reference-id: CCC.Core.TH09
+            remarks: Runtime Logs are Read by Unauthorized Entities
+            strength: 4
+
+  - id: CCC.FileStor.CN08
+    group: Observability
+    title: Restrict Access to State-Change Events
+    objective: |
+      Ensure that state-change events for the file system cannot be read by
+      unauthorized principals.
+    assessment-requirements:
+      - id: CCC.FileStor.CN08.AR01
+        text: |
+          When state-change events are published for the file system, the
+          service MUST restrict read access to authorized principals.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Scope event subscription and notification permissions to security
+          and operations roles.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH10
+            remarks: State-change Events are Read by Unauthorized Entities
+            strength: 8
+
+  - id: CCC.FileStor.CN09
+    group: Resource
+    title: Prevent Unauthorized Modification of Resource Tags
+    objective: |
+      Ensure that resource tags on the file system cannot be altered in ways
+      that bypass organizational policy or cost controls.
+    assessment-requirements:
+      - id: CCC.FileStor.CN09.AR01
+        text: |
+          When an attempt is made to modify resource tags on the file system,
+          the service MUST reject changes from unauthorized principals.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use tag policies or organizational guardrails to enforce mandatory
+          classification tags.
+      - id: CCC.FileStor.CN09.AR02
+        text: |
+          When mandatory classification tags are defined for the file system,
+          the service MUST prevent deletion of those tags without privileged
+          authorization.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH13
+            remarks: Resource Tags are Manipulated
+            strength: 8

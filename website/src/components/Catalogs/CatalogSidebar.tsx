@@ -56,6 +56,7 @@ export const CATALOG_STRUCTURE: Category[] = [
     { slug: "vpc",          label: "VPC" },
   ]},
   { slug: "storage",    label: "Storage",     services: [
+    { slug: "file-storage", label: "File Storage" },
     { slug: "object", label: "Object" },
   ]},
 ];

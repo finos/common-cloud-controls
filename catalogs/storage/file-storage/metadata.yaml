@@ -26,3 +26,15 @@ metadata:
     - id: CCC.Core
       title: FINOS CCC Core Catalog
       version: v2025.10
+    - id: MITRE-ATT&CK
+      title: MITRE ATT&CK Framework
+      version: "12.0"
+      url: https://attack.mitre.org/
+    - id: D3FEND
+      title: MITRE D3FEND
+      version: "1.0"
+      url: https://d3fend.mitre.org/
+    - id: CWE
+      title: CWE
+      version: "4.17"
+      url: https://cwe.mitre.org/
