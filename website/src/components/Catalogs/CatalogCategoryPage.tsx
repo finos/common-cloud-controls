@@ -122,7 +122,7 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
 
   useEffect(() => {
     fetch(`/content/${category}.md`)
-      .then((r) => (r.ok ? r.text() : ""))
+      .then((r) => (r.ok && r.headers.get("content-type")?.includes("text/plain") ? r.text() : ""))
       .then((md) => setDescBody(md.replace(/^---[\s\S]*?---\n?/, "")));
   }, [category]);
 

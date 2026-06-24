@@ -18,8 +18,9 @@ interface Category {
 
 export const CATALOG_STRUCTURE: Category[] = [
   { slug: "ai-ml",      label: "AI/ML",       services: [
-    { slug: "gen-ai", label: "Gen AI" },
-    { slug: "mlde",   label: "MLDE" },
+    { slug: "gen-ai",              label: "Gen AI" },
+    { slug: "mlde",                label: "MLDE" },
+    { slug: "multi-agent-refarch", label: "Multi-Agent Ref Arch" },
   ]},
   { slug: "compute",    label: "Compute",     services: [
     { slug: "batchproc",             label: "Batch Processing" },
@@ -51,9 +52,16 @@ export const CATALOG_STRUCTURE: Category[] = [
     { slug: "monitoring",label: "Monitoring" },
     { slug: "tracing",   label: "Tracing" },
   ]},
+  { slug: "app-integration", label: "App Integration", services: [
+    { slug: "message", label: "Messaging" },
+  ]},
   { slug: "networking", label: "Networking",  services: [
     { slug: "loadbalancer", label: "Load Balancer" },
     { slug: "vpc",          label: "VPC" },
+  ]},
+  { slug: "orchestration", label: "Orchestration", services: [
+    { slug: "etl", label: "ETL" },
+    { slug: "k8s", label: "Kubernetes" },
   ]},
   { slug: "storage",    label: "Storage",     services: [
     { slug: "object", label: "Object" },

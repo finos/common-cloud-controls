@@ -31,7 +31,7 @@ export const CatalogTypeOverviewPage: React.FC<Props> = ({ data }) => {
 
   useEffect(() => {
     fetch(`/content/${type}.md`)
-      .then((r) => (r.ok ? r.text() : ""))
+      .then((r) => (r.ok && r.headers.get("content-type")?.includes("text/plain") ? r.text() : ""))
       .then((md) => setBody(md.replace(/^---[\s\S]*?---\n?/, "")));
   }, [type]);
 
