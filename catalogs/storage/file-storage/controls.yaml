@@ -27,6 +27,16 @@ imports:
         remarks: Maintain Recent Backups
       - reference-id: CCC.Core.CN15
         remarks: Validate Alert and Event Publication Configuration
+      - reference-id: CCC.Core.CN16
+        remarks: Protect Runtime Metrics from Unauthorized Access
+      - reference-id: CCC.Core.CN17
+        remarks: Restrict Access to State-Change Events
+      - reference-id: CCC.Core.CN18
+        remarks: Prevent Unauthorized Modification of Resource Tags
+      - reference-id: CCC.Core.CN19
+        remarks: |
+          Restrict Snapshot and Replica Access; covers snapshot and replica
+          exposure for file systems (FileStor.TH05)
 
 controls:
   - id: CCC.FileStor.CN01
@@ -187,10 +197,10 @@ controls:
 
   - id: CCC.FileStor.CN05
     group: Data
-    title: Restrict Snapshot and Replica Access
+    title: Restrict Snapshot Access for File Systems
     objective: |
-      Ensure that backup snapshots, replicas, and cross-region copies of the
-      file system are not more accessible than the primary file system.
+      Ensure that backup snapshots and replicas of the file system are not
+      more accessible than the primary file system.
     assessment-requirements:
       - id: CCC.FileStor.CN05.AR01
         text: |
@@ -205,26 +215,12 @@ controls:
         recommendation: |
           Review IAM policies and network rules on backup vaults and replica
           targets independently from the live mount.
-      - id: CCC.FileStor.CN05.AR02
-        text: |
-          When cross-account or cross-subscription replication is configured,
-          the service MUST restrict replica access to an explicit allowlist of
-          authorized destination accounts or projects.
-        applicability:
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Document approved replication destinations in the organizational
-          trust perimeter.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.FileStor.TH05
             remarks: Snapshots or Replicas Expose File System Contents
             strength: 9
-          - reference-id: CCC.Core.TH05
-            remarks: Interference with Replication Processes
-            strength: 6
 
   - id: CCC.FileStor.CN06
     group: Resource
@@ -265,100 +261,3 @@ controls:
           - reference-id: CCC.Core.TH12
             remarks: Resource Constraints are Exhausted
             strength: 5
-
-  - id: CCC.FileStor.CN07
-    group: Observability
-    title: Protect Runtime Metrics from Unauthorized Access
-    objective: |
-      Ensure that operational metrics for the file system cannot be read or
-      modified by unauthorized principals.
-    assessment-requirements:
-      - id: CCC.FileStor.CN07.AR01
-        text: |
-          When runtime metrics are published for the file system, the service
-          MUST restrict read access to authorized principals.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Apply least-privilege IAM or RBAC policies to monitoring dashboards
-          and metric APIs.
-      - id: CCC.FileStor.CN07.AR02
-        text: |
-          When an unauthorized principal attempts to modify metric publication
-          configuration, the service MUST reject the change.
-        applicability:
-          - tlp-amber
-          - tlp-red
-        recommendation: ""
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.TH08
-            remarks: Runtime Metrics are Manipulated
-            strength: 8
-          - reference-id: CCC.Core.TH09
-            remarks: Runtime Logs are Read by Unauthorized Entities
-            strength: 4
-
-  - id: CCC.FileStor.CN08
-    group: Observability
-    title: Restrict Access to State-Change Events
-    objective: |
-      Ensure that state-change events for the file system cannot be read by
-      unauthorized principals.
-    assessment-requirements:
-      - id: CCC.FileStor.CN08.AR01
-        text: |
-          When state-change events are published for the file system, the
-          service MUST restrict read access to authorized principals.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Scope event subscription and notification permissions to security
-          and operations roles.
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.TH10
-            remarks: State-change Events are Read by Unauthorized Entities
-            strength: 8
-
-  - id: CCC.FileStor.CN09
-    group: Resource
-    title: Prevent Unauthorized Modification of Resource Tags
-    objective: |
-      Ensure that resource tags on the file system cannot be altered in ways
-      that bypass organizational policy or cost controls.
-    assessment-requirements:
-      - id: CCC.FileStor.CN09.AR01
-        text: |
-          When an attempt is made to modify resource tags on the file system,
-          the service MUST reject changes from unauthorized principals.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Use tag policies or organizational guardrails to enforce mandatory
-          classification tags.
-      - id: CCC.FileStor.CN09.AR02
-        text: |
-          When mandatory classification tags are defined for the file system,
-          the service MUST prevent deletion of those tags without privileged
-          authorization.
-        applicability:
-          - tlp-amber
-          - tlp-red
-        recommendation: ""
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.TH13
-            remarks: Resource Tags are Manipulated
-            strength: 8
