@@ -13,7 +13,7 @@ See [azure-cloud-storage.yml](../../cfi-testing/privateer-config/finos-integrati
 Required `services.<name>.vars`:
 
 | Var | Description |
-|-----|-------------|
+| ----- | ------------- |
 | `service` | Godog service type (e.g. `object-storage`) |
 | `provider` | Cloud provider (`azure`, `aws`, `gcp`) |
 | `resource` | Resource name filter (container name, VPC name tag, etc.) |

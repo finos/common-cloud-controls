@@ -353,4 +353,3 @@ controls:
           - reference-id: IAM-08
             remarks: User Access Review
             strength: 2 # Reducing IAM nuance and exceptions helps streamline reviews
-

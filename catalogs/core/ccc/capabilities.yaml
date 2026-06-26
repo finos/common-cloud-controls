@@ -213,7 +213,7 @@ capabilities:
       While running, the service can pause, idle or wait to receive
       inputs, commands, or data from some other service or external source
       for the service to process or operate on.
-  
+
   - id: CCC.Core.CP31
     group: Compute
     title: Elastic Scaling

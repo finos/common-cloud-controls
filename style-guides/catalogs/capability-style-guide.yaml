@@ -12,7 +12,7 @@ style_guide:
     - "Use title case."
     - "Avoid special characters except hyphens."
     - "Avoid abbreviations unless widely understood."
-  
+
   descriptions:
     - "Must start with 'The service…'."
     - "Use multi-line text which starts with '|'"

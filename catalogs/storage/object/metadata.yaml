@@ -1,14 +1,14 @@
 metadata:
-    id: CCC.ObjStor
-    title: FINOS CCC Object Storage
-    description: |
-        Object Storage is a data management architecture that handles data as objects,
-        rather than as files or blocks. Each object contains the stored data,
-        metadata, and a unique identifier, making it ideal for storing large amounts
-        of unstructured data such as multimedia files, backups, and archives. It is
-        highly scalable and often used in cloud environments due to its flexibility
-        and accessibility.
-    mapping-references:
-        - id: CCC.Core
-          title: FINOS CCC Core Catalog
-          version: v2025.10
+  id: CCC.ObjStor
+  title: FINOS CCC Object Storage
+  description: |
+    Object Storage is a data management architecture that handles data as objects,
+    rather than as files or blocks. Each object contains the stored data,
+    metadata, and a unique identifier, making it ideal for storing large amounts
+    of unstructured data such as multimedia files, backups, and archives. It is
+    highly scalable and often used in cloud environments due to its flexibility
+    and accessibility.
+  mapping-references:
+    - id: CCC.Core
+      title: FINOS CCC Core Catalog
+      version: v2025.10

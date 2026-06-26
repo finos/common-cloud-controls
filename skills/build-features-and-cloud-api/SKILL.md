@@ -28,7 +28,7 @@ Turn an **approved** `modules/features/<service-folder>/analysis.md` into runnab
 ## Scope and honesty
 
 | Goal | Non-goal |
-|------|----------|
+| ------ | ---------- |
 | Exercise **all** planned cloud-api methods via `modules/cloud-api-test` (`integration_calls.csv` + Godog features) | Every scenario **passes** on first terraform apply |
 | One **modular** terraform root per cloud provider covering **all services that already have behavioural tests** | Production-hardened infra |
 | Privateer configs wired to terraform **outputs** | Magical discovery of log sinks or resource names |
@@ -38,7 +38,7 @@ Terraform and configs may use **minimal** and **cheap** resources (one VM, one f
 ## Outputs
 
 | Artifact | Location |
-|----------|----------|
+| ---------- | ---------- |
 | Feature files (new + generic tags) | `modules/features/` |
 | Service interface + cloud impls | `modules/cloud-api/<package>/` |
 | Factory registration | `modules/cloud-api/factory/*_factory.go` |
@@ -59,7 +59,7 @@ Update `modules/features/README.md` routing rules when adding a **new** service 
 
 Copy and track progress:
 
-```
+```text
 Implementation progress:
 - [ ] Step 0: Re-read analysis.md — extract reuse table, methods, vars
 - [ ] Step 1: Features (generic tags → new .feature files)
@@ -77,7 +77,7 @@ Implementation progress:
 From `analysis.md`, build a working checklist:
 
 | Analysis section | Implementation task |
-|------------------|---------------------|
+| ------------------ | --------------------- |
 | Feature reuse from generic | List files to tag with `@<service>` |
 | New-only features | Create under `<service-folder>/` or `port/` |
 | Cloud-api interface table | Go interface + methods per cloud |
@@ -105,7 +105,7 @@ For each row in **Feature reuse from generic**:
 
 Create only paths listed as **new** in analysis, e.g.:
 
-```
+```text
 modules/features/<service-folder>/
   CCC.Core/
     CCC-Core-CN02-AR01.feature
@@ -122,7 +122,7 @@ Naming: `CCC-<ControlFamily>-<AR>.feature` (match existing repos).
 - Identity keys: `test-user-no-access`, `test-user-read`, `test-user-write`, `test-user-admin` — never `ProvisionUserWithAccess`
 - Logging ARs: `GetServiceAPI` → `logging`, then `QueryLogs` with explicit `logType` (`admin`, `data-write`, `data-read`)
 - Attach results for reports: `I attach "{result}" to the test output as "..."`
-- Steps use the DSL provided by https://github.com/robmoffat/standard-cucumber-steps/blob/main/README.md (which you should either read or see examples of in the other feature files)
+- Steps use the DSL provided by <https://github.com/robmoffat/standard-cucumber-steps/blob/main/README.md> (which you should either read or see examples of in the other feature files)
 
 #### 1d. @NotTestable
 
@@ -136,7 +136,7 @@ Add service tag to existing `@NotTestable` scenarios in generic; keep `Then no-o
 
 Mirror existing services ([`object-storage`](../../modules/cloud-api/object-storage/), [`vpc`](../../modules/cloud-api/vpc/)):
 
-```
+```text
 modules/cloud-api/<package>/
   <service>.go              # Service interface (if not only generic.Service)
   aws-<service>.go
@@ -185,7 +185,6 @@ cd modules/ccc-behavioural-plugin && go build .
 - `modules/features/generic/*` — **always** (shared CCC.Core scenarios)
 - `modules/features/port/*` — for `object-storage` and `virtual-machines` (PerPort TLS / connection probes)
 
-
 **PerPort for other services**: extend the `port` branch in `collectFeaturePaths` when that service needs `modules/features/port/`, and document in `modules/features/README.md`.
 
 **Tag filtering**: Privateer `vars.tags` (e.g. `@Behavioural @virtual-machines`) is ANDed with runner tags; every implemented scenario must include both the service tag and `@Behavioural` (or `@Destructive`, `@NotTestable`) as appropriate.
@@ -198,7 +197,7 @@ Create or extend **`modules/cloud-api-test/terraform/`** as the **single place**
 
 #### Layout (one root per cloud)
 
-```
+```text
 modules/cloud-api-test/terraform/
   aws/
     versions.tf
@@ -302,7 +301,7 @@ Behavioural Godog runs use a **second** config surface under `cfi-testing/`.
 
 Add one YAML per **cloud / service** under [`cfi-testing/privateer-config/finos-integration/`](../../cfi-testing/privateer-config/finos-integration/):
 
-```
+```text
 cfi-testing/privateer-config/finos-integration/
   virtual-machines/
     aws-virtual-machines.yml
@@ -417,7 +416,7 @@ When extending **cloud-api-test terraform**, include submodules for each service
 ### generic.Service implementation map (typical VM / serverless)
 
 | Method | VM typical behaviour |
-|--------|----------------------|
+| -------- | ---------------------- |
 | `UpdateResourcePolicy` | Tag flip on instance |
 | `TriggerDataWrite` | Tag or harmless attribute change |
 | `TriggerDataRead` | DescribeInstance / Get |
