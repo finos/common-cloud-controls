@@ -23,6 +23,7 @@ export interface CatalogEntry {
   assessmentRequirements?: CatalogAssessmentRequirement[];
   guidelineMappings?: CatalogGuidelineMapping[];
   externalMappings?: CatalogGuidelineMapping[];
+  remarks?: string;
 }
 
 export interface CatalogAssessmentRequirement {
@@ -78,6 +79,7 @@ export interface CatalogVersionData {
   category: string;
   service: string;
   entries: CatalogEntry[];
+  imports: CatalogEntry[];
 }
 
 export interface CatalogTypeData {
@@ -186,6 +188,16 @@ function mapEntries(
       })),
       guidelineMappings: extractGuidelineMappings(e.guidelines),
     } : {}),
+  }));
+}
+
+function mapImports(
+  items: any[],
+): CatalogEntry[] {
+  return items.map((e: any) => ({
+    id: String(e?.['reference-id'] ?? ''),
+    title: cleanStr(e?.['remarks'] ?? 'default remarks title'),
+    ...(e?.['remarks'] ? {remarks: cleanStr(e?.['remarks']) } : {remarks: "Default Remarks"}),
   }));
 }
 
@@ -314,20 +326,23 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         type: CatalogVersionData['type'],
         title: string,
         entries: CatalogEntry[],
+        imports: CatalogEntry[],
       ) => {
         if (!entries.length) return;
         const urlPath = `/catalogs/${loc.category}/${loc.service}/${type}/${version}`;
-        versions.set(urlPath, { title, type, version, category: loc.category, service: loc.service, entries });
+        versions.set(urlPath, { title, type, version, category: loc.category, service: loc.service, entries, imports });
       };
 
       if (fs.existsSync(releasesDir)) {
         for (const filename of fs.readdirSync(releasesDir)) {
-          if (!filename.endsWith('.yaml')) continue;
 
+          if (!filename.endsWith('.yaml')) continue;
+          //console.log("File: " + filename);
           // Release-details files  e.g. CCC.Core_v2025.10-release-details.yaml  or CCC.KeyMgmt_v2025.07-MP-release-details.yaml
           const detailsMatch = filename.match(/^(.+)_([A-Za-z0-9][A-Za-z0-9.]*)-release-details\.yaml$/)
             ?? filename.match(/^(.+)_(v.+?-MP)-release-details\.yaml$/);
           if (detailsMatch) {
+             console.log("Pattern 0: " + filename);
             const [, metadataId, version] = detailsMatch;
             const loc = idToPath.get(metadataId);
             if (loc) {
@@ -344,17 +359,35 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           }
 
           // Pattern 1: type-specific Gemara files  e.g. CCC.Core_v2025.10-capabilities.yaml  or CCC.GenAI_DEV-capabilities.yaml
-          const typeMatch = filename.match(/^(.+)_([A-Za-z0-9][A-Za-z0-9.]*)-(capabilities|threats|controls)\.yaml$/);
+          const typeMatch = filename.match(/^(.+)_([A-Za-z0-9][A-Za-z0-9.]*)(-rc1)*-(capabilities|threats|controls)\.yaml$/);
           if (typeMatch) {
             const [, metadataId, version, type] = typeMatch;
             const loc = idToPath.get(metadataId);
             if (!loc) continue;
             const raw = yaml.load(fs.readFileSync(path.join(releasesDir, filename), 'utf8')) as Record<string, any>;
             const title = cleanStr(raw?.title ?? raw?.metadata?.title ?? metadataId);
+
             const rawItems = raw?.[type] ?? [];
             const items = type === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const entries = mapEntries(items, type as CatalogVersionData['type']);
-            addVersion(loc, version, type as CatalogVersionData['type'], title, entries);
+
+
+
+            const raw2 = yaml.load(fs.readFileSync(path.join(releasesDir, filename), 'utf8')) as Record<string, any>;
+            // imports is an array, so access the first element
+            const importsWrapper = raw2.imports?.[0]; // { entries: [...], reference-id: 'CCC.Core.Capabilities' }
+            const importEntries = importsWrapper?.entries ?? []; // array of { reference-id, remarks }
+            const referenceId = importsWrapper?.['reference-id']; // 'CCC.Core.Capabilities'
+
+            console.log(filename + ": " + importEntries[0]?.['reference-id']);
+
+
+            const imports: CatalogEntry[] = mapImports(importEntries);
+
+
+
+
+            addVersion(loc, version, type as CatalogVersionData['type'], title, entries, imports);
             if (type === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/${version}`, extractThreatCapabilityRefs(items));
             }
@@ -367,19 +400,21 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           // Pattern 2: all-in-one migration-preview files  e.g. CCC.KeyMgmt_v2025.07-MP.yaml
           const mpMatch = filename.match(/^(.+)_(v.+?-MP)\.yaml$/);
           if (mpMatch) {
+                    console.log("Pattern 2: " + filename);
             const [, metadataId, version] = mpMatch;
             const loc = idToPath.get(metadataId);
             if (!loc) continue;
             const raw = yaml.load(fs.readFileSync(path.join(releasesDir, filename), 'utf8')) as Record<string, any>;
             const baseTitle = cleanStr(raw?.metadata?.title ?? raw?.title ?? metadataId);
-
             addVersion(loc, version, 'capabilities',
               `${baseTitle} Capabilities`,
               mapEntries(raw.capabilities ?? [], 'capabilities'),
+              mapImports(raw.imports.entries ?? []),
             );
             addVersion(loc, version, 'threats',
               `${baseTitle} Threats`,
               mapEntries(raw.threats ?? [], 'threats'),
+              mapImports(raw.imports ?? []),
             );
             threatCapMaps.set(`${loc.category}/${loc.service}/${version}`, extractThreatCapabilityRefs(raw.threats ?? []));
             // Controls are nested under control-families[].controls[]
@@ -390,6 +425,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             addVersion(loc, version, 'controls',
               `${baseTitle} Controls`,
               mapEntries(controls, 'controls'),
+              mapImports(raw.imports ?? []),
             );
             controlThreatMaps.set(`${loc.category}/${loc.service}/${version}`, extractControlThreatRefs(controls));
           }
@@ -399,6 +435,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
       // Pattern 3: raw source files in catalogs/<cat>/<svc>/{capabilities,threats,controls}.yaml
       // Used for services that have no formal release yet — registered as version "DEV"
       if (fs.existsSync(catalogsDir)) {
+        console.log("Pattern 3: " + catalogsDir);
         for (const [, loc] of idToPath) {
           const svcDir = path.join(catalogsDir, loc.category, loc.service);
           const metaFile = path.join(svcDir, 'metadata.yaml');
@@ -413,7 +450,8 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (rawItems.length === 0) continue;
             const items = typeName === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const typeLabel = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName));
+            const rawImports: any[] = Array.isArray(raw?.['imports']) ? raw['imports'] : [];
+            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(rawImports));
             if (typeName === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/DEV`, extractThreatCapabilityRefs(items));
             }

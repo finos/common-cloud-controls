@@ -50,6 +50,7 @@ export interface CatalogEntry {
   assessmentRequirements?: CatalogAssessmentRequirement[];
   guidelineMappings?: CatalogGuidelineMapping[];
   externalMappings?: CatalogGuidelineMapping[];
+  remarks? : string;
 }
 
 export interface CatalogVersionData {
@@ -59,6 +60,7 @@ export interface CatalogVersionData {
   category: string;
   service: string;
   entries: CatalogEntry[];
+  imports: CatalogEntry[];
 }
 
 interface Props {
@@ -116,6 +118,23 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           </tr>
         </thead>
         <tbody>
+          {data.imports && (<div>neat</div>)}
+          {data.imports.map((entry) => (
+            
+            <tr key={entry.id}>
+              <td>
+                <Link to={`${typePath}/${entry.id}`}>{entry.id}</Link>
+              </td>
+              <td>{entry.title}</td>
+              <td>{entry.remarks}</td>
+              <td>
+                Something mayhaps? 
+                <MappingCountBadge count={entry.remarks?.length ?? 0} />
+              </td>
+            </tr>
+          ))}
+          {data.imports && (<div>less neat</div>)}
+
           {sortedEntries.map((entry) => (
             <tr key={entry.id}>
               <td>
