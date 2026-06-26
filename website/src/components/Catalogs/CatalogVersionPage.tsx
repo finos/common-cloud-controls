@@ -50,7 +50,6 @@ export interface CatalogEntry {
   assessmentRequirements?: CatalogAssessmentRequirement[];
   guidelineMappings?: CatalogGuidelineMapping[];
   externalMappings?: CatalogGuidelineMapping[];
-  remarks? : string;
 }
 
 export interface CatalogVersionData {
@@ -118,23 +117,6 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           </tr>
         </thead>
         <tbody>
-          {data.imports && (<div>neat</div>)}
-          {data.imports.map((entry) => (
-            
-            <tr key={entry.id}>
-              <td>
-                <Link to={`${typePath}/${entry.id}`}>{entry.id}</Link>
-              </td>
-              <td>{entry.title}</td>
-              <td>{entry.remarks}</td>
-              <td>
-                Something mayhaps? 
-                <MappingCountBadge count={entry.remarks?.length ?? 0} />
-              </td>
-            </tr>
-          ))}
-          {data.imports && (<div>less neat</div>)}
-
           {sortedEntries.map((entry) => (
             <tr key={entry.id}>
               <td>
@@ -178,6 +160,29 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           ))}
         </tbody>
       </table>
+
+
+      {data.imports && data.imports.length > 0 && (<div>
+        <h1>Imports</h1>
+        <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.imports.map((entry) => (
+            <tr key={entry.id}>
+              <td>
+                <Link to={`${typePath}/${entry.id}`}>{entry.id}</Link>
+              </td>
+              <td>{entry.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>)}
     </div>
   );
 };
