@@ -427,7 +427,8 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.TH16
+          - reference-id: CCC.Core.TH18
+            remarks: Encryption Key is Misused
     guidelines:
       - reference-id: CCM
         entries:
@@ -730,3 +731,167 @@ controls:
           - reference-id: SEF-05
             remarks: Incident Response Metrics (establish and monitor metrics)
             strength: 3
+  - id: CCC.Core.CN15
+    group: Observability
+    title: Validate Alert and Event Publication Configuration
+    objective: |
+      Ensure that alert and event publication settings cannot be changed to
+      suppress security-relevant notifications without authorization.
+    assessment-requirements:
+      - id: CCC.Core.CN15.AR01
+        text: |
+          When an attempt is made to disable security-relevant alerts or event
+          publication for the service or a child resource, the service MUST
+          require authorization from a privileged administrative principal.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Protect alert rules with change-management controls and monitor for
+          configuration drift.
+      - id: CCC.Core.CN15.AR02
+        text: |
+          When alert thresholds are modified on the service or a child resource,
+          the service MUST log the client identity, time, and nature of the
+          change.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH11
+            remarks: Publications are Incorrectly Triggered
+          - reference-id: CCC.Core.TH16
+            remarks: Publications are Disabled
+  - id: CCC.Core.CN16
+    group: Observability
+    title: Protect Runtime Metrics from Unauthorized Access
+    objective: |
+      Ensure that operational metrics for the service or a child resource
+      cannot be read or modified by unauthorized principals.
+    assessment-requirements:
+      - id: CCC.Core.CN16.AR01
+        text: |
+          When runtime metrics are published for the service or a child resource,
+          the service MUST restrict read access to authorized principals.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Apply least-privilege IAM or RBAC policies to monitoring dashboards
+          and metric APIs.
+      - id: CCC.Core.CN16.AR02
+        text: |
+          When an unauthorized principal attempts to modify metric publication
+          configuration for the service or a child resource, the service MUST
+          reject the change.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH08
+            remarks: Runtime Metrics are Manipulated
+  - id: CCC.Core.CN17
+    group: Observability
+    title: Restrict Access to State-Change Events
+    objective: |
+      Ensure that state-change events for the service or a child resource
+      cannot be read by unauthorized principals.
+    assessment-requirements:
+      - id: CCC.Core.CN17.AR01
+        text: |
+          When state-change events are published for the service or a child
+          resource, the service MUST restrict read access to authorized
+          principals.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Scope event subscription and notification permissions to security
+          and operations roles.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH10
+            remarks: State-change Events are Read by Unauthorized Entities
+  - id: CCC.Core.CN18
+    group: Resource
+    title: Prevent Unauthorized Modification of Resource Tags
+    objective: |
+      Ensure that resource tags on the service or a child resource cannot be
+      altered in ways that bypass organizational policy or cost controls.
+    assessment-requirements:
+      - id: CCC.Core.CN18.AR01
+        text: |
+          When an attempt is made to modify resource tags on the service or a
+          child resource, the service MUST reject changes from unauthorized
+          principals.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use tag policies or organizational guardrails to enforce mandatory
+          classification tags.
+      - id: CCC.Core.CN18.AR02
+        text: |
+          When mandatory classification tags are defined for the service or a
+          child resource, the service MUST prevent deletion of those tags
+          without privileged authorization.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH13
+            remarks: Resource Tags are Manipulated
+  - id: CCC.Core.CN19
+    group: Data
+    title: Restrict Snapshot and Replica Access
+    objective: |
+      Ensure that backup snapshots, replicas, and cross-region copies of the
+      service or a child resource are not more accessible than the primary
+      resource.
+    assessment-requirements:
+      - id: CCC.Core.CN19.AR01
+        text: |
+          When a snapshot or replica of the service or a child resource is
+          created, the service MUST apply access controls that are equivalent
+          to or stricter than those on the primary resource.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Review IAM policies and network rules on backup vaults and replica
+          targets independently from the live resource.
+      - id: CCC.Core.CN19.AR02
+        text: |
+          When cross-account or cross-subscription replication is configured,
+          the service MUST restrict replica access to an explicit allowlist of
+          authorized destination accounts or projects.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Document approved replication destinations in the organizational
+          trust perimeter.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH05
+            remarks: Interference with Replication Processes

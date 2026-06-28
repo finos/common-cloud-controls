@@ -1,0 +1,40 @@
+metadata:
+  id: CCC.FileStor
+  title: CCC Managed File Storage
+  description: |
+    Managed file storage services provide shared, hierarchical file systems
+    that multiple compute instances can mount concurrently over a network.
+    They are suited to workloads that require POSIX file semantics, shared
+    access, and elastic capacity without managing block volumes or file servers
+    directly.
+  category-ids:
+    - CCC.Storage
+  version: "2026.06"
+  last-modified: "2026-06-22T12:00:00Z"
+  example-csp-services:
+    - provider: AWS
+      service: Amazon Elastic File System
+      url: https://docs.aws.amazon.com/efs/
+    - provider: Azure
+      service: Azure Files
+      url: https://learn.microsoft.com/azure/storage/files/
+    - provider: GCP
+      service: Cloud Filestore
+      url: https://cloud.google.com/filestore/docs
+  applicability-categories: []
+  mapping-references:
+    - id: CCC.Core
+      title: FINOS CCC Core Catalog
+      version: v2025.10
+    - id: MITRE-ATT&CK
+      title: MITRE ATT&CK Framework
+      version: "12.0"
+      url: https://attack.mitre.org/
+    - id: D3FEND
+      title: MITRE D3FEND
+      version: "1.0"
+      url: https://d3fend.mitre.org/
+    - id: CWE
+      title: CWE
+      version: "4.17"
+      url: https://cwe.mitre.org/

@@ -1,0 +1,99 @@
+imports:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.CP01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP03
+        remarks: Access Log Publication
+      - reference-id: CCC.Core.CP06
+        remarks: Access Control
+      - reference-id: CCC.Core.CP07
+        remarks: Event Publication
+      - reference-id: CCC.Core.CP08
+        remarks: Data Replication
+      - reference-id: CCC.Core.CP09
+        remarks: Metrics Publication
+      - reference-id: CCC.Core.CP10
+        remarks: Log Publication
+      - reference-id: CCC.Core.CP11
+        remarks: Backup
+      - reference-id: CCC.Core.CP12
+        remarks: Recovery
+      - reference-id: CCC.Core.CP14
+        remarks: API Access
+      - reference-id: CCC.Core.CP15
+        remarks: Cost Management
+      - reference-id: CCC.Core.CP17
+        remarks: Alerting
+      - reference-id: CCC.Core.CP20
+        remarks: Resource Tagging
+      - reference-id: CCC.Core.CP22
+        remarks: Location Lock-In
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP31
+        remarks: Elastic Scaling
+
+capabilities:
+  - id: CCC.FileStor.CP01
+    group: Data
+    title: Managed File Systems
+    description: |
+      The service always provisions managed file system resources that expose
+      a hierarchical namespace of files and directories for shared read-write
+      access by networked clients.
+
+  - id: CCC.FileStor.CP02
+    group: Networking
+    title: NFS Protocol Mount Access
+    description: |
+      The service always supports mounting the file system from compute
+      instances using the Network File System (NFS) protocol over the provider
+      network.
+
+  - id: CCC.FileStor.CP03
+    group: Networking
+    title: Private Network Mount Access
+    description: |
+      The service can restrict mount and data-plane access to clients within
+      designated virtual network subnets or private connectivity endpoints.
+
+  - id: CCC.FileStor.CP04
+    group: Data
+    title: POSIX File Semantics
+    description: |
+      The service always exposes standard POSIX file and directory operations,
+      including permissions and ownership metadata, with concurrent multi-client
+      access to the same file system.
+
+  - id: CCC.FileStor.CP05
+    group: Resource
+    title: Elastic Storage Capacity
+    description: |
+      The service automatically grows stored data capacity or may be configured
+      to expand provisioned capacity as utilization increases.
+
+  - id: CCC.FileStor.CP06
+    group: Resource
+    title: Performance Tiers
+    description: |
+      The service may be configured to select throughput and latency
+      performance tiers or modes matched to workload requirements.
+
+  - id: CCC.FileStor.CP07
+    group: Data
+    title: Multi-Availability-Zone Durability
+    description: |
+      The service can replicate file system data across multiple availability
+      zones within a region to improve availability during zone failures.
+
+  - id: CCC.FileStor.CP08
+    group: Resource
+    title: Storage Capacity Quotas
+    description: |
+      The service can be configured to enforce maximum storage capacity
+      quotas on a file system or share.
