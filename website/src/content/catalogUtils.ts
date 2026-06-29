@@ -1,7 +1,17 @@
 import { SectionItem } from "./sections";
 
 // Prettify a slug segment or compound slug (e.g. "ai-ml" → "AI/ML", "gen-ai" → "Gen AI").
+const SLUG_DISPLAY_NAMES: Record<string, string> = {
+  mlde: "MLDE",
+  ccc: "CCC",
+  devtools: "DevTools",
+  batchproc: "Batch Processing",
+  auditlog: "Audit Log",
+  loadbalancer: "Load Balancer",
+};
+
 export function prettifySegment(s: string): string {
+  if (SLUG_DISPLAY_NAMES[s]) return SLUG_DISPLAY_NAMES[s];
   const acronyms = new Set(["ai", "ml", "iam", "vpc", "etl", "k8s", "sdk"]);
   const parts = s.split("-");
   if (parts.every((p) => acronyms.has(p))) {

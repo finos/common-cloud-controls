@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "@docusaurus/Link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { CatalogSidebar, CATALOG_STRUCTURE } from "./CatalogSidebar";
+import { CatalogSidebar } from "./CatalogSidebar";
 import { markdownComponents } from "./markdownComponents";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import { User } from "../shared/User";
@@ -47,12 +47,11 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 function getCategoryLabel(category: string): string {
-  return CATALOG_STRUCTURE.find((c) => c.slug === category)?.label ?? prettifySegment(category);
+  return prettifySegment(category);
 }
 
-function getServiceLabel(category: string, service: string): string {
-  const cat = CATALOG_STRUCTURE.find((c) => c.slug === category);
-  return cat?.services.find((s) => s.slug === service)?.label ?? prettifySegment(service);
+function getServiceLabel(_category: string, service: string): string {
+  return prettifySegment(service);
 }
 
 function TypeButtons({ svcInfo }: { svcInfo: CatalogServiceInfo }) {

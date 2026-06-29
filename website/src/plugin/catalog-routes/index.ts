@@ -690,6 +690,14 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         });
       }
 
+      const catalogStructure = Array.from(categories.entries())
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([catSlug, catData]) => ({
+          slug: catSlug,
+          services: catData.services.map((svc) => svc.slug),
+        }));
+      setGlobalData({ catalogStructure });
+
       console.log(`catalog-routes: registered ${added.size} routes`);
     },
   };
