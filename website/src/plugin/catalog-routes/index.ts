@@ -193,7 +193,15 @@ function mapEntries(
 function mapImports(
   items: any[],
 ): CatalogEntry[] {
-  return items.map((entry: any) => ({
+  // imports is an array, so access the first element
+  //const importsWrapper = raw.imports?.[0]; // { entries: [...], reference-id: 'CCC.Core.Capabilities' }
+  //const importEntries = importsWrapper?.entries ?? []; // array of { reference-id, remarks }
+  var allImports : Array<any> = [];
+  items?.forEach((item) => {
+    allImports = allImports.concat(item?.entries);
+  });
+
+  return allImports.map((entry: any) => ({
     id: String(entry?.['reference-id'] ?? ''),
     title: cleanStr(entry?.['remarks'] ?? 'default remarks title'),
   }));
@@ -340,7 +348,6 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           const detailsMatch = filename.match(/^(.+)_([A-Za-z0-9][A-Za-z0-9.]*)-release-details\.yaml$/)
             ?? filename.match(/^(.+)_(v.+?-MP)-release-details\.yaml$/);
           if (detailsMatch) {
-             console.log("Pattern 0: " + filename);
             const [, metadataId, version] = detailsMatch;
             const loc = idToPath.get(metadataId);
             if (loc) {
@@ -368,11 +375,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             const rawItems = raw?.[type] ?? [];
             const items = type === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const entries = mapEntries(items, type as CatalogVersionData['type']);
-
-            // imports is an array, so access the first element
-            const importsWrapper = raw.imports?.[0]; // { entries: [...], reference-id: 'CCC.Core.Capabilities' }
-            const importEntries = importsWrapper?.entries ?? []; // array of { reference-id, remarks }
-            const imports: CatalogEntry[] = mapImports(importEntries);
+            const imports: CatalogEntry[] = mapImports(raw.imports);
 
             addVersion(loc, version, type as CatalogVersionData['type'], title, entries, imports);
             if (type === 'threats') {
@@ -392,10 +395,11 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (!loc) continue;
             const raw = yaml.load(fs.readFileSync(path.join(releasesDir, filename), 'utf8')) as Record<string, any>;
             const baseTitle = cleanStr(raw?.metadata?.title ?? raw?.title ?? metadataId);
+
             addVersion(loc, version, 'capabilities',
               `${baseTitle} Capabilities`,
               mapEntries(raw.capabilities ?? [], 'capabilities'),
-              mapImports(raw.imports.entries ?? []),
+              mapImports(raw.imports ?? []),
             );
             addVersion(loc, version, 'threats',
               `${baseTitle} Threats`,
@@ -437,10 +441,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             const items = typeName === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const typeLabel = typeName.charAt(0).toUpperCase() + typeName.slice(1);
 
-            const importsWrapper = raw.imports?.[0]; // { entries: [...], reference-id: 'CCC.Core.Capabilities' }
-            const importEntries = importsWrapper?.entries ?? []; // array of { reference-id, remarks }
-
-            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(importEntries));
+            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(raw.imports));
             if (typeName === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/DEV`, extractThreatCapabilityRefs(items));
             }
