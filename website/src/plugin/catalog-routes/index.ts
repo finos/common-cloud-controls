@@ -25,6 +25,13 @@ export interface CatalogEntry {
   externalMappings?: CatalogGuidelineMapping[];
 }
 
+export interface CatalogImport {
+  id: string;
+  title: string;
+  category?: string;
+  service?: string;
+}
+
 export interface CatalogAssessmentRequirement {
   id: string;
   text: string;
@@ -78,7 +85,7 @@ export interface CatalogVersionData {
   category: string;
   service: string;
   entries: CatalogEntry[];
-  imports: CatalogEntry[];
+  imports: CatalogImport[];
 }
 
 export interface CatalogTypeData {
@@ -192,7 +199,8 @@ function mapEntries(
 
 function mapImports(
   items: any[],
-): CatalogEntry[] {
+  idToPath: Map<string, { category: string; service: string }>
+): CatalogImport[] {
   // imports is an array, so access the first element
   //const importsWrapper = raw.imports?.[0]; // { entries: [...], reference-id: 'CCC.Core.Capabilities' }
   //const importEntries = importsWrapper?.entries ?? []; // array of { reference-id, remarks }
@@ -201,9 +209,19 @@ function mapImports(
     allImports = allImports.concat(item?.entries);
   });
 
+  //Using the import ID with the idToPath map to get the category/service used in the entries url
+  allImports.forEach((entry) => {
+    var [categoryId , serviceId , ] = entry?.['reference-id'].split('.');
+    const metadata = idToPath.get(categoryId + '.' + serviceId);
+    entry.category = metadata?.category;
+    entry.service = metadata?.service;    
+  });
+
   return allImports.map((entry: any) => ({
     id: String(entry?.['reference-id'] ?? ''),
     title: cleanStr(entry?.['remarks'] ?? 'default remarks title'),
+    category: cleanStr(entry?.['category'] ?? 'unknown_category'),
+    service: cleanStr(entry?.['service'] ?? 'unknown_service'),
   }));
 }
 
@@ -332,7 +350,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         type: CatalogVersionData['type'],
         title: string,
         entries: CatalogEntry[],
-        imports: CatalogEntry[],
+        imports: CatalogImport[],
       ) => {
         if (!entries.length) return;
         const urlPath = `/catalogs/${loc.category}/${loc.service}/${type}/${version}`;
@@ -371,11 +389,10 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (!loc) continue;
             const raw = yaml.load(fs.readFileSync(path.join(releasesDir, filename), 'utf8')) as Record<string, any>;
             const title = cleanStr(raw?.title ?? raw?.metadata?.title ?? metadataId);
-
             const rawItems = raw?.[type] ?? [];
             const items = type === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const entries = mapEntries(items, type as CatalogVersionData['type']);
-            const imports: CatalogEntry[] = mapImports(raw.imports);
+            const imports: CatalogEntry[] = mapImports(raw.imports, idToPath);
 
             addVersion(loc, version, type as CatalogVersionData['type'], title, entries, imports);
             if (type === 'threats') {
@@ -399,12 +416,12 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             addVersion(loc, version, 'capabilities',
               `${baseTitle} Capabilities`,
               mapEntries(raw.capabilities ?? [], 'capabilities'),
-              mapImports(raw.imports ?? []),
+              mapImports(raw.imports ?? [], idToPath),
             );
             addVersion(loc, version, 'threats',
               `${baseTitle} Threats`,
               mapEntries(raw.threats ?? [], 'threats'),
-              mapImports(raw.imports ?? []),
+              mapImports(raw.imports ?? [], idToPath),
             );
             threatCapMaps.set(`${loc.category}/${loc.service}/${version}`, extractThreatCapabilityRefs(raw.threats ?? []));
             // Controls are nested under control-families[].controls[]
@@ -415,7 +432,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             addVersion(loc, version, 'controls',
               `${baseTitle} Controls`,
               mapEntries(controls, 'controls'),
-              mapImports(raw.imports ?? []),
+              mapImports(raw.imports ?? [], idToPath),
             );
             controlThreatMaps.set(`${loc.category}/${loc.service}/${version}`, extractControlThreatRefs(controls));
           }
@@ -426,7 +443,6 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
       // Used for services that have no formal release yet — registered as version "DEV"
       if (fs.existsSync(catalogsDir)) {
         for (const [, loc] of idToPath) {
-          
           const svcDir = path.join(catalogsDir, loc.category, loc.service);
           const metaFile = path.join(svcDir, 'metadata.yaml');
           const meta = yaml.load(fs.readFileSync(metaFile, 'utf8')) as Record<string, any>;
@@ -441,7 +457,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             const items = typeName === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const typeLabel = typeName.charAt(0).toUpperCase() + typeName.slice(1);
 
-            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(raw.imports));
+            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(raw.imports, idToPath));
             if (typeName === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/DEV`, extractThreatCapabilityRefs(items));
             }
