@@ -201,9 +201,6 @@ function mapImports(
   items: any[],
   idToPath: Map<string, { category: string; service: string }>
 ): CatalogImport[] {
-  // imports is an array, so access the first element
-  //const importsWrapper = raw.imports?.[0]; // { entries: [...], reference-id: 'CCC.Core.Capabilities' }
-  //const importEntries = importsWrapper?.entries ?? []; // array of { reference-id, remarks }
   var allImports : Array<any> = [];
   items?.forEach((item) => {
     allImports = allImports.concat(item?.entries);
