@@ -67,8 +67,14 @@ export interface CatalogAssessmentRequirementRef {
   url: string;
 }
 
+export interface CatalogStructureEntry {
+  slug: string;
+  services: Array<{ slug: string; title: string }>;
+}
+
 export interface CatalogGlobalData {
   assessmentRequirements: CatalogAssessmentRequirementRef[];
+  catalogStructure: CatalogStructureEntry[];
 }
 
 export interface CatalogVersionData {
@@ -106,6 +112,7 @@ export interface CatalogReleaseSummary {
 
 export interface CatalogServiceInfo {
   slug: string;
+  title: string;
   types: Array<{ type: string; typePath: string }>;
   releases: CatalogReleaseSummary[];
 }
@@ -282,8 +289,9 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
       const catalogsDir = path.resolve(context.siteDir, '../catalogs');
       const releasesDir = path.join(context.siteDir, 'src/data/ccc-releases');
 
-      // Build metadataId → { category, service } from source catalog metadata.yaml files
+      // Build metadataId → { category, service } and cat/svc → title from source catalog metadata.yaml files
       const idToPath = new Map<string, { category: string; service: string }>();
+      const svcTitles = new Map<string, string>();
       if (fs.existsSync(catalogsDir)) {
         for (const cat of fs.readdirSync(catalogsDir)) {
           const catDir = path.join(catalogsDir, cat);
@@ -295,7 +303,11 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (!fs.existsSync(metaFile)) continue;
             const meta = yaml.load(fs.readFileSync(metaFile, 'utf8')) as Record<string, any>;
             const id = meta?.metadata?.id as string | undefined;
-            if (id) idToPath.set(id, { category: cat, service: svc });
+            const title = cleanStr(meta?.metadata?.title ?? '');
+            if (id) {
+              idToPath.set(id, { category: cat, service: svc });
+              if (title) svcTitles.set(`${cat}/${svc}`, title);
+            }
           }
         }
       }
@@ -564,6 +576,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
               .sort((a, b) => compareVersionTags(a.version, b.version));
             return {
               slug,
+              title: svcTitles.get(`${cat}/${slug}`) ?? slug,
               types: TYPE_ORDER
                 .filter(t => typeSet.has(t))
                 .map(type => ({ type, typePath: `/catalogs/${cat}/${slug}/${type}` })),
@@ -595,7 +608,13 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           });
         }
       }
-      setGlobalData({ assessmentRequirements } satisfies CatalogGlobalData);
+      const catalogStructure: CatalogStructureEntry[] = Array.from(categories.entries())
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([catSlug, catData]) => ({
+          slug: catSlug,
+          services: catData.services.map((svc) => ({ slug: svc.slug, title: svc.title })),
+        }));
+      setGlobalData({ assessmentRequirements, catalogStructure } satisfies CatalogGlobalData);
 
       const add = (routePath: string, modules?: Record<string, string>) => {
         if (added.has(routePath)) return;
@@ -689,14 +708,6 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           modules: { catalogTypeIndexData: typeIndexFiles.get(typeName)! },
         });
       }
-
-      const catalogStructure = Array.from(categories.entries())
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([catSlug, catData]) => ({
-          slug: catSlug,
-          services: catData.services.map((svc) => svc.slug),
-        }));
-      setGlobalData({ catalogStructure });
 
       console.log(`catalog-routes: registered ${added.size} routes`);
     },

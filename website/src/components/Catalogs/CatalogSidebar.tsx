@@ -2,7 +2,7 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import { useLocation } from "@docusaurus/router";
 import { usePluginData } from "@docusaurus/useGlobalData";
-import { prettifySegment } from "@site/src/content/catalogUtils";
+import { prettifySegment, labelFromTitle } from "@site/src/content/catalogUtils";
 import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 import "./CatalogSidebar.css";
 
@@ -20,7 +20,7 @@ interface Category {
 
 interface RawStructureEntry {
   slug: string;
-  services: string[];
+  services: Array<{ slug: string; title: string }>;
 }
 
 const HREF_OVERRIDES: Record<string, string> = {
@@ -31,9 +31,9 @@ function buildCatalogStructure(raw: RawStructureEntry[]): Category[] {
   return raw.map(({ slug, services }) => ({
     slug,
     label: prettifySegment(slug),
-    services: services.map((svc) => ({
+    services: services.map(({ slug: svc, title }) => ({
       slug: svc,
-      label: prettifySegment(svc),
+      label: labelFromTitle(title),
       href: HREF_OVERRIDES[`${slug}/${svc}`],
     })),
   }));
