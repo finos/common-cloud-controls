@@ -1,0 +1,76 @@
+.page {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.pageHeader {
+  background: var(--gf-color-background-strong);
+  border: 1px solid var(--gf-color-accent-soft);
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.pageLogoWrapper {
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.pageLogo {
+  display: block;
+  height: 4rem;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.screenshotFigure {
+  margin: 0 0 2rem;
+}
+
+.mediaFigure {
+  margin: 0 0 2rem;
+}
+
+.mediaCaption {
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--gf-color-text-subtle);
+  text-align: center;
+}
+
+.videoContainer {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--gf-color-accent-soft);
+  background: #111;
+}
+
+.videoFallback {
+  width: 100%;
+  height: 100%;
+  background: #333;
+}
+
+.screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  border: 1px solid var(--gf-color-accent-soft);
+}
+
+.logo {
+  height: 7.5rem;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}

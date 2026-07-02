@@ -5,7 +5,7 @@ metadata:
     A data warehouse is a centralized repository designed to
     store, manage, and analyze large volumes of data from
     various sources.
-  category-ids: 
+  category-ids:
     - CCC.Database
   version: ""
   last-modified: "2025-04-16T19:57:11-05:00"

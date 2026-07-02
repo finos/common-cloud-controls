@@ -1,0 +1,16 @@
+cfi:
+  id: azure-avm-storage-account
+  artifact-name: azure-avm-storage-account
+  provider: azure
+  source-secrets: AZURE_AVM_ENV
+  service: object-storage
+  name: CCC Azure AVM Storage Account Terraform Module
+  description: >-
+    Control-informed AVM storage account deployment from ccc-cfi-compliance
+    remote/azure/avm (Azure/avm-res-storage-storageaccount @ 0.7.2).
+  path: https://github.com/finos-labs/ccc-cfi-compliance/tree/main/remote/azure/avm
+  test-on-branches:
+    - main
+  git: https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount
+  test-configuration: ../privateer-config/avm/azure-avm-cloud-storage.yml
+  privateer-service: azureStorageBehavioural

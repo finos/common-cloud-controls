@@ -1,0 +1,26 @@
+import EcosystemPage from '../EcosystemPage';
+
+<EcosystemPage slug="calmsuite" title="CALMSuite">
+
+# CALMSuite
+
+[CalmStudio](https://github.com/finos/architecture-as-code/tree/main/calm-suite/calm-studio) is a visual editor for **architecture-as-code** — part of the FINOS [architecture-as-code](https://github.com/finos/architecture-as-code) project. Draw architecture diagrams on a canvas and get validated, machine-readable [CALM](https://github.com/finos/architecture-as-code) (Common Architecture Language Model) JSON automatically.
+
+Most architecture diagrams are static images: easy for humans to read, but impossible for tools to validate, CI pipelines to check, or AI assistants to generate. CALM fixes this with a JSON schema for describing systems, services, and their relationships as structured data. CalmStudio makes CALM visual.
+
+## What it does
+
+- **Draw visually** — drag typed nodes onto a canvas, connect them with typed relationships, and nest services inside containers. Nine node types (Actor, System, Service, Database, and more) and five relationship types are supported out of the box.
+- **Get code automatically** — every diagram change produces valid CALM JSON in real time, with a bidirectional sync between the canvas and a syntax-highlighted code panel.
+- **Import and export** — open existing CALM JSON files, export as CALM JSON, SVG, or PNG, with ELK.js auto-layout for imported architectures.
+- **AI-native** — an MCP server (`npx @calmstudio/mcp`) gives Claude Code and other AI assistants 21 tools to create, validate, and export architectures from text descriptions.
+
+## Connection to CCC
+
+Automated governance needs more than control catalogs — it needs to know what is being governed. CALM architectures can attach controls and metadata directly to nodes and relationships, bridging the gap between *what your system looks like* and *what it must comply with*.
+
+As CCC catalogs define the controls, threats, and capabilities for cloud services, CalmStudio provides a way to model the architectures those controls apply to — producing artifacts that CI, evaluation tooling, and compliance pipelines can consume without manual translation.
+
+[View CalmStudio on GitHub →](https://github.com/finos/architecture-as-code/tree/main/calm-suite/calm-studio)
+
+</EcosystemPage>

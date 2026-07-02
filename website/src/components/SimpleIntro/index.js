@@ -27,7 +27,7 @@ export default function SimpleIntro() {
 
         <section >
           <Link
-            to="/ccc"
+            to="/catalogs"
             className={styles.button}
             onMouseEnter={(e) => { e.currentTarget.style.filter = "brightness(1.2)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.filter = "none"; e.currentTarget.style.transform = "none"; }}

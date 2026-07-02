@@ -4,6 +4,8 @@ ignore:
   - .config
   - website
   - .gitvote.yml
+  - .git
+  - .github/workflows
 
 rules:
   indentation:
