@@ -1,6 +1,7 @@
 # Website
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This sentence is meant to be a trivial change to test the deployment flows
 
 ## Install Docusaurus
 
