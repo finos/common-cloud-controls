@@ -101,6 +101,20 @@ controls:
           - reference-id: AML.M0015
             strength: 0 # Not yet specified
             remarks: Adversarial Input Detection
+      - reference-id: agent-threat-rules
+        entries:
+          - reference-id: ATR-2026-00001
+            strength: 0 # Not yet specified
+            remarks: Direct Prompt Injection via User Input — detection-side coverage for adversarial input that this control mandates be filtered/sanitised.
+          - reference-id: ATR-2026-00002
+            strength: 0 # Not yet specified
+            remarks: Indirect Prompt Injection (via RAG / tool output / retrieved content) — covers the untrusted-input path AR01 explicitly calls out.
+          - reference-id: ATR-2026-00003
+            strength: 0 # Not yet specified
+            remarks: Jailbreak / system-prompt-override attempts at input layer.
+          - reference-id: ATR-2026-00440
+            strength: 0 # Not yet specified
+            remarks: Semantic Kernel CVE-2026-26030 lambda+eval RCE via filter-expression input.
 
   - id: CCC.GenAI.CN02
     group: MachineLearning
@@ -176,6 +190,17 @@ controls:
           - reference-id: AML.M0002
             strength: 0 # Not yet specified
             remarks: Passive AI Output Obfuscation
+      - reference-id: agent-threat-rules
+        entries:
+          - reference-id: ATR-2026-00020
+            strength: 0 # Not yet specified
+            remarks: System Prompt / Initial-Configuration Leak in Model Output — output-side detection for the sensitive-data-disclosure path.
+          - reference-id: ATR-2026-00021
+            strength: 0 # Not yet specified
+            remarks: API Key / Credential Exposure in Model Output — covers TH03 sensitive-information-disclosure at output sanitisation point.
+          - reference-id: ATR-2026-00132
+            strength: 0 # Not yet specified
+            remarks: Output containing covert-instruction or persona-override content — adversarial output pattern for AR02 rejection / redaction.
 
   - id: CCC.GenAI.CN03
     group: MachineLearning
@@ -285,6 +310,14 @@ controls:
           - reference-id: AML.M0007
             strength: 0 # Not yet specified
             remarks: Sanitize Training Data
+      - reference-id: agent-threat-rules
+        entries:
+          - reference-id: ATR-2026-00002
+            strength: 0 # Not yet specified
+            remarks: Indirect Prompt Injection (RAG / ingested-content / tool-output path) — detection-side coverage for malicious payloads embedded in ingested data per AR01.
+          - reference-id: ATR-2026-00021
+            strength: 0 # Not yet specified
+            remarks: Credential / API-key disclosure in ingested content — sensitive-information path for AR01 detection.
 
   - id: CCC.GenAI.CN05
     group: MachineLearning
@@ -357,6 +390,20 @@ controls:
         entries:
           - reference-id: Agent Permissions
             strength: 0 # Not yet specified
+      - reference-id: agent-threat-rules
+        entries:
+          - reference-id: ATR-2026-00010
+            strength: 0 # Not yet specified
+            remarks: Tool / MCP response with malicious content — covers TH07 Insecure Plugin at the tool-response layer.
+          - reference-id: ATR-2026-00040
+            strength: 0 # Not yet specified
+            remarks: Privilege Escalation / Admin Function Access via tool calls — covers the over-privileged-tool-invocation aspect of AR01.
+          - reference-id: ATR-2026-00060
+            strength: 0 # Not yet specified
+            remarks: Skill / Plugin Impersonation — covers the trust-boundary aspect of plugin selection.
+          - reference-id: ATR-2026-00441
+            strength: 0 # Not yet specified
+            remarks: Semantic Kernel SessionsPythonPlugin CVE-2026-25592 — over-privileged plugin enabling sandbox escape via autostart-path file write. Concrete TH06 / TH07 example.
 
   - id: CCC.GenAI.CN07
     group: MachineLearning
