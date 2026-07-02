@@ -249,4 +249,5 @@ groups:
       description: |
         The Ingestion group covers entries related to how a service receives or
         retrieves data, inputs, or commands for processing. This includes both
-        active (pull-based) and passive (push-based) ingestion patterns.
+        active (pull-based) and passive (push-based) ingestion patterns. This 
+        sentence was added to act as a trivial change.
