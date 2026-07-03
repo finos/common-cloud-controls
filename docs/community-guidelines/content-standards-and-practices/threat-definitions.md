@@ -30,7 +30,7 @@ When creating or updating a `threats.yaml` file for a service category, follow t
 
 ## Threat Definition Style
 
-To maintain consistency, all threats—whether common or specific—must follow the same format, style, and tone. Each threat should adhere to the [threats template] before release.
+To maintain consistency, all threats—whether common or specific—must follow the same format, style, and tone. Each threat should adhere to the [threat style guide](../../../style-guides/catalogs/threat-style-guide.yaml) before release.
 
 ### Definition of a Threat
 
@@ -87,7 +87,6 @@ Although a review from the [Communications WG] is optional, it may be useful if 
 
 This structure ensures that threats are standardized and can be consistently identified and addressed across all services within the CCC Taxonomy.
 
-[core threats]: /catalogs/core/ccc/controls.yaml
+[core threats]: /catalogs/core/ccc/threats.yaml
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [Delivery Toolkit]: /delivery-toolkit
-[threats template]: ../../resources/templates/threats.yaml

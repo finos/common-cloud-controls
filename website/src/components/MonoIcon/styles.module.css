@@ -1,7 +1,3 @@
 .fill {
-	fill: black;
-}
-
-html[data-theme=dark] .fill {
-	fill: white;
+	fill: var(--gf-color-accent);
 }

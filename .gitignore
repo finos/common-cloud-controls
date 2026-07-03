@@ -4,10 +4,47 @@ build/oscal-cli
 .DS_Store
 # Delivery Tooling
 delivery-toolkit/artifacts
-# Temporary backup during website/scripts/GenerateReleaseCatalogs.ts (flat controls normalization)
+# Temporary backup during website catalog build (flat controls normalization)
 **/controls.yaml.backup
 .env/
 
 # CFI Test Results
 website/src/data/test-results/**/*
 website/static/downloads/cfi/**/*
+website/src/data/ccc-releases/*
+
+# cloud-api coverage artifacts (local runs)
+modules/cloud-api/coverage-*.out
+
+# cloud-testing-dsl coverage artifacts (local runs)
+modules/cloud-testing-dsl/examples_of_testssl
+
+# cfi-testing output
+cfi-testing/output
+cfi-testing/evaluation_results
+cfi-testing/ccc-compliance
+cfi-testing/azure-env.sh
+cfi-testing/.privateer/
+
+# CCC behavioural plugin build artifact (go build -o ccc-behavioural-plugin)
+modules/ccc-behavioural-plugin/ccc-behavioural-plugin
+modules/ccc-behavioural-plugin/catalogs
+*-env.sh
+modules/ccc-behavioural-plugin/privateer-plugin
+modules/cloud-api-test/environment-config/.keys
+
+# ccc module integration testing
+**/.terraform
+**/*.tfstate
+**/*.tfstate.*
+**/tfplan*
+**/.terraform.lock.hcl
+modules/cloud-api-test/coverage-integration*.out
+modules/cloud-api-test/coverage-integration*.html
+modules/cloud-api-test/integration-results-*.txt
+modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-function.zip
+
+# Ignore local cloud API test keys
+modules/cloud-api-test/environment-config/.keys/*.json
+modules/cloud-api-test/environment-config/.keys/*.credentials
+node_modules

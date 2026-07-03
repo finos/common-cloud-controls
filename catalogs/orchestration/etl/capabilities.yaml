@@ -1,4 +1,4 @@
-imported-capabilities:
+imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CP01
@@ -37,7 +37,7 @@ capabilities:
     description: |
       Supports the processing of bounded (batch) data sources
       using a consistent programming model or engine.
-  
+
   - id: CCC.ETL.CP02
     group: Processing
     title: Stream Processing

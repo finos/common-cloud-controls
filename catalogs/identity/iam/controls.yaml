@@ -1,4 +1,4 @@
-imported-controls:
+imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CN02

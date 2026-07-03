@@ -1,4 +1,4 @@
-imported-controls:
+imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CN01
@@ -211,4 +211,3 @@ controls:
         entries:
           - reference-id: CCC.Vector.TH06
             remarks: Search Result Manipulation via ANN Bias
-    guidelines: []

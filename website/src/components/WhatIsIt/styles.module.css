@@ -10,7 +10,8 @@
 	transition: background .3s, color .3s;
 	max-width: 35rem;
 	text-align: center;
-	font-family: 'metropolis';
+		font-family: 'Inter, system-ui, -apple-system, BlinkMacSystemFont';
+
 	font-weight: 600;
 	margin: auto
 }

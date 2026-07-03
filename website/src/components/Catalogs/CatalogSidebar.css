@@ -1,0 +1,115 @@
+.catalog-sidebar {
+  background-color: #effbff;
+  border: 1px solid rgba(0, 134, 191, 0.2);
+  width: 200px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding: 0.5rem;
+  margin-right: 2rem;
+  border-radius: 8px;
+}
+
+.catalog-sidebar-type-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #0086bf;
+  padding: 0.5rem 0.75rem 0.4rem;
+  border-bottom: 1px solid rgba(0, 134, 191, 0.2);
+  margin-bottom: 0.4rem;
+}
+
+html[data-theme="dark"] .catalog-sidebar-type-title {
+  color: #00b5e2;
+  border-bottom-color: rgba(0, 181, 226, 0.15);
+}
+
+.catalog-sidebar details {
+  margin-bottom: 0.1rem;
+}
+
+.catalog-sidebar details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0.2rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0086bf;
+  background: transparent;
+  list-style: none;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.catalog-sidebar details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.catalog-sidebar details > summary:hover,
+.catalog-sidebar details > summary.category-active {
+  background: rgba(0, 181, 226, 0.15);
+}
+
+.catalog-sidebar .chevron {
+  font-size: 0.65rem;
+  opacity: 0.6;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.catalog-sidebar details[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.catalog-sidebar .service-links {
+  padding-top: 0.1rem;
+}
+
+.sidebar-service-link {
+  display: block;
+  padding: 0.2rem 0.75rem 0.2rem 1.25rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.875rem;
+  color: #0086bf;
+  font-weight: 400;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.sidebar-service-link:hover {
+  background: rgba(0, 181, 226, 0.1);
+  text-decoration: none;
+  color: #0086bf;
+}
+
+.sidebar-service-link.active {
+  background: rgba(0, 181, 226, 0.1);
+  font-weight: 600;
+  color: #0086bf;
+}
+
+html[data-theme="dark"] .catalog-sidebar {
+  background-color: #111;
+  border-color: rgba(0, 181, 226, 0.15);
+}
+
+html[data-theme="dark"] .catalog-sidebar details > summary,
+html[data-theme="dark"] .sidebar-service-link {
+  color: #00b5e2;
+}
+
+html[data-theme="dark"] .catalog-sidebar details > summary:hover,
+html[data-theme="dark"] .catalog-sidebar details > summary.category-active,
+html[data-theme="dark"] .sidebar-service-link:hover,
+html[data-theme="dark"] .sidebar-service-link.active {
+  background: rgba(0, 181, 226, 0.15);
+  color: #00b5e2;
+}

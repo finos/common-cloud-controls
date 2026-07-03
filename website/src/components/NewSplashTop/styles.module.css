@@ -1,14 +1,19 @@
 section.nst {
 	margin: auto;
+	margin-top: 1.5rem;
 	max-width: 1200px;
 	text-align: center;
 }
 
 svg.logo {
-	height: calc(70vh);
-	width: 100%;
+	height: calc(10vh);
+	width: 95%;
+}
+
+.fill {
+	fill: #1e3b8a;
 }
 
 html[data-theme=dark] .fill {
-	fill: white;
+	fill: #1e3b8a;
 }

@@ -1,0 +1,46 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Targets the compliant (good) VPC: finos-ccc-integration-vpc.
+# Populate VPC IDs from `terraform output vpc` after apply.
+
+services:
+  awsVpcGood:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.VPC
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: vpc
+      service-type: vpc
+      tags: "@MAIN @CCC.VPC"
+      provider: aws
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.VPC: DEV
+      region: us-east-1
+      resource: "finos-ccc-integration-vpc"
+      permitted-regions:
+        - us-east-1
+      # In-scope receiver and requester VPC fixtures — populate from `terraform output vpc`.
+      receiver-vpc-id: "vpc-0d5625cb163976d86"
+      non-allowlisted-requester-vpc-id: "vpc-0666381e8a3976bde"
+      allowed-requester-vpc-ids:
+        - "vpc-0a591620e00092dc2"  # finos-ccc-integration-vpc-cn03-allowed-01
+        - "vpc-0dae16d47368ba7ae"  # finos-ccc-integration-vpc-cn03-allowed-02
+      disallowed-requester-vpc-ids:
+        - "vpc-0eadc3a916f373b88"  # finos-ccc-integration-vpc-cn03-disallowed-01
+        - "vpc-0a7d07499ce3992e8"  # finos-ccc-integration-vpc-cn03-disallowed-02
+      # Reference to the intentionally non-compliant VPC, used by any future
+      # cross-VPC negative-check scenarios. Behavioural features don't read it today.
+      bad-vpc-id: "vpc-0f3af4b6986f1e0ab"
+      # ── Logging service coordinates ──────────────────────────────────────
+      # Explicit destinations consumed by the logging service (no discovery).
+      # CN04 reads flow log records from this CloudWatch Logs group; the
+      # terraform default is /aws/vpc/flow-logs/<vpc-name>.
+      aws-flow-log-group-name: "/aws/vpc/flow-logs/finos-ccc-integration-vpc"

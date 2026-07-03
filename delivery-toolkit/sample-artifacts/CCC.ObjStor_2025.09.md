@@ -17,12 +17,12 @@ h1 { font-size: 22t; }
 h2 { font-size: 18pt; }
 h3 { font-size: 16pt; }
 h4 { font-size: 14pt; }
-p { 
-	font-size: 11pt;
-	margin-bottom: 0.15in;
+p {
+ font-size: 11pt;
+ margin-bottom: 0.15in;
 }
 img {
-	max-height: 100px
+ max-height: 100px
 }
 
 code, pre {
@@ -41,13 +41,13 @@ blockquote {
     font-style: italic;
 }
 table {
-	width: 100%;
-	border-collapse: collapse;
-	border-style: hidden;
+ width: 100%;
+ border-collapse: collapse;
+ border-style: hidden;
 }
 th, td {
-	border: 1px solid #ddd;
-	padding: 8px;
+ border: 1px solid #ddd;
+ padding: 8px;
 }
 .flex-container {
     display: flex;
@@ -68,8 +68,6 @@ th, td {
 }
 </style>
 
-
-
 <img width="50%" src="https://raw.githubusercontent.com/finos/branding/882d52260eb9b85a4097db38b09a52ea9bb68734/project-logos/active-project-logos/Common%20Cloud%20Controls%20Logo/Horizontal/2023_FinosCCC_Horizontal_BLK.svg" alt="CCC Logo"/>
 
 # CCC.ObjStor v (Object Storage)
@@ -81,12 +79,11 @@ of unstructured data such as multimedia files, backups, and archives. It is
 highly scalable and often used in cloud environments due to its flexibility
 and accessibility.
 
-
 <div style="page-break-after: always;"></div>
 
 ## Release Details
 
-> 
+>
 >
 > _- ,  ([](https://github.com/))_
 
@@ -193,7 +190,6 @@ The following capabilities are required to be present on a resource for it to be
   
   Ability to control access to the resource by defining network access rules.
 
-
 <div style="page-break-after: always;"></div>
 
 ## Threats
@@ -233,13 +229,11 @@ restrict unauthorized access to sensitive resources. This could result in
 unintended data exposure or unauthorized actions being performed within
 the system.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP06</li>
   </ul>
   </div>
@@ -314,13 +308,11 @@ interception or modification in transit if encrypted communication is not
 properly implemented. This could result in unauthorized access to
 sensitive information or unintended data alterations.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP01</li>
   </ul>
   </div>
@@ -356,13 +348,11 @@ interception due to privileged network exposure or physical
 vulnerabilities. This could result in unintended data disclosure or
 compromised system integrity.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP08</li>
   <li>CCC.Core.CP22</li>
   </ul>
@@ -410,13 +400,11 @@ configurations are not properly restricted. This could result
 in unintended data leakage or exposure outside the organization&#39;s trusted
 perimeter.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP21</li>
   </ul>
   </div>
@@ -448,13 +436,11 @@ or unintended disruptions. This could lead to compromised data integrity
 and availability, potentially affecting recovery processes and system
 reliability.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP08</li>
   <li>CCC.Core.CP12</li>
   <li>CCC.Core.CP21</li>
@@ -498,13 +484,11 @@ reliability.
 misconfiguration. This can result in the loss of critical data, service
 disruption, or unintended exposure of sensitive information.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP11</li>
   <li>CCC.Core.CP18</li>
   </ul>
@@ -548,13 +532,11 @@ or misconfigurations. This can make it difficult to identify security
 incidents, disrupt forensic investigations, and affect the accuracy of
 audit trails.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP03</li>
   <li>CCC.Core.CP10</li>
   </ul>
@@ -594,13 +576,11 @@ unauthorized access. This might result in inaccurate resource usage
 reporting, budget exhaustion, financial losses, and hinder incident
 detection.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP15</li>
   </ul>
   </div>
@@ -636,13 +616,11 @@ mechanisms. This could allow for the identification of vulnerabilities,
 enable the planning of attacks, or hinder the detection of ongoing
 incidents.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP03</li>
   <li>CCC.Core.CP09</li>
   </ul>
@@ -722,13 +700,11 @@ inadequate security measures, or unauthorized access. This could expose
 information about sensitive operations or access patterns, potentially
 impacting system security and integrity.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP03</li>
   <li>CCC.Core.CP07</li>
   <li>CCC.Core.CP09</li>
@@ -770,13 +746,11 @@ or unauthorized access. This could result in sensitive operations being
 triggered unintentionally, obfuscate other issues, or overwhelm the
 system, potentially disrupting legitimate operations.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP07</li>
   <li>CCC.Core.CP17</li>
   </ul>
@@ -817,13 +791,11 @@ disrupt service availability, deny access to users, or impact other
 systems within the same scope. Exhaustion may occur through repeated
 requests, resource-intensive operations, or lowering rate/budget limits.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP04</li>
   <li>CCC.Core.CP16</li>
   <li>CCC.Core.CP19</li>
@@ -864,13 +836,11 @@ policies, billing disruptions, or unintended exposure of sensitive data.
 This could result in mismanaged resources, financial misuse, or security
 vulnerabilities.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP20</li>
   </ul>
   </div>
@@ -901,13 +871,11 @@ or insecure configurations. Without proper version control and monitoring,
 outdated versions could lead to security measures bypass, potentially
 leading to security risks or operational disruptions.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP18</li>
   </ul>
   </div>
@@ -971,13 +939,11 @@ activities can reveal potential vulnerabilities, misconfigurations, or
 unsecured resources, which might result in unauthorized access or data
 exposure.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP14</li>
   </ul>
   </div>
@@ -1008,13 +974,11 @@ detection of security events and reducing visibility into system
 activities. This condition can impact the organization&#39;s ability
 to investigate incidents and maintain operational integrity.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP10</li>
   <li>CCC.Core.CP09</li>
   </ul>
@@ -1046,13 +1010,11 @@ such as security groups can allow unauthorized inbound connections
 to the service. This could result in unauthorized access to sensitive
 resources or data and disruption to service availability.
 
-
 <div class="flex-container">
   <div class="flex-item-left">
   Applies to these capabilities:
   <ul>
-    
-      
+
   <li>CCC.Core.CP23</li>
   </ul>
   </div>
@@ -1077,7 +1039,6 @@ resources or data and disruption to service availability.
     </table>
   </div>
 </div>
-
 
 <div style="page-break-after: always;"></div>
 
@@ -1109,11 +1070,10 @@ Below is a summary table of the controls, which is then followed by an elucidati
 **Objective:** Ensure that all communications are encrypted in transit to protect data
 integrity and confidentiality.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When a port is exposed for non-SSH network traffic, all traffic MUST include a TLS handshake AND be encrypted using TLS 1.2 or higher. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When a port is exposed for SSH network traffic, all traffic MUST include a SSH handshake AND be encrypted using SSHv2 or higher. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When a port is exposed for non-SSH network traffic, all traffic MUST include a TLS handshake AND be encrypted using TLS 1.2 or higher. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When a port is exposed for SSH network traffic, all traffic MUST include a SSH handshake AND be encrypted using SSHv2 or higher. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1180,11 +1140,10 @@ designated as restricted or prohibited, to comply with
 regulatory requirements and reduce exposure to geopolitical
 risks.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When a deployment request is made, the service MUST validate that the deployment region is not to a restricted or regions or availability zones. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When a deployment request is made, the service MUST validate that replication of data, backups, and disaster recovery operations will not occur in restricted regions or availability zones. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When a deployment request is made, the service MUST validate that the deployment region is not to a restricted or regions or availability zones. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When a deployment request is made, the service MUST validate that replication of data, backups, and disaster recovery operations will not occur in restricted regions or availability zones. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1245,11 +1204,10 @@ risks.
 zones or regions to protect against data loss due to hardware
 failures, natural disasters, or other catastrophic events.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When data is stored, the service MUST ensure that data is replicated across multiple availability zones or regions. |tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When data is replicated across multiple zones or regions, the service MUST be able to verify the replication state, including the replication locations and data synchronization status. |tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When data is stored, the service MUST ensure that data is replicated across multiple availability zones or regions. | tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When data is replicated across multiple zones or regions, the service MUST be able to verify the replication state, including the replication locations and data synchronization status. | tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1306,12 +1264,11 @@ failures, natural disasters, or other catastrophic events.
 Ensure that access logs are protected against unauthorized
 access, tampering, or deletion.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When access logs are stored, the service MUST ensure that access logs cannot be accessed without proper authorization. |tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
-| When access logs are stored, the service MUST ensure that access logs cannot be modified without proper authorization. |tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
-| When access logs are stored, the service MUST ensure that access logs cannot be deleted without proper authorization. |tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
+| When access logs are stored, the service MUST ensure that access logs cannot be accessed without proper authorization. | tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
+| When access logs are stored, the service MUST ensure that access logs cannot be modified without proper authorization. | tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
+| When access logs are stored, the service MUST ensure that access logs cannot be deleted without proper authorization. | tlp-amber<br />tlp-red<br />tlp-green<br />tlp-clear<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1381,10 +1338,9 @@ of defined trust perimeter. An untrusted destination is defined
 as a resource that exists outside of a specified trusted
 identity or network or data perimeter.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When data is replicated, the service MUST ensure that replication is restricted to explicitly trusted destinations. |tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When data is replicated, the service MUST ensure that replication is restricted to explicitly trusted destinations. | tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1440,10 +1396,9 @@ identity or network or data perimeter.
 **Objective:** Ensure that all data stored is encrypted at rest to maintain
 confidentiality and integrity.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When data is stored at rest, the service MUST be configured to encrypt data at rest using the latest industry-standard encryption methods. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When data is stored at rest, the service MUST be configured to encrypt data at rest using the latest industry-standard encryption methods. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1500,13 +1455,12 @@ confidentiality and integrity.
 the use of approved algorithms, regular key rotation, and
 customer-managed encryption keys (CMEKs).
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When encryption keys are used, the service MUST verify that all encryption keys use approved cryptographic algorithms as per organizational standards. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When encryption keys are used, the service MUST verify that encryption keys are rotated at a frequency compliant with organizational policies. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When encrypting data, the service MUST verify that customer-managed encryption keys (CMEKs) are used. |tlp-amber<br />tlp-red<br /> |
-| When encryption keys are accessed, the service MUST verify that access to encryption keys is restricted to authorized personnel and services, following the principle of least privilege. |tlp-amber<br />tlp-red<br /> |
+| When encryption keys are used, the service MUST verify that all encryption keys use approved cryptographic algorithms as per organizational standards. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When encryption keys are used, the service MUST verify that encryption keys are rotated at a frequency compliant with organizational policies. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When encrypting data, the service MUST verify that customer-managed encryption keys (CMEKs) are used. | tlp-amber<br />tlp-red<br /> |
+| When encryption keys are accessed, the service MUST verify that access to encryption keys is restricted to authorized personnel and services, following the principle of least privilege. | tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1573,15 +1527,14 @@ something you know, something you have, or something you are. In the
 case of programattically accessible services, such as API endpoints, this
 includes a combination of API keys or tokens and network restrictions.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When an entity attempts to modify the service, the service MUST attempt to verify the client&#39;s identity through an authentication process. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When an entity attempts to view information presented by the service, service, the service MUST attempt to verify the client&#39;s identity through an authentication process. |tlp-amber<br />tlp-red<br /> |
-| When an entity attempts to view information on the service through a user interface, the authentication process MUST require multiple identifying factors from the user. |tlp-amber<br />tlp-red<br /> |
-| When an entity attempts to modify the service through an API endpoint, the authentication process MUST be limited to a specific allowed network. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When an entity attempts to view information on the service through an API endpoint, the authentication process MUST be limited to a specific allowed network. |tlp-amber<br />tlp-red<br /> |
-| When an entity attempts to modify the service through a user interface, the authentication process MUST require multiple identifying factors from the user. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to modify the service, the service MUST attempt to verify the client&#39;s identity through an authentication process. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to view information presented by the service, service, the service MUST attempt to verify the client&#39;s identity through an authentication process. | tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to view information on the service through a user interface, the authentication process MUST require multiple identifying factors from the user. | tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to modify the service through an API endpoint, the authentication process MUST be limited to a specific allowed network. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to view information on the service through an API endpoint, the authentication process MUST be limited to a specific allowed network. | tlp-amber<br />tlp-red<br /> |
+| When an entity attempts to modify the service through a user interface, the authentication process MUST require multiple identifying factors from the user. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1644,13 +1597,12 @@ by adversaries. This includes restricting access based on trust
 criteria such as IP allowlists, domain restrictions, and tenant
 isolation.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When access to sensitive resources is attempted, the service MUST block requests from untrusted sources, including IP addresses, domains, or networks that are not explicitly included in a pre-approved allowlist. |tlp-amber<br />tlp-red<br /> |
-| When administrative access is attempted, the service MUST validate that the request originates from an explicitly allowed source as defined in the allowlist. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
-| When resources are accessed in a multi-tenant environment, the service MUST enforce isolation by allowing access only to explicitly allowlisted tenants. |tlp-amber<br />tlp-red<br /> |
-| When an access attempt from an untrusted source is blocked, the service MUST log the event, including the source details, time, and reason for denial. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When access to sensitive resources is attempted, the service MUST block requests from untrusted sources, including IP addresses, domains, or networks that are not explicitly included in a pre-approved allowlist. | tlp-amber<br />tlp-red<br /> |
+| When administrative access is attempted, the service MUST validate that the request originates from an explicitly allowed source as defined in the allowlist. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When resources are accessed in a multi-tenant environment, the service MUST enforce isolation by allowing access only to explicitly allowlisted tenants. | tlp-amber<br />tlp-red<br /> |
+| When an access attempt from an untrusted source is blocked, the service MUST log the event, including the source details, time, and reason for denial. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1706,12 +1658,11 @@ isolation.
 **Objective:** Ensure that all access and changes are logged to maintain a
 detailed audit trail for security and compliance purposes.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When any access attempt is made to the service, the service MUST log the client identity, time, and result of the attempt. |tlp-amber<br />tlp-red<br /> |
-| When any access attempt is made to the view sensitive information, the service MUST log the client identity, time, and result of the attempt. |tlp-amber<br />tlp-red<br /> |
-| When any change is made to the service configuration, the service MUST log the change, including the client, time, previous state, and the new state following the change. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When any access attempt is made to the service, the service MUST log the client identity, time, and result of the attempt. | tlp-amber<br />tlp-red<br /> |
+| When any access attempt is made to the view sensitive information, the service MUST log the client identity, time, and result of the attempt. | tlp-amber<br />tlp-red<br /> |
+| When any change is made to the service configuration, the service MUST log the change, including the client, time, previous state, and the new state following the change. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1772,11 +1723,10 @@ detailed audit trail for security and compliance purposes.
 unusual enumeration activity is detected that may indicate
 reconnaissance activities.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When suspicious enumeration activities are detected, the service MUST generate real-time alerts to notify security personnel. |tlp-red<br /> |
-| When suspicious enumeration activities are detected, the service MUST log the event, including the source details, time, and nature of the activity. |tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
+| When suspicious enumeration activities are detected, the service MUST generate real-time alerts to notify security personnel. | tlp-red<br /> |
+| When suspicious enumeration activities are detected, the service MUST log the event, including the source details, time, and nature of the activity. | tlp-clear<br />tlp-green<br />tlp-amber<br />tlp-red<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">
@@ -1833,10 +1783,9 @@ attack surface and prevent unauthorized  inbound connections.
 Overly permissive rules such as, 0.0.0.0/0 must be disallowed or
 strictly controlled.
 
-
 | Assessment Requirement | Applicability |
 | --- | --- |
-| When an unauthorized IP or network attempts to connect to the service, the request MUST be denied. |tlp-red<br />tlp-amber<br /> |
+| When an unauthorized IP or network attempts to connect to the service, the request MUST be denied. | tlp-red<br />tlp-amber<br /> |
 
 <div class="flex-container">
   <div class="flex-item-left">

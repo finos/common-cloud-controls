@@ -1,0 +1,220 @@
+name: CFI Build and Test
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: cfi-test-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "cfi-testing/**"
+      - "modules/**"
+      - ".github/workflows/cfi-test.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "cfi-testing/**"
+      - "modules/**"
+      - ".github/workflows/cfi-test.yml"
+
+jobs:
+  prepare-matrix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Generate matrix from action configs
+        id: set-matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          items=()
+          count=0
+          for f in cfi-testing/actions-config/*.yaml; do
+            [ -f "$f" ] || continue
+            dir=$(dirname "$f")
+            test_config_rel=$(yq -r '.cfi."test-configuration" // ""' "$f")
+            if [ -n "$test_config_rel" ]; then
+              test_config=$(realpath -m --relative-to=. "$dir/$test_config_rel")
+            else
+              test_config=""
+            fi
+            item=$(jq -cn \
+              --arg action_config "$f" \
+              --arg id "$(yq -r '.cfi.id // ""' "$f")" \
+              --arg artifact_name "$(yq -r '.cfi."artifact-name" // .cfi.id // ""' "$f")" \
+              --arg name "$(yq -r '.cfi.name // ""' "$f")" \
+              --arg provider "$(yq -r '.cfi.provider // ""' "$f")" \
+              --arg service "$(yq -r '.cfi.service // ""' "$f")" \
+              --arg test_config "$test_config" \
+              --arg privateer_service "$(yq -r '.cfi."privateer-service" // ""' "$f")" \
+              --arg source_secrets "$(yq -r '.cfi."source-secrets" // ""' "$f")" \
+              '{action_config: $action_config, id: $id, artifact_name: $artifact_name, name: $name, provider: $provider, service: $service, test_config: $test_config, privateer_service: $privateer_service, source_secrets: $source_secrets}')
+            items+=("$item")
+            count=$((count + 1))
+          done
+          matrix=$(jq -cn --argjson target "$(printf '%s\n' "${items[@]}" | jq -sc '.')" '{target: $target}')
+          {
+            echo 'matrix<<EOF'
+            echo "$matrix"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+          echo "Generated matrix with ${count} targets"
+
+  build-artifacts:
+    needs: prepare-matrix
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Generate release catalogs
+        run: |
+          set -euo pipefail
+          npm ci --prefix website
+          npm run --prefix website generate:catalogs
+
+      - name: Upload generated catalogs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ccc-release-catalogs
+          path: website/src/data/ccc-releases/
+          retention-days: 1
+
+  test:
+    needs: [prepare-matrix, build-artifacts]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 3
+      matrix:
+        target: ${{ fromJson(needs.prepare-matrix.outputs.matrix).target }}
+      fail-fast: false
+
+    env:
+      ACTION_CONFIG: ${{ matrix.target.action_config }}
+      TARGET_ID: ${{ matrix.target.id }}
+      TARGET_NAME: ${{ matrix.target.name }}
+      TARGET_PROVIDER: ${{ matrix.target.provider }}
+      TARGET_SERVICE: ${{ matrix.target.service }}
+      TARGET_TEST_CONFIG: ${{ matrix.target.test_config }}
+      TARGET_PRIVATEER_SERVICE: ${{ matrix.target.privateer_service }}
+      SOURCE_SECRETS: ${{ matrix.target.source_secrets }}
+      OUTPUT_DIR: cfi-testing/output/${{ matrix.target.id }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      # Do not set AZURE_CLIENT_ID here: DefaultAzureCredential treats it as a
+      # user-assigned managed identity ID and skips Azure CLI auth on GHA runners.
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Load source secrets
+        shell: bash
+        env:
+          SECRET_PAYLOAD: ${{ secrets[matrix.target.source_secrets] }}
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$SECRET_PAYLOAD" > "$RUNNER_TEMP/provider-env.sh"
+          chmod 600 "$RUNNER_TEMP/provider-env.sh"
+          while IFS= read -r line || [ -n "$line" ]; do
+            line="${line#export }"
+            case "$line" in
+              ''|\#*) continue ;;
+              *=*) echo "$line" >> "$GITHUB_ENV" ;;
+            esac
+          done < "$RUNNER_TEMP/provider-env.sh"
+          set -a
+          # shellcheck disable=SC1090
+          source "$RUNNER_TEMP/provider-env.sh"
+          set +a
+
+      - name: Download generated catalogs
+        uses: actions/download-artifact@v4
+        with:
+          name: ccc-release-catalogs
+          path: website/src/data/ccc-releases
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: modules/go.work
+
+      - name: Configure AWS Credentials (OIDC)
+        if: matrix.target.provider == 'aws'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/TerraformRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Configure Azure Credentials (OIDC)
+        if: matrix.target.provider == 'azure'
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Authenticate to Google Cloud (OIDC)
+        if: matrix.target.provider == 'gcp'
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/${{ env.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider
+          service_account: gha-deployer@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
+      - name: Run compliance tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x cfi-testing/run-compliance-tests.sh
+
+          echo "Running target: $TARGET_ID ($TARGET_PROVIDER/$TARGET_SERVICE)"
+          echo "Action config: $ACTION_CONFIG"
+          echo "Privateer config: $TARGET_TEST_CONFIG"
+          echo "Privateer service: $TARGET_PRIVATEER_SERVICE"
+
+          ./cfi-testing/run-compliance-tests.sh \
+            --debug \
+            -c "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
+            -S "$TARGET_PRIVATEER_SERVICE" \
+            -s "$TARGET_SERVICE" \
+            -o "$OUTPUT_DIR" \
+            -g '@Behavioural'
+
+      - name: Upload cfi results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target.artifact_name }}
+          path: |
+            cfi-testing/output/${{ matrix.target.id }}
+            cfi-testing/evaluation_results
+            ${{ matrix.target.action_config }}
+            ${{ matrix.target.test_config }}

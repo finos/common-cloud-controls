@@ -1,6 +1,7 @@
 name: TODO Checker
 
 on:
+  pull_request:
   workflow_call:
 
 jobs:

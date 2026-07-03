@@ -1,0 +1,16 @@
+cfi:
+  id: azure-avm-virtual-machines
+  artifact-name: azure-avm-virtual-machines
+  provider: azure
+  source-secrets: AZURE_AVM_ENV
+  service: virtual-machines
+  name: CCC Azure AVM Virtual Machine Terraform Module
+  description: >-
+    Control-informed AVM virtual machine deployment from ccc-cfi-compliance
+    remote/azure/avm (Azure/avm-res-compute-virtualmachine @ 0.21.0).
+  path: https://github.com/finos-labs/ccc-cfi-compliance/tree/main/remote/azure/avm
+  test-on-branches:
+    - main
+  git: https://github.com/Azure/terraform-azurerm-avm-res-compute-virtualmachine
+  test-configuration: ../privateer-config/avm/azure-avm-virtual-machines.yml
+  privateer-service: azureVirtualMachines

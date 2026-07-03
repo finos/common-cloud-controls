@@ -2,13 +2,13 @@ metadata:
   id: CCC.Tracing
   title: Cloud Tracing & Observability
   description: |
-    Services that provide distributed tracing and performance telemetry for 
-    cloud-native and hybrid applications. These tools enable developers and 
-    operators to visualise end‑to‑end request flows, identify performance 
-    bottlenecks, correlate traces with logs and metrics, and analyse 
-    application dependencies. They integrate with managed compute platforms, 
-    container orchestrators, serverless runtimes, and service meshes to 
-    provide centralised observability with sampling, tagging, and 
+    Services that provide distributed tracing and performance telemetry for
+    cloud-native and hybrid applications. These tools enable developers and
+    operators to visualise end‑to‑end request flows, identify performance
+    bottlenecks, correlate traces with logs and metrics, and analyse
+    application dependencies. They integrate with managed compute platforms,
+    container orchestrators, serverless runtimes, and service meshes to
+    provide centralised observability with sampling, tagging, and
     context‑propagation support.
   category-ids:
     - CCC.Management

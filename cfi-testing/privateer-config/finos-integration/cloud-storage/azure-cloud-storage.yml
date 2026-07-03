@@ -1,0 +1,66 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Azure object-storage behavioural tests.
+# Resource names follow the finos-ccc-integration-<role> convention.
+# Populate from terraform outputs after apply (modules/cloud-api-test/terraform/azure).
+# Source azure-env.sh for test principal credentials before running.
+
+services:
+  azureStorageBehavioural:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.ObjStor
+      applicability:
+        - tlp-amber
+        - tlp-clear
+        - tlp-green
+        - tlp-red
+    vars:
+      service: object-storage
+      service-type: object-storage
+      tags: "@Behavioural"
+      provider: azure
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.ObjStor: DEV
+      region: westus2
+      resource: "finos-ccc-integration-container-main"
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-tenant-id: "${AZURE_TENANT_ID}"
+      azure-resource-group: "finos-ccc-integration-rg"
+      azure-storage-account: "finoscccintegrationmain"
+      object-storage-retention-period-days: 2
+      # Prefer terraform output: logging.azure_log_analytics_workspace_id
+      azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
+      permitted-regions:
+        - westus2
+        - westus
+      replication-locations:
+        - westus2
+        - westus
+      default-container: "finos-ccc-integration-container-main"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
+        test-user-read:
+          user-name: "${AZURE_TEST_USER_READ_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_READ_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_READ_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_READ_OBJECT_ID}"
+        test-user-write:
+          user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
+        test-user-admin:
+          user-name: "${AZURE_TEST_USER_ADMIN_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_ADMIN_OBJECT_ID}"

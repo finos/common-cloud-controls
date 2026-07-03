@@ -1,0 +1,46 @@
+metadata:
+  id: CCC.MARefArc
+  title: Multi-Agent Reference Architecture
+  description: |
+    Reference architecture for multi-agent AI systems spanning user interaction,
+    agent gateway, agent runtime, knowledge, LLM, MCP, evaluation, and
+    observability layers.
+  version: dev
+  last-modified: "2026-05-31T00:00:00Z"
+  category-ids:
+    - CCC.AIML
+  applicability-categories:
+    - id: all
+      title: All Deployments
+      description: >-
+        Applies to all deployments of the multi-agent reference architecture,
+        which by definition includes every subsystem layer. Adopters deploying
+        a subset may refine this scope.
+  mapping-references:
+    - id: finos-air
+      title: FINOS AI Governance Framework
+      version: "0.2.0"
+      description: >-
+        AIGF mitigations expressed as Gemara guidelines; each control
+        implements one of these guidelines.
+      url: https://grc.store/search/finos-aigf/finos-air/versions/0.2.0
+    - id: air-vec
+      title: AI Governance Framework Risk Vectors
+      version: "0.2.0"
+      description: >-
+        FINOS AIGF risks expressed as Gemara vectors; the grounding source for
+        every threat in this catalog.
+      url: https://grc.store/search/finos-aigf/air-vec/versions/0.2.0
+    - id: ma-ref-arch-capabilities
+      title: Multi-Agent Reference Architecture Capability Catalog
+      version: "1.0.0"
+      description: >-
+        Subsystem-level capabilities of the multi-agent reference architecture
+        that threats endanger and controls protect.
+      url: file://ma_capability_catalog.yaml
+    - id: ma-ref-arch-threats
+      title: Multi-Agent Reference Architecture Threat Catalog
+      version: "1.0.0"
+      description: >-
+        Architecture threats that controls in this catalog mitigate.
+      url: file://ma_threat_catalog.yaml

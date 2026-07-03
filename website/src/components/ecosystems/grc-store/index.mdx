@@ -1,0 +1,25 @@
+import EcosystemPage from '../EcosystemPage';
+
+<EcosystemPage slug="grc-store" title="GRC.Store">
+
+# GRC.Store
+
+[GRC.Store](https://grc.store) is a public registry of machine-readable governance, risk, and compliance artifacts — control catalogs, guidance, policies, mappings, and the evidence logs produced when you measure against them.
+
+Instead of distributing compliance content as PDFs or static documents, GRC.Store treats GRC artifacts like software packages: every entry is content-addressed, versioned, and pullable with [`grcli`](https://grc.store/docs) or any OCI-compatible client.
+
+## What you can do
+
+- **Find artifacts** — search and filter catalogs by kind, organization, or keyword, inspect any version, and copy the pull command.
+- **Explore publishers** — browse organizations publishing to the registry, from vendor frameworks and open-source projects to individual authors.
+- **Publish from CI** — with an account, push versioned artifacts directly from your build pipelines using `grcli`.
+
+## Built on Gemara
+
+GRC.Store is a distribution layer for artifacts that follow the [Gemara](/ecosystems/gemara) model — an open, layered schema for expressing GRC as data instead of prose. Controls, guidance, threats, and their mappings share one shape that every tool can consume.
+
+CCC catalogs are designed to be published and consumed through this kind of registry, making community-vetted cloud controls available to compliance teams, security engineers, and automated tooling without manual copy-paste between systems.
+
+[Browse the registry at grc.store →](https://grc.store)
+
+</EcosystemPage>

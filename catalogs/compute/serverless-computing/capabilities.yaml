@@ -1,4 +1,4 @@
-imported-capabilities:
+imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CP01
@@ -33,7 +33,7 @@ imported-capabilities:
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP25
         remarks: Random Access Memory Allocation
-      - reference-id:  CCC.Core.CP28
+      - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
       - reference-id: CCC.Core.CP29
         remarks: Active Ingestion

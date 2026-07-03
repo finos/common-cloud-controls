@@ -1,0 +1,11 @@
+go 1.26.2
+
+use (
+	../delivery-toolkit
+	./ccc-behavioural-plugin
+	./cloud-api
+	./cloud-api-test
+	./cloud-testing-dsl
+	./reporters
+	./runner
+)

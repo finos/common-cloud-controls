@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 export default function NewSplashTop() {
   return (
     <section className={styles.nst}>
-      <svg className={styles.logo} version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 720 170.2" style={{ enableBackground: "new 0 0 720 170.2;" }}>
+      <svg className={styles.logo} version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 720 170.2" style={{ enableBackground: "new 0 0 720 170.2" }}>
         <g>
           <polygon
             className={styles.fill}

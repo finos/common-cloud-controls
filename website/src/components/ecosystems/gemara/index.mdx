@@ -1,0 +1,27 @@
+import EcosystemPage from '../EcosystemPage';
+
+<EcosystemPage slug="gemara" title="Gemara">
+
+# Gemara
+
+[Gemara](https://gemara.openssf.org) is the **GRC Engineering Model for Automated Risk Assessment** — an open model from the OpenSSF that describes the categories of compliance activities, how they interact, and the schemas needed for automated interoperability between them.
+
+Most governance work still lives in prose: policies, spreadsheets, and slide decks that humans interpret but tools cannot reliably act on. Gemara outlines the categorical layers of GRC activity so teams can express controls, guidance, threats, and the mappings between them as structured data that every tool can read.
+
+## Three components
+
+Gemara delivers three core components that work together:
+
+- **The Model** — a stable, seven-layer framework describing how different types of compliance activities relate to each other. This is the conceptual foundation and changes rarely.
+- **The Schemas** — CUE-format schemas that standardize how elements in the model are expressed, enabling automated validation and interoperability across tools.
+- **The SDKs** — language-specific libraries for reading, writing, and manipulating Gemara documents programmatically. A Go SDK is available today.
+
+## Connection to CCC
+
+CCC catalogs are expressed in Gemara-compatible schemas. Capabilities, threats, and controls are not just documentation — they are machine-readable artifacts designed to flow into evaluation tooling, enforcement pipelines, and compliance automation.
+
+Gemara is also used in production by other projects in the CCC ecosystem, including [Privateer](/ecosystems/privateer) for Layer 5 evaluation and the [Open Source Project Security Baseline](https://baseline.openssf.org) for open source project security requirements.
+
+[Learn more at gemara.openssf.org →](https://gemara.openssf.org)
+
+</EcosystemPage>

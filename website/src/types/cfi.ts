@@ -1,5 +1,3 @@
-import { Contributor } from "./ccc";
-
 export enum TestResultType {
   PASS = "pass",
   FAIL = "fail",
@@ -68,6 +66,12 @@ export interface CFIDataRepositoryEntry {
   url: string;
   description: string;
   destination: string;
+  /** Workflow file name under .github/workflows/ (e.g. cfi-test.yml). */
+  workflow: string;
+  /** Optional branch allow-list; when omitted, all remote branches are checked. */
+  branches?: string[];
+  /** Download artifacts whose names match this glob (supports `*` wildcards). */
+  "artifact-filter": string;
 }
 
 /**
@@ -124,8 +128,25 @@ export interface CFIResultSummary {
   configurationSlug: string;
 }
 
-export interface HomePageData {
+export interface CFIRepositorySummary {
+  name: string;
+  url: string;
+  description: string;
+  destination: string;
+  href: string;
+  configurationCount: number;
+}
+
+export interface CFIRepositoryPageData {
+  repository: CFIDataRepositoryEntry;
+  href: string;
   configurations: Configuration[];
+  configurationResultSummariesByPath: Record<string, ConfigurationResultSummary[]>;
+  generatedAt: string;
+}
+
+export interface HomePageData {
+  repositories: CFIRepositorySummary[];
   /** ISO 8601 timestamp when this page data was produced (site build time). */
   generatedAt: string;
 }
@@ -158,7 +179,6 @@ export interface RequirementLink {
 
 export interface ControlCatalogSummary {
   catalogId: string;
-  catalogUrl: string;
   resources: string[];
   totalTests: number;
   passingTests: number;

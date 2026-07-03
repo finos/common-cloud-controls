@@ -13,7 +13,7 @@ This standard is a collaborative project which aims to develop a unified set of 
 ## How To Use It
 
 - **Browse Online:** The [ccc.finos.org](https://ccc.finos.org) website contains much of the resources of the CCC project in an easily browseable form including:
-  - In progress and published [control catalogs](https://ccc.finos.org/ccc) for common cloud services
+  - In progress and published [control catalogs](https://ccc.finos.org/catalogs) for common cloud services
   - Work in progress results of [Compliant Financial Infrastructure](https://ccc.finos.org/cfi) test runs against those catalogs.
   - [Videos and presentations](https://ccc.finos.org/#:~:text=to%20the%20standard.-,Learn,-More) from OSFF Events.
   - A [CCC Primer Presentation](https://ccc.finos.org/#:~:text=GitHub-,What%20Is%20It?,-FINOS%20Common%20Cloud)
@@ -78,15 +78,15 @@ The CCC Steering Committee is the governing body of the CCC project, providing d
 
 Each organizational seat has a **Primary** (Cloud Lead) and **Alternate** (Cyber Security Lead) representative; the Alternate participates when the Primary is unavailable.
 
-| Representing   | Cloud Lead (Primary) | Cyber Security Lead (Alternate)         |
-|----------------|----------------------|-----------------------------------------|
-| Citi           | Alsaloom, Mohamed    | Michael Lysaght                         |
-| LSEG           | Dean Bryen           | Leroy Abhikui                           |
-| Morgan Stanley | Dave Reeve           | Nick Williams                           |
-| ScottLogic     | Stevie Shiells       | Sonali Mendis                           |
-| Red Hat        | Aric Rosenbaum       | Jenn Power                              |
-| RBC            | Ernani Cecon         | Maxime Coquerel                         |
-| BlackRock      | Eli Hamburger        | Praveen Nallasamy, Sankara Ramakrishnan |
+| Representing   | Cloud Lead (Primary) | Cyber Security Lead (Alternate) |
+|----------------|----------------------|---------------------------------|
+| Citi           | Alsaloom, Mohamed    | Michael Lysaght                 |
+| LSEG           | Dean Bryen           | Leroy Abhikui                   |
+| Morgan Stanley | Dave Reeve           | -                               |
+| ScottLogic     | Stevie Shiells       | Sonali Mendis                   |
+| Red Hat        | Aric Rosenbaum       | Jenn Power                      |
+| RBC            | Ernani Cecon         | Maxime Coquerel                 |
+| BlackRock      | -                    | Sankara Ramakrishnan            |
 
 @robmoffat is the current [FINOS Point of Contact](docs/governance/finos-poc.md) for the CCC project.
 

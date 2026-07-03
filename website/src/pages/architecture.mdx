@@ -1,0 +1,105 @@
+---
+title: Architecture
+description: How CCC catalogs move from cloud provider documentation through threat and control analysis to automated validation.
+---
+
+import ContentPage from '@site/src/components/ContentPage';
+import styles from '@site/src/components/AdvanceAutomatedGovernence/styles.module.css';
+
+<ContentPage subtitle="From documentation to verified compliance" title="The CCC Pipeline">
+
+The diagram below shows how FINOS Common Cloud Controls moves from raw cloud provider
+documentation to published, testable governance artifacts. Each horizontal band is a
+stage in the pipeline: inputs on the left, a central authoring step, and catalog
+releases or tooling outputs on the right. The curved arrows show how each release
+feeds the next stage.
+
+**Note:** This architecture combines a best-of-both-worlds approach using AI skills for drafting at each stage and then expert review and approval as a release gate.  Through this mechanism we hope to stay up-to-date with the latest advisories and governance as the threat landscape evolves.
+
+<figure className={styles.catalogsImageWrapper} style={{ margin: '2rem 0', textAlign: 'center' }}>
+  <img
+    src="/img/diagrams/pipeline-diagram.svg"
+    alt="CCC pipeline diagram showing five stages from service creation through validation"
+    className={styles.catalogsImage}
+    style={{ maxWidth: '720px', width: '100%', height: 'auto' }}
+  />
+</figure>
+
+## 1. Service Creation
+
+**Inputs:** AWS, GCP, and Azure official documentation.
+
+**Process:** Service Creation — typically assisted by the [create-capability-catalogue](https://github.com/finos/common-cloud-controls/tree/main/skills/create-capability-catalogue) Cursor skill, which maps equivalent offerings across clouds and drafts provider-neutral capability definitions.
+
+**Outputs:** A **Capabilities** catalog (`capabilities.yaml` + `metadata.yaml`) and a versioned **Capabilities Release** — a compiled Gemara artifact ready for validation and publishing.
+
+At this stage the team identifies what the cloud service *does* in technology-agnostic terms: the features and properties that matter for security and governance, independent of any single provider's naming or API surface.
+
+---
+
+## 2. Threat Analysis
+
+**Inputs:** External threat intelligence and frameworks — CISA KEV, MITRE D3FEND, cloud service provider advisories, and MITRE ATT&amp;CK.
+
+**Process:** Threat Analysis — grounding service-specific threats in recognised attack patterns and advisory data rather than inventing risks in isolation.
+
+**Outputs:** A **Threats** catalog linked to the capabilities from stage 1, plus a **Threats Release** published alongside the capability artifact.
+
+Each threat describes a realistic way the service could be misused or attacked, mapped to the capabilities it endangers and to external references where possible.
+
+---
+
+## 3. Control Analysis
+
+**Inputs:** Regulatory and industry frameworks — FS-ISAC guidance, NIST SP 800-53, CRI, DORA, CRA, and the FINOS AI Governance Framework (AIGF) where relevant.
+
+**Process:** Control Analysis — defining controls that mitigate the threats identified in stage 2, each with clear objectives and **assessment requirements** (testable statements of what "compliant" looks like).
+
+**Outputs:**
+
+- **Controls** and **Controls Release** — the control catalog and its published Gemara artifact.
+- **Test Specs** — assessment requirements extracted as the specification input for behavioural and policy testing (shown twice in the diagram: as draft specs alongside controls, and again as published artifacts tied to the release).
+
+This is where abstract compliance expectations become concrete, reusable control definitions with explicit test criteria.
+
+---
+
+## 4. Test Scripting
+
+**Inputs:**
+
+- [Standard Cucumber Steps](https://github.com/robmoffat/standard-cucumber-steps) — generic step library for calling APIs and asserting on results.
+- **Go Cloud Abstractions** ([`cloud-api`](https://github.com/finos/common-cloud-controls/tree/main/modules/cloud-api)) — provider-agnostic service interfaces so the same scenario runs on AWS, Azure, or GCP.
+- [Privateer](https://github.com/finos-labs/ccc-cfi-compliance) — the compliance test harness that orchestrates runs and produces Gemara-formatted output.
+
+**Process:** Test Scripting — translating assessment requirements into executable Gherkin feature files and, where needed, provider-specific test plugins.
+
+**Outputs:** **Cucumber Scripts** (`.feature` files mapped to assessment requirement IDs) and a **Privateer Plugin** that wires those scenarios into the CFI test suite.
+
+---
+
+## 5. Validation
+
+**Inputs:** **CFI Configurations** — action configs that describe which catalog release to test, which cloud provider and service to target, and which credentials or integration environment to use.
+
+**Process:** Validation — running the scripted tests continuously in the FINOS integration environment (see [Test Results](/cfi)). Unlike earlier stages, this step is fully automated through GitHub Actions rather than an authoring skill.
+
+**Outputs:** **Test Results** — HTML, OCSF, and Gemara reports published to the CCC website, demonstrating whether live infrastructure meets the assessment requirements defined upstream.
+
+The ribbon at the end of the diagram represents assurance: evidence that the catalog's controls hold in practice, not just on paper.
+
+---
+
+## How the pieces connect
+
+| Stage | Catalog or artifact produced | Consumed by |
+| --- | --- | --- |
+| Service Creation | Capabilities Release | Threat Analysis, website catalog browser |
+| Threat Analysis | Threats Release | Control Analysis |
+| Control Analysis | Controls Release + Test Specs | Test Scripting, CSPM integrations |
+| Test Scripting | Cucumber Scripts + Privateer Plugin | Validation CI |
+| Validation | Test Results | Auditors, adopters, [Test Results](/cfi) page |
+
+Authoring stages (1–4) happen in the `catalogs/` tree and supporting modules; compilation and release are handled by the [delivery-toolkit](https://github.com/finos/common-cloud-controls/tree/main/delivery-toolkit) and GitHub release workflows; the website you are reading compiles those releases for browsing via `npm run generate:catalogs`.
+
+</ContentPage>

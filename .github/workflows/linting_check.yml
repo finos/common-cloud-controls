@@ -1,6 +1,7 @@
 name: Lint Check
 
 on:
+  pull_request:
   workflow_call:
 
 jobs:
@@ -14,7 +15,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "20"
 
       - name: Install markdownlint-cli
         run: npm install -g markdownlint-cli

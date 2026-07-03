@@ -1,71 +1,101 @@
-import { themes as prismThemes } from 'prism-react-renderer';
-import type { Config } from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import { themes as prismThemes } from "prism-react-renderer";
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'CCC',
-  tagline: 'Common Cloud Controls',
-  favicon: 'img/logo/2023_FinosCCC_Icon.svg',
+  title: "CCC",
+  tagline: "Common Cloud Controls",
+  favicon: "img/logo/2023_FinosCCC_Icon.svg",
 
   // Set the production url of your site here
-  url: 'https://ccc.finos.org',
+  url: "https://ccc.finos.org",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: "/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'finos', // Usually your GitHub org/user name.
-  projectName: 'commmon-cloud-controls', // Usually your repo name.
+  organizationName: "finos", // Usually your GitHub org/user name.
+  projectName: "commmon-cloud-controls", // Usually your repo name.
 
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: "warn",
+  onBrokenMarkdownLinks: "warn",
+
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid'],
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       {
         docs: false,
-        "theme": {
-          "customCss": "./src/css/custom.css"
-        }
-      }
+        theme: {
+          customCss: "./src/css/custom.css",
+        },
+      },
     ],
   ],
 
-  plugins: [
-    './src/plugin/ccc-pages/index.ts',
-    './src/plugin/cfi-pages/index.ts',
-  ],
+  plugins: ["./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts", "./src/plugin/ecosystems-pages/index.ts"],
 
   themeConfig: {
+    style: "dark",
     // Replace with your project's social card
-    image: 'img/logo/2023_FinosCCC_Horizontal.png',
+    image: "img/logo/2023_FinosCCC_Horizontal.png",
     navbar: {
-      title: 'CCC',
+      title: "",
       logo: {
-        alt: 'CCC Logo',
-        src: 'img/logo/2023_FinosCCC_Icon_BLK.svg',
-        srcDark: 'img/logo/2023_FinosCCC_Icon_WHT.svg'
+        alt: "CCC Logo",
+        src: "img/logo/2023_FinosCCC_Horizontal.svg",
+        srcDark: "img/logo/2023_FinosCCC_Horizontal_WHT.svg",
       },
       items: [
+        { to: '/about', label: 'About', position: 'right' },
+        { to: '/architecture', label: 'Architecture', position: 'right' },
         {
-          position: 'left',
-          label: 'Primer',
-          to: 'https://github.com/finos/common-cloud-controls/blob/main/docs/resources/training/FINOS-CCC-Primer-June-2024.pdf'
+          label: "Catalogs",
+          to: "/catalogs",
+          position: "right",
+          type: "dropdown",
+          items: [
+            { to: "/threats", label: "Threats" },
+            { to: "/controls", label: "Controls" },
+            { to: "/capabilities", label: "Capabilities" },
+          ],
         },
-        { to: '/ccc', label: 'CCC Catalog', position: 'left' },
-        { to: '/cfi', label: 'CFI Catalog', position: 'left' },
+        {
+          label: 'Ecosystem',
+          to: '/ecosystems',
+          position: 'right',
+          type: 'dropdown',
+          items: [
+            { to: '/ecosystems/prowler', label: 'Prowler' },
+            { to: '/ecosystems/privateer', label: 'Privateer' },
+            { to: '/ecosystems/azure-policy', label: 'Azure Policy' },
+            { to: '/ecosystems/azure-verified-modules', label: 'Azure Verified Modules' },
+            { to: '/ecosystems/aws-lightning-lane', label: 'AWS Lightning Lane' },
+            { to: '/ecosystems/gemara', label: 'Gemara' },
+            { to: '/ecosystems/grc-store', label: 'GRC.Store' },
+            { to: '/ecosystems/github-releases', label: 'GitHub releases' },
+            { to: '/ecosystems/calmsuite', label: 'CALMSuite' },
+          ],
+        },
+        { to: '/validators', label: 'Validators', position: 'right' },
+        { to: "/cfi", label: "Test Results", position: "right" },
+        { to: "/contributors", label: "Contributors", position: "right" },
         {
           href: 'https://github.com/finos/common-cloud-controls',
           label: 'GitHub',
@@ -74,7 +104,54 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      logo: {
+        alt: "FINOS Logo",
+        src: "img/logo/finos/finos-blue.png",
+        href: "https://www.finos.org/",
+        height: 55,
+      },
+      links: [
+        {
+          label: "Calendar",
+          href: "https://zoom-lfx.platform.linuxfoundation.org/meetings/finos?view=month",
+        },
+        {
+          label: "All Hands Meeting",
+          href: "https://zoom-lfx.platform.linuxfoundation.org/meeting/95756611623?password=64d02ae0-6cec-428f-87a0-cb8be5f39945",
+        },
+        {
+          label: "About",
+          to: "/about",
+        },
+        {
+          label: "Architecture",
+          to: "/architecture",
+        },
+        {
+          label: "Catalogs",
+          to: "/catalogs",
+        },
+        {
+          label: "Ecosystem",
+          to: "/ecosystems",
+        },
+        { 
+          to: '/validators', 
+          label: 'Validators' 
+        },
+        {
+          label: "Test Results",
+          to: "/cfi",
+        },
+        {
+          label: "Contributors",
+          href: "/contributors",
+        },
+        {
+          label: "Github",
+          href: "https://github.com/finos/common-cloud-controls/blob/main/README.md",
+        },
+      ],
 
       copyright: `Copyright © ${new Date().getFullYear()} finos.org. Built with Docusaurus.`,
     },

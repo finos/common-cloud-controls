@@ -1,0 +1,46 @@
+name: Release cloud-api
+
+on:
+  push:
+    tags:
+      - "cloud-api/v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: modules/cloud-api
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: modules/cloud-api/go.mod
+
+      - name: Unit tests
+        run: go test ./...
+
+      - name: Verify module
+        run: go mod verify
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/cloud-api/}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: cloud-api ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## cloud-api Go module
+
+            Install with:
+
+            ```
+            go get github.com/finos/common-cloud-controls/cloud-api@${{ steps.version.outputs.VERSION }}
+            ```
+          generate_release_notes: true

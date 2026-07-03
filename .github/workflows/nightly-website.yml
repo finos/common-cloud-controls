@@ -1,7 +1,7 @@
 # DEPRECATED — website releases are halted.
 #
 # This workflow used to ping a Netlify build hook nightly, which rebuilt the site
-# via `website` prebuild (scripts/GenerateReleaseCatalogs.ts → delivery-toolkit).
+# via `website` prebuild (scripts/assembleWebsiteCatalog.ts → delivery-toolkit).
 # Website releases are paused pending the website's migration to the new per-type
 # catalog format. The nightly schedule is removed and the job is gated off so it
 # cannot run. Do NOT re-enable until the website consumes the new-schema artifacts.

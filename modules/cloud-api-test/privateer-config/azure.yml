@@ -1,0 +1,32 @@
+# Minimal vars for cloud-api integration tests (integration_calls.csv).
+
+services:
+  integration:
+    vars:
+      provider: azure
+      region: westus2
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-tenant-id: "${AZURE_TENANT_ID}"
+      azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
+      azure-resource-group: "finos-ccc-integration-rg"
+      azure-storage-account: "finoscccintegrationmain"
+      default-container: "finos-ccc-integration-container-main"
+      object-storage-retention-period-days: 2
+      function-name: "finos-ccc-integration-fn-main"
+      private-endpoint-url: "https://finos-ccc-integration-fn-main.privatelink.azurewebsites.net/api/HttpTrigger"
+      resource: "finos-ccc-integration-vm-main"
+      host-name: "${AZURE_VM_HOSTNAME}"
+      allowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+      disallowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-bad"
+        - "finos-ccc-integration-vpc-bad"
+      stale-version-id: "${STALE_VERSION_ID}"
+      authorized-region: "westus2"
+      unauthorized-region: "westeurope"
+      permitted-regions:
+        - "westus2"
+      azure-key-vault-name: "finoscccintkvsec"
+      azure-key-vault-uri: "https://finoscccintkvsec.vault.azure.net/"
+      azure-secret-name: "finos-ccc-integration-secret-main"

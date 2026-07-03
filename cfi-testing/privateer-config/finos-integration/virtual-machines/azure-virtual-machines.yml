@@ -1,0 +1,48 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+services:
+  azureVirtualMachines:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.VM
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: virtual-machines
+      service-type: virtual-machines
+      tags: "@Behavioural @virtual-machines"
+      provider: azure
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.VM: DEV
+      region: eastus
+      resource: "finos-ccc-integration-vm-main"
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-resource-group: "finos-ccc-integration-rg"
+      permitted-regions:
+        - eastus
+      host-name: "${AZURE_VM_HOSTNAME}"
+      port-number: "22"
+      test-listener-port: 22
+      allowed-source-cidr: "10.0.0.0/8"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
+        test-user-write:
+          user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
+        test-user-admin:
+          user-name: "${AZURE_TEST_USER_ADMIN_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_ADMIN_OBJECT_ID}"

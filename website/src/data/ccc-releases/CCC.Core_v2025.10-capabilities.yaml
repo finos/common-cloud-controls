@@ -1,0 +1,252 @@
+title: CCC Common Cloud Controls Core Capabilities
+metadata:
+    id: CCC.Core.CP
+    type: CapabilityCatalog
+    gemara-version: v1.2.0
+    version: v2025.10
+    description: Capabilities for Common Cloud Controls Core technologies, as defined by the FINOS Common Cloud Controls project.
+    author:
+        id: FINOS-CCC
+        name: FINOS Common Cloud Controls
+        type: Human
+capabilities:
+    - id: CCC.Core.CP01
+      title: Encryption in Transit Enabled by Default
+      description: |
+        The service automatically encrypts all data using industry-standard
+        cryptographic protocols prior to transmission via a network interface.
+      group: Encryption
+    - id: CCC.Core.CP02
+      title: Encryption at Rest Enabled by Default
+      description: |
+        The service automatically encrypts all data using industry-standard
+        cryptographic protocols prior to being written to a storage medium.
+      group: Encryption
+    - id: CCC.Core.CP03
+      title: Access Log Publication
+      description: |
+        The service automatically publishes structured, verbose records of
+        activities performed within the scope of the service by external actors.
+      group: Observability
+    - id: CCC.Core.CP04
+      title: Transaction Rate Limits
+      description: |
+        The service can throttle, delay, or reject excess requests when
+        transactions exceed a user-specified rate limit, and always
+        provides industry-standard throughput up to that limit.
+      group: Resource
+    - id: CCC.Core.CP05
+      title: Signed URLs
+      description: |
+        The service can generate an ad hoc URL containing authentication
+        information to enforce user-configured permissions for accessing
+        a specific component or a child resource.
+      group: Access
+    - id: CCC.Core.CP06
+      title: Access Control
+      description: |
+        The service automatically enforces user configurations to
+        restrict or allow access to a specific component or
+        a child resource based on factors such as user identities, roles,
+        groups, or attributes.
+      group: Access
+    - id: CCC.Core.CP07
+      title: Event Publication
+      description: |
+        The service automatically publishes a structured state-change record
+        upon creation, deletion, or modification of data, configuration,
+        components, or child resources.
+      group: Observability
+    - id: CCC.Core.CP08
+      title: Data Replication
+      description: |
+        The service automatically replicates data across multiple deployments
+        simultaneously with parity, or may be configured to do so.
+      group: Data
+    - id: CCC.Core.CP09
+      title: Metrics Publication
+      description: |
+        The service automatically publishes structured, numeric, time-series data points related to
+        the performance, availability, and health of the service or its child resources.
+      group: Observability
+    - id: CCC.Core.CP10
+      title: Log Publication
+      description: |
+        The service automatically publishes structured, verbose records of activities,
+        operations, or events that occur within the service.
+      group: Observability
+    - id: CCC.Core.CP11
+      title: Backup
+      description: |
+        The service can generate copies of its data or configurations
+        in the form of automated backups, snapshot-based backups, or incremental backups.
+      group: Data
+    - id: CCC.Core.CP12
+      title: Recovery
+      description: |
+        The service can be reverted to a previous state
+        by providing a compatible backup or snapshot identifier.
+      group: Data
+    - id: CCC.Core.CP14
+      title: API Access
+      description: |
+        The service exposes a port enabling external actors to interact
+        programmatically with the service and its resources using HTTP
+        protocol methods such as GET, POST, PUT, and DELETE.
+      group: Compute
+    - id: CCC.Core.CP15
+      title: Cost Management
+      description: |
+        The service monitors data published by child or networked resources to infer
+        usage patterns and generate cost reports for the service.
+      group: Resource
+    - id: CCC.Core.CP16
+      title: Budgeting
+      description: |
+        The service may be configured to take a user-specified action when a
+        spending threshold is met or exceeded on a child or networked resource.
+      group: Resource
+    - id: CCC.Core.CP17
+      title: Alerting
+      description: |
+        The service may be configured to emit a notification based on a user-defined
+        condition related to the data published by a child or networked resource.
+      group: Observability
+    - id: CCC.Core.CP18
+      title: Resource Versioning
+      description: |
+        The service automatically assigns versions to child resources which can be used
+        to preserve, retrieve, and restore past iterations.
+      group: Data
+    - id: CCC.Core.CP19
+      title: Child Resource Scaling
+      description: |
+        The service may be configured to scale child resources automatically
+        or on-demand.
+      group: Compute
+    - id: CCC.Core.CP20
+      title: Resource Tagging
+      description: |
+        The service provides users with the ability to tag a child resource with metadata
+        that can be reviewed or queried.
+      group: Resource
+    - id: CCC.Core.CP21
+      title: Resource Replication
+      description: |
+        The service may be configured to replicate child resources
+        across multiple deployments.
+      group: Data
+    - id: CCC.Core.CP22
+      title: Location Lock-In
+      description: |
+        The service may be configured to restrict the deployment of child resources
+        to specific geographic locations.
+      group: Data
+    - id: CCC.Core.CP23
+      title: Network Access Rules
+      description: |
+        The service restricts access to child or networked resources based on
+        user-defined network parameters such as IP address,
+        protocol, port, or source.
+      group: Access
+    - id: CCC.Core.CP24
+      title: Core Processing Units
+      description: |
+        The service provides users and child resources with access to
+        core processing units (CPUs) for executing instructions and
+        performing computations.
+      group: Compute
+    - id: CCC.Core.CP25
+      title: Random Access Memory Allocation
+      description: |
+        The service provides users and child resources with access to
+        random access memory (RAM) for temporary data storage and
+        fast data retrieval during processing tasks.
+      group: Compute
+    - id: CCC.Core.CP26
+      title: Persistent Storage
+      description: |
+        The service provides users and child resources with access to
+        persistent storage for saving and retrieving data reliably over time.
+      group: Compute
+    - id: CCC.Core.CP27
+      title: Configurable Network Ports
+      description: |
+        The service allows users to configure network ports for
+        communication, enabling flexibility in network management
+        and integration with other services.
+      group: Compute
+    - id: CCC.Core.CP28
+      title: Command-line Interface
+      description: |
+        The service includes a component that reads and translates
+        text into commands that can be executed by the service.
+      group: Compute
+    - id: CCC.Core.CP29
+      title: Active Ingestion
+      description: |
+        While running, the service itself can fetch or reach out to
+        some other service or external source to get data, inputs or commands
+        for the service to process or operate on.
+      group: Ingestion
+    - id: CCC.Core.CP30
+      title: Passive Ingestion
+      description: |
+        While running, the service can pause, idle or wait to receive
+        inputs, commands, or data from some other service or external source
+        for the service to process or operate on.
+      group: Ingestion
+    - id: CCC.Core.CP31
+      title: Elastic Scaling
+      description: |
+        The service automatically adjusts its resource allocation
+        (such as CPU, memory, and storage) based on current demand and workload.
+      group: Compute
+groups:
+    - id: Encryption
+      title: Encryption
+      description: |
+        The Encryption group covers entries related to protecting data
+        confidentiality and integrity through cryptographic mechanisms. This
+        includes encryption in transit and at rest, key management, and
+        certificate lifecycle management.
+    - id: Observability
+      title: Observability
+      description: |
+        The Observability group covers entries related to logging, monitoring,
+        metrics, alerting, and event publication. This includes audit trail
+        integrity, enumeration detection, and protection against tampering or
+        unauthorized access to operational telemetry.
+    - id: Resource
+      title: Resource Management
+      description: |
+        The Resource Management group covers entries related to the lifecycle,
+        configuration, and operational integrity of cloud resources. This
+        includes resource exhaustion, tag manipulation, version rollback,
+        scaling, and cost management.
+    - id: Access
+      title: Access Control
+      description: |
+        The Access Control group covers entries related to authentication,
+        authorization, and trust perimeter enforcement. This includes
+        multi-factor authentication, least privilege access, network access
+        rules, and prevention of unauthorized access or reconnaissance.
+    - id: Data
+      title: Data Resilience
+      description: |
+        The Data Resilience group covers entries related to ensuring data
+        availability, integrity, and sovereignty across its lifecycle. This
+        includes replication, backup, recovery, region restrictions, and
+        protection against data loss or corruption.
+    - id: Compute
+      title: Compute
+      description: |
+        The Compute group covers entries related to processing, execution, and
+        runtime infrastructure. This includes CPU, memory, storage allocation,
+        network ports, command-line interfaces, and elastic scaling.
+    - id: Ingestion
+      title: Ingestion
+      description: |
+        The Ingestion group covers entries related to how a service receives or
+        retrieves data, inputs, or commands for processing. This includes both
+        active (pull-based) and passive (push-based) ingestion patterns.

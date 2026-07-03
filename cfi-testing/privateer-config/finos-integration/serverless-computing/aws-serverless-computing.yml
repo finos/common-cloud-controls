@@ -1,0 +1,38 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+services:
+  awsServerlessComputing:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.SvlsComp
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: serverless-computing
+      service-type: serverless-computing
+      tags: "@Behavioural @serverless-computing"
+      provider: aws
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.SvlsComp: DEV
+      region: us-east-1
+      resource: "finos-ccc-integration-fn-main"
+      function-name: "finos-ccc-integration-fn-main"
+      private-endpoint-url: "https://private-serverless-endpoint.internal.example.com/invoke"
+      public-invoke-url: ""
+      rate-limit-threshold: 10
+      burst-overrun: 15
+      permitted-regions:
+        - us-east-1
+      aws-flow-log-group-name: "/aws/lambda/finos-ccc-integration-fn-main"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AWS_TEST_USER_NO_ACCESS_USER_NAME}"
+          access_key_id: "${AWS_TEST_USER_NO_ACCESS_ACCESS_KEY_ID}"
+          secret_access_key: "${AWS_TEST_USER_NO_ACCESS_SECRET_ACCESS_KEY}"
+          session_token: "${AWS_TEST_USER_NO_ACCESS_SESSION_TOKEN}"

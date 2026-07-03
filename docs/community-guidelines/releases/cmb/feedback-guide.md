@@ -8,7 +8,7 @@ This is a simple guide for CMB members on how to properly provide feedback withi
 
    ![Discussions Tab](../imgs/image-1.png)
 
-1. Find an active discussion that's associated with the release you would like to contribute to. You can find it here: [Active Discussions for CMB](https://github.com/finos/common-cloud-controls/discussions/categories/change-management-board-cmb?discussions_q=is%3Aopen+category%3A%22Change+Management+Board+%28CMB%29%22)
+1. Find an active discussion that's associated with the release you would like to contribute to in [GitHub Discussions](https://github.com/finos/common-cloud-controls/discussions) (filter by the **Change Management Board (CMB)** category when present).
 
    ![CMB Discussion Category with Posts](../imgs/image-2.png)
 

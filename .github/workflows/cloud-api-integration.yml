@@ -1,0 +1,135 @@
+name: Cloud API integration
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "modules/cloud-api/**"
+      - "modules/cloud-api-test/**"
+      - ".github/workflows/cloud-api-integration.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "modules/cloud-api/**"
+      - "modules/cloud-api-test/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+jobs:
+  integration-all:
+    runs-on: ubuntu-latest
+    timeout-minutes: 135
+    if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
+    env:
+      RUN_CLOUD_API_INTEGRATION: "1"
+      GOWORK: off
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          # Coverage merge pulls gocovmerge dependencies that require Go >= 1.25.
+          go-version: "1.25.x"
+          cache-dependency-path: |
+            modules/cloud-api/go.sum
+            modules/cloud-api-test/go.sum
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/TerraformRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          token_format: "id_token"
+          id_token_audience: "https://iam.googleapis.com/projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider"
+          workload_identity_provider: "projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider"
+          service_account: "gha-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Run all-cloud integration tests with combined coverage
+        working-directory: modules/cloud-api-test
+        env:
+          AWS_ENV: ${{ secrets.AWS_ENV }}
+          AZURE_ENV: ${{ secrets.AZURE_ENV }}
+          GCP_ENV: ${{ secrets.GCP_ENV }}
+        run: |
+          if [ -n "${AWS_ENV:-}" ]; then
+            printf '%s\n' "$AWS_ENV" > environment-config/aws-env.sh
+            set -a
+            # shellcheck source=/dev/null
+            source environment-config/aws-env.sh
+            set +a
+          fi
+          if [ -n "${AZURE_ENV:-}" ]; then
+            printf '%s\n' "$AZURE_ENV" > environment-config/azure-env.sh
+            set -a
+            # shellcheck source=/dev/null
+            source environment-config/azure-env.sh
+            set +a
+          fi
+          if [ -n "${GCP_ENV:-}" ]; then
+            printf '%s\n' "$GCP_ENV" > environment-config/gcp-env.sh
+            set -a
+            # shellcheck source=/dev/null
+            source environment-config/gcp-env.sh
+            set +a
+          fi
+          ./run-integration-tests.sh all
+
+      - name: Publish integration results summary
+        if: always()
+        run: |
+          results="modules/cloud-api-test/integration-results-all.txt"
+          if [ ! -f "$results" ]; then
+            echo "No integration results file at $results"
+            exit 0
+          fi
+          {
+            echo "## Cloud API integration (aws + azure + gcp)"
+            echo ""
+            echo '```text'
+            cat "$results"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload integration test results and coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-api-integration-results
+          path: |
+            modules/cloud-api-test/integration-results-all.txt
+            modules/cloud-api-test/integration-results-aws.txt
+            modules/cloud-api-test/integration-results-azure.txt
+            modules/cloud-api-test/integration-results-gcp.txt
+            modules/cloud-api-test/coverage-integration-all.out
+            modules/cloud-api-test/coverage-integration-all.html
+            modules/cloud-api-test/coverage-integration-aws.out
+            modules/cloud-api-test/coverage-integration-azure.out
+            modules/cloud-api-test/coverage-integration-gcp.out
+          if-no-files-found: ignore
+
+      - name: Upload combined integration coverage
+        if: always() && hashFiles('modules/cloud-api-test/coverage-integration-all.out') != ''
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: modules/cloud-api-test/coverage-integration-all.out
+          flags: cloud-api-integration
+          fail_ci_if_error: false

@@ -1,0 +1,24 @@
+# Minimal vars for cloud-api integration tests (integration_calls.csv).
+
+services:
+  integration:
+    vars:
+      provider: aws
+      region: us-east-1
+      function-name: "finos-ccc-integration-fn-main"
+      resource: "finos-ccc-integration-vm-main"
+      default-container: "finos-ccc-integration-container-main"
+      private-endpoint-url: "https://private-serverless-endpoint.internal.example.com/invoke"
+      aws-flow-log-group-name: "/aws/vpc/flow-logs/finos-ccc-integration-vpc"
+      allowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+      disallowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-bad"
+        - "finos-ccc-integration-vpc-bad"
+      secret-name: "finos-ccc-integration-secret-main"
+      stale-version-id: "${STALE_VERSION_ID}"
+      authorized-region: "us-east-1"
+      unauthorized-region: "eu-west-1"
+      permitted-regions:
+        - "us-east-1"
