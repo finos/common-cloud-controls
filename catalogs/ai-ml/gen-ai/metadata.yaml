@@ -21,4 +21,23 @@ metadata:
       service: Google Vertex AI
       url: https://cloud.google.com/vertex-ai/docs
   applicability-categories: []
-  mapping-references: []
+  mapping-references:
+    - id: agent-threat-rules
+      title: Agent Threat Rules
+      version: v3.1.0
+      description: |
+        Agent Threat Rules (ATR) is an open MIT-licensed detection-rule
+        corpus for AI agent threats spanning ten attack categories
+        (prompt-injection, tool-poisoning, skill-compromise,
+        agent-manipulation, context-exfiltration, data-poisoning,
+        excessive-autonomy, model-abuse, model-security, privilege-escalation).
+        Rules are deterministic YAML and ship as the upstream detection
+        layer in Cisco AI Defense skill-scanner (314 rules) and
+        Microsoft Agent Governance Toolkit (287 rules + weekly auto-sync),
+        and are referenced by the MISP taxonomy and galaxy threat-intel
+        sharing layers (misp-taxonomies#323, misp-galaxy#1207, both
+        merged by the MISP project lead on 2026-05-10). The mapping
+        from CCC GenAI controls is one-way and lossy: ATR rule-IDs
+        reference detection coverage that is adjacent to a control's
+        intent, not control equivalents themselves.
+      url: https://github.com/Agent-Threat-Rule/agent-threat-rules
