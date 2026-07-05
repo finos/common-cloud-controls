@@ -151,11 +151,12 @@ jobs:
         id: publish
         env:
           ARTIFACT: ${{ steps.artifact.outputs.file }}
+          LICENSE: Community-Spec-1.0
         run: |
           if [ "$DRY_RUN" = "true" ]; then
-            grcli publish "$ARTIFACT" --dry-run --output artifacts/oci 2>&1 | tee /tmp/publish.log
+            grcli publish "$ARTIFACT" --license "$LICENSE" --dry-run --output artifacts/oci 2>&1 | tee /tmp/publish.log
           else
-            grcli publish "$ARTIFACT" 2>&1 | tee /tmp/publish.log
+            grcli publish "$ARTIFACT" --license "$LICENSE" 2>&1 | tee /tmp/publish.log
           fi
 
       # Augmented old flow: cut a GitHub release carrying the single typed catalog.

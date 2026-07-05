@@ -50,6 +50,7 @@ jobs:
       VERSION: ${{ inputs.version }}
       DRY_RUN: ${{ inputs.dry_run }}
       GH_TOKEN: ${{ github.token }}
+      LICENSE: Community-Spec-1.0
     steps:
       - uses: actions/checkout@v4
 
@@ -175,12 +176,12 @@ jobs:
 
             # Publish to grc.store (or build the bundle only, on a dry run).
             if [ "$DRY_RUN" = "true" ]; then
-              if ! out="$(grcli publish "$file" --dry-run --output artifacts/oci 2>&1)"; then
+              if ! out="$(grcli publish "$file" --license "$LICENSE" --dry-run --output artifacts/oci 2>&1)"; then
                 echo "$out"; R_REASON="Dry-run bundle build failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
               fi
               echo "$out"; return 0
             fi
-            if ! out="$(grcli publish "$file" 2>&1)"; then
+            if ! out="$(grcli publish "$file" --license "$LICENSE" 2>&1)"; then
               echo "$out"; R_REASON="Publish to grc.store failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
             fi
             echo "$out"
