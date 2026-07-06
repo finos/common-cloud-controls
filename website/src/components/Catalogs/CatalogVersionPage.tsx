@@ -52,6 +52,14 @@ export interface CatalogEntry {
   externalMappings?: CatalogGuidelineMapping[];
 }
 
+export interface CatalogImport {
+  id: string;
+  title: string;
+  category?: string;
+  service?: string;
+}
+
+
 export interface CatalogVersionData {
   title: string;
   type: "capabilities" | "threats" | "controls";
@@ -59,6 +67,7 @@ export interface CatalogVersionData {
   category: string;
   service: string;
   entries: CatalogEntry[];
+  imports: CatalogImport[];
 }
 
 interface Props {
@@ -159,6 +168,28 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           ))}
         </tbody>
       </table>
+
+      {data.imports && data.imports.length > 0 && (<div>
+        <h1>Imports</h1>
+        <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.imports.map((imported) => (
+            <tr key={imported.id}>
+              <td>
+                <Link to={`../../${imported.category}/${imported.service}/${data.type}/${data.version}/${imported.id}`}>{imported.id}</Link>
+              </td>
+              <td>{imported.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>)}
     </div>
   );
 };
