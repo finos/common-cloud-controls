@@ -119,3 +119,57 @@ html[data-theme="dark"] .sidebar-service-link.active {
   background: rgba(0, 181, 226, 0.15);
   color: #00b5e2;
 }
+
+.sidebar-page-title-link {
+  display: block;
+  padding: 0.35rem 0.75rem 0.5rem;
+  border-bottom: 1px solid rgba(0, 134, 191, 0.2);
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0086bf;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.sidebar-page-title-link:hover {
+  background: rgba(0, 181, 226, 0.1);
+  text-decoration: none;
+  color: #0086bf;
+}
+
+html[data-theme="dark"] .sidebar-page-title-link {
+  color: #00b5e2;
+  border-bottom-color: rgba(0, 181, 226, 0.15);
+}
+
+html[data-theme="dark"] .sidebar-page-title-link:hover {
+  background: rgba(0, 181, 226, 0.15);
+  color: #00b5e2;
+}
+
+.sidebar-page-section-link {
+  display: block;
+  padding: 0.2rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0086bf;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.sidebar-page-section-link:hover {
+  background: rgba(0, 181, 226, 0.1);
+  text-decoration: none;
+  color: #0086bf;
+}
+
+html[data-theme="dark"] .sidebar-page-section-link {
+  color: #00b5e2;
+}
+
+html[data-theme="dark"] .sidebar-page-section-link:hover {
+  background: rgba(0, 181, 226, 0.15);
+  color: #00b5e2;
+}
