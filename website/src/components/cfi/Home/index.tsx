@@ -17,40 +17,42 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
         </div>
 
         <Card>
-          <CardHeader>
-            <CardTitle>CFI result sources</CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>CFI result sources</CardTitle>
             <p className="text-sm text-muted-foreground">
               Test results are grouped by the GitHub repository that publishes CI artifacts
             </p>
           </CardHeader>
           <CardContent>
             <div className="library-article-body">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Source</th>
-                    <th>Repository</th>
-                    <th>Configurations</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {repositories.map((repository) => (
-                    <tr key={repository.destination}>
-                      <td className="font-medium">
-                        <Link to={repository.href} className="text-blue-600 hover:text-blue-800 hover:underline">
-                          {repository.description}
-                        </Link>
-                      </td>
-                      <td>
-                        <a href={repository.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">
-                          {repository.url.replace(/^https?:\/\/github\.com\//, "")}
-                        </a>
-                      </td>
-                      <td>{repository.configurationCount}</td>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Source</th>
+                      <th>Repository</th>
+                      <th>Configurations</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {repositories.map((repository) => (
+                      <tr key={repository.destination}>
+                        <td className="font-medium">
+                          <Link to={repository.href} className="text-blue-600 hover:text-blue-800 hover:underline">
+                            {repository.description}
+                          </Link>
+                        </td>
+                        <td>
+                          <a href={repository.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">
+                            {repository.url.replace(/^https?:\/\/github\.com\//, "")}
+                          </a>
+                        </td>
+                        <td>{repository.configurationCount}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {repositories.length === 0 && (

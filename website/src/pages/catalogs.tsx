@@ -12,7 +12,7 @@ export default function Catalogs(): ReactNode {
           <div className={styles.catalogsLayout}>
             <div className={styles.catalogsText}>
               <div>
-            <h3 className={styles.catalogsTitle}>Three Catalogs, One Complete Picture</h3>
+            <h1 className={styles.catalogsTitle}>Three Catalogs, One Complete Picture</h1>
           </div>
               <p className={styles.prose}>
                 Each cloud service is covered by three interlocking catalog types — Capabilities, Threats, and Controls — because real-world governance requires all three layers to be explicit and independently reusable.
