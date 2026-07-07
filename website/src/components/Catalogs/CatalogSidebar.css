@@ -12,6 +12,12 @@
   border-radius: 8px;
 }
 
+@media screen and (max-width: 600px) {
+  .catalog-sidebar{
+      position: static;
+  }
+}
+
 .catalog-sidebar-type-title {
   font-size: 0.7rem;
   font-weight: 700;

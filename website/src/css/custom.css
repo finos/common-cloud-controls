@@ -246,6 +246,12 @@ html[data-theme="dark"] .dropdown__link--active {
   padding: 2rem 1.5rem;
   align-items: flex-start;
 }
+/* Catalog page layout on mobile: sidebar on top, main content below */
+@media screen and (max-width: 600px) {
+  .page-layout {
+      display: grid;
+  }
+}
 
 /* Catalog type buttons (Capabilities / Threats / Controls) */
 .catalog-type-btn {
