@@ -53,10 +53,6 @@ threats:
         entries:
           - reference-id: CCC.Build.CP01
           - reference-id: CCC.Build.CP04
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1195
   - id: CCC.Build.TH02
     group: Access
     title: External Exposure of Build Environments
@@ -67,7 +63,3 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Build.CP03
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1133

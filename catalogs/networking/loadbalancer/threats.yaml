@@ -44,15 +44,6 @@ threats:
           - reference-id: CCC.LB.CP22
             strength: 0 # Not yet specified
             remarks: Rate Limiting / Throttling
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1499
-            strength: 0 # Not yet specified
-            remarks: Endpoint DoS
-          - reference-id: T1110
-            strength: 0 # Not yet specified
-            remarks: Brute Force
 
   - id: CCC.LB.TH03
     group: Networking
@@ -69,11 +60,6 @@ threats:
           - reference-id: CCC.LB.CP20
             strength: 0 # Not yet specified
             remarks: Traffic Splitting
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1499
-          - reference-id: T1557
 
   - id: CCC.LB.TH04
     group: Access
@@ -87,11 +73,6 @@ threats:
           - reference-id: CCC.LB.CP15
             strength: 0 # Not yet specified
             remarks: Session Affinity
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078
-          - reference-id: T1557
 
   - id: CCC.LB.TH05
     group: Resource
@@ -108,11 +89,6 @@ threats:
           - reference-id: CCC.LB.CP13
             strength: 0 # Not yet specified
             remarks: Target Removal
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1499
-          - reference-id: T1583
 
   - id: CCC.LB.TH06
     group: Data
@@ -124,11 +100,6 @@ threats:
       - reference-id: LBL
         entries:
           - reference-id: CCC.LB.CP19
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1592
-          - reference-id: T1530
 
   - id: CCC.LB.TH07
     group: Encryption
@@ -141,8 +112,3 @@ threats:
           - reference-id: CCC.LB.CP11
             strength: 0 # Not yet specified
             remarks: SSL/TLS Termination
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1557
-          - reference-id: T1608
