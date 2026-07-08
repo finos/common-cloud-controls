@@ -48,7 +48,7 @@ export const CatalogTypeOverviewPage: React.FC<Props> = ({ data }) => {
               {config.label}
             </p>
           )}
-          <h1 className="page-h1" style={{ margin: 0 }}>{config.title}</h1>
+          <h1 className="page-h1" style={{ margin: 0 ,color: "var(--gf-color-accent-strong)"}}>{config.title}</h1>
         </div>
 
         {body.trim() && (
