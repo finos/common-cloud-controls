@@ -8,7 +8,7 @@ cfi:
   description: >-
     Control-informed AVM virtual machine deployment from ccc-cfi-compliance
     remote/azure/avm (Azure/avm-res-compute-virtualmachine @ 0.21.0).
-  path: https://github.com/finos-labs/ccc-cfi-compliance/tree/main/remote/azure/avm
+  path: remote/azure/avm
   test-on-branches:
     - main
   git: https://github.com/Azure/terraform-azurerm-avm-res-compute-virtualmachine
