@@ -51,9 +51,11 @@ fi
 mkdir -p "${ARTIFACTS_DIR}"
 
 CORE_VERSION="v2025.10"
-for asset_type in capabilities threats controls; do
-  src="${CATALOGS_DIR}/core/ccc/${asset_type}.yaml"
-  if [ ! -f "$src" ]; then
+for asset_type in capabilities threats controls mappings; do
+  # mappings are a directory of MappingDocuments, not a single <type>.yaml file
+  if [ "$asset_type" = "mappings" ]; then
+    [ -d "${CATALOGS_DIR}/core/ccc/mappings" ] || continue
+  elif [ ! -f "${CATALOGS_DIR}/core/ccc/${asset_type}.yaml" ]; then
     continue
   fi
   echo "::group::Compile core/ccc ${asset_type} (${CORE_VERSION})"
@@ -83,9 +85,14 @@ for dir in $(find "${CATALOGS_DIR}" -mindepth 2 -maxdepth 2 -type d | sort); do
     continue
   fi
 
-  for asset_type in capabilities threats controls; do
-    src="${dir}/${asset_type}.yaml"
-    if [ ! -f "$src" ]; then
+  for asset_type in capabilities threats controls mappings; do
+    # mappings are a directory of MappingDocuments, not a single <type>.yaml file
+    if [ "$asset_type" = "mappings" ]; then
+      if [ ! -d "${dir}/mappings" ]; then
+        skipped_nofile=$((skipped_nofile + 1))
+        continue
+      fi
+    elif [ ! -f "${dir}/${asset_type}.yaml" ]; then
       skipped_nofile=$((skipped_nofile + 1))
       continue
     fi

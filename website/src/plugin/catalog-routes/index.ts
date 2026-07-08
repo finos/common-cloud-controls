@@ -41,6 +41,8 @@ export interface CatalogAssessmentRequirement {
 export interface CatalogGuidelineMapping {
   framework: string;
   id: string;
+  /** Mapping relationship (e.g. relates-to) when sourced from a Gemara MappingDocument. */
+  relationship?: string;
   remarks?: string;
   url?: string;
 }
@@ -176,6 +178,7 @@ function cleanStr(s: unknown): string {
 function mapEntries(
   items: any[],
   type: 'capabilities' | 'threats' | 'controls',
+  threatDocMappings?: Map<string, ThreatDocMappings>,
 ): CatalogEntry[] {
   return items.map((e: any) => ({
     id: String(e.id ?? ''),
@@ -183,10 +186,14 @@ function mapEntries(
     ...(type !== 'controls' && e.description ? { description: cleanStr(e.description) } : {}),
     ...(type === 'controls' && e.objective    ? { objective:   cleanStr(e.objective)   } : {}),
     ...(type === 'threats' ? {
-      externalMappingsCount: (e['external-mappings'] ?? []).length,
+      // External mappings live in standalone Gemara MappingDocuments; the inline
+      // field only survives in legacy all-in-one (-MP) release files.
+      externalMappingsCount:
+        threatDocMappings?.get(String(e.id ?? ''))?.docCount ?? (e['external-mappings'] ?? []).length,
       capabilityMappingsCount: (e.capabilities ?? []).length,
       capabilityRefs: extractRefIds(e.capabilities),
-      externalMappings: extractGuidelineMappings(e['external-mappings']),
+      externalMappings:
+        threatDocMappings?.get(String(e.id ?? ''))?.mappings ?? extractGuidelineMappings(e['external-mappings']),
     } : {}),
     ...(type === 'controls' ? {
       family: cleanStr(e._familyTitle ?? e.group ?? ''),
@@ -253,11 +260,15 @@ function extractGuidelineMappings(mappingGroups: any[] | undefined): CatalogGuid
 // linking guideline/external mapping IDs back to their source standard.
 function getExternalFrameworkUrl(framework: string, entryId: string): string | null {
   const urlGenerators: Record<string, (id: string) => string> = {
-    'MITRE-ATT&CK': (id) => `https://attack.mitre.org/techniques/${id}`,
+    // Sub-techniques (T1548.004) live at /techniques/T1548/004
+    'MITRE-ATT&CK': (id) => `https://attack.mitre.org/techniques/${id.replace('.', '/')}`,
+    'MITRE-ATLAS': (id) => `https://atlas.mitre.org/techniques/${id}`,
+    CWE: (id) => `https://cwe.mitre.org/data/definitions/${id.replace(/^CWE-/, '')}.html`,
     'NIST-CSF': (id) => `https://csrc.nist.gov/Projects/cybersecurity-framework/glossary#term-${id.toLowerCase()}`,
     NIST_800_53: (id) => `https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/SP_800_53_5_2_0/home?keyword=${id}`,
     ISO_27001: () => `https://www.iso.org/standard/27001`,
     CCM: () => `https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4/`,
+    CCMv4: () => `https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4/`,
   };
 
   const generate = urlGenerators[framework];
@@ -268,6 +279,54 @@ function extractRefIds(mappingGroups: any[] | undefined): string[] {
   return (mappingGroups ?? []).flatMap((m: any) =>
     (m.entries ?? []).map((e: any) => String(e?.['reference-id'] ?? '')),
   ).filter(Boolean);
+}
+
+// Per-threat data extracted from standalone Gemara MappingDocuments: the number of
+// documents referencing the threat (one document per target framework — the same
+// granularity the retired inline external-mappings count had) and the flattened
+// mapping rows for the entry detail page.
+interface ThreatDocMappings {
+  docCount: number;
+  mappings: CatalogGuidelineMapping[];
+}
+
+function collectThreatMappingDocs(
+  docs: any[],
+  into = new Map<string, ThreatDocMappings>(),
+): Map<string, ThreatDocMappings> {
+  for (const doc of docs) {
+    if (doc?.['source-reference']?.['entry-type'] !== 'Threat') continue;
+    const framework = String(doc?.['target-reference']?.['reference-id'] ?? '');
+    for (const mapping of doc.mappings ?? []) {
+      const source = String(mapping?.source ?? '');
+      const targets: any[] = mapping?.targets ?? [];
+      if (!source || !targets.length) continue;
+      if (!into.has(source)) into.set(source, { docCount: 0, mappings: [] });
+      const rec = into.get(source)!;
+      rec.docCount += 1;
+      for (const target of targets) {
+        const id = String(target?.['entry-id'] ?? '');
+        if (!id) continue;
+        rec.mappings.push({
+          framework,
+          id,
+          relationship: String(mapping?.relationship ?? '') || undefined,
+          remarks: cleanStr(target?.remarks),
+          url: getExternalFrameworkUrl(framework, id) ?? undefined,
+        });
+      }
+    }
+  }
+  return into;
+}
+
+// Reads every MappingDocument in a source catalog's mappings/ directory.
+function loadSourceMappingDocs(svcDir: string): any[] {
+  const mappingsDir = path.join(svcDir, 'mappings');
+  if (!fs.existsSync(mappingsDir)) return [];
+  return fs.readdirSync(mappingsDir)
+    .filter((f) => f.endsWith('.yaml') || f.endsWith('.yml'))
+    .map((f) => yaml.load(fs.readFileSync(path.join(mappingsDir, f), 'utf8')));
 }
 
 // Resolves each control's family/group title using a top-level `groups` lookup
@@ -367,9 +426,26 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         versions.set(urlPath, { title, type, version, category: loc.category, service: loc.service, entries, imports });
       };
 
+      // Pre-scan standalone MappingDocument files (<id>_<version>-mapping.<doc>.yaml)
+      // so external mappings are ready when the threats files are processed below.
+      const MAPPING_FILE = /^(.+)_([A-Za-z0-9][A-Za-z0-9.]*)-mapping\..+\.yaml$/;
+      const releaseDocMappings = new Map<string, Map<string, ThreatDocMappings>>();
+      if (fs.existsSync(releasesDir)) {
+        for (const filename of fs.readdirSync(releasesDir)) {
+          const m = filename.match(MAPPING_FILE);
+          if (!m) continue;
+          const [, metadataId, version] = m;
+          const key = `${metadataId}_${version}`;
+          if (!releaseDocMappings.has(key)) releaseDocMappings.set(key, new Map());
+          const doc = yaml.load(fs.readFileSync(path.join(releasesDir, filename), 'utf8'));
+          collectThreatMappingDocs([doc], releaseDocMappings.get(key)!);
+        }
+      }
+
       if (fs.existsSync(releasesDir)) {
         for (const filename of fs.readdirSync(releasesDir)) {
           if (!filename.endsWith('.yaml')) continue;
+          if (MAPPING_FILE.test(filename)) continue; // handled in the pre-scan above
 
           // Release-details files  e.g. CCC.Core_v2025.10-release-details.yaml  or CCC.KeyMgmt_v2025.07-MP-release-details.yaml
           const detailsMatch = filename.match(/^(.+)_([A-Za-z0-9][A-Za-z0-9.]*)-release-details\.yaml$/)
@@ -400,8 +476,12 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             const title = cleanStr(raw?.title ?? raw?.metadata?.title ?? metadataId);
             const rawItems = raw?.[type] ?? [];
             const items = type === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
-            const entries = mapEntries(items, type as CatalogVersionData['type']);
-            const imports: CatalogEntry[] = mapImports(raw.imports, idToPath);
+            const entries = mapEntries(
+              items,
+              type as CatalogVersionData['type'],
+              type === 'threats' ? releaseDocMappings.get(`${metadataId}_${version}`) : undefined,
+            );
+            const imports: CatalogImport[] = mapImports(raw.imports, idToPath);
             addVersion(loc, version, type as CatalogVersionData['type'], title, entries, imports);
             if (type === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/${version}`, extractThreatCapabilityRefs(items));
@@ -456,6 +536,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           const metaFile = path.join(svcDir, 'metadata.yaml');
           const meta = yaml.load(fs.readFileSync(metaFile, 'utf8')) as Record<string, any>;
           const baseTitle = cleanStr(meta?.metadata?.title ?? loc.service);
+          const sourceDocMappings = collectThreatMappingDocs(loadSourceMappingDocs(svcDir));
 
           for (const typeName of ['capabilities', 'threats', 'controls'] as const) {
             const typeFile = path.join(svcDir, `${typeName}.yaml`);
@@ -465,7 +546,9 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (rawItems.length === 0) continue;
             const items = typeName === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const typeLabel = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(raw.imports, idToPath));
+            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`,
+              mapEntries(items, typeName, typeName === 'threats' ? sourceDocMappings : undefined),
+              mapImports(raw.imports, idToPath));
             if (typeName === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/DEV`, extractThreatCapabilityRefs(items));
             }

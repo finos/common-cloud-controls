@@ -65,6 +65,9 @@ const RelatedList: React.FC<{ title: string; items?: CatalogRelatedEntry[] }> = 
 
 const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] }> = ({ title, items }) => {
   if (!items || items.length === 0) return null;
+  // Mappings sourced from Gemara MappingDocuments carry a relationship; inline
+  // guideline mappings don't, so only show the column when there is data for it.
+  const hasRelationship = items.some((m) => m.relationship);
   return (
     <div style={{ marginBottom: "1.5rem" }}>
       <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>{title}</h3>
@@ -74,6 +77,7 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
             <tr>
               <th>Framework</th>
               <th>ID</th>
+              {hasRelationship && <th>Relationship</th>}
               <th>Remarks</th>
             </tr>
           </thead>
@@ -90,6 +94,7 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
                     m.id
                   )}
                 </td>
+                {hasRelationship && <td>{m.relationship}</td>}
                 <td>{m.remarks}</td>
               </tr>
             ))}

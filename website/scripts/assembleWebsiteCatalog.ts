@@ -111,6 +111,29 @@ function moveCompiledAsset(
     return true;
 }
 
+// Mapping documents compile into <staging>/<target>/mappings/<doc>.yaml; publish
+// each as <metadataId>_<version>-mapping.<doc>.yaml so loaders can key them to a release.
+function moveCompiledMappings(
+    buildTarget: string,
+    metadataId: string,
+    version: string,
+    outputFiles: string[]
+): void {
+    const stagedMappingsDir = path.join(STAGING_DIR, buildTarget, 'mappings');
+    if (!fs.existsSync(stagedMappingsDir)) {
+        return;
+    }
+    for (const file of fs.readdirSync(stagedMappingsDir)) {
+        if (!file.endsWith('.yaml') && !file.endsWith('.yml')) {
+            continue;
+        }
+        const base = file.replace(/\.ya?ml$/, '');
+        const dest = path.join(OUTPUT_DIR, outputFileName(metadataId, version, `mapping.${base}`));
+        fs.renameSync(path.join(stagedMappingsDir, file), dest);
+        outputFiles.push(dest);
+    }
+}
+
 function publishMetadata(catalogPath: string, metadataId: string, version: string, outputFiles: string[]): void {
     const metadata = loadYamlFile<{ metadata?: Record<string, unknown> }>(path.join(catalogPath, 'metadata.yaml'));
     if (!metadata?.metadata) {
@@ -149,6 +172,7 @@ function publishCatalogTarget(target: CatalogTarget, version: string): PublishRe
             };
         }
 
+        moveCompiledMappings(buildTarget, metadataId, version, outputFiles);
         publishMetadata(catalogPath, metadataId, version, outputFiles);
         publishReleaseDetails(metadataId, version, outputFiles);
 
@@ -185,6 +209,7 @@ function publishCoreCatalog(): PublishResult {
         };
     }
 
+    moveCompiledMappings(CORE_BUILD_TARGET, metadataId, CORE_VERSION, outputFiles);
     publishMetadata(path.join(CATALOGS_DIR, CORE_BUILD_TARGET), metadataId, CORE_VERSION, outputFiles);
 
     return { buildTarget: CORE_BUILD_TARGET, success: true, outputFiles };
