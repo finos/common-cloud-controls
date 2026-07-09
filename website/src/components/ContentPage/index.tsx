@@ -1,16 +1,19 @@
 import React from "react";
+import PageSidebar, { TOCItem } from "../PageSidebar";
 
 interface ContentPageProps {
   subtitle?: string;
   title: string;
+  toc?: readonly TOCItem[];
   children: React.ReactNode;
 }
 
-export default function ContentPage({ subtitle, title, children }: ContentPageProps) {
+export default function ContentPage({ subtitle, title, toc, children }: ContentPageProps) {
   return (
     <main>
       <div className="page-layout">
-        <article style={{ flex: 1, minWidth: 0 }}>
+        {toc && toc.length > 0 && <PageSidebar toc={toc} title={title} />}
+        <article className="content-page-article" style={{ flex: 1, minWidth: 0 }}>
           {subtitle && (
             <p
               style={{
@@ -18,14 +21,16 @@ export default function ContentPage({ subtitle, title, children }: ContentPagePr
                 color: "var(--gf-color-text-subtle)",
                 fontSize: "1rem",
                 lineHeight: 1.5,
+                textAlign: "center",
               }}
             >
               {subtitle}
             </p>
           )}
           <h1
+            id="page-title"
             className="page-h1"
-            style={{ margin: 0, fontSize: "2rem", fontWeight: 700 }}
+            style={{ margin: 0 }}
           >
             {title}
           </h1>
