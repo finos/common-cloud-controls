@@ -2,8 +2,13 @@ import React from "react";
 import styles from "./styles.module.css";
 import HomeSection from "../HomeSection";
 import { Link } from "react-router-dom";
+import { usePluginData } from "@docusaurus/useGlobalData";
+import type { CatalogGlobalData } from '@site/src/plugin/catalog-routes';
+
 
 export default function SimpleIntro() {
+  const data = usePluginData('catalog-routes') as CatalogGlobalData | undefined;
+  const totals = data ? data.totals : {controls: 0, threats: 0, capabilities: 0};
   return (
     <HomeSection title="">
         <h2>
@@ -35,7 +40,7 @@ export default function SimpleIntro() {
           Explore the Catalogs
           </Link>
           <i className={styles.catalog_preview}>
-            Controls: 34 • Threats: 20 •  Capabilities: 89
+            Capabilities: {totals.capabilities} • Threats: {totals.threats} •  Controls: {totals.controls}
           </i>
       </section>
     </HomeSection>
