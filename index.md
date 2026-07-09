@@ -30,7 +30,7 @@ Each entry also belongs to a **group** that describes its security or operationa
 ## Groups
 
 | Group | Description |
-|---|---|
+| --- | --- |
 | `Encryption` | Cryptographic protection — encryption in transit/at rest, key management, certificates. |
 | `Access` | Authentication, authorization, trust perimeters, least privilege. |
 | `Observability` | Logging, audit trails, metrics, alerting, tracing, health checks. |
@@ -49,7 +49,7 @@ Each entry also belongs to a **group** that describes its security or operationa
 Each assessment requirement in a control catalog specifies **applicability levels** that indicate the sensitivity context in which the requirement applies. CCC uses the [Traffic Light Protocol (TLP) 2.0](https://www.first.org/tlp/) as the basis for these levels.
 
 | Level | When It Applies |
-|---|---|
+| --- | --- |
 | **tlp-clear** | No confidentiality restrictions. Universal baseline requirements. |
 | **tlp-green** | Information shared within a community but not public. Adds protections for internal systems. |
 | **tlp-amber** | Information restricted to the organization and its clients. Stricter encryption, access, and audit. |

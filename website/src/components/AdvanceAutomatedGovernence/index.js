@@ -57,7 +57,7 @@ export default function AdvanceAutomatedGovernance() {
       </HomeSection>
       <HomeSection>
         <div>
-          <h3 className={styles.sectionTitle}>Where CCC Fits In</h3>
+          <h2 className={styles.sectionTitle}>Where CCC Fits In</h2>
           <p className={styles.prose}>
             Automated governance pipelines are built in layers, and FINOS Common Cloud Controls (CCC) operates at{" "}
             <strong className={styles.accentText}>Layer 2</strong> of the{" "}

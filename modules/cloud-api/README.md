@@ -18,8 +18,8 @@ The factory pattern provides a consistent way to create cloud service clients:
 
 ```go
 import (
-	"github.com/finos/common-cloud-controls/cloud-api/factory"
-	"github.com/finos/common-cloud-controls/cloud-api/types"
+ "github.com/finos/common-cloud-controls/cloud-api/factory"
+ "github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
 // Create a factory for a specific cloud provider

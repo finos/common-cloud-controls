@@ -1,5 +1,15 @@
 import { SectionItem } from "./sections";
 
+// Strip common title prefixes so "CCC Batch Processing" → "Batch Processing".
+const TITLE_PREFIXES = ['FINOS CCC ', 'Common Cloud Controls ', 'CCC '];
+
+export function labelFromTitle(title: string): string {
+  for (const prefix of TITLE_PREFIXES) {
+    if (title.startsWith(prefix)) return title.slice(prefix.length);
+  }
+  return title;
+}
+
 // Prettify a slug segment or compound slug (e.g. "ai-ml" → "AI/ML", "gen-ai" → "Gen AI").
 export function prettifySegment(s: string): string {
   const acronyms = new Set(["ai", "ml", "iam", "vpc", "etl", "k8s", "sdk"]);

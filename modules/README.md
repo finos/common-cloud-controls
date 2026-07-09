@@ -7,7 +7,7 @@ All Go code for CCC cloud testing lives under this directory.
 [`go.work`](go.work) links the modules for local development. CI uses the same workspace via [`.github/actions/setup-go-workspace`](../.github/actions/setup-go-workspace/action.yml) (`go-version-file: modules/go.work`, `GOWORK` enabled).
 
 | Module | Path |
-|--------|------|
+| -------- | ------ |
 | `cloud-api` | [`cloud-api/`](cloud-api/) — provider APIs and shared types |
 | `cloud-testing-dsl` | [`cloud-testing-dsl/`](cloud-testing-dsl/) — Cucumber/Godog cloud steps |
 | `cloud-api-test` | [`cloud-api-test/`](cloud-api-test/) — live integration tests for `cloud-api` against terraform fixtures |

@@ -7,7 +7,7 @@ metadata:
     setups. They automate cluster provisioning, scaling, and integration with each
     provider’s native ecosystem, offering secure, reliable, and production‑ready
     Kubernetes deployments.
-  category-ids: 
+  category-ids:
     - CCC.Orchestration
   version: ""
   last-modified: "2026-02-18T00:00:00Z"

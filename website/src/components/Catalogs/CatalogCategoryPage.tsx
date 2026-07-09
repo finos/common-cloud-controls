@@ -2,15 +2,10 @@ import React, { useState, useEffect } from "react";
 import Link from "@docusaurus/Link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { CatalogSidebar, CATALOG_STRUCTURE } from "./CatalogSidebar";
+import { CatalogSidebar } from "./CatalogSidebar";
 import { markdownComponents } from "./markdownComponents";
-import { prettifySegment } from "@site/src/content/catalogUtils";
-import { User } from "../ccc/User";
-import type { Contributor } from "@site/src/types/ccc";
-
-function toContributor(c: CatalogContributor): Contributor {
-  return { name: c.name, "github-id": c["github-id"] ?? "", company: c.company ?? "" };
-}
+import { prettifySegment, labelFromTitle } from "@site/src/content/catalogUtils";
+import { User } from "../shared/User";
 
 export interface CatalogContributor {
   name: string;
@@ -30,6 +25,7 @@ export interface CatalogReleaseSummary {
 
 export interface CatalogServiceInfo {
   slug: string;
+  title?: string;
   types: Array<{ type: string; typePath: string }>;
   releases: CatalogReleaseSummary[];
 }
@@ -52,12 +48,11 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 function getCategoryLabel(category: string): string {
-  return CATALOG_STRUCTURE.find((c) => c.slug === category)?.label ?? prettifySegment(category);
+  return prettifySegment(category);
 }
 
-function getServiceLabel(category: string, service: string): string {
-  const cat = CATALOG_STRUCTURE.find((c) => c.slug === category);
-  return cat?.services.find((s) => s.slug === service)?.label ?? prettifySegment(service);
+function getServiceLabel(_category: string, service: string, title?: string): string {
+  return title ? labelFromTitle(title) : prettifySegment(service);
 }
 
 function TypeButtons({ svcInfo }: { svcInfo: CatalogServiceInfo }) {
@@ -98,12 +93,12 @@ function ReleasesTable({ releases }: { releases: CatalogReleaseSummary[] }) {
           {releases.map((release) => (
             <tr key={release.version}>
               <td>{release.version}</td>
-              <td>{release.releaseManager?.name ? <User contributor={toContributor(release.releaseManager)} /> : "Development Team"}</td>
+              <td>{release.releaseManager?.name ? <User contributor={release.releaseManager} /> : "Development Team"}</td>
               <td>
                 {release.contributors?.length ? (
                   <div className="flex flex-col gap-2">
                     {release.contributors.map((c, i) => (
-                      <User key={i} contributor={toContributor(c)} />
+                      <User key={i} contributor={c} />
                     ))}
                   </div>
                 ) : (
@@ -142,7 +137,7 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
             {getCategoryLabel(category)}
           </p>
           <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", marginTop: 0, color: "var(--gf-color-accent)", lineHeight: 1.2 }}>
-            {getServiceLabel(category, service)}
+            {getServiceLabel(category, service, svcInfo?.title)}
           </h1>
           {svcInfo ? (
             <>
@@ -165,7 +160,7 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
     <div className="page-layout">
       <CatalogSidebar />
       <div style={{ flex: 1, minWidth: 0 }}>
-        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", lineHeight: 1.2, marginTop: 0 }}>
+        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", lineHeight: 1.2, marginTop: 0 ,   color: "var(--gf-color-accent-strong)"}}>
           {isCore ? "CCC Core Catalog" : getCategoryLabel(category)}
         </h1>
 
@@ -193,7 +188,7 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
           services.map((svc) => (
             <div key={svc.slug} style={{ marginBottom: "var(--gf-space-xl)" }}>
               <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "1rem", lineHeight: 1.3 }}>
-                {getServiceLabel(category, svc.slug)}
+                {getServiceLabel(category, svc.slug, svc.title)}
               </h2>
               <TypeButtons svcInfo={svc} />
             </div>

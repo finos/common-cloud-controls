@@ -7,7 +7,7 @@ cfi:
   name: CCC AWS VPC Bad Fixture
   description: >-
     Runs behavioural checks against the intentionally non-compliant AWS VPC fixture.
-  path: https://github.com/finos/common-cloud-controls/tree/main/modules/integration-terraform/aws
+  path: modules/integration-terraform/aws
   test-on-branches:
     - main
   git: https://github.com/finos/common-cloud-controls

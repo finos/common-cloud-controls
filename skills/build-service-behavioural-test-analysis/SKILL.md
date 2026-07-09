@@ -46,7 +46,7 @@ Do **not** create `.feature` files or implement Go in this skill unless the user
 
 Copy and track progress:
 
-```
+```text
 Analysis progress:
 - [ ] Step 1: Ingest catalog + metadata
 - [ ] Step 2: Inventory generic/ + plan layout (reuse table + new-only paths)
@@ -69,7 +69,7 @@ Read **both**:
 From `controls.yaml` extract for each AR:
 
 | Field | Source |
-|-------|--------|
+| ------- | -------- |
 | AR id | `assessment-requirements[].id` |
 | Requirement text | `assessment-requirements[].text` |
 | Applicability | `assessment-requirements[].applicability` (TLP tags) |
@@ -86,7 +86,7 @@ From `imported-controls` list **inherited** CCC.Core (or other) ARs that apply t
 Map to test shape:
 
 | AR pattern | Typical test shape |
-|------------|-------------------|
+| ------------ | ------------------- |
 | When X is **created/configured** | Trigger create → observe property (behavioural) |
 | When X is **requested/attempted** | Trigger action → assert denied/permitted (behavioural or dry-run) |
 | When **traffic/data/access** occurs | Trigger activity → query log sink (two-service: resource + `logging`) |
@@ -108,7 +108,7 @@ Document in `analysis.md`:
 
 Reference [modules/features/README.md](../../modules/features/README.md) for naming and routing:
 
-```
+```text
 modules/features/
   generic/                    # shared Core — tag new services here when steps are generic
     CCC.Core/
@@ -124,7 +124,7 @@ modules/features/
 **Reuse rules:**
 
 | Situation | Plan |
-|-----------|------|
+| ----------- | ------ |
 | AR uses `generic.Service` methods (`UpdateResourcePolicy`, `TriggerDataWrite`, `GetResourceRegion`, …) | Add `@<service>` to existing file in `generic/` |
 | AR is `@NotTestable` stub already in generic | Add `@<service>` to same stub |
 | AR is `@PerPort` (TLS, SSH, protocol, TCP deny) | Add `@<service>` in `generic/` or `port/`; routed by `@PerPort` |
@@ -134,7 +134,7 @@ modules/features/
 **Service folder naming** (kebab-case, plural where existing):
 
 | Catalog path | `metadata.id` | Features folder | Factory `service` id |
-|--------------|---------------|-----------------|----------------------|
+| -------------- | --------------- | ----------------- | ---------------------- |
 | `catalogs/networking/vpc` | `CCC.VPC` | `vpc` | `vpc` |
 | `catalogs/storage/object` | `CCC.ObjStor` | `object-storage` | `object-storage` |
 | `catalogs/compute/virtual-machines` | `CCC.VM` | `virtual-machines` | `virtual-machines` |
@@ -146,7 +146,7 @@ modules/features/
 For every AR (native + inherited that you will cover), assign **one** primary disposition:
 
 | Disposition | Meaning | Feature tag |
-|-------------|---------|-------------|
+| ------------- | --------- | ------------- |
 | **Behavioural** | Active trigger + observable outcome in the test run | `@Behavioural` |
 | **Not testable** | Cannot be honestly triggered in CI (subscription init, alert delivery, etc.) | `@NotTestable` + comment |
 | **Covered elsewhere** | AR owned by another catalog (e.g. Core CN04 in ObjStor features) | Reference path only |
@@ -201,7 +201,7 @@ If **zero** service-specific methods are needed (only generic + logging), say so
 For **each** method in your API, cover how implementable it is for the three main cloud APIs:
 
 | Cloud | API / SDK | Implementation notes | Config keys (privateer vars) |
-|-------|-----------|----------------------|------------------------------|
+| ------- | ----------- | ---------------------- | ------------------------------ |
 | AWS | e.g. `ec2:RunInstances` | … | `region`, `aws-flow-log-group-name` |
 | Azure | e.g. `armnetwork` | … | `azure-log-analytics-workspace-id` |
 | GCP | e.g. `compute` / `logadmin` | … | `gcp-project-id`, `gcp-flow-log-name` |

@@ -1,5 +1,3 @@
-import { Contributor } from "./ccc";
-
 export enum TestResultType {
   PASS = "pass",
   FAIL = "fail",

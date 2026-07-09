@@ -32,4 +32,3 @@ services:
       # QueryLogs("flow", ...) call should fail with a clear "no group
       # configured" error. The CN04 @Behavioural scenario is expected to fail.
       # aws-flow-log-group-name: <unset>
-

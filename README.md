@@ -13,7 +13,7 @@ This standard is a collaborative project which aims to develop a unified set of 
 ## How To Use It
 
 - **Browse Online:** The [ccc.finos.org](https://ccc.finos.org) website contains much of the resources of the CCC project in an easily browseable form including:
-  - In progress and published [control catalogs](https://ccc.finos.org/ccc) for common cloud services
+  - In progress and published [control catalogs](https://ccc.finos.org/catalogs) for common cloud services
   - Work in progress results of [Compliant Financial Infrastructure](https://ccc.finos.org/cfi) test runs against those catalogs.
   - [Videos and presentations](https://ccc.finos.org/#:~:text=to%20the%20standard.-,Learn,-More) from OSFF Events.
   - A [CCC Primer Presentation](https://ccc.finos.org/#:~:text=GitHub-,What%20Is%20It?,-FINOS%20Common%20Cloud)

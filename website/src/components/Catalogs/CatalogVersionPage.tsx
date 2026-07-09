@@ -1,9 +1,36 @@
 
 import React from "react";
+import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
-import { MappingCountBadge } from "../ccc/MappingCountBadge";
+import { MappingCountBadge } from "../shared/MappingCountBadge";
+
+export interface CatalogAssessmentRequirement {
+  id: string;
+  text: string;
+  applicability?: string[];
+}
+
+export interface CatalogGuidelineMapping {
+  framework: string;
+  id: string;
+  remarks?: string;
+  url?: string;
+}
+
+export interface CatalogAssessmentRequirement {
+  id: string;
+  text: string;
+  applicability?: string[];
+}
+
+export interface CatalogGuidelineMapping {
+  framework: string;
+  id: string;
+  remarks?: string;
+  url?: string;
+}
 
 export interface CatalogEntry {
   id: string;
@@ -18,7 +45,20 @@ export interface CatalogEntry {
   threatMappingsCount?: number;
   guidelineMappingsCount?: number;
   assessmentRequirementsCount?: number;
+  capabilityRefs?: string[];
+  threatRefs?: string[];
+  assessmentRequirements?: CatalogAssessmentRequirement[];
+  guidelineMappings?: CatalogGuidelineMapping[];
+  externalMappings?: CatalogGuidelineMapping[];
 }
+
+export interface CatalogImport {
+  id: string;
+  title: string;
+  category?: string;
+  service?: string;
+}
+
 
 export interface CatalogVersionData {
   title: string;
@@ -27,6 +67,7 @@ export interface CatalogVersionData {
   category: string;
   service: string;
   entries: CatalogEntry[];
+  imports: CatalogImport[];
 }
 
 interface Props {
@@ -56,6 +97,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
   const showThreatColumns = data.type === "threats";
   const showControlColumns = data.type === "controls";
   const sortedEntries = [...data.entries].sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+  const typePath = `/catalogs/${data.category}/${data.service}/${data.type}/${data.version}`;
   return (
     <div className="library-article-body">
       <table>
@@ -85,7 +127,9 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
         <tbody>
           {sortedEntries.map((entry) => (
             <tr key={entry.id}>
-              <td>{entry.id}</td>
+              <td>
+                <Link to={`${typePath}/${entry.id}`}>{entry.id}</Link>
+              </td>
               <td>{entry.title}</td>
               <td>{data.type === "controls" ? entry.objective : entry.description}</td>
               {showThreatMappings && (
@@ -124,6 +168,28 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           ))}
         </tbody>
       </table>
+
+      {data.imports && data.imports.length > 0 && (<div>
+        <h1>Imports</h1>
+        <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.imports.map((imported) => (
+            <tr key={imported.id}>
+              <td>
+                <Link to={`../../${imported.category}/${imported.service}/${data.type}/${data.version}/${imported.id}`}>{imported.id}</Link>
+              </td>
+              <td>{imported.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>)}
     </div>
   );
 };

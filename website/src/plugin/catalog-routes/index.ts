@@ -18,6 +18,70 @@ export interface CatalogEntry {
   threatMappingsCount?: number;
   guidelineMappingsCount?: number;
   assessmentRequirementsCount?: number;
+  capabilityRefs?: string[];
+  threatRefs?: string[];
+  assessmentRequirements?: CatalogAssessmentRequirement[];
+  guidelineMappings?: CatalogGuidelineMapping[];
+  externalMappings?: CatalogGuidelineMapping[];
+}
+
+export interface CatalogImport {
+  id: string;
+  title: string;
+  category?: string;
+  service?: string;
+}
+
+export interface CatalogAssessmentRequirement {
+  id: string;
+  text: string;
+  applicability?: string[];
+}
+
+export interface CatalogGuidelineMapping {
+  framework: string;
+  id: string;
+  remarks?: string;
+  url?: string;
+}
+
+export interface CatalogRelatedEntry {
+  id: string;
+  title: string;
+  description?: string;
+  url: string;
+}
+
+export interface CatalogEntryDetailData {
+  category: string;
+  service: string;
+  version: string;
+  type: 'capabilities' | 'threats' | 'controls';
+  entry: CatalogEntry;
+  relatedCapabilities?: CatalogRelatedEntry[];
+  relatedThreats?: CatalogRelatedEntry[];
+  relatedControls?: CatalogRelatedEntry[];
+}
+
+// Flat, global cross-reference for a single control's assessment requirement —
+// exposed as plugin global data so other plugins (e.g. cfi-pages) can link to
+// /catalogs/* control pages without depending on the ccc-pages data model.
+export interface CatalogAssessmentRequirementRef {
+  id: string;
+  text: string;
+  controlId: string;
+  controlTitle: string;
+  url: string;
+}
+
+export interface CatalogStructureEntry {
+  slug: string;
+  services: Array<{ slug: string; title: string }>;
+}
+
+export interface CatalogGlobalData {
+  assessmentRequirements: CatalogAssessmentRequirementRef[];
+  catalogStructure: CatalogStructureEntry[];
 }
 
 export interface CatalogVersionData {
@@ -27,6 +91,7 @@ export interface CatalogVersionData {
   category: string;
   service: string;
   entries: CatalogEntry[];
+  imports: CatalogImport[];
 }
 
 export interface CatalogTypeData {
@@ -55,6 +120,7 @@ export interface CatalogReleaseSummary {
 
 export interface CatalogServiceInfo {
   slug: string;
+  title: string;
   types: Array<{ type: string; typePath: string }>;
   releases: CatalogReleaseSummary[];
 }
@@ -79,6 +145,7 @@ interface PluginContent {
   versions: Map<string, CatalogVersionData>;
   types: Map<string, CatalogTypeData>;
   categories: Map<string, CatalogCategoryData>;
+  entryDetails: Map<string, CatalogEntryDetailData>;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -118,18 +185,89 @@ function mapEntries(
     ...(type === 'threats' ? {
       externalMappingsCount: (e['external-mappings'] ?? []).length,
       capabilityMappingsCount: (e.capabilities ?? []).length,
+      capabilityRefs: extractRefIds(e.capabilities),
+      externalMappings: extractGuidelineMappings(e['external-mappings']),
     } : {}),
     ...(type === 'controls' ? {
       family: cleanStr(e._familyTitle ?? e.group ?? ''),
       threatMappingsCount: sumMappingEntries(e.threats),
       guidelineMappingsCount: sumMappingEntries(e.guidelines),
       assessmentRequirementsCount: (e['assessment-requirements'] ?? []).length,
+      threatRefs: extractRefIds(e.threats),
+      assessmentRequirements: ((e['assessment-requirements'] ?? []) as any[]).map((ar) => ({
+        id: String(ar?.id ?? ''),
+        text: cleanStr(ar?.text),
+        applicability: (ar?.applicability ?? []) as string[],
+      })),
+      guidelineMappings: extractGuidelineMappings(e.guidelines),
     } : {}),
   }));
 }
 
+function mapImports(
+  items: any[],
+  idToPath: Map<string, { category: string; service: string }>
+): CatalogImport[] {
+  var allImports : Array<any> = [];
+  items?.forEach((item) => {
+    allImports = allImports.concat(item?.entries);
+  });
+
+  //Using the import ID with the idToPath map to get the category/service used in the entries url
+  allImports.forEach((entry) => {
+    var [categoryId , serviceId , ] = entry?.['reference-id'].split('.');
+    const metadata = idToPath.get(categoryId + '.' + serviceId);
+    entry.category = metadata?.category;
+    entry.service = metadata?.service;    
+  });
+
+  return allImports.map((entry: any) => ({
+    id: String(entry?.['reference-id'] ?? ''),
+    title: cleanStr(entry?.['remarks'] ?? 'default remarks title'),
+    category: cleanStr(entry?.['category'] ?? 'unknown_category'),
+    service: cleanStr(entry?.['service'] ?? 'unknown_service'),
+  }));
+}
+
+
 function sumMappingEntries(mappingGroups: any[] | undefined): number {
   return (mappingGroups ?? []).reduce((sum: number, m: any) => sum + (m.entries?.length ?? 0), 0);
+}
+
+function extractGuidelineMappings(mappingGroups: any[] | undefined): CatalogGuidelineMapping[] {
+  return (mappingGroups ?? []).flatMap((g: any) =>
+    (g.entries ?? []).map((entry: any) => {
+      const framework = String(g?.['reference-id'] ?? '');
+      const id = String(entry?.['reference-id'] ?? '');
+      return {
+        framework,
+        id,
+        remarks: cleanStr(entry?.remarks),
+        url: getExternalFrameworkUrl(framework, id) ?? undefined,
+      };
+    }),
+  );
+}
+
+// Known external-framework URL generators (MITRE ATT&CK, NIST, CSA CCM, etc.) for
+// linking guideline/external mapping IDs back to their source standard.
+function getExternalFrameworkUrl(framework: string, entryId: string): string | null {
+  const urlGenerators: Record<string, (id: string) => string> = {
+    'MITRE-ATT&CK': (id) => `https://attack.mitre.org/techniques/${id}`,
+    'NIST-CSF': (id) => `https://csrc.nist.gov/Projects/cybersecurity-framework/glossary#term-${id.toLowerCase()}`,
+    NIST_800_53: (id) => `https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/SP_800_53_5_2_0/home?keyword=${id}`,
+    ISO_27001: () => `https://www.iso.org/standard/27001`,
+    CCM: () => `https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4/`,
+  };
+
+  const generate = urlGenerators[framework];
+  return generate ? generate(entryId) : null;
+}
+
+function extractRefIds(mappingGroups: any[] | undefined): string[] {
+  return (mappingGroups ?? []).flatMap((m: any) =>
+    (m.entries ?? []).map((e: any) => String(e?.['reference-id'] ?? '')),
+  ).filter(Boolean);
 }
 
 // Resolves each control's family/group title using a top-level `groups` lookup
@@ -185,8 +323,9 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
       const catalogsDir = path.resolve(context.siteDir, '../catalogs');
       const releasesDir = path.join(context.siteDir, 'src/data/ccc-releases');
 
-      // Build metadataId → { category, service } from source catalog metadata.yaml files
+      // Build metadataId → { category, service } and cat/svc → title from source catalog metadata.yaml files
       const idToPath = new Map<string, { category: string; service: string }>();
+      const svcTitles = new Map<string, string>();
       if (fs.existsSync(catalogsDir)) {
         for (const cat of fs.readdirSync(catalogsDir)) {
           const catDir = path.join(catalogsDir, cat);
@@ -198,7 +337,11 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (!fs.existsSync(metaFile)) continue;
             const meta = yaml.load(fs.readFileSync(metaFile, 'utf8')) as Record<string, any>;
             const id = meta?.metadata?.id as string | undefined;
-            if (id) idToPath.set(id, { category: cat, service: svc });
+            const title = cleanStr(meta?.metadata?.title ?? '');
+            if (id) {
+              idToPath.set(id, { category: cat, service: svc });
+              if (title) svcTitles.set(`${cat}/${svc}`, title);
+            }
           }
         }
       }
@@ -217,10 +360,11 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         type: CatalogVersionData['type'],
         title: string,
         entries: CatalogEntry[],
+        imports: CatalogImport[],
       ) => {
         if (!entries.length) return;
         const urlPath = `/catalogs/${loc.category}/${loc.service}/${type}/${version}`;
-        versions.set(urlPath, { title, type, version, category: loc.category, service: loc.service, entries });
+        versions.set(urlPath, { title, type, version, category: loc.category, service: loc.service, entries, imports });
       };
 
       if (fs.existsSync(releasesDir)) {
@@ -257,7 +401,8 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             const rawItems = raw?.[type] ?? [];
             const items = type === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const entries = mapEntries(items, type as CatalogVersionData['type']);
-            addVersion(loc, version, type as CatalogVersionData['type'], title, entries);
+            const imports: CatalogEntry[] = mapImports(raw.imports, idToPath);
+            addVersion(loc, version, type as CatalogVersionData['type'], title, entries, imports);
             if (type === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/${version}`, extractThreatCapabilityRefs(items));
             }
@@ -275,14 +420,17 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (!loc) continue;
             const raw = yaml.load(fs.readFileSync(path.join(releasesDir, filename), 'utf8')) as Record<string, any>;
             const baseTitle = cleanStr(raw?.metadata?.title ?? raw?.title ?? metadataId);
+            const imports: CatalogEntry[] = mapImports(raw.imports, idToPath);
 
             addVersion(loc, version, 'capabilities',
               `${baseTitle} Capabilities`,
               mapEntries(raw.capabilities ?? [], 'capabilities'),
+              mapImports(raw.imports ?? [], idToPath),
             );
             addVersion(loc, version, 'threats',
               `${baseTitle} Threats`,
               mapEntries(raw.threats ?? [], 'threats'),
+              mapImports(raw.imports ?? [], idToPath),
             );
             threatCapMaps.set(`${loc.category}/${loc.service}/${version}`, extractThreatCapabilityRefs(raw.threats ?? []));
             // Controls are nested under control-families[].controls[]
@@ -293,6 +441,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             addVersion(loc, version, 'controls',
               `${baseTitle} Controls`,
               mapEntries(controls, 'controls'),
+              mapImports(raw.imports ?? [], idToPath),
             );
             controlThreatMaps.set(`${loc.category}/${loc.service}/${version}`, extractControlThreatRefs(controls));
           }
@@ -316,7 +465,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (rawItems.length === 0) continue;
             const items = typeName === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const typeLabel = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName));
+            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(raw.imports, idToPath));
             if (typeName === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/DEV`, extractThreatCapabilityRefs(items));
             }
@@ -344,6 +493,59 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             const refs = ctrlMap.get(entry.id);
             if (refs) entry.controlMappings = refs;
           }
+        }
+      }
+
+      // Build global id -> { entry, url } indices per type, for resolving cross-catalog references
+      const globalIndex: Record<CatalogVersionData['type'], Map<string, { entry: CatalogEntry; url: string }>> = {
+        capabilities: new Map(),
+        threats: new Map(),
+        controls: new Map(),
+      };
+      for (const [urlPath, data] of versions) {
+        for (const entry of data.entries) {
+          if (!globalIndex[data.type].has(entry.id)) {
+            globalIndex[data.type].set(entry.id, { entry, url: `${urlPath}/${entry.id}` });
+          }
+        }
+      }
+
+      const resolveRefs = (ids: string[] | undefined, index: Map<string, { entry: CatalogEntry; url: string }>): CatalogRelatedEntry[] =>
+        (ids ?? []).map((id) => {
+          const found = index.get(id);
+          return found
+            ? { id, title: found.entry.title, description: found.entry.description ?? found.entry.objective, url: found.url }
+            : { id, title: id, url: '#' };
+        });
+
+      // Build per-entry detail data, keyed by the entry's own url path
+      const entryDetails = new Map<string, CatalogEntryDetailData>();
+      for (const [urlPath, data] of versions) {
+        for (const entry of data.entries) {
+          const detail: CatalogEntryDetailData = {
+            category: data.category,
+            service: data.service,
+            version: data.version,
+            type: data.type,
+            entry,
+          };
+          if (data.type === 'capabilities') {
+            detail.relatedThreats = resolveRefs(entry.threatMappings, globalIndex.threats);
+          } else if (data.type === 'threats') {
+            detail.relatedCapabilities = resolveRefs(entry.capabilityRefs, globalIndex.capabilities);
+            detail.relatedControls = resolveRefs(entry.controlMappings, globalIndex.controls);
+          } else if (data.type === 'controls') {
+            detail.relatedThreats = resolveRefs(entry.threatRefs, globalIndex.threats);
+            // Related capabilities for a control are derived transitively: control -> its threats -> those threats' capabilities
+            const capIds = new Set<string>();
+            for (const threatId of entry.threatRefs ?? []) {
+              for (const capId of globalIndex.threats.get(threatId)?.entry.capabilityRefs ?? []) {
+                capIds.add(capId);
+              }
+            }
+            detail.relatedCapabilities = resolveRefs([...capIds], globalIndex.capabilities);
+          }
+          entryDetails.set(`${urlPath}/${entry.id}`, detail);
         }
       }
 
@@ -414,6 +616,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
               .sort((a, b) => compareVersionTags(a.version, b.version));
             return {
               slug,
+              title: svcTitles.get(`${cat}/${slug}`) ?? slug,
               types: TYPE_ORDER
                 .filter(t => typeSet.has(t))
                 .map(type => ({ type, typePath: `/catalogs/${cat}/${slug}/${type}` })),
@@ -423,12 +626,35 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         });
       }
 
-      return { versions, types, categories };
+      return { versions, types, categories, entryDetails };
     },
 
-    async contentLoaded({ content: { versions, types, categories }, actions }) {
-      const { createData, addRoute } = actions;
+    async contentLoaded({ content: { versions, types, categories, entryDetails }, actions }) {
+      const { createData, addRoute, setGlobalData } = actions;
       const added = new Set<string>();
+
+      // Expose a flat assessment-requirement index as global data so other plugins
+      // (e.g. cfi-pages) can cross-link to /catalogs/* control pages directly.
+      const assessmentRequirements: CatalogAssessmentRequirementRef[] = [];
+      for (const [entryUrl, detail] of entryDetails) {
+        if (detail.type !== 'controls') continue;
+        for (const ar of detail.entry.assessmentRequirements ?? []) {
+          assessmentRequirements.push({
+            id: ar.id,
+            text: ar.text,
+            controlId: detail.entry.id,
+            controlTitle: detail.entry.title,
+            url: `${entryUrl}#${ar.id}`,
+          });
+        }
+      }
+      const catalogStructure: CatalogStructureEntry[] = Array.from(categories.entries())
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([catSlug, catData]) => ({
+          slug: catSlug,
+          services: catData.services.map((svc) => ({ slug: svc.slug, title: svc.title })),
+        }));
+      setGlobalData({ assessmentRequirements, catalogStructure } satisfies CatalogGlobalData);
 
       const add = (routePath: string, modules?: Record<string, string>) => {
         if (added.has(routePath)) return;
@@ -468,6 +694,18 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         const typeIndexFile = typeIndexFiles.get(data.type);
         if (typeIndexFile) modules.catalogTypeIndexData = typeIndexFile;
         add(urlPath, modules);
+      }
+
+      // Entry routes — /catalogs/<cat>/<svc>/<type>/<version>/<entryId>
+      for (const [entryUrlPath, detail] of entryDetails) {
+        const dataFile = await createData(
+          `catalog-entry${entryUrlPath.replace(/\//g, '-')}.json`,
+          JSON.stringify(detail),
+        );
+        const modules: Record<string, string> = { catalogEntryData: dataFile };
+        const typeIndexFile = typeIndexFiles.get(detail.type);
+        if (typeIndexFile) modules.catalogTypeIndexData = typeIndexFile;
+        add(entryUrlPath, modules);
       }
 
       // Type routes — include type index so sidebar stays filtered

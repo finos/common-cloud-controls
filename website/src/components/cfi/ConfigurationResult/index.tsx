@@ -3,7 +3,8 @@ import Link from "@docusaurus/Link";
 import Layout from "@theme/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { ConfigurationResultPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail, DownloadLink, RequirementLink } from "@site/src/types/cfi";
-import { useCCCData, findAssessmentRequirements, getControlUrl } from "@site/src/utils/cccDataLookup";
+import { useCatalogAssessmentRequirements, buildAssessmentRequirementIndex } from "@site/src/utils/catalogDataLookup";
+import type { CatalogAssessmentRequirementRef } from "@site/src/plugin/catalog-routes";
 
 // Helper function to extract catalog ID from test requirement
 function extractCatalogId(testRequirement: string): string {
@@ -32,54 +33,43 @@ function serviceCatalogsFromTests(testedRequirementsByCatalog: Map<string, Set<s
 }
 
 /**
- * Whether an assessment requirement from `release` counts toward the "necessary" set.
- * When service catalogs are known from tests, only those releases contribute (e.g. only CCC.ObjStor
+ * Whether an assessment requirement belonging to `catalogId` counts toward the "necessary" set.
+ * When service catalogs are known from tests, only those catalogs contribute (e.g. only CCC.ObjStor
  * for object-storage runs), so Core ARs from other catalogs (Logging, VM, …) are excluded.
  */
 function shouldAddToNecessaryRequirementIds(
-  release: { metadata: { id: string } },
   catalogId: string,
   serviceCatalogIds: string[],
   useServiceCatalogScope: boolean,
   testedRequirementsByCatalog: Map<string, Set<string>>
 ): boolean {
-  if (release.metadata.id === "CCC.Core") {
+  if (catalogId === "CCC.Core") {
     return false;
   }
-  if (useServiceCatalogScope && !serviceCatalogIds.includes(release.metadata.id)) {
+  if (useServiceCatalogScope && !serviceCatalogIds.includes(catalogId)) {
     return false;
   }
   if (testedRequirementsByCatalog.has(catalogId)) {
     return true;
   }
-  // Core controls inlined under a scoped service release belong to that catalog bundle.
-  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(release.metadata.id)) {
+  // Core controls inlined under a scoped service catalog belong to that catalog bundle.
+  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(catalogId)) {
     return true;
   }
   return false;
 }
 
-function convertToLink(reqId: string, releases: any[]): RequirementLink {
-  let title = reqId;
-  let catalogId = extractCatalogId(reqId);
-  let url = "#";
-  for (const release of releases) {
-    if (release.metadata.id === catalogId) {
-      for (const control of release.controls) {
-        const requirement = control.test_requirements?.find((req) => req.id === reqId);
-        if (requirement) {
-          title = requirement.text || reqId;
-          url = getControlUrl(release, control, reqId);
-          break;
-        }
-      }
-    }
-  }
-  return { id: reqId, url, title };
+function convertToLink(reqId: string, requirementIndex: Map<string, CatalogAssessmentRequirementRef>): RequirementLink {
+  const found = requirementIndex.get(reqId);
+  return { id: reqId, url: found?.url ?? "#", title: found?.text || reqId };
 }
 
 // Helper function to generate catalog summary data
-function generateCatalogSummary(testResults: TestResultItem[], releases: any[]): ControlCatalogSummary[] {
+function generateCatalogSummary(
+  testResults: TestResultItem[],
+  allRequirements: CatalogAssessmentRequirementRef[],
+  requirementIndex: Map<string, CatalogAssessmentRequirementRef>,
+): ControlCatalogSummary[] {
   // First, collect all tested requirements by catalog
   const testedRequirementsByCatalog = new Map<string, Set<string>>();
   testResults.forEach((result) => {
@@ -100,26 +90,17 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
   const serviceCatalogIds = serviceCatalogsFromTests(testedRequirementsByCatalog);
   const useServiceCatalogScope = serviceCatalogIds.length > 0;
 
-  releases.forEach((release) => {
-    release.controls.forEach((control) => {
-      control.test_requirements?.forEach((req) => {
-        const catalogId = extractCatalogId(req.id);
-        if (testedRequirementsByCatalog.has(catalogId)) {
-          if (!allRequirementsByCatalog.has(catalogId)) {
-            allRequirementsByCatalog.set(catalogId, new Set());
-          }
-          if (catalogId == release.metadata.id) {
-            // this means we only include non-imported requirements
-            allRequirementsByCatalog.get(catalogId)!.add(req.id);
-          }
-        }
-        if (
-          shouldAddToNecessaryRequirementIds(release, catalogId, serviceCatalogIds, useServiceCatalogScope, testedRequirementsByCatalog)
-        ) {
-          allNecessaryRequirementIds.add(req.id);
-        }
-      });
-    });
+  allRequirements.forEach((req) => {
+    const catalogId = extractCatalogId(req.id);
+    if (testedRequirementsByCatalog.has(catalogId)) {
+      if (!allRequirementsByCatalog.has(catalogId)) {
+        allRequirementsByCatalog.set(catalogId, new Set());
+      }
+      allRequirementsByCatalog.get(catalogId)!.add(req.id);
+    }
+    if (shouldAddToNecessaryRequirementIds(catalogId, serviceCatalogIds, useServiceCatalogScope, testedRequirementsByCatalog)) {
+      allNecessaryRequirementIds.add(req.id);
+    }
   });
 
   // Now for each unique catalog ID, count this test result once and collect all resources
@@ -149,9 +130,9 @@ function generateCatalogSummary(testResults: TestResultItem[], releases: any[]):
       totalTests: testsInCatalog.length,
       passingTests: testsInCatalog.filter((result) => result.status_code === "PASS").length,
       failingTests: testsInCatalog.filter((result) => result.status_code === "FAIL").length,
-      unusedRequirements: Array.from(unusedRequirementIds).map((reqId) => convertToLink(reqId, releases)),
-      testedRequirements: Array.from(testedRequirementIds).map((reqId) => convertToLink(reqId, releases)),
-      missingRequirements: Array.from(missingRequirementIds).map((reqId) => convertToLink(reqId, releases)),
+      unusedRequirements: Array.from(unusedRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
+      testedRequirements: Array.from(testedRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
+      missingRequirements: Array.from(missingRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
     };
 
     return out;
@@ -327,7 +308,8 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   const repoDestination = results_relative_path.split("/")[0];
   const repoHref = `/cfi/${repoDestination}`;
   const configurationHref = `/cfi/${results_relative_path}`;
-  const { releases } = useCCCData();
+  const allRequirements = useCatalogAssessmentRequirements();
+  const requirementIndex = buildAssessmentRequirementIndex(allRequirements);
 
   // Use test results from this specific configuration result
   const testResults = configurationResult.test_results;
@@ -336,7 +318,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   const testResultsWithCCC = testResults.filter((result) => result.test_requirements && result.test_requirements.length > 0);
 
   // Generate catalog summary data
-  const catalogSummary = testResultsWithCCC.length > 0 ? generateCatalogSummary(testResultsWithCCC, releases) : [];
+  const catalogSummary = testResultsWithCCC.length > 0 ? generateCatalogSummary(testResultsWithCCC, allRequirements, requirementIndex) : [];
 
   // Generate resource summary data from test results
   const resourceSummary = testResults.length > 0 ? generateResourceSummary(testResults) : [];
@@ -393,14 +375,14 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
           </span>
         </nav>
         <Card>
-          <CardHeader>
-            <CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>
               {configurationResult.product} {configurationResult.version}
             </CardTitle>
             <p className="text-sm text-muted-foreground">Test results for this specific product, vendor, and version combination</p>
           </CardHeader>
           <CardContent>
-            <div className="library-article-body"><table>
+            <div className="library-article-body"><div style={{ display: "flex", justifyContent: "center" }}><table>
               <tbody>
                 <tr>
                   <td className="font-medium w-32">Vendor</td>
@@ -421,21 +403,21 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                   </td>
                 </tr>
               </tbody>
-            </table></div>
+            </table></div></div>
           </CardContent>
         </Card>
 
         {/* Download Raw Results */}
         {configurationResult.download_links && configurationResult.download_links.length > 0 && (
           <Card>
-            <CardHeader>
-              <CardTitle>Download Raw Results</CardTitle>
+            <CardHeader className="text-center">
+              <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Download Raw Results</CardTitle>
               <p className="text-sm text-muted-foreground">
                 Download the original OCSF, Gemara, or HTML result files used to generate this page
               </p>
             </CardHeader>
             <CardContent>
-              <div className="library-article-body"><table>
+              <div className="library-article-body"><div style={{ display: "flex", justifyContent: "center" }}><table>
                 <thead>
                   <tr>
                     <th>File Name</th>
@@ -464,20 +446,20 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                     </tr>
                   ))}
                 </tbody>
-              </table></div>
+              </table></div></div>
             </CardContent>
           </Card>
         )}
 
         {/* Test Summary */}
         <Card>
-          <CardHeader>
-            <CardTitle>Test Summary</CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Test Summary</CardTitle>
             <p className="text-sm text-muted-foreground">Aggregate summary of all tests for this configuration result</p>
           </CardHeader>
           <CardContent>
             {testSummary ? (
-              <div className="library-article-body"><table>
+              <div className="library-article-body"><div style={{ display: "flex", justifyContent: "center" }}><table>
                 <tbody>
                   <tr>
                     <td className="font-medium w-48">Resources In Configuration</td>
@@ -520,7 +502,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                     </td>
                   </tr>
                 </tbody>
-              </table></div>
+              </table></div></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test summary data available.</div>
             )}
@@ -529,13 +511,13 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
 
         {/* Control Catalog Summary */}
         <Card>
-          <CardHeader>
-            <CardTitle>Control Catalog Summary</CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Control Catalog Summary</CardTitle>
             <p className="text-sm text-muted-foreground">Summary of test results grouped by control catalog and resource</p>
           </CardHeader>
           <CardContent>
             {catalogSummary && catalogSummary.length > 0 ? (
-                <div className="library-article-body"><table>
+                <div className="library-article-body"><div style={{ display: "flex", justifyContent: "center" }}><table>
                   <thead>
                     <tr>
                       <th>Control Catalog</th>
@@ -632,7 +614,7 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                       </tr>
                     ))}
                   </tbody>
-                </table></div>
+                </table></div></div>
             ) : (
               <div className="text-center py-8 text-gray-500">No control catalog data available for summarization.</div>
             )}
@@ -641,72 +623,74 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
 
         {/* Test Mapping Summary */}
         <Card>
-          <CardHeader>
-            <CardTitle>Test Mapping Summary</CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Test Mapping Summary</CardTitle>
             <p className="text-sm text-muted-foreground">Summary of test mappings showing how event codes map to test requirements</p>
           </CardHeader>
           <CardContent>
             {testMappingSummary && testMappingSummary.length > 0 ? (
-                <div className="library-article-body"><table>
-                  <thead>
-                    <tr>
-                      <th>Control Catalog</th>
-                      <th>Test Requirement</th>
-                      <th>Mapped Tests (Event Code | Total | Passing | Failing)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {testMappingSummary.map((mapping, index) => (
-                      <tr key={index}>
-                        <td className="font-medium">
-                          {mapping.controlCatalog}
-                        </td>
-                        <td>
-                          {(() => {
-                            const requirementData = findAssessmentRequirements(releases, [mapping.testRequirementId])[0];
-                            if (requirementData) {
-                              const { requirement, control, release } = requirementData;
-                              const linkUrl = getControlUrl(release, control, requirement.id);
-                              return (
-                                <div>
-                                  <Link to={linkUrl} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
-                                    {mapping.testRequirementId}
-                                  </Link>
-                                  <div className="text-sm text-gray-600 mt-1">{requirement.text || "No description"}</div>
-                                </div>
-                              );
-                            } else {
-                              return (
-                                <div>
-                                  <span className="font-mono text-sm text-red-600 font-medium">{mapping.testRequirementId}</span>
-                                  <div className="text-sm text-gray-500 italic mt-1">Description not available</div>
-                                </div>
-                              );
-                            }
-                          })()}
-                        </td>
-                        <td className="w-full">
-                          <div className="p-2 rounded">
-                            <div className="w-full">
-                              {mapping.mappedTests.map((test, testIndex) => (
-                                <div key={testIndex} className="flex items-center justify-between py-1 border-b border-gray-200 last:border-b-0">
-                                  <div className="flex-1 min-w-0">
-                                    <code className="bg-white px-2 py-1 rounded text-xs">{test.eventCode}</code>
-                                  </div>
-                                  <div className="flex items-center gap-2 ml-4">
-                                    <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{test.totalTests}</span>
-                                    <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{test.passingTests}</span>
-                                    <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{test.failingTests}</span>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </td>
+              <div className="library-article-body">
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Control Catalog</th>
+                        <th>Test Requirement</th>
+                        <th>Mapped Tests (Event Code | Total | Passing | Failing)</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table></div>
+                    </thead>
+                    <tbody>
+                      {testMappingSummary.map((mapping, index) => (
+                        <tr key={index}>
+                          <td className="font-medium">
+                            {mapping.controlCatalog}
+                          </td>
+                          <td>
+                            {(() => {
+                              const requirementData = requirementIndex.get(mapping.testRequirementId);
+                              if (requirementData) {
+                                return (
+                                  <div>
+                                    <Link to={requirementData.url} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
+                                      {mapping.testRequirementId}
+                                    </Link>
+                                    <div className="text-sm text-gray-600 mt-1">{requirementData.text || "No description"}</div>
+                                  </div>
+                                );
+                              } else {
+                                return (
+                                  <div>
+                                    <span className="font-mono text-sm text-red-600 font-medium">{mapping.testRequirementId}</span>
+                                    <div className="text-sm text-gray-500 italic mt-1">Description not available</div>
+                                  </div>
+                                );
+                              }
+                            })()}
+                          </td>
+                          <td className="w-full">
+                            <div className="p-2 rounded">
+                              <div className="w-full">
+                                {mapping.mappedTests.map((test, testIndex) => (
+                                  <div key={testIndex} className="flex items-center justify-between py-1 border-b border-gray-200 last:border-b-0">
+                                    <div className="flex-1 min-w-0">
+                                      <code className="bg-white px-2 py-1 rounded text-xs">{test.eventCode}</code>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-4">
+                                      <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{test.totalTests}</span>
+                                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{test.passingTests}</span>
+                                      <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{test.failingTests}</span>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test mapping data available.</div>
             )}
@@ -715,60 +699,64 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
 
         {/* Resource Summary */}
         <Card>
-          <CardHeader>
-            <CardTitle>Resource Summary</CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Resource Summary</CardTitle>
             <p className="text-sm text-muted-foreground">Summary of all resources mentioned in OCSF results</p>
           </CardHeader>
           <CardContent>
             {resourceSummary && resourceSummary.length > 0 ? (
-                <div className="library-article-body"><table>
-                  <thead>
-                    <tr>
-                      <th>Resource Name</th>
-                      <th>Resource Type</th>
-                      <th>Control Catalogs</th>
-                      <th>Total Tests</th>
-                      <th>Passing</th>
-                      <th>Failing</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {resourceSummary.map((summary, index) => (
-                      <tr key={index}>
-                        <td className="font-mono text-sm">
-                          <div className="truncate max-w-xs" title={summary.resourceName}>
-                            {summary.resourceName}
-                          </div>
-                        </td>
-                        <td>
-                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{summary.resourceType}</span>
-                        </td>
-                        <td>
-                          <div className="flex flex-wrap gap-1">
-                            {summary.catalogs.length > 0 ? (
-                              summary.catalogs.map((catalog, catalogIndex) => (
-                                <span key={catalogIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
-                                  {catalog}
-                                </span>
-                              ))
-                            ) : (
-                              <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
-                            )}
-                          </div>
-                        </td>
-                        <td>
-                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
-                        </td>
-                        <td>
-                          <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
-                        </td>
-                        <td>
-                          <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
-                        </td>
+              <div className="library-article-body">
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Resource Name</th>
+                        <th>Resource Type</th>
+                        <th>Control Catalogs</th>
+                        <th>Total Tests</th>
+                        <th>Passing</th>
+                        <th>Failing</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table></div>
+                    </thead>
+                    <tbody>
+                      {resourceSummary.map((summary, index) => (
+                        <tr key={index}>
+                          <td className="font-mono text-sm">
+                            <div className="truncate max-w-xs" title={summary.resourceName}>
+                              {summary.resourceName}
+                            </div>
+                          </td>
+                          <td>
+                            <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{summary.resourceType}</span>
+                          </td>
+                          <td>
+                            <div className="flex flex-wrap gap-1">
+                              {summary.catalogs.length > 0 ? (
+                                summary.catalogs.map((catalog, catalogIndex) => (
+                                  <span key={catalogIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                                    {catalog}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
+                          </td>
+                          <td>
+                            <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
+                          </td>
+                          <td>
+                            <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             ) : (
               <div className="text-center py-8 text-gray-500">No resource data available.</div>
             )}
@@ -777,71 +765,73 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
 
         {/* OCSF Test Results */}
         <Card>
-          <CardHeader>
-            <CardTitle>Test Results</CardTitle>
+          <CardHeader className="text-center">
+            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Test Results</CardTitle>
             <p className="text-sm text-muted-foreground">OCSF test results filtered for entries with CCC compliance mappings</p>
           </CardHeader>
           <CardContent>
             {testResultsWithCCC && testResultsWithCCC.length > 0 ? (
-                <div className="library-article-body"><table>
-                  <thead>
-                    <tr>
-                      <th>Status</th>
-                      <th>Finding</th>
-                      <th>Resource Name</th>
-                      <th>Resource Type</th>
-                      <th>Message</th>
-                      <th>Test Requirements</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {testResultsWithCCC.map((result) => (
-                      <tr key={result.id}>
-                        <td>
-                          <span className={`px-2 py-1 text-xs rounded-full font-medium ${result.status_code === "PASS" ? "bg-green-100 text-green-800" : result.status_code === "FAIL" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}>{result.status_code}</span>
-                        </td>
-                        <td className="max-w-md">
-                          <div className="font-medium text-sm whitespace-normal break-words">{result.finding_title || result.name}</div>
-                          {result.status_detail && <div className="text-xs text-gray-600 mt-1 whitespace-normal break-words">{result.status_detail}</div>}
-                        </td>
-                        <td className="font-mono text-sm">
-                          <div className="truncate max-w-xs" title={result.resource_name}>
-                            {result.resource_name}
-                          </div>
-                        </td>
-                        <td>
-                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{result.resource_type}</span>
-                        </td>
-                        <td className="max-w-md">
-                          <div className="text-sm whitespace-normal break-words">{result.message}</div>
-                        </td>
-                        <td>
-                          <div className="flex flex-wrap gap-1">
-                            {result.test_requirements?.map((requirementId, index) => {
-                              const requirementData = findAssessmentRequirements(releases, [requirementId])[0];
-                              if (requirementData) {
-                                const { requirement, control, release } = requirementData;
-                                const linkUrl = getControlUrl(release, control, requirement.id);
-                                return (
-                                  <Link key={index} to={linkUrl} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono hover:bg-blue-200 hover:text-blue-900 transition-colors" title={`${control.title}: ${requirement.text}`}>
-                                    {requirementId}
-                                  </Link>
-                                );
-                              } else {
-                                // Fallback for requirements not found in CCC data (broken mapping)
-                                return (
-                                  <span key={index} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-mono font-medium" title="Broken mapping">
-                                    {requirementId}
-                                  </span>
-                                );
-                              }
-                            })}
-                          </div>
-                        </td>
+              <div className="library-article-body">
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Status</th>
+                        <th>Finding</th>
+                        <th>Resource Name</th>
+                        <th>Resource Type</th>
+                        <th>Message</th>
+                        <th>Test Requirements</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table></div>
+                    </thead>
+                    <tbody>
+                      {testResultsWithCCC.map((result) => (
+                        <tr key={result.id}>
+                          <td>
+                            <span className={`px-2 py-1 text-xs rounded-full font-medium ${result.status_code === "PASS" ? "bg-green-100 text-green-800" : result.status_code === "FAIL" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}>{result.status_code}</span>
+                          </td>
+                          <td className="max-w-md">
+                            <div className="font-medium text-sm whitespace-normal break-words">{result.finding_title || result.name}</div>
+                            {result.status_detail && <div className="text-xs text-gray-600 mt-1 whitespace-normal break-words">{result.status_detail}</div>}
+                          </td>
+                          <td className="font-mono text-sm">
+                            <div className="truncate max-w-xs" title={result.resource_name}>
+                              {result.resource_name}
+                            </div>
+                          </td>
+                          <td>
+                            <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{result.resource_type}</span>
+                          </td>
+                          <td className="max-w-md">
+                            <div className="text-sm whitespace-normal break-words">{result.message}</div>
+                          </td>
+                          <td>
+                            <div className="flex flex-wrap gap-1">
+                              {result.test_requirements?.map((requirementId, index) => {
+                                const requirementData = requirementIndex.get(requirementId);
+                                if (requirementData) {
+                                  return (
+                                    <Link key={index} to={requirementData.url} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono hover:bg-blue-200 hover:text-blue-900 transition-colors" title={`${requirementData.controlTitle}: ${requirementData.text}`}>
+                                      {requirementId}
+                                    </Link>
+                                  );
+                                } else {
+                                  // Fallback for requirements not found in CCC data (broken mapping)
+                                  return (
+                                    <span key={index} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-mono font-medium" title="Broken mapping">
+                                      {requirementId}
+                                    </span>
+                                  );
+                                }
+                              })}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             ) : (
               <div className="text-center py-8 text-gray-500">No test results found with CCC compliance mappings.</div>
             )}

@@ -49,7 +49,7 @@ const config: Config = {
     ],
   ],
 
-  plugins: ["./src/plugin/ccc-pages/index.ts", "./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts", "./src/plugin/ecosystems-pages/index.ts"],
+  plugins: ["./src/plugin/cfi-pages/index.ts", "./src/plugin/catalog-routes/index.ts", "./src/plugin/ecosystems-pages/index.ts"],
 
   themeConfig: {
     style: "dark",
@@ -64,6 +64,7 @@ const config: Config = {
       },
       items: [
         { to: '/about', label: 'About', position: 'right' },
+        { to: '/architecture', label: 'Architecture', position: 'right' },
         {
           label: "Catalogs",
           to: "/catalogs",
@@ -121,6 +122,10 @@ const config: Config = {
         {
           label: "About",
           to: "/about",
+        },
+        {
+          label: "Architecture",
+          to: "/architecture",
         },
         {
           label: "Catalogs",
