@@ -25,7 +25,7 @@ export default function SimpleIntro() {
           Technology-agnostic security controls for public and private cloud.
         </p>
 
-        <section >
+      <section >
           <Link
             to="/catalogs"
             className={styles.button}
@@ -34,7 +34,10 @@ export default function SimpleIntro() {
           >
           Explore the Catalogs
           </Link>
-        </section>
+          <i className={styles.catalog_preview}>
+            Controls: 34 • Threats: 20 •  Capabilities: 89
+          </i>
+      </section>
     </HomeSection>
   );
 }

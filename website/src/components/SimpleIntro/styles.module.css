@@ -71,6 +71,13 @@ html[data-theme=dark] .cta {
 	text-decoration: none;
 }
 
+.catalog_preview{
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	color: var(--gf-color-accent);
+}
+
 @media screen and (max-width: 600px) {
   .strap {font-size: 1rem;}
 }
