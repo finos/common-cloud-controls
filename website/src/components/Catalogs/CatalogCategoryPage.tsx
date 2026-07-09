@@ -160,7 +160,7 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
     <div className="page-layout">
       <CatalogSidebar />
       <div style={{ flex: 1, minWidth: 0 }}>
-        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", lineHeight: 1.2, marginTop: 0 }}>
+        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", lineHeight: 1.2, marginTop: 0 ,   color: "var(--gf-color-accent-strong)"}}>
           {isCore ? "CCC Core Catalog" : getCategoryLabel(category)}
         </h1>
 
