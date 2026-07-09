@@ -110,7 +110,9 @@ jobs:
         run: |
           set -euo pipefail
           out_dir="$RUNNER_TEMP/compiled"
+          fail_log="$RUNNER_TEMP/gemara-failures.txt"
           rm -rf "$out_dir" && mkdir -p "$out_dir"
+          : > "$fail_log"
 
           # Each asset type maps to its #ArtifactType CUE definition.
           declare -A cue_def=(
@@ -118,6 +120,21 @@ jobs:
             [threats]='#ThreatCatalog'
             [controls]='#ControlCatalog'
           )
+
+          record_failure() {
+            local src="$1" stage="$2" detail="$3"
+            {
+              echo "FILE: $src"
+              echo "STAGE: $stage"
+              echo "DETAIL:"
+              printf '%s\n' "$detail"
+              echo "---"
+            } >> "$fail_log"
+            # GitHub annotations: keep the message short; full detail is in the log.
+            local summary
+            summary=$(printf '%s' "$detail" | head -5 | tr '\n' ' ' | cut -c1-500)
+            echo "::error file=${src},title=Gemara ${stage} failed::${summary}"
+          }
 
           fail=0
           while IFS= read -r tgt; do
@@ -128,32 +145,71 @@ jobs:
                 continue
               fi
 
-              echo "::group::compile $tgt $asset"
+              echo "::group::compile $tgt $asset ($src)"
+              compile_log=$(mktemp)
               if ! "$RUNNER_TEMP/delivery-toolkit" compile \
                     --build-target "$tgt" \
                     --type "$asset" \
                     --catalogs-dir catalogs \
                     --output-dir "$out_dir" \
-                    --version v0.0.0-ci; then
-                echo "::error file=$src::delivery-toolkit failed to compile $tgt/$asset"
+                    --version v0.0.0-ci \
+                    2>&1 | tee "$compile_log"; then
+                record_failure "$src" "compile" "$(cat "$compile_log")"
                 fail=1
+                rm -f "$compile_log"
                 echo '::endgroup::'
                 continue
               fi
+              rm -f "$compile_log"
               echo '::endgroup::'
 
               compiled="$out_dir/$tgt/$asset.yaml"
               def="${cue_def[$asset]}"
-              echo "::group::validate $tgt $asset against $def"
-              if ! cue vet -d "$def" "${GEMARA_MODULE}@${GEMARA_SPEC_REF}" "$compiled"; then
-                echo "::error file=$src::compiled $tgt/$asset failed Gemara $GEMARA_SPEC_REF schema validation"
+              echo "::group::validate $tgt $asset against $def ($src)"
+              vet_log=$(mktemp)
+              if ! cue vet -d "$def" "${GEMARA_MODULE}@${GEMARA_SPEC_REF}" "$compiled" 2>&1 | tee "$vet_log"; then
+                detail=$(printf '%s\n' \
+                  "Source file: $src" \
+                  "Compiled artifact: $compiled" \
+                  "Gemara schema: ${GEMARA_MODULE}@${GEMARA_SPEC_REF} ${def}" \
+                  "" \
+                  "$(cat "$vet_log")")
+                record_failure "$src" "schema validation" "$detail"
                 fail=1
               fi
+              rm -f "$vet_log"
               echo '::endgroup::'
             done
           done <<< "$TARGETS"
 
           if [ "$fail" -ne 0 ]; then
-            echo "::error::One or more touched catalog YAMLs failed Gemara schema validation."
+            echo ""
+            echo "========================================="
+            echo "Gemara validation failures"
+            echo "========================================="
+            echo "Failed source catalog file(s):"
+            grep '^FILE:' "$fail_log" | sed 's/^FILE: /  - /'
+            echo ""
+            while IFS= read -r line || [ -n "$line" ]; do
+              case "$line" in
+                FILE:*)
+                  echo ""
+                  echo "$line" | sed 's/^FILE: /## /'
+                  ;;
+                STAGE:*)
+                  echo "$line"
+                  ;;
+                DETAIL:)
+                  ;;
+                ---)
+                  ;;
+                *)
+                  printf '  %s\n' "$line"
+                  ;;
+              esac
+            done < "$fail_log"
+            echo "========================================="
+            failed_files=$(grep '^FILE:' "$fail_log" | sed 's/^FILE: //' | paste -sd ', ' -)
+            echo "::error title=Gemara schema check failed::Failed file(s): ${failed_files}"
             exit 1
           fi
