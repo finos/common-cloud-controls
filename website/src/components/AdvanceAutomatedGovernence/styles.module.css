@@ -55,7 +55,7 @@
 }
 
 .sectionTitle {
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 700;
   text-align: center;
   margin-top: 1rem;
@@ -77,10 +77,11 @@
 }
 
 .catalogsTitle {
-  font-size: 1.3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   text-align: left;
   margin-bottom: 2rem;
+  color: var(--gf-color-accent-strong);
 }
 
 .catalogsLayout {
@@ -104,4 +105,9 @@
   max-width: 270px;
   width: 100%;
   height: auto;
+}
+
+h1{
+  font-size: 2.5rem;
+  color: var(--gf-color-accent-strong);
 }
