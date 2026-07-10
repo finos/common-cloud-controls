@@ -15,15 +15,17 @@ jobs:
         with:
           tool: lychee
 
-      # External sites are flaky; retry the full run before failing the check.
       - name: Link Checker
-        uses: nick-fields/retry@v4
-        with:
-          timeout_minutes: 15
-          max_attempts: 3
-          retry_wait_seconds: 45
-          command: |
-            mkdir -p lychee
-            lychee --root-dir "${GITHUB_WORKSPACE}" --verbose --accept 429 --max-retries 5 --retry-wait-time 2 --no-progress './**/*.md' --output lychee/results.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p lychee
+          lychee \
+            --root-dir "${GITHUB_WORKSPACE}" \
+            --verbose \
+            --no-progress \
+            --max-retries 5 \
+            --retry-wait-time 2 \
+            --accept '200..=299,429' \
+            --output lychee/results.md \
+            './**/*.md'
