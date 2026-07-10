@@ -24,6 +24,6 @@ jobs:
           retry_wait_seconds: 45
           command: |
             mkdir -p lychee
-            lychee --base . --verbose --accept 429 --max-retries 5 --retry-wait-time 2 --no-progress './**/*.md' --output lychee/results.md
+            lychee --root-dir "${GITHUB_WORKSPACE}" --verbose --accept 429 --max-retries 5 --retry-wait-time 2 --no-progress './**/*.md' --output lychee/results.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
