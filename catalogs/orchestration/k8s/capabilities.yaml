@@ -41,7 +41,7 @@ capabilities:
     group: Orchestration
     title: Managed Kubernetes Control Plane
     description: |
-      The service always supplies a Kubernetes-conformant control plane whose foundational
+      The service supplies a Kubernetes-conformant control plane whose foundational
       components, health, and availability are automatically maintained by the provider.
 
   - id: CCC.K8S.CP02
