@@ -903,25 +903,27 @@ controls:
     group: Access
     title: Enforce Managed Cluster Authentication
     objective: |
-      Bind cluster administrative access to identities and credentials that can be centrally
-      governed, monitored, and revoked.
+      Bind human access to the Kubernetes API and cluster resources to identities that can
+      be centrally governed, monitored, and revoked.
     assessment-requirements:
       - id: CCC.K8S.CN17.AR01
         text: |
-          Cluster administrative access MUST use lifecycle-managed identities whose access
-          can be revoked independently of the cluster.
+          When a human accesses the Kubernetes API or cluster resources, authentication MUST
+          use an identity from a centrally managed identity provider or cloud identity service
+          AND that access MUST be revocable independently of the cluster.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Integrate cluster authentication with a managed identity source and govern access
-          through centrally maintained identity lifecycle processes.
+          Integrate cluster authentication with a managed identity provider or cloud identity
+          service and govern human access through centrally maintained identity lifecycle
+          processes.
       - id: CCC.K8S.CN17.AR02
         text: |
-          Unmanaged local accounts, static administrative credentials, and legacy
-          authentication methods MUST NOT provide routine cluster access.
+          Unmanaged local accounts, static human credentials, and legacy authentication
+          methods MUST NOT provide human access to the Kubernetes API or cluster resources.
         applicability:
           - tlp-clear
           - tlp-green
