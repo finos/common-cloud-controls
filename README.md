@@ -51,7 +51,7 @@ Work is done in the open, with all meetings and decisions documented in the proj
 | [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 4PM UK, alternate Thursdays                             |                     | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
 | [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                         | - async -                          | @smendis-scottlogic | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
 | [Website](/docs/governance/working-groups/website/charter.md)                           | 4:30PM UK, alternate Thursdays                           | @sshiels           |  |  
-| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)     | 10AM UK on Thursday / 4PM UK on 4th Thursday each month | @eddie-knight       | [cfi](mailto:cfi+subscribe@lists.finos.org)                               |
+| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)     | 10AM UK on Thursday / 4PM UK on 4th Thursday each month | @robmoffat       | [cfi](mailto:cfi+subscribe@lists.finos.org)                               |
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 
