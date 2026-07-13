@@ -37,10 +37,10 @@ metadata:
       description: >-
         Subsystem-level capabilities of the multi-agent reference architecture
         that threats endanger and controls protect.
-      url: file://ma_capability_catalog.yaml
+      url: file://capabilities.yaml
     - id: ma-ref-arch-threats
       title: Multi-Agent Reference Architecture Threat Catalog
       version: "1.0.0"
       description: >-
         Architecture threats that controls in this catalog mitigate.
-      url: file://ma_threat_catalog.yaml
+      url: file://threats.yaml
