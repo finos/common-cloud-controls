@@ -48,9 +48,10 @@ Work is done in the open, with all meetings and decisions documented in the proj
 | Working Group                                                                           | When                                                    | Chair               | Mailing List                                                              |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------- |
 | [Security](/docs/governance/working-groups/security/charter.md)                         | - async -                                               | @mlysaght2017       | [ccc-security](mailto:ccc-security+subscribe@lists.finos.org)             |
-| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 5PM UK, alternate Thursdays                             |                     | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
-| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                         | 4:30PM UK, alternate Thursdays                          | @smendis-scottlogic | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
-| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)     | 10AM UK on Thursday / 4PM UK on 4th Thursday each month | @eddie-knight       | [cfi](mailto:cfi+subscribe@lists.finos.org)                               |
+| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 4PM UK, alternate Thursdays                             | @eddie-knight       | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
+| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                         | - async -                          | @smendis-scottlogic | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
+| [Website](/docs/governance/working-groups/website/charter.md)                           | 4:30PM UK, alternate Thursdays                           | @sshiels           |  |  
+| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)     | 10AM UK on Thursday / 4PM UK on 4th Thursday each month | @robmoffat       | [cfi](mailto:cfi+subscribe@lists.finos.org)                               |
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 

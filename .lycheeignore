@@ -1,0 +1,6 @@
+# URLs excluded from the link checker (lychee).
+# iso.org blocks non-browser clients outright (403), so it can never pass in CI.
+https://www.iso.org/files/live/sites/isoorg/files/developing_standards/docs/en/how-to-write-standards.pdf
+# Text-fragment (#:~:text=) links are a browser-only feature lychee cannot request.
+https://ccc.finos.org/%23:~:text=.*
+https://ccc.finos.org/#:~:text=.*
