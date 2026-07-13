@@ -10,7 +10,7 @@ metadata:
   category-ids:
     - CCC.Orchestration
   version: ""
-  last-modified: "2026-07-10T00:00:00Z"
+  last-modified: "2026-07-13T00:00:00Z"
   example-csp-services:
     - provider: AWS
       service: Amazon Elastic Kubernetes Service (EKS)

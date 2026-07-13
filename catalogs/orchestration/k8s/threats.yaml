@@ -192,8 +192,8 @@ threats:
         entries:
           - reference-id: T1046
             remarks: Network Service Discovery
-          - reference-id: T1562.007
-            remarks: Impair Defenses - Disable or Modify Cloud Firewall
+          - reference-id: T1686.001
+            remarks: Disable or Modify System Firewall - Cloud Firewall
       - reference-id: CWE
         entries:
           - reference-id: CWE-284
@@ -347,8 +347,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1562.001
-            remarks: Impair Defenses - Disable or Modify Tools
+          - reference-id: T1685
+            remarks: Disable or Modify Tools
           - reference-id: T1609
             remarks: Container Administration Command
       - reference-id: CWE
@@ -432,8 +432,8 @@ threats:
     external-mappings:
       - reference-id: MITRE-ATT&CK
         entries:
-          - reference-id: T1562.001
-            remarks: Impair Defenses - Disable or Modify Tools
+          - reference-id: T1685.002
+            remarks: Disable or Modify Tools - Disable or Modify Cloud Log
       - reference-id: CWE
         entries:
           - reference-id: CWE-778

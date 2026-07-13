@@ -6,7 +6,7 @@ imports:
       - reference-id: CCC.Core.CN02
         remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
-        remarks: Implement Multi-factor Authentication for Access
+        remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
         remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
@@ -715,7 +715,7 @@ controls:
           - reference-id: CM-7
             remarks: Least Functionality
           - reference-id: IA-2
-            remarks: Identification and Authentication
+            remarks: Identification and Authentication (Organizational Users)
 
   - id: CCC.K8S.CN14
     group: Resource
@@ -770,7 +770,7 @@ controls:
       - reference-id: NIST_800_53
         entries:
           - reference-id: SC-5
-            remarks: Denial-of-Service Protection
+            remarks: Denial-of-service Protection
 
   - id: CCC.K8S.CN15
     group: Observability
@@ -945,7 +945,7 @@ controls:
           - reference-id: AC-2
             remarks: Account Management
           - reference-id: IA-2
-            remarks: Identification and Authentication
+            remarks: Identification and Authentication (Organizational Users)
           - reference-id: IA-5
             remarks: Authenticator Management
 
