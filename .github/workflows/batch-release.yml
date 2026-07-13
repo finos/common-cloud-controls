@@ -63,7 +63,7 @@ jobs:
       - name: Install grcli
         # Pinned for reproducibility (not :latest). Bump deliberately after testing.
         env:
-          GRCLI_VERSION: v0.4.1
+          GRCLI_VERSION: v0.5.0
         run: |
           oras pull "ghcr.io/revanite-io/grcli:${GRCLI_VERSION}" --platform linux/amd64
           sudo install grcli /usr/local/bin/grcli
