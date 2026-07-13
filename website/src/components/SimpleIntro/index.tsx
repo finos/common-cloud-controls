@@ -2,8 +2,13 @@ import React from "react";
 import styles from "./styles.module.css";
 import HomeSection from "../HomeSection";
 import { Link } from "react-router-dom";
+import { usePluginData } from "@docusaurus/useGlobalData";
+import type { CatalogGlobalData } from '@site/src/plugin/catalog-routes';
+
 
 export default function SimpleIntro() {
+  const data = usePluginData('catalog-routes') as CatalogGlobalData | undefined;
+  const totals = data ? data.totals : {controls: 0, threats: 0, capabilities: 0};
   return (
     <HomeSection title="">
         <h2>
@@ -25,7 +30,7 @@ export default function SimpleIntro() {
           Technology-agnostic security controls for public and private cloud.
         </p>
 
-        <section >
+      <section >
           <Link
             to="/catalogs"
             className={styles.button}
@@ -34,7 +39,10 @@ export default function SimpleIntro() {
           >
           Explore the Catalogs
           </Link>
-        </section>
+          <i className={styles.catalog_preview}>
+            Capabilities: {totals.capabilities} • Threats: {totals.threats} •  Controls: {totals.controls}
+          </i>
+      </section>
     </HomeSection>
   );
 }
