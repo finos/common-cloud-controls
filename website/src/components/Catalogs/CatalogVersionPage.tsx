@@ -95,7 +95,26 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
   const showThreatColumns = data.type === "threats";
   const showControlColumns = data.type === "controls";
   const sortedEntries = [...data.entries].sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
-  const typePath = `/catalogs/${data.category}/${data.service}/${data.type}/${data.version}`;
+
+  const typePath = `${data.category}/${data.service}/${data.type}`;
+  const versionPath = `/catalogs/${typePath}/${data.version}`;
+  const yamlName = `${typePath}.yaml`;
+  const yamlLink = `https://raw.githubusercontent.com/finos/common-cloud-controls/refs/heads/main/catalogs/${yamlName}`;
+
+  async function downloadFromGithub(rawUrl: string, filename?: string) {
+    const resp = await fetch(rawUrl, { headers: { Accept: 'application/octet-stream' } });
+    if (!resp.ok) throw new Error(`Download failed: ${resp.status}`);
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename ?? (rawUrl.split('/').pop() ?? 'file');
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="library-article-body">
       {sortedEntries.length > 0  &&(
@@ -127,7 +146,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           {sortedEntries.map((entry) => (
             <tr key={entry.id}>
               <td>
-                <Link to={`${typePath}/${entry.id}`}>{entry.id}</Link>
+                <Link to={`${versionPath}/${entry.id}`}>{entry.id}</Link>
               </td>
               <td>{entry.title}</td>
               <td>{data.type === "controls" ? entry.objective : entry.description}</td>
@@ -189,6 +208,11 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
         </tbody>
       </table>
       </div>)}
+
+      <button onClick={() => downloadFromGithub(
+        yamlLink,
+        yamlName
+      )}>Download file from GitHub</button>
     </div>
   );
 };
