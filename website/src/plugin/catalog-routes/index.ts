@@ -79,9 +79,16 @@ export interface CatalogStructureEntry {
   services: Array<{ slug: string; title: string }>;
 }
 
+export interface CatalogTotalData {
+  controls: number;
+  threats: number;
+  capabilities: number;
+}
+
 export interface CatalogGlobalData {
   assessmentRequirements: CatalogAssessmentRequirementRef[];
   catalogStructure: CatalogStructureEntry[];
+  totals: CatalogTotalData;
 }
 
 export interface CatalogVersionData {
@@ -672,7 +679,12 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           slug: catSlug,
           services: catData.services.map((svc) => ({ slug: svc.slug, title: svc.title })),
         }));
-      setGlobalData({ assessmentRequirements, catalogStructure } satisfies CatalogGlobalData);
+      const totals: CatalogTotalData = {threats: 0, controls: 0, capabilities: 0};
+      for (const [, data] of versions) {
+        totals[data.type] += data.entries.length;
+      }
+
+      setGlobalData({ assessmentRequirements, catalogStructure, totals } satisfies CatalogGlobalData);
 
       const add = (routePath: string, modules?: Record<string, string>) => {
         if (added.has(routePath)) return;

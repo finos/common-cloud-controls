@@ -101,6 +101,43 @@
               "additionalProperties": false
             }
           },
+          "vectors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "type": "string",
+                  "description": "Vector catalog mapping namespace (e.g., air-vec)"
+                },
+                "entries": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "reference-id": {
+                        "type": "string",
+                        "description": "Threat vector ID"
+                      },
+                      "strength": {
+                        "type": "integer"
+                      },
+                      "remarks": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["reference-id"],
+                    "additionalProperties": false
+                  }
+                },
+                "remarks": {
+                  "type": "string"
+                }
+              },
+              "required": ["reference-id", "entries"],
+              "additionalProperties": false
+            }
+          },
           "external-mappings": {
             "type": "array",
             "items": {
