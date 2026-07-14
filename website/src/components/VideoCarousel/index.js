@@ -5,6 +5,10 @@ const ReactPlayer = React.lazy(() => import("react-player/lazy"));
 
 const videos = [
   {
+    url: "https://www.youtube.com/watch?v=NHvf31wJ2Ig",
+    caption: "Navigating the Regulatory Storm: Scaling Cloud Governance With FINOS CCC - Sonali Mendis & Rob Moffat"
+  },
+  {
     url: "https://www.youtube.com/watch?v=niThX5x0_F4",
     caption: "Taming Multi-Cloud Security: Progress on Common Cloud Controls — Michael Lysaght & Sonali Mendis",
   },
