@@ -384,7 +384,6 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         entries: CatalogEntry[],
         imports: CatalogImport[],
       ) => {
-        if (!entries.length) return;
         const urlPath = `/catalogs/${loc.category}/${loc.service}/${type}/${version}`;
         versions.set(urlPath, { title, type, version, category: loc.category, service: loc.service, entries, imports });
       };
@@ -442,7 +441,6 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (!loc) continue;
             const raw = yaml.load(fs.readFileSync(path.join(releasesDir, filename), 'utf8')) as Record<string, any>;
             const baseTitle = cleanStr(raw?.metadata?.title ?? raw?.title ?? metadataId);
-            const imports: CatalogEntry[] = mapImports(raw.imports, idToPath);
 
             addVersion(loc, version, 'capabilities',
               `${baseTitle} Capabilities`,
@@ -484,10 +482,11 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             if (!fs.existsSync(typeFile)) continue;
             const raw = yaml.load(fs.readFileSync(typeFile, 'utf8')) as Record<string, any>;
             const rawItems: any[] = Array.isArray(raw?.[typeName]) ? raw[typeName] : [];
-            if (rawItems.length === 0) continue;
+            const rawImports: any[] = Array.isArray(raw?.imports) ? raw.imports : [];
+            if (rawItems.length === 0 && rawImports.length === 0)  continue;
             const items = typeName === 'controls' ? withControlFamilyTitles(rawItems, raw?.groups) : rawItems;
             const typeLabel = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(raw.imports, idToPath));
+            addVersion(loc, 'DEV', typeName, `${baseTitle} ${typeLabel}`, mapEntries(items, typeName), mapImports(rawImports, idToPath));
             if (typeName === 'threats') {
               threatCapMaps.set(`${loc.category}/${loc.service}/DEV`, extractThreatCapabilityRefs(items));
             }
