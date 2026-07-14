@@ -196,6 +196,47 @@ html[data-theme="dark"] .dropdown__link--active {
   color: #00b5e2;
 }
 
+/* Hide Docusaurus heading anchor links inside article content */
+.library-article-body .hash-link {
+  display: none;
+}
+
+/* Center tables inside ContentPage (architecture, validators) */
+.content-page-article .library-article-body table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Center Mermaid diagrams inside ContentPage */
+.content-page-article .docusaurus-mermaid-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Offset anchor scroll for sticky navbar on page title */
+.content-page-article .page-h1 {
+  scroll-margin-top: 80px;
+}
+
+/* Heading styles for ContentPage (architecture, validators) */
+.content-page-article .page-h1,
+.content-page-article .library-article-body h2,
+.content-page-article .library-article-body h3 {
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
+  font-size: 2.25rem;
+  text-align: center;
+  font-family: 'metropolis';
+  font-weight: 600;
+  color: var(--gf-color-accent-strong);
+}
+.content-page-article .library-article-body h4{
+    margin-top: 2rem;
+  font-size: 1.50rem;
+  color: var(--gf-color-accent-strong);
+  text-align: center;
+}
+
 /* Catalog page layout: sidebar + main content side by side */
 .page-layout {
   display: flex;
@@ -204,6 +245,12 @@ html[data-theme="dark"] .dropdown__link--active {
   margin: 0 auto;
   padding: 2rem 1.5rem;
   align-items: flex-start;
+}
+/* Catalog page layout on mobile: sidebar on top, main content below */
+@media screen and (max-width: 600px) {
+  .page-layout {
+      display: grid;
+  }
 }
 
 /* Catalog type buttons (Capabilities / Threats / Controls) */
@@ -269,11 +316,15 @@ html[data-theme="dark"] .catalog-type-btn--disabled {
 }
 
 /* Tables inside rendered markdown content */
+.library-article-body {
+  overflow-x: auto;
+}
+
 .library-article-body table {
   border-collapse: collapse;
-  width: 100%;
-  display: block;
-  overflow-x: auto;
+  display: table;
+  width: auto;
+  max-width: 100%;
   margin-bottom: 1.5rem;
   font-size: 0.925rem;
 }
@@ -291,7 +342,7 @@ html[data-theme="dark"] .catalog-type-btn--disabled {
   color: #0086bf;
   font-weight: 600;
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .library-article-body tbody tr:nth-child(even) {

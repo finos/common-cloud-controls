@@ -19,6 +19,18 @@
                 "main"
             ],
             "artifact-filter": "finos-integration-*"
+        },
+        {
+            "name": "common-cloud-controls-avm",
+            "url": "https://github.com/finos/common-cloud-controls",
+            "description": "Experimental: Azure Verified Modules (AVM)",
+            "destination": "common-cloud-controls-avm",
+            "workflow": "cfi-test.yml",
+            "branches": [
+                "main",
+                "monorepo-3-microsoft-avms"
+            ],
+            "artifact-filter": "azure-avm-*"
         }
     ]
 }

@@ -1,10 +1,10 @@
 # Behavioural feature tests
 
-Gherkin features containing **@Behavioural** scenarios only. 
+Gherkin features containing **@Behavioural** scenarios only.
 
 ## Layout
 
-```
+```text
 modules/features/
   port/              # @PerPort scenarios (TLS, protocol probes, etc.)
   object-storage/    # @object-storage and CCC.ObjStor behavioural tests
@@ -36,7 +36,7 @@ See `virtual-machines/analysis.md` and `serverless-computing/analysis.md` for pl
 Scenarios that call `GetServiceAPIWithIdentity` pass a **literal identity key** (e.g. `"test-user-read"`). The factory resolves credentials from `test-identities` in Privateer `services.*.vars`. Features do **not** call `ProvisionUserWithAccess`.
 
 | Key | Typical access level |
-|-----|----------------------|
+| ----- | ---------------------- |
 | `test-user-no-access` | none |
 | `test-user-read` | read |
 | `test-user-write` | write |
@@ -49,7 +49,7 @@ Use `Given a cloud api for "{config}" in "api"` so the factory receives the expa
 Use **lower-kebab-case** names that match Privateer `services.*.vars` keys, for example:
 
 | Placeholder | Privateer var |
-|-------------|----------------|
+| ------------- | ---------------- |
 | `{config}` | (runtime `types.Config`) |
 | `{service-type}` | `service-type` |
 | `{resource-name}` | discovered resource / `resource` |

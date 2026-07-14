@@ -349,22 +349,6 @@ async function unzipArtifact(
     }
 }
 
-async function clearDestinationDirectories(repositories: CFIRepository[]): Promise<void> {
-    console.log('🧹 Phase 1: Clearing destination directories...');
-
-    for (const repo of repositories) {
-        const repoDir = path.join(OUTPUT_DIR, 'test-results', repo.destination);
-        if (fs.existsSync(repoDir)) {
-            fs.rmSync(repoDir, { recursive: true, force: true });
-            console.log(`🗑️  Cleared directory: ${repo.destination}`);
-        } else {
-            console.log(`📁 Directory doesn't exist (will be created): ${repo.destination}`);
-        }
-    }
-
-    console.log('✅ Phase 1 completed: All destination directories cleared');
-}
-
 async function downloadCFIArtifacts(): Promise<void> {
     // Check if GITHUB_TOKEN is available
     if (!GITHUB_TOKEN) {
@@ -394,11 +378,8 @@ async function downloadCFIArtifacts(): Promise<void> {
     const config: CFIRepositories = JSON.parse(fs.readFileSync(configPath, 'utf8'));
     console.log(`📦 Found ${config.repositories.length} CFI repositories to process`);
 
-    // Phase 1: Clear all destination directories first
-    await clearDestinationDirectories(config.repositories);
-
-    // Phase 2: Download and process artifacts
-    console.log('\n📥 Phase 2: Downloading and processing artifacts...');
+    // Phase 1: Download and process artifacts
+    console.log('\n📥 Phase 1: Downloading and processing artifacts...');
 
     for (const repo of config.repositories) {
         try {
@@ -484,8 +465,8 @@ async function downloadCFIArtifacts(): Promise<void> {
         }
     }
 
-    // Phase 3: Clean up temporary cfi-configurations directory
-    console.log('\n🧹 Phase 3: Cleaning up temporary directories...');
+    // Phase 2: Clean up temporary cfi-configurations directory
+    console.log('\n🧹 Phase 2: Cleaning up temporary directories...');
     const cfiConfigDir = path.join(OUTPUT_DIR, 'cfi-configurations');
     if (fs.existsSync(cfiConfigDir)) {
         fs.rmSync(cfiConfigDir, { recursive: true, force: true });

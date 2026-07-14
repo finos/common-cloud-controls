@@ -1,0 +1,27 @@
+import EcosystemPage from '../EcosystemPage';
+
+<EcosystemPage slug="github-releases" title="GitHub Releases">
+
+# GitHub Releases
+
+CCC catalogs are published as **versioned GitHub releases** on the [finos/common-cloud-controls](https://github.com/finos/common-cloud-controls) repository. Each release ships machine-readable YAML bundles — capabilities, threats, controls, metadata, and release details — that teams and tooling can download, pin, and integrate directly into compliance pipelines.
+
+This is the canonical source of truth for released catalog versions. Tags follow the catalog structure (for example, `storage/object/v2026.06-rc1`), and release assets include the typed Gemara bundles that power both the website and downstream validators.
+
+## What you get
+
+- **Versioned artifacts** — every release is tagged and immutable, so you can pin a specific catalog version in CI or internal policy.
+- **Machine-readable YAML** — capabilities, threats, and controls in a structured format aligned with the [Gemara](/ecosystems/gemara) model, not prose documents.
+- **Release notes and metadata** — contributor information, change logs, and release details alongside the catalog data itself.
+
+## Browse online or download
+
+You do not need to clone the repository to explore what is available. The [browseable catalogs](/catalogs) on this site let you navigate capabilities, threats, and controls by service and version — the same content published through GitHub releases, presented for human review and cross-referencing.
+
+When you need the raw files for automation, head to the releases page and download the YAML assets directly.
+
+[View CCC releases on GitHub →](https://github.com/finos/common-cloud-controls/releases)
+
+[Browse catalogs on ccc.finos.org →](/catalogs)
+
+</EcosystemPage>

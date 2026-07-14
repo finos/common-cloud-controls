@@ -23,7 +23,6 @@ yarn-error.log*
 src/data/ccc-releases/*_DEV*.yaml
 src/data/ccc-releases/.compile-staging/
 
-
 # CCC test results (should not be committed)
 src/data/test-results/*/*/results/*
 src/data/test-results/*/*/config/*

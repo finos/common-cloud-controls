@@ -247,3 +247,6 @@ MD055:
 
 # MD056/table-column-count : Table column count : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md056.md
 MD056: true
+
+# MD060/table-column-style : Aligned pipe tables are brittle in generated docs
+MD060: false

@@ -13,7 +13,7 @@ This standard is a collaborative project which aims to develop a unified set of 
 ## How To Use It
 
 - **Browse Online:** The [ccc.finos.org](https://ccc.finos.org) website contains much of the resources of the CCC project in an easily browseable form including:
-  - In progress and published [control catalogs](https://ccc.finos.org/ccc) for common cloud services
+  - In progress and published [control catalogs](https://ccc.finos.org/catalogs) for common cloud services
   - Work in progress results of [Compliant Financial Infrastructure](https://ccc.finos.org/cfi) test runs against those catalogs.
   - [Videos and presentations](https://ccc.finos.org/#:~:text=to%20the%20standard.-,Learn,-More) from OSFF Events.
   - A [CCC Primer Presentation](https://ccc.finos.org/#:~:text=GitHub-,What%20Is%20It?,-FINOS%20Common%20Cloud)
@@ -48,9 +48,10 @@ Work is done in the open, with all meetings and decisions documented in the proj
 | Working Group                                                                           | When                                                    | Chair               | Mailing List                                                              |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------- |
 | [Security](/docs/governance/working-groups/security/charter.md)                         | - async -                                               | @mlysaght2017       | [ccc-security](mailto:ccc-security+subscribe@lists.finos.org)             |
-| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 5PM UK, alternate Thursdays                             |                     | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
-| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                         | 4:30PM UK, alternate Thursdays                          | @smendis-scottlogic | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
-| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)     | 10AM UK on Thursday / 4PM UK on 4th Thursday each month | @eddie-knight       | [cfi](mailto:cfi+subscribe@lists.finos.org)                               |
+| [Communications / All Hands](/docs/governance/working-groups/communications/charter.md) | 4PM UK, alternate Thursdays                             | @eddie-knight       | [ccc-communications](mailto:ccc-communications+subscribe@lists.finos.org) |
+| [Taxonomy](/docs/governance/working-groups/taxonomy/charter.md)                         | - async -                          | @smendis-scottlogic | [ccc-taxonomy](mailto:ccc-taxonomy+subscribe@lists.finos.org)             |
+| [Website](/docs/governance/working-groups/website/charter.md)                           | 4:30PM UK, alternate Thursdays                           | @sshiels           |  |  
+| [Compliant Financial Infrastructure](docs/governance/working-groups/cfi/charter.md)     | 10AM UK on Thursday / 4PM UK on 4th Thursday each month | @robmoffat       | [cfi](mailto:cfi+subscribe@lists.finos.org)                               |
 
 Find the next meeting on the [FINOS Community Calendar](https://finos.org/calendar) and browse [Past Meeting Minutes in GitHub](https://github.com/finos/common-cloud-controls/labels/meeting).
 

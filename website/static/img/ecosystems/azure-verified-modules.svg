@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" role="img" aria-label="Azure Verified Modules">
+  <rect width="240" height="80" rx="12" fill="#0a1628" stroke="#00adef" stroke-width="2"/>
+  <path d="M22 58 L42 18 L62 58 Z" fill="#0078d4"/>
+  <path d="M42 18 L62 58 L82 58 L62 18 Z" fill="#50e6ff" opacity="0.9"/>
+  <circle cx="188" cy="28" r="14" fill="#107c10"/>
+  <path d="M181 28 L186 33 L196 22" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="132" y="38" text-anchor="middle" fill="#ffffff" font-family="Montserrat, Arial, sans-serif" font-size="18" font-weight="700">AZURE VERIFIED</text>
+  <text x="132" y="58" text-anchor="middle" fill="#50e6ff" font-family="Montserrat, Arial, sans-serif" font-size="16" font-weight="600">MODULES</text>
+</svg>

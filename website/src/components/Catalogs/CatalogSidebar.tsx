@@ -1,13 +1,14 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import { useLocation } from "@docusaurus/router";
-import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
+import { usePluginData } from "@docusaurus/useGlobalData";
+import { prettifySegment, labelFromTitle } from "@site/src/content/catalogUtils";
 import "./CatalogSidebar.css";
 
 interface Service {
   slug: string;
   label: string;
-  href?: string; // optional override for the generated /catalogs/<cat>/<svc> path
+  href?: string;
 }
 
 interface Category {
@@ -16,88 +17,43 @@ interface Category {
   services: Service[];
 }
 
-export const CATALOG_STRUCTURE: Category[] = [
-  { slug: "ai-ml",      label: "AI/ML",       services: [
-    { slug: "gen-ai", label: "Gen AI" },
-    { slug: "mlde",   label: "MLDE" },
-  ]},
-  { slug: "compute",    label: "Compute",     services: [
-    { slug: "batchproc",             label: "Batch Processing" },
-    { slug: "serverless-computing",  label: "Serverless Computing" },
-    { slug: "virtual-machines",      label: "Virtual Machines" },
-  ]},
-  { slug: "core",       label: "Core",        services: [
-    { slug: "ccc", label: "CCC", href: "/catalogs/core" },
-  ]},
-  { slug: "crypto",     label: "Crypto",      services: [
-    { slug: "key",     label: "Key" },
-    { slug: "secrets", label: "Secrets" },
-  ]},
-  { slug: "database",   label: "Database",    services: [
-    { slug: "relational", label: "Relational" },
-    { slug: "vector",     label: "Vector" },
-    { slug: "warehouse",  label: "Warehouse" },
-  ]},
-  { slug: "devtools",   label: "DevTools",    services: [
-    { slug: "build",              label: "Build" },
-    { slug: "container-registry", label: "Container Registry" },
-  ]},
-  { slug: "identity",   label: "Identity",    services: [
-    { slug: "iam", label: "IAM" },
-  ]},
-  { slug: "management", label: "Management",  services: [
-    { slug: "auditlog",  label: "Audit Log" },
-    { slug: "logging",   label: "Logging" },
-    { slug: "monitoring",label: "Monitoring" },
-    { slug: "tracing",   label: "Tracing" },
-  ]},
-  { slug: "networking", label: "Networking",  services: [
-    { slug: "loadbalancer", label: "Load Balancer" },
-    { slug: "vpc",          label: "VPC" },
-  ]},
-  { slug: "storage",    label: "Storage",     services: [
-    { slug: "object", label: "Object" },
-  ]},
-];
-
-const TYPE_TITLE: Record<string, string> = {
-  capabilities: "Capabilities",
-  threats: "Threats",
-  controls: "Controls",
-};
-
-interface CatalogSidebarProps {
-  // When provided, filter to only these services and show a type heading
-  typeIndexData?: CatalogTypeIndexData;
+interface RawStructureEntry {
+  slug: string;
+  services: Array<{ slug: string; title: string }>;
 }
 
-export const CatalogSidebar: React.FC<CatalogSidebarProps> = ({ typeIndexData }) => {
+const HREF_OVERRIDES: Record<string, string> = {
+  "core/ccc": "/catalogs/core/ccc",
+};
+
+function buildCatalogStructure(raw: RawStructureEntry[]): Category[] {
+  return raw.map(({ slug, services }) => ({
+    slug,
+    label: prettifySegment(slug),
+    services: services.map(({ slug: svc, title }) => ({
+      slug: svc,
+      label: labelFromTitle(title),
+      href: HREF_OVERRIDES[`${slug}/${svc}`],
+    })),
+  }));
+}
+
+export const CatalogSidebar: React.FC = () => {
   const { pathname } = useLocation();
-
-  const typeLinkMap = typeIndexData
-    ? new Map(typeIndexData.serviceEntries.map((e) => [`${e.category}/${e.service}`, e.typePath]))
-    : null;
-
-  const title = typeIndexData
-    ? (TYPE_TITLE[typeIndexData.type] ?? typeIndexData.type.charAt(0).toUpperCase() + typeIndexData.type.slice(1))
-    : null;
+  const pluginData = usePluginData("catalog-routes") as { catalogStructure?: RawStructureEntry[] } | undefined;
+  const catalogStructure = buildCatalogStructure(pluginData?.catalogStructure ?? []);
 
   const isActive = (path: string) =>
     pathname === path || pathname.startsWith(path + "/");
 
   return (
     <nav className="catalog-sidebar">
-      {title && <div className="catalog-sidebar-type-title">{title}</div>}
-      {CATALOG_STRUCTURE.map(({ slug, label, services }) => {
-        // When filtering, only show services that have the type
-        const visibleServices = typeLinkMap
-          ? services.filter((svc) => typeLinkMap.has(`${slug}/${svc.slug}`))
-          : services;
+      <div className="catalog-sidebar-type-title">Catalogs</div>
+      {catalogStructure.map(({ slug, label, services }) => {
+        if (services.length === 0) return null;
 
-        if (visibleServices.length === 0) return null;
-
-        const categoryActive = visibleServices.some(({ slug: svc, href }) => {
-          const path = typeLinkMap?.get(`${slug}/${svc}`) ?? href ?? `/catalogs/${slug}/${svc}`;
+        const categoryActive = services.some(({ slug: svc, href }) => {
+          const path = href ?? `/catalogs/${slug}/${svc}`;
           return isActive(path);
         });
 
@@ -108,11 +64,8 @@ export const CatalogSidebar: React.FC<CatalogSidebarProps> = ({ typeIndexData })
               <span className="chevron">▾</span>
             </summary>
             <div className="service-links">
-              {visibleServices.map(({ slug: svcSlug, label: svcLabel, href }) => {
-                const path =
-                  typeLinkMap?.get(`${slug}/${svcSlug}`) ??
-                  href ??
-                  `/catalogs/${slug}/${svcSlug}`;
+              {services.map(({ slug: svcSlug, label: svcLabel, href }) => {
+                const path = href ?? `/catalogs/${slug}/${svcSlug}`;
                 return (
                   <Link
                     key={svcSlug}

@@ -2,11 +2,12 @@ cfi:
   id: gcp-virtual-machines
   artifact-name: finos-integration-gcp-virtual-machines
   provider: gcp
-  service: compute
+  source-secrets: GCP_ENV
+  service: virtual-machines
   name: CCC GCP Virtual Machines Fixture
   description: >-
     Runs behavioural checks for CCC.VM against the GCP virtual machines fixture.
-  path: https://github.com/finos/common-cloud-controls/tree/main/modules/integration-terraform/gcp
+  path: modules/integration-terraform/gcp
   test-on-branches:
     - main
   git: https://github.com/finos/common-cloud-controls

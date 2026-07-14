@@ -1,0 +1,54 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Azure serverless-computing behavioural tests against the AVM Flex Consumption
+# function app in ccc-cfi-compliance/remote/azure/avm.
+#
+# Populated from terraform output after apply (instance_id = 20260611):
+#   resource_group_name = avm-testing
+#   serverless_function.name = avmfunc20260611
+#   log_analytics_workspace.resource_id = (set AZURE_LOG_ANALYTICS_WORKSPACE_ID)
+#
+# Source azure-env.sh for test principal credentials before running.
+#
+# Known gaps vs full CFI serverless harness (tests may skip or fail until addressed):
+#   - public_network_access_enabled = false; invoke via private endpoint only
+#   - HttpTrigger route/path must match deployed function code
+
+services:
+  azureServerlessComputing:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.SvlsComp
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: serverless-computing
+      service-type: serverless-computing
+      tags: "@Behavioural @serverless-computing"
+      provider: azure
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.SvlsComp: DEV
+      region: westus2
+      resource: "avmfunc20260611"
+      function-name: "avmfunc20260611"
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-resource-group: "avm-testing"
+      private-endpoint-url: "https://avmfunc20260611.privatelink.azurewebsites.net/api/HttpTrigger"
+      public-invoke-url: ""
+      rate-limit-threshold: 10
+      burst-overrun: 15
+      permitted-regions:
+        - westus2
+      azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"

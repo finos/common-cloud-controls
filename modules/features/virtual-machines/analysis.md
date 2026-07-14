@@ -21,7 +21,7 @@ Planned service-specific interface: **2–3 methods** (+ `generic.Service` + `lo
 During implementation, **prefer tagging over duplication**. Inventory `modules/features/generic/CCC.Core/` before creating any new Core feature file.
 
 | Core control | Generic feature | VM action |
-|--------------|-----------------|-----------|
+| -------------- | ----------------- | ----------- |
 | CN03 (MFA) | `generic/CCC.Core/CCC-Core-CN03-AR01.feature` | Add `@virtual-machines` to `@NotTestable` scenario |
 | CN04.AR01 | `generic/CCC.Core/CCC-Core-CN04-AR01.feature` | Add `@virtual-machines`; uses `{service-type}` + `UpdateResourcePolicy` + `logging.QueryLogs` |
 | CN04.AR02 | `generic/CCC.Core/CCC-Core-CN04-AR02.feature` | Add `@virtual-machines`; uses `TriggerDataWrite` |
@@ -35,7 +35,7 @@ During implementation, **prefer tagging over duplication**. Inventory `modules/f
 **New or extended scenarios only where generic steps do not fit:**
 
 | AR | Location | Why not generic-only |
-|----|----------|----------------------|
+| ---- | ---------- | ---------------------- |
 | CN02.AR01 | `virtual-machines/CCC.Core/CCC-Core-CN02-AR01.feature` (new) | Needs `GetVolumeEncryptionStatus` — disk/volume inspection, not on `generic.Service` |
 | CN12.AR01 | `virtual-machines/CCC.Core/` or `port/` with `@virtual-machines` | Network connection probe to instance IP + SG/NSG/firewall — may share `port/` TCP harness |
 | CN05.AR01 / AR02 | Extend `generic/.../CCC-Core-CN05-AR06.feature` or sibling in generic | Unauthorized write/admin via `TriggerDataWrite` / `UpdateResourcePolicy` + identity factory — same shape as generic, not ObjStor `CreateBucket` |
@@ -45,7 +45,7 @@ Do **not** create `virtual-machines/CCC.Core/` copies of CN03, CN04, CN07, or CN
 ## Imported controls
 
 | Reference | Action |
-|-----------|--------|
+| ----------- | -------- |
 | CCC.Core.CN02 | **New** service-specific feature — `GetVolumeEncryptionStatus` on attached volumes |
 | CCC.Core.CN03 | Reuse `generic/CCC-Core-CN03-AR01.feature` — add `@virtual-machines` to `@NotTestable` |
 | CCC.Core.CN04 | Reuse `generic/CCC-Core-CN04-AR0*.feature` — add `@virtual-machines`; implement `UpdateResourcePolicy`, `TriggerDataWrite`, `TriggerDataRead` on VM service |
@@ -166,7 +166,7 @@ Optional: fold CN05 into `TriggerDataWrite` / `UpdateResourcePolicy` on the embe
 ### `logging.Service`
 
 | logType | AR(s) | resourceID meaning |
-|---------|-------|-------------------|
+| --------- | ------- | ------------------- |
 | `admin` | CN04.AR01 | Instance id or Name tag |
 | `data-write` | CN04.AR02 | Instance ARN/id |
 | `data-read` | CN04.AR03 | Instance ARN/id |
@@ -174,7 +174,7 @@ Optional: fold CN05 into `TriggerDataWrite` / `UpdateResourcePolicy` on the embe
 ### `generic.Service` methods used (inherited Core — no new interface methods)
 
 | Method | AR(s) | Generic feature |
-|--------|-------|-----------------|
+| -------- | ------- | ----------------- |
 | `GetOrProvisionTestableResources` | all | — |
 | `GetResourceRegion` | CN06.AR01 | `vpc/CCC-Core-CN06-AR01` |
 | `UpdateResourcePolicy` | CN04.AR01, CN05.AR02 | `generic/CCC-Core-CN04-AR01`, CN05 extension |
@@ -192,16 +192,19 @@ Optional: fold CN05 into `TriggerDataWrite` / `UpdateResourcePolicy` on the embe
 ### `GetVolumeEncryptionStatus`
 
 #### AWS
+
 - **API**: `ec2:DescribeVolumes` filtered by instance attachment.
 - **Notes**: Read `Encrypted`, `KmsKeyId` from volume; map algorithm to `aws/ebs` or KMS.
 - **Config**: `region`, instance id from discovery tag `CFIControlSet=CCC.VM`.
 
 #### Azure
+
 - **API**: `Compute SDK` — `VirtualMachinesClient.Get`, disk resources via `DisksClient.Get`.
 - **Notes**: Check `EncryptionSettingsCollection` / SSE with PMK/CMK on OS + data disks.
 - **Config**: `azure-subscription-id`, `azure-resource-group`, `vm-name`.
 
 #### GCP
+
 - **API**: `compute.Instances.Get`, `compute.Disks.Get`.
 - **Notes**: `diskEncryptionKey`, `sourceDiskEncryptionKey`; CMEK via `kmsKeyName`.
 - **Config**: `gcp-project-id`, `zone`, instance name.
@@ -209,27 +212,33 @@ Optional: fold CN05 into `TriggerDataWrite` / `UpdateResourcePolicy` on the embe
 ### `AttemptInboundConnection`
 
 #### AWS
+
 - **API**: TCP dial from test harness to instance `PublicIp`/`PrivateIp` + port (not AWS SDK — outbound from runner).
 - **Notes**: SG must deny runner IP; document need for stable egress IP or in-VPC probe host.
 - **Config**: `test-listener-port`, `allowed-source-cidr`.
 
 #### Azure
+
 - **API**: TCP dial to NIC public/private IP; NSG rules enforce deny.
 - **Config**: `vm-hostname` or IP, `test-listener-port`.
 
 #### GCP
+
 - **API**: TCP dial to instance IP; VPC firewall rules.
 - **Config**: `gcp-zone`, instance name, firewall rule name (explicit in vars — no discovery).
 
 ### `UpdateResourcePolicy` / `TriggerDataWrite` / `TriggerDataRead` (generic embed)
 
 #### AWS
+
 - Tag flip on instance; CloudTrail management/data events per log type.
 
 #### Azure
+
 - Update VM tags via Compute API; Activity Log queries.
 
 #### GCP
+
 - `instances.SetLabels` with label fingerprint; Cloud Audit Logs.
 
 ### `logging.QueryLogs`
@@ -241,7 +250,7 @@ Reuse existing [`logging.Service`](../../cloud-api/logging/logging.go) — Cloud
 ## Privateer config (planned vars)
 
 | Var | Purpose | Example |
-|-----|---------|---------|
+| ----- | --------- | --------- |
 | `service` | factory id | `virtual-machines` |
 | `ServiceType` | generic feature `{service-type}` | `virtual-machines` |
 | `tags` | scenario filter | `@Behavioural @virtual-machines` |
