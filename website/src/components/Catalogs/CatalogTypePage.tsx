@@ -3,8 +3,6 @@ import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import { CatalogTable } from "./CatalogVersionPage";
 import type { CatalogVersionData } from "./CatalogVersionPage";
-import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
-
 export interface CatalogTypeData {
   category: string;
   service: string;
@@ -15,7 +13,6 @@ export interface CatalogTypeData {
 
 interface Props {
   data: CatalogTypeData;
-  typeIndexData?: CatalogTypeIndexData;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -32,7 +29,7 @@ const btnReset: React.CSSProperties = {
   background: "transparent",
 };
 
-export const CatalogTypePage: React.FC<Props> = ({ data, typeIndexData }) => {
+export const CatalogTypePage: React.FC<Props> = ({ data }) => {
   const { category, service, type } = data;
   const versionPaths: string[] = data.versionPaths ?? [];
   const allVersionData: CatalogVersionData[] = data.allVersionData ?? [];
@@ -42,7 +39,7 @@ export const CatalogTypePage: React.FC<Props> = ({ data, typeIndexData }) => {
 
   return (
     <div className="page-layout">
-      <CatalogSidebar typeIndexData={typeIndexData} />
+      <CatalogSidebar />
       <article style={{ flex: 1, minWidth: 0 }}>
         <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
           {prettifySegment(category)} / {prettifySegment(service)}
