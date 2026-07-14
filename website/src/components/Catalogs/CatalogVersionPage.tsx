@@ -98,6 +98,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
   const typePath = `/catalogs/${data.category}/${data.service}/${data.type}/${data.version}`;
   return (
     <div className="library-article-body">
+      {sortedEntries.length > 0  &&(
       <table>
         <thead>
           <tr>
@@ -166,7 +167,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           ))}
         </tbody>
       </table>
-
+      )}
       {data.imports && data.imports.length > 0 && (<div>
         <h1>Imports</h1>
         <table>

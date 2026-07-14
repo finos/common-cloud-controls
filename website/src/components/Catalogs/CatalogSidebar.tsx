@@ -23,7 +23,7 @@ interface RawStructureEntry {
 }
 
 const HREF_OVERRIDES: Record<string, string> = {
-  "core/ccc": "/catalogs/core/ccc",
+  "core/core": "/catalogs/core/core",
 };
 
 function buildCatalogStructure(raw: RawStructureEntry[]): Category[] {
