@@ -125,22 +125,28 @@ export interface CatalogReleaseSummary {
   typePaths: { capabilities?: string; threats?: string; controls?: string };
 }
 
+export interface CatalogCspService {
+  provider: string;
+  service: string;
+  url: string;
+}
+
+export interface CatalogMappingReference {
+  id: string;
+  title: string;
+  version?: string;
+  description?: string;
+  url?: string;
+}
+
 export interface CatalogServiceInfo {
   slug: string;
   title: string;
+  description?: string;
+  exampleCspServices?: CatalogCspService[];
+  mappingReferences?: CatalogMappingReference[];
   types: Array<{ type: string; typePath: string }>;
   releases: CatalogReleaseSummary[];
-}
-
-export interface CatalogTypeIndexEntry {
-  category: string;
-  service: string;
-  typePath: string;
-}
-
-export interface CatalogTypeIndexData {
-  type: string;
-  serviceEntries: CatalogTypeIndexEntry[];
 }
 
 export interface CatalogCategoryData {
@@ -333,6 +339,9 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
       // Build metadataId → { category, service } and cat/svc → title from source catalog metadata.yaml files
       const idToPath = new Map<string, { category: string; service: string }>();
       const svcTitles = new Map<string, string>();
+      const svcDescriptions = new Map<string, string>();
+      const svcCspServices = new Map<string, CatalogCspService[]>();
+      const svcMappingRefs = new Map<string, CatalogMappingReference[]>();
       if (fs.existsSync(catalogsDir)) {
         for (const cat of fs.readdirSync(catalogsDir)) {
           const catDir = path.join(catalogsDir, cat);
@@ -345,9 +354,15 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             const meta = yaml.load(fs.readFileSync(metaFile, 'utf8')) as Record<string, any>;
             const id = meta?.metadata?.id as string | undefined;
             const title = cleanStr(meta?.metadata?.title ?? '');
+            const description = cleanStr(meta?.metadata?.description ?? '');
+            const cspServices = (meta?.metadata?.['example-csp-services'] ?? []) as CatalogCspService[];
+            const mappingRefs = (meta?.metadata?.['mapping-references'] ?? []) as CatalogMappingReference[];
             if (id) {
               idToPath.set(id, { category: cat, service: svc });
               if (title) svcTitles.set(`${cat}/${svc}`, title);
+              if (description) svcDescriptions.set(`${cat}/${svc}`, description);
+              if (cspServices.length) svcCspServices.set(`${cat}/${svc}`, cspServices);
+              if (mappingRefs.length) svcMappingRefs.set(`${cat}/${svc}`, mappingRefs);
             }
           }
         }
@@ -624,6 +639,9 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
             return {
               slug,
               title: svcTitles.get(`${cat}/${slug}`) ?? slug,
+              description: svcDescriptions.get(`${cat}/${slug}`),
+              exampleCspServices: svcCspServices.get(`${cat}/${slug}`),
+              mappingReferences: svcMappingRefs.get(`${cat}/${slug}`),
               types: TYPE_ORDER
                 .filter(t => typeSet.has(t))
                 .map(type => ({ type, typePath: `/catalogs/${cat}/${slug}/${type}` })),
@@ -679,33 +697,13 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
         });
       };
 
-      // Build type index files first so they can be reused across routes
-      const typeIndexFiles = new Map<string, string>();
-      for (const typeName of ['capabilities', 'threats', 'controls'] as const) {
-        const serviceEntries: CatalogTypeIndexEntry[] = [];
-        for (const [typePath, data] of types) {
-          if (data.type === typeName) {
-            serviceEntries.push({ category: data.category, service: data.service, typePath });
-          }
-        }
-        const indexData: CatalogTypeIndexData = { type: typeName, serviceEntries };
-        const dataFile = await createData(
-          `catalog-type-index-${typeName}.json`,
-          JSON.stringify(indexData),
-        );
-        typeIndexFiles.set(typeName, dataFile);
-      }
-
-      // Version routes — include type index so sidebar stays filtered
+      // Version routes
       for (const [urlPath, data] of versions) {
         const dataFile = await createData(
           `catalog-version${urlPath.replace(/\//g, '-')}.json`,
           JSON.stringify(data),
         );
-        const modules: Record<string, string> = { catalogVersionData: dataFile };
-        const typeIndexFile = typeIndexFiles.get(data.type);
-        if (typeIndexFile) modules.catalogTypeIndexData = typeIndexFile;
-        add(urlPath, modules);
+        add(urlPath, { catalogVersionData: dataFile });
       }
 
       // Entry routes — /catalogs/<cat>/<svc>/<type>/<version>/<entryId>
@@ -714,33 +712,20 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           `catalog-entry${entryUrlPath.replace(/\//g, '-')}.json`,
           JSON.stringify(detail),
         );
-        const modules: Record<string, string> = { catalogEntryData: dataFile };
-        const typeIndexFile = typeIndexFiles.get(detail.type);
-        if (typeIndexFile) modules.catalogTypeIndexData = typeIndexFile;
-        add(entryUrlPath, modules);
+        add(entryUrlPath, { catalogEntryData: dataFile });
       }
 
-      // Type routes — include type index so sidebar stays filtered
+      // Type routes
       for (const [typePath, data] of types) {
         const dataFile = await createData(
           `catalog-type${typePath.replace(/\//g, '-')}.json`,
           JSON.stringify(data),
         );
-        const modules: Record<string, string> = { catalogTypeData: dataFile };
-        const typeIndexFile = typeIndexFiles.get(data.type);
-        if (typeIndexFile) modules.catalogTypeIndexData = typeIndexFile;
-        add(typePath, modules);
+        add(typePath, { catalogTypeData: dataFile });
       }
 
-      // Category routes — /catalogs/<cat> with all services
+      // Service routes — /catalogs/<cat>/<svc>
       for (const [cat, data] of categories) {
-        const catDataFile = await createData(
-          `catalog-category-${cat}.json`,
-          JSON.stringify(data),
-        );
-        add(`/catalogs/${cat}`, { catalogCategoryData: catDataFile });
-
-        // Service routes — /catalogs/<cat>/<svc> with single-service slice
         for (const svc of data.services) {
           const svcData: CatalogCategoryData = { category: cat, services: [svc] };
           const svcDataFile = await createData(
@@ -749,16 +734,6 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           );
           add(`/catalogs/${cat}/${svc.slug}`, { catalogCategoryData: svcDataFile });
         }
-      }
-
-      // Type overview routes — /capabilities, /threats, /controls
-      for (const typeName of ['capabilities', 'threats', 'controls'] as const) {
-        addRoute({
-          path: `/${typeName}`,
-          component: '@site/src/components/Catalogs/CatalogPage',
-          exact: true,
-          modules: { catalogTypeIndexData: typeIndexFiles.get(typeName)! },
-        });
       }
 
       console.log(`catalog-routes: registered ${added.size} routes`);
