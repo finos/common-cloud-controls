@@ -28,6 +28,11 @@ function isRegisteredRoute(pathname: string): boolean {
   return KNOWN_ROUTE_PATHS.has(`${normalized}/`);
 }
 
+function isFilteredPartType (part: string) {
+  const regexp = new RegExp('v[0-9]*\.[0-9]+');
+  return regexp.test(part) || part=="catalogs" || part=="DEV";
+}
+
 const Breadcrumb = () => {
   const location = useLocation();
   const pathParts = location.pathname.split("/").filter(Boolean);
@@ -41,8 +46,8 @@ const Breadcrumb = () => {
         const to = "/" + pathParts.slice(0, index + 1).join("/");
         const isLastPart = index === pathParts.length - 1;
         const showLink = !isLastPart && isRegisteredRoute(to);
-
         return (
+          !isFilteredPartType(part) && 
           <span key={to}>
             {" > "}
             {showLink ? (
