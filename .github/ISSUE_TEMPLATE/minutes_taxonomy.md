@@ -10,7 +10,7 @@ assignees: "smendis-scottlogic"
 
 ## Date
 
-MM/DD/YYYY - 11:30 ET / 16:30 UK
+MM/DD/YYYY - HH:mm ET / HH:mm UK
 
 - [Join Zoom Meeting](https://zoom.us/j/994109603410)
 - Meeting ID: 941 0960 3410

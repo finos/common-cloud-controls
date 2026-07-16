@@ -43,7 +43,7 @@ The CCC project is currently split into 6 working groups as follows:
 - **Taxonomy** - Focused on defining the taxonomy of cloud services that will be covered by the standard.
 - **Compliant Financial Infrastructure** - Focused on delivery of actual implementations of cloud infrastructure meeting CCC standards.
 
-Work is done in the open, with all meetings and decisions documented in the project GitHub repository. Working groups meet on a fortnightly basis:
+Work is done in the open, with all meetings and decisions documented in the project GitHub repository. Working groups meet regularly; cadence varies by group — see the table below and the FINOS Community Calendar:
 
 | Working Group                                                                           | When                                                    | Chair               | Mailing List                                                              |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------- |
