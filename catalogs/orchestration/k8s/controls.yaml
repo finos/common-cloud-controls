@@ -504,59 +504,13 @@ controls:
             remarks: Flaw Remediation
 
   - id: CCC.K8S.CN10
-    group: Networking
-    title: Restrict External Workload Exposure
-    objective: |
-      Expose Kubernetes workload endpoints externally only through documented and constrained
-      routes that have been explicitly approved.
-    assessment-requirements:
-      - id: CCC.K8S.CN10.AR01
-        text: |
-          When a Service, Ingress, or Gateway creates an externally reachable endpoint,
-          the endpoint's owner, hostnames, routes, ports, protocols, and permitted source
-          networks MUST match an approved exposure record.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Enforce exposure policy during admission and continuously reconcile cloud load
-          balancers, public addresses, Services, Ingresses, and Gateways.
-      - id: CCC.K8S.CN10.AR02
-        text: |
-          When external exposure is not approved, workload traffic routing components MUST
-          use private or internal addressing and MUST NOT allocate a public endpoint.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Default service and ingress templates to internal load balancing and require
-          documented approval for public exposure.
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.K8S.TH10
-            strength: 10
-            remarks: Workload Endpoints are Exposed Unintentionally
-    guidelines:
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: AC-4
-            remarks: Information Flow Enforcement
-          - reference-id: SC-7
-            remarks: Boundary Protection
-
-  - id: CCC.K8S.CN11
     group: Data
     title: Restrict Persistent Volume Access
     objective: |
       Confine persistent storage provisioning and mounts to their approved namespace,
       workload, access mode, and ownership boundary.
     assessment-requirements:
-      - id: CCC.K8S.CN11.AR01
+      - id: CCC.K8S.CN10.AR01
         text: |
           When a persistent volume claim is created, its namespace, storage class, access
           mode, and requesting service account MUST match an approved workload storage
@@ -569,7 +523,7 @@ controls:
         recommendation: |
           Restrict storage classes through admission policy and use dedicated service
           accounts for stateful workloads.
-      - id: CCC.K8S.CN11.AR02
+      - id: CCC.K8S.CN10.AR02
         text: |
           When a persistent volume is statically provisioned or rebound, its underlying
           storage identity and prior ownership MUST be verified before it is mounted by a
@@ -595,14 +549,14 @@ controls:
           - reference-id: AC-4
             remarks: Information Flow Enforcement
 
-  - id: CCC.K8S.CN12
+  - id: CCC.K8S.CN11
     group: Access
     title: Protect Admission Control Enforcement
     objective: |
       Apply mandatory cluster security policy to every workload path and prevent its scope
       or enforcement configuration from being bypassed or modified without authorization.
     assessment-requirements:
-      - id: CCC.K8S.CN12.AR01
+      - id: CCC.K8S.CN11.AR01
         text: |
           When security admission policies are enabled, every namespace and relevant create
           or update operation MUST be governed by an explicitly defined policy, including
@@ -615,7 +569,7 @@ controls:
         recommendation: |
           Test policy coverage across user and system namespaces, workload controllers,
           direct pod creation, and ephemeral container updates.
-      - id: CCC.K8S.CN12.AR02
+      - id: CCC.K8S.CN11.AR02
         text: |
           When admission policy configuration is modified, the change MUST require a
           dedicated administrative role AND produce an externally retained audit record.
@@ -627,7 +581,7 @@ controls:
         recommendation: |
           Separate policy administration from workload administration and alert on policy,
           webhook, namespace-label, and policy-scope changes.
-      - id: CCC.K8S.CN12.AR03
+      - id: CCC.K8S.CN11.AR03
         text: |
           When an external admission component enforces a mandatory control, unavailable or
           untrusted webhook responses MUST cause the request to be denied.
@@ -657,14 +611,14 @@ controls:
           - reference-id: SI-7
             remarks: Software, Firmware, and Information Integrity
 
-  - id: CCC.K8S.CN13
+  - id: CCC.K8S.CN12
     group: Access
     title: Restrict Node Administrative Access
     objective: |
       Block untrusted or unauthenticated paths to worker-node administration, kubelet
       interfaces, and instance metadata.
     assessment-requirements:
-      - id: CCC.K8S.CN13.AR01
+      - id: CCC.K8S.CN12.AR01
         text: |
           When a worker node is active, kubelet and node administrative APIs MUST require
           authentication and authorization AND anonymous or read-only unauthenticated
@@ -677,7 +631,7 @@ controls:
         recommendation: |
           Use provider-managed node authorization and verify kubelet configuration and
           network reachability from outside approved management paths.
-      - id: CCC.K8S.CN13.AR02
+      - id: CCC.K8S.CN12.AR02
         text: |
           When SSH, RDP, or another node management interface is enabled, it MUST NOT be
           reachable from the public internet and MUST be restricted to an approved
@@ -690,7 +644,7 @@ controls:
         recommendation: |
           Disable interactive node access where possible and otherwise use an audited
           session-management or bastion service without public node addresses.
-      - id: CCC.K8S.CN13.AR03
+      - id: CCC.K8S.CN12.AR03
         text: |
           When a workload does not require instance metadata, network access from that
           workload to the node metadata service MUST be denied.
@@ -717,14 +671,14 @@ controls:
           - reference-id: IA-2
             remarks: Identification and Authentication (Organizational Users)
 
-  - id: CCC.K8S.CN14
+  - id: CCC.K8S.CN13
     group: Resource
     title: Bound Workload Resource Consumption
     objective: |
       Bound resource requests, namespace consumption, and autoscaling so workloads cannot
       exhaust cluster or cloud capacity.
     assessment-requirements:
-      - id: CCC.K8S.CN14.AR01
+      - id: CCC.K8S.CN13.AR01
         text: |
           When a workload is admitted, every container MUST define approved CPU and memory
           requests and limits.
@@ -736,7 +690,7 @@ controls:
         recommendation: |
           Apply LimitRanges for defaults and validate workload-specific requests and limits
           against tested capacity requirements.
-      - id: CCC.K8S.CN14.AR02
+      - id: CCC.K8S.CN13.AR02
         text: |
           When a user workload namespace is active, ResourceQuota objects MUST bound its
           aggregate CPU, memory, storage, workload count, and externally exposed services.
@@ -748,7 +702,7 @@ controls:
         recommendation: |
           Provision namespace quotas from centrally governed templates and alert before
           consumption reaches each quota.
-      - id: CCC.K8S.CN14.AR03
+      - id: CCC.K8S.CN13.AR03
         text: |
           When workload or node autoscaling is enabled, every autoscaler MUST define an
           approved maximum replica or capacity boundary.
@@ -772,14 +726,14 @@ controls:
           - reference-id: SC-5
             remarks: Denial-of-service Protection
 
-  - id: CCC.K8S.CN15
+  - id: CCC.K8S.CN14
     group: Observability
     title: Preserve Kubernetes Audit and Monitoring Records
     objective: |
       Maintain complete, externally retained, access-controlled, and monitored records of
       security-relevant Kubernetes activity and health signals.
     assessment-requirements:
-      - id: CCC.K8S.CN15.AR01
+      - id: CCC.K8S.CN14.AR01
         text: |
           When a cluster is operational, Kubernetes API audit logs, control-plane logs, and
           security-relevant node, workload, and network activity records MUST be enabled and
@@ -792,7 +746,7 @@ controls:
         recommendation: |
           Enable each CSP control-plane logging category and export cluster telemetry to a
           centrally governed logging account or project.
-      - id: CCC.K8S.CN15.AR02
+      - id: CCC.K8S.CN14.AR02
         text: |
           When Kubernetes audit or monitoring records are retained, write, delete, and
           configuration access MUST be separated from cluster workload and routine cluster
@@ -805,7 +759,7 @@ controls:
         recommendation: |
           Use a separate security logging boundary with retention protection and narrowly
           scoped read access for monitoring and investigation roles.
-      - id: CCC.K8S.CN15.AR03
+      - id: CCC.K8S.CN14.AR03
         text: |
           When cluster-admin bindings, admission controls, audit settings, network exposure,
           or security extensions change, the monitoring system MUST generate an alert for
@@ -850,14 +804,14 @@ controls:
           - reference-id: AU-12
             remarks: Audit Record Generation
 
-  - id: CCC.K8S.CN16
+  - id: CCC.K8S.CN15
     group: Resource
     title: Protect Resource Metadata
     objective: |
       Preserve the completeness and accuracy of policy-relevant cloud tags and Kubernetes
       labels by limiting modification to authorized identities.
     assessment-requirements:
-      - id: CCC.K8S.CN16.AR01
+      - id: CCC.K8S.CN15.AR01
         text: |
           When a cluster, node pool, namespace, or governed workload is created, all
           organization-required ownership, environment, data-classification, and policy
@@ -870,7 +824,7 @@ controls:
         recommendation: |
           Enforce required cloud tags and Kubernetes labels during resource creation and
           continuously report missing or invalid values.
-      - id: CCC.K8S.CN16.AR02
+      - id: CCC.K8S.CN15.AR02
         text: |
           When metadata controls authorization, network policy, admission, billing, or data
           handling, modification of that metadata MUST be restricted to a dedicated role
@@ -899,14 +853,14 @@ controls:
           - reference-id: CM-8
             remarks: System Component Inventory
 
-  - id: CCC.K8S.CN17
+  - id: CCC.K8S.CN16
     group: Access
     title: Enforce Managed Cluster Authentication
     objective: |
       Bind human access to the Kubernetes API and cluster resources to identities that can
       be centrally governed, monitored, and revoked.
     assessment-requirements:
-      - id: CCC.K8S.CN17.AR01
+      - id: CCC.K8S.CN16.AR01
         text: |
           When a human accesses the Kubernetes API or cluster resources, authentication MUST
           use an identity from a centrally managed identity provider or cloud identity service
@@ -920,7 +874,7 @@ controls:
           Integrate cluster authentication with a managed identity provider or cloud identity
           service and govern human access through centrally maintained identity lifecycle
           processes.
-      - id: CCC.K8S.CN17.AR02
+      - id: CCC.K8S.CN16.AR02
         text: |
           Unmanaged local accounts, static human credentials, and legacy authentication
           methods MUST NOT provide human access to the Kubernetes API or cluster resources.
@@ -951,14 +905,14 @@ controls:
           - reference-id: IA-5
             remarks: Authenticator Management
 
-  - id: CCC.K8S.CN18
+  - id: CCC.K8S.CN17
     group: Access
     title: Restrict Cluster Infrastructure Identities
     objective: |
       Limit cloud access by cluster infrastructure to the permissions and resources required
       for each platform responsibility.
     assessment-requirements:
-      - id: CCC.K8S.CN18.AR01
+      - id: CCC.K8S.CN17.AR01
         text: |
           Control-plane, worker-node, and supporting components with distinct security
           responsibilities MUST use independently governed cloud identities.
@@ -970,7 +924,7 @@ controls:
         recommendation: |
           Separate infrastructure identities according to component responsibility and
           review their trust relationships and assignments together.
-      - id: CCC.K8S.CN18.AR02
+      - id: CCC.K8S.CN17.AR02
         text: |
           Each cluster infrastructure identity MUST grant only the cloud actions and
           resource scope required for its platform responsibility.
@@ -999,14 +953,14 @@ controls:
           - reference-id: AC-6
             remarks: Least Privilege
 
-  - id: CCC.K8S.CN19
+  - id: CCC.K8S.CN18
     group: Compute
     title: Protect Worker Node Integrity
     objective: |
       Prevent untrusted or altered worker-node software from operating beneath Kubernetes
       workloads.
     assessment-requirements:
-      - id: CCC.K8S.CN19.AR01
+      - id: CCC.K8S.CN18.AR01
         text: |
           Worker nodes MUST use supported images obtained from the service or an
           authenticated publisher.
@@ -1018,7 +972,7 @@ controls:
         recommendation: |
           Provision worker pools from maintained image sources and verify image identity and
           support status during creation and replacement.
-      - id: CCC.K8S.CN19.AR02
+      - id: CCC.K8S.CN18.AR02
         text: |
           Worker nodes MUST use service-supported boot-integrity verification before
           accepting workloads.
