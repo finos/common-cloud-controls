@@ -36,7 +36,7 @@ var abbrToWord = map[string]string{"CP": "Capabilities", "CN": "Controls", "TH":
 
 // groupDefsPath is the single source of truth for group definitions, relative
 // to the catalogs directory. Entries reference these groups by id.
-var groupDefsPath = filepath.Join("core", "ccc", "groups.yaml")
+var groupDefsPath = filepath.Join("core", "core", "groups.yaml")
 
 // defaultCoreVersion is used when a source catalog doesn't declare the CCC.Core
 // mapping-reference version.

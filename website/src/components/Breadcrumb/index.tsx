@@ -37,25 +37,42 @@ const Breadcrumb = () => {
   const location = useLocation();
   const pathParts = location.pathname.split("/").filter(Boolean);
 
+  // Build the visible crumbs (dropping filtered segments), then collapse any
+  // consecutive crumbs that render to the same label. The core catalog lives at
+  // /catalogs/core/core, which would otherwise show the label twice in a row.
+  const crumbs: { label: string; to: string; isLastPart: boolean }[] = [];
+  pathParts.forEach((part, index) => {
+    if (isFilteredPartType(part)) return;
+    const label = format(part);
+    const to = "/" + pathParts.slice(0, index + 1).join("/");
+    const isLastPart = index === pathParts.length - 1;
+    const prev = crumbs[crumbs.length - 1];
+    if (prev && prev.label === label) {
+      // Same label as the previous crumb: keep the deeper path so the link
+      // still resolves to the leaf page.
+      prev.to = to;
+      prev.isLastPart = isLastPart;
+    } else {
+      crumbs.push({ label, to, isLastPart });
+    }
+  });
+
   return (
     <nav className="text-sm text-gray-500 mb-4 mx-16 py-5">
       <Link to="/" className="px-3 hover:bg-gray-200 rounded-full hover:no-underline">
         Home
       </Link>
-      {pathParts.map((part, index) => {
-        const to = "/" + pathParts.slice(0, index + 1).join("/");
-        const isLastPart = index === pathParts.length - 1;
+      {crumbs.map(({ label, to, isLastPart }) => {
         const showLink = !isLastPart && isRegisteredRoute(to);
         return (
-          !isFilteredPartType(part) && 
           <span key={to}>
             {" > "}
             {showLink ? (
               <Link to={to} className="px-3 rounded-full hover:bg-gray-200 hover:no-underline">
-                {format(part)}
+                {label}
               </Link>
             ) : (
-              <span className={`px-3 rounded-full ${isLastPart ? "bg-gray-200" : ""}`}>{format(part)}</span>
+              <span className={`px-3 rounded-full ${isLastPart ? "bg-gray-200" : ""}`}>{label}</span>
             )}
           </span>
         );
@@ -67,7 +84,7 @@ const Breadcrumb = () => {
 export default Breadcrumb;
 
 const format = (part: string): string => {
-  if (part === "ccc") {
+  if (part === "core") {
     return "Common Cloud Controls";
   }
   if (part === "cfi") {
