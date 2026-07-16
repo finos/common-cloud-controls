@@ -180,7 +180,7 @@ function publishCoreCatalog(): PublishResult {
         return {
             buildTarget: CORE_BUILD_TARGET,
             success: false,
-            error: 'no compiled core/ccc Gemara artifacts',
+            error: 'no compiled core/core Gemara artifacts',
             outputFiles: [],
         };
     }
