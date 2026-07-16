@@ -209,7 +209,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
       </table>
       </div>)}
 
-      <button onClick={() => downloadFromGithub(
+      <button className="catalog-type-btn" onClick={() => downloadFromGithub(
         yamlLink,
         yamlName
       )}>Download file from GitHub</button>
