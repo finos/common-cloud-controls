@@ -43,8 +43,8 @@ controls:
           minimal allowlist of approved administration networks.
       - id: CCC.K8S.CN01.AR02
         text: |
-          When a cluster processes TLP:AMBER or TLP:RED data, public network access to
-          the Kubernetes API endpoint MUST be disabled.
+          When a Kubernetes API endpoint is active, public network access to that endpoint
+          MUST be disabled.
         applicability:
           - tlp-amber
           - tlp-red
@@ -324,6 +324,9 @@ controls:
           - reference-id: CCC.K8S.TH06
             strength: 10
             remarks: Workload Network Segmentation is Not Enforced
+          - reference-id: CCC.K8S.TH10
+            strength: 7 # Default-deny networking limits access but not endpoint creation.
+            remarks: Workload Endpoints are Exposed Unintentionally
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -789,6 +792,9 @@ controls:
           - reference-id: CCC.Core.TH16
             strength: 10
             remarks: Publications are Disabled
+          - reference-id: CCC.K8S.TH10
+            strength: 4 # Monitoring detects exposure changes but does not prevent them.
+            remarks: Workload Endpoints are Exposed Unintentionally
           - reference-id: CCC.K8S.TH15
             strength: 10
             remarks: Kubernetes Audit Records are Incomplete or Unavailable
