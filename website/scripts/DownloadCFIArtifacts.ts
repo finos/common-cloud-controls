@@ -33,12 +33,28 @@ interface GitHubArtifact {
     archive_download_url: string;
     created_at: string;
     updated_at: string;
+    /** GitHub expires artifacts (90 days by default); downloading an expired one returns HTTP 410. */
+    expired?: boolean;
+    expires_at?: string;
 }
+
+/** Outcome of attempting to download a single artifact archive. */
+type ArtifactDownloadOutcome = 'downloaded' | 'expired' | 'error';
 
 const workflowIdCache = new Map<string, number>();
 
 function githubHeaders(): Record<string, string> {
     return GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+}
+
+/** HTTP status code for an axios error, or undefined for non-HTTP failures. */
+function httpStatusOf(error: unknown): number | undefined {
+    return axios.isAxiosError(error) ? error.response?.status : undefined;
+}
+
+/** GitHub returns 410 Gone when the artifact archive has expired and can no longer be downloaded. */
+function isArtifactGone(artifact: GitHubArtifact, error?: unknown): boolean {
+    return Boolean(artifact.expired) || httpStatusOf(error) === 410;
 }
 
 function workflowPathFromFile(workflowFile: string): string {
@@ -134,7 +150,9 @@ async function getLatestRunWithArtifactsForBranch(
             }
 
             const artifacts = await getArtifacts(owner, repo, candidate.id);
-            if (artifacts.some((artifact) => artifactMatchesFilter(artifact.name, artifactFilter))) {
+            // Only treat a run as usable when it still has a matching artifact that has not expired,
+            // so we don't select a run whose artifacts would all 410 on download.
+            if (artifacts.some((artifact) => artifactMatchesFilter(artifact.name, artifactFilter) && !isArtifactGone(artifact))) {
                 return candidate;
             }
         }
@@ -224,8 +242,30 @@ async function getArtifacts(owner: string, repo: string, runId: number): Promise
     }
 }
 
-async function downloadArtifact(owner: string, repo: string, artifact: GitHubArtifact, outputPath: string): Promise<void> {
+/** Remove a partially-written archive so we never try to unzip a corrupt/empty file. */
+function removePartialDownload(outputPath: string): void {
+    if (fs.existsSync(outputPath)) {
+        try {
+            fs.unlinkSync(outputPath);
+        } catch {
+            // best-effort cleanup; ignore
+        }
+    }
+}
+
+async function downloadArtifact(
+    owner: string,
+    repo: string,
+    artifact: GitHubArtifact,
+    outputPath: string
+): Promise<ArtifactDownloadOutcome> {
     const headers = githubHeaders();
+
+    // Expired artifacts are gone from GitHub storage; skip before spending a request that would 410.
+    if (isArtifactGone(artifact)) {
+        console.warn(`⏭️  ${artifact.name} is expired on GitHub; skipping download (cached data, if any, is kept)`);
+        return 'expired';
+    }
 
     try {
         console.log(`⬇️  Downloading ${artifact.name} from ${owner}/${repo}...`);
@@ -243,8 +283,19 @@ async function downloadArtifact(owner: string, repo: string, artifact: GitHubArt
         });
 
         console.log(`✅ Downloaded ${artifact.name} to ${outputPath}`);
+        return 'downloaded';
     } catch (error) {
+        removePartialDownload(outputPath);
+
+        if (isArtifactGone(artifact, error)) {
+            console.warn(
+                `⏭️  ${artifact.name} returned 410 Gone (expired artifact); skipping and keeping cached data if present`
+            );
+            return 'expired';
+        }
+
         console.error(`❌ Error downloading ${artifact.name}: ${error}`);
+        return 'error';
     }
 }
 
@@ -425,13 +476,36 @@ async function downloadCFIArtifacts(): Promise<void> {
                     return;
                 }
 
+                // Expired artifacts (410 Gone) are optional: skip them and keep any previously cached
+                // extraction so the build still succeeds instead of failing on a dead download URL.
+                const liveArtifacts = resultArtifacts.filter((a) => !isArtifactGone(a));
+                const expiredCount = resultArtifacts.length - liveArtifacts.length;
+                if (expiredCount > 0) {
+                    console.warn(
+                        `⏭️  ${expiredCount}/${resultArtifacts.length} matching artifacts are expired for ${repo.name} (branch ${branchLabel}); relying on cached data where present`
+                    );
+                }
+
+                if (liveArtifacts.length === 0) {
+                    console.warn(
+                        `⚠️  All matching artifacts for ${repo.name} (branch ${branchLabel}) are expired; skipping download and keeping cached results`
+                    );
+                    return;
+                }
+
                 console.log(
-                    `📦 Found ${resultArtifacts.length} matching artifacts (branch ${branchLabel}, run ${run.id})`
+                    `📦 Found ${liveArtifacts.length} downloadable artifacts (branch ${branchLabel}, run ${run.id})`
                 );
 
-                for (const artifact of resultArtifacts) {
+                for (const artifact of liveArtifacts) {
                     const outputPath = path.join(repoOutputDir, `${artifact.name}-${branchDirSuffix}.zip`);
-                    await downloadArtifact(owner, repoName, artifact, outputPath);
+                    const outcome = await downloadArtifact(owner, repoName, artifact, outputPath);
+                    if (outcome !== 'downloaded') {
+                        console.warn(
+                            `⏭️  Skipping ${artifact.name} (${outcome}); leaving existing cached data untouched`
+                        );
+                        continue;
+                    }
                     const downloadedAt = new Date().toISOString();
                     await unzipArtifact(outputPath, artifact.name, repo, branchDirSuffix, run, artifact, downloadedAt);
                 }

@@ -11,7 +11,7 @@ Identify and create security controls for a cloud service, supporting the onboar
 
 ## Final Outcome
 
-A `controls.yaml` file created in the service folder that imports applicable core controls from `catalogs/core/ccc/controls.yaml`, defines service-specific controls mapped to identified threats, includes testable assessment requirements with TLP applicability, and validates against `schemas/controls-schema.json`.
+A `controls.yaml` file created in the service folder that imports applicable core controls from `catalogs/core/core/controls.yaml`, defines service-specific controls mapped to identified threats, includes testable assessment requirements with TLP applicability, and validates against `schemas/controls-schema.json`.
 
 ## When to Use
 
@@ -134,7 +134,7 @@ Confidence: `High|Medium|Low`
 
 ## Step 3: Core Control Reuse
 
-1. Read `catalogs/core/ccc/controls.yaml` and review all core controls (`CCC.Core.CN*`), including the threats each one mitigates.
+1. Read `catalogs/core/core/controls.yaml` and review all core controls (`CCC.Core.CN*`), including the threats each one mitigates.
 
 2. Select core controls for import when:
    - The core control mitigates one or more threats in the Step 2 inventory, AND
@@ -168,7 +168,7 @@ Confidence: `High|Medium|Low`
 4. Each proposed control must:
    - Map to at least one threat from the Step 2 inventory.
    - Be achievable on all three CSPs (provider-neutral), even if implementation differs.
-   - Use a `group` id defined in `catalogs/core/ccc/groups.yaml` (e.g., `Encryption`, `Access`, `Observability`, `Data`, `Resource`).
+   - Use a `group` id defined in `catalogs/core/core/groups.yaml` (e.g., `Encryption`, `Access`, `Observability`, `Data`, `Resource`).
 
 5. Number controls sequentially: `CCC.<ABBREVIATION>.CN01`, `CCC.<ABBREVIATION>.CN02`, ...
    - If updating an existing `controls.yaml`, continue numbering after the highest existing id and do not renumber existing controls.
@@ -289,7 +289,7 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
    - Group entries by framework; include `remarks` with the framework control title for readability.
    - Omit the `guidelines` block entirely (or a specific framework entry) when no confident mapping exists rather than guessing. Do not fabricate control identifiers; map only where the source actually addresses the control's objective.
 
-7. Validate the final object against `schemas/controls-schema.json` before writing the file. Verify every `group` id exists in `catalogs/core/ccc/groups.yaml`, every threat `reference-id` exists in the service `threats.yaml` or core threats, and every guideline `reference-id` is one of the declared `metadata.mapping-references` (`FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, `AIGF`).
+7. Validate the final object against `schemas/controls-schema.json` before writing the file. Verify every `group` id exists in `catalogs/core/core/groups.yaml`, every threat `reference-id` exists in the service `threats.yaml` or core threats, and every guideline `reference-id` is one of the declared `metadata.mapping-references` (`FS_ISAC`, `NIST_800_53`, `CRI`, `DORA`, `CRA`, `AIGF`).
 
 8. Write the file to `<target-path>/controls.yaml`.
 

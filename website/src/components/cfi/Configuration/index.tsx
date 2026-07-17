@@ -56,7 +56,7 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                   </tr>
                   <tr>
                     <td className="font-medium">Branch</td>
-                    <td>{source_details.branch}</td>
+                    <td>{source_details?.branch}</td>
                   </tr>
                   <tr>
                     <td className="font-medium">Description</td>

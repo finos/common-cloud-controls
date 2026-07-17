@@ -61,7 +61,7 @@
           },
           "group": {
             "type": "string",
-            "description": "Group id this threat belongs to (defined in core/ccc/groups.yaml)"
+            "description": "Group id this threat belongs to (defined in core/core/groups.yaml)"
           },
           "capabilities": {
             "type": "array",
@@ -81,6 +81,43 @@
                         "type": "string",
                         "pattern": "^CCC(\\.[a-zA-Z0-9]+)?\\.CP\\d+$",
                         "description": "Feature/Capability ID"
+                      },
+                      "strength": {
+                        "type": "integer"
+                      },
+                      "remarks": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["reference-id"],
+                    "additionalProperties": false
+                  }
+                },
+                "remarks": {
+                  "type": "string"
+                }
+              },
+              "required": ["reference-id", "entries"],
+              "additionalProperties": false
+            }
+          },
+          "vectors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "reference-id": {
+                  "type": "string",
+                  "description": "Vector catalog mapping namespace (e.g., air-vec)"
+                },
+                "entries": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "reference-id": {
+                        "type": "string",
+                        "description": "Threat vector ID"
                       },
                       "strength": {
                         "type": "integer"

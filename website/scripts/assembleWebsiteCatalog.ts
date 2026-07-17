@@ -15,7 +15,7 @@ const STAGING_DIR = path.join(OUTPUT_DIR, '.compile-staging');
 const ASSET_TYPES = ['capabilities', 'threats', 'controls'] as const;
 type AssetType = (typeof ASSET_TYPES)[number];
 
-const CORE_BUILD_TARGET = 'core/ccc';
+const CORE_BUILD_TARGET = 'core/core';
 const CORE_VERSION = 'v2025.10';
 
 interface CatalogTarget {
@@ -180,7 +180,7 @@ function publishCoreCatalog(): PublishResult {
         return {
             buildTarget: CORE_BUILD_TARGET,
             success: false,
-            error: 'no compiled core/ccc Gemara artifacts',
+            error: 'no compiled core/core Gemara artifacts',
             outputFiles: [],
         };
     }
