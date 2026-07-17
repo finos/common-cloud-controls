@@ -29,7 +29,6 @@ func init() {
 	Compile.Flags().String("version", "", "Release version stamped into the artifact (e.g. v2026.04)")
 }
 
-
 var entryRef = regexp.MustCompile(`^CCC\.([A-Za-z0-9]+)\.(CP|CN|TH)\d+$`)
 
 var abbrToWord = map[string]string{"CP": "Capabilities", "CN": "Controls", "TH": "Threats"}
