@@ -589,7 +589,7 @@ export default function pluginCatalogRoutes(context: LoadContext): Plugin<Plugin
           });
         }
         const summary = verMap.get(data.version)!;
-        summary[`${data.type}Count` as 'capabilitiesCount' | 'threatsCount' | 'controlsCount'] = data.entries.length;
+        summary[`${data.type}Count` as 'capabilitiesCount' | 'threatsCount' | 'controlsCount'] = data.entries.length + data.imports.length;
         summary.typePaths[data.type] = urlPath;
       }
 
