@@ -157,7 +157,7 @@ Confidence: <High|Medium|Low>
    - Include only capabilities that are genuinely shared across all three mapped providers (AWS, Azure, and GCP). Verify each candidate against every provider's official documentation before including it.
    - Exclude features that exist on only one provider, and exclude capabilities that belong to a different service category. For example, do not add relational SQL engine options (MySQL, PostgreSQL) to a NoSQL catalog, because the example NoSQL service cannot provide them.
    - Express each capability in terms of the provider-neutral behavior, not a single provider's product feature name.
-6. Look at the imported core capabilities in `catalogs/core/ccc/capabilities.yaml` and select any matching shared capabilities that should be reused.
+6. Look at the imported core capabilities in `catalogs/core/core/capabilities.yaml` and select any matching shared capabilities that should be reused.
 7. Do not duplicate capabilities already covered by `imported-capabilities` as service-specific entries in `capabilities`.
 
 - If a capability is imported from core, keep it in `imported-capabilities` only.

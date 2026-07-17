@@ -52,7 +52,7 @@
             },
             "group": {
               "type": "string",
-              "description": "Group id from core/ccc/groups.yaml (e.g., Encryption, Access, Observability, Data, MachineLearning)"
+              "description": "Group id from core/core/groups.yaml (e.g., Encryption, Access, Observability, Data, MachineLearning)"
             },
             "title": {
               "type": "string",
