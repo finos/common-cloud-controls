@@ -269,7 +269,7 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
 
   // Category-level view
   const isSingleService = services.length === 1;
-  const isCore = isSingleService && services[0]?.slug === "ccc";
+  const isCore = isSingleService && services[0]?.slug === "core";
 
   return (
     <div className="page-layout">
