@@ -41,5 +41,5 @@ applicable) `threats.yaml` / `controls.yaml`.
 - Include only capabilities genuinely shared across all mapped providers
   (AWS, Azure, GCP); do not include single-provider or other-category features.
 - Reuse shared core capabilities from
-  [`catalogs/core/ccc/capabilities.yaml`](catalogs/core/ccc/capabilities.yaml) via
+  [`catalogs/core/core/capabilities.yaml`](catalogs/core/core/capabilities.yaml) via
   `imported-capabilities` instead of duplicating them as service-specific entries.

@@ -11,7 +11,7 @@ Identify and create security threats for a cloud service, supporting the onboard
 
 ## Final Outcome
 
-A `threats.yaml` file created in the service folder that imports applicable core threats from `catalogs/core/ccc/threats.yaml`, defines service-specific threats mapped to the service's capabilities, grounds each threat in current adversary and exploitation evidence, and maps it to external frameworks — adversary techniques (MITRE ATT&CK), defensive countermeasures (MITRE D3FEND), known exploited vulnerabilities (CISA KEV), and weakness taxonomies (CWE, OWASP) — validated against `schemas/threats-schema.json`.
+A `threats.yaml` file created in the service folder that imports applicable core threats from `catalogs/core/core/threats.yaml`, defines service-specific threats mapped to the service's capabilities, grounds each threat in current adversary and exploitation evidence, and maps it to external frameworks — adversary techniques (MITRE ATT&CK), defensive countermeasures (MITRE D3FEND), known exploited vulnerabilities (CISA KEV), and weakness taxonomies (CWE, OWASP) — validated against `schemas/threats-schema.json`.
 
 ## When to Use
 
@@ -116,7 +116,7 @@ Confidence: `High|Medium|Low`
 
 ## Step 3: Core Threat Reuse
 
-1. Read `catalogs/core/ccc/threats.yaml` and review all core threats (`CCC.Core.TH*`).
+1. Read `catalogs/core/core/threats.yaml` and review all core threats (`CCC.Core.TH*`).
 
 2. Select core threats for import when the threat applies to one or more of the service's capabilities (e.g., import `CCC.Core.TH02` "Data is Intercepted in Transit" only if the service transmits data over the network).
 
@@ -159,7 +159,7 @@ Before drafting threats, work each capability from the Step 2 inventory against 
 3. Each proposed threat must:
    - Map to at least one capability from the Step 2 inventory.
    - Be realizable on all three CSPs (provider-neutral), even if the mechanism differs. Evidence from a single CSP advisory or a CVE in KEV satisfies the realizability check; generalize the underlying weakness to a provider-neutral statement.
-   - Use a `group` id defined in `catalogs/core/ccc/groups.yaml` (e.g., `Encryption`, `Access`, `Observability`, `Data`, `Resource`).
+   - Use a `group` id defined in `catalogs/core/core/groups.yaml` (e.g., `Encryption`, `Access`, `Observability`, `Data`, `Resource`).
 
 4. Number threats sequentially: `CCC.<ABBREVIATION>.TH01`, `CCC.<ABBREVIATION>.TH02`, ...
    - If updating an existing `threats.yaml`, continue numbering after the highest existing id and do not renumber existing threats.
@@ -270,7 +270,7 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
    - Omit the `external-mappings` block entirely when no confident, in-gate mapping exists rather than guessing.
 
 6. Validate the final object against `schemas/threats-schema.json` before writing the file. Verify:
-   - Every `group` id exists in `catalogs/core/ccc/groups.yaml`.
+   - Every `group` id exists in `catalogs/core/core/groups.yaml`.
    - Every capability `reference-id` exists in the service `capabilities.yaml` or core capabilities.
    - Every `external-mappings` `reference-id` framework is declared in `metadata.mapping-references` (drop any that are not, rather than failing the write).
 
