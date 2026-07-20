@@ -3,8 +3,6 @@ import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import { CatalogTable } from "./CatalogVersionPage";
 import type { CatalogVersionData } from "./CatalogVersionPage";
-import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
-
 export interface CatalogTypeData {
   category: string;
   service: string;
@@ -15,7 +13,6 @@ export interface CatalogTypeData {
 
 interface Props {
   data: CatalogTypeData;
-  typeIndexData?: CatalogTypeIndexData;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -32,7 +29,7 @@ const btnReset: React.CSSProperties = {
   background: "transparent",
 };
 
-export const CatalogTypePage: React.FC<Props> = ({ data, typeIndexData }) => {
+export const CatalogTypePage: React.FC<Props> = ({ data }) => {
   const { category, service, type } = data;
   const versionPaths: string[] = data.versionPaths ?? [];
   const allVersionData: CatalogVersionData[] = data.allVersionData ?? [];
@@ -40,9 +37,26 @@ export const CatalogTypePage: React.FC<Props> = ({ data, typeIndexData }) => {
   const typeLabel = TYPE_LABELS[type] ?? type.charAt(0).toUpperCase() + type.slice(1);
   const activeData = allVersionData[selectedIdx];
 
+  const yamlName = `${data.category}/${data.service}/${data.type}.yaml`;
+  const yamlLink = `https://raw.githubusercontent.com/finos/common-cloud-controls/refs/heads/main/catalogs/${yamlName}`;
+
+  async function downloadFromGithub(rawUrl: string, filename?: string) {
+      const resp = await fetch(rawUrl, { headers: { Accept: 'application/octet-stream' } });
+      if (!resp.ok) throw new Error(`Download failed: ${resp.status}`);
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename ?? (rawUrl.split('/').pop() ?? 'file');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="page-layout">
-      <CatalogSidebar typeIndexData={typeIndexData} />
+      <CatalogSidebar />
       <article style={{ flex: 1, minWidth: 0 }}>
         <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
           {prettifySegment(category)} / {prettifySegment(service)}
@@ -67,6 +81,11 @@ export const CatalogTypePage: React.FC<Props> = ({ data, typeIndexData }) => {
                   {vPath.split("/").pop()}{i === 0 ? " (latest)" : ""}
                 </button>
               ))}
+
+              <button className="catalog-type-btn" style={{marginLeft:"auto", fontSize: "0.85rem"}} onClick={() => downloadFromGithub(
+                yamlLink,
+                yamlName
+              )}>Download file from GitHub</button>
             </div>
             {activeData && <CatalogTable data={activeData} />}
           </>
