@@ -4,7 +4,7 @@ name: Gemara Schema Check
 # delivery-toolkit and validates against the Gemara CUE schema (pinned at
 # GEMARA_SPEC_REF). Per-file scope: only build targets whose YAMLs were touched
 # are re-validated. Changes to shared/core files (`catalogs/categories.yaml`,
-# `catalogs/core/ccc/**`) cascade to every target because every catalog depends
+# `catalogs/core/core/**`) cascade to every target because every catalog depends
 # on them.
 #
 # Fails the PR on any compile error or schema violation.
@@ -78,7 +78,7 @@ jobs:
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             case "$f" in
-              catalogs/categories.yaml|catalogs/categories.yml|catalogs/core/ccc/*)
+              catalogs/categories.yaml|catalogs/categories.yml|catalogs/core/core/*)
                 broad=1
                 break
                 ;;
