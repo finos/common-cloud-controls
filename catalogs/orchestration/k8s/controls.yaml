@@ -388,62 +388,32 @@ controls:
 
   - id: CCC.K8S.CN08
     group: Orchestration
-    title: Govern Cluster Extensions
+    title: Allowlist CSP-Provided Cluster Add-ons and Extensions
     objective: |
-      Maintain provenance, permission, and failure-behavior boundaries for every cluster
-      extension that can observe or modify Kubernetes resources.
+      Restrict enabled CSP-provided cluster add-ons, extensions, and managed features to an
+      organization-controlled allowlist.
     assessment-requirements:
       - id: CCC.K8S.CN08.AR01
         text: |
-          When an extension, operator, controller, or admission webhook is installed, its
-          source, version, image digest, publisher, and business owner MUST match an approved
-          extension inventory.
+          When a CSP-provided cluster add-on, extension, or managed feature is enabled, it MUST
+          be included in an organization-controlled allowlist.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Maintain an approved extension registry and reconcile installed components against
-          it continuously.
-      - id: CCC.K8S.CN08.AR02
-        text: |
-          When an extension is granted Kubernetes permissions, its service account roles
-          MUST enumerate only the API groups, resources, names, and verbs required for its
-          documented function.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Review generated manifests before installation and replace wildcard cluster roles
-          with narrowly scoped roles.
-      - id: CCC.K8S.CN08.AR03
-        text: |
-          When an admission webhook enforces a security requirement, it MUST use a valid
-          trusted TLS configuration AND fail closed when the webhook is unavailable.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Configure a trusted CA bundle, monitor certificate expiration, deploy redundant
-          webhook replicas, and set the failure policy to Fail.
+          Assign a cluster platform owner to maintain the allowlist through change control and
+          continuously reconcile installed components against it.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.K8S.TH08
             strength: 10
             remarks: Cluster Extensions Execute Untrusted Code
-          - reference-id: CCC.K8S.TH13
-            strength: 9 # Governance constrains controller scope and provenance.
-            remarks: Controllers Reconcile Unauthorized Cluster State
     guidelines:
       - reference-id: NIST_800_53
         entries:
-          - reference-id: AC-6
-            remarks: Least Privilege
           - reference-id: SI-7
             remarks: Software, Firmware, and Information Integrity
           - reference-id: SR-3
@@ -482,8 +452,8 @@ controls:
           representative non-production cluster before promotion.
       - id: CCC.K8S.CN09.AR03
         text: |
-          When a cluster extension is installed, its version MUST be compatible with the
-          active Kubernetes version and remain supported by its publisher.
+          When a cluster add-on or extension is installed, its version MUST be compatible with
+          the active Kubernetes version and remain supported by its publisher.
         applicability:
           - tlp-clear
           - tlp-green
