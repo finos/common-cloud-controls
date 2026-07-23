@@ -50,6 +50,7 @@ jobs:
       VERSION: ${{ inputs.version }}
       DRY_RUN: ${{ inputs.dry_run }}
       GH_TOKEN: ${{ github.token }}
+      LICENSE: Community-Spec-1.0
     steps:
       - uses: actions/checkout@v4
 
@@ -62,7 +63,7 @@ jobs:
       - name: Install grcli
         # Pinned for reproducibility (not :latest). Bump deliberately after testing.
         env:
-          GRCLI_VERSION: v0.2.2
+          GRCLI_VERSION: v0.5.0
         run: |
           oras pull "ghcr.io/revanite-io/grcli:${GRCLI_VERSION}" --platform linux/amd64
           sudo install grcli /usr/local/bin/grcli
@@ -71,7 +72,9 @@ jobs:
       # validate shells out to `cue vet`; publish keyless-signs via `cosign`.
       - name: Install cue
         run: go install cuelang.org/go/cmd/cue@v0.16.1
-      - uses: sigstore/cosign-installer@v3
+      - uses: sigstore/cosign-installer@v4.1.2
+        with:
+          cosign-release: v3.1.1
 
       - name: Release every catalog asset
         run: |
@@ -175,12 +178,12 @@ jobs:
 
             # Publish to grc.store (or build the bundle only, on a dry run).
             if [ "$DRY_RUN" = "true" ]; then
-              if ! out="$(grcli publish "$file" --dry-run --output artifacts/oci 2>&1)"; then
+              if ! out="$(grcli publish "$file" --license "$LICENSE" --dry-run --output artifacts/oci 2>&1)"; then
                 echo "$out"; R_REASON="Dry-run bundle build failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
               fi
               echo "$out"; return 0
             fi
-            if ! out="$(grcli publish "$file" 2>&1)"; then
+            if ! out="$(grcli publish "$file" --license "$LICENSE" 2>&1)"; then
               echo "$out"; R_REASON="Publish to grc.store failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
             fi
             echo "$out"
