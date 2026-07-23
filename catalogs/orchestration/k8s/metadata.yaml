@@ -2,15 +2,15 @@ metadata:
   id: CCC.K8S
   title: CCC Managed Kubernetes Container Orchestration
   description: |
-    Provides fully managed environments for running Kubernetes clusters without requiring
-    users to handle control-plane operations like upgrades, patching, or high‑availability
-    setups. They automate cluster provisioning, scaling, and integration with each
-    provider’s native ecosystem, offering secure, reliable, and production‑ready
-    Kubernetes deployments.
+    Managed Kubernetes services provide a cloud-hosted Kubernetes control plane and
+    integrated compute, networking, storage, identity, and observability capabilities
+    for orchestrating containerized workloads. The cloud service provider operates the
+    managed service components, while users remain responsible for configuring cluster
+    access, workloads, policies, data protection, and service integrations.
   category-ids:
     - CCC.Orchestration
   version: ""
-  last-modified: "2026-02-18T00:00:00Z"
+  last-modified: "2026-07-13T00:00:00Z"
   example-csp-services:
     - provider: AWS
       service: Amazon Elastic Kubernetes Service (EKS)
@@ -22,4 +22,44 @@ metadata:
       service: Google Kubernetes Engine (GKE)
       url: https://cloud.google.com/kubernetes-engine/docs
   applicability-categories: []
-  mapping-references: []
+  mapping-references:
+    - id: MITRE-ATT&CK
+      title: MITRE ATT&CK Enterprise
+      version: ""
+      url: https://attack.mitre.org/
+    - id: D3FEND
+      title: MITRE D3FEND
+      version: ""
+      url: https://d3fend.mitre.org/
+    - id: CISA-KEV
+      title: CISA Known Exploited Vulnerabilities Catalog
+      version: ""
+      url: https://www.cisa.gov/known-exploited-vulnerabilities-catalog
+    - id: CWE
+      title: Common Weakness Enumeration
+      version: ""
+      url: https://cwe.mitre.org/
+    - id: OWASP-Top-10
+      title: OWASP Top 10
+      version: "2025"
+      url: https://owasp.org/www-project-top-ten/
+    - id: NIST_800_53
+      title: NIST SP 800-53 Rev. 5
+      version: "Rev. 5"
+      url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
+    - id: CRI
+      title: Cyber Risk Institute Profile
+      version: ""
+      url: https://cyberriskinstitute.org/the-profile/
+    - id: DORA
+      title: Digital Operational Resilience Act
+      version: "EU 2022/2554"
+      url: https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng
+    - id: CRA
+      title: Cyber Resilience Act
+      version: "EU 2024/2847"
+      url: https://eur-lex.europa.eu/eli/reg/2024/2847/oj/eng
+    - id: FS_ISAC
+      title: Financial Services Information Sharing and Analysis Center
+      version: ""
+      url: https://www.fsisac.com/

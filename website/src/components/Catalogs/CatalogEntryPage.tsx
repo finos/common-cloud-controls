@@ -2,7 +2,6 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
-import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 import type { CatalogEntry, CatalogGuidelineMapping } from "./CatalogVersionPage";
 
 export interface CatalogRelatedEntry {
@@ -25,7 +24,6 @@ export interface CatalogEntryDetailData {
 
 interface Props {
   data: CatalogEntryDetailData;
-  typeIndexData?: CatalogTypeIndexData;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -105,17 +103,19 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
   );
 };
 
-export const CatalogEntryPage: React.FC<Props> = ({ data, typeIndexData }) => {
+export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
   const { category, service, version, type, entry } = data;
   const typePath = `/catalogs/${category}/${service}/${type}/${version}`;
 
   return (
     <div className="page-layout">
-      <CatalogSidebar typeIndexData={typeIndexData} />
+      <CatalogSidebar />
       <article style={{ flex: 1, minWidth: 0 }}>
         <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
+          {prettifySegment(category)}
+          {" / "}
           <Link to={`/catalogs/${category}/${service}`}>
-            {prettifySegment(category)} / {prettifySegment(service)}
+            {prettifySegment(service)}
           </Link>
           {" / "}
           <Link to={typePath}>{TYPE_LABELS[type] ?? type}</Link>

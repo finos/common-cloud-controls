@@ -60,7 +60,7 @@
           },
           "group": {
             "type": "string",
-            "description": "Group id this capability belongs to (defined in core/ccc/groups.yaml)"
+            "description": "Group id this capability belongs to (defined in core/core/groups.yaml)"
           }
         },
         "required": ["id", "title", "description", "group"],

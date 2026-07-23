@@ -122,6 +122,11 @@ groups:
     description: |
       Continuous oversight, quality assurance, and adaptive improvement
       through feedback, human supervision, and runtime protection.
+  - id: observability
+    title: Observability Layer
+    description: |
+      Cross-layer telemetry collection, anomaly detection, and signal
+      correlation that keep system behaviour visible and auditable.
   - id: PREV
     title: Preventive
     description: Prevention and Risk Mitigation

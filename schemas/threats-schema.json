@@ -248,7 +248,7 @@
           },
           "group": {
             "type": "string",
-            "description": "Group id this threat belongs to (defined in core/ccc/groups.yaml or this catalog's groups)"
+            "description": "Group id this threat belongs to (defined in core/core/groups.yaml or this catalog's groups)"
           },
           "capabilities": {
             "type": "array",

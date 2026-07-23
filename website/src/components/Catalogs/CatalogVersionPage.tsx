@@ -3,7 +3,6 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
-import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 import { MappingCountBadge } from "../shared/MappingCountBadge";
 
 export interface CatalogAssessmentRequirement {
@@ -61,12 +60,11 @@ export interface CatalogVersionData {
 
 interface Props {
   data: CatalogVersionData;
-  typeIndexData?: CatalogTypeIndexData;
 }
 
-export const CatalogVersionPage: React.FC<Props> = ({ data, typeIndexData }) => (
+export const CatalogVersionPage: React.FC<Props> = ({ data }) => (
   <div className="page-layout">
-    <CatalogSidebar typeIndexData={typeIndexData} />
+    <CatalogSidebar />
     <article style={{ flex: 1, minWidth: 0 }}>
       <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
         {prettifySegment(data.category)} / {prettifySegment(data.service)}
@@ -89,6 +87,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
   const typePath = `/catalogs/${data.category}/${data.service}/${data.type}/${data.version}`;
   return (
     <div className="library-article-body">
+      {sortedEntries.length > 0  &&(
       <table>
         <thead>
           <tr>
@@ -157,7 +156,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           ))}
         </tbody>
       </table>
-
+      )}
       {data.imports && data.imports.length > 0 && (<div>
         <h1>Imports</h1>
         <table>
