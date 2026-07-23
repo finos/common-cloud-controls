@@ -170,7 +170,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
       )}
       {data.imports && data.imports.length > 0 && (<div>
         <h1>Imports</h1>
-        <table>
+        <table style={{ marginLeft: 0 }}>
         <thead>
           <tr>
             <th>ID</th>

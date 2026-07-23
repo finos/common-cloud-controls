@@ -4,6 +4,16 @@
   padding: 2rem 1.5rem 4rem;
 }
 
+.page h1 {
+  text-align: center;
+}
+
+.page p {
+  color: var(--gf-color-text);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
 .pageHeader {
   background: var(--gf-color-background-strong);
   border: 1px solid var(--gf-color-accent-soft);
