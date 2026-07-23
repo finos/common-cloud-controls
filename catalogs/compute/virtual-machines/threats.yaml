@@ -38,11 +38,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP11
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1601
-          - reference-id: T1584.001
 
   - id: CCC.VM.TH02
     group: Access
@@ -55,10 +50,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP16
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1552.005
 
   - id: CCC.VM.TH03
     group: Compute
@@ -71,11 +62,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP19
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1204
-          - reference-id: T1059.004
 
   - id: CCC.VM.TH04
     group: Resource
@@ -88,10 +74,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP18
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1601.002
 
   - id: CCC.VM.TH05
     group: Networking
@@ -104,11 +86,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP23
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1021
-          - reference-id: T1071
 
   - id: CCC.VM.TH06
     group: Access
@@ -121,11 +98,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP22
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1021.001
-          - reference-id: T1078
 
   - id: CCC.VM.TH07
     group: Resource
@@ -139,15 +111,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP06
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1499
-            strength: 0 # Not yet specified
-            remarks: Endpoint Denial of Service
-          - reference-id: T1489
-            strength: 0 # Not yet specified
-            remarks: Service Stop
 
   - id: CCC.VM.TH08
     group: Data
@@ -160,15 +123,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP07
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1040
-            strength: 0 # Not yet specified
-            remarks: Network Sniffing
-          - reference-id: T1203
-            strength: 0 # Not yet specified
-            remarks: Exploitation for Client Execution
 
   - id: CCC.VM.TH09
     group: Access
@@ -182,15 +136,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP08
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1068
-            strength: 0 # Not yet specified
-            remarks: Exploitation for Privilege Escalation
-          - reference-id: T1578.002
-            strength: 0 # Not yet specified
-            remarks: "Create or Modify Cloud Compute Infrastructure: Virtual Machine"
 
   - id: CCC.VM.TH10
     group: Resource
@@ -204,12 +149,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP09
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1496
-            strength: 0 # Not yet specified
-            remarks: Resource Hijacking
 
   - id: CCC.VM.TH11
     group: Resource
@@ -222,15 +161,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP10
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1584
-            strength: 0 # Not yet specified
-            remarks: Compromise Infrastructure
-          - reference-id: T1204
-            strength: 0 # Not yet specified
-            remarks: User Execution
 
   - id: CCC.VM.TH12
     group: Resource
@@ -243,9 +173,3 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VM.CP17
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1537
-            strength: 0 # Not yet specified
-            remarks: Transfer Data to Cloud Account

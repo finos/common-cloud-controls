@@ -48,17 +48,6 @@ threats:
             remarks: API Access
           - reference-id: CCC.Core.CP23
             remarks: Network Access Rules
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1609
-            remarks: Container Administration Command
-          - reference-id: T1613
-            remarks: Container and Resource Discovery
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-284
-            remarks: Improper Access Control
 
   - id: CCC.K8S.TH02
     group: Access
@@ -75,17 +64,6 @@ threats:
             remarks: Cloud Identity Integration
           - reference-id: CCC.K8S.CP11
             remarks: Workload Identity Federation
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078.004
-            remarks: Valid Accounts - Cloud Accounts
-          - reference-id: T1098.003
-            remarks: Account Manipulation - Additional Cloud Roles
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-269
-            remarks: Improper Privilege Management
 
   - id: CCC.K8S.TH03
     group: Access
@@ -103,15 +81,6 @@ threats:
             remarks: Workload Identity Federation
           - reference-id: CCC.K8S.CP12
             remarks: Secrets Service Integration
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1552.001
-            remarks: Unsecured Credentials - Credentials In Files
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-522
-            remarks: Insufficiently Protected Credentials
 
   - id: CCC.K8S.TH04
     group: Resource
@@ -128,19 +97,6 @@ threats:
             remarks: OCI Container Image Execution
           - reference-id: CCC.K8S.CP05
             remarks: Container Registry Integration
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1195.002
-            remarks: Supply Chain Compromise - Compromise Software Supply Chain
-          - reference-id: T1525
-            remarks: Implant Internal Image
-          - reference-id: T1610
-            remarks: Deploy Container
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-494
-            remarks: Download of Code Without Integrity Check
 
   - id: CCC.K8S.TH05
     group: Compute
@@ -161,15 +117,6 @@ threats:
             remarks: Admission Policy Enforcement
           - reference-id: CCC.K8S.CP19
             remarks: Workload Isolation Controls
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1611
-            remarks: Escape to Host
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-250
-            remarks: Execution with Unnecessary Privileges
 
   - id: CCC.K8S.TH06
     group: Networking
@@ -187,17 +134,6 @@ threats:
             remarks: Cluster Network Integration
           - reference-id: CCC.K8S.CP09
             remarks: Workload Network Policy
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1046
-            remarks: Network Service Discovery
-          - reference-id: T1686.001
-            remarks: Disable or Modify System Firewall - Cloud Firewall
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-284
-            remarks: Improper Access Control
 
   - id: CCC.K8S.TH07
     group: Access
@@ -212,19 +148,6 @@ threats:
         entries:
           - reference-id: CCC.K8S.CP12
             remarks: Secrets Service Integration
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1552.001
-            remarks: Unsecured Credentials - Credentials In Files
-          - reference-id: T1552.007
-            remarks: Unsecured Credentials - Container API
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-200
-            remarks: Exposure of Sensitive Information to an Unauthorized Actor
-          - reference-id: CWE-522
-            remarks: Insufficiently Protected Credentials
 
   - id: CCC.K8S.TH08
     group: Orchestration
@@ -241,17 +164,6 @@ threats:
             remarks: Managed Cluster Extensions
           - reference-id: CCC.K8S.CP18
             remarks: Admission Policy Enforcement
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1195.002
-            remarks: Supply Chain Compromise - Compromise Software Supply Chain
-          - reference-id: T1610
-            remarks: Deploy Container
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-829
-            remarks: Inclusion of Functionality from Untrusted Control Sphere
 
   - id: CCC.K8S.TH09
     group: Resource
@@ -270,17 +182,6 @@ threats:
             remarks: Abstracted Worker Infrastructure
           - reference-id: CCC.K8S.CP15
             remarks: Cluster Version Management
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1190
-            remarks: Exploit Public-Facing Application
-          - reference-id: T1611
-            remarks: Escape to Host
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-1104
-            remarks: Use of Unmaintained Third Party Components
 
   - id: CCC.K8S.TH10
     group: Networking
@@ -295,17 +196,6 @@ threats:
         entries:
           - reference-id: CCC.K8S.CP08
             remarks: Workload Traffic Routing
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1046
-            remarks: Network Service Discovery
-          - reference-id: T1190
-            remarks: Exploit Public-Facing Application
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-284
-            remarks: Improper Access Control
 
   - id: CCC.K8S.TH11
     group: Data
@@ -320,15 +210,6 @@ threats:
         entries:
           - reference-id: CCC.K8S.CP13
             remarks: Kubernetes Storage Provisioning
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1613
-            remarks: Container and Resource Discovery
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-862
-            remarks: Missing Authorization
 
   - id: CCC.K8S.TH12
     group: Access
@@ -344,17 +225,6 @@ threats:
         entries:
           - reference-id: CCC.K8S.CP18
             remarks: Admission Policy Enforcement
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1685
-            remarks: Disable or Modify Tools
-          - reference-id: T1609
-            remarks: Container Administration Command
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-693
-            remarks: Protection Mechanism Failure
 
   - id: CCC.K8S.TH13
     group: Orchestration
@@ -371,17 +241,6 @@ threats:
             remarks: Declarative Workload Orchestration
           - reference-id: CCC.K8S.CP14
             remarks: Managed Cluster Extensions
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1053.007
-            remarks: Scheduled Task or Job - Container Orchestration Job
-          - reference-id: T1609
-            remarks: Container Administration Command
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-284
-            remarks: Improper Access Control
 
   - id: CCC.K8S.TH14
     group: Access
@@ -401,17 +260,6 @@ threats:
             remarks: Abstracted Worker Infrastructure
           - reference-id: CCC.K8S.CP19
             remarks: Workload Isolation Controls
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1552.007
-            remarks: Unsecured Credentials - Container API
-          - reference-id: T1609
-            remarks: Container Administration Command
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-306
-            remarks: Missing Authentication for Critical Function
 
   - id: CCC.K8S.TH15
     group: Observability
@@ -429,15 +277,6 @@ threats:
             remarks: Kubernetes Audit Logging
           - reference-id: CCC.K8S.CP17
             remarks: Cluster Monitoring Integration
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1685.002
-            remarks: Disable or Modify Tools - Disable or Modify Cloud Log
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-778
-            remarks: Insufficient Logging
 
   - id: CCC.K8S.TH16
     group: Access
@@ -453,15 +292,6 @@ threats:
         entries:
           - reference-id: CCC.K8S.CP10
             remarks: Cloud Identity Integration
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078
-            remarks: Valid Accounts
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-287
-            remarks: Improper Authentication
 
   - id: CCC.K8S.TH17
     group: Access
@@ -479,15 +309,6 @@ threats:
             remarks: Managed Worker Pools
           - reference-id: CCC.K8S.CP21
             remarks: Cluster Infrastructure Identity
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1078.004
-            remarks: Valid Accounts - Cloud Accounts
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-269
-            remarks: Improper Privilege Management
 
   - id: CCC.K8S.TH18
     group: Compute
@@ -507,12 +328,3 @@ threats:
             remarks: Abstracted Worker Infrastructure
           - reference-id: CCC.K8S.CP22
             remarks: Worker Node Integrity Protection
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1542.003
-            remarks: Pre-OS Boot - Bootkit
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-494
-            remarks: Download of Code Without Integrity Check
