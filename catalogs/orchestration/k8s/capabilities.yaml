@@ -7,10 +7,16 @@ imports:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP06
         remarks: Access Control
+      - reference-id: CCC.Core.CP07
+        remarks: Event Publication
       - reference-id: CCC.Core.CP14
         remarks: API Access
+      - reference-id: CCC.Core.CP17
+        remarks: Alerting
       - reference-id: CCC.Core.CP19
         remarks: Child Resource Scaling
+      - reference-id: CCC.Core.CP20
+        remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP23
@@ -31,96 +37,157 @@ imports:
         remarks: Passive Ingestion
 
 capabilities:
-  - id: CCC.K8S.F01
+  - id: CCC.K8S.CP01
     group: Orchestration
     title: Managed Kubernetes Control Plane
     description: |
-      Provides a fully managed Kubernetes control plane that has
-      high availability, with automatic updates and patching.
+      The service supplies a Kubernetes-conformant control plane whose foundational
+      components, health, and availability are automatically maintained by the provider.
 
-  - id: CCC.K8S.F02
+  - id: CCC.K8S.CP02
     group: Orchestration
-    title: Managed Node Pool
+    title: Managed Worker Pools
     description: |
-      Provides fully managed Kubernetes worker nodes (compute resources).
-      These nodes are provisioned, updated, patched, and monitored for you
-      by the service.
+      The service can organize worker nodes into managed pools that provide Kubernetes with
+      compute capacity for scheduling and running containerized workloads.
 
-  - id: CCC.K8S.F03
+  - id: CCC.K8S.CP03
     group: Compute
-    title: Virtual Nodes
+    title: Abstracted Worker Infrastructure
     description: |
-      Ability to have fully managed virtual compute resources to power Kubernetes
-      worker nodes. This will eliminate the need to manage underlying nodes.
+      The service may be configured to abstract worker infrastructure so that provisioning,
+      scaling, patching, and replacement occur without exposing individual nodes to the user.
 
-  - id: CCC.K8S.F04
-    group: Compute
-    title: GPU Support
-    description: |
-      Support for GPU-accelerated workloads through integration of GPUs,
-      enabling high-performance computing.
-
-  - id: CCC.K8S.F05
+  - id: CCC.K8S.CP04
     group: Orchestration
     title: OCI Container Image Execution
     description: |
-      Supports running containerized workloads using OCI-compliant images,
-      providing an isolated execution environment for applications.
+      The service always accepts OCI-compatible image references and executes their
+      containerized workloads through a Kubernetes-compatible runtime.
 
-  - id: CCC.K8S.F06
+  - id: CCC.K8S.CP05
     group: Orchestration
     title: Container Registry Integration
     description: |
-      Enables integration with public or private container registries to
-      retrieve container images for execution.
+      The service can authenticate to private or public OCI-compatible registries and
+      retrieve workload images with user-configured identities and credentials.
 
-  - id: CCC.ContOrch.F07
-    group: Data
-    title: Storage Integration
+  - id: CCC.K8S.CP06
+    group: Orchestration
+    title: Declarative Workload Orchestration
     description: |
-      Supports attaching ephemeral or persistent storage volumes to running containers
-      in the Kubernetes cluster.
+      The service automatically reconciles Kubernetes workload resources toward their
+      user-declared state by scheduling, restarting, and replacing containers as needed.
 
-  - id: CCC.K8S.F08
+  - id: CCC.K8S.CP07
     group: Networking
-    title: Built-in Ingress Load Balancing
+    title: Cluster Network Integration
     description: |
-      Built-in support for distributes incoming traffic across running container
-      instances to optimize resource usage and availability.
+      The service can attach cluster, node, pod, and service connectivity to a
+      user-configured cloud virtual network.
 
-  - id: CCC.ContOrch.F09
-    group: Resource
-    title: Cluster Auto Scaling
-    description: |
-      Ability to automatically scale the number of worker nodes in the cluster
-      based on workload demand, ensuring efficient resource utilization.
-
-  - id: CCC.K8S.F10
+  - id: CCC.K8S.CP08
     group: Networking
-    title: Private Cluster Endpoints
+    title: Workload Traffic Routing
     description: |
-      Ability to restrict access to the Kubernetes API server to private networks,
-      ensuring the control plane is only accessible within your VPC.
+      The service can expose and route internal or external traffic to Kubernetes workloads
+      through services, load balancers, ingress controllers, and gateway components.
 
-  - id: CCC.K8S.F11
+  - id: CCC.K8S.CP09
     group: Networking
-    title: Service Mesh Integration
+    title: Workload Network Policy
     description: |
-      Ability to integrate with managed service mesh offering by the cloud
-      service provider for service discovery, traffic routing, observability,
-      and security.
+      The service may be configured with Kubernetes network policies that enforce ingress
+      and egress boundaries between workloads and external systems.
 
-  - id: CCC.K8S.F12
+  - id: CCC.K8S.CP10
     group: Access
-    title: Secrets Integration
+    title: Cloud Identity Integration
     description: |
-      Ability to seamlessly integrate with cloud native secret manager service
-      to securely manage and access secrets, such as API keys, database credentials,
-      or certificates, within Kubernetes workloads.
+      The service can authenticate cloud identities and authorize their access to cluster
+      resources through Kubernetes and provider-native access controls.
 
-  - id: CCC.K8S.F13
-    group: Observability
-    title: Observability Tooling Integration
+  - id: CCC.K8S.CP11
+    group: Access
+    title: Workload Identity Federation
     description: |
-      Ability integrate with Observability tooling such as Prometheus and Grafana
-      to provide comprehensive monitoring, and visualization for Kubernetes clusters.
+      The service may be configured to exchange Kubernetes service-account identity for
+      short-lived cloud credentials without placing long-lived credentials in workloads.
+
+  - id: CCC.K8S.CP12
+    group: Access
+    title: Secrets Service Integration
+    description: |
+      The service can present secrets, keys, and certificates from a cloud secrets service
+      to authorized Kubernetes workloads without embedding them in workload definitions.
+
+  - id: CCC.K8S.CP13
+    group: Data
+    title: Kubernetes Storage Provisioning
+    description: |
+      The service can dynamically provision ephemeral and persistent workload storage
+      through Kubernetes container storage interface integrations.
+
+  - id: CCC.K8S.CP14
+    group: Orchestration
+    title: Managed Cluster Extensions
+    description: |
+      The service can manage the installation and lifecycle of supported extensions for
+      networking, storage, policy, observability, and workload management.
+
+  - id: CCC.K8S.CP15
+    group: Resource
+    title: Cluster Version Management
+    description: |
+      The service may be configured with upgrade channels and maintenance settings that keep
+      control-plane and worker components within provider-defined compatibility and support periods.
+
+  - id: CCC.K8S.CP16
+    group: Observability
+    title: Kubernetes Audit Logging
+    description: |
+      The service may be configured to emit Kubernetes API audit and control-plane records
+      to a cloud logging destination for monitoring and investigation.
+
+  - id: CCC.K8S.CP17
+    group: Observability
+    title: Cluster Monitoring Integration
+    description: |
+      The service can send cluster, node, workload, and network activity telemetry to
+      cloud-native or Kubernetes-compatible monitoring components.
+
+  - id: CCC.K8S.CP18
+    group: Access
+    title: Admission Policy Enforcement
+    description: |
+      The service may be configured with policies, admission controllers, and webhooks that
+      validate, mutate, or reject Kubernetes API requests before persistence.
+
+  - id: CCC.K8S.CP19
+    group: Orchestration
+    title: Workload Isolation Controls
+    description: |
+      The service can separate workloads with security contexts, namespace boundaries,
+      scheduling constraints, and runtime isolation settings.
+
+  - id: CCC.K8S.CP20
+    group: Compute
+    title: Hardware Accelerator Support
+    description: |
+      The service may be configured with worker pools equipped with supported hardware
+      accelerators, enabling Kubernetes to schedule workloads that request those devices.
+
+  - id: CCC.K8S.CP21
+    group: Access
+    title: Cluster Infrastructure Identity
+    description: |
+      The service may be configured with distinct cloud identities for control-plane,
+      worker-node, and supporting components so their access to cloud resources can be
+      independently authorized.
+
+  - id: CCC.K8S.CP22
+    group: Compute
+    title: Worker Node Integrity Protection
+    description: |
+      The service may be configured with trusted worker-node images and platform mechanisms
+      that verify node boot integrity before workloads are executed.
