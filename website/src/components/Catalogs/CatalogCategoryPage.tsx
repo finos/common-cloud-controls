@@ -23,9 +23,26 @@ export interface CatalogReleaseSummary {
   typePaths: { capabilities?: string; threats?: string; controls?: string };
 }
 
+export interface CatalogCspService {
+  provider: string;
+  service: string;
+  url: string;
+}
+
+export interface CatalogMappingReference {
+  id: string;
+  title: string;
+  version?: string;
+  description?: string;
+  url?: string;
+}
+
 export interface CatalogServiceInfo {
   slug: string;
   title?: string;
+  description?: string;
+  exampleCspServices?: CatalogCspService[];
+  mappingReferences?: CatalogMappingReference[];
   types: Array<{ type: string; typePath: string }>;
   releases: CatalogReleaseSummary[];
 }
@@ -136,13 +153,111 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
           <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
             {getCategoryLabel(category)}
           </p>
-          <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", marginTop: 0, color: "var(--gf-color-accent)", lineHeight: 1.2 }}>
+          <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", marginTop: 0, color: "var(--gf-color-accent-strong)", lineHeight: 1.2 }}>
             {getServiceLabel(category, service, svcInfo?.title)}
           </h1>
           {svcInfo ? (
             <>
               <TypeButtons svcInfo={svcInfo} />
+              {svcInfo.description && (
+                <p style={{ fontSize: "1.05rem", lineHeight: 1.8, color: "var(--gf-color-text)", marginTop: "1.5rem", marginBottom: "1.5rem" }}>
+                  {svcInfo.description}
+                </p>
+              )}
+              {svcInfo.exampleCspServices && svcInfo.exampleCspServices.length > 0 && (
+                <div style={{ marginBottom: "1.5rem" }}>
+                  <h2 style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "0.75rem", color: "var(--gf-color-accent-strong)", textAlign: "left" }}>
+                    Cloud Provider Equivalents
+                  </h2>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "flex-start" }}>
+                    {svcInfo.exampleCspServices.map((csp) => (
+                      <a
+                        key={csp.provider}
+                        href={csp.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          padding: "0.75rem 1rem",
+                          border: "1px solid rgba(0,134,191,0.25)",
+                          borderRadius: "8px",
+                          background: "var(--gf-color-surface)",
+                          textDecoration: "none",
+                          minWidth: "160px",
+                        }}
+                      >
+                        <span style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--gf-color-text-subtle)", marginBottom: "0.25rem" }}>
+                          {csp.provider}
+                        </span>
+                        <span style={{ fontSize: "0.9rem", fontWeight: 600, color: "var(--gf-color-accent)" }}>
+                          {csp.service}
+                        </span>
+                        <span style={{ fontSize: "0.75rem", color: "var(--gf-color-text-subtle)", marginTop: "0.25rem" }}>
+                          View docs →
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
               <ReleasesTable releases={svcInfo.releases} />
+              {svcInfo.mappingReferences && svcInfo.mappingReferences.length > 0 && (
+                <div style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }}>
+                  <h2 style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "0.75rem", color: "var(--gf-color-accent-strong)", textAlign: "left" }}>
+                    Mapping References
+                  </h2>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    {svcInfo.mappingReferences.map((ref) => (
+                      <div
+                        key={ref.id}
+                        style={{
+                          padding: "0.75rem 1rem",
+                          border: "1px solid rgba(0,134,191,0.25)",
+                          borderRadius: "8px",
+                          background: "var(--gf-color-surface)",
+                        }}
+                      >
+                        <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", marginBottom: ref.description ? "0.4rem" : 0 }}>
+                          {ref.url ? (
+                            <a href={ref.url} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--gf-color-accent)" }}>
+                              {ref.title}
+                            </a>
+                          ) : (
+                            <span style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--gf-color-accent)" }}>{ref.title}</span>
+                          )}
+                          {ref.version && (
+                            <span style={{ fontSize: "0.75rem", color: "var(--gf-color-text-subtle)" }}>{ref.version}</span>
+                          )}
+                        </div>
+                        {ref.description && (
+                          <p style={{ margin: 0, fontSize: "0.875rem", color: "var(--gf-color-text)", lineHeight: 1.6 }}>
+                            {ref.description}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div className="surface-card">
+                <div style={{ margin: "1rem 1rem" }}>
+                  <h2 style={{ margin: "0 0 1rem", fontSize: "1.25rem", color: "#0086bf" }}>
+                    Contribute to the Next Release
+                  </h2>
+                  <p style={{ margin: "0 0 2rem", color: "#0086bf", fontSize: "1rem", lineHeight: 1.6 }}>
+                    This catalog is maintained as versioned YAML files. Generated artifacts are published here as each release is cut.
+                  </p>
+                  <a
+                    href="https://github.com/finos/common-cloud-controls"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="catalog-type-btn"
+                  >
+                    View on GitHub →
+                  </a>
+                </div>
+              </div>
             </>
           ) : (
             <p style={{ color: "var(--ifm-color-emphasis-600)" }}>No published catalogs yet.</p>
@@ -154,13 +269,13 @@ export const CatalogCategoryPage: React.FC<Props> = ({ data, service }) => {
 
   // Category-level view
   const isSingleService = services.length === 1;
-  const isCore = isSingleService && services[0]?.slug === "ccc";
+  const isCore = isSingleService && services[0]?.slug === "core";
 
   return (
     <div className="page-layout">
       <CatalogSidebar />
       <div style={{ flex: 1, minWidth: 0 }}>
-        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", lineHeight: 1.2, marginTop: 0 }}>
+        <h1 style={{ fontSize: "2.5rem", fontWeight: 700, marginBottom: "1.5rem", lineHeight: 1.2, marginTop: 0 ,   color: "var(--gf-color-accent-strong)"}}>
           {isCore ? "CCC Core Catalog" : getCategoryLabel(category)}
         </h1>
 

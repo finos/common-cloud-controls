@@ -1,6 +1,9 @@
 style_guide:
   general:
-    - "Structure each threat with id, title, description, capabilities, and external-mappings."
+    - "Structure each threat with id, group, title, description, and capabilities."
+    - >-
+      Author external framework mappings as standalone Gemara MappingDocuments in the
+      service's mappings/ directory, not inline on the threat.
     - "Use a formal, objective, and precise tone throughout."
 
   id:
@@ -42,18 +45,27 @@ style_guide:
         reference-id: the capability ID (e.g., CCC.Core.F06).
         remarks: the capability title for human readability.
 
-  external-mappings:
-    - "Reference external threat frameworks and standards."
-    - "The reference-id for mappings must be an ID defined in metadata.mapping-references[]."
+  mapping-documents:
+    - >-
+      Reference external threat frameworks and standards via standalone Gemara MappingDocuments,
+      one file per target framework, in the service's mappings/ directory
+      (e.g. mappings/threats-mitre-attack.yaml).
+    - "Name each document threats-<framework>.yaml using a lowercase framework slug."
+    - >-
+      The document's source-reference must point at the service's threats catalog
+      (entry-type: Threat); the target-reference names the external framework.
+    - "Both the source and target must also appear in metadata.mapping-references[] of the mapping document."
     - |
       Common frameworks include:
         MITRE-ATT&CK: for adversary tactics and techniques.
         OWASP-Top-10: for web application security risks.
         CWE: for common weakness enumerations.
     - |
-      Each entry must include:
-        reference-id: the external framework entry ID.
-        remarks: the entry title or description for human readability.
+      Each mapping entry must include:
+        id: a unique mapping id (e.g. CCC.ObjStor.TH01-mitre-attack).
+        source: the threat ID being mapped (e.g. CCC.ObjStor.TH01).
+        relationship: the mapping relationship (e.g. relates-to).
+        targets: a list of external framework entries, each with an entry-id and optional remarks for human readability.
 
   formatting:
     - "Use consistent YAML syntax with proper indentation."

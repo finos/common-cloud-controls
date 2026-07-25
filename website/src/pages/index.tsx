@@ -48,8 +48,8 @@ export default function Home(): ReactNode {
         </div>
         <TheStory />
         <LevelUp />
-        <JoinCommunity />
         <SteeringCommittee />
+        <JoinCommunity />
       </main>
     </Layout>
   );

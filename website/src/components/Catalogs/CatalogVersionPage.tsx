@@ -3,7 +3,6 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
-import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 import { MappingCountBadge } from "../shared/MappingCountBadge";
 
 export interface CatalogAssessmentRequirement {
@@ -15,19 +14,8 @@ export interface CatalogAssessmentRequirement {
 export interface CatalogGuidelineMapping {
   framework: string;
   id: string;
-  remarks?: string;
-  url?: string;
-}
-
-export interface CatalogAssessmentRequirement {
-  id: string;
-  text: string;
-  applicability?: string[];
-}
-
-export interface CatalogGuidelineMapping {
-  framework: string;
-  id: string;
+  /** Mapping relationship (e.g. relates-to) when sourced from a Gemara MappingDocument. */
+  relationship?: string;
   remarks?: string;
   url?: string;
 }
@@ -52,6 +40,14 @@ export interface CatalogEntry {
   externalMappings?: CatalogGuidelineMapping[];
 }
 
+export interface CatalogImport {
+  id: string;
+  title: string;
+  category?: string;
+  service?: string;
+}
+
+
 export interface CatalogVersionData {
   title: string;
   type: "capabilities" | "threats" | "controls";
@@ -59,16 +55,16 @@ export interface CatalogVersionData {
   category: string;
   service: string;
   entries: CatalogEntry[];
+  imports: CatalogImport[];
 }
 
 interface Props {
   data: CatalogVersionData;
-  typeIndexData?: CatalogTypeIndexData;
 }
 
-export const CatalogVersionPage: React.FC<Props> = ({ data, typeIndexData }) => (
+export const CatalogVersionPage: React.FC<Props> = ({ data }) => (
   <div className="page-layout">
-    <CatalogSidebar typeIndexData={typeIndexData} />
+    <CatalogSidebar />
     <article style={{ flex: 1, minWidth: 0 }}>
       <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
         {prettifySegment(data.category)} / {prettifySegment(data.service)}
@@ -91,6 +87,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
   const typePath = `/catalogs/${data.category}/${data.service}/${data.type}/${data.version}`;
   return (
     <div className="library-article-body">
+      {sortedEntries.length > 0  &&(
       <table>
         <thead>
           <tr>
@@ -159,6 +156,28 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           ))}
         </tbody>
       </table>
+      )}
+      {data.imports && data.imports.length > 0 && (<div>
+        <h1>Imports</h1>
+        <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.imports.map((imported) => (
+            <tr key={imported.id}>
+              <td>
+                <Link to={`/catalogs/${imported.category}/${imported.service}/${data.type}/${data.version}/${imported.id}`}>{imported.id}</Link>
+              </td>
+              <td>{imported.title}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>)}
     </div>
   );
 };

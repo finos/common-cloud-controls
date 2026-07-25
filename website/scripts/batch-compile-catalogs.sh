@@ -51,17 +51,19 @@ fi
 mkdir -p "${ARTIFACTS_DIR}"
 
 CORE_VERSION="v2025.10"
-for asset_type in capabilities threats controls; do
-  src="${CATALOGS_DIR}/core/ccc/${asset_type}.yaml"
-  if [ ! -f "$src" ]; then
+for asset_type in capabilities threats controls mappings; do
+  # mappings are a directory of MappingDocuments, not a single <type>.yaml file
+  if [ "$asset_type" = "mappings" ]; then
+    [ -d "${CATALOGS_DIR}/core/core/mappings" ] || continue
+  elif [ ! -f "${CATALOGS_DIR}/core/core/${asset_type}.yaml" ]; then
     continue
   fi
-  echo "::group::Compile core/ccc ${asset_type} (${CORE_VERSION})"
+  echo "::group::Compile core/core ${asset_type} (${CORE_VERSION})"
   rc=0
-  compile_catalog_asset "core/ccc" "$asset_type" "$CORE_VERSION" || rc=$?
+  compile_catalog_asset "core/core" "$asset_type" "$CORE_VERSION" || rc=$?
   echo "::endgroup::"
   if [ "$rc" -eq 1 ] && [ "$STRICT" -eq 1 ]; then
-    echo "Strict mode: core/ccc ${asset_type} compile failed" >&2
+    echo "Strict mode: core/core ${asset_type} compile failed" >&2
     exit 1
   fi
 done
@@ -74,7 +76,7 @@ failed=0
 for dir in $(find "${CATALOGS_DIR}" -mindepth 2 -maxdepth 2 -type d | sort); do
   build_target="${dir#${CATALOGS_DIR}/}"
 
-  if [ "$build_target" = "core/ccc" ]; then
+  if [ "$build_target" = "core/core" ]; then
     continue
   fi
 
@@ -83,9 +85,14 @@ for dir in $(find "${CATALOGS_DIR}" -mindepth 2 -maxdepth 2 -type d | sort); do
     continue
   fi
 
-  for asset_type in capabilities threats controls; do
-    src="${dir}/${asset_type}.yaml"
-    if [ ! -f "$src" ]; then
+  for asset_type in capabilities threats controls mappings; do
+    # mappings are a directory of MappingDocuments, not a single <type>.yaml file
+    if [ "$asset_type" = "mappings" ]; then
+      if [ ! -d "${dir}/mappings" ]; then
+        skipped_nofile=$((skipped_nofile + 1))
+        continue
+      fi
+    elif [ ! -f "${dir}/${asset_type}.yaml" ]; then
       skipped_nofile=$((skipped_nofile + 1))
       continue
     fi

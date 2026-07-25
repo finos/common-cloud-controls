@@ -2,7 +2,6 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
-import type { CatalogTypeIndexData } from "./CatalogTypeOverviewPage";
 import type { CatalogEntry, CatalogGuidelineMapping } from "./CatalogVersionPage";
 
 export interface CatalogRelatedEntry {
@@ -25,7 +24,6 @@ export interface CatalogEntryDetailData {
 
 interface Props {
   data: CatalogEntryDetailData;
-  typeIndexData?: CatalogTypeIndexData;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -65,6 +63,9 @@ const RelatedList: React.FC<{ title: string; items?: CatalogRelatedEntry[] }> = 
 
 const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] }> = ({ title, items }) => {
   if (!items || items.length === 0) return null;
+  // Mappings sourced from Gemara MappingDocuments carry a relationship; inline
+  // guideline mappings don't, so only show the column when there is data for it.
+  const hasRelationship = items.some((m) => m.relationship);
   return (
     <div style={{ marginBottom: "1.5rem" }}>
       <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>{title}</h3>
@@ -74,6 +75,7 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
             <tr>
               <th>Framework</th>
               <th>ID</th>
+              {hasRelationship && <th>Relationship</th>}
               <th>Remarks</th>
             </tr>
           </thead>
@@ -90,6 +92,7 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
                     m.id
                   )}
                 </td>
+                {hasRelationship && <td>{m.relationship}</td>}
                 <td>{m.remarks}</td>
               </tr>
             ))}
@@ -100,17 +103,19 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
   );
 };
 
-export const CatalogEntryPage: React.FC<Props> = ({ data, typeIndexData }) => {
+export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
   const { category, service, version, type, entry } = data;
   const typePath = `/catalogs/${category}/${service}/${type}/${version}`;
 
   return (
     <div className="page-layout">
-      <CatalogSidebar typeIndexData={typeIndexData} />
+      <CatalogSidebar />
       <article style={{ flex: 1, minWidth: 0 }}>
         <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
+          {prettifySegment(category)}
+          {" / "}
           <Link to={`/catalogs/${category}/${service}`}>
-            {prettifySegment(category)} / {prettifySegment(service)}
+            {prettifySegment(service)}
           </Link>
           {" / "}
           <Link to={typePath}>{TYPE_LABELS[type] ?? type}</Link>

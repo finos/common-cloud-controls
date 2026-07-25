@@ -1,0 +1,330 @@
+imports:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        remarks: Access is Granted to Unauthorized Users
+      - reference-id: CCC.Core.TH02
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH07
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        remarks: Runtime Logs are Read by Unauthorized Entities
+      - reference-id: CCC.Core.TH10
+        remarks: State-change Events are Read by Unauthorized Entities
+      - reference-id: CCC.Core.TH11
+        remarks: Publications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH15
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        remarks: Publications are Disabled
+      - reference-id: CCC.Core.TH17
+        remarks: Responses are Generated for Unauthorized Requests
+      - reference-id: CCC.Core.TH18
+        remarks: Encryption Key is Misused
+
+threats:
+  - id: CCC.K8S.TH01
+    group: Access
+    title: Kubernetes API is Exposed to Untrusted Networks
+    description: |
+      An API endpoint without network restrictions may be reached from untrusted networks.
+      Cluster resources and configuration can then be enumerated or modified through
+      exposed administrative interfaces. Cluster data may be disclosed, configuration
+      integrity may be lost, and workloads may be disrupted.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP01
+            remarks: Managed Kubernetes Control Plane
+          - reference-id: CCC.K8S.CP10
+            remarks: Cloud Identity Integration
+          - reference-id: CCC.Core.CP14
+            remarks: API Access
+          - reference-id: CCC.Core.CP23
+            remarks: Network Access Rules
+
+  - id: CCC.K8S.TH02
+    group: Access
+    title: Workload Identity Grants Excessive Cloud Access
+    description: |
+      A Kubernetes service account bound to an overprivileged cloud identity may give its
+      workloads permissions beyond their operational needs. Cloud resources can then be
+      accessed or modified outside the workload's intended boundary, exposing protected
+      data and allowing unauthorized changes to cloud state.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP10
+            remarks: Cloud Identity Integration
+          - reference-id: CCC.K8S.CP11
+            remarks: Workload Identity Federation
+
+  - id: CCC.K8S.TH03
+    group: Access
+    title: Long-Lived Credentials are Exposed to Workloads
+    description: |
+      Long-lived cloud credentials stored in workload configuration, container images,
+      environment variables, or mounted files may be read by a compromised workload or
+      unauthorized user. The credentials can then be used independently of the workload
+      lifecycle. Protected data may be disclosed and resources accessible through those
+      credentials may be modified outside the cluster's authorization controls.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP11
+            remarks: Workload Identity Federation
+          - reference-id: CCC.K8S.CP12
+            remarks: Secrets Service Integration
+
+  - id: CCC.K8S.TH04
+    group: Resource
+    title: Untrusted Container Images are Deployed
+    description: |
+      Container images whose provenance, integrity, or vulnerability status is not verified
+      may contain unsupported software, altered components, or embedded credentials and be
+      admitted to the cluster. The image is then executed within the workload environment
+      and can expose secrets, alter application data, or disrupt connected services.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP04
+            remarks: OCI Container Image Execution
+          - reference-id: CCC.K8S.CP05
+            remarks: Container Registry Integration
+
+  - id: CCC.K8S.TH05
+    group: Compute
+    title: Privileged Workloads Escape Isolation
+    description: |
+      Workloads granted privileged execution, host namespaces, host paths, or unrestricted
+      Linux capabilities may bypass container isolation controls. Processes can then read
+      node data, alter host state, or disrupt neighboring workloads, defeating the
+      confidentiality, integrity, and availability boundaries of the shared worker infrastructure.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP02
+            remarks: Managed Worker Pools
+          - reference-id: CCC.K8S.CP03
+            remarks: Abstracted Worker Infrastructure
+          - reference-id: CCC.K8S.CP18
+            remarks: Admission Policy Enforcement
+          - reference-id: CCC.K8S.CP19
+            remarks: Workload Isolation Controls
+
+  - id: CCC.K8S.TH06
+    group: Networking
+    title: Workload Network Segmentation is Not Enforced
+    description: |
+      Absent or ineffective ingress and egress policies may allow traffic to flow between
+      namespaces, workloads, and external systems without an explicit authorization
+      boundary. Network services can then be discovered or reached from unintended sources,
+      exposing data flows, permitting unauthorized interaction, and increasing the risk of
+      workload disruption.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP07
+            remarks: Cluster Network Integration
+          - reference-id: CCC.K8S.CP09
+            remarks: Workload Network Policy
+
+  - id: CCC.K8S.TH07
+    group: Access
+    title: Secrets are Exposed to Unauthorized Workloads
+    description: |
+      Misconfigured secret access, namespace boundaries, or workload mounts may expose
+      sensitive values to workloads or users that do not require them. Credentials, keys,
+      or certificates can then be read from Kubernetes or external secret interfaces,
+      exposing the secrets and enabling unauthorized changes to the resources they protect.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP12
+            remarks: Secrets Service Integration
+
+  - id: CCC.K8S.TH08
+    group: Orchestration
+    title: Cluster Extensions Execute Untrusted Code
+    description: |
+      An operator, controller, admission webhook, or managed extension installed without
+      verified provenance and constrained permissions may execute untrusted code with
+      cluster-level access. The extension can intercept sensitive data, rewrite cluster state,
+      or interrupt workloads across its granted scope.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP14
+            remarks: Managed Cluster Extensions
+          - reference-id: CCC.K8S.CP18
+            remarks: Admission Policy Enforcement
+
+  - id: CCC.K8S.TH09
+    group: Resource
+    title: Unsupported Cluster Components Remain in Use
+    description: |
+      Control-plane, worker, runtime, or extension versions outside their supported
+      lifecycles may retain known vulnerabilities and compatibility defects. Exposed
+      components can then be exploited or may fail during service changes, leading to data
+      exposure, loss of cluster-state integrity, or workload interruption.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP02
+            remarks: Managed Worker Pools
+          - reference-id: CCC.K8S.CP03
+            remarks: Abstracted Worker Infrastructure
+          - reference-id: CCC.K8S.CP15
+            remarks: Cluster Version Management
+
+  - id: CCC.K8S.TH10
+    group: Networking
+    title: Workload Endpoints are Exposed Unintentionally
+    description: |
+      Services, load balancers, ingress resources, or gateways configured with an unintended
+      external scope may make workload endpoints reachable from untrusted networks. Exposed
+      services can then disclose workload data, accept unauthorized changes, or consume
+      capacity needed by legitimate users.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP08
+            remarks: Workload Traffic Routing
+
+  - id: CCC.K8S.TH11
+    group: Data
+    title: Persistent Volumes are Bound to Unauthorized Workloads
+    description: |
+      Misconfigured persistent-volume claims, storage classes, or workload authorization
+      may allow a volume to be mounted outside its intended ownership boundary. Data stored
+      on the volume can then be read, modified, or deleted through the unauthorized workload,
+      directly reducing its confidentiality, integrity, and availability.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP13
+            remarks: Kubernetes Storage Provisioning
+
+  - id: CCC.K8S.TH12
+    group: Access
+    title: Admission Controls are Bypassed
+    description: |
+      Admission policies that omit resources, namespaces, or API paths may allow a
+      Kubernetes request to be accepted without the intended validation or mutation.
+      Workloads and configuration that violate security requirements can then be persisted,
+      weakening cluster-policy integrity and exposing workloads to unauthorized access or
+      disruption.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP18
+            remarks: Admission Policy Enforcement
+
+  - id: CCC.K8S.TH13
+    group: Orchestration
+    title: Controllers Reconcile Unauthorized Cluster State
+    description: |
+      A controller or scheduled workload granted excessive scope may repeatedly create or
+      restore unauthorized resources and configuration through its reconciliation loop.
+      Manual remediation can then be overwritten, restoring unsafe cluster state that
+      exposes workload data or interferes with service availability.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP06
+            remarks: Declarative Workload Orchestration
+          - reference-id: CCC.K8S.CP14
+            remarks: Managed Cluster Extensions
+
+  - id: CCC.K8S.TH14
+    group: Access
+    title: Node Administrative Interfaces Expose Cluster Credentials
+    description: |
+      Node administrative interfaces reachable without sufficient authentication or network
+      restriction may expose node metadata, workload credentials, logs, or execution
+      functions. The node can then be queried or controlled outside the intended management
+      path, allowing credential disclosure, unauthorized host changes, or disruption of
+      scheduled workloads.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP02
+            remarks: Managed Worker Pools
+          - reference-id: CCC.K8S.CP03
+            remarks: Abstracted Worker Infrastructure
+          - reference-id: CCC.K8S.CP19
+            remarks: Workload Isolation Controls
+
+  - id: CCC.K8S.TH15
+    group: Observability
+    title: Kubernetes Audit Records are Incomplete or Unavailable
+    description: |
+      Audit policies, log categories, collection agents, export destinations, or retention
+      settings that omit security-relevant activity may leave required Kubernetes records
+      incomplete or unavailable. Cluster access and configuration changes can then occur
+      without a reliable investigative trail, delaying detection and weakening the integrity
+      and availability of security monitoring and incident response.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP16
+            remarks: Kubernetes Audit Logging
+          - reference-id: CCC.K8S.CP17
+            remarks: Cluster Monitoring Integration
+
+  - id: CCC.K8S.TH16
+    group: Access
+    title: Unmanaged Credentials Bypass Cluster Identity Controls
+    description: |
+      Locally managed accounts, static administrative credentials, or legacy authentication
+      methods may remain valid after the associated identity should lose access. Requests
+      authenticated by these mechanisms can bypass centrally managed identity lifecycle and
+      revocation controls. Cluster data may be disclosed, cluster state may be changed, and
+      workloads may be disrupted through unauthorized administrative access.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP10
+            remarks: Cloud Identity Integration
+
+  - id: CCC.K8S.TH17
+    group: Access
+    title: Cluster Infrastructure Identities Grant Excessive Cloud Access
+    description: |
+      Cloud identities used by control-plane, worker-node, or supporting components may be
+      shared or granted permissions beyond their platform responsibilities. A component
+      using such an identity can access or modify cloud resources outside its intended
+      boundary. Protected cloud data may be disclosed, cloud resource integrity may be
+      lost, and services required by the cluster may be disrupted.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP02
+            remarks: Managed Worker Pools
+          - reference-id: CCC.K8S.CP21
+            remarks: Cluster Infrastructure Identity
+
+  - id: CCC.K8S.TH18
+    group: Compute
+    title: Worker Node Integrity Is Not Verified
+    description: |
+      Worker nodes created from untrusted or altered images, or started without boot
+      integrity verification, may execute modified software beneath the container runtime.
+      Modified node components can observe workload data and credentials or alter workload
+      execution. Workload confidentiality and integrity may be lost, and node or cluster
+      availability may be reduced.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP02
+            remarks: Managed Worker Pools
+          - reference-id: CCC.K8S.CP03
+            remarks: Abstracted Worker Infrastructure
+          - reference-id: CCC.K8S.CP22
+            remarks: Worker Node Integrity Protection

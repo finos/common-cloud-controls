@@ -8,7 +8,7 @@ cfi:
   description: >-
     Control-informed AVM storage account deployment from ccc-cfi-compliance
     remote/azure/avm (Azure/avm-res-storage-storageaccount @ 0.7.2).
-  path: https://github.com/finos-labs/ccc-cfi-compliance/tree/main/remote/azure/avm
+  path: remote/azure/avm
   test-on-branches:
     - main
   git: https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount

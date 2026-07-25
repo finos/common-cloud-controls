@@ -1,12 +1,13 @@
 ---
 title: Architecture
 description: How CCC catalogs move from cloud provider documentation through threat and control analysis to automated validation.
+hide_table_of_contents: true
 ---
 
 import ContentPage from '@site/src/components/ContentPage';
 import styles from '@site/src/components/AdvanceAutomatedGovernence/styles.module.css';
 
-<ContentPage subtitle="From documentation to verified compliance" title="The CCC Pipeline">
+<ContentPage subtitle="From documentation to verified compliance" title="The CCC Pipeline" toc={toc}>
 
 The diagram below shows how FINOS Common Cloud Controls moves from raw cloud provider
 documentation to published, testable governance artifacts. Each horizontal band is a
@@ -16,12 +17,11 @@ feeds the next stage.
 
 **Note:** This architecture combines a best-of-both-worlds approach using AI skills for drafting at each stage and then expert review and approval as a release gate.  Through this mechanism we hope to stay up-to-date with the latest advisories and governance as the threat landscape evolves.
 
-<figure className={styles.catalogsImageWrapper} style={{ margin: '2rem 0', textAlign: 'center' }}>
+<figure style={{ margin: '2rem auto', maxWidth: '800px', overflow: 'hidden', aspectRatio: '960 / 1150' }}>
   <img
     src="/img/diagrams/pipeline-diagram.svg"
     alt="CCC pipeline diagram showing five stages from service creation through validation"
-    className={styles.catalogsImage}
-    style={{ maxWidth: '720px', width: '100%', height: 'auto' }}
+    style={{ width: '100%', height: 'auto', display: 'block' }}
   />
 </figure>
 

@@ -146,7 +146,7 @@ _None — catalog contains no `CCC.VM.CN*.AR*` entries._
   2. `AttemptInboundConnection("{uid}", port)` from test runner IP expected **outside** allow list → connection refused/timeout.
   3. Optional positive: connect from allowed CIDR succeeds.
 - **Config / fixtures**: Known `allowed-source-cidr`, `test-listener-port`, test runner egress IP or in-VPC probe host.
-- **Gaps / honesty notes**: CN12 is referenced in VM catalog but not yet in `catalogs/core/ccc/controls.yaml` — definition from ObjStor release embed.
+- **Gaps / honesty notes**: CN12 is referenced in VM catalog but not yet in `catalogs/core/core/controls.yaml` — definition from ObjStor release embed.
 
 ---
 
@@ -270,7 +270,7 @@ Reuse existing [`logging.Service`](../../cloud-api/logging/logging.go) — Cloud
 - Does CN04.AR02 require guest-OS write (SSM) for strict “data on disk” wording, or is control-plane mutation acceptable v1?
 - When will native `CCC.VM.CN*` controls be added to `controls.yaml`?
 - Should CN06 move from `vpc/` to `generic/` now that multiple services reuse it?
-- CN12 definition should be promoted into `catalogs/core/ccc/controls.yaml` to avoid release-embed drift.
+- CN12 definition should be promoted into `catalogs/core/core/controls.yaml` to avoid release-embed drift.
 
 ---
 

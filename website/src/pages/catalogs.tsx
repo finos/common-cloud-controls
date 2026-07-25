@@ -1,19 +1,74 @@
-import type { ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import Layout from "@theme/Layout";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { CatalogSidebar } from "../components/Catalogs/CatalogSidebar";
-import styles from "../components/AdvanceAutomatedGovernence/styles.module.css"
+import { markdownComponents } from "../components/Catalogs/markdownComponents";
+import styles from "../components/AdvanceAutomatedGovernence/styles.module.css";
+
+const TYPE_CONFIG = [
+  {
+    type: "capabilities",
+    title: "Capabilities",
+    label: "What can each service do?",
+  },
+  {
+    type: "threats",
+    title: "Threats",
+    label: "What might go wrong when we use this service?",
+  },
+  {
+    type: "controls",
+    title: "Controls",
+    label: "How can we prevent negative outcomes?",
+  },
+];
+
+function CatalogTypeSection({ type, title, label }: { type: string; title: string; label: string }) {
+  const [body, setBody] = useState("");
+
+  useEffect(() => {
+    fetch(`/content/${type}.md`)
+      .then((r) => (r.ok ? r.text() : ""))
+      .then((md) => setBody(md.replace(/^---[\s\S]*?---\n?/, "")));
+  }, [type]);
+
+  return (
+    <div style={{ marginTop: "3rem" }}>
+      {label && (
+        <p style={{ margin: "0 0 0.35rem", color: "var(--gf-color-accent)", fontSize: "1rem", lineHeight: 1.5, textAlign: "center" }}>
+          {label}
+        </p>
+      )}
+      <h2 style={{ margin: "0 0 1.5rem", color: "var(--gf-color-accent-strong)", lineHeight: 1.2, textAlign: "center" }}>
+        {title}
+      </h2>
+
+      {body.trim() && (
+        <div
+          className="library-article-body"
+          style={{ color: "var(--gf-color-text)", lineHeight: 1.8, fontSize: "1.05rem" }}
+        >
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+            {body}
+          </ReactMarkdown>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Catalogs(): ReactNode {
   return (
     <Layout title="Catalogs" description="Browse the Common Cloud Controls catalogs">
       <div className="page-layout">
         <CatalogSidebar />
-        <div>
+        <div style={{ flex: 1, minWidth: 0 }}>
           <div className={styles.catalogsLayout}>
             <div className={styles.catalogsText}>
               <div>
-            <h3 className={styles.catalogsTitle}>Three Catalogs, One Complete Picture</h3>
-          </div>
+                <h1 className={styles.catalogsTitle}>Three Catalogs, One Complete Picture</h1>
+              </div>
               <p className={styles.prose}>
                 Each cloud service is covered by three interlocking catalog types — Capabilities, Threats, and Controls — because real-world governance requires all three layers to be explicit and independently reusable.
               </p>
@@ -29,8 +84,31 @@ export default function Catalogs(): ReactNode {
               />
             </div>
           </div>
+
+          {TYPE_CONFIG.map((cfg) => (
+            <CatalogTypeSection key={cfg.type} {...cfg} />
+          ))}
+
+          <div className="surface-card">
+            <div style={{ margin: "1rem 1rem" }}>
+              <h2 style={{ margin: "0 0 1rem", fontSize: "1.25rem", color: "#0086bf" }}>
+                Contribute to the Next Release
+              </h2>
+              <p style={{ margin: "0 0 2rem", color: "#0086bf", fontSize: "1rem", lineHeight: 1.6 }}>
+                Catalogs are maintained as versioned YAML files. Generated artifacts are published here as each release is cut.
+              </p>
+              <a
+                href="https://github.com/finos/common-cloud-controls"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="catalog-type-btn"
+              >
+                View on GitHub →
+              </a>
+            </div>
           </div>
         </div>
+      </div>
     </Layout>
   );
 }

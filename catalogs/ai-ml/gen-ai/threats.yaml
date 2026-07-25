@@ -82,45 +82,6 @@ threats:
           - reference-id: CCC.GenAI.CP24
             strength: 0 # Not yet specified
             remarks: Content Moderation
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-SEC-010
-            strength: 0 # Not yet specified
-            remarks: Prompt Injection
-      - reference-id: SAIF
-        entries:
-          - reference-id: PIJ
-            strength: 0 # Not yet specified
-            remarks: Prompt Injection
-          - reference-id: MEV
-            strength: 0 # Not yet specified
-            remarks: Model Evasion
-      - reference-id: OWASP-LLM-TOP10
-        entries:
-          - reference-id: LLM01:2025
-            strength: 0 # Not yet specified
-            remarks: Prompt Injection
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0051
-            strength: 0 # Not yet specified
-            remarks: LLM Prompt Injection
-          - reference-id: AML.T0051.000
-            strength: 0 # Not yet specified
-            remarks: "LLM Prompt Injection: Direct"
-          - reference-id: AML.T0051.001
-            strength: 0 # Not yet specified
-            remarks: "LLM Prompt Injection: Indirect"
-          - reference-id: AML.T0065
-            strength: 0 # Not yet specified
-            remarks: LLM Prompt Crafting
-          - reference-id: AML.T0068
-            strength: 0 # Not yet specified
-            remarks: LLM Prompt Obfuscation
-          - reference-id: AML.T0054
-            strength: 0 # Not yet specified
-            remarks: LLM Jailbreak
 
   - id: CCC.GenAI.TH02
     group: Ingestion
@@ -154,30 +115,6 @@ threats:
           - reference-id: CCC.GenAI.CP24
             strength: 0 # Not yet specified
             remarks: Content Moderation
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-SEC-009
-            strength: 0 # Not yet specified
-            remarks: Data Poisoning
-      - reference-id: SAIF
-        entries:
-          - reference-id: DP
-            strength: 0 # Not yet specified
-            remarks: Data Poisoning
-      - reference-id: OWASP-LLM-TOP10
-        entries:
-          - reference-id: LLM04:2025
-            strength: 0 # Not yet specified
-            remarks: Data and Model Poisoning
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0020
-            strength: 0 # Not yet specified
-            remarks: Poison Training Data
-          - reference-id: AML.T0070
-            strength: 0 # Not yet specified
-            remarks: RAG Poisoning
 
   - id: CCC.GenAI.TH03
     group: Data
@@ -201,33 +138,6 @@ threats:
           - reference-id: CCC.GenAI.CP22
             strength: 0 # Not yet specified
             remarks: Plugin Integrations
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-RC-001
-            strength: 0 # Not yet specified
-            remarks: Information Leaked To Hosted Model
-          - reference-id: AIR-SEC-002
-            strength: 0 # Not yet specified
-            remarks: Information Leaked to Vector Store
-          - reference-id: AIR-RC-023
-            strength: 0 # Not yet specified
-            remarks: Intellectual Property (IP) and Copyright
-      - reference-id: SAIF
-        entries:
-          - reference-id: SDD
-            strength: 0 # Not yet specified
-            remarks: Sensitive Data Disclosure
-      - reference-id: OWASP-LLM-TOP10
-        entries:
-          - reference-id: LLM02:2025
-            strength: 0 # Not yet specified
-            remarks: Sensitive Information Disclosure
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0057
-            strength: 0 # Not yet specified
-            remarks: LLM Data Leakage
 
   - id: CCC.GenAI.TH04
     group: MachineLearning
@@ -278,42 +188,6 @@ threats:
           - reference-id: CCC.GenAI.CP25
             strength: 0 # Not yet specified
             remarks: Content Moderation
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-OP-004
-            strength: 0 # Not yet specified
-            remarks: Hallucination and Inaccurate Outputs
-          - reference-id: AIR-OP-006
-            strength: 0 # Not yet specified
-            remarks: Non-Deterministic Behaviour
-          - reference-id: AIR-OP-020
-            strength: 0 # Not yet specified
-            remarks: Reputational Risk
-      - reference-id: SAIF
-        entries:
-          - reference-id: IMO
-            strength: 0 # Not yet specified
-            remarks: Insecure Model Output
-      - reference-id: OWASP-LLM-TOP10
-        entries:
-          - reference-id: LLM09:2025
-            strength: 0 # Not yet specified
-            remarks: Misinformation
-          - reference-id: LLM05:2025
-            strength: 0 # Not yet specified
-            remarks: Improper Output Handling
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0062
-            strength: 0 # Not yet specified
-            remarks: Discover LLM Hallucinations
-          - reference-id: AML.T0060
-            strength: 0 # Not yet specified
-            remarks: Publish Hallucinated Entities
-          - reference-id: AML.T0077
-            strength: 0 # Not yet specified
-            remarks: LLM Response Rendering
 
   - id: CCC.GenAI.TH05
     group: MachineLearning
@@ -330,36 +204,6 @@ threats:
           - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Generate Content
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-OP-018
-            strength: 0 # Not yet specified
-            remarks: Model Overreach / Expanded Use
-          - reference-id: AIR-RC-022
-            strength: 0 # Not yet specified
-            remarks: Regulatory Compliance and Oversight
-      - reference-id: SAIF
-        entries:
-          - reference-id: IMO
-            remarks: Insecure Model Output
-            strength: 0 # Not yet specified
-          - reference-id: RA
-            strength: 0 # Not yet specified
-            remarks: Rogue Actions
-      - reference-id: OWASP-LLM-TOP10
-        entries:
-          - reference-id: LLM06:2025
-            strength: 0 # Not yet specified
-            remarks: Excessive Agency
-          - reference-id: LLM09
-            strength: 0 # Not yet specified
-            remarks: Overreliance
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0062
-            strength: 0 # Not yet specified
-            remarks: LLM Trusted Output Components Manipulation
 
   - id: CCC.GenAI.TH06
     group: MachineLearning
@@ -376,27 +220,6 @@ threats:
           - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Plugin Integrations
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-OP-018
-            strength: 0 # Not yet specified
-            remarks: Model Overreach / Expanded Use
-      - reference-id: SAIF
-        entries:
-          - reference-id: RA
-            strength: 0 # Not yet specified
-            remarks: Rogue Actions
-      - reference-id: OWASP-LLM-TOP10
-        entries:
-          - reference-id: LLM06:2025
-            strength: 0 # Not yet specified
-            remarks: Excessive Agency
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0065
-            strength: 0 # Not yet specified
-            remarks: LLM Prompt Crafting
 
   - id: CCC.GenAI.TH07
     group: Access
@@ -413,22 +236,6 @@ threats:
           - reference-id: CCC.GenAI.CP25
             strength: 0 # Not yet specified
             remarks: Plugin Integrations
-    external-mappings:
-      - reference-id: SAIF
-        entries:
-          - reference-id: IIC
-            strength: 0 # Not yet specified
-            remarks: Insecure Integrated Component
-      - reference-id: OWASP-LLM-TOP10
-        entries:
-          - reference-id: LLLM07
-            strength: 0 # Not yet specified
-            remarks: Insecure Plugin Design
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0053
-            strength: 0 # Not yet specified
-            remarks: LLM Plugin Compromise
 
   - id: CCC.GenAI.TH08
     group: MachineLearning
@@ -459,30 +266,6 @@ threats:
           - reference-id: CCC.GenAI.CP04
             strength: 0 # Not yet specified
             remarks: Customizable Model Selection
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-SEC-008
-            strength: 0 # Not yet specified
-            remarks: Tampering With the Foundational Model
-      - reference-id: SAIF
-        entries:
-          - reference-id: MST
-            strength: 0 # Not yet specified
-            remarks: Model Source Tampering
-          - reference-id: MDT
-            strength: 0 # Not yet specified
-            remarks: Model Deployment Tampering
-      - reference-id: OWASP-LLM-TOP10
-        entries:
-          - reference-id: LLM03:2025
-            strength: 0 # Not yet specified
-            remarks: Supply Chain
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0010
-            strength: 0 # Not yet specified
-            remarks: AI Supply Chain Compromise
 
   - id: CCC.GenAI.TH09
     group: Observability
@@ -498,20 +281,6 @@ threats:
           - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Generate Content
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-OP-017
-            strength: 0 # Not yet specified
-            remarks: Lack of Explainability
-          - reference-id: AIR-RC-022
-            strength: 0 # Not yet specified
-            remarks: Regulatory Compliance and Oversight
-      - reference-id: MITRE-ATLAS
-        entries:
-          - reference-id: AML.T0062.000
-            strength: 0 # Not yet specified
-            remarks: "LLM Trusted Output Components Manipulation: Citations"
 
   - id: CCC.GenAI.TH10
     group: MachineLearning
@@ -528,9 +297,3 @@ threats:
           - reference-id: CCC.Core.CP18
             strength: 0 # Not yet specified
             remarks: Versioning
-    external-mappings:
-      - reference-id: FINOS-AIGF
-        entries:
-          - reference-id: AIR-OP-005
-            strength: 0 # Not yet specified
-            remarks: Foundation Model Versioning

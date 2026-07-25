@@ -32,14 +32,6 @@ threats:
         entries:
           - reference-id: CCC.Core.CP03
           - reference-id: CCC.Core.CP10
-    external-mappings:
-      - reference-id: OWASPTOP10
-        entries:
-          - reference-id: A09:2021
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-778
-          - reference-id: CWE-223
   - id: CCC.AUDITLOG.TH02
     group: Observability
     title: Log Ingestion Latency
@@ -53,17 +45,6 @@ threats:
         entries:
           - reference-id: CCC.Core.CP03
           - reference-id: CCC.Core.CP10
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: TA0005
-      - reference-id: OWASPTOP10
-        entries:
-          - reference-id: A09:2021
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-778
-          - reference-id: CWE-223
   - id: CCC.AUDITLOG.TH03
     group: Observability
     title: Sensitive Data Logged
@@ -86,18 +67,6 @@ threats:
             remarks: External Sink
           - reference-id: CCC.Core.CP03
           - reference-id: CCC.Core.CP10
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: TA0006
-      - reference-id: OWASPTOP10
-        entries:
-          - reference-id: A09:2021
-          - reference-id: A02:2021
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-532
-          - reference-id: CWE-200
   - id: CCC.AUDITLOG.TH04
     group: Ingestion
     title: Insufficient encoding of audit logs
@@ -117,16 +86,6 @@ threats:
             remarks: External Sink
           - reference-id: CCC.Core.CP03
           - reference-id: CCC.Core.CP10
-    external-mappings:
-      - reference-id: OWASPTOP10
-        entries:
-          - reference-id: A03:2021
-          - reference-id: A09:2021
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-79
-          - reference-id: CWE-117
-          - reference-id: CWE-116
   - id: CCC.AUDITLOG.TH05
     group: Observability
     title: Logging Evasion via violating size constraints
@@ -142,16 +101,3 @@ threats:
         entries:
           - reference-id: CCC.Core.CP03
           - reference-id: CCC.Core.CP10
-    external-mappings:
-      - reference-id: OWASPTOP10
-        entries:
-          - reference-id: A09:2021
-      - reference-id: CWE
-        entries:
-          - reference-id: CWE-778
-            strength: 0 # Not yet specified
-            remarks: Insufficient Logging
-          - reference-id: CWE-223
-            strength: 0 # Not yet specified
-            remarks: Omission of Security-Relevant Information
-          - reference-id: CWE-20
