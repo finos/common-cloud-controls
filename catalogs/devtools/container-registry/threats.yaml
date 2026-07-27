@@ -52,11 +52,6 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.CntrReg.CP05
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1190
-          - reference-id: T1195
   - id: CCC.CntrReg.TH02
     group: Resource
     title: Accumulation of Unused Artifacts
@@ -68,8 +63,3 @@ threats:
         entries:
           - reference-id: CCC.CntrReg.CP04
           - reference-id: CCC.Core.CP18
-    external-mappings:
-      - reference-id: MITRE-ATT&CK
-        entries:
-          - reference-id: T1490
-          - reference-id: T1485

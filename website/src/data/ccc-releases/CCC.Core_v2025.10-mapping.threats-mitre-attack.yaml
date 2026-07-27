@@ -1,0 +1,229 @@
+title: Common Cloud Controls Core Threats to MITRE ATT&CK
+metadata:
+    id: CCC.Core.TH.threats-to-mitre-attack
+    type: MappingDocument
+    gemara-version: v1.2.0
+    version: v2025.10
+    description: Maps Common Cloud Controls Core threats to MITRE ATT&CK entries they relate to.
+    author:
+        id: FINOS-CCC
+        name: FINOS Common Cloud Controls
+        type: Human
+    mapping-references:
+        - id: CCC.Core.TH
+          title: Common Cloud Controls Core Threats
+          version: v2025.10
+        - id: MITRE-ATT&CK
+          title: MITRE ATT&CK
+          version: dev_to-be-determined
+          url: https://attack.mitre.org/
+source-reference:
+    entry-type: Threat
+    reference-id: CCC.Core.TH
+target-reference:
+    entry-type: Vector
+    reference-id: MITRE-ATT&CK
+mappings:
+    - id: CCC.Core.TH01-mitre-attack
+      source: CCC.Core.TH01
+      targets:
+        - entry-id: T1078
+          remarks: Valid Accounts
+        - entry-id: T1548
+          remarks: Abuse Elevation Control Mechanism
+        - entry-id: T1203
+          remarks: Exploitation for Credential Access
+        - entry-id: T1098
+          remarks: Account Manipulation
+        - entry-id: T1484
+          remarks: Domain or Tenant Policy Modification
+        - entry-id: T1546
+          remarks: Event Triggered Execution
+        - entry-id: T1537
+          remarks: Transfer Data to Cloud Account
+        - entry-id: T1567
+          remarks: Exfiltration Over Web Service
+        - entry-id: T1048
+          remarks: Exfiltration Over Alternative Protocol
+        - entry-id: T1485
+          remarks: Data Destruction
+        - entry-id: T1565
+          remarks: Data Manipulation
+        - entry-id: T1027
+          remarks: Obfuscated Files or Information
+      relationship: relates-to
+    - id: CCC.Core.TH02-mitre-attack
+      source: CCC.Core.TH02
+      targets:
+        - entry-id: T1557
+          remarks: Adversary-in-the-Middle
+        - entry-id: T1040
+          remarks: Network Sniffing
+      relationship: relates-to
+    - id: CCC.Core.TH03-mitre-attack
+      source: CCC.Core.TH03
+      targets:
+        - entry-id: T1040
+          remarks: Network Sniffing
+        - entry-id: T1110
+          remarks: Brute Force
+        - entry-id: T1105
+          remarks: Ingress Tool Transfer
+        - entry-id: T1583
+          remarks: Acquire Infrastructure
+        - entry-id: T1557
+          remarks: Adversary-in-the-Middle
+      relationship: relates-to
+    - id: CCC.Core.TH04-mitre-attack
+      source: CCC.Core.TH04
+      targets:
+        - entry-id: T1565
+          remarks: Data Manipulation
+      relationship: relates-to
+    - id: CCC.Core.TH05-mitre-attack
+      source: CCC.Core.TH05
+      targets:
+        - entry-id: T1485
+          remarks: Data Destruction
+        - entry-id: T1565
+          remarks: Data Manipulation
+        - entry-id: T1491
+          remarks: Defacement
+        - entry-id: T1490
+          remarks: Inhibit System Recovery
+      relationship: relates-to
+    - id: CCC.Core.TH06-mitre-attack
+      source: CCC.Core.TH06
+      targets:
+        - entry-id: T1485
+          remarks: Data Destruction
+        - entry-id: T1565
+          remarks: Data Manipulation
+        - entry-id: T1491
+          remarks: Defacement
+        - entry-id: T1490
+          remarks: Inhibit System Recovery
+      relationship: relates-to
+    - id: CCC.Core.TH07-mitre-attack
+      source: CCC.Core.TH07
+      targets:
+        - entry-id: T1070
+          remarks: Indicator Removal
+        - entry-id: T1565
+          remarks: Data Manipulation (for altering log entries)
+        - entry-id: T1027
+          remarks: Obfuscated Files or Information
+      relationship: relates-to
+    - id: CCC.Core.TH08-mitre-attack
+      source: CCC.Core.TH08
+      targets:
+        - entry-id: T1565
+          remarks: Data Manipulation
+        - entry-id: T1070
+          remarks: Indicator Removal
+      relationship: relates-to
+    - id: CCC.Core.TH09-mitre-attack
+      source: CCC.Core.TH09
+      targets:
+        - entry-id: T1003
+          remarks: OS Credential Dumping
+        - entry-id: T1007
+          remarks: System Service Discovery
+        - entry-id: T1018
+          remarks: Remote System Discovery
+        - entry-id: T1033
+          remarks: System Owner/User Discovery
+        - entry-id: T1046
+          remarks: Network Service Discovery
+        - entry-id: T1057
+          remarks: Process Discovery
+        - entry-id: T1069
+          remarks: Permission Groups Discovery
+        - entry-id: T1070
+          remarks: Indicator Removal
+        - entry-id: T1082
+          remarks: System Information Discovery
+        - entry-id: T1120
+          remarks: Peripheral Device Discovery
+        - entry-id: T1124
+          remarks: System Time Discovery
+        - entry-id: T1497
+          remarks: Virtualization/Sandbox Evasion
+        - entry-id: T1518
+          remarks: Software Discovery
+      relationship: relates-to
+    - id: CCC.Core.TH10-mitre-attack
+      source: CCC.Core.TH10
+      targets:
+        - entry-id: T1057
+          remarks: Process Discovery
+        - entry-id: T1049
+          remarks: System Network Connections Discovery
+        - entry-id: T1083
+          remarks: File and Directory Discovery
+      relationship: relates-to
+    - id: CCC.Core.TH11-mitre-attack
+      source: CCC.Core.TH11
+      targets:
+        - entry-id: T1205
+          remarks: Traffic Signaling
+        - entry-id: T1001.001
+          remarks: 'Data Obfuscation: Junk Data'
+      relationship: relates-to
+    - id: CCC.Core.TH12-mitre-attack
+      source: CCC.Core.TH12
+      targets:
+        - entry-id: T1496
+          remarks: Resource Hijacking
+        - entry-id: T1499
+          remarks: Endpoint Denial of Service
+        - entry-id: T1498
+          remarks: Network Denial of Service
+      relationship: relates-to
+    - id: CCC.Core.TH13-mitre-attack
+      source: CCC.Core.TH13
+      targets:
+        - entry-id: T1565
+          remarks: Data Manipulation
+      relationship: relates-to
+    - id: CCC.Core.TH14-mitre-attack
+      source: CCC.Core.TH14
+      targets:
+        - entry-id: T1027
+          remarks: Obfuscated Files or Information
+        - entry-id: T1485
+          remarks: Data Destruction
+        - entry-id: T1565
+          remarks: Data Manipulation
+        - entry-id: T1489
+          remarks: Service Stop
+        - entry-id: T1562.01
+          remarks: 'Impair Defenses: Downgrade Attack'
+        - entry-id: T1027
+          remarks: Obfuscated Files or Information
+        - entry-id: T1485
+          remarks: Data Destruction
+        - entry-id: T1565
+          remarks: Data Manipulation
+        - entry-id: T1489
+          remarks: Service Stop
+      relationship: relates-to
+    - id: CCC.Core.TH15-mitre-attack
+      source: CCC.Core.TH15
+      targets:
+        - entry-id: T1580
+          remarks: Cloud Infrastructure Discovery
+      relationship: relates-to
+    - id: CCC.Core.TH16-mitre-attack
+      source: CCC.Core.TH16
+      targets:
+        - entry-id: T1562
+          remarks: Impair Defenses
+      relationship: relates-to
+    - id: CCC.Core.TH18-mitre-attack
+      source: CCC.Core.TH18
+      targets:
+        - entry-id: T1555.006
+          remarks: 'Credentials from Password Stores: Cloud Secrets Management Stores'
+      relationship: relates-to
+remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative 'relates-to' default (the source carried no relationship semantics); framework version and the target entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.
