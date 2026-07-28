@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { CatalogSidebar } from "../components/Catalogs/CatalogSidebar";
 import { markdownComponents } from "../components/Catalogs/markdownComponents";
+import { ContributeCard } from "../components/Catalogs/ContributeCard";
 import styles from "../components/AdvanceAutomatedGovernence/styles.module.css";
 
 const TYPE_CONFIG = [
@@ -89,24 +90,7 @@ export default function Catalogs(): ReactNode {
             <CatalogTypeSection key={cfg.type} {...cfg} />
           ))}
 
-          <div className="surface-card">
-            <div style={{ margin: "1rem 1rem" }}>
-              <h2 style={{ margin: "0 0 1rem", fontSize: "1.25rem", color: "#0086bf" }}>
-                Contribute to the Next Release
-              </h2>
-              <p style={{ margin: "0 0 2rem", color: "#0086bf", fontSize: "1rem", lineHeight: 1.6 }}>
-                Catalogs are maintained as versioned YAML files. Generated artifacts are published here as each release is cut.
-              </p>
-              <a
-                href="https://github.com/finos/common-cloud-controls"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="catalog-type-btn"
-              >
-                View on GitHub →
-              </a>
-            </div>
-          </div>
+          <ContributeCard />
         </div>
       </div>
     </Layout>

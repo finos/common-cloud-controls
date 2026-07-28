@@ -1,20 +1,12 @@
-.h3Style {
+.h3 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   text-align: center;
   color: var(--gf-color-accent-strong);
-
 }
 
-.bodyStyle {
-  color: var(--gf-color-text-subtle);
-  font-size: 1.05rem;
-  text-align: center;
-  line-height: 1.75;
-}
-
-.sectionStyle {
+.section {
   max-width: 780px;
   margin: 0 auto 2.5rem auto;
   border: 1px solid var( --gf-color-border-strong);
@@ -24,7 +16,7 @@
   background-color: var(--gf-color-surface);
 }
 
-.audienceGridStyle {
+.audienceGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
@@ -32,7 +24,7 @@
   margin: 0 auto;
 }
 
-.audienceCardStyle {
+.audienceCard {
   border: 1px solid var( --gf-color-border-strong);
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
@@ -41,5 +33,5 @@
 }
 
 @media screen and (max-width: 600px) {
-  .audienceGridStyle {grid-template-columns: repeat(1,1fr); margin: 0;}
+  .audienceGrid {grid-template-columns: repeat(1,1fr); margin: 0;}
 }

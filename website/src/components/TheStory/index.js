@@ -57,9 +57,9 @@ function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
 
   return (
     <div
-      className={styles.sectionStyle}
+      className={styles.section}
     >
-      {title && <h3 className={styles.h3Style}>{title}</h3>}
+      {title && <h3 className={styles.h3}>{title}</h3>}
       <p style={{ ...bodyStyle, margin: 0 }}>{firstParagraph}</p>
 
       {open && (
@@ -124,11 +124,11 @@ export default function TheStory() {
       />
 
       <div style={{ maxWidth: "780px", margin: "0 auto 2.5rem auto" }}>
-        <h3 className={styles.h3Style} style={{  color: "var(--gf-color-accent-strong)"}}>Who Is It For?</h3>
+        <h3 className={styles.h3} style={{  color: "var(--gf-color-accent-strong)"}}>Who Is It For?</h3>
       </div>
-      <div className={styles.audienceGridStyle}>
+      <div className={styles.audienceGrid}>
         {audiences.map(({ label, body }) => (
-          <div key={label} className={styles.audienceCardStyle}>
+          <div key={label} className={styles.audienceCard}>
             <p style={{ fontWeight: 700, marginBottom: "1.0rem" }}>{label}</p>
             <p style={{ ...bodyStyle, fontSize: "0.95rem", margin: 0 }}>{body}</p>
           </div>

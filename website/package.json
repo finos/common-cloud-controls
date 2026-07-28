@@ -26,7 +26,6 @@
     "@radix-ui/react-accordion": "^1.2.8",
     "@radix-ui/react-avatar": "^1.1.4",
     "@radix-ui/react-slot": "^1.2.0",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.0.0",
     "js-yaml": "^4.1.0",
     "lucide-react": "^0.503.0",
@@ -36,9 +35,6 @@
     "react-markdown": "^10.1.0",
     "react-player": "^2.16.0",
     "remark-gfm": "^4.0.1",
-    "tailwind-merge": "^2.2.1",
-    "tailwind-variants": "^1.0.0",
-    "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
@@ -50,7 +46,6 @@
     "axios": "^1.8.4",
     "docusaurus": "^1.14.7",
     "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "~5.6.2"
   },

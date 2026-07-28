@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge } from "../../ui/badge";
+import styles from "./index.module.css";
 
 interface MappingCountBadgeProps {
   count: number;
@@ -7,19 +7,10 @@ interface MappingCountBadgeProps {
 }
 
 export function MappingCountBadge({ count, label }: MappingCountBadgeProps) {
-  const getBadgeVariant = (count: number) => {
-    if (count === 0) {
-      return "bg-red-100 text-red-800 border-red-300";
-    } else if (count === 1) {
-      return "bg-orange-100 text-orange-800 border-orange-300";
-    } else {
-      return "bg-blue-100 text-blue-800 border-blue-300";
-    }
-  };
-
+  const variantClass = count === 0 ? styles.none : count === 1 ? styles.one : styles.many;
   return (
-    <Badge variant="outline" className={`font-medium border ${getBadgeVariant(count)}`}>
+    <span className={`${styles.badge} ${variantClass}`}>
       {label ? `${label}: ${count}` : count}
-    </Badge>
+    </span>
   );
 }

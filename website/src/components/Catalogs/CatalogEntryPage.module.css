@@ -1,0 +1,29 @@
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.breadcrumb {
+  margin: 0 0 0.25rem;
+  color: var(--gf-color-text-subtle);
+  font-size: 0.9rem;
+}
+
+.pageTitle {
+  margin-top: 0;
+}
+
+.entryId {
+  font-size: 0.85rem;
+  color: var(--gf-color-text-subtle);
+  margin-bottom: 1.5rem;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
