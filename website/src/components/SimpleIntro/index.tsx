@@ -39,7 +39,7 @@ export default function SimpleIntro() {
           >
           Explore the Catalogs
           </Link>
-          <i className={styles.catalog_preview}>
+          <i className={styles.catalogPreview}>
             Capabilities: {totals.capabilities} • Threats: {totals.threats} •  Controls: {totals.controls}
           </i>
       </section>
