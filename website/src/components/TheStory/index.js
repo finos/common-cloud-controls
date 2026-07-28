@@ -136,6 +136,11 @@ export default function TheStory() {
       </div>
 
       <p style={{ ...bodyStyle, textAlign: "center", maxWidth: "780px", margin: "2rem auto 0 auto", fontSize: "0.95rem" }}>
+        
+        <a href="/users" className={styles.audienceCardStyle}>
+          See the user journey
+        </a> <p/>
+
         CCC is built openly, governed collaboratively, and backed by leading financial institutions,
         cloud providers, and technology organisations from across the industry. It lives on GitHub
         and welcomes contributors.
