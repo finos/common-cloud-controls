@@ -64,6 +64,7 @@ const config: Config = {
       },
       items: [
         { to: '/about', label: 'About', position: 'right' },
+        { to: '/users', label: 'User Journey', position: 'right' },
         { to: '/architecture', label: 'Architecture', position: 'right' },
         { to: "/catalogs", label: "Catalogs", position: "right" },
         {
