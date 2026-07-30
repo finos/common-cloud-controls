@@ -1,0 +1,28 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.none {
+  background: rgba(239, 68, 68, 0.1);
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.one {
+  background: rgba(251, 146, 60, 0.1);
+  color: #c2410c;
+  border-color: rgba(251, 146, 60, 0.3);
+}
+
+.many {
+  background: var(--gf-color-accent-soft);
+  color: var(--gf-color-accent);
+  border-color: var(--gf-color-border-strong);
+}

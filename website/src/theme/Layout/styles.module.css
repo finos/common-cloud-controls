@@ -1,6 +1,6 @@
 html,
 body {
-  height: 00%;
+  height: 100%;
 }
 
 .mainWrapper {
@@ -26,8 +26,3 @@ body {
   min-height: 89vh;
 }
 
-.mainWrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}

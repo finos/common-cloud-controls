@@ -1,0 +1,26 @@
+.nav {
+  font-size: 0.875rem;
+  color: var(--gf-color-text-subtle);
+  margin-bottom: 1rem;
+  padding: 1.25rem 0;
+}
+
+.link {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  color: var(--gf-color-text-subtle);
+  text-decoration: none;
+  transition: background-color 0.15s;
+}
+
+.link:hover {
+  background: var(--gf-color-background);
+  color: var(--gf-color-text-subtle);
+  text-decoration: none;
+}
+
+.current {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: var(--gf-color-background);
+}

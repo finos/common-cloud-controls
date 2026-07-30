@@ -43,3 +43,18 @@
   height: 100%;
   border: none;
 }
+
+.hiddenSvg {
+  position: absolute;
+  overflow: hidden;
+}
+
+.heroSection {
+  clip-path: url(#hero-wave-clip);
+  background-color: var(--gf-color-background-strong);
+  padding: 2rem 2rem 4rem;
+  max-width: 100rem;
+  margin: auto;
+  margin-bottom: 0;
+  color: var(--gf-color-accent-strong);
+}
