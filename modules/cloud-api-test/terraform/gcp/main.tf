@@ -81,6 +81,10 @@ provider "kubectl" {
   token                  = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(module.kubernetes.main_ca_certificate)
   load_config_file       = false
+
+  # Cluster outputs are unknown until apply, so defer client construction rather
+  # than failing provider configuration at plan time.
+  lazy_load = true
 }
 
 module "kubernetes_fixtures" {

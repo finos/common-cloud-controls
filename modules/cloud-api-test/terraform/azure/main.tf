@@ -112,6 +112,10 @@ provider "kubectl" {
   cluster_ca_certificate = base64decode(module.kubernetes.main_kube_config_ca)
   load_config_file       = false
 
+  # Cluster outputs are unknown until apply, so defer client construction rather
+  # than failing provider configuration at plan time.
+  lazy_load = true
+
   # Prerequisite: Azure CLI logged in + kubelogin on PATH (AKS local accounts disabled for CN16).
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
