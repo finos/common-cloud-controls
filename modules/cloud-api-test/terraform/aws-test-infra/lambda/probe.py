@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Minimal FINOS reachability probe (placeholder until modules/reachability-probe Go binary ships).
+"""Minimal FINOS reachability probe (placeholder until modules/probes/reachability Go binary ships).
 
 POST /v1/probes with JSON body {Host, Port, Protocol, ServerName, Timeout, NetworkContext}
 Authorization: HMAC-SHA256 over timestamp + nonce + body using REACHABILITY_PROBE_SHARED_SECRET.

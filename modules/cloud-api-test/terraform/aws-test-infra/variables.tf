@@ -26,7 +26,7 @@ variable "aws_root_backend_config" {
 
 variable "reachability_probe_image_override" {
   type        = string
-  description = "Unused placeholder for a future container image of modules/reachability-probe; Lambda zip is used until that artifact exists."
+  description = "Unused placeholder for a future container image of modules/probes/reachability; Lambda zip is used until that artifact exists."
   default     = ""
 }
 
@@ -34,7 +34,7 @@ variable "webhook_probe_image" {
   type        = string
   description = <<-EOT
     Container image for admission-webhook-probe.
-    Prerequisite: publish modules/admission-webhook-probe (or a temporary echo/nginx stand-in for infra bring-up only).
+    Prerequisite: publish modules/probes/admission-webhook (or a temporary echo/nginx stand-in for infra bring-up only).
     Default is a public pause image so the Deployment/Service can exist; replace before CN11.AR03 behavioural runs.
   EOT
   default     = "public.ecr.aws/eks-distro/kubernetes/pause:3.9"

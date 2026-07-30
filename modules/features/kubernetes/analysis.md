@@ -72,14 +72,14 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
   1. Good fixture: private or CIDR-restricted API endpoint; privateer `approved-api-cidrs`.
   2. `GetAPIEndpointConfig` → assert `PublicAccess=false` **or** non-empty `AllowedCIDRs` matching config.
   3. `AttemptAPIEndpointReachability` resolves the cluster endpoint, then delegates a TLS probe to `reachability.Prober` in `modules/cloud-api/reachability/`.
-  4. For `networkContext=untrusted`, the client calls the separately deployable FINOS `modules/reachability-probe/` service. That service runs outside the integration CSP estates and attempts the TLS connection from its own known public egress. The expected result is `TCPConnected=false`; an HTTP `401`/`403` still proves that the API endpoint was network-reachable and therefore fails this AR.
+  4. For `networkContext=untrusted`, the client calls the separately deployable FINOS `modules/probes/reachability/` service. That service runs outside the integration CSP estates and attempts the TLS connection from its own known public egress. The expected result is `TCPConnected=false`; an HTTP `401`/`403` still proves that the API endpoint was network-reachable and therefore fails this AR.
   5. Correlate the remote observation with `GetAPIEndpointConfig`; a timeout alone means “unreachable from this observer”, not necessarily “the allowlist denied it”.
 - **Feature sketch**: Background cloud api + `kubernetes`; assert endpoint configuration; request an authenticated remote probe from the FINOS untrusted observer; assert the API endpoint is not TCP/TLS reachable.
 - **Config / fixtures**: `resource` = cluster name; `approved-api-cidrs`; `reachability-probe-mode=remote`; `reachability-probe-url`; secret-expanded `reachability-probe-shared-secret`; expected `reachability-probe-observer`. The shared secret comes from FINOS secret storage / CI secrets and MUST NOT be committed or emitted as a terraform output.
 - **Gaps / honesty notes**: The FINOS probe service is an independently deployed prerequisite, not part of the EKS/AKS/GKE integration rollouts. DNS failure and probe-service failure are inconclusive infrastructure errors, not compliance passes. Config-only assertion remains a weaker `@SANITY` fallback when the remote service is unavailable.
 - **New component required**:
   - `modules/cloud-api/reachability/`: shared request/result contract plus local and authenticated HTTP client implementations.
-  - `modules/reachability-probe/`: separate Go module and deployable server for the FINOS estate; add it to `modules/go.work` during implementation. It executes tightly constrained DNS/TCP/TLS probes and returns observation evidence.
+  - `modules/probes/reachability/`: separate Go module and deployable server for the FINOS estate; add it to `modules/go.work` during implementation. It executes tightly constrained DNS/TCP/TLS probes and returns observation evidence.
   - Authenticate requests with an HMAC-SHA256 signature over timestamp, nonce, and request body using the shared secret; reject stale/replayed requests. The service MUST also enforce target/port allowlists, resolve and validate every destination IP, reject loopback/link-local/metadata/private ranges unless explicitly approved, rate-limit callers, and audit requests to avoid becoming an SSRF/network-scanning service.
 
 ### CCC.K8S.CN01.AR02 — Disable public API access
@@ -679,9 +679,9 @@ Implementations:
 - `RemoteProber`: authenticated HTTPS request to the FINOS reachability service. It signs timestamp + nonce + body using HMAC-SHA256 and the configured shared secret.
 - Do not expose a synthetic `Denied` boolean. DNS failure, timeout, refusal, TLS failure, and HTTP authentication response carry different evidentiary meaning.
 
-### `reachability-probe` (separate deployable Go module)
+### `modules/probes/reachability` (separate deployable Go module)
 
-Planned module: `modules/reachability-probe/`, with its own `go.mod`, server command/container artifact, health endpoint, unit tests, and deployment documentation. It imports the shared wire contract from `github.com/finos/common-cloud-controls/cloud-api/reachability`. Its Go code is released independently; its AWS deployment is provisioned from the standalone `modules/cloud-api-test/terraform/aws-test-infra/` root (separate from the main `terraform/aws/` root), not baked into any per-service fixture.
+Planned module: `modules/probes/reachability/`, with its own `go.mod`, server command/container artifact, health endpoint, unit tests, and deployment documentation. It imports the shared wire contract from `github.com/finos/common-cloud-controls/cloud-api/reachability`. Its Go code is released independently; its AWS deployment is provisioned from the standalone `modules/cloud-api-test/terraform/aws-test-infra/` root (separate from the main `terraform/aws/` root), not baked into any per-service fixture.
 
 The FINOS estate supplies:
 
@@ -718,9 +718,9 @@ The method is intentionally narrow:
 - It must not create/delete webhook configurations, modify selectors, or control arbitrary Deployments.
 - The implementation records the original replica count, restores `webhook-probe-enabled-replicas` in deferred cleanup, and starts every scenario by enabling the backend so a previously interrupted run self-heals.
 
-### `admission-webhook-probe` (separate deployable Go module)
+### `modules/probes/admission-webhook` (separate deployable Go module)
 
-Planned module: `modules/admission-webhook-probe/`, with its own `go.mod`, server command/container artifact, unit tests, Kubernetes manifests (or Helm chart), and deployment documentation. Add it to `modules/go.work` during implementation.
+Planned module: `modules/probes/admission-webhook/`, with its own `go.mod`, server command/container artifact, unit tests, Kubernetes manifests (or Helm chart), and deployment documentation. Add it to `modules/go.work` during implementation.
 
 The server exposes `/validate`, `/healthz`, and `/readyz`. `/validate` accepts Kubernetes `AdmissionReview` requests and has deterministic behaviour:
 
@@ -872,7 +872,7 @@ Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/kubernetes/`.
 
 **Separate test-infra Terraform root.** Both deployable test-support probes — the `reachability-probe` service and the `admission-webhook-probe` — are provisioned from a **new, standalone Terraform root** `modules/cloud-api-test/terraform/aws-test-infra/`, applied **separately** (its own state / apply cycle) from the main `modules/cloud-api-test/terraform/aws/` root. This keeps the probes on an independent lifecycle from the per-service fixtures, so they can be deployed once and reused across test runs rather than being torn down with the service fixtures. Azure/GCP equivalents (`azure-test-infra/`, `gcp-test-infra/`) follow the same pattern when those clouds are onboarded.
 
-- **`reachability-probe`** (public untrusted vantage): `aws-test-infra` deploys the FINOS-owned probe service (see the `modules/reachability-probe/` Go module) with its own public egress identity, DNS, and shared-secret wiring. It sits outside every service fixture's trust perimeter and hands its URL + shared secret to CI through protected environment secrets — never a main-root terraform output.
+- **`reachability-probe`** (public untrusted vantage): `aws-test-infra` deploys the FINOS-owned probe service (see the `modules/probes/reachability/` Go module) with its own public egress identity, DNS, and shared-secret wiring. It sits outside every service fixture's trust perimeter and hands its URL + shared secret to CI through protected environment secrets — never a main-root terraform output.
 - **`admission-webhook-probe`** (in-cluster component): although it must ultimately run **inside** `finos-ccc-integration-k8s-main` (Kubernetes admission webhooks are called by the cluster API server), it is applied from `aws-test-infra` rather than the kubernetes service submodule. That root consumes the main root's cluster endpoint/auth outputs via a remote state data source and uses the Kubernetes/Helm providers to create the probe namespace, test namespace and labels, Deployment, Service, TLS trust material, narrowly scoped `ValidatingWebhookConfiguration`, and fixture-controller RBAC. Applying `aws-test-infra` therefore depends on the main root having already created the cluster.
 
 **Fixture expectations (main):**
@@ -1049,7 +1049,7 @@ Also plan README routing update for `@kubernetes` in `modules/features/README.md
 
 - Should factory/folder id be `kubernetes` (chosen here) or `k8s` to match catalog path literally?  Answer: kubernetes
 - Is Kyverno/Gatekeeper required on all three CSP fixtures for CN04/CN05, or is native PSS + Azure Policy / Binary Authorization enough per cloud?  native.
-- Which FINOS estate/platform will host `modules/reachability-probe`, and who owns its deployment, DNS, egress identity, secret rotation, and availability?  aws-test-infra
+- Which FINOS estate/platform will host `modules/probes/reachability`, and who owns its deployment, DNS, egress identity, secret rotation, and availability?  aws-test-infra
 - Should remote reachability be mandatory `@MAIN` once the FINOS service is operational, while config-only remains `@SANITY`?  don't care - we'll run them all.
 - CN04.AR02/AR03: block on signed/vuln-scanned image pipeline before marking Behavioural, or ship `@NotTestable` stubs first?  test should fail.
 - CN18.AR02 on EKS: which node OS + feature combo is the supported integrity story for FINOS fixtures? don't care, choose your own for the integration tests.

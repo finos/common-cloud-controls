@@ -1,4 +1,4 @@
-module github.com/finos/common-cloud-controls/reachability-probe
+module github.com/finos/common-cloud-controls/probes/reachability
 
 go 1.25.0
 

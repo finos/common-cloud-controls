@@ -48,7 +48,7 @@ nonces, shared secrets, resolved addresses, or detailed network errors.
 
 ## Build and test
 
-From `modules/reachability-probe`:
+From `modules/probes/reachability`:
 
 ```sh
 go test ./...
@@ -58,7 +58,7 @@ Build the image from the repository root because the module imports the shared
 cloud-api contract:
 
 ```sh
-docker build -f modules/reachability-probe/Dockerfile -t reachability-probe .
+docker build -f modules/probes/reachability/Dockerfile -t reachability-probe .
 ```
 
 ## Deploy
