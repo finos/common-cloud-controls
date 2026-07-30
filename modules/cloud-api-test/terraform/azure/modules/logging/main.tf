@@ -26,9 +26,14 @@ resource "azurerm_monitor_diagnostic_setting" "storage" {
     category = "StorageDelete"
   }
 
-  metric {
-    category = "AllMetrics"
-    enabled  = true
+  # Blob-service metrics are Capacity/Transaction (not AllMetrics); using
+  # AllMetrics makes Azure rewrite the setting and leaves perpetual plan drift.
+  enabled_metric {
+    category = "Capacity"
+  }
+
+  enabled_metric {
+    category = "Transaction"
   }
 }
 

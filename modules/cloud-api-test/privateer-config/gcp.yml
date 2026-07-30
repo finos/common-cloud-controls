@@ -4,7 +4,7 @@ services:
   integration:
     vars:
       provider: gcp
-      region: us-central1
+      region: us-east1
       gcp-project-id: "${GCP_PROJECT_ID}"
       default-container: "finos-ccc-integration-container-main"
       function-name: "finos-ccc-integration-fn-main"
@@ -19,15 +19,15 @@ services:
         - "finos-ccc-integration-vpc-bad"
         - "finos-ccc-integration-vpc-bad"
       stale-version-id: "${STALE_VERSION_ID}"
-      authorized-region: "us-central1"
+      authorized-region: "us-east1"
       unauthorized-region: "europe-west1"
       permitted-regions:
-        - "us-central1"
+        - "us-east1"
       gcp-secret-id: "finos-ccc-integration-secret-main"
       # kubernetes — CSV args pass cluster name; resource remains VM for other services.
       # Prefer terraform output: kubernetes.cluster_name / kubernetes.api_endpoint after modules/kubernetes apply.
       cluster-name: "finos-ccc-integration-k8s-main"
-      gcp-location: "us-central1"
+      gcp-location: "us-east1"
       kubernetes-api-hostname: "${GCP_K8S_API_HOSTNAME}"
       test-workload-namespace: "ccc-test"
       test-workload-service-account: "ccc-wi-sa"

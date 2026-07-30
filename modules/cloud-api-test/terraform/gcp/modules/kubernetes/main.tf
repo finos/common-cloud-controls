@@ -94,6 +94,14 @@ resource "google_project_service" "container" {
   disable_on_destroy = false
 }
 
+# The container-engine-robot service account is created asynchronously after the
+# Container API is enabled; granting it KMS rights before it exists fails with
+# "Service account ... does not exist".
+resource "time_sleep" "wait_for_container_sa" {
+  depends_on      = [google_project_service.container]
+  create_duration = "90s"
+}
+
 resource "google_project_service" "binaryauthz" {
   project            = var.project_id
   service            = "binaryauthorization.googleapis.com"
@@ -131,7 +139,7 @@ resource "google_service_account" "wi_bound" {
 }
 
 resource "google_storage_bucket" "wi_probe" {
-  name                        = "finos-ccc-integration-k8s-wi-probe-${data.google_project.current.number}"
+  name                        = "finos-ccc-integration-k8s-wi-${var.region}-${data.google_project.current.number}"
   location                    = var.region
   project                     = var.project_id
   uniform_bucket_level_access = true
@@ -168,6 +176,7 @@ resource "google_kms_crypto_key_iam_member" "gke" {
   crypto_key_id = google_kms_crypto_key.gke.id
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
   member        = "serviceAccount:service-${data.google_project.current.number}@container-engine-robot.iam.gserviceaccount.com"
+  depends_on    = [time_sleep.wait_for_container_sa]
 }
 
 # Native Binary Authorization enabled in dry-run so unsigned paths are observable without bricking system pods.
@@ -197,7 +206,7 @@ resource "google_container_cluster" "main" {
   name                     = local.name_main
   location                 = var.region
   project                  = var.project_id
-  node_locations           = ["${var.region}-a"]
+  node_locations           = coalesce(var.node_locations, ["${var.region}-b"])
   remove_default_node_pool = true
   initial_node_count       = 1
 
@@ -323,7 +332,7 @@ resource "google_container_cluster" "bad" {
   name               = local.name_bad
   location           = var.region
   project            = var.project_id
-  node_locations     = ["${var.region}-a"]
+  node_locations     = coalesce(var.node_locations, ["${var.region}-b"])
   initial_node_count = 1
 
   network    = google_compute_network.k8s.name

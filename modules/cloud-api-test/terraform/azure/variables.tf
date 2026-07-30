@@ -33,9 +33,11 @@ variable "k8s_api_authorized_cidrs" {
   description = <<-EOT
     Authorized IP ranges for finos-ccc-integration-k8s-main API (CN01).
     Prerequisite: include runner egress; exclude public reachability-probe egress.
+    AKS rejects RFC1918 ranges here, so these must be public CIDRs.
+    Leave empty to auto-detect the applying machine's public IP as a /32.
     Fixture apply also requires Azure CLI + kubelogin (local accounts disabled).
   EOT
-  default     = ["10.0.0.0/8"]
+  default     = []
 }
 
 variable "k8s_version" {

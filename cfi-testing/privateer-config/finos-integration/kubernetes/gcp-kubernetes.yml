@@ -26,14 +26,14 @@ services:
       catalog-versions:
         CCC.Core: v2025.10
         CCC.K8S: DEV
-      region: us-central1
+      region: us-east1
       gcp-project-id: "${GCP_PROJECT_ID}"
-      gcp-location: us-central1
+      gcp-location: us-east1
       resource: "finos-ccc-integration-k8s-main"
       host-name: "${GCP_K8S_API_HOSTNAME}"
       port-number: "443"
       permitted-regions:
-        - us-central1
+        - us-east1
       approved-api-cidrs:
         - "10.0.0.0/8"
       reachability-probe-mode: remote
@@ -82,6 +82,7 @@ services:
       webhook-probe-namespace: ccc-admission-webhook-probe
       webhook-probe-test-namespace: ccc-admission-webhook-test
       webhook-probe-deployment: ccc-admission-webhook-probe
+      webhook-probe-service: ccc-admission-webhook-probe
       webhook-probe-configuration: ccc-admission-webhook-probe
       webhook-probe-enabled-replicas: 1
       webhook-probe-timeout-ms: 30000

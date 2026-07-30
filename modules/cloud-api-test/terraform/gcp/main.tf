@@ -4,6 +4,13 @@ provider "google" {
   zone    = var.zone
 }
 
+# Fall back to the applying machine's public IP so the runner can still reach
+# a control plane locked to master authorized networks.
+data "http" "runner_public_ip" {
+  count = length(var.k8s_api_authorized_cidrs) == 0 ? 1 : 0
+  url   = "https://checkip.amazonaws.com/"
+}
+
 locals {
   common_labels = {
     managed_by = "terraform"
@@ -13,6 +20,10 @@ locals {
   secret_accessor_members = compact([
     var.integration_runner_service_account_email != "" ? "serviceAccount:${var.integration_runner_service_account_email}" : "",
   ])
+
+  k8s_api_authorized_cidrs = length(var.k8s_api_authorized_cidrs) > 0 ? var.k8s_api_authorized_cidrs : [
+    "${chomp(data.http.runner_public_ip[0].response_body)}/32"
+  ]
 }
 
 module "vpc" {
@@ -62,7 +73,8 @@ module "kubernetes" {
   source               = "./modules/kubernetes"
   project_id           = var.project_id
   region               = var.region
-  api_authorized_cidrs = var.k8s_api_authorized_cidrs
+  api_authorized_cidrs = local.k8s_api_authorized_cidrs
+  node_locations       = [var.zone]
   common_labels        = local.common_labels
 }
 

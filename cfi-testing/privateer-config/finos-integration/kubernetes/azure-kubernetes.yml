@@ -82,6 +82,7 @@ services:
       webhook-probe-namespace: ccc-admission-webhook-probe
       webhook-probe-test-namespace: ccc-admission-webhook-test
       webhook-probe-deployment: ccc-admission-webhook-probe
+      webhook-probe-service: ccc-admission-webhook-probe
       webhook-probe-configuration: ccc-admission-webhook-probe
       webhook-probe-enabled-replicas: 1
       webhook-probe-timeout-ms: 30000
