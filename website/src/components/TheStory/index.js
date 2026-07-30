@@ -76,9 +76,7 @@ function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
         <button
           onClick={() => setOpen(!open)}
           aria-expanded={open}
-          className={styles.readmore}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,181,226,0.1)")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+          className={styles.button_readmore}
         >
           {open ? "Show less" : "Read more"}
           <ChevronIcon open={open} />
@@ -125,21 +123,16 @@ export default function TheStory() {
         
         <Link
           to="/users"
+                 
+          //Catalog Button
+          //className={styles.button_catalog}
 
-          //Catalog button
-          className="catalog-type-btn"
-
-          /*/Readmore Button
-          className={styles.readmore}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,181,226,0.1)")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
-          */
-
-          /*/Catalog Button
-          className={styles.button}
-          onMouseEnter={(e) => { e.currentTarget.style.filter = "brightness(1.2)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.filter = "none"; e.currentTarget.style.transform = "none";}}
-          */
+          //Readmore Button
+          //className={styles.button_readmore}
+          
+          //View on Github button
+          className={styles.button_viewgithub}
+          
         >
           See the user journey
         </Link> <p/>

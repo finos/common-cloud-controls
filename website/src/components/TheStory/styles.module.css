@@ -32,41 +32,68 @@
   color: var(--gf-color-text);
 }
 
+
+
 .button_catalog {
   display: flex;
 	justify-content: center;
-
-
 	padding: 1rem;
-
 	margin: auto;
 	margin-bottom: 1.5rem;
 	max-width: 15rem;
-
 	border-radius: 0.75rem;
 	box-shadow: 0 4px 14px rgba(67, 77, 103, 0.4);
-
 	background: var(--gf-color-accent-strong);
 	color: #fff;
-
 	font-weight: 600;
-
 	transition: filter 0.2s, transform 0.2s;
 }
+.button_catalog:hover {
+  text-decoration: none;
+	color: var(--gf-color-text-subtle);
+  transform: translateY(-1px);
+  filter: brightness(1.2);
+}
 
-.readmore {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--gf-color-accent);
-    padding: 0.25rem 0.75rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 999px;
-    /*transition: background 0.15s;*/
+.button_readmore {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gf-color-accent);
+  padding: 0.25rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+.button_readmore:hover {
+  background: rgba(0,181,226,0.1);
+  text-decoration: none;
+}
+
+.button_viewgithub {
+  display: inline-block;
+  padding: 0.6rem 1.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: var(--gf-color-accent-light);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+.button_viewgithub:hover {
+  background: var(--gf-color-accent);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 134, 191, 0.3);
 }
 
 @media screen and (max-width: 600px) {
