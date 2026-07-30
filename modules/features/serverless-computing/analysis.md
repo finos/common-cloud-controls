@@ -63,6 +63,8 @@ The serverless catalog defines **two native controls** with **two behavioural AR
    - If `public-invoke-url` is explicitly set (edge-case dual-homed test fixture), assert `AttemptPublicInternetInvoke` → `AccessDenied` true (connection refused, timeout, or HTTP error — **not** merely 403 from IAM auth on an intentionally public URL).
 4. **Scenario B (bad)**: `public-invoke-url` must be set → `AttemptPublicInternetInvoke` → invoke succeeds → test **fails** (proves detector works).
 
+**Reachability service (planned)**: back `AttemptPublicInternetInvoke` with the shared `reachability.Prober` (`modules/cloud-api/reachability/`) using an HTTPS `Protocol`, so the "public internet invoke denied" observation comes from the FINOS-owned probe **outside** the integration estate rather than from the runner. `GetInvokeEndpointExposure` remains the config-evidence half; the remote probe is the network-evidence half. Serverless is the **second adopter** after VM — see the shared-component plan and adoption sequence in [`kubernetes/analysis.md`](../kubernetes/analysis.md). A completed request or HTTP `401`/`403` on a public URL still proves the endpoint is publicly reachable; keep a `LocalProber`/config-only `@SANITY` fallback and treat probe-service errors as infrastructure failures, not passes.
+
 #### Feature sketch
 
 ```text
@@ -172,7 +174,7 @@ Scenario B (@MAIN): public invoke probe (when public-invoke-url or exposure API 
 
 `GetInvokeEndpointExposure` reads the **resource under test** (Function URL config, API GW integration, ingress settings). This is not log-sink discovery — it prevents false passes when config omits a public URL that exists in the cloud.
 
-`AttemptPublicInternetInvoke` uses `public-invoke-url` from config when set; otherwise uses `PublicEndpointURL` from `GetInvokeEndpointExposure` (so undeclared public URLs are still probed). If neither is available, return a clear error — do not silently pass.
+`AttemptPublicInternetInvoke` uses `public-invoke-url` from config when set; otherwise uses `PublicEndpointURL` from `GetInvokeEndpointExposure` (so undeclared public URLs are still probed). If neither is available, return a clear error — do not silently pass. **Planned**: implement the actual internet request via the shared `reachability.Prober` (`modules/cloud-api/reachability/`, HTTPS `Protocol`) so the attempt originates from the FINOS untrusted observer rather than the runner. See cross-service adoption in [`kubernetes/analysis.md`](../kubernetes/analysis.md).
 
 `AttemptPrivateInvoke` uses `private-endpoint-url` from config; fails fast if unset.
 
