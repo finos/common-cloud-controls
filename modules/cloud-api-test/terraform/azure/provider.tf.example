@@ -1,3 +1,11 @@
+# Prerequisites for kubernetes (AKS) fixtures:
+#   - azurerm + azuread permissions to create AKS, VNets, Log Analytics, managed identities
+#   - Set k8s_api_authorized_cidrs to runner egress (exclude public reachability-probe)
+#   - Azure CLI logged in + kubelogin on PATH (main cluster has local accounts disabled for CN16)
+#   - Applying identity needs Azure Kubernetes Service RBAC Cluster Admin on the main cluster
+#   - Cluster boot budget: 15–30+ minutes for two AKS clusters
+#   - Native controls: Azure Policy add-on, Azure NetworkPolicy, Workload Identity, OMS agent
+
 provider "azurerm" {
   features {}
   subscription_id = "<your-subscription-id>"

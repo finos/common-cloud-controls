@@ -43,3 +43,43 @@ module "secrets" {
   source      = "./modules/secrets"
   common_tags = local.common_tags
 }
+
+module "kubernetes" {
+  source               = "./modules/kubernetes"
+  region               = var.region
+  api_authorized_cidrs = var.k8s_api_authorized_cidrs
+  kubernetes_version   = var.k8s_version
+  common_tags          = local.common_tags
+}
+
+data "aws_eks_cluster_auth" "main" {
+  name = module.kubernetes.main_cluster_name
+}
+
+provider "kubernetes" {
+  alias                  = "eks_main"
+  host                   = module.kubernetes.main_endpoint
+  cluster_ca_certificate = base64decode(module.kubernetes.main_certificate_authority_data)
+  token                  = data.aws_eks_cluster_auth.main.token
+}
+
+provider "kubectl" {
+  alias                  = "eks_main"
+  host                   = module.kubernetes.main_endpoint
+  cluster_ca_certificate = base64decode(module.kubernetes.main_certificate_authority_data)
+  token                  = data.aws_eks_cluster_auth.main.token
+  load_config_file       = false
+}
+
+module "kubernetes_fixtures" {
+  source            = "./modules/kubernetes/fixtures"
+  wi_bound_role_arn = module.kubernetes.wi_bound_role_arn
+  fixture_metadata  = module.kubernetes.fixture_metadata
+
+  providers = {
+    kubernetes = kubernetes.eks_main
+    kubectl    = kubectl.eks_main
+  }
+
+  depends_on = [module.kubernetes]
+}

@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 
@@ -80,6 +81,79 @@ func (suite *TestSuite) InitializeServiceScenario(sc *godog.ScenarioContext, par
 
 	// Register all cloud steps (which includes generic steps)
 	suite.RegisterSteps(sc)
+	sc.Step(
+		`^I call "([^"]*)" with "([^"]*)" using arguments "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)", and "([^"]*)"$`,
+		suite.callObjectMethodWithFiveParameters,
+	)
+}
+
+// callObjectMethodWithFiveParameters extends the standard reflective call convention,
+// which currently supports up to four arguments.
+func (suite *TestSuite) callObjectMethodWithFiveParameters(objectName, methodName string, params ...string) (err error) {
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			suite.Props["result"] = fmt.Errorf("error calling %s.%s: %v", objectName, methodName, recovered)
+			err = nil
+		}
+	}()
+
+	object := suite.HandleResolve(objectName)
+	if object == nil {
+		suite.Props["result"] = fmt.Errorf("object %s not found", objectName)
+		return nil
+	}
+	method := reflect.ValueOf(object).MethodByName(methodName)
+	if !method.IsValid() {
+		suite.Props["result"] = fmt.Errorf("method %s not found", methodName)
+		return nil
+	}
+	if method.Type().NumIn() != len(params) {
+		suite.Props["result"] = fmt.Errorf(
+			"method %s expects %d arguments, got %d",
+			methodName,
+			method.Type().NumIn(),
+			len(params),
+		)
+		return nil
+	}
+
+	args := make([]reflect.Value, len(params))
+	for i, param := range params {
+		args[i] = convertReflectArgument(method.Type().In(i), suite.HandleResolve(param))
+	}
+	results := method.Call(args)
+	if len(results) > 1 && !results[len(results)-1].IsNil() {
+		if callErr, ok := results[len(results)-1].Interface().(error); ok {
+			suite.Props["result"] = callErr
+			return nil
+		}
+	}
+	if len(results) > 0 {
+		suite.Props["result"] = results[0].Interface()
+	}
+	return nil
+}
+
+func convertReflectArgument(target reflect.Type, value any) reflect.Value {
+	if value == nil {
+		return reflect.Zero(target)
+	}
+	resolved := reflect.ValueOf(value)
+	if resolved.Type().AssignableTo(target) {
+		return resolved
+	}
+	if resolved.Type().ConvertibleTo(target) {
+		return resolved.Convert(target)
+	}
+	switch target.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		if parsed, err := strconv.ParseInt(fmt.Sprint(value), 10, 64); err == nil {
+			return reflect.ValueOf(parsed).Convert(target)
+		}
+	case reflect.String:
+		return reflect.ValueOf(fmt.Sprint(value))
+	}
+	return resolved
 }
 
 // enrichParamsProps copies Privateer vars into Props for Godog substitution and HTML reports.
@@ -346,7 +420,7 @@ func (r *BasicServiceRunner) printSummary(stats TestStats) {
 // discoverFeaturePaths returns Godog paths under modules/features/{service}/<catalog>/,
 // always including modules/features/generic/ (shared CCC.Core scenarios).
 // Services with PerPort scenarios also include modules/features/port/.
-// virtual-machines and serverless-computing also include modules/features/vpc/
+// virtual-machines, serverless-computing, and kubernetes also include modules/features/vpc/
 // for shared CN06 coverage until that scenario is moved to generic.
 func (r *BasicServiceRunner) discoverFeaturePaths() ([]string, error) {
 	return collectFeaturePaths(RepoRoot(), r.Config.ServiceName)
@@ -375,10 +449,10 @@ func collectFeaturePaths(repoRoot, serviceName string) ([]string, error) {
 
 	appendCatalogDirs(filepath.Join(featuresRoot, "generic"))
 
-	if serviceName == "object-storage" || serviceName == "virtual-machines" {
+	if serviceName == "object-storage" || serviceName == "virtual-machines" || serviceName == "kubernetes" {
 		appendCatalogDirs(filepath.Join(featuresRoot, "port"))
 	}
-	if serviceName == "virtual-machines" || serviceName == "serverless-computing" {
+	if serviceName == "virtual-machines" || serviceName == "serverless-computing" || serviceName == "kubernetes" {
 		appendCatalogDirs(filepath.Join(featuresRoot, "vpc"))
 	}
 

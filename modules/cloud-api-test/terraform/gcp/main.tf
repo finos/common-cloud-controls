@@ -57,3 +57,41 @@ module "secrets" {
   unauthorized_region     = "europe-west1"
   secret_accessor_members = local.secret_accessor_members
 }
+
+module "kubernetes" {
+  source               = "./modules/kubernetes"
+  project_id           = var.project_id
+  region               = var.region
+  api_authorized_cidrs = var.k8s_api_authorized_cidrs
+  common_labels        = local.common_labels
+}
+
+data "google_client_config" "default" {}
+
+provider "kubernetes" {
+  alias                  = "gke_main"
+  host                   = "https://${module.kubernetes.main_endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(module.kubernetes.main_ca_certificate)
+}
+
+provider "kubectl" {
+  alias                  = "gke_main"
+  host                   = "https://${module.kubernetes.main_endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(module.kubernetes.main_ca_certificate)
+  load_config_file       = false
+}
+
+module "kubernetes_fixtures" {
+  source           = "./modules/kubernetes/fixtures"
+  wi_bound_email   = module.kubernetes.wi_bound_email
+  fixture_metadata = module.kubernetes.fixture_metadata
+
+  providers = {
+    kubernetes = kubernetes.gke_main
+    kubectl    = kubectl.gke_main
+  }
+
+  depends_on = [module.kubernetes]
+}

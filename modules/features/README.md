@@ -9,6 +9,7 @@ modules/features/
   port/              # @PerPort scenarios (TLS, protocol probes, etc.)
   object-storage/    # @object-storage and CCC.ObjStor behavioural tests
   vpc/               # @vpc behavioural tests
+  kubernetes/        # CCC.K8S and Kubernetes-specific CCC.Core tests
   load-balancer/     # (reserved — no behavioural scenarios ported yet)
   <service>/
     <Catalog>/       # e.g. CCC.Core, CCC.ObjStor, CCC.VPC
@@ -26,8 +27,14 @@ Scenarios are placed using the first matching tag:
 5. `@virtual-machines` → `virtual-machines/`
 6. `@serverless-computing` → `serverless-computing/`
 7. `@secrets` → `secrets/`
+8. `@kubernetes` → `kubernetes/`
 
 CCC.ObjStor features default to `object-storage/`. CCC.VPC defaults to `vpc/`. Other `@PerService` CCC.Core scenarios without a service tag default to `object-storage/`.
+
+Kubernetes runs include `kubernetes/<Catalog>/`, generic CCC.Core scenarios,
+shared `port/` scenarios for API endpoint TLS, and shared `vpc/` scenarios for
+regional trust-perimeter coverage. The `admission-webhook` service ID is reserved
+for the narrowly scoped CN11.AR03 fixture controller.
 
 See `virtual-machines/analysis.md` and `serverless-computing/analysis.md` for planned behavioural coverage.
 

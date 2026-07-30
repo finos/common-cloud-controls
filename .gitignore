@@ -13,6 +13,10 @@ website/src/data/test-results/**/*
 website/static/downloads/cfi/**/*
 website/src/data/ccc-releases/*
 
+# Local Go caches accidentally created in-repo during agent builds
+.gocache/
+.gomodcache/
+
 # cloud-api coverage artifacts (local runs)
 modules/cloud-api/coverage-*.out
 

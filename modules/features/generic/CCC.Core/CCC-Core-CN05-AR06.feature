@@ -8,7 +8,7 @@ Feature: CCC.Core.CN05.AR06 - Block All Unauthorized Requests
   Background:
     Given a cloud api for "{config}" in "api"
 
-@Destructive @Behavioural @object-storage @virtual-machines @serverless-computing
+@Destructive @Behavioural @object-storage @virtual-machines @serverless-computing @kubernetes
   Scenario: Service prevents data read by user with no access
     And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "{service-type}" and "test-user-no-access"
     And "{result}" is not an error
@@ -16,3 +16,21 @@ Feature: CCC.Core.CN05.AR06 - Block All Unauthorized Requests
     When I call "{userReadableService}" with "TriggerDataRead" using argument "{resource-name}"
     Then "{result}" is an error
     And I attach "{result}" to the test output as "no-access-trigger-data-read-error.txt"
+
+@Destructive @Behavioural @kubernetes
+  Scenario: Kubernetes prevents data writes by a user with no access
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "kubernetes" and "test-user-no-access"
+    And "{result}" is not an error
+    And I refer to "{result}" as "unauthorizedKubernetesService"
+    When I call "{unauthorizedKubernetesService}" with "TriggerDataWrite" using argument "{resource-name}"
+    Then "{result}" is an error
+    And I attach "{result}" to the test output as "no-access-trigger-data-write-error.txt"
+
+@Destructive @Behavioural @kubernetes
+  Scenario: Kubernetes prevents administrative changes by a user with no access
+    And I call "{api}" with "GetServiceAPIWithIdentity" using arguments "kubernetes" and "test-user-no-access"
+    And "{result}" is not an error
+    And I refer to "{result}" as "unauthorizedKubernetesService"
+    When I call "{unauthorizedKubernetesService}" with "UpdateResourcePolicy"
+    Then "{result}" is an error
+    And I attach "{result}" to the test output as "no-access-update-resource-policy-error.txt"

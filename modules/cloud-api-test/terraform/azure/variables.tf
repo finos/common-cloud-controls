@@ -1,6 +1,6 @@
 variable "location" {
-  type    = string
-  default = "westus2"
+  type        = string
+  default     = "westus2"
   description = "Azure region for integration fixtures. westus2 used by default due eastus capacity limits on small SKUs."
 }
 
@@ -26,4 +26,20 @@ variable "key_vault_secret_reader_object_ids" {
   type        = list(string)
   default     = []
   description = "Additional Entra object IDs granted Key Vault secret Get/List on finoscccintkvsec."
+}
+
+variable "k8s_api_authorized_cidrs" {
+  type        = list(string)
+  description = <<-EOT
+    Authorized IP ranges for finos-ccc-integration-k8s-main API (CN01).
+    Prerequisite: include runner egress; exclude public reachability-probe egress.
+    Fixture apply also requires Azure CLI + kubelogin (local accounts disabled).
+  EOT
+  default     = ["10.0.0.0/8"]
+}
+
+variable "k8s_version" {
+  type        = string
+  description = "AKS Kubernetes version; null lets Azure choose the default supported version."
+  default     = null
 }

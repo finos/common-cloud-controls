@@ -53,12 +53,42 @@ output "logging" {
 
 output "secrets" {
   value = {
-    resource_name         = module.secrets.secret_name
-    azure_secret_name     = module.secrets.azure_secret_name
-    azure_key_vault_name  = module.secrets.azure_key_vault_name
-    azure_key_vault_uri   = module.secrets.azure_key_vault_uri
-    stale_version_id      = module.secrets.stale_version_id
-    authorized_region     = module.secrets.authorized_region
-    unauthorized_region   = module.secrets.unauthorized_region
+    resource_name        = module.secrets.secret_name
+    azure_secret_name    = module.secrets.azure_secret_name
+    azure_key_vault_name = module.secrets.azure_key_vault_name
+    azure_key_vault_uri  = module.secrets.azure_key_vault_uri
+    stale_version_id     = module.secrets.stale_version_id
+    authorized_region    = module.secrets.authorized_region
+    unauthorized_region  = module.secrets.unauthorized_region
   }
+}
+
+output "kubernetes" {
+  value = {
+    resource_name                         = module.kubernetes.main_cluster_name
+    main_cluster_name                     = module.kubernetes.main_cluster_name
+    bad_cluster_name                      = module.kubernetes.bad_cluster_name
+    main_cluster_id                       = module.kubernetes.main_cluster_id
+    bad_cluster_id                        = module.kubernetes.bad_cluster_id
+    main_endpoint                         = module.kubernetes.main_fqdn
+    bad_endpoint                          = module.kubernetes.bad_fqdn
+    region                                = module.kubernetes.location
+    azure_log_analytics_workspace_id      = module.kubernetes.log_analytics_workspace_id
+    azure_log_analytics_workspace_rid     = module.kubernetes.log_analytics_workspace_resource_id
+    wi_bound_client_id                    = module.kubernetes.wi_bound_client_id
+    wi_probe_resource                     = module.kubernetes.wi_probe_storage_account
+    api_authorized_cidrs                  = module.kubernetes.api_authorized_cidrs
+    oidc_issuer_url                       = module.kubernetes.oidc_issuer_url
+    kubelet_object_id                     = module.kubernetes.kubelet_object_id
+    test_workload_namespace               = module.kubernetes.fixture_metadata.test_workload_namespace
+    test_workload_service_account         = module.kubernetes.fixture_metadata.test_workload_service_account
+    test_workload_service_account_unbound = module.kubernetes.fixture_metadata.test_workload_service_account_unbound
+    network_control_namespace             = module.kubernetes.fixture_metadata.network_control_namespace
+    protected_secret_name                 = module.kubernetes.fixture_metadata.protected_secret_name
+    unrelated_secret_name                 = module.kubernetes.fixture_metadata.unrelated_secret_name
+    approved_storage_class                = module.kubernetes.fixture_metadata.approved_storage_class
+    disallowed_storage_class              = module.kubernetes.fixture_metadata.disallowed_storage_class
+    fixture_metadata                      = module.kubernetes.fixture_metadata
+  }
+  sensitive = true
 }
