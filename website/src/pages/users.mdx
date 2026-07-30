@@ -6,10 +6,15 @@ hide_table_of_contents: true
 
 import ContentPage from '@site/src/components/ContentPage';
 import styles from '@site/src/components/AdvanceAutomatedGovernence/styles.module.css';
-
+import MonoIcon from "../components/MonoIcon";
 
 <ContentPage subtitle="Use Cases" title="Who should use FINOS CCC?" toc={toc}>
 
+{/*Image source: https://www.pexels.com/photo/engineer-holding-laptop-1181316/ */}
+<img src="/img/pexels-divinetechygirl-1181316.jpg" alt="woman with laptop in servers"/>
+<div className={styles.footerImage}>
+    <MonoIcon />
+</div>
 ### Financial Institutions 
 **Use Case 1:** A bank or large financial institution operates multiple cloud platforms and has a dedicated team responsible for cloud security, architecture, compliance, and control assurance.
 
@@ -46,8 +51,9 @@ The cloud security team uses the catalogs to:
     * Opportunities to automate control validation.
 
 ---
-
-
+<div className={styles.footerImage}>
+    <MonoIcon />
+</div>
 
 ### Smaller Organizations
 **Use Case 2:** A smaller organization may not have a dedicated cloud security team. Responsibility for cloud controls may belong to one security engineer, cloud architect, platform engineer, or compliance specialist.
@@ -87,5 +93,7 @@ The person responsible for security uses FINOS CCC to:
     * Opportunities to automate control validation.
 
 ---
-
+<div className={styles.footerImage}>
+    <MonoIcon />
+</div>
 </ContentPage>

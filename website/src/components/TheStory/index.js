@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import HomeSection from "../HomeSection";
 import styles from "./styles.module.css";
-
-
+import { Link } from "react-router-dom";
 
 const bodyStyle = {
   color: "var(--gf-color-text-subtle)",
@@ -77,20 +76,7 @@ function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
         <button
           onClick={() => setOpen(!open)}
           aria-expanded={open}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            color: "var(--gf-color-accent)",
-            padding: "0.25rem 0.75rem",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.4rem",
-            fontSize: "0.9rem",
-            fontWeight: 600,
-            borderRadius: "999px",
-            transition: "background 0.15s",
-          }}
+          className={styles.readmore}
           onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,181,226,0.1)")}
           onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
         >
@@ -137,9 +123,26 @@ export default function TheStory() {
 
       <p style={{ ...bodyStyle, textAlign: "center", maxWidth: "780px", margin: "2rem auto 0 auto", fontSize: "0.95rem" }}>
         
-        <a href="/users" className={styles.audienceCardStyle}>
+        <Link
+          to="/users"
+
+          //Catalog button
+          className="catalog-type-btn"
+
+          /*/Readmore Button
+          className={styles.readmore}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,181,226,0.1)")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+          */
+
+          /*/Catalog Button
+          className={styles.button}
+          onMouseEnter={(e) => { e.currentTarget.style.filter = "brightness(1.2)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.filter = "none"; e.currentTarget.style.transform = "none";}}
+          */
+        >
           See the user journey
-        </a> <p/>
+        </Link> <p/>
 
         CCC is built openly, governed collaboratively, and backed by leading financial institutions,
         cloud providers, and technology organisations from across the industry. It lives on GitHub

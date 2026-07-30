@@ -109,6 +109,12 @@
   height: auto;
 }
 
+.footerImage {
+	width: 3rem;
+	margin: auto;
+	margin-top: 0;
+}
+
 h1{
   font-size: 2.5rem;
   color: var(--gf-color-accent-strong);
