@@ -32,29 +32,6 @@
   color: var(--gf-color-text);
 }
 
-
-
-.button_catalog {
-  display: flex;
-	justify-content: center;
-	padding: 1rem;
-	margin: auto;
-	margin-bottom: 1.5rem;
-	max-width: 15rem;
-	border-radius: 0.75rem;
-	box-shadow: 0 4px 14px rgba(67, 77, 103, 0.4);
-	background: var(--gf-color-accent-strong);
-	color: #fff;
-	font-weight: 600;
-	transition: filter 0.2s, transform 0.2s;
-}
-.button_catalog:hover {
-  text-decoration: none;
-	color: var(--gf-color-text-subtle);
-  transform: translateY(-1px);
-  filter: brightness(1.2);
-}
-
 .button_readmore {
   background: none;
   border: none;
@@ -74,7 +51,7 @@
   text-decoration: none;
 }
 
-.button_viewgithub {
+.button_journey {
   display: inline-block;
   padding: 0.6rem 1.75rem;
   border-radius: 0.75rem;
@@ -89,7 +66,7 @@
   transition: background 0.15s, box-shadow 0.15s;
   white-space: nowrap;
 }
-.button_viewgithub:hover {
+.button_journey:hover {
   background: var(--gf-color-accent);
   color: #fff;
   text-decoration: none;

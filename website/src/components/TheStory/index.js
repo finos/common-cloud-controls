@@ -123,16 +123,7 @@ export default function TheStory() {
         
         <Link
           to="/users"
-                 
-          //Catalog Button
-          //className={styles.button_catalog}
-
-          //Readmore Button
-          //className={styles.button_readmore}
-          
-          //View on Github button
-          className={styles.button_viewgithub}
-          
+          className={styles.button_journey}
         >
           See the user journey
         </Link> <p/>
