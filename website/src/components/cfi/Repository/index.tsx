@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import Layout from "@theme/Layout";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { CFIRepositoryPageData } from "@site/src/types/cfi";
 import { configurationSidebarLabel } from "@site/src/utils/cfiNavigation";
 import { formatGeneratedAt } from "@site/src/utils/formatGeneratedAt";
+import styles from "../cfi.module.css";
 
 export default function CFIRepositoryTemplate({ pageData }: { pageData: CFIRepositoryPageData }): React.ReactElement {
   const { repository, configurations, configurationResultSummariesByPath } = pageData;
@@ -18,28 +18,26 @@ export default function CFIRepositoryTemplate({ pageData }: { pageData: CFIRepos
 
   return (
     <Layout title={repository.description} description={`CFI test results from ${repository.url}`}>
-      <main className="container margin-vert--lg space-y-8">
-        <div className="text-center">
-          <h1 style={{ color: "var(--gf-color-accent-strong)" }}>{repository.description}</h1>
-          <p className="text-muted-foreground">
-            Behavioural compliance results downloaded from{" "}
-            <a href={repository.url} target="_blank" rel="noopener noreferrer">
-              {repository.url.replace(/^https?:\/\/github\.com\//, "")}
-            </a>
-          </p>
-        </div>
+      <main className="container margin-vert--lg">
+        <div className={styles.cfiMainLg}>
+          <div className={styles.pageHeader}>
+            <h1>{repository.description}</h1>
+            <p className={styles.pageDescription}>
+              Behavioural compliance results downloaded from{" "}
+              <a href={repository.url} target="_blank" rel="noopener noreferrer">
+                {repository.url.replace(/^https?:\/\/github\.com\//, "")}
+              </a>
+            </p>
+          </div>
 
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Configurations</CardTitle>
-            <p className="text-sm text-muted-foreground">
+          <div>
+            <h2 className={styles.sectionHeading}>Configurations</h2>
+            <p className={styles.sectionSubtitle}>
               {sortedConfigurations.length} configuration{sortedConfigurations.length === 1 ? "" : "s"} in this results set
             </p>
-          </CardHeader>
-          <CardContent>
-            {sortedConfigurations.length > 0 ? (
-              <div className="library-article-body">
-                <div style={{ display: "flex", justifyContent: "center" }}>
+            <div className={styles.sectionBody}>
+              {sortedConfigurations.length > 0 ? (
+                <div className="library-article-body">
                   <table>
                     <thead>
                       <tr>
@@ -58,12 +56,12 @@ export default function CFIRepositoryTemplate({ pageData }: { pageData: CFIRepos
                         return (
                           <tr key={configuration.results_relative_path}>
                             <td>
-                              <Link to={configPagePath} className="text-blue-600 hover:text-blue-800 hover:underline">
+                              <Link to={configPagePath} className={styles.link}>
                                 {configuration.cfi_details.id}
                               </Link>
                             </td>
                             <td>
-                              <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 uppercase">
+                              <span className={`${styles.pill} ${styles.pillBlue} ${styles.pillUppercase}`}>
                                 {configuration.cfi_details.provider}
                               </span>
                             </td>
@@ -76,16 +74,16 @@ export default function CFIRepositoryTemplate({ pageData }: { pageData: CFIRepos
                     </tbody>
                   </table>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">No configurations found for this repository.</div>
-            )}
-          </CardContent>
-        </Card>
+              ) : (
+                <div className={styles.emptyState}>No configurations found for this repository.</div>
+              )}
+            </div>
+          </div>
 
-        <p className="text-sm text-muted-foreground text-center">
-          Page generated <time dateTime={pageData.generatedAt}>{formatGeneratedAt(pageData.generatedAt)}</time>
-        </p>
+          <p className={styles.footer}>
+            Page generated <time dateTime={pageData.generatedAt}>{formatGeneratedAt(pageData.generatedAt)}</time>
+          </p>
+        </div>
       </main>
     </Layout>
   );

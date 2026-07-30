@@ -14,19 +14,8 @@ export interface CatalogAssessmentRequirement {
 export interface CatalogGuidelineMapping {
   framework: string;
   id: string;
-  remarks?: string;
-  url?: string;
-}
-
-export interface CatalogAssessmentRequirement {
-  id: string;
-  text: string;
-  applicability?: string[];
-}
-
-export interface CatalogGuidelineMapping {
-  framework: string;
-  id: string;
+  /** Mapping relationship (e.g. relates-to) when sourced from a Gemara MappingDocument. */
+  relationship?: string;
   remarks?: string;
   url?: string;
 }
@@ -170,7 +159,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
       )}
       {data.imports && data.imports.length > 0 && (<div>
         <h1>Imports</h1>
-        <table>
+        <table style={{ marginLeft: 0 }}>
         <thead>
           <tr>
             <th>ID</th>
@@ -181,7 +170,7 @@ export const CatalogTable: React.FC<{ data: CatalogVersionData }> = ({ data }) =
           {data.imports.map((imported) => (
             <tr key={imported.id}>
               <td>
-                <Link to={`../../${imported.category}/${imported.service}/${data.type}/${data.version}/${imported.id}`}>{imported.id}</Link>
+                <Link to={`/catalogs/${imported.category}/${imported.service}/${data.type}/${data.version}/${imported.id}`}>{imported.id}</Link>
               </td>
               <td>{imported.title}</td>
             </tr>

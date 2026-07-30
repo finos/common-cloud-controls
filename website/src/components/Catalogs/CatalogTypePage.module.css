@@ -1,0 +1,29 @@
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.breadcrumb {
+  margin: 0 0 0.25rem;
+  color: var(--gf-color-text-subtle);
+  font-size: 0.9rem;
+}
+
+.pageTitle {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.versionPicker {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.versionLabel {
+  font-size: 0.85rem;
+  color: var(--gf-color-text-subtle);
+  margin-right: 0.25rem;
+}

@@ -3,7 +3,7 @@ import Link from "@docusaurus/Link";
 import { useLocation } from "@docusaurus/router";
 import { usePluginData } from "@docusaurus/useGlobalData";
 import { prettifySegment, labelFromTitle } from "@site/src/content/catalogUtils";
-import "./CatalogSidebar.css";
+import styles from "./CatalogSidebar.module.css";
 
 interface Service {
   slug: string;
@@ -47,8 +47,8 @@ export const CatalogSidebar: React.FC = () => {
     pathname === path || pathname.startsWith(path + "/");
 
   return (
-    <nav className="catalog-sidebar">
-      <div className="catalog-sidebar-type-title">Catalogs</div>
+    <nav className={styles.sidebar}>
+      <div className={styles.typeTitle}>Catalogs</div>
       {catalogStructure.map(({ slug, label, services }) => {
         if (services.length === 0) return null;
 
@@ -59,18 +59,18 @@ export const CatalogSidebar: React.FC = () => {
 
         return (
           <details key={slug} open={categoryActive}>
-            <summary className={categoryActive ? "category-active" : ""}>
+            <summary className={categoryActive ? styles.categoryActive : undefined}>
               <span>{label}</span>
-              <span className="chevron">▾</span>
+              <span className={styles.chevron}>▾</span>
             </summary>
-            <div className="service-links">
+            <div className={styles.serviceLinks}>
               {services.map(({ slug: svcSlug, label: svcLabel, href }) => {
                 const path = href ?? `/catalogs/${slug}/${svcSlug}`;
                 return (
                   <Link
                     key={svcSlug}
                     to={path}
-                    className={`sidebar-service-link${isActive(path) ? " active" : ""}`}
+                    className={`${styles.serviceLink}${isActive(path) ? ` ${styles.active}` : ""}`}
                   >
                     {svcLabel}
                   </Link>

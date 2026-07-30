@@ -1,14 +1,12 @@
 import React from "react";
 import Link from "@docusaurus/Link";
 import Layout from "@theme/Layout";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { ConfigurationResultPageData, ControlCatalogSummary, ResourceSummary, TestResultItem, TestSummary, TestMappingSummary, TestMappingDetail, DownloadLink, RequirementLink } from "@site/src/types/cfi";
 import { useCatalogAssessmentRequirements, buildAssessmentRequirementIndex } from "@site/src/utils/catalogDataLookup";
 import type { CatalogAssessmentRequirementRef } from "@site/src/plugin/catalog-routes";
+import styles from "../cfi.module.css";
 
-// Helper function to extract catalog ID from test requirement
 function extractCatalogId(testRequirement: string): string {
-  // Extract catalog from format like "CCC.ObjStor.C01.TR01" -> "CCC.ObjStor"
   const parts = testRequirement.split(".");
   return parts.length >= 2 ? `${parts[0]}.${parts[1]}` : testRequirement;
 }
@@ -16,9 +14,7 @@ function extractCatalogId(testRequirement: string): string {
 function minus(setA: Set<string>, setB: Set<string>): Set<string> {
   const result = new Set<string>();
   setA.forEach((item) => {
-    if (!setB.has(item)) {
-      result.add(item);
-    }
+    if (!setB.has(item)) result.add(item);
   });
   return result;
 }
@@ -27,35 +23,20 @@ function intersect(setA: Set<string>, setB: Set<string>): Set<string> {
   return new Set([...setA].filter((x) => setB.has(x)));
 }
 
-/** Catalog IDs from test results excluding CCC.Core (shared imports, not a service catalog). */
 function serviceCatalogsFromTests(testedRequirementsByCatalog: Map<string, Set<string>>): string[] {
   return [...testedRequirementsByCatalog.keys()].filter((id) => id !== "CCC.Core");
 }
 
-/**
- * Whether an assessment requirement belonging to `catalogId` counts toward the "necessary" set.
- * When service catalogs are known from tests, only those catalogs contribute (e.g. only CCC.ObjStor
- * for object-storage runs), so Core ARs from other catalogs (Logging, VM, …) are excluded.
- */
 function shouldAddToNecessaryRequirementIds(
   catalogId: string,
   serviceCatalogIds: string[],
   useServiceCatalogScope: boolean,
   testedRequirementsByCatalog: Map<string, Set<string>>
 ): boolean {
-  if (catalogId === "CCC.Core") {
-    return false;
-  }
-  if (useServiceCatalogScope && !serviceCatalogIds.includes(catalogId)) {
-    return false;
-  }
-  if (testedRequirementsByCatalog.has(catalogId)) {
-    return true;
-  }
-  // Core controls inlined under a scoped service catalog belong to that catalog bundle.
-  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(catalogId)) {
-    return true;
-  }
+  if (catalogId === "CCC.Core") return false;
+  if (useServiceCatalogScope && !serviceCatalogIds.includes(catalogId)) return false;
+  if (testedRequirementsByCatalog.has(catalogId)) return true;
+  if (catalogId === "CCC.Core" && serviceCatalogIds.includes(catalogId)) return true;
   return false;
 }
 
@@ -64,27 +45,20 @@ function convertToLink(reqId: string, requirementIndex: Map<string, CatalogAsses
   return { id: reqId, url: found?.url ?? "#", title: found?.text || reqId };
 }
 
-// Helper function to generate catalog summary data
 function generateCatalogSummary(
   testResults: TestResultItem[],
   allRequirements: CatalogAssessmentRequirementRef[],
   requirementIndex: Map<string, CatalogAssessmentRequirementRef>,
 ): ControlCatalogSummary[] {
-  // First, collect all tested requirements by catalog
   const testedRequirementsByCatalog = new Map<string, Set<string>>();
   testResults.forEach((result) => {
     result.test_requirements?.forEach((testReq) => {
       const catalogId = extractCatalogId(testReq);
-
-      // Track which requirements are actually tested for this catalog
-      if (!testedRequirementsByCatalog.has(catalogId)) {
-        testedRequirementsByCatalog.set(catalogId, new Set());
-      }
+      if (!testedRequirementsByCatalog.has(catalogId)) testedRequirementsByCatalog.set(catalogId, new Set());
       testedRequirementsByCatalog.get(catalogId)!.add(testReq);
     });
   });
 
-  // Now collect up all the requirements by catalog
   const allRequirementsByCatalog = new Map<string, Set<string>>();
   const allNecessaryRequirementIds = new Set<string>();
   const serviceCatalogIds = serviceCatalogsFromTests(testedRequirementsByCatalog);
@@ -93,9 +67,7 @@ function generateCatalogSummary(
   allRequirements.forEach((req) => {
     const catalogId = extractCatalogId(req.id);
     if (testedRequirementsByCatalog.has(catalogId)) {
-      if (!allRequirementsByCatalog.has(catalogId)) {
-        allRequirementsByCatalog.set(catalogId, new Set());
-      }
+      if (!allRequirementsByCatalog.has(catalogId)) allRequirementsByCatalog.set(catalogId, new Set());
       allRequirementsByCatalog.get(catalogId)!.add(req.id);
     }
     if (shouldAddToNecessaryRequirementIds(catalogId, serviceCatalogIds, useServiceCatalogScope, testedRequirementsByCatalog)) {
@@ -103,21 +75,12 @@ function generateCatalogSummary(
     }
   });
 
-  // Now for each unique catalog ID, count this test result once and collect all resources
   const catalogsInThisResult = Array.from(allRequirementsByCatalog.keys());
   const summaries = catalogsInThisResult.map((catalogId) => {
-    const testsInCatalog = testResults.filter((result) => {
-      return result.test_requirements?.some((testReq) => {
-        return extractCatalogId(testReq) === catalogId;
-      });
-    });
-
-    const resourcesInCatalog = testsInCatalog
-      .map((result) => {
-        return result.resources;
-      })
-      .flat();
-
+    const testsInCatalog = testResults.filter((result) =>
+      result.test_requirements?.some((testReq) => extractCatalogId(testReq) === catalogId)
+    );
+    const resourcesInCatalog = testsInCatalog.flatMap((result) => result.resources);
     const testedRequirementIds = testedRequirementsByCatalog.get(catalogId) || new Set<string>();
     const allRequirementIds = allRequirementsByCatalog.get(catalogId) || new Set<string>();
     const necessaryRequirementIds = intersect(allNecessaryRequirementIds, allRequirementIds);
@@ -134,11 +97,9 @@ function generateCatalogSummary(
       testedRequirements: Array.from(testedRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
       missingRequirements: Array.from(missingRequirementIds).map((reqId) => convertToLink(reqId, requirementIndex)),
     };
-
     return out;
   });
 
-  // Sort resources within each summary and sort summaries by catalog ID
   summaries.forEach((summary) => {
     summary.resources.sort();
     summary.testedRequirements.sort((a, b) => a.id.localeCompare(b.id));
@@ -148,7 +109,6 @@ function generateCatalogSummary(
   return summaries.sort((a, b) => a.catalogId.localeCompare(b.catalogId));
 }
 
-// Helper function to generate resource summary data from all OCSF results
 function generateResourceSummary(testResults: TestResultItem[]): ResourceSummary[] {
   const resourceMap = new Map<string, ResourceSummary>();
 
@@ -158,44 +118,26 @@ function generateResourceSummary(testResults: TestResultItem[]): ResourceSummary
     const key = `${resourceName}-${resourceType}`;
 
     if (!resourceMap.has(key)) {
-      resourceMap.set(key, {
-        resourceName,
-        resourceType,
-        catalogs: [],
-        totalTests: 0,
-        passingTests: 0,
-        failingTests: 0,
-      });
+      resourceMap.set(key, { resourceName, resourceType, catalogs: [], totalTests: 0, passingTests: 0, failingTests: 0 });
     }
 
     const summary = resourceMap.get(key)!;
     summary.totalTests++;
 
-    // Collect unique catalogs for this resource
     result.test_requirements?.forEach((testReq) => {
       const catalogId = extractCatalogId(testReq);
-      if (!summary.catalogs.includes(catalogId)) {
-        summary.catalogs.push(catalogId);
-      }
+      if (!summary.catalogs.includes(catalogId)) summary.catalogs.push(catalogId);
     });
 
-    if (result.status_code === "PASS") {
-      summary.passingTests++;
-    } else if (result.status_code === "FAIL") {
-      summary.failingTests++;
-    }
+    if (result.status_code === "PASS") summary.passingTests++;
+    else if (result.status_code === "FAIL") summary.failingTests++;
   });
 
-  // Sort catalogs within each summary and sort summaries by resource name
   const summaries = Array.from(resourceMap.values());
-  summaries.forEach((summary) => {
-    summary.catalogs.sort();
-  });
-
+  summaries.forEach((summary) => summary.catalogs.sort());
   return summaries.sort((a, b) => a.resourceName.localeCompare(b.resourceName));
 }
 
-// Helper function to generate aggregate test summary data from test results
 function generateTestSummary(testResults: TestResultItem[]) {
   const uniqueResources = new Set<string>();
   const uniqueCatalogs = new Set<string>();
@@ -204,25 +146,12 @@ function generateTestSummary(testResults: TestResultItem[]) {
   let failingTests = 0;
 
   testResults.forEach((result) => {
-    // Count unique resources
-    const resourceName = result.resource_name || "Unknown Resource";
-    const resourceType = result.resource_type || "Unknown Type";
-    const resourceKey = `${resourceName}-${resourceType}`;
+    const resourceKey = `${result.resource_name || "Unknown Resource"}-${result.resource_type || "Unknown Type"}`;
     uniqueResources.add(resourceKey);
-
-    // Count tests
     totalTests++;
-    if (result.status_code === "PASS") {
-      passingTests++;
-    } else if (result.status_code === "FAIL") {
-      failingTests++;
-    }
-
-    // Collect unique catalogs
-    result.test_requirements?.forEach((testReq) => {
-      const catalogId = extractCatalogId(testReq);
-      uniqueCatalogs.add(catalogId);
-    });
+    if (result.status_code === "PASS") passingTests++;
+    else if (result.status_code === "FAIL") failingTests++;
+    result.test_requirements?.forEach((testReq) => uniqueCatalogs.add(extractCatalogId(testReq)));
   });
 
   return {
@@ -234,70 +163,40 @@ function generateTestSummary(testResults: TestResultItem[]) {
   };
 }
 
-// Helper function to generate test mapping summary data
 function generateTestMappingSummary(testResults: TestResultItem[]): TestMappingSummary[] {
-  // First, collect all event code mappings by catalog and test requirement
   const eventCodeMap = new Map<string, Map<string, TestMappingDetail>>();
 
   testResults.forEach((result) => {
     const eventCode = result.test || "Unknown Event Code";
-
     result.test_requirements?.forEach((testReq) => {
       const catalogId = extractCatalogId(testReq);
       const requirementKey = `${catalogId}-${testReq}`;
 
-      if (!eventCodeMap.has(requirementKey)) {
-        eventCodeMap.set(requirementKey, new Map<string, TestMappingDetail>());
-      }
-
+      if (!eventCodeMap.has(requirementKey)) eventCodeMap.set(requirementKey, new Map<string, TestMappingDetail>());
       const eventMap = eventCodeMap.get(requirementKey)!;
-      if (!eventMap.has(eventCode)) {
-        eventMap.set(eventCode, {
-          eventCode: eventCode,
-          totalTests: 0,
-          passingTests: 0,
-          failingTests: 0,
-        });
-      }
 
+      if (!eventMap.has(eventCode)) eventMap.set(eventCode, { eventCode, totalTests: 0, passingTests: 0, failingTests: 0 });
       const detail = eventMap.get(eventCode)!;
       detail.totalTests++;
-
-      if (result.status_code === "PASS") {
-        detail.passingTests++;
-      } else if (result.status_code === "FAIL") {
-        detail.failingTests++;
-      }
+      if (result.status_code === "PASS") detail.passingTests++;
+      else if (result.status_code === "FAIL") detail.failingTests++;
     });
   });
 
-  // Convert to the nested structure
   const summaryMap = new Map<string, TestMappingSummary>();
-
   eventCodeMap.forEach((eventMap, requirementKey) => {
-    // Split the requirement key back to catalog and test requirement
-    // Format: "CCC.ObjStor-CCC.ObjStor.C06.TR01" -> catalog: "CCC.ObjStor", testReq: "CCC.ObjStor.C06.TR01"
     const dashIndex = requirementKey.indexOf("-");
     const catalogId = requirementKey.substring(0, dashIndex);
     const testReq = requirementKey.substring(dashIndex + 1);
 
     if (!summaryMap.has(requirementKey)) {
-      summaryMap.set(requirementKey, {
-        controlCatalog: catalogId,
-        testRequirementId: testReq,
-        mappedTests: [],
-      });
+      summaryMap.set(requirementKey, { controlCatalog: catalogId, testRequirementId: testReq, mappedTests: [] });
     }
-
-    const summary = summaryMap.get(requirementKey)!;
-    summary.mappedTests = Array.from(eventMap.values()).sort((a, b) => a.eventCode.localeCompare(b.eventCode));
+    summaryMap.get(requirementKey)!.mappedTests = Array.from(eventMap.values()).sort((a, b) => a.eventCode.localeCompare(b.eventCode));
   });
 
-  // Sort by control catalog, then by test requirement ID
   return Array.from(summaryMap.values()).sort((a, b) => {
-    if (a.controlCatalog !== b.controlCatalog) {
-      return a.controlCatalog.localeCompare(b.controlCatalog);
-    }
+    if (a.controlCatalog !== b.controlCatalog) return a.controlCatalog.localeCompare(b.controlCatalog);
     return a.testRequirementId.localeCompare(b.testRequirementId);
   });
 }
@@ -311,25 +210,13 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
   const allRequirements = useCatalogAssessmentRequirements();
   const requirementIndex = buildAssessmentRequirementIndex(allRequirements);
 
-  // Use test results from this specific configuration result
   const testResults = configurationResult.test_results;
-
-  // Filter for results with CCC compliance mappings
   const testResultsWithCCC = testResults.filter((result) => result.test_requirements && result.test_requirements.length > 0);
-
-  // Generate catalog summary data
   const catalogSummary = testResultsWithCCC.length > 0 ? generateCatalogSummary(testResultsWithCCC, allRequirements, requirementIndex) : [];
-
-  // Generate resource summary data from test results
   const resourceSummary = testResults.length > 0 ? generateResourceSummary(testResults) : [];
-
-  // Generate test summary data
   const testSummary = testResultsWithCCC.length > 0 ? generateTestSummary(testResultsWithCCC) : null;
-
-  // Generate test mapping summary data
   const testMappingSummary = testResultsWithCCC.length > 0 ? generateTestMappingSummary(testResultsWithCCC) : [];
 
-  // Group download links by base name (e.g., "results.ocsf.json" and "results.html" as "results")
   const groupedDownloadLinks = (configurationResult.download_links || []).reduce(
     (acc, link) => {
       const baseName = link.name.replace(/\.(ocsf\.json|html|ya?ml)$/i, "");
@@ -340,297 +227,264 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
     {} as Record<string, DownloadLink[]>,
   );
 
-  const downloadLinkClassName = (type: string): string => {
+  const downloadClass = (type: string): string => {
     switch (type) {
-      case "html":
-        return "bg-orange-100 text-orange-800";
-      case "gemara":
-        return "bg-purple-100 text-purple-800";
-      default:
-        return "bg-blue-100 text-blue-800";
+      case "html": return `${styles.downloadBtn} ${styles.downloadHtml}`;
+      case "gemara": return `${styles.downloadBtn} ${styles.downloadGemara}`;
+      default: return `${styles.downloadBtn} ${styles.downloadOcsf}`;
     }
   };
+
+  const statusPillClass = (statusCode: string): string =>
+    `${styles.pill} ${statusCode === "PASS" ? styles.pillGreen : statusCode === "FAIL" ? styles.pillRed : styles.pillYellow}`;
 
   return (
     <Layout
       title={`${configurationResult.product} ${configurationResult.version} - ${cfi_details.name}`}
       description={`Test results for ${configurationResult.vendor} ${configurationResult.product} ${configurationResult.version}`}
     >
-      <main className="container margin-vert--lg space-y-6">
-        <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
-          <Link to="/cfi" className="hover:text-foreground">
-            CFI
-          </Link>
-          <span>/</span>
-          <Link to={repoHref} className="hover:text-foreground">
-            {source_details?.repository_description ?? repoDestination}
-          </Link>
-          <span>/</span>
-          <Link to={configurationHref} className="hover:text-foreground">
-            {cfi_details.id}
-          </Link>
-          <span>/</span>
-          <span className="text-foreground">
-            {configurationResult.product} {configurationResult.version}
-          </span>
-        </nav>
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>
+      <main className="container margin-vert--lg">
+        <div className={styles.cfiMain}>
+          <nav className={styles.breadcrumbNav}>
+            <Link to="/cfi">CFI</Link>
+            <span>/</span>
+            <Link to={repoHref}>{source_details?.repository_description ?? repoDestination}</Link>
+            <span>/</span>
+            <Link to={configurationHref}>{cfi_details.id}</Link>
+            <span>/</span>
+            <span className={styles.breadcrumbCurrent}>
               {configurationResult.product} {configurationResult.version}
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">Test results for this specific product, vendor, and version combination</p>
-          </CardHeader>
-          <CardContent>
-            <div className="library-article-body"><div style={{ display: "flex", justifyContent: "center" }}><table>
-              <tbody>
-                <tr>
-                  <td className="font-medium w-32">Vendor</td>
-                  <td>
-                    <span className="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800">{configurationResult.vendor}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="font-medium">Product</td>
-                  <td>
-                    <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">{configurationResult.product}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="font-medium">Version</td>
-                  <td>
-                    <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">{configurationResult.version}</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table></div></div>
-          </CardContent>
-        </Card>
+            </span>
+          </nav>
 
-        {/* Download Raw Results */}
-        {configurationResult.download_links && configurationResult.download_links.length > 0 && (
-          <Card>
-            <CardHeader className="text-center">
-              <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Download Raw Results</CardTitle>
-              <p className="text-sm text-muted-foreground">
+          <div>
+            <h2 className={styles.sectionHeading}>
+              {configurationResult.product} {configurationResult.version}
+            </h2>
+            <p className={styles.sectionSubtitle}>
+              Test results for this specific product, vendor, and version combination
+            </p>
+            <div className={styles.sectionBody}>
+              <div className="library-article-body">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td className={styles.labelCell}>Vendor</td>
+                      <td><span className={`${styles.pill} ${styles.pillPurple}`}>{configurationResult.vendor}</span></td>
+                    </tr>
+                    <tr>
+                      <td className={styles.labelCell}>Product</td>
+                      <td><span className={`${styles.pill} ${styles.pillBlue}`}>{configurationResult.product}</span></td>
+                    </tr>
+                    <tr>
+                      <td className={styles.labelCell}>Version</td>
+                      <td><span className={`${styles.pill} ${styles.pillGreen}`}>{configurationResult.version}</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {configurationResult.download_links && configurationResult.download_links.length > 0 && (
+            <div>
+              <h2 className={styles.sectionHeading}>Download Raw Results</h2>
+              <p className={styles.sectionSubtitle}>
                 Download the original OCSF, Gemara, or HTML result files used to generate this page
               </p>
-            </CardHeader>
-            <CardContent>
-              <div className="library-article-body"><div style={{ display: "flex", justifyContent: "center" }}><table>
-                <thead>
-                  <tr>
-                    <th>File Name</th>
-                    <th>Download</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(groupedDownloadLinks).map(([baseName, links], index) => (
-                    <tr key={index}>
-                      <td className="font-mono text-sm">{baseName}</td>
-                      <td>
-                        <div className="flex gap-2">
-                          {links.map((link, linkIndex) => (
-                            <a
-                              key={linkIndex}
-                              href={link.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={`inline-flex px-2 py-1 text-xs rounded-full font-medium no-underline hover:opacity-80 ${downloadLinkClassName(link.type)}`}
-                            >
-                              {link.type === "gemara" ? "GEMARA" : link.type.toUpperCase()}
-                            </a>
-                          ))}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table></div></div>
-            </CardContent>
-          </Card>
-        )}
+              <div className={styles.sectionBody}>
+                <div className="library-article-body">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>File Name</th>
+                        <th>Download</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(groupedDownloadLinks).map(([baseName, links], index) => (
+                        <tr key={index}>
+                          <td className={styles.fontMono}>{baseName}</td>
+                          <td>
+                            <div className={styles.downloadBtns}>
+                              {links.map((link, linkIndex) => (
+                                <a key={linkIndex} href={link.url} target="_blank" rel="noopener noreferrer" className={downloadClass(link.type)}>
+                                  {link.type === "gemara" ? "GEMARA" : link.type.toUpperCase()}
+                                </a>
+                              ))}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
 
-        {/* Test Summary */}
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Test Summary</CardTitle>
-            <p className="text-sm text-muted-foreground">Aggregate summary of all tests for this configuration result</p>
-          </CardHeader>
-          <CardContent>
-            {testSummary ? (
-              <div className="library-article-body"><div style={{ display: "flex", justifyContent: "center" }}><table>
-                <tbody>
-                  <tr>
-                    <td className="font-medium w-48">Resources In Configuration</td>
-                    <td>
-                      <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-medium">{testSummary.resourcesInConfiguration}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="font-medium">Count of Tests</td>
-                    <td>
-                      <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{testSummary.countOfTests}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="font-medium">Passing Tests</td>
-                    <td>
-                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{testSummary.passingTests}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="font-medium">Failing Tests</td>
-                    <td>
-                      <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{testSummary.failingTests}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="font-medium">Catalogs Tested</td>
-                    <td>
-                      <div className="flex flex-wrap gap-1">
-                        {testSummary.catalogsTested.length > 0 ? (
-                          testSummary.catalogsTested.map((catalog, catalogIndex) => (
-                            <span key={catalogIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
-                              {catalog}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table></div></div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">No test summary data available.</div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Control Catalog Summary */}
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Control Catalog Summary</CardTitle>
-            <p className="text-sm text-muted-foreground">Summary of test results grouped by control catalog and resource</p>
-          </CardHeader>
-          <CardContent>
-            {catalogSummary && catalogSummary.length > 0 ? (
-                <div className="library-article-body"><div style={{ display: "flex", justifyContent: "center" }}><table>
-                  <thead>
-                    <tr>
-                      <th>Control Catalog</th>
-                      <th>Resources</th>
-                      <th>Total Tests</th>
-                      <th>Passing</th>
-                      <th>Failing</th>
-                      <th>Tested Requirements</th>
-                      <th>Missing Requirements</th>
-                      <th>Unused Core Requirements</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {catalogSummary.map((summary, index) => (
-                      <tr key={index}>
-                        <td className="font-medium">
-                          {summary.catalogId}
-                        </td>
-                        <td className="font-mono text-sm">
-                          <div className="flex flex-wrap gap-1">
-                            {summary.resources.map((resource, resourceIndex) => (
-                              <span key={resourceIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800" title={resource}>
-                                {resource.length > 20 ? `${resource.substring(0, 20)}...` : resource}
-                              </span>
-                            ))}
-                          </div>
-                        </td>
+          <div>
+            <h2 className={styles.sectionHeading}>Test Summary</h2>
+            <p className={styles.sectionSubtitle}>
+              Aggregate summary of all tests for this configuration result
+            </p>
+            <div className={styles.sectionBody}>
+              {testSummary ? (
+                <div className="library-article-body">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td className={styles.labelCell}>Resources In Configuration</td>
+                        <td><span className={`${styles.pill} ${styles.pillBlue} ${styles.pillBold}`}>{testSummary.resourcesInConfiguration}</span></td>
+                      </tr>
+                      <tr>
+                        <td className={styles.labelCell}>Count of Tests</td>
+                        <td><span className={`${styles.pill} ${styles.pillGray} ${styles.pillBold}`}>{testSummary.countOfTests}</span></td>
+                      </tr>
+                      <tr>
+                        <td className={styles.labelCell}>Passing Tests</td>
+                        <td><span className={`${styles.pill} ${styles.pillGreen} ${styles.pillBold}`}>{testSummary.passingTests}</span></td>
+                      </tr>
+                      <tr>
+                        <td className={styles.labelCell}>Failing Tests</td>
+                        <td><span className={`${styles.pill} ${styles.pillRed} ${styles.pillBold}`}>{testSummary.failingTests}</span></td>
+                      </tr>
+                      <tr>
+                        <td className={styles.labelCell}>Catalogs Tested</td>
                         <td>
-                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
-                        </td>
-                        <td>
-                          <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
-                        </td>
-                        <td>
-                          <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
-                        </td>
-                        <td>
-                          <div className="flex flex-wrap gap-1">
-                            {summary.testedRequirements.length > 0 ? (
-                              summary.testedRequirements.map((tested, testedIndex) =>
-                                tested.url === "#" ? (
-                                  <span key={testedIndex} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium" title={`${tested.title} (broken mapping)`}>
-                                    {tested.id}
-                                  </span>
-                                ) : (
-                                  <Link key={testedIndex} to={tested.url} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 hover:text-blue-900 transition-colors" title={tested.title}>
-                                    {tested.id}
-                                  </Link>
-                                ),
-                              )
+                          <div className={styles.pillGroup}>
+                            {testSummary.catalogsTested.length > 0 ? (
+                              testSummary.catalogsTested.map((catalog, catalogIndex) => (
+                                <span key={catalogIndex} className={`${styles.pill} ${styles.pillBlue}`}>{catalog}</span>
+                              ))
                             ) : (
-                              <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">None tested</span>
-                            )}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex flex-wrap gap-1">
-                            {summary.missingRequirements.length > 0 ? (
-                              summary.missingRequirements.map((missing, missingIndex) =>
-                                missing.url === "#" ? (
-                                  <span key={missingIndex} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium" title={`${missing.title} (broken mapping)`}>
-                                    {missing.id}
-                                  </span>
-                                ) : (
-                                  <Link key={missingIndex} to={missing.url} className="px-2 py-1 text-xs rounded-full bg-orange-100 text-orange-800 hover:bg-orange-200 hover:text-orange-900 transition-colors" title={missing.title}>
-                                    {missing.id}
-                                  </Link>
-                                ),
-                              )
-                            ) : (
-                              <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">All covered</span>
-                            )}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="flex flex-wrap gap-1">
-                            {summary.unusedRequirements.length > 0 ? (
-                              summary.unusedRequirements.map((unused, unusedIndex) =>
-                                unused.url === "#" ? (
-                                  <span key={unusedIndex} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium" title={`${unused.title} (broken mapping)`}>
-                                    {unused.id}
-                                  </span>
-                                ) : (
-                                  <Link key={unusedIndex} to={unused.url} className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 transition-colors" title={unused.title}>
-                                    {unused.id}
-                                  </Link>
-                                ),
-                              )
-                            ) : (
-                              <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">None</span>
+                              <span className={`${styles.pill} ${styles.pillGray}`}>No CCC catalogs</span>
                             )}
                           </div>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table></div></div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">No control catalog data available for summarization.</div>
-            )}
-          </CardContent>
-        </Card>
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className={styles.emptyState}>No test summary data available.</div>
+              )}
+            </div>
+          </div>
 
-        {/* Test Mapping Summary */}
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Test Mapping Summary</CardTitle>
-            <p className="text-sm text-muted-foreground">Summary of test mappings showing how event codes map to test requirements</p>
-          </CardHeader>
-          <CardContent>
-            {testMappingSummary && testMappingSummary.length > 0 ? (
-              <div className="library-article-body">
-                <div style={{ display: "flex", justifyContent: "center" }}>
+          <div>
+            <h2 className={styles.sectionHeading}>Control Catalog Summary</h2>
+            <p className={styles.sectionSubtitle}>
+              Summary of test results grouped by control catalog and resource
+            </p>
+            <div className={styles.sectionBody}>
+              {catalogSummary && catalogSummary.length > 0 ? (
+                <div className="library-article-body">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Control Catalog</th>
+                        <th>Resources</th>
+                        <th>Total Tests</th>
+                        <th>Passing</th>
+                        <th>Failing</th>
+                        <th>Tested Requirements</th>
+                        <th>Missing Requirements</th>
+                        <th>Unused Core Requirements</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {catalogSummary.map((summary, index) => (
+                        <tr key={index}>
+                          <td className={styles.cellMedium}>{summary.catalogId}</td>
+                          <td>
+                            <div className={styles.pillGroup}>
+                              {summary.resources.map((resource, resourceIndex) => (
+                                <span key={resourceIndex} className={`${styles.pill} ${styles.pillBlue}`} title={resource}>
+                                  {resource.length > 20 ? `${resource.substring(0, 20)}...` : resource}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+                          <td><span className={`${styles.pill} ${styles.pillGray} ${styles.pillBold}`}>{summary.totalTests}</span></td>
+                          <td><span className={`${styles.pill} ${styles.pillGreen} ${styles.pillBold}`}>{summary.passingTests}</span></td>
+                          <td><span className={`${styles.pill} ${styles.pillRed} ${styles.pillBold}`}>{summary.failingTests}</span></td>
+                          <td>
+                            <div className={styles.pillGroup}>
+                              {summary.testedRequirements.length > 0 ? (
+                                summary.testedRequirements.map((tested, testedIndex) =>
+                                  tested.url === "#" ? (
+                                    <span key={testedIndex} className={`${styles.pill} ${styles.pillRed} ${styles.pillBold}`} title={`${tested.title} (broken mapping)`}>
+                                      {tested.id}
+                                    </span>
+                                  ) : (
+                                    <Link key={testedIndex} to={tested.url} className={`${styles.pill} ${styles.pillLinkBlue}`} title={tested.title}>
+                                      {tested.id}
+                                    </Link>
+                                  )
+                                )
+                              ) : (
+                                <span className={`${styles.pill} ${styles.pillGray}`}>None tested</span>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <div className={styles.pillGroup}>
+                              {summary.missingRequirements.length > 0 ? (
+                                summary.missingRequirements.map((missing, missingIndex) =>
+                                  missing.url === "#" ? (
+                                    <span key={missingIndex} className={`${styles.pill} ${styles.pillRed} ${styles.pillBold}`} title={`${missing.title} (broken mapping)`}>
+                                      {missing.id}
+                                    </span>
+                                  ) : (
+                                    <Link key={missingIndex} to={missing.url} className={`${styles.pill} ${styles.pillLinkOrange}`} title={missing.title}>
+                                      {missing.id}
+                                    </Link>
+                                  )
+                                )
+                              ) : (
+                                <span className={`${styles.pill} ${styles.pillGreen}`}>All covered</span>
+                              )}
+                            </div>
+                          </td>
+                          <td>
+                            <div className={styles.pillGroup}>
+                              {summary.unusedRequirements.length > 0 ? (
+                                summary.unusedRequirements.map((unused, unusedIndex) =>
+                                  unused.url === "#" ? (
+                                    <span key={unusedIndex} className={`${styles.pill} ${styles.pillRed} ${styles.pillBold}`} title={`${unused.title} (broken mapping)`}>
+                                      {unused.id}
+                                    </span>
+                                  ) : (
+                                    <Link key={unusedIndex} to={unused.url} className={`${styles.pill} ${styles.pillLinkGray}`} title={unused.title}>
+                                      {unused.id}
+                                    </Link>
+                                  )
+                                )
+                              ) : (
+                                <span className={`${styles.pill} ${styles.pillGray}`}>None</span>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className={styles.emptyState}>No control catalog data available for summarization.</div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h2 className={styles.sectionHeading}>Test Mapping Summary</h2>
+            <p className={styles.sectionSubtitle}>
+              Summary of test mappings showing how event codes map to test requirements
+            </p>
+            <div className={styles.sectionBody}>
+              {testMappingSummary && testMappingSummary.length > 0 ? (
+                <div className="library-article-body">
                   <table>
                     <thead>
                       <tr>
@@ -640,73 +494,66 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                       </tr>
                     </thead>
                     <tbody>
-                      {testMappingSummary.map((mapping, index) => (
-                        <tr key={index}>
-                          <td className="font-medium">
-                            {mapping.controlCatalog}
-                          </td>
-                          <td>
-                            {(() => {
-                              const requirementData = requirementIndex.get(mapping.testRequirementId);
-                              if (requirementData) {
-                                return (
-                                  <div>
-                                    <Link to={requirementData.url} className="text-blue-600 hover:text-blue-800 hover:underline font-mono text-sm font-medium">
-                                      {mapping.testRequirementId}
-                                    </Link>
-                                    <div className="text-sm text-gray-600 mt-1">{requirementData.text || "No description"}</div>
+                      {testMappingSummary.map((mapping, index) => {
+                        const requirementData = requirementIndex.get(mapping.testRequirementId);
+                        return (
+                          <tr key={index}>
+                            <td className={styles.cellMedium}>{mapping.controlCatalog}</td>
+                            <td>
+                              {requirementData ? (
+                                <div>
+                                  <Link to={requirementData.url} className={`${styles.link} ${styles.fontMono} ${styles.pillBold}`}>
+                                    {mapping.testRequirementId}
+                                  </Link>
+                                  <div className={styles.metaText}>
+                                    {requirementData.text || "No description"}
                                   </div>
-                                );
-                              } else {
-                                return (
-                                  <div>
-                                    <span className="font-mono text-sm text-red-600 font-medium">{mapping.testRequirementId}</span>
-                                    <div className="text-sm text-gray-500 italic mt-1">Description not available</div>
+                                </div>
+                              ) : (
+                                <div>
+                                  <span className={`${styles.fontMono} ${styles.pillRed} ${styles.pillBold}`}>
+                                    {mapping.testRequirementId}
+                                  </span>
+                                  <div className={styles.metaTextItalic}>
+                                    Description not available
                                   </div>
-                                );
-                              }
-                            })()}
-                          </td>
-                          <td className="w-full">
-                            <div className="p-2 rounded">
-                              <div className="w-full">
-                                {mapping.mappedTests.map((test, testIndex) => (
-                                  <div key={testIndex} className="flex items-center justify-between py-1 border-b border-gray-200 last:border-b-0">
-                                    <div className="flex-1 min-w-0">
-                                      <code className="bg-white px-2 py-1 rounded text-xs">{test.eventCode}</code>
-                                    </div>
-                                    <div className="flex items-center gap-2 ml-4">
-                                      <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{test.totalTests}</span>
-                                      <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{test.passingTests}</span>
-                                      <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{test.failingTests}</span>
-                                    </div>
+                                </div>
+                              )}
+                            </td>
+                            <td>
+                              {mapping.mappedTests.map((test, testIndex) => (
+                                <div key={testIndex} className={styles.mappingRow}>
+                                  <div className={styles.mappingFlex}>
+                                    <code className={styles.code}>{test.eventCode}</code>
                                   </div>
-                                ))}
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                                  <div className={styles.mappingStats}>
+                                    <span className={`${styles.pill} ${styles.pillGray} ${styles.pillBold}`}>{test.totalTests}</span>
+                                    <span className={`${styles.pill} ${styles.pillGreen} ${styles.pillBold}`}>{test.passingTests}</span>
+                                    <span className={`${styles.pill} ${styles.pillRed} ${styles.pillBold}`}>{test.failingTests}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">No test mapping data available.</div>
-            )}
-          </CardContent>
-        </Card>
+              ) : (
+                <div className={styles.emptyState}>No test mapping data available.</div>
+              )}
+            </div>
+          </div>
 
-        {/* Resource Summary */}
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Resource Summary</CardTitle>
-            <p className="text-sm text-muted-foreground">Summary of all resources mentioned in OCSF results</p>
-          </CardHeader>
-          <CardContent>
-            {resourceSummary && resourceSummary.length > 0 ? (
-              <div className="library-article-body">
-                <div style={{ display: "flex", justifyContent: "center" }}>
+          <div>
+            <h2 className={styles.sectionHeading}>Resource Summary</h2>
+            <p className={styles.sectionSubtitle}>
+              Summary of all resources mentioned in OCSF results
+            </p>
+            <div className={styles.sectionBody}>
+              {resourceSummary && resourceSummary.length > 0 ? (
+                <div className="library-article-body">
                   <table>
                     <thead>
                       <tr>
@@ -721,58 +568,45 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                     <tbody>
                       {resourceSummary.map((summary, index) => (
                         <tr key={index}>
-                          <td className="font-mono text-sm">
-                            <div className="truncate max-w-xs" title={summary.resourceName}>
+                          <td className={styles.fontMono}>
+                            <div className={styles.truncatedCell} title={summary.resourceName}>
                               {summary.resourceName}
                             </div>
                           </td>
+                          <td><span className={`${styles.pill} ${styles.pillGray}`}>{summary.resourceType}</span></td>
                           <td>
-                            <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{summary.resourceType}</span>
-                          </td>
-                          <td>
-                            <div className="flex flex-wrap gap-1">
+                            <div className={styles.pillGroup}>
                               {summary.catalogs.length > 0 ? (
                                 summary.catalogs.map((catalog, catalogIndex) => (
-                                  <span key={catalogIndex} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
-                                    {catalog}
-                                  </span>
+                                  <span key={catalogIndex} className={`${styles.pill} ${styles.pillBlue}`}>{catalog}</span>
                                 ))
                               ) : (
-                                <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">No CCC catalogs</span>
+                                <span className={`${styles.pill} ${styles.pillGray}`}>No CCC catalogs</span>
                               )}
                             </div>
                           </td>
-                          <td>
-                            <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 font-medium">{summary.totalTests}</span>
-                          </td>
-                          <td>
-                            <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 font-medium">{summary.passingTests}</span>
-                          </td>
-                          <td>
-                            <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-medium">{summary.failingTests}</span>
-                          </td>
+                          <td><span className={`${styles.pill} ${styles.pillGray} ${styles.pillBold}`}>{summary.totalTests}</span></td>
+                          <td><span className={`${styles.pill} ${styles.pillGreen} ${styles.pillBold}`}>{summary.passingTests}</span></td>
+                          <td><span className={`${styles.pill} ${styles.pillRed} ${styles.pillBold}`}>{summary.failingTests}</span></td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">No resource data available.</div>
-            )}
-          </CardContent>
-        </Card>
+              ) : (
+                <div className={styles.emptyState}>No resource data available.</div>
+              )}
+            </div>
+          </div>
 
-        {/* OCSF Test Results */}
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle style={{ color: "var(--gf-color-accent-strong)" }}>Test Results</CardTitle>
-            <p className="text-sm text-muted-foreground">OCSF test results filtered for entries with CCC compliance mappings</p>
-          </CardHeader>
-          <CardContent>
-            {testResultsWithCCC && testResultsWithCCC.length > 0 ? (
-              <div className="library-article-body">
-                <div style={{ display: "flex", justifyContent: "center" }}>
+          <div>
+            <h2 className={styles.sectionHeading}>Test Results</h2>
+            <p className={styles.sectionSubtitle}>
+              OCSF test results filtered for entries with CCC compliance mappings
+            </p>
+            <div className={styles.sectionBody}>
+              {testResultsWithCCC && testResultsWithCCC.length > 0 ? (
+                <div className="library-article-body">
                   <table>
                     <thead>
                       <tr>
@@ -788,41 +622,45 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                       {testResultsWithCCC.map((result) => (
                         <tr key={result.id}>
                           <td>
-                            <span className={`px-2 py-1 text-xs rounded-full font-medium ${result.status_code === "PASS" ? "bg-green-100 text-green-800" : result.status_code === "FAIL" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"}`}>{result.status_code}</span>
+                            <span className={statusPillClass(result.status_code)}>{result.status_code}</span>
                           </td>
-                          <td className="max-w-md">
-                            <div className="font-medium text-sm whitespace-normal break-words">{result.finding_title || result.name}</div>
-                            {result.status_detail && <div className="text-xs text-gray-600 mt-1 whitespace-normal break-words">{result.status_detail}</div>}
+                          <td>
+                            <div className={styles.findingTitle}>
+                              {result.finding_title || result.name}
+                            </div>
+                            {result.status_detail && (
+                              <div className={styles.statusDetail}>
+                                {result.status_detail}
+                              </div>
+                            )}
                           </td>
-                          <td className="font-mono text-sm">
-                            <div className="truncate max-w-xs" title={result.resource_name}>
+                          <td className={styles.fontMono}>
+                            <div className={styles.truncatedCell} title={result.resource_name}>
                               {result.resource_name}
                             </div>
                           </td>
                           <td>
-                            <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">{result.resource_type}</span>
-                          </td>
-                          <td className="max-w-md">
-                            <div className="text-sm whitespace-normal break-words">{result.message}</div>
+                            <span className={`${styles.pill} ${styles.pillGray}`}>{result.resource_type}</span>
                           </td>
                           <td>
-                            <div className="flex flex-wrap gap-1">
+                            <div className={styles.messageCell}>{result.message}</div>
+                          </td>
+                          <td>
+                            <div className={styles.pillGroup}>
                               {result.test_requirements?.map((requirementId, index) => {
                                 const requirementData = requirementIndex.get(requirementId);
                                 if (requirementData) {
                                   return (
-                                    <Link key={index} to={requirementData.url} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 font-mono hover:bg-blue-200 hover:text-blue-900 transition-colors" title={`${requirementData.controlTitle}: ${requirementData.text}`}>
+                                    <Link key={index} to={requirementData.url} className={`${styles.pill} ${styles.pillLinkBlue} ${styles.fontMono}`} title={`${requirementData.controlTitle}: ${requirementData.text}`}>
                                       {requirementId}
                                     </Link>
                                   );
-                                } else {
-                                  // Fallback for requirements not found in CCC data (broken mapping)
-                                  return (
-                                    <span key={index} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800 font-mono font-medium" title="Broken mapping">
-                                      {requirementId}
-                                    </span>
-                                  );
                                 }
+                                return (
+                                  <span key={index} className={`${styles.pill} ${styles.pillRed} ${styles.fontMono} ${styles.pillBold}`} title="Broken mapping">
+                                    {requirementId}
+                                  </span>
+                                );
                               })}
                             </div>
                           </td>
@@ -831,12 +669,12 @@ export default function CFIConfigurationResult({ pageData }: { pageData: Configu
                     </tbody>
                   </table>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">No test results found with CCC compliance mappings.</div>
-            )}
-          </CardContent>
-        </Card>
+              ) : (
+                <div className={styles.emptyState}>No test results found with CCC compliance mappings.</div>
+              )}
+            </div>
+          </div>
+        </div>
       </main>
     </Layout>
   );

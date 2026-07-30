@@ -71,7 +71,7 @@ html[data-theme=dark] .cta {
 	text-decoration: none;
 }
 
-.catalog_preview{
+.catalogPreview{
 	display: flex;
 	justify-content: center;
 	text-align: center;

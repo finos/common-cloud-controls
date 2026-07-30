@@ -1,0 +1,69 @@
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.categoryLabel {
+  margin: 0 0 0.25rem;
+  color: var(--gf-color-text-subtle);
+  font-size: 0.9rem;
+}
+
+.pageTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+  color: var(--gf-color-accent);
+  line-height: 1.2;
+}
+
+.categoryTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  margin-top: 0;
+}
+
+.typeButtonsRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.typeBtnWrapper {
+  margin-bottom: 2rem;
+}
+
+.descBody {
+  color: var(--gf-color-text);
+  line-height: 1.8;
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+}
+
+.serviceBlock {
+  margin-bottom: 2rem;
+}
+
+.serviceTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.releasesTable {
+  margin-top: 1.5rem;
+}
+
+.contributorsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.emptyNote {
+  color: var(--gf-color-text-subtle);
+}

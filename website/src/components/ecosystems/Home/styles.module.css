@@ -33,6 +33,7 @@
 .logoWrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
   background: var(--gf-color-background-strong);
   padding: 1.25rem;
   border-bottom: 1px solid var(--ifm-color-emphasis-200);

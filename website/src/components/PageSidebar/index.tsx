@@ -1,5 +1,5 @@
 import React from "react";
-import "../Catalogs/CatalogSidebar.css";
+import styles from "../Catalogs/CatalogSidebar.module.css";
 
 export interface TOCItem {
   value: string;
@@ -17,9 +17,9 @@ export default function PageSidebar({ toc, title }: PageSidebarProps) {
   const topLevel = toc.filter((i) => i.level === minLevel);
 
   return (
-    <nav className="catalog-sidebar">
+    <nav className={styles.sidebar}>
       {title && (
-        <a href="#page-title" className="sidebar-page-title-link">
+        <a href="#page-title" className={styles.titleLink}>
           {title}
         </a>
       )}
@@ -27,7 +27,7 @@ export default function PageSidebar({ toc, title }: PageSidebarProps) {
         <a
           key={item.id}
           href={`#${item.id}`}
-          className="sidebar-page-section-link"
+          className={styles.sectionLink}
           dangerouslySetInnerHTML={{ __html: item.value }}
         />
       ))}

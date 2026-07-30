@@ -1,0 +1,45 @@
+.user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.name {
+  font-weight: 500;
+}
+
+.githubLink {
+  color: var(--gf-color-accent);
+  text-decoration: none;
+}
+
+.githubLink:hover {
+  color: var(--gf-color-accent-strong);
+  text-decoration: underline;
+}
+
+.companyBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid var(--gf-color-border-strong);
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--gf-color-accent-soft);
+  color: var(--gf-color-accent);
+  width: fit-content;
+}
