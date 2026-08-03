@@ -124,7 +124,7 @@ Committee members self-nominate for Chair and Vice Chair. Where there is more th
 
 ### Officer term
 
-Each Officer term runs for a maximum of two years, and is independent of the person's underlying Steering Committee election term — a Chair or Vice Chair may be re-nominated for another Officer term while continuing to serve on the committee, subject to any consecutive-term limit the committee agrees (see [Open questions](#open-questions)).
+Each Officer term runs for a maximum of two years, and is independent of the person's underlying Steering Committee election term — a Chair or Vice Chair may be re-nominated for another Officer term while continuing to serve on the committee, subject to any consecutive-term limit the committee agrees.
 
 An Officer must remain a sitting committee member throughout their Officer term. If they leave the committee for any reason, their Officer term ends immediately and the vacancy process below applies.
 
@@ -215,17 +215,6 @@ There is no separate, higher quorum threshold required specifically to hold a vo
 Members of the committee must take the [Inclusive Open Source Community Orientation] course
 in support of our community values. Members are required to report completion of the course as part of on-boarding within 30 days from the date of their appointment.
 
-## Open questions
-
-The following points are raised by the governance proposal this charter implements and remain open for Steering Committee decision. They are recorded here so they are not lost; each should be resolved and folded into the relevant section above (or removed) through the [Changes](#changes) process.
-
-1. **Consecutive Officer terms** — is there a cap on how many consecutive [Officer terms](#officer-term) one person may serve, separate from any limit on consecutive Steering Committee terms?
-2. **Agenda notice period** — how many days ahead of a meeting must the agenda, including flagged vote items, be distributed, to give members enough time to submit an [advance vote](#advance-and-absentee-voting)?
-3. **Officer-specific removal** — is a lower-bar mechanism needed to remove someone from the Chair or Vice Chair role specifically, without removing their underlying committee seat?
-4. **Electioneering recusal scope** — should existing [recusal expectations] around committee elections extend to internal Chair / Vice Chair nominations, given sitting members vote on their own colleagues?
-5. **Working Group buy-in** — the [release sign-off](#release-sign-off) requirement changes what Working Groups' release processes require, and needs sign-off from the Working Groups affected.
-6. **Firm-level continuity for Cyber Security Leads** — if a firm changes who holds its [Cyber Security Lead](#cyber-security-leads) designation independently of a committee-seat change, is a notice to the rest of the Steering Committee required, or is this purely internal to that firm?
-
 ## Changes
 
 Committee members may propose a change to this document through the following process:
@@ -258,7 +247,6 @@ This document was adapted from the Kubernetes Steering Committee Charter [afb385
 
 [election policy]: elections.md
 [Eligible voters]: elections.md#eligibility-for-voting
-[recusal expectations]: elections.md#steering-committee-and-election-officer-recusal
 [Releases community guideline]: /docs/community-guidelines/releases/README.md
 [membership list]: /README.md#finos-ccc-steering-committee
 [Inclusive Open Source Community Orientation]: https://training.linuxfoundation.org/training/inclusive-open-source-community-orientation-lfc102/
