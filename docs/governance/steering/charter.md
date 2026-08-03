@@ -163,7 +163,7 @@ For public business, the vote must be captured on an issue or pull request.
 
 ### Routine business
 
-Unless otherwise specified by a process, a vote passes by a **_majority of participating members_** — meaning members attending the meeting plus any advance votes submitted under [Advance and absentee voting](#advance-and-absentee-voting) — rather than a majority of the [fixed membership of the committee](#composition) regardless of attendance. This is intended to be workable in practice: a stricter, attendance-independent threshold sounds more rigorous, but if it is rarely reached it produces the same outcome as low engagement — nothing gets decided.
+Unless otherwise specified by a process, a vote passes by a **_majority of participating members_** — meaning members attending the meeting plus any advance votes submitted under [Advance and absentee voting](#advance-and-absentee-voting) — rather than a majority of the [fixed membership of the committee](#composition) regardless of attendance. This is intended to be workable in practice: a stricter, attendance-independent threshold may appear more rigorous, but one that is seldom met yields the same practical outcome as low engagement — decisions fail to progress.
 
 Regardless of the overall majority, **_at least two (2) votes from holders of [FSI-reserved seats](#composition) are required for any vote to pass_**. This gives the process a meaningful floor without requiring a supermajority of the whole committee to be present.
 
@@ -187,7 +187,7 @@ Steering Committee votes on public business are already [required to be captured
 
 ## Roadmap Planning
 
-A roadmap session is held twice a year, timed around and after OSFF NY and OSFF London, to set project direction ahead of those events.
+A roadmap session is held twice a year, timed after OSFF NY and OSFF London, to set project direction. Direction may be informed by the feedback and observations gathered at those events.
 
 - Sessions are open to the community.
 - Sessions are co-facilitated by designated [Cyber Security Leads](#cyber-security-leads) alongside Working Group leads, so both business-direction and technical-feasibility perspectives are represented.
