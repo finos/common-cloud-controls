@@ -124,7 +124,7 @@ Committee members self-nominate for Chair and Vice Chair. Where there is more th
 
 ### Officer term
 
-Each Officer term runs for a maximum of two (2) years, and is independent of the person's underlying Steering Committee election term — a Chair or Vice Chair may be re-nominated for another Officer term while continuing to serve on the committee, subject to any consecutive-term limit the committee agrees (see [Open questions](#open-questions)).
+Each Officer term runs for a maximum of two years, and is independent of the person's underlying Steering Committee election term — a Chair or Vice Chair may be re-nominated for another Officer term while continuing to serve on the committee, subject to any consecutive-term limit the committee agrees (see [Open questions](#open-questions)).
 
 An Officer must remain a sitting committee member throughout their Officer term. If they leave the committee for any reason, their Officer term ends immediately and the vacancy process below applies.
 
