@@ -146,7 +146,7 @@ This designation is tied to the firms currently represented on the Steering Comm
 
 Every release requires sign-off from the relevant Working Group lead, plus at least one designated Cyber Security Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
 
-Working Group leads are drawn from the technical community rather than holding Cyber Security Lead sign-off status themselves, so the approver pool is naturally independent of the release's author.
+The two sign-offs must come from two different people. A Working Group lead may also be a designated Cyber Security Lead; where the relevant Working Group lead holds both roles, the Cyber Security Lead sign-off must come from a _different_ designated Cyber Security Lead, so the approver pool stays independent of the release's author.
 
 ## Voting
 
