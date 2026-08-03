@@ -136,19 +136,17 @@ If the Chair vacates the role mid-term, the Vice Chair assumes the Chair role fo
 
 Release sign-off is a defined, limited responsibility of the Steering Committee, delivered through named delegates rather than the committee reviewing releases directly. The mechanics of the release process itself live in the [Releases community guideline].
 
-### FSI Cloud Leads
+### Cyber Security Leads
 
-Each firm holding an [FSI-reserved seat](#composition) designates one **FSI Cloud Lead**, in addition to — and distinct from — the individual it has elected to the committee itself.
+Each firm holding an [FSI-reserved seat](#composition) designates a **Cyber Security Lead** to carry release sign-off, in addition to — and distinct from — the individual it has elected to the committee itself. This is the existing Cyber Security Lead role recorded alongside the [membership list].
 
-This designation is tied to the firms currently represented on the Steering Committee. If a firm's Steering Committee seat changes hands, its FSI Cloud Lead designation carries over independently unless the firm chooses to change it.
-
-The Steering Committee maintains a current list of designated FSI Cloud Leads alongside its [membership list].
+This designation is tied to the firms currently represented on the Steering Committee. If a firm's Steering Committee seat changes hands, its Cyber Security Lead designation carries over independently unless the firm chooses to change it.
 
 ### Release sign-off
 
-Every release requires sign-off from the relevant Working Group lead, plus at least one designated FSI Cloud Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
+Every release requires sign-off from the relevant Working Group lead, plus at least one designated Cyber Security Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
 
-Working Group leads are drawn from the technical / cloud lead community rather than holding FSI Cloud Lead sign-off status themselves, so the approver pool is naturally independent of the release's author.
+Working Group leads are drawn from the technical community rather than holding Cyber Security Lead sign-off status themselves, so the approver pool is naturally independent of the release's author.
 
 ## Voting
 
@@ -192,7 +190,7 @@ Steering Committee votes on public business are already [required to be captured
 A roadmap session is held twice a year, timed around and after OSFF NY and OSFF London, to set project direction ahead of those events.
 
 - Sessions are open to the community.
-- Sessions are co-facilitated by designated [FSI Cloud Leads](#fsi-cloud-leads) alongside Working Group leads, so both business-direction and technical-feasibility perspectives are represented.
+- Sessions are co-facilitated by designated [Cyber Security Leads](#cyber-security-leads) alongside Working Group leads, so both business-direction and technical-feasibility perspectives are represented.
 - Draft outcomes are published for community comment before being brought to the Steering Committee for a vote under [Voting](#voting).
 - Once approved, outcomes are published on the project website and as GitHub issues.
 
@@ -226,7 +224,7 @@ The following points are raised by the governance proposal this charter implemen
 3. **Officer-specific removal** — is a lower-bar mechanism needed to remove someone from the Chair or Vice Chair role specifically, without removing their underlying committee seat?
 4. **Electioneering recusal scope** — should existing [recusal expectations] around committee elections extend to internal Chair / Vice Chair nominations, given sitting members vote on their own colleagues?
 5. **Working Group buy-in** — the [release sign-off](#release-sign-off) requirement changes what Working Groups' release processes require, and needs sign-off from the Working Groups affected.
-6. **Firm-level continuity for Cloud Leads** — if a firm changes who holds its [FSI Cloud Lead](#fsi-cloud-leads) designation independently of a committee-seat change, is a notice to the rest of the Steering Committee required, or is this purely internal to that firm?
+6. **Firm-level continuity for Cyber Security Leads** — if a firm changes who holds its [Cyber Security Lead](#cyber-security-leads) designation independently of a committee-seat change, is a notice to the rest of the Steering Committee required, or is this purely internal to that firm?
 
 ## Changes
 

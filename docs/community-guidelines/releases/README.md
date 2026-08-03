@@ -66,15 +66,15 @@ The release process involves contributors proposing changes through a pull reque
 
 ## Release Sign-off
 
-Beyond the Working Group and [Change Management Board] review described above, the Steering Committee holds a defined, limited [release governance] role, delivered through designated **[FSI Cloud Leads]**.
+Beyond the Working Group and [Change Management Board] review described above, the Steering Committee holds a defined, limited [release governance] role, delivered through designated **[Cyber Security Leads]**.
 
-Every release requires sign-off from the relevant [WG] lead, plus at least one designated FSI Cloud Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
+Every release requires sign-off from the relevant [WG] lead, plus at least one designated Cyber Security Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
 
-Working Group leads are drawn from the technical / cloud lead community rather than holding FSI Cloud Lead sign-off status themselves, so the approver pool is naturally independent of the release's author.
+Working Group leads are drawn from the technical community rather than holding Cyber Security Lead sign-off status themselves, so the approver pool is naturally independent of the release's author.
 
 ## Roadmap Planning
 
-The Steering Committee holds a [roadmap session] twice a year, timed around and after OSFF NY and OSFF London, to set project direction ahead of those events. These sessions are open to the community and are co-facilitated by designated FSI Cloud Leads alongside Working Group leads, so both business-direction and technical-feasibility perspectives are represented. Draft outcomes are published for community comment before being brought to the Steering Committee for a vote, and approved outcomes are published on the project website and as GitHub issues.
+The Steering Committee holds a [roadmap session] twice a year, timed around and after OSFF NY and OSFF London, to set project direction ahead of those events. These sessions are open to the community and are co-facilitated by designated Cyber Security Leads alongside Working Group leads, so both business-direction and technical-feasibility perspectives are represented. Draft outcomes are published for community comment before being brought to the Steering Committee for a vote, and approved outcomes are published on the project website and as GitHub issues.
 
 [WG]: ../../governance/community-structure.md#working-groups
 [Security WG]: ../../governance/working-groups/security/charter.md
@@ -84,5 +84,5 @@ The Steering Committee holds a [roadmap session] twice a year, timed around and 
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [community guideline]: ../README.md
 [release governance]: ../../governance/steering/charter.md#release-governance
-[FSI Cloud Leads]: ../../governance/steering/charter.md#fsi-cloud-leads
+[Cyber Security Leads]: ../../governance/steering/charter.md#cyber-security-leads
 [roadmap session]: ../../governance/steering/charter.md#roadmap-planning
