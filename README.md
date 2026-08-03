@@ -89,6 +89,16 @@ Each organizational seat has a **Primary** (Cloud Lead) and **Alternate** (Cyber
 | RBC            | Ernani Cecon         | Maxime Coquerel                 |
 | BlackRock      | -                    | Sankara Ramakrishnan            |
 
+#### Designated FSI Cloud Leads
+
+Each firm holding an FSI-reserved seat designates one **FSI Cloud Lead** for [release sign-off](docs/governance/steering/charter.md#release-governance), in addition to and distinct from the individual it has elected to the committee. This designation is tied to the firm and carries over independently if the firm's committee seat changes hands, unless the firm chooses to change it.
+
+One row per firm currently holding an FSI-reserved seat (to be completed by the committee):
+
+| Firm | FSI Cloud Lead |
+| ---- | -------------- |
+| _TBD_ | _TBD_ |
+
 @robmoffat is the current [FINOS Point of Contact](docs/governance/finos-poc.md) for the CCC project.
 
 ## License

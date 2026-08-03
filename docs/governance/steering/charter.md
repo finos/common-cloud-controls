@@ -105,6 +105,51 @@ After this feedback period, Steering Committee members must vote on the issue wi
 
 If the vote of no confidence is passed, the member in question will be immediately removed from the committee.
 
+## Officers: Chair and Vice Chair
+
+The Steering Committee elects a Chair and a Vice Chair from among its own members.
+
+### Roles
+
+- **Chair** — curates and distributes the meeting agenda ahead of each Steering Committee meeting, and chairs the meeting.
+- **Vice Chair** — acts as Chair when the Chair is unavailable, and supports agenda preparation.
+
+### Officer eligibility
+
+Only sitting Steering Committee members are eligible to serve as Chair or Vice Chair. The Chair must hold one of the seats [reserved for financial services institution (FSI) members](#composition), reflecting FSI members' role in driving the project's direction.
+
+### Officer selection
+
+Committee members self-nominate for Chair and Vice Chair. Where there is more than one nominee for a role, the committee elects using the standard decision-making threshold set out under [Routine business](#routine-business).
+
+### Officer term
+
+Each Officer term runs for a maximum of two (2) years, and is independent of the person's underlying Steering Committee election term — a Chair or Vice Chair may be re-nominated for another Officer term while continuing to serve on the committee, subject to any consecutive-term limit the committee agrees (see [Open questions](#open-questions)).
+
+An Officer must remain a sitting committee member throughout their Officer term. If they leave the committee for any reason, their Officer term ends immediately and the vacancy process below applies.
+
+### Officer vacancy
+
+If the Chair vacates the role mid-term, the Vice Chair assumes the Chair role for the remainder of the term, and a nomination and election for the now-vacant Vice Chair seat is held at the next meeting. This is separate from, and does not affect, the person's underlying Steering Committee seat.
+
+## Release Governance
+
+Release sign-off is a defined, limited responsibility of the Steering Committee, delivered through named delegates rather than the committee reviewing releases directly. The mechanics of the release process itself live in the [Releases community guideline].
+
+### FSI Cloud Leads
+
+Each firm holding an [FSI-reserved seat](#composition) designates one **FSI Cloud Lead**, in addition to — and distinct from — the individual it has elected to the committee itself.
+
+This designation is tied to the firms currently represented on the Steering Committee. If a firm's Steering Committee seat changes hands, its FSI Cloud Lead designation carries over independently unless the firm chooses to change it.
+
+The Steering Committee maintains a current list of designated FSI Cloud Leads alongside its [membership list].
+
+### Release sign-off
+
+Every release requires sign-off from the relevant Working Group lead, plus at least one designated FSI Cloud Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
+
+Working Group leads are drawn from the technical / cloud lead community rather than holding FSI Cloud Lead sign-off status themselves, so the approver pool is naturally independent of the release's author.
+
 ## Voting
 
 In the course of the committee's operations, members will be expected to vote on all decisions made within the body's purview.
@@ -120,7 +165,17 @@ For public business, the vote must be captured on an issue or pull request.
 
 ### Routine business
 
-Unless otherwise specified by a process, the requirement for passing a vote is a **_majority of the [fixed membership of the committee](#composition)_**.
+Unless otherwise specified by a process, a vote passes by a **_majority of participating members_** — meaning members attending the meeting plus any advance votes submitted under [Advance and absentee voting](#advance-and-absentee-voting) — rather than a majority of the [fixed membership of the committee](#composition) regardless of attendance. This is intended to be workable in practice: a stricter, attendance-independent threshold sounds more rigorous, but if it is rarely reached it produces the same outcome as low engagement — nothing gets decided.
+
+Regardless of the overall majority, **_at least two (2) votes from holders of [FSI-reserved seats](#composition) are required for any vote to pass_**. This gives the process a meaningful floor without requiring a supermajority of the whole committee to be present.
+
+> This general threshold does not override a process that specifies its own, higher bar — such as a [vote of no confidence](#no-confidence) or a [change to this charter](#changes).
+
+### Advance and absentee voting
+
+Items expected to require a vote are flagged in the agenda circulated ahead of the meeting. A committee member unable to attend may submit their vote on a flagged item in advance, against that meeting's agenda; it counts the same as an in-meeting vote for both quorum and outcome.
+
+Members are encouraged to submit an advance vote whenever there is a chance they will not make the meeting, including at short notice. Tying advance votes to the specific meeting's agenda — rather than a standing, general mailing list — is intended to make them harder to miss or overlook.
 
 ### Abstention
 
@@ -128,21 +183,50 @@ For any self-elected reason, members of the committee may decide to abstain from
 
 Abstaining members will only be considered as contributing to quorum, in the event that a vote is called in a meeting.
 
+## Decision Log
+
+Steering Committee votes on public business are already [required to be captured on a GitHub issue or pull request](#voting). In addition, the committee maintains a running index of those decisions in [`DECISIONS.md`](DECISIONS.md), linking each vote to its issue or pull request, so the reasoning behind past decisions stays traceable as committee membership turns over.
+
+## Roadmap Planning
+
+A roadmap session is held twice a year, timed around and after OSFF NY and OSFF London, to set project direction ahead of those events.
+
+- Sessions are open to the community.
+- Sessions are co-facilitated by designated [FSI Cloud Leads](#fsi-cloud-leads) alongside Working Group leads, so both business-direction and technical-feasibility perspectives are represented.
+- Draft outcomes are published for community comment before being brought to the Steering Committee for a vote under [Voting](#voting).
+- Once approved, outcomes are published on the project website and as GitHub issues.
+
+This is separate from, and additional to, the Steering Committee's existing quarterly public community call.
+
 ## Meetings
 
 Steering Committee members are generally expected to attend every meeting.
 
+### Meeting conduct
+
+Given that the committee's membership includes representatives of competing financial institutions and other competing organizations, each meeting opens with a brief antitrust and competition-law reminder, limiting discussion to the technical and governance matters on the agenda. This is a standing agenda item rather than an informal assumption.
+
 ### Quorum
 
-We use the following guidelines to determine whether we have reached quorum and are able to proceed with a meeting:
+A meeting may proceed with a **_majority of the [fixed membership of the committee](#composition)_** present.
 
-- Quorum **to meet** is a **_majority of the [fixed membership of the committee](#composition)_**.
-- Quorum **to vote in a meeting** is a **_two-thirds supermajority of the [fixed membership of the committee](#composition)_**.
+There is no separate, higher quorum threshold required specifically to hold a vote. The [majority-of-participating-members rule, together with the minimum of two FSI votes](#routine-business), is intended to be the safeguard against a small, unrepresentative group deciding matters alone.
 
 ## Inclusive Leadership Training
 
 Members of the committee must take the [Inclusive Open Source Community Orientation] course
 in support of our community values. Members are required to report completion of the course as part of on-boarding within 30 days from the date of their appointment.
+
+## Open questions
+
+The following points are raised by the governance proposal this charter implements and remain open for Steering Committee decision. They are recorded here so they are not lost; each should be resolved and folded into the relevant section above (or removed) through the [Changes](#changes) process.
+
+1. **Consecutive Officer terms** — is there a cap on how many consecutive [Officer terms](#officer-term) one person may serve, separate from any limit on consecutive Steering Committee terms?
+2. **Agenda notice period** — how many days ahead of a meeting must the agenda, including flagged vote items, be distributed, to give members enough time to submit an [advance vote](#advance-and-absentee-voting)?
+3. **Officer-specific removal** — is a lower-bar mechanism needed to remove someone from the Chair or Vice Chair role specifically, without removing their underlying committee seat?
+4. **Electioneering recusal scope** — should existing [recusal expectations] around committee elections extend to internal Chair / Vice Chair nominations, given sitting members vote on their own colleagues?
+5. **Working Group buy-in** — the [release sign-off](#release-sign-off) requirement changes what Working Groups' release processes require, and needs sign-off from the Working Groups affected.
+6. **Firm-level continuity for Cloud Leads** — if a firm changes who holds its [FSI Cloud Lead](#fsi-cloud-leads) designation independently of a committee-seat change, is a notice to the rest of the Steering Committee required, or is this purely internal to that firm?
 
 ## Changes
 
@@ -176,6 +260,9 @@ This document was adapted from the Kubernetes Steering Committee Charter [afb385
 
 [election policy]: elections.md
 [Eligible voters]: elections.md#eligibility-for-voting
+[recusal expectations]: elections.md#steering-committee-and-election-officer-recusal
+[Releases community guideline]: /docs/community-guidelines/releases/README.md
+[membership list]: /README.md#finos-ccc-steering-committee
 [Inclusive Open Source Community Orientation]: https://training.linuxfoundation.org/training/inclusive-open-source-community-orientation-lfc102/
 [afb3858]: https://github.com/kubernetes/steering/blob/afb3858/charter.md
 [community groups]: ../community-structure.md#working-groups
