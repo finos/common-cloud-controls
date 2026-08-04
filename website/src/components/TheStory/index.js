@@ -123,7 +123,7 @@ export default function TheStory() {
         
         <Link
           to="/users"
-          className={styles.button_journey}
+          className={styles.button}
         >
           See the user journey
         </Link> <p/>

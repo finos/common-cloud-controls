@@ -32,26 +32,7 @@
   color: var(--gf-color-text);
 }
 
-.button_readmore {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--gf-color-accent);
-  padding: 0.25rem 0.75rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: 999px;
-}
-.button_readmore:hover {
-  background: rgba(0,181,226,0.1);
-  text-decoration: none;
-}
-
-.button_journey {
+.button {
   display: inline-block;
   padding: 0.6rem 1.75rem;
   border-radius: 0.75rem;
@@ -66,7 +47,7 @@
   transition: background 0.15s, box-shadow 0.15s;
   white-space: nowrap;
 }
-.button_journey:hover {
+.button:hover {
   background: var(--gf-color-accent);
   color: #fff;
   text-decoration: none;
