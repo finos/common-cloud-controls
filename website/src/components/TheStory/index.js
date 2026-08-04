@@ -76,7 +76,7 @@ function CollapsibleBox({ title, firstParagraph, extraParagraphs }) {
         <button
           onClick={() => setOpen(!open)}
           aria-expanded={open}
-          className={styles.button_readmore}
+          className={styles.buttonReadmore}
         >
           {open ? "Show less" : "Read more"}
           <ChevronIcon open={open} />
@@ -123,7 +123,7 @@ export default function TheStory() {
         
         <Link
           to="/users"
-          className={styles.button}
+          className={styles.buttonJourney}
         >
           See the user journey
         </Link> <p/>
