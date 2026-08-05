@@ -73,6 +73,14 @@
   box-shadow: 0 2px 8px rgba(0, 134, 191, 0.3);
 }
 
+:global([data-theme="dark"]) .buttonJourney {
+  background: var(--gf-color-accent);
+}
+
+:global([data-theme="dark"]) .buttonJourney:hover {
+  background: rgb(0, 100, 150);
+}
+
 @media screen and (max-width: 600px) {
   .audienceGrid {grid-template-columns: repeat(1,1fr); margin: 0;}
 }
