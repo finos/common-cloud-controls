@@ -71,7 +71,7 @@ A committee member elected in a special election will serve out the remainder of
 
 ### Minimum participation
 
-Committee members are expected to participate actively in the committee's work. If a member's participation falls below a minimum level set by the committee — for example, a minimum number of meetings attended per quarter — their seat is automatically considered vacant, after which the [Vacancies](#vacancies) process applies. Advance votes submitted under [Advance and absentee voting](#advance-and-absentee-voting) count towards participation.
+Committee members are expected to participate actively in the committee's work. If a member's participation falls below a minimum level set by the committee — for example, a minimum number of meetings attended per quarter — their seat is automatically considered vacant, after which the [Vacancies](#vacancies) process applies. Votes cast on decision-log pull requests count towards participation.
 
 _The specific participation threshold is to be set by the committee._
 
@@ -166,38 +166,32 @@ The two sign-offs must come from two different people. A Working Group lead may 
 
 In the course of the committee's operations, members will be expected to vote on all decisions made within the body's purview.
 
-These votes may be called on agreed-upon platforms by the committee, such as:
+### How a vote is held
 
-- a pull request
-- an issue
-- a Steering Committee [meeting](#meetings)
-- a mailing list
+A matter to be decided is raised as a pull request against the [Decision Log](#decision-log) — the `DECISIONS.md` file — describing the proposal and adding its entry. Steering Committee members cast their votes by approving or rejecting that pull request.
 
-For public business, the vote must be captured on an issue or pull request.
+- If the proposal **passes**, the pull request is merged, recording the decision as accepted.
+- If the proposal **does not pass**, its outcome is set to _rejected_ and the pull request is merged anyway, so the decision — and the fact it was rejected — is still recorded.
+
+Either way the pull request is merged, so every matter put to a vote leaves a permanent, traceable record in the Decision Log.
+
+Because voting happens on the pull request, a member does not need to attend a meeting to vote, and votes can be cast at any time before the pull request is resolved.
 
 ### Routine business
 
-Unless otherwise specified by a process, a vote passes by a **_majority of participating members_** — meaning members attending the meeting plus any advance votes submitted under [Advance and absentee voting](#advance-and-absentee-voting) — rather than a majority of the [fixed membership of the committee](#composition) regardless of attendance. This is intended to be workable in practice: a stricter, attendance-independent threshold may appear more rigorous, but one that is seldom met yields the same practical outcome as low engagement — decisions fail to progress.
+Unless otherwise specified by a process, a vote passes by a **_majority of participating members_** — meaning members who record an approval or rejection on the pull request — rather than a majority of the [fixed membership of the committee](#composition) regardless of engagement. This is intended to be workable in practice: a stricter, participation-independent threshold may appear more rigorous, but one that is seldom met yields the same practical outcome as low engagement — decisions fail to progress.
 
 Regardless of the overall majority, **_at least two (2) votes from holders of [FSI-reserved seats](#composition) are required for any vote to pass_**. This gives the process a meaningful floor without requiring a supermajority of the whole committee to be present.
 
 > This general threshold does not override a process that specifies its own, higher bar — such as a [vote of no confidence](#no-confidence) or a [change to this charter](#changes).
 
-### Advance and absentee voting
-
-Items expected to require a vote are flagged in the agenda circulated ahead of the meeting. A committee member unable to attend may submit their vote on a flagged item in advance, against that meeting's agenda; it counts the same as an in-meeting vote for both quorum and outcome.
-
-Members are encouraged to submit an advance vote whenever there is a chance they will not make the meeting, including at short notice. Tying advance votes to the specific meeting's agenda — rather than a standing, general mailing list — is intended to make them harder to miss or overlook.
-
 ### Abstention
 
-For any self-elected reason, members of the committee may decide to abstain from a vote.
-
-Abstaining members will only be considered as contributing to quorum, in the event that a vote is called in a meeting.
+For any self-elected reason, members of the committee may decide to abstain from a vote. A member abstains simply by not recording an approval or rejection on the pull request; abstaining members are not counted among the participating members for that vote.
 
 ## Decision Log
 
-Steering Committee votes on public business are already [required to be captured on a GitHub issue or pull request](#voting). In addition, the committee maintains a running index of those decisions in [`DECISIONS.md`](DECISIONS.md), linking each vote to its issue or pull request, so the reasoning behind past decisions stays traceable as committee membership turns over.
+Every Steering Committee vote is raised and recorded as a pull request against the Decision Log — a single [`DECISIONS.md`](DECISIONS.md) file — following the process under [Voting](#voting). Because both passed and rejected proposals are merged into the log, it forms a running, traceable record of the committee's decisions — and the reasoning behind them — as committee membership turns over.
 
 ## Roadmap Planning
 
@@ -226,7 +220,7 @@ Given that the committee's membership includes representatives of competing fina
 
 A meeting may proceed with a **_majority of the [fixed membership of the committee](#composition)_** present.
 
-There is no separate, higher quorum threshold required specifically to hold a vote. The [majority-of-participating-members rule, together with the minimum of two FSI votes](#routine-business), is intended to be the safeguard against a small, unrepresentative group deciding matters alone.
+Formal decisions are not taken in the meeting itself — they are made on decision-log pull requests as described under [Voting](#voting) — so there is no separate, higher quorum threshold to hold a vote. The [majority-of-participating-members rule, together with the minimum of two FSI votes](#routine-business), is intended to be the safeguard against a small, unrepresentative group deciding matters alone.
 
 ## Inclusive Leadership Training
 
