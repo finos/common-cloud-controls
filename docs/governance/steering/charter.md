@@ -69,6 +69,12 @@ In case this fails to fill the seat, a special election for that position will b
 
 A committee member elected in a special election will serve out the remainder of the term for the person they are replacing, regardless of the length of that remainder.
 
+### Minimum participation
+
+Committee members are expected to participate actively in the committee's work. If a member's participation falls below a minimum level set by the committee — for example, a minimum number of meetings attended per quarter — their seat is automatically considered vacant, after which the [Vacancies](#vacancies) process applies. Advance votes submitted under [Advance and absentee voting](#advance-and-absentee-voting) count towards participation.
+
+_The specific participation threshold is to be set by the committee._
+
 ### Removal
 
 A committee member may remove themselves or be removed through the following processes.
@@ -105,44 +111,52 @@ After this feedback period, Steering Committee members must vote on the issue wi
 
 If the vote of no confidence is passed, the member in question will be immediately removed from the committee.
 
-## Officers: Chair and Vice Chair
+## Roles
+
+This section defines the roles that carry specific responsibilities on the committee. Committee composition and the seat lifecycle are covered under [Membership](#membership); the functional process these roles feed into for releases is covered under [Release Governance](#release-governance).
+
+### Members
+
+Steering Committee members are the elected seat-holders described under [Membership](#membership). They set project direction, vote on committee business, and hold the responsibilities defined throughout this charter.
+
+### Chair and Vice Chair
 
 The Steering Committee elects a Chair and a Vice Chair from among its own members.
-
-### Roles
 
 - **Chair** — curates and distributes the meeting agenda ahead of each Steering Committee meeting, and chairs the meeting.
 - **Vice Chair** — acts as Chair when the Chair is unavailable, and supports agenda preparation.
 
-### Officer eligibility
+#### Officer eligibility
 
 Only sitting Steering Committee members are eligible to serve as Chair or Vice Chair. The Chair must hold one of the seats [reserved for financial services institution (FSI) members](#composition), reflecting FSI members' role in driving the project's direction.
 
-### Officer selection
+#### Officer selection
 
 Committee members self-nominate for Chair and Vice Chair. Where there is more than one nominee for a role, the committee elects using the standard decision-making threshold set out under [Routine business](#routine-business).
 
-### Officer term
+#### Officer term
 
 Each Officer term runs for a maximum of two years, and is independent of the person's underlying Steering Committee election term — a Chair or Vice Chair may be re-nominated for another Officer term while continuing to serve on the committee, subject to any consecutive-term limit the committee agrees.
 
 An Officer must remain a sitting committee member throughout their Officer term. If they leave the committee for any reason, their Officer term ends immediately and the vacancy process below applies.
 
-### Officer vacancy
+#### Officer vacancy
 
 If the Chair vacates the role mid-term, the Vice Chair assumes the Chair role for the remainder of the term, and a nomination and election for the now-vacant Vice Chair seat is held at the next meeting. This is separate from, and does not affect, the person's underlying Steering Committee seat.
 
-## Release Governance
-
-Release sign-off is a defined, limited responsibility of the Steering Committee, delivered through named delegates rather than the committee reviewing releases directly. The mechanics of the release process itself live in the [Releases community guideline].
-
 ### Cyber Security Leads
 
-Each firm holding an [FSI-reserved seat](#composition) designates a **Cyber Security Lead** to carry release sign-off, in addition to — and distinct from — the individual it has elected to the committee itself. This is the existing Cyber Security Lead role recorded alongside the [membership list].
+Each firm holding an [FSI-reserved seat](#composition) designates a **Cyber Security Lead** to carry [release sign-off](#release-governance), in addition to — and distinct from — the individual it has elected to the committee itself. This is the existing Cyber Security Lead role recorded alongside the [membership list].
 
 This designation is tied to the firms currently represented on the Steering Committee. If a firm's Steering Committee seat changes hands, its Cyber Security Lead designation carries over independently unless the firm chooses to change it.
 
-### Release sign-off
+A Cyber Security Lead is expected to take part in releases regularly. If participation falls below a minimum level set by the committee — for example, a minimum number of releases signed off over a given period — the firm is asked to re-confirm or re-designate its Cyber Security Lead.
+
+_The specific participation threshold is to be set by the committee._
+
+## Release Governance
+
+Release sign-off is a defined, limited responsibility of the Steering Committee, delivered through named delegates — the designated [Cyber Security Leads](#cyber-security-leads) — rather than the committee reviewing releases directly. The mechanics of the release process itself live in the [Releases community guideline].
 
 Every release requires sign-off from the relevant Working Group lead, plus at least one designated Cyber Security Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
 
@@ -199,6 +213,10 @@ This is separate from, and additional to, the Steering Committee's existing quar
 ## Meetings
 
 Steering Committee members are generally expected to attend every meeting.
+
+### Routine meetings
+
+The Steering Committee meets on a regular cadence, set by the committee, to conduct routine committee business. These working meetings are private and invite-only: attendance is limited to committee members and any guests the committee invites. This keeps the committee's own business focused and funnels wider engagement — such as user engagement and cross-project coordination — to the public [quarterly community call](#approach) and the community all-hands.
 
 ### Meeting conduct
 

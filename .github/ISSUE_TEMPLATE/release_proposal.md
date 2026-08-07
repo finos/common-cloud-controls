@@ -32,6 +32,5 @@ assignees: "damienjburks"
   - You'll need to fill out the form with the "build target" and the "tag" for this release. Also, be sure to run the workflow from the "main" branch.
 - [ ] Quality check the release and make changes if necessary.
 - [ ] Share with the WG Leads and get their approval to move forward.
-- [ ] Announce release candidate and request feedback from the Change Management Board (CMB)
-- [ ] Arbitrate and triage all Change Requests (CR) from the CMB
-- [ ] If 2 weeks must have passed and there are no unresolved CRs, create official release
+- [ ] Obtain release sign-off: the relevant WG lead plus at least one designated Cyber Security Lead, with the two sign-offs coming from two different people.
+- [ ] Once sign-off is complete, create the official release.
