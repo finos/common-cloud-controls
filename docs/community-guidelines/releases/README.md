@@ -78,7 +78,7 @@ The two sign-offs must come from two different people. A [WG] lead may also be a
 
 ## Roadmap Planning
 
-The Steering Committee holds a [roadmap session] twice a year, timed after OSFF NY and OSFF London, to set project direction, drawing on the feedback and observations gathered at those events. These sessions are open to the community and are co-facilitated by designated Cyber Security Leads alongside Working Group leads, so both business-direction and technical-feasibility perspectives are represented. Draft outcomes are published for community comment before being brought to the Steering Committee for a vote, and approved outcomes are published on the project website and as GitHub issues.
+The Steering Committee sets project direction on an ongoing basis. Suggestions and features are raised by the community as GitHub issues, which the committee reviews and prioritises during its regular meetings; the resulting high-level "north star" direction is communicated to the community and can be shown on the project website. See [Roadmap Planning] in the Steering Committee Charter for the full process.
 
 [WG]: ../../governance/community-structure.md#working-groups
 [Security WG]: ../../governance/working-groups/security/charter.md
@@ -88,4 +88,4 @@ The Steering Committee holds a [roadmap session] twice a year, timed after OSFF 
 [community guideline]: ../README.md
 [release governance]: ../../governance/steering/charter.md#release-governance
 [Cyber Security Leads]: ../../governance/steering/charter.md#cyber-security-leads
-[roadmap session]: ../../governance/steering/charter.md#roadmap-planning
+[Roadmap Planning]: ../../governance/steering/charter.md#roadmap-planning

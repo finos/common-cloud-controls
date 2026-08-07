@@ -199,14 +199,9 @@ Every Steering Committee vote is raised and recorded as a pull request against t
 
 ## Roadmap Planning
 
-A roadmap session is held twice a year, timed after OSFF NY and OSFF London, to set project direction. Direction may be informed by the feedback and observations gathered at those events.
+Suggestions, features, and other proposed direction are raised by the community as GitHub issues rather than in a dedicated open session. The Steering Committee reviews and prioritises these issues during its [regular meetings](#routine-meetings).
 
-- Sessions are open to the community.
-- Sessions are co-facilitated by designated [Cyber Security Leads](#cyber-security-leads) alongside Working Group leads, so both business-direction and technical-feasibility perspectives are represented.
-- Draft outcomes are published for community comment before being brought to the Steering Committee for a vote under [Voting](#voting).
-- Once approved, outcomes are published on the project website and as GitHub issues.
-
-This is separate from, and additional to, the Steering Committee's existing quarterly public community call.
+The committee communicates the resulting high-level "north star" direction back to the community, and it can be published on the project website. Where setting or changing direction calls for a formal decision, it is taken through the [Voting](#voting) process.
 
 ## Meetings
 
