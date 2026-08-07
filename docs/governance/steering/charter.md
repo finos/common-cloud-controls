@@ -177,11 +177,15 @@ Either way the pull request is merged, so every matter put to a vote leaves a pe
 
 Because voting happens on the pull request, a member does not need to attend a meeting to vote, and votes can be cast at any time before the pull request is resolved.
 
+The [Chair](#chair-and-vice-chair) closes the vote — merging the pull request with its outcome — once the result is clear, or at the latest two weeks after the pull request was opened.
+
 ### Routine business
 
 Unless otherwise specified by a process, a vote passes by a **_majority of participating members_** — meaning members who record an approval or rejection on the pull request — rather than a majority of the [fixed membership of the committee](#composition) regardless of engagement. This is intended to be workable in practice: a stricter, participation-independent threshold may appear more rigorous, but one that is seldom met yields the same practical outcome as low engagement — decisions fail to progress.
 
-Regardless of the overall majority, **_at least two (2) votes from holders of [FSI-reserved seats](#composition) are required for any vote to pass_**. This gives the process a meaningful floor without requiring a supermajority of the whole committee to be present.
+Regardless of the overall majority, **_at least two (2) approvals from holders of [FSI-reserved seats](#composition) are required for any Steering Committee vote to pass_**. This gives the process a meaningful floor without requiring a supermajority of the whole committee to be present.
+
+This FSI-approval floor applies only to Steering Committee decisions recorded on the Decision Log. Ordinary pull requests — for example content, catalog, or release changes — follow their own review and approval processes, not the rules in this section.
 
 > This general threshold does not override a process that specifies its own, higher bar — such as a [vote of no confidence](#no-confidence) or a [change to this charter](#changes).
 
