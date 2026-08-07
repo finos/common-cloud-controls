@@ -71,9 +71,9 @@ A committee member elected in a special election will serve out the remainder of
 
 ### Minimum participation
 
-Committee members are expected to participate actively in the committee's work. If a member's participation falls below a minimum level set by the committee — for example, a minimum number of meetings attended per quarter — their seat is automatically considered vacant, after which the [Vacancies](#vacancies) process applies. Votes cast on decision-log pull requests count towards participation.
+Committee members are expected to participate actively in the committee's work. As a guideline, a member should attend at least half of Steering Committee meetings over any rolling six-month period; votes cast on decision-log pull requests also count towards participation.
 
-_The specific participation threshold is to be set by the committee._
+If a member's participation falls below this level, the [Chair](#chair-and-vice-chair) discusses it with them to determine whether they remain best placed to hold the seat.
 
 ### Removal
 
@@ -150,9 +150,7 @@ Each firm holding an [FSI-reserved seat](#composition) designates a **Cyber Secu
 
 This designation is tied to the firms currently represented on the Steering Committee. If a firm's Steering Committee seat changes hands, its Cyber Security Lead designation carries over independently unless the firm chooses to change it.
 
-A Cyber Security Lead is expected to take part in releases regularly. If participation falls below a minimum level set by the committee — for example, a minimum number of releases signed off over a given period — the firm is asked to re-confirm or re-designate its Cyber Security Lead.
-
-_The specific participation threshold is to be set by the committee._
+A Cyber Security Lead is expected to take part in releases regularly — as a guideline, signing off at least one release over any rolling six-month period. If participation falls below this, the firm is asked to re-confirm or re-designate its Cyber Security Lead.
 
 ## Release Governance
 
