@@ -38,8 +38,6 @@ The release process involves contributors proposing changes through a pull reque
 
 ![Release Flow Diagram](./imgs/release-process.drawio.svg)
 
-> _Note: the flow diagram predates the removal of the Change Management Board and is being updated; the written process below is authoritative._
-
 ### Release Manager
 
 Each release is coordinated by a Release Manager, appointed by the [Delivery WG]. The Release Manager compiles the release candidate from the merged changes, coordinates Working Group review and [sign-off](#release-sign-off), and promotes and publishes the approved release. If a Release Manager has not been appointed for a deliverable, the [Delivery WG] appoints one.
