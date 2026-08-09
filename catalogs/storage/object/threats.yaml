@@ -45,3 +45,39 @@ threats:
         entries:
           - reference-id: CCC.ObjStor.CP08
           - reference-id: CCC.Core.CP11
+
+  - id: CCC.ObjStor.TH02
+    group: Access
+    title: Pre-Signed URL Abuse
+    description: |
+      Pre-signed URLs generated with excessive permissions, overly long
+      expiry durations, or insufficient scope constraints may be leaked or
+      shared beyond their intended audience. Because the URL itself acts as
+      a bearer credential, any entity in possession of the URL can access
+      the referenced resource without further authentication, bypassing
+      standard access controls.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP05
+            remarks: Signed URLs
+          - reference-id: CCC.Core.CP06
+            remarks: Access Control
+
+  - id: CCC.ObjStor.TH03
+    group: Data
+    title: Storage Class Downgrade Leading to Durability or Availability Loss
+    description: |
+      An authorized entity or misconfigured lifecycle policy may transition
+      objects from a high-durability or high-availability storage class to a
+      lower-durability or single-zone class. This degradation manifests only when
+      a subsequent failure occurs (e.g., availability zone outage). Objects
+      may also be transitioned to archival tiers, rendering them effectively
+      inaccessible for extended retrieval periods during incidents.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.ObjStor.CP08
+            remarks: Lifecycle Policies
+          - reference-id: CCC.ObjStor.CP12
+            remarks: Storage Classes

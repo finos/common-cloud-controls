@@ -353,3 +353,244 @@ controls:
           - reference-id: IAM-08
             remarks: User Access Review
             strength: 2 # Reducing IAM nuance and exceptions helps streamline reviews
+
+
+  - id: CCC.ObjStor.CN08
+    group: Access
+    title: Enforce Constraints on Pre-Signed URL Generation
+    objective: |
+      Ensure that pre-signed URLs are generated with minimum necessary
+      permissions, limited expiry durations, and auditable generation
+      events to prevent unauthorized access through leaked or overly
+      permissive URLs.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN08.AR01
+        text: |
+          When a pre-signed URL is generated, the service MUST enforce a
+          maximum expiry duration that does not exceed an
+          organization-defined threshold.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure a maximum TTL policy for pre-signed URLs. For sensitive
+          data, consider expiry durations of 15 minutes or less. Review and
+          adjust thresholds based on operational requirements.
+      - id: CCC.ObjStor.CN08.AR02
+        text: |
+          When a pre-signed URL is generated, the service MUST restrict
+          the URL scope to a single object and a single operation (read or
+          write), preventing broad access grants.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Ensure application logic generates URLs scoped to individual
+          objects. Avoid wildcard or prefix-based URL generation that could
+          expose multiple objects.
+      - id: CCC.ObjStor.CN08.AR03
+        text: |
+          When a pre-signed URL is generated, the service MUST publish an
+          auditable log entry that includes the generating identity, the
+          target resource, the granted permissions, and the expiry time.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enable logging for all pre-signed URL generation events. Integrate
+          these logs with existing SIEM or monitoring systems for anomaly
+          detection.
+      - id: CCC.ObjStor.CN08.AR04
+        text: |
+          When a pre-signed URL is generated, the service MUST restrict
+          generation to identities that have explicit permission to create
+          pre-signed URLs, separate from their permission to access the
+          underlying object.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Implement a dedicated IAM permission for pre-signed URL generation
+          rather than implicitly granting this capability to all entities
+          with object-level access.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH02
+            remarks: Pre-Signed URL Abuse
+            strength: 9
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+            remarks: Access is Granted to Unauthorized Users
+            strength: 4
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: IAM-01
+            remarks: IAM Policy and Procedures
+            strength: 5
+          - reference-id: DSP-17
+            remarks: Sensitive Data Protection
+            strength: 3
+          - reference-id: LOG-08
+            remarks: Log Records
+            strength: 5
+
+  - id: CCC.ObjStor.CN09
+    group: Access
+    title: Block Public Access by Default
+    objective: |
+      Ensure that all buckets and objects are protected from public
+      (unauthenticated or anonymous) access by default, requiring explicit
+      and auditable action to override.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN09.AR01
+        text: |
+          When a bucket is created, the service MUST enable a public access
+          block that prevents any policy or ACL from granting public access
+          to the bucket or its objects.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enable account-level or organization-level public access block
+          settings to ensure all new buckets inherit this protection by
+          default.
+      - id: CCC.ObjStor.CN09.AR02
+        text: |
+          When an attempt is made to modify a bucket policy or ACL to grant
+          public access, the service MUST deny the modification unless the
+          public access block has been explicitly disabled.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure preventative controls at the organization level so that
+          individual bucket owners cannot bypass the public access block
+          without elevated approval.
+      - id: CCC.ObjStor.CN09.AR03
+        text: |
+          When an attempt is made to disable the public access block, the
+          service MUST require explicit approval from an identity with
+          elevated privileges and MUST publish an auditable event to a
+          monitored channel.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Implement an approval workflow or secondary authorization
+          requirement for disabling public access blocks. Ensure all
+          changes are logged and trigger alerts.
+      - id: CCC.ObjStor.CN09.AR04
+        text: |
+          When the public access block is disabled, the service MUST NOT
+          permit disabling for any bucket containing objects classified at
+          TLP:AMBER or TLP:RED.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use service control policies or organization-level guardrails to
+          permanently enforce public access blocks on buckets containing
+          sensitive data.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+            remarks: Access is Granted to Unauthorized Users
+            strength: 9
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-07
+            remarks: Data Protection by Design and Default
+            strength: 9
+          - reference-id: DSP-17
+            remarks: Sensitive Data Protection
+            strength: 7
+          - reference-id: IAM-01
+            remarks: IAM Policy and Procedures
+            strength: 4
+
+  - id: CCC.ObjStor.CN10
+    group: Data
+    title: Restrict Storage Class Transitions to Approved Tiers
+    objective: |
+      Ensure that objects cannot be transitioned to storage classes with
+      lower durability or availability guarantees without explicit
+      authorization, preventing degradation of data resilience through
+      misconfigured lifecycle policies or unauthorized actions.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN10.AR01
+        text: |
+          When a lifecycle policy is configured to transition objects to a
+          different storage class, the service MUST prevent transitions to
+          any storage class not included in an organization-defined list of
+          approved tiers.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Maintain a list of approved storage classes based on durability
+          and availability requirements. Configure service-level policies
+          to reject lifecycle rules targeting unapproved classes.
+      - id: CCC.ObjStor.CN10.AR02
+        text: |
+          When a manual request is made to change an object's storage class
+          to a tier with lower durability or availability, the service MUST
+          require explicit approval from an identity with elevated
+          privileges.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Implement IAM policies that separate storage class modification
+          permissions from general object write permissions. Require
+          secondary authorization for downgrades.
+      - id: CCC.ObjStor.CN10.AR03
+        text: |
+          When a storage class transition occurs, the service MUST publish
+          an auditable log entry including the identity that initiated the
+          transition, the source and destination classes, and the affected
+          objects.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enable logging for all storage class transitions and integrate
+          with monitoring systems to detect unexpected tier changes.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH03
+            remarks: Storage Class Downgrade Leading to Durability or Availability Loss
+            strength: 9
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH06
+            remarks: Data is Lost or Corrupted
+            strength: 4
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: Data Retention and Deletion
+            strength: 6
+          - reference-id: DSP-17
+            remarks: Sensitive Data Protection
+            strength: 4
+          - reference-id: LOG-08
+            remarks: Log Records
+            strength: 5
