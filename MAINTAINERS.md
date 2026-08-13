@@ -4,8 +4,8 @@ This file lists the maintainers of this repository.
 
 ## Current maintainers
 
-| GitHub Username | Name | Organization | Email |
-|----------------|------|--------------|-------|
+| GitHub Username | Name | Organization | Email (optional) |
+|----------------|------|--------------|------------------|
 | @Alexstpierrework | Alex St. Pierre | *please add organization* |  |
 | @aric-rosenbaum | Aric Rosenbaum | @redhat |  |
 | @ececon | *please add name* | *please add organization* |  |
