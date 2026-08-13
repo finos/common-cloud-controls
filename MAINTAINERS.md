@@ -6,18 +6,18 @@ This file lists the maintainers of this repository.
 
 | GitHub Username | Name | Organization | Email |
 |----------------|------|--------------|-------|
-| @Alexstpierrework | Alex St. Pierre | *please add organization* | *please add email* |
-| @aric-rosenbaum | Aric Rosenbaum | @redhat | *please add email* |
-| @ececon | *please add name* | *please add organization* | *please add email* |
-| @eddie-knight | Eddie Knight | *please add organization* | *please add email* |
-| @jared-lambert | Jared Lambert | Microsoft | *please add email* |
+| @Alexstpierrework | Alex St. Pierre | *please add organization* |  |
+| @aric-rosenbaum | Aric Rosenbaum | @redhat |  |
+| @ececon | *please add name* | *please add organization* |  |
+| @eddie-knight | Eddie Knight | *please add organization* |  |
+| @jared-lambert | Jared Lambert | Microsoft |  |
 | @jpower432 | Jennifer Power | Red Hat | jpower@redhat.com |
-| @lucaborella89 | Luca Borella | *please add organization* | *please add email* |
-| @mlysaght2017 | Michael Lysaght | *please add organization* | *please add email* |
-| @rgriffiths-scottlogic | Robert Griffiths | @ScottLogic  | *please add email* |
-| @smendis-scottlogic | Sonali Mendis | Scott Logic | *please add email* |
+| @lucaborella89 | Luca Borella | *please add organization* |  |
+| @mlysaght2017 | Michael Lysaght | *please add organization* |  |
+| @rgriffiths-scottlogic | Robert Griffiths | @ScottLogic  |  |
+| @smendis-scottlogic | Sonali Mendis | Scott Logic |  |
 | @sshiells-scottlogic | Stevie Shiells | Scott Logic | sshiells@scottlogic.com |
-| @sublimino | Andrew Martin | @controlplaneio  | *please add email* |
+| @sublimino | Andrew Martin | @controlplaneio  |  |
 | @zigmax | Maxime Coquerel | Royal Bank of Canada (RBC) | max.coquerel@gmail.com |
 
 For information about maintainer responsibilities and resources, see the [FINOS Maintainers Cheatsheet](https://community.finos.org/docs/finos-maintainers-cheatsheet).
