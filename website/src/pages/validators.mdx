@@ -5,6 +5,7 @@ hide_table_of_contents: true
 ---
 
 import ContentPage from '@site/src/components/ContentPage';
+import ZoomableImage from '@site/src/components/ZoomableImage';
 
 <ContentPage subtitle="Automated compliance for cloud controls" title="Validators" toc={toc}>
 
@@ -84,15 +85,15 @@ Behavioural tests run against real infrastructure, not mocks. The CCC project ma
 
 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginTop: "1.5rem", marginBottom: "1.5rem", alignItems: "flex-start" }}>
   <figure style={{ flex: "1 1 0", minWidth: "180px", margin: 0, textAlign: "center" }}>
-    <img src="/behavioural-testing/aws.png" alt="FINOS-CCC AWS integration environment console" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
+    <ZoomableImage src="/behavioural-testing/aws.png" alt="FINOS-CCC AWS integration environment console" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
     <figcaption style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "var(--gf-color-text-subtle)" }}>AWS</figcaption>
   </figure>
   <figure style={{ flex: "1 1 0", minWidth: "180px", margin: 0, textAlign: "center" }}>
-    <img src="/behavioural-testing/azure.png" alt="FINOS-CCC Azure integration environment portal" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
+    <ZoomableImage src="/behavioural-testing/azure.png" alt="FINOS-CCC Azure integration environment portal" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
     <figcaption style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "var(--gf-color-text-subtle)" }}>Azure</figcaption>
   </figure>
   <figure style={{ flex: "1 1 0", minWidth: "180px", margin: 0, textAlign: "center" }}>
-    <img src="/behavioural-testing/gcp.png" alt="FINOS-CCC GCP integration environment console" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
+    <ZoomableImage src="/behavioural-testing/gcp.png" alt="FINOS-CCC GCP integration environment console" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
     <figcaption style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "var(--gf-color-text-subtle)" }}>GCP</figcaption>
   </figure>
 </div>
@@ -103,11 +104,11 @@ Generic test mechanics — calling methods, asserting on results, resolving vari
 
 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginTop: "1.5rem", marginBottom: "1.5rem", alignItems: "flex-start" }}>
   <figure style={{ flex: "1 1 0", minWidth: "180px", margin: 0, textAlign: "center" }}>
-    <img src="/behavioural-testing/scs.png" alt="Standard Cucumber Steps library documentation" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
+    <ZoomableImage src="/behavioural-testing/scs.png" alt="Standard Cucumber Steps library documentation" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
     <figcaption style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "var(--gf-color-text-subtle)" }}>Standard Cucumber Steps</figcaption>
   </figure>
   <figure style={{ flex: "1 1 0", minWidth: "180px", margin: 0, textAlign: "center" }}>
-    <img src="/behavioural-testing/scs4.png" alt="Passing Cucumber test report with step results" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
+    <ZoomableImage src="/behavioural-testing/scs4.png" alt="Passing Cucumber test report with step results" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
     <figcaption style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "var(--gf-color-text-subtle)" }}>Test Steps Documentation</figcaption>
   </figure>
 </div>
@@ -133,15 +134,15 @@ Compliance runs produce HTML, [OCSF](https://schema.ocsf.io/) and [Gemara](https
 
 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginTop: "1.5rem", marginBottom: "1.5rem", alignItems: "flex-start" }}>
   <figure style={{ flex: "1 1 0", minWidth: "180px", margin: 0, textAlign: "center" }}>
-    <img src="/behavioural-testing/resullt1.png" alt="CCC compliance test summary table showing passing behavioural scenarios" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
+    <ZoomableImage src="/behavioural-testing/resullt1.png" alt="CCC compliance test summary table showing passing behavioural scenarios" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
     <figcaption style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "var(--gf-color-text-subtle)" }}>Compliance summary</figcaption>
   </figure>
   <figure style={{ flex: "1 1 0", minWidth: "180px", margin: 0, textAlign: "center" }}>
-    <img src="/behavioural-testing/result2.png" alt="OCSF JSON compliance finding for a passing behavioural test" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
+    <ZoomableImage src="/behavioural-testing/result2.png" alt="OCSF JSON compliance finding for a passing behavioural test" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
     <figcaption style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "var(--gf-color-text-subtle)" }}>OCSF report</figcaption>
   </figure>
   <figure style={{ flex: "1 1 0", minWidth: "180px", margin: 0, textAlign: "center" }}>
-    <img src="/behavioural-testing/result3.png" alt="HTML Cucumber scenario report with passing steps" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
+    <ZoomableImage src="/behavioural-testing/result3.png" alt="HTML Cucumber scenario report with passing steps" style={{ width: "100%", height: "auto", display: "block", borderRadius: "6px", border: "1px solid var(--gf-color-border-strong, rgba(59, 130, 246, 0.25))" }} />
     <figcaption style={{ marginTop: "0.5rem", fontSize: "0.875rem", color: "var(--gf-color-text-subtle)" }}>HTML scenario report</figcaption>
   </figure>
 </div>
