@@ -1,0 +1,37 @@
+.article {
+  flex: 1;
+  min-width: 0;
+}
+
+.subtitle {
+  margin: 0 0 0.35rem;
+  color: var(--gf-color-text-subtle);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.pageTitle {
+  margin: 0;
+  scroll-margin-top: 80px;
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
+  font-size: 2.25rem;
+  text-align: center;
+  font-family: 'metropolis';
+  font-weight: 600;
+  color: var(--gf-color-accent-strong);
+}
+
+.pageTitleWithSubtitle {
+  margin-top: 0.25rem;
+}
+
+.body {
+  color: var(--gf-color-text);
+  line-height: 1.8;
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+}
+
+/* Centre tables and Mermaid diagrams — scoped via global selectors in custom.css */

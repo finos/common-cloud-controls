@@ -1,20 +1,12 @@
-.h3Style {
+.h3 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   text-align: center;
   color: var(--gf-color-accent-strong);
-
 }
 
-.bodyStyle {
-  color: var(--gf-color-text-subtle);
-  font-size: 1.05rem;
-  text-align: center;
-  line-height: 1.75;
-}
-
-.sectionStyle {
+.section {
   max-width: 780px;
   margin: 0 auto 2.5rem auto;
   border: 1px solid var( --gf-color-border-strong);
@@ -24,7 +16,7 @@
   background-color: var(--gf-color-surface);
 }
 
-.audienceGridStyle {
+.audienceGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
@@ -32,7 +24,7 @@
   margin: 0 auto;
 }
 
-.audienceCardStyle {
+.audienceCard {
   border: 1px solid var( --gf-color-border-strong);
   border-radius: 1rem;
   padding: 1.25rem 1.5rem;
@@ -40,6 +32,55 @@
   color: var(--gf-color-text);
 }
 
+.buttonReadmore {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gf-color-accent);
+  padding: 0.25rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+.buttonReadmore:hover {
+  background: rgba(0,181,226,0.1);
+  text-decoration: none;
+}
+
+.buttonJourney {
+  display: inline-block;
+  padding: 0.6rem 1.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: var(--gf-color-accent-light);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+.buttonJourney:hover {
+  background: var(--gf-color-accent);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 134, 191, 0.3);
+}
+
+:global([data-theme="dark"]) .buttonJourney {
+  background: var(--gf-color-accent);
+}
+
+:global([data-theme="dark"]) .buttonJourney:hover {
+  background: rgb(0, 100, 150);
+}
+
 @media screen and (max-width: 600px) {
-  .audienceGridStyle {grid-template-columns: repeat(1,1fr); margin: 0;}
+  .audienceGrid {grid-template-columns: repeat(1,1fr); margin: 0;}
 }

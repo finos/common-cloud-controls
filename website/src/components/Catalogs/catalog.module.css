@@ -1,0 +1,82 @@
+.typeBtn {
+  display: inline-block;
+  padding: 0.6rem 1.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: var(--gf-color-accent-light);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+
+.typeBtn:hover {
+  background: var(--gf-color-accent);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 134, 191, 0.3);
+}
+
+.typeBtnDisabled {
+  display: inline-block;
+  padding: 0.6rem 1.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: rgba(0, 181, 226, 0.2);
+  color: rgba(0, 100, 140, 0.5);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: not-allowed;
+  white-space: nowrap;
+}
+
+.typeBtnInactive {
+  opacity: 0.55;
+}
+
+.cardInner {
+  margin: 1rem;
+}
+
+.cardTitle {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  color: var(--gf-color-accent);
+}
+
+.cardProse {
+  margin: 0 0 2rem;
+  color: var(--gf-color-accent);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.surfaceCard {
+  margin-top: 3rem;
+  padding: 1rem;
+  background-color: var(--gf-color-surface);
+  border: 1px solid var(--gf-color-border-strong);
+  border-radius: 8px;
+}
+
+:global([data-theme="dark"]) .typeBtn {
+  background: var(--gf-color-accent);
+}
+
+:global([data-theme="dark"]) .typeBtn:hover {
+  background: rgb(0, 100, 150);
+}
+
+:global([data-theme="dark"]) .typeBtnDisabled {
+  background: rgba(0, 181, 226, 0.1);
+  color: rgba(0, 181, 226, 0.35);
+}
+
+:global([data-theme="dark"]) .surfaceCard {
+  background-color: #111;
+  border-color: rgba(0, 181, 226, 0.15);
+}

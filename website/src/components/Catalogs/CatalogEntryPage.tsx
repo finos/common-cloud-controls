@@ -3,6 +3,7 @@ import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
 import type { CatalogEntry, CatalogGuidelineMapping } from "./CatalogVersionPage";
+import styles from "./CatalogEntryPage.module.css";
 
 export interface CatalogRelatedEntry {
   id: string;
@@ -35,8 +36,8 @@ const TYPE_LABELS: Record<string, string> = {
 const RelatedList: React.FC<{ title: string; items?: CatalogRelatedEntry[] }> = ({ title, items }) => {
   if (!items || items.length === 0) return null;
   return (
-    <div style={{ marginBottom: "1.5rem" }}>
-      <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>{title}</h3>
+    <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>{title}</h3>
       <div className="library-article-body">
         <table>
           <thead>
@@ -67,8 +68,8 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
   // guideline mappings don't, so only show the column when there is data for it.
   const hasRelationship = items.some((m) => m.relationship);
   return (
-    <div style={{ marginBottom: "1.5rem" }}>
-      <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>{title}</h3>
+    <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>{title}</h3>
       <div className="library-article-body">
         <table>
           <thead>
@@ -110,8 +111,8 @@ export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
   return (
     <div className="page-layout">
       <CatalogSidebar />
-      <article style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ margin: "0 0 0.25rem", color: "var(--ifm-color-emphasis-600)", fontSize: "0.9rem" }}>
+      <article className={styles.main}>
+        <p className={styles.breadcrumb}>
           {prettifySegment(category)}
           {" / "}
           <Link to={`/catalogs/${category}/${service}`}>
@@ -121,14 +122,14 @@ export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
           <Link to={typePath}>{TYPE_LABELS[type] ?? type}</Link>
           {` / ${version}`}
         </p>
-        <h1 style={{ marginTop: 0 }}>{entry.title}</h1>
-        <p style={{ fontSize: "0.85rem", color: "var(--ifm-color-emphasis-600)", marginBottom: "1.5rem" }}>
+        <h1 className={styles.pageTitle}>{entry.title}</h1>
+        <p className={styles.entryId}>
           {entry.id}
           {entry.family ? ` · ${entry.family}` : ""}
         </p>
 
         {(entry.description || entry.objective) && (
-          <div className="library-article-body" style={{ marginBottom: "1.5rem" }}>
+          <div className={`library-article-body ${styles.section}`}>
             <p>{type === "controls" ? entry.objective : entry.description}</p>
           </div>
         )}
@@ -138,8 +139,8 @@ export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
         <RelatedList title="Related Controls" items={data.relatedControls} />
 
         {entry.assessmentRequirements && entry.assessmentRequirements.length > 0 && (
-          <div style={{ marginBottom: "1.5rem" }}>
-            <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>Assessment Requirements</h3>
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>Assessment Requirements</h3>
             <div className="library-article-body">
               <table>
                 <thead>

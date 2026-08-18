@@ -11,9 +11,5 @@ svg.logo {
 }
 
 .fill {
-	fill: #1e3b8a;
-}
-
-html[data-theme=dark] .fill {
-	fill: #1e3b8a;
+	fill: var(--gf-color-accent-strong);
 }
