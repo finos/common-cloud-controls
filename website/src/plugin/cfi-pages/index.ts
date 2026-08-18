@@ -467,6 +467,8 @@ async function createConfiguration(
     sourceDetails
   );
 
+  console.log(`⚠️ Defined repo URL as ${configuration.source_details?.repository_url}`);
+  
   // Create configuration page data
   const pageData: ConfigurationPageData = {
     configuration,
