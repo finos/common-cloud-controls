@@ -23,10 +23,21 @@ resource "aws_internet_gateway" "good" {
   tags   = var.common_tags
 }
 
+# Pin the AZ: left unset, AWS can place this in a constrained zone (us-east-1e)
+# that does not offer the VM instance type.
+data "aws_ec2_instance_type_offerings" "vm" {
+  location_type = "availability-zone"
+  filter {
+    name   = "instance-type"
+    values = [var.vm_instance_type]
+  }
+}
+
 resource "aws_subnet" "vm" {
   vpc_id                  = aws_vpc.good.id
   cidr_block              = "10.90.2.0/24"
   map_public_ip_on_launch = true
+  availability_zone       = sort(data.aws_ec2_instance_type_offerings.vm.locations)[0]
   tags = merge(var.common_tags, {
     Name = "finos-ccc-integration-vm-subnet"
   })

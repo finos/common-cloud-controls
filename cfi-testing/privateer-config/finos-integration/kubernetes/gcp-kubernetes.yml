@@ -1,0 +1,147 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Behavioural config for CCC.K8S against the GCP GKE fixture.
+# Populate host-name / logging from terraform outputs after apply:
+#   cd modules/cloud-api-test/terraform/gcp && terraform output
+# Source modules/cloud-api-test/environment-config/gcp-env.sh for test identities.
+# Reachability probe URL/secret come from CI secrets, never commit secrets.
+
+services:
+  gcpKubernetes:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.K8S
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: kubernetes
+      service-type: kubernetes
+      tags: "@Behavioural @kubernetes"
+      provider: gcp
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.K8S: DEV
+      region: us-east1
+      gcp-project-id: "${GCP_PROJECT_ID}"
+      gcp-location: us-east1
+      resource: "finos-ccc-integration-k8s-main"
+      host-name: "${GCP_K8S_API_HOSTNAME}"
+      port-number: "443"
+      permitted-regions:
+        - us-east1
+      approved-api-cidrs:
+        - "10.0.0.0/8"
+      reachability-probe-mode: remote
+      reachability-probe-url: "${REACHABILITY_PROBE_URL}"
+      reachability-probe-shared-secret: "${REACHABILITY_PROBE_SHARED_SECRET}"
+      reachability-probe-observer: finos-public-probe
+      reachability-probe-timeout-ms: 5000
+      approved-registries:
+        - "us-central1-docker.pkg.dev"
+      addon-allowlist:
+        - httpLoadBalancing
+        - horizontalPodAutoscaling
+        - networkPolicyConfig
+      required-metadata-keys:
+        - Owner
+        - Environment
+        - DataClassification
+      approved-storage-classes:
+        - ccc-approved-sc
+      disallowed-storage-class: ccc-blocked-sc
+      approved-access-mode: ReadWriteOnce
+      disallowed-access-mode: ReadWriteMany
+      pvc-bind-timeout-ms: 60000
+      test-workload-namespace: ccc-test
+      test-workload-service-account: ccc-wi-sa
+      test-workload-service-account-unbound: ccc-wi-sa-unbound
+      protected-secret-name: ccc-protected-secret
+      unrelated-secret-name: ccc-unrelated-secret
+      secret-watch-timeout-ms: 3000
+      wi-probe-resource: "finos-ccc-integration-container-main"
+      network-control-namespace: ccc-network-control
+      network-probe-image: "us-central1-docker.pkg.dev/PROJECT/ccc/ccc-network-probe@sha256:placeholder"
+      network-probe-port: 8080
+      network-probe-protocol: tcp
+      network-allowlist-urls:
+        - "http://ccc-allowed.ccc-network-control.svc:8080/health"
+      network-denylist-urls:
+        - "http://ccc-denied.ccc-network-control.svc:8080/health"
+      admission-unlabeled-namespace-prefix: ccc-admission-unlabeled-
+      system-namespaces:
+        - kube-system
+        - kube-public
+        - kube-node-lease
+        - gke-managed-system
+      admission-operation-timeout-ms: 30000
+      webhook-probe-namespace: ccc-admission-webhook-probe
+      webhook-probe-test-namespace: ccc-admission-webhook-test
+      webhook-probe-deployment: ccc-admission-webhook-probe
+      webhook-probe-service: ccc-admission-webhook-probe
+      webhook-probe-configuration: ccc-admission-webhook-probe
+      webhook-probe-enabled-replicas: 1
+      webhook-probe-timeout-ms: 30000
+      kubelet-ports:
+        - 10250
+        - 10255
+      node-probe-timeout-ms: 5000
+      node-mgmt-ports:
+        - 22
+        - 3389
+      approved-resource-profile:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
+      resource-profile-over-limit:
+        requests:
+          cpu: "32"
+          memory: 64Gi
+        limits:
+          cpu: "64"
+          memory: 128Gi
+      quota-exceed-profile:
+        replicas: 100
+        requests:
+          cpu: "1"
+          memory: 1Gi
+      approved-autoscaler-max: 10
+      hpa-load-profile:
+        target-cpu-utilization: 90
+      hpa-stabilisation-timeout-ms: 180000
+      approved-metadata-values:
+        Environment:
+          - prod
+          - nonprod
+      governed-workload-missing-label-profile:
+        missing-key: Owner
+      legacy-auth-probe-mode: basic
+      system-role-prefixes:
+        - "system:"
+        - "kube-"
+      required-infra-roles:
+        - node
+        - cni
+        - csi
+        - autoscaler
+      approved-image-publishers:
+        - google
+        - "<approved-image-project>"
+      min-supported-node-image: "cos-containerd-v1.29"
+      test-identities:
+        test-user-no-access:
+          user-name: "${GCP_TEST_USER_NO_ACCESS_NAME}"
+          service_account_key: "${GCP_TEST_USER_NO_ACCESS_SA_KEY_JSON}"
+        test-user-write:
+          user-name: "${GCP_TEST_USER_WRITE_NAME}"
+          service_account_key: "${GCP_TEST_USER_WRITE_SA_KEY_JSON}"
+        test-user-admin:
+          user-name: "${GCP_TEST_USER_ADMIN_NAME}"
+          service_account_key: "${GCP_TEST_USER_ADMIN_SA_KEY_JSON}"

@@ -1,0 +1,17 @@
+cfi:
+  id: aws-kubernetes
+  artifact-name: finos-integration-aws-kubernetes
+  provider: aws
+  source-secrets: AWS_ENV
+  service: kubernetes
+  name: CCC AWS Kubernetes Fixture
+  description: >-
+    Runs behavioural checks for CCC.K8S against the AWS EKS integration fixture.
+    Cluster apply/boot is slower than VM/object-storage — allow extended terraform
+    and readiness budget in CI.
+  path: modules/cloud-api-test/terraform/aws
+  test-on-branches:
+    - main
+  git: https://github.com/finos/common-cloud-controls
+  test-configuration: ../privateer-config/finos-integration/kubernetes/aws-kubernetes.yml
+  privateer-service: awsKubernetes

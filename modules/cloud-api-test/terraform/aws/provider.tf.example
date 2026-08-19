@@ -1,3 +1,12 @@
+# Example AWS provider for modules/cloud-api-test/terraform/aws
+#
+# Prerequisites for kubernetes fixtures:
+#   - IAM permissions for EKS, EC2, IAM, KMS, CloudWatch Logs, S3
+#   - Set k8s_api_authorized_cidrs to runner/NAT egress CIDRs (exclude reachability-probe egress)
+#   - aws CLI available for EKS token auth used by the kubernetes provider
+#   - Cluster boot budget: expect 15–25+ minutes for two EKS clusters + node groups
+#   - Apply aws-test-infra separately after this root for reachability + admission webhook probes
+
 provider "aws" {
   region = "us-east-1"
 }

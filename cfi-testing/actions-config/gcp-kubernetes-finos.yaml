@@ -1,0 +1,17 @@
+cfi:
+  id: gcp-kubernetes
+  artifact-name: finos-integration-gcp-kubernetes
+  provider: gcp
+  source-secrets: GCP_ENV
+  service: kubernetes
+  name: CCC GCP Kubernetes Fixture
+  description: >-
+    Runs behavioural checks for CCC.K8S against the GCP GKE integration fixture.
+    Cluster apply/boot is slower than VM/object-storage — allow extended terraform
+    and readiness budget in CI.
+  path: modules/cloud-api-test/terraform/gcp
+  test-on-branches:
+    - main
+  git: https://github.com/finos/common-cloud-controls
+  test-configuration: ../privateer-config/finos-integration/kubernetes/gcp-kubernetes.yml
+  privateer-service: gcpKubernetes
