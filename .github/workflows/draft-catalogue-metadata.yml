@@ -1,0 +1,223 @@
+name: Draft Catalogue Metadata
+
+# Phase 1: cross-cloud mapping + metadata.yaml on a draft PR.
+# Phase 2: add-catalogue-capabilities.yml (after human review).
+
+on:
+  workflow_dispatch:
+    inputs:
+      example_service:
+        description: "Example CSP service (e.g. Amazon S3)"
+        required: true
+        type: string
+      source_cloud:
+        description: "Source cloud for the example service"
+        required: true
+        type: choice
+        options:
+          - AWS
+          - Azure
+          - GCP
+      branch_name:
+        description: "Optional branch name (default catalogue/<folder-name>)"
+        required: false
+        type: string
+
+permissions:
+  models: read
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.git.outputs.branch }}
+      target_path: ${{ steps.parse.outputs.target_path }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_TOKEN: ${{ github.token }}
+      EXAMPLE_SERVICE: ${{ inputs.example_service }}
+      SOURCE_CLOUD: ${{ inputs.source_cloud }}
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preflight inputs
+        run: |
+          test -n "$EXAMPLE_SERVICE" || { echo "::error::example_service is required"; exit 1; }
+          test -n "$SOURCE_CLOUD" || { echo "::error::source_cloud is required"; exit 1; }
+
+      - name: Build mapping prompt
+        run: |
+          {
+            echo "GitHub Actions mode. Run Step 1 only from skills/create-capability-catalogue-metadata/SKILL.md."
+            echo "example_service: ${EXAMPLE_SERVICE}"
+            echo "source_cloud: ${SOURCE_CLOUD}"
+            echo "Return JSON only per the skill GitHub Actions mode section."
+            echo "---"
+            cat skills/create-capability-catalogue-metadata/SKILL.md
+          } > /tmp/mapping-prompt.txt
+
+      - name: Call A — cross-cloud mapping
+        run: |
+          jq -n \
+            --rawfile content /tmp/mapping-prompt.txt \
+            '{
+              model: "openai/gpt-4.1-mini",
+              response_format: { type: "json_object" },
+              messages: [
+                { role: "system", content: "You output valid JSON only. No markdown." },
+                { role: "user", content: $content }
+              ]
+            }' > /tmp/mapping-request.json
+
+          curl -sf https://models.github.ai/inference/chat/completions \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @/tmp/mapping-request.json > /tmp/mapping-response.json
+
+          jq -e -r '.choices[0].message.content' /tmp/mapping-response.json | jq -e . > mapping.json
+
+      - name: Validate mapping URLs
+        run: |
+          for url in $(jq -r '.aws.url, .azure.url, .gcp.url' mapping.json); do
+            code=$(curl -sI -o /dev/null -w '%{http_code}' --max-time 15 "$url" || echo "000")
+            if [[ "$code" =~ ^[45] ]] || [ "$code" = "000" ]; then
+              echo "::warning::URL returned ${code}: ${url}"
+            fi
+          done
+
+      - name: Build metadata prompt
+        run: |
+          {
+            echo "GitHub Actions mode. Run Steps 2–4 from skills/create-capability-catalogue-metadata/SKILL.md."
+            echo "example_service: ${EXAMPLE_SERVICE}"
+            echo "source_cloud: ${SOURCE_CLOUD}"
+            echo "Use the cross-cloud mapping JSON below. Create the target folder and metadata.yaml content."
+            echo "Return TARGET_PATH line then raw YAML per the skill GitHub Actions mode section."
+            echo "---"
+            cat skills/create-capability-catalogue-metadata/SKILL.md
+            echo "---"
+            echo "Cross-cloud mapping JSON:"
+            cat mapping.json
+            echo "---"
+            echo "catalogs/categories.yaml:"
+            cat catalogs/categories.yaml
+            echo "---"
+            echo "schemas/metadata-schema.json:"
+            cat schemas/metadata-schema.json
+            echo "---"
+            echo "Example metadata.yaml (catalogs/database/vector/metadata.yaml):"
+            cat catalogs/database/vector/metadata.yaml
+          } > /tmp/metadata-prompt.txt
+
+      - name: Call B — metadata YAML
+        run: |
+          jq -n \
+            --rawfile content /tmp/metadata-prompt.txt \
+            '{
+              model: "openai/gpt-4.1",
+              messages: [
+                { role: "system", content: "Follow the skill exactly. Output TARGET_PATH line then raw YAML for metadata.yaml only." },
+                { role: "user", content: $content }
+              ]
+            }' > /tmp/metadata-request.json
+
+          curl -sf https://models.github.ai/inference/chat/completions \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d @/tmp/metadata-request.json > /tmp/metadata-response.json
+
+          jq -r '.choices[0].message.content' /tmp/metadata-response.json > /tmp/metadata-raw.txt
+
+      - name: Parse response and write metadata.yaml
+        id: parse
+        run: |
+          RAW=$(cat /tmp/metadata-raw.txt)
+          TARGET=$(echo "$RAW" | grep -m1 '^TARGET_PATH:' | sed 's/^TARGET_PATH:[[:space:]]*//' | tr -d '\r')
+          if [ -z "$TARGET" ]; then
+            echo "::error::Model response missing TARGET_PATH line"
+            echo "$RAW"
+            exit 1
+          fi
+
+          echo "$RAW" | awk '/^metadata:/{found=1} found{print}' | sed '/^```/d' > /tmp/metadata.yaml
+          if ! grep -q '^metadata:' /tmp/metadata.yaml; then
+            echo "$RAW" | sed -n '/^```yaml/,/^```/p' | sed '1d;$d' > /tmp/metadata.yaml
+          fi
+          if ! grep -q '^metadata:' /tmp/metadata.yaml; then
+            echo "::error::Could not extract metadata YAML from model response"
+            echo "$RAW"
+            exit 1
+          fi
+
+          mkdir -p "$TARGET"
+          cp /tmp/metadata.yaml "${TARGET}/metadata.yaml"
+          echo "target_path=${TARGET}" >> "$GITHUB_OUTPUT"
+          echo "Wrote ${TARGET}/metadata.yaml"
+
+      - name: Check target path does not exist on default branch
+        run: |
+          TARGET="${{ steps.parse.outputs.target_path }}"
+          git fetch origin "$DEFAULT_BRANCH"
+          if git cat-file -e "origin/${DEFAULT_BRANCH}:${TARGET}/metadata.yaml" 2>/dev/null; then
+            echo "::error::${TARGET}/metadata.yaml already exists on ${DEFAULT_BRANCH}"
+            exit 1
+          fi
+
+      - name: Commit and push
+        id: git
+        run: |
+          TARGET="${{ steps.parse.outputs.target_path }}"
+          FOLDER=$(basename "$TARGET")
+          BRANCH="${{ inputs.branch_name }}"
+          if [ -z "$BRANCH" ]; then
+            BRANCH="catalogue/${FOLDER}"
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add "${TARGET}/metadata.yaml"
+          git commit -m "draft: add metadata for ${EXAMPLE_SERVICE}"
+          git push -u origin "$BRANCH"
+
+          echo "branch=${BRANCH}" >> "$GITHUB_OUTPUT"
+
+  validate:
+    needs: generate
+    permissions:
+      contents: read
+    uses: ./.github/workflows/yaml_check.yml
+    with:
+      ref: ${{ needs.generate.outputs.branch }}
+
+  publish:
+    needs: [generate, validate]
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.generate.outputs.branch }}
+
+      - name: Open draft pull request
+        run: |
+          TARGET="${{ needs.generate.outputs.target_path }}"
+          gh pr create \
+            --draft \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head "${{ needs.generate.outputs.branch }}" \
+            --title "draft: catalogue metadata for ${{ inputs.example_service }}" \
+            --body "$(cat <<EOF
+          ## Draft capability catalogue metadata
+
+          **Target path:** \`${TARGET}\`
+
+          Review \`${TARGET}/metadata.yaml\`, then run **Add Catalogue Capabilities** with this PR number.
+          EOF
+          )"
