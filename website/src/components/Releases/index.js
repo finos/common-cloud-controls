@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./styles.module.css";
 import HomeSection from "../HomeSection";
 
 export default function Benefits() {
@@ -7,7 +6,7 @@ export default function Benefits() {
     <HomeSection title="Where Next?">
       <p style={{ textAlign: "center" }}>Common Cloud Controls is starting to release recommendations and test infrastructure. </p>
       <p style={{ textAlign: "center" }}>
-        <a href="/ccc">Our online browseable catalog</a>
+        <a href="/catalogs">Our online browseable catalog</a>
       </p>
 
       <p style={{ textAlign: "center" }}>
