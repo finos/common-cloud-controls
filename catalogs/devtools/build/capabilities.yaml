@@ -17,13 +17,13 @@ imports:
         remarks: Log Publication
       - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.F23
+      - reference-id: CCC.Core.CP23
         remarks: Network Access Rules
-      - reference-id: CCC.Core.F26
+      - reference-id: CCC.Core.CP26
         remarks: Persistent Storage
-      - reference-id: CCC.Core.F28
+      - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
-      - reference-id: CCC.Core.F29
+      - reference-id: CCC.Core.CP29
         remarks: Active Ingestion
 
 capabilities:
