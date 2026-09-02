@@ -227,10 +227,10 @@ export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
           </div>
         )}
 
+        {type === "controls" && <RelatedConfigurationResults controlId={entry.id} />}
+
         <MappingTable title="Guideline Mappings" items={entry.guidelineMappings} />
         <MappingTable title="External Mappings" items={entry.externalMappings} />
-
-        {type === "controls" && <RelatedConfigurationResults controlId={entry.id} />}
       </article>
     </div>
   );
