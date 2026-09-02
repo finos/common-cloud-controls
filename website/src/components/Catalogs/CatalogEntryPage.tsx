@@ -5,6 +5,7 @@ import { prettifySegment } from "@site/src/content/catalogUtils";
 import { useCfiControlConfigurationResults } from "@site/src/utils/catalogDataLookup";
 import type { CatalogEntry, CatalogGuidelineMapping } from "./CatalogVersionPage";
 import styles from "./CatalogEntryPage.module.css";
+import cfiStyles from "../cfi/cfi.module.css";
 
 export interface CatalogRelatedEntry {
   id: string;
@@ -121,22 +122,42 @@ const RelatedConfigurationResults: React.FC<{ controlId: string }> = ({ controlI
               <th>Vendor</th>
               <th>Product</th>
               <th>Version</th>
+              <th>Total Tests</th>
               <th>Passing</th>
               <th>Failing</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {results.map((result, index) => (
               <tr key={`${result.url}-${index}`}>
+                <td>{result.name}</td>
                 <td>
-                  <Link to={result.url}>{result.name}</Link>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillBlue} ${cfiStyles.pillUppercase}`}>{result.provider}</span>
                 </td>
-                <td>{result.provider}</td>
-                <td>{result.vendor}</td>
-                <td>{result.product}</td>
-                <td>{result.version}</td>
-                <td>{result.passingTests}</td>
-                <td>{result.failingTests}</td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillPurple}`}>{result.vendor}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillBlue}`}>{result.product}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillGreen}`}>{result.version}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillGray} ${cfiStyles.pillBold}`}>{result.totalTests}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillGreen} ${cfiStyles.pillBold}`}>{result.passingTests}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillRed} ${cfiStyles.pillBold}`}>{result.failingTests}</span>
+                </td>
+                <td>
+                  <Link to={result.url} className={`${cfiStyles.link} ${cfiStyles.linkSmall}`}>
+                    View Details →
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
