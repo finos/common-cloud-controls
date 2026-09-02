@@ -2,6 +2,7 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
+import { useCfiControlConfigurationResults } from "@site/src/utils/catalogDataLookup";
 import type { CatalogEntry, CatalogGuidelineMapping } from "./CatalogVersionPage";
 import styles from "./CatalogEntryPage.module.css";
 
@@ -104,6 +105,47 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
   );
 };
 
+const RelatedConfigurationResults: React.FC<{ controlId: string }> = ({ controlId }) => {
+  const results = useCfiControlConfigurationResults(controlId);
+  if (results.length === 0) return null;
+
+  return (
+    <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>Related Configuration Results</h3>
+      <div className="library-article-body">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Provider</th>
+              <th>Vendor</th>
+              <th>Product</th>
+              <th>Version</th>
+              <th>Passing</th>
+              <th>Failing</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((result, index) => (
+              <tr key={`${result.url}-${index}`}>
+                <td>
+                  <Link to={result.url}>{result.name}</Link>
+                </td>
+                <td>{result.provider}</td>
+                <td>{result.vendor}</td>
+                <td>{result.product}</td>
+                <td>{result.version}</td>
+                <td>{result.passingTests}</td>
+                <td>{result.failingTests}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
 export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
   const { category, service, version, type, entry } = data;
   const typePath = `/catalogs/${category}/${service}/${type}/${version}`;
@@ -166,6 +208,8 @@ export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
 
         <MappingTable title="Guideline Mappings" items={entry.guidelineMappings} />
         <MappingTable title="External Mappings" items={entry.externalMappings} />
+
+        {type === "controls" && <RelatedConfigurationResults controlId={entry.id} />}
       </article>
     </div>
   );
