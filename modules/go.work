@@ -6,6 +6,8 @@ use (
 	./cloud-api
 	./cloud-api-test
 	./cloud-testing-dsl
+	./probes/admission-webhook
+	./probes/reachability
 	./reporters
 	./runner
 )

@@ -28,14 +28,14 @@ resource "aws_iam_role_policy_attachment" "basic_exec" {
 }
 
 resource "aws_lambda_function" "main" {
-  function_name                  = "finos-ccc-integration-fn-main"
-  role                           = aws_iam_role.lambda_exec.arn
-  runtime                        = "python3.12"
-  handler                        = "index.handler"
-  filename                       = data.archive_file.lambda_zip.output_path
-  source_code_hash               = data.archive_file.lambda_zip.output_base64sha256
-  timeout      = 3
-  memory_size  = 128
+  function_name    = "finos-ccc-integration-fn-main"
+  role             = aws_iam_role.lambda_exec.arn
+  runtime          = "python3.12"
+  handler          = "index.handler"
+  filename         = data.archive_file.lambda_zip.output_path
+  source_code_hash = data.archive_file.lambda_zip.output_base64sha256
+  timeout          = 3
+  memory_size      = 128
   tags = merge(var.common_tags, {
     CFIControlSet = "CCC.SvlsComp"
   })

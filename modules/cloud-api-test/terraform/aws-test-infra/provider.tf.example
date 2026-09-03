@@ -1,0 +1,24 @@
+# Example provider / backend wiring for the standalone aws-test-infra root.
+#
+# Apply order:
+#   1) modules/cloud-api-test/terraform/aws  (creates EKS main/bad + kubernetes outputs)
+#   2) modules/cloud-api-test/terraform/aws-test-infra (this root; separate state)
+#
+# Prerequisites:
+#   - AWS credentials with Lambda, API Gateway, Secrets Manager, and EKS auth to main cluster
+#   - aws root state reachable via aws_root_backend / aws_root_backend_config
+#   - For CN11.AR03: set webhook_probe_image to a real admission-webhook-probe build
+#   - For CN01: copy reachability_probe.shared_secret_arn value into CI secret
+#     REACHABILITY_PROBE_SHARED_SECRET (never commit; never add to terraform/aws outputs)
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+# terraform {
+#   backend "s3" {
+#     bucket = "example-tfstate"
+#     key    = "cloud-api-test/aws-test-infra/terraform.tfstate"
+#     region = "us-east-1"
+#   }
+# }

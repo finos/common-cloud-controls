@@ -48,8 +48,8 @@ func loadCallRows(csvData, provider string) ([]callRow, error) {
 			return nil, fmt.Errorf("missing column %q", required)
 		}
 	}
-	argCols := []string{"arg1", "arg2", "arg3", "arg4"}
-	for _, a := range argCols {
+	argCols := []string{"arg1", "arg2", "arg3", "arg4", "arg5"}
+	for _, a := range argCols[:4] {
 		if _, ok := col[a]; !ok {
 			return nil, fmt.Errorf("missing column %q", a)
 		}

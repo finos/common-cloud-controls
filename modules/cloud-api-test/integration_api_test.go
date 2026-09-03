@@ -228,9 +228,37 @@ func coerceArg(typ reflect.Type, raw string) (reflect.Value, error) {
 			return reflect.Value{}, err
 		}
 		return reflect.ValueOf(b).Convert(typ), nil
+	case reflect.Slice:
+		parts := splitCSVArg(raw)
+		slice := reflect.MakeSlice(typ, 0, len(parts))
+		for _, part := range parts {
+			elem, err := coerceArg(typ.Elem(), part)
+			if err != nil {
+				return reflect.Value{}, err
+			}
+			slice = reflect.Append(slice, elem)
+		}
+		return slice, nil
 	default:
 		return reflect.Value{}, fmt.Errorf("unsupported parameter type %s", typ)
 	}
+}
+
+func splitCSVArg(raw string) []string {
+	raw = strings.TrimSpace(raw)
+	if raw == "" {
+		return nil
+	}
+	parts := strings.Split(raw, ",")
+	out := make([]string, 0, len(parts))
+	for _, part := range parts {
+		part = strings.TrimSpace(part)
+		if part == "" {
+			continue
+		}
+		out = append(out, part)
+	}
+	return out
 }
 
 func firstError(out []reflect.Value) error {
