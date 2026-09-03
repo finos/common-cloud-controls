@@ -1,0 +1,114 @@
+imports:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        strength: 0 # Not yet specified
+        remarks: Access Control is Misconfigured
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH04
+        strength: 0 # Not yet specified
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        strength: 0 # Not yet specified
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0 # Not yet specified
+        remarks: Cost Management Data is Manipulated
+      - reference-id: CCC.Core.TH09
+        strength: 0 # Not yet specified
+        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+      - reference-id: CCC.Core.TH12
+        strength: 0 # Not yet specified
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0 # Not yet specified
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH15
+        strength: 0 # Not yet specified
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Logging and Monitoring are Disabled
+
+threats:
+  - id: CCC.MLDE.TH01
+    group: Access
+    title: Elevated System Access on Notebook Instances is Abused
+    description: |
+      Managed notebook instances may be configured to permit root privileges,
+      interactive terminal sessions, or unrestricted access modes for the
+      users of the environment. When such access is available, the underlying
+      instance configuration could be modified, security agents disabled, or
+      arbitrary commands executed outside the notebook interface. This
+      compromises the integrity of the development environment and the
+      confidentiality of any data or credentials accessible from the
+      instance.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.MLDE.CP01
+            remarks: Managed Notebook Environments
+          - reference-id: CCC.Core.CP06
+            remarks: Access Control
+  - id: CCC.MLDE.TH02
+    group: Data
+    title: Training Data or Model Artifacts are Exfiltrated
+    description: |
+      Notebook instances and connected data pipelines may be configured with
+      unrestricted egress paths, such as file downloads, public network
+      interfaces, or writable external destinations. Training datasets, model
+      artifacts, and embedded credentials could be transferred out of the
+      environment through these paths. This results in a loss of
+      confidentiality for proprietary data and models, and may expose
+      regulated or sensitive records used in training.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.MLDE.CP01
+            remarks: Managed Notebook Environments
+          - reference-id: CCC.MLDE.CP07
+            remarks: Data Pipeline Integration
+          - reference-id: CCC.MLDE.CP08
+            remarks: Model Registry
+  - id: CCC.MLDE.TH03
+    group: MachineLearning
+    title: Model Artifacts or Experiment Records are Tampered With
+    description: |
+      Model registry entries, experiment metadata, and reproducibility
+      records may be modified by entities with write access to the
+      environment. Altered artifacts or records could be promoted to training
+      and deployment workflows in place of the intended versions. This
+      compromises the integrity of deployed models and the reliability of
+      experiment lineage used for reproduction and audit.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.MLDE.CP03
+            remarks: Integrated Experiment Management
+          - reference-id: CCC.MLDE.CP08
+            remarks: Model Registry
+          - reference-id: CCC.MLDE.CP11
+            remarks: Reproducibility Capabilities
+  - id: CCC.MLDE.TH04
+    group: Resource
+    title: Outdated or Unapproved Environment Images are Exploited
+    description: |
+      Notebook instances may be created from arbitrary virtual machine or
+      container images, or left running without scheduled upgrades, so that
+      pre-installed machine learning libraries and runtimes fall behind
+      current security patches. Known vulnerabilities in these components
+      could be exploited to execute code or escalate privileges within the
+      environment. This compromises the confidentiality, integrity, and
+      availability of the development environment and the data it processes.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.MLDE.CP01
+            remarks: Managed Notebook Environments
+          - reference-id: CCC.MLDE.CP02
+            remarks: Pre-configured Machine Learning Libraries
