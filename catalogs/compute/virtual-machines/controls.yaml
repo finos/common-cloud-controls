@@ -17,5 +17,3 @@ imports:
         strength: 0 # Not yet specified
       - reference-id: CCC.Core.CN11
         strength: 0 # Not yet specified
-      - reference-id: CCC.Core.CN12
-        strength: 0 # Not yet specified

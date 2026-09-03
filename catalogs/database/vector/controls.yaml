@@ -28,9 +28,6 @@ imports:
       - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
         remarks: Prevent Replication Outside Trust Boundary
-      - reference-id: CCC.Core.CN12
-        strength: 0 # Not yet specified
-        remarks: Secure Network Access Rules
 
 controls:
   - id: CCC.Vector.CN01
