@@ -29,12 +29,14 @@ mappings:
   source: CCC.AUDITLOG.TH02
   relationship: relates-to
   targets:
-  - entry-id: TA0005
+  - entry-id: T1562.008
+    remarks: 'Impair Defenses: Disable or Modify Cloud Logs'
 - id: CCC.AUDITLOG.TH03-mitre-attack
   source: CCC.AUDITLOG.TH03
   relationship: relates-to
   targets:
-  - entry-id: TA0006
+  - entry-id: T1552
+    remarks: Unsecured Credentials
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.
