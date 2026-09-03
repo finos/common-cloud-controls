@@ -1,0 +1,112 @@
+title: CCC Generative AI Platform Threats to Agent Threat Rules
+metadata:
+  id: CCC.GenAI.TH.threats-to-agent-threat-rules
+  type: MappingDocument
+  gemara-version: 1.2.0
+  version: dev
+  description: Maps CCC Generative AI Platform threats to Agent Threat Rules detection rules that relate
+    to them.
+  author:
+    id: FINOS-CCC
+    name: FINOS Common Cloud Controls
+    type: Human
+  mapping-references:
+  - id: CCC.GenAI.TH
+    title: CCC Generative AI Platform Threats
+    version: dev
+  - id: AGENT-THREAT-RULES
+    title: Agent Threat Rules
+    version: dev_to-be-determined
+    description: Open catalog of executable detection rules for AI agent threats.
+    url: https://agentthreatrule.org
+source-reference:
+  reference-id: CCC.GenAI.TH
+  entry-type: Threat
+target-reference:
+  reference-id: AGENT-THREAT-RULES
+  entry-type: Control
+mappings:
+- id: CCC.GenAI.TH01-agent-threat-rules
+  source: CCC.GenAI.TH01
+  relationship: relates-to
+  targets:
+  - entry-id: ATR-2026-00001
+    remarks: Direct prompt injection via user input — the direct-injection path.
+  - entry-id: ATR-2026-00002
+    remarks: Indirect prompt injection via external/ingested content — the indirect path.
+  - entry-id: ATR-2026-00003
+    remarks: Jailbreak / system-prompt-override attempts at the input layer.
+- id: CCC.GenAI.TH02-agent-threat-rules
+  source: CCC.GenAI.TH02
+  relationship: relates-to
+  targets:
+  - entry-id: ATR-2026-00070
+    remarks: Data poisoning via RAG and knowledge-base contamination.
+  - entry-id: ATR-2026-01774
+    remarks: RAG & memory poisoning — embedded directives, trigger tokens, false authority (semantic).
+  - entry-id: ATR-2026-00450
+    remarks: Spring AI PromptChatMemoryAdvisor memory poisoning (CVE-2026-41713).
+  - entry-id: ATR-2026-01155
+    remarks: Persistent memory-plant command — fact/code storage injection.
+- id: CCC.GenAI.TH03-agent-threat-rules
+  source: CCC.GenAI.TH03
+  relationship: relates-to
+  targets:
+  - entry-id: ATR-2026-00020
+    remarks: System-prompt / internal-instruction leakage in model output.
+  - entry-id: ATR-2026-00021
+    remarks: Credential, API-key and secret exposure in agent output.
+- id: CCC.GenAI.TH04-agent-threat-rules
+  source: CCC.GenAI.TH04
+  relationship: relates-to
+  targets:
+  - entry-id: ATR-2026-00132
+    remarks: Covert authority claim / scope escalation embedded in output.
+  - entry-id: ATR-2026-00021
+    remarks: Credential / secret disclosure in output — insecure-output sanitisation point.
+- id: CCC.GenAI.TH06-agent-threat-rules
+  source: CCC.GenAI.TH06
+  relationship: relates-to
+  targets:
+  - entry-id: ATR-2026-00050
+    remarks: Runaway agent loop — unbounded autonomous action.
+  - entry-id: ATR-2026-00098
+    remarks: Unauthorised financial action taken by an AI agent.
+  - entry-id: ATR-2026-00099
+    remarks: High-risk tool invocation without required human confirmation.
+  - entry-id: ATR-2026-00428
+    remarks: Natural-language instruction to run unauthorised shell execution.
+  - entry-id: ATR-2026-00032
+    remarks: Agent goal hijacking — redirected to attacker-controlled objectives.
+- id: CCC.GenAI.TH07-agent-threat-rules
+  source: CCC.GenAI.TH07
+  relationship: relates-to
+  targets:
+  - entry-id: ATR-2026-00060
+    remarks: MCP skill impersonation and supply-chain attack.
+  - entry-id: ATR-2026-00061
+    remarks: Skill description-behaviour mismatch (declared vs actual capability).
+  - entry-id: ATR-2026-00062
+    remarks: Hidden capability in an MCP skill / plugin.
+  - entry-id: ATR-2026-00064
+    remarks: Over-permissioned MCP skill / plugin.
+  - entry-id: ATR-2026-00012
+    remarks: Unauthorised tool / plugin call detection.
+  - entry-id: ATR-2026-00013
+    remarks: SSRF via agent tool / plugin calls.
+- id: CCC.GenAI.TH08-agent-threat-rules
+  source: CCC.GenAI.TH08
+  relationship: relates-to
+  targets:
+  - entry-id: ATR-2026-00073
+    remarks: Malicious fine-tuning data used to tamper with model behaviour.
+  - entry-id: ATR-2026-00433
+    remarks: ModelCache torch.load() deserialization RCE (CVE-2025-45146).
+  - entry-id: ATR-2026-00072
+    remarks: Model behaviour extraction / theft.
+remarks: Authored in the standalone mapping-document layout introduced by the external-mappings migration
+  (PR 1129); these entries were previously inline external-mappings on threats.yaml. The target entry-type
+  is Control because Agent Threat Rules entries are executable detective controls rather than descriptions
+  of adversary technique. The relationship is a conservative 'relates-to' because the schema has no
+  detects/detected-by value. The target version is left unpinned because the rule catalog releases
+  continuously.
