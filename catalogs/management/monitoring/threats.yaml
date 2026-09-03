@@ -36,19 +36,19 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.CP01
+          - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
             remarks: Metric collection
-          - reference-id: CCC.Monitoring.CP02
+          - reference-id: CCC.Monitor.CP02
             strength: 0 # Not yet specified
             remarks: Tracing
-          - reference-id: CCC.Monitoring.CP08
+          - reference-id: CCC.Monitor.CP08
             strength: 0 # Not yet specified
             remarks: Application Performance Monitoring (APM)
-          - reference-id: CCC.Monitoring.CP09
+          - reference-id: CCC.Monitor.CP09
             strength: 0 # Not yet specified
             remarks: Dashboard
-          - reference-id: CCC.Monitoring.CP11
+          - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
             remarks: Integration with Third-Party Tools
   - id: CCC.Monitor.TH02
@@ -61,7 +61,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.CP04
+          - reference-id: CCC.Monitor.CP04
             strength: 0 # Not yet specified
             remarks: Health Checks
   - id: CCC.Monitor.TH03
@@ -74,7 +74,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.CP06
+          - reference-id: CCC.Monitor.CP06
             strength: 0 # Not yet specified
             remarks: Synthetic Monitoring
   - id: CCC.Monitor.TH04
@@ -87,7 +87,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.CP06
+          - reference-id: CCC.Monitor.CP06
             strength: 0 # Not yet specified
             remarks: Synthetic Monitoring
   - id: CCC.Monitor.TH05
@@ -101,10 +101,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.CP01
+          - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
             remarks: Metric collection
-          - reference-id: CCC.Monitoring.CP11
+          - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
             remarks: Integration with Third-Party Tools
   - id: CCC.Monitor.TH06
@@ -118,10 +118,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.CP01
+          - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
             remarks: Metric collection
-          - reference-id: CCC.Monitoring.CP11
+          - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
             remarks: Integration with Third-Party Tools
   - id: CCC.Monitor.TH07
@@ -134,12 +134,12 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitoring.CP01
+          - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
             remarks: Metric collection
-          - reference-id: CCC.Monitoring.CP10
+          - reference-id: CCC.Monitor.CP10
             strength: 0 # Not yet specified
             remarks: Triggering
-          - reference-id: CCC.Monitoring.CP11
+          - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
             remarks: Integration with Third-Party Tools
