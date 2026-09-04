@@ -61,9 +61,9 @@ FINOS CCC communications are conducted through the <ccc-participants@lists.finos
 
 ### FINOS CSLA Needed to Participate in CCC
 
-All FINOS CCC participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices) before joining project calls and collaborating in working groups.
+All FINOS CCC participants are required to sign a FINOS [Community Specification Contributor License Agreement](https://github.com/finos/standards-project-blueprint/blob/main/CONTRIBUTING.md#5best-practices) before joining project calls and collaborating in working groups.
 
-Raising a Pull Request to include your information on [participants.yaml](participants.yaml) will automatically take you through the Linux Foundation EasyCLA process for signing the FINOS [CSCLA](https://github.com/finos/standards-project-blueprint/blob/main/governance-documents/Getting%20Started.md#best-practices).
+Raising a Pull Request to include your information on [participants.yaml](participants.yaml) will automatically take you through the Linux Foundation EasyCLA process for signing the FINOS [CSCLA](https://github.com/finos/standards-project-blueprint/blob/main/CONTRIBUTING.md#5best-practices).
 
 Email <help@finos.org> if you require further help.
 
