@@ -113,7 +113,7 @@ If the vote of no confidence is passed, the member in question will be immediate
 
 ## Roles
 
-This section defines the roles that carry specific responsibilities on the committee. Committee composition and the seat lifecycle are covered under [Membership](#membership); the functional process these roles feed into for releases is covered under [Release Governance](#release-governance).
+This section defines the roles that carry specific responsibilities on the committee. Committee composition and the seat lifecycle are covered under [Membership](#membership).
 
 ### Members
 
@@ -128,7 +128,7 @@ The Steering Committee elects a Chair and a Vice Chair from among its own member
 
 #### Officer eligibility
 
-Only sitting Steering Committee members are eligible to serve as Chair or Vice Chair. The Chair must hold one of the seats [reserved for financial services institution (FSI) members](#composition), reflecting FSI members' role in driving the project's direction.
+Only sitting Steering Committee members are eligible to serve as Chair or Vice Chair. Both the Chair and the Vice Chair must hold one of the seats [reserved for financial services institution (FSI) members](#composition), reflecting FSI members' role in driving the project's direction. Requiring this of the Vice Chair as well ensures that succession to the Chair role can never produce a non-compliant Chair.
 
 #### Officer selection
 
@@ -144,29 +144,13 @@ An Officer must remain a sitting committee member throughout their Officer term.
 
 If the Chair vacates the role mid-term, the Vice Chair assumes the Chair role for the remainder of the term, and a nomination and election for the now-vacant Vice Chair seat is held at the next meeting. This is separate from, and does not affect, the person's underlying Steering Committee seat.
 
-### Cyber Security Leads
-
-Each firm holding an [FSI-reserved seat](#composition) designates a **Cyber Security Lead** to carry [release sign-off](#release-governance), in addition to — and distinct from — the individual it has elected to the committee itself. This is the existing Cyber Security Lead role recorded alongside the [membership list].
-
-This designation is tied to the firms currently represented on the Steering Committee. If a firm's Steering Committee seat changes hands, its Cyber Security Lead designation carries over independently unless the firm chooses to change it.
-
-A Cyber Security Lead is expected to take part in releases regularly — as a guideline, signing off at least one release over any rolling six-month period. If participation falls below this, the firm is asked to re-confirm or re-designate its Cyber Security Lead.
-
-## Release Governance
-
-Release sign-off is a defined, limited responsibility of the Steering Committee, delivered through named delegates — the designated [Cyber Security Leads](#cyber-security-leads) — rather than the committee reviewing releases directly. The mechanics of the release process itself live in the [Releases community guideline].
-
-Every release requires sign-off from the relevant Working Group lead, plus at least one designated Cyber Security Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
-
-The two sign-offs must come from two different people. A Working Group lead may also be a designated Cyber Security Lead; where the relevant Working Group lead holds both roles, the Cyber Security Lead sign-off must come from a _different_ designated Cyber Security Lead, so the approver pool stays independent of the release's author.
-
 ## Voting
 
 In the course of the committee's operations, members will be expected to vote on all decisions made within the body's purview.
 
 ### How a vote is held
 
-A matter to be decided is raised as a pull request against the [Decision Log](#decision-log) — the `DECISIONS.md` file — describing the proposal and adding its entry. Steering Committee members cast their votes by approving or rejecting that pull request.
+A matter to be decided is raised as a pull request against the [Decision Log](#decision-log) — the `DECISIONS.md` file — describing the proposal and adding its entry. Steering Committee members cast their votes by approving or rejecting that pull request. The member who raises the pull request is counted as voting in favour of the proposal.
 
 - If the proposal **passes**, the pull request is merged, recording the decision as accepted.
 - If the proposal **does not pass**, its outcome is set to _rejected_ and the pull request is merged anyway, so the decision — and the fact it was rejected — is still recorded.
@@ -256,8 +240,6 @@ This document was adapted from the Kubernetes Steering Committee Charter [afb385
 
 [election policy]: elections.md
 [Eligible voters]: elections.md#eligibility-for-voting
-[Releases community guideline]: /docs/community-guidelines/releases/README.md
-[membership list]: /README.md#finos-ccc-steering-committee
 [Inclusive Open Source Community Orientation]: https://training.linuxfoundation.org/training/inclusive-open-source-community-orientation-lfc102/
 [afb3858]: https://github.com/kubernetes/steering/blob/afb3858/charter.md
 [community groups]: ../community-structure.md#working-groups

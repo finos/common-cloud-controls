@@ -34,13 +34,9 @@ Additionally, labels can flag issues specifically targeted for events (e.g., OSF
 
 ## Release Process
 
-The release process involves contributors proposing changes through a pull request, followed by reviews and validations from relevant Working Groups, the creation of a release candidate, and [sign-off](#release-sign-off) from the required approvers, culminating in the official release being published and announced to the community. The diagram below explains the entire flow at a high-level, and we expand upon this in the subsections of the flow diagram.
+The release process involves contributors proposing changes through a pull request, followed by reviews and validations from relevant Working Groups, the creation of a release candidate, and multiple stages of approval from the [Change Management Board] (CMB) and project contributors, culminating in the official release being published and announced to the community. The diagram below explains the entire flow at a high-level, and we expand upon this in the subsections of the flow diagram.
 
 ![Release Flow Diagram](./imgs/release-process.drawio.svg)
-
-### Release Manager
-
-Each release is coordinated by a Release Manager, appointed by the [Delivery WG]. The Release Manager compiles the release candidate from the merged changes, coordinates Working Group review and [sign-off](#release-sign-off), and promotes and publishes the approved release. If a Release Manager has not been appointed for a deliverable, the [Delivery WG] appoints one.
 
 ### Pull Request Validation
 
@@ -58,32 +54,20 @@ Each release is coordinated by a Release Manager, appointed by the [Delivery WG]
 
 1. **Request for Release Candidate (RC):** After the PR is merged, the Release Manager compiles the release candidate based on the merged changes.
 2. **Working Group Approval:** The [WG]s review the release candidate to ensure all deliverables are finalized and meet release criteria. The release candidate must be approved before moving forward in the process.
-3. **Sign-off:** The release candidate is signed off in line with [Release Sign-off](#release-sign-off) — the relevant [WG] lead plus at least one designated Cyber Security Lead, with the two sign-offs coming from two different people. If further changes are required, the Release Manager aggregates feedback and creates a loop for revisions.
-4. **Prepare Official Release:** Once sign-off is complete, the Release Manager will begin the promotion process for the release candidate.
+3. **Change Management Board (CMB) Review:**
+   - The CMB reviews the release candidate and confirms whether it adheres to compliance and quality standards.
+   - If further changes are required, the Release Manager aggregates feedback and creates a loop for revisions.
+4. **Prepare Official Release:** Once the CMB has approved the request, then the Release Manager will begin the promotion process for the release candidate.
 
 ### Final Release
 
 1. **Publishing:** The Release Manager creates the official release based on the final approved release candidate. This is published on GitHub along with release notes and documentation updates.
 2. **Announcement:** The [Communications WG] announces the release through appropriate channels suchs as mailing lists and social media.
 
-## Release Sign-off
-
-Beyond Working Group review, the Steering Committee holds a defined, limited [release governance] role, delivered through designated **[Cyber Security Leads]**.
-
-Every release requires sign-off from the relevant [WG] lead, plus at least one designated Cyber Security Lead. There is no separate emergency or expedited path, and no distinction between material and non-material changes — all releases go through the same requirement.
-
-The two sign-offs must come from two different people. A [WG] lead may also be a designated Cyber Security Lead; where the relevant [WG] lead holds both roles, the Cyber Security Lead sign-off must come from a _different_ designated Cyber Security Lead, so the approver pool stays independent of the release's author.
-
-## Roadmap Planning
-
-The Steering Committee sets project direction on an ongoing basis. Suggestions and features are raised by the community as GitHub issues, which the committee reviews and prioritises during its regular meetings; the resulting high-level "north star" direction is communicated to the community and can be shown on the project website. See [Roadmap Planning] in the Steering Committee Charter for the full process.
-
 [WG]: ../../governance/community-structure.md#working-groups
 [Security WG]: ../../governance/working-groups/security/charter.md
 [Taxonomy WG]: ../../governance/working-groups/taxonomy/charter.md
 [Delivery WG]: ../../governance/working-groups/delivery/charter.md
+[Change Management Board]: ./cmb.md
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [community guideline]: ../README.md
-[release governance]: ../../governance/steering/charter.md#release-governance
-[Cyber Security Leads]: ../../governance/steering/charter.md#cyber-security-leads
-[Roadmap Planning]: ../../governance/steering/charter.md#roadmap-planning
