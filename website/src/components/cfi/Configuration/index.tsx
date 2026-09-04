@@ -13,10 +13,6 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
   const repoDestination = results_relative_path.split("/")[0];
   const repoHref = `/cfi/${repoDestination}`;
 
-  const complianceRepoUrl = source_details?.repository_url;
-  const terraformUrl =
-    complianceRepoUrl && cfi_details.path ? `${complianceRepoUrl}/tree/main/${cfi_details.path}` : null;
-
   return (
     <Layout title={`CFI - ${cfi_details.name}`} description={cfi_details.description}>
       <main className="container margin-vert--lg">
@@ -72,28 +68,6 @@ export default function CFIConfiguration({ pageData }: { pageData: Configuration
                       <code className={styles.code}>{cfi_details.path}</code>
                     </td>
                   </tr>
-                  {cfi_details.git && (
-                    <tr>
-                      <td className={styles.labelCell}>GitHub Link</td>
-                      <td>
-                        <a href={cfi_details.git} target="_blank" rel="noopener noreferrer" className={styles.iconLink}>
-                          <svg viewBox="0 0 24 24" fill="currentColor"><path d={githubSvgPath} /></svg>
-                          View GitHub Repository
-                        </a>
-                      </td>
-                    </tr>
-                  )}
-                  {terraformUrl && (
-                    <tr>
-                      <td className={styles.labelCell}>Terraform Files</td>
-                      <td>
-                        <a href={terraformUrl} target="_blank" rel="noopener noreferrer" className={styles.iconLink}>
-                          <svg viewBox="0 0 24 24" fill="currentColor"><path d={githubSvgPath} /></svg>
-                          View Terraform Files
-                        </a>
-                      </td>
-                    </tr>
-                  )}
                 </tbody>
               </table>
             </div>
