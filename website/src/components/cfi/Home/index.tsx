@@ -17,9 +17,6 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
             <p className={styles.pageSubtitle}>
               Implementation of Common Cloud Controls in Infrastructure as Code
             </p>
-            <p>
-              See the <Link to="/validators">Validators</Link> page for more on how these tests are designed and run.
-            </p>
           </div>
 
           <div>
@@ -64,6 +61,14 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
                 </div>
               )}
             </div>
+          </div>
+          
+          <div>
+            <h2 className={styles.sectionHeading}>Validators on the CCC Website</h2>
+            <p className={styles.sectionSubtitle}>
+              See the <Link to="/validators" className={styles.link}>Validators</Link> page for more on how these
+              tests are designed and run.
+            </p>
           </div>
 
           <p className={styles.footer}>
