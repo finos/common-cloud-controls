@@ -275,6 +275,16 @@
   color: var(--gf-color-text-subtle);
 }
 
+.accentText {
+  color: var(--gf-color-text);
+  text-align: center;
+  margin: 1rem 0 0;
+}
+
+.accentText a {
+  color: black;
+}
+
 /* Section subtitle (centered, used directly under sectionHeading) */
 .sectionSubtitle {
   font-size: 0.875rem;
