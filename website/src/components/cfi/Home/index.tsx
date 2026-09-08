@@ -65,7 +65,7 @@ export default function CFIHomeTemplate({ pageData }: { pageData: HomePageData }
           
           <div>
             <h2 className={styles.sectionHeading}>Validators on the CCC Website</h2>
-            <p className={styles.sectionSubtitle}>
+            <p className={styles.accentText}>
               See the <Link to="/validators" className={styles.link}>Validators</Link> page for more on how these
               tests are designed and run.
             </p>
