@@ -2,8 +2,10 @@ import React from "react";
 import Link from "@docusaurus/Link";
 import { CatalogSidebar } from "./CatalogSidebar";
 import { prettifySegment } from "@site/src/content/catalogUtils";
+import { useCfiControlConfigurationResults } from "@site/src/utils/catalogDataLookup";
 import type { CatalogEntry, CatalogGuidelineMapping } from "./CatalogVersionPage";
 import styles from "./CatalogEntryPage.module.css";
+import cfiStyles from "../cfi/cfi.module.css";
 
 export interface CatalogRelatedEntry {
   id: string;
@@ -104,6 +106,67 @@ const MappingTable: React.FC<{ title: string; items?: CatalogGuidelineMapping[] 
   );
 };
 
+const RelatedConfigurationResults: React.FC<{ controlId: string }> = ({ controlId }) => {
+  const results = useCfiControlConfigurationResults(controlId);
+  if (results.length === 0) return null;
+
+  return (
+    <div className={styles.section}>
+      <h3 className={styles.sectionTitle}>Related Configuration Results</h3>
+      <div className="library-article-body">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Provider</th>
+              <th>Vendor</th>
+              <th>Product</th>
+              <th>Version</th>
+              <th>Total Tests</th>
+              <th>Passing</th>
+              <th>Failing</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((result, index) => (
+              <tr key={`${result.url}-${index}`}>
+                <td>{result.name}</td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillBlue} ${cfiStyles.pillUppercase}`}>{result.provider}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillPurple}`}>{result.vendor}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillBlue}`}>{result.product}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillGreen}`}>{result.version}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillGray} ${cfiStyles.pillBold}`}>{result.totalTests}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillGreen} ${cfiStyles.pillBold}`}>{result.passingTests}</span>
+                </td>
+                <td>
+                  <span className={`${cfiStyles.pill} ${cfiStyles.pillRed} ${cfiStyles.pillBold}`}>{result.failingTests}</span>
+                </td>
+                <td>
+                  <Link to={result.url} className={`${cfiStyles.link} ${cfiStyles.linkSmall}`}>
+                    View Details →
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
 export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
   const { category, service, version, type, entry } = data;
   const typePath = `/catalogs/${category}/${service}/${type}/${version}`;
@@ -163,6 +226,8 @@ export const CatalogEntryPage: React.FC<Props> = ({ data }) => {
             </div>
           </div>
         )}
+
+        {type === "controls" && <RelatedConfigurationResults controlId={entry.id} />}
 
         <MappingTable title="Guideline Mappings" items={entry.guidelineMappings} />
         <MappingTable title="External Mappings" items={entry.externalMappings} />

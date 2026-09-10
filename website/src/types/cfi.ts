@@ -218,3 +218,19 @@ export interface TestMappingSummary {
   testRequirementId: string;
   mappedTests: TestMappingDetail[];
 }
+
+export interface ControlConfigurationResultRef {
+  name: string;
+  provider: string;
+  vendor: string;
+  product: string;
+  version: string;
+  url: string;
+  totalTests: number;
+  passingTests: number;
+  failingTests: number;
+}
+
+export interface CFIGlobalData {
+  controlConfigurationResults: Record<string, ControlConfigurationResultRef[]>;
+}
