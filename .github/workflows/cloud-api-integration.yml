@@ -19,27 +19,41 @@ permissions:
   pull-requests: write
   id-token: write
 
+concurrency:
+  group: cloud-api-integration-${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
 jobs:
-  integration-all:
+  integration:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 90
     if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
+    strategy:
+      fail-fast: false
+      matrix:
+        provider: [aws, azure, gcp]
     env:
       RUN_CLOUD_API_INTEGRATION: "1"
-      GOWORK: off
+      PROVIDER: ${{ matrix.provider }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-go-workspace
 
       - name: Configure AWS credentials
+        if: matrix.provider == 'aws'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/TerraformRole
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Azure login
+        if: matrix.provider == 'azure'
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -47,6 +61,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Authenticate to Google Cloud
+        if: matrix.provider == 'gcp'
         uses: google-github-actions/auth@v2
         with:
           token_format: "id_token"
@@ -54,144 +69,96 @@ jobs:
           workload_identity_provider: "projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider"
           service_account: "gha-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
 
-      - uses: google-github-actions/setup-gcloud@v2
+      - name: Set up gcloud
+        if: matrix.provider == 'gcp'
+        uses: google-github-actions/setup-gcloud@v2
 
-      - name: Start compute fixtures (aws + azure + gcp)
+      - name: Load provider env
         env:
           AWS_ENV: ${{ secrets.AWS_ENV }}
           AZURE_ENV: ${{ secrets.AZURE_ENV }}
           GCP_ENV: ${{ secrets.GCP_ENV }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          case "$PROVIDER" in
+            aws) payload="${AWS_ENV:-}" ;;
+            azure) payload="${AZURE_ENV:-}" ;;
+            gcp) payload="${GCP_ENV:-}" ;;
+            *) echo "Unknown provider: $PROVIDER" >&2; exit 1 ;;
+          esac
+          out="modules/cloud-api-test/environment-config/${PROVIDER}-env.sh"
+          if [ -n "$payload" ]; then
+            printf '%s\n' "$payload" > "$out"
+            set -a
+            # shellcheck source=/dev/null
+            source "$out"
+            set +a
+            # Persist into subsequent steps
+            while IFS= read -r line || [ -n "$line" ]; do
+              line="${line#export }"
+              case "$line" in
+                ''|\#*) continue ;;
+                *=*) echo "$line" >> "$GITHUB_ENV" ;;
+              esac
+            done < "$out"
+          else
+            echo "Warning: no ${PROVIDER^^}_ENV secret payload" >&2
+          fi
+
+      - name: Start compute fixtures
         run: |
           set -euo pipefail
           chmod +x modules/cloud-api-test/scale-fixtures.sh
-          source_env() {
-            local name="$1"
-            local payload="$2"
-            local out="modules/cloud-api-test/environment-config/${name}-env.sh"
-            if [ -n "${payload:-}" ]; then
-              printf '%s\n' "$payload" > "$out"
-              set -a
-              # shellcheck source=/dev/null
-              source "$out"
-              set +a
-            fi
-          }
-          source_env aws "${AWS_ENV:-}"
           ./modules/cloud-api-test/scale-fixtures.sh start \
-            -c modules/cloud-api-test/privateer-config/aws.yml \
-            -S integration \
-            -s virtual-machines,kubernetes
-          source_env azure "${AZURE_ENV:-}"
-          ./modules/cloud-api-test/scale-fixtures.sh start \
-            -c modules/cloud-api-test/privateer-config/azure.yml \
-            -S integration \
-            -s virtual-machines,kubernetes
-          source_env gcp "${GCP_ENV:-}"
-          ./modules/cloud-api-test/scale-fixtures.sh start \
-            -c modules/cloud-api-test/privateer-config/gcp.yml \
+            -c "modules/cloud-api-test/privateer-config/${PROVIDER}.yml" \
             -S integration \
             -s virtual-machines,kubernetes
 
-      - name: Run all-cloud integration tests with combined coverage
+      - name: Run integration tests
         working-directory: modules/cloud-api-test
-        env:
-          AWS_ENV: ${{ secrets.AWS_ENV }}
-          AZURE_ENV: ${{ secrets.AZURE_ENV }}
-          GCP_ENV: ${{ secrets.GCP_ENV }}
-        run: |
-          if [ -n "${AWS_ENV:-}" ]; then
-            printf '%s\n' "$AWS_ENV" > environment-config/aws-env.sh
-            set -a
-            # shellcheck source=/dev/null
-            source environment-config/aws-env.sh
-            set +a
-          fi
-          if [ -n "${AZURE_ENV:-}" ]; then
-            printf '%s\n' "$AZURE_ENV" > environment-config/azure-env.sh
-            set -a
-            # shellcheck source=/dev/null
-            source environment-config/azure-env.sh
-            set +a
-          fi
-          if [ -n "${GCP_ENV:-}" ]; then
-            printf '%s\n' "$GCP_ENV" > environment-config/gcp-env.sh
-            set -a
-            # shellcheck source=/dev/null
-            source environment-config/gcp-env.sh
-            set +a
-          fi
-          ./run-integration-tests.sh all
+        run: ./run-integration-tests.sh "$PROVIDER"
 
-      - name: Stop compute fixtures (discover all started)
+      - name: Stop compute fixtures
         if: always()
-        env:
-          AWS_ENV: ${{ secrets.AWS_ENV }}
-          AZURE_ENV: ${{ secrets.AZURE_ENV }}
-          GCP_ENV: ${{ secrets.GCP_ENV }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         run: |
           set -euo pipefail
           chmod +x modules/cloud-api-test/scale-fixtures.sh
-          source_blob() {
-            local payload="$1"
-            [ -n "${payload:-}" ] || return 0
-            local f
-            f="$(mktemp)"
-            printf '%s\n' "$payload" > "$f"
-            set -a
-            # shellcheck disable=SC1090
-            source "$f"
-            set +a
-            rm -f "$f"
-          }
-          source_blob "${AWS_ENV:-}"
-          source_blob "${AZURE_ENV:-}"
-          source_blob "${GCP_ENV:-}"
-          ./modules/cloud-api-test/scale-fixtures.sh stop
+          ./modules/cloud-api-test/scale-fixtures.sh stop \
+            -p "$PROVIDER" \
+            -s virtual-machines,kubernetes
 
       - name: Publish integration results summary
         if: always()
         run: |
-          results="modules/cloud-api-test/integration-results-all.txt"
-          if [ ! -f "$results" ]; then
-            echo "No integration results file at $results"
-            exit 0
-          fi
+          results="modules/cloud-api-test/integration-results-${PROVIDER}.txt"
           {
-            echo "## Cloud API integration (aws + azure + gcp)"
+            echo "## Cloud API integration (${PROVIDER})"
             echo ""
-            echo '```text'
-            cat "$results"
-            echo '```'
+            if [ -f "$results" ]; then
+              echo '```text'
+              cat "$results"
+              echo '```'
+            else
+              echo "_No results file at \`$results\`._"
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload integration test results and coverage
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cloud-api-integration-results
+          name: cloud-api-integration-${{ matrix.provider }}
           path: |
-            modules/cloud-api-test/integration-results-all.txt
-            modules/cloud-api-test/integration-results-aws.txt
-            modules/cloud-api-test/integration-results-azure.txt
-            modules/cloud-api-test/integration-results-gcp.txt
-            modules/cloud-api-test/coverage-integration-all.out
-            modules/cloud-api-test/coverage-integration-all.html
-            modules/cloud-api-test/coverage-integration-aws.out
-            modules/cloud-api-test/coverage-integration-azure.out
-            modules/cloud-api-test/coverage-integration-gcp.out
+            modules/cloud-api-test/integration-results-${{ matrix.provider }}.txt
+            modules/cloud-api-test/coverage-integration-${{ matrix.provider }}.out
+            modules/cloud-api-test/coverage-integration-${{ matrix.provider }}.html
           if-no-files-found: ignore
 
-      - name: Upload combined integration coverage
-        if: always() && hashFiles('modules/cloud-api-test/coverage-integration-all.out') != ''
+      - name: Upload coverage to Codecov
+        if: always() && hashFiles(format('modules/cloud-api-test/coverage-integration-{0}.out', matrix.provider)) != ''
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: modules/cloud-api-test/coverage-integration-all.out
-          flags: cloud-api-integration
+          files: modules/cloud-api-test/coverage-integration-${{ matrix.provider }}.out
+          flags: cloud-api-integration-${{ matrix.provider }}
           fail_ci_if_error: false
