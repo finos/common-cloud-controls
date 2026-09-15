@@ -76,7 +76,7 @@ func NewAzureServiceWithCredentials(ctx context.Context, cfg types.Config, ident
 }
 
 func newAzureService(ctx context.Context, cfg types.Config, credential azcore.TokenCredential, identity *types.Identity) (*AzureService, error) {
-	client, err := azcore.NewClient("ccc-cloud-api-kubernetes", "v1", runtime.PipelineOptions{
+	client, err := azcore.NewClient("ccc-cloud-api-kubernetes", "v1.0.0", runtime.PipelineOptions{
 		PerRetry: []policy.Policy{
 			runtime.NewBearerTokenPolicy(credential, []string{"https://management.azure.com/.default"}, nil),
 		},
