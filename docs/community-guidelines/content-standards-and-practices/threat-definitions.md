@@ -8,7 +8,7 @@ Each threat definition corresponds to a service in the CCC Taxonomy, with every 
 
 To streamline maintenance, the CCC project maintains a catalog of [core threats] that can be imported into other files.
 
-Each service category’s `threats.yaml` file references these common threats by listing their IDs under the top-level `common_threats` value. During the release pipeline, our [Delivery Toolkit] compiles these common threats into the final document alongside any service-specific threats. In the final output, both types of threats are presented consistently, with the unique identifier being the only difference.
+Each service category’s `threats.yaml` file references these common threats by listing them under the top-level `imports` value, with each entry giving the core threat’s `reference-id` and a `remarks` line carrying its title. During the release pipeline, our [Delivery Toolkit] compiles these common threats into the final document alongside any service-specific threats. In the final output, both types of threats are presented consistently, with the unique identifier being the only difference.
 
 ### Common Threats
 
@@ -24,7 +24,7 @@ Each service category’s `threats.yaml` file references these common threats by
 
 When creating or updating a `threats.yaml` file for a service category, follow these steps:
 
-1. **Review Common Threats**: Start by reviewing the [core threats] list. If any common threats apply to this category, reference them by adding their IDs to the `common_threats` list.
+1. **Review Common Threats**: Start by reviewing the [core threats] list. If any common threats apply to this category, reference them by adding entries to the `imports` list.
 2. **Define Specific Threats**: If a threat is unique to the service category, document it in the `threats` section of the `threats.yaml` file.
 3. **Consider Generalization**: If a specific threat could apply to at least three other service categories, evaluate whether it can be generalized and added to the [core threats] list.
 
@@ -74,12 +74,13 @@ An attacker can exploit misconfigured access controls to gain excessive privileg
 
 When creating a new threat definition, use the following values:
 
-- **Threat ID** (`id`): A unique identifier for the threat, following the format `<category-id>.TH<#>`.
+- **Threat ID** (`id`): A unique identifier for the threat, following the format `CCC.<service-id>.TH<#>`.
+- **Group** (`group`): The threat group this entry belongs to (e.g., `Access`).
 - **Threat Title** (`title`): A short name or title using Title Case that succinctly describes the threat.
 - **Threat Description** (`description`): A detailed description of the threat, including its nature and potential impact.
-- **Capability IDs** (`capabilities`): A list of IDs for the corresponding CCC capabilities that this threat is associated with.
-- **MITRE ATT&CK Technique** (`mitre_technique`): The unique identifier for the most relevant MITRE ATT&CK Technique.
-- **Threat Models** (`threat_models`): URLs for any threat models used to develop this threat (omit if not applicable).
+- **Capability IDs** (`capabilities`): The CCC capabilities associated with this threat, each entry giving the capability's `reference-id` and a `remarks` line carrying its title.
+
+Mappings to external frameworks such as MITRE ATT&CK or CWE are not defined on the threat itself; they are authored as standalone mapping documents in the service's `mappings/` directory (e.g., `mappings/threats-mitre-attack.yaml`), as described in the [threat style guide](../../../style-guides/catalogs/threat-style-guide.yaml).
 
 ### Review Process
 

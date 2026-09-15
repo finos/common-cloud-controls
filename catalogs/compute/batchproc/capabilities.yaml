@@ -19,19 +19,19 @@ imports:
         remarks: API Access
       - reference-id: CCC.Core.CP19
         remarks: Child Resource Scaling
-      - reference-id: CCC.Core.F23
+      - reference-id: CCC.Core.CP23
         remarks: Network Access Rules
-      - reference-id: CCC.Core.F24
+      - reference-id: CCC.Core.CP24
         remarks: Core Processing Units
-      - reference-id: CCC.Core.F25
+      - reference-id: CCC.Core.CP25
         remarks: Random Access Memory Allocation
-      - reference-id: CCC.Core.F26
+      - reference-id: CCC.Core.CP26
         remarks: Persistent Storage
-      - reference-id: CCC.Core.F28
+      - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
-      - reference-id: CCC.Core.F29
+      - reference-id: CCC.Core.CP29
         remarks: Active Ingestion
-      - reference-id: CCC.Core.F31
+      - reference-id: CCC.Core.CP31
         remarks: Elastic Scaling
 
 capabilities:

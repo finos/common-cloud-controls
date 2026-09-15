@@ -199,16 +199,8 @@ mappings:
     remarks: Data Manipulation
   - entry-id: T1489
     remarks: Service Stop
-  - entry-id: T1562.01
+  - entry-id: T1562.010
     remarks: 'Impair Defenses: Downgrade Attack'
-  - entry-id: T1027
-    remarks: Obfuscated Files or Information
-  - entry-id: T1485
-    remarks: Data Destruction
-  - entry-id: T1565
-    remarks: Data Manipulation
-  - entry-id: T1489
-    remarks: Service Stop
 - id: CCC.Core.TH15-mitre-attack
   source: CCC.Core.TH15
   relationship: relates-to

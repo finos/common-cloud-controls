@@ -1,14 +1,6 @@
 {
     "repositories": [
         {
-            "name": "ccc-cfi-compliance",
-            "url": "https://github.com/finos-labs/ccc-cfi-compliance",
-            "description": "CCC CFI Compliance from FINOS Labs",
-            "destination": "finos-labs-ccc-cfi-compliance",
-            "workflow": "cfi-test.yml",
-            "artifact-filter": "cfi-results-*"
-        },
-        {
             "name": "common-cloud-controls-integration",
             "url": "https://github.com/finos/common-cloud-controls",
             "description": "FINOS Common Cloud Controls Integration Tests",

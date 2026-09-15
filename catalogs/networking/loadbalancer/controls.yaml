@@ -61,9 +61,6 @@ controls:
           - reference-id: CCC.LB.TH01
             strength: 0 # Not yet specified
             remarks: Malicious Traffic
-          - reference-id: CCC.LB.TH09
-            strength: 0 # Not yet specified
-            remarks: Resource Exhaustion
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -217,9 +214,9 @@ controls:
     threats:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.TH08
+          - reference-id: CCC.Core.TH01
             strength: 0 # Not yet specified
-            remarks: API Exposed and Attacked
+            remarks: Access Control is Misconfigured
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -252,9 +249,9 @@ controls:
     threats:
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.TH09
+          - reference-id: CCC.LB.TH01
             strength: 0 # Not yet specified
-            remarks: Resource Exhaustion
+            remarks: Unrestricted Request Traffic Overwhelms Downstream Services
     guidelines:
       - reference-id: NIST-CSF
         entries:

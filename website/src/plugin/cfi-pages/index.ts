@@ -15,7 +15,10 @@ import {
   ConfigurationResultPageData,
   ConfigurationResultSummary,
   CFIRepositoryPageData,
+  ControlConfigurationResultRef,
+  CFIGlobalData,
 } from "../../types/cfi";
+import { controlIdFromRequirementId } from "../../content/catalogLookup";
 
 interface OcsfFileRef {
   filePath: string;
@@ -311,6 +314,49 @@ function partitionOCSFResultsByMetadata(configDir: string): Map<string, Configur
   return partitionMap;
 }
 
+/** Groups a configuration result's tests by the control (not requirement) they exercise. */
+function computeControlTestBreakdown(testResults: TestResultItem[]): Map<string, { total: number; pass: number; fail: number }> {
+  const breakdown = new Map<string, { total: number; pass: number; fail: number }>();
+
+  for (const result of testResults) {
+    const controlIds = new Set((result.test_requirements ?? []).map(controlIdFromRequirementId));
+    for (const controlId of controlIds) {
+      if (!breakdown.has(controlId)) breakdown.set(controlId, { total: 0, pass: 0, fail: 0 });
+      const entry = breakdown.get(controlId)!;
+      entry.total++;
+      if (result.status_code === "PASS") entry.pass++;
+      else if (result.status_code === "FAIL") entry.fail++;
+    }
+  }
+
+  return breakdown;
+}
+
+/** Records, for every control a configuration result exercised, a link back to that result. */
+function recordControlConfigurationResults(
+  controlConfigurations: Map<string, ControlConfigurationResultRef[]>,
+  config: CFIConfigJson,
+  configResult: ConfigurationResult,
+  resultSlug: string
+): void {
+  const breakdown = computeControlTestBreakdown(configResult.test_results);
+
+  breakdown.forEach(({ total, pass, fail }, controlId) => {
+    if (!controlConfigurations.has(controlId)) controlConfigurations.set(controlId, []);
+    controlConfigurations.get(controlId)!.push({
+      name: config.name,
+      provider: config.provider,
+      vendor: configResult.vendor,
+      product: configResult.product,
+      version: configResult.version,
+      url: resultSlug,
+      totalTests: total,
+      passingTests: pass,
+      failingTests: fail,
+    });
+  });
+}
+
 function loadSourceDetails(configDir: string): CFISourceDetails | undefined {
   const sourcePath = path.join(configDir, "source-details.json");
   if (!fs.existsSync(sourcePath)) {
@@ -335,7 +381,8 @@ async function createConfiguration(
   repoEntry: CFIDataRepositoryEntry,
   siteDir: string,
   createData: (name: string, data: string | object) => Promise<string>,
-  addRoute: (route: any) => void
+  addRoute: (route: any) => void,
+  controlConfigurations: Map<string, ControlConfigurationResultRef[]>
 ): Promise<{ configuration: Configuration; configurationResultSummaries: ConfigurationResultSummary[] }> {
   console.log(`🔍 Processing configuration directory: ${configDir}`);
 
@@ -426,6 +473,8 @@ async function createConfiguration(
       failingTests,
     });
 
+    recordControlConfigurationResults(controlConfigurations, config, configResult, resultSlug);
+
     // Create temporary configuration for this result page
     const configuration = withSourceDetails(
       {
@@ -494,7 +543,7 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
     name: "cfi-pages",
 
     async contentLoaded({ actions }) {
-      const { createData, addRoute } = actions;
+      const { createData, addRoute, setGlobalData } = actions;
 
       const testResultsDir = path.resolve(__dirname, "../../data/test-results");
       const cfiRepoListPath = path.resolve(__dirname, "../../data/cfi-repositories.json");
@@ -509,6 +558,9 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
       };
 
       const repositorySummaries: HomePageData["repositories"] = [];
+      // controlId -> configuration results that exercised it; exposed as global
+      // data so /catalogs/* control pages can cross-link to their CFI results.
+      const controlConfigurations = new Map<string, ControlConfigurationResultRef[]>();
 
       for (const repoEntry of repoList) {
         const repoDir = repoEntry.destination;
@@ -533,7 +585,8 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
                 repoEntry,
                 context.siteDir,
                 createData,
-                addRoute
+                addRoute,
+                controlConfigurations
               );
               repoConfigurations.push(configuration);
               configurationResultSummariesByPath[configuration.results_relative_path] = configurationResultSummaries;
@@ -575,6 +628,13 @@ export default function pluginCFIPages(context: LoadContext): Plugin<void> {
 
         console.log(`✅ Created repository page at ${repoHref} (${repoConfigurations.length} configurations)`);
       }
+
+      controlConfigurations.forEach((refs) => {
+        refs.sort((a, b) => a.name.localeCompare(b.name) || a.vendor.localeCompare(b.vendor) || a.product.localeCompare(b.product));
+      });
+      setGlobalData({
+        controlConfigurationResults: Object.fromEntries(controlConfigurations),
+      } satisfies CFIGlobalData);
 
       const homePageData: HomePageData = {
         repositories: repositorySummaries,

@@ -117,3 +117,11 @@ capabilities:
     description: |
       Provides different storage classes for frequently and infrequently
       accessed objects.
+
+  - id: CCC.ObjStor.CP13
+    group: Access
+    title: Public Access Block
+    description: |
+      Supports configuring a default block on all public access to buckets
+      and objects, preventing any policy or ACL from granting unauthenticated
+      or anonymous access.
