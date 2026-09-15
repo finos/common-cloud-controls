@@ -90,6 +90,10 @@ func (s *GCPLoggingService) TearDown() error {
 	return nil
 }
 
+func (s *GCPLoggingService) Start(string) error { return nil }
+func (s *GCPLoggingService) Stop(string) error  { return nil }
+func (s *GCPLoggingService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
+
 // QueryLogs dispatches on logType by selecting the appropriate logName filter
 // against Cloud Logging. resourceID, when present, is added as a
 // protoPayload.resourceName substring filter (best-effort across log types).

@@ -92,6 +92,9 @@ func (s *AzureLoggingService) GetReplicationStatus(_ string) (*generic.Replicati
 	return nil, fmt.Errorf("not supported for logging service")
 }
 func (s *AzureLoggingService) TearDown() error { return nil }
+func (s *AzureLoggingService) Start(string) error                { return nil }
+func (s *AzureLoggingService) Stop(string) error                 { return nil }
+func (s *AzureLoggingService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 // QueryLogs dispatches on logType. admin reads Azure Activity Log (filtered by
 // the resource group from cloud params). data-write / data-read / flow read

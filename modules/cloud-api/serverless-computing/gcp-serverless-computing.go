@@ -173,6 +173,9 @@ func (s *GCPServerlessComputingService) GetReplicationStatus(string) (*generic.R
 	return generic.ReplicationStatusNotApplicable()
 }
 func (s *GCPServerlessComputingService) TearDown() error { return nil }
+func (s *GCPServerlessComputingService) Start(string) error                { return nil }
+func (s *GCPServerlessComputingService) Stop(string) error                 { return nil }
+func (s *GCPServerlessComputingService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 func (s *GCPServerlessComputingService) GetInvokeEndpointExposure(functionID string) (*InvokeEndpointExposure, error) {
 	fn, err := s.getFunction(s.functionResourceName(functionID))
 	if err != nil {

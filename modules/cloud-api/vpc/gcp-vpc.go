@@ -123,6 +123,9 @@ func (s *GCPVPCService) UpdateResourcePolicy() error       { return nil }
 func (s *GCPVPCService) TriggerDataWrite(_ string) error   { return nil }
 func (s *GCPVPCService) TriggerDataRead(_ string) error    { return nil }
 func (s *GCPVPCService) TearDown() error                   { return nil }
+func (s *GCPVPCService) Start(string) error                { return nil }
+func (s *GCPVPCService) Stop(string) error                 { return nil }
+func (s *GCPVPCService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 func (s *GCPVPCService) GetResourceRegion(_ string) (string, error) {
 	return s.config.CloudParams().Region, nil

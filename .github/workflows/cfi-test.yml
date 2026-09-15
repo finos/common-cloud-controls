@@ -107,7 +107,8 @@ jobs:
   test:
     needs: [prepare-matrix, build-artifacts]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Start/stop for kubernetes node pools can exceed 10m; keep headroom for tests.
+    timeout-minutes: 60
     strategy:
       max-parallel: 3
       matrix:
@@ -131,6 +132,7 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
+      GOWORK: ${{ github.workspace }}/modules/go.work
 
     steps:
       - name: Checkout repo
@@ -163,9 +165,7 @@ jobs:
           path: website/src/data/ccc-releases
 
       - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: modules/go.work
+        uses: ./.github/actions/setup-go-workspace
 
       - name: Configure AWS Credentials (OIDC)
         if: matrix.target.provider == 'aws'
@@ -189,6 +189,17 @@ jobs:
           workload_identity_provider: projects/${{ env.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider
           service_account: gha-deployer@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
+      - name: Start compute fixtures
+        if: matrix.target.service == 'virtual-machines' || matrix.target.service == 'kubernetes'
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x modules/cloud-api-test/scale-fixtures.sh
+          ./modules/cloud-api-test/scale-fixtures.sh start \
+            -c "$GITHUB_WORKSPACE/$TARGET_TEST_CONFIG" \
+            -S "$TARGET_PRIVATEER_SERVICE" \
+            -s "$TARGET_SERVICE"
+
       - name: Run compliance tests
         shell: bash
         run: |
@@ -207,6 +218,18 @@ jobs:
             -s "$TARGET_SERVICE" \
             -o "$OUTPUT_DIR" \
             -g '@Behavioural'
+
+      - name: Stop compute fixtures
+        if: always() && (matrix.target.service == 'virtual-machines' || matrix.target.service == 'kubernetes')
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x modules/cloud-api-test/scale-fixtures.sh
+          # Discover+stop started fixtures for this provider/service only
+          # (avoids parking sibling matrix jobs on the same cloud).
+          ./modules/cloud-api-test/scale-fixtures.sh stop \
+            -p "$TARGET_PROVIDER" \
+            -s "$TARGET_SERVICE"
 
       - name: Upload cfi results
         if: always()

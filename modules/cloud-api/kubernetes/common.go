@@ -134,6 +134,11 @@ func (s *managedService) CheckUserProvisioned() error {
 func (s *managedService) ElevateAccessForInspection() error { return nil }
 func (s *managedService) ResetAccess() error                { return nil }
 func (s *managedService) TearDown() error                   { return nil }
+func (s *managedService) Start(string) error                { return nil }
+func (s *managedService) Stop(string) error                 { return nil }
+func (s *managedService) StartedDetails() ([]generic.StartedResource, error) {
+	return nil, nil
+}
 
 func (s *managedService) UpdateResourcePolicy() error {
 	if s.updateMetadata == nil {

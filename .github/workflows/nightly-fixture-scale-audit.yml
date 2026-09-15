@@ -1,0 +1,137 @@
+name: Nightly fixture scale audit
+
+# Discovers CCC compute fixtures that are still online (VMs running / k8s nodes > 0
+# or AKS cluster Running). The job fails when leftovers are found so GitHub Actions
+# notifications can alert watchers. Optionally force-stops leftovers when
+# workflow_dispatch input force_stop is true.
+
+on:
+  schedule:
+    # 06:00 UTC daily
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+    inputs:
+      force_stop:
+        description: "Also run scale-fixtures.sh stop if anything is still started"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: nightly-fixture-scale-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
+      GOWORK: ${{ github.workspace }}/modules/go.work
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-go-workspace
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/TerraformRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/finos-oidc-pool/providers/github-provider
+          service_account: gha-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com
+
+      - name: Load optional provider env secrets
+        env:
+          AWS_ENV: ${{ secrets.AWS_ENV }}
+          AZURE_ENV: ${{ secrets.AZURE_ENV }}
+          GCP_ENV: ${{ secrets.GCP_ENV }}
+        run: |
+          set -euo pipefail
+          load_env() {
+            local payload="$1"
+            [ -n "${payload:-}" ] || return 0
+            while IFS= read -r line || [ -n "$line" ]; do
+              line="${line#export }"
+              case "$line" in
+                ''|\#*) continue ;;
+                *=*) echo "$line" >> "$GITHUB_ENV" ;;
+              esac
+            done <<< "$payload"
+          }
+          load_env "${AWS_ENV:-}"
+          load_env "${AZURE_ENV:-}"
+          load_env "${GCP_ENV:-}"
+
+      - name: List started compute fixtures
+        id: list
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          chmod +x modules/cloud-api-test/scale-fixtures.sh
+          set +e
+          ./modules/cloud-api-test/scale-fixtures.sh list | tee /tmp/fixture-started.txt
+          code=${PIPESTATUS[0]}
+          set -e
+          {
+            echo "exit_code=$code"
+            if [ "$code" -eq 0 ]; then
+              echo "found=false"
+            elif [ "$code" -eq 2 ]; then
+              echo "found=true"
+            else
+              echo "found=error"
+            fi
+          } >> "$GITHUB_OUTPUT"
+          if [ "$code" -ne 0 ] && [ "$code" -ne 2 ]; then
+            exit "$code"
+          fi
+
+      - name: Force-stop leftovers
+        if: steps.list.outputs.found == 'true' && github.event_name == 'workflow_dispatch' && inputs.force_stop == 'true'
+        run: |
+          set -euo pipefail
+          ./modules/cloud-api-test/scale-fixtures.sh stop
+
+      - name: Summarize
+        if: always()
+        run: |
+          {
+            echo "## Nightly fixture scale audit"
+            echo ""
+            if [ -f /tmp/fixture-started.txt ]; then
+              echo '```text'
+              cat /tmp/fixture-started.txt
+              echo '```'
+            else
+              echo "_No list output._"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if fixtures still started
+        if: steps.list.outputs.found == 'true' || steps.list.outputs.found == 'error'
+        run: |
+          echo "Started fixtures (or audit errors) detected — see job summary."
+          exit 1

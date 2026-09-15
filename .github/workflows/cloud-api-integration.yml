@@ -22,7 +22,7 @@ permissions:
 jobs:
   integration-all:
     runs-on: ubuntu-latest
-    timeout-minutes: 135
+    timeout-minutes: 180
     if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
     env:
       RUN_CLOUD_API_INTEGRATION: "1"
@@ -31,13 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-go@v5
-        with:
-          # Coverage merge pulls gocovmerge dependencies that require Go >= 1.25.
-          go-version: "1.25.x"
-          cache-dependency-path: |
-            modules/cloud-api/go.sum
-            modules/cloud-api-test/go.sum
+      - uses: ./.github/actions/setup-go-workspace
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -61,6 +55,45 @@ jobs:
           service_account: "gha-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
 
       - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Start compute fixtures (aws + azure + gcp)
+        env:
+          AWS_ENV: ${{ secrets.AWS_ENV }}
+          AZURE_ENV: ${{ secrets.AZURE_ENV }}
+          GCP_ENV: ${{ secrets.GCP_ENV }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          chmod +x modules/cloud-api-test/scale-fixtures.sh
+          source_env() {
+            local name="$1"
+            local payload="$2"
+            local out="modules/cloud-api-test/environment-config/${name}-env.sh"
+            if [ -n "${payload:-}" ]; then
+              printf '%s\n' "$payload" > "$out"
+              set -a
+              # shellcheck source=/dev/null
+              source "$out"
+              set +a
+            fi
+          }
+          source_env aws "${AWS_ENV:-}"
+          ./modules/cloud-api-test/scale-fixtures.sh start \
+            -c modules/cloud-api-test/privateer-config/aws.yml \
+            -S integration \
+            -s virtual-machines,kubernetes
+          source_env azure "${AZURE_ENV:-}"
+          ./modules/cloud-api-test/scale-fixtures.sh start \
+            -c modules/cloud-api-test/privateer-config/azure.yml \
+            -S integration \
+            -s virtual-machines,kubernetes
+          source_env gcp "${GCP_ENV:-}"
+          ./modules/cloud-api-test/scale-fixtures.sh start \
+            -c modules/cloud-api-test/privateer-config/gcp.yml \
+            -S integration \
+            -s virtual-machines,kubernetes
 
       - name: Run all-cloud integration tests with combined coverage
         working-directory: modules/cloud-api-test
@@ -91,6 +124,35 @@ jobs:
             set +a
           fi
           ./run-integration-tests.sh all
+
+      - name: Stop compute fixtures (discover all started)
+        if: always()
+        env:
+          AWS_ENV: ${{ secrets.AWS_ENV }}
+          AZURE_ENV: ${{ secrets.AZURE_ENV }}
+          GCP_ENV: ${{ secrets.GCP_ENV }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          chmod +x modules/cloud-api-test/scale-fixtures.sh
+          source_blob() {
+            local payload="$1"
+            [ -n "${payload:-}" ] || return 0
+            local f
+            f="$(mktemp)"
+            printf '%s\n' "$payload" > "$f"
+            set -a
+            # shellcheck disable=SC1090
+            source "$f"
+            set +a
+            rm -f "$f"
+          }
+          source_blob "${AWS_ENV:-}"
+          source_blob "${AZURE_ENV:-}"
+          source_blob "${GCP_ENV:-}"
+          ./modules/cloud-api-test/scale-fixtures.sh stop
 
       - name: Publish integration results summary
         if: always()

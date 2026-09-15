@@ -1,0 +1,137 @@
+title: CCC Managed Kubernetes Threats to Common Weakness Enumeration (CWE)
+metadata:
+    id: CCC.K8S.TH.threats-to-cwe
+    type: MappingDocument
+    gemara-version: v1.2.0
+    version: v2026.07-rc
+    description: Maps CCC Managed Kubernetes threats to Common Weakness Enumeration (CWE) entries they relate to.
+    author:
+        id: FINOS-CCC
+        name: FINOS Common Cloud Controls
+        type: Human
+    mapping-references:
+        - id: CCC.K8S.TH
+          title: CCC Managed Kubernetes Threats
+          version: v2026.07-rc
+        - id: CWE
+          title: Common Weakness Enumeration (CWE)
+          version: dev_to-be-determined
+          url: https://cwe.mitre.org/
+source-reference:
+    entry-type: Threat
+    reference-id: CCC.K8S.TH
+target-reference:
+    entry-type: Vector
+    reference-id: CWE
+mappings:
+    - id: CCC.K8S.TH01-cwe
+      source: CCC.K8S.TH01
+      targets:
+        - entry-id: CWE-284
+          remarks: Improper Access Control
+      relationship: relates-to
+    - id: CCC.K8S.TH02-cwe
+      source: CCC.K8S.TH02
+      targets:
+        - entry-id: CWE-269
+          remarks: Improper Privilege Management
+      relationship: relates-to
+    - id: CCC.K8S.TH03-cwe
+      source: CCC.K8S.TH03
+      targets:
+        - entry-id: CWE-522
+          remarks: Insufficiently Protected Credentials
+      relationship: relates-to
+    - id: CCC.K8S.TH04-cwe
+      source: CCC.K8S.TH04
+      targets:
+        - entry-id: CWE-494
+          remarks: Download of Code Without Integrity Check
+      relationship: relates-to
+    - id: CCC.K8S.TH05-cwe
+      source: CCC.K8S.TH05
+      targets:
+        - entry-id: CWE-250
+          remarks: Execution with Unnecessary Privileges
+      relationship: relates-to
+    - id: CCC.K8S.TH06-cwe
+      source: CCC.K8S.TH06
+      targets:
+        - entry-id: CWE-284
+          remarks: Improper Access Control
+      relationship: relates-to
+    - id: CCC.K8S.TH07-cwe
+      source: CCC.K8S.TH07
+      targets:
+        - entry-id: CWE-200
+          remarks: Exposure of Sensitive Information to an Unauthorized Actor
+        - entry-id: CWE-522
+          remarks: Insufficiently Protected Credentials
+      relationship: relates-to
+    - id: CCC.K8S.TH08-cwe
+      source: CCC.K8S.TH08
+      targets:
+        - entry-id: CWE-829
+          remarks: Inclusion of Functionality from Untrusted Control Sphere
+      relationship: relates-to
+    - id: CCC.K8S.TH09-cwe
+      source: CCC.K8S.TH09
+      targets:
+        - entry-id: CWE-1104
+          remarks: Use of Unmaintained Third Party Components
+      relationship: relates-to
+    - id: CCC.K8S.TH10-cwe
+      source: CCC.K8S.TH10
+      targets:
+        - entry-id: CWE-284
+          remarks: Improper Access Control
+      relationship: relates-to
+    - id: CCC.K8S.TH11-cwe
+      source: CCC.K8S.TH11
+      targets:
+        - entry-id: CWE-862
+          remarks: Missing Authorization
+      relationship: relates-to
+    - id: CCC.K8S.TH12-cwe
+      source: CCC.K8S.TH12
+      targets:
+        - entry-id: CWE-693
+          remarks: Protection Mechanism Failure
+      relationship: relates-to
+    - id: CCC.K8S.TH13-cwe
+      source: CCC.K8S.TH13
+      targets:
+        - entry-id: CWE-284
+          remarks: Improper Access Control
+      relationship: relates-to
+    - id: CCC.K8S.TH14-cwe
+      source: CCC.K8S.TH14
+      targets:
+        - entry-id: CWE-306
+          remarks: Missing Authentication for Critical Function
+      relationship: relates-to
+    - id: CCC.K8S.TH15-cwe
+      source: CCC.K8S.TH15
+      targets:
+        - entry-id: CWE-778
+          remarks: Insufficient Logging
+      relationship: relates-to
+    - id: CCC.K8S.TH16-cwe
+      source: CCC.K8S.TH16
+      targets:
+        - entry-id: CWE-287
+          remarks: Improper Authentication
+      relationship: relates-to
+    - id: CCC.K8S.TH17-cwe
+      source: CCC.K8S.TH17
+      targets:
+        - entry-id: CWE-269
+          remarks: Improper Privilege Management
+      relationship: relates-to
+    - id: CCC.K8S.TH18-cwe
+      source: CCC.K8S.TH18
+      targets:
+        - entry-id: CWE-494
+          remarks: Download of Code Without Integrity Check
+      relationship: relates-to
+remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative 'relates-to' default (the source carried no relationship semantics); framework version and the target entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.

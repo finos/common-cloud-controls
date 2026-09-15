@@ -28,6 +28,15 @@ func ReplicationStatusNotApplicable() (*ReplicationStatus, error) {
 	}, nil
 }
 
+// StartedResource describes billable compute that is currently online for a service.
+// Used by lifecycle tooling (scale-fixtures stop / nightly audits) to discover what to park.
+type StartedResource struct {
+	ResourceID string // ID or name passed to Start/Stop
+	Name       string // Human-readable name when distinct from ResourceID
+	State      string // Provider power/scale state (e.g. running, desired=1)
+	Detail     string // Optional extra context (region, node pools, etc.)
+}
+
 // Service is the generic interface for cloud services
 // This interface can be extended in the future with common methods
 // that all cloud services should implement
@@ -79,4 +88,23 @@ type Service interface {
 	// Each service tracks what it creates and removes them here.
 	// No-op for services that do not create resources (e.g. logging).
 	TearDown() error
+
+	// Start brings billable compute for the resource to a usable state.
+	// VM: start/allocate the instance and wait until running.
+	// Kubernetes: bring node capacity online (or start a stopped cluster) and wait until ready.
+	// Other services: no-op.
+	// Idempotent: already-running resources return nil.
+	Start(resourceID string) error
+
+	// Stop parks billable compute without destroying the durable fixture.
+	// VM: stop (AWS/GCP) or deallocate (Azure).
+	// Kubernetes: scale node pools to zero, or stop the cluster where the provider supports it.
+	// Other services: no-op.
+	// Idempotent: already-stopped resources return nil.
+	Stop(resourceID string) error
+
+	// StartedDetails returns fixture compute that is currently online for this service.
+	// Discovers managed CCC fixtures (not only the configured resource ID).
+	// Other services: empty slice.
+	StartedDetails() ([]StartedResource, error)
 }

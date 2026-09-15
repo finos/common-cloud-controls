@@ -227,6 +227,9 @@ func (c *Controller) CheckUserProvisioned() error {
 func (c *Controller) ElevateAccessForInspection() error { return nil }
 func (c *Controller) ResetAccess() error                { return nil }
 func (c *Controller) TearDown() error                   { return nil }
+func (c *Controller) Start(string) error                { return nil }
+func (c *Controller) Stop(string) error                 { return nil }
+func (c *Controller) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 func (c *Controller) UpdateResourcePolicy() error {
 	return fmt.Errorf("UpdateResourcePolicy is unsupported for admission-webhook: fixture controller only permits scale changes")
 }
