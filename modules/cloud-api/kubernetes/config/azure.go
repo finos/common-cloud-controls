@@ -22,11 +22,11 @@ import (
 // AKS Entra ID server application ID (fixed across tenants).
 const aksAADServerAppID = "6dae42f8-4368-4678-94ff-3960e28e3630"
 
-// Azure builds a REST config for an AKS API server. listUserCredentialsURL is the
-// full ARM POST URL for listClusterUserCredentials (host/CA only); auth uses cred
+// Azure builds a REST config for an AKS API server. listUserCredentialURL is the
+// full ARM POST URL for listClusterUserCredential (host/CA only); auth uses cred
 // against the AKS AAD audience (no kubelogin).
-func Azure(ctx context.Context, arm *azcore.Client, cred azcore.TokenCredential, listUserCredentialsURL string) (*rest.Config, error) {
-	host, caData, err := aksAPIServerTrust(ctx, arm, listUserCredentialsURL)
+func Azure(ctx context.Context, arm *azcore.Client, cred azcore.TokenCredential, listUserCredentialURL string) (*rest.Config, error) {
+	host, caData, err := aksAPIServerTrust(ctx, arm, listUserCredentialURL)
 	if err != nil {
 		return nil, err
 	}
@@ -64,15 +64,12 @@ type aksCredentialResults struct {
 }
 
 func aksAPIServerTrust(ctx context.Context, arm *azcore.Client, credURL string) (string, []byte, error) {
-	body, err := json.Marshal(map[string]string{"format": "azure"})
-	if err != nil {
-		return "", nil, err
-	}
 	request, err := runtime.NewRequest(ctx, http.MethodPost, credURL)
 	if err != nil {
 		return "", nil, err
 	}
-	if err := request.SetBody(streaming.NopCloser(bytes.NewReader(body)), "application/json"); err != nil {
+	// Empty JSON body is required for this ARM action; format is a query param when needed.
+	if err := request.SetBody(streaming.NopCloser(bytes.NewReader([]byte("{}"))), "application/json"); err != nil {
 		return "", nil, err
 	}
 	response, err := arm.Pipeline().Do(request)
@@ -89,7 +86,7 @@ func aksAPIServerTrust(ctx context.Context, arm *azcore.Client, credURL string) 
 		return "", nil, fmt.Errorf("decode AKS user credentials: %w", err)
 	}
 	if len(results.Kubeconfigs) == 0 || results.Kubeconfigs[0].Value == "" {
-		return "", nil, fmt.Errorf("AKS listClusterUserCredentials returned no kubeconfig")
+		return "", nil, fmt.Errorf("AKS listClusterUserCredential returned no kubeconfig")
 	}
 	raw, err := base64.StdEncoding.DecodeString(results.Kubeconfigs[0].Value)
 	if err != nil {

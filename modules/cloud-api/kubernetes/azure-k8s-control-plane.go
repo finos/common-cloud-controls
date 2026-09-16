@@ -298,6 +298,6 @@ func (s *AzureService) buildRESTConfig() (*rest.Config, error) {
 		return nil, err
 	}
 	base := strings.SplitN(resourceURL, "?", 2)[0]
-	credURL := base + "/listClusterUserCredentials?api-version=2025-04-01"
+	credURL := base + "/listClusterUserCredential?api-version=2025-04-01"
 	return config.Azure(s.ctx, s.arm, s.cred, credURL)
 }

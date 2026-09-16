@@ -36,6 +36,7 @@ jobs:
       RUN_CLOUD_API_INTEGRATION: "1"
       PROVIDER: ${{ matrix.provider }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -59,6 +60,27 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # azure/login stores a ~5m GitHub OIDC JWT. AzureCLICredential cannot refresh after it
+      # expires (AADSTS700024). Re-login in the background with a fresh id-token.
+      - name: Keep Azure CLI OIDC session fresh
+        if: matrix.provider == 'azure'
+        run: |
+          set -euo pipefail
+          (
+            while true; do
+              sleep 180
+              token="$(curl -fsS \
+                -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+                "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=api://AzureADTokenExchange" \
+                | jq -r '.value')"
+              az login --service-principal \
+                --tenant "${AZURE_TENANT_ID}" \
+                --username "${AZURE_CLIENT_ID}" \
+                --federated-token "${token}" \
+                --output none
+            done
+          ) &
 
       - name: Authenticate to Google Cloud
         if: matrix.provider == 'gcp'
