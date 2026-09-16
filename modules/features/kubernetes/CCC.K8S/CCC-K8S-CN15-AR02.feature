@@ -7,12 +7,12 @@ Feature: CCC.K8S.CN15.AR02 - Protect policy-significant metadata changes
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Protect policy-significant metadata changes
     Given I call "{api}" with "GetServiceAPIWithIdentity" using arguments "kubernetes" and "test-user-no-access"
     And "{result}" is not an error
-    And I refer to "{result}" as "unauthorizedKubernetesService"
-    When I call "{unauthorizedKubernetesService}" with "AttemptModifyGovernanceMetadata" using arguments "{uid}", "{governance-metadata-target}", and "{governance-metadata-patch}"
+    And I refer to "{result}" as "unauthorizedK8sControlPlane"
+    When I call "{unauthorizedK8sControlPlane}" with "AttemptModifyGovernanceMetadata" using arguments "{uid}", "{governance-metadata-target}", and "{governance-metadata-patch}"
     Then "{result}" is an error

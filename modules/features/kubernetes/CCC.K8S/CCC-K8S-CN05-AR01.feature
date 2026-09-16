@@ -7,9 +7,9 @@ Feature: CCC.K8S.CN05.AR01 - Reject privileged and host-access workloads
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Reject privileged and host-access workloads
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{privileged-workload-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{privileged-workload-manifest}"
     Then "{result}" is an error

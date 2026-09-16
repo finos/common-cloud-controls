@@ -7,11 +7,13 @@ Feature: CCC.K8S.CN13.AR03 - Bound workload and node autoscaling
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
+    And I call "{k8sControlPlane}" with "GetKubernetesClient"
+    And I refer to "{result}" as "kubeClient"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Bound workload and node autoscaling
-    When I call "{kubernetesService}" with "GetResourceConsumptionBounds" using arguments "{uid}" and "{test-workload-namespace}"
+    When I call "{kubeClient}" with "GetResourceConsumptionBounds" using arguments "{uid}" and "{test-workload-namespace}"
     Then "{result}" is not an error
     And I attach "{result.AutoscalerMax}" to the test output as "Autoscaler maximum boundaries"
     And "{result.AutoscalerWithinApprovedMax}" is true

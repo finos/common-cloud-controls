@@ -7,10 +7,10 @@ Feature: CCC.K8S.CN04.AR01 - Require approved digest-pinned images
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Require approved digest-pinned images
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{unapproved-tag-image-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{unapproved-tag-image-manifest}"
     Then "{result}" is an error
     And I attach "{result}" to the test output as "Image admission result"

@@ -7,13 +7,15 @@ Feature: CCC.K8S.CN05.AR02 - Enforce secure Linux runtime settings
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
+    And I call "{k8sControlPlane}" with "GetKubernetesClient"
+    And I refer to "{result}" as "kubeClient"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Enforce secure Linux runtime settings
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{insecure-security-context-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{insecure-security-context-manifest}"
     Then "{result}" is an error
-    When I call "{kubernetesService}" with "GetWorkloadRuntimeSecurity" using arguments "{uid}" and "{security-probe-selector}"
+    When I call "{kubeClient}" with "GetWorkloadRuntimeSecurity" using arguments "{uid}" and "{security-probe-selector}"
     Then "{result}" is not an error
     And I refer to "{result}" as "runtime"
     Then "{runtime.UID}" should be greater than "0"

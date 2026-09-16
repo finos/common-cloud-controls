@@ -7,13 +7,13 @@ Feature: CCC.K8S.CN14.AR01 - Export Kubernetes API audit logs
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Export Kubernetes API audit logs
     Given I call "{api}" with "GetServiceAPI" using argument "logging"
     And I refer to "{result}" as "loggingService"
-    When I call "{kubernetesService}" with "UpdateResourcePolicy"
+    When I call "{k8sControlPlane}" with "UpdateResourcePolicy"
     Then "{result}" is not an error
     And we wait for a period of "10000" ms
     When I call "{loggingService}" with "QueryLogs" using arguments "{uid}", "admin", and "{20}"

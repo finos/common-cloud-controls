@@ -7,11 +7,11 @@ Feature: CCC.K8S.CN16.AR01 - Use a managed identity provider for human access
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Use a managed identity provider for human access
-    When I call "{kubernetesService}" with "GetClusterAuthConfig" using argument "{uid}"
+    When I call "{k8sControlPlane}" with "GetClusterAuthConfig" using argument "{uid}"
     Then "{result}" is not an error
     And I attach "{result}" to the test output as "Cluster authentication configuration"
     And "{result.ManagedIdP}" is true

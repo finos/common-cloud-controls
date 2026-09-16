@@ -7,13 +7,15 @@ Feature: CCC.K8S.CN10.AR01 - Enforce approved persistent-volume claims
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
+    And I call "{k8sControlPlane}" with "GetKubernetesClient"
+    And I refer to "{result}" as "kubeClient"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Enforce approved persistent-volume claims
-    When I call "{kubernetesService}" with "AttemptCreatePVC" using arguments "{uid}" and "{disallowed-pvc-manifest}"
+    When I call "{kubeClient}" with "AttemptCreatePVC" using arguments "{uid}" and "{disallowed-pvc-manifest}"
     Then "{result}" is an error
-    When I call "{kubernetesService}" with "AttemptCreatePVC" using arguments "{uid}" and "{compliant-pvc-manifest}"
+    When I call "{kubeClient}" with "AttemptCreatePVC" using arguments "{uid}" and "{compliant-pvc-manifest}"
     Then "{result}" is not an error
     And "{result.Created}" is true
     And "{result.Bound}" is true

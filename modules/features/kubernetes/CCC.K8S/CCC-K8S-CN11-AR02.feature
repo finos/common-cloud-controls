@@ -7,12 +7,12 @@ Feature: CCC.K8S.CN11.AR02 - Gate and audit admission configuration changes
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Gate and audit admission configuration changes
     Given I call "{api}" with "GetServiceAPIWithIdentity" using arguments "kubernetes" and "test-user-no-access"
     And "{result}" is not an error
-    And I refer to "{result}" as "unauthorizedKubernetesService"
-    When I call "{unauthorizedKubernetesService}" with "AttemptModifyAdmissionConfig" using arguments "{uid}" and "{admission-test-change}"
+    And I refer to "{result}" as "unauthorizedK8sControlPlane"
+    When I call "{unauthorizedK8sControlPlane}" with "AttemptModifyAdmissionConfig" using arguments "{uid}" and "{admission-test-change}"
     Then "{result}" is an error

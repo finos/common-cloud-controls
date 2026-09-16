@@ -12,7 +12,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
-var _ Service = (*AWSService)(nil)
+var _ ControlPlane = (*AWSService)(nil)
 
 type AWSService struct {
 	*managedService

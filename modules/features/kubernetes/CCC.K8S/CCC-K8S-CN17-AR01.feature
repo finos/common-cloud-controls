@@ -7,11 +7,13 @@ Feature: CCC.K8S.CN17.AR01 - Separate infrastructure identities
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
+    And I call "{k8sControlPlane}" with "GetKubernetesClient"
+    And I refer to "{result}" as "kubeClient"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Separate infrastructure identities
-    When I call "{kubernetesService}" with "GetInfrastructureIdentities" using argument "{uid}"
+    When I call "{kubeClient}" with "GetInfrastructureIdentities" using argument "{uid}"
     Then "{result}" is not an error
     And I attach "{result.Principals}" to the test output as "Infrastructure principals"
     And "{result.MissingRequiredRoles}" is an array of objects with length "0"

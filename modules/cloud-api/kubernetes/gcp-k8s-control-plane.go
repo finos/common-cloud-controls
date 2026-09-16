@@ -10,7 +10,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-var _ Service = (*GCPService)(nil)
+var _ ControlPlane = (*GCPService)(nil)
 
 type GCPService struct {
 	*managedService

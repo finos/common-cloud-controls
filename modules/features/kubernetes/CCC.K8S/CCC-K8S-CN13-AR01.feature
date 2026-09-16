@@ -7,13 +7,13 @@ Feature: CCC.K8S.CN13.AR01 - Require approved CPU and memory bounds
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Require approved CPU and memory bounds
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{missing-resource-bounds-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{missing-resource-bounds-manifest}"
     Then "{result}" is an error
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{compliant-resource-bounds-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{compliant-resource-bounds-manifest}"
     Then "{result}" is not an error
     And "{result.Admitted}" is true
     And "{result.GeneratedWorkloadRunning}" is true

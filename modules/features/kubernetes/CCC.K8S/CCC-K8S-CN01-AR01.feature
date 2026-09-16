@@ -7,16 +7,16 @@ Feature: CCC.K8S.CN01.AR01 - Restrict API access to approved networks
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Restrict API access to approved networks
-    When I call "{kubernetesService}" with "GetAPIEndpointConfig" using argument "{uid}"
+    When I call "{k8sControlPlane}" with "GetAPIEndpointConfig" using argument "{uid}"
     Then "{result}" is not an error
     And I refer to "{result}" as "endpoint"
     And I attach "{endpoint}" to the test output as "API endpoint configuration"
     Then "{endpoint.PrivateAccess}" is true
-    When I call "{kubernetesService}" with "AttemptAPIEndpointReachability" using arguments "{uid}" and "untrusted"
+    When I call "{k8sControlPlane}" with "AttemptAPIEndpointReachability" using arguments "{uid}" and "untrusted"
     Then "{result}" is not an error
     And I refer to "{result}" as "reachability"
     And "{reachability.DNSResolved}" is true

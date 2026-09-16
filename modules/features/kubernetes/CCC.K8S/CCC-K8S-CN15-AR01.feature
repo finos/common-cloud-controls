@@ -7,11 +7,11 @@ Feature: CCC.K8S.CN15.AR01 - Require approved governance metadata
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Require approved governance metadata
-    When I call "{kubernetesService}" with "GetGovernanceMetadata" using argument "{uid}"
+    When I call "{k8sControlPlane}" with "GetGovernanceMetadata" using argument "{uid}"
     Then "{result}" is not an error
     And I attach "{result}" to the test output as "Governance metadata"
     And "{result.MissingRequired}" is an array of objects with length "0"

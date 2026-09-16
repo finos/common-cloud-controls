@@ -7,11 +7,13 @@ Feature: CCC.K8S.CN12.AR02 - Prevent public node management access
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
+    And I call "{k8sControlPlane}" with "GetKubernetesClient"
+    And I refer to "{result}" as "kubeClient"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Prevent public node management access
-    When I call "{kubernetesService}" with "ProbeNodeAdminInterfaces" using arguments "{uid}", "", "{kubelet-ports}", and "{node-mgmt-ports}"
+    When I call "{kubeClient}" with "ProbeNodeAdminInterfaces" using arguments "{uid}", "", "{kubelet-ports}", and "{node-mgmt-ports}"
     Then "{result}" is not an error
     And "{result.PublicSSHOpen}" is false
     And "{result.PublicRDPOpen}" is false

@@ -7,15 +7,15 @@ Feature: CCC.K8S.CN01.AR02 - Disable public API access
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Disable public API access
-    When I call "{kubernetesService}" with "GetAPIEndpointConfig" using argument "{uid}"
+    When I call "{k8sControlPlane}" with "GetAPIEndpointConfig" using argument "{uid}"
     Then "{result}" is not an error
     And I refer to "{result}" as "endpoint"
     Then "{endpoint.PublicAccess}" is false
     And "{endpoint.PrivateAccess}" is true
-    When I call "{kubernetesService}" with "AttemptAPIEndpointReachability" using arguments "{uid}" and "untrusted"
+    When I call "{k8sControlPlane}" with "AttemptAPIEndpointReachability" using arguments "{uid}" and "untrusted"
     Then "{result}" is not an error
     And "{result.TCPConnected}" is false

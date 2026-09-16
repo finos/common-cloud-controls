@@ -7,11 +7,11 @@ Feature: CCC.K8S.CN18.AR02 - Enable node boot-integrity verification
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Enable node boot-integrity verification
-    When I call "{kubernetesService}" with "GetNodeIntegrityStatus" using argument "{uid}"
+    When I call "{k8sControlPlane}" with "GetNodeIntegrityStatus" using argument "{uid}"
     Then "{result}" is not an error
     And I attach "{result.Nodes}" to the test output as "Node boot integrity status"
     And "{result.BootIntegrityDisabledNodes}" is an array of objects with length "0"

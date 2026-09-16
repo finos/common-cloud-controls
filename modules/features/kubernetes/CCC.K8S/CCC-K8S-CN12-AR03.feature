@@ -7,10 +7,10 @@ Feature: CCC.K8S.CN12.AR03 - Deny unnecessary workload metadata access
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Deny unnecessary workload metadata access
-    When I call "{kubernetesService}" with "AttemptInstanceMetadataAccess" using arguments "{uid}" and "{metadata-probe-selector}"
+    When I call "{k8sControlPlane}" with "AttemptInstanceMetadataAccess" using arguments "{uid}" and "{metadata-probe-selector}"
     Then "{result}" is an error
     And I attach "{result}" to the test output as "Instance metadata access probe"

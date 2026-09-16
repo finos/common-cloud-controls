@@ -14,7 +14,7 @@ The Managed Kubernetes catalog defines **18 native controls** with **41 assessme
 
 Of the 41 native ARs, roughly **28 are Behavioural** (admit/deny probes, inventory assertions, network-flow probes), **~11 are `@NotTestable` or Policy-deferred** (API network allowlisting from GitHub-hosted CI, entitlement inventories, addon allowlist enforcement, alert delivery, cross-account log isolation, update-channel timing, PV rebind sanitization, signing/vuln-scan prerequisites), and Core reuse covers MFA / enumeration / log-integrity stubs plus PerPort TLS and region checks.
 
-**Most inherited Core ARs reuse `modules/features/generic/`** (and `vpc/` for CN06) by adding `@kubernetes` — do not copy those files into `kubernetes/CCC.Core/`. Native ARs and Core CN02 (cluster encryption-at-rest) need **new** features under `kubernetes/CCC.K8S/` and one Core CN02 file. Planned APIs: **25 Kubernetes methods + one fixture-control method** (+ `generic.Service` + `logging.Service` + shared `reachability.Prober`), dominated by a shared `AttemptAdmitWorkload` reused for admission/PSS/image/resource/quota/governance ARs. CN11.AR03 uses a separate `admission-webhook` factory service (implemented in `modules/cloud-api/kubernetes/admission_webhook.go`) that toggles only the probe backend.
+**Most inherited Core ARs reuse `modules/features/generic/`** (and `vpc/` for CN06) by adding `@kubernetes` — do not copy those files into `kubernetes/CCC.Core/`. Native ARs and Core CN02 (cluster encryption-at-rest) need **new** features under `kubernetes/CCC.K8S/` and one Core CN02 file. Planned APIs: **`ControlPlane`** (CSP + `GetKubernetesClient` + `AttemptAdmitWorkload`) and portable **`Client`** (`kubeClient`) probes (+ `generic.Service` + `logging.Service` + shared `reachability.Prober`). CN11.AR03 uses a separate `admission-webhook` factory service.
 
 **Runner note (implementation skill):** extend `collectFeaturePaths` so `kubernetes` loads `port/` (API TLS / CN01+CN13) and `vpc/` (CN06), matching VM/serverless patterns.
 
@@ -623,41 +623,51 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
 
 ## Cloud-api interface (minimal)
 
-### `kubernetes.Service`
+### `kubernetes.ControlPlane` (`k8s-control-plane.go`)
 
-Embeds `generic.Service`. Prefer **maps** for inventory/probe results. Every method maps to ≥1 planned scenario.
+Factory service id remains `kubernetes`. Embeds `generic.Service`. Cloud implementations: `aws-k8s-control-plane.go`, `azure-k8s-control-plane.go`, `gcp-k8s-control-plane.go`.
+
+**Feature naming:** `GetServiceAPI("kubernetes")` → `k8sControlPlane`; `GetKubernetesClient()` → `kubeClient`.
 
 | Method | Used by AR(s) | Args | Returns (key fields) |
 |--------|---------------|------|----------------------|
+| `GetKubernetesClient` | (portable probes) | — | `*Client` (`kubeClient`) |
 | `GetAPIEndpointConfig` | K8S.CN01.AR01 (`@OPT_IN` only), AR02 | `clusterID string` | `PublicAccess`, `PrivateAccess`, `AllowedCIDRs`, `EndpointHostname` |
 | `AttemptAPIEndpointReachability` | K8S.CN01.AR01 (`@OPT_IN` / non-GHA), AR02 | `clusterID`, `networkContext string` | `Observer`, `DNSResolved`, `TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Duration` |
-| `GetRBACPolicyFindings` | K8S.CN02.AR02, CN07.AR02 | `clusterID` | `WildcardRoles[]`, `OverbroadSecretAccess[]` |
-| `AttemptSecretAccessAsIdentity` | K8S.CN07.AR01, AR02 | `clusterID`, `namespace`, `secretName`, `serviceAccount`, `verb` (`get`, `list`, `watch`) | `Allowed`, `Denied`, `ValueMatched`, `Reason` |
-| `GetWorkloadIdentityStatus` | K8S.CN03.AR01 | `clusterID`, `namespace`, `serviceAccount` | `Federated`, `CloudIdentityID`, `LongLivedKeysPresent` |
-| `AttemptCloudAPIAsWorkload` | K8S.CN03.AR01 (negative + optional positive) | `clusterID`, `namespace`, `serviceAccount`, `action` | `Succeeded`, `Denied`, `Error` |
-| `FindStaticCloudCredentials` | K8S.CN03.AR02, CN07.AR01 | `clusterID`, `namespace` | `Findings[]` (`Kind`, `Name`, `Reason`) |
-| `AttemptAdmitWorkload` | K8S.CN03.AR02, CN04.*, CN05.*, CN11.AR01/AR03, CN13.AR01/AR02, CN15.AR01 | `clusterID`, `operation` (`create`, `update`, `ephemeral-update`), `manifestYAML string` | `Admitted`, `Denied`, `DeniedAt`, `GeneratedWorkloadRunning`, `Reason` |
-| `GetAdmissionPolicyCoverage` | K8S.CN11.AR01 | `clusterID` | `Namespaces[]` (`Name`, `System`, `Explicit`, `PolicyName`, `Mode`, `Exemptions`), `Uncovered[]` |
-| `GetWorkloadRuntimeSecurity` | K8S.CN05.AR02 | `clusterID`, `podSelector string` | `UID`, `GID`, `AllowPrivilegeEscalation`, `CapabilitiesEmpty`, `SeccompProfile`, `RawEvidence` |
-| `GetNamespaceNetworkPolicyStatus` | K8S.CN06.AR01 | `clusterID`, `namespace` | `DefaultDenyIngress`, `DefaultDenyEgress`, `PolicyCapable` |
-| `AttemptWorkloadNetworkFlow` | K8S.CN06.AR01, AR02 | `clusterID`, `fromSelector`, `toHost`, `port`, `protocol` | `Allowed`, `Connected`, `Error` |
-| `GetClusterComponentInventory` | CN09.AR01, CN09.AR03 (CN08.AR01 `@OPT_IN` corroboration only) | `clusterID` | `ControlPlaneVersion`, `Workers[]`, `Addons[]` (`Name`,`Version`,`InAllowlist`,`Compatible`,`InSupport`) |
-| `AttemptCreatePVC` | K8S.CN10.AR01 | `clusterID`, `claimYAML` | `Created`, `Denied`, `Bound`, `Reason` |
+| `AttemptAdmitWorkload` | K8S.CN03.AR02, CN04.*, CN05.*, CN11.AR01/AR03, CN13.AR01/AR02, CN15.AR01 | `clusterID`, `operation`, `manifestYAML` | `Admitted`, `Denied`, `DeniedAt`, `GeneratedWorkloadRunning`, `Reason` |
+| `AttemptCloudAPIAsWorkload` | K8S.CN03.AR01 | `clusterID`, `namespace`, `serviceAccount`, `action` | `Succeeded`, `Denied`, `Error` |
 | `AttemptModifyAdmissionConfig` | K8S.CN11.AR02 | `clusterID`, `change map` | `Applied`, `Denied`, `Reason` |
-| `ProbeNodeAdminInterfaces` | K8S.CN12.AR01, AR02 | `clusterID`, `nodeID` (optional), `kubeletPorts[]`, `mgmtPorts[]` | `AnonymousKubeletOpen`, `KubeletReachable`, `PublicSSHOpen`, `PublicRDPOpen`, `PublicIPPresent`, `Nodes[]{ExternalIP, OpenMgmtPorts[]}` (CN12.AR02 external proof delegates to `reachability.Prober`) |
 | `AttemptInstanceMetadataAccess` | K8S.CN12.AR03 | `clusterID`, `podSelector` | `Reachable`, `Denied`, `Error` |
-| `GetResourceConsumptionBounds` | K8S.CN13.AR02, AR03 | `clusterID`, `namespace` | `Quotas{}`, `AutoscalerMax{}`, `AutoscalingEnabled` |
 | `GetGovernanceMetadata` | K8S.CN15.AR01 | `clusterID` | `Tags{}`, `Labels{}`, `MissingRequired[]` |
 | `AttemptModifyGovernanceMetadata` | K8S.CN15.AR02 | `clusterID`, `target`, `patch` | `Applied`, `Denied`, `Reason` |
 | `GetClusterAuthConfig` | K8S.CN16.AR01, AR02 | `clusterID` | `ManagedIdP`, `LegacyAuthEnabled`, `LocalAccountsEnabled`, `StaticClientCertsForHumans` |
-| `AttemptClusterAuthWithStaticCredential` | K8S.CN16.AR02 (`@OPT_IN`, negative) | `clusterID`, `mode` (`basic`, `client-cert`) | `Authenticated`, `Denied`, `StatusCode`, `Error` |
-| `GetInfrastructureIdentities` | K8S.CN17.AR01 | `clusterID` | `Principals[]` (`Role`, `IdentityID`, `Exposed`) |
-| `GetNodeIntegrityStatus` | K8S.CN18.AR01, AR02 | `clusterID` | `Nodes[]` (`ImageID`, `ImageSource` (`csp`\|`authenticated-publisher`\|`unknown`), `ImageSupported`, `BootIntegrityEnabled`) |
+| `AttemptClusterAuthWithStaticCredential` | K8S.CN16.AR02 | `clusterID`, `mode` | `Authenticated`, `Denied`, `StatusCode`, `Error` |
 | `GetEncryptionAtRestStatus` | Core.CN02, K8S.CN07.AR01 | `clusterID` | `SecretsEncrypted`, `KMSKeyID`, `Provider` |
+| `GetClusterComponentInventory` | CN09.AR01, CN09.AR03 | `clusterID` | `ControlPlaneVersion`, `Workers[]`, `Addons[]` |
+| `GetNodeIntegrityStatus` | K8S.CN18.AR01, AR02 | `clusterID` | `Nodes[]` |
 
-**Method count: 25** Kubernetes-specific methods (admission + inventory heavy service) + generic/logging embed + shared `reachability.Prober` client + the separate one-method `admission-webhook` fixture controller (same Go package folder, distinct factory id). Do **not** add `QueryLogs` on this interface.
+`AttemptAdmitWorkload` stays on the control plane (uses the dynamic client internally). Do **not** expose `dynamic.Interface` to features.
 
-**Collapse notes**: `AttemptAdmitWorkload` is the shared trigger for static-credential, image, PSS, resource, quota, and governance-metadata ARs — pass different manifests rather than adding per-AR methods. CN12.AR02's "public internet" leg reuses the shared `reachability.Prober` rather than a new method.
+### `kubernetes.Client` (`k8s-client.go`) — portable kube probes
+
+Obtained only via `ControlPlane.GetKubernetesClient`. Shared across AWS/Azure/GCP.
+
+| Method | Used by AR(s) | Args | Returns (key fields) |
+|--------|---------------|------|----------------------|
+| `GetRBACPolicyFindings` | K8S.CN02.AR02, CN07.AR02 | `clusterID` | `WildcardRoles[]`, `OverbroadSecretAccess[]` |
+| `AttemptSecretAccessAsIdentity` | K8S.CN07.AR01, AR02 | `clusterID`, `namespace`, `secretName`, `serviceAccount`, `verb` | `Allowed`, `Denied`, `ValueMatched`, `Reason` |
+| `GetWorkloadIdentityStatus` | K8S.CN03.AR01 | `clusterID`, `namespace`, `serviceAccount` | `Federated`, `CloudIdentityID`, `LongLivedKeysPresent` |
+| `FindStaticCloudCredentials` | K8S.CN03.AR02, CN07.AR01 | `clusterID`, `namespace` | `Findings[]` |
+| `GetAdmissionPolicyCoverage` | K8S.CN11.AR01 | `clusterID` | `Namespaces[]`, `Uncovered[]` |
+| `GetWorkloadRuntimeSecurity` | K8S.CN05.AR02 | `clusterID`, `podSelector` | `UID`, `GID`, … |
+| `GetNamespaceNetworkPolicyStatus` | K8S.CN06.AR01 | `clusterID`, `namespace` | `DefaultDenyIngress`, `DefaultDenyEgress`, `PolicyCapable` |
+| `AttemptWorkloadNetworkFlow` | K8S.CN06.AR01, AR02 | `clusterID`, `fromSelector`, `toHost`, `port`, `protocol` | `Allowed`, `Connected`, `Error` |
+| `AttemptCreatePVC` | K8S.CN10.AR01 | `clusterID`, `claimYAML` | `Created`, `Denied`, `Bound`, `Reason` |
+| `ProbeNodeAdminInterfaces` | K8S.CN12.AR01, AR02 | `clusterID`, `nodeID`, `kubeletPorts[]`, `mgmtPorts[]` | node reachability fields |
+| `GetResourceConsumptionBounds` | K8S.CN13.AR02, AR03 | `clusterID`, `namespace` | `Quotas{}`, `AutoscalerMax{}`, … |
+| `GetInfrastructureIdentities` | K8S.CN17.AR01 | `clusterID` | `Principals[]` |
+
+**Collapse notes**: `AttemptAdmitWorkload` remains the shared admission trigger. CN12.AR02 reuses `reachability.Prober` from the client. Do **not** add `QueryLogs` on these interfaces.
 
 ### `reachability.Prober` (shared cloud-api client)
 
@@ -698,7 +708,7 @@ Each consumer keeps a config-only / `LocalProber` fallback (`@SANITY`) for when 
 
 ### `admission-webhook` service (fixture controller)
 
-Implemented in `modules/cloud-api/kubernetes/admission_webhook.go`, factory service id `admission-webhook`. Lives next to `kubernetes.Service` in the same package folder, but is a separate service: it controls the lifecycle of the test probe and is not evidence about an arbitrary production webhook.
+Implemented in `modules/cloud-api/kubernetes/admission_webhook.go`, factory service id `admission-webhook`. Lives next to `ControlPlane` in the same package folder, but is a separate service: it controls the lifecycle of the test probe and is not evidence about an arbitrary production webhook.
 
 | Method | Used by AR(s) | Args | Returns |
 |--------|---------------|------|---------|
@@ -884,70 +894,13 @@ Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/kubernetes/`.
 
 ---
 
-## Integration test coverage (planned)
+## Integration test coverage
 
-| api | method | cloud | expect_error | arg1 | Notes |
-|-----|--------|-------|--------------|------|-------|
-| `kubernetes` | `GetAPIEndpointConfig` | all | | `finos-ccc-integration-k8s-main` | Exercise endpoint config read path |
-| `kubernetes` | `AttemptAPIEndpointReachability` | all | | cluster, `untrusted` | Exercise reachability prober wiring; probe/API errors fail as infrastructure errors |
-| `kubernetes` | `GetRBACPolicyFindings` | all | | cluster | No wildcards |
-| `kubernetes` | `AttemptSecretAccessAsIdentity` | all | | secret + intended SA | CN07.AR01 authorized read |
-| `kubernetes` | `AttemptSecretAccessAsIdentity` | all | true | secret + unauthorized SA | CN07.AR01 denied |
-| `kubernetes` | `AttemptSecretAccessAsIdentity` | all | true | unrelated secret + intended SA + `get` | CN07.AR02 named-secret boundary |
-| `kubernetes` | `AttemptSecretAccessAsIdentity` | all | true | intended SA + `list` | CN07.AR02 no enumeration |
-| `kubernetes` | `AttemptSecretAccessAsIdentity` | all | true | intended SA + `watch` | CN07.AR02 no watch |
-| `kubernetes` | `GetWorkloadIdentityStatus` | all | | cluster + bound SA | `Federated=true` |
-| `kubernetes` | `GetWorkloadIdentityStatus` | all | | cluster + unbound SA | `Federated=false` (negative) |
-| `kubernetes` | `AttemptCloudAPIAsWorkload` | all | true | unbound SA + probe action | Live negative: cloud call denied |
-| `kubernetes` | `FindStaticCloudCredentials` | all | | cluster + ns | Empty findings |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | static-credential manifest | CN03.AR02 deny |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | privileged manifest | CN05.AR01 |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | insecure Linux securityContext | CN05.AR02 deny |
-| `kubernetes` | `GetWorkloadRuntimeSecurity` | all | | security-probe pod | CN05.AR02: UID>0, caps dropped, RuntimeDefault |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | tag-only image | CN04.AR01 |
-| `kubernetes` | `GetNamespaceNetworkPolicyStatus` | all | | cluster + ns | Default deny |
-| `kubernetes` | `AttemptWorkloadNetworkFlow` | all | true | isolated pod → control listener | CN06.AR01 egress deny |
-| `kubernetes` | `AttemptWorkloadNetworkFlow` | all | true | control pod → isolated listener | CN06.AR01 ingress deny |
-| `kubernetes` | `AttemptWorkloadNetworkFlow` | all | | control pod → allowed listener | CN06.AR01 positive control |
-| `kubernetes` | `AttemptWorkloadNetworkFlow` | all | | probe → allowlist URL | CN06.AR02 allow |
-| `kubernetes` | `AttemptWorkloadNetworkFlow` | all | true | probe → denylist URL | CN06.AR02 deny |
-| `kubernetes` | `GetClusterComponentInventory` | all | | cluster | CN09.AR01 support + CN09.AR03 addon version compatibility |
-| `kubernetes` | `AttemptCreatePVC` | all | true | disallowed StorageClass | CN10.AR01 deny |
-| `kubernetes` | `AttemptCreatePVC` | all | true | disallowed accessMode | CN10.AR01 deny |
-| `kubernetes` | `AttemptCreatePVC` | all | | compliant claim | CN10.AR01 created + Bound |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | create privileged Pod | CN11.AR01 direct create denied |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | create privileged Deployment/DaemonSet/Job | CN11.AR01 controller paths denied / no Pod runs |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | create namespace + privileged Pod bundle | CN11.AR01 unlabeled namespace cannot bypass |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | update Deployment to privileged template | CN11.AR01 update denied |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | ephemeral-update privileged debug container | CN11.AR01 `@OPT_IN` |
-| `kubernetes` | `AttemptAdmitWorkload` | all | | create compliant Deployment | CN11.AR01 positive control runs |
-| `kubernetes` | `GetAdmissionPolicyCoverage` | all | | cluster | CN11.AR01 no uncovered user/system namespaces |
-| `admission-webhook` | `SetBackendAvailability` | all | | cluster + `true` | CN11.AR03 healthy backend ready; registration remains fail-closed |
-| `kubernetes` | `AttemptAdmitWorkload` | all | | webhook compliant marker | CN11.AR03 healthy allow path |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | webhook explicit-reject marker | CN11.AR03 healthy deny proves webhook traversal |
-| `admission-webhook` | `SetBackendAvailability` | all | | cluster + `false` | CN11.AR03 backend unavailable; registration remains installed |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | webhook compliant marker while unavailable | CN11.AR03 fail-closed denial |
-| `admission-webhook` | `SetBackendAvailability` | all | | cluster + `true` | CN11.AR03 mandatory recovery and readiness check |
-| `kubernetes` | `ProbeNodeAdminInterfaces` | all | | cluster | CN12.AR01 anon kubelet closed / CN12.AR02 no public mgmt port |
-| `kubernetes` | `reachability.Prober` | all | true | node public IP:22/3389 | CN12.AR02 external observer TCP not connected |
-| `kubernetes` | `AttemptInstanceMetadataAccess` | all | true | pod selector | CN12.AR03 |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | container missing/over-limit resources | CN13.AR01 deny |
-| `kubernetes` | `AttemptAdmitWorkload` | all | | compliant resources | CN13.AR01 admit + optional readback |
-| `kubernetes` | `GetResourceConsumptionBounds` | all | | cluster + ns | CN13.AR02/AR03 quotas + autoscaler max present |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | workload past quota bound | CN13.AR02 quota-exceeded deny |
-| `kubernetes` | `GetGovernanceMetadata` | all | | cluster | CN15.AR01 required keys present |
-| `kubernetes` | `AttemptAdmitWorkload` | all | true | governed workload missing required label | CN15.AR01 `@OPT_IN` deny |
-| `kubernetes` | `AttemptModifyGovernanceMetadata` | all | true | no-access identity | CN15.AR02 |
-| `kubernetes` | `GetClusterAuthConfig` | all | | cluster | Managed IdP |
-| `kubernetes` | `AttemptClusterAuthWithStaticCredential` | all | true | static/basic credential | CN16.AR02 `@OPT_IN` auth rejected |
-| `kubernetes` | `GetInfrastructureIdentities` | all | | cluster | Distinct principals |
-| `kubernetes` | `GetNodeIntegrityStatus` | all | | cluster | Image + boot where supported |
-| `kubernetes` | `GetEncryptionAtRestStatus` | all | | cluster | Core CN02 |
-| `kubernetes` | `UpdateResourcePolicy` | all | | | Core CN04 |
-| `kubernetes` | `TriggerDataWrite` | all | | resource | Core CN04/CN05 |
-| `kubernetes` | `TriggerDataRead` | all | | resource | Core CN04/CN05 |
-| `kubernetes` | `GetResourceRegion` | all | | resource | Core CN06 |
-| `logging` | `QueryLogs` | all | | cluster, `admin`, `60` | CN04 / CN14 |
+`modules/cloud-api-test/integration_calls.csv` exercises **ControlPlane** (+ `generic.Service`) and the `admission-webhook` fixture controller — i.e. code we own for CSP wiring, admit, governance, auth, encryption, inventory/integrity overrides, and lifecycle-adjacent helpers.
+
+**Not** in the CSV: portable `Client` probes (`GetRBACPolicyFindings`, NetworkPolicy/Job flows, PVC helpers, …). Those wrap client-go and belong in unit tests / behavioural features via `kubeClient`, not cloud-api integration.
+
+Canonical row list: `modules/cloud-api-test/integration_calls.csv` (kubernetes + admission-webhook section).
 
 Vars for `modules/cloud-api-test/privateer-config/*.yml`: cluster resource name, logging sink IDs, kube auth settings from terraform outputs.
 

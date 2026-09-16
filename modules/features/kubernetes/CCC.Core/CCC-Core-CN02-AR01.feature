@@ -7,11 +7,11 @@ Feature: CCC.Core.CN02.AR01 - Encrypt Kubernetes secrets at rest
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Kubernetes secrets are encrypted at rest
-    When I call "{kubernetesService}" with "GetEncryptionAtRestStatus" using argument "{uid}"
+    When I call "{k8sControlPlane}" with "GetEncryptionAtRestStatus" using argument "{uid}"
     Then "{result}" is not an error
     And I attach "{result}" to the test output as "Kubernetes encryption-at-rest status"
     And "{result.SecretsEncrypted}" is true

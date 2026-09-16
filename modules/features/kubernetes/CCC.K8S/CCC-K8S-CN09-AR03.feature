@@ -7,11 +7,11 @@ Feature: CCC.K8S.CN09.AR03 - Use compatible supported add-ons
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Use compatible supported add-ons
-    When I call "{kubernetesService}" with "GetClusterComponentInventory" using argument "{uid}"
+    When I call "{k8sControlPlane}" with "GetClusterComponentInventory" using argument "{uid}"
     Then "{result}" is not an error
     And I attach "{result.Addons}" to the test output as "Managed add-on inventory"
     Then "{result.IncompatibleAddons}" is an array of objects with length "0"

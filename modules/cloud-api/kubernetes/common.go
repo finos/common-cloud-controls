@@ -228,12 +228,12 @@ func (s *managedService) AttemptAPIEndpointReachability(clusterID, networkContex
 	return structMap(result)
 }
 
-func (s *managedService) GetRBACPolicyFindings(string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) GetRBACPolicyFindings(string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	roles, err := client.RbacV1().ClusterRoles().List(s.ctx, metav1.ListOptions{})
+	roles, err := client.RbacV1().ClusterRoles().List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("list cluster roles: %w", err)
 	}
@@ -252,14 +252,14 @@ func (s *managedService) GetRBACPolicyFindings(string) (map[string]interface{}, 
 	return map[string]interface{}{"WildcardRoles": wildcards, "OverbroadSecretAccess": secretAccess}, nil
 }
 
-func (s *managedService) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
-	if s.restConfig == nil {
+func (c *Client) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
+	if c.restConfig == nil {
 		return nil, fmt.Errorf("Kubernetes API prerequisite missing: kubeconfig is required for service-account impersonation")
 	}
 	if !contains([]string{"get", "list", "watch"}, strings.ToLower(verb)) {
 		return nil, fmt.Errorf("unsupported secret verb %q", verb)
 	}
-	rc := rest.CopyConfig(s.restConfig)
+	rc := rest.CopyConfig(c.restConfig)
 	rc.Impersonate.UserName = "system:serviceaccount:" + namespace + ":" + serviceAccount
 	client, err := kubernetes.NewForConfig(rc)
 	if err != nil {
@@ -268,11 +268,11 @@ func (s *managedService) AttemptSecretAccessAsIdentity(_ string, namespace, secr
 	result := map[string]interface{}{"Allowed": false, "Denied": false, "ValueMatched": false}
 	switch strings.ToLower(verb) {
 	case "get":
-		_, err = client.CoreV1().Secrets(namespace).Get(s.ctx, secretName, metav1.GetOptions{})
+		_, err = client.CoreV1().Secrets(namespace).Get(c.ctx, secretName, metav1.GetOptions{})
 	case "list":
-		_, err = client.CoreV1().Secrets(namespace).List(s.ctx, metav1.ListOptions{})
+		_, err = client.CoreV1().Secrets(namespace).List(c.ctx, metav1.ListOptions{})
 	case "watch":
-		ctx, cancel := context.WithTimeout(s.ctx, configDuration(s.config, "secret-watch-timeout-ms", 3*time.Second))
+		ctx, cancel := context.WithTimeout(c.ctx, configDuration(c.config, "secret-watch-timeout-ms", 3*time.Second))
 		defer cancel()
 		watcher, watchErr := client.CoreV1().Secrets(namespace).Watch(ctx, metav1.ListOptions{FieldSelector: "metadata.name=" + secretName})
 		if watchErr == nil {
@@ -289,12 +289,12 @@ func (s *managedService) AttemptSecretAccessAsIdentity(_ string, namespace, secr
 	return result, nil
 }
 
-func (s *managedService) GetWorkloadIdentityStatus(_ string, namespace, serviceAccount string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) GetWorkloadIdentityStatus(_ string, namespace, serviceAccount string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	sa, err := client.CoreV1().ServiceAccounts(namespace).Get(s.ctx, serviceAccount, metav1.GetOptions{})
+	sa, err := client.CoreV1().ServiceAccounts(namespace).Get(c.ctx, serviceAccount, metav1.GetOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("get service account: %w", err)
 	}
@@ -322,13 +322,13 @@ func (s *managedService) AttemptCloudAPIAsWorkload(clusterID, namespace, service
 
 var credentialPattern = regexp.MustCompile(`(?i)(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC )?PRIVATE KEY-----|"type"\s*:\s*"service_account"|AZURE_CLIENT_SECRET)`)
 
-func (s *managedService) FindStaticCloudCredentials(_ string, namespace string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) FindStaticCloudCredentials(_ string, namespace string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
 	var findings []map[string]interface{}
-	secrets, err := client.CoreV1().Secrets(namespace).List(s.ctx, metav1.ListOptions{})
+	secrets, err := client.CoreV1().Secrets(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("list secrets: %w", err)
 	}
@@ -339,7 +339,7 @@ func (s *managedService) FindStaticCloudCredentials(_ string, namespace string) 
 			}
 		}
 	}
-	pods, err := client.CoreV1().Pods(namespace).List(s.ctx, metav1.ListOptions{})
+	pods, err := client.CoreV1().Pods(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("list pods: %w", err)
 	}
@@ -404,12 +404,12 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 	return result, nil
 }
 
-func (s *managedService) GetAdmissionPolicyCoverage(string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) GetAdmissionPolicyCoverage(string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	namespaces, err := client.CoreV1().Namespaces().List(s.ctx, metav1.ListOptions{})
+	namespaces, err := client.CoreV1().Namespaces().List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -429,13 +429,13 @@ func (s *managedService) GetAdmissionPolicyCoverage(string) (map[string]interfac
 	return map[string]interface{}{"Namespaces": coverage, "Uncovered": uncovered}, nil
 }
 
-func (s *managedService) GetWorkloadRuntimeSecurity(_ string, podSelector string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) GetWorkloadRuntimeSecurity(_ string, podSelector string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	namespace := configOr(s.config, "test-workload-namespace", "default")
-	pods, err := client.CoreV1().Pods(namespace).List(s.ctx, metav1.ListOptions{LabelSelector: podSelector})
+	namespace := configOr(c.config, "test-workload-namespace", "default")
+	pods, err := client.CoreV1().Pods(namespace).List(c.ctx, metav1.ListOptions{LabelSelector: podSelector})
 	if err != nil {
 		return nil, err
 	}
@@ -463,12 +463,12 @@ func (s *managedService) GetWorkloadRuntimeSecurity(_ string, podSelector string
 	return result, nil
 }
 
-func (s *managedService) GetNamespaceNetworkPolicyStatus(_ string, namespace string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) GetNamespaceNetworkPolicyStatus(_ string, namespace string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	policies, err := client.NetworkingV1().NetworkPolicies(namespace).List(s.ctx, metav1.ListOptions{})
+	policies, err := client.NetworkingV1().NetworkPolicies(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -489,14 +489,14 @@ func (s *managedService) GetNamespaceNetworkPolicyStatus(_ string, namespace str
 	return map[string]interface{}{"DefaultDenyIngress": ingress, "DefaultDenyEgress": egress, "PolicyCapable": len(policies.Items) > 0}, nil
 }
 
-func (s *managedService) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost string, port int, protocol string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost string, port int, protocol string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	image := strings.TrimSpace(s.config.Get("network-probe-image"))
+	image := strings.TrimSpace(c.config.Get("network-probe-image"))
 	if image == "" {
-		return nil, unsupported(s.provider, "AttemptWorkloadNetworkFlow", "network-probe-image config var is required")
+		return nil, unsupported(c.provider, "AttemptWorkloadNetworkFlow", "network-probe-image config var is required")
 	}
 	labels, err := parseLabelSelector(fromSelector)
 	if err != nil {
@@ -505,9 +505,9 @@ func (s *managedService) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHo
 	if labels["role"] == "" {
 		labels["role"] = "network-probe"
 	}
-	namespace := networkFlowNamespace(s.config, labels)
+	namespace := networkFlowNamespace(c.config, labels)
 	targetURL, dialHost, dialPort := networkFlowTarget(toHost, port, protocol)
-	timeout := configDuration(s.config, "network-probe-timeout-ms", 15*time.Second)
+	timeout := configDuration(c.config, "network-probe-timeout-ms", 15*time.Second)
 	deadlineSec := int64(timeout.Seconds())
 	if deadlineSec < 5 {
 		deadlineSec = 5
@@ -551,18 +551,18 @@ func (s *managedService) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHo
 			},
 		},
 	}
-	created, err := client.BatchV1().Jobs(namespace).Create(s.ctx, job, metav1.CreateOptions{})
+	created, err := client.BatchV1().Jobs(namespace).Create(c.ctx, job, metav1.CreateOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("create network flow probe job: %w", err)
 	}
 	defer func() {
 		prop := metav1.DeletePropagationBackground
-		_ = client.BatchV1().Jobs(namespace).Delete(s.ctx, created.Name, metav1.DeleteOptions{PropagationPolicy: &prop})
+		_ = client.BatchV1().Jobs(namespace).Delete(c.ctx, created.Name, metav1.DeleteOptions{PropagationPolicy: &prop})
 	}()
 
 	deadline := time.Now().Add(timeout)
 	for time.Now().Before(deadline) {
-		current, getErr := client.BatchV1().Jobs(namespace).Get(s.ctx, created.Name, metav1.GetOptions{})
+		current, getErr := client.BatchV1().Jobs(namespace).Get(c.ctx, created.Name, metav1.GetOptions{})
 		if getErr != nil {
 			return nil, fmt.Errorf("watch network flow probe job: %w", getErr)
 		}
@@ -580,8 +580,8 @@ func (s *managedService) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHo
 			}, fmt.Errorf("network flow blocked or unreachable from %q to %s:%d/%s", fromSelector, toHost, port, protocol)
 		}
 		select {
-		case <-s.ctx.Done():
-			return nil, s.ctx.Err()
+		case <-c.ctx.Done():
+			return nil, c.ctx.Err()
 		case <-time.After(500 * time.Millisecond):
 		}
 	}
@@ -695,10 +695,10 @@ func (s *managedService) GetClusterComponentInventory(string) (map[string]interf
 	return map[string]interface{}{"ControlPlaneVersion": version.GitVersion, "Workers": workers, "Addons": []map[string]interface{}{}}, nil
 }
 
-func (s *managedService) AttemptCreatePVC(_ string, claimYAML string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) AttemptCreatePVC(_ string, claimYAML string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
 	obj, _, err := decodeManifest(claimYAML)
 	if err != nil {
@@ -711,10 +711,10 @@ func (s *managedService) AttemptCreatePVC(_ string, claimYAML string) (map[strin
 	}
 	namespace := claim.Namespace
 	if namespace == "" {
-		namespace = configOr(s.config, "test-workload-namespace", "default")
+		namespace = configOr(c.config, "test-workload-namespace", "default")
 	}
 	result := map[string]interface{}{"Created": false, "Denied": false, "Bound": false}
-	created, err := client.CoreV1().PersistentVolumeClaims(namespace).Create(s.ctx, &claim, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
+	created, err := client.CoreV1().PersistentVolumeClaims(namespace).Create(c.ctx, &claim, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
 	if err != nil {
 		result["Denied"] = true
 		result["Reason"] = err.Error()
@@ -730,12 +730,12 @@ func (s *managedService) AttemptModifyAdmissionConfig(clusterID string, change m
 		fmt.Sprintf("mutating admission configuration is destructive and no narrowly-scoped fixture target was configured (cluster=%s change=%v)", clusterID, change))
 }
 
-func (s *managedService) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPorts, mgmtPorts []int) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPorts, mgmtPorts []int) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	nodes, err := client.CoreV1().Nodes().List(s.ctx, metav1.ListOptions{})
+	nodes, err := client.CoreV1().Nodes().List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -756,7 +756,7 @@ func (s *managedService) ProbeNodeAdminInterfaces(_ string, nodeID string, kubel
 			if host == "" {
 				continue
 			}
-			probe, probeErr := (reachability.LocalProber{Observer: "runner-local"}).Probe(s.ctx, reachability.Request{Host: host, Port: port, Protocol: "tcp", Timeout: configDuration(s.config, "node-probe-timeout-ms", 5*time.Second)})
+			probe, probeErr := (reachability.LocalProber{Observer: "runner-local"}).Probe(c.ctx, reachability.Request{Host: host, Port: port, Protocol: "tcp", Timeout: configDuration(c.config, "node-probe-timeout-ms", 5*time.Second)})
 			if probeErr != nil {
 				return nil, probeErr
 			}
@@ -769,7 +769,7 @@ func (s *managedService) ProbeNodeAdminInterfaces(_ string, nodeID string, kubel
 			if external == "" {
 				continue
 			}
-			probe, probeErr := s.prober.Probe(s.ctx, reachability.Request{Host: external, Port: port, Protocol: "tcp", Timeout: configDuration(s.config, "node-probe-timeout-ms", 5*time.Second), NetworkContext: "untrusted"})
+			probe, probeErr := c.prober.Probe(c.ctx, reachability.Request{Host: external, Port: port, Protocol: "tcp", Timeout: configDuration(c.config, "node-probe-timeout-ms", 5*time.Second), NetworkContext: "untrusted"})
 			if probeErr != nil {
 				return nil, probeErr
 			}
@@ -793,12 +793,12 @@ func (s *managedService) AttemptInstanceMetadataAccess(clusterID, podSelector st
 		fmt.Sprintf("an approved in-cluster metadata probe image is required (cluster=%s selector=%s)", clusterID, podSelector))
 }
 
-func (s *managedService) GetResourceConsumptionBounds(_ string, namespace string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) GetResourceConsumptionBounds(_ string, namespace string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	quotas, err := client.CoreV1().ResourceQuotas(namespace).List(s.ctx, metav1.ListOptions{})
+	quotas, err := client.CoreV1().ResourceQuotas(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -841,12 +841,12 @@ func (s *managedService) AttemptClusterAuthWithStaticCredential(clusterID, mode 
 		fmt.Sprintf("a deliberately invalid static %s credential fixture and isolated endpoint client are required for cluster %s", mode, clusterID))
 }
 
-func (s *managedService) GetInfrastructureIdentities(_ string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+func (c *Client) GetInfrastructureIdentities(_ string) (map[string]interface{}, error) {
+	client := c.client
+	if client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	serviceAccounts, err := client.CoreV1().ServiceAccounts("").List(s.ctx, metav1.ListOptions{})
+	serviceAccounts, err := client.CoreV1().ServiceAccounts("").List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}

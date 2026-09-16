@@ -19,7 +19,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
-var _ Service = (*AzureService)(nil)
+var _ ControlPlane = (*AzureService)(nil)
 
 type AzureService struct {
 	*managedService

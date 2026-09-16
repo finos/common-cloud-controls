@@ -7,12 +7,14 @@ Feature: CCC.K8S.CN03.AR02 - Reject long-lived cloud credentials in workloads
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
+    And I call "{k8sControlPlane}" with "GetKubernetesClient"
+    And I refer to "{result}" as "kubeClient"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Reject long-lived cloud credentials in workloads
-    When I call "{kubernetesService}" with "FindStaticCloudCredentials" using arguments "{uid}" and "{test-workload-namespace}"
+    When I call "{kubeClient}" with "FindStaticCloudCredentials" using arguments "{uid}" and "{test-workload-namespace}"
     Then "{result}" is not an error
     And "{result.Findings}" is an array of objects with length "0"
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{static-credential-workload-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{static-credential-workload-manifest}"
     Then "{result}" is an error

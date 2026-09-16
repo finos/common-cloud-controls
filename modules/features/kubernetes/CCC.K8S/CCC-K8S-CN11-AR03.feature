@@ -7,7 +7,7 @@ Feature: CCC.K8S.CN11.AR03 - Fail closed when an external webhook is unavailable
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Fail closed when an external webhook is unavailable
@@ -17,7 +17,7 @@ Feature: CCC.K8S.CN11.AR03 - Fail closed when an external webhook is unavailable
     Then "{result}" is not an error
     And "{result.RegistrationPresent}" is true
     And "{result.FailurePolicy}" is "Fail"
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{webhook-compliant-probe-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{webhook-compliant-probe-manifest}"
     Then "{result}" is an error
     When I call "{webhookService}" with "SetBackendAvailability" using arguments "{uid}" and "true"
     Then "{result}" is not an error

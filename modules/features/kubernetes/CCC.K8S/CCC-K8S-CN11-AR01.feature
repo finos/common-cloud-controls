@@ -7,14 +7,16 @@ Feature: CCC.K8S.CN11.AR01 - Cover every namespace and admission path
   Background:
     Given a cloud api for "{config}" in "api"
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
-    And I refer to "{result}" as "kubernetesService"
+    And I refer to "{result}" as "k8sControlPlane"
+    And I call "{k8sControlPlane}" with "GetKubernetesClient"
+    And I refer to "{result}" as "kubeClient"
 
   @Behavioural @kubernetes @MAIN
   Scenario: Cover every namespace and admission path
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{privileged-workload-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{privileged-workload-manifest}"
     Then "{result}" is an error
-    When I call "{kubernetesService}" with "AttemptAdmitWorkload" using arguments "{uid}", "update", and "{privileged-controller-update-manifest}"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "update", and "{privileged-controller-update-manifest}"
     Then "{result}" is an error
-    When I call "{kubernetesService}" with "GetAdmissionPolicyCoverage" using argument "{uid}"
+    When I call "{kubeClient}" with "GetAdmissionPolicyCoverage" using argument "{uid}"
     Then "{result}" is not an error
     And "{result.Uncovered}" is an array of objects with length "0"
