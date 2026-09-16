@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"sync"
 
-	admissionwebhook "github.com/finos/common-cloud-controls/cloud-api/admission-webhook"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	kubernetesapi "github.com/finos/common-cloud-controls/cloud-api/kubernetes"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
@@ -89,7 +88,7 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
 		}
 	case "admission-webhook":
-		service, err = admissionwebhook.NewService(f.ctx, f.config)
+		service, err = kubernetesapi.NewAdmissionWebhookService(f.ctx, f.config)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
 		}
@@ -154,7 +153,7 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}
 	case "admission-webhook":
-		service, err = admissionwebhook.NewServiceWithIdentity(f.ctx, f.config, identity)
+		service, err = kubernetesapi.NewAdmissionWebhookServiceWithIdentity(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}

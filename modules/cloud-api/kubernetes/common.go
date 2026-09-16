@@ -15,6 +15,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/reachability"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -103,10 +104,17 @@ func proberFromConfig(cfg types.Config) reachability.Prober {
 	return reachability.LocalProber{Observer: "runner-local"}
 }
 
+func (s *managedService) clusterResourceID(explicit string) string {
+	if id := strings.TrimSpace(explicit); id != "" {
+		return id
+	}
+	return strings.TrimSpace(s.config.Get("cluster-name", "resource"))
+}
+
 func (s *managedService) GetOrProvisionTestableResources() ([]types.TestParams, error) {
-	resource := s.config.Get("resource")
+	resource := s.clusterResourceID("")
 	if resource == "" {
-		return nil, fmt.Errorf("resource config var is required for kubernetes; cloud-api does not provision clusters")
+		return nil, fmt.Errorf("cluster-name or resource config var is required for kubernetes; cloud-api does not provision clusters")
 	}
 	endpoint, err := s.GetAPIEndpointConfig(resource)
 	if err != nil {
@@ -144,7 +152,7 @@ func (s *managedService) UpdateResourcePolicy() error {
 	if s.updateMetadata == nil {
 		return unsupported(s.provider, "UpdateResourcePolicy", "managed-cluster metadata update API is unavailable")
 	}
-	return s.updateMetadata(s.ctx, s.config.Get("resource"), map[string]interface{}{
+	return s.updateMetadata(s.ctx, s.clusterResourceID(""), map[string]interface{}{
 		"ccc_compliance_test": time.Now().UTC().Format(time.RFC3339Nano),
 	})
 }
@@ -481,10 +489,191 @@ func (s *managedService) GetNamespaceNetworkPolicyStatus(_ string, namespace str
 	return map[string]interface{}{"DefaultDenyIngress": ingress, "DefaultDenyEgress": egress, "PolicyCapable": len(policies.Items) > 0}, nil
 }
 
-func (s *managedService) AttemptWorkloadNetworkFlow(clusterID, fromSelector, toHost string, port int, protocol string) (map[string]interface{}, error) {
-	return nil, unsupported(s.provider, "AttemptWorkloadNetworkFlow",
-		fmt.Sprintf("an approved in-cluster network probe image is required (cluster=%s source=%s target=%s:%d/%s)", clusterID, fromSelector, toHost, port, protocol))
+func (s *managedService) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost string, port int, protocol string) (map[string]interface{}, error) {
+	client, _, err := s.kubeClients()
+	if err != nil {
+		return nil, err
+	}
+	image := strings.TrimSpace(s.config.Get("network-probe-image"))
+	if image == "" {
+		return nil, unsupported(s.provider, "AttemptWorkloadNetworkFlow", "network-probe-image config var is required")
+	}
+	labels, err := parseLabelSelector(fromSelector)
+	if err != nil {
+		return nil, err
+	}
+	if labels["role"] == "" {
+		labels["role"] = "network-probe"
+	}
+	namespace := networkFlowNamespace(s.config, labels)
+	targetURL, dialHost, dialPort := networkFlowTarget(toHost, port, protocol)
+	timeout := configDuration(s.config, "network-probe-timeout-ms", 15*time.Second)
+	deadlineSec := int64(timeout.Seconds())
+	if deadlineSec < 5 {
+		deadlineSec = 5
+	}
+	backoff := int32(0)
+	job := &batchv1.Job{
+		ObjectMeta: metav1.ObjectMeta{
+			GenerateName: "ccc-netflow-",
+			Namespace:    namespace,
+			Labels:       labels,
+		},
+		Spec: batchv1.JobSpec{
+			BackoffLimit:          &backoff,
+			ActiveDeadlineSeconds: &deadlineSec,
+			Template: corev1.PodTemplateSpec{
+				ObjectMeta: metav1.ObjectMeta{Labels: labels},
+				Spec: corev1.PodSpec{
+					RestartPolicy: corev1.RestartPolicyNever,
+					SecurityContext: &corev1.PodSecurityContext{
+						RunAsNonRoot: boolPtr(true),
+						RunAsUser:    int64Ptr(65534),
+						SeccompProfile: &corev1.SeccompProfile{
+							Type: corev1.SeccompProfileTypeRuntimeDefault,
+						},
+					},
+					Containers: []corev1.Container{{
+						Name:            "probe",
+						Image:           image,
+						ImagePullPolicy: corev1.PullIfNotPresent,
+						Command:         []string{"/bin/sh", "-c"},
+						Args:            []string{networkFlowProbeScript(targetURL, dialHost, dialPort)},
+						SecurityContext: &corev1.SecurityContext{
+							AllowPrivilegeEscalation: boolPtr(false),
+							RunAsNonRoot:             boolPtr(true),
+							RunAsUser:                int64Ptr(65534),
+							Capabilities:             &corev1.Capabilities{Drop: []corev1.Capability{"ALL"}},
+							SeccompProfile:           &corev1.SeccompProfile{Type: corev1.SeccompProfileTypeRuntimeDefault},
+						},
+					}},
+				},
+			},
+		},
+	}
+	created, err := client.BatchV1().Jobs(namespace).Create(s.ctx, job, metav1.CreateOptions{})
+	if err != nil {
+		return nil, fmt.Errorf("create network flow probe job: %w", err)
+	}
+	defer func() {
+		prop := metav1.DeletePropagationBackground
+		_ = client.BatchV1().Jobs(namespace).Delete(s.ctx, created.Name, metav1.DeleteOptions{PropagationPolicy: &prop})
+	}()
+
+	deadline := time.Now().Add(timeout)
+	for time.Now().Before(deadline) {
+		current, getErr := client.BatchV1().Jobs(namespace).Get(s.ctx, created.Name, metav1.GetOptions{})
+		if getErr != nil {
+			return nil, fmt.Errorf("watch network flow probe job: %w", getErr)
+		}
+		if current.Status.Succeeded > 0 {
+			return map[string]interface{}{
+				"Allowed": true, "Connected": true, "Error": "",
+				"Namespace": namespace, "Job": created.Name,
+				"FromSelector": fromSelector, "ToHost": toHost, "Port": port, "Protocol": protocol,
+			}, nil
+		}
+		if current.Status.Failed > 0 {
+			return map[string]interface{}{
+				"Allowed": false, "Connected": false, "Error": "probe job failed",
+				"Namespace": namespace, "Job": created.Name,
+			}, fmt.Errorf("network flow blocked or unreachable from %q to %s:%d/%s", fromSelector, toHost, port, protocol)
+		}
+		select {
+		case <-s.ctx.Done():
+			return nil, s.ctx.Err()
+		case <-time.After(500 * time.Millisecond):
+		}
+	}
+	return map[string]interface{}{
+		"Allowed": false, "Connected": false, "Error": "probe timed out",
+		"Namespace": namespace, "Job": created.Name,
+	}, fmt.Errorf("network flow probe timed out from %q to %s:%d/%s", fromSelector, toHost, port, protocol)
 }
+
+func parseLabelSelector(raw string) (map[string]string, error) {
+	raw = strings.TrimSpace(raw)
+	if raw == "" {
+		return nil, fmt.Errorf("fromSelector is required")
+	}
+	labels := map[string]string{}
+	for _, part := range strings.Split(raw, ",") {
+		part = strings.TrimSpace(part)
+		if part == "" {
+			continue
+		}
+		key, value, ok := strings.Cut(part, "=")
+		if !ok || strings.TrimSpace(key) == "" {
+			return nil, fmt.Errorf("invalid label selector %q (want key=value[,key=value])", raw)
+		}
+		labels[strings.TrimSpace(key)] = strings.TrimSpace(value)
+	}
+	if len(labels) == 0 {
+		return nil, fmt.Errorf("fromSelector is required")
+	}
+	return labels, nil
+}
+
+func networkFlowNamespace(cfg types.Config, labels map[string]string) string {
+	controlNS := configOr(cfg, "network-control-namespace", "ccc-network-control")
+	testNS := configOr(cfg, "test-workload-namespace", "ccc-test")
+	if labels["app"] == "ccc-network-control" {
+		return controlNS
+	}
+	return testNS
+}
+
+func networkFlowTarget(toHost string, port int, protocol string) (targetURL, dialHost string, dialPort int) {
+	toHost = strings.TrimSpace(toHost)
+	dialPort = port
+	if dialPort <= 0 {
+		dialPort = 8080
+	}
+	if strings.Contains(toHost, "://") {
+		if u, err := url.Parse(toHost); err == nil && u.Host != "" {
+			dialHost = u.Hostname()
+			if u.Port() != "" {
+				if p, err := strconv.Atoi(u.Port()); err == nil {
+					dialPort = p
+				}
+			}
+			return toHost, dialHost, dialPort
+		}
+	}
+	dialHost = toHost
+	if strings.Contains(toHost, ":") && !strings.Contains(toHost, "]") {
+		if host, portStr, err := net.SplitHostPort(toHost); err == nil {
+			dialHost = host
+			if p, err := strconv.Atoi(portStr); err == nil {
+				dialPort = p
+			}
+		}
+	}
+	scheme := "http"
+	if strings.EqualFold(protocol, "https") {
+		scheme = "https"
+	}
+	return fmt.Sprintf("%s://%s:%d/", scheme, dialHost, dialPort), dialHost, dialPort
+}
+
+func networkFlowProbeScript(targetURL, dialHost string, dialPort int) string {
+	// Prefer HTTP GET when a URL was provided; fall back to TCP connect via /dev/tcp.
+	return fmt.Sprintf(`set -e
+TARGET_URL=%q
+HOST=%q
+PORT=%d
+if command -v wget >/dev/null 2>&1; then
+  wget -q -T 5 -O /dev/null "$TARGET_URL"
+elif command -v curl >/dev/null 2>&1; then
+  curl -fsS --max-time 5 -o /dev/null "$TARGET_URL"
+else
+  timeout 5 sh -c "echo >/dev/tcp/$HOST/$PORT"
+fi
+`, targetURL, dialHost, dialPort)
+}
+
+func boolPtr(v bool) *bool    { return &v }
+func int64Ptr(v int64) *int64 { return &v }
 
 func (s *managedService) GetClusterComponentInventory(string) (map[string]interface{}, error) {
 	client, _, err := s.kubeClients()

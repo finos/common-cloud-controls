@@ -105,6 +105,25 @@ jobs:
             echo "Warning: no ${PROVIDER^^}_ENV secret payload" >&2
           fi
 
+      - name: Fetch AKS kubeconfig
+        if: matrix.provider == 'azure'
+        run: |
+          set -euo pipefail
+          az aks get-credentials \
+            --resource-group finos-ccc-integration-rg \
+            --name finos-ccc-integration-k8s-main \
+            --overwrite-existing \
+            --file "${RUNNER_TEMP}/aks.kubeconfig"
+          if ! command -v kubelogin >/dev/null 2>&1; then
+            curl -fsSL -o /tmp/kubelogin.zip \
+              "https://github.com/Azure/kubelogin/releases/download/v0.1.9/kubelogin-linux-amd64.zip"
+            unzip -o /tmp/kubelogin.zip -d /tmp/kubelogin
+            sudo install -m 0755 /tmp/kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/kubelogin
+          fi
+          KUBECONFIG="${RUNNER_TEMP}/aks.kubeconfig" kubelogin convert-kubeconfig -l azurecli
+          echo "KUBECONFIG_PATH=${RUNNER_TEMP}/aks.kubeconfig" >> "$GITHUB_ENV"
+          echo "KUBECONFIG=${RUNNER_TEMP}/aks.kubeconfig" >> "$GITHUB_ENV"
+
       - name: Start compute fixtures
         run: |
           set -euo pipefail

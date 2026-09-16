@@ -101,10 +101,10 @@ func (s *AzureService) resourceURL(clusterID string) (string, error) {
 	subscription := s.config.CloudParams().AzureSubscriptionID
 	group := s.config.CloudParams().AzureResourceGroup
 	if clusterID == "" {
-		clusterID = s.config.Get("resource")
+		clusterID = s.config.Get("cluster-name", "resource")
 	}
 	if subscription == "" || group == "" || clusterID == "" {
-		return "", fmt.Errorf("azure-subscription-id, azure-resource-group, and clusterID/resource are required for AKS")
+		return "", fmt.Errorf("azure-subscription-id, azure-resource-group, and clusterID/cluster-name/resource are required for AKS")
 	}
 	return fmt.Sprintf("https://management.azure.com/subscriptions/%s/resourceGroups/%s/providers/Microsoft.ContainerService/managedClusters/%s?api-version=2025-04-01",
 		url.PathEscape(subscription), url.PathEscape(group), url.PathEscape(clusterID)), nil

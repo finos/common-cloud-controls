@@ -40,6 +40,9 @@ modules/cloud-api-test/environment-config/.keys
 # Local go build of modules/runner/cmd/ccc-lifecycle
 modules/runner/ccc-lifecycle
 
+# Local kubeconfig written by run-integration-tests.sh
+modules/cloud-api-test/.kube/
+
 # ccc module integration testing
 **/.terraform
 **/*.tfstate

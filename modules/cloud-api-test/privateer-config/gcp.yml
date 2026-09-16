@@ -24,19 +24,24 @@ services:
       permitted-regions:
         - "us-east1"
       gcp-secret-id: "finos-ccc-integration-secret-main"
-      # kubernetes — CSV args pass cluster name; resource remains VM for other services.
-      # Prefer terraform output: kubernetes.cluster_name / kubernetes.api_endpoint after modules/kubernetes apply.
+      # kubernetes: cluster-name is preferred over resource for GKE (resource stays VM name).
+      # resource stays the VM name for virtual-machines CSV rows in this shared config.
       cluster-name: "finos-ccc-integration-k8s-main"
       gcp-location: "us-east1"
       kubernetes-api-hostname: "${GCP_K8S_API_HOSTNAME}"
+      kubeconfig-path: "${KUBECONFIG_PATH}"
       test-workload-namespace: "ccc-test"
       test-workload-service-account: "ccc-wi-sa"
       test-workload-service-account-unbound: "ccc-wi-sa-unbound"
       protected-secret-name: "ccc-protected-secret"
       unrelated-secret-name: "ccc-unrelated-secret"
+      network-control-namespace: "ccc-network-control"
+      network-probe-image: "busybox:1.36"
+      network-probe-timeout-ms: "15000"
       webhook-probe-namespace: "ccc-admission-webhook-probe"
       webhook-probe-test-namespace: "ccc-admission-webhook-test"
       webhook-probe-deployment: "ccc-admission-webhook-probe"
+      webhook-probe-service: "ccc-admission-webhook-probe"
       webhook-probe-configuration: "ccc-admission-webhook-probe"
       webhook-probe-enabled-replicas: "1"
       manifest-static-credential: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-static-cred-probe\n  namespace: ccc-test\nspec:\n  containers:\n  - name: probe\n    image: us-central1-docker.pkg.dev/PROJECT/ccc/ccc-probe@sha256:placeholder\n    env:\n    - name: GOOGLE_APPLICATION_CREDENTIALS_JSON\n      value: '{}'"

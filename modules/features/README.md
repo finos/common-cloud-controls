@@ -33,8 +33,8 @@ CCC.ObjStor features default to `object-storage/`. CCC.VPC defaults to `vpc/`. O
 
 Kubernetes runs include `kubernetes/<Catalog>/`, generic CCC.Core scenarios,
 shared `port/` scenarios for API endpoint TLS, and shared `vpc/` scenarios for
-regional trust-perimeter coverage. The `admission-webhook` service ID is reserved
-for the narrowly scoped CN11.AR03 fixture controller.
+regional trust-perimeter coverage. The `admission-webhook` service ID (implemented
+under `cloud-api/kubernetes/`) is the narrowly scoped CN11.AR03 fixture controller.
 
 See `virtual-machines/analysis.md` and `serverless-computing/analysis.md` for planned behavioural coverage.
 

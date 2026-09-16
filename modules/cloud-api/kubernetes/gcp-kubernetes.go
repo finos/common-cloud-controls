@@ -53,12 +53,12 @@ func (s *GCPService) clusterName(clusterID string) (string, error) {
 		return clusterID, nil
 	}
 	if clusterID == "" {
-		clusterID = s.config.Get("resource")
+		clusterID = s.config.Get("cluster-name", "resource")
 	}
 	project := s.config.CloudParams().GcpProjectId
 	location := s.config.Get("gcp-cluster-location", "region")
 	if project == "" || location == "" || clusterID == "" {
-		return "", fmt.Errorf("gcp-project-id, region/gcp-cluster-location, and clusterID/resource are required for GKE")
+		return "", fmt.Errorf("gcp-project-id, region/gcp-cluster-location, and clusterID/cluster-name/resource are required for GKE")
 	}
 	return fmt.Sprintf("projects/%s/locations/%s/clusters/%s", project, location, clusterID), nil
 }

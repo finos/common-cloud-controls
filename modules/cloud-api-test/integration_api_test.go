@@ -3,6 +3,7 @@
 package integrationtesting_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -239,6 +240,15 @@ func coerceArg(typ reflect.Type, raw string) (reflect.Value, error) {
 			slice = reflect.Append(slice, elem)
 		}
 		return slice, nil
+	case reflect.Map:
+		if typ.Key().Kind() != reflect.String {
+			return reflect.Value{}, fmt.Errorf("unsupported map key type %s", typ.Key())
+		}
+		ptr := reflect.New(typ)
+		if err := json.Unmarshal([]byte(raw), ptr.Interface()); err != nil {
+			return reflect.Value{}, fmt.Errorf("parse map argument as JSON: %w", err)
+		}
+		return ptr.Elem(), nil
 	default:
 		return reflect.Value{}, fmt.Errorf("unsupported parameter type %s", typ)
 	}

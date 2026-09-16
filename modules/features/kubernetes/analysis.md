@@ -14,7 +14,7 @@ The Managed Kubernetes catalog defines **18 native controls** with **41 assessme
 
 Of the 41 native ARs, roughly **29 are Behavioural** (admit/deny probes, endpoint exposure, inventory assertions, network-flow probes), **~10 are `@NotTestable` or Policy-deferred** (entitlement inventories, addon allowlist enforcement, alert delivery, cross-account log isolation, update-channel timing, PV rebind sanitization, signing/vuln-scan prerequisites), and Core reuse covers MFA / enumeration / log-integrity stubs plus PerPort TLS and region checks.
 
-**Most inherited Core ARs reuse `modules/features/generic/`** (and `vpc/` for CN06) by adding `@kubernetes` — do not copy those files into `kubernetes/CCC.Core/`. Native ARs and Core CN02 (cluster encryption-at-rest) need **new** features under `kubernetes/CCC.K8S/` and one Core CN02 file. Planned APIs: **25 Kubernetes methods + one fixture-control method** (+ `generic.Service` + `logging.Service` + shared `reachability.Prober`), dominated by a shared `AttemptAdmitWorkload` reused for admission/PSS/image/resource/quota/governance ARs. CN11.AR03 additionally plans a standalone `admission-webhook-probe` module and a narrow `admissionwebhook.Service` that toggles only that probe's backend.
+**Most inherited Core ARs reuse `modules/features/generic/`** (and `vpc/` for CN06) by adding `@kubernetes` — do not copy those files into `kubernetes/CCC.Core/`. Native ARs and Core CN02 (cluster encryption-at-rest) need **new** features under `kubernetes/CCC.K8S/` and one Core CN02 file. Planned APIs: **25 Kubernetes methods + one fixture-control method** (+ `generic.Service` + `logging.Service` + shared `reachability.Prober`), dominated by a shared `AttemptAdmitWorkload` reused for admission/PSS/image/resource/quota/governance ARs. CN11.AR03 uses a separate `admission-webhook` factory service (implemented in `modules/cloud-api/kubernetes/admission_webhook.go`) that toggles only the probe backend.
 
 **Runner note (implementation skill):** extend `collectFeaturePaths` so `kubernetes` loads `port/` (API TLS / CN01+CN13) and `vpc/` (CN06), matching VM/serverless patterns.
 
@@ -404,7 +404,7 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
 - **Interpretation**: The test must leave the webhook registration installed with `failurePolicy=Fail` while making its backend unavailable. Deleting or disabling the `ValidatingWebhookConfiguration` would bypass admission and would **not** prove fail-closed behaviour.
 - **Approach**:
   1. Terraform installs the dedicated `admission-webhook-probe` in its own namespace. Its `ValidatingWebhookConfiguration` selects only the disposable webhook-test namespace, so it cannot block unrelated integration workloads.
-  2. **Healthy allow path**: `admissionwebhook.SetBackendAvailability(clusterID, enabled=true)` waits for a ready endpoint. `AttemptAdmitWorkload` with a compliant probe manifest → admitted.
+  2. **Healthy allow path**: `admission-webhook.SetBackendAvailability(clusterID, enabled=true)` waits for a ready endpoint. `AttemptAdmitWorkload` with a compliant probe manifest → admitted.
   3. **Healthy deny path**: submit a manifest carrying the probe's explicit reject marker → denied with the webhook's rejection reason. This proves the request traversed the intended webhook rather than another admission control.
   4. **Unavailable fail-closed path**: `SetBackendAvailability(..., false)` scales only the probe Deployment to zero and verifies the Service has no ready endpoints; the webhook registration and `failurePolicy=Fail` remain unchanged. Submit the otherwise compliant manifest → denied because the webhook call failed.
   5. **Mandatory recovery check**: in deferred cleanup, re-enable the backend, wait ready, and resubmit the compliant manifest → admitted. Failure to restore the backend fails the test run.
@@ -661,7 +661,7 @@ Embeds `generic.Service`. Prefer **maps** for inventory/probe results. Every met
 | `GetNodeIntegrityStatus` | K8S.CN18.AR01, AR02 | `clusterID` | `Nodes[]` (`ImageID`, `ImageSource` (`csp`\|`authenticated-publisher`\|`unknown`), `ImageSupported`, `BootIntegrityEnabled`) |
 | `GetEncryptionAtRestStatus` | Core.CN02, K8S.CN07.AR01 | `clusterID` | `SecretsEncrypted`, `KMSKeyID`, `Provider` |
 
-**Method count: 25** Kubernetes-specific methods (admission + inventory heavy service) + generic/logging embed + shared `reachability.Prober` client + the separate one-method `admissionwebhook.Service` fixture controller. Do **not** add `QueryLogs` on this interface.
+**Method count: 25** Kubernetes-specific methods (admission + inventory heavy service) + generic/logging embed + shared `reachability.Prober` client + the separate one-method `admission-webhook` fixture controller (same Go package folder, distinct factory id). Do **not** add `QueryLogs` on this interface.
 
 **Collapse notes**: `AttemptAdmitWorkload` is the shared trigger for static-credential, image, PSS, resource, quota, and governance-metadata ARs — pass different manifests rather than adding per-AR methods. CN12.AR02's "public internet" leg reuses the shared `reachability.Prober` rather than a new method.
 
@@ -702,9 +702,9 @@ The `reachability` client and FINOS `reachability-probe` are shared infrastructu
 
 Each consumer keeps a config-only / `LocalProber` fallback (`@SANITY`) for when the FINOS service is unavailable, and treats probe-service errors as infrastructure failures, never compliance passes.
 
-### `admissionwebhook.Service` (fixture controller)
+### `admission-webhook` service (fixture controller)
 
-Planned package: `modules/cloud-api/admission-webhook/`, factory service id `admission-webhook`. This is deliberately separate from `kubernetes.Service`: it controls the lifecycle of the test component and is not evidence about an arbitrary production webhook.
+Implemented in `modules/cloud-api/kubernetes/admission_webhook.go`, factory service id `admission-webhook`. Lives next to `kubernetes.Service` in the same package folder, but is a separate service: it controls the lifecycle of the test probe and is not evidence about an arbitrary production webhook.
 
 | Method | Used by AR(s) | Args | Returns |
 |--------|---------------|------|---------|
@@ -784,7 +784,7 @@ The fixture supplies a private Service, Deployment, ServiceAccount, TLS Secret, 
 - **Coverage inventory**: Read namespace PSS labels plus installed ValidatingAdmissionPolicy bindings and Kyverno/Gatekeeper policy bindings. Provider-native policy integrations may surface as webhooks; map each namespace to its effective policy and explicit exemptions.
 - **Config**: Cluster credentials from terraform outputs / OIDC; never embed long-lived kubeconfig secrets in repo.
 
-### `admissionwebhook.SetBackendAvailability`
+### `SetBackendAvailability`
 
 #### AWS / Azure / GCP
 

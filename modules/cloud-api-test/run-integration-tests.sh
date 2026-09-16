@@ -68,6 +68,24 @@ setup_cloud_env() {
         fi
       fi
     fi
+    if [[ -z "${KUBECONFIG_PATH:-}" ]] && command -v az >/dev/null 2>&1; then
+      local kubeconfig="${SCRIPT_DIR}/.kube/azure-aks.kubeconfig"
+      mkdir -p "$(dirname "$kubeconfig")"
+      if az aks get-credentials \
+        --resource-group finos-ccc-integration-rg \
+        --name finos-ccc-integration-k8s-main \
+        --overwrite-existing \
+        --file "$kubeconfig" 2>/dev/null; then
+        if command -v kubelogin >/dev/null 2>&1; then
+          KUBECONFIG="$kubeconfig" kubelogin convert-kubeconfig -l azurecli || true
+        fi
+        export KUBECONFIG_PATH="$kubeconfig"
+        export KUBECONFIG="$kubeconfig"
+        echo "==> KUBECONFIG_PATH=$KUBECONFIG_PATH"
+      else
+        echo "Warning: az aks get-credentials failed — set KUBECONFIG_PATH for kubernetes tests" >&2
+      fi
+    fi
   fi
 
   if [[ "$cloud" == "gcp" ]]; then

@@ -1,4 +1,4 @@
-package admissionwebhook
+package kubernetes
 
 import (
 	"context"
@@ -11,7 +11,7 @@ import (
 	admissionv1 "k8s.io/api/admissionregistration/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/client-go/kubernetes"
+	k8s "k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 
@@ -19,30 +19,33 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
-type Service interface {
+// AdmissionWebhookService is the CN11.AR03 fixture controller for the
+// admission-webhook probe. Factory id: "admission-webhook".
+type AdmissionWebhookService interface {
 	generic.Service
 	SetBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error)
 }
 
-var _ Service = (*Controller)(nil)
+var _ AdmissionWebhookService = (*AdmissionWebhookController)(nil)
 
-type Controller struct {
+// AdmissionWebhookController scales only the configured probe Deployment.
+type AdmissionWebhookController struct {
 	ctx        context.Context
 	config     types.Config
 	restConfig *rest.Config
-	client     kubernetes.Interface
+	client     k8s.Interface
 }
 
-func NewService(ctx context.Context, cfg types.Config) (*Controller, error) {
-	return newService(ctx, cfg, nil), nil
+func NewAdmissionWebhookService(ctx context.Context, cfg types.Config) (*AdmissionWebhookController, error) {
+	return newAdmissionWebhookService(ctx, cfg, nil), nil
 }
 
-func NewServiceWithIdentity(ctx context.Context, cfg types.Config, identity types.Identity) (*Controller, error) {
-	return newService(ctx, cfg, &identity), nil
+func NewAdmissionWebhookServiceWithIdentity(ctx context.Context, cfg types.Config, identity types.Identity) (*AdmissionWebhookController, error) {
+	return newAdmissionWebhookService(ctx, cfg, &identity), nil
 }
 
-func newService(ctx context.Context, cfg types.Config, identity *types.Identity) *Controller {
-	controller := &Controller{ctx: ctx, config: cfg}
+func newAdmissionWebhookService(ctx context.Context, cfg types.Config, identity *types.Identity) *AdmissionWebhookController {
+	controller := &AdmissionWebhookController{ctx: ctx, config: cfg}
 	kubeconfig := cfg.Get("kubeconfig", "kubeconfig-path")
 	if identity != nil {
 		if value := identity.Get("kubeconfig", "kubeconfig_path"); value != "" {
@@ -67,14 +70,14 @@ func newService(ctx context.Context, cfg types.Config, identity *types.Identity)
 	return controller
 }
 
-func (c *Controller) kubeClient() (kubernetes.Interface, error) {
+func (c *AdmissionWebhookController) kubeClient() (k8s.Interface, error) {
 	if c.client != nil {
 		return c.client, nil
 	}
 	if c.restConfig == nil {
 		return nil, fmt.Errorf("admission-webhook prerequisite missing: configure kubeconfig or kubeconfig-path with a provider-authenticated exec credential")
 	}
-	client, err := kubernetes.NewForConfig(c.restConfig)
+	client, err := k8s.NewForConfig(c.restConfig)
 	if err != nil {
 		return nil, fmt.Errorf("create Kubernetes client: %w", err)
 	}
@@ -82,9 +85,15 @@ func (c *Controller) kubeClient() (kubernetes.Interface, error) {
 	return client, nil
 }
 
-func (c *Controller) SetBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error) {
-	if configured := c.config.Get("resource"); configured != "" && clusterID != "" && configured != clusterID {
-		return nil, fmt.Errorf("clusterID %q does not match configured resource %q", clusterID, configured)
+func (c *AdmissionWebhookController) configuredClusterID() string {
+	return strings.TrimSpace(c.config.Get("cluster-name", "resource"))
+}
+
+// SetBackendAvailability scales the CN11.AR03 admission-webhook probe Deployment
+// up or down so AttemptAdmitWorkload can observe fail-closed behaviour.
+func (c *AdmissionWebhookController) SetBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error) {
+	if configured := c.configuredClusterID(); configured != "" && clusterID != "" && configured != clusterID {
+		return nil, fmt.Errorf("clusterID %q does not match configured cluster %q", clusterID, configured)
 	}
 	namespace := c.config.Get("webhook-probe-namespace")
 	testNamespace := c.config.Get("webhook-probe-test-namespace")
@@ -116,14 +125,14 @@ func (c *Controller) SetBackendAvailability(clusterID string, enabled bool) (map
 	if err != nil {
 		return nil, fmt.Errorf("get configured validating webhook: %w", err)
 	}
-	failurePolicy, err := validateRegistration(configuration, namespace, serviceName, testNamespace, client)
+	failurePolicy, err := validateWebhookRegistration(c.ctx, configuration, namespace, serviceName, testNamespace, client)
 	if err != nil {
 		return nil, err
 	}
 
 	replicas := int32(0)
 	if enabled {
-		replicas = int32Config(c.config, "webhook-probe-enabled-replicas", 1)
+		replicas = webhookProbeReplicas(c.config.Get("webhook-probe-enabled-replicas"), 1)
 	}
 	scale, err := client.AppsV1().Deployments(namespace).GetScale(c.ctx, deploymentName, metav1.GetOptions{})
 	if err != nil {
@@ -134,7 +143,7 @@ func (c *Controller) SetBackendAvailability(clusterID string, enabled bool) (map
 		return nil, fmt.Errorf("update webhook probe scale: %w", err)
 	}
 
-	timeout := durationConfig(c.config, "webhook-probe-timeout-ms", 30*time.Second)
+	timeout := configDuration(c.config, "webhook-probe-timeout-ms", 30*time.Second)
 	deadline := time.Now().Add(timeout)
 	var readyReplicas, readyEndpoints int32
 	for {
@@ -177,8 +186,8 @@ func (c *Controller) SetBackendAvailability(clusterID string, enabled bool) (map
 	}, nil
 }
 
-func validateRegistration(configuration *admissionv1.ValidatingWebhookConfiguration, namespace, serviceName, testNamespace string, client kubernetes.Interface) (string, error) {
-	ns, err := client.CoreV1().Namespaces().Get(context.Background(), testNamespace, metav1.GetOptions{})
+func validateWebhookRegistration(ctx context.Context, configuration *admissionv1.ValidatingWebhookConfiguration, namespace, serviceName, testNamespace string, client k8s.Interface) (string, error) {
+	ns, err := client.CoreV1().Namespaces().Get(ctx, testNamespace, metav1.GetOptions{})
 	if err != nil {
 		return "", fmt.Errorf("get webhook test namespace: %w", err)
 	}
@@ -203,10 +212,10 @@ func validateRegistration(configuration *admissionv1.ValidatingWebhookConfigurat
 	return "", fmt.Errorf("validating webhook configuration does not target configured service %s/%s", namespace, serviceName)
 }
 
-func (c *Controller) GetOrProvisionTestableResources() ([]types.TestParams, error) {
-	resource := c.config.Get("resource")
+func (c *AdmissionWebhookController) GetOrProvisionTestableResources() ([]types.TestParams, error) {
+	resource := c.configuredClusterID()
 	if resource == "" {
-		return nil, fmt.Errorf("resource config var is required for admission-webhook")
+		return nil, fmt.Errorf("cluster-name or resource config var is required for admission-webhook")
 	}
 	return []types.TestParams{{
 		UID: resource, ResourceName: resource, ProviderServiceType: "kubernetes:validating-admission-webhook",
@@ -215,7 +224,7 @@ func (c *Controller) GetOrProvisionTestableResources() ([]types.TestParams, erro
 	}}, nil
 }
 
-func (c *Controller) CheckUserProvisioned() error {
+func (c *AdmissionWebhookController) CheckUserProvisioned() error {
 	client, err := c.kubeClient()
 	if err != nil {
 		return err
@@ -224,25 +233,27 @@ func (c *Controller) CheckUserProvisioned() error {
 	return err
 }
 
-func (c *Controller) ElevateAccessForInspection() error { return nil }
-func (c *Controller) ResetAccess() error                { return nil }
-func (c *Controller) TearDown() error                   { return nil }
-func (c *Controller) Start(string) error                { return nil }
-func (c *Controller) Stop(string) error                 { return nil }
-func (c *Controller) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
-func (c *Controller) UpdateResourcePolicy() error {
+func (c *AdmissionWebhookController) ElevateAccessForInspection() error { return nil }
+func (c *AdmissionWebhookController) ResetAccess() error                { return nil }
+func (c *AdmissionWebhookController) TearDown() error                   { return nil }
+func (c *AdmissionWebhookController) Start(string) error                { return nil }
+func (c *AdmissionWebhookController) Stop(string) error                 { return nil }
+func (c *AdmissionWebhookController) StartedDetails() ([]generic.StartedResource, error) {
+	return nil, nil
+}
+func (c *AdmissionWebhookController) UpdateResourcePolicy() error {
 	return fmt.Errorf("UpdateResourcePolicy is unsupported for admission-webhook: fixture controller only permits scale changes")
 }
-func (c *Controller) TriggerDataWrite(string) error {
+func (c *AdmissionWebhookController) TriggerDataWrite(string) error {
 	return fmt.Errorf("TriggerDataWrite is unsupported for admission-webhook: fixture controller only permits scale changes")
 }
-func (c *Controller) TriggerDataRead(string) error {
+func (c *AdmissionWebhookController) TriggerDataRead(string) error {
 	return fmt.Errorf("TriggerDataRead is unsupported for admission-webhook: fixture controller only permits scale changes")
 }
-func (c *Controller) GetResourceRegion(string) (string, error) {
+func (c *AdmissionWebhookController) GetResourceRegion(string) (string, error) {
 	return "", fmt.Errorf("GetResourceRegion is unsupported for admission-webhook: use the kubernetes service")
 }
-func (c *Controller) GetReplicationStatus(string) (*generic.ReplicationStatus, error) {
+func (c *AdmissionWebhookController) GetReplicationStatus(string) (*generic.ReplicationStatus, error) {
 	return nil, fmt.Errorf("GetReplicationStatus is unsupported for admission-webhook")
 }
 
@@ -255,18 +266,10 @@ func selectorMatches(selector, podLabels map[string]string) bool {
 	return len(selector) > 0
 }
 
-func int32Config(cfg types.Config, key string, fallback int32) int32 {
-	value, err := strconv.ParseInt(cfg.Get(key), 10, 32)
+func webhookProbeReplicas(raw string, fallback int32) int32 {
+	value, err := strconv.ParseInt(raw, 10, 32)
 	if err != nil || value < 1 {
 		return fallback
 	}
 	return int32(value)
-}
-
-func durationConfig(cfg types.Config, key string, fallback time.Duration) time.Duration {
-	value, err := strconv.Atoi(cfg.Get(key))
-	if err != nil || value < 1 {
-		return fallback
-	}
-	return time.Duration(value) * time.Millisecond
 }

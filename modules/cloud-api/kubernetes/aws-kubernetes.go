@@ -57,10 +57,10 @@ func newAWSService(ctx context.Context, cfg types.Config, awsCfg aws.Config, ide
 func (s *AWSService) describe(ctx context.Context, clusterID string) (*eks.DescribeClusterOutput, error) {
 	name := strings.TrimSpace(clusterID)
 	if name == "" {
-		name = s.config.Get("resource")
+		name = s.config.Get("cluster-name", "resource")
 	}
 	if name == "" {
-		return nil, fmt.Errorf("EKS clusterID or resource config var is required")
+		return nil, fmt.Errorf("EKS clusterID or cluster-name/resource config var is required")
 	}
 	output, err := s.eks.DescribeCluster(ctx, &eks.DescribeClusterInput{Name: aws.String(name)})
 	if err != nil {
