@@ -3,7 +3,6 @@ package kubernetes
 import (
 	"context"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -13,14 +12,14 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	k8s "k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
-	"k8s.io/client-go/tools/clientcmd"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
-// AdmissionWebhookService is the CN11.AR03 fixture controller for the
-// admission-webhook probe. Factory id: "admission-webhook".
+// AdmissionWebhookService toggles the in-cluster validating-webhook probe
+// backend (Deployment scale / Endpoint readiness) so callers can observe
+// admit vs fail-closed behaviour. Factory id: "admission-webhook".
 type AdmissionWebhookService interface {
 	generic.Service
 	SetBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error)
@@ -28,12 +27,14 @@ type AdmissionWebhookService interface {
 
 var _ AdmissionWebhookService = (*AdmissionWebhookController)(nil)
 
-// AdmissionWebhookController scales only the configured probe Deployment.
+// AdmissionWebhookController implements AdmissionWebhookService against a
+// single configured probe Deployment, Service, and ValidatingWebhookConfiguration.
 type AdmissionWebhookController struct {
-	ctx        context.Context
-	config     types.Config
-	restConfig *rest.Config
-	client     k8s.Interface
+	ctx         context.Context
+	config      types.Config
+	restConfig  *rest.Config
+	resolveREST func() (*rest.Config, error)
+	client      k8s.Interface
 }
 
 func NewAdmissionWebhookService(ctx context.Context, cfg types.Config) (*AdmissionWebhookController, error) {
@@ -45,29 +46,13 @@ func NewAdmissionWebhookServiceWithIdentity(ctx context.Context, cfg types.Confi
 }
 
 func newAdmissionWebhookService(ctx context.Context, cfg types.Config, identity *types.Identity) *AdmissionWebhookController {
-	controller := &AdmissionWebhookController{ctx: ctx, config: cfg}
-	kubeconfig := cfg.Get("kubeconfig", "kubeconfig-path")
-	if identity != nil {
-		if value := identity.Get("kubeconfig", "kubeconfig_path"); value != "" {
-			kubeconfig = value
-		}
+	return &AdmissionWebhookController{
+		ctx:    ctx,
+		config: cfg,
+		resolveREST: func() (*rest.Config, error) {
+			return resolveProviderRESTConfig(ctx, cfg, identity)
+		},
 	}
-	var rc *rest.Config
-	var err error
-	if strings.Contains(kubeconfig, "\n") {
-		rc, err = clientcmd.RESTConfigFromKubeConfig([]byte(kubeconfig))
-	} else if kubeconfig != "" {
-		if strings.HasPrefix(kubeconfig, "~/") {
-			if home, homeErr := os.UserHomeDir(); homeErr == nil {
-				kubeconfig = home + strings.TrimPrefix(kubeconfig, "~")
-			}
-		}
-		rc, err = clientcmd.BuildConfigFromFlags("", kubeconfig)
-	}
-	if err == nil {
-		controller.restConfig = rc
-	}
-	return controller
 }
 
 func (c *AdmissionWebhookController) kubeClient() (k8s.Interface, error) {
@@ -75,7 +60,14 @@ func (c *AdmissionWebhookController) kubeClient() (k8s.Interface, error) {
 		return c.client, nil
 	}
 	if c.restConfig == nil {
-		return nil, fmt.Errorf("admission-webhook prerequisite missing: configure kubeconfig or kubeconfig-path with a provider-authenticated exec credential")
+		if c.resolveREST == nil {
+			return nil, fmt.Errorf("admission-webhook prerequisite missing: set kubernetes-cluster-name (and cloud coords)")
+		}
+		rc, err := c.resolveREST()
+		if err != nil {
+			return nil, err
+		}
+		c.restConfig = rc
 	}
 	client, err := k8s.NewForConfig(c.restConfig)
 	if err != nil {
@@ -86,11 +78,11 @@ func (c *AdmissionWebhookController) kubeClient() (k8s.Interface, error) {
 }
 
 func (c *AdmissionWebhookController) configuredClusterID() string {
-	return strings.TrimSpace(c.config.Get("cluster-name", "resource"))
+	return strings.TrimSpace(c.config.Get("kubernetes-cluster-name", "resource"))
 }
 
-// SetBackendAvailability scales the CN11.AR03 admission-webhook probe Deployment
-// up or down so AttemptAdmitWorkload can observe fail-closed behaviour.
+// SetBackendAvailability scales the probe Deployment up or down and waits until
+// ReadyReplicas / EndpointSlices match the requested availability.
 func (c *AdmissionWebhookController) SetBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error) {
 	if configured := c.configuredClusterID(); configured != "" && clusterID != "" && configured != clusterID {
 		return nil, fmt.Errorf("clusterID %q does not match configured cluster %q", clusterID, configured)
@@ -215,7 +207,7 @@ func validateWebhookRegistration(ctx context.Context, configuration *admissionv1
 func (c *AdmissionWebhookController) GetOrProvisionTestableResources() ([]types.TestParams, error) {
 	resource := c.configuredClusterID()
 	if resource == "" {
-		return nil, fmt.Errorf("cluster-name or resource config var is required for admission-webhook")
+		return nil, fmt.Errorf("kubernetes-cluster-name or resource config var is required for admission-webhook")
 	}
 	return []types.TestParams{{
 		UID: resource, ResourceName: resource, ProviderServiceType: "kubernetes:validating-admission-webhook",

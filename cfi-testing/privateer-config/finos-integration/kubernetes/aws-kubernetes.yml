@@ -27,7 +27,7 @@ services:
         CCC.Core: v2025.10
         CCC.K8S: DEV
       region: us-east-1
-      resource: "finos-ccc-integration-k8s-main"
+      kubernetes-cluster-name: "finos-ccc-integration-k8s-main"
       host-name: "${AWS_K8S_API_HOSTNAME}"
       port-number: "443"
       permitted-regions:

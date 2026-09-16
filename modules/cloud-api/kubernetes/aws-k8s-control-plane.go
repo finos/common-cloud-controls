@@ -9,14 +9,19 @@ import (
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/eks"
+	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/config"
+	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/lifecycle"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	"k8s.io/client-go/rest"
 )
 
 var _ ControlPlane = (*AWSService)(nil)
 
 type AWSService struct {
 	*managedService
-	eks *eks.Client
+	eks    *eks.Client
+	awsCfg aws.Config
 }
 
 func NewAWSService(ctx context.Context, cfg types.Config) (*AWSService, error) {
@@ -44,7 +49,12 @@ func NewAWSServiceWithCredentials(ctx context.Context, cfg types.Config, identit
 }
 
 func newAWSService(ctx context.Context, cfg types.Config, awsCfg aws.Config, identity *types.Identity) *AWSService {
-	service := &AWSService{managedService: newManagedService(ctx, cfg, "aws", identity), eks: eks.NewFromConfig(awsCfg)}
+	service := &AWSService{
+		managedService: newManagedService(ctx, cfg, "aws"),
+		eks:            eks.NewFromConfig(awsCfg),
+		awsCfg:         awsCfg,
+	}
+	service.resolveREST = service.buildRESTConfig
 	service.endpoint = service.endpointConfig
 	service.region = service.clusterRegion
 	service.updateMetadata = service.updateTags
@@ -57,10 +67,10 @@ func newAWSService(ctx context.Context, cfg types.Config, awsCfg aws.Config, ide
 func (s *AWSService) describe(ctx context.Context, clusterID string) (*eks.DescribeClusterOutput, error) {
 	name := strings.TrimSpace(clusterID)
 	if name == "" {
-		name = s.config.Get("cluster-name", "resource")
+		name = s.config.Get("kubernetes-cluster-name", "resource")
 	}
 	if name == "" {
-		return nil, fmt.Errorf("EKS clusterID or cluster-name/resource config var is required")
+		return nil, fmt.Errorf("EKS clusterID or kubernetes-cluster-name/resource config var is required")
 	}
 	output, err := s.eks.DescribeCluster(ctx, &eks.DescribeClusterInput{Name: aws.String(name)})
 	if err != nil {
@@ -168,6 +178,41 @@ func (s *AWSService) encryptionStatus(ctx context.Context, clusterID string) (ma
 		}
 	}
 	return map[string]interface{}{"SecretsEncrypted": encrypted, "KMSKeyID": key, "Provider": "aws-kms"}, nil
+}
+
+func (s *AWSService) awsLifecycle() *lifecycle.AWS {
+	return &lifecycle.AWS{Ctx: s.ctx, EKS: s.eks}
+}
+
+func (s *AWSService) Start(resourceID string) error {
+	return s.awsLifecycle().Start(s.lifecycleClusterID(resourceID))
+}
+
+func (s *AWSService) Stop(resourceID string) error {
+	return s.awsLifecycle().Stop(s.lifecycleClusterID(resourceID))
+}
+
+func (s *AWSService) StartedDetails() ([]generic.StartedResource, error) {
+	return s.awsLifecycle().StartedDetails()
+}
+
+func (s *AWSService) lifecycleClusterID(resourceID string) string {
+	if id := strings.TrimSpace(resourceID); id != "" {
+		return id
+	}
+	return strings.TrimSpace(s.config.Get("kubernetes-cluster-name", "resource"))
+}
+
+func (s *AWSService) buildRESTConfig() (*rest.Config, error) {
+	output, err := s.describe(s.ctx, "")
+	if err != nil {
+		return nil, err
+	}
+	cluster := output.Cluster
+	if cluster.Endpoint == nil || cluster.CertificateAuthority == nil || cluster.CertificateAuthority.Data == nil {
+		return nil, fmt.Errorf("EKS cluster is missing endpoint or certificate authority data")
+	}
+	return config.AWS(s.ctx, s.awsCfg, aws.ToString(cluster.Endpoint), aws.ToString(cluster.CertificateAuthority.Data), aws.ToString(cluster.Name))
 }
 
 func splitConfigList(value string) []string {

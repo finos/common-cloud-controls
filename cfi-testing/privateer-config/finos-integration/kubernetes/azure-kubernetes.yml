@@ -27,7 +27,7 @@ services:
         CCC.Core: v2025.10
         CCC.K8S: DEV
       region: westus2
-      resource: "finos-ccc-integration-k8s-main"
+      kubernetes-cluster-name: "finos-ccc-integration-k8s-main"
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
       azure-tenant-id: "${AZURE_TENANT_ID}"
       azure-resource-group: "finos-ccc-integration-rg"

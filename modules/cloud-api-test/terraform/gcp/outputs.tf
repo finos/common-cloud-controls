@@ -59,9 +59,7 @@ output "kubernetes" {
   value = {
     resource_name                         = module.kubernetes.main_cluster_name
     main_cluster_name                     = module.kubernetes.main_cluster_name
-    bad_cluster_name                      = module.kubernetes.bad_cluster_name
     main_endpoint                         = module.kubernetes.main_endpoint
-    bad_endpoint                          = module.kubernetes.bad_endpoint
     region                                = module.kubernetes.region
     project_id                            = module.kubernetes.project_id
     gcp_control_plane_log_name            = module.kubernetes.control_plane_log_name

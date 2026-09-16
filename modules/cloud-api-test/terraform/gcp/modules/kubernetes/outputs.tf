@@ -2,16 +2,8 @@ output "main_cluster_name" {
   value = google_container_cluster.main.name
 }
 
-output "bad_cluster_name" {
-  value = google_container_cluster.bad.name
-}
-
 output "main_endpoint" {
   value = google_container_cluster.main.endpoint
-}
-
-output "bad_endpoint" {
-  value = google_container_cluster.bad.endpoint
 }
 
 output "main_ca_certificate" {

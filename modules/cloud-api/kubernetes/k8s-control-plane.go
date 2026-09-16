@@ -12,9 +12,9 @@ import "github.com/finos/common-cloud-controls/cloud-api/generic"
 type ControlPlane interface {
 	generic.Service
 
-	// GetKubernetesClient returns the portable Kubernetes API façade for the
-	// configured kubeconfig. Features should refer to it as "kubeClient".
-	GetKubernetesClient() (*Client, error)
+	// GetKubernetesClient returns the portable Kubernetes API façade using
+	// CSP-derived credentials. Features should refer to it as "kubeClient".
+	GetKubernetesClient() (*KubeClient, error)
 
 	GetAPIEndpointConfig(clusterID string) (map[string]interface{}, error)
 	AttemptAPIEndpointReachability(clusterID, networkContext string) (map[string]interface{}, error)

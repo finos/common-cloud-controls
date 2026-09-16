@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net"
 	"net/url"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -24,13 +23,13 @@ import (
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
-	"k8s.io/client-go/tools/clientcmd"
 )
 
 type managedService struct {
 	ctx            context.Context
 	config         types.Config
 	restConfig     *rest.Config
+	resolveREST    func() (*rest.Config, error)
 	client         kubernetes.Interface
 	dynamic        dynamic.Interface
 	prober         reachability.Prober
@@ -43,41 +42,36 @@ type managedService struct {
 	encryption     func(context.Context, string) (map[string]interface{}, error)
 }
 
-func newManagedService(ctx context.Context, cfg types.Config, provider string, identity *types.Identity) *managedService {
-	s := &managedService{ctx: ctx, config: cfg, provider: provider}
-	kubeconfig := cfg.Get("kubeconfig", "kubeconfig-path")
-	if identity != nil {
-		if identityKubeconfig := identity.Get("kubeconfig", "kubeconfig_path"); identityKubeconfig != "" {
-			kubeconfig = identityKubeconfig
-		}
+func newManagedService(ctx context.Context, cfg types.Config, provider string) *managedService {
+	return &managedService{
+		ctx:      ctx,
+		config:   cfg,
+		provider: provider,
+		prober:   proberFromConfig(cfg),
 	}
-	if kubeconfig != "" {
-		var rc *rest.Config
-		var err error
-		if strings.Contains(kubeconfig, "\n") {
-			rc, err = clientcmd.RESTConfigFromKubeConfig([]byte(kubeconfig))
-		} else {
-			if strings.HasPrefix(kubeconfig, "~/") {
-				if home, homeErr := os.UserHomeDir(); homeErr == nil {
-					kubeconfig = home + strings.TrimPrefix(kubeconfig, "~")
-				}
-			}
-			rc, err = clientcmd.BuildConfigFromFlags("", kubeconfig)
-		}
-		if err == nil {
-			s.restConfig = rc
-		}
+}
+
+func (s *managedService) ensureRESTConfig() (*rest.Config, error) {
+	if s.restConfig != nil {
+		return s.restConfig, nil
 	}
-	s.prober = proberFromConfig(cfg)
-	return s
+	if s.resolveREST == nil {
+		return nil, fmt.Errorf("Kubernetes API prerequisite missing: set kubernetes-cluster-name (and cloud coords) so the control plane can derive credentials")
+	}
+	rc, err := s.resolveREST()
+	if err != nil {
+		return nil, err
+	}
+	s.restConfig = rc
+	return s.restConfig, nil
 }
 
 func (s *managedService) kubeClients() (kubernetes.Interface, dynamic.Interface, error) {
 	if s.client != nil && s.dynamic != nil {
 		return s.client, s.dynamic, nil
 	}
-	if s.restConfig == nil {
-		return nil, nil, fmt.Errorf("Kubernetes API prerequisite missing: configure kubeconfig or kubeconfig-path with a provider-authenticated exec credential")
+	if _, err := s.ensureRESTConfig(); err != nil {
+		return nil, nil, err
 	}
 	client, err := kubernetes.NewForConfig(s.restConfig)
 	if err != nil {
@@ -108,13 +102,13 @@ func (s *managedService) clusterResourceID(explicit string) string {
 	if id := strings.TrimSpace(explicit); id != "" {
 		return id
 	}
-	return strings.TrimSpace(s.config.Get("cluster-name", "resource"))
+	return strings.TrimSpace(s.config.Get("kubernetes-cluster-name", "resource"))
 }
 
 func (s *managedService) GetOrProvisionTestableResources() ([]types.TestParams, error) {
 	resource := s.clusterResourceID("")
 	if resource == "" {
-		return nil, fmt.Errorf("cluster-name or resource config var is required for kubernetes; cloud-api does not provision clusters")
+		return nil, fmt.Errorf("kubernetes-cluster-name or resource config var is required for kubernetes; cloud-api does not provision clusters")
 	}
 	endpoint, err := s.GetAPIEndpointConfig(resource)
 	if err != nil {
@@ -228,7 +222,7 @@ func (s *managedService) AttemptAPIEndpointReachability(clusterID, networkContex
 	return structMap(result)
 }
 
-func (c *Client) GetRBACPolicyFindings(string) (map[string]interface{}, error) {
+func (c *KubeClient) GetRBACPolicyFindings(string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -252,9 +246,9 @@ func (c *Client) GetRBACPolicyFindings(string) (map[string]interface{}, error) {
 	return map[string]interface{}{"WildcardRoles": wildcards, "OverbroadSecretAccess": secretAccess}, nil
 }
 
-func (c *Client) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
+func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
 	if c.restConfig == nil {
-		return nil, fmt.Errorf("Kubernetes API prerequisite missing: kubeconfig is required for service-account impersonation")
+		return nil, fmt.Errorf("Kubernetes API prerequisite missing: REST config is required for service-account impersonation")
 	}
 	if !contains([]string{"get", "list", "watch"}, strings.ToLower(verb)) {
 		return nil, fmt.Errorf("unsupported secret verb %q", verb)
@@ -289,7 +283,7 @@ func (c *Client) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, 
 	return result, nil
 }
 
-func (c *Client) GetWorkloadIdentityStatus(_ string, namespace, serviceAccount string) (map[string]interface{}, error) {
+func (c *KubeClient) GetWorkloadIdentityStatus(_ string, namespace, serviceAccount string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -322,7 +316,7 @@ func (s *managedService) AttemptCloudAPIAsWorkload(clusterID, namespace, service
 
 var credentialPattern = regexp.MustCompile(`(?i)(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC )?PRIVATE KEY-----|"type"\s*:\s*"service_account"|AZURE_CLIENT_SECRET)`)
 
-func (c *Client) FindStaticCloudCredentials(_ string, namespace string) (map[string]interface{}, error) {
+func (c *KubeClient) FindStaticCloudCredentials(_ string, namespace string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -404,7 +398,7 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 	return result, nil
 }
 
-func (c *Client) GetAdmissionPolicyCoverage(string) (map[string]interface{}, error) {
+func (c *KubeClient) GetAdmissionPolicyCoverage(string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -429,7 +423,7 @@ func (c *Client) GetAdmissionPolicyCoverage(string) (map[string]interface{}, err
 	return map[string]interface{}{"Namespaces": coverage, "Uncovered": uncovered}, nil
 }
 
-func (c *Client) GetWorkloadRuntimeSecurity(_ string, podSelector string) (map[string]interface{}, error) {
+func (c *KubeClient) GetWorkloadRuntimeSecurity(_ string, podSelector string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -463,7 +457,7 @@ func (c *Client) GetWorkloadRuntimeSecurity(_ string, podSelector string) (map[s
 	return result, nil
 }
 
-func (c *Client) GetNamespaceNetworkPolicyStatus(_ string, namespace string) (map[string]interface{}, error) {
+func (c *KubeClient) GetNamespaceNetworkPolicyStatus(_ string, namespace string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -489,7 +483,7 @@ func (c *Client) GetNamespaceNetworkPolicyStatus(_ string, namespace string) (ma
 	return map[string]interface{}{"DefaultDenyIngress": ingress, "DefaultDenyEgress": egress, "PolicyCapable": len(policies.Items) > 0}, nil
 }
 
-func (c *Client) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost string, port int, protocol string) (map[string]interface{}, error) {
+func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost string, port int, protocol string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -695,7 +689,7 @@ func (s *managedService) GetClusterComponentInventory(string) (map[string]interf
 	return map[string]interface{}{"ControlPlaneVersion": version.GitVersion, "Workers": workers, "Addons": []map[string]interface{}{}}, nil
 }
 
-func (c *Client) AttemptCreatePVC(_ string, claimYAML string) (map[string]interface{}, error) {
+func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -730,7 +724,7 @@ func (s *managedService) AttemptModifyAdmissionConfig(clusterID string, change m
 		fmt.Sprintf("mutating admission configuration is destructive and no narrowly-scoped fixture target was configured (cluster=%s change=%v)", clusterID, change))
 }
 
-func (c *Client) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPorts, mgmtPorts []int) (map[string]interface{}, error) {
+func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPorts, mgmtPorts []int) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -793,7 +787,7 @@ func (s *managedService) AttemptInstanceMetadataAccess(clusterID, podSelector st
 		fmt.Sprintf("an approved in-cluster metadata probe image is required (cluster=%s selector=%s)", clusterID, podSelector))
 }
 
-func (c *Client) GetResourceConsumptionBounds(_ string, namespace string) (map[string]interface{}, error) {
+func (c *KubeClient) GetResourceConsumptionBounds(_ string, namespace string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -817,7 +811,8 @@ func (s *managedService) GetGovernanceMetadata(clusterID string) (map[string]int
 }
 
 func (s *managedService) AttemptModifyGovernanceMetadata(clusterID, target string, patch map[string]interface{}) (map[string]interface{}, error) {
-	if target != "" && target != clusterID {
+	// Features may pass target "cluster" to mean cluster-level tags/labels.
+	if target != "" && !strings.EqualFold(target, "cluster") && target != clusterID {
 		return nil, fmt.Errorf("governance target %q does not match configured cluster %q", target, clusterID)
 	}
 	if s.updateMetadata == nil {
@@ -841,7 +836,7 @@ func (s *managedService) AttemptClusterAuthWithStaticCredential(clusterID, mode 
 		fmt.Sprintf("a deliberately invalid static %s credential fixture and isolated endpoint client are required for cluster %s", mode, clusterID))
 }
 
-func (c *Client) GetInfrastructureIdentities(_ string) (map[string]interface{}, error) {
+func (c *KubeClient) GetInfrastructureIdentities(_ string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")

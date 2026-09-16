@@ -2,33 +2,16 @@ output "main_cluster_name" {
   value = aws_eks_cluster.main.name
 }
 
-output "bad_cluster_name" {
-  value = aws_eks_cluster.bad.name
-}
-
 output "main_cluster_arn" {
   value = aws_eks_cluster.main.arn
-}
-
-output "bad_cluster_arn" {
-  value = aws_eks_cluster.bad.arn
 }
 
 output "main_endpoint" {
   value = aws_eks_cluster.main.endpoint
 }
 
-output "bad_endpoint" {
-  value = aws_eks_cluster.bad.endpoint
-}
-
 output "main_certificate_authority_data" {
   value     = aws_eks_cluster.main.certificate_authority[0].data
-  sensitive = true
-}
-
-output "bad_certificate_authority_data" {
-  value     = aws_eks_cluster.bad.certificate_authority[0].data
   sensitive = true
 }
 
@@ -43,10 +26,6 @@ output "region" {
 output "control_plane_log_group_name" {
   description = "CloudWatch log group for MAIN cluster API/audit logs (CN14.AR01 / logging.QueryLogs)."
   value       = aws_cloudwatch_log_group.main.name
-}
-
-output "bad_control_plane_log_group_name" {
-  value = aws_cloudwatch_log_group.bad.name
 }
 
 output "secrets_kms_key_arn" {

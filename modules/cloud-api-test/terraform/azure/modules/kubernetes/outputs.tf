@@ -2,24 +2,12 @@ output "main_cluster_name" {
   value = azurerm_kubernetes_cluster.main.name
 }
 
-output "bad_cluster_name" {
-  value = azurerm_kubernetes_cluster.bad.name
-}
-
 output "main_cluster_id" {
   value = azurerm_kubernetes_cluster.main.id
 }
 
-output "bad_cluster_id" {
-  value = azurerm_kubernetes_cluster.bad.id
-}
-
 output "main_fqdn" {
   value = azurerm_kubernetes_cluster.main.fqdn
-}
-
-output "bad_fqdn" {
-  value = azurerm_kubernetes_cluster.bad.fqdn
 }
 
 output "main_kube_config_host" {

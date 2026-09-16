@@ -22,12 +22,11 @@ services:
       unauthorized-region: "eu-west-1"
       permitted-regions:
         - "us-east-1"
-      # kubernetes: cluster-name is preferred over resource for EKS (resource stays VM name).
-      # resource stays the VM name for virtual-machines CSV rows in this shared config.
-      cluster-name: "finos-ccc-integration-k8s-main"
+      # kubernetes: kubernetes-cluster-name is preferred over resource for EKS (resource stays VM name).
+      # Kube clients are derived from kubernetes-cluster-name + region + ambient AWS credential.
+      kubernetes-cluster-name: "finos-ccc-integration-k8s-main"
       aws-eks-log-group-name: "/aws/eks/finos-ccc-integration-k8s-main/cluster"
       kubernetes-api-hostname: "${AWS_K8S_API_HOSTNAME}"
-      kubeconfig-path: "${KUBECONFIG_PATH}"
       test-workload-namespace: "ccc-test"
       test-workload-service-account: "ccc-wi-sa"
       test-workload-service-account-unbound: "ccc-wi-sa-unbound"

@@ -2,7 +2,6 @@ data "azurerm_client_config" "current" {}
 
 locals {
   name_main = "finos-ccc-integration-k8s-main"
-  name_bad  = "finos-ccc-integration-k8s-bad"
 
   cluster_tags = merge(var.common_tags, {
     CFIControlSet      = "CCC.K8S"
@@ -39,13 +38,6 @@ resource "azurerm_subnet" "main" {
   resource_group_name  = var.resource_group
   virtual_network_name = azurerm_virtual_network.k8s.name
   address_prefixes     = ["10.82.0.0/20"]
-}
-
-resource "azurerm_subnet" "bad" {
-  name                 = "finos-ccc-integration-k8s-bad"
-  resource_group_name  = var.resource_group
-  virtual_network_name = azurerm_virtual_network.k8s.name
-  address_prefixes     = ["10.82.16.0/20"]
 }
 
 resource "azurerm_log_analytics_workspace" "k8s" {
@@ -168,61 +160,4 @@ resource "azurerm_federated_identity_credential" "wi_bound" {
   audience            = ["api://AzureADTokenExchange"]
   issuer              = azurerm_kubernetes_cluster.main.oidc_issuer_url
   subject             = "system:serviceaccount:${local.fixture_metadata.test_workload_namespace}:${local.fixture_metadata.test_workload_service_account}"
-}
-
-resource "azurerm_user_assigned_identity" "bad" {
-  name                = "finos-ccc-integration-k8s-bad-cp"
-  location            = var.location
-  resource_group_name = var.resource_group
-  tags                = merge(local.cluster_tags, { CFIRole = "bad" })
-}
-
-resource "azurerm_role_assignment" "bad_network_pre" {
-  scope                = azurerm_virtual_network.k8s.id
-  role_definition_name = "Network Contributor"
-  principal_id         = azurerm_user_assigned_identity.bad.principal_id
-}
-
-resource "azurerm_kubernetes_cluster" "bad" {
-  name                    = local.name_bad
-  location                = var.location
-  resource_group_name     = var.resource_group
-  dns_prefix              = "finosccck8sbad"
-  kubernetes_version      = var.kubernetes_version
-  sku_tier                = "Free"
-  private_cluster_enabled = false
-  local_account_disabled  = false
-
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.bad.id]
-  }
-
-  default_node_pool {
-    name                        = "bad"
-    vm_size                     = var.node_vm_size
-    node_count                  = 1
-    vnet_subnet_id              = azurerm_subnet.bad.id
-    max_pods                    = 30
-    os_disk_size_gb             = 64
-    temporary_name_for_rotation = "badrot"
-    upgrade_settings {
-      max_surge = "10%"
-    }
-    tags = merge(local.cluster_tags, { CFIRole = "bad" })
-  }
-
-  network_profile {
-    network_plugin    = "azure"
-    load_balancer_sku = "standard"
-    service_cidr      = "10.201.0.0/16"
-    dns_service_ip    = "10.201.0.10"
-  }
-
-  tags = merge(local.cluster_tags, {
-    Name    = local.name_bad
-    CFIRole = "bad"
-  })
-
-  depends_on = [azurerm_role_assignment.bad_network_pre]
 }

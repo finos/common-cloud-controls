@@ -4,7 +4,6 @@ data "google_project" "current" {
 
 locals {
   name_main = "finos-ccc-integration-k8s-main"
-  name_bad  = "finos-ccc-integration-k8s-bad"
 
   cluster_labels = merge(var.common_labels, {
     cficontrolset      = "ccc-k8s"
@@ -48,25 +47,6 @@ resource "google_compute_subnetwork" "main" {
   secondary_ip_range {
     range_name    = "services"
     ip_cidr_range = "10.86.0.0/20"
-  }
-
-  private_ip_google_access = true
-}
-
-resource "google_compute_subnetwork" "bad" {
-  name          = "finos-ccc-integration-k8s-bad"
-  ip_cidr_range = "10.87.0.0/20"
-  region        = var.region
-  project       = var.project_id
-  network       = google_compute_network.k8s.id
-
-  secondary_ip_range {
-    range_name    = "pods"
-    ip_cidr_range = "10.88.0.0/16"
-  }
-  secondary_ip_range {
-    range_name    = "services"
-    ip_cidr_range = "10.89.0.0/20"
   }
 
   private_ip_google_access = true
@@ -326,51 +306,4 @@ resource "google_service_account_iam_member" "wi_bound_wif" {
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${var.project_id}.svc.id.goog[${local.fixture_metadata.test_workload_namespace}/${local.fixture_metadata.test_workload_service_account}]"
   depends_on         = [google_container_cluster.main]
-}
-
-resource "google_container_cluster" "bad" {
-  name               = local.name_bad
-  location           = var.region
-  project            = var.project_id
-  node_locations     = coalesce(var.node_locations, ["${var.region}-b"])
-  initial_node_count = 1
-
-  network    = google_compute_network.k8s.name
-  subnetwork = google_compute_subnetwork.bad.name
-
-  networking_mode = "VPC_NATIVE"
-  ip_allocation_policy {
-    cluster_secondary_range_name  = "pods"
-    services_secondary_range_name = "services"
-  }
-
-  master_authorized_networks_config {
-    cidr_blocks {
-      cidr_block   = "0.0.0.0/0"
-      display_name = "open"
-    }
-  }
-
-  release_channel {
-    channel = "REGULAR"
-  }
-
-  node_config {
-    machine_type    = var.node_machine_type
-    service_account = google_service_account.node.email
-    oauth_scopes    = ["https://www.googleapis.com/auth/cloud-platform"]
-    spot            = true
-    labels = merge(local.cluster_labels, {
-      cfirole = "bad"
-    })
-  }
-
-  resource_labels = merge(local.cluster_labels, {
-    cfirole = "bad"
-  })
-
-  depends_on = [
-    google_project_service.container,
-    google_compute_router_nat.k8s,
-  ]
 }

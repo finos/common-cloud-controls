@@ -5,16 +5,23 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/config"
+	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/lifecycle"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 	container "google.golang.org/api/container/v1"
 	"google.golang.org/api/option"
+	"k8s.io/client-go/rest"
 )
 
 var _ ControlPlane = (*GCPService)(nil)
 
 type GCPService struct {
 	*managedService
-	gke *container.Service
+	gke         *container.Service
+	tokenSource oauth2.TokenSource
 }
 
 func NewGCPService(ctx context.Context, cfg types.Config) (*GCPService, error) {
@@ -22,7 +29,11 @@ func NewGCPService(ctx context.Context, cfg types.Config) (*GCPService, error) {
 	if err != nil {
 		return nil, fmt.Errorf("create GKE client: %w", err)
 	}
-	return newGCPService(ctx, cfg, client, nil), nil
+	ts, err := google.DefaultTokenSource(ctx, container.CloudPlatformScope)
+	if err != nil {
+		return nil, fmt.Errorf("create GKE token source: %w", err)
+	}
+	return newGCPService(ctx, cfg, client, ts, nil), nil
 }
 
 func NewGCPServiceWithCredentials(ctx context.Context, cfg types.Config, identity types.Identity) (*GCPService, error) {
@@ -34,11 +45,16 @@ func NewGCPServiceWithCredentials(ctx context.Context, cfg types.Config, identit
 	if err != nil {
 		return nil, fmt.Errorf("create GKE client for identity %q: %w", identity.UserName, err)
 	}
-	return newGCPService(ctx, cfg, client, &identity), nil
+	creds, err := google.CredentialsFromJSON(ctx, []byte(key), container.CloudPlatformScope)
+	if err != nil {
+		return nil, fmt.Errorf("create GKE token source for identity %q: %w", identity.UserName, err)
+	}
+	return newGCPService(ctx, cfg, client, creds.TokenSource, &identity), nil
 }
 
-func newGCPService(ctx context.Context, cfg types.Config, client *container.Service, identity *types.Identity) *GCPService {
-	service := &GCPService{managedService: newManagedService(ctx, cfg, "gcp", identity), gke: client}
+func newGCPService(ctx context.Context, cfg types.Config, client *container.Service, ts oauth2.TokenSource, identity *types.Identity) *GCPService {
+	service := &GCPService{managedService: newManagedService(ctx, cfg, "gcp"), gke: client, tokenSource: ts}
+	service.resolveREST = service.buildRESTConfig
 	service.endpoint = service.endpointConfig
 	service.region = service.clusterRegion
 	service.updateMetadata = service.updateLabels
@@ -53,12 +69,12 @@ func (s *GCPService) clusterName(clusterID string) (string, error) {
 		return clusterID, nil
 	}
 	if clusterID == "" {
-		clusterID = s.config.Get("cluster-name", "resource")
+		clusterID = s.config.Get("kubernetes-cluster-name", "resource")
 	}
 	project := s.config.CloudParams().GcpProjectId
 	location := s.config.Get("gcp-cluster-location", "region")
 	if project == "" || location == "" || clusterID == "" {
-		return "", fmt.Errorf("gcp-project-id, region/gcp-cluster-location, and clusterID/cluster-name/resource are required for GKE")
+		return "", fmt.Errorf("gcp-project-id, region/gcp-cluster-location, and clusterID/kubernetes-cluster-name/resource are required for GKE")
 	}
 	return fmt.Sprintf("projects/%s/locations/%s/clusters/%s", project, location, clusterID), nil
 }
@@ -209,4 +225,45 @@ func (s *GCPService) GetNodeIntegrityStatus(clusterID string) (map[string]interf
 		})
 	}
 	return map[string]interface{}{"Nodes": nodes}, nil
+}
+
+func (s *GCPService) gcpLifecycle() *lifecycle.GCP {
+	return &lifecycle.GCP{
+		Ctx:         s.ctx,
+		GKE:         s.gke,
+		Project:     s.config.CloudParams().GcpProjectId,
+		Location:    s.config.Get("gcp-cluster-location", "gcp-location", "region"),
+		ClusterName: s.clusterName,
+		GetCluster:  s.get,
+	}
+}
+
+func (s *GCPService) Start(resourceID string) error {
+	return s.gcpLifecycle().Start(s.lifecycleClusterID(resourceID))
+}
+
+func (s *GCPService) Stop(resourceID string) error {
+	return s.gcpLifecycle().Stop(s.lifecycleClusterID(resourceID))
+}
+
+func (s *GCPService) StartedDetails() ([]generic.StartedResource, error) {
+	return s.gcpLifecycle().StartedDetails()
+}
+
+func (s *GCPService) lifecycleClusterID(resourceID string) string {
+	if id := strings.TrimSpace(resourceID); id != "" {
+		return id
+	}
+	return strings.TrimSpace(s.config.Get("kubernetes-cluster-name", "resource"))
+}
+
+func (s *GCPService) buildRESTConfig() (*rest.Config, error) {
+	cluster, err := s.get("")
+	if err != nil {
+		return nil, err
+	}
+	if cluster.MasterAuth == nil || cluster.MasterAuth.ClusterCaCertificate == "" {
+		return nil, fmt.Errorf("GKE cluster is missing certificate authority data")
+	}
+	return config.GCP(cluster.Endpoint, cluster.MasterAuth.ClusterCaCertificate, s.tokenSource)
 }

@@ -10,9 +10,9 @@ import (
 	"k8s.io/client-go/rest"
 )
 
-// Client is the portable Kubernetes API façade shared across AWS/Azure/GCP.
+// KubeClient is the portable Kubernetes API façade shared across AWS/Azure/GCP.
 // Features obtain it via ControlPlane.GetKubernetesClient and refer to it as "kubeClient".
-type Client struct {
+type KubeClient struct {
 	ctx        context.Context
 	config     types.Config
 	restConfig *rest.Config
@@ -21,16 +21,16 @@ type Client struct {
 	provider   string
 }
 
-// GetKubernetesClient builds a Client from the control-plane's kubeconfig.
-func (s *managedService) GetKubernetesClient() (*Client, error) {
+// GetKubernetesClient builds a KubeClient using CSP-derived credentials.
+func (s *managedService) GetKubernetesClient() (*KubeClient, error) {
 	client, _, err := s.kubeClients()
 	if err != nil {
 		return nil, err
 	}
 	if s.restConfig == nil {
-		return nil, fmt.Errorf("Kubernetes API prerequisite missing: configure kubeconfig or kubeconfig-path")
+		return nil, fmt.Errorf("Kubernetes API prerequisite missing: could not derive REST config from kubernetes-cluster-name / cloud credentials")
 	}
-	return &Client{
+	return &KubeClient{
 		ctx:        s.ctx,
 		config:     s.config,
 		restConfig: s.restConfig,

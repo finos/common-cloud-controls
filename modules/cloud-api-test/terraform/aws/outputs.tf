@@ -59,14 +59,10 @@ output "kubernetes" {
   value = {
     resource_name                         = module.kubernetes.main_cluster_name
     main_cluster_name                     = module.kubernetes.main_cluster_name
-    bad_cluster_name                      = module.kubernetes.bad_cluster_name
     main_cluster_arn                      = module.kubernetes.main_cluster_arn
-    bad_cluster_arn                       = module.kubernetes.bad_cluster_arn
     main_endpoint                         = module.kubernetes.main_endpoint
-    bad_endpoint                          = module.kubernetes.bad_endpoint
     region                                = module.kubernetes.region
     aws_control_plane_log_group_name      = module.kubernetes.control_plane_log_group_name
-    bad_control_plane_log_group_name      = module.kubernetes.bad_control_plane_log_group_name
     secrets_kms_key_arn                   = module.kubernetes.secrets_kms_key_arn
     wi_bound_role_arn                     = module.kubernetes.wi_bound_role_arn
     wi_probe_resource                     = module.kubernetes.wi_probe_bucket_name

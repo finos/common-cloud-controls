@@ -36,7 +36,7 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 
 ### Kubernetes note
 
-Factory id `kubernetes` is the **ControlPlane** (CSP + admit + governance/auth/encryption/inventory helpers). Portable `Client` probes obtained via `GetKubernetesClient` (RBAC listings, NetworkPolicy Jobs, etc.) are exercised from behavioural features as `kubeClient`, not duplicated as AR matrices in this CSV. One `GetKubernetesClient` row may appear as a smoke of our kubeconfig wiring.
+Factory id `kubernetes` is the **ControlPlane** (CSP + admit + governance/auth/encryption/inventory helpers). Portable `KubeClient` probes obtained via `GetKubernetesClient` (RBAC listings, NetworkPolicy Jobs, etc.) are exercised from behavioural features as `kubeClient`, not duplicated as AR matrices in this CSV. One `GetKubernetesClient` row may appear as a smoke that CSP-derived REST config wiring works (`kubernetes-cluster-name` + ambient cloud credentials).
 
 ## CSV format
 
@@ -103,7 +103,7 @@ Workflow: `.github/workflows/cloud-api-integration.yml`.
 
 - Matrix: `aws` | `azure` | `gcp` (one job per provider).
 - Starts VM/Kubernetes fixtures, runs `./run-integration-tests.sh $PROVIDER`, then stops fixtures (`if: always()`).
-- Azure also fetches AKS kubeconfig before start.
+- Kubernetes kube clients are derived inside `cloud-api` from `kubernetes-cluster-name` + ambient cloud credentials (no CI kubeconfig bootstrap).
 - Uploads per-provider results/coverage artifacts and Codecov.
 
 ## Terraform

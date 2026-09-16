@@ -1,6 +1,7 @@
-package kubernetes
+package lifecycle
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
@@ -9,27 +10,34 @@ import (
 	container "google.golang.org/api/container/v1"
 )
 
-func (s *GCPService) Start(resourceID string) error {
-	return s.scaleClusterNodePools(resourceID, 1, 1)
+// GCP scales GKE node pools for fixture start/stop.
+type GCP struct {
+	Ctx         context.Context
+	GKE         *container.Service
+	Project     string
+	Location    string
+	ClusterName func(clusterID string) (string, error)
+	GetCluster  func(clusterID string) (*container.Cluster, error)
 }
 
-func (s *GCPService) Stop(resourceID string) error {
-	return s.scaleClusterNodePools(resourceID, 0, 0)
+func (g *GCP) Start(clusterID string) error {
+	return g.scaleNodePools(clusterID, 1, 1)
 }
 
-func (s *GCPService) scaleClusterNodePools(resourceID string, nodeCount, minNodes int64) error {
-	clusterID := strings.TrimSpace(resourceID)
-	if clusterID == "" {
-		clusterID = s.config.Get("cluster-name", "resource")
-	}
-	cluster, err := s.get(clusterID)
+func (g *GCP) Stop(clusterID string) error {
+	return g.scaleNodePools(clusterID, 0, 0)
+}
+
+func (g *GCP) scaleNodePools(clusterID string, nodeCount, minNodes int64) error {
+	clusterID = strings.TrimSpace(clusterID)
+	cluster, err := g.GetCluster(clusterID)
 	if err != nil {
 		return err
 	}
 	if len(cluster.NodePools) == 0 {
 		return fmt.Errorf("GKE cluster %q has no node pools", clusterID)
 	}
-	name, err := s.clusterName(clusterID)
+	name, err := g.ClusterName(clusterID)
 	if err != nil {
 		return err
 	}
@@ -43,37 +51,37 @@ func (s *GCPService) scaleClusterNodePools(resourceID string, nodeCount, minNode
 			if maxNodes < 1 {
 				maxNodes = 1
 			}
-			op, err := s.gke.Projects.Locations.Clusters.NodePools.SetAutoscaling(poolName, &container.SetNodePoolAutoscalingRequest{
+			op, err := g.GKE.Projects.Locations.Clusters.NodePools.SetAutoscaling(poolName, &container.SetNodePoolAutoscalingRequest{
 				Autoscaling: &container.NodePoolAutoscaling{
 					Enabled:      true,
 					MinNodeCount: minNodes,
 					MaxNodeCount: maxNodes,
 				},
-			}).Context(s.ctx).Do()
+			}).Context(g.Ctx).Do()
 			if err != nil {
 				return fmt.Errorf("set GKE autoscaling for pool %q: %w", pool.Name, err)
 			}
-			if err := s.waitGKEOp(op.Name, 15*time.Minute); err != nil {
+			if err := g.waitOp(op.Name, 15*time.Minute); err != nil {
 				return err
 			}
 		}
-		op, err := s.gke.Projects.Locations.Clusters.NodePools.SetSize(poolName, &container.SetNodePoolSizeRequest{
+		op, err := g.GKE.Projects.Locations.Clusters.NodePools.SetSize(poolName, &container.SetNodePoolSizeRequest{
 			NodeCount: nodeCount,
-		}).Context(s.ctx).Do()
+		}).Context(g.Ctx).Do()
 		if err != nil {
 			return fmt.Errorf("set GKE node pool %q size to %d: %w", pool.Name, nodeCount, err)
 		}
-		if err := s.waitGKEOp(op.Name, 20*time.Minute); err != nil {
+		if err := g.waitOp(op.Name, 20*time.Minute); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (s *GCPService) waitGKEOp(opName string, timeout time.Duration) error {
+func (g *GCP) waitOp(opName string, timeout time.Duration) error {
 	deadline := time.Now().Add(timeout)
 	for time.Now().Before(deadline) {
-		op, err := s.gke.Projects.Locations.Operations.Get(opName).Context(s.ctx).Do()
+		op, err := g.GKE.Projects.Locations.Operations.Get(opName).Context(g.Ctx).Do()
 		if err != nil {
 			return fmt.Errorf("get GKE operation %q: %w", opName, err)
 		}
@@ -84,25 +92,23 @@ func (s *GCPService) waitGKEOp(opName string, timeout time.Duration) error {
 			return nil
 		}
 		select {
-		case <-s.ctx.Done():
-			return s.ctx.Err()
+		case <-g.Ctx.Done():
+			return g.Ctx.Err()
 		case <-time.After(10 * time.Second):
 		}
 	}
 	return fmt.Errorf("timed out waiting for GKE operation %q", opName)
 }
 
-func (s *GCPService) StartedDetails() ([]generic.StartedResource, error) {
-	project := s.config.CloudParams().GcpProjectId
-	location := s.config.Get("gcp-cluster-location", "gcp-location", "region")
-	if project == "" {
+func (g *GCP) StartedDetails() ([]generic.StartedResource, error) {
+	if g.Project == "" {
 		return nil, fmt.Errorf("gcp-project-id is required to list started GKE clusters")
 	}
-	parent := fmt.Sprintf("projects/%s/locations/-", project)
-	if location != "" {
-		parent = fmt.Sprintf("projects/%s/locations/%s", project, location)
+	parent := fmt.Sprintf("projects/%s/locations/-", g.Project)
+	if g.Location != "" {
+		parent = fmt.Sprintf("projects/%s/locations/%s", g.Project, g.Location)
 	}
-	resp, err := s.gke.Projects.Locations.Clusters.List(parent).Context(s.ctx).Do()
+	resp, err := g.GKE.Projects.Locations.Clusters.List(parent).Context(g.Ctx).Do()
 	if err != nil {
 		return nil, fmt.Errorf("list GKE clusters: %w", err)
 	}

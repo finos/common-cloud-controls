@@ -1,6 +1,7 @@
-package kubernetes
+package lifecycle
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
@@ -11,52 +12,48 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 )
 
-func (s *AWSService) Start(resourceID string) error {
-	cluster := s.lifecycleClusterID(resourceID)
-	groups, err := s.listNodeGroups(cluster)
+// AWS scales EKS node groups for fixture start/stop.
+type AWS struct {
+	Ctx context.Context
+	EKS *eks.Client
+}
+
+func (a *AWS) Start(cluster string) error {
+	cluster = strings.TrimSpace(cluster)
+	groups, err := a.listNodeGroups(cluster)
 	if err != nil {
 		return err
 	}
 	for _, group := range groups {
-		if err := s.scaleNodeGroup(cluster, group, 1, 1, 2); err != nil {
+		if err := a.scaleNodeGroup(cluster, group, 1, 1, 2); err != nil {
 			return err
 		}
 	}
-	return s.waitNodeGroupsDesired(cluster, groups, 1, 20*time.Minute)
+	return a.waitNodeGroupsDesired(cluster, groups, 1, 20*time.Minute)
 }
 
-func (s *AWSService) Stop(resourceID string) error {
-	cluster := s.lifecycleClusterID(resourceID)
-	groups, err := s.listNodeGroups(cluster)
+func (a *AWS) Stop(cluster string) error {
+	cluster = strings.TrimSpace(cluster)
+	groups, err := a.listNodeGroups(cluster)
 	if err != nil {
 		return err
 	}
 	for _, group := range groups {
-		if err := s.scaleNodeGroup(cluster, group, 0, 0, 2); err != nil {
+		if err := a.scaleNodeGroup(cluster, group, 0, 0, 2); err != nil {
 			return err
 		}
 	}
-	return s.waitNodeGroupsDesired(cluster, groups, 0, 20*time.Minute)
+	return a.waitNodeGroupsDesired(cluster, groups, 0, 20*time.Minute)
 }
 
-func (s *AWSService) lifecycleClusterID(resourceID string) string {
-	if id := strings.TrimSpace(resourceID); id != "" {
-		return id
-	}
-	if id := strings.TrimSpace(s.config.Get("cluster-name", "resource")); id != "" {
-		return id
-	}
-	return ""
-}
-
-func (s *AWSService) listNodeGroups(cluster string) ([]string, error) {
+func (a *AWS) listNodeGroups(cluster string) ([]string, error) {
 	if cluster == "" {
 		return nil, fmt.Errorf("clusterID/resource is required to start/stop EKS node groups")
 	}
 	var names []string
 	var next *string
 	for {
-		out, err := s.eks.ListNodegroups(s.ctx, &eks.ListNodegroupsInput{
+		out, err := a.EKS.ListNodegroups(a.Ctx, &eks.ListNodegroupsInput{
 			ClusterName: aws.String(cluster),
 			NextToken:   next,
 		})
@@ -75,8 +72,8 @@ func (s *AWSService) listNodeGroups(cluster string) ([]string, error) {
 	return names, nil
 }
 
-func (s *AWSService) scaleNodeGroup(cluster, group string, desired, min, max int32) error {
-	out, err := s.eks.DescribeNodegroup(s.ctx, &eks.DescribeNodegroupInput{
+func (a *AWS) scaleNodeGroup(cluster, group string, desired, min, max int32) error {
+	out, err := a.EKS.DescribeNodegroup(a.Ctx, &eks.DescribeNodegroupInput{
 		ClusterName:   aws.String(cluster),
 		NodegroupName: aws.String(group),
 	})
@@ -96,7 +93,7 @@ func (s *AWSService) scaleNodeGroup(cluster, group string, desired, min, max int
 	if currentDesired == desired && currentMin == min {
 		return nil
 	}
-	_, err = s.eks.UpdateNodegroupConfig(s.ctx, &eks.UpdateNodegroupConfigInput{
+	_, err = a.EKS.UpdateNodegroupConfig(a.Ctx, &eks.UpdateNodegroupConfigInput{
 		ClusterName:   aws.String(cluster),
 		NodegroupName: aws.String(group),
 		ScalingConfig: &ekstypes.NodegroupScalingConfig{
@@ -111,12 +108,12 @@ func (s *AWSService) scaleNodeGroup(cluster, group string, desired, min, max int
 	return nil
 }
 
-func (s *AWSService) waitNodeGroupsDesired(cluster string, groups []string, desired int32, timeout time.Duration) error {
+func (a *AWS) waitNodeGroupsDesired(cluster string, groups []string, desired int32, timeout time.Duration) error {
 	deadline := time.Now().Add(timeout)
 	for time.Now().Before(deadline) {
 		ready := 0
 		for _, group := range groups {
-			out, err := s.eks.DescribeNodegroup(s.ctx, &eks.DescribeNodegroupInput{
+			out, err := a.EKS.DescribeNodegroup(a.Ctx, &eks.DescribeNodegroupInput{
 				ClusterName:   aws.String(cluster),
 				NodegroupName: aws.String(group),
 			})
@@ -135,19 +132,19 @@ func (s *AWSService) waitNodeGroupsDesired(cluster string, groups []string, desi
 			return nil
 		}
 		select {
-		case <-s.ctx.Done():
-			return s.ctx.Err()
+		case <-a.Ctx.Done():
+			return a.Ctx.Err()
 		case <-time.After(15 * time.Second):
 		}
 	}
 	return fmt.Errorf("timed out waiting for EKS cluster %q node groups to reach desired=%d", cluster, desired)
 }
 
-func (s *AWSService) StartedDetails() ([]generic.StartedResource, error) {
+func (a *AWS) StartedDetails() ([]generic.StartedResource, error) {
 	var names []string
 	var next *string
 	for {
-		out, err := s.eks.ListClusters(s.ctx, &eks.ListClustersInput{NextToken: next})
+		out, err := a.EKS.ListClusters(a.Ctx, &eks.ListClustersInput{NextToken: next})
 		if err != nil {
 			return nil, fmt.Errorf("list EKS clusters: %w", err)
 		}
@@ -162,7 +159,7 @@ func (s *AWSService) StartedDetails() ([]generic.StartedResource, error) {
 		if !strings.Contains(cluster, "finos-ccc-integration-k8s") {
 			continue
 		}
-		desc, err := s.eks.DescribeCluster(s.ctx, &eks.DescribeClusterInput{Name: aws.String(cluster)})
+		desc, err := a.EKS.DescribeCluster(a.Ctx, &eks.DescribeClusterInput{Name: aws.String(cluster)})
 		if err != nil {
 			return nil, fmt.Errorf("describe EKS cluster %q: %w", cluster, err)
 		}
@@ -171,15 +168,14 @@ func (s *AWSService) StartedDetails() ([]generic.StartedResource, error) {
 				continue
 			}
 		}
-		groups, err := s.listNodeGroups(cluster)
+		groups, err := a.listNodeGroups(cluster)
 		if err != nil {
-			// Cluster with no node groups is treated as parked.
 			continue
 		}
 		var details []string
 		online := false
 		for _, group := range groups {
-			out, err := s.eks.DescribeNodegroup(s.ctx, &eks.DescribeNodegroupInput{
+			out, err := a.EKS.DescribeNodegroup(a.Ctx, &eks.DescribeNodegroupInput{
 				ClusterName:   aws.String(cluster),
 				NodegroupName: aws.String(group),
 			})

@@ -14,7 +14,7 @@ The Managed Kubernetes catalog defines **18 native controls** with **41 assessme
 
 Of the 41 native ARs, roughly **28 are Behavioural** (admit/deny probes, inventory assertions, network-flow probes), **~11 are `@NotTestable` or Policy-deferred** (API network allowlisting from GitHub-hosted CI, entitlement inventories, addon allowlist enforcement, alert delivery, cross-account log isolation, update-channel timing, PV rebind sanitization, signing/vuln-scan prerequisites), and Core reuse covers MFA / enumeration / log-integrity stubs plus PerPort TLS and region checks.
 
-**Most inherited Core ARs reuse `modules/features/generic/`** (and `vpc/` for CN06) by adding `@kubernetes` — do not copy those files into `kubernetes/CCC.Core/`. Native ARs and Core CN02 (cluster encryption-at-rest) need **new** features under `kubernetes/CCC.K8S/` and one Core CN02 file. Planned APIs: **`ControlPlane`** (CSP + `GetKubernetesClient` + `AttemptAdmitWorkload`) and portable **`Client`** (`kubeClient`) probes (+ `generic.Service` + `logging.Service` + shared `reachability.Prober`). CN11.AR03 uses a separate `admission-webhook` factory service.
+**Most inherited Core ARs reuse `modules/features/generic/`** (and `vpc/` for CN06) by adding `@kubernetes` — do not copy those files into `kubernetes/CCC.Core/`. Native ARs and Core CN02 (cluster encryption-at-rest) need **new** features under `kubernetes/CCC.K8S/` and one Core CN02 file. Planned APIs: **`ControlPlane`** (CSP + `GetKubernetesClient` + `AttemptAdmitWorkload`) and portable **`KubeClient`** (`kubeClient`) probes (+ `generic.Service` + `logging.Service` + shared `reachability.Prober`). CN11.AR03 uses a separate `admission-webhook` factory service.
 
 **Runner note (implementation skill):** extend `collectFeaturePaths` so `kubernetes` loads `port/` (API TLS / CN01+CN13) and `vpc/` (CN06), matching VM/serverless patterns.
 
@@ -88,7 +88,7 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
   2. Reuse `AttemptAPIEndpointReachability(clusterID, "untrusted")`, backed by the FINOS `reachability-probe`, to attempt a TLS connection from outside the integration estates.
   3. Assert `TCPConnected=false`. A completed TLS handshake or HTTP `401`/`403` means the endpoint is publicly network-reachable and fails AR02.
   4. Correlate both observations: `PublicAccess=false` plus external unreachability is the pass condition; probe-service errors are infrastructure failures rather than compliance passes.
-- **Config / fixtures**: Good fixture always private; `finos-ccc-integration-k8s-bad` supplies the public-endpoint negative case. Reuse AR01's `reachability-probe-url`, secret-expanded `reachability-probe-shared-secret`, expected observer, and timeout.
+- **Config / fixtures**: `finos-ccc-integration-k8s-main` must expose a private API only (`PublicAccess=false`). Pass path is config + untrusted reachability against that cluster; reuse AR01's `reachability-probe-url`, secret-expanded `reachability-probe-shared-secret`, expected observer, and timeout. A public-API negative cluster is out of scope for `cloud-api-test` terraform.
 - **Gaps / honesty notes**: AKS “authorized IP ranges” with public FQDN still has a public endpoint — that pattern fails AR02 even if AR01’s intent were met. External DNS failure is supporting evidence only and must be paired with `PublicAccess=false`. GitHub-hosted runners cannot reach a true private API endpoint; treat private-endpoint behavioural proof the same class of CI limitation as AR01 unless a fixed private path exists.
 
 ### CCC.K8S.CN02.AR01 — Least-privilege access bindings
@@ -631,7 +631,7 @@ Factory service id remains `kubernetes`. Embeds `generic.Service`. Cloud impleme
 
 | Method | Used by AR(s) | Args | Returns (key fields) |
 |--------|---------------|------|----------------------|
-| `GetKubernetesClient` | (portable probes) | — | `*Client` (`kubeClient`) |
+| `GetKubernetesClient` | (portable probes) | — | `*KubeClient` (`kubeClient`) |
 | `GetAPIEndpointConfig` | K8S.CN01.AR01 (`@OPT_IN` only), AR02 | `clusterID string` | `PublicAccess`, `PrivateAccess`, `AllowedCIDRs`, `EndpointHostname` |
 | `AttemptAPIEndpointReachability` | K8S.CN01.AR01 (`@OPT_IN` / non-GHA), AR02 | `clusterID`, `networkContext string` | `Observer`, `DNSResolved`, `TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Duration` |
 | `AttemptAdmitWorkload` | K8S.CN03.AR02, CN04.*, CN05.*, CN11.AR01/AR03, CN13.AR01/AR02, CN15.AR01 | `clusterID`, `operation`, `manifestYAML` | `Admitted`, `Denied`, `DeniedAt`, `GeneratedWorkloadRunning`, `Reason` |
@@ -648,7 +648,7 @@ Factory service id remains `kubernetes`. Embeds `generic.Service`. Cloud impleme
 
 `AttemptAdmitWorkload` stays on the control plane (uses the dynamic client internally). Do **not** expose `dynamic.Interface` to features.
 
-### `kubernetes.Client` (`k8s-client.go`) — portable kube probes
+### `kubernetes.KubeClient` (`k8s-client.go`) — portable kube probes
 
 Obtained only via `ControlPlane.GetKubernetesClient`. Shared across AWS/Azure/GCP.
 
@@ -869,10 +869,10 @@ Reuse existing `logging.Service`. **Prerequisites**: EKS control plane logging t
 
 | Fixture name | Role | AR(s) | Cloud(s) |
 |--------------|------|-------|----------|
-| `finos-ccc-integration-k8s-main` | Compliant private cluster: restricted API, PSS Restricted, default-deny NP, WI (**bound + unbound** test SAs), encryption, logging export, quotas, managed auth, allowlisted addons, and namespace-scoped admission webhook probe | Most behavioural | aws, azure, gcp |
-| `finos-ccc-integration-k8s-bad` | Non-compliant cluster: public API / missing NetworkPolicy / unsigned image path for negative jobs | CN01, CN04, CN06 negatives | aws, azure, gcp |
+| `finos-ccc-integration-k8s-main` | Compliant private cluster: restricted API, PSS Restricted, default-deny NP, WI (**bound + unbound** test SAs), encryption, logging export, quotas, managed auth, allowlisted addons, and namespace-scoped admission webhook probe | Most behavioural + all `cloud-api-test` integration CSV rows | aws, azure, gcp |
+| `finos-ccc-integration-k8s-bad` | Non-compliant cluster for behavioural negative jobs (public API / missing NP / unsigned image). **Not** provisioned by `cloud-api-test` terraform — integration CSV only needs `main` | CN01, CN04, CN06 negatives (Privateer) | aws, azure, gcp (when behavioural fixtures are stood up separately) |
 
-Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/kubernetes/`.
+Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/kubernetes/` (main cluster only).
 
 **Separate test-infra Terraform root.** Both deployable test-support probes — the `reachability-probe` service and the `admission-webhook-probe` — are provisioned from a **new, standalone Terraform root** `modules/cloud-api-test/terraform/aws-test-infra/`, applied **separately** (its own state / apply cycle) from the main `modules/cloud-api-test/terraform/aws/` root. This keeps the probes on an independent lifecycle from the per-service fixtures, so they can be deployed once and reused across test runs rather than being torn down with the service fixtures. Azure/GCP equivalents (`azure-test-infra/`, `gcp-test-infra/`) follow the same pattern when those clouds are onboarded.
 
@@ -898,7 +898,7 @@ Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/kubernetes/`.
 
 `modules/cloud-api-test/integration_calls.csv` exercises **ControlPlane** (+ `generic.Service`) and the `admission-webhook` fixture controller — i.e. code we own for CSP wiring, admit, governance, auth, encryption, inventory/integrity overrides, and lifecycle-adjacent helpers.
 
-**Not** in the CSV: portable `Client` probes (`GetRBACPolicyFindings`, NetworkPolicy/Job flows, PVC helpers, …). Those wrap client-go and belong in unit tests / behavioural features via `kubeClient`, not cloud-api integration.
+**Not** in the CSV: portable `KubeClient` probes (`GetRBACPolicyFindings`, NetworkPolicy/Job flows, PVC helpers, …). Those wrap client-go and belong in unit tests / behavioural features via `kubeClient`, not cloud-api integration.
 
 Canonical row list: `modules/cloud-api-test/integration_calls.csv` (kubernetes + admission-webhook section).
 

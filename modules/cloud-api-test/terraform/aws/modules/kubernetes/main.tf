@@ -8,7 +8,6 @@ data "aws_partition" "current" {}
 
 locals {
   name_main = "finos-ccc-integration-k8s-main"
-  name_bad  = "finos-ccc-integration-k8s-bad"
   azs       = slice(data.aws_availability_zones.available.names, 0, 2)
 
   cluster_tags = merge(var.common_tags, {
@@ -34,7 +33,7 @@ locals {
   }
 }
 
-# Dedicated VPC shared by main + bad clusters (one NAT) — cheaper than two VPCs.
+# Dedicated VPC for the integration cluster (one NAT).
 resource "aws_vpc" "k8s" {
   cidr_block           = "10.80.0.0/16"
   enable_dns_hostnames = true
@@ -137,12 +136,6 @@ resource "aws_kms_alias" "secrets" {
 
 resource "aws_cloudwatch_log_group" "main" {
   name              = "/aws/eks/${local.name_main}/cluster"
-  retention_in_days = 7
-  tags              = local.cluster_tags
-}
-
-resource "aws_cloudwatch_log_group" "bad" {
-  name              = "/aws/eks/${local.name_bad}/cluster"
   retention_in_days = 7
   tags              = local.cluster_tags
 }
@@ -362,63 +355,6 @@ resource "aws_iam_openid_connect_provider" "main" {
   thumbprint_list = [data.tls_certificate.main.certificates[0].sha1_fingerprint]
   url             = aws_eks_cluster.main.identity[0].oidc[0].issuer
   tags            = local.cluster_tags
-}
-
-# Non-compliant BAD cluster: open public API for CN01 negatives.
-resource "aws_eks_cluster" "bad" {
-  name     = local.name_bad
-  role_arn = aws_iam_role.cluster.arn
-  version  = var.kubernetes_version
-
-  vpc_config {
-    subnet_ids              = concat(aws_subnet.private[*].id, aws_subnet.public[*].id)
-    endpoint_private_access = true
-    endpoint_public_access  = true
-    public_access_cidrs     = ["0.0.0.0/0"]
-  }
-
-  enabled_cluster_log_types = ["api", "audit"]
-
-  access_config {
-    authentication_mode                         = "API_AND_CONFIG_MAP"
-    bootstrap_cluster_creator_admin_permissions = true
-  }
-
-  tags = merge(local.cluster_tags, {
-    Name    = local.name_bad
-    CFIRole = "bad"
-  })
-
-  depends_on = [
-    aws_iam_role_policy_attachment.cluster_policy,
-    aws_cloudwatch_log_group.bad,
-  ]
-}
-
-resource "aws_eks_node_group" "bad" {
-  cluster_name    = aws_eks_cluster.bad.name
-  node_group_name = "bad"
-  node_role_arn   = aws_iam_role.node.arn
-  subnet_ids      = aws_subnet.public[*].id
-  capacity_type   = "SPOT"
-  instance_types  = var.node_instance_types
-
-  scaling_config {
-    desired_size = 1
-    min_size     = 1
-    max_size     = 1
-  }
-
-  tags = merge(local.cluster_tags, {
-    Name    = "${local.name_bad}-ng"
-    CFIRole = "bad"
-  })
-
-  depends_on = [
-    aws_iam_role_policy_attachment.node_worker,
-    aws_iam_role_policy_attachment.node_cni,
-    aws_iam_role_policy_attachment.node_ecr,
-  ]
 }
 
 # WI probe bucket + IRSA for bound SA (CN03.AR01).

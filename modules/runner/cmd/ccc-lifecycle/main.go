@@ -173,7 +173,7 @@ func actOnService(action, providerName, serviceID string, cloudFactory factory.F
 		}
 		return nil, nil
 	case "start":
-		resourceID := resourceIDForService(serviceID, cfg.Get("resource"), cfg.Get("cluster-name"))
+		resourceID := resourceIDForService(serviceID, cfg.Get("resource"), cfg.Get("kubernetes-cluster-name"))
 		fmt.Printf("==> start %s/%s resource=%q\n", providerName, serviceID, resourceID)
 		if err := svc.Start(resourceID); err != nil {
 			return nil, err

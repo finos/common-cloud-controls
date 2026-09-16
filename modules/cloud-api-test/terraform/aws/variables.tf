@@ -21,6 +21,6 @@ variable "k8s_api_authorized_cidrs" {
 
 variable "k8s_version" {
   type        = string
-  description = "EKS Kubernetes version for main and bad clusters."
+  description = "EKS Kubernetes version for the integration cluster."
   default     = "1.31"
 }

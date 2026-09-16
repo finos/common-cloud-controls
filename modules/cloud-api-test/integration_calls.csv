@@ -123,7 +123,7 @@ admission-webhook,SetBackendAvailability,all,,finos-ccc-integration-k8s-main,fal
 admission-webhook,SetBackendAvailability,all,,finos-ccc-integration-k8s-main,true,,
 kubernetes,AttemptInstanceMetadataAccess,all,true,finos-ccc-integration-k8s-main,app=ccc-metadata-probe,,
 kubernetes,GetGovernanceMetadata,all,,finos-ccc-integration-k8s-main,,,
-kubernetes,AttemptModifyGovernanceMetadata,all,true,finos-ccc-integration-k8s-main,cluster,config:governance-patch-no-access,
+kubernetes,AttemptModifyGovernanceMetadata,all,,finos-ccc-integration-k8s-main,cluster,config:governance-patch-no-access,
 kubernetes,GetClusterAuthConfig,all,,finos-ccc-integration-k8s-main,,,
 kubernetes,AttemptClusterAuthWithStaticCredential,all,true,finos-ccc-integration-k8s-main,basic,,
 kubernetes,GetNodeIntegrityStatus,all,,finos-ccc-integration-k8s-main,,,

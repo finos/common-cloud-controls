@@ -67,11 +67,8 @@ output "kubernetes" {
   value = {
     resource_name                         = module.kubernetes.main_cluster_name
     main_cluster_name                     = module.kubernetes.main_cluster_name
-    bad_cluster_name                      = module.kubernetes.bad_cluster_name
     main_cluster_id                       = module.kubernetes.main_cluster_id
-    bad_cluster_id                        = module.kubernetes.bad_cluster_id
     main_endpoint                         = module.kubernetes.main_fqdn
-    bad_endpoint                          = module.kubernetes.bad_fqdn
     region                                = module.kubernetes.location
     azure_log_analytics_workspace_id      = module.kubernetes.log_analytics_workspace_id
     azure_log_analytics_workspace_rid     = module.kubernetes.log_analytics_workspace_resource_id

@@ -16,14 +16,19 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/streaming"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/config"
+	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/lifecycle"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	"k8s.io/client-go/rest"
 )
 
 var _ ControlPlane = (*AzureService)(nil)
 
 type AzureService struct {
 	*managedService
-	arm *azcore.Client
+	arm  *azcore.Client
+	cred azcore.TokenCredential
 }
 
 type aksResource struct {
@@ -85,7 +90,8 @@ func newAzureService(ctx context.Context, cfg types.Config, credential azcore.To
 	if err != nil {
 		return nil, fmt.Errorf("create Azure ARM client: %w", err)
 	}
-	service := &AzureService{managedService: newManagedService(ctx, cfg, "azure", identity), arm: client}
+	service := &AzureService{managedService: newManagedService(ctx, cfg, "azure"), arm: client, cred: credential}
+	service.resolveREST = service.buildRESTConfig
 	service.endpoint = service.endpointConfig
 	service.region = service.clusterRegion
 	service.updateMetadata = service.updateTags
@@ -102,10 +108,10 @@ func (s *AzureService) resourceURL(clusterID string) (string, error) {
 	subscription := s.config.CloudParams().AzureSubscriptionID
 	group := s.config.CloudParams().AzureResourceGroup
 	if clusterID == "" {
-		clusterID = s.config.Get("cluster-name", "resource")
+		clusterID = s.config.Get("kubernetes-cluster-name", "resource")
 	}
 	if subscription == "" || group == "" || clusterID == "" {
-		return "", fmt.Errorf("azure-subscription-id, azure-resource-group, and clusterID/cluster-name/resource are required for AKS")
+		return "", fmt.Errorf("azure-subscription-id, azure-resource-group, and clusterID/kubernetes-cluster-name/resource are required for AKS")
 	}
 	return fmt.Sprintf("https://management.azure.com/subscriptions/%s/resourceGroups/%s/providers/Microsoft.ContainerService/managedClusters/%s?api-version=2025-04-01",
 		url.PathEscape(subscription), url.PathEscape(group), url.PathEscape(clusterID)), nil
@@ -163,7 +169,8 @@ func (s *AzureService) clusterRegion(ctx context.Context, clusterID string) (str
 
 func (s *AzureService) updateTags(ctx context.Context, clusterID string, patch map[string]interface{}) error {
 	deadline := time.Now().Add(15 * time.Minute)
-	if err := s.waitClusterSettled(clusterID, deadline); err != nil {
+	lc := s.azureLifecycle()
+	if err := lc.WaitSettled(clusterID, deadline); err != nil {
 		return err
 	}
 	cluster, err := s.get(ctx, clusterID)
@@ -200,10 +207,10 @@ func (s *AzureService) updateTags(ctx context.Context, clusterID string, patch m
 		responseBody, _ := io.ReadAll(io.LimitReader(response.Body, 4096))
 		response.Body.Close()
 		err = fmt.Errorf("patch AKS tags returned HTTP %d: %s", response.StatusCode, strings.TrimSpace(string(responseBody)))
-		if !isAKSOperationInProgress(err) || time.Now().After(deadline) {
+		if !lifecycle.IsAKSOperationInProgress(err) || time.Now().After(deadline) {
 			return err
 		}
-		if err := s.sleepOrDone(15 * time.Second); err != nil {
+		if err := lc.SleepOrDone(15 * time.Second); err != nil {
 			return err
 		}
 	}
@@ -241,4 +248,56 @@ func (s *AzureService) encryptionStatus(ctx context.Context, clusterID string) (
 	}
 	kms := cluster.Properties.SecurityProfile.AzureKeyVaultKMS
 	return map[string]interface{}{"SecretsEncrypted": kms.Enabled, "KMSKeyID": kms.KeyID, "Provider": "azure-key-vault-kms"}, nil
+}
+
+func (s *AzureService) azureLifecycle() *lifecycle.Azure {
+	params := s.config.CloudParams()
+	return &lifecycle.Azure{
+		Ctx:           s.ctx,
+		Arm:           s.arm,
+		ResourceURL:   s.resourceURL,
+		APIHostname:   s.clusterAPIHostname,
+		Subscription:  params.AzureSubscriptionID,
+		ResourceGroup: params.AzureResourceGroup,
+	}
+}
+
+func (s *AzureService) Start(resourceID string) error {
+	return s.azureLifecycle().Start(s.lifecycleClusterID(resourceID))
+}
+
+func (s *AzureService) Stop(resourceID string) error {
+	return s.azureLifecycle().Stop(s.lifecycleClusterID(resourceID))
+}
+
+func (s *AzureService) StartedDetails() ([]generic.StartedResource, error) {
+	return s.azureLifecycle().StartedDetails()
+}
+
+func (s *AzureService) lifecycleClusterID(resourceID string) string {
+	if id := strings.TrimSpace(resourceID); id != "" {
+		return id
+	}
+	return strings.TrimSpace(s.config.Get("kubernetes-cluster-name", "resource"))
+}
+
+func (s *AzureService) clusterAPIHostname(clusterID string) (string, error) {
+	cluster, err := s.get(s.ctx, clusterID)
+	if err != nil {
+		return "", err
+	}
+	if host := strings.TrimSpace(cluster.Properties.FQDN); host != "" {
+		return host, nil
+	}
+	return strings.TrimSpace(cluster.Properties.PrivateFQDN), nil
+}
+
+func (s *AzureService) buildRESTConfig() (*rest.Config, error) {
+	resourceURL, err := s.resourceURL("")
+	if err != nil {
+		return nil, err
+	}
+	base := strings.SplitN(resourceURL, "?", 2)[0]
+	credURL := base + "/listClusterUserCredentials?api-version=2025-04-01"
+	return config.Azure(s.ctx, s.arm, s.cred, credURL)
 }
