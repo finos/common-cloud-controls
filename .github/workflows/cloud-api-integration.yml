@@ -36,7 +36,8 @@ jobs:
       RUN_CLOUD_API_INTEGRATION: "1"
       PROVIDER: ${{ matrix.provider }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      # Do not set AZURE_CLIENT_ID here: DefaultAzureCredential treats it as a
+      # user-assigned managed identity and fails the chain before AzureCLICredential.
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
@@ -65,6 +66,8 @@ jobs:
       # expires (AADSTS700024). Re-login in the background with a fresh id-token.
       - name: Keep Azure CLI OIDC session fresh
         if: matrix.provider == 'azure'
+        env:
+          AZURE_SP_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         run: |
           set -euo pipefail
           (
@@ -76,7 +79,7 @@ jobs:
                 | jq -r '.value')"
               az login --service-principal \
                 --tenant "${AZURE_TENANT_ID}" \
-                --username "${AZURE_CLIENT_ID}" \
+                --username "${AZURE_SP_CLIENT_ID}" \
                 --federated-token "${token}" \
                 --output none
             done
@@ -126,6 +129,12 @@ jobs:
           else
             echo "Warning: no ${PROVIDER^^}_ENV secret payload" >&2
           fi
+
+      # AZURE_CLIENT_ID in the process env makes DefaultAzureCredential send it to IMDS as a
+      # user-assigned identity; that fails fatally on GitHub runners and skips AzureCLICredential.
+      - name: Unset AZURE_CLIENT_ID for SDK auth chain
+        if: matrix.provider == 'azure'
+        run: echo "AZURE_CLIENT_ID=" >> "$GITHUB_ENV"
 
       - name: Start compute fixtures
         run: |
