@@ -107,8 +107,6 @@ secrets,RetrieveSecretInRegion,azure,,finos-ccc-integration-secret-main,config:a
 secrets,RetrieveSecretInRegion,azure,true,finos-ccc-integration-secret-main,config:unauthorized-region,
 secrets,RetrieveSecretInRegion,gcp,,finos-ccc-integration-secret-main,config:authorized-region,
 secrets,RetrieveSecretInRegion,gcp,true,finos-ccc-integration-secret-main,config:unauthorized-region,
-# kubernetes — args follow analysis signatures. arg5 supports 5-arg methods; comma-separated values coerce to []int/[]string.
-# reachability.Prober is not a factory method — omitted (used via AttemptAPIEndpointReachability / ProbeNodeAdminInterfaces).
 kubernetes,CheckUserProvisioned,all,,,,
 kubernetes,GetOrProvisionTestableResources,all,,,,
 kubernetes,ElevateAccessForInspection,all,,,,

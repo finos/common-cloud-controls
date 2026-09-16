@@ -12,7 +12,7 @@
 
 The Managed Kubernetes catalog defines **18 native controls** with **41 assessment requirements**, plus **nine imported CCC.Core controls** (CN01, CN02, CN03, CN04, CN05, CN06, CN07, CN09, CN13). CSP surfaces are **EKS / AKS / GKE**.
 
-Of the 41 native ARs, roughly **29 are Behavioural** (admit/deny probes, endpoint exposure, inventory assertions, network-flow probes), **~10 are `@NotTestable` or Policy-deferred** (entitlement inventories, addon allowlist enforcement, alert delivery, cross-account log isolation, update-channel timing, PV rebind sanitization, signing/vuln-scan prerequisites), and Core reuse covers MFA / enumeration / log-integrity stubs plus PerPort TLS and region checks.
+Of the 41 native ARs, roughly **28 are Behavioural** (admit/deny probes, inventory assertions, network-flow probes), **~11 are `@NotTestable` or Policy-deferred** (API network allowlisting from GitHub-hosted CI, entitlement inventories, addon allowlist enforcement, alert delivery, cross-account log isolation, update-channel timing, PV rebind sanitization, signing/vuln-scan prerequisites), and Core reuse covers MFA / enumeration / log-integrity stubs plus PerPort TLS and region checks.
 
 **Most inherited Core ARs reuse `modules/features/generic/`** (and `vpc/` for CN06) by adding `@kubernetes` — do not copy those files into `kubernetes/CCC.Core/`. Native ARs and Core CN02 (cluster encryption-at-rest) need **new** features under `kubernetes/CCC.K8S/` and one Core CN02 file. Planned APIs: **25 Kubernetes methods + one fixture-control method** (+ `generic.Service` + `logging.Service` + shared `reachability.Prober`), dominated by a shared `AttemptAdmitWorkload` reused for admission/PSS/image/resource/quota/governance ARs. CN11.AR03 uses a separate `admission-webhook` factory service (implemented in `modules/cloud-api/kubernetes/admission_webhook.go`) that toggles only the probe backend.
 
@@ -64,23 +64,17 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
 ### CCC.K8S.CN01.AR01 — Restrict API to approved networks
 
 - **Requirement**: > When a Kubernetes API endpoint is active, its network access configuration MUST restrict inbound traffic to explicitly approved private networks or source address ranges.
-- **Disposition**: Behavioural
+- **Disposition**: `@NotTestable` (GitHub-hosted CI / ephemeral egress)
 - **Applicability**: tlp-clear, tlp-green, tlp-amber, tlp-red
-- **Reuse**: New under `kubernetes/CCC.K8S/`
+- **Reuse**: Document only under `kubernetes/CCC.K8S/` (no `@MAIN` behavioural feature for this AR in FINOS GitHub Actions)
 - **Interpretation**: Managed API endpoint (EKS public/private access, AKS API server authorized IP ranges / private cluster, GKE authorized networks / private endpoint) must encode an allowlist; traffic from outside that allowlist must fail.
-- **Approach**:
-  1. Good fixture: private or CIDR-restricted API endpoint; privateer `approved-api-cidrs`.
-  2. `GetAPIEndpointConfig` → assert `PublicAccess=false` **or** non-empty `AllowedCIDRs` matching config.
-  3. `AttemptAPIEndpointReachability` resolves the cluster endpoint, then delegates a TLS probe to `reachability.Prober` in `modules/cloud-api/reachability/`.
-  4. For `networkContext=untrusted`, the client calls the separately deployable FINOS `modules/probes/reachability/` service. That service runs outside the integration CSP estates and attempts the TLS connection from its own known public egress. The expected result is `TCPConnected=false`; an HTTP `401`/`403` still proves that the API endpoint was network-reachable and therefore fails this AR.
-  5. Correlate the remote observation with `GetAPIEndpointConfig`; a timeout alone means “unreachable from this observer”, not necessarily “the allowlist denied it”.
-- **Feature sketch**: Background cloud api + `kubernetes`; assert endpoint configuration; request an authenticated remote probe from the FINOS untrusted observer; assert the API endpoint is not TCP/TLS reachable.
-- **Config / fixtures**: `resource` = cluster name; `approved-api-cidrs`; `reachability-probe-mode=remote`; `reachability-probe-url`; secret-expanded `reachability-probe-shared-secret`; expected `reachability-probe-observer`. The shared secret comes from FINOS secret storage / CI secrets and MUST NOT be committed or emitted as a terraform output.
-- **Gaps / honesty notes**: The FINOS probe service is an independently deployed prerequisite, not part of the EKS/AKS/GKE integration rollouts. DNS failure and probe-service failure are inconclusive infrastructure errors, not compliance passes. Config-only assertion remains a weaker `@SANITY` fallback when the remote service is unavailable.
-- **New component required**:
-  - `modules/cloud-api/reachability/`: shared request/result contract plus local and authenticated HTTP client implementations.
-  - `modules/probes/reachability/`: separate Go module and deployable server for the FINOS estate; add it to `modules/go.work` during implementation. It executes tightly constrained DNS/TCP/TLS probes and returns observation evidence.
-  - Authenticate requests with an HMAC-SHA256 signature over timestamp, nonce, and request body using the shared secret; reject stale/replayed requests. The service MUST also enforce target/port allowlists, resolve and validate every destination IP, reject loopback/link-local/metadata/private ranges unless explicitly approved, rate-limit callers, and audit requests to avoid becoming an SSRF/network-scanning service.
+- **Why not behavioural (in this CI)**: Honest proof of AR01 needs two incompatible vantage points at once:
+  1. **Inside** the approved source ranges — so the integration runner can reach the Kubernetes API for kubeconfig-backed probes (RBAC, WI, NetworkPolicy, admission, etc.).
+  2. **Outside** those ranges — so a deny/unreachability observation proves the allowlist actually blocks unapproved clients (typically a remote `reachability.Prober`).
+  
+  GitHub-hosted Actions (`ubuntu-latest`) use **ephemeral public egress IPs** that change every job and are not a stable CIDR FINOS can publish into EKS `publicAccessCidrs` / AKS `authorizedIpRanges` / GKE `masterAuthorizedNetworks`. The Azure fixture defaults empty `k8s_api_authorized_cidrs` to the **terraform-apply machine’s `/32`**, which is not the GHA runner. Result: either the API is locked such that **GHA cannot reach it** (kube integration always fails with dial/timeout after DNS works), or the allowlist is widened enough that a GHA “deny” observation is no longer meaningful. Dynamically rewriting authorized CIDRs every workflow run would mutate the CN01 control surface under test and still cannot guarantee Microsoft/GitHub egress range coverage. Self-hosted or fixed-egress runners could revisit this AR; **GitHub-hosted CI cannot reliably test it**, and with the current CIDR-locked MAIN fixture the kubernetes kube API integration path will keep failing for reasons unrelated to other ARs.
+- **Optional corroboration (`@OPT_IN`, non-GHA / fixed egress only)**: `GetAPIEndpointConfig` → non-empty `AllowedCIDRs` or `PublicAccess=false`; plus remote `AttemptAPIEndpointReachability(…, "untrusted")` expecting `TCPConnected=false` when a FINOS reachability probe and a stable approved runner CIDR both exist. Config-only checks without an outside observer are fixture sanity, not behavioural proof.
+- **Gaps / honesty notes**: Do not treat runner NXDOMAIN, dial timeout, or `expect_error` matches as AR01 passes. ARM/control-plane reads (`GetAPIEndpointConfig`) can succeed while the kube API remains unreachable from GHA — that is infrastructure/allowlist mismatch, not compliance evidence. Reachability probe components remain useful for other services / future fixed-egress estates; they do not make this AR testable on GitHub-hosted runners.
 
 ### CCC.K8S.CN01.AR02 — Disable public API access
 
@@ -95,7 +89,7 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
   3. Assert `TCPConnected=false`. A completed TLS handshake or HTTP `401`/`403` means the endpoint is publicly network-reachable and fails AR02.
   4. Correlate both observations: `PublicAccess=false` plus external unreachability is the pass condition; probe-service errors are infrastructure failures rather than compliance passes.
 - **Config / fixtures**: Good fixture always private; `finos-ccc-integration-k8s-bad` supplies the public-endpoint negative case. Reuse AR01's `reachability-probe-url`, secret-expanded `reachability-probe-shared-secret`, expected observer, and timeout.
-- **Gaps / honesty notes**: AKS “authorized IP ranges” with public FQDN still has a public endpoint — that pattern fails AR02 even if AR01 passes. External DNS failure is supporting evidence only and must be paired with `PublicAccess=false`.
+- **Gaps / honesty notes**: AKS “authorized IP ranges” with public FQDN still has a public endpoint — that pattern fails AR02 even if AR01’s intent were met. External DNS failure is supporting evidence only and must be paired with `PublicAccess=false`. GitHub-hosted runners cannot reach a true private API endpoint; treat private-endpoint behavioural proof the same class of CI limitation as AR01 unless a fixed private path exists.
 
 ### CCC.K8S.CN02.AR01 — Least-privilege access bindings
 
@@ -635,8 +629,8 @@ Embeds `generic.Service`. Prefer **maps** for inventory/probe results. Every met
 
 | Method | Used by AR(s) | Args | Returns (key fields) |
 |--------|---------------|------|----------------------|
-| `GetAPIEndpointConfig` | K8S.CN01.AR01, AR02 | `clusterID string` | `PublicAccess`, `PrivateAccess`, `AllowedCIDRs`, `EndpointHostname` |
-| `AttemptAPIEndpointReachability` | K8S.CN01.AR01, AR02 | `clusterID`, `networkContext string` | `Observer`, `DNSResolved`, `TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Duration` |
+| `GetAPIEndpointConfig` | K8S.CN01.AR01 (`@OPT_IN` only), AR02 | `clusterID string` | `PublicAccess`, `PrivateAccess`, `AllowedCIDRs`, `EndpointHostname` |
+| `AttemptAPIEndpointReachability` | K8S.CN01.AR01 (`@OPT_IN` / non-GHA), AR02 | `clusterID`, `networkContext string` | `Observer`, `DNSResolved`, `TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Duration` |
 | `GetRBACPolicyFindings` | K8S.CN02.AR02, CN07.AR02 | `clusterID` | `WildcardRoles[]`, `OverbroadSecretAccess[]` |
 | `AttemptSecretAccessAsIdentity` | K8S.CN07.AR01, AR02 | `clusterID`, `namespace`, `secretName`, `serviceAccount`, `verb` (`get`, `list`, `watch`) | `Allowed`, `Denied`, `ValueMatched`, `Reason` |
 | `GetWorkloadIdentityStatus` | K8S.CN03.AR01 | `clusterID`, `namespace`, `serviceAccount` | `Federated`, `CloudIdentityID`, `LongLivedKeysPresent` |
@@ -671,7 +665,7 @@ Planned package: `modules/cloud-api/reachability/`. This is not a `generic.Servi
 
 | Method | Used by AR(s) | Args | Returns |
 |--------|---------------|------|---------|
-| `Probe` | K8S.CN01.AR01, AR02; reusable by VM Core.CN12 | `context.Context`, `Request{Host, Port, Protocol, ServerName, Timeout, NetworkContext}` | `Result{Observer, DNSResolved, TCPConnected, TLSConnected, HTTPStatus, RemoteAddr, Failure, Duration}` |
+| `Probe` | K8S.CN01.AR01 `@OPT_IN` / non-GHA, AR02; reusable by VM Core.CN12 | `context.Context`, `Request{Host, Port, Protocol, ServerName, Timeout, NetworkContext}` | `Result{Observer, DNSResolved, TCPConnected, TLSConnected, HTTPStatus, RemoteAddr, Failure, Duration}` |
 
 Implementations:
 
@@ -698,7 +692,7 @@ The `reachability` client and FINOS `reachability-probe` are shared infrastructu
 
 1. **virtual-machines — `CCC.Core.CN12.AR01`** (first adopter). Replace the direct `net.DialTimeout` in `virtualmachines.AttemptInboundConnection` (see `modules/cloud-api/virtual-machines/aws-virtual-machines.go`) with an injected `reachability.Prober`. `LocalProber` preserves today's behaviour; `RemoteProber` gives an honest untrusted vantage. Update `modules/features/virtual-machines/analysis.md` and the CN12 feature to interpret the richer `Result` (`TCPConnected` instead of `Connected`). Track in that analysis, not here.
 2. **serverless-computing — `CCC.SvlsComp.CN01.AR01`**. Back `AttemptPublicInternetInvoke` with the remote prober (HTTPS `Protocol`) so "public internet invoke denied" is observed from outside the estate instead of the runner. Keep `GetInvokeEndpointExposure` as the config-evidence half. Track in `modules/features/serverless-computing/analysis.md`.
-3. **kubernetes — `CCC.K8S.CN01.AR01/AR02`** (this document) and **`CCC.K8S.CN12.AR02`** node SSH/RDP exposure.
+3. **kubernetes — `CCC.K8S.CN01.AR01`** is `@NotTestable` on GitHub-hosted CI (ephemeral egress vs API allowlist). **`CCC.K8S.CN01.AR02`** / **`CCC.K8S.CN12.AR02`** remain separate (private API / node SSH exposure).
 
 Each consumer keeps a config-only / `LocalProber` fallback (`@SANITY`) for when the FINOS service is unavailable, and treats probe-service errors as infrastructure failures, never compliance passes.
 
@@ -756,18 +750,18 @@ The fixture supplies a private Service, Deployment, ServiceAccount, TLS Secret, 
 
 ### `GetAPIEndpointConfig` / `AttemptAPIEndpointReachability`
 
-`GetAPIEndpointConfig` remains provider-specific. Reachability is provider-neutral: all three implementations pass the resolved API hostname to `reachability.RemoteProber`, which calls the FINOS-owned service outside the integration estates. A successful TCP/TLS handshake (including HTTP 401/403) demonstrates public network reachability. A failed probe is only treated as supporting evidence when endpoint configuration independently shows the intended restriction.
+**CN01.AR01 is `@NotTestable` on GitHub-hosted CI** for *assessment* purposes (see AR section). That does **not** mean omitting `GetAPIEndpointConfig` / `AttemptAPIEndpointReachability` from `integration_calls.csv` — those rows still exercise cloud-api code coverage. Compliance features must not treat dial/DNS failure as an AR01 pass.
 
 #### AWS
 
 - **API**: `eks:DescribeCluster` — `resourcesVpcConfig.endpointPublicAccess`, `endpointPrivateAccess`, `publicAccessCidrs`.
-- **Reachability**: FINOS remote observer performs TLS dial to the EKS endpoint; SG/NACL may also apply.
-- **Config**: `region`, cluster name, `approved-api-cidrs`, reachability client settings.
+- **GHA note**: Same ephemeral-egress problem as AKS/GKE when `publicAccessCidrs` is locked to apply-time IP.
+- **Config**: `region`, cluster name, `approved-api-cidrs`, reachability client settings (non-GHA only).
 
 #### Azure
 
 - **API**: AKS `ManagedClusters.Get` — `apiServerAccessProfile.enablePrivateCluster`, `authorizedIpRanges`.
-- **Notes**: Public FQDN with IP allowlist satisfies CN01.AR01 but **fails** CN01.AR02.
+- **Notes**: Public FQDN with IP allowlist would satisfy CN01.AR01 intent but **fails** CN01.AR02; with apply-time `/32` it also blocks GitHub-hosted runners from the kube API entirely.
 - **Config**: `azure-resource-group`, cluster name.
 
 #### GCP
@@ -877,7 +871,7 @@ Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/kubernetes/`.
 
 **Fixture expectations (main):**
 
-- Private or CIDR-locked API endpoint
+- Private or CIDR-locked API endpoint (**CN01.AR01 not asserted on GitHub-hosted CI** — see AR disposition; CIDR lock currently breaks GHA kube reachability when apply-time `/32` ≠ runner egress)
 - Workload Identity enabled + sample **bound** SA and companion **unbound** SA (CN03 negative)
 - Admission policy (PSS Restricted and/or Kyverno/Gatekeeper) for image/PSS/resources **and** static cloud-credential rejection (CN03.AR02)
 - Dedicated `admission-webhook-probe`, healthy by default, with `failurePolicy=Fail` and selectors limited to its disposable test namespace (CN11.AR03)
@@ -894,8 +888,8 @@ Submodule path: `modules/cloud-api-test/terraform/<cloud>/modules/kubernetes/`.
 
 | api | method | cloud | expect_error | arg1 | Notes |
 |-----|--------|-------|--------------|------|-------|
-| `kubernetes` | `GetAPIEndpointConfig` | all | | `finos-ccc-integration-k8s-main` | Assert private/CIDR |
-| `kubernetes` | `AttemptAPIEndpointReachability` | all | | cluster, `untrusted` | Remote observer returns `TCPConnected=false`; probe/API errors fail as infrastructure errors |
+| `kubernetes` | `GetAPIEndpointConfig` | all | | `finos-ccc-integration-k8s-main` | Exercise endpoint config read path |
+| `kubernetes` | `AttemptAPIEndpointReachability` | all | | cluster, `untrusted` | Exercise reachability prober wiring; probe/API errors fail as infrastructure errors |
 | `kubernetes` | `GetRBACPolicyFindings` | all | | cluster | No wildcards |
 | `kubernetes` | `AttemptSecretAccessAsIdentity` | all | | secret + intended SA | CN07.AR01 authorized read |
 | `kubernetes` | `AttemptSecretAccessAsIdentity` | all | true | secret + unauthorized SA | CN07.AR01 denied |
@@ -1050,7 +1044,7 @@ Also plan README routing update for `@kubernetes` in `modules/features/README.md
 - Should factory/folder id be `kubernetes` (chosen here) or `k8s` to match catalog path literally?  Answer: kubernetes
 - Is Kyverno/Gatekeeper required on all three CSP fixtures for CN04/CN05, or is native PSS + Azure Policy / Binary Authorization enough per cloud?  native.
 - Which FINOS estate/platform will host `modules/probes/reachability`, and who owns its deployment, DNS, egress identity, secret rotation, and availability?  aws-test-infra
-- Should remote reachability be mandatory `@MAIN` once the FINOS service is operational, while config-only remains `@SANITY`?  don't care - we'll run them all.
+- Should remote reachability be mandatory `@MAIN` once the FINOS service is operational, while config-only remains `@SANITY`?  **Superseded for K8S.CN01.AR01**: `@NotTestable` on GitHub-hosted CI (ephemeral egress vs API allowlist); `@OPT_IN` only with fixed egress.
 - CN04.AR02/AR03: block on signed/vuln-scanned image pipeline before marking Behavioural, or ship `@NotTestable` stubs first?  test should fail.
 - CN18.AR02 on EKS: which node OS + feature combo is the supported integrity story for FINOS fixtures? don't care, choose your own for the integration tests.
 - ~~Should CN14.AR01 v1 require only kube-apiserver audit export, with node/network logs deferred?~~ **Resolved: yes — v1 covers API audit / control-plane export only; node/workload/network log export is deferred (see CN14.AR01 scope note).**  
@@ -1067,6 +1061,7 @@ Also plan README routing update for `@kubernetes` in `modules/features/README.md
 - [x] AWS / Azure / GCP columns filled or marked unsupported with reason
 - [x] Inherited Core ARs point at generic/shared features or justify new CN02 scenario
 - [x] Subscription-init / alert / MFA / log-isolation ARs marked `@NotTestable` or Policy-deferred
+- [x] **CCC.K8S.CN01.AR01** marked `@NotTestable` on GitHub-hosted CI (API allowlist vs ephemeral runner egress)
 - [x] Terraform fixtures use `finos-ccc-integration-k8s-*` naming
 - [x] **Integration test coverage** table lists new methods + `expect_error` where honest
 - [x] **Privateer config** split documented: finos-integration vs cloud-api-test
