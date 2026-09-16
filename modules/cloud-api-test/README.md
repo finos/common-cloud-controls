@@ -1,37 +1,74 @@
 # Cloud API integration tests
 
-Live integration tests for `modules/cloud-api`. They assume integration terraform has already been applied and fixtures are running in the target cloud account.
+Live calls against **`modules/cloud-api`** in a real AWS / Azure / GCP account.
 
-## What it does
+## Purpose
 
-1. Loads minimal Privateer config for the active cloud: `privateer-config/{aws,azure,gcp}.yml` (only keys required by the CSV + cloud-api implementations).
-2. Reads `integration_calls.csv` — `api` (factory service id), `method`, `cloud` (`aws`|`azure`|`gcp`|`all`), `expect_error`, and literal `arg1`…`arg4`. Rows whose `cloud` does not match `INTEGRATION_PROVIDER` are skipped.
-3. Invokes each matching CSV row via reflection. A row with `expect_error=true` passes when the method returns an error. Any other failing row fails the test run (non-zero exit). `DeleteObject` and `DeleteBucket` run for `object-storage` only (paired after create rows in the CSV); other `Delete*` methods are skipped.
-4. Calls `factory.TearDown()` once at the end of the run.
-5. Emits Go coverage for `modules/cloud-api` when run with `-coverpkg`.
+These tests answer: **does our Go cloud-api code work against the live providers, and how much of that package do we cover?**
+
+They are **not**:
+
+- Control-catalog / assessment-requirement (AR) pass/fail
+- Proof that a cluster or account is “compliant”
+- Exhaustive scenario matrices over fixture manifests
+- Coverage of upstream SDKs or `client-go` itself
+
+Behavioural Godog features under `modules/features/` own AR intent. This package owns **factory wiring + method execution + coverage** for code we maintain.
+
+Prefer CSV rows that hit **distinct branches in our implementations**. Extra rows that only change fixture YAML (same method path) do not meaningfully increase Go coverage.
+
+## Prerequisites
+
+1. Integration terraform applied (`modules/cloud-api-test/terraform/<aws|azure|gcp>/`) — cheapest fixtures that still exercise the APIs under test.
+2. Cloud credentials / env (see [User creation](#user-creation) and CI secrets below).
+3. For VM / Kubernetes: compute fixtures started (`scale-fixtures.sh start`) so billable resources are online before the CSV run.
+
+## What a run does
+
+1. Loads `privateer-config/{aws,azure,gcp}.yml` (minimal vars for CSV + cloud-api).
+2. Reads `integration_calls.csv`: `api` (factory service id), `method`, `cloud` (`aws`|`azure`|`gcp`|`all`), `expect_error`, `arg1`…`arg5`.
+3. Skips rows whose `cloud` does not match `INTEGRATION_PROVIDER`.
+4. Resolves each `api` via `factory.GetServiceAPI` and invokes `method` by reflection.
+5. `expect_error=true` → pass only if the call returns an error; otherwise pass only if it succeeds.
+6. `DeleteObject` / `DeleteBucket` run for `object-storage` only; other `Delete*` methods are skipped.
+7. Calls `factory.TearDown()` once at the end.
+8. Writes per-provider results and Go coverage over `modules/cloud-api/...`.
+
+### Kubernetes note
+
+Factory id `kubernetes` is the **ControlPlane** (CSP + admit + governance/auth/encryption/inventory helpers). Portable `Client` probes obtained via `GetKubernetesClient` (RBAC listings, NetworkPolicy Jobs, etc.) are exercised from behavioural features as `kubeClient`, not duplicated as AR matrices in this CSV. One `GetKubernetesClient` row may appear as a smoke of our kubeconfig wiring.
 
 ## CSV format
 
 ```csv
-api,method,cloud,expect_error,arg1,arg2,arg3,arg4
-serverless-computing,TriggerDataWrite,all,,finos-ccc-integration-fn-main,,
-virtual-machines,UpdateResourcePolicy,aws,true,,,
-logging,QueryLogs,all,,finos-ccc-integration-fn-main,admin,60,
+api,method,cloud,expect_error,arg1,arg2,arg3,arg4,arg5
+serverless-computing,TriggerDataWrite,all,,finos-ccc-integration-fn-main,,,
+virtual-machines,UpdateResourcePolicy,aws,true,,,,,
+logging,QueryLogs,all,,finos-ccc-integration-fn-main,admin,60,,
 ```
 
 - `cloud`: `all` runs on every provider; otherwise only that cloud.
-- `expect_error`: `true` when the call is expected to fail (missing fixture, optional API, etc.).
+- `expect_error`: `true` when the call is expected to return an error (denied path, unsupported stub, etc.).
+- `arg5`: used for methods with five parameters (comma-separated values may coerce to `[]int` / `[]string`).
+
+Args may use `config:<var>` to pull a Privateer config value (for example a manifest string).
 
 ## Run locally
 
 ```bash
 cd modules/cloud-api-test
+
+# Optional: bring VM / AKS|EKS|GKE fixtures online first
+./scale-fixtures.sh start \
+  -c "privateer-config/aws.yml" -S integration -s virtual-machines,kubernetes
+
 ./run-integration-tests.sh aws    # or azure | gcp | all
+
+./scale-fixtures.sh stop -p aws -s virtual-machines,kubernetes
 ```
+The script sets `INTEGRATION_PROVIDER`, sources `environment-config/<cloud>-env.sh` when present, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
 
-The script sets `INTEGRATION_PROVIDER`, sources `environment-config/azure-env.sh` or `gcp-env.sh` when present, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
-
-`./run-integration-tests.sh all` runs aws, then azure, then gcp (continues on failure), writes per-cloud artifacts as above, and merges coverage into `coverage-integration-all.out` / `.html` via [`gocovmerge`](https://github.com/wadey/gocovmerge) (`go run` on first use).
+`./run-integration-tests.sh all` runs aws → azure → gcp (continues on failure) and merges coverage into `coverage-integration-all.out` / `.html`.
 
 Manual equivalent:
 
@@ -46,11 +83,11 @@ go test -tags=integration -timeout=45m \
   ./...
 ```
 
-Each CSV row prints `PASS` or `FAIL` to the console when the test finishes (and live with `-v`). `INTEGRATION_PROVIDER` must be set or the test exits immediately. If any row fails, `go test` exits with code 1.
+Each CSV row prints `PASS` or `FAIL`. `INTEGRATION_PROVIDER` must be set or the test exits immediately. Any failed row makes `go test` exit 1.
 
-Coverage uses `-coverpkg=../cloud-api/...` (entire module, including `generic/login`). An AWS-only run shows a low overall percentage until Azure/GCP jobs run; packages not hit by the CSV (e.g. `generic/login`) appear at 0% in `coverage-integration-*.html` as work to address (see this README, W-46).
+Coverage uses `-coverpkg=../cloud-api/...`. A single-cloud run under-reports packages that only exist on other clouds; merge or run the matrix for a fuller picture. Packages never referenced by the CSV (for example some `generic/login` paths) stay at 0% until rows or unit tests cover them.
 
-Unit checks:
+Unit checks (no cloud):
 
 ```bash
 go test ./...
@@ -58,23 +95,26 @@ go test ./...
 
 ## After re-provisioning terraform
 
-VPC names in `integration_calls.csv` and `privateer-config/*.yml` match the integration terraform VNet/VPC `name` values (for example `finos-ccc-integration-vpc`, `finos-ccc-integration-vpc-bad`, `finos-ccc-integration-vpc-cn03-allow-01`). Update those files if you rename resources in terraform.
+Names in `integration_calls.csv` and `privateer-config/*.yml` must match terraform resource names (for example `finos-ccc-integration-vpc`, `finos-ccc-integration-k8s-main`). Update those files if you rename fixtures.
 
 ## GitHub Actions
 
-Workflow: `.github/workflows/cloud-api-integration.yml`. Runs `./run-integration-tests.sh all` (aws → azure → gcp) and uploads merged `coverage-integration-all.out` to Codecov.
+Workflow: `.github/workflows/cloud-api-integration.yml`.
+
+- Matrix: `aws` | `azure` | `gcp` (one job per provider).
+- Starts VM/Kubernetes fixtures, runs `./run-integration-tests.sh $PROVIDER`, then stops fixtures (`if: always()`).
+- Azure also fetches AKS kubeconfig before start.
+- Uploads per-provider results/coverage artifacts and Codecov.
 
 ## Terraform
 
-Provision fixtures first — see `modules/cloud-api-test/terraform/`.
+Provision fixtures under `modules/cloud-api-test/terraform/` before running.
 
-Ideally, the terraform here should be just enough to allow us to integration test the `cloud-cfi` module.  **NOTE**:  it should be the cheapest, most minimal installation possible.  
+Keep this stack **minimal and cheap**: only what is required to exercise `modules/cloud-api`. Prefer start/stop (or scale-to-zero) for billable compute between runs.
 
-When adding extra terraform, please take this into account.
+## User creation
 
-## User Creation
-
-Behavioural/integration tests use cloud test identities (no-access, write, admin; Azure also has read). Regenerate env files with idempotent scripts in `modules/cloud-api-test/environment-config/`:
+Tests use cloud test identities (no-access, write, admin; Azure also has read). Regenerate env files with idempotent scripts:
 
 ```bash
 cd modules/cloud-api-test/environment-config
@@ -82,14 +122,6 @@ cd modules/cloud-api-test/environment-config
 source ./aws-env.sh   # matching *-env.sh for your cloud
 ```
 
-Re-run the same `provision-<cloud>.sh` after `terraform apply` to refresh fixture vars (`STALE_VERSION_ID`, hostnames, …) without creating new users. `STALE_VERSION_ID` must be present in `*-env.sh` (AWS value comes from local terraform when you provision). CI copies env files into `AZURE_ENV` / `GCP_ENV` / `AWS_ENV` secrets.
-
-### GitHub Actions secret model
-
-For CI, store each generated env file as a single multiline secret:
-
-- `AZURE_ENV` (contents of `azure-env.sh`)
-- `GCP_ENV` (contents of `gcp-env.sh`)
-- `AWS_ENV` (if you maintain an AWS env script)
+Re-run the same `provision-<cloud>.sh` after `terraform apply` to refresh fixture vars (`STALE_VERSION_ID`, hostnames, …) without creating new users. CI stores env file contents in `AZURE_ENV` / `GCP_ENV` / `AWS_ENV` secrets.
 
 Core platform values can still come from existing repo secrets (for example `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `GCP_PROJECT_ID`, `GCP_PROJECT_NUMBER`, `AWS_REGION`).
