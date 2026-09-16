@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -27,8 +28,10 @@ var _ ControlPlane = (*AzureService)(nil)
 
 type AzureService struct {
 	*managedService
-	arm  *azcore.Client
-	cred azcore.TokenCredential
+	arm                  *azcore.Client
+	cred                 azcore.TokenCredential
+	savedAuthorizedCIDRs []string
+	elevatedAuthorized   bool
 }
 
 type aksResource struct {
@@ -298,6 +301,165 @@ func (s *AzureService) buildRESTConfig() (*rest.Config, error) {
 		return nil, err
 	}
 	base := strings.SplitN(resourceURL, "?", 2)[0]
+	// ARM action is singular: listClusterUserCredential (plural path returns plain 404).
 	credURL := base + "/listClusterUserCredential?api-version=2025-04-01"
 	return config.Azure(s.ctx, s.arm, s.cred, credURL)
+}
+
+// ElevateAccessForInspection adds this runner's public /32 to AKS authorized IP ranges
+// so kube API probes work from ephemeral CI egress. ResetAccess restores the snapshot.
+func (s *AzureService) ElevateAccessForInspection() error {
+	clusterID := s.lifecycleClusterID("")
+	runnerCIDR, err := publicIPv4CIDR(s.ctx)
+	if err != nil {
+		return fmt.Errorf("detect runner public IP for AKS API allowlist: %w", err)
+	}
+	cluster, err := s.get(s.ctx, clusterID)
+	if err != nil {
+		return err
+	}
+	current := append([]string(nil), cluster.Properties.APIServerAccessProfile.AuthorizedIPRanges...)
+	if cidrListContains(current, runnerCIDR) {
+		s.savedAuthorizedCIDRs = current
+		s.elevatedAuthorized = true
+		return s.waitKubeAPIReady(clusterID, time.Now().Add(5*time.Minute))
+	}
+	if !s.elevatedAuthorized {
+		s.savedAuthorizedCIDRs = current
+	}
+	updated := append(append([]string(nil), current...), runnerCIDR)
+	if err := s.patchAuthorizedIPRanges(clusterID, updated); err != nil {
+		return err
+	}
+	s.elevatedAuthorized = true
+	return s.waitKubeAPIReady(clusterID, time.Now().Add(20*time.Minute))
+}
+
+// ResetAccess restores authorized IP ranges saved by ElevateAccessForInspection.
+func (s *AzureService) ResetAccess() error {
+	if !s.elevatedAuthorized {
+		return nil
+	}
+	clusterID := s.lifecycleClusterID("")
+	restore := append([]string(nil), s.savedAuthorizedCIDRs...)
+	if err := s.patchAuthorizedIPRanges(clusterID, restore); err != nil {
+		return err
+	}
+	s.elevatedAuthorized = false
+	s.savedAuthorizedCIDRs = nil
+	return nil
+}
+
+func (s *AzureService) patchAuthorizedIPRanges(clusterID string, cidrs []string) error {
+	deadline := time.Now().Add(20 * time.Minute)
+	lc := s.azureLifecycle()
+	if err := lc.WaitSettled(clusterID, deadline); err != nil {
+		return err
+	}
+	body, err := json.Marshal(map[string]interface{}{
+		"properties": map[string]interface{}{
+			"apiServerAccessProfile": map[string]interface{}{
+				"authorizedIPRanges": cidrs,
+			},
+		},
+	})
+	if err != nil {
+		return err
+	}
+	resourceURL, err := s.resourceURL(clusterID)
+	if err != nil {
+		return err
+	}
+	for {
+		request, err := runtime.NewRequest(s.ctx, http.MethodPatch, resourceURL)
+		if err != nil {
+			return err
+		}
+		if err := request.SetBody(streaming.NopCloser(bytes.NewReader(body)), "application/json"); err != nil {
+			return err
+		}
+		response, err := s.arm.Pipeline().Do(request)
+		if err != nil {
+			return fmt.Errorf("patch AKS authorized IP ranges: %w", err)
+		}
+		if response.StatusCode >= 200 && response.StatusCode < 300 {
+			response.Body.Close()
+			return lc.WaitSettled(clusterID, deadline)
+		}
+		responseBody, _ := io.ReadAll(io.LimitReader(response.Body, 4096))
+		response.Body.Close()
+		err = fmt.Errorf("patch AKS authorized IP ranges returned HTTP %d: %s", response.StatusCode, strings.TrimSpace(string(responseBody)))
+		if !lifecycle.IsAKSOperationInProgress(err) || time.Now().After(deadline) {
+			return err
+		}
+		if err := lc.SleepOrDone(15 * time.Second); err != nil {
+			return err
+		}
+	}
+}
+
+func (s *AzureService) waitKubeAPIReady(clusterID string, deadline time.Time) error {
+	lc := s.azureLifecycle()
+	if err := lc.WaitSettled(clusterID, deadline); err != nil {
+		return err
+	}
+	// Drop any client built while the API was unreachable so dials use a fresh transport.
+	s.client, s.dynamic, s.restConfig = nil, nil, nil
+	var lastErr error
+	for {
+		client, _, err := s.kubeClients()
+		if err != nil {
+			lastErr = err
+		} else {
+			_, err = client.Discovery().ServerVersion()
+			if err == nil {
+				return nil
+			}
+			lastErr = err
+			s.client, s.dynamic = nil, nil
+		}
+		if time.Now().After(deadline) {
+			if lastErr != nil {
+				return fmt.Errorf("timed out waiting for AKS kube API after allowlist elevate: %w", lastErr)
+			}
+			return fmt.Errorf("timed out waiting for AKS kube API after allowlist elevate")
+		}
+		if err := lc.SleepOrDone(15 * time.Second); err != nil {
+			return err
+		}
+	}
+}
+
+func publicIPv4CIDR(ctx context.Context) (string, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://checkip.amazonaws.com/", nil)
+	if err != nil {
+		return "", err
+	}
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("checkip.amazonaws.com returned HTTP %d", resp.StatusCode)
+	}
+	raw, err := io.ReadAll(io.LimitReader(resp.Body, 64))
+	if err != nil {
+		return "", err
+	}
+	ip := strings.TrimSpace(string(raw))
+	if net.ParseIP(ip) == nil {
+		return "", fmt.Errorf("checkip.amazonaws.com returned invalid IP %q", ip)
+	}
+	return ip + "/32", nil
+}
+
+func cidrListContains(cidrs []string, want string) bool {
+	want = strings.TrimSpace(want)
+	for _, c := range cidrs {
+		if strings.TrimSpace(c) == want {
+			return true
+		}
+	}
+	return false
 }
