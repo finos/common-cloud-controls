@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
@@ -161,6 +162,10 @@ func (s *AzureService) clusterRegion(ctx context.Context, clusterID string) (str
 }
 
 func (s *AzureService) updateTags(ctx context.Context, clusterID string, patch map[string]interface{}) error {
+	deadline := time.Now().Add(15 * time.Minute)
+	if err := s.waitClusterSettled(clusterID, deadline); err != nil {
+		return err
+	}
 	cluster, err := s.get(ctx, clusterID)
 	if err != nil {
 		return err
@@ -176,23 +181,32 @@ func (s *AzureService) updateTags(ctx context.Context, clusterID string, patch m
 	if err != nil {
 		return err
 	}
-	request, err := runtime.NewRequest(ctx, http.MethodPatch, resourceURL)
-	if err != nil {
-		return err
-	}
-	if err := request.SetBody(streaming.NopCloser(bytes.NewReader(body)), "application/json"); err != nil {
-		return err
-	}
-	response, err := s.arm.Pipeline().Do(request)
-	if err != nil {
-		return fmt.Errorf("patch AKS tags: %w", err)
-	}
-	defer response.Body.Close()
-	if response.StatusCode < 200 || response.StatusCode >= 300 {
+	for {
+		request, err := runtime.NewRequest(ctx, http.MethodPatch, resourceURL)
+		if err != nil {
+			return err
+		}
+		if err := request.SetBody(streaming.NopCloser(bytes.NewReader(body)), "application/json"); err != nil {
+			return err
+		}
+		response, err := s.arm.Pipeline().Do(request)
+		if err != nil {
+			return fmt.Errorf("patch AKS tags: %w", err)
+		}
+		if response.StatusCode >= 200 && response.StatusCode < 300 {
+			response.Body.Close()
+			return nil
+		}
 		responseBody, _ := io.ReadAll(io.LimitReader(response.Body, 4096))
-		return fmt.Errorf("patch AKS tags returned HTTP %d: %s", response.StatusCode, strings.TrimSpace(string(responseBody)))
+		response.Body.Close()
+		err = fmt.Errorf("patch AKS tags returned HTTP %d: %s", response.StatusCode, strings.TrimSpace(string(responseBody)))
+		if !isAKSOperationInProgress(err) || time.Now().After(deadline) {
+			return err
+		}
+		if err := s.sleepOrDone(15 * time.Second); err != nil {
+			return err
+		}
 	}
-	return nil
 }
 
 func (s *AzureService) governanceMetadata(ctx context.Context, clusterID string) (map[string]interface{}, error) {
