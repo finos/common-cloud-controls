@@ -80,7 +80,6 @@ type Service interface {
 	GetResourceRegion(resourceID string) (string, error)
 
 	// GetReplicationStatus returns replication/sync status for the resource.
-	// Used for CN08.AR01 (locations) and CN08.AR02 (status visibility).
 	// Object storage returns *types.ReplicationStatus; other services return nil with error.
 	GetReplicationStatus(resourceID string) (*ReplicationStatus, error)
 

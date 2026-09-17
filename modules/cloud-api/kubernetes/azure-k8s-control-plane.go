@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -306,29 +305,25 @@ func (s *AzureService) buildRESTConfig() (*rest.Config, error) {
 	return config.Azure(s.ctx, s.arm, s.cred, credURL)
 }
 
-// ElevateAccessForInspection adds this runner's public /32 to AKS authorized IP ranges
-// so kube API probes work from ephemeral CI egress. ResetAccess restores the snapshot.
+// ElevateAccessForInspection temporarily disables AKS authorized IP ranges so kube
+// API probes work from ephemeral CI egress (GHA often uses a different outbound IP
+// than checkip). ResetAccess restores the snapshot.
 func (s *AzureService) ElevateAccessForInspection() error {
 	clusterID := s.lifecycleClusterID("")
-	runnerCIDR, err := publicIPv4CIDR(s.ctx)
-	if err != nil {
-		return fmt.Errorf("detect runner public IP for AKS API allowlist: %w", err)
-	}
 	cluster, err := s.get(s.ctx, clusterID)
 	if err != nil {
 		return err
 	}
 	current := append([]string(nil), cluster.Properties.APIServerAccessProfile.AuthorizedIPRanges...)
-	if cidrListContains(current, runnerCIDR) {
-		s.savedAuthorizedCIDRs = current
-		s.elevatedAuthorized = true
-		return s.waitKubeAPIReady(clusterID, time.Now().Add(5*time.Minute))
-	}
 	if !s.elevatedAuthorized {
 		s.savedAuthorizedCIDRs = current
 	}
-	updated := append(append([]string(nil), current...), runnerCIDR)
-	if err := s.patchAuthorizedIPRanges(clusterID, updated); err != nil {
+	if len(current) == 0 {
+		// Feature already disabled — API should be reachable from any public client.
+		s.elevatedAuthorized = true
+		return s.waitKubeAPIReady(clusterID, time.Now().Add(5*time.Minute))
+	}
+	if err := s.patchAuthorizedIPRanges(clusterID, nil, cluster.Properties.APIServerAccessProfile.EnablePrivateCluster); err != nil {
 		return err
 	}
 	s.elevatedAuthorized = true
@@ -341,8 +336,12 @@ func (s *AzureService) ResetAccess() error {
 		return nil
 	}
 	clusterID := s.lifecycleClusterID("")
+	cluster, err := s.get(s.ctx, clusterID)
+	if err != nil {
+		return err
+	}
 	restore := append([]string(nil), s.savedAuthorizedCIDRs...)
-	if err := s.patchAuthorizedIPRanges(clusterID, restore); err != nil {
+	if err := s.patchAuthorizedIPRanges(clusterID, restore, cluster.Properties.APIServerAccessProfile.EnablePrivateCluster); err != nil {
 		return err
 	}
 	s.elevatedAuthorized = false
@@ -350,16 +349,22 @@ func (s *AzureService) ResetAccess() error {
 	return nil
 }
 
-func (s *AzureService) patchAuthorizedIPRanges(clusterID string, cidrs []string) error {
+func (s *AzureService) patchAuthorizedIPRanges(clusterID string, cidrs []string, enablePrivateCluster bool) error {
 	deadline := time.Now().Add(20 * time.Minute)
 	lc := s.azureLifecycle()
 	if err := lc.WaitSettled(clusterID, deadline); err != nil {
 		return err
 	}
+	if cidrs == nil {
+		cidrs = []string{}
+	}
+	// Preserve enablePrivateCluster so clearing authorizedIPRanges does not flip the
+	// cluster to private (known az CLI / ARM profile merge hazard).
 	body, err := json.Marshal(map[string]interface{}{
 		"properties": map[string]interface{}{
 			"apiServerAccessProfile": map[string]interface{}{
-				"authorizedIPRanges": cidrs,
+				"authorizedIPRanges":   cidrs,
+				"enablePrivateCluster": enablePrivateCluster,
 			},
 		},
 	})
@@ -428,38 +433,4 @@ func (s *AzureService) waitKubeAPIReady(clusterID string, deadline time.Time) er
 			return err
 		}
 	}
-}
-
-func publicIPv4CIDR(ctx context.Context) (string, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://checkip.amazonaws.com/", nil)
-	if err != nil {
-		return "", err
-	}
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("checkip.amazonaws.com returned HTTP %d", resp.StatusCode)
-	}
-	raw, err := io.ReadAll(io.LimitReader(resp.Body, 64))
-	if err != nil {
-		return "", err
-	}
-	ip := strings.TrimSpace(string(raw))
-	if net.ParseIP(ip) == nil {
-		return "", fmt.Errorf("checkip.amazonaws.com returned invalid IP %q", ip)
-	}
-	return ip + "/32", nil
-}
-
-func cidrListContains(cidrs []string, want string) bool {
-	want = strings.TrimSpace(want)
-	for _, c := range cidrs {
-		if strings.TrimSpace(c) == want {
-			return true
-		}
-	}
-	return false
 }
