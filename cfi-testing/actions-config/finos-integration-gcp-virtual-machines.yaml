@@ -4,6 +4,8 @@ cfi:
   provider: gcp
   source-secrets: GCP_ENV
   service: virtual-machines
+  start-compute: true
+  priority: 50
   name: CCC GCP Virtual Machines Fixture
   description: >-
     Runs behavioural checks for CCC.VM against the GCP virtual machines fixture.

@@ -105,10 +105,6 @@ resource "azurerm_kubernetes_cluster" "main" {
   azure_policy_enabled              = true
   role_based_access_control_enabled = true
 
-  api_server_access_profile {
-    authorized_ip_ranges = var.api_authorized_cidrs
-  }
-
   azure_active_directory_role_based_access_control {
     azure_rbac_enabled = true
     tenant_id          = data.azurerm_client_config.current.tenant_id
@@ -140,6 +136,12 @@ resource "azurerm_kubernetes_cluster" "main" {
     load_balancer_sku = "standard"
     service_cidr      = "10.200.0.0/16"
     dns_service_ip    = "10.200.0.10"
+  }
+
+  # Public API for CI runners. Prefer [] (open) but Azure Policy here rejects an empty
+  # authorizedIPRanges path; 0.0.0.0/0 is the documented equivalent allow-all CIDR.
+  api_server_access_profile {
+    authorized_ip_ranges = ["0.0.0.0/0"]
   }
 
   oms_agent {

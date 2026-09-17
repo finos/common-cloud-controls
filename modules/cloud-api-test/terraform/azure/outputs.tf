@@ -74,7 +74,6 @@ output "kubernetes" {
     azure_log_analytics_workspace_rid     = module.kubernetes.log_analytics_workspace_resource_id
     wi_bound_client_id                    = module.kubernetes.wi_bound_client_id
     wi_probe_resource                     = module.kubernetes.wi_probe_storage_account
-    api_authorized_cidrs                  = module.kubernetes.api_authorized_cidrs
     oidc_issuer_url                       = module.kubernetes.oidc_issuer_url
     kubelet_object_id                     = module.kubernetes.kubelet_object_id
     test_workload_namespace               = module.kubernetes.fixture_metadata.test_workload_namespace

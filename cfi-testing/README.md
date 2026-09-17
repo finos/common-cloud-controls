@@ -128,7 +128,7 @@ As described above - create a privateer configuration file that you have tested 
 
 Add a YAML file under [`actions-config/`](actions-config/). The CCC GitHub actions workflow discovers every `*.yaml` in that directory and runs one matrix job per file.
 
-Example ([`actions-config/azure-storage-finos.yaml`](actions-config/azure-storage-finos.yaml)):
+Example ([`actions-config/finos-integration-azure-storage-account.yaml`](actions-config/finos-integration-azure-storage-account.yaml)):
 
 ```yaml
 cfi:

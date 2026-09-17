@@ -4,6 +4,8 @@ cfi:
   provider: azure
   source-secrets: AZURE_ENV
   service: object-storage
+  start-compute: false
+  priority: 10
   name: CCC Azure Storage Account Terraform Module
   description: >-
     This module creates a secure Azure Storage Account with encryption, networking,

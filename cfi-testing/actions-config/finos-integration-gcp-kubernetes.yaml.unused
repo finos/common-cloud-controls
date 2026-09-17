@@ -4,6 +4,8 @@ cfi:
   provider: gcp
   source-secrets: GCP_ENV
   service: kubernetes
+  start-compute: true
+  priority: 100
   name: CCC GCP Kubernetes Fixture
   description: >-
     Runs behavioural checks for CCC.K8S against the GCP GKE integration fixture.

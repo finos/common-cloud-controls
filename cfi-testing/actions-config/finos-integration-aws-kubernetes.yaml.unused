@@ -4,6 +4,8 @@ cfi:
   provider: aws
   source-secrets: AWS_ENV
   service: kubernetes
+  start-compute: true
+  priority: 100
   name: CCC AWS Kubernetes Fixture
   description: >-
     Runs behavioural checks for CCC.K8S against the AWS EKS integration fixture.

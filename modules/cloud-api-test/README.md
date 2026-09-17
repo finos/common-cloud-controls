@@ -83,7 +83,7 @@ go test -tags=integration -timeout=45m \
   ./...
 ```
 
-Each CSV row prints `PASS` or `FAIL`. `INTEGRATION_PROVIDER` must be set or the test exits immediately. Any failed row makes `go test` exit 1.
+Each CSV row prints `PASS` or `FAIL`, wall-clock seconds for the call, then the method label. `INTEGRATION_PROVIDER` must be set or the test exits immediately. Any failed row makes `go test` exit 1.
 
 Coverage uses `-coverpkg=../cloud-api/...`. A single-cloud run under-reports packages that only exist on other clouds; merge or run the matrix for a fuller picture. Packages never referenced by the CSV (for example some `generic/login` paths) stay at 0% until rows or unit tests cover them.
 

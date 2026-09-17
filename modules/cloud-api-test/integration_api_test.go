@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/finos/common-cloud-controls/cloud-api/factory"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
@@ -84,31 +85,31 @@ func TestCloudAPIIntegration(t *testing.T) {
 	services := make(map[string]generic.Service)
 	var passed, failed int
 	emitCallLine(fmt.Sprintf("integration_calls.csv on provider %s\n", provider), t)
+	emitCallLine(fmt.Sprintf("%-4s  %8s  %s\n", "STAT", "SECONDS", "CALL"), t)
 	for _, row := range rows {
 		if !integrationMethodAllowed(row) {
 			continue
 		}
 		label := formatCallRow(row)
+		started := time.Now()
 		svc, err := serviceFor(f, services, row.API)
+		var callErr error
 		if err != nil {
-			if recordResult(row.ExpectError, true, &passed, &failed) {
-				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", err)), t)
-			} else {
-				emitCallLine(formatCallResult("FAIL", label, err), t)
-			}
-			continue
+			callErr = err
+		} else {
+			callErr = invokeMethod(svc, cfg, row.Method, row.Args)
 		}
-		callErr := invokeMethod(svc, cfg, row.Method, row.Args)
+		elapsed := time.Since(started).Seconds()
 		if recordResult(row.ExpectError, callErr != nil, &passed, &failed) {
 			if callErr != nil {
-				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", callErr)), t)
+				emitCallLine(formatCallResult("PASS", elapsed, label, fmt.Errorf("expected error: %w", callErr)), t)
 			} else {
-				emitCallLine(formatCallResult("PASS", label, nil), t)
+				emitCallLine(formatCallResult("PASS", elapsed, label, nil), t)
 			}
 		} else if callErr != nil {
-			emitCallLine(formatCallResult("FAIL", label, callErr), t)
+			emitCallLine(formatCallResult("FAIL", elapsed, label, callErr), t)
 		} else {
-			emitCallLine(formatCallResult("FAIL", label, fmt.Errorf("expected error, got nil")), t)
+			emitCallLine(formatCallResult("FAIL", elapsed, label, fmt.Errorf("expected error, got nil")), t)
 		}
 	}
 	total := passed + failed
@@ -153,11 +154,11 @@ func formatCallRow(row callRow) string {
 	return strings.Join(parts, " ")
 }
 
-func formatCallResult(status, label string, err error) string {
+func formatCallResult(status string, seconds float64, label string, err error) string {
 	if err != nil {
-		return fmt.Sprintf("%-4s  %s  %v\n", status, label, err)
+		return fmt.Sprintf("%-4s  %8.1f  %s  %v\n", status, seconds, label, err)
 	}
-	return fmt.Sprintf("%-4s  %s\n", status, label)
+	return fmt.Sprintf("%-4s  %8.1f  %s\n", status, seconds, label)
 }
 
 func serviceFor(f factory.Factory, cache map[string]generic.Service, api string) (generic.Service, error) {

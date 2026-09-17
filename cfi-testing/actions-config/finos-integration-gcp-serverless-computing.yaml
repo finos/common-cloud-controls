@@ -4,6 +4,8 @@ cfi:
   provider: gcp
   source-secrets: GCP_ENV
   service: serverless-computing
+  start-compute: false
+  priority: 10
   name: CCC GCP Serverless Computing Fixture
   description: >-
     Runs behavioural checks against the GCP serverless-computing fixture.

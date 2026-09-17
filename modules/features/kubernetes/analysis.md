@@ -982,9 +982,9 @@ Vars for `modules/cloud-api-test/privateer-config/*.yml`: cluster resource name,
 
 | File | `privateer-service` | `test-configuration` |
 |------|---------------------|----------------------|
-| `cfi-testing/actions-config/aws-kubernetes-finos.yaml` | `awsKubernetes` | `../privateer-config/finos-integration/kubernetes/aws-….yml` |
-| `cfi-testing/actions-config/azure-kubernetes-finos.yaml` | `azureKubernetes` | `../privateer-config/finos-integration/kubernetes/azure-….yml` |
-| `cfi-testing/actions-config/gcp-kubernetes-finos.yaml` | `gcpKubernetes` | `../privateer-config/finos-integration/kubernetes/gcp-….yml` |
+| `cfi-testing/actions-config/finos-integration-aws-kubernetes.yaml` | `awsKubernetes` | `../privateer-config/finos-integration/kubernetes/aws-….yml` |
+| `cfi-testing/actions-config/finos-integration-azure-kubernetes.yaml` | `azureKubernetes` | `../privateer-config/finos-integration/kubernetes/azure-….yml` |
+| `cfi-testing/actions-config/finos-integration-gcp-kubernetes.yaml` | `gcpKubernetes` | `../privateer-config/finos-integration/kubernetes/gcp-….yml` |
 
 `path`: `modules/cloud-api-test/terraform/<cloud>` (kubernetes submodule). Expect longer apply times than VM/object-storage — document cluster boot budget in implementation skill.
 

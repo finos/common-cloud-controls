@@ -55,10 +55,6 @@ output "wi_probe_storage_account" {
   value = azurerm_storage_account.wi_probe.name
 }
 
-output "api_authorized_cidrs" {
-  value = var.api_authorized_cidrs
-}
-
 output "oidc_issuer_url" {
   value = azurerm_kubernetes_cluster.main.oidc_issuer_url
 }

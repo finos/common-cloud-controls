@@ -10,13 +10,6 @@ data "azuread_service_principal" "integration_runner" {
   client_id = var.integration_runner_client_id
 }
 
-# AKS rejects RFC1918 ranges in authorized IP ranges, so fall back to the
-# applying machine's public IP rather than a placeholder that cannot be applied.
-data "http" "runner_public_ip" {
-  count = length(var.k8s_api_authorized_cidrs) == 0 ? 1 : 0
-  url   = "https://checkip.amazonaws.com/"
-}
-
 locals {
   common_tags = {
     ManagedBy = "Terraform"
@@ -27,10 +20,6 @@ locals {
     var.key_vault_secret_reader_object_ids,
     var.integration_runner_client_id != "" ? [data.azuread_service_principal.integration_runner[0].object_id] : [],
   )))
-
-  k8s_api_authorized_cidrs = length(var.k8s_api_authorized_cidrs) > 0 ? var.k8s_api_authorized_cidrs : [
-    "${chomp(data.http.runner_public_ip[0].response_body)}/32"
-  ]
 }
 
 resource "azurerm_resource_group" "this" {
@@ -92,10 +81,9 @@ module "secrets" {
 }
 
 module "kubernetes" {
-  source               = "./modules/kubernetes"
-  location             = var.location
-  resource_group       = azurerm_resource_group.this.name
-  api_authorized_cidrs = local.k8s_api_authorized_cidrs
-  kubernetes_version   = var.k8s_version
-  common_tags          = local.common_tags
+  source             = "./modules/kubernetes"
+  location           = var.location
+  resource_group     = azurerm_resource_group.this.name
+  kubernetes_version = var.k8s_version
+  common_tags        = local.common_tags
 }

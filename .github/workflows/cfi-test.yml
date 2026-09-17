@@ -54,6 +54,8 @@ jobs:
             else
               test_config=""
             fi
+            start_compute=$(yq -r '.cfi."start-compute" // false' "$f")
+            priority=$(yq -r '.cfi.priority // 0' "$f")
             item=$(jq -cn \
               --arg action_config "$f" \
               --arg id "$(yq -r '.cfi.id // ""' "$f")" \
@@ -64,17 +66,21 @@ jobs:
               --arg test_config "$test_config" \
               --arg privateer_service "$(yq -r '.cfi."privateer-service" // ""' "$f")" \
               --arg source_secrets "$(yq -r '.cfi."source-secrets" // ""' "$f")" \
-              '{action_config: $action_config, id: $id, artifact_name: $artifact_name, name: $name, provider: $provider, service: $service, test_config: $test_config, privateer_service: $privateer_service, source_secrets: $source_secrets}')
+              --argjson start_compute "$start_compute" \
+              --argjson priority "$priority" \
+              '{action_config: $action_config, id: $id, artifact_name: $artifact_name, name: $name, provider: $provider, service: $service, test_config: $test_config, privateer_service: $privateer_service, source_secrets: $source_secrets, start_compute: $start_compute, priority: $priority}')
             items+=("$item")
             count=$((count + 1))
           done
-          matrix=$(jq -cn --argjson target "$(printf '%s\n' "${items[@]}" | jq -sc '.')" '{target: $target}')
+          # Higher priority first; stable tie-break on id.
+          matrix=$(printf '%s\n' "${items[@]}" | jq -sc '{target: sort_by(-.priority, .id)}')
           {
             echo 'matrix<<EOF'
             echo "$matrix"
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
-          echo "Generated matrix with ${count} targets"
+          echo "Generated matrix with ${count} targets (ordered by priority desc):"
+          echo "$matrix" | jq -r '.target[] | "  \(.priority)\t\(.id)\tstart-compute=\(.start_compute)"'
 
   build-artifacts:
     needs: prepare-matrix
@@ -127,6 +133,7 @@ jobs:
       TARGET_TEST_CONFIG: ${{ matrix.target.test_config }}
       TARGET_PRIVATEER_SERVICE: ${{ matrix.target.privateer_service }}
       SOURCE_SECRETS: ${{ matrix.target.source_secrets }}
+      START_COMPUTE: ${{ matrix.target.start_compute }}
       OUTPUT_DIR: cfi-testing/output/${{ matrix.target.id }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       # Do not set AZURE_CLIENT_ID here: DefaultAzureCredential treats it as a
@@ -193,7 +200,7 @@ jobs:
           service_account: gha-deployer@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com
 
       - name: Start compute fixtures
-        if: matrix.target.service == 'virtual-machines' || matrix.target.service == 'kubernetes'
+        if: matrix.target.start_compute
         shell: bash
         run: |
           set -euo pipefail
@@ -223,7 +230,7 @@ jobs:
             -g '@Behavioural'
 
       - name: Stop compute fixtures
-        if: always() && (matrix.target.service == 'virtual-machines' || matrix.target.service == 'kubernetes')
+        if: always() && matrix.target.start_compute
         shell: bash
         run: |
           set -euo pipefail

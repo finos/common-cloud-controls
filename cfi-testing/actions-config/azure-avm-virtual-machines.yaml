@@ -4,6 +4,9 @@ cfi:
   provider: azure
   source-secrets: AZURE_AVM_ENV
   service: virtual-machines
+  # AVM VMs are owned/applied outside CCC scale-fixtures; do not park/unpark in CI.
+  start-compute: false
+  priority: 50
   name: CCC Azure AVM Virtual Machine Terraform Module
   description: >-
     Control-informed AVM virtual machine deployment from ccc-cfi-compliance

@@ -4,6 +4,8 @@ cfi:
   provider: azure
   source-secrets: AZURE_ENV
   service: kubernetes
+  start-compute: true
+  priority: 100
   name: CCC Azure Kubernetes Fixture
   description: >-
     Runs behavioural checks for CCC.K8S against the Azure AKS integration fixture.
