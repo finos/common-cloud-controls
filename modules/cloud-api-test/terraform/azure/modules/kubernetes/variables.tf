@@ -23,3 +23,9 @@ variable "node_vm_size" {
   description = "AKS system-pool SKU. Gen1 Standard_B2s is no longer allowed for AKS in westus2; D2s_v3 matches the standalone VM fixture and has DSv3 quota."
   default     = "Standard_D2s_v3"
 }
+
+variable "azure_rbac_admin_object_ids" {
+  type        = list(string)
+  description = "Entra object IDs granted Azure Kubernetes Service RBAC Cluster Admin on the main cluster (integration runner + apply identity)."
+  default     = []
+}

@@ -163,3 +163,19 @@ resource "azurerm_federated_identity_credential" "wi_bound" {
   issuer              = azurerm_kubernetes_cluster.main.oidc_issuer_url
   subject             = "system:serviceaccount:${local.fixture_metadata.test_workload_namespace}:${local.fixture_metadata.test_workload_service_account}"
 }
+
+# Azure RBAC for Kubernetes (azure_rbac_enabled): listClusterUserCredential alone is not
+# enough — principals need Azure Kubernetes Service RBAC Cluster Admin to mutate/list.
+resource "azurerm_role_assignment" "main_rbac_cluster_admin" {
+  for_each             = toset(var.azure_rbac_admin_object_ids)
+  scope                = azurerm_kubernetes_cluster.main.id
+  role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
+  principal_id         = each.value
+}
+
+resource "azurerm_role_assignment" "main_cluster_user" {
+  for_each             = toset(var.azure_rbac_admin_object_ids)
+  scope                = azurerm_kubernetes_cluster.main.id
+  role_definition_name = "Azure Kubernetes Service Cluster User Role"
+  principal_id         = each.value
+}

@@ -20,6 +20,11 @@ locals {
     var.key_vault_secret_reader_object_ids,
     var.integration_runner_client_id != "" ? [data.azuread_service_principal.integration_runner[0].object_id] : [],
   )))
+
+  # AKS Azure RBAC for the GitHub OIDC integration runner (apply identity is granted separately).
+  aks_rbac_admin_object_ids = distinct(compact(
+    var.integration_runner_client_id != "" ? [data.azuread_service_principal.integration_runner[0].object_id] : [],
+  ))
 }
 
 resource "azurerm_resource_group" "this" {
@@ -81,9 +86,10 @@ module "secrets" {
 }
 
 module "kubernetes" {
-  source             = "./modules/kubernetes"
-  location           = var.location
-  resource_group     = azurerm_resource_group.this.name
-  kubernetes_version = var.k8s_version
-  common_tags        = local.common_tags
+  source                      = "./modules/kubernetes"
+  location                    = var.location
+  resource_group              = azurerm_resource_group.this.name
+  kubernetes_version          = var.k8s_version
+  common_tags                 = local.common_tags
+  azure_rbac_admin_object_ids = local.aks_rbac_admin_object_ids
 }

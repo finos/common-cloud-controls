@@ -19,7 +19,7 @@ variable "enable_serverless_computing" {
 variable "integration_runner_client_id" {
   type        = string
   default     = ""
-  description = "Application (client) ID of the principal that runs integration tests (GitHub AZURE_CLIENT_ID). Resolved to a Key Vault secret reader policy on apply."
+  description = "Application (client) ID of the principal that runs integration tests (GitHub AZURE_CLIENT_ID). Granted Key Vault secret Get/List and AKS Azure RBAC Cluster Admin on apply."
 }
 
 variable "key_vault_secret_reader_object_ids" {
