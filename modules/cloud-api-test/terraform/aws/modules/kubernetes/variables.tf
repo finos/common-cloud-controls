@@ -12,7 +12,7 @@ variable "api_authorized_cidrs" {
   type        = list(string)
   description = <<-EOT
     CIDRs allowed to reach the MAIN cluster public Kubernetes API (CN01.AR01).
-    Must include integration-runner egress and MUST exclude the aws-test-infra
+    Must include integration-runner egress and MUST exclude the
     reachability-probe public egress so CN01 untrusted probes fail.
     Required (no default): EKS rejects RFC1918 ranges in publicAccessCidrs, so
     there is no safe placeholder. The root resolves this to the runner's public

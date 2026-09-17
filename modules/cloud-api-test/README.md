@@ -19,9 +19,8 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 
 ## Prerequisites
 
-1. Integration terraform applied (`modules/cloud-api-test/terraform/<aws|azure|gcp>/`) — cheapest fixtures that still exercise the APIs under test.
+1. Integration terraform applied (`modules/cloud-api-test/terraform/<aws|azure|gcp>/`) — cheapest fixtures that still exercise the APIs under test. That single apply includes in-cluster probes (admission-webhook) and, on AWS, the public reachability vantage.
 2. Cloud credentials / env (see [User creation](#user-creation) and CI secrets below).
-3. For VM / Kubernetes: compute fixtures started (`scale-fixtures.sh start`) so billable resources are online before the CSV run.
 
 ## What a run does
 

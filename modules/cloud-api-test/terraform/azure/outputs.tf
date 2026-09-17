@@ -68,7 +68,9 @@ output "kubernetes" {
     resource_name                         = module.kubernetes.main_cluster_name
     main_cluster_name                     = module.kubernetes.main_cluster_name
     main_cluster_id                       = module.kubernetes.main_cluster_id
-    main_endpoint                         = module.kubernetes.main_fqdn
+    main_endpoint                         = module.kubernetes.main_kube_config_host
+    main_fqdn                             = module.kubernetes.main_fqdn
+    main_certificate_authority_data       = module.kubernetes.main_kube_config_ca
     region                                = module.kubernetes.location
     azure_log_analytics_workspace_id      = module.kubernetes.log_analytics_workspace_id
     azure_log_analytics_workspace_rid     = module.kubernetes.log_analytics_workspace_resource_id
@@ -85,6 +87,14 @@ output "kubernetes" {
     approved_storage_class                = module.kubernetes.fixture_metadata.approved_storage_class
     disallowed_storage_class              = module.kubernetes.fixture_metadata.disallowed_storage_class
     fixture_metadata                      = module.kubernetes.fixture_metadata
+    admission_webhook_probe = {
+      namespace        = module.admission_webhook_probe.webhook_probe_namespace
+      test_namespace   = module.admission_webhook_probe.webhook_probe_test_namespace
+      deployment       = module.admission_webhook_probe.webhook_probe_deployment
+      service          = module.admission_webhook_probe.webhook_probe_service
+      configuration    = module.admission_webhook_probe.webhook_probe_configuration
+      enabled_replicas = module.admission_webhook_probe.enabled_replicas
+    }
   }
   sensitive = true
 }

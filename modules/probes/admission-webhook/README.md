@@ -33,7 +33,7 @@ The server listens on `:8443` with TLS. Override `LISTEN_ADDRESS`,
 3. Replace `REPLACE_WITH_BASE64_CA_CERTIFICATE` in `deployment.yaml` with the
    base64-encoded PEM CA certificate and pin the container image to an immutable
    digest.
-4. Apply the manifest from the standalone test-infrastructure deployment.
+4. Apply `deployment.yaml`.
 
 Keep the namespace selector and `failurePolicy: Fail` unchanged. The fixture
 controller should scale only this Deployment, wait for Service endpoints to

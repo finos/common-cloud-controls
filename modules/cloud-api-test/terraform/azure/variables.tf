@@ -33,3 +33,12 @@ variable "k8s_version" {
   description = "AKS Kubernetes version; null lets Azure choose the default supported version."
   default     = null
 }
+
+variable "webhook_probe_image" {
+  type        = string
+  description = <<-EOT
+    Container image for the in-cluster CN11.AR03 admission-webhook probe.
+    Default is a pause stand-in so the Deployment exists; pin a real probe digest before behavioural CN11.AR03 runs.
+  EOT
+  default     = "mcr.microsoft.com/oss/kubernetes/pause:3.9"
+}

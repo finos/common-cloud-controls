@@ -51,3 +51,27 @@ module "kubernetes_fixtures" {
 
   depends_on = [module.kubernetes]
 }
+
+# admission-webhook probe — same apply as the cluster (no separate test-infra root).
+locals {
+  webhook_fixture_metadata = {
+    webhook_probe_namespace      = "ccc-admission-webhook-probe"
+    webhook_probe_test_namespace = "ccc-admission-webhook-test"
+    webhook_probe_deployment     = "ccc-admission-webhook-probe"
+    webhook_probe_configuration  = "ccc-admission-webhook-probe"
+    webhook_probe_service        = "ccc-admission-webhook-probe"
+    enabled_replicas             = 1
+  }
+}
+
+module "admission_webhook_probe" {
+  source           = "./modules/admission-webhook-probe"
+  probe_image      = var.webhook_probe_image
+  fixture_metadata = local.webhook_fixture_metadata
+
+  providers = {
+    kubernetes = kubernetes.aks_main
+  }
+
+  depends_on = [module.kubernetes]
+}

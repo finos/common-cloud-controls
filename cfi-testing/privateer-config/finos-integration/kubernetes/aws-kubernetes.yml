@@ -7,7 +7,7 @@ output: yaml
 # Populate host-name / logging / wi-probe-resource from terraform outputs after apply:
 #   cd modules/cloud-api-test/terraform/aws && terraform output
 # Source modules/cloud-api-test/environment-config/aws-env.sh for test identities.
-# Reachability probe URL/secret come from CI secrets (aws-test-infra), never commit secrets.
+# Reachability probe URL/secret come from CI secrets (terraform/aws reachability_probe output), never commit secrets.
 
 services:
   awsKubernetes:

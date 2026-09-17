@@ -81,6 +81,24 @@ output "kubernetes" {
     fixture_metadata                      = module.kubernetes.fixture_metadata
     main_certificate_authority_data       = module.kubernetes.main_certificate_authority_data
     oidc_issuer_url                       = module.kubernetes.main_oidc_issuer_url
+    admission_webhook_probe = {
+      namespace        = module.admission_webhook_probe.webhook_probe_namespace
+      test_namespace   = module.admission_webhook_probe.webhook_probe_test_namespace
+      deployment       = module.admission_webhook_probe.webhook_probe_deployment
+      service          = module.admission_webhook_probe.webhook_probe_service
+      configuration    = module.admission_webhook_probe.webhook_probe_configuration
+      enabled_replicas = module.admission_webhook_probe.enabled_replicas
+    }
   }
   sensitive = true
+}
+
+output "reachability_probe" {
+  description = "Public vantage probe coordinates. Put probe_url + shared secret value into CI env secrets; never commit the secret. Output exposes ARN only."
+  value = {
+    url               = module.reachability_probe.probe_url
+    observer          = module.reachability_probe.observer_name
+    shared_secret_arn = module.reachability_probe.shared_secret_arn
+    lambda_name       = module.reachability_probe.lambda_function_name
+  }
 }

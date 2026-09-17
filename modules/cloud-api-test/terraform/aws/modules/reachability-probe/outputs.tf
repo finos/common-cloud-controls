@@ -1,5 +1,5 @@
 output "probe_url" {
-  description = "Public HTTPS URL for POST /v1/probes. Wire to CI as REACHABILITY_PROBE_URL — not a main aws-root output."
+  description = "Public HTTPS URL for POST /v1/probes. Wire to CI as REACHABILITY_PROBE_URL."
   value       = "${aws_apigatewayv2_api.probe.api_endpoint}/v1/probes"
 }
 

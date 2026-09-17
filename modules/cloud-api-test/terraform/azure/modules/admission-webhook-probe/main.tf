@@ -9,8 +9,26 @@ terraform {
   }
 }
 
+variable "probe_image" {
+  type        = string
+  description = "Container image implementing /validate /healthz /readyz for CN11.AR03."
+}
+
+variable "fixture_metadata" {
+  type = object({
+    webhook_probe_namespace      = string
+    webhook_probe_test_namespace = string
+    webhook_probe_deployment     = string
+    webhook_probe_configuration  = string
+    webhook_probe_service        = string
+    enabled_replicas             = number
+  })
+}
+
 locals {
   m = var.fixture_metadata
+  # Must match admission_webhook.go guardrail (deployment.Labels["app.kubernetes.io/name"]).
+  app_label = local.m.webhook_probe_deployment
 }
 
 resource "tls_private_key" "webhook" {
@@ -88,20 +106,20 @@ resource "kubernetes_deployment_v1" "probe" {
     name      = local.m.webhook_probe_deployment
     namespace = kubernetes_namespace_v1.probe.metadata[0].name
     labels = {
-      app = local.m.webhook_probe_deployment
+      "app.kubernetes.io/name" = local.app_label
     }
   }
   spec {
     replicas = local.m.enabled_replicas
     selector {
       match_labels = {
-        app = local.m.webhook_probe_deployment
+        "app.kubernetes.io/name" = local.app_label
       }
     }
     template {
       metadata {
         labels = {
-          app = local.m.webhook_probe_deployment
+          "app.kubernetes.io/name" = local.app_label
         }
       }
       spec {
@@ -155,7 +173,7 @@ resource "kubernetes_service_v1" "probe" {
   }
   spec {
     selector = {
-      app = local.m.webhook_probe_deployment
+      "app.kubernetes.io/name" = local.app_label
     }
     port {
       port        = 443
@@ -254,4 +272,28 @@ resource "kubernetes_validating_webhook_configuration_v1" "probe" {
     kubernetes_deployment_v1.probe,
     kubernetes_service_v1.probe,
   ]
+}
+
+output "webhook_probe_namespace" {
+  value = kubernetes_namespace_v1.probe.metadata[0].name
+}
+
+output "webhook_probe_test_namespace" {
+  value = kubernetes_namespace_v1.test.metadata[0].name
+}
+
+output "webhook_probe_deployment" {
+  value = kubernetes_deployment_v1.probe.metadata[0].name
+}
+
+output "webhook_probe_service" {
+  value = kubernetes_service_v1.probe.metadata[0].name
+}
+
+output "webhook_probe_configuration" {
+  value = kubernetes_validating_webhook_configuration_v1.probe.metadata[0].name
+}
+
+output "enabled_replicas" {
+  value = var.fixture_metadata.enabled_replicas
 }
