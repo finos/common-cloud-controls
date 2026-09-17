@@ -40,7 +40,7 @@ output "vpc" {
 
 output "logging" {
   value = {
-    resource_name = module.logging.resource_name
+    resource_name   = module.logging.resource_name
     cloudtrail_name = module.logging.cloudtrail_name
   }
 }
@@ -52,5 +52,53 @@ output "secrets" {
     stale_version_id    = module.secrets.stale_version_id
     authorized_region   = module.secrets.authorized_region
     unauthorized_region = module.secrets.unauthorized_region
+  }
+}
+
+output "kubernetes" {
+  value = {
+    resource_name                         = module.kubernetes.main_cluster_name
+    main_cluster_name                     = module.kubernetes.main_cluster_name
+    main_cluster_arn                      = module.kubernetes.main_cluster_arn
+    main_endpoint                         = module.kubernetes.main_endpoint
+    region                                = module.kubernetes.region
+    aws_control_plane_log_group_name      = module.kubernetes.control_plane_log_group_name
+    secrets_kms_key_arn                   = module.kubernetes.secrets_kms_key_arn
+    wi_bound_role_arn                     = module.kubernetes.wi_bound_role_arn
+    wi_probe_resource                     = module.kubernetes.wi_probe_bucket_name
+    api_authorized_cidrs                  = module.kubernetes.api_authorized_cidrs
+    node_role_arn                         = module.kubernetes.node_role_arn
+    vpc_cni_role_arn                      = module.kubernetes.vpc_cni_role_arn
+    ebs_csi_role_arn                      = module.kubernetes.ebs_csi_role_arn
+    test_workload_namespace               = module.kubernetes.fixture_metadata.test_workload_namespace
+    test_workload_service_account         = module.kubernetes.fixture_metadata.test_workload_service_account
+    test_workload_service_account_unbound = module.kubernetes.fixture_metadata.test_workload_service_account_unbound
+    network_control_namespace             = module.kubernetes.fixture_metadata.network_control_namespace
+    protected_secret_name                 = module.kubernetes.fixture_metadata.protected_secret_name
+    unrelated_secret_name                 = module.kubernetes.fixture_metadata.unrelated_secret_name
+    approved_storage_class                = module.kubernetes.fixture_metadata.approved_storage_class
+    disallowed_storage_class              = module.kubernetes.fixture_metadata.disallowed_storage_class
+    fixture_metadata                      = module.kubernetes.fixture_metadata
+    main_certificate_authority_data       = module.kubernetes.main_certificate_authority_data
+    oidc_issuer_url                       = module.kubernetes.main_oidc_issuer_url
+    admission_webhook_probe = {
+      namespace        = module.admission_webhook_probe.webhook_probe_namespace
+      test_namespace   = module.admission_webhook_probe.webhook_probe_test_namespace
+      deployment       = module.admission_webhook_probe.webhook_probe_deployment
+      service          = module.admission_webhook_probe.webhook_probe_service
+      configuration    = module.admission_webhook_probe.webhook_probe_configuration
+      enabled_replicas = module.admission_webhook_probe.enabled_replicas
+    }
+  }
+  sensitive = true
+}
+
+output "reachability_probe" {
+  description = "Public vantage probe coordinates. Put probe_url + shared secret value into CI env secrets; never commit the secret. Output exposes ARN only."
+  value = {
+    url               = module.reachability_probe.probe_url
+    observer          = module.reachability_probe.observer_name
+    shared_secret_arn = module.reachability_probe.shared_secret_arn
+    lambda_name       = module.reachability_probe.lambda_function_name
   }
 }

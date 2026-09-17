@@ -1136,3 +1136,7 @@ func (s *AzureBlobService) TearDown() error {
 	}
 	return nil
 }
+
+func (s *AzureBlobService) Start(string) error { return nil }
+func (s *AzureBlobService) Stop(string) error  { return nil }
+func (s *AzureBlobService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }

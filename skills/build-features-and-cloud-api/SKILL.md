@@ -14,6 +14,25 @@ disable-model-invocation: true
 
 Turn an **approved** `modules/features/<service-folder>/analysis.md` into runnable behavioural tests. This skill implements the full stack; analysis-only work stays in [build-service-behavioural-test-analysis](../build-service-behavioural-test-analysis/SKILL.md).
 
+## Layers (read these READMEs first)
+
+Architecture is defined in [`modules/README.md`](../../modules/README.md). **Respect layer boundaries** — most of the k8s round-tripping came from treating every layer as one blob and debugging with the wrong test surface.
+
+| Layer | Path | Owns | Does **not** own |
+| ----- | ---- | ---- | ---------------- |
+| **1 — Config + start** | [`cfi-testing/`](../../cfi-testing/) | Privateer YAML, `run-compliance-tests.sh`, actions-config matrix | cloud-api method semantics |
+| **2 — Behavioural execution** | plugin / runner / reporters | Godog orchestration, catalog applicability, AR pass/fail | Fixture provisioning |
+| **3 — Features + steps** | [`modules/features/`](../../modules/features/README.md), cloud-testing-dsl | Gherkin AR criteria, step bindings | Provider SDKs, live coverage % |
+| **4 — Cloud abstraction** | [`cloud-api/`](../../modules/cloud-api/), [`cloud-api-test/`](../../modules/cloud-api-test/README.md), [`probes/`](../../modules/probes/README.md) | Factory APIs, CSV integration + coverage, probe **binaries** | CCC control verdicts |
+
+**Rules that stop wrong-layer references:**
+
+1. Read [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md) before writing CSV rows — integration proves **our driver code**, not AR compliance. Do not duplicate full behavioural AR matrices in `integration_calls.csv` (see that README’s Kubernetes note: portable `KubeClient` probes belong in features, not CSV).
+2. Read [`modules/features/README.md`](../../modules/features/README.md) for where scenarios live and how tags route — features call `cloud-api`; they do not embed terraform paths.
+3. Read [`modules/probes/README.md`](../../modules/probes/README.md) for probe build/deploy manifests only. Probe docs must **not** point at `cloud-api-test/terraform/…` (fixtures are a different layer that *consumes* probe images).
+4. Terraform under `cloud-api-test/terraform/<cloud>/` may **deploy** probe images into the integration cluster; that does not make probe Go packages part of the test package.
+5. Debug **bottom-up**: cloud-api unit of work → local CSV → local Godog slice → GHA. Do not start in Layer 1/2 CI when Layer 4 auth/network is broken.
+
 ## When to use
 
 - `modules/features/<service-folder>/analysis.md` exists and the user has approved it.
@@ -22,8 +41,9 @@ Turn an **approved** `modules/features/<service-folder>/analysis.md` into runnab
 
 ## Prerequisites
 
-1. Read the service **`analysis.md`** end-to-end — especially **Feature reuse from generic**, **Cloud-api interface**, **Privateer config**, and **Cross-cloud implementation**.
-2. Confirm **factory service id**, **features folder name**, and **catalog id(s)** match the analysis header.
+1. Skim [`modules/README.md`](../../modules/README.md) layer diagram and the three READMEs linked above.
+2. Read the service **`analysis.md`** end-to-end — especially **Feature reuse from generic**, **Cloud-api interface**, **Privateer config**, and **Cross-cloud implementation**.
+3. Confirm **factory service id**, **features folder name**, and **catalog id(s)** match the analysis header.
 
 ## Scope and honesty
 
@@ -61,18 +81,18 @@ Copy and track progress:
 
 ```text
 Implementation progress:
-- [ ] Step 0: Re-read analysis.md — extract reuse table, methods, vars
-- [ ] Step 1: Features (generic tags → new .feature files)
-- [ ] Step 2: cloud-api package + factory (AWS, Azure, GCP)
-- [ ] Step 3: Runner discovery + ServiceTypes (if new service)
-- [ ] Step 4: cloud-api-test terraform (per cloud, all services)
-- [ ] Step 5: integration_calls.csv + minimal privateer-config
-- [ ] Step 6: finos-integration privateer-config + actions-config
-- [ ] Step 7: Build workspace + smoke (integration + behavioural)
-- [ ] Step 8: Review checklist
+- [ ] Step 1: Re-read analysis.md — extract reuse table, methods, vars
+- [ ] Step 2: Features (generic tags → new .feature files)
+- [ ] Step 3: cloud-api package + factory (AWS, Azure, GCP)
+- [ ] Step 4: Runner discovery + ServiceTypes (if new service)
+- [ ] Step 5: cloud-api-test terraform (per cloud, all services + in-cluster probes)
+- [ ] Step 6: integration_calls.csv + minimal privateer-config + local CSV green
+- [ ] Step 7: finos-integration privateer-config + actions-config
+- [ ] Step 8: Behavioural smoke (local) then GHA confirmation
+- [ ] Step 9: Review checklist
 ```
 
-### Step 0: Extract implementation checklist from analysis
+### Step 1: Extract implementation checklist from analysis
 
 From `analysis.md`, build a working checklist:
 
@@ -88,11 +108,11 @@ From `analysis.md`, build a working checklist:
 
 ---
 
-### Step 1: Feature files
+### Step 2: Feature files
 
 Follow [modules/features/README.md](../../modules/features/README.md) for layout and tags.
 
-#### 1a. Reuse generic (default)
+#### 2a. Reuse generic (default)
 
 For each row in **Feature reuse from generic**:
 
@@ -101,7 +121,7 @@ For each row in **Feature reuse from generic**:
 3. Ensure scenarios use `{service-type}` (not a hardcoded service id) where the file already does — set `service-type: <factory-id>` in Privateer vars.
 4. Do **not** copy the file into `<service-folder>/CCC.Core/`.
 
-#### 1b. New service-specific features
+#### 2b. New service-specific features
 
 Create only paths listed as **new** in analysis, e.g.:
 
@@ -124,13 +144,13 @@ Naming: `CCC-<ControlFamily>-<AR>.feature` (match existing repos).
 - Attach results for reports: `I attach "{result}" to the test output as "..."`
 - Steps use the DSL provided by <https://github.com/robmoffat/standard-cucumber-steps/blob/main/README.md> (which you should either read or see examples of in the other feature files)
 
-#### 1d. @NotTestable
+#### 2c. @NotTestable
 
 Add service tag to existing `@NotTestable` scenarios in generic; keep `Then no-op required` and honesty comments.
 
 ---
 
-### Step 2: cloud-api package
+### Step 3: cloud-api package
 
 #### Package layout
 
@@ -177,7 +197,7 @@ cd modules/ccc-behavioural-plugin && go build .
 
 ---
 
-### Step 3: Runner feature discovery
+### Step 4: Runner feature discovery
 
 [`collectFeaturePaths`](../../modules/runner/BasicServiceRunner.go) loads:
 
@@ -191,7 +211,7 @@ cd modules/ccc-behavioural-plugin && go build .
 
 ---
 
-### Step 4: cloud-api-test terraform
+### Step 5: cloud-api-test terraform
 
 Create or extend **`modules/cloud-api-test/terraform/`** as the **single place** for CFI integration fixtures in this repo (legacy stacks may remain under `ccc-cfi-compliance/remote/` until migrated).
 
@@ -257,12 +277,17 @@ See [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md)
 6. **Exercise code, not compliance**: one testable resource per service type (except `vpc`, which may include good/bad fixtures). Missing optional controls is acceptable if analysis documents `@NotTestable` or honesty gaps.
 7. **No secrets in terraform state files in git** — output client ids; secrets via `modules/cloud-api-test/environment-config/*-env.sh`.
 8. **MINIMAL terraform, minimize expense** — we are creating an integration environment to test `cloud-api`, not passing the full CCC conformance suite on first apply.
+9. **In-cluster / sidecar probes belong in the same cloud root** (e.g. admission-webhook Deployment). Do **not** invent a second `*-test-infra` root for the same cluster — one `terraform apply` per cloud. Probe **Go modules** stay under `modules/probes/` (separate layer); terraform only deploys them.
+10. **Grant the CI principal everything the test identity needs at apply time** — do not assume “terraform apply succeeded ⇒ GHA can call the API.” See [Lessons from bringing up managed Kubernetes](#lessons-from-bringing-up-managed-kubernetes).
+11. **Prefer CI-reachable fixtures over runtime “elevate” workarounds** when analysis marks an AR `@NotTestable` on GitHub-hosted runners (e.g. public / allow-all API instead of `ElevateAccessForInspection` + CIDR lock).
 
 ---
 
-### Step 5: integration_calls.csv + minimal privateer-config
+### Step 6: integration_calls.csv + minimal privateer-config + local CSV green
 
-After terraform and cloud-api methods exist, wire the **reflection integration test** layer ([`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md)).
+After terraform and cloud-api methods exist, wire the **reflection integration test** package. Purpose and non-goals are in [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md) — read it before adding rows.
+
+This step is incomplete until **local CSV is green** for the cloud under change (CI principal shape). Do not start Step 7 or GHA while CSV still fails on dial/403/RBAC.
 
 #### integration_calls.csv
 
@@ -277,25 +302,33 @@ logging,QueryLogs,all,,finos-ccc-integration-vm-main,admin,60,
 - `api`: factory service id (`virtual-machines`, `object-storage`, `logging`, …).
 - `cloud`: `all` runs on every provider; otherwise `aws`, `azure`, or `gcp` only.
 - `expect_error`: `true` when the call is expected to fail (optional API, missing fixture, provider limitation).
+- **Trap**: `expect_error=true` PASS is **not** proof the denial path is correct. If RBAC/auth fails *before* admission/policy, privileged-deny rows look green while compliant-create rows FAIL. Fix auth first; then re-check that expected errors cite the **intended** control (PSS, webhook, policy), not `forbidden` / `access denied` from the test principal.
 - `arg1`…`arg4`: literal values matching terraform fixture names (not env var placeholders).
 
 Update [`privateer-config/{aws,azure,gcp}.yml`](../../modules/cloud-api-test/privateer-config/aws.yml) with any new vars the CSV rows need (`resource`, `function-name`, `host-name`, logging keys, etc.). These files are **one per cloud**, minimal keys only — not full behavioural catalog config.
 
-#### Smoke (integration)
+#### Local CSV smoke (required before Step 7 / GHA)
+
+Local CSV smoke is the primary loop. GHA is for confirmation, not first discovery of auth/network bugs.
 
 ```bash
 cd modules/cloud-api-test
 # After: terraform apply under terraform/<cloud>/ and source environment-config/*-env.sh
+# Azure: do NOT export AZURE_CLIENT_ID into the process for DefaultAzureCredential
+# (it is treated as a user-assigned MI and breaks the chain before AzureCLICredential).
+./scale-fixtures.sh start -c "privateer-config/<cloud>.yml" -S integration -s kubernetes   # when compute is stopped
 ./run-integration-tests.sh aws    # or azure | gcp | all
 ```
 
-Success means all relevant CSV rows **PASS** for that provider (some `expect_error=true` rows are PASS by design). See [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md) for provider-specific notes (including W-46 login coverage).
+Success means all relevant CSV rows **PASS** for that provider (some `expect_error=true` rows are PASS by design — with the **intended** error class). See [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md) for provider-specific notes (including W-46 login coverage).
+
+**Exit criteria for Step 6:** integration CSV green for the cloud under change **as the same principal shape CI uses** (for Azure: the `integration_runner_client_id` / `AZURE_CLIENT_ID` app, not only your interactive user).
 
 ---
 
-### Step 6: finos-integration privateer-config + actions-config
+### Step 7: finos-integration privateer-config + actions-config
 
-Behavioural Godog runs use a **second** config surface under `cfi-testing/`.
+Behavioural Godog runs use Layer 1 config under `cfi-testing/` (see [`modules/README.md`](../../modules/README.md)). Only start this after Step 6 is green — wiring Privateer against a broken driver wastes Actions time.
 
 #### finos-integration privateer-config
 
@@ -356,7 +389,9 @@ cfi:
 
 #### User provisioning
 
-This contains a very limited set of generic user accounts we can use to test different test cases.  Extend the privileges of these accounts for the integration testing terraform.  Avoid creating too many accounts.  
+This contains a very limited set of generic user accounts we can use to test different test cases. Extend the privileges of these accounts for the integration testing terraform. Avoid creating too many accounts.
+
+Also grant the **CI / integration runner** principal (Azure: `integration_runner_client_id` = GitHub `AZURE_CLIENT_ID` app) any data-plane or kube RBAC the CSV and behavioural runs need — interactive `az login` success does not imply GHA OIDC can mutate the fixture.
 
 ```bash
 cd modules/cloud-api-test/environment-config
@@ -366,17 +401,11 @@ source ./aws-env.sh              # matching *-env.sh for your cloud
 
 ---
 
-### Step 7: Build and smoke test
+### Step 8: Behavioural smoke (local) then GHA confirmation
 
-#### Integration (fast API coverage)
+Integration CSV was already proven in Step 6. This step is Layer 1–3 (Privateer + Godog), then CI as confirmation only.
 
-```bash
-export GOWORK=modules/go.work
-cd modules/cloud-api-test
-./run-integration-tests.sh aws
-```
-
-#### Behavioural (Godog via Privateer)
+#### 8a. Behavioural (Godog via Privateer) — local
 
 ```bash
 export GOWORK=modules/go.work
@@ -392,22 +421,76 @@ source modules/cloud-api-test/environment-config/aws-env.sh   # or azure-env.sh 
 Expect **some behavioural failures** until terraform and implementations mature. Success for this skill means:
 
 - Workspace builds (`go build ./...` in go.work modules)
-- Integration CSV rows for new methods **PASS** (or `expect_error` as documented)
+- Step 6 CSV rows for new methods **PASS** (or `expect_error` as documented **with the right error class**)
 - Godog discovers features (no “no feature directories” error)
 - Scenarios **execute** cloud-api methods (not compile/skip panics)
+
+#### 8b. GitHub Actions — confirmation only
+
+Push / `workflow_dispatch` after Step 6 is green (and ideally a local 8a slice). When a GHA job fails:
+
+1. Read the **job log** (and uploaded `integration-results-*.txt` artifact), not only the matrix summary.
+2. Classify: network / auth / missing fixture / real product assertion.
+3. Reproduce with the same classification locally (Step 6 or 8a) before the next push.
+4. Avoid “fix and re-run the whole matrix” for issues already explained by CSV FAIL lines.
+
+---
+
+## Lessons from bringing up managed Kubernetes
+
+Hard-won while making Azure (then AWS patterns) k8s integration green. Apply the same discipline to other control-plane–heavy services.
+
+### What burned round-trips
+
+| Failure mode | Symptom in CI / CSV | Fix in terraform / code (not another GHA guess) |
+| ------------ | ------------------- | ---------------------------------------------- |
+| API allowlist = apply-time `/32` | Dial timeout / hang after “reachability”; ElevateAccess “stuck” ≤20m | For GHA: public or allow-all API when CN01 is `@NotTestable`; do not rely on runtime elevate |
+| Empty `authorized_ip_ranges` no-op / policy | TF “applied” but allowlist unchanged | Prefer explicit allow-all CIDR (`0.0.0.0/0`) where Policy rejects `[]` |
+| Credential fetch works, kube RBAC does not | `User "…" cannot create/list … Update role assignment` | Grant **Azure Kubernetes Service RBAC Cluster Admin** (and Cluster User) to `integration_runner_client_id` in the **same** azure root |
+| Local admin ≠ CI SP | Green on laptop, red in Actions | Smoke as CI principal shape; wire roles via `integration_runner_client_id` tfvars |
+| `AZURE_CLIENT_ID` in process env | DefaultAzureCredential treats it as UAMI → chain fails | Unset for SDK runs; keep OIDC for `azure/login` only |
+| Wrong ARM action path | Plain 404 on credential list | Use provider-correct singular/plural APIs (`listClusterUserCredential`) |
+| `expect_error` false positive | Privileged admit PASS, compliant admit FAIL | Auth first; assert error text is admission/policy, not RBAC |
+| Second terraform root for in-cluster probe | “not found” Deployment; layering fights | Deploy probes from the **main** cloud root in one apply |
+| Hardcoded fixture names across layers | Probe/docs/TF naming the cluster resource | Identity stays in the cloud root; probes layer has no fixture hostnames |
+| Referencing downstream tests upward | Probe README → `cloud-api-test/terraform`; CSV = full AR matrix | Follow [Layers](#layers-read-these-readmes-first); debug bottom-up |
+| Cluster `Stopped` / extension `Creating` | TF CreateOrUpdate 409/400 | Start cluster; wait for idle; don’t pile applies on Failed+Stuck OMS |
+| Pause image for webhook | Scale CSV PASS; real admit/deny not exercised | Pin real `modules/probes/admission-webhook` image before claiming CN11.AR03 |
+
+### How to cut round-trips (checklist)
+
+1. **CSV before Actions** — `run-integration-tests.sh <cloud>` locally until green.
+2. **Auth matrix in terraform** — applying identity + `integration_runner_client_id` both get needed data-plane / kube roles at apply time.
+3. **Match CI auth constraints in analysis** — if runners have ephemeral egress, mark CIDR-lock ARs `@NotTestable` and design fixtures accordingly (don’t invent elevate loops).
+4. **One apply per cloud** — fixtures + in-cluster probes together; `scale-fixtures.sh` is runtime start/stop, not a second TF root.
+5. **Classify errors** — network vs Entra/RBAC vs missing object vs real control denial; only the last belongs in a long GHA debug session.
+6. **Read the FAIL line** — integration results print method + seconds + error; that is faster than re-running the whole `cfi-test` matrix.
+7. **Don’t treat `expect_error` PASS as coverage** until the message matches the intended control.
+8. **Verify live resource after TF** when changing network/RBAC (`az aks show`, role assignment list) — TF success ≠ Azure kept the field you wanted.
+
+### Azure-specific notes (k8s)
+
+- AKS with `local_account_disabled` + Azure RBAC: ARM kubeconfig host/CA + token is not enough without **Azure RBAC Cluster Admin** on the test SP.
+- `kubelogin` on PATH for terraform kubernetes provider; `kubectl` optional for manual verify.
+- Stuck `aks-managed-azure-monitor-logs` blocks cluster updates; wait or stop/start before fighting allowlist applies.
+- Do not set job-level `AZURE_CLIENT_ID` for Go `DefaultAzureCredential` on GHA (see `cloud-api-integration.yml`).
 
 ---
 
 ## Cross-cutting reference
 
-### Two verification layers
+### Two verification surfaces (same fixtures, different questions)
 
-| Layer | What it tests | How to run |
-|-------|---------------|------------|
-| **Integration** | Every `integration_calls.csv` row hits cloud-api via reflection | `modules/cloud-api-test/run-integration-tests.sh` |
-| **Behavioural** | Gherkin scenarios + catalog applicability | `cfi-testing/run-compliance-tests.sh` + finos-integration YAML |
+Canonical layer diagram: [`modules/README.md`](../../modules/README.md). Integration vs behavioural ownership: [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md).
 
-Both share the same terraform fixtures under `modules/cloud-api-test/terraform/`.
+| Surface | Layer | What it answers | How to run |
+|---------|-------|-----------------|------------|
+| **Integration CSV** | 4 — `cloud-api-test` | Does **our** factory/method wiring work live? | `modules/cloud-api-test/run-integration-tests.sh` |
+| **Behavioural Godog** | 1–3 — `cfi-testing` + features | Do **AR scenarios** execute (and eventually pass)? | `cfi-testing/run-compliance-tests.sh` + finos-integration YAML |
+
+Both share terraform under `modules/cloud-api-test/terraform/`. Neither replaces the other: green CSV ≠ compliant catalog; green Godog discovery ≠ covered Go branches.
+
+Do **not** use behavioural CI to discover Layer 4 auth/network bugs, and do **not** stuff AR scenario matrices into `integration_calls.csv`.
 
 ### Services with behavioural tests today
 
@@ -433,22 +516,26 @@ When extending **cloud-api-test terraform**, include submodules for each service
 
 ---
 
-## Review checklist
+### Step 9: Review checklist
 
 Before finishing:
 
+- [ ] Layer docs consulted: [`modules/README.md`](../../modules/README.md), [`cloud-api-test/README.md`](../../modules/cloud-api-test/README.md), [`features/README.md`](../../modules/features/README.md); probe docs do not reference `cloud-api-test/terraform`
 - [ ] Every **new** feature path from analysis exists; every **reuse** row has service tags on generic/shared files
 - [ ] `cloud-api` builds; factory registers service on AWS, Azure, GCP (or documents `—` unsupported per analysis)
 - [ ] `generic.Service` methods from analysis implemented or honestly return errors
 - [ ] Runner loads `generic/` automatically; extend `port/` / `vpc/` in `collectFeaturePaths` if the service needs those dirs
-- [ ] `modules/cloud-api-test/terraform/<cloud>/` applies as one root; submodules per service
-- [ ] `integration_calls.csv` has rows for new methods; `privateer-config/{aws,azure,gcp}.yml` updated
+- [ ] `modules/cloud-api-test/terraform/<cloud>/` applies as one root; submodules per service; in-cluster probes in that root (no second `*-test-infra` apply)
+- [ ] `integration_calls.csv` has rows for new methods (driver coverage, not full AR matrices); `privateer-config/{aws,azure,gcp}.yml` updated
+- [ ] Step 6: local `./run-integration-tests.sh <cloud>` green **before** GHA; expected-error rows cite the intended control, not missing RBAC
+- [ ] CI / `integration_runner_client_id` principal has the same data-plane and kube roles the tests need (documented in tfvars / role assignments)
 - [ ] `cfi-testing/privateer-config/finos-integration/<service>/` YAML uses explicit resource names from terraform outputs
 - [ ] `cfi-testing/actions-config/*-finos.yaml` added; `path` points at `modules/cloud-api-test/terraform/<cloud>`
 - [ ] `modules/features/README.md` updated if new service tag added
 - [ ] No secrets committed; `*.tfstate` gitignored
 - [ ] Analysis skill cross-link satisfied: implementation matches **Feature reuse** and **method count** in analysis
 - [ ] All assessment requirements have an associated feature file (whether inherited from generic or created for this service)
+- [ ] GHA used as confirmation after Step 6 (and preferably Step 8a), not as the first debugger for dial/403 failures
 
 ---
 

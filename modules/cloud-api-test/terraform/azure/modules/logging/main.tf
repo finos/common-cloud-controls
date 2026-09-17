@@ -8,7 +8,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "storage" {
-  name                       = "finos-ccc-integration-storage-diag"
+  name = "finos-ccc-integration-storage-diag"
   # Storage data-plane categories (StorageRead/Write/Delete) are exposed on
   # the blob service child resource, not the storage-account root.
   target_resource_id         = "${var.storage_account_id}/blobServices/default"
@@ -26,9 +26,14 @@ resource "azurerm_monitor_diagnostic_setting" "storage" {
     category = "StorageDelete"
   }
 
-  metric {
-    category = "AllMetrics"
-    enabled  = true
+  # Blob-service metrics are Capacity/Transaction (not AllMetrics); using
+  # AllMetrics makes Azure rewrite the setting and leaves perpetual plan drift.
+  enabled_metric {
+    category = "Capacity"
+  }
+
+  enabled_metric {
+    category = "Transaction"
   }
 }
 
@@ -75,9 +80,9 @@ resource "azurerm_network_watcher_flow_log" "vm_nsg" {
   network_watcher_name      = azurerm_network_watcher.main.name
   resource_group_name       = var.resource_group
   network_security_group_id = var.vm_network_security_group_id
-  storage_account_id         = var.storage_account_id
-  enabled                    = true
-  version                    = 2
+  storage_account_id        = var.storage_account_id
+  enabled                   = true
+  version                   = 2
   retention_policy {
     enabled = true
     days    = 7

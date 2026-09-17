@@ -121,6 +121,9 @@ func (s *AzureVPCService) UpdateResourcePolicy() error       { return nil }
 func (s *AzureVPCService) TriggerDataWrite(_ string) error   { return nil }
 func (s *AzureVPCService) TriggerDataRead(_ string) error    { return nil }
 func (s *AzureVPCService) TearDown() error                   { return nil }
+func (s *AzureVPCService) Start(string) error                { return nil }
+func (s *AzureVPCService) Stop(string) error                 { return nil }
+func (s *AzureVPCService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 func (s *AzureVPCService) GetResourceRegion(_ string) (string, error) {
 	return s.config.CloudParams().Region, nil

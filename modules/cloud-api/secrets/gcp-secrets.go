@@ -108,6 +108,9 @@ func (s *GCPSecretsService) CheckUserProvisioned() error {
 func (s *GCPSecretsService) ElevateAccessForInspection() error { return nil }
 func (s *GCPSecretsService) ResetAccess() error                { return nil }
 func (s *GCPSecretsService) TearDown() error                   { return nil }
+func (s *GCPSecretsService) Start(string) error                { return nil }
+func (s *GCPSecretsService) Stop(string) error                 { return nil }
+func (s *GCPSecretsService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 func (s *GCPSecretsService) UpdateResourcePolicy() error {
 	return fmt.Errorf("UpdateResourcePolicy not implemented for secrets")

@@ -1,6 +1,5 @@
-# api = GetServiceAPI(service id). cloud: aws|azure|gcp|all. expect_error: true if error is success.
-# Object-storage cloud rows: by method (aws→azure→gcp). Temp blob only; delete runs after read/version probes, before SetBucketRetention on main.
-api,method,cloud,expect_error,arg1,arg2,arg3,arg4
+# See README.md in this directory for purpose, CSV rules, and how to run.
+api,method,cloud,expect_error,arg1,arg2,arg3,arg4,arg5
 serverless-computing,GetOrProvisionTestableResources,all,,,,
 serverless-computing,CheckUserProvisioned,all,,,,
 serverless-computing,ElevateAccessForInspection,all,,,,
@@ -107,3 +106,31 @@ secrets,RetrieveSecretInRegion,azure,,finos-ccc-integration-secret-main,config:a
 secrets,RetrieveSecretInRegion,azure,true,finos-ccc-integration-secret-main,config:unauthorized-region,
 secrets,RetrieveSecretInRegion,gcp,,finos-ccc-integration-secret-main,config:authorized-region,
 secrets,RetrieveSecretInRegion,gcp,true,finos-ccc-integration-secret-main,config:unauthorized-region,
+kubernetes,GetOrProvisionTestableResources,all,,,,
+kubernetes,GetAPIEndpointConfig,all,,finos-ccc-integration-k8s-main,,,
+kubernetes,AttemptAPIEndpointReachability,all,,finos-ccc-integration-k8s-main,untrusted,,
+kubernetes,ElevateAccessForInspection,all,,,,
+kubernetes,CheckUserProvisioned,all,,,,
+kubernetes,GetKubernetesClient,all,,,,
+kubernetes,AttemptCloudAPIAsWorkload,all,true,finos-ccc-integration-k8s-main,ccc-test,ccc-wi-sa-unbound,probe-read
+kubernetes,AttemptAdmitWorkload,all,true,finos-ccc-integration-k8s-main,create,config:manifest-privileged,
+kubernetes,AttemptAdmitWorkload,all,,finos-ccc-integration-k8s-main,create,config:manifest-compliant-deployment,
+kubernetes,AttemptAdmitWorkload,all,true,finos-ccc-integration-k8s-main,update,config:manifest-privileged-deployment-update,
+kubernetes,AttemptAdmitWorkload,all,true,finos-ccc-integration-k8s-main,ephemeral-update,config:manifest-ephemeral-privileged,
+kubernetes,GetClusterComponentInventory,all,,finos-ccc-integration-k8s-main,,,
+admission-webhook,SetBackendAvailability,all,,finos-ccc-integration-k8s-main,true,,
+admission-webhook,SetBackendAvailability,all,,finos-ccc-integration-k8s-main,false,,
+admission-webhook,SetBackendAvailability,all,,finos-ccc-integration-k8s-main,true,,
+kubernetes,AttemptInstanceMetadataAccess,all,true,finos-ccc-integration-k8s-main,app=ccc-metadata-probe,,
+kubernetes,GetGovernanceMetadata,all,,finos-ccc-integration-k8s-main,,,
+kubernetes,AttemptModifyGovernanceMetadata,all,,finos-ccc-integration-k8s-main,cluster,config:governance-patch-no-access,
+kubernetes,GetClusterAuthConfig,all,,finos-ccc-integration-k8s-main,,,
+kubernetes,AttemptClusterAuthWithStaticCredential,all,true,finos-ccc-integration-k8s-main,basic,,
+kubernetes,GetNodeIntegrityStatus,all,,finos-ccc-integration-k8s-main,,,
+kubernetes,GetEncryptionAtRestStatus,all,,finos-ccc-integration-k8s-main,,,
+kubernetes,UpdateResourcePolicy,all,,,,
+kubernetes,TriggerDataWrite,all,,finos-ccc-integration-k8s-main,,,
+kubernetes,TriggerDataRead,all,,finos-ccc-integration-k8s-main,,,
+kubernetes,GetResourceRegion,all,,finos-ccc-integration-k8s-main,,,
+kubernetes,ResetAccess,all,,,,
+logging,QueryLogs,all,,finos-ccc-integration-k8s-main,admin,60

@@ -3,6 +3,7 @@
 package integrationtesting_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -10,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/finos/common-cloud-controls/cloud-api/factory"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
@@ -83,31 +85,31 @@ func TestCloudAPIIntegration(t *testing.T) {
 	services := make(map[string]generic.Service)
 	var passed, failed int
 	emitCallLine(fmt.Sprintf("integration_calls.csv on provider %s\n", provider), t)
+	emitCallLine(fmt.Sprintf("%-4s  %8s  %s\n", "STAT", "SECONDS", "CALL"), t)
 	for _, row := range rows {
 		if !integrationMethodAllowed(row) {
 			continue
 		}
 		label := formatCallRow(row)
+		started := time.Now()
 		svc, err := serviceFor(f, services, row.API)
+		var callErr error
 		if err != nil {
-			if recordResult(row.ExpectError, true, &passed, &failed) {
-				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", err)), t)
-			} else {
-				emitCallLine(formatCallResult("FAIL", label, err), t)
-			}
-			continue
+			callErr = err
+		} else {
+			callErr = invokeMethod(svc, cfg, row.Method, row.Args)
 		}
-		callErr := invokeMethod(svc, cfg, row.Method, row.Args)
+		elapsed := time.Since(started).Seconds()
 		if recordResult(row.ExpectError, callErr != nil, &passed, &failed) {
 			if callErr != nil {
-				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", callErr)), t)
+				emitCallLine(formatCallResult("PASS", elapsed, label, fmt.Errorf("expected error: %w", callErr)), t)
 			} else {
-				emitCallLine(formatCallResult("PASS", label, nil), t)
+				emitCallLine(formatCallResult("PASS", elapsed, label, nil), t)
 			}
 		} else if callErr != nil {
-			emitCallLine(formatCallResult("FAIL", label, callErr), t)
+			emitCallLine(formatCallResult("FAIL", elapsed, label, callErr), t)
 		} else {
-			emitCallLine(formatCallResult("FAIL", label, fmt.Errorf("expected error, got nil")), t)
+			emitCallLine(formatCallResult("FAIL", elapsed, label, fmt.Errorf("expected error, got nil")), t)
 		}
 	}
 	total := passed + failed
@@ -152,11 +154,11 @@ func formatCallRow(row callRow) string {
 	return strings.Join(parts, " ")
 }
 
-func formatCallResult(status, label string, err error) string {
+func formatCallResult(status string, seconds float64, label string, err error) string {
 	if err != nil {
-		return fmt.Sprintf("%-4s  %s  %v\n", status, label, err)
+		return fmt.Sprintf("%-4s  %8.1f  %s  %v\n", status, seconds, label, err)
 	}
-	return fmt.Sprintf("%-4s  %s\n", status, label)
+	return fmt.Sprintf("%-4s  %8.1f  %s\n", status, seconds, label)
 }
 
 func serviceFor(f factory.Factory, cache map[string]generic.Service, api string) (generic.Service, error) {
@@ -228,9 +230,46 @@ func coerceArg(typ reflect.Type, raw string) (reflect.Value, error) {
 			return reflect.Value{}, err
 		}
 		return reflect.ValueOf(b).Convert(typ), nil
+	case reflect.Slice:
+		parts := splitCSVArg(raw)
+		slice := reflect.MakeSlice(typ, 0, len(parts))
+		for _, part := range parts {
+			elem, err := coerceArg(typ.Elem(), part)
+			if err != nil {
+				return reflect.Value{}, err
+			}
+			slice = reflect.Append(slice, elem)
+		}
+		return slice, nil
+	case reflect.Map:
+		if typ.Key().Kind() != reflect.String {
+			return reflect.Value{}, fmt.Errorf("unsupported map key type %s", typ.Key())
+		}
+		ptr := reflect.New(typ)
+		if err := json.Unmarshal([]byte(raw), ptr.Interface()); err != nil {
+			return reflect.Value{}, fmt.Errorf("parse map argument as JSON: %w", err)
+		}
+		return ptr.Elem(), nil
 	default:
 		return reflect.Value{}, fmt.Errorf("unsupported parameter type %s", typ)
 	}
+}
+
+func splitCSVArg(raw string) []string {
+	raw = strings.TrimSpace(raw)
+	if raw == "" {
+		return nil
+	}
+	parts := strings.Split(raw, ",")
+	out := make([]string, 0, len(parts))
+	for _, part := range parts {
+		part = strings.TrimSpace(part)
+		if part == "" {
+			continue
+		}
+		out = append(out, part)
+	}
+	return out
 }
 
 func firstError(out []reflect.Value) error {

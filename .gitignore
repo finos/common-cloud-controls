@@ -13,6 +13,10 @@ website/src/data/test-results/**/*
 website/static/downloads/cfi/**/*
 website/src/data/ccc-releases/*
 
+# Local Go caches accidentally created in-repo during agent builds
+.gocache/
+.gomodcache/
+
 # cloud-api coverage artifacts (local runs)
 modules/cloud-api/coverage-*.out
 
@@ -33,6 +37,9 @@ modules/ccc-behavioural-plugin/catalogs
 modules/ccc-behavioural-plugin/privateer-plugin
 modules/cloud-api-test/environment-config/.keys
 
+# Local go build of modules/runner/cmd/ccc-lifecycle
+modules/runner/ccc-lifecycle
+
 # ccc module integration testing
 **/.terraform
 **/*.tfstate
@@ -48,3 +55,4 @@ modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-functio
 modules/cloud-api-test/environment-config/.keys/*.json
 modules/cloud-api-test/environment-config/.keys/*.credentials
 node_modules
+modules/cloud-api-test/terraform/aws/lambda/probe.zip

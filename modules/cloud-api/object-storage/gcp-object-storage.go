@@ -680,3 +680,7 @@ func (s *GCPStorageService) TearDown() error {
 	}
 	return nil
 }
+
+func (s *GCPStorageService) Start(string) error { return nil }
+func (s *GCPStorageService) Stop(string) error  { return nil }
+func (s *GCPStorageService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }

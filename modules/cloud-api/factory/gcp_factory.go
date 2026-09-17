@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	kubernetesapi "github.com/finos/common-cloud-controls/cloud-api/kubernetes"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
 	secretsapi "github.com/finos/common-cloud-controls/cloud-api/secrets"
@@ -76,6 +77,16 @@ func (f *GCPFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
 		}
+	case "kubernetes":
+		service, err = kubernetesapi.NewGCPService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
+		}
+	case "admission-webhook":
+		service, err = kubernetesapi.NewAdmissionWebhookService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for GCP: %s", serviceID)
@@ -127,6 +138,16 @@ func (f *GCPFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		}
 	case "secrets":
 		service, err = secretsapi.NewGCPSecretsServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "kubernetes":
+		service, err = kubernetesapi.NewGCPServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "admission-webhook":
+		service, err = kubernetesapi.NewAdmissionWebhookServiceWithIdentity(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create GCP service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}

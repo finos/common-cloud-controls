@@ -1,0 +1,235 @@
+title: CCC Managed Kubernetes Container Orchestration Capabilities
+metadata:
+    id: CCC.K8S.CP
+    type: CapabilityCatalog
+    gemara-version: v1.2.0
+    version: v2026.07-rc
+    description: Capabilities for Managed Kubernetes Container Orchestration technologies, as defined by the FINOS Common Cloud Controls project.
+    author:
+        id: FINOS-CCC
+        name: FINOS Common Cloud Controls
+        type: Human
+    mapping-references:
+        - id: CCC.Core.Capabilities
+          title: CCC Core Capabilities
+          version: v2025.10
+capabilities:
+    - id: CCC.K8S.CP01
+      title: Managed Kubernetes Control Plane
+      description: |
+        The service supplies a Kubernetes-conformant control plane whose foundational
+        components, health, and availability are automatically maintained by the provider.
+      group: Orchestration
+    - id: CCC.K8S.CP02
+      title: Managed Worker Pools
+      description: |
+        The service can organize worker nodes into managed pools that provide Kubernetes with
+        compute capacity for scheduling and running containerized workloads.
+      group: Orchestration
+    - id: CCC.K8S.CP03
+      title: Abstracted Worker Infrastructure
+      description: |
+        The service may be configured to abstract worker infrastructure so that provisioning,
+        scaling, patching, and replacement occur without exposing individual nodes to the user.
+      group: Compute
+    - id: CCC.K8S.CP04
+      title: OCI Container Image Execution
+      description: |
+        The service always accepts OCI-compatible image references and executes their
+        containerized workloads through a Kubernetes-compatible runtime.
+      group: Orchestration
+    - id: CCC.K8S.CP05
+      title: Container Registry Integration
+      description: |
+        The service can authenticate to private or public OCI-compatible registries and
+        retrieve workload images with user-configured identities and credentials.
+      group: Orchestration
+    - id: CCC.K8S.CP06
+      title: Declarative Workload Orchestration
+      description: |
+        The service automatically reconciles Kubernetes workload resources toward their
+        user-declared state by scheduling, restarting, and replacing containers as needed.
+      group: Orchestration
+    - id: CCC.K8S.CP07
+      title: Cluster Network Integration
+      description: |
+        The service can attach cluster, node, pod, and service connectivity to a
+        user-configured cloud virtual network.
+      group: Networking
+    - id: CCC.K8S.CP08
+      title: Workload Traffic Routing
+      description: |
+        The service can expose and route internal or external traffic to Kubernetes workloads
+        through services, load balancers, ingress controllers, and gateway components.
+      group: Networking
+    - id: CCC.K8S.CP09
+      title: Workload Network Policy
+      description: |
+        The service may be configured with Kubernetes network policies that enforce ingress
+        and egress boundaries between workloads and external systems.
+      group: Networking
+    - id: CCC.K8S.CP10
+      title: Cloud Identity Integration
+      description: |
+        The service can authenticate cloud identities and authorize their access to cluster
+        resources through Kubernetes and provider-native access controls.
+      group: Access
+    - id: CCC.K8S.CP11
+      title: Workload Identity Federation
+      description: |
+        The service may be configured to exchange Kubernetes service-account identity for
+        short-lived cloud credentials without placing long-lived credentials in workloads.
+      group: Access
+    - id: CCC.K8S.CP12
+      title: Secrets Service Integration
+      description: |
+        The service can present secrets, keys, and certificates from a cloud secrets service
+        to authorized Kubernetes workloads without embedding them in workload definitions.
+      group: Access
+    - id: CCC.K8S.CP13
+      title: Kubernetes Storage Provisioning
+      description: |
+        The service can dynamically provision ephemeral and persistent workload storage
+        through Kubernetes container storage interface integrations.
+      group: Data
+    - id: CCC.K8S.CP14
+      title: Managed Cluster Extensions
+      description: |
+        The service can manage the installation and lifecycle of supported extensions for
+        networking, storage, policy, observability, and workload management.
+      group: Orchestration
+    - id: CCC.K8S.CP15
+      title: Cluster Version Management
+      description: |
+        The service may be configured with upgrade channels and maintenance settings that keep
+        control-plane and worker components within provider-defined compatibility and support periods.
+      group: Resource
+    - id: CCC.K8S.CP16
+      title: Kubernetes Audit Logging
+      description: |
+        The service may be configured to emit Kubernetes API audit and control-plane records
+        to a cloud logging destination for monitoring and investigation.
+      group: Observability
+    - id: CCC.K8S.CP17
+      title: Cluster Monitoring Integration
+      description: |
+        The service can send cluster, node, workload, and network activity telemetry to
+        cloud-native or Kubernetes-compatible monitoring components.
+      group: Observability
+    - id: CCC.K8S.CP18
+      title: Admission Policy Enforcement
+      description: |
+        The service may be configured with policies, admission controllers, and webhooks that
+        validate, mutate, or reject Kubernetes API requests before persistence.
+      group: Access
+    - id: CCC.K8S.CP19
+      title: Workload Isolation Controls
+      description: |
+        The service can separate workloads with security contexts, namespace boundaries,
+        scheduling constraints, and runtime isolation settings.
+      group: Orchestration
+    - id: CCC.K8S.CP20
+      title: Hardware Accelerator Support
+      description: |
+        The service may be configured with worker pools equipped with supported hardware
+        accelerators, enabling Kubernetes to schedule workloads that request those devices.
+      group: Compute
+    - id: CCC.K8S.CP21
+      title: Cluster Infrastructure Identity
+      description: |
+        The service may be configured with distinct cloud identities for control-plane,
+        worker-node, and supporting components so their access to cloud resources can be
+        independently authorized.
+      group: Access
+    - id: CCC.K8S.CP22
+      title: Worker Node Integrity Protection
+      description: |
+        The service may be configured with trusted worker-node images and platform mechanisms
+        that verify node boot integrity before workloads are executed.
+      group: Compute
+groups:
+    - id: Orchestration
+      title: Orchestration
+      description: |
+        The Orchestration group covers entries related to coordinating and
+        managing workloads across distributed systems. This includes container
+        orchestration, job scheduling, CI/CD pipelines, build automation, and
+        service mesh management.
+    - id: Compute
+      title: Compute
+      description: |
+        The Compute group covers entries related to processing, execution, and
+        runtime infrastructure. This includes CPU, memory, storage allocation,
+        network ports, command-line interfaces, and elastic scaling.
+    - id: Networking
+      title: Networking
+      description: |
+        The Networking group covers entries related to network infrastructure,
+        connectivity, and traffic management. This includes virtual networks,
+        subnets, load balancing, DNS, routing, peering, and network-level access
+        controls.
+    - id: Access
+      title: Access Control
+      description: |
+        The Access Control group covers entries related to authentication,
+        authorization, and trust perimeter enforcement. This includes
+        multi-factor authentication, least privilege access, network access
+        rules, and prevention of unauthorized access or reconnaissance.
+    - id: Data
+      title: Data Resilience
+      description: |
+        The Data Resilience group covers entries related to ensuring data
+        availability, integrity, and sovereignty across its lifecycle. This
+        includes replication, backup, recovery, region restrictions, and
+        protection against data loss or corruption.
+    - id: Resource
+      title: Resource Management
+      description: |
+        The Resource Management group covers entries related to the lifecycle,
+        configuration, and operational integrity of cloud resources. This
+        includes resource exhaustion, tag manipulation, version rollback,
+        scaling, and cost management.
+    - id: Observability
+      title: Observability
+      description: |
+        The Observability group covers entries related to logging, monitoring,
+        metrics, alerting, and event publication. This includes audit trail
+        integrity, enumeration detection, and protection against tampering or
+        unauthorized access to operational telemetry.
+imports:
+    - entries:
+        - reference-id: CCC.Core.CP01
+          remarks: Encryption in Transit Enabled by Default
+        - reference-id: CCC.Core.CP02
+          remarks: Encryption at Rest Enabled by Default
+        - reference-id: CCC.Core.CP06
+          remarks: Access Control
+        - reference-id: CCC.Core.CP07
+          remarks: Event Publication
+        - reference-id: CCC.Core.CP14
+          remarks: API Access
+        - reference-id: CCC.Core.CP17
+          remarks: Alerting
+        - reference-id: CCC.Core.CP19
+          remarks: Child Resource Scaling
+        - reference-id: CCC.Core.CP20
+          remarks: Resource Tagging
+        - reference-id: CCC.Core.CP22
+          remarks: Location Lock-In
+        - reference-id: CCC.Core.CP23
+          remarks: Network Access Rules
+        - reference-id: CCC.Core.CP24
+          remarks: Core Processing Units
+        - reference-id: CCC.Core.CP25
+          remarks: Random Access Memory Allocation
+        - reference-id: CCC.Core.CP26
+          remarks: Persistent Storage
+        - reference-id: CCC.Core.CP27
+          remarks: Configurable Network Ports
+        - reference-id: CCC.Core.CP28
+          remarks: Command-line Interface
+        - reference-id: CCC.Core.CP29
+          remarks: Active Ingestion
+        - reference-id: CCC.Core.CP30
+          remarks: Passive Ingestion
+      reference-id: CCC.Core.Capabilities

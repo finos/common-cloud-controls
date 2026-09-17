@@ -26,6 +26,7 @@ TENANT_ID="${AZURE_TENANT_ID:-$(az account show --query tenantId -o tsv)}"
 SUBSCRIPTION_ID="${AZURE_SUBSCRIPTION_ID:-$(az account show --query id -o tsv)}"
 LOG_ANALYTICS_WORKSPACE_ID="${AZURE_LOG_ANALYTICS_WORKSPACE_ID:-}"
 VM_HOSTNAME="${AZURE_VM_HOSTNAME:-}"
+K8S_API_HOSTNAME="${AZURE_K8S_API_HOSTNAME:-}"
 
 if [[ -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
   if [[ -z "$LOG_ANALYTICS_WORKSPACE_ID" ]]; then
@@ -33,6 +34,10 @@ if [[ -f "$TFSTATE" ]] && command -v jq >/dev/null 2>&1; then
   fi
   if [[ -z "$VM_HOSTNAME" ]]; then
     VM_HOSTNAME="$(jq -r '.outputs.virtual_machines.value.host_name // empty' "$TFSTATE" | tr -d '\n')"
+  fi
+  if [[ -z "$K8S_API_HOSTNAME" ]]; then
+    K8S_API_HOSTNAME="$(jq -r '.outputs.kubernetes.value.api_endpoint // .outputs.kubernetes.value.fqdn // empty' "$TFSTATE" | tr -d '\n')"
+    K8S_API_HOSTNAME="${K8S_API_HOSTNAME#https://}"
   fi
 fi
 
@@ -65,6 +70,11 @@ USERS=(
   "test-user-write|test-user-write|Storage Blob Data Contributor|AZURE_TEST_USER_WRITE"
   "test-user-admin|test-user-admin-access|Storage Blob Data Owner|AZURE_TEST_USER_ADMIN"
 )
+
+# Kubernetes RBAC via Azure RBAC on the integration resource group (cluster may not exist yet).
+AKS_RG_SCOPE="/subscriptions/${SUBSCRIPTION_ID}/resourceGroups/${RESOURCE_GROUP}"
+AKS_WRITE_ROLE="Azure Kubernetes Service Cluster User Role"
+AKS_ADMIN_ROLE="Azure Kubernetes Service Cluster Admin Role"
 
 ensure_app_and_sp() {
   local display_name="$1" env_prefix="$2"
@@ -108,23 +118,24 @@ ensure_app_and_sp() {
 }
 
 assign_role_if_needed() {
-  local sp_id="$1" role_name="$2"
+  local sp_id="$1" role_name="$2" scope="${3:-$STORAGE_SCOPE}"
   [[ -z "$role_name" ]] && return 0
+  [[ -z "$scope" || "$scope" == "null" ]] && return 0
 
   if az role assignment list \
     --assignee "$sp_id" \
-    --scope "$STORAGE_SCOPE" \
+    --scope "$scope" \
     --role "$role_name" \
     --query "[0].id" -o tsv 2>/dev/null | grep -q .; then
-    echo "Role already assigned: $role_name"
+    echo "Role already assigned: $role_name @ $scope"
     return 0
   fi
 
-  echo "Assigning role: $role_name"
+  echo "Assigning role: $role_name @ $scope"
   az role assignment create \
     --assignee "$sp_id" \
     --role "$role_name" \
-    --scope "$STORAGE_SCOPE" \
+    --scope "$scope" \
     --output none
 }
 
@@ -137,6 +148,7 @@ assign_role_if_needed() {
   printf 'export AZURE_SUBSCRIPTION_ID=%q\n' "$SUBSCRIPTION_ID"
   [[ -n "$LOG_ANALYTICS_WORKSPACE_ID" ]] && printf 'export AZURE_LOG_ANALYTICS_WORKSPACE_ID=%q\n' "$LOG_ANALYTICS_WORKSPACE_ID"
   [[ -n "$VM_HOSTNAME" ]] && printf 'export AZURE_VM_HOSTNAME=%q\n' "$VM_HOSTNAME"
+  [[ -n "$K8S_API_HOSTNAME" ]] && printf 'export AZURE_K8S_API_HOSTNAME=%q\n' "$K8S_API_HOSTNAME"
   printf 'export STALE_VERSION_ID=%q\n' "$STALE_VERSION_ID"
   echo ""
 } >"$OUT_FILE"
@@ -147,7 +159,15 @@ for spec in "${USERS[@]}"; do
 
   echo "--- $display_name ---"
   ensure_app_and_sp "$display_name" "$env_prefix"
-  assign_role_if_needed "$SP_ID_RESULT" "$role_name"
+  assign_role_if_needed "$SP_ID_RESULT" "$role_name" "$STORAGE_SCOPE"
+  case "$env_prefix" in
+    AZURE_TEST_USER_WRITE)
+      assign_role_if_needed "$SP_ID_RESULT" "$AKS_WRITE_ROLE" "$AKS_RG_SCOPE"
+      ;;
+    AZURE_TEST_USER_ADMIN)
+      assign_role_if_needed "$SP_ID_RESULT" "$AKS_ADMIN_ROLE" "$AKS_RG_SCOPE"
+      ;;
+  esac
 
   {
     printf 'export %s_CLIENT_ID=%q\n' "$env_prefix" "$APP_ID_RESULT"

@@ -806,3 +806,7 @@ func (s *AWSS3Service) TearDown() error {
 	}
 	return nil
 }
+
+func (s *AWSS3Service) Start(string) error { return nil }
+func (s *AWSS3Service) Stop(string) error  { return nil }
+func (s *AWSS3Service) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
