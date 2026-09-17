@@ -82,15 +82,21 @@ async function runBatchCompile(version: string): Promise<void> {
 
     console.log(`📋 Compiling into ${STAGING_DIR}\n`);
 
-    await execFileAsync(
+    const { stdout, stderr } = await execFileAsync(
         'bash',
-        [BATCH_COMPILE_SCRIPT, '--version', version, '--output-dir', STAGING_DIR],
+        [BATCH_COMPILE_SCRIPT, '--version', version, '--output-dir', STAGING_DIR, '--strict'],
         {
             cwd: REPO_ROOT,
             env: { ...process.env, VERSION: version },
             maxBuffer: 10 * 1024 * 1024,
         }
     );
+    if (stdout.trim()) {
+        console.log(stdout.trimEnd());
+    }
+    if (stderr.trim()) {
+        console.error(stderr.trimEnd());
+    }
 }
 
 function moveCompiledAsset(

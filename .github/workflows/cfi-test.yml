@@ -84,6 +84,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Set up Go
+        uses: ./.github/actions/setup-go-workspace
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
