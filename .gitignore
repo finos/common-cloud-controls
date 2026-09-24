@@ -48,3 +48,11 @@ modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-functio
 modules/cloud-api-test/environment-config/.keys/*.json
 modules/cloud-api-test/environment-config/.keys/*.credentials
 node_modules
+
+# Local Go caches (when GOCACHE / GOMODCACHE are pointed into the repo)
+.gocache/
+.gomodcache/
+
+# runner build artifacts
+modules/runner/ccc-lifecycle
+modules/runner/ccc-compliance
