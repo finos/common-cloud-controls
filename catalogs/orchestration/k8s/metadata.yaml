@@ -49,8 +49,8 @@ metadata:
       url: https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
     - id: CRI
       title: Cyber Risk Institute Profile
-      version: ""
-      url: https://cyberriskinstitute.org/the-profile/
+      version: "v2.2"
+      url: https://cyberriskinstitute.org/wp-content/uploads/2024/04/Final-CRI-Profile-v2-Guidebook-Public-2024-04-03.pdf
     - id: DORA
       title: Digital Operational Resilience Act
       version: "EU 2022/2554"
