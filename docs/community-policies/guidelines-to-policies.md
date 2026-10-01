@@ -12,7 +12,7 @@ In order for a community guideline to become a community policy, the guideline m
 
 [community policy]: ./README.md
 [Policies]: ../community-policies
-[vote]: ../governance/steering/charter.md#voting
+[vote]: ../governance/steering/process.md#voting
 [SC]: ../governance/community-structure.md#steering-committee
 [Community Structure WG]: ../governance/community-structure.md#working-groups
 [GitVote]: https://github.com/cncf/gitvote
