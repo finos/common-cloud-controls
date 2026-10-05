@@ -15,5 +15,6 @@ Add the most recent decision to the top of the table.
 
 | Date | Decision | Outcome | Pull Request |
 | ---- | -------- | ------- | ------------ |
+| 2026-10-02 | Allow anyone to raise a TSC decision, and decide governance-process changes by the standard vote | Passed | [finos/common-cloud-controls#1229](https://github.com/finos/common-cloud-controls/pull/1229) |
 | 2026-09-25 | Adopt the TSC governance model and Technical Charter | Passed | [finos/common-cloud-controls#1207](https://github.com/finos/common-cloud-controls/pull/1207) |
 | _YYYY-MM-DD_ | _Short description of what was decided_ | _Passed / Rejected_ | _Link to the pull request_ |
