@@ -133,21 +133,28 @@ resolve_live_vm_hostname() {
       ;;
     gcp)
       if command -v gcloud >/dev/null 2>&1; then
-        local zone="${GCP_ZONE:-}"
+        local zone status
+        zone="${GCP_ZONE:-}"
         if [[ -z "$zone" ]]; then
           zone="$(gcloud compute instances list --filter="name=${vm_name}" --format='value(zone.basename())' 2>/dev/null | head -n1 | tr -d '\n' || true)"
         fi
         if [[ -n "$zone" ]]; then
+          status="$(gcloud compute instances describe "$vm_name" --zone="$zone" \
+            --format='get(status)' 2>/dev/null | tr -d '\n' || true)"
           ip="$(gcloud compute instances describe "$vm_name" --zone="$zone" \
             --format='get(networkInterfaces[0].accessConfigs[0].natIP)' 2>/dev/null | tr -d '\n' || true)"
+        fi
+        if [[ -n "$status" && "$status" != "RUNNING" && "$status" != "STAGING" ]]; then
+          echo "error: GCE fixture $vm_name is $status (want RUNNING) in zone ${zone:-unknown}; re-run scale-fixtures start" >&2
+          exit 1
         fi
       fi
       if [[ -n "$ip" && "$ip" != "None" && "$ip" != "null" ]]; then
         export GCP_VM_HOSTNAME="$ip"
         echo "==> GCP_VM_HOSTNAME from live GCE public IP: $ip"
       else
-        unset GCP_VM_HOSTNAME || true
-        echo "==> GCP_VM_HOSTNAME unset (no running fixture public IP; cloud-api will discover after Start)" >&2
+        echo "error: GCE fixture $vm_name has no public NatIP after Start (zone=${zone:-unknown} status=${status:-unknown})" >&2
+        exit 1
       fi
       ;;
   esac

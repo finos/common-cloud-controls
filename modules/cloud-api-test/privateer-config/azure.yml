@@ -49,6 +49,7 @@ services:
       webhook-probe-service: "ccc-admission-webhook-probe"
       webhook-probe-configuration: "ccc-admission-webhook-probe"
       webhook-probe-enabled-replicas: "1"
+      webhook-probe-timeout-ms: "120000"
       reachability-probe-mode: "${REACHABILITY_PROBE_MODE}"
       reachability-probe-url: "${REACHABILITY_PROBE_URL}"
       reachability-probe-shared-secret: "${REACHABILITY_PROBE_SHARED_SECRET}"

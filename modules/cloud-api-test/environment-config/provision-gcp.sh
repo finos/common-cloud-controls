@@ -114,8 +114,9 @@ json_for_env() {
   jq -c . "$1"
 }
 
+# Emit a live public IP only — never the instance name (that breaks inbound discovery).
 guess_vm_hostname() {
-  if [[ -n "${GCP_VM_HOSTNAME:-}" ]]; then
+  if [[ -n "${GCP_VM_HOSTNAME:-}" ]] && [[ "$GCP_VM_HOSTNAME" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo "$GCP_VM_HOSTNAME"
     return
   fi
@@ -123,17 +124,26 @@ guess_vm_hostname() {
   if [[ -f "$tfstate" ]] && command -v jq >/dev/null 2>&1; then
     local from_state
     from_state="$(jq -r '.outputs.virtual_machines.value.host_name // empty' "$tfstate" | tr -d '\n')"
-    if [[ -n "$from_state" ]]; then
+    if [[ -n "$from_state" ]] && [[ "$from_state" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
       echo "$from_state"
       return
     fi
   fi
-  local vm_name
-  vm_name="$(gcloud compute instances list \
+  local zone ip
+  zone="$(gcloud compute instances list \
     --project "$PROJECT_ID" \
-    --format='value(name)' \
-    --filter='name~finos-ccc-integration-vm-main' 2>/dev/null | head -n 1 || true)"
-  echo "${vm_name:-finos-ccc-integration-vm-main}"
+    --filter='name=finos-ccc-integration-vm-main AND status=RUNNING' \
+    --format='value(zone.basename())' 2>/dev/null | head -n 1 | tr -d '\n' || true)"
+  if [[ -n "$zone" ]]; then
+    ip="$(gcloud compute instances describe finos-ccc-integration-vm-main \
+      --project "$PROJECT_ID" --zone="$zone" \
+      --format='get(networkInterfaces[0].accessConfigs[0].natIP)' 2>/dev/null | tr -d '\n' || true)"
+    if [[ -n "$ip" && "$ip" != "None" && "$ip" != "null" ]]; then
+      echo "$ip"
+      return
+    fi
+  fi
+  echo ""
 }
 
 guess_k8s_api_hostname() {

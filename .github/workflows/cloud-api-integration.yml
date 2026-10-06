@@ -147,6 +147,23 @@ jobs:
             -c "modules/cloud-api-test/privateer-config/${PROVIDER}.yml" \
             -S integration \
             -s virtual-machines,kubernetes
+          # After Start, pin the live VM public IP for Privateer host-name (ephemeral NatIP).
+          if [[ "$PROVIDER" == "gcp" ]]; then
+            vm_name="finos-ccc-integration-vm-main"
+            zone="$(gcloud compute instances list --filter="name=${vm_name}" --format='value(zone.basename())' | head -n1 | tr -d '\n')"
+            status="$(gcloud compute instances describe "$vm_name" --zone="$zone" --format='get(status)' | tr -d '\n')"
+            ip="$(gcloud compute instances describe "$vm_name" --zone="$zone" --format='get(networkInterfaces[0].accessConfigs[0].natIP)' | tr -d '\n')"
+            echo "GCE fixture status=$status zone=$zone natIP=${ip:-<empty>}"
+            if [[ "$status" != "RUNNING" && "$status" != "STAGING" ]]; then
+              echo "error: GCE fixture $vm_name is $status after scale-fixtures start" >&2
+              exit 1
+            fi
+            if [[ -z "$ip" || "$ip" == "None" || "$ip" == "null" ]]; then
+              echo "error: GCE fixture $vm_name has no public NatIP after scale-fixtures start" >&2
+              exit 1
+            fi
+            echo "GCP_VM_HOSTNAME=$ip" >> "$GITHUB_ENV"
+          fi
 
       - name: Run integration tests
         working-directory: modules/cloud-api-test

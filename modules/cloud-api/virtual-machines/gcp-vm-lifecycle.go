@@ -20,41 +20,42 @@ func (s *GCPVirtualMachinesService) Start(resourceID string) error {
 	}
 	switch strings.ToUpper(inst.Status) {
 	case "RUNNING":
-		return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on GCE instance %q", name), func() (bool, error) {
-			ip, err := s.discoverPublicIP(name)
-			return ip != "", err
-		})
+		// already up — wait for NatIP below
 	case "STAGING":
 		if err := s.waitInstanceStatus(client, project, zone, name, "RUNNING", 10*time.Minute); err != nil {
 			return err
 		}
-		return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on GCE instance %q", name), func() (bool, error) {
-			ip, err := s.discoverPublicIP(name)
-			return ip != "", err
-		})
 	case "STOPPING", "SUSPENDING":
 		if err := s.waitInstanceStatus(client, project, zone, name, "TERMINATED", 10*time.Minute); err != nil {
 			return err
 		}
+		fallthrough
 	case "TERMINATED", "STOPPED":
-		// continue to start
+		op, err := client.Instances.Start(project, zone, name).Context(s.ctx).Do()
+		if err != nil {
+			return fmt.Errorf("start GCE instance %q: %w", name, err)
+		}
+		if err := s.waitZoneOp(client, project, zone, op.Name, 10*time.Minute); err != nil {
+			return err
+		}
+		if err := s.waitInstanceStatus(client, project, zone, name, "RUNNING", 10*time.Minute); err != nil {
+			return err
+		}
 	default:
 		return fmt.Errorf("cannot start GCE instance %q in status %q", name, inst.Status)
 	}
-	op, err := client.Instances.Start(project, zone, name).Context(s.ctx).Do()
-	if err != nil {
-		return fmt.Errorf("start GCE instance %q: %w", name, err)
-	}
-	if err := s.waitZoneOp(client, project, zone, op.Name, 10*time.Minute); err != nil {
-		return err
-	}
-	if err := s.waitInstanceStatus(client, project, zone, name, "RUNNING", 10*time.Minute); err != nil {
-		return err
-	}
-	return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on GCE instance %q", name), func() (bool, error) {
+	if err := waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on GCE instance %q", name), func() (bool, error) {
 		ip, err := s.discoverPublicIP(name)
 		return ip != "", err
-	})
+	}); err != nil {
+		return err
+	}
+	ip, err := s.discoverPublicIP(name)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("==> GCE instance %q started: status=RUNNING zone=%s natIP=%s\n", name, zone, ip)
+	return nil
 }
 
 func (s *GCPVirtualMachinesService) Stop(resourceID string) error {
