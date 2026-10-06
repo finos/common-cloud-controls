@@ -19,8 +19,13 @@ variable "kubernetes_version_prefix" {
 
 variable "node_machine_type" {
   type        = string
-  description = "Economical node type for single-node pools."
-  default     = "e2-medium"
+  description = <<-EOT
+    Node type for the single-node MAIN pool. Prefer a dedicated-core SKU:
+    e2-medium is shared-core and only exposes ~940m allocatable CPU after GKE
+    reservations, which is less than kube-system + Calico + fixture requests
+    and leaves SetBackendAvailability(true) Pending after scale-to-zero.
+  EOT
+  default     = "e2-standard-2"
 }
 
 variable "node_locations" {

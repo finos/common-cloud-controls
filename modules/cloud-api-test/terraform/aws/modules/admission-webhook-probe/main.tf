@@ -122,12 +122,12 @@ resource "kubernetes_deployment_v1" "probe" {
           # Placeholder pause image has no listener; omit probes so the Deployment can become Ready for bring-up.
           resources {
             requests = {
-              cpu    = "50m"
-              memory = "64Mi"
+              cpu    = "10m"
+              memory = "16Mi"
             }
             limits = {
-              cpu    = "200m"
-              memory = "128Mi"
+              cpu    = "100m"
+              memory = "64Mi"
             }
           }
           security_context {
