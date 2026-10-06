@@ -1,0 +1,7 @@
+# Skip factory APIs (or optional methods) for specific clouds.
+# cloud must be aws|azure|gcp (not all). Empty method = exclude whole api.
+api,cloud,method
+kubernetes,aws,
+kubernetes,gcp,
+admission-webhook,aws,
+admission-webhook,gcp,

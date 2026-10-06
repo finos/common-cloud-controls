@@ -27,11 +27,12 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 1. Loads `privateer-config/{aws,azure,gcp}.yml` (minimal vars for CSV + cloud-api).
 2. Reads `integration_calls.csv`: `api` (factory service id), `method`, `cloud` (`aws`|`azure`|`gcp`|`all`), `expect_error`, `arg1`…`arg5`.
 3. Skips rows whose `cloud` does not match `INTEGRATION_PROVIDER`.
-4. Resolves each `api` via `factory.GetServiceAPI` and invokes `method` by reflection.
-5. `expect_error=true` → pass only if the call returns an error; otherwise pass only if it succeeds.
-6. `DeleteObject` / `DeleteBucket` run for `object-storage` only; other `Delete*` methods are skipped.
-7. Calls `factory.TearDown()` once at the end.
-8. Writes per-provider results and Go coverage over `modules/cloud-api/...`.
+4. Applies `integration_exclusions.csv` to drop entire APIs (or specific methods) for the current provider.
+5. Resolves each `api` via `factory.GetServiceAPI` and invokes `method` by reflection.
+6. `expect_error=true` → pass only if the call returns an error; otherwise pass only if it succeeds.
+7. `DeleteObject` / `DeleteBucket` run for `object-storage` only; other `Delete*` methods are skipped.
+8. Calls `factory.TearDown()` once at the end.
+9. Writes per-provider results and Go coverage over `modules/cloud-api/...`.
 
 ### Kubernetes note
 
@@ -51,6 +52,22 @@ logging,QueryLogs,all,,finos-ccc-integration-fn-main,admin,60,,
 - `arg5`: used for methods with five parameters (comma-separated values may coerce to `[]int` / `[]string`).
 
 Args may use `config:<var>` to pull a Privateer config value (for example a manifest string).
+
+### Exclusions
+
+`integration_exclusions.csv` skips calls for specific clouds without editing every matching row in `integration_calls.csv`:
+
+```csv
+api,cloud,method
+kubernetes,aws,
+kubernetes,gcp,
+admission-webhook,aws,
+admission-webhook,gcp,
+```
+
+- `cloud`: must be `aws`, `azure`, or `gcp` (not `all`).
+- `method`: empty = exclude the whole factory `api` on that cloud; set to skip one method only.
+- Prefer exclusions for whole APIs that are not provisioned on a cloud; use the calls CSV `cloud` column for a single arg-specific row (for example k8s log queries on Azure only).
 
 ## Run locally
 

@@ -133,4 +133,4 @@ kubernetes,TriggerDataWrite,all,,finos-ccc-integration-k8s-main,,,
 kubernetes,TriggerDataRead,all,,finos-ccc-integration-k8s-main,,,
 kubernetes,GetResourceRegion,all,,finos-ccc-integration-k8s-main,,,
 kubernetes,ResetAccess,all,,,,
-logging,QueryLogs,all,,finos-ccc-integration-k8s-main,admin,60
+logging,QueryLogs,azure,,finos-ccc-integration-k8s-main,admin,60

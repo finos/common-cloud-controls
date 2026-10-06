@@ -13,6 +13,9 @@ import (
 //go:embed integration_calls.csv
 var integrationCallsCSV string
 
+//go:embed integration_exclusions.csv
+var integrationExclusionsCSV string
+
 const integrationServiceID = "integration"
 
 func providerConfigFile(provider string) string {
@@ -27,7 +30,80 @@ type callRow struct {
 	Args        []string
 }
 
+// exclusionSet maps "api|cloud" (whole API) or "api|cloud|method" (one method).
+type exclusionSet map[string]struct{}
+
+func loadExclusions(csvData string) (exclusionSet, error) {
+	r := csv.NewReader(strings.NewReader(csvData))
+	r.Comment = '#'
+	r.FieldsPerRecord = -1
+	records, err := r.ReadAll()
+	if err != nil {
+		return nil, err
+	}
+	if len(records) < 1 {
+		return exclusionSet{}, nil
+	}
+	header := records[0]
+	col := map[string]int{}
+	for i, h := range header {
+		col[strings.TrimSpace(h)] = i
+	}
+	for _, required := range []string{"api", "cloud"} {
+		if _, ok := col[required]; !ok {
+			return nil, fmt.Errorf("exclusions: missing column %q", required)
+		}
+	}
+	get := func(rec []string, name string) string {
+		i, ok := col[name]
+		if !ok || i >= len(rec) {
+			return ""
+		}
+		return strings.TrimSpace(rec[i])
+	}
+	out := exclusionSet{}
+	for _, rec := range records[1:] {
+		if len(rec) == 0 {
+			continue
+		}
+		api := get(rec, "api")
+		cloud := strings.ToLower(get(rec, "cloud"))
+		if api == "" || cloud == "" {
+			continue
+		}
+		if cloud == "all" {
+			return nil, fmt.Errorf("exclusions: cloud %q is not allowed; use aws, azure, or gcp", cloud)
+		}
+		method := get(rec, "method")
+		if method == "" {
+			out[api+"|"+cloud] = struct{}{}
+		} else {
+			out[api+"|"+cloud+"|"+method] = struct{}{}
+		}
+	}
+	return out, nil
+}
+
+func (e exclusionSet) matches(api, method, provider string) bool {
+	if e == nil {
+		return false
+	}
+	if _, ok := e[api+"|"+provider]; ok {
+		return true
+	}
+	_, ok := e[api+"|"+provider+"|"+method]
+	return ok
+}
+
 func loadCallRows(csvData, provider string) ([]callRow, error) {
+	return loadCallRowsWithExclusions(csvData, integrationExclusionsCSV, provider)
+}
+
+func loadCallRowsWithExclusions(csvData, exclusionsCSV, provider string) ([]callRow, error) {
+	exclusions, err := loadExclusions(exclusionsCSV)
+	if err != nil {
+		return nil, err
+	}
 	r := csv.NewReader(strings.NewReader(csvData))
 	r.Comment = '#'
 	r.FieldsPerRecord = -1
@@ -82,6 +158,9 @@ func loadCallRows(csvData, provider string) ([]callRow, error) {
 			cloud = "all"
 		}
 		if cloud != "all" && cloud != provider {
+			continue
+		}
+		if exclusions.matches(api, method, provider) {
 			continue
 		}
 		expectErr := false
