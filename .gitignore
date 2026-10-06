@@ -48,3 +48,6 @@ modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-functio
 modules/cloud-api-test/environment-config/.keys/*.json
 modules/cloud-api-test/environment-config/.keys/*.credentials
 node_modules
+
+/.gomodcache
+/.gocache
