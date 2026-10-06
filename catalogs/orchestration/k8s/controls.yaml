@@ -73,6 +73,12 @@ controls:
             remarks: Boundary Protection
           - reference-id: AC-17
             remarks: Remote Access
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.PS-01.02
+            remarks: Least functionality
+          - reference-id: PR.IR-01.01
+            remarks: Network segmentation
 
   - id: CCC.K8S.CN02
     group: Access
@@ -127,6 +133,12 @@ controls:
             remarks: Access Enforcement
           - reference-id: AC-6
             remarks: Least Privilege
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.AA-05.01
+            remarks: Access privilege limitation
+          - reference-id: PR.AA-05.03
+            remarks: Service accounts
 
   - id: CCC.K8S.CN03
     group: Access
@@ -180,6 +192,12 @@ controls:
             remarks: Least Privilege
           - reference-id: IA-5
             remarks: Authenticator Management
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.AA-04.01
+            remarks: Access control within and across security perimeters
+          - reference-id: PR.AA-05.01
+            remarks: Access privilege limitation
 
   - id: CCC.K8S.CN04
     group: Resource
@@ -236,6 +254,14 @@ controls:
             remarks: Software, Firmware, and Information Integrity
           - reference-id: SR-11
             remarks: Component Authenticity
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.PS-01.01
+            remarks: Configuration baselines
+          - reference-id: DE.CM-09.03
+            remarks: Unauthorized software, hardware, or configuration changes
+          - reference-id: DE.CM-09.01
+            remarks: Software and data integrity checking
 
   - id: CCC.K8S.CN05
     group: Compute
@@ -285,6 +311,12 @@ controls:
             remarks: Least Privilege
           - reference-id: CM-7
             remarks: Least Functionality
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.PS-01.02
+            remarks: Least functionality
+          - reference-id: PR.AA-05.01
+            remarks: Access privilege limitation
 
   - id: CCC.K8S.CN06
     group: Networking
@@ -334,6 +366,12 @@ controls:
             remarks: Information Flow Enforcement
           - reference-id: SC-7
             remarks: Boundary Protection
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.IR-01.01
+            remarks: Network segmentation
+          - reference-id: PR.IR-01.02
+            remarks: Network device configurations
 
   - id: CCC.K8S.CN07
     group: Access
@@ -385,6 +423,10 @@ controls:
             remarks: Authenticator Management
           - reference-id: SC-28
             remarks: Protection of Information at Rest
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.PS-01.06
+            remarks: Encryption management practices
 
   - id: CCC.K8S.CN08
     group: Orchestration
@@ -418,6 +460,12 @@ controls:
             remarks: Software, Firmware, and Information Integrity
           - reference-id: SR-3
             remarks: Supply Chain Controls and Processes
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.PS-01.01
+            remarks: Configuration baselines
+          - reference-id: PR.PS-01.02
+            remarks: Least functionality
 
   - id: CCC.K8S.CN09
     group: Resource
@@ -475,6 +523,14 @@ controls:
             remarks: System Component Inventory
           - reference-id: SI-2
             remarks: Flaw Remediation
+      - reference-id: CRI
+        entries:
+          - reference-id: ID.RA-07.01
+            remarks: Change management standards and procedures
+          - reference-id: PR.PS-06.06
+            remarks: Vulnerability remediation
+          - reference-id: PR.PS-06.07
+            remarks: Development and operational process alignment
 
   - id: CCC.K8S.CN10
     group: Data
@@ -521,6 +577,10 @@ controls:
             remarks: Access Enforcement
           - reference-id: AC-4
             remarks: Information Flow Enforcement
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.PS-01.01
+            remarks: Configuration baselines
 
   - id: CCC.K8S.CN11
     group: Access
@@ -583,6 +643,12 @@ controls:
             remarks: Configuration Settings
           - reference-id: SI-7
             remarks: Software, Firmware, and Information Integrity
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.PS-01.01
+            remarks: Configuration baselines
+          - reference-id: DE.CM-09.03
+            remarks: Unauthorized software, hardware, or configuration changes
 
   - id: CCC.K8S.CN12
     group: Access
@@ -643,6 +709,14 @@ controls:
             remarks: Least Functionality
           - reference-id: IA-2
             remarks: Identification and Authentication (Organizational Users)
+      - reference-id: CRI
+        entries:
+          - reference-id: DE.CM-01.03
+            remarks: Unauthorized network connections and data transfers
+          - reference-id: DE.CM-06.01
+            remarks: Third-party connection authorization
+          - reference-id: DE.CM-06.02
+            remarks: Third-party access monitoring
 
   - id: CCC.K8S.CN13
     group: Resource
@@ -698,6 +772,12 @@ controls:
         entries:
           - reference-id: SC-5
             remarks: Denial-of-service Protection
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.IR-04.01
+            remarks: Utilization monitoring
+          - reference-id: DE.CM-01.02
+            remarks: Network traffic volume monitoring
 
   - id: CCC.K8S.CN14
     group: Observability
@@ -779,6 +859,12 @@ controls:
             remarks: Protection of Audit Information
           - reference-id: AU-12
             remarks: Audit Record Generation
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.PS-04.01
+            remarks: Log management standards
+          - reference-id: PR.IR-04.01
+            remarks: Utilization monitoring
 
   - id: CCC.K8S.CN15
     group: Resource
@@ -828,6 +914,10 @@ controls:
             remarks: Configuration Change Control
           - reference-id: CM-8
             remarks: System Component Inventory
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.AA-05.01
+            remarks: Access privilege limitation
 
   - id: CCC.K8S.CN16
     group: Access
@@ -880,6 +970,14 @@ controls:
             remarks: Identification and Authentication (Organizational Users)
           - reference-id: IA-5
             remarks: Authenticator Management
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.AA-01.01
+            remarks: Identity and credential management
+          - reference-id: PR.AA-02.01
+            remarks: Authentication of identity
+          - reference-id: DE.CM-03.01
+            remarks: Access activity logging and monitoring
 
   - id: CCC.K8S.CN17
     group: Access
@@ -928,6 +1026,10 @@ controls:
             remarks: Account Management
           - reference-id: AC-6
             remarks: Least Privilege
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.AA-05.01
+            remarks: Access privilege limitation
 
   - id: CCC.K8S.CN18
     group: Compute
@@ -981,3 +1083,9 @@ controls:
             remarks: Flaw Remediation
           - reference-id: SI-7
             remarks: Software, Firmware, and Information Integrity
+      - reference-id: CRI
+        entries:
+          - reference-id: DE.CM-09.01
+            remarks: Software and data integrity checking
+          - reference-id: DE.CM-09.03
+            remarks: Unauthorized software, hardware, or configuration changes

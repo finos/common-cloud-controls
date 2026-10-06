@@ -1,0 +1,61 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 1.25rem;
+  max-width: 66rem;
+  padding: 2rem 1rem;
+}
+
+.card {
+  border: 1px solid var(--gf-color-accent-soft);
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.2s;
+  text-align: center;
+  max-width: 22rem;
+  flex: 1 1 14rem;
+  background: var(--gf-color-surface);
+}
+
+.card:hover {
+  border-color: var(--gf-color-accent);
+}
+
+.card:hover .label {
+  color: var(--gf-color-text);
+}
+
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--gf-color-background-strong);
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  min-height: 10rem;
+}
+
+.logo {
+  height: 5rem;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.body {
+  padding: 1rem;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gf-color-text);
+  transition: color 0.2s;
+}
