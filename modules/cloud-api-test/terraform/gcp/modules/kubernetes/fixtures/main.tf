@@ -323,7 +323,7 @@ resource "kubectl_manifest" "vap_static_creds" {
         }]
       }
       validations = [{
-        expression = "!object.spec.containers.exists(c, c.env.exists(e, e.name in ['AWS_ACCESS_KEY_ID','AWS_SECRET_ACCESS_KEY','AZURE_CLIENT_SECRET','GOOGLE_APPLICATION_CREDENTIALS']))"
+        expression = "!object.spec.containers.exists(c, has(c.env) && c.env.exists(e, e.name in ['AWS_ACCESS_KEY_ID','AWS_SECRET_ACCESS_KEY','AZURE_CLIENT_SECRET','GOOGLE_APPLICATION_CREDENTIALS']))"
         message    = "static cloud credentials must not be embedded in workloads"
       }]
     }

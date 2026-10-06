@@ -2,7 +2,8 @@
 # Image is busybox so Jobs can wget/httpd without a custom FINOS image push.
 
 locals {
-  network_probe_image = "busybox:1.36"
+  # Digest-pinned: ccc-test VAP (ccc-deny-tag-only-images) rejects tag-only refs.
+  network_probe_image = "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662"
   network_listeners = {
     control = {
       namespace = kubernetes_namespace_v1.network_control.metadata[0].name

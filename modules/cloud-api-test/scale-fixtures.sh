@@ -31,8 +31,8 @@ Usage:
                                  (default: virtual-machines,kubernetes)
   -p, --providers LIST           Providers for discover mode (default: aws,azure,gcp)
 
-APIs listed in integration_exclusions.csv are skipped per provider —
-e.g. kubernetes is not started/stopped on aws or gcp.
+APIs listed in integration_exclusions.csv are skipped per provider
+  (header-only when every cloud provisions the APIs under test).
 
   -h, --help                     Show help
 EOF

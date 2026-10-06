@@ -47,12 +47,12 @@ func (a *Azure) SetPower(clusterID, action, wantPower string, deadline time.Time
 	if err != nil {
 		return err
 	}
-	if strings.EqualFold(status.Power, wantPower) {
-		return nil
+	if aksAlreadyAtPower(status, wantPower) {
+		return a.WaitPowerState(clusterID, wantPower, deadline)
 	}
-	if strings.EqualFold(action, "stop") && strings.EqualFold(status.ProvisioningState, "Failed") {
-		// Failed AKS clusters cannot be stopped until reconciled; do not fail fixture teardown.
-		fmt.Printf("==> stop AKS %q skipped: provisioningState=Failed (reconcile with az aks update)\n", clusterID)
+	if strings.EqualFold(status.ProvisioningState, "Failed") {
+		// Failed AKS clusters cannot be started/stopped until reconciled.
+		fmt.Printf("==> %s AKS %q skipped: provisioningState=Failed (reconcile with az aks update)\n", action, clusterID)
 		return nil
 	}
 
@@ -65,6 +65,10 @@ func (a *Azure) SetPower(clusterID, action, wantPower string, deadline time.Time
 			if isAKSStopBlockedByFailedState(err) {
 				fmt.Printf("==> stop AKS %q skipped: %v\n", clusterID, err)
 				return nil
+			}
+			if isAKSStartAlreadyRunning(err) {
+				fmt.Printf("==> start AKS %q skipped: cluster is not stopped\n", clusterID)
+				return a.WaitPowerState(clusterID, wantPower, deadline)
 			}
 			if !IsAKSOperationInProgress(err) {
 				return err
@@ -147,6 +151,10 @@ func (a *Azure) PowerStatus(clusterID string) (PowerStatus, error) {
 		return PowerStatus{}, fmt.Errorf("decode AKS cluster power state: %w", err)
 	}
 	power := payload.Properties.PowerState.Code
+	if power == "" && strings.EqualFold(payload.Properties.ProvisioningState, "Succeeded") {
+		// AKS often omits powerState on a healthy running cluster.
+		power = "Running"
+	}
 	if power == "" {
 		power = payload.Properties.ProvisioningState
 	}
@@ -154,6 +162,18 @@ func (a *Azure) PowerStatus(clusterID string) (PowerStatus, error) {
 		Power:             power,
 		ProvisioningState: payload.Properties.ProvisioningState,
 	}, nil
+}
+
+func aksAlreadyAtPower(status PowerStatus, want string) bool {
+	power := strings.ToLower(strings.TrimSpace(status.Power))
+	switch strings.ToLower(strings.TrimSpace(want)) {
+	case "running":
+		return power == "running" || power == "starting"
+	case "stopped":
+		return power == "stopped" || power == "stopping"
+	default:
+		return strings.EqualFold(status.Power, want)
+	}
 }
 
 func aksProvisioningSettled(state string) bool {
@@ -249,12 +269,20 @@ func IsAKSOperationInProgress(err error) bool {
 		return false
 	}
 	msg := err.Error()
-	if isAKSStopBlockedByFailedState(err) {
+	if isAKSStopBlockedByFailedState(err) || isAKSStartAlreadyRunning(err) {
 		return false
 	}
 	return strings.Contains(msg, "HTTP 409") ||
 		strings.Contains(msg, "AnotherOperationInProgress") ||
 		(strings.Contains(msg, "OperationNotAllowed") && strings.Contains(msg, "in-progress"))
+}
+
+func isAKSStartAlreadyRunning(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := err.Error()
+	return strings.Contains(msg, "only allowed on a stopped cluster")
 }
 
 func isAKSStopBlockedByFailedState(err error) bool {

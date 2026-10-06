@@ -33,7 +33,7 @@ locals {
   }
 }
 
-# Dedicated VPC for the integration cluster (one NAT).
+# Dedicated VPC: public subnets only (no NAT). Matches Azure's cheap public AKS fixture.
 resource "aws_vpc" "k8s" {
   cidr_block           = "10.80.0.0/16"
   enable_dns_hostnames = true
@@ -51,6 +51,7 @@ resource "aws_internet_gateway" "k8s" {
   })
 }
 
+# EKS still requires two AZs; both subnets are public so the single node needs no NAT.
 resource "aws_subnet" "public" {
   count                   = 2
   vpc_id                  = aws_vpc.k8s.id
@@ -62,34 +63,6 @@ resource "aws_subnet" "public" {
     Name                     = "finos-ccc-integration-k8s-public-${count.index}"
     "kubernetes.io/role/elb" = "1"
   })
-}
-
-resource "aws_subnet" "private" {
-  count             = 2
-  vpc_id            = aws_vpc.k8s.id
-  cidr_block        = cidrsubnet(aws_vpc.k8s.cidr_block, 4, count.index + 8)
-  availability_zone = local.azs[count.index]
-
-  tags = merge(local.cluster_tags, {
-    Name                              = "finos-ccc-integration-k8s-private-${count.index}"
-    "kubernetes.io/role/internal-elb" = "1"
-  })
-}
-
-resource "aws_eip" "nat" {
-  domain = "vpc"
-  tags = merge(local.cluster_tags, {
-    Name = "finos-ccc-integration-k8s-nat-eip"
-  })
-}
-
-resource "aws_nat_gateway" "k8s" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public[0].id
-  tags = merge(local.cluster_tags, {
-    Name = "finos-ccc-integration-k8s-nat"
-  })
-  depends_on = [aws_internet_gateway.k8s]
 }
 
 resource "aws_route_table" "public" {
@@ -105,21 +78,6 @@ resource "aws_route_table_association" "public" {
   count          = 2
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
-}
-
-resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.k8s.id
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.k8s.id
-  }
-  tags = merge(local.cluster_tags, { Name = "finos-ccc-integration-k8s-private-rt" })
-}
-
-resource "aws_route_table_association" "private" {
-  count          = 2
-  subnet_id      = aws_subnet.private[count.index].id
-  route_table_id = aws_route_table.private.id
 }
 
 resource "aws_kms_key" "secrets" {
@@ -240,17 +198,17 @@ resource "aws_iam_role_policy_attachment" "ebs_csi" {
   policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
-# Compliant MAIN cluster: private+CIDR-locked public API, secrets encryption, logging.
+# Cheap MAIN cluster: public API (0.0.0.0/0, same as Azure), secrets encryption, logging.
 resource "aws_eks_cluster" "main" {
   name     = local.name_main
   role_arn = aws_iam_role.cluster.arn
   version  = var.kubernetes_version
 
   vpc_config {
-    subnet_ids              = concat(aws_subnet.private[*].id, aws_subnet.public[*].id)
-    endpoint_private_access = true
+    subnet_ids              = aws_subnet.public[*].id
+    endpoint_private_access = false
     endpoint_public_access  = true
-    public_access_cidrs     = var.api_authorized_cidrs
+    public_access_cidrs     = ["0.0.0.0/0"]
   }
 
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
@@ -282,7 +240,7 @@ resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "main"
   node_role_arn   = aws_iam_role.node.arn
-  subnet_ids      = aws_subnet.private[*].id
+  subnet_ids      = aws_subnet.public[*].id
   capacity_type   = "SPOT"
   ami_type        = "BOTTLEROCKET_x86_64"
   instance_types  = var.node_instance_types

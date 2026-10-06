@@ -53,7 +53,7 @@ output "ebs_csi_role_arn" {
 }
 
 output "api_authorized_cidrs" {
-  value = var.api_authorized_cidrs
+  value = ["0.0.0.0/0"]
 }
 
 output "fixture_metadata" {
@@ -64,6 +64,6 @@ output "vpc_id" {
   value = aws_vpc.k8s.id
 }
 
-output "private_subnet_ids" {
-  value = aws_subnet.private[*].id
+output "public_subnet_ids" {
+  value = aws_subnet.public[*].id
 }

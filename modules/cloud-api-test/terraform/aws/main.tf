@@ -2,22 +2,11 @@ provider "aws" {
   region = var.region
 }
 
-# EKS rejects RFC1918 ranges in publicAccessCidrs, so fall back to the applying
-# machine's public IP rather than a placeholder that cannot be applied.
-data "http" "runner_public_ip" {
-  count = length(var.k8s_api_authorized_cidrs) == 0 ? 1 : 0
-  url   = "https://checkip.amazonaws.com/"
-}
-
 locals {
   common_tags = {
     ManagedBy = "Terraform"
     Project   = "CCC-CFI-Compliance"
   }
-
-  k8s_api_authorized_cidrs = length(var.k8s_api_authorized_cidrs) > 0 ? var.k8s_api_authorized_cidrs : [
-    "${chomp(data.http.runner_public_ip[0].response_body)}/32"
-  ]
 }
 
 module "vpc" {
@@ -57,11 +46,10 @@ module "secrets" {
 }
 
 module "kubernetes" {
-  source               = "./modules/kubernetes"
-  region               = var.region
-  api_authorized_cidrs = local.k8s_api_authorized_cidrs
-  kubernetes_version   = var.k8s_version
-  common_tags          = local.common_tags
+  source             = "./modules/kubernetes"
+  region             = var.region
+  kubernetes_version = var.k8s_version
+  common_tags        = local.common_tags
 }
 
 data "aws_eks_cluster_auth" "main" {
@@ -69,22 +57,24 @@ data "aws_eks_cluster_auth" "main" {
 }
 
 provider "kubernetes" {
-  alias                  = "eks_main"
-  host                   = module.kubernetes.main_endpoint
-  cluster_ca_certificate = base64decode(module.kubernetes.main_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.main.token
+  alias = "eks_main"
+
+  # Until the EKS module has been applied, host/CA are unknown and block
+  # terraform import of unrelated resources. Use placeholders that lazy_load
+  # ignores until the real cluster outputs exist.
+  host                   = length(try(module.kubernetes.main_endpoint, "")) > 0 ? module.kubernetes.main_endpoint : "https://127.0.0.1"
+  cluster_ca_certificate = length(try(module.kubernetes.main_certificate_authority_data, "")) > 0 ? base64decode(module.kubernetes.main_certificate_authority_data) : ""
+  token                  = try(data.aws_eks_cluster_auth.main.token, "")
 }
 
 provider "kubectl" {
-  alias                  = "eks_main"
-  host                   = module.kubernetes.main_endpoint
-  cluster_ca_certificate = base64decode(module.kubernetes.main_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.main.token
-  load_config_file       = false
+  alias            = "eks_main"
+  load_config_file = false
+  lazy_load        = true
 
-  # Cluster outputs are unknown until apply, so defer client construction rather
-  # than failing provider configuration at plan time.
-  lazy_load = true
+  host                   = length(try(module.kubernetes.main_endpoint, "")) > 0 ? module.kubernetes.main_endpoint : "https://127.0.0.1"
+  cluster_ca_certificate = length(try(module.kubernetes.main_certificate_authority_data, "")) > 0 ? base64decode(module.kubernetes.main_certificate_authority_data) : ""
+  token                  = try(data.aws_eks_cluster_auth.main.token, "")
 }
 
 module "kubernetes_fixtures" {

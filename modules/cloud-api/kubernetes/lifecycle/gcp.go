@@ -42,6 +42,10 @@ func (g *GCP) scaleNodePools(clusterID string, nodeCount, minNodes int64) error 
 		return err
 	}
 	for _, pool := range cluster.NodePools {
+		autoscalingOK := pool.Autoscaling == nil || !pool.Autoscaling.Enabled || pool.Autoscaling.MinNodeCount == minNodes
+		if pool.InitialNodeCount == nodeCount && autoscalingOK {
+			continue
+		}
 		poolName := fmt.Sprintf("%s/nodePools/%s", name, pool.Name)
 		if pool.Autoscaling != nil && pool.Autoscaling.Enabled {
 			maxNodes := pool.Autoscaling.MaxNodeCount

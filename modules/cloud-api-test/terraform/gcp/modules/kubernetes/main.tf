@@ -27,6 +27,7 @@ locals {
   }
 }
 
+# Dedicated VPC: public nodes (no NAT). Matches Azure's cheap public AKS fixture.
 resource "google_compute_network" "k8s" {
   name                    = "finos-ccc-integration-k8s-vpc"
   auto_create_subnetworks = false
@@ -50,22 +51,6 @@ resource "google_compute_subnetwork" "main" {
   }
 
   private_ip_google_access = true
-}
-
-resource "google_compute_router" "k8s" {
-  name    = "finos-ccc-integration-k8s-router"
-  region  = var.region
-  project = var.project_id
-  network = google_compute_network.k8s.id
-}
-
-resource "google_compute_router_nat" "k8s" {
-  name                               = "finos-ccc-integration-k8s-nat"
-  router                             = google_compute_router.k8s.name
-  region                             = var.region
-  project                            = var.project_id
-  nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 }
 
 resource "google_project_service" "container" {
@@ -182,6 +167,7 @@ resource "google_binary_authorization_policy" "main" {
   depends_on = [google_project_service.binaryauthz]
 }
 
+# Cheap MAIN cluster: public nodes + public API (0.0.0.0/0, same as Azure).
 resource "google_container_cluster" "main" {
   name                     = local.name_main
   location                 = var.region
@@ -199,19 +185,11 @@ resource "google_container_cluster" "main" {
     services_secondary_range_name = "services"
   }
 
-  private_cluster_config {
-    enable_private_nodes    = true
-    enable_private_endpoint = false
-    master_ipv4_cidr_block  = "172.16.0.0/28"
-  }
-
+  # Public control plane open to all (matches Azure authorized_ip_ranges = 0.0.0.0/0).
   master_authorized_networks_config {
-    dynamic "cidr_blocks" {
-      for_each = var.api_authorized_cidrs
-      content {
-        cidr_block   = cidr_blocks.value
-        display_name = "authorized-${cidr_blocks.key}"
-      }
+    cidr_blocks {
+      cidr_block   = "0.0.0.0/0"
+      display_name = "open-public-api"
     }
   }
 
@@ -255,7 +233,6 @@ resource "google_container_cluster" "main" {
 
   depends_on = [
     google_project_service.container,
-    google_compute_router_nat.k8s,
     google_kms_crypto_key_iam_member.gke,
     google_binary_authorization_policy.main,
   ]

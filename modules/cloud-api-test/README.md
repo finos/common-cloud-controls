@@ -55,14 +55,10 @@ Args may use `config:<var>` to pull a Privateer config value (for example a mani
 
 ### Exclusions
 
-`integration_exclusions.csv` skips whole factory APIs for specific clouds without editing every matching row in `integration_calls.csv`:
+`integration_exclusions.csv` skips whole factory APIs for specific clouds without editing every matching row in `integration_calls.csv`. It is header-only when every cloud provisions the APIs under test:
 
 ```csv
 api,cloud
-kubernetes,aws
-kubernetes,gcp
-admission-webhook,aws
-admission-webhook,gcp
 ```
 
 - `cloud`: must be `aws`, `azure`, or `gcp` (not `all`).
@@ -76,7 +72,6 @@ Billable compute (VMs and Kubernetes) should stay **parked** between runs via `s
 cd modules/cloud-api-test
 
 # Bring billable fixtures online first (default: virtual-machines,kubernetes).
-# integration_exclusions.csv skips whole APIs per cloud (e.g. no k8s start on aws/gcp).
 ./scale-fixtures.sh start \
   -c "privateer-config/aws.yml" -S integration -s virtual-machines,kubernetes
 

@@ -3,7 +3,9 @@ package kubernetes
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strings"
+	"unicode"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/config"
@@ -15,6 +17,9 @@ import (
 	"google.golang.org/api/option"
 	"k8s.io/client-go/rest"
 )
+
+// GKE resource_labels: keys/values are lowercase [a-z0-9_-], keys must start with a letter.
+var gcpLabelInvalid = regexp.MustCompile(`[^a-z0-9_-]+`)
 
 var _ ControlPlane = (*GCPService)(nil)
 
@@ -133,7 +138,11 @@ func (s *GCPService) updateLabels(_ context.Context, clusterID string, patch map
 		cluster.ResourceLabels = map[string]string{}
 	}
 	for key, value := range patch {
-		cluster.ResourceLabels[key] = fmt.Sprintf("%v", value)
+		k := sanitizeGCPLabelKey(key)
+		if k == "" {
+			continue
+		}
+		cluster.ResourceLabels[k] = sanitizeGCPLabelValue(fmt.Sprintf("%v", value))
 	}
 	_, err = s.gke.Projects.Locations.Clusters.SetResourceLabels(name, &container.SetLabelsRequest{
 		LabelFingerprint: cluster.LabelFingerprint, ResourceLabels: cluster.ResourceLabels,
@@ -151,11 +160,44 @@ func (s *GCPService) governanceMetadata(_ context.Context, clusterID string) (ma
 	}
 	var missing []string
 	for _, key := range splitConfigList(s.config.Get("required-metadata-keys")) {
-		if strings.TrimSpace(cluster.ResourceLabels[key]) == "" {
+		if gcpLabelLookup(cluster.ResourceLabels, key) == "" {
 			missing = append(missing, key)
 		}
 	}
 	return map[string]interface{}{"Tags": map[string]string{}, "Labels": cluster.ResourceLabels, "MissingRequired": missing}, nil
+}
+
+func sanitizeGCPLabelKey(key string) string {
+	key = strings.ToLower(strings.TrimSpace(key))
+	key = gcpLabelInvalid.ReplaceAllString(key, "_")
+	key = strings.Trim(key, "_-")
+	for len(key) > 0 && !unicode.IsLetter(rune(key[0])) {
+		key = key[1:]
+	}
+	if len(key) > 63 {
+		key = key[:63]
+	}
+	return key
+}
+
+func sanitizeGCPLabelValue(value string) string {
+	value = strings.ToLower(strings.TrimSpace(value))
+	value = gcpLabelInvalid.ReplaceAllString(value, "-")
+	value = strings.Trim(value, "-_")
+	if len(value) > 63 {
+		value = value[:63]
+	}
+	return value
+}
+
+func gcpLabelLookup(labels map[string]string, key string) string {
+	if labels == nil {
+		return ""
+	}
+	if v := strings.TrimSpace(labels[key]); v != "" {
+		return v
+	}
+	return strings.TrimSpace(labels[sanitizeGCPLabelKey(key)])
 }
 
 func (s *GCPService) clusterAuth(_ context.Context, clusterID string) (map[string]interface{}, error) {

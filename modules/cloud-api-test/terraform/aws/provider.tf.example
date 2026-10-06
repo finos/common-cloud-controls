@@ -2,8 +2,8 @@
 #
 # Prerequisites for kubernetes fixtures:
 #   - IAM permissions for EKS, EC2, IAM, KMS, CloudWatch Logs, S3, Lambda, API Gateway, Secrets Manager
-#   - Set k8s_api_authorized_cidrs to runner/NAT egress CIDRs (exclude reachability-probe egress)
 #   - aws CLI available for EKS token auth used by the kubernetes provider
+#   - Cheap public fixture: public subnets only (no NAT), public API open (0.0.0.0/0), single SPOT node
 #   - Cluster boot budget: expect 15–25+ minutes for EKS + node groups
 #   - Same apply installs reachability-probe (Lambda) and the CN11.AR03 admission-webhook probe
 

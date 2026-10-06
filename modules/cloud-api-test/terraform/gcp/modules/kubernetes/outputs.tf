@@ -41,7 +41,7 @@ output "node_service_account" {
 }
 
 output "api_authorized_cidrs" {
-  value = var.api_authorized_cidrs
+  value = ["0.0.0.0/0"]
 }
 
 output "secrets_kms_key_id" {
