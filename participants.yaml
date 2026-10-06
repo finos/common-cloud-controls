@@ -81,6 +81,14 @@ participants:
       enrollment_date: Apr/25/2025
       github_id: dmastroianni
 
+  Morgan Stanley:
+    - name: Yash Gandhi
+      enrollment_date: Oct/6/2026
+      github_id: ysg410
+    - name: Kevin McBride
+      enrollment_date: Oct/6/2026
+      github_id: tallmega    
+
   NatWest Group:
     - name: Ted Newman
       enrollment_date: Jul/17/2024
