@@ -83,6 +83,7 @@ func (g *GCP) scaleNodePools(clusterID string, nodeCount, minNodes int64) error 
 }
 
 func (g *GCP) waitOp(opName string, timeout time.Duration) error {
+	opName = qualifyGKEOpName(g.Project, g.Location, opName)
 	deadline := time.Now().Add(timeout)
 	for time.Now().Before(deadline) {
 		op, err := g.GKE.Projects.Locations.Operations.Get(opName).Context(g.Ctx).Do()
@@ -102,6 +103,25 @@ func (g *GCP) waitOp(opName string, timeout time.Duration) error {
 		}
 	}
 	return fmt.Errorf("timed out waiting for GKE operation %q", opName)
+}
+
+// qualifyGKEOpName turns a bare operation id into
+// projects/{project}/locations/{location}/operations/{id}. The NodePools SetSize
+// response sometimes returns only "operation-…", which Locations.Operations.Get
+// rejects with HTTP 404.
+func qualifyGKEOpName(project, location, opName string) string {
+	opName = strings.TrimSpace(opName)
+	if opName == "" || strings.HasPrefix(opName, "projects/") {
+		return opName
+	}
+	opName = strings.TrimPrefix(opName, "operations/")
+	if project == "" {
+		return opName
+	}
+	if location == "" {
+		location = "-"
+	}
+	return fmt.Sprintf("projects/%s/locations/%s/operations/%s", project, location, opName)
 }
 
 func (g *GCP) StartedDetails() ([]generic.StartedResource, error) {

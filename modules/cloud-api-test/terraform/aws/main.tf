@@ -2,11 +2,29 @@ provider "aws" {
   region = var.region
 }
 
+data "aws_caller_identity" "current" {}
+
+data "aws_iam_role" "ci_runner" {
+  name = var.ci_runner_role_name
+}
+
+data "aws_iam_user" "fixture" {
+  for_each = toset(var.fixture_iam_user_names)
+  user_name = each.value
+}
+
 locals {
   common_tags = {
     ManagedBy = "Terraform"
     Project   = "CCC-CFI-Compliance"
   }
+
+  # Ambient CI role + fixture identities that call the kube API (not the cluster creator).
+  eks_admin_principal_arns = distinct(compact(concat(
+    [data.aws_iam_role.ci_runner.arn],
+    [for u in data.aws_iam_user.fixture : u.arn],
+    var.eks_admin_principal_arns,
+  )))
 }
 
 module "vpc" {
@@ -46,10 +64,11 @@ module "secrets" {
 }
 
 module "kubernetes" {
-  source             = "./modules/kubernetes"
-  region             = var.region
-  kubernetes_version = var.k8s_version
-  common_tags        = local.common_tags
+  source                   = "./modules/kubernetes"
+  region                   = var.region
+  kubernetes_version       = var.k8s_version
+  common_tags              = local.common_tags
+  eks_admin_principal_arns = local.eks_admin_principal_arns
 }
 
 data "aws_eks_cluster_auth" "main" {

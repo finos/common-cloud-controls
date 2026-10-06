@@ -22,3 +22,24 @@ variable "webhook_probe_image" {
   EOT
   default     = "public.ecr.aws/eks-distro/kubernetes/pause:3.9"
 }
+
+variable "eks_admin_principal_arns" {
+  type        = list(string)
+  description = "Extra IAM principal ARNs granted EKS ClusterAdmin Access Entries (merged with CI TerraformRole + fixture users)."
+  default     = []
+}
+
+variable "ci_runner_role_name" {
+  type        = string
+  description = "IAM role assumed by GitHub Actions for cloud-api integration (needs an EKS Access Entry)."
+  default     = "TerraformRole"
+}
+
+variable "fixture_iam_user_names" {
+  type        = list(string)
+  description = "Fixture IAM users that exercise the Kubernetes API under test identities (provision-aws.sh cohort)."
+  default = [
+    "cfi-integration-admin",
+    "cfi-integration-write",
+  ]
+}

@@ -51,9 +51,10 @@ modules/cloud-api-test/coverage-integration*.html
 modules/cloud-api-test/integration-results-*.txt
 modules/cloud-api-test/terraform/aws/modules/serverless-computing/lambda-function.zip
 
-# Ignore local cloud API test keys
+# Ignore local cloud API test keys and accidental editor/sed backups
 modules/cloud-api-test/environment-config/.keys/*.json
 modules/cloud-api-test/environment-config/.keys/*.credentials
+modules/cloud-api-test/environment-config/*.bak
 node_modules
 
 # Local Go caches (when GOCACHE / GOMODCACHE are pointed into the repo)

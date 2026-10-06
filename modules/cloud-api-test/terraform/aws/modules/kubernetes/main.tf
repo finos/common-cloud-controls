@@ -370,3 +370,27 @@ resource "aws_iam_role_policy" "wi_bound_s3" {
     }]
   })
 }
+
+# CI (TerraformRole) and fixture IAM users need Access Entries — DescribeCluster alone
+# is not enough for kube REST (same role as Azure's azure_rbac_admin_object_ids).
+resource "aws_eks_access_entry" "admin" {
+  for_each = toset(var.eks_admin_principal_arns)
+
+  cluster_name  = aws_eks_cluster.main.name
+  principal_arn = each.value
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "admin" {
+  for_each = toset(var.eks_admin_principal_arns)
+
+  cluster_name  = aws_eks_cluster.main.name
+  principal_arn = each.value
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
+  }
+
+  depends_on = [aws_eks_access_entry.admin]
+}

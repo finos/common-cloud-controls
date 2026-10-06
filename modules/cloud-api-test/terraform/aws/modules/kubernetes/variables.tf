@@ -25,3 +25,13 @@ variable "wi_probe_bucket_name" {
   description = "S3 bucket name readable only by the bound IRSA role (CN03.AR01 wi-probe-resource)."
   default     = "finos-ccc-integration-k8s-wi-probe"
 }
+
+variable "eks_admin_principal_arns" {
+  type        = list(string)
+  description = <<-EOT
+    IAM principal ARNs granted AmazonEKSClusterAdminPolicy via EKS Access Entries.
+    Include the CI runner role (TerraformRole) and any fixture identities that call the
+    Kubernetes API. Cluster-creator admin (bootstrap) is separate and must not be duplicated here.
+  EOT
+  default     = []
+}
