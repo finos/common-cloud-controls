@@ -53,6 +53,7 @@ logging,QueryLogs,all,,,finos-ccc-integration-fn-main,admin,60,,
 - `cloud`: `all` runs on every provider; otherwise only that cloud.
 - `expect_error`: `true` when the call is expected to return an error (denied path, unsupported stub, etc.).
 - `identity`: empty for ambient credentials; otherwise a `test-identities` key such as `test-user-admin` or `test-user-no-access`. Incomplete identities (missing `*_TEST_USER_*` in env / CI `*_ENV` secrets) are a hard **FAIL** and are not treated as a successful `expect_error`.
+- Identity matrix at the end of the CSV is cloud-scoped to **existing** principals: Azure uses kubernetes `GetResourceRegion` (ARM read via AKS Cluster Admin Role — test SPs lack reliable blob data-plane RBAC in CI, so `ListObjects` is not used); AWS object-storage uses `ListObjects`; GCP object-storage uses `ListBuckets`; VM/serverless/secrets/kubernetes identity rows are otherwise aws/gcp; VPC identity is gcp only.
 
 - `arg5`: used for methods with five parameters (comma-separated values may coerce to `[]int` / `[]string`).
 

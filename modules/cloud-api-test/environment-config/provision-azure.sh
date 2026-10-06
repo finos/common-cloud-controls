@@ -165,7 +165,10 @@ for spec in "${USERS[@]}"; do
       assign_role_if_needed "$SP_ID_RESULT" "$AKS_WRITE_ROLE" "$AKS_RG_SCOPE"
       ;;
     AZURE_TEST_USER_ADMIN)
+      # Admin gets both AKS roles: Cluster Admin for elevate paths, Cluster User for
+      # listClusterUserCredential used by CheckUserProvisioned / kube clients.
       assign_role_if_needed "$SP_ID_RESULT" "$AKS_ADMIN_ROLE" "$AKS_RG_SCOPE"
+      assign_role_if_needed "$SP_ID_RESULT" "$AKS_WRITE_ROLE" "$AKS_RG_SCOPE"
       ;;
   esac
 
