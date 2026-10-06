@@ -53,7 +53,7 @@ logging,QueryLogs,all,,,finos-ccc-integration-fn-main,admin,60,,
 - `cloud`: `all` runs on every provider; otherwise only that cloud.
 - `expect_error`: `true` when the call is expected to return an error (denied path, unsupported stub, etc.).
 - `identity`: empty for ambient credentials; otherwise a `test-identities` key such as `test-user-admin` or `test-user-no-access`. Incomplete identities (missing `*_TEST_USER_*` in env / CI `*_ENV` secrets) are a hard **FAIL** and are not treated as a successful `expect_error`.
-- Identity coverage is a dedicated matrix at the end of the CSV: one distinct method per service, each run once as `test-user-admin` (expect success) and once as `test-user-no-access` (`expect_error=true`). Prefer methods that call the cloud API (not config-only helpers like region lookups). VPC identity rows are Azure/GCP only (AWS `WithIdentity` not implemented). Logging / admission-webhook / reachability are omitted from that matrix (no useful credentialed deny path).
+
 - `arg5`: used for methods with five parameters (comma-separated values may coerce to `[]int` / `[]string`).
 
 Args may use `config:<var>` to pull a Privateer config value (for example a manifest string).
