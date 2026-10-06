@@ -49,6 +49,32 @@ services:
       webhook-probe-service: "ccc-admission-webhook-probe"
       webhook-probe-configuration: "ccc-admission-webhook-probe"
       webhook-probe-enabled-replicas: "1"
+      reachability-probe-mode: "${REACHABILITY_PROBE_MODE}"
+      reachability-probe-url: "${REACHABILITY_PROBE_URL}"
+      reachability-probe-shared-secret: "${REACHABILITY_PROBE_SHARED_SECRET}"
+      reachability-probe-observer: "${REACHABILITY_PROBE_OBSERVER}"
+      reachability-probe-timeout-ms: "5000"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
+        test-user-read:
+          user-name: "${AZURE_TEST_USER_READ_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_READ_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_READ_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_READ_OBJECT_ID}"
+        test-user-write:
+          user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
+        test-user-admin:
+          user-name: "${AZURE_TEST_USER_ADMIN_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_ADMIN_OBJECT_ID}"
       manifest-static-credential: |
         apiVersion: v1
         kind: Pod

@@ -137,8 +137,11 @@ jobs:
         run: echo "AZURE_CLIENT_ID=" >> "$GITHUB_ENV"
 
       - name: Start compute fixtures
+        env:
+          GOCOVERDIR: ${{ github.workspace }}/modules/cloud-api-test/coverage-lifecycle-${{ matrix.provider }}
         run: |
           set -euo pipefail
+          mkdir -p "$GOCOVERDIR"
           chmod +x modules/cloud-api-test/scale-fixtures.sh
           ./modules/cloud-api-test/scale-fixtures.sh start \
             -c "modules/cloud-api-test/privateer-config/${PROVIDER}.yml" \
@@ -151,12 +154,24 @@ jobs:
 
       - name: Stop compute fixtures
         if: always()
+        env:
+          GOCOVERDIR: ${{ github.workspace }}/modules/cloud-api-test/coverage-lifecycle-${{ matrix.provider }}
         run: |
           set -euo pipefail
+          mkdir -p "$GOCOVERDIR"
           chmod +x modules/cloud-api-test/scale-fixtures.sh
           ./modules/cloud-api-test/scale-fixtures.sh stop \
             -p "$PROVIDER" \
             -s virtual-machines,kubernetes
+
+      - name: Merge lifecycle coverage into integration profile
+        if: always()
+        working-directory: modules/cloud-api-test
+        env:
+          LIFECYCLE_GOCOVERDIR: ${{ github.workspace }}/modules/cloud-api-test/coverage-lifecycle-${{ matrix.provider }}
+        run: |
+          chmod +x ./merge-lifecycle-coverage.sh
+          ./merge-lifecycle-coverage.sh "$PROVIDER"
 
       - name: Publish integration results summary
         if: always()
@@ -183,6 +198,7 @@ jobs:
             modules/cloud-api-test/integration-results-${{ matrix.provider }}.txt
             modules/cloud-api-test/coverage-integration-${{ matrix.provider }}.out
             modules/cloud-api-test/coverage-integration-${{ matrix.provider }}.html
+            modules/cloud-api-test/coverage-lifecycle-${{ matrix.provider }}.out
           if-no-files-found: ignore
 
       - name: Upload coverage to Codecov

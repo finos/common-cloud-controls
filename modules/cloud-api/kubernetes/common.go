@@ -86,16 +86,7 @@ func (s *managedService) kubeClients() (kubernetes.Interface, dynamic.Interface,
 }
 
 func proberFromConfig(cfg types.Config) reachability.Prober {
-	timeout := configDuration(cfg, "reachability-probe-timeout-ms", 5*time.Second)
-	_ = timeout
-	if strings.EqualFold(cfg.Get("reachability-probe-mode"), "remote") {
-		return reachability.RemoteProber{
-			URL:          cfg.Get("reachability-probe-url"),
-			SharedSecret: []byte(cfg.Get("reachability-probe-shared-secret")),
-			Observer:     cfg.Get("reachability-probe-observer"),
-		}
-	}
-	return reachability.LocalProber{Observer: "runner-local"}
+	return reachability.ProberFromConfig(cfg)
 }
 
 func (s *managedService) clusterResourceID(explicit string) string {
@@ -136,11 +127,6 @@ func (s *managedService) CheckUserProvisioned() error {
 func (s *managedService) ElevateAccessForInspection() error { return nil }
 func (s *managedService) ResetAccess() error                { return nil }
 func (s *managedService) TearDown() error                   { return nil }
-func (s *managedService) Start(string) error                { return nil }
-func (s *managedService) Stop(string) error                 { return nil }
-func (s *managedService) StartedDetails() ([]generic.StartedResource, error) {
-	return nil, nil
-}
 
 func (s *managedService) UpdateResourcePolicy() error {
 	if s.updateMetadata == nil {

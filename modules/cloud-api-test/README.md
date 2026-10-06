@@ -25,10 +25,10 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 ## What a run does
 
 1. Loads `privateer-config/{aws,azure,gcp}.yml` (minimal vars for CSV + cloud-api).
-2. Reads `integration_calls.csv`: `api` (factory service id), `method`, `cloud` (`aws`|`azure`|`gcp`|`all`), `expect_error`, `arg1`…`arg5`.
+2. Reads `integration_calls.csv`: `api` (factory service id), `method`, `cloud` (`aws`|`azure`|`gcp`|`all`), `expect_error`, `identity`, `arg1`…`arg5`.
 3. Skips rows whose `cloud` does not match `INTEGRATION_PROVIDER`.
 4. Applies `integration_exclusions.csv` to drop entire APIs for the current provider.
-5. Resolves each `api` via `factory.GetServiceAPI` and invokes `method` by reflection.
+5. Resolves each `api` via `factory.GetServiceAPI` (ambient) or `GetServiceAPIWithIdentity` when `identity` is set, then invokes `method` by reflection.
 6. `expect_error=true` → pass only if the call returns an error; otherwise pass only if it succeeds.
 7. `DeleteObject` / `DeleteBucket` run for `object-storage` only; other `Delete*` methods are skipped.
 8. Calls `factory.TearDown()` once at the end.
@@ -38,17 +38,21 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 
 Factory id `kubernetes` is the **ControlPlane** (CSP + admit + governance/auth/encryption/inventory helpers). Portable `KubeClient` probes obtained via `GetKubernetesClient` (RBAC listings, NetworkPolicy Jobs, etc.) are exercised from behavioural features as `kubeClient`, not duplicated as AR matrices in this CSV. One `GetKubernetesClient` row may appear as a smoke that CSP-derived REST config wiring works (`kubernetes-cluster-name` + ambient cloud credentials).
 
+Factory id `reachability` wraps the shared prober (`CheckProbeConfigured`, `Probe`). Default mode is local; set `REACHABILITY_PROBE_MODE=remote` plus URL/secret for the AWS public probe fixture. `StartedDetails` CSV rows exercise in-process inventory while fixtures are up; Start/Stop coverage comes from instrumented `scale-fixtures` (`GOCOVERDIR`) merged via `merge-lifecycle-coverage.sh`.
+
 ## CSV format
 
 ```csv
-api,method,cloud,expect_error,arg1,arg2,arg3,arg4,arg5
-serverless-computing,TriggerDataWrite,all,,finos-ccc-integration-fn-main,,,
-virtual-machines,UpdateResourcePolicy,aws,true,,,,,
-logging,QueryLogs,all,,finos-ccc-integration-fn-main,admin,60,,
+api,method,cloud,expect_error,identity,arg1,arg2,arg3,arg4,arg5
+serverless-computing,TriggerDataWrite,all,,,finos-ccc-integration-fn-main,,,
+virtual-machines,UpdateResourcePolicy,aws,true,,,,,,
+object-storage,ListBuckets,all,true,test-user-no-access,,,,,
+logging,QueryLogs,all,,,finos-ccc-integration-fn-main,admin,60,,
 ```
 
 - `cloud`: `all` runs on every provider; otherwise only that cloud.
 - `expect_error`: `true` when the call is expected to return an error (denied path, unsupported stub, etc.).
+- `identity`: empty for ambient credentials; otherwise a `test-identities` key such as `test-user-admin` or `test-user-no-access`.
 - `arg5`: used for methods with five parameters (comma-separated values may coerce to `[]int` / `[]string`).
 
 Args may use `config:<var>` to pull a Privateer config value (for example a manifest string).
@@ -71,6 +75,10 @@ Billable compute (VMs and Kubernetes) should stay **parked** between runs via `s
 ```bash
 cd modules/cloud-api-test
 
+# Optional: count Start/Stop coverage from scale-fixtures (merge after stop).
+export GOCOVERDIR="$PWD/coverage-lifecycle-aws"
+mkdir -p "$GOCOVERDIR"
+
 # Bring billable fixtures online first (default: virtual-machines,kubernetes).
 ./scale-fixtures.sh start \
   -c "privateer-config/aws.yml" -S integration -s virtual-machines,kubernetes
@@ -78,6 +86,7 @@ cd modules/cloud-api-test
 ./run-integration-tests.sh aws    # or azure | gcp | all
 
 ./scale-fixtures.sh stop -p aws -s virtual-machines,kubernetes
+./merge-lifecycle-coverage.sh aws
 ```
 
 The script sets `INTEGRATION_PROVIDER`, sources `environment-config/<cloud>-env.sh` when present, refreshes VM hostnames from the live public IP, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.

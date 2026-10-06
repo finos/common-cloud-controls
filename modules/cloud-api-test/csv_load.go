@@ -27,6 +27,7 @@ type callRow struct {
 	Method      string
 	Cloud       string
 	ExpectError bool
+	Identity    string
 	Args        []string
 }
 
@@ -168,6 +169,7 @@ func loadCallRowsWithExclusions(csvData, exclusionsCSV, provider string) ([]call
 			Method:      method,
 			Cloud:       cloud,
 			ExpectError: expectErr,
+			Identity:    get("identity"),
 			Args:        args,
 		})
 	}

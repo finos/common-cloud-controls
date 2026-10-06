@@ -112,4 +112,17 @@ elif [[ "$ACTION" == "start" ]]; then
 fi
 
 cd "$MODULES_DIR/runner"
+
+# Include runner so the covered binary always emits GOCOVERDIR data, plus cloud-api for Start/Stop.
+LIFECYCLE_COVERPKG="${LIFECYCLE_COVERPKG:-github.com/finos/common-cloud-controls/runner/...,github.com/finos/common-cloud-controls/cloud-api/...}"
+
+if [[ -n "${GOCOVERDIR:-}" ]]; then
+  mkdir -p "$GOCOVERDIR"
+  BINARY="${LIFECYCLE_COVER_BINARY:-$MODULES_DIR/runner/ccc-lifecycle.cover}"
+  echo "==> building ccc-lifecycle with -cover (GOCOVERDIR=$GOCOVERDIR)"
+  go build -cover -covermode=atomic -coverpkg="$LIFECYCLE_COVERPKG" \
+    -o "$BINARY" ./cmd/ccc-lifecycle
+  exec "$BINARY" "${ARGS[@]}"
+fi
+
 exec go run ./cmd/ccc-lifecycle "${ARGS[@]}"

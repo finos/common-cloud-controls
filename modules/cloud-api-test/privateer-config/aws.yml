@@ -42,6 +42,28 @@ services:
       webhook-probe-service: "ccc-admission-webhook-probe"
       webhook-probe-configuration: "ccc-admission-webhook-probe"
       webhook-probe-enabled-replicas: "1"
+      # Reachability factory service (local by default; set mode=remote + URL/secret for Lambda probe).
+      reachability-probe-mode: "${REACHABILITY_PROBE_MODE}"
+      reachability-probe-url: "${REACHABILITY_PROBE_URL}"
+      reachability-probe-shared-secret: "${REACHABILITY_PROBE_SHARED_SECRET}"
+      reachability-probe-observer: "${REACHABILITY_PROBE_OBSERVER}"
+      reachability-probe-timeout-ms: "5000"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AWS_TEST_USER_NO_ACCESS_USER_NAME}"
+          access_key_id: "${AWS_TEST_USER_NO_ACCESS_ACCESS_KEY_ID}"
+          secret_access_key: "${AWS_TEST_USER_NO_ACCESS_SECRET_ACCESS_KEY}"
+          session_token: "${AWS_TEST_USER_NO_ACCESS_SESSION_TOKEN}"
+        test-user-write:
+          user-name: "${AWS_TEST_USER_WRITE_USER_NAME}"
+          access_key_id: "${AWS_TEST_USER_WRITE_ACCESS_KEY_ID}"
+          secret_access_key: "${AWS_TEST_USER_WRITE_SECRET_ACCESS_KEY}"
+          session_token: "${AWS_TEST_USER_WRITE_SESSION_TOKEN}"
+        test-user-admin:
+          user-name: "${AWS_TEST_USER_ADMIN_USER_NAME}"
+          access_key_id: "${AWS_TEST_USER_ADMIN_ACCESS_KEY_ID}"
+          secret_access_key: "${AWS_TEST_USER_ADMIN_SECRET_ACCESS_KEY}"
+          session_token: "${AWS_TEST_USER_ADMIN_SESSION_TOKEN}"
       # Manifest / claim placeholders for config: CSV substitution (replace with real fixtures post-apply).
       manifest-static-credential: |
         apiVersion: v1

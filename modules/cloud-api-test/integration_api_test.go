@@ -95,7 +95,7 @@ func TestCloudAPIIntegration(t *testing.T) {
 		}
 		label := formatCallRow(row)
 		started := time.Now()
-		svc, err := serviceFor(f, services, row.API)
+		svc, err := serviceFor(f, services, row.API, row.Identity)
 		var callErr error
 		if err != nil {
 			callErr = err
@@ -151,6 +151,9 @@ func emitCallLine(line string, t *testing.T) {
 
 func formatCallRow(row callRow) string {
 	parts := []string{row.API, row.Method}
+	if id := strings.TrimSpace(row.Identity); id != "" {
+		parts = append(parts, "identity="+id)
+	}
 	for _, a := range trimArgs(row.Args) {
 		parts = append(parts, a)
 	}
@@ -164,15 +167,27 @@ func formatCallResult(status string, seconds float64, label string, err error) s
 	return fmt.Sprintf("%-4s  %8.1f  %s\n", status, seconds, label)
 }
 
-func serviceFor(f factory.Factory, cache map[string]generic.Service, api string) (generic.Service, error) {
-	if svc, ok := cache[api]; ok {
+func serviceFor(f factory.Factory, cache map[string]generic.Service, api, identity string) (generic.Service, error) {
+	key := api
+	if id := strings.TrimSpace(identity); id != "" {
+		key = api + ":" + id
+	}
+	if svc, ok := cache[key]; ok {
 		return svc, nil
 	}
-	svc, err := f.GetServiceAPI(api)
+	var (
+		svc generic.Service
+		err error
+	)
+	if id := strings.TrimSpace(identity); id != "" {
+		svc, err = f.GetServiceAPIWithIdentity(api, id)
+	} else {
+		svc, err = f.GetServiceAPI(api)
+	}
 	if err != nil {
 		return nil, err
 	}
-	cache[api] = svc
+	cache[key] = svc
 	return svc, nil
 }
 

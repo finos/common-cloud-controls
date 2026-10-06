@@ -39,6 +39,8 @@ modules/cloud-api-test/environment-config/.keys
 
 # Local go build of modules/runner/cmd/ccc-lifecycle
 modules/runner/ccc-lifecycle
+modules/runner/ccc-lifecycle.cover
+modules/cloud-api-test/coverage-lifecycle*
 
 # ccc module integration testing
 **/.terraform
