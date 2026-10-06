@@ -90,6 +90,9 @@ func TestCloudAPIIntegration(t *testing.T) {
 		if !integrationMethodAllowed(row) {
 			continue
 		}
+		if want := strings.TrimSpace(os.Getenv("INTEGRATION_API")); want != "" && row.API != want {
+			continue
+		}
 		label := formatCallRow(row)
 		started := time.Now()
 		svc, err := serviceFor(f, services, row.API)

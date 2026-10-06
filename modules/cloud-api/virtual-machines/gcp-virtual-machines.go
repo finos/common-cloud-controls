@@ -3,7 +3,6 @@ package virtualmachines
 import (
 	"context"
 	"fmt"
-	"net"
 	"strings"
 	"time"
 
@@ -83,27 +82,41 @@ func (s *GCPVirtualMachinesService) GetVolumeEncryptionStatus(string) (*VolumeEn
 		}},
 	}, nil
 }
-func (s *GCPVirtualMachinesService) AttemptInboundConnection(_ string, port int) (*ConnectionAttemptResult, error) {
-	host := strings.TrimSpace(s.config.Get("host-name"))
-	if host == "" {
-		return nil, fmt.Errorf("hostName is required for inbound connection checks")
+func (s *GCPVirtualMachinesService) AttemptInboundConnection(resourceID string, port int) (*ConnectionAttemptResult, error) {
+	host, err := resolveInboundHost(s.config.Get("host-name"), func() (string, error) {
+		return s.discoverPublicIP(resourceID)
+	})
+	if err != nil {
+		return nil, err
 	}
 	if port <= 0 {
 		port = cfgPort(s.config)
 	}
-	address := fmt.Sprintf("%s:%d", host, port)
-	conn, err := net.DialTimeout("tcp", address, 3*time.Second)
+	return dialInbound(host, port)
+}
+
+func (s *GCPVirtualMachinesService) discoverPublicIP(resourceID string) (string, error) {
+	client, project, zone, name, err := s.resolveInstance(resourceID)
 	if err != nil {
-		return &ConnectionAttemptResult{
-			Connected: false,
-			Error:     err.Error(),
-		}, nil
+		return "", err
 	}
-	remote := conn.RemoteAddr().String()
-	_ = conn.Close()
-	return &ConnectionAttemptResult{
-		Connected:  true,
-		RemoteAddr: remote,
-	}, nil
+	inst, err := client.Instances.Get(project, zone, name).Context(s.ctx).Do()
+	if err != nil {
+		return "", fmt.Errorf("get GCE instance %q: %w", name, err)
+	}
+	for _, nic := range inst.NetworkInterfaces {
+		if nic == nil {
+			continue
+		}
+		for _, ac := range nic.AccessConfigs {
+			if ac == nil {
+				continue
+			}
+			if ip := strings.TrimSpace(ac.NatIP); ip != "" {
+				return ip, nil
+			}
+		}
+	}
+	return "", fmt.Errorf("GCE instance %q has no public IP yet", name)
 }
 

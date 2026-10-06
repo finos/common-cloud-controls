@@ -245,7 +245,7 @@ See [`modules/cloud-api-test/README.md`](../../modules/cloud-api-test/README.md)
 2. **Single apply per cloud**: `terraform apply` in `aws/` (or `azure/`, `gcp/`) stands up **all** services that have behavioural tests for that provider.
 3. **Resource naming contract**:
    - Every integration fixture name should include the integration marker string `finos-ccc-integration`.
-   - Standard pattern where allowed: `finos-ccc-integration-<role>` (for example `finos-ccc-integration-fn-main`, `finos-ccc-integration-vpc-bad`).
+   - Standard pattern where allowed: `finos-ccc-integration-<role>` (for example `finos-ccc-integration-fn-main`, `finos-ccc-integration-vpc`).
    - For providers with naming restrictions (no hyphens, lowercase only, tight length): use normalized marker `finoscccintegration` (example: `finoscccintegration<random>` for globally unique storage account names).
    - **One testable resource per service type** (`virtual-machines`, `serverless-computing`, …). Supporting network/storage/IAM for that resource is fine. **Exception: `vpc`** may provision good/bad fixtures and CN03 peer networks for negative-path testing.
    - Values are copied **literally** into privateer YAML after apply; do not use `${INSTANCE_ID}` or other runtime indirection in YAML.

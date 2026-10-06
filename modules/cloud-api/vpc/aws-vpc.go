@@ -19,9 +19,10 @@ var _ Service = (*AWSVPCService)(nil)
 
 // AWSVPCService implements VPC Service for AWS EC2/VPC.
 type AWSVPCService struct {
-	client *ec2.Client
-	ctx    context.Context
-	config ccctypes.Config
+	client               *ec2.Client
+	ctx                  context.Context
+	config               ccctypes.Config
+	createdTestResources []string
 }
 
 // NewAWSVPCService creates a new AWS VPC service using default credentials.
@@ -39,11 +40,8 @@ func NewAWSVPCService(ctx context.Context, config ccctypes.Config) (*AWSVPCServi
 }
 
 func (s *AWSVPCService) GetOrProvisionTestableResources() ([]ccctypes.TestParams, error) {
-	// Only return VPCs tagged CFIControlSet=CCC.VPC — this excludes:
-	//   - CN03 peer VPCs (tagged CFIControl=CCC.VPC.CN03, not CFIControlSet)
-	//   - Default VPC and any other account VPCs (no CFI tags)
-	// Both compliant and intentionally non-compliant (CFIVpcRole=bad) VPCs are
-	// included so the report reflects real compliance state for all fixtures.
+	// VPCs tagged CFIControlSet=CCC.VPC: the single integration fixture, plus
+	// any tagged networks brought by an external CFI job.
 	output, err := s.client.DescribeVpcs(s.ctx, &ec2.DescribeVpcsInput{
 		Filters: []types.Filter{
 			{
@@ -70,7 +68,7 @@ func (s *AWSVPCService) GetOrProvisionTestableResources() ([]ccctypes.TestParams
 			ProviderServiceType: "ec2:vpc",
 			ServiceType:         "vpc",
 			CatalogTypes:        []string{"CCC.VPC"},
-			TagFilter:           []string{"@MAIN", "@CCC.VPC"},
+			TagFilter:           []string{"@Behavioural", "@vpc"},
 			Config:              s.config,
 		})
 	}
@@ -89,11 +87,19 @@ func (s *AWSVPCService) CheckUserProvisioned() error {
 func (s *AWSVPCService) ElevateAccessForInspection() error { return nil }
 func (s *AWSVPCService) ResetAccess() error                { return nil }
 func (s *AWSVPCService) UpdateResourcePolicy() error       { return nil }
-func (s *AWSVPCService) TriggerDataWrite(_ string) error { return nil }
-func (s *AWSVPCService) TriggerDataRead(_ string) error  { return nil }
-func (s *AWSVPCService) TearDown() error                   { return nil }
-func (s *AWSVPCService) Start(string) error                { return nil }
-func (s *AWSVPCService) Stop(string) error                 { return nil }
+func (s *AWSVPCService) TriggerDataWrite(_ string) error   { return nil }
+func (s *AWSVPCService) TriggerDataRead(_ string) error    { return nil }
+func (s *AWSVPCService) TearDown() error {
+	var first error
+	for _, id := range drainTrackedTestResources(&s.createdTestResources) {
+		if _, err := s.DeleteTestResource(id); err != nil && first == nil {
+			first = err
+		}
+	}
+	return first
+}
+func (s *AWSVPCService) Start(string) error                                 { return nil }
+func (s *AWSVPCService) Stop(string) error                                  { return nil }
 func (s *AWSVPCService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 func (s *AWSVPCService) GetResourceRegion(_ string) (string, error) {
 	return s.config.CloudParams().Region, nil

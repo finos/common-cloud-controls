@@ -20,7 +20,10 @@ func (s *AzureVirtualMachinesService) Start(resourceID string) error {
 		return err
 	}
 	if strings.EqualFold(power, "PowerState/running") {
-		return nil
+		return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on Azure VM %q", name), func() (bool, error) {
+			ip, err := s.discoverPublicIP(name)
+			return ip != "", err
+		})
 	}
 	poller, err := client.BeginStart(s.ctx, group, name, nil)
 	if err != nil {
@@ -29,7 +32,13 @@ func (s *AzureVirtualMachinesService) Start(resourceID string) error {
 	if _, err := poller.PollUntilDone(s.ctx, nil); err != nil {
 		return fmt.Errorf("wait for Azure VM %q start: %w", name, err)
 	}
-	return s.waitVMPowerState(client, group, name, "PowerState/running", 15*time.Minute)
+	if err := s.waitVMPowerState(client, group, name, "PowerState/running", 15*time.Minute); err != nil {
+		return err
+	}
+	return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on Azure VM %q", name), func() (bool, error) {
+		ip, err := s.discoverPublicIP(name)
+		return ip != "", err
+	})
 }
 
 func (s *AzureVirtualMachinesService) Stop(resourceID string) error {

@@ -7,15 +7,16 @@ services:
       region: us-east-1
       function-name: "finos-ccc-integration-fn-main"
       resource: "finos-ccc-integration-vm-main"
+      host-name: "${AWS_VM_HOSTNAME}"
       default-container: "finos-ccc-integration-container-main"
       private-endpoint-url: "https://private-serverless-endpoint.internal.example.com/invoke"
       aws-flow-log-group-name: "/aws/vpc/flow-logs/finos-ccc-integration-vpc"
+      # CN03 peer vars (shape only; slim terraform has a single VPC — replace for multi-VPC CFI).
       allowed-requester-vpc-ids:
-        - "finos-ccc-integration-vpc-cn03-allow-01"
         - "finos-ccc-integration-vpc-cn03-allow-01"
       disallowed-requester-vpc-ids:
         - "finos-ccc-integration-vpc-bad"
-        - "finos-ccc-integration-vpc-bad"
+      non-allowlisted-requester-vpc-id: "finos-ccc-integration-vpc-bad"
       secret-name: "finos-ccc-integration-secret-main"
       stale-version-id: "${STALE_VERSION_ID}"
       authorized-region: "us-east-1"

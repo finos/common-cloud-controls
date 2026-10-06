@@ -71,10 +71,12 @@ admission-webhook,gcp,
 
 ## Run locally
 
+Billable compute (VMs and Kubernetes) should stay **parked** between runs via `scale-fixtures.sh` — stop/deallocate the VM or scale k8s nodes to zero. Do **not** rely on reserved/static public IPs for VMs: AWS, Azure, and GCP fixtures use ephemeral addresses. After each Start the public IP may change; `run-integration-tests.sh` resolves a live `*_VM_HOSTNAME`, and cloud-api inbound probes discover the live IP when needed.
+
 ```bash
 cd modules/cloud-api-test
 
-# Optional: bring VM / AKS|EKS|GKE fixtures online first
+# Bring VM / k8s fixtures online first (same recipe for aws | azure | gcp)
 ./scale-fixtures.sh start \
   -c "privateer-config/aws.yml" -S integration -s virtual-machines,kubernetes
 
@@ -83,7 +85,7 @@ cd modules/cloud-api-test
 ./scale-fixtures.sh stop -p aws -s virtual-machines,kubernetes
 ```
 
-The script sets `INTEGRATION_PROVIDER`, sources `environment-config/<cloud>-env.sh` when present, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
+The script sets `INTEGRATION_PROVIDER`, sources `environment-config/<cloud>-env.sh` when present, refreshes VM hostnames from the live public IP, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
 
 `./run-integration-tests.sh all` runs aws → azure → gcp (continues on failure) and merges coverage into `coverage-integration-all.out` / `.html`.
 
@@ -100,7 +102,7 @@ go test -tags=integration -timeout=45m \
   ./...
 ```
 
-Each CSV row prints `PASS` or `FAIL`, wall-clock seconds for the call, then the method label. `INTEGRATION_PROVIDER` must be set or the test exits immediately. Any failed row makes `go test` exit 1.
+Each CSV row prints `PASS` or `FAIL`, wall-clock seconds for the call, then the method label. `INTEGRATION_PROVIDER` must be set or the test exits immediately. Any failed row makes `go test` exit 1. Set `INTEGRATION_API=vpc` (or another factory id) to run only that API's rows in `TestCloudAPIIntegration`.
 
 Coverage uses `-coverpkg=../cloud-api/...`. A single-cloud run under-reports packages that only exist on other clouds; merge or run the matrix for a fuller picture. Packages never referenced by the CSV (for example some `generic/login` paths) stay at 0% until rows or unit tests cover them.
 
@@ -128,7 +130,6 @@ Workflow: `.github/workflows/cloud-api-integration.yml`.
 Provision fixtures under `modules/cloud-api-test/terraform/` before running.
 
 Keep this stack **minimal and cheap**: only what is required to exercise `modules/cloud-api`. Prefer start/stop (or scale-to-zero) for billable compute between runs.
-
 ## User creation
 
 Tests use cloud test identities (no-access, write, admin; Azure also has read). Regenerate env files with idempotent scripts:

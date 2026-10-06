@@ -14,14 +14,13 @@ import (
 
 var _ Service = (*AzureVPCService)(nil)
 
-const azureIntegrationVNetPrefix = "finos-ccc-integration-vpc"
-
 // AzureVPCService implements VPC Service for Azure Virtual Networks.
 type AzureVPCService struct {
-	networks      *armnetwork.VirtualNetworksClient
-	ctx           context.Context
-	config        ccctypes.Config
-	resourceGroup string
+	networks             *armnetwork.VirtualNetworksClient
+	ctx                  context.Context
+	config               ccctypes.Config
+	resourceGroup        string
+	createdTestResources []string
 }
 
 func NewAzureVPCService(ctx context.Context, config ccctypes.Config) (*AzureVPCService, error) {
@@ -97,7 +96,7 @@ func (s *AzureVPCService) GetOrProvisionTestableResources() ([]ccctypes.TestPara
 			ProviderServiceType: "Microsoft.Network/virtualNetworks",
 			ServiceType:         "vpc",
 			CatalogTypes:        []string{"CCC.VPC"},
-			TagFilter:           []string{"@MAIN", "@CCC.VPC"},
+			TagFilter:           []string{"@Behavioural", "@vpc"},
 			Config:              s.config,
 		})
 	}
@@ -110,7 +109,7 @@ func (s *AzureVPCService) CheckUserProvisioned() error {
 		return fmt.Errorf("credentials not ready for Azure network access: %w", err)
 	}
 	if len(vnets) == 0 {
-		return fmt.Errorf("no integration VNets found with prefix %q", azureIntegrationVNetPrefix)
+		return fmt.Errorf("no virtual networks found with tag CFIControlSet=CCC.VPC")
 	}
 	return nil
 }
@@ -120,9 +119,17 @@ func (s *AzureVPCService) ResetAccess() error                { return nil }
 func (s *AzureVPCService) UpdateResourcePolicy() error       { return nil }
 func (s *AzureVPCService) TriggerDataWrite(_ string) error   { return nil }
 func (s *AzureVPCService) TriggerDataRead(_ string) error    { return nil }
-func (s *AzureVPCService) TearDown() error                   { return nil }
-func (s *AzureVPCService) Start(string) error                { return nil }
-func (s *AzureVPCService) Stop(string) error                 { return nil }
+func (s *AzureVPCService) TearDown() error {
+	var first error
+	for _, id := range drainTrackedTestResources(&s.createdTestResources) {
+		if _, err := s.DeleteTestResource(id); err != nil && first == nil {
+			first = err
+		}
+	}
+	return first
+}
+func (s *AzureVPCService) Start(string) error                                 { return nil }
+func (s *AzureVPCService) Stop(string) error                                  { return nil }
 func (s *AzureVPCService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 func (s *AzureVPCService) GetResourceRegion(_ string) (string, error) {
@@ -145,13 +152,20 @@ func (s *AzureVPCService) listIntegrationVNets() ([]*armnetwork.VirtualNetwork, 
 			if vnet == nil {
 				continue
 			}
-			name := azureVNetName(vnet)
-			if strings.HasPrefix(name, azureIntegrationVNetPrefix) {
+			if azureVNetTaggedCCC(vnet) {
 				vnets = append(vnets, vnet)
 			}
 		}
 	}
 	return vnets, nil
+}
+
+func azureVNetTaggedCCC(vnet *armnetwork.VirtualNetwork) bool {
+	if vnet == nil || vnet.Tags == nil {
+		return false
+	}
+	value, ok := vnet.Tags["CFIControlSet"]
+	return ok && value != nil && strings.TrimSpace(*value) == "CCC.VPC"
 }
 
 func azureVNetName(vnet *armnetwork.VirtualNetwork) string {

@@ -60,25 +60,10 @@ setup_cloud_env() {
           echo "==> AZURE_LOG_ANALYTICS_WORKSPACE_ID from terraform state"
         fi
       fi
-      if [[ -z "${AZURE_VM_HOSTNAME:-}" ]]; then
-        AZURE_VM_HOSTNAME="$(jq -r '.outputs.virtual_machines.value.host_name // empty' "$tfstate" | tr -d '\n')"
-        if [[ -n "$AZURE_VM_HOSTNAME" ]]; then
-          export AZURE_VM_HOSTNAME
-          echo "==> AZURE_VM_HOSTNAME from terraform state"
-        fi
-      fi
     fi
   fi
 
   if [[ "$cloud" == "gcp" ]]; then
-    local tfstate="$SCRIPT_DIR/terraform/gcp/terraform.tfstate"
-    if [[ -z "${GCP_VM_HOSTNAME:-}" && -f "$tfstate" ]] && command -v jq >/dev/null 2>&1; then
-      GCP_VM_HOSTNAME="$(jq -r '.outputs.virtual_machines.value.host_name // empty' "$tfstate" | tr -d '\n')"
-      if [[ -n "$GCP_VM_HOSTNAME" ]]; then
-        export GCP_VM_HOSTNAME
-        echo "==> GCP_VM_HOSTNAME from terraform state"
-      fi
-    fi
     if [[ -z "${GCP_PROJECT_ID:-}" ]] && command -v gcloud >/dev/null 2>&1; then
       GCP_PROJECT_ID="$(gcloud config get-value project 2>/dev/null | tr -d '\n')"
       export GCP_PROJECT_ID
@@ -88,9 +73,74 @@ setup_cloud_env() {
     fi
   fi
 
+  # Ephemeral public IPs change across stop/start — always prefer a live resolve.
+  # cloud-api AttemptInboundConnection also discovers live IPs; this keeps privateer
+  # host-name in sync for any path that still reads *_VM_HOSTNAME.
+  resolve_live_vm_hostname "$cloud"
+
   if [[ -z "${STALE_VERSION_ID:-}" ]]; then
     echo "Warning: STALE_VERSION_ID unset — add to environment-config/${cloud}-env.sh (regenerate via provision-${cloud}.sh after secrets terraform apply)" >&2
   fi
+}
+
+# Resolve the running fixture's current public IP. Clears stale secret/tfstate values
+# when the instance is not running yet (Start should run first via scale-fixtures).
+resolve_live_vm_hostname() {
+  local cloud="$1"
+  local ip=""
+  local vm_name="finos-ccc-integration-vm-main"
+
+  case "$cloud" in
+    aws)
+      if command -v aws >/dev/null 2>&1; then
+        ip="$(aws ec2 describe-instances \
+          --filters "Name=tag:Name,Values=${vm_name}" "Name=instance-state-name,Values=running" \
+          --query 'Reservations[0].Instances[0].PublicIpAddress' \
+          --output text 2>/dev/null | tr -d '\n' || true)"
+      fi
+      if [[ -n "$ip" && "$ip" != "None" && "$ip" != "null" ]]; then
+        export AWS_VM_HOSTNAME="$ip"
+        echo "==> AWS_VM_HOSTNAME from live EC2 public IP: $ip"
+      else
+        unset AWS_VM_HOSTNAME || true
+        echo "==> AWS_VM_HOSTNAME unset (no running fixture public IP; cloud-api will discover after Start)" >&2
+      fi
+      ;;
+    azure)
+      local rg="${AZURE_RESOURCE_GROUP:-finos-ccc-integration-rg}"
+      if command -v az >/dev/null 2>&1; then
+        ip="$(az vm list-ip-addresses -g "$rg" -n "$vm_name" \
+          --query '[0].virtualMachine.network.publicIpAddresses[0].ipAddress' \
+          -o tsv 2>/dev/null | tr -d '\n' || true)"
+      fi
+      if [[ -n "$ip" && "$ip" != "None" && "$ip" != "null" ]]; then
+        export AZURE_VM_HOSTNAME="$ip"
+        echo "==> AZURE_VM_HOSTNAME from live Azure public IP: $ip"
+      else
+        unset AZURE_VM_HOSTNAME || true
+        echo "==> AZURE_VM_HOSTNAME unset (no running fixture public IP; cloud-api will discover after Start)" >&2
+      fi
+      ;;
+    gcp)
+      if command -v gcloud >/dev/null 2>&1; then
+        local zone="${GCP_ZONE:-}"
+        if [[ -z "$zone" ]]; then
+          zone="$(gcloud compute instances list --filter="name=${vm_name}" --format='value(zone.basename())' 2>/dev/null | head -n1 | tr -d '\n' || true)"
+        fi
+        if [[ -n "$zone" ]]; then
+          ip="$(gcloud compute instances describe "$vm_name" --zone="$zone" \
+            --format='get(networkInterfaces[0].accessConfigs[0].natIP)' 2>/dev/null | tr -d '\n' || true)"
+        fi
+      fi
+      if [[ -n "$ip" && "$ip" != "None" && "$ip" != "null" ]]; then
+        export GCP_VM_HOSTNAME="$ip"
+        echo "==> GCP_VM_HOSTNAME from live GCE public IP: $ip"
+      else
+        unset GCP_VM_HOSTNAME || true
+        echo "==> GCP_VM_HOSTNAME unset (no running fixture public IP; cloud-api will discover after Start)" >&2
+      fi
+      ;;
+  esac
 }
 
 run_go_test() {

@@ -20,9 +20,18 @@ func (s *GCPVirtualMachinesService) Start(resourceID string) error {
 	}
 	switch strings.ToUpper(inst.Status) {
 	case "RUNNING":
-		return nil
+		return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on GCE instance %q", name), func() (bool, error) {
+			ip, err := s.discoverPublicIP(name)
+			return ip != "", err
+		})
 	case "STAGING":
-		return s.waitInstanceStatus(client, project, zone, name, "RUNNING", 10*time.Minute)
+		if err := s.waitInstanceStatus(client, project, zone, name, "RUNNING", 10*time.Minute); err != nil {
+			return err
+		}
+		return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on GCE instance %q", name), func() (bool, error) {
+			ip, err := s.discoverPublicIP(name)
+			return ip != "", err
+		})
 	case "STOPPING", "SUSPENDING":
 		if err := s.waitInstanceStatus(client, project, zone, name, "TERMINATED", 10*time.Minute); err != nil {
 			return err
@@ -39,7 +48,13 @@ func (s *GCPVirtualMachinesService) Start(resourceID string) error {
 	if err := s.waitZoneOp(client, project, zone, op.Name, 10*time.Minute); err != nil {
 		return err
 	}
-	return s.waitInstanceStatus(client, project, zone, name, "RUNNING", 10*time.Minute)
+	if err := s.waitInstanceStatus(client, project, zone, name, "RUNNING", 10*time.Minute); err != nil {
+		return err
+	}
+	return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on GCE instance %q", name), func() (bool, error) {
+		ip, err := s.discoverPublicIP(name)
+		return ip != "", err
+	})
 }
 
 func (s *GCPVirtualMachinesService) Stop(resourceID string) error {

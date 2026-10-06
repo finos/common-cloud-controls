@@ -12,12 +12,12 @@ services:
       host-name: "${GCP_VM_HOSTNAME}"
       private-endpoint-url: "internal-only"
       gcp-flow-log-name: "compute.googleapis.com%2Fvpc_flows"
+      # CN03 peer vars (shape only; slim terraform has a single VPC — replace for multi-VPC CFI).
       allowed-requester-vpc-ids:
-        - "finos-ccc-integration-vpc-cn03-allow-01"
         - "finos-ccc-integration-vpc-cn03-allow-01"
       disallowed-requester-vpc-ids:
         - "finos-ccc-integration-vpc-bad"
-        - "finos-ccc-integration-vpc-bad"
+      non-allowlisted-requester-vpc-id: "finos-ccc-integration-vpc-bad"
       stale-version-id: "${STALE_VERSION_ID}"
       authorized-region: "us-east1"
       unauthorized-region: "europe-west1"
