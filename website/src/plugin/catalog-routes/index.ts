@@ -282,6 +282,8 @@ function getExternalFrameworkUrl(framework: string, entryId: string): string | n
     ISO_27001: () => `https://www.iso.org/standard/27001`,
     CCM: () => `https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4/`,
     CCMv4: () => `https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4/`,
+    CRI: () =>
+      `https://cyberriskinstitute.org/wp-content/uploads/2024/04/Final-CRI-Profile-v2-Guidebook-Public-2024-04-03.pdf`,
   };
 
   const generate = urlGenerators[framework];

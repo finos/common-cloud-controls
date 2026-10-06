@@ -49,5 +49,10 @@ modules/cloud-api-test/environment-config/.keys/*.json
 modules/cloud-api-test/environment-config/.keys/*.credentials
 node_modules
 
-/.gomodcache
-/.gocache
+# Local Go caches (when GOCACHE / GOMODCACHE are pointed into the repo)
+.gocache/
+.gomodcache/
+
+# runner build artifacts
+modules/runner/ccc-lifecycle
+modules/runner/ccc-compliance
