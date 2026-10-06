@@ -6,11 +6,9 @@ import (
 	"strings"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/generic/login"
 	ccctypes "github.com/finos/common-cloud-controls/cloud-api/types"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
 	compute "google.golang.org/api/compute/v1"
-	"google.golang.org/api/option"
 )
 
 var _ Service = (*GCPVPCService)(nil)
@@ -57,18 +55,11 @@ func NewGCPVPCServiceWithCredentials(ctx context.Context, config ccctypes.Config
 		return nil, fmt.Errorf("GcpProjectId not set in CloudParams")
 	}
 
-	serviceAccountKey := identity.Get("service_account_key")
-	if serviceAccountKey == "" {
-		return nil, fmt.Errorf("service_account_key not found for test identity %q", identity.UserName)
-	}
-
-	creds, err := google.CredentialsFromJSON(ctx, []byte(serviceAccountKey), compute.CloudPlatformScope)
+	opts, err := login.GCPIdentityClientOptions(identity)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse GCP service account key: %w", err)
+		return nil, err
 	}
-	httpClient := oauth2.NewClient(ctx, creds.TokenSource)
-
-	computeSvc, err := compute.NewService(ctx, option.WithHTTPClient(httpClient))
+	computeSvc, err := compute.NewService(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create compute service with credentials: %w", err)
 	}

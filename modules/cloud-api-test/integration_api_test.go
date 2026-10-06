@@ -94,6 +94,12 @@ func TestCloudAPIIntegration(t *testing.T) {
 			continue
 		}
 		label := formatCallRow(row)
+		// Incomplete test-identities is always a hard fail (never PASS via expect_error=true).
+		if err := identityPrerequisiteError(cfg, row.Identity); err != nil {
+			failed++
+			emitCallLine(formatCallResult("FAIL", 0, label, err), t)
+			continue
+		}
 		started := time.Now()
 		svc, err := serviceFor(f, services, row.API, row.Identity)
 		var callErr error
@@ -124,6 +130,26 @@ func TestCloudAPIIntegration(t *testing.T) {
 	if failed > 0 {
 		t.Fatalf("%d integration call(s) failed on %s", failed, provider)
 	}
+}
+
+// identityPrerequisiteError returns an error when a credentialed CSV row cannot run
+// because test-identities are missing or incomplete (e.g. stale CI *_ENV secret).
+func identityPrerequisiteError(cfg types.Config, identityKey string) error {
+	key := strings.TrimSpace(identityKey)
+	if key == "" {
+		return nil
+	}
+	identity, err := cfg.Identity(key)
+	if err != nil {
+		return fmt.Errorf("incomplete test-identities %q: %w (refresh environment-config / CI *_ENV secret)", key, err)
+	}
+	if strings.TrimSpace(identity.UserName) == "" {
+		return fmt.Errorf("incomplete test-identities %q: empty user-name (refresh CI *_ENV secret)", key)
+	}
+	if len(identity.Credentials) == 0 {
+		return fmt.Errorf("incomplete test-identities %q: no credentials (refresh CI *_ENV secret)", key)
+	}
+	return nil
 }
 
 // recordResult updates pass/fail counts for expect_error semantics. Returns true if the outcome is a pass.

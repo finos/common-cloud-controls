@@ -92,9 +92,13 @@ func (s *GCPVirtualMachinesService) resolveInstance(resourceID string) (*compute
 	if name == "" || project == "" {
 		return nil, "", "", "", fmt.Errorf("resource and gcp-project-id are required to start/stop GCE instances")
 	}
-	client, err := compute.NewService(s.ctx)
-	if err != nil {
-		return nil, "", "", "", fmt.Errorf("create Compute Engine client: %w", err)
+	client := s.compute
+	if client == nil {
+		var err error
+		client, err = compute.NewService(s.ctx)
+		if err != nil {
+			return nil, "", "", "", fmt.Errorf("create Compute Engine client: %w", err)
+		}
 	}
 	zone := strings.TrimSpace(s.config.Get("zone", "gcp-zone"))
 	if zone != "" {
@@ -164,9 +168,13 @@ func (s *GCPVirtualMachinesService) StartedDetails() ([]generic.StartedResource,
 	if project == "" {
 		return nil, fmt.Errorf("gcp-project-id is required to list started GCE instances")
 	}
-	client, err := compute.NewService(s.ctx)
-	if err != nil {
-		return nil, fmt.Errorf("create Compute Engine client: %w", err)
+	client := s.compute
+	if client == nil {
+		var err error
+		client, err = compute.NewService(s.ctx)
+		if err != nil {
+			return nil, fmt.Errorf("create Compute Engine client: %w", err)
+		}
 	}
 	// Prefer label from terraform; also match fixture name prefix.
 	filter := `(labels.cficontrolset = "ccc-vm") OR (name = finos-ccc-integration-vm-main)`

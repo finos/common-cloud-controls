@@ -8,6 +8,7 @@ import (
 	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	"cloud.google.com/go/secretmanager/apiv1/secretmanagerpb"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/generic/login"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"google.golang.org/api/option"
 	"google.golang.org/grpc/codes"
@@ -17,9 +18,10 @@ import (
 var _ Service = (*GCPSecretsService)(nil)
 
 type GCPSecretsService struct {
-	ctx       context.Context
-	config    types.Config
-	projectID string
+	ctx         context.Context
+	config      types.Config
+	projectID   string
+	clientOpts  []option.ClientOption // identity-scoped options; nil = ambient ADC
 }
 
 func NewGCPSecretsService(ctx context.Context, cfg types.Config) (*GCPSecretsService, error) {
@@ -41,8 +43,16 @@ func NewGCPSecretsService(ctx context.Context, cfg types.Config) (*GCPSecretsSer
 }
 
 func NewGCPSecretsServiceWithCredentials(ctx context.Context, cfg types.Config, identity types.Identity) (*GCPSecretsService, error) {
-	// Service account JSON is loaded via GOOGLE_APPLICATION_CREDENTIALS when set by test harness.
-	return NewGCPSecretsService(ctx, cfg)
+	svc, err := NewGCPSecretsService(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+	opts, err := login.GCPIdentityClientOptions(identity)
+	if err != nil {
+		return nil, err
+	}
+	svc.clientOpts = opts
+	return svc, nil
 }
 
 func (s *GCPSecretsService) secretID(secretID string) string {
@@ -157,7 +167,7 @@ func (s *GCPSecretsService) RetrieveSecretInRegion(secretID, region string) (*Se
 }
 
 func (s *GCPSecretsService) accessRegionalSecretVersion(secretID, location, versionSpecifier string) ([]byte, error) {
-	client, err := newRegionalSecretManagerClient(s.ctx, location)
+	client, err := s.newRegionalSecretManagerClient(location)
 	if err != nil {
 		return nil, err
 	}
@@ -171,12 +181,14 @@ func (s *GCPSecretsService) accessRegionalSecretVersion(secretID, location, vers
 	return resp.Payload.Data, nil
 }
 
-func newRegionalSecretManagerClient(ctx context.Context, location string) (*secretmanager.Client, error) {
+func (s *GCPSecretsService) newRegionalSecretManagerClient(location string) (*secretmanager.Client, error) {
 	endpoint := fmt.Sprintf("secretmanager.%s.rep.googleapis.com:443", location)
-	client, err := secretmanager.NewClient(ctx,
+	opts := []option.ClientOption{
 		option.WithEndpoint(endpoint),
-		option.WithScopes("https://www.googleapis.com/auth/cloud-platform"),
-	)
+		option.WithScopes(login.GCPCloudPlatformScope),
+	}
+	opts = append(opts, s.clientOpts...)
+	client, err := secretmanager.NewClient(s.ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("secret manager client (%s): %w", location, err)
 	}

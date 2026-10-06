@@ -163,6 +163,8 @@ ensure_binding "$SA_WRITE_EMAIL" "roles/compute.instanceAdmin.v1"
 ensure_binding "$SA_WRITE_EMAIL" "roles/container.developer"
 ensure_binding "$SA_ADMIN_EMAIL" "roles/editor"
 ensure_binding "$SA_ADMIN_EMAIL" "roles/container.admin"
+ensure_binding "$SA_ADMIN_EMAIL" "roles/secretmanager.secretAccessor"
+ensure_binding "$SA_ADMIN_EMAIL" "roles/secretmanager.viewer"
 
 create_key "$SA_NO_ACCESS_EMAIL" "$NO_ACCESS_KEY_FILE"
 create_key "$SA_WRITE_EMAIL" "$WRITE_KEY_FILE"

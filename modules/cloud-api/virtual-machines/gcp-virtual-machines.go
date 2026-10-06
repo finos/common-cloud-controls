@@ -7,22 +7,33 @@ import (
 	"time"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/generic/login"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	compute "google.golang.org/api/compute/v1"
 )
 
 var _ Service = (*GCPVirtualMachinesService)(nil)
 
 type GCPVirtualMachinesService struct {
-	ctx    context.Context
-	config types.Config
+	ctx     context.Context
+	config  types.Config
+	compute *compute.Service // nil = ambient ADC; set by WithCredentials
 }
 
 func NewGCPVirtualMachinesService(ctx context.Context, cfg types.Config) (*GCPVirtualMachinesService, error) {
 	return &GCPVirtualMachinesService{ctx: ctx, config: cfg}, nil
 }
 
-func NewGCPVirtualMachinesServiceWithCredentials(ctx context.Context, cfg types.Config, _ types.Identity) (*GCPVirtualMachinesService, error) {
-	return &GCPVirtualMachinesService{ctx: ctx, config: cfg}, nil
+func NewGCPVirtualMachinesServiceWithCredentials(ctx context.Context, cfg types.Config, identity types.Identity) (*GCPVirtualMachinesService, error) {
+	opts, err := login.GCPIdentityClientOptions(identity)
+	if err != nil {
+		return nil, err
+	}
+	client, err := compute.NewService(ctx, opts...)
+	if err != nil {
+		return nil, fmt.Errorf("create Compute Engine client for identity %q: %w", identity.UserName, err)
+	}
+	return &GCPVirtualMachinesService{ctx: ctx, config: cfg, compute: client}, nil
 }
 
 func (s *GCPVirtualMachinesService) GetOrProvisionTestableResources() ([]types.TestParams, error) {
@@ -72,15 +83,43 @@ func (s *GCPVirtualMachinesService) GetReplicationStatus(string) (*generic.Repli
 	return generic.ReplicationStatusNotApplicable()
 }
 func (s *GCPVirtualMachinesService) TearDown() error { return nil }
-func (s *GCPVirtualMachinesService) GetVolumeEncryptionStatus(string) (*VolumeEncryptionResult, error) {
-	return &VolumeEncryptionResult{
-		Volumes: []VolumeEncryptionStatus{{
-			VolumeID:            "gcp-persistent-disk",
+func (s *GCPVirtualMachinesService) GetVolumeEncryptionStatus(resourceID string) (*VolumeEncryptionResult, error) {
+	client, project, zone, name, err := s.resolveInstance(resourceID)
+	if err != nil {
+		return nil, err
+	}
+	inst, err := client.Instances.Get(project, zone, name).Context(s.ctx).Do()
+	if err != nil {
+		return nil, fmt.Errorf("get GCE instance %q for volume encryption: %w", name, err)
+	}
+	out := &VolumeEncryptionResult{}
+	for _, disk := range inst.Disks {
+		if disk == nil {
+			continue
+		}
+		volID := disk.DeviceName
+		if volID == "" {
+			volID = disk.Source
+		}
+		algo := "google-managed"
+		kms := ""
+		if disk.DiskEncryptionKey != nil && strings.TrimSpace(disk.DiskEncryptionKey.KmsKeyName) != "" {
+			algo = "customer-managed"
+			kms = disk.DiskEncryptionKey.KmsKeyName
+		} else if k := strings.TrimSpace(s.config.Get("disk-kms-key-id", "kms-key-id")); k != "" {
+			kms = k
+		}
+		out.Volumes = append(out.Volumes, VolumeEncryptionStatus{
+			VolumeID:            volID,
 			Encrypted:           true,
-			EncryptionAlgorithm: "google-managed",
-			KMSKeyID:            strings.TrimSpace(s.config.Get("disk-kms-key-id", "kms-key-id")),
-		}},
-	}, nil
+			EncryptionAlgorithm: algo,
+			KMSKeyID:            kms,
+		})
+	}
+	if len(out.Volumes) == 0 {
+		return nil, fmt.Errorf("GCE instance %q has no attached disks", name)
+	}
+	return out, nil
 }
 func (s *GCPVirtualMachinesService) AttemptInboundConnection(resourceID string, port int) (*ConnectionAttemptResult, error) {
 	host, err := resolveInboundHost(s.config.Get("host-name"), func() (string, error) {

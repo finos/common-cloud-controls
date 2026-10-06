@@ -52,7 +52,8 @@ logging,QueryLogs,all,,,finos-ccc-integration-fn-main,admin,60,,
 
 - `cloud`: `all` runs on every provider; otherwise only that cloud.
 - `expect_error`: `true` when the call is expected to return an error (denied path, unsupported stub, etc.).
-- `identity`: empty for ambient credentials; otherwise a `test-identities` key such as `test-user-admin` or `test-user-no-access`.
+- `identity`: empty for ambient credentials; otherwise a `test-identities` key such as `test-user-admin` or `test-user-no-access`. Incomplete identities (missing `*_TEST_USER_*` in env / CI `*_ENV` secrets) are a hard **FAIL** and are not treated as a successful `expect_error`.
+- Identity coverage is a dedicated matrix at the end of the CSV: one distinct method per service, each run once as `test-user-admin` (expect success) and once as `test-user-no-access` (`expect_error=true`). Prefer methods that call the cloud API (not config-only helpers like region lookups). VPC identity rows are Azure/GCP only (AWS `WithIdentity` not implemented). Logging / admission-webhook / reachability are omitted from that matrix (no useful credentialed deny path).
 - `arg5`: used for methods with five parameters (comma-separated values may coerce to `[]int` / `[]string`).
 
 Args may use `config:<var>` to pull a Privateer config value (for example a manifest string).
@@ -145,5 +146,7 @@ source ./aws-env.sh   # matching *-env.sh for your cloud
 ```
 
 Re-run the same `provision-<cloud>.sh` after `terraform apply` to refresh fixture vars (`STALE_VERSION_ID`, hostnames, …) without creating new users. CI stores env file contents in `AZURE_ENV` / `GCP_ENV` / `AWS_ENV` secrets.
+
+Those secrets must include the `*_TEST_USER_*` exports (admin / write / no-access, plus Azure read). After regenerating `aws-env.sh` / `azure-env.sh` / `gcp-env.sh`, update the matching GitHub secret with the file contents or identity rows will fail the suite.
 
 Core platform values can still come from existing repo secrets (for example `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`, `GCP_PROJECT_ID`, `GCP_PROJECT_NUMBER`, `AWS_REGION`).

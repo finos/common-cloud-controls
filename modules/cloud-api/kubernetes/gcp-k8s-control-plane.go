@@ -8,13 +8,13 @@ import (
 	"unicode"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/generic/login"
 	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/config"
 	"github.com/finos/common-cloud-controls/cloud-api/kubernetes/lifecycle"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	container "google.golang.org/api/container/v1"
-	"google.golang.org/api/option"
 	"k8s.io/client-go/rest"
 )
 
@@ -42,15 +42,15 @@ func NewGCPService(ctx context.Context, cfg types.Config) (*GCPService, error) {
 }
 
 func NewGCPServiceWithCredentials(ctx context.Context, cfg types.Config, identity types.Identity) (*GCPService, error) {
-	key := identity.Get("service_account_key")
-	if key == "" {
-		return nil, fmt.Errorf("service_account_key is required for GCP identity %q", identity.UserName)
+	opts, err := login.GCPIdentityClientOptions(identity)
+	if err != nil {
+		return nil, err
 	}
-	client, err := container.NewService(ctx, option.WithCredentialsJSON([]byte(key)))
+	client, err := container.NewService(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("create GKE client for identity %q: %w", identity.UserName, err)
 	}
-	creds, err := google.CredentialsFromJSON(ctx, []byte(key), container.CloudPlatformScope)
+	creds, err := login.GCPIdentityCredentials(ctx, identity, container.CloudPlatformScope)
 	if err != nil {
 		return nil, fmt.Errorf("create GKE token source for identity %q: %w", identity.UserName, err)
 	}
