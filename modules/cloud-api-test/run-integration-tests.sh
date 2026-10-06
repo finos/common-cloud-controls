@@ -79,6 +79,16 @@ setup_cloud_env() {
   resolve_live_vm_hostname "$cloud"
 
   if [[ -z "${STALE_VERSION_ID:-}" ]]; then
+    local tfstate="$SCRIPT_DIR/terraform/${cloud}/terraform.tfstate"
+    if [[ -f "$tfstate" ]] && command -v jq >/dev/null 2>&1; then
+      STALE_VERSION_ID="$(jq -r '.outputs.secrets.value.stale_version_id // empty' "$tfstate" | tr -d '\n')"
+      if [[ -n "$STALE_VERSION_ID" && "$STALE_VERSION_ID" != "null" ]]; then
+        export STALE_VERSION_ID
+        echo "==> STALE_VERSION_ID from terraform state"
+      fi
+    fi
+  fi
+  if [[ -z "${STALE_VERSION_ID:-}" ]]; then
     echo "Warning: STALE_VERSION_ID unset — add to environment-config/${cloud}-env.sh (regenerate via provision-${cloud}.sh after secrets terraform apply)" >&2
   fi
 }

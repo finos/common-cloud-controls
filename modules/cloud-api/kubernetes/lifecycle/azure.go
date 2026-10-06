@@ -50,6 +50,11 @@ func (a *Azure) SetPower(clusterID, action, wantPower string, deadline time.Time
 	if strings.EqualFold(status.Power, wantPower) {
 		return nil
 	}
+	if strings.EqualFold(action, "stop") && strings.EqualFold(status.ProvisioningState, "Failed") {
+		// Failed AKS clusters cannot be stopped until reconciled; do not fail fixture teardown.
+		fmt.Printf("==> stop AKS %q skipped: provisioningState=Failed (reconcile with az aks update)\n", clusterID)
+		return nil
+	}
 
 	actionURL, err := a.actionURL(clusterID, action)
 	if err != nil {
@@ -57,6 +62,10 @@ func (a *Azure) SetPower(clusterID, action, wantPower string, deadline time.Time
 	}
 	for {
 		if err := a.postAction(clusterID, action, actionURL); err != nil {
+			if isAKSStopBlockedByFailedState(err) {
+				fmt.Printf("==> stop AKS %q skipped: %v\n", clusterID, err)
+				return nil
+			}
 			if !IsAKSOperationInProgress(err) {
 				return err
 			}
@@ -240,9 +249,22 @@ func IsAKSOperationInProgress(err error) bool {
 		return false
 	}
 	msg := err.Error()
+	if isAKSStopBlockedByFailedState(err) {
+		return false
+	}
 	return strings.Contains(msg, "HTTP 409") ||
 		strings.Contains(msg, "AnotherOperationInProgress") ||
-		strings.Contains(msg, "OperationNotAllowed")
+		(strings.Contains(msg, "OperationNotAllowed") && strings.Contains(msg, "in-progress"))
+}
+
+func isAKSStopBlockedByFailedState(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := err.Error()
+	return strings.Contains(msg, "StopOperationNotAllowedForFailedManagedCluster") ||
+		(strings.Contains(msg, "Unable to perform 'stopping' operation") &&
+			strings.Contains(msg, "'failed' provision state"))
 }
 
 func (a *Azure) StartedDetails() ([]generic.StartedResource, error) {
