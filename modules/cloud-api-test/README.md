@@ -82,6 +82,7 @@ cd modules/cloud-api-test
 
 ./scale-fixtures.sh stop -p aws -s virtual-machines,kubernetes
 ```
+
 The script sets `INTEGRATION_PROVIDER`, sources `environment-config/<cloud>-env.sh` when present, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
 
 `./run-integration-tests.sh all` runs aws → azure → gcp (continues on failure) and merges coverage into `coverage-integration-all.out` / `.html`.

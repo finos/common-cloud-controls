@@ -49,23 +49,312 @@ services:
       webhook-probe-service: "ccc-admission-webhook-probe"
       webhook-probe-configuration: "ccc-admission-webhook-probe"
       webhook-probe-enabled-replicas: "1"
-      manifest-static-credential: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-static-cred-probe\n  namespace: ccc-test\nspec:\n  containers:\n  - name: probe\n    image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n    env:\n    - name: AZURE_CLIENT_SECRET\n      value: placeholder-not-a-secret"
-      manifest-privileged: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-privileged-probe\n  namespace: ccc-test\nspec:\n  containers:\n  - name: probe\n    image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n    securityContext:\n      privileged: true"
-      manifest-insecure-security-context: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-insecure-sc-probe\n  namespace: ccc-test\nspec:\n  containers:\n  - name: probe\n    image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n    securityContext:\n      runAsUser: 0\n      allowPrivilegeEscalation: true\n      capabilities:\n        add: [\"SYS_ADMIN\"]"
-      manifest-tag-only-image: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-tag-only-probe\n  namespace: ccc-test\nspec:\n  containers:\n  - name: probe\n    image: finoscccintacr.azurecr.io/ccc-probe:latest"
-      manifest-privileged-pod: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-cn11-privileged-pod\n  namespace: ccc-test\nspec:\n  containers:\n  - name: probe\n    image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n    securityContext:\n      privileged: true"
-      manifest-privileged-controllers: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ccc-cn11-privileged-deploy\n  namespace: ccc-test\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: ccc-cn11-privileged-deploy\n  template:\n    metadata:\n      labels:\n        app: ccc-cn11-privileged-deploy\n    spec:\n      containers:\n      - name: probe\n        image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n        securityContext:\n          privileged: true"
-      manifest-unlabeled-ns-privileged: "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ccc-admission-unlabeled-probe\n---\napiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-bypass-pod\n  namespace: ccc-admission-unlabeled-probe\nspec:\n  containers:\n  - name: probe\n    image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n    securityContext:\n      privileged: true"
-      manifest-privileged-deployment-update: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ccc-compliant-deploy\n  namespace: ccc-test\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: ccc-compliant-deploy\n  template:\n    metadata:\n      labels:\n        app: ccc-compliant-deploy\n    spec:\n      containers:\n      - name: probe\n        image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n        securityContext:\n          privileged: true"
-      manifest-ephemeral-privileged: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-ephemeral-target\n  namespace: ccc-test\nspec:\n  ephemeralContainers:\n  - name: debugger\n    image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n    securityContext:\n      privileged: true"
-      manifest-compliant-deployment: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ccc-compliant-deploy\n  namespace: ccc-test\n  labels:\n    Owner: ccc\n    Environment: nonprod\n    DataClassification: internal\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: ccc-compliant-deploy\n  template:\n    metadata:\n      labels:\n        app: ccc-compliant-deploy\n        Owner: ccc\n        Environment: nonprod\n        DataClassification: internal\n    spec:\n      serviceAccountName: ccc-wi-sa\n      securityContext:\n        runAsNonRoot: true\n        seccompProfile:\n          type: RuntimeDefault\n      containers:\n      - name: probe\n        image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n        securityContext:\n          allowPrivilegeEscalation: false\n          capabilities:\n            drop: [\"ALL\"]\n          runAsUser: 1000\n        resources:\n          requests:\n            cpu: 50m\n            memory: 64Mi\n          limits:\n            cpu: 100m\n            memory: 128Mi"
-      manifest-webhook-compliant: "apiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: ccc-webhook-allow\n  namespace: ccc-admission-webhook-test\n  labels:\n    ccc.finos.org/webhook-probe: allow\ndata:\n  ok: \"true\""
-      manifest-webhook-reject: "apiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: ccc-webhook-deny\n  namespace: ccc-admission-webhook-test\n  labels:\n    ccc.finos.org/webhook-probe: reject\ndata:\n  ok: \"false\""
-      manifest-resources-over-limit: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-over-limit\n  namespace: ccc-test\nspec:\n  containers:\n  - name: probe\n    image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n    resources:\n      requests:\n        cpu: \"32\"\n        memory: 64Gi\n      limits:\n        cpu: \"64\"\n        memory: 128Gi"
-      manifest-resources-compliant: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: ccc-resources-ok\n  namespace: ccc-test\nspec:\n  containers:\n  - name: probe\n    image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n    resources:\n      requests:\n        cpu: 50m\n        memory: 64Mi\n      limits:\n        cpu: 100m\n        memory: 128Mi"
-      manifest-quota-exceed: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ccc-quota-exceed\n  namespace: ccc-test\nspec:\n  replicas: 100\n  selector:\n    matchLabels:\n      app: ccc-quota-exceed\n  template:\n    metadata:\n      labels:\n        app: ccc-quota-exceed\n    spec:\n      containers:\n      - name: probe\n        image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder\n        resources:\n          requests:\n            cpu: \"1\"\n            memory: 1Gi"
-      manifest-missing-required-label: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ccc-missing-label\n  namespace: ccc-test\nspec:\n  replicas: 1\n  selector:\n    matchLabels:\n      app: ccc-missing-label\n  template:\n    metadata:\n      labels:\n        app: ccc-missing-label\n    spec:\n      containers:\n      - name: probe\n        image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder"
+      manifest-static-credential: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-static-cred-probe
+          namespace: ccc-test
+        spec:
+          containers:
+          - name: probe
+            image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+            env:
+            - name: AZURE_CLIENT_SECRET
+              value: placeholder-not-a-secret
+      manifest-privileged: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-privileged-probe
+          namespace: ccc-test
+        spec:
+          containers:
+          - name: probe
+            image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+            securityContext:
+              privileged: true
+      manifest-insecure-security-context: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-insecure-sc-probe
+          namespace: ccc-test
+        spec:
+          containers:
+          - name: probe
+            image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+            securityContext:
+              runAsUser: 0
+              allowPrivilegeEscalation: true
+              capabilities:
+                add: ["SYS_ADMIN"]
+      manifest-tag-only-image: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-tag-only-probe
+          namespace: ccc-test
+        spec:
+          containers:
+          - name: probe
+            image: finoscccintacr.azurecr.io/ccc-probe:latest
+      manifest-privileged-pod: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-cn11-privileged-pod
+          namespace: ccc-test
+        spec:
+          containers:
+          - name: probe
+            image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+            securityContext:
+              privileged: true
+      manifest-privileged-controllers: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ccc-cn11-privileged-deploy
+          namespace: ccc-test
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: ccc-cn11-privileged-deploy
+          template:
+            metadata:
+              labels:
+                app: ccc-cn11-privileged-deploy
+            spec:
+              containers:
+              - name: probe
+                image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+                securityContext:
+                  privileged: true
+      manifest-unlabeled-ns-privileged: |
+        apiVersion: v1
+        kind: Namespace
+        metadata:
+          name: ccc-admission-unlabeled-probe
+        ---
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-bypass-pod
+          namespace: ccc-admission-unlabeled-probe
+        spec:
+          containers:
+          - name: probe
+            image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+            securityContext:
+              privileged: true
+      manifest-privileged-deployment-update: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ccc-compliant-deploy
+          namespace: ccc-test
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: ccc-compliant-deploy
+          template:
+            metadata:
+              labels:
+                app: ccc-compliant-deploy
+            spec:
+              containers:
+              - name: probe
+                image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+                securityContext:
+                  privileged: true
+      manifest-ephemeral-privileged: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-ephemeral-target
+          namespace: ccc-test
+        spec:
+          ephemeralContainers:
+          - name: debugger
+            image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+            securityContext:
+              privileged: true
+      manifest-compliant-deployment: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ccc-compliant-deploy
+          namespace: ccc-test
+          labels:
+            Owner: ccc
+            Environment: nonprod
+            DataClassification: internal
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: ccc-compliant-deploy
+          template:
+            metadata:
+              labels:
+                app: ccc-compliant-deploy
+                Owner: ccc
+                Environment: nonprod
+                DataClassification: internal
+            spec:
+              serviceAccountName: ccc-wi-sa
+              securityContext:
+                runAsNonRoot: true
+                seccompProfile:
+                  type: RuntimeDefault
+              containers:
+              - name: probe
+                image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+                securityContext:
+                  allowPrivilegeEscalation: false
+                  capabilities:
+                    drop: ["ALL"]
+                  runAsUser: 1000
+                resources:
+                  requests:
+                    cpu: 50m
+                    memory: 64Mi
+                  limits:
+                    cpu: 100m
+                    memory: 128Mi
+      manifest-webhook-compliant: |
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: ccc-webhook-allow
+          namespace: ccc-admission-webhook-test
+          labels:
+            ccc.finos.org/webhook-probe: allow
+        data:
+          ok: "true"
+      manifest-webhook-reject: |
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: ccc-webhook-deny
+          namespace: ccc-admission-webhook-test
+          labels:
+            ccc.finos.org/webhook-probe: reject
+        data:
+          ok: "false"
+      manifest-resources-over-limit: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-over-limit
+          namespace: ccc-test
+        spec:
+          containers:
+          - name: probe
+            image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+            resources:
+              requests:
+                cpu: "32"
+                memory: 64Gi
+              limits:
+                cpu: "64"
+                memory: 128Gi
+      manifest-resources-compliant: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-resources-ok
+          namespace: ccc-test
+        spec:
+          containers:
+          - name: probe
+            image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+            resources:
+              requests:
+                cpu: 50m
+                memory: 64Mi
+              limits:
+                cpu: 100m
+                memory: 128Mi
+      manifest-quota-exceed: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ccc-quota-exceed
+          namespace: ccc-test
+        spec:
+          replicas: 100
+          selector:
+            matchLabels:
+              app: ccc-quota-exceed
+          template:
+            metadata:
+              labels:
+                app: ccc-quota-exceed
+            spec:
+              containers:
+              - name: probe
+                image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
+                resources:
+                  requests:
+                    cpu: "1"
+                    memory: 1Gi
+      manifest-missing-required-label: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ccc-missing-label
+          namespace: ccc-test
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: ccc-missing-label
+          template:
+            metadata:
+              labels:
+                app: ccc-missing-label
+            spec:
+              containers:
+              - name: probe
+                image: finoscccintacr.azurecr.io/ccc-probe@sha256:placeholder
       governance-patch-no-access: "{\"Environment\":\"prod\"}"
-      pvc-disallowed-storage-class: "apiVersion: v1\nkind: PersistentVolumeClaim\nmetadata:\n  name: ccc-pvc-bad-sc\n  namespace: ccc-test\nspec:\n  accessModes: [\"ReadWriteOnce\"]\n  storageClassName: ccc-blocked-sc\n  resources:\n    requests:\n      storage: 1Gi"
-      pvc-disallowed-access-mode: "apiVersion: v1\nkind: PersistentVolumeClaim\nmetadata:\n  name: ccc-pvc-bad-mode\n  namespace: ccc-test\nspec:\n  accessModes: [\"ReadWriteMany\"]\n  storageClassName: ccc-approved-sc\n  resources:\n    requests:\n      storage: 1Gi"
-      pvc-compliant: "apiVersion: v1\nkind: PersistentVolumeClaim\nmetadata:\n  name: ccc-pvc-ok\n  namespace: ccc-test\nspec:\n  accessModes: [\"ReadWriteOnce\"]\n  storageClassName: ccc-approved-sc\n  resources:\n    requests:\n      storage: 1Gi"
+      pvc-disallowed-storage-class: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-pvc-bad-sc
+          namespace: ccc-test
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: ccc-blocked-sc
+          resources:
+            requests:
+              storage: 1Gi
+      pvc-disallowed-access-mode: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-pvc-bad-mode
+          namespace: ccc-test
+        spec:
+          accessModes: ["ReadWriteMany"]
+          storageClassName: ccc-approved-sc
+          resources:
+            requests:
+              storage: 1Gi
+      pvc-compliant: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-pvc-ok
+          namespace: ccc-test
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: ccc-approved-sc
+          resources:
+            requests:
+              storage: 1Gi

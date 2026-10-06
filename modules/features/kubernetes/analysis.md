@@ -805,58 +805,88 @@ The fixture supplies a private Service, Deployment, ServiceAccount, TLS Secret, 
 
 - IRSA: SA annotation `eks.amazonaws.com/role-arn`; scan Secrets/Env for `AKIA…`.
 - Negative: unbound SA has no role-arn; `AttemptCloudAPIAsWorkload` runs a short Job that calls STS/`GetCallerIdentity` or reads a probe S3 object — expect failure without IRSA token.
+
 #### Azure
+
 - Workload Identity: SA labels/annotations `azure.workload.identity/*`; federated credential on UAMI.
 - Negative: unbound SA lacks WI labels; cloud call via DefaultAzureCredential from that SA fails.
+
 #### GCP
+
 - GKE WI: SA annotation `iam.gke.io/gcp-service-account`; scan for SA JSON.
 - Negative: unbound SA has no GSA binding; cloud call fails.
 
 ### `GetClusterComponentInventory`
 
 #### AWS
+
 - `eks:DescribeCluster`, `ListAddons`, `DescribeAddon` / `DescribeAddonVersions` (filter by cluster Kubernetes version), `DescribeNodegroup` (+ AMI / platform version for AR01).
 - **CN09.AR03**: for each installed addon, assert `addonVersion` is in the CSP-returned compatible set for this control-plane version and addon health is not version-mismatch degraded.
+
 #### Azure
+
 - AKS agent pool orchestrator version; `ManagedCluster.AddonProfiles` / extensions APIs + AKS Kubernetes version support matrix.
 - **CN09.AR03**: each enabled addon/extension version marked compatible with the cluster's Kubernetes version.
+
 #### GCP
+
 - GKE `currentMasterVersion`, node pool versions, `addonsConfig`; release channels for support.
 - **CN09.AR03**: managed addon config versions track a channel/version CSP documents as compatible with the master version.
+
 ### `ProbeNodeAdminInterfaces` / `AttemptInstanceMetadataAccess`
 
 #### AWS
+
 - EC2 instance public IP / SG for SSH; IMDS `169.254.169.254` from pod (hop limit 1 / NetworkPolicy).
+
 #### Azure
+
 - Node NIC public IP; IMDS `169.254.169.254` with AKS hostNetwork restrictions.
+
 #### GCP
+
 - GCE metadata concealment / Workload Identity; firewall for SSH.
 
 ### `GetEncryptionAtRestStatus`
 
 #### AWS
+
 - EKS secrets encryption config (`encryptionConfig` KMS key ARN).
+
 #### Azure
+
 - AKS host-based encryption / KMS etcd encryption features as exposed on managed cluster.
+
 #### GCP
+
 - GKE database encryption (`databaseEncryption.state` / KMS key).
 
 ### `GetNodeIntegrityStatus`
 
 #### AWS
+
 - Bottlerocket / AL2023 EKS-optimized AMI identity; NitroTPM/Measured Boot where available — mark `—` if not exposed.
+
 #### Azure
+
 - Trusted launch / Secure Boot / vTPM on agent pools.
+
 #### GCP
+
 - Shielded nodes / secure boot / integrity monitoring — primary cloud where AR02 is straightforward.
 
 ### `UpdateResourcePolicy` / `TriggerDataWrite` / `TriggerDataRead` (generic embed)
 
 #### AWS
+
 - Tag update on EKS cluster; Kubernetes ConfigMap mutate/get for data plane audit events when control-plane logging enabled.
+
 #### Azure
+
 - Cluster tags via ARM; Activity Log + diagnostic settings for kube-audit.
+
 #### GCP
+
 - Cluster labels; Cloud Audit Logs + GKE audit logs to configured sink.
 
 ### `logging.QueryLogs`
