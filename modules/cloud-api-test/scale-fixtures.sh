@@ -30,6 +30,10 @@ Usage:
   -s, --services LIST            Comma-separated service IDs
                                  (default: virtual-machines,kubernetes)
   -p, --providers LIST           Providers for discover mode (default: aws,azure,gcp)
+
+APIs listed in integration_exclusions.csv are skipped per provider —
+e.g. kubernetes is not started/stopped on aws or gcp.
+
   -h, --help                     Show help
 EOF
 }
@@ -76,11 +80,16 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 MODULES_DIR="$REPO_ROOT/modules"
 export GOWORK="${GOWORK:-$MODULES_DIR/go.work}"
 
+EXCLUSIONS_FILE="$SCRIPT_DIR/integration_exclusions.csv"
+
 ARGS=(
   -action "$ACTION"
   -services "$SERVICES"
   -providers "$PROVIDERS"
 )
+if [[ -f "$EXCLUSIONS_FILE" ]]; then
+  ARGS+=(-exclusions "$EXCLUSIONS_FILE")
+fi
 
 if [[ -n "$CONFIG_FILE" ]]; then
   if [[ -z "$PRIVATEER_SERVICE" ]]; then

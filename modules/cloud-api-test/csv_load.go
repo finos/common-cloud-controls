@@ -30,7 +30,7 @@ type callRow struct {
 	Args        []string
 }
 
-// exclusionSet maps "api|cloud" (whole API) or "api|cloud|method" (one method).
+// exclusionSet maps "api|cloud" for whole-API skips.
 type exclusionSet map[string]struct{}
 
 func loadExclusions(csvData string) (exclusionSet, error) {
@@ -74,12 +74,7 @@ func loadExclusions(csvData string) (exclusionSet, error) {
 		if cloud == "all" {
 			return nil, fmt.Errorf("exclusions: cloud %q is not allowed; use aws, azure, or gcp", cloud)
 		}
-		method := get(rec, "method")
-		if method == "" {
-			out[api+"|"+cloud] = struct{}{}
-		} else {
-			out[api+"|"+cloud+"|"+method] = struct{}{}
-		}
+		out[api+"|"+cloud] = struct{}{}
 	}
 	return out, nil
 }
@@ -88,10 +83,7 @@ func (e exclusionSet) matches(api, method, provider string) bool {
 	if e == nil {
 		return false
 	}
-	if _, ok := e[api+"|"+provider]; ok {
-		return true
-	}
-	_, ok := e[api+"|"+provider+"|"+method]
+	_, ok := e[api+"|"+provider]
 	return ok
 }
 

@@ -22,6 +22,7 @@ func main() {
 	privateerService := flag.String("privateer-service", "", "Privateer services.<id> key (required with -config)")
 	servicesFlag := flag.String("services", "virtual-machines,kubernetes", "Comma-separated service IDs")
 	providersFlag := flag.String("providers", "aws,azure,gcp", "Comma-separated providers for discover mode (stop/list without -config)")
+	exclusionsFlag := flag.String("exclusions", "", "Optional integration_exclusions.csv (skip whole APIs per cloud)")
 	flag.Parse()
 
 	switch *action {
@@ -35,16 +36,20 @@ func main() {
 		log.Fatal("Error: -services must list at least one service ID")
 	}
 
-	var err error
+	exclusions, err := loadWholeAPIExclusions(*exclusionsFlag)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	if *configPath != "" {
 		if *privateerService == "" {
 			log.Fatal("Error: -privateer-service is required with -config")
 		}
-		err = runConfigured(*action, *configPath, *privateerService, services)
+		err = runConfigured(*action, *configPath, *privateerService, services, exclusions)
 	} else if *action == "start" {
 		log.Fatal("Error: -config and -privateer-service are required for start")
 	} else {
-		err = runDiscover(*action, splitCSV(*providersFlag), services)
+		err = runDiscover(*action, splitCSV(*providersFlag), services, exclusions)
 	}
 	if errors.Is(err, errFixturesStarted) {
 		os.Exit(2)
@@ -54,7 +59,7 @@ func main() {
 	}
 }
 
-func runConfigured(action, configPath, privateerService string, services []string) error {
+func runConfigured(action, configPath, privateerService string, services []string, exclusions wholeAPIExclusions) error {
 	cfg, err := runner.LoadPrivateerConfig(configPath, privateerService)
 	if err != nil {
 		return fmt.Errorf("load Privateer config: %w", err)
@@ -62,6 +67,11 @@ func runConfigured(action, configPath, privateerService string, services []strin
 	provider, err := cfg.Provider()
 	if err != nil {
 		return err
+	}
+	services = filterServices(services, string(provider), exclusions)
+	if len(services) == 0 {
+		fmt.Printf("==> %s: no services left after exclusions for %s\n", action, provider)
+		return nil
 	}
 	factory.ResetFactoryCache()
 	cloudFactory, err := factory.NewFactory(provider, cfg)
@@ -81,7 +91,7 @@ func runConfigured(action, configPath, privateerService string, services []strin
 	return nil
 }
 
-func runDiscover(action string, providers, services []string) error {
+func runDiscover(action string, providers, services []string, exclusions wholeAPIExclusions) error {
 	var reported []string
 	failed := false
 	for _, providerName := range providers {
@@ -95,6 +105,10 @@ func runDiscover(action string, providers, services []string) error {
 			log.Printf("skip %s: %v", providerName, err)
 			continue
 		}
+		providerServices := filterServices(services, string(provider), exclusions)
+		if len(providerServices) == 0 {
+			continue
+		}
 		factory.ResetFactoryCache()
 		cloudFactory, err := factory.NewFactory(provider, cfg)
 		if err != nil {
@@ -102,7 +116,7 @@ func runDiscover(action string, providers, services []string) error {
 			failed = true
 			continue
 		}
-		for _, serviceID := range services {
+		for _, serviceID := range providerServices {
 			lines, err := actOnService(action, providerName, serviceID, cloudFactory, cfg)
 			if err != nil {
 				log.Printf("ERROR %s/%s: %v", providerName, serviceID, err)

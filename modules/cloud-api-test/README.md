@@ -27,7 +27,7 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 1. Loads `privateer-config/{aws,azure,gcp}.yml` (minimal vars for CSV + cloud-api).
 2. Reads `integration_calls.csv`: `api` (factory service id), `method`, `cloud` (`aws`|`azure`|`gcp`|`all`), `expect_error`, `arg1`…`arg5`.
 3. Skips rows whose `cloud` does not match `INTEGRATION_PROVIDER`.
-4. Applies `integration_exclusions.csv` to drop entire APIs (or specific methods) for the current provider.
+4. Applies `integration_exclusions.csv` to drop entire APIs for the current provider.
 5. Resolves each `api` via `factory.GetServiceAPI` and invokes `method` by reflection.
 6. `expect_error=true` → pass only if the call returns an error; otherwise pass only if it succeeds.
 7. `DeleteObject` / `DeleteBucket` run for `object-storage` only; other `Delete*` methods are skipped.
@@ -55,19 +55,18 @@ Args may use `config:<var>` to pull a Privateer config value (for example a mani
 
 ### Exclusions
 
-`integration_exclusions.csv` skips calls for specific clouds without editing every matching row in `integration_calls.csv`:
+`integration_exclusions.csv` skips whole factory APIs for specific clouds without editing every matching row in `integration_calls.csv`:
 
 ```csv
-api,cloud,method
-kubernetes,aws,
-kubernetes,gcp,
-admission-webhook,aws,
-admission-webhook,gcp,
+api,cloud
+kubernetes,aws
+kubernetes,gcp
+admission-webhook,aws
+admission-webhook,gcp
 ```
 
 - `cloud`: must be `aws`, `azure`, or `gcp` (not `all`).
-- `method`: empty = exclude the whole factory `api` on that cloud; set to skip one method only.
-- Prefer exclusions for whole APIs that are not provisioned on a cloud; use the calls CSV `cloud` column for a single arg-specific row (for example k8s log queries on Azure only).
+- Prefer exclusions for APIs that are not provisioned on a cloud; use the calls CSV `cloud` column for a single arg-specific row (for example k8s log queries on Azure only).
 
 ## Run locally
 
@@ -76,7 +75,8 @@ Billable compute (VMs and Kubernetes) should stay **parked** between runs via `s
 ```bash
 cd modules/cloud-api-test
 
-# Bring VM / k8s fixtures online first (same recipe for aws | azure | gcp)
+# Bring billable fixtures online first (default: virtual-machines,kubernetes).
+# integration_exclusions.csv skips whole APIs per cloud (e.g. no k8s start on aws/gcp).
 ./scale-fixtures.sh start \
   -c "privateer-config/aws.yml" -S integration -s virtual-machines,kubernetes
 
