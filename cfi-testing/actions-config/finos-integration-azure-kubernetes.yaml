@@ -14,6 +14,7 @@ cfi:
   path: modules/cloud-api-test/terraform/azure
   test-on-branches:
     - main
+    - managed-k8s-behavioural
   git: https://github.com/finos/common-cloud-controls
   test-configuration: ../privateer-config/finos-integration/kubernetes/azure-kubernetes.yml
   privateer-service: azureKubernetes
