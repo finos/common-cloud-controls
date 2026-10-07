@@ -62,6 +62,7 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
 ## Assessment requirements
 
 ### CCC.K8S.CN01.AR01 — Restrict API to approved networks
+
 - **Requirement**: > When a Kubernetes API endpoint is active, its network access configuration MUST restrict inbound traffic to explicitly approved private networks or source address ranges.
 - **Disposition**: Behavioural (`@Behavioural @kubernetes`)
 - **Applicability**: tlp-clear, tlp-green, tlp-amber, tlp-red
