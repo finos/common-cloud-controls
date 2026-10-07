@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN14.AR01 - Export Kubernetes API audit logs
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Export Kubernetes API audit logs
     Given I call "{api}" with "GetServiceAPI" using argument "logging"
     And I refer to "{result}" as "loggingService"

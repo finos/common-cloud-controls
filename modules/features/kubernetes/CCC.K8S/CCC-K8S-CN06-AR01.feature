@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN06.AR01 - Enforce default-deny network policy
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Enforce default-deny network policy
     When I call "{kubeClient}" with "GetNamespaceNetworkPolicyStatus" using arguments "{uid}" and "{test-workload-namespace}"
     Then "{result}" is not an error

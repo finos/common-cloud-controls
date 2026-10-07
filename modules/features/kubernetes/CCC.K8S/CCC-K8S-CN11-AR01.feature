@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN11.AR01 - Cover every namespace and admission path
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Cover every namespace and admission path
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{privileged-workload-manifest}"
     Then "{result}" is an error

@@ -18,6 +18,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
 
 // Request describes a network observation. NetworkContext identifies the
@@ -200,4 +202,20 @@ func requestTimeout(req Request) time.Duration {
 		return req.Timeout + time.Second
 	}
 	return 6 * time.Second
+}
+
+// ProberFromConfig selects LocalProber or RemoteProber from Privateer vars.
+func ProberFromConfig(cfg types.Config) Prober {
+	if strings.EqualFold(cfg.Get("reachability-probe-mode"), "remote") {
+		return RemoteProber{
+			URL:          cfg.Get("reachability-probe-url"),
+			SharedSecret: []byte(cfg.Get("reachability-probe-shared-secret")),
+			Observer:     cfg.Get("reachability-probe-observer"),
+		}
+	}
+	observer := cfg.Get("reachability-probe-observer")
+	if observer == "" {
+		observer = "runner-local"
+	}
+	return LocalProber{Observer: observer}
 }

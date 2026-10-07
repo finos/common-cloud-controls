@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN16.AR02 - Disable unmanaged human credentials
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Disable unmanaged human credentials
     When I call "{k8sControlPlane}" with "GetClusterAuthConfig" using argument "{uid}"
     Then "{result}" is not an error
@@ -17,7 +17,7 @@ Feature: CCC.K8S.CN16.AR02 - Disable unmanaged human credentials
     And "{result.LocalAccountsEnabled}" is false
     And "{result.StaticClientCertsForHumans}" is false
 
-  @Behavioural @kubernetes @OPT_IN
+  @Behavioural @kubernetes
   Scenario: A synthetic static human credential is rejected
     When I call "{k8sControlPlane}" with "AttemptClusterAuthWithStaticCredential" using arguments "{uid}" and "{legacy-auth-probe-mode}"
     Then "{result}" is an error

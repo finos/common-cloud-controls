@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN02.AR02 - Reject wildcard non-system roles
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Reject wildcard non-system roles
     When I call "{kubeClient}" with "GetRBACPolicyFindings" using argument "{uid}"
     Then "{result}" is not an error

@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN18.AR01 - Use supported authenticated node images
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Use supported authenticated node images
     When I call "{k8sControlPlane}" with "GetNodeIntegrityStatus" using argument "{uid}"
     Then "{result}" is not an error

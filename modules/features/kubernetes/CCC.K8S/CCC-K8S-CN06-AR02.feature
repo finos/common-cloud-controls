@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN06.AR02 - Allow only explicitly selected network flows
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Allow only explicitly selected network flows
     When I call "{kubeClient}" with "AttemptWorkloadNetworkFlow" using arguments "{uid}", "{network-probe-selector}", "{network-allowlist-host}", "{network-probe-port}", and "{network-probe-protocol}"
     Then "{result}" is not an error

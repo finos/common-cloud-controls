@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN16.AR01 - Use a managed identity provider for human access
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Use a managed identity provider for human access
     When I call "{k8sControlPlane}" with "GetClusterAuthConfig" using argument "{uid}"
     Then "{result}" is not an error

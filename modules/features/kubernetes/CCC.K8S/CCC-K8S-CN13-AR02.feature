@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN13.AR02 - Enforce namespace resource quotas
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Enforce namespace resource quotas
     When I call "{kubeClient}" with "GetResourceConsumptionBounds" using arguments "{uid}" and "{test-workload-namespace}"
     Then "{result}" is not an error

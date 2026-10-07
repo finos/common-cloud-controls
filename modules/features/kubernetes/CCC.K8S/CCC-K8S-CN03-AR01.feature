@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN03.AR01 - Use workload identity federation
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Use workload identity federation
     When I call "{kubeClient}" with "GetWorkloadIdentityStatus" using arguments "{uid}", "{test-workload-namespace}", and "{test-workload-service-account}"
     Then "{result}" is not an error
@@ -23,7 +23,7 @@ Feature: CCC.K8S.CN03.AR01 - Use workload identity federation
     Then "{result}" is not an error
     And "{result.Federated}" is false
 
-  @Behavioural @kubernetes @OPT_IN
+  @Behavioural @kubernetes
   Scenario: An unbound service account cannot use the workload cloud identity
     When I call "{k8sControlPlane}" with "AttemptCloudAPIAsWorkload" using arguments "{uid}", "{test-workload-namespace}", "{test-workload-service-account-unbound}", and "{wi-probe-action}"
     Then "{result}" is an error

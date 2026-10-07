@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN07.AR02 - Restrict secret access to required names
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Restrict secret access to required names
     When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "{protected-secret-name}", "{test-workload-service-account}", and "get"
     Then "{result}" is not an error

@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN17.AR01 - Separate infrastructure identities
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Separate infrastructure identities
     When I call "{kubeClient}" with "GetInfrastructureIdentities" using argument "{uid}"
     Then "{result}" is not an error

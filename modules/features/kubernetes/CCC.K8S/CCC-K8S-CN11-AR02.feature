@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN11.AR02 - Gate and audit admission configuration changes
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Gate and audit admission configuration changes
     Given I call "{api}" with "GetServiceAPIWithIdentity" using arguments "kubernetes" and "test-user-no-access"
     And "{result}" is not an error

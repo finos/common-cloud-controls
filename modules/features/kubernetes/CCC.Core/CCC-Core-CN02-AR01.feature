@@ -9,7 +9,7 @@ Feature: CCC.Core.CN02.AR01 - Encrypt Kubernetes secrets at rest
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Kubernetes secrets are encrypted at rest
     When I call "{k8sControlPlane}" with "GetEncryptionAtRestStatus" using argument "{uid}"
     Then "{result}" is not an error

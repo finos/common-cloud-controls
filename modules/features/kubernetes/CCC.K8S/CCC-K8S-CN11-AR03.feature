@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN11.AR03 - Fail closed when an external webhook is unavailable
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Fail closed when an external webhook is unavailable
     Given I call "{api}" with "GetServiceAPI" using argument "admission-webhook"
     And I refer to "{result}" as "webhookService"

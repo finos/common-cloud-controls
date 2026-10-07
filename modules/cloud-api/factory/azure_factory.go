@@ -10,7 +10,6 @@ import (
 	kubernetesapi "github.com/finos/common-cloud-controls/cloud-api/kubernetes"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
-	"github.com/finos/common-cloud-controls/cloud-api/reachability"
 	secretsapi "github.com/finos/common-cloud-controls/cloud-api/secrets"
 	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
@@ -94,11 +93,6 @@ func (f *AzureFactory) GetServiceAPI(serviceID string) (generic.Service, error) 
 		if err != nil {
 			return nil, fmt.Errorf("failed to create Azure service '%s': %w", serviceID, err)
 		}
-	case "reachability":
-		service, err = reachability.NewService(f.ctx, f.config)
-		if err != nil {
-			return nil, fmt.Errorf("failed to create Azure service '%s': %w", serviceID, err)
-		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for Azure: %s", serviceID)
@@ -160,11 +154,6 @@ func (f *AzureFactory) GetServiceAPIWithIdentity(serviceID string, identityKey s
 		}
 	case "admission-webhook":
 		service, err = admissionwebhook.NewServiceWithIdentity(f.ctx, f.config, identity)
-		if err != nil {
-			return nil, fmt.Errorf("failed to create Azure service '%s' with identity %q: %w", serviceID, identityKey, err)
-		}
-	case "reachability":
-		service, err = reachability.NewServiceWithIdentity(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create Azure service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}

@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN15.AR01 - Require approved governance metadata
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Require approved governance metadata
     When I call "{k8sControlPlane}" with "GetGovernanceMetadata" using argument "{uid}"
     Then "{result}" is not an error

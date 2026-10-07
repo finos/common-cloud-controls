@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN10.AR01 - Enforce approved persistent-volume claims
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Enforce approved persistent-volume claims
     When I call "{kubeClient}" with "AttemptCreatePVC" using arguments "{uid}" and "{disallowed-pvc-manifest}"
     Then "{result}" is an error

@@ -62,19 +62,17 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
 ## Assessment requirements
 
 ### CCC.K8S.CN01.AR01 — Restrict API to approved networks
-
 - **Requirement**: > When a Kubernetes API endpoint is active, its network access configuration MUST restrict inbound traffic to explicitly approved private networks or source address ranges.
-- **Disposition**: `@NotTestable` (GitHub-hosted CI / ephemeral egress)
+- **Disposition**: Behavioural (`@Behavioural @kubernetes`)
 - **Applicability**: tlp-clear, tlp-green, tlp-amber, tlp-red
-- **Reuse**: Document only under `kubernetes/CCC.K8S/` (no `@MAIN` behavioural feature for this AR in FINOS GitHub Actions)
+- **Reuse**: Under `kubernetes/CCC.K8S/`
 - **Interpretation**: Managed API endpoint (EKS public/private access, AKS API server authorized IP ranges / private cluster, GKE authorized networks / private endpoint) must encode an allowlist; traffic from outside that allowlist must fail.
-- **Why not behavioural (in this CI)**: Honest proof of AR01 needs two incompatible vantage points at once:
-  1. **Inside** the approved source ranges — so the integration runner can reach the Kubernetes API for kubeconfig-backed probes (RBAC, WI, NetworkPolicy, admission, etc.).
-  2. **Outside** those ranges — so a deny/unreachability observation proves the allowlist actually blocks unapproved clients (typically a remote `reachability.Prober`).
-  
-  GitHub-hosted Actions (`ubuntu-latest`) use **ephemeral public egress IPs** that change every job and are not a stable CIDR FINOS can publish into EKS `publicAccessCidrs` / AKS `authorizedIpRanges` / GKE `masterAuthorizedNetworks`. The Azure fixture defaults empty `k8s_api_authorized_cidrs` to the **terraform-apply machine’s `/32`**, which is not the GHA runner. Result: either the API is locked such that **GHA cannot reach it** (kube integration always fails with dial/timeout after DNS works), or the allowlist is widened enough that a GHA “deny” observation is no longer meaningful. Dynamically rewriting authorized CIDRs every workflow run would mutate the CN01 control surface under test and still cannot guarantee Microsoft/GitHub egress range coverage. Self-hosted or fixed-egress runners could revisit this AR; **GitHub-hosted CI cannot reliably test it**, and with the current CIDR-locked MAIN fixture the kubernetes kube API integration path will keep failing for reasons unrelated to other ARs.
-- **Optional corroboration (`@OPT_IN`, non-GHA / fixed egress only)**: `GetAPIEndpointConfig` → non-empty `AllowedCIDRs` or `PublicAccess=false`; plus remote `AttemptAPIEndpointReachability(…, "untrusted")` expecting `TCPConnected=false` when a FINOS reachability probe and a stable approved runner CIDR both exist. Config-only checks without an outside observer are fixture sanity, not behavioural proof.
-- **Gaps / honesty notes**: Do not treat runner NXDOMAIN, dial timeout, or `expect_error` matches as AR01 passes. ARM/control-plane reads (`GetAPIEndpointConfig`) can succeed while the kube API remains unreachable from GHA — that is infrastructure/allowlist mismatch, not compliance evidence. Reachability probe components remain useful for other services / future fixed-egress estates; they do not make this AR testable on GitHub-hosted runners.
+- **Approach**:
+  1. `GetAPIEndpointConfig` → non-empty `AllowedCIDRs` (public API locked to approved source ranges).
+  2. `AttemptAPIEndpointReachability(…, "untrusted")` via the FINOS reachability probe → `TCPConnected=false`.
+  3. The runner must sit inside the allowlist so other kube probes still work; the probe is the outside vantage.
+- **Config / fixtures**: Public API hostname with real approved CIDRs (not `0.0.0.0/0`). Needs `reachability-probe-url`, secret-expanded `reachability-probe-shared-secret`, expected observer, and timeout. Private-only endpoints are covered by AR02 (`PublicAccess=false`).
+- **Gaps / honesty notes**: Honest proof needs an inside runner and an outside observer at once. GitHub-hosted Actions use ephemeral egress IPs that cannot be a stable allowlist entry while other kube probes still need API access — so FINOS GHA fixtures that stay open (`0.0.0.0/0`) or private-only will fail this AR for infrastructure reasons, not because the scenario is optional. Do not treat runner NXDOMAIN, dial timeout, or `expect_error` matches as AR01 passes. Config-only checks without an outside observer are fixture sanity, not behavioural proof.
 
 ### CCC.K8S.CN01.AR02 — Disable public API access
 
@@ -632,8 +630,8 @@ Factory service id remains `kubernetes`. Embeds `generic.Service`. Cloud impleme
 | Method | Used by AR(s) | Args | Returns (key fields) |
 |--------|---------------|------|----------------------|
 | `GetKubernetesClient` | (portable probes) | — | `*KubeClient` (`kubeClient`) |
-| `GetAPIEndpointConfig` | K8S.CN01.AR01 (`@OPT_IN` only), AR02 | `clusterID string` | `PublicAccess`, `PrivateAccess`, `AllowedCIDRs`, `EndpointHostname` |
-| `AttemptAPIEndpointReachability` | K8S.CN01.AR01 (`@OPT_IN` / non-GHA), AR02 | `clusterID`, `networkContext string` | `Observer`, `DNSResolved`, `TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Duration` |
+| `GetAPIEndpointConfig` | K8S.CN01.AR01, AR02 | `clusterID string` | `PublicAccess`, `PrivateAccess`, `AllowedCIDRs`, `EndpointHostname` |
+| `AttemptAPIEndpointReachability` | K8S.CN01.AR01, AR02 | `clusterID`, `networkContext string` | `Observer`, `DNSResolved`, `TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Duration` |
 | `AttemptAdmitWorkload` | K8S.CN03.AR02, CN04.*, CN05.*, CN11.AR01/AR03, CN13.AR01/AR02, CN15.AR01 | `clusterID`, `operation`, `manifestYAML` | `Admitted`, `Denied`, `DeniedAt`, `GeneratedWorkloadRunning`, `Reason` |
 | `AttemptCloudAPIAsWorkload` | K8S.CN03.AR01 | `clusterID`, `namespace`, `serviceAccount`, `action` | `Succeeded`, `Denied`, `Error` |
 | `AttemptModifyAdmissionConfig` | K8S.CN11.AR02 | `clusterID`, `change map` | `Applied`, `Denied`, `Reason` |
@@ -675,7 +673,7 @@ Planned package: `modules/cloud-api/reachability/`. This is not a `generic.Servi
 
 | Method | Used by AR(s) | Args | Returns |
 |--------|---------------|------|---------|
-| `Probe` | K8S.CN01.AR01 `@OPT_IN` / non-GHA, AR02; reusable by VM Core.CN12 | `context.Context`, `Request{Host, Port, Protocol, ServerName, Timeout, NetworkContext}` | `Result{Observer, DNSResolved, TCPConnected, TLSConnected, HTTPStatus, RemoteAddr, Failure, Duration}` |
+| `Probe` | K8S.CN01.AR01, AR02; reusable by VM Core.CN12 | `context.Context`, `Request{Host, Port, Protocol, ServerName, Timeout, NetworkContext}` | `Result{Observer, DNSResolved, TCPConnected, TLSConnected, HTTPStatus, RemoteAddr, Failure, Duration}` |
 
 Implementations:
 
@@ -1033,7 +1031,7 @@ Also plan README routing update for `@kubernetes` in `modules/features/README.md
 - Should factory/folder id be `kubernetes` (chosen here) or `k8s` to match catalog path literally?  Answer: kubernetes
 - Is Kyverno/Gatekeeper required on all three CSP fixtures for CN04/CN05, or is native PSS + Azure Policy / Binary Authorization enough per cloud?  native.
 - Which FINOS estate/platform will host `modules/probes/reachability`, and who owns its deployment, DNS, egress identity, secret rotation, and availability?  terraform/aws reachability-probe module
-- Should remote reachability be mandatory `@MAIN` once the FINOS service is operational, while config-only remains `@SANITY`?  **Superseded for K8S.CN01.AR01**: `@NotTestable` on GitHub-hosted CI (ephemeral egress vs API allowlist); `@OPT_IN` only with fixed egress.
+- Should remote reachability be mandatory once the FINOS probe is operational, while config-only remains a fixture sanity check?  **K8S.CN01.AR01**: behavioural for CIDR-locked public API estates; FINOS GHA open/private fixtures will not pass it.
 - CN04.AR02/AR03: block on signed/vuln-scanned image pipeline before marking Behavioural, or ship `@NotTestable` stubs first?  test should fail.
 - CN18.AR02 on EKS: which node OS + feature combo is the supported integrity story for FINOS fixtures? don't care, choose your own for the integration tests.
 - ~~Should CN14.AR01 v1 require only kube-apiserver audit export, with node/network logs deferred?~~ **Resolved: yes — v1 covers API audit / control-plane export only; node/workload/network log export is deferred (see CN14.AR01 scope note).**  

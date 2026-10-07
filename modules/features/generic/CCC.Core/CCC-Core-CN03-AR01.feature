@@ -13,7 +13,7 @@ Feature: CCC.Core.CN03.AR01 - Multi-Factor Authentication for Destructive Operat
     # Multi-factor authentication (MFA) for destructive operations requires human interaction
     # to complete the second factor challenge (e.g., TOTP code, push notification, hardware key).
     # Automated testing cannot simulate this interactive flow without compromising security.
-    # 
+    #
     # Manual verification steps:
     # 1. Attempt to delete a protected resource (bucket, object with retention, etc.)
     # 2. Verify that MFA prompt is triggered before deletion proceeds

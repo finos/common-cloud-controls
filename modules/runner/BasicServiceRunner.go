@@ -289,10 +289,6 @@ func (r *BasicServiceRunner) runTests(ctx context.Context, resources []types.Tes
 		// This allows narrowing down tests (e.g., "--tags '@CCC.Core.CN01 @Policy'")
 		if len(r.Config.Tags) > 0 {
 			resource.TagFilter = append(resource.TagFilter, r.Config.Tags...)
-		} else {
-			// Default run: exclude @NEGATIVE and @OPT_IN scenarios so only @MAIN and
-			// @Behavioural scenarios run unless the caller explicitly requests them via --tags.
-			resource.TagFilter = append(resource.TagFilter, "~@NEGATIVE", "~@OPT_IN")
 		}
 
 		log.Printf("\n🔬 Running tests for resource %d/%d:", i+1, len(resources))

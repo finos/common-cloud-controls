@@ -9,14 +9,14 @@ Feature: CCC.SvlsComp.CN01.AR01 - Deny Public Internet Access
     And I call "{api}" with "GetServiceAPI" using argument "serverless-computing"
     And I refer to "{result}" as "svc"
 
-  @Behavioural @serverless-computing @SANITY @OPT_IN
+  @Behavioural @serverless-computing
   Scenario: Private invoke path succeeds
     When I call "{svc}" with "AttemptPrivateInvoke" using argument "{uid}"
     Then "{result}" is not an error
     And I refer to "{result}" as "privateInvoke"
     Then "{privateInvoke.Invoked}" is "true"
 
-  @Behavioural @serverless-computing @MAIN
+  @Behavioural @serverless-computing
   Scenario: No public invoke surface is configured
     When I call "{svc}" with "GetInvokeEndpointExposure" using argument "{uid}"
     Then "{result}" is not an error
@@ -24,7 +24,7 @@ Feature: CCC.SvlsComp.CN01.AR01 - Deny Public Internet Access
     And I attach "{exposure}" to the test output as "Invoke Endpoint Exposure"
     Then "{exposure.PublicEndpointConfigured}" is "false"
 
-  @Behavioural @serverless-computing @MAIN @OPT_IN
+  @Behavioural @serverless-computing
   Scenario: Public internet invoke attempt is denied
     When I call "{svc}" with "AttemptPublicInternetInvoke" using argument "{uid}"
     Then "{result}" is not an error

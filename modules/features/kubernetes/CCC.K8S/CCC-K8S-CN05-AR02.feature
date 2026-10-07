@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN05.AR02 - Enforce secure Linux runtime settings
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Enforce secure Linux runtime settings
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{insecure-security-context-manifest}"
     Then "{result}" is an error

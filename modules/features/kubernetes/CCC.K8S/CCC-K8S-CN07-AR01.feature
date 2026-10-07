@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN07.AR01 - Protect workload secret material
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Protect workload secret material
     When I call "{k8sControlPlane}" with "GetEncryptionAtRestStatus" using argument "{uid}"
     Then "{result}" is not an error

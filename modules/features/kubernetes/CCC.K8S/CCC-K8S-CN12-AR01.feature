@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN12.AR01 - Require authentication on node administrative APIs
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Require authentication on node administrative APIs
     When I call "{kubeClient}" with "ProbeNodeAdminInterfaces" using arguments "{uid}", "", "{kubelet-ports}", and "{node-mgmt-ports}"
     Then "{result}" is not an error

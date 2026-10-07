@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN01.AR02 - Disable public API access
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Disable public API access
     When I call "{k8sControlPlane}" with "GetAPIEndpointConfig" using argument "{uid}"
     Then "{result}" is not an error

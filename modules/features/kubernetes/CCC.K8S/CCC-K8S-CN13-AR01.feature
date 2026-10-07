@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN13.AR01 - Require approved CPU and memory bounds
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Require approved CPU and memory bounds
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{missing-resource-bounds-manifest}"
     Then "{result}" is an error

@@ -9,7 +9,7 @@ Feature: CCC.K8S.CN15.AR02 - Protect policy-significant metadata changes
     And I call "{api}" with "GetServiceAPI" using argument "kubernetes"
     And I refer to "{result}" as "k8sControlPlane"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Protect policy-significant metadata changes
     Given I call "{api}" with "GetServiceAPIWithIdentity" using arguments "kubernetes" and "test-user-no-access"
     And "{result}" is not an error

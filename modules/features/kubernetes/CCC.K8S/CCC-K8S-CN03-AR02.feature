@@ -11,7 +11,7 @@ Feature: CCC.K8S.CN03.AR02 - Reject long-lived cloud credentials in workloads
     And I call "{k8sControlPlane}" with "GetKubernetesClient"
     And I refer to "{result}" as "kubeClient"
 
-  @Behavioural @kubernetes @MAIN
+  @Behavioural @kubernetes
   Scenario: Reject long-lived cloud credentials in workloads
     When I call "{kubeClient}" with "FindStaticCloudCredentials" using arguments "{uid}" and "{test-workload-namespace}"
     Then "{result}" is not an error
