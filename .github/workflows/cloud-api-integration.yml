@@ -99,6 +99,9 @@ jobs:
       - name: Set up gcloud
         if: matrix.provider == 'gcp'
         uses: google-github-actions/setup-gcloud@v2
+        with:
+          # Required for kubectl against GKE (deploy-gcp.sh / get-credentials).
+          install_components: gke-gcloud-auth-plugin
 
       - name: Load provider env
         env:

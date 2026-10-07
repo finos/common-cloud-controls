@@ -72,6 +72,20 @@ PUSHED_DIGEST="$(gcloud artifacts docker images describe "${REMOTE_IMAGE}:${DIGE
 PINNED_IMAGE="${REMOTE_IMAGE}@${PUSHED_DIGEST}"
 
 echo "==> admission-webhook: roll GKE deployment to ${PINNED_IMAGE}"
+# kubectl against GKE requires the gke-gcloud-auth-plugin exec credential helper.
+if ! command -v gke-gcloud-auth-plugin >/dev/null 2>&1; then
+  echo "==> admission-webhook: install gke-gcloud-auth-plugin"
+  if gcloud components install gke-gcloud-auth-plugin --quiet 2>/dev/null; then
+    :
+  elif command -v apt-get >/dev/null 2>&1; then
+    sudo apt-get update -qq
+    sudo apt-get install -y -qq google-cloud-cli-gke-gcloud-auth-plugin
+  else
+    echo "error: gke-gcloud-auth-plugin missing; install via gcloud components or apt" >&2
+    exit 1
+  fi
+fi
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 # Cluster may be zonal or regional; try region first then fall back to zone list.
 if ! gcloud container clusters get-credentials "$CLUSTER_NAME" \
   --region "$REGION" --project "$PROJECT_ID" >/dev/null 2>&1; then
