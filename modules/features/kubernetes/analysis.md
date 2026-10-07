@@ -708,7 +708,7 @@ Each consumer keeps a config-only / `LocalProber` fallback (`@SANITY`) for when 
 
 ### `admission-webhook` service (fixture controller)
 
-Implemented in `modules/cloud-api/kubernetes/admission_webhook.go`, factory service id `admission-webhook`. Lives next to `ControlPlane` in the same package folder, but is a separate service: it controls the lifecycle of the test probe and is not evidence about an arbitrary production webhook.
+Implemented in `modules/cloud-api/admission-webhook/`, factory service id `admission-webhook`. Parallel to `cloud-api/reachability`: a separate factory service that controls the lifecycle of the deployable probe under `modules/probes/admission-webhook/`, not evidence about an arbitrary production webhook.
 
 | Method | Used by AR(s) | Args | Returns |
 |--------|---------------|------|---------|

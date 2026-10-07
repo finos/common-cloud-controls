@@ -45,12 +45,12 @@ func (s *GCPVirtualMachinesService) Start(resourceID string) error {
 		return fmt.Errorf("cannot start GCE instance %q in status %q", name, inst.Status)
 	}
 	if err := waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on GCE instance %q", name), func() (bool, error) {
-		ip, err := s.discoverPublicIP(name)
+		ip, err := s.DiscoverPublicIP(name)
 		return ip != "", err
 	}); err != nil {
 		return err
 	}
-	ip, err := s.discoverPublicIP(name)
+	ip, err := s.DiscoverPublicIP(name)
 	if err != nil {
 		return err
 	}

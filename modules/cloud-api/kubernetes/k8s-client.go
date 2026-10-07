@@ -40,8 +40,12 @@ func (s *managedService) GetKubernetesClient() (*KubeClient, error) {
 	}, nil
 }
 
-// resolveProviderRESTConfig derives a REST config from CSP credentials.
-// Used by admission-webhook (which is not itself a ControlPlane).
+// ResolveProviderRESTConfig derives a REST config from CSP credentials.
+// Used by the admission-webhook factory service (which is not itself a ControlPlane).
+func ResolveProviderRESTConfig(ctx context.Context, cfg types.Config, identity *types.Identity) (*rest.Config, error) {
+	return resolveProviderRESTConfig(ctx, cfg, identity)
+}
+
 func resolveProviderRESTConfig(ctx context.Context, cfg types.Config, identity *types.Identity) (*rest.Config, error) {
 	provider, err := cfg.Provider()
 	if err != nil {

@@ -219,7 +219,7 @@ func (s *AWSVirtualMachinesService) GetVolumeEncryptionStatus(instanceID string)
 
 func (s *AWSVirtualMachinesService) AttemptInboundConnection(instanceID string, port int) (*ConnectionAttemptResult, error) {
 	host, err := resolveInboundHost(s.config.Get("host-name"), func() (string, error) {
-		return s.discoverPublicIP(instanceID)
+		return s.DiscoverPublicIP(instanceID)
 	})
 	if err != nil {
 		return nil, err
@@ -230,7 +230,7 @@ func (s *AWSVirtualMachinesService) AttemptInboundConnection(instanceID string, 
 	return dialInbound(host, port)
 }
 
-func (s *AWSVirtualMachinesService) discoverPublicIP(instanceID string) (string, error) {
+func (s *AWSVirtualMachinesService) DiscoverPublicIP(instanceID string) (string, error) {
 	resolved, err := s.resolveInstanceID(lifecycleResourceID(instanceID, s.config.Get("resource")))
 	if err != nil {
 		return "", err

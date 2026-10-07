@@ -87,7 +87,7 @@ func (s *AzureVirtualMachinesService) GetVolumeEncryptionStatus(string) (*Volume
 }
 func (s *AzureVirtualMachinesService) AttemptInboundConnection(resourceID string, port int) (*ConnectionAttemptResult, error) {
 	host, err := resolveInboundHost(s.config.Get("host-name"), func() (string, error) {
-		return s.discoverPublicIP(resourceID)
+		return s.DiscoverPublicIP(resourceID)
 	})
 	if err != nil {
 		return nil, err
@@ -98,7 +98,7 @@ func (s *AzureVirtualMachinesService) AttemptInboundConnection(resourceID string
 	return dialInbound(host, port)
 }
 
-func (s *AzureVirtualMachinesService) discoverPublicIP(resourceID string) (string, error) {
+func (s *AzureVirtualMachinesService) DiscoverPublicIP(resourceID string) (string, error) {
 	name := lifecycleResourceID(resourceID, s.config.Get("resource"))
 	subscription := s.config.CloudParams().AzureSubscriptionID
 	group := s.config.CloudParams().AzureResourceGroup

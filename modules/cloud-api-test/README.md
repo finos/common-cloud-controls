@@ -136,6 +136,7 @@ Workflow: `.github/workflows/cloud-api-integration.yml`.
 Provision fixtures under `modules/cloud-api-test/terraform/` before running.
 
 Keep this stack **minimal and cheap**: only what is required to exercise `modules/cloud-api`. Prefer start/stop (or scale-to-zero) for billable compute between runs.
+
 ## User creation
 
 Tests use cloud test identities (no-access, write, admin; Azure also has read). Regenerate env files with idempotent scripts:

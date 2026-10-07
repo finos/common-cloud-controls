@@ -23,7 +23,7 @@ func (s *AWSVirtualMachinesService) Start(resourceID string) error {
 	switch state {
 	case ec2types.InstanceStateNameRunning:
 		return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on EC2 instance %q", instanceID), func() (bool, error) {
-			ip, err := s.discoverPublicIP(instanceID)
+			ip, err := s.DiscoverPublicIP(instanceID)
 			return ip != "", err
 		})
 	case ec2types.InstanceStateNamePending:
@@ -31,7 +31,7 @@ func (s *AWSVirtualMachinesService) Start(resourceID string) error {
 			return err
 		}
 		return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on EC2 instance %q", instanceID), func() (bool, error) {
-			ip, err := s.discoverPublicIP(instanceID)
+			ip, err := s.DiscoverPublicIP(instanceID)
 			return ip != "", err
 		})
 	case ec2types.InstanceStateNameStopping:
@@ -52,7 +52,7 @@ func (s *AWSVirtualMachinesService) Start(resourceID string) error {
 		return err
 	}
 	return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on EC2 instance %q", instanceID), func() (bool, error) {
-		ip, err := s.discoverPublicIP(instanceID)
+		ip, err := s.DiscoverPublicIP(instanceID)
 		return ip != "", err
 	})
 }

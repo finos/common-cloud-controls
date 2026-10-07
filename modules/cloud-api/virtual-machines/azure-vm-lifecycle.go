@@ -21,7 +21,7 @@ func (s *AzureVirtualMachinesService) Start(resourceID string) error {
 	}
 	if strings.EqualFold(power, "PowerState/running") {
 		return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on Azure VM %q", name), func() (bool, error) {
-			ip, err := s.discoverPublicIP(name)
+			ip, err := s.DiscoverPublicIP(name)
 			return ip != "", err
 		})
 	}
@@ -36,7 +36,7 @@ func (s *AzureVirtualMachinesService) Start(resourceID string) error {
 		return err
 	}
 	return waitUntil(s.ctx, 5*time.Minute, fmt.Sprintf("public IP on Azure VM %q", name), func() (bool, error) {
-		ip, err := s.discoverPublicIP(name)
+		ip, err := s.DiscoverPublicIP(name)
 		return ip != "", err
 	})
 }

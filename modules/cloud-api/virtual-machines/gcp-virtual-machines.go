@@ -123,7 +123,7 @@ func (s *GCPVirtualMachinesService) GetVolumeEncryptionStatus(resourceID string)
 }
 func (s *GCPVirtualMachinesService) AttemptInboundConnection(resourceID string, port int) (*ConnectionAttemptResult, error) {
 	host, err := resolveInboundHost(s.config.Get("host-name"), func() (string, error) {
-		return s.discoverPublicIP(resourceID)
+		return s.DiscoverPublicIP(resourceID)
 	})
 	if err != nil {
 		return nil, err
@@ -134,7 +134,7 @@ func (s *GCPVirtualMachinesService) AttemptInboundConnection(resourceID string, 
 	return dialInbound(host, port)
 }
 
-func (s *GCPVirtualMachinesService) discoverPublicIP(resourceID string) (string, error) {
+func (s *GCPVirtualMachinesService) DiscoverPublicIP(resourceID string) (string, error) {
 	client, project, zone, name, err := s.resolveInstance(resourceID)
 	if err != nil {
 		return "", err
