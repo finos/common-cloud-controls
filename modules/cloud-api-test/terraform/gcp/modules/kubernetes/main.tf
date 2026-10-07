@@ -97,6 +97,14 @@ resource "google_project_iam_member" "node_log" {
   member  = "serviceAccount:${google_service_account.node.email}"
 }
 
+# Pull probe images from Artifact Registry (deploy-gcp.sh). Repo IAM setIamPolicy
+# is not available to gha-deployer; project-level reader is applied with the cluster.
+resource "google_project_iam_member" "node_ar_reader" {
+  project = var.project_id
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:${google_service_account.node.email}"
+}
+
 resource "google_service_account" "wi_bound" {
   account_id   = "finos-ccc-k8s-wi-bound"
   display_name = "FINOS CCC GKE WI bound"

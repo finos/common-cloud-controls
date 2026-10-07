@@ -34,7 +34,9 @@ if ! gcloud artifacts repositories describe "$AR_REPO" \
     --description="FINOS CCC integration probe images"
 fi
 
-echo "==> admission-webhook: grant GKE node SA Artifact Registry reader"
+echo "==> admission-webhook: grant GKE node SA Artifact Registry reader (best-effort)"
+# CI runner (gha-deployer) often lacks artifactregistry.repositories.setIamPolicy;
+# node AR reader is provisioned in terraform (google_project_iam_member.node_ar_reader).
 NODE_SA="$(gcloud container clusters describe "$CLUSTER_NAME" \
   --region "$REGION" --project "$PROJECT_ID" \
   --format='value(nodeConfig.serviceAccount)' 2>/dev/null || true)"
@@ -49,10 +51,13 @@ if [[ -z "$NODE_SA" || "$NODE_SA" == "default" ]]; then
   PROJECT_NUM="$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')"
   NODE_SA="${PROJECT_NUM}-compute@developer.gserviceaccount.com"
 fi
-gcloud artifacts repositories add-iam-policy-binding "$AR_REPO" \
+if ! gcloud artifacts repositories add-iam-policy-binding "$AR_REPO" \
   --location="$REGION" --project="$PROJECT_ID" \
   --member="serviceAccount:${NODE_SA}" \
-  --role="roles/artifactregistry.reader" >/dev/null
+  --role="roles/artifactregistry.reader" >/dev/null 2>&1; then
+  echo "warning: could not bind roles/artifactregistry.reader for ${NODE_SA} on ${AR_REPO}" >&2
+  echo "warning: continuing; ensure terraform node_ar_reader (or equivalent) is applied" >&2
+fi
 
 echo "==> admission-webhook: configure docker auth for ${REGION}-docker.pkg.dev"
 gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet

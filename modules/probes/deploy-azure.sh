@@ -44,7 +44,19 @@ PUSHED_DIGEST="$(az acr repository show --name "$ACR_NAME" --image "${ACR_REPO}:
 PINNED_IMAGE="${REMOTE_IMAGE}@${PUSHED_DIGEST}"
 
 echo "==> admission-webhook: roll AKS deployment to ${PINNED_IMAGE}"
+# AAD-enabled AKS (local accounts disabled) requires kubelogin for kubectl.
+if ! command -v kubelogin >/dev/null 2>&1; then
+  echo "==> admission-webhook: install kubelogin"
+  BIN_DIR="${HOME}/.local/bin"
+  mkdir -p "$BIN_DIR"
+  az aks install-cli \
+    --install-location "${BIN_DIR}/kubectl" \
+    --kubelogin-install-location "${BIN_DIR}/kubelogin"
+  export PATH="${BIN_DIR}:${PATH}"
+fi
 az aks get-credentials --resource-group "$RESOURCE_GROUP" --name "$CLUSTER_NAME" --overwrite-existing
+# Prefer Azure CLI credential (az login / OIDC) over interactive device code.
+kubelogin convert-kubeconfig -l azurecli
 # AKS needs pull rights for the ACR holding the probe image.
 az aks update -g "$RESOURCE_GROUP" -n "$CLUSTER_NAME" --attach-acr "$ACR_NAME" >/dev/null 2>&1 || true
 echo "==> admission-webhook: wait for Ready nodes"
