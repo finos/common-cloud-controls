@@ -85,6 +85,14 @@ resource "azurerm_storage_container" "wi_probe" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_blob" "wi_probe" {
+  name                   = "probe.txt"
+  storage_account_name   = azurerm_storage_account.wi_probe.name
+  storage_container_name = azurerm_storage_container.wi_probe.name
+  type                   = "Block"
+  source_content         = "ccc-wi-probe-ok"
+}
+
 resource "azurerm_role_assignment" "wi_bound_blob" {
   scope                = azurerm_storage_account.wi_probe.id
   role_definition_name = "Storage Blob Data Reader"

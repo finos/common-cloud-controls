@@ -2,11 +2,15 @@ package kubernetes
 
 import (
 	"context"
+	"crypto/sha256"
+	"crypto/subtle"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"net"
 	"net/url"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -16,6 +20,9 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
+	rbacv1 "k8s.io/api/rbac/v1"
+	storagev1 "k8s.io/api/storage/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -40,7 +47,17 @@ type managedService struct {
 	governance     func(context.Context, string) (map[string]interface{}, error)
 	authConfig     func(context.Context, string) (map[string]interface{}, error)
 	encryption     func(context.Context, string) (map[string]interface{}, error)
+	// support, nodeIntegrity and autoscalers are optional provider hooks that
+	// corroborate Kubernetes API data with CSP lifecycle/node-pool APIs.
+	support       func(context.Context, string) (*supportEvidence, error)
+	nodeIntegrity func(context.Context, string) ([]map[string]interface{}, error)
+	autoscalers   func(context.Context, string) ([]autoscalerBound, error)
 }
+
+const (
+	managedByLabel = "app.kubernetes.io/managed-by"
+	managedByValue = "ccc-cloud-api"
+)
 
 func newManagedService(ctx context.Context, cfg types.Config, provider string) *managedService {
 	return &managedService{
@@ -126,7 +143,20 @@ func (s *managedService) CheckUserProvisioned() error {
 
 func (s *managedService) ElevateAccessForInspection() error { return nil }
 func (s *managedService) ResetAccess() error                { return nil }
-func (s *managedService) TearDown() error                   { return nil }
+
+// TearDown removes claims and consumer pods created by KubeClient.AttemptCreatePVC.
+// It is best-effort: a cluster that is already parked or unreachable must not fail suite teardown.
+func (s *managedService) TearDown() error {
+	if s.client == nil {
+		return nil
+	}
+	namespace := configOr(s.config, "test-workload-namespace", "default")
+	selector := metav1.ListOptions{LabelSelector: managedByLabel + "=" + managedByValue}
+	ctx := context.Background()
+	_ = s.client.CoreV1().Pods(namespace).DeleteCollection(ctx, metav1.DeleteOptions{}, selector)
+	_ = s.client.CoreV1().PersistentVolumeClaims(namespace).DeleteCollection(ctx, metav1.DeleteOptions{}, selector)
+	return nil
+}
 
 func (s *managedService) UpdateResourcePolicy() error {
 	if s.updateMetadata == nil {
@@ -208,6 +238,26 @@ func (s *managedService) AttemptAPIEndpointReachability(clusterID, networkContex
 	return structMap(result)
 }
 
+// defaultSystemRolePrefixes identify Kubernetes- and CSP-owned ClusterRoles that
+// legitimately carry wildcard rules. Extend with the system-role-prefixes config var.
+var defaultSystemRolePrefixes = []string{
+	"system:", "kube-", "eks:", "aks-", "gke-", "gce:", "azure-policy", "aws-node", "cloud-provider",
+}
+
+// isSystemRole reports whether a ClusterRole is Kubernetes/CSP-owned: it carries
+// the RBAC bootstrap label or one of the system prefixes.
+func isSystemRole(role rbacv1.ClusterRole, extraPrefixes []string) bool {
+	if role.Labels["kubernetes.io/bootstrapping"] == "rbac-defaults" {
+		return true
+	}
+	for _, prefix := range append(append([]string{}, defaultSystemRolePrefixes...), extraPrefixes...) {
+		if prefix != "" && strings.HasPrefix(role.Name, prefix) {
+			return true
+		}
+	}
+	return false
+}
+
 func (c *KubeClient) GetRBACPolicyFindings(string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
@@ -217,8 +267,15 @@ func (c *KubeClient) GetRBACPolicyFindings(string) (map[string]interface{}, erro
 	if err != nil {
 		return nil, fmt.Errorf("list cluster roles: %w", err)
 	}
-	var wildcards, secretAccess []map[string]interface{}
+	extraPrefixes := splitConfigList(c.config.Get("system-role-prefixes"))
+	wildcards := []map[string]interface{}{}
+	secretAccess := []map[string]interface{}{}
+	skipped := 0
 	for _, role := range roles.Items {
+		if isSystemRole(role, extraPrefixes) {
+			skipped++
+			continue
+		}
 		for _, rule := range role.Rules {
 			if contains(rule.Verbs, "*") || contains(rule.Resources, "*") || contains(rule.APIGroups, "*") {
 				wildcards = append(wildcards, map[string]interface{}{"Name": role.Name, "Rule": rule})
@@ -229,7 +286,7 @@ func (c *KubeClient) GetRBACPolicyFindings(string) (map[string]interface{}, erro
 			}
 		}
 	}
-	return map[string]interface{}{"WildcardRoles": wildcards, "OverbroadSecretAccess": secretAccess}, nil
+	return map[string]interface{}{"WildcardRoles": wildcards, "OverbroadSecretAccess": secretAccess, "SystemRolesExcluded": skipped}, nil
 }
 
 func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
@@ -246,9 +303,10 @@ func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretNa
 		return nil, err
 	}
 	result := map[string]interface{}{"Allowed": false, "Denied": false, "ValueMatched": false}
+	var secret *corev1.Secret
 	switch strings.ToLower(verb) {
 	case "get":
-		_, err = client.CoreV1().Secrets(namespace).Get(c.ctx, secretName, metav1.GetOptions{})
+		secret, err = client.CoreV1().Secrets(namespace).Get(c.ctx, secretName, metav1.GetOptions{})
 	case "list":
 		_, err = client.CoreV1().Secrets(namespace).List(c.ctx, metav1.ListOptions{})
 	case "watch":
@@ -266,7 +324,57 @@ func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretNa
 		return result, fmt.Errorf("secret %s as service account %s denied or failed: %w", verb, serviceAccount, err)
 	}
 	result["Allowed"] = true
+	if secret != nil {
+		matched, source, matchErr := c.secretMatchesFixture(namespace, secretName, secret)
+		result["ValueMatched"] = matched
+		result["ExpectedDigestSource"] = source
+		if matchErr != nil {
+			result["ValueCheckError"] = matchErr.Error()
+		}
+	}
 	return result, nil
+}
+
+// secretMatchesFixture compares a digest of the secret the impersonated service
+// account read against the expected digest. Plaintext is never returned or logged.
+// The expected digest is protected-secret-sha256 (hex sha256 of the protected-secret-key
+// value, default key "value"); without it the runner's own credentials read the same
+// secret as the reference.
+func (c *KubeClient) secretMatchesFixture(namespace, secretName string, read *corev1.Secret) (bool, string, error) {
+	key := configOr(c.config, "protected-secret-key", "value")
+	got, ok := secretValueDigest(read, key)
+	if !ok {
+		return false, "", fmt.Errorf("secret %s/%s has no key %q", namespace, secretName, key)
+	}
+	if expected := strings.ToLower(strings.TrimSpace(c.config.Get("protected-secret-sha256"))); expected != "" {
+		return subtle.ConstantTimeCompare([]byte(got), []byte(expected)) == 1, "config", nil
+	}
+	if c.client == nil {
+		return false, "", fmt.Errorf("Kubernetes client is not initialized")
+	}
+	reference, err := c.client.CoreV1().Secrets(namespace).Get(c.ctx, secretName, metav1.GetOptions{})
+	if err != nil {
+		return false, "admin-read", fmt.Errorf("read reference secret: %w", err)
+	}
+	want, ok := secretValueDigest(reference, key)
+	if !ok {
+		return false, "admin-read", fmt.Errorf("reference secret %s/%s has no key %q", namespace, secretName, key)
+	}
+	return subtle.ConstantTimeCompare([]byte(got), []byte(want)) == 1, "admin-read", nil
+}
+
+func secretValueDigest(secret *corev1.Secret, key string) (string, bool) {
+	value, ok := secret.Data[key]
+	if !ok {
+		if text, textOK := secret.StringData[key]; textOK {
+			value, ok = []byte(text), true
+		}
+	}
+	if !ok {
+		return "", false
+	}
+	sum := sha256.Sum256(value)
+	return hex.EncodeToString(sum[:]), true
 }
 
 func (c *KubeClient) GetWorkloadIdentityStatus(_ string, namespace, serviceAccount string) (map[string]interface{}, error) {
@@ -293,11 +401,6 @@ func (c *KubeClient) GetWorkloadIdentityStatus(_ string, namespace, serviceAccou
 		"Federated": identity != "", "CloudIdentityID": identity,
 		"LongLivedKeysPresent": len(sa.Secrets) > 0,
 	}, nil
-}
-
-func (s *managedService) AttemptCloudAPIAsWorkload(clusterID, namespace, serviceAccount, action string) (map[string]interface{}, error) {
-	return nil, unsupported(s.provider, "AttemptCloudAPIAsWorkload",
-		fmt.Sprintf("a configured provider-specific probe image/action is required (cluster=%s namespace=%s serviceAccount=%s action=%s)", clusterID, namespace, serviceAccount, action))
 }
 
 var credentialPattern = regexp.MustCompile(`(?i)(AKIA[0-9A-Z]{16}|-----BEGIN (RSA |EC )?PRIVATE KEY-----|"type"\s*:\s*"service_account"|AZURE_CLIENT_SECRET)`)
@@ -655,26 +758,10 @@ fi
 func boolPtr(v bool) *bool    { return &v }
 func int64Ptr(v int64) *int64 { return &v }
 
-func (s *managedService) GetClusterComponentInventory(string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
-	}
-	version, err := client.Discovery().ServerVersion()
-	if err != nil {
-		return nil, err
-	}
-	nodes, err := client.CoreV1().Nodes().List(s.ctx, metav1.ListOptions{})
-	if err != nil {
-		return nil, err
-	}
-	workers := make([]map[string]interface{}, 0, len(nodes.Items))
-	for _, node := range nodes.Items {
-		workers = append(workers, map[string]interface{}{"Name": node.Name, "Version": node.Status.NodeInfo.KubeletVersion, "Image": node.Status.NodeInfo.OSImage})
-	}
-	return map[string]interface{}{"ControlPlaneVersion": version.GitVersion, "Workers": workers, "Addons": []map[string]interface{}{}}, nil
-}
-
+// AttemptCreatePVC persists the claim (admission runs for real) and waits for it
+// to bind. WaitForFirstConsumer classes only bind once a pod schedules, so a
+// short-lived consumer pod is created for them. Claims get a generated name and
+// the managed-by label so managedService.TearDown can remove them.
 func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
@@ -693,16 +780,108 @@ func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]in
 	if namespace == "" {
 		namespace = configOr(c.config, "test-workload-namespace", "default")
 	}
+	claim.Namespace = namespace
+	claim.GenerateName = claim.Name + "-"
+	claim.Name = ""
+	claim.ResourceVersion = ""
+	if claim.Labels == nil {
+		claim.Labels = map[string]string{}
+	}
+	claim.Labels[managedByLabel] = managedByValue
+
 	result := map[string]interface{}{"Created": false, "Denied": false, "Bound": false}
-	created, err := client.CoreV1().PersistentVolumeClaims(namespace).Create(c.ctx, &claim, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
+	created, err := client.CoreV1().PersistentVolumeClaims(namespace).Create(c.ctx, &claim, metav1.CreateOptions{})
 	if err != nil {
-		result["Denied"] = true
 		result["Reason"] = err.Error()
-		return result, fmt.Errorf("PVC admission denied or failed: %w", err)
+		if apierrors.IsForbidden(err) || apierrors.IsInvalid(err) || apierrors.IsBadRequest(err) {
+			result["Denied"] = true
+			return result, fmt.Errorf("PVC admission denied: %w", err)
+		}
+		return result, fmt.Errorf("create PVC: %w", err)
 	}
 	result["Created"] = true
-	result["Bound"] = created.Status.Phase == corev1.ClaimBound
-	return result, nil
+	result["ClaimName"] = created.Name
+	result["Namespace"] = namespace
+
+	timeout := configDuration(c.config, "pvc-bind-timeout-ms", 120*time.Second)
+	if c.pvcNeedsConsumer(created) {
+		consumer, consumerErr := c.createPVCConsumer(namespace, created.Name)
+		if consumerErr != nil {
+			result["Reason"] = consumerErr.Error()
+			result["Phase"] = string(created.Status.Phase)
+			return result, nil
+		}
+		defer func() {
+			_ = client.CoreV1().Pods(namespace).Delete(context.Background(), consumer, metav1.DeleteOptions{GracePeriodSeconds: int64Ptr(0)})
+		}()
+	}
+
+	deadline := time.Now().Add(timeout)
+	for {
+		current, getErr := client.CoreV1().PersistentVolumeClaims(namespace).Get(c.ctx, created.Name, metav1.GetOptions{})
+		if getErr != nil {
+			return result, fmt.Errorf("watch PVC %s/%s: %w", namespace, created.Name, getErr)
+		}
+		result["Phase"] = string(current.Status.Phase)
+		if current.Status.Phase == corev1.ClaimBound {
+			result["Bound"] = true
+			return result, nil
+		}
+		if time.Now().After(deadline) {
+			result["BindTimeout"] = true
+			return result, nil
+		}
+		select {
+		case <-c.ctx.Done():
+			return result, c.ctx.Err()
+		case <-time.After(time.Second):
+		}
+	}
+}
+
+// pvcNeedsConsumer reports whether the claim's StorageClass delays binding
+// until a pod uses it.
+func (c *KubeClient) pvcNeedsConsumer(claim *corev1.PersistentVolumeClaim) bool {
+	if claim.Spec.StorageClassName == nil || *claim.Spec.StorageClassName == "" {
+		return false
+	}
+	class, err := c.client.StorageV1().StorageClasses().Get(c.ctx, *claim.Spec.StorageClassName, metav1.GetOptions{})
+	if err != nil {
+		return false
+	}
+	return class.VolumeBindingMode != nil && *class.VolumeBindingMode == storagev1.VolumeBindingWaitForFirstConsumer
+}
+
+func (c *KubeClient) createPVCConsumer(namespace, claimName string) (string, error) {
+	image := firstNonEmpty(c.config.Get("pvc-consumer-image"), c.config.Get("network-probe-image"), "busybox:1.36")
+	pod := &corev1.Pod{
+		ObjectMeta: metav1.ObjectMeta{GenerateName: "ccc-pvc-consumer-", Namespace: namespace, Labels: map[string]string{managedByLabel: managedByValue}},
+		Spec: corev1.PodSpec{
+			RestartPolicy: corev1.RestartPolicyNever,
+			SecurityContext: &corev1.PodSecurityContext{
+				RunAsNonRoot: boolPtr(true), RunAsUser: int64Ptr(65534), FSGroup: int64Ptr(65534),
+				SeccompProfile: &corev1.SeccompProfile{Type: corev1.SeccompProfileTypeRuntimeDefault},
+			},
+			Containers: []corev1.Container{{
+				Name: "consumer", Image: image, ImagePullPolicy: corev1.PullIfNotPresent,
+				Command:      []string{"/bin/sh", "-c", "sleep 30"},
+				VolumeMounts: []corev1.VolumeMount{{Name: "data", MountPath: "/data"}},
+				SecurityContext: &corev1.SecurityContext{
+					AllowPrivilegeEscalation: boolPtr(false),
+					Capabilities:             &corev1.Capabilities{Drop: []corev1.Capability{"ALL"}},
+					SeccompProfile:           &corev1.SeccompProfile{Type: corev1.SeccompProfileTypeRuntimeDefault},
+				},
+			}},
+			Volumes: []corev1.Volume{{Name: "data", VolumeSource: corev1.VolumeSource{
+				PersistentVolumeClaim: &corev1.PersistentVolumeClaimVolumeSource{ClaimName: claimName},
+			}}},
+		},
+	}
+	created, err := c.client.CoreV1().Pods(namespace).Create(c.ctx, pod, metav1.CreateOptions{})
+	if err != nil {
+		return "", fmt.Errorf("create PVC consumer pod: %w", err)
+	}
+	return created.Name, nil
 }
 
 func (s *managedService) AttemptModifyAdmissionConfig(clusterID string, change map[string]interface{}) (map[string]interface{}, error) {
@@ -786,7 +965,69 @@ func (c *KubeClient) GetResourceConsumptionBounds(_ string, namespace string) (m
 	for _, quota := range quotas.Items {
 		quotaEvidence[quota.Name] = quota.Spec.Hard
 	}
-	return map[string]interface{}{"Quotas": quotaEvidence, "AutoscalerMax": map[string]interface{}{}, "AutoscalingEnabled": false}, nil
+
+	var bounds []autoscalerBound
+	hpas, err := client.AutoscalingV2().HorizontalPodAutoscalers(namespace).List(c.ctx, metav1.ListOptions{})
+	if err != nil {
+		return nil, fmt.Errorf("list HorizontalPodAutoscalers: %w", err)
+	}
+	for _, hpa := range hpas.Items {
+		minReplicas := int64(1)
+		if hpa.Spec.MinReplicas != nil {
+			minReplicas = int64(*hpa.Spec.MinReplicas)
+		}
+		bounds = append(bounds, autoscalerBound{
+			Name: "hpa/" + hpa.Name, Kind: "hpa", Min: minReplicas, Max: int64(hpa.Spec.MaxReplicas),
+			Enabled: int64(hpa.Spec.MaxReplicas) > minReplicas,
+		})
+	}
+	nodePoolErr := ""
+	if c.autoscalers != nil {
+		pools, poolErr := c.autoscalers(c.ctx)
+		if poolErr != nil {
+			nodePoolErr = poolErr.Error()
+		}
+		bounds = append(bounds, pools...)
+	} else {
+		nodePoolErr = "provider node-pool autoscaler API is unavailable"
+	}
+
+	maxByName := map[string]interface{}{}
+	enabled := false
+	within := nodePoolErr == ""
+	nodeCap := configInt(c.config, "approved-autoscaler-max", 0)
+	hpaCap := configInt(c.config, "approved-hpa-max-replicas", 0)
+	for _, bound := range bounds {
+		maxByName[bound.Name] = bound.Max
+		enabled = enabled || bound.Enabled
+		limit := nodeCap
+		if bound.Kind == "hpa" {
+			limit = hpaCap
+		}
+		if bound.Max <= 0 || (limit > 0 && bound.Max > limit) {
+			within = false
+		}
+	}
+	result := map[string]interface{}{
+		"Quotas": quotaEvidence, "AutoscalerMax": maxByName,
+		"AutoscalingEnabled": enabled, "AutoscalerWithinApprovedMax": within,
+	}
+	if nodePoolErr != "" {
+		result["AutoscalerEvidenceError"] = nodePoolErr
+	}
+	return result, nil
+}
+
+func configInt(cfg types.Config, key string, fallback int64) int64 {
+	raw := strings.TrimSpace(cfg.Get(key))
+	if raw == "" {
+		return fallback
+	}
+	value, err := strconv.ParseInt(raw, 10, 64)
+	if err != nil || value < 0 {
+		return fallback
+	}
+	return value
 }
 
 func (s *managedService) GetGovernanceMetadata(clusterID string) (map[string]interface{}, error) {
@@ -822,6 +1063,10 @@ func (s *managedService) AttemptClusterAuthWithStaticCredential(clusterID, mode 
 		fmt.Sprintf("a deliberately invalid static %s credential fixture and isolated endpoint client are required for cluster %s", mode, clusterID))
 }
 
+// defaultRequiredInfrastructureRoles are present on every managed offering
+// (node agent / CNI DaemonSet SA and CSI driver SA). Override with required-infrastructure-roles.
+var defaultRequiredInfrastructureRoles = []string{"node", "csi"}
+
 func (c *KubeClient) GetInfrastructureIdentities(_ string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
@@ -831,36 +1076,75 @@ func (c *KubeClient) GetInfrastructureIdentities(_ string) (map[string]interface
 	if err != nil {
 		return nil, err
 	}
-	var principals []map[string]interface{}
+	principals := []map[string]interface{}{}
+	present := map[string]bool{}
+	type holder struct {
+		serviceAccount string
+		roles          []string
+	}
+	byIdentity := map[string][]holder{}
 	for _, sa := range serviceAccounts.Items {
-		role := infrastructureRole(sa.Name)
-		if role == "" {
+		roles := infrastructureRoles(sa.Name)
+		if len(roles) == 0 {
 			continue
 		}
 		identity := firstAnnotation(sa.Annotations, "eks.amazonaws.com/role-arn", "azure.workload.identity/client-id", "iam.gke.io/gcp-service-account")
-		principals = append(principals, map[string]interface{}{"Role": role, "IdentityID": identity, "Exposed": len(sa.Secrets) > 0})
+		for _, role := range roles {
+			present[role] = true
+			principals = append(principals, map[string]interface{}{
+				"Role": role, "IdentityID": identity, "Exposed": len(sa.Secrets) > 0,
+				"ServiceAccount": sa.Namespace + "/" + sa.Name,
+			})
+		}
+		if identity != "" {
+			byIdentity[identity] = append(byIdentity[identity], holder{serviceAccount: sa.Namespace + "/" + sa.Name, roles: roles})
+		}
 	}
-	return map[string]interface{}{"Principals": principals}, nil
-}
 
-func (s *managedService) GetNodeIntegrityStatus(_ string) (map[string]interface{}, error) {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return nil, err
+	required := splitConfigList(c.config.Get("required-infrastructure-roles"))
+	if len(required) == 0 {
+		required = defaultRequiredInfrastructureRoles
 	}
-	nodes, err := client.CoreV1().Nodes().List(s.ctx, metav1.ListOptions{})
-	if err != nil {
-		return nil, err
+	missing := []map[string]interface{}{}
+	for _, role := range required {
+		if !present[role] {
+			missing = append(missing, map[string]interface{}{"Role": role})
+		}
 	}
-	var evidence []map[string]interface{}
-	for _, node := range nodes.Items {
-		evidence = append(evidence, map[string]interface{}{
-			"Name": node.Name, "ImageID": node.Status.NodeInfo.OSImage, "ImageSource": "unknown",
-			"ImageSupported": false, "BootIntegrityEnabled": false,
-			"Reason": "Kubernetes Node status does not expose image publisher support or measured-boot state; provider corroboration is required",
-		})
+
+	// One cloud identity shared by several distinct infrastructure service accounts
+	// defeats separation between their roles.
+	duplicates := []map[string]interface{}{}
+	identities := make([]string, 0, len(byIdentity))
+	for identity := range byIdentity {
+		identities = append(identities, identity)
 	}
-	return map[string]interface{}{"Nodes": evidence}, nil
+	sort.Strings(identities)
+	for _, identity := range identities {
+		holders := byIdentity[identity]
+		if len(holders) < 2 {
+			continue
+		}
+		accounts, roles := []string{}, map[string]bool{}
+		for _, h := range holders {
+			accounts = append(accounts, h.serviceAccount)
+			for _, role := range h.roles {
+				roles[role] = true
+			}
+		}
+		if len(roles) < 2 {
+			continue
+		}
+		roleList := make([]string, 0, len(roles))
+		for role := range roles {
+			roleList = append(roleList, role)
+		}
+		sort.Strings(roleList)
+		duplicates = append(duplicates, map[string]interface{}{"IdentityID": identity, "ServiceAccounts": accounts, "Roles": roleList})
+	}
+	return map[string]interface{}{
+		"Principals": principals, "MissingRequiredRoles": missing, "DuplicateIdentityAssignments": duplicates,
+	}, nil
 }
 
 func (s *managedService) GetEncryptionAtRestStatus(clusterID string) (map[string]interface{}, error) {
@@ -959,11 +1243,21 @@ func firstAnnotation(annotations map[string]string, keys ...string) string {
 	return ""
 }
 
-func infrastructureRole(name string) string {
+func infrastructureRoles(name string) []string {
 	lower := strings.ToLower(name)
+	var roles []string
 	for _, role := range []string{"node", "cni", "csi", "autoscaler"} {
 		if strings.Contains(lower, role) {
-			return role
+			roles = append(roles, role)
+		}
+	}
+	return roles
+}
+
+func firstNonEmpty(values ...string) string {
+	for _, value := range values {
+		if strings.TrimSpace(value) != "" {
+			return value
 		}
 	}
 	return ""

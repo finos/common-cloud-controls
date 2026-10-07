@@ -1,3 +1,5 @@
+//go:build !lambda
+
 package main
 
 import (

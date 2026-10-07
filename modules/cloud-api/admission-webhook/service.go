@@ -314,7 +314,17 @@ func (c *Controller) CheckUserProvisioned() error {
 
 func (c *Controller) ElevateAccessForInspection() error { return nil }
 func (c *Controller) ResetAccess() error                { return nil }
-func (c *Controller) TearDown() error                   { return nil }
+
+// TearDown restores the probe backend so fail-closed scale-to-zero does not
+// leak across suites (CN11.AR03).
+func (c *Controller) TearDown() error {
+	clusterID := c.configuredClusterID()
+	if clusterID == "" {
+		return nil
+	}
+	_, err := c.SetBackendAvailability(clusterID, true)
+	return err
+}
 func (c *Controller) Start(string) error                { return nil }
 func (c *Controller) Stop(string) error                 { return nil }
 func (c *Controller) StartedDetails() ([]generic.StartedResource, error) {

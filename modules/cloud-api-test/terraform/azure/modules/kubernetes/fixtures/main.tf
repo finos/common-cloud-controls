@@ -151,6 +151,29 @@ resource "kubernetes_network_policy_v1" "test_allow_dns" {
   }
 }
 
+# CN03.AR01: the workload-identity probe Job (AttemptCloudAPIAsWorkload) must reach the cloud
+# token/storage APIs under default-deny egress. Scoped to pods labelled role=wi-probe only.
+resource "kubernetes_network_policy_v1" "test_allow_wi_probe" {
+  metadata {
+    name      = "ccc-allow-wi-probe"
+    namespace = kubernetes_namespace_v1.test.metadata[0].name
+  }
+  spec {
+    pod_selector {
+      match_labels = {
+        role = "wi-probe"
+      }
+    }
+    policy_types = ["Egress"]
+    egress {
+      ports {
+        port     = "443"
+        protocol = "TCP"
+      }
+    }
+  }
+}
+
 resource "kubernetes_network_policy_v1" "control_allow_from_labeled" {
   metadata {
     name      = "ccc-allow-from-network-probe"

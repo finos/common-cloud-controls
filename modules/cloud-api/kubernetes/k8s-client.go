@@ -19,6 +19,8 @@ type KubeClient struct {
 	client     kubernetes.Interface
 	prober     reachability.Prober
 	provider   string
+	// autoscalers returns CSP node-pool scaling bounds (nil when the provider has none).
+	autoscalers func(context.Context) ([]autoscalerBound, error)
 }
 
 // GetKubernetesClient builds a KubeClient using CSP-derived credentials.
@@ -37,7 +39,70 @@ func (s *managedService) GetKubernetesClient() (*KubeClient, error) {
 		client:     client,
 		prober:     s.prober,
 		provider:   s.provider,
+		autoscalers: func() func(context.Context) ([]autoscalerBound, error) {
+			if s.autoscalers == nil {
+				return nil
+			}
+			return s.nodeAutoscalers
+		}(),
 	}, nil
+}
+
+// ControlPlane wrappers so cloud-api-test CSV reflection can hit KubeClient probes.
+func (s *managedService) withKubeClient(fn func(*KubeClient) (map[string]interface{}, error)) (map[string]interface{}, error) {
+	client, err := s.GetKubernetesClient()
+	if err != nil {
+		return nil, err
+	}
+	return fn(client)
+}
+
+func (s *managedService) GetRBACPolicyFindings(clusterID string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.GetRBACPolicyFindings(clusterID)
+	})
+}
+
+func (s *managedService) GetWorkloadIdentityStatus(clusterID, namespace, serviceAccount string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.GetWorkloadIdentityStatus(clusterID, namespace, serviceAccount)
+	})
+}
+
+func (s *managedService) FindStaticCloudCredentials(clusterID, namespace string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.FindStaticCloudCredentials(clusterID, namespace)
+	})
+}
+
+func (s *managedService) GetAdmissionPolicyCoverage(clusterID string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.GetAdmissionPolicyCoverage(clusterID)
+	})
+}
+
+func (s *managedService) GetNamespaceNetworkPolicyStatus(clusterID, namespace string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.GetNamespaceNetworkPolicyStatus(clusterID, namespace)
+	})
+}
+
+func (s *managedService) AttemptCreatePVC(clusterID, claimYAML string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.AttemptCreatePVC(clusterID, claimYAML)
+	})
+}
+
+func (s *managedService) GetResourceConsumptionBounds(clusterID, namespace string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.GetResourceConsumptionBounds(clusterID, namespace)
+	})
+}
+
+func (s *managedService) GetInfrastructureIdentities(clusterID string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.GetInfrastructureIdentities(clusterID)
+	})
 }
 
 // ResolveProviderRESTConfig derives a REST config from CSP credentials.

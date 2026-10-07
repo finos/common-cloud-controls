@@ -29,4 +29,15 @@ type ControlPlane interface {
 	GetEncryptionAtRestStatus(clusterID string) (map[string]interface{}, error)
 	GetClusterComponentInventory(clusterID string) (map[string]interface{}, error)
 	GetNodeIntegrityStatus(clusterID string) (map[string]interface{}, error)
+
+	// Portable KubeClient probes also exposed on ControlPlane so integration CSV
+	// can exercise them without a separate factory id.
+	GetRBACPolicyFindings(clusterID string) (map[string]interface{}, error)
+	GetWorkloadIdentityStatus(clusterID, namespace, serviceAccount string) (map[string]interface{}, error)
+	FindStaticCloudCredentials(clusterID, namespace string) (map[string]interface{}, error)
+	GetAdmissionPolicyCoverage(clusterID string) (map[string]interface{}, error)
+	GetNamespaceNetworkPolicyStatus(clusterID, namespace string) (map[string]interface{}, error)
+	AttemptCreatePVC(clusterID, claimYAML string) (map[string]interface{}, error)
+	GetResourceConsumptionBounds(clusterID, namespace string) (map[string]interface{}, error)
+	GetInfrastructureIdentities(clusterID string) (map[string]interface{}, error)
 }

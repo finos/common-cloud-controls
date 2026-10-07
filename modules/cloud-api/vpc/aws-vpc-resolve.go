@@ -20,7 +20,8 @@ func (s *AWSVPCService) resolveVpcID(vpcIDOrName string) (string, error) {
 	}
 	if configured := strings.TrimSpace(s.config.Get("receiver-vpc-id")); strings.HasPrefix(configured, "vpc-") {
 		resourceName := strings.TrimSpace(s.config.Get("resource"))
-		if resourceName == "" || id == resourceName {
+		// Alias only the configured receiver name — never rewrite requester IDs/names.
+		if resourceName != "" && id == resourceName {
 			return configured, nil
 		}
 	}

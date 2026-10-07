@@ -18,7 +18,8 @@ func (s *GCPVPCService) resolveNetworkName(networkIDOrName string) (string, erro
 
 	if configured := strings.TrimSpace(s.config.Get("receiver-vpc-id")); configured != "" {
 		resourceName := strings.TrimSpace(s.config.Get("resource"))
-		if resourceName == "" || id == resourceName {
+		// Alias only the configured receiver name — never rewrite requester IDs/names.
+		if resourceName != "" && id == resourceName {
 			if strings.Contains(configured, "/networks/") {
 				parts := strings.Split(configured, "/networks/")
 				if len(parts) == 2 && strings.TrimSpace(parts[1]) != "" {

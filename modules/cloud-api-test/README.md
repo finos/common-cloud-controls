@@ -36,7 +36,7 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 
 ### Kubernetes note
 
-Factory id `kubernetes` is the **ControlPlane** (CSP + admit + governance/auth/encryption/inventory helpers). Portable `KubeClient` probes obtained via `GetKubernetesClient` (RBAC listings, NetworkPolicy Jobs, etc.) are exercised from behavioural features as `kubeClient`, not duplicated as AR matrices in this CSV. One `GetKubernetesClient` row may appear as a smoke that CSP-derived REST config wiring works (`kubernetes-cluster-name` + ambient cloud credentials).
+Factory id `kubernetes` is the **ControlPlane** (CSP + admit + governance/auth/encryption/inventory helpers). Portable `KubeClient` probes are also available via `GetKubernetesClient` (features refer to it as `kubeClient`). A subset of those probes is wrapped on ControlPlane so this CSV can hit the same code paths for coverage (RBAC, WI status, PVC, inventory helpers). Behavioural features remain the AR oracle.
 
 Kubernetes (and later other services) inject `reachability.Prober` from Privateer vars (`reachability-probe-mode` local|remote, URL/secret when remote). There is no factory id `reachability` — exercise the prober via domain methods such as `AttemptAPIEndpointReachability`. `StartedDetails` CSV rows exercise in-process inventory while fixtures are up; Start/Stop coverage comes from instrumented `scale-fixtures` (`GOCOVERDIR`) merged via `merge-lifecycle-coverage.sh`.
 

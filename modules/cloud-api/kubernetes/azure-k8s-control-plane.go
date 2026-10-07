@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"sort"
 	"strings"
 	"time"
 
@@ -38,6 +40,12 @@ type aksResource struct {
 	Tags       map[string]string      `json:"tags"`
 	Identity   map[string]interface{} `json:"identity"`
 	Properties struct {
+		KubernetesVersion        string         `json:"kubernetesVersion"`
+		CurrentKubernetesVersion string         `json:"currentKubernetesVersion"`
+		AgentPoolProfiles        []aksAgentPool `json:"agentPoolProfiles"`
+		AddonProfiles            map[string]struct {
+			Enabled bool `json:"enabled"`
+		} `json:"addonProfiles"`
 		FQDN                   string `json:"fqdn"`
 		PrivateFQDN            string `json:"privateFQDN"`
 		APIServerAccessProfile struct {
@@ -56,6 +64,26 @@ type aksResource struct {
 			} `json:"azureKeyVaultKms"`
 		} `json:"securityProfile"`
 	} `json:"properties"`
+}
+
+type aksAgentPool struct {
+	Name                       string `json:"name"`
+	Count                      int64  `json:"count"`
+	MinCount                   int64  `json:"minCount"`
+	MaxCount                   int64  `json:"maxCount"`
+	EnableAutoScaling          bool   `json:"enableAutoScaling"`
+	OrchestratorVersion        string `json:"orchestratorVersion"`
+	CurrentOrchestratorVersion string `json:"currentOrchestratorVersion"`
+	NodeImageVersion           string `json:"nodeImageVersion"`
+	OSSKU                      string `json:"osSKU"`
+	SecurityProfile            struct {
+		EnableSecureBoot bool `json:"enableSecureBoot"`
+		EnableVTPM       bool `json:"enableVTPM"`
+	} `json:"securityProfile"`
+}
+
+func (p aksAgentPool) minor() string {
+	return kubeMinor(firstNonEmpty(p.CurrentOrchestratorVersion, p.OrchestratorVersion))
 }
 
 func NewAzureService(ctx context.Context, cfg types.Config) (*AzureService, error) {
@@ -98,6 +126,9 @@ func newAzureService(ctx context.Context, cfg types.Config, credential azcore.To
 	service.governance = service.governanceMetadata
 	service.authConfig = service.clusterAuth
 	service.encryption = service.encryptionStatus
+	service.support = service.supportEvidence
+	service.nodeIntegrity = service.nodeIntegrityEvidence
+	service.autoscalers = service.poolBounds
 	return service, nil
 }
 
@@ -301,4 +332,153 @@ func (s *AzureService) buildRESTConfig() (*rest.Config, error) {
 	// ARM action is singular: listClusterUserCredential (plural path returns plain 404).
 	credURL := base + "/listClusterUserCredential?api-version=2025-04-01"
 	return config.Azure(s.ctx, s.arm, s.cred, credURL)
+}
+
+// getJSON performs an ARM GET and decodes the JSON body.
+func (s *AzureService) getJSON(ctx context.Context, resourceURL string, out interface{}) error {
+	request, err := runtime.NewRequest(ctx, http.MethodGet, resourceURL)
+	if err != nil {
+		return err
+	}
+	response, err := s.arm.Pipeline().Do(request)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close()
+	if response.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(io.LimitReader(response.Body, 4096))
+		return fmt.Errorf("HTTP %d: %s", response.StatusCode, strings.TrimSpace(string(body)))
+	}
+	return json.NewDecoder(response.Body).Decode(out)
+}
+
+// supportedMinors lists non-preview Kubernetes minors AKS currently offers in the cluster's region.
+func (s *AzureService) supportedMinors(ctx context.Context, cluster *aksResource) (map[string]bool, error) {
+	subscription := s.config.CloudParams().AzureSubscriptionID
+	if parts := strings.Split(cluster.ID, "/"); len(parts) > 2 && strings.EqualFold(parts[1], "subscriptions") {
+		subscription = parts[2]
+	}
+	if subscription == "" || cluster.Location == "" {
+		return nil, fmt.Errorf("subscription and cluster location are required to list AKS Kubernetes versions")
+	}
+	versionsURL := fmt.Sprintf("https://management.azure.com/subscriptions/%s/providers/Microsoft.ContainerService/locations/%s/kubernetesVersions?api-version=2025-04-01",
+		url.PathEscape(subscription), url.PathEscape(cluster.Location))
+	var list struct {
+		Values []struct {
+			Version   string `json:"version"`
+			IsPreview bool   `json:"isPreview"`
+		} `json:"values"`
+	}
+	if err := s.getJSON(ctx, versionsURL, &list); err != nil {
+		return nil, fmt.Errorf("list AKS Kubernetes versions: %w", err)
+	}
+	minors := map[string]bool{}
+	for _, value := range list.Values {
+		if !value.IsPreview {
+			minors[kubeMinor(value.Version)] = true
+		}
+	}
+	return minors, nil
+}
+
+func (s *AzureService) supportEvidence(ctx context.Context, clusterID string) (*supportEvidence, error) {
+	cluster, err := s.get(ctx, clusterID)
+	if err != nil {
+		return nil, err
+	}
+	evidence := &supportEvidence{Source: "arm:managedClusters/kubernetesVersions"}
+	var errs []error
+	minors, err := s.supportedMinors(ctx, cluster)
+	if err != nil {
+		errs = append(errs, err)
+	} else {
+		evidence.SupportedMinors = minors
+	}
+
+	if len(cluster.Properties.AgentPoolProfiles) == 0 {
+		evidence.NodeImageReason = "cluster reports no agent pools"
+	} else {
+		ok, reasons := minors != nil, []string{}
+		if minors == nil {
+			reasons = append(reasons, "AKS Kubernetes version support list unavailable")
+		}
+		for _, pool := range cluster.Properties.AgentPoolProfiles {
+			if pool.NodeImageVersion == "" {
+				ok = false
+				reasons = append(reasons, "agent pool "+pool.Name+" reports no node image version")
+			} else if minors != nil && !minors[pool.minor()] {
+				ok = false
+				reasons = append(reasons, "agent pool "+pool.Name+" runs a Kubernetes version outside AKS support")
+			}
+		}
+		evidence.NodeImageInSupport = boolRef(ok)
+		evidence.NodeImageReason = strings.Join(reasons, "; ")
+	}
+
+	// AKS-managed add-on profiles are versioned and upgraded with the cluster; they
+	// are in support exactly when the cluster's Kubernetes minor is.
+	clusterMinor := kubeMinor(firstNonEmpty(cluster.Properties.CurrentKubernetesVersion, cluster.Properties.KubernetesVersion))
+	clusterSupported := minors != nil && minors[clusterMinor]
+	names := make([]string, 0, len(cluster.Properties.AddonProfiles))
+	for name, profile := range cluster.Properties.AddonProfiles {
+		if profile.Enabled {
+			names = append(names, name)
+		}
+	}
+	sort.Strings(names)
+	for _, name := range names {
+		entry := addonEvidence{Name: name, Version: clusterMinor, Publisher: "Microsoft", Status: "Enabled", Compatible: clusterSupported, InSupport: clusterSupported}
+		if !clusterSupported {
+			entry.Reason = "cluster-managed add-on follows an AKS Kubernetes version outside support or unverified"
+		}
+		evidence.Addons = append(evidence.Addons, entry)
+	}
+	return evidence, errors.Join(errs...)
+}
+
+// nodeIntegrityEvidence reports per-agent-pool node image support and Trusted Launch
+// (secure boot + vTPM) state from the AKS agent pool profiles.
+func (s *AzureService) nodeIntegrityEvidence(ctx context.Context, clusterID string) ([]map[string]interface{}, error) {
+	cluster, err := s.get(ctx, clusterID)
+	if err != nil {
+		return nil, err
+	}
+	minors, minorsErr := s.supportedMinors(ctx, cluster)
+	nodes := []map[string]interface{}{}
+	for _, pool := range cluster.Properties.AgentPoolProfiles {
+		reason := ""
+		supported := pool.NodeImageVersion != "" && minorsErr == nil && minors[pool.minor()]
+		if minorsErr != nil {
+			reason = "AKS Kubernetes version support list unavailable: " + minorsErr.Error()
+		}
+		boot := pool.SecurityProfile.EnableSecureBoot && pool.SecurityProfile.EnableVTPM
+		if !boot {
+			reason = strings.TrimSpace(reason + " secure boot and vTPM are not both enabled on this agent pool")
+		}
+		source := "csp"
+		if pool.NodeImageVersion == "" {
+			source = "unknown"
+		}
+		nodes = append(nodes, map[string]interface{}{
+			"Name": pool.Name, "ImageID": pool.NodeImageVersion, "ImageSource": source,
+			"ImageSupported": supported, "BootIntegrityEnabled": boot, "Reason": reason,
+		})
+	}
+	return nodes, nil
+}
+
+func (s *AzureService) poolBounds(ctx context.Context, clusterID string) ([]autoscalerBound, error) {
+	cluster, err := s.get(ctx, clusterID)
+	if err != nil {
+		return nil, err
+	}
+	var bounds []autoscalerBound
+	for _, pool := range cluster.Properties.AgentPoolProfiles {
+		bound := autoscalerBound{Name: "agentpool/" + pool.Name, Kind: "nodepool", Min: pool.Count, Max: pool.Count}
+		if pool.EnableAutoScaling {
+			bound.Min, bound.Max, bound.Enabled = pool.MinCount, pool.MaxCount, pool.MaxCount > pool.MinCount
+		}
+		bounds = append(bounds, bound)
+	}
+	return bounds, nil
 }

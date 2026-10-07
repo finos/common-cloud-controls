@@ -16,7 +16,8 @@ func (s *AzureVPCService) resolveVNetName(vnetIDOrName string) (string, error) {
 
 	if configured := strings.TrimSpace(s.config.Get("receiver-vpc-id")); configured != "" {
 		resourceName := strings.TrimSpace(s.config.Get("resource"))
-		if resourceName == "" || id == resourceName {
+		// Alias only the configured receiver name — never rewrite requester IDs/names.
+		if resourceName != "" && id == resourceName {
 			if strings.Contains(configured, "/virtualNetworks/") {
 				parts := strings.Split(configured, "/virtualNetworks/")
 				if len(parts) == 2 && strings.TrimSpace(parts[1]) != "" {

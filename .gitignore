@@ -67,3 +67,5 @@ node_modules
 modules/runner/ccc-lifecycle
 modules/runner/ccc-compliance
 modules/cloud-api-test/terraform/aws/lambda/probe.zip
+modules/cloud-api-test/terraform/aws/lambda/probe-lambda.zip
+modules/cloud-api-test/terraform/aws/lambda/bootstrap

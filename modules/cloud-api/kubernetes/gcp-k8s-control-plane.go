@@ -66,6 +66,8 @@ func newGCPService(ctx context.Context, cfg types.Config, client *container.Serv
 	service.governance = service.governanceMetadata
 	service.authConfig = service.clusterAuth
 	service.encryption = service.encryptionStatus
+	service.nodeIntegrity = service.nodeIntegrityEvidence
+	service.autoscalers = service.poolBounds
 	return service
 }
 
@@ -226,6 +228,120 @@ func (s *GCPService) encryptionStatus(_ context.Context, clusterID string) (map[
 	return map[string]interface{}{"SecretsEncrypted": enabled, "KMSKeyID": key, "Provider": "gcp-kms"}, nil
 }
 
+// serverConfig returns the GKE version/image-type catalogue for the cluster's location.
+func (s *GCPService) serverConfig(clusterID string) (*container.ServerConfig, error) {
+	name, err := s.clusterName(clusterID)
+	if err != nil {
+		return nil, err
+	}
+	parent, _, _ := strings.Cut(name, "/clusters/")
+	config, err := s.gke.Projects.Locations.GetServerConfig(parent).Context(s.ctx).Do()
+	if err != nil {
+		return nil, fmt.Errorf("get GKE server config for %q: %w", parent, err)
+	}
+	return config, nil
+}
+
+func gkeSupportedMinors(config *container.ServerConfig) map[string]bool {
+	minors := map[string]bool{}
+	add := func(versions []string) {
+		for _, version := range versions {
+			if minor := kubeMinor(version); minor != "" {
+				minors[minor] = true
+			}
+		}
+	}
+	add(config.ValidMasterVersions)
+	add(config.ValidNodeVersions)
+	for _, channel := range config.Channels {
+		if channel != nil {
+			add(channel.ValidVersions)
+		}
+	}
+	return minors
+}
+
+func gkeImageTypeValid(config *container.ServerConfig, imageType string) bool {
+	for _, valid := range config.ValidImageTypes {
+		if strings.EqualFold(valid, imageType) {
+			return imageType != ""
+		}
+	}
+	return false
+}
+
+// gkeManagedAddons lists add-ons enabled in addonsConfig. They are versioned with the control plane.
+func gkeManagedAddons(cluster *container.Cluster) []string {
+	cfg := cluster.AddonsConfig
+	if cfg == nil {
+		return nil
+	}
+	var enabled []string
+	if cfg.HorizontalPodAutoscaling != nil && !cfg.HorizontalPodAutoscaling.Disabled {
+		enabled = append(enabled, "horizontal-pod-autoscaling")
+	}
+	if cfg.HttpLoadBalancing != nil && !cfg.HttpLoadBalancing.Disabled {
+		enabled = append(enabled, "http-load-balancing")
+	}
+	if cfg.NetworkPolicyConfig != nil && !cfg.NetworkPolicyConfig.Disabled {
+		enabled = append(enabled, "network-policy")
+	}
+	if cfg.GcePersistentDiskCsiDriverConfig != nil && cfg.GcePersistentDiskCsiDriverConfig.Enabled {
+		enabled = append(enabled, "gce-pd-csi-driver")
+	}
+	if cfg.GcpFilestoreCsiDriverConfig != nil && cfg.GcpFilestoreCsiDriverConfig.Enabled {
+		enabled = append(enabled, "gcp-filestore-csi-driver")
+	}
+	if cfg.GcsFuseCsiDriverConfig != nil && cfg.GcsFuseCsiDriverConfig.Enabled {
+		enabled = append(enabled, "gcs-fuse-csi-driver")
+	}
+	if cfg.DnsCacheConfig != nil && cfg.DnsCacheConfig.Enabled {
+		enabled = append(enabled, "node-local-dns-cache")
+	}
+	return enabled
+}
+
+func (s *GCPService) supportEvidence(_ context.Context, clusterID string) (*supportEvidence, error) {
+	cluster, err := s.get(clusterID)
+	if err != nil {
+		return nil, err
+	}
+	evidence := &supportEvidence{Source: "gke:getServerConfig"}
+	config, err := s.serverConfig(clusterID)
+	if err != nil {
+		return evidence, err
+	}
+	evidence.SupportedMinors = gkeSupportedMinors(config)
+
+	ok, reasons := len(cluster.NodePools) > 0, []string{}
+	for _, pool := range cluster.NodePools {
+		imageType := ""
+		if pool.Config != nil {
+			imageType = pool.Config.ImageType
+		}
+		if !gkeImageTypeValid(config, imageType) {
+			ok = false
+			reasons = append(reasons, fmt.Sprintf("node pool %s uses image type %q that GKE no longer offers", pool.Name, imageType))
+		}
+		if !evidence.SupportedMinors[kubeMinor(pool.Version)] {
+			ok = false
+			reasons = append(reasons, fmt.Sprintf("node pool %s runs a Kubernetes version outside GKE support", pool.Name))
+		}
+	}
+	evidence.NodeImageInSupport = boolRef(ok)
+	evidence.NodeImageReason = strings.Join(reasons, "; ")
+
+	clusterSupported := evidence.SupportedMinors[kubeMinor(cluster.CurrentMasterVersion)]
+	for _, name := range gkeManagedAddons(cluster) {
+		entry := addonEvidence{Name: name, Version: cluster.CurrentMasterVersion, Publisher: "Google", Status: "Enabled", Compatible: clusterSupported, InSupport: clusterSupported}
+		if !clusterSupported {
+			entry.Reason = "control-plane-managed add-on follows a GKE version outside support"
+		}
+		evidence.Addons = append(evidence.Addons, entry)
+	}
+	return evidence, nil
+}
+
 func (s *GCPService) GetClusterComponentInventory(clusterID string) (map[string]interface{}, error) {
 	cluster, err := s.get(clusterID)
 	if err != nil {
@@ -239,19 +355,21 @@ func (s *GCPService) GetClusterComponentInventory(clusterID string) (map[string]
 		}
 		workers = append(workers, map[string]interface{}{"Name": pool.Name, "Version": pool.Version, "Image": image})
 	}
-	addons := []map[string]interface{}{}
-	if cluster.AddonsConfig != nil {
-		addons = append(addons, map[string]interface{}{"Name": "managed-addons", "Version": cluster.CurrentMasterVersion, "Compatible": true, "InSupport": true})
-	}
-	return map[string]interface{}{"ControlPlaneVersion": cluster.CurrentMasterVersion, "Workers": workers, "Addons": addons}, nil
+	evidence, evidenceErr := s.supportEvidence(s.ctx, clusterID)
+	return buildComponentInventory(s.config, cluster.CurrentMasterVersion, workers, evidence, evidenceErr), nil
 }
 
-func (s *GCPService) GetNodeIntegrityStatus(clusterID string) (map[string]interface{}, error) {
+func (s *GCPService) nodeIntegrityEvidence(_ context.Context, clusterID string) ([]map[string]interface{}, error) {
 	cluster, err := s.get(clusterID)
 	if err != nil {
 		return nil, err
 	}
-	var nodes []map[string]interface{}
+	config, configErr := s.serverConfig(clusterID)
+	var minors map[string]bool
+	if configErr == nil {
+		minors = gkeSupportedMinors(config)
+	}
+	nodes := []map[string]interface{}{}
 	for _, pool := range cluster.NodePools {
 		image, secureBoot, integrity := "", false, false
 		if pool.Config != nil {
@@ -261,12 +379,36 @@ func (s *GCPService) GetNodeIntegrityStatus(clusterID string) (map[string]interf
 				integrity = pool.Config.ShieldedInstanceConfig.EnableIntegrityMonitoring
 			}
 		}
+		reason := ""
+		supported := configErr == nil && gkeImageTypeValid(config, image) && minors[kubeMinor(pool.Version)]
+		if configErr != nil {
+			reason = configErr.Error()
+		}
 		nodes = append(nodes, map[string]interface{}{
 			"Name": pool.Name, "ImageID": image, "ImageSource": "csp",
-			"ImageSupported": pool.Version != "", "BootIntegrityEnabled": secureBoot && integrity,
+			"ImageSupported": supported, "BootIntegrityEnabled": secureBoot && integrity, "Reason": reason,
 		})
 	}
-	return map[string]interface{}{"Nodes": nodes}, nil
+	return nodes, nil
+}
+
+func (s *GCPService) poolBounds(_ context.Context, clusterID string) ([]autoscalerBound, error) {
+	cluster, err := s.get(clusterID)
+	if err != nil {
+		return nil, err
+	}
+	var bounds []autoscalerBound
+	for _, pool := range cluster.NodePools {
+		bound := autoscalerBound{Name: "nodepool/" + pool.Name, Kind: "nodepool", Min: pool.InitialNodeCount, Max: pool.InitialNodeCount}
+		if scaling := pool.Autoscaling; scaling != nil && scaling.Enabled {
+			bound.Min, bound.Max, bound.Enabled = scaling.MinNodeCount, scaling.MaxNodeCount, true
+			if scaling.TotalMaxNodeCount > 0 {
+				bound.Min, bound.Max = scaling.TotalMinNodeCount, scaling.TotalMaxNodeCount
+			}
+		}
+		bounds = append(bounds, bound)
+	}
+	return bounds, nil
 }
 
 func (s *GCPService) gcpLifecycle() *lifecycle.GCP {

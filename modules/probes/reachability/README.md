@@ -48,18 +48,27 @@ nonces, shared secrets, resolved addresses, or detailed network errors.
 
 ## Build and test
 
-From `modules/probes/reachability`:
+Prefer the repo-root helper (tests, Lambda zip, and both probe images):
+
+```sh
+./modules/probes/build.sh
+```
+
+From `modules/probes/reachability` alone:
 
 ```sh
 go test ./...
 ```
 
-Build the image from the repository root because the module imports the shared
+Build the HTTP image from the repository root because the module imports the shared
 cloud-api contract:
 
 ```sh
 docker build -f modules/probes/reachability/Dockerfile -t reachability-probe .
 ```
+
+AWS Lambda (`provided.al2023`) uses `lambda.go` (`-tags lambda`) and produces
+`modules/cloud-api-test/terraform/aws/lambda/probe-lambda.zip`.
 
 ## Deploy
 

@@ -6,6 +6,7 @@ on:
     paths:
       - "modules/cloud-api/**"
       - "modules/cloud-api-test/**"
+      - "modules/probes/**"
       - ".github/workflows/cloud-api-integration.yml"
   push:
     branches:
@@ -13,6 +14,7 @@ on:
     paths:
       - "modules/cloud-api/**"
       - "modules/cloud-api-test/**"
+      - "modules/probes/**"
 
 permissions:
   contents: read
@@ -135,6 +137,31 @@ jobs:
       - name: Unset AZURE_CLIENT_ID for SDK auth chain
         if: matrix.provider == 'azure'
         run: echo "AZURE_CLIENT_ID=" >> "$GITHUB_ENV"
+
+      - name: Build probe artifacts
+        run: |
+          set -euo pipefail
+          chmod +x modules/probes/build.sh
+          ./modules/probes/build.sh
+
+      - name: Deploy Go probes (AWS)
+        if: matrix.provider == 'aws'
+        run: |
+          set -euo pipefail
+          chmod +x modules/probes/deploy-aws.sh
+          ./modules/probes/deploy-aws.sh
+          # Exercise RemoteProber against the Go Lambda (base URL; client appends /v1/probes).
+          api_id="$(aws apigatewayv2 get-apis --query "Items[?Name=='finos-ccc-reachability-probe'].ApiId|[0]" --output text)"
+          api_endpoint="$(aws apigatewayv2 get-api --api-id "$api_id" --query ApiEndpoint --output text)"
+          secret="$(aws secretsmanager get-secret-value \
+            --secret-id finos-ccc-reachability-probe-shared-secret \
+            --query SecretString --output text)"
+          {
+            echo "REACHABILITY_PROBE_MODE=remote"
+            echo "REACHABILITY_PROBE_URL=${api_endpoint}"
+            echo "REACHABILITY_PROBE_OBSERVER=finos-public-probe"
+            echo "REACHABILITY_PROBE_SHARED_SECRET=${secret}"
+          } >> "$GITHUB_ENV"
 
       - name: Start compute fixtures
         env:

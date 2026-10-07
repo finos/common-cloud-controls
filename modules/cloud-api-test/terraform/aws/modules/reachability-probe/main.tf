@@ -18,10 +18,18 @@ resource "aws_secretsmanager_secret_version" "shared" {
   secret_string = random_password.shared_secret.result
 }
 
-data "archive_file" "probe" {
-  type        = "zip"
-  source_file = "${path.module}/../../lambda/probe.py"
-  output_path = "${path.module}/../../lambda/probe.zip"
+locals {
+  # Built by modules/probes/build.sh (Go lambda bootstrap zip).
+  lambda_zip = "${path.module}/../../lambda/probe-lambda.zip"
+}
+
+resource "terraform_data" "require_lambda_zip" {
+  lifecycle {
+    precondition {
+      condition     = fileexists(local.lambda_zip)
+      error_message = "Missing ${local.lambda_zip}. Run modules/probes/build.sh before terraform apply."
+    }
+  }
 }
 
 resource "aws_iam_role" "lambda" {
@@ -56,21 +64,28 @@ resource "aws_iam_role_policy" "secret_read" {
 }
 
 resource "aws_lambda_function" "probe" {
-  function_name    = "finos-ccc-reachability-probe"
-  role             = aws_iam_role.lambda.arn
-  handler          = "probe.handler"
-  runtime          = "python3.12"
-  filename         = data.archive_file.probe.output_path
-  source_code_hash = data.archive_file.probe.output_base64sha256
+  function_name = "finos-ccc-reachability-probe"
+  role          = aws_iam_role.lambda.arn
+  handler       = "bootstrap"
+  runtime       = "provided.al2023"
+  architectures = ["x86_64"]
+  filename         = local.lambda_zip
+  source_code_hash = filebase64sha256(local.lambda_zip)
   timeout          = 15
   memory_size      = 256
 
   environment {
     variables = {
-      REACHABILITY_PROBE_SECRET_ARN = aws_secretsmanager_secret.shared.arn
-      REACHABILITY_PROBE_OBSERVER   = var.observer_name
+      # Fixture-only: secret also lives in Secrets Manager for rotation / external readers.
+      SHARED_SECRET     = random_password.shared_secret.result
+      OBSERVER_NAME     = var.observer_name
+      TARGET_ALLOWLIST  = var.target_allowlist
+      PORT_ALLOWLIST    = var.port_allowlist
+      MAX_PROBE_TIMEOUT = "10s"
     }
   }
+
+  depends_on = [terraform_data.require_lambda_zip]
 
   tags = merge(var.common_tags, {
     Name = "finos-ccc-reachability-probe"
