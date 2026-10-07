@@ -90,7 +90,7 @@ In the course of the committee's operations, members vote on all decisions made 
 
 ### How a vote is held
 
-A matter to be decided is raised as a pull request against the [Decision Log](#decision-log) — the [`DECISIONS.md`](DECISIONS.md) file — describing the proposal and adding its entry. TSC members cast their votes by approving or rejecting that pull request. The member who raises the pull request is counted as voting in favour of the proposal.
+A matter to be decided is raised as a pull request against the [Decision Log](#decision-log) — the [`DECISIONS.md`](DECISIONS.md) file — describing the proposal and adding its entry. Anyone may raise such a pull request; the proposer need not be a TSC member. Only TSC members, however, vote on it, by approving or rejecting the pull request. Where the proposer is a TSC member, they are counted as voting in favour of the proposal.
 
 - If the proposal **passes**, the pull request is merged, recording the decision as accepted.
 - If the proposal **does not pass**, its outcome is set to _rejected_ and the pull request is merged anyway, so the decision — and the fact it was rejected — is still recorded.
@@ -103,7 +103,7 @@ The [Chair](#chair-and-vice-chair) closes the vote — merging the pull request 
 
 Unless otherwise specified by a process, a vote passes by a **_majority of participating members_** — meaning members who record an approval or rejection on the pull request. This keeps the process workable in practice: a stricter, participation-independent threshold may appear more rigorous, but one that is seldom met yields the same practical outcome as low engagement — decisions fail to progress.
 
-> This general threshold does not override a process that specifies its own, higher bar — such as a [vote of no confidence](#no-confidence) or a [change to this document](#changes).
+> This general threshold does not override a process that specifies its own, higher bar — such as a [vote of no confidence](#no-confidence).
 
 ### Abstention
 
@@ -141,12 +141,7 @@ Members of the committee must take the [Inclusive Open Source Community Orientat
 
 ## Changes
 
-Members may propose a change to this document through the following process:
-
-- Post a pull request to this repository describing the change.
-- Call a public vote for the nearest acceptable business day four (4) weeks after initial introduction of the change. A vote may be scheduled earlier if all members consent.
-- The change is accepted if two-thirds of the TSC members vote in favor.
-- The pull request is merged or closed.
+A change to this document is decided in the same way as any other matter, through the [Voting](#voting) process.
 
 ## Attribution
 
