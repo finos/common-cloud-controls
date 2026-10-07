@@ -261,6 +261,8 @@ services:
         metadata:
           name: ccc-webhook-pod-allow
           namespace: ccc-admission-webhook-test
+          labels:
+            ccc.finos.org/webhook-probe-object: "true"
         spec:
           securityContext:
             runAsNonRoot: true

@@ -93,6 +93,13 @@ func TestCloudAPIIntegration(t *testing.T) {
 		if want := strings.TrimSpace(os.Getenv("INTEGRATION_API")); want != "" && row.API != want {
 			continue
 		}
+		if want := strings.TrimSpace(os.Getenv("INTEGRATION_METHOD")); want != "" && row.Method != want {
+			continue
+		}
+		if match := strings.TrimSpace(os.Getenv("INTEGRATION_METHOD_MATCH")); match != "" &&
+			!strings.Contains(strings.ToLower(row.Method), strings.ToLower(match)) {
+			continue
+		}
 		label := formatCallRow(row)
 		// Incomplete test-identities is always a hard fail (never PASS via expect_error=true).
 		if err := identityPrerequisiteError(cfg, row.Identity); err != nil {

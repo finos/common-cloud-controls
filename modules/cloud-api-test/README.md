@@ -108,7 +108,19 @@ go test -tags=integration -timeout=45m \
   ./...
 ```
 
-Each CSV row prints `PASS` or `FAIL`, wall-clock seconds for the call, then the method label. `INTEGRATION_PROVIDER` must be set or the test exits immediately. Any failed row makes `go test` exit 1. Set `INTEGRATION_API=vpc` (or another factory id) to run only that API's rows in `TestCloudAPIIntegration`.
+Each CSV row prints `PASS` or `FAIL`, wall-clock seconds for the call, then the method label. `INTEGRATION_PROVIDER` must be set or the test exits immediately. Any failed row makes `go test` exit 1.
+
+Scope the suite while iterating:
+
+```bash
+./run-integration-tests.sh aws --api kubernetes --method AttemptCloudAPIAsWorkload
+# or via env:
+INTEGRATION_API=admission-webhook INTEGRATION_METHOD=SetBackendAvailability \
+  ./run-integration-tests.sh aws
+INTEGRATION_METHOD_MATCH=Admit ./run-integration-tests.sh gcp --api kubernetes
+```
+
+`INTEGRATION_API` matches factory id exactly; `INTEGRATION_METHOD` matches method name exactly; `INTEGRATION_METHOD_MATCH` is a case-insensitive substring on the method name.
 
 Coverage uses `-coverpkg=../cloud-api/...`. A single-cloud run under-reports packages that only exist on other clouds; merge or run the matrix for a fuller picture. Packages never referenced by the CSV (for example some `generic/login` paths) stay at 0% until rows or unit tests cover them.
 

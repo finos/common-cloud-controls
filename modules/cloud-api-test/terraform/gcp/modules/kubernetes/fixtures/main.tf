@@ -128,6 +128,8 @@ resource "kubernetes_network_policy_v1" "test_allow_dns" {
   spec {
     pod_selector {}
     policy_types = ["Egress"]
+    # No destination selector: GKE Dataplane V2/Calico often fails to match
+    # kube-dns ClusterIP via namespaceSelector alone.
     egress {
       ports {
         port     = "53"
@@ -136,13 +138,6 @@ resource "kubernetes_network_policy_v1" "test_allow_dns" {
       ports {
         port     = "53"
         protocol = "TCP"
-      }
-      to {
-        namespace_selector {
-          match_labels = {
-            "kubernetes.io/metadata.name" = "kube-system"
-          }
-        }
       }
     }
   }
@@ -162,6 +157,8 @@ resource "kubernetes_network_policy_v1" "test_allow_wi_probe" {
       }
     }
     policy_types = ["Egress"]
+    # Cloud token/storage APIs (HTTPS) plus GKE metadata (link-local HTTP).
+    # Dataplane V2 often requires an explicit ipBlock for 169.254.169.254.
     egress {
       ports {
         port     = "443"
@@ -173,6 +170,17 @@ resource "kubernetes_network_policy_v1" "test_allow_wi_probe" {
       }
       ports {
         port     = "988"
+        protocol = "TCP"
+      }
+    }
+    egress {
+      to {
+        ip_block {
+          cidr = "169.254.169.254/32"
+        }
+      }
+      ports {
+        port     = "80"
         protocol = "TCP"
       }
     }
@@ -409,6 +417,20 @@ resource "kubectl_manifest" "vap_blocked_sc" {
         expression = "object.spec.accessModes.all(m, m != '${local.m.disallowed_access_mode}')"
         message    = "disallowed access mode"
       }]
+    }
+  })
+}
+
+resource "kubectl_manifest" "vap_blocked_sc_binding" {
+  yaml_body = yamlencode({
+    apiVersion = "admissionregistration.k8s.io/v1"
+    kind       = "ValidatingAdmissionPolicyBinding"
+    metadata = {
+      name = "ccc-deny-blocked-storage-class"
+    }
+    spec = {
+      policyName        = "ccc-deny-blocked-storage-class"
+      validationActions = ["Deny"]
     }
   })
   depends_on = [kubectl_manifest.vap_blocked_sc]

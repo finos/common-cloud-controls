@@ -23,7 +23,7 @@ variable "webhook_probe_image" {
   type        = string
   description = <<-EOT
     Container image for the in-cluster CN11.AR03 admission-webhook probe.
-    Default is a pause stand-in so the Deployment exists; pin a real probe digest before behavioural CN11.AR03 runs.
+    CI/deploy-gcp.sh also kubectl-sets the live Deployment to the just-pushed Artifact Registry digest.
   EOT
-  default     = "registry.k8s.io/pause:3.9"
+  default     = "us-central1-docker.pkg.dev/nodal-time-474015-p5/finos-ccc-probes/finos-ccc-admission-webhook-probe@sha256:6f8d2c45f6f69852bee7df1c71483b3502471de95be924df113c4e5e6477bbb8"
 }

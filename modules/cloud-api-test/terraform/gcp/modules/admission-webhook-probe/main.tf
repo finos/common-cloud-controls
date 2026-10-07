@@ -10,7 +10,8 @@ terraform {
 }
 
 locals {
-  m = var.fixture_metadata
+  m             = var.fixture_metadata
+  enable_probes = !strcontains(var.probe_image, "pause")
 }
 
 resource "tls_private_key" "webhook" {
@@ -118,8 +119,32 @@ resource "kubernetes_deployment_v1" "probe" {
             mount_path = "/tls"
             read_only  = true
           }
-          # Real admission-webhook-probe image must serve TLS on 8443 with /validate /healthz /readyz.
+          # Real admission-webhook-probe image serves TLS on 8443 with /validate /healthz /readyz.
           # Placeholder pause image has no listener; omit probes so the Deployment can become Ready for bring-up.
+          dynamic "readiness_probe" {
+            for_each = local.enable_probes ? [1] : []
+            content {
+              http_get {
+                path   = "/readyz"
+                port   = 8443
+                scheme = "HTTPS"
+              }
+              initial_delay_seconds = 2
+              period_seconds        = 5
+            }
+          }
+          dynamic "liveness_probe" {
+            for_each = local.enable_probes ? [1] : []
+            content {
+              http_get {
+                path   = "/healthz"
+                port   = 8443
+                scheme = "HTTPS"
+              }
+              initial_delay_seconds = 5
+              period_seconds        = 10
+            }
+          }
           resources {
             requests = {
               cpu    = "10m"
@@ -226,7 +251,8 @@ resource "kubernetes_validating_webhook_configuration_v1" "probe" {
         path      = "/validate"
         port      = 443
       }
-      ca_bundle = base64encode(tls_self_signed_cert.webhook.cert_pem)
+      # kubernetes provider base64-encodes this for the API; pass PEM, not pre-encoded bytes.
+      ca_bundle = tls_self_signed_cert.webhook.cert_pem
     }
 
     rule {

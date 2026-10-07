@@ -6,6 +6,12 @@
 #   ./run-integration-tests.sh azure
 #   ./run-integration-tests.sh gcp
 #   ./run-integration-tests.sh all    # run aws + azure + gcp; merge coverage
+#   ./run-integration-tests.sh aws --api kubernetes --method AttemptCreatePVC
+#
+# Optional env (also set by flags):
+#   INTEGRATION_API            — factory id filter (exact)
+#   INTEGRATION_METHOD         — method name filter (exact)
+#   INTEGRATION_METHOD_MATCH   — method name substring (case-insensitive)
 #
 # Prerequisites:
 #   - Go toolchain (see modules/go.work)
@@ -15,20 +21,48 @@
 set -euo pipefail
 
 usage() {
-  echo "Usage: $0 <aws|azure|gcp|all>" >&2
+  echo "Usage: $0 <aws|azure|gcp|all> [--api <factory>] [--method <Name>] [--method-match <substr>]" >&2
   exit 1
 }
 
-[[ $# -eq 1 ]] || usage
+[[ $# -ge 1 ]] || usage
 
 TARGET=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+shift
 case "$TARGET" in
   aws | azure | gcp | all) ;;
   *)
-    echo "Unknown target: $1 (expected aws, azure, gcp, or all)" >&2
+    echo "Unknown target: $TARGET (expected aws, azure, gcp, or all)" >&2
     usage
     ;;
 esac
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --api)
+      [[ $# -ge 2 ]] || usage
+      export INTEGRATION_API="$2"
+      shift 2
+      ;;
+    --method)
+      [[ $# -ge 2 ]] || usage
+      export INTEGRATION_METHOD="$2"
+      shift 2
+      ;;
+    --method-match)
+      [[ $# -ge 2 ]] || usage
+      export INTEGRATION_METHOD_MATCH="$2"
+      shift 2
+      ;;
+    -h | --help)
+      usage
+      ;;
+    *)
+      echo "Unknown option: $1" >&2
+      usage
+      ;;
+  esac
+done
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Full cloud-api module (incl. generic/login). Low login % in HTML report is intentional — fix via W-46.

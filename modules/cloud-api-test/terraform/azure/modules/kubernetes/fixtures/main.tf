@@ -252,8 +252,9 @@ resource "kubernetes_limit_range_v1" "test" {
         memory = "64Mi"
       }
       max = {
+        # azure-cli WI probe needs ~512Mi; leave headroom for the LimitRange default path.
         cpu    = "500m"
-        memory = "512Mi"
+        memory = "1Gi"
       }
       min = {
         cpu    = "10m"

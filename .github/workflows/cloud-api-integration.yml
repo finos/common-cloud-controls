@@ -144,25 +144,6 @@ jobs:
           chmod +x modules/probes/build.sh
           ./modules/probes/build.sh
 
-      - name: Deploy Go probes (AWS)
-        if: matrix.provider == 'aws'
-        run: |
-          set -euo pipefail
-          chmod +x modules/probes/deploy-aws.sh
-          ./modules/probes/deploy-aws.sh
-          # Exercise RemoteProber against the Go Lambda (base URL; client appends /v1/probes).
-          api_id="$(aws apigatewayv2 get-apis --query "Items[?Name=='finos-ccc-reachability-probe'].ApiId|[0]" --output text)"
-          api_endpoint="$(aws apigatewayv2 get-api --api-id "$api_id" --query ApiEndpoint --output text)"
-          secret="$(aws secretsmanager get-secret-value \
-            --secret-id finos-ccc-reachability-probe-shared-secret \
-            --query SecretString --output text)"
-          {
-            echo "REACHABILITY_PROBE_MODE=remote"
-            echo "REACHABILITY_PROBE_URL=${api_endpoint}"
-            echo "REACHABILITY_PROBE_OBSERVER=finos-public-probe"
-            echo "REACHABILITY_PROBE_SHARED_SECRET=${secret}"
-          } >> "$GITHUB_ENV"
-
       - name: Start compute fixtures
         env:
           GOCOVERDIR: ${{ github.workspace }}/modules/cloud-api-test/coverage-lifecycle-${{ matrix.provider }}
@@ -191,6 +172,40 @@ jobs:
             fi
             echo "GCP_VM_HOSTNAME=$ip" >> "$GITHUB_ENV"
           fi
+
+      # Deploy after fixtures are up so webhook pods can schedule onto live nodes.
+      - name: Deploy Go probes (AWS)
+        if: matrix.provider == 'aws'
+        run: |
+          set -euo pipefail
+          chmod +x modules/probes/deploy-aws.sh
+          ./modules/probes/deploy-aws.sh
+          # Prefer newest API (avoids stale duplicates). Base URL; client appends /v1/probes.
+          api_id="$(aws apigatewayv2 get-apis --query "sort_by(Items[?Name=='finos-ccc-reachability-probe'], &CreatedDate)[-1].ApiId" --output text)"
+          api_endpoint="$(aws apigatewayv2 get-api --api-id "$api_id" --query ApiEndpoint --output text)"
+          secret="$(aws secretsmanager get-secret-value \
+            --secret-id finos-ccc-reachability-probe-shared-secret \
+            --query SecretString --output text)"
+          {
+            echo "REACHABILITY_PROBE_MODE=remote"
+            echo "REACHABILITY_PROBE_URL=${api_endpoint}"
+            echo "REACHABILITY_PROBE_OBSERVER=finos-public-probe"
+            echo "REACHABILITY_PROBE_SHARED_SECRET=${secret}"
+          } >> "$GITHUB_ENV"
+
+      - name: Deploy admission-webhook probe (Azure)
+        if: matrix.provider == 'azure'
+        run: |
+          set -euo pipefail
+          chmod +x modules/probes/deploy-azure.sh
+          ./modules/probes/deploy-azure.sh
+
+      - name: Deploy admission-webhook probe (GCP)
+        if: matrix.provider == 'gcp'
+        run: |
+          set -euo pipefail
+          chmod +x modules/probes/deploy-gcp.sh
+          ./modules/probes/deploy-gcp.sh
 
       - name: Run integration tests
         working-directory: modules/cloud-api-test

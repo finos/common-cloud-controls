@@ -10,6 +10,7 @@ import (
 
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
+	apiresource "k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
@@ -25,11 +26,41 @@ const (
 )
 
 // wiProbeDefaultImages are overridable with wi-probe-image. Pin by digest where
-// the target namespace enforces digest-pinned images.
+// the target namespace enforces digest-pinned images (ccc-deny-tag-only-images).
 var wiProbeDefaultImages = map[string]string{
-	"aws":   "amazon/aws-cli:2.17.0",
-	"azure": "mcr.microsoft.com/azure-cli:2.64.0",
-	"gcp":   "curlimages/curl:8.11.1",
+	"aws":   "amazon/aws-cli@sha256:643507c10ada7964ca6157b3d799f030b90577643da9955d319a77399ed80d73",
+	"azure": "mcr.microsoft.com/azure-cli@sha256:2d18d025d51e28e790855a8666fab5b7672f2aa62210bca3a75c1f3fd9b68e25",
+	"gcp":   "curlimages/curl@sha256:c1fe1679c34d9784c1b0d1e5f62ac0a79fca01fb6377cdd33e90473c6f9f9a69",
+}
+
+func wiProbeCPURequest(provider string) string {
+	if provider == "azure" {
+		// Keep small: single-node AKS fixtures often have little allocatable CPU left.
+		return "50m"
+	}
+	return "50m"
+}
+
+func wiProbeCPULimit(provider string) string {
+	if provider == "azure" {
+		return "200m"
+	}
+	return "200m"
+}
+
+func wiProbeMemoryRequest(provider string) string {
+	if provider == "azure" {
+		return "512Mi"
+	}
+	return "64Mi"
+}
+
+func wiProbeMemoryLimit(provider string) string {
+	// azure-cli OOMs at 128Mi (LimitRange default) and still at 512Mi during federated login.
+	if provider == "azure" {
+		return "1Gi"
+	}
+	return "256Mi"
 }
 
 // AttemptCloudAPIAsWorkload runs a short Job under serviceAccount that reads the
@@ -159,6 +190,18 @@ func (s *managedService) buildWIProbeJob(namespace, serviceAccount, resource str
 						Args:            []string{script},
 						Env:             env,
 						VolumeMounts:    []corev1.VolumeMount{{Name: "tmp", MountPath: "/tmp"}},
+						// azure-cli OOMs under the ccc-test LimitRange default (128Mi);
+						// pin near the namespace max so federated login can complete.
+						Resources: corev1.ResourceRequirements{
+							Requests: corev1.ResourceList{
+								corev1.ResourceCPU:    apiresource.MustParse(wiProbeCPURequest(s.provider)),
+								corev1.ResourceMemory: apiresource.MustParse(wiProbeMemoryRequest(s.provider)),
+							},
+							Limits: corev1.ResourceList{
+								corev1.ResourceCPU:    apiresource.MustParse(wiProbeCPULimit(s.provider)),
+								corev1.ResourceMemory: apiresource.MustParse(wiProbeMemoryLimit(s.provider)),
+							},
+						},
 						SecurityContext: &corev1.SecurityContext{
 							AllowPrivilegeEscalation: boolPtr(false),
 							RunAsNonRoot:             boolPtr(true),
@@ -303,8 +346,10 @@ if [ "$(cat /tmp/probe.out)" = "$CCC_WI_EXPECTED" ]; then echo "CCC_WI_RESULT=OK
 exit 0
 `,
 	"gcp": `set +e
-TOKEN_JSON=$(curl -s -m 10 -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token")
-TOKEN=$(echo "$TOKEN_JSON" | sed -n 's/.*"access_token" *: *"\([^"]*\)".*/\1/p')
+# Prefer the link-local metadata IP (avoids DNS under default-deny egress).
+TOKEN_JSON=$(curl -s -m 10 -H "Metadata-Flavor: Google" "http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token")
+# Compact JSON has no spaces around ":"; keep the pattern space-tolerant.
+TOKEN=$(echo "$TOKEN_JSON" | sed -n 's/.*"access_token"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
 if [ -z "$TOKEN" ]; then
   echo "CCC_WI_RESULT=DENIED workload identity metadata server issued no access token"
   exit 0
