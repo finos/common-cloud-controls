@@ -447,9 +447,10 @@ Do **not** create `kubernetes/CCC.Core/` copies of CN01, CN03, CN04, CN05, CN06,
 - **Applicability**: tlp-clear … tlp-red
 - **Approach** (both directions, `@MAIN`):
   1. **Negative**: `AttemptAdmitWorkload(operation=create)` for a container with **no** `resources.requests`/`limits` → `Denied=true`, `DeniedAt="admission"`. Repeat with requests but **missing limits** (or values outside `approved-resource-profile`) → denied, proving the profile bounds are enforced, not just presence.
-  2. **Positive**: submit a workload with approved requests/limits → admitted and `GeneratedWorkloadRunning=true`.
-  3. **Runtime readback (`@OPT_IN`)**: read the admitted pod's effective `resources` back from the API and assert they match the approved profile (guards against a mutating webhook silently rewriting them).
+  2. **Positive (v1)**: submit a workload with approved requests/limits via dry-run admission → `Admitted=true`. `AttemptAdmitWorkload` uses server-side dry-run, so this proves admission-time bounds without creating a running workload.
+  3. **Runtime create / readback (`@OPT_IN`)**: non-dry-run create with `GeneratedWorkloadRunning=true`, then read the admitted pod's effective `resources` back from the API and assert they match the approved profile (guards against a mutating webhook silently rewriting them). Deferred from v1.
 - **Config / fixtures**: LimitRange + validating policy; `approved-resource-profile` (min/max cpu+memory); `resource-profile-over-limit` sample for the negative bound.
+- **Gaps / honesty notes**: v1 does **not** assert `GeneratedWorkloadRunning`; that requires a create+cleanup path beyond dry-run.
 
 ### CCC.K8S.CN13.AR02 — Namespace ResourceQuota
 

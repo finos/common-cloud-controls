@@ -32,7 +32,8 @@ services:
       test-workload-service-account: "ccc-wi-sa"
       test-workload-service-account-unbound: "ccc-wi-sa-unbound"
       protected-secret-name: "ccc-protected-secret"
-      # CN03.AR01 AttemptCloudAPIAsWorkload probe target (object probe.txt = ccc-wi-probe-ok, readable only by the bound identity).
+      # CN03.AR01 AttemptCloudAPIAsWorkload probe target
+      # (object probe.txt = ccc-wi-probe-ok, readable only by the bound identity).
       wi-probe-resource: "finos-ccc-integration-k8s-wi-probe"
       unrelated-secret-name: "ccc-unrelated-secret"
       network-control-namespace: "ccc-network-control"
@@ -45,6 +46,9 @@ services:
       webhook-probe-configuration: "ccc-admission-webhook-probe"
       webhook-probe-enabled-replicas: "1"
       webhook-probe-timeout-ms: "120000"
+      # CN13.AR03: explicit caps required for AutoscalerWithinApprovedMax (fixture node max_size=2).
+      approved-autoscaler-max: "10"
+      approved-hpa-max-replicas: "10"
       # Reachability factory service (local by default; set mode=remote + URL/secret for Lambda probe).
       reachability-probe-mode: "${REACHABILITY_PROBE_MODE}"
       reachability-probe-url: "${REACHABILITY_PROBE_URL}"
@@ -254,7 +258,8 @@ services:
             ccc.finos.org/webhook-probe: allow
         data:
           ok: "true"
-      # Pod (the probe webhook only matches Pods) in the webhook test namespace: admitted while the backend is up, denied (failurePolicy=Fail) while it is scaled to zero.
+      # Pod (probe webhook only matches Pods) in the webhook test namespace:
+      # admitted while the backend is up; denied (failurePolicy=Fail) when scaled to zero.
       manifest-webhook-pod-compliant: |
         apiVersion: v1
         kind: Pod

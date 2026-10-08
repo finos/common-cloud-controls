@@ -110,6 +110,7 @@ services:
           cpu: "1"
           memory: 1Gi
       approved-autoscaler-max: 10
+      approved-hpa-max-replicas: 10
       hpa-load-profile:
         target-cpu-utilization: 90
       hpa-stabilisation-timeout-ms: 180000

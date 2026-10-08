@@ -27,3 +27,5 @@ Feature: CCC.K8S.CN03.AR01 - Use workload identity federation
   Scenario: An unbound service account cannot use the workload cloud identity
     When I call "{k8sControlPlane}" with "AttemptCloudAPIAsWorkload" using arguments "{uid}", "{test-workload-namespace}", "{test-workload-service-account-unbound}", and "{wi-probe-action}"
     Then "{result}" is an error
+    # Must be ErrCloudAccessDenied (authz), not an infrastructure/probe failure.
+    And "{result}" contains "cloud API access denied"

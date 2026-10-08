@@ -22,3 +22,6 @@ Feature: CCC.K8S.CN11.AR03 - Fail closed when an external webhook is unavailable
     When I call "{webhookService}" with "SetBackendAvailability" using arguments "{uid}" and "true"
     Then "{result}" is not an error
     And "{result.ReadyEndpoints}" should be greater than "0"
+    When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{webhook-compliant-probe-manifest}"
+    Then "{result}" is not an error
+    And "{result.Admitted}" is true

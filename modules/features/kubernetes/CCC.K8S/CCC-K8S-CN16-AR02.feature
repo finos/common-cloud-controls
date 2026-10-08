@@ -17,7 +17,7 @@ Feature: CCC.K8S.CN16.AR02 - Disable unmanaged human credentials
     And "{result.LocalAccountsEnabled}" is false
     And "{result.StaticClientCertsForHumans}" is false
 
-  @Behavioural @kubernetes
+  @Behavioural @kubernetes @NotTestable
   Scenario: A synthetic static human credential is rejected
     When I call "{k8sControlPlane}" with "AttemptClusterAuthWithStaticCredential" using arguments "{uid}" and "{legacy-auth-probe-mode}"
     Then "{result}" is an error

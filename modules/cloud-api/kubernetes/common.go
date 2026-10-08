@@ -994,6 +994,7 @@ func (c *KubeClient) GetResourceConsumptionBounds(_ string, namespace string) (m
 
 	maxByName := map[string]interface{}{}
 	enabled := false
+	// Unset approved caps must not report WithinApprovedMax=true for a positive max.
 	within := nodePoolErr == ""
 	nodeCap := configInt(c.config, "approved-autoscaler-max", 0)
 	hpaCap := configInt(c.config, "approved-hpa-max-replicas", 0)
@@ -1004,7 +1005,13 @@ func (c *KubeClient) GetResourceConsumptionBounds(_ string, namespace string) (m
 		if bound.Kind == "hpa" {
 			limit = hpaCap
 		}
-		if bound.Max <= 0 || (limit > 0 && bound.Max > limit) {
+		switch {
+		case bound.Max <= 0:
+			within = false
+		case limit <= 0:
+			// Cap unset/zero: cannot claim the observed maximum is approved.
+			within = false
+		case bound.Max > limit:
 			within = false
 		}
 	}
