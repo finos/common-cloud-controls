@@ -20,16 +20,21 @@ services:
       catalog-versions:
         CCC.Core: v2025.10
         CCC.VM: DEV
-      region: eastus
+      region: westus2
       resource: "finos-ccc-integration-vm-main"
       azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
       azure-resource-group: "finos-ccc-integration-rg"
       permitted-regions:
-        - eastus
+        - westus2
       host-name: "${AZURE_VM_HOSTNAME}"
       port-number: "22"
       test-listener-port: 22
       allowed-source-cidr: "10.0.0.0/8"
+      reachability-probe-mode: remote
+      reachability-probe-url: "${REACHABILITY_PROBE_URL}"
+      reachability-probe-shared-secret: "${REACHABILITY_PROBE_SHARED_SECRET}"
+      reachability-probe-observer: finos-public-probe
+      reachability-probe-timeout-ms: 5000
       test-identities:
         test-user-no-access:
           user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"

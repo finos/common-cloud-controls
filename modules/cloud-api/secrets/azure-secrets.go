@@ -117,6 +117,9 @@ func (s *AzureSecretsService) CheckUserProvisioned() error {
 func (s *AzureSecretsService) ElevateAccessForInspection() error { return nil }
 func (s *AzureSecretsService) ResetAccess() error                { return nil }
 func (s *AzureSecretsService) TearDown() error                   { return nil }
+func (s *AzureSecretsService) Start(string) error                { return nil }
+func (s *AzureSecretsService) Stop(string) error                 { return nil }
+func (s *AzureSecretsService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 func (s *AzureSecretsService) UpdateResourcePolicy() error {
 	return fmt.Errorf("UpdateResourcePolicy not implemented for secrets")

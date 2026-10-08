@@ -5,14 +5,16 @@ import (
 	"fmt"
 	"sync"
 
+	admissionwebhook "github.com/finos/common-cloud-controls/cloud-api/admission-webhook"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	kubernetesapi "github.com/finos/common-cloud-controls/cloud-api/kubernetes"
 	"github.com/finos/common-cloud-controls/cloud-api/logging"
 	objstorage "github.com/finos/common-cloud-controls/cloud-api/object-storage"
 	secretsapi "github.com/finos/common-cloud-controls/cloud-api/secrets"
 	serverlesscomputing "github.com/finos/common-cloud-controls/cloud-api/serverless-computing"
-	vpcapi "github.com/finos/common-cloud-controls/cloud-api/vpc"
-	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	virtualmachines "github.com/finos/common-cloud-controls/cloud-api/virtual-machines"
+	vpcapi "github.com/finos/common-cloud-controls/cloud-api/vpc"
 )
 
 // AWSFactory implements the Factory interface for AWS
@@ -81,6 +83,16 @@ func (f *AWSFactory) GetServiceAPI(serviceID string) (generic.Service, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
 		}
+	case "kubernetes":
+		service, err = kubernetesapi.NewAWSService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
+		}
+	case "admission-webhook":
+		service, err = admissionwebhook.NewService(f.ctx, f.config)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s': %w", serviceID, err)
+		}
 
 	default:
 		return nil, fmt.Errorf("unsupported service type for AWS: %s", serviceID)
@@ -133,6 +145,16 @@ func (f *AWSFactory) GetServiceAPIWithIdentity(serviceID string, identityKey str
 		}
 	case "secrets":
 		service, err = secretsapi.NewAWSSecretsServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "kubernetes":
+		service, err = kubernetesapi.NewAWSServiceWithCredentials(f.ctx, f.config, identity)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
+		}
+	case "admission-webhook":
+		service, err = admissionwebhook.NewServiceWithIdentity(f.ctx, f.config, identity)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create AWS service '%s' with identity %q: %w", serviceID, identityKey, err)
 		}

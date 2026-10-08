@@ -1,0 +1,36 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Single cheap FINOS VPC fixture. CN03 peering scenarios also match
+# "@Behavioural @vpc" and will fail here until peer VPC vars / topology exist.
+
+services:
+  awsVpc:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.VPC
+      applicability:
+        - tlp-amber
+        - tlp-red
+    vars:
+      service: vpc
+      service-type: vpc
+      tags: "@Behavioural @vpc"
+      provider: aws
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.VPC: DEV
+      region: us-east-1
+      resource: "finos-ccc-integration-vpc"
+      permitted-regions:
+        - us-east-1
+      aws-flow-log-group-name: "/aws/vpc/flow-logs/finos-ccc-integration-vpc"
+      # CN03 peer vars (shape only; slim terraform has a single VPC — replace for multi-VPC CFI).
+      allowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-cn03-allow-01"
+      disallowed-requester-vpc-ids:
+        - "finos-ccc-integration-vpc-bad"
+      non-allowlisted-requester-vpc-id: "finos-ccc-integration-vpc-bad"

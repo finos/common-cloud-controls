@@ -93,6 +93,9 @@ func (s *AWSSecretsService) CheckUserProvisioned() error {
 func (s *AWSSecretsService) ElevateAccessForInspection() error { return nil }
 func (s *AWSSecretsService) ResetAccess() error                { return nil }
 func (s *AWSSecretsService) TearDown() error                   { return nil }
+func (s *AWSSecretsService) Start(string) error                { return nil }
+func (s *AWSSecretsService) Stop(string) error                 { return nil }
+func (s *AWSSecretsService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 func (s *AWSSecretsService) UpdateResourcePolicy() error {
 	return fmt.Errorf("UpdateResourcePolicy not implemented for secrets")

@@ -1,3 +1,12 @@
+# Prerequisites for kubernetes (AKS) fixtures:
+#   - azurerm + azuread permissions to create AKS, VNets, Log Analytics, managed identities
+#   - Azure CLI logged in + kubelogin on PATH (main cluster has local accounts disabled for CN16)
+#   - Applying identity needs Azure Kubernetes Service RBAC Cluster Admin on the main cluster
+#   - Cluster boot budget: 15–30+ minutes
+#   - Public API (authorized_ip_ranges = ["0.0.0.0/0"]): CN01.AR01 is @NotTestable on GitHub-hosted CI
+#   - Native controls: Azure Policy add-on, Azure NetworkPolicy, Workload Identity, OMS agent
+#   - Same apply installs the CN11.AR03 admission-webhook probe (modules/admission-webhook-probe)
+
 provider "azurerm" {
   features {}
   subscription_id = "<your-subscription-id>"

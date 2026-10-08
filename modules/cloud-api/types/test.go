@@ -63,4 +63,6 @@ var ServiceTypes = []string{
 	"virtual-machines",
 	"serverless-computing",
 	"secrets",
+	"kubernetes",
+	"admission-webhook",
 }

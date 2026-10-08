@@ -9,7 +9,7 @@ Feature: CCC.SecMgmt.CN01.AR01 - Deny Outdated Secret Version After Rotation
     And I call "{api}" with "GetServiceAPI" using argument "secrets"
     And I refer to "{result}" as "svc"
 
-  @Behavioural @secrets @SANITY @OPT_IN
+  @Behavioural @secrets
   Scenario: Current secret version is readable
     When I call "{svc}" with "RetrieveSecretVersion" using arguments "{uid}" and "latest"
     Then "{result}" is not an error
@@ -17,7 +17,7 @@ Feature: CCC.SecMgmt.CN01.AR01 - Deny Outdated Secret Version After Rotation
     And I attach "{currentSecret}" to the test output as "Current Secret Version"
     Then "{currentSecret.Denied}" is "false"
 
-  @Behavioural @secrets @MAIN
+  @Behavioural @secrets
   Scenario: Stale secret version retrieve is denied
     When I call "{svc}" with "RetrieveSecretVersion" using arguments "{uid}" and "{stale-version-id}"
     Then "{result}" is an error

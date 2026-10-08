@@ -42,7 +42,7 @@ Examples:
   source ../azure-env.sh
   ./run-compliance-tests.sh -g '@Behavioural'
 
-  ./run-compliance-tests.sh -c privateer-config/aws-vpc-good.yml -S awsVpcGood -s vpc -g '@Behavioural'
+  ./run-compliance-tests.sh -c privateer-config/finos-integration/vpc/aws-vpc.yml -S awsVpc -s vpc
 EOF
 }
 

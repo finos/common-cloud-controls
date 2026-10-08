@@ -16,6 +16,14 @@ resource "aws_secretsmanager_secret_version" "v2" {
   depends_on    = [aws_secretsmanager_secret_version.v1]
 }
 
+data "aws_caller_identity" "current" {}
+
+# Under assumed-role / SSO, caller_identity.arn is the STS session ARN; the
+# resource-policy condition must match the underlying role (issuer) ARN.
+data "aws_iam_session_context" "current" {
+  arn = data.aws_caller_identity.current.arn
+}
+
 data "aws_iam_policy_document" "deny_stale_version" {
   statement {
     sid    = "DenyGetStaleVersion"
@@ -30,6 +38,15 @@ data "aws_iam_policy_document" "deny_stale_version" {
       test     = "StringEquals"
       variable = "secretsmanager:VersionId"
       values   = [aws_secretsmanager_secret_version.v1.version_id]
+    }
+
+    # Exempt only the applying identity: otherwise this policy denies Terraform's
+    # own refresh of v1 and every later plan/apply fails. Test identities are the
+    # separate cfi-* users from provision-aws.sh, so they stay denied.
+    condition {
+      test     = "StringNotEquals"
+      variable = "aws:PrincipalArn"
+      values   = [data.aws_iam_session_context.current.issuer_arn]
     }
   }
 }

@@ -31,6 +31,11 @@ services:
       port-number: "22"
       test-listener-port: 22
       allowed-source-cidr: "10.0.0.0/8"
+      reachability-probe-mode: remote
+      reachability-probe-url: "${REACHABILITY_PROBE_URL}"
+      reachability-probe-shared-secret: "${REACHABILITY_PROBE_SHARED_SECRET}"
+      reachability-probe-observer: finos-public-probe
+      reachability-probe-timeout-ms: 5000
       test-identities:
         test-user-no-access:
           user-name: "${AWS_TEST_USER_NO_ACCESS_USER_NAME}"

@@ -20,16 +20,21 @@ services:
       catalog-versions:
         CCC.Core: v2025.10
         CCC.SvlsComp: DEV
-      region: us-central1
+      region: us-east1
       gcp-project-id: "${GCP_PROJECT_ID}"
       resource: "finos-ccc-integration-fn-main"
       function-name: "finos-ccc-integration-fn-main"
       private-endpoint-url: "internal-only"
       public-invoke-url: ""
+      reachability-probe-mode: remote
+      reachability-probe-url: "${REACHABILITY_PROBE_URL}"
+      reachability-probe-shared-secret: "${REACHABILITY_PROBE_SHARED_SECRET}"
+      reachability-probe-observer: finos-public-probe
+      reachability-probe-timeout-ms: 5000
       rate-limit-threshold: 10
       burst-overrun: 15
       permitted-regions:
-        - us-central1
+        - us-east1
       test-identities:
         test-user-no-access:
           user-name: "${GCP_TEST_USER_NO_ACCESS_NAME}"

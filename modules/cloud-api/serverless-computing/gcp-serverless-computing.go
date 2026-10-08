@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/generic/login"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
-	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/cloudfunctions/v2"
 	"google.golang.org/api/googleapi"
@@ -21,8 +21,6 @@ import (
 )
 
 var _ Service = (*GCPServerlessComputingService)(nil)
-
-const gcpCloudPlatformScope = "https://www.googleapis.com/auth/cloud-platform"
 
 type GCPServerlessComputingService struct {
 	ctx        context.Context
@@ -47,7 +45,7 @@ func NewGCPServerlessComputingService(ctx context.Context, cfg types.Config) (*G
 		region = "us-central1"
 	}
 
-	httpClient, err := google.DefaultClient(ctx, gcpCloudPlatformScope)
+	httpClient, err := google.DefaultClient(ctx, login.GCPCloudPlatformScope)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create default GCP client: %w", err)
 	}
@@ -81,15 +79,11 @@ func NewGCPServerlessComputingServiceWithCredentials(ctx context.Context, cfg ty
 		region = "us-central1"
 	}
 
-	serviceAccountKey := identity.Get("service_account_key")
-	if serviceAccountKey == "" {
-		return nil, fmt.Errorf("service_account_key not found for test identity %q", identity.UserName)
-	}
-	creds, err := google.CredentialsFromJSON(ctx, []byte(serviceAccountKey), gcpCloudPlatformScope)
+	httpClient, err := login.GCPIdentityHTTPClient(ctx, identity)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse GCP service account key for %q: %w", identity.UserName, err)
+		return nil, err
 	}
-	httpClient := oauth2HTTPClient(ctx, creds.TokenSource)
+	httpClient.Timeout = 15 * time.Second
 	cfSvc, err := cloudfunctions.NewService(ctx, option.WithHTTPClient(httpClient))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create cloudfunctions service: %w", err)
@@ -173,6 +167,9 @@ func (s *GCPServerlessComputingService) GetReplicationStatus(string) (*generic.R
 	return generic.ReplicationStatusNotApplicable()
 }
 func (s *GCPServerlessComputingService) TearDown() error { return nil }
+func (s *GCPServerlessComputingService) Start(string) error                { return nil }
+func (s *GCPServerlessComputingService) Stop(string) error                 { return nil }
+func (s *GCPServerlessComputingService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 func (s *GCPServerlessComputingService) GetInvokeEndpointExposure(functionID string) (*InvokeEndpointExposure, error) {
 	fn, err := s.getFunction(s.functionResourceName(functionID))
 	if err != nil {
@@ -382,10 +379,4 @@ func (s *GCPServerlessComputingService) invokeHTTP(url string, payload map[strin
 		StatusCode:   resp.StatusCode,
 		Error:        strings.TrimSpace(string(out)),
 	}, nil
-}
-
-func oauth2HTTPClient(ctx context.Context, tokenSource oauth2.TokenSource) *http.Client {
-	client := oauth2.NewClient(ctx, tokenSource)
-	client.Timeout = 15 * time.Second
-	return client
 }

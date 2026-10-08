@@ -110,6 +110,7 @@ func (s *AWSVPCService) CreateTestResourceInSubnet(subnetID string) (map[string]
 
 	// Best-effort wait so subsequent describe calls have stable state.
 	_ = s.waitForInstanceTerminalOrRunning(resourceID, 2*time.Minute)
+	trackTestResource(&s.createdTestResources, resourceID)
 
 	return map[string]interface{}{
 		"ResourceId":   resourceID,
@@ -154,6 +155,7 @@ func (s *AWSVPCService) DeleteTestResource(resourceID string) (map[string]interf
 	})
 	if err != nil {
 		if isEC2NotFoundError(err) {
+			untrackTestResource(&s.createdTestResources, resourceIDStr)
 			return map[string]interface{}{
 				"ResourceId": resourceIDStr,
 				"Deleted":    true,
@@ -166,6 +168,7 @@ func (s *AWSVPCService) DeleteTestResource(resourceID string) (map[string]interf
 	// waitTimeout <= 0 means async cleanup: return immediately after TerminateInstances.
 	waitTimeout := cnTestDeleteWaitTimeout()
 	if waitTimeout <= 0 {
+		untrackTestResource(&s.createdTestResources, resourceIDStr)
 		return map[string]interface{}{
 			"ResourceId":    resourceIDStr,
 			"Deleted":       true,
@@ -184,6 +187,7 @@ func (s *AWSVPCService) DeleteTestResource(resourceID string) (map[string]interf
 		}, nil
 	}
 
+	untrackTestResource(&s.createdTestResources, resourceIDStr)
 	return map[string]interface{}{
 		"ResourceId": resourceIDStr,
 		"Deleted":    true,

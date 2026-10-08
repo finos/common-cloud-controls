@@ -3,6 +3,7 @@
 package integrationtesting_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -10,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/finos/common-cloud-controls/cloud-api/factory"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
@@ -83,31 +85,47 @@ func TestCloudAPIIntegration(t *testing.T) {
 	services := make(map[string]generic.Service)
 	var passed, failed int
 	emitCallLine(fmt.Sprintf("integration_calls.csv on provider %s\n", provider), t)
+	emitCallLine(fmt.Sprintf("%-4s  %8s  %s\n", "STAT", "SECONDS", "CALL"), t)
 	for _, row := range rows {
 		if !integrationMethodAllowed(row) {
 			continue
 		}
-		label := formatCallRow(row)
-		svc, err := serviceFor(f, services, row.API)
-		if err != nil {
-			if recordResult(row.ExpectError, true, &passed, &failed) {
-				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", err)), t)
-			} else {
-				emitCallLine(formatCallResult("FAIL", label, err), t)
-			}
+		if want := strings.TrimSpace(os.Getenv("INTEGRATION_API")); want != "" && row.API != want {
 			continue
 		}
-		callErr := invokeMethod(svc, cfg, row.Method, row.Args)
+		if want := strings.TrimSpace(os.Getenv("INTEGRATION_METHOD")); want != "" && row.Method != want {
+			continue
+		}
+		if match := strings.TrimSpace(os.Getenv("INTEGRATION_METHOD_MATCH")); match != "" &&
+			!strings.Contains(strings.ToLower(row.Method), strings.ToLower(match)) {
+			continue
+		}
+		label := formatCallRow(row)
+		// Incomplete test-identities is always a hard fail (never PASS via expect_error=true).
+		if err := identityPrerequisiteError(cfg, row.Identity); err != nil {
+			failed++
+			emitCallLine(formatCallResult("FAIL", 0, label, err), t)
+			continue
+		}
+		started := time.Now()
+		svc, err := serviceFor(f, services, row.API, row.Identity)
+		var callErr error
+		if err != nil {
+			callErr = err
+		} else {
+			callErr = invokeMethod(svc, cfg, row.Method, row.Args)
+		}
+		elapsed := time.Since(started).Seconds()
 		if recordResult(row.ExpectError, callErr != nil, &passed, &failed) {
 			if callErr != nil {
-				emitCallLine(formatCallResult("PASS", label, fmt.Errorf("expected error: %w", callErr)), t)
+				emitCallLine(formatCallResult("PASS", elapsed, label, fmt.Errorf("expected error: %w", callErr)), t)
 			} else {
-				emitCallLine(formatCallResult("PASS", label, nil), t)
+				emitCallLine(formatCallResult("PASS", elapsed, label, nil), t)
 			}
 		} else if callErr != nil {
-			emitCallLine(formatCallResult("FAIL", label, callErr), t)
+			emitCallLine(formatCallResult("FAIL", elapsed, label, callErr), t)
 		} else {
-			emitCallLine(formatCallResult("FAIL", label, fmt.Errorf("expected error, got nil")), t)
+			emitCallLine(formatCallResult("FAIL", elapsed, label, fmt.Errorf("expected error, got nil")), t)
 		}
 	}
 	total := passed + failed
@@ -119,6 +137,26 @@ func TestCloudAPIIntegration(t *testing.T) {
 	if failed > 0 {
 		t.Fatalf("%d integration call(s) failed on %s", failed, provider)
 	}
+}
+
+// identityPrerequisiteError returns an error when a credentialed CSV row cannot run
+// because test-identities are missing or incomplete (e.g. stale CI *_ENV secret).
+func identityPrerequisiteError(cfg types.Config, identityKey string) error {
+	key := strings.TrimSpace(identityKey)
+	if key == "" {
+		return nil
+	}
+	identity, err := cfg.Identity(key)
+	if err != nil {
+		return fmt.Errorf("incomplete test-identities %q: %w (refresh environment-config / CI *_ENV secret)", key, err)
+	}
+	if strings.TrimSpace(identity.UserName) == "" {
+		return fmt.Errorf("incomplete test-identities %q: empty user-name (refresh CI *_ENV secret)", key)
+	}
+	if len(identity.Credentials) == 0 {
+		return fmt.Errorf("incomplete test-identities %q: no credentials (refresh CI *_ENV secret)", key)
+	}
+	return nil
 }
 
 // recordResult updates pass/fail counts for expect_error semantics. Returns true if the outcome is a pass.
@@ -146,28 +184,43 @@ func emitCallLine(line string, t *testing.T) {
 
 func formatCallRow(row callRow) string {
 	parts := []string{row.API, row.Method}
+	if id := strings.TrimSpace(row.Identity); id != "" {
+		parts = append(parts, "identity="+id)
+	}
 	for _, a := range trimArgs(row.Args) {
 		parts = append(parts, a)
 	}
 	return strings.Join(parts, " ")
 }
 
-func formatCallResult(status, label string, err error) string {
+func formatCallResult(status string, seconds float64, label string, err error) string {
 	if err != nil {
-		return fmt.Sprintf("%-4s  %s  %v\n", status, label, err)
+		return fmt.Sprintf("%-4s  %8.1f  %s  %v\n", status, seconds, label, err)
 	}
-	return fmt.Sprintf("%-4s  %s\n", status, label)
+	return fmt.Sprintf("%-4s  %8.1f  %s\n", status, seconds, label)
 }
 
-func serviceFor(f factory.Factory, cache map[string]generic.Service, api string) (generic.Service, error) {
-	if svc, ok := cache[api]; ok {
+func serviceFor(f factory.Factory, cache map[string]generic.Service, api, identity string) (generic.Service, error) {
+	key := api
+	if id := strings.TrimSpace(identity); id != "" {
+		key = api + ":" + id
+	}
+	if svc, ok := cache[key]; ok {
 		return svc, nil
 	}
-	svc, err := f.GetServiceAPI(api)
+	var (
+		svc generic.Service
+		err error
+	)
+	if id := strings.TrimSpace(identity); id != "" {
+		svc, err = f.GetServiceAPIWithIdentity(api, id)
+	} else {
+		svc, err = f.GetServiceAPI(api)
+	}
 	if err != nil {
 		return nil, err
 	}
-	cache[api] = svc
+	cache[key] = svc
 	return svc, nil
 }
 
@@ -228,9 +281,46 @@ func coerceArg(typ reflect.Type, raw string) (reflect.Value, error) {
 			return reflect.Value{}, err
 		}
 		return reflect.ValueOf(b).Convert(typ), nil
+	case reflect.Slice:
+		parts := splitCSVArg(raw)
+		slice := reflect.MakeSlice(typ, 0, len(parts))
+		for _, part := range parts {
+			elem, err := coerceArg(typ.Elem(), part)
+			if err != nil {
+				return reflect.Value{}, err
+			}
+			slice = reflect.Append(slice, elem)
+		}
+		return slice, nil
+	case reflect.Map:
+		if typ.Key().Kind() != reflect.String {
+			return reflect.Value{}, fmt.Errorf("unsupported map key type %s", typ.Key())
+		}
+		ptr := reflect.New(typ)
+		if err := json.Unmarshal([]byte(raw), ptr.Interface()); err != nil {
+			return reflect.Value{}, fmt.Errorf("parse map argument as JSON: %w", err)
+		}
+		return ptr.Elem(), nil
 	default:
 		return reflect.Value{}, fmt.Errorf("unsupported parameter type %s", typ)
 	}
+}
+
+func splitCSVArg(raw string) []string {
+	raw = strings.TrimSpace(raw)
+	if raw == "" {
+		return nil
+	}
+	parts := strings.Split(raw, ",")
+	out := make([]string, 0, len(parts))
+	for _, part := range parts {
+		part = strings.TrimSpace(part)
+		if part == "" {
+			continue
+		}
+		out = append(out, part)
+	}
+	return out
 }
 
 func firstError(out []reflect.Value) error {

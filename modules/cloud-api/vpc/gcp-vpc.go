@@ -6,11 +6,9 @@ import (
 	"strings"
 
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/generic/login"
 	ccctypes "github.com/finos/common-cloud-controls/cloud-api/types"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
 	compute "google.golang.org/api/compute/v1"
-	"google.golang.org/api/option"
 )
 
 var _ Service = (*GCPVPCService)(nil)
@@ -19,10 +17,11 @@ const gcpIntegrationNetworkPrefix = "finos-ccc-integration-vpc"
 
 // GCPVPCService implements VPC Service for Google Cloud VPC networks.
 type GCPVPCService struct {
-	compute   *compute.Service
-	ctx       context.Context
-	config    ccctypes.Config
-	projectID string
+	compute              *compute.Service
+	ctx                  context.Context
+	config               ccctypes.Config
+	projectID            string
+	createdTestResources []string
 }
 
 func NewGCPVPCService(ctx context.Context, config ccctypes.Config) (*GCPVPCService, error) {
@@ -56,18 +55,11 @@ func NewGCPVPCServiceWithCredentials(ctx context.Context, config ccctypes.Config
 		return nil, fmt.Errorf("GcpProjectId not set in CloudParams")
 	}
 
-	serviceAccountKey := identity.Get("service_account_key")
-	if serviceAccountKey == "" {
-		return nil, fmt.Errorf("service_account_key not found for test identity %q", identity.UserName)
-	}
-
-	creds, err := google.CredentialsFromJSON(ctx, []byte(serviceAccountKey), compute.CloudPlatformScope)
+	opts, err := login.GCPIdentityClientOptions(identity)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse GCP service account key: %w", err)
+		return nil, err
 	}
-	httpClient := oauth2.NewClient(ctx, creds.TokenSource)
-
-	computeSvc, err := compute.NewService(ctx, option.WithHTTPClient(httpClient))
+	computeSvc, err := compute.NewService(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create compute service with credentials: %w", err)
 	}
@@ -98,7 +90,7 @@ func (s *GCPVPCService) GetOrProvisionTestableResources() ([]ccctypes.TestParams
 			ProviderServiceType: "compute.googleapis.com/Network",
 			ServiceType:         "vpc",
 			CatalogTypes:        []string{"CCC.VPC"},
-			TagFilter:           []string{"@MAIN", "@CCC.VPC"},
+			TagFilter:           []string{"@Behavioural", "@vpc"},
 			Config:              s.config,
 		})
 	}
@@ -112,7 +104,7 @@ func (s *GCPVPCService) CheckUserProvisioned() error {
 		return fmt.Errorf("credentials not ready for Compute Engine network access: %w", err)
 	}
 	if len(networks) == 0 {
-		return fmt.Errorf("no integration VPC networks found with prefix %q", gcpIntegrationNetworkPrefix)
+		return fmt.Errorf("no integration VPC networks found named %q", gcpIntegrationNetworkPrefix)
 	}
 	return nil
 }
@@ -122,7 +114,18 @@ func (s *GCPVPCService) ResetAccess() error                { return nil }
 func (s *GCPVPCService) UpdateResourcePolicy() error       { return nil }
 func (s *GCPVPCService) TriggerDataWrite(_ string) error   { return nil }
 func (s *GCPVPCService) TriggerDataRead(_ string) error    { return nil }
-func (s *GCPVPCService) TearDown() error                   { return nil }
+func (s *GCPVPCService) TearDown() error {
+	var first error
+	for _, id := range drainTrackedTestResources(&s.createdTestResources) {
+		if _, err := s.DeleteTestResource(id); err != nil && first == nil {
+			first = err
+		}
+	}
+	return first
+}
+func (s *GCPVPCService) Start(string) error                                 { return nil }
+func (s *GCPVPCService) Stop(string) error                                  { return nil }
+func (s *GCPVPCService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 func (s *GCPVPCService) GetResourceRegion(_ string) (string, error) {
 	return s.config.CloudParams().Region, nil
@@ -147,7 +150,7 @@ func (s *GCPVPCService) listIntegrationNetworks() ([]*compute.Network, error) {
 		if name == "" {
 			continue
 		}
-		if strings.HasPrefix(name, gcpIntegrationNetworkPrefix) {
+		if name == gcpIntegrationNetworkPrefix {
 			networks = append(networks, network)
 		}
 	}

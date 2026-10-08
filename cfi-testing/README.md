@@ -86,13 +86,12 @@ Published release artifacts (e.g. `CCC.Core_v2025.10-controls.yaml`) may already
 From the repository root, invoke [`run-compliance-tests.sh`](run-compliance-tests.sh).  For example:
 
 ```bash
-# AWS VPC (good fixture):
+# AWS VPC fixture:
 source modules/cloud-api-test/environment-config/aws-env.sh
 ./cfi-testing/run-compliance-tests.sh \
-  -c privateer-config/finos-integration/vpc/aws-vpc-good.yml \
-  -S awsVpcGood \
-  -s vpc \
-  -g '@Behavioural'
+  -c privateer-config/finos-integration/vpc/aws-vpc.yml \
+  -S awsVpc \
+  -s vpc
 ```
 
 Paths passed to `-c` are relative to `cfi-testing/`; the script resolves them automatically.
@@ -128,7 +127,7 @@ As described above - create a privateer configuration file that you have tested 
 
 Add a YAML file under [`actions-config/`](actions-config/). The CCC GitHub actions workflow discovers every `*.yaml` in that directory and runs one matrix job per file.
 
-Example ([`actions-config/azure-storage-finos.yaml`](actions-config/azure-storage-finos.yaml)):
+Example ([`actions-config/finos-integration-azure-storage-account.yaml`](actions-config/finos-integration-azure-storage-account.yaml)):
 
 ```yaml
 cfi:
@@ -159,6 +158,30 @@ cfi:
 | `test-configuration` | Path to the Privateer config, relative to the actions-config file |
 | `privateer-service` | Service key passed to `-S` |
 | `path` / `git` / `name` / `description` | Metadata surfaced on the CCC website |
+| `start-compute` | When `false`, CI does not park/unpark CCC scale-fixtures (use for infra owned outside this repo) |
+
+### External / non-compliant VPC fixtures
+
+CCC integration terraform ships a single cheap VPC. CN03 peering checks also use `@Behavioural @vpc`, so the FINOS good VPC job will fail until a second network and peer vars are supplied. Provide that topology yourself — CCC does not apply or park it:
+
+```yaml
+# Example only — owned by whoever provides the non-compliant / multi-VPC stack
+cfi:
+  id: <provider>-vpc-noncompliant
+  artifact-name: <provider>-vpc-noncompliant
+  provider: aws
+  source-secrets: <THEIR_ENV>
+  service: vpc
+  start-compute: false
+  path: remote/...
+  git: https://github.com/...
+  test-on-branches:
+    - main
+  test-configuration: ../privateer-config/.../vpc-noncompliant.yml
+  privateer-service: awsVpcNoncompliant
+```
+
+Set peer vars (`allowed-requester-vpc-ids`, `disallowed-requester-vpc-ids`, `non-allowlisted-requester-vpc-id`) on that external Privateer config. Same idea as [`actions-config/azure-avm-virtual-machines.yaml`](actions-config/azure-avm-virtual-machines.yaml).
 
 ### 2. Load Secrets into Common Cloud Controls
 
