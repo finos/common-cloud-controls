@@ -64,18 +64,7 @@ const config: Config = {
       },
       items: [
         { to: '/about', label: 'About', position: 'right' },
-        {
-          label: 'User Journey',
-          to: '/users',
-          position: 'right',
-          type: 'dropdown',
-          items: [
-            { to: '/users/financial-institutions', label: 'Financial Institutions' },
-            { to: '/users/smaller-organizations', label: 'Smaller Organizations' },
-            { to: '/users/Morgan-Stanley', label: 'Morgan Stanley' },
-            { to: '/users/RBC', label: 'RBC' },
-          ],
-        },
+        { to: '/users', label: 'User Journey', position: 'right' },
         { to: '/architecture', label: 'Architecture', position: 'right' },
         { to: "/catalogs", label: "Catalogs", position: "right" },
         {
