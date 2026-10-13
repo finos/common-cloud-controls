@@ -327,8 +327,18 @@ controls:
       - id: CCC.IAM.CN07.AR01
         text: |
           When a user account is disabled or deleted in the organization's IdP, the
-          corresponding cloud identity and its access policies MUST be disabled or
-          deleted within 24 hours.
+          corresponding cloud identity MUST be disabled or deleted within 24 hours.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN07.AR02
+        text: |
+          When a user account is disabled or deleted in the organization's IdP, the
+          access policies attached to the corresponding cloud identity MUST be
+          detached or deleted within 24 hours.
         applicability:
           - tlp-clear
           - tlp-green
