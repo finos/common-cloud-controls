@@ -768,9 +768,10 @@ controls:
     assessment-requirements:
       - id: CCC.Core.CN15.AR01
         text: |
-          When a client exceeds the configured request rate limit for the
-          service or a child resource, the service MUST throttle or reject
-          the excess requests.
+          When requests are made to the service or a child resource, the
+          service MUST enforce a configured request rate limit by throttling
+          or rejecting requests that exceed it; a missing limit is
+          non-compliant.
         applicability:
           - tlp-clear
           - tlp-green
