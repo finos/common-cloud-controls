@@ -224,7 +224,7 @@ controls:
       - id: CCC.LB.CN13.AR01
         text: |
           When mutual TLS is enabled on a listener, the listener MUST operate in
-          verify mode and MUST NOT be configured in passthrough mode.
+          verify mode rather than passthrough mode.
         applicability:
           - tlp-amber
           - tlp-red
@@ -310,8 +310,7 @@ controls:
       - id: CCC.LB.CN16.AR01
         text: |
           When a redirect rule is configured, the redirect target host MUST be a
-          static value from an approved domain allowlist and MUST NOT be derived
-          from the request.
+          static value from an approved domain allowlist.
         applicability:
           - tlp-green
           - tlp-amber
