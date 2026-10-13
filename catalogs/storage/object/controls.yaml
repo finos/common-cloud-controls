@@ -2,9 +2,9 @@ imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CN01
-        remarks: Prevent Unencrypted Requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
-        remarks: Ensure Data Encryption at Rest for All Stored Data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
@@ -12,13 +12,21 @@ imports:
       - reference-id: CCC.Core.CN05
         remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
-        remarks: Prevent Deployment in Restricted Regions
+        remarks: Restrict Deployments to Trust Perimeter
       - reference-id: CCC.Core.CN07
         remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.CN08
+        remarks: Replicate Data to Multiple Locations
       - reference-id: CCC.Core.CN09
-        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        remarks: Ensure Integrity of Access Logs
       - reference-id: CCC.Core.CN10
-        remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+        remarks: Restrict Data Replication to Trust Perimeter
+      - reference-id: CCC.Core.CN11
+        remarks: Protect Encryption Keys
+      - reference-id: CCC.Core.CN14
+        remarks: Maintain Recent Backups
+      - reference-id: CCC.Core.CN16
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.ObjStor.CN01
@@ -78,6 +86,14 @@ controls:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
+          - reference-id: CCC.Core.TH18
+            remarks: Encryption Key is Misused
+            strength: 5 # Blocks keys outside the trusted list, not misuse of a trusted key
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH04
+            remarks: Objects are Encrypted with Keys Outside Organizational Control
+            strength: 7 # Covers KMS keys; customer-provided keys are not addressed
     guidelines:
       - reference-id: CCM
         entries:
@@ -123,6 +139,11 @@ controls:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH08
+            remarks: Object Immutability is Bypassed or Expires Prematurely
+            strength: 6 # AR02 prevents the retention policy being weakened
     guidelines:
       - reference-id: CCM
         entries:
@@ -134,7 +155,7 @@ controls:
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN04
     group: Data
-    title: Objects have an Effective Retention Policy by Default
+    title: Apply a Default Retention Policy to All Objects
     objective: |
       Ensure that all objects stored in the object storage system have a
       retention policy applied by default, preventing premature deletion
@@ -168,6 +189,11 @@ controls:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH08
+            remarks: Object Immutability is Bypassed or Expires Prematurely
+            strength: 7 # Objects without an explicit lock still get a default one
     guidelines:
       - reference-id: CCM
         entries:
@@ -179,7 +205,7 @@ controls:
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN05
     group: Data
-    title: Versioning is Enabled for All Objects in the Bucket
+    title: Enable Versioning for All Objects in the Bucket
     objective: |
       Ensure that versioning is enabled for all objects stored in the object
       storage bucket to enable recovery of previous versions of objects in
@@ -243,7 +269,7 @@ controls:
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN07
     group: Access
-    title: Multi-Factor Authentication Is Required for Object Deletion
+    title: Require Multi-Factor Authentication for Object Deletion
     objective: |
       Ensure that deletion of objects stored in the object storage system is
       protected by multi-factor authentication (MFA), reducing the risk of
@@ -286,13 +312,13 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-            remarks: Prevents unauthorized identities from deleting objects
+            remarks: Access is Granted to Unauthorized Users
             strength: 9
           - reference-id: CCC.Core.TH06
-            remarks: Mitigates malicious or accidental data loss through protected deletion
+            remarks: Data is Lost or Corrupted
             strength: 10
           - reference-id: CCC.Core.TH17
-            remarks: Ensures deletion requests from unauthorized entities do not result in action
+            remarks: Responses are Generated for Unauthorized Requests
             strength: 8
     guidelines:
       - reference-id: CCM
@@ -342,6 +368,11 @@ controls:
           - reference-id: CCC.Core.TH01
             remarks: Access is Granted to Unauthorized Users
             strength: 2 # This helps reduce errors and oversight when the intent is on point
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH06
+            remarks: Object-Level Permissions Diverge from Bucket Policy
+            strength: 9
     guidelines:
       - reference-id: CCM
         entries:
@@ -376,8 +407,7 @@ controls:
       - id: CCC.ObjStor.CN08.AR02
         text: |
           When a pre-signed URL is generated, the service MUST restrict
-          the URL scope to a single object and a single operation (read or
-          write), preventing broad access grants.
+          the URL scope to a single object, preventing broad access grants.
         applicability:
           - tlp-green
           - tlp-amber
@@ -412,12 +442,26 @@ controls:
           Implement a dedicated IAM permission for pre-signed URL generation
           rather than implicitly granting this capability to all entities
           with object-level access.
+      - id: CCC.ObjStor.CN08.AR05
+        text: |
+          When a pre-signed URL is generated, the service MUST restrict
+          the URL to a single operation (read or write).
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Generate separate URLs for upload and download. Never issue a URL
+          whose signature covers more than one HTTP method.
     threats:
       - reference-id: CCC.ObjStor
         entries:
           - reference-id: CCC.ObjStor.TH02
             remarks: Pre-Signed URLs are Leaked or Over-Scoped
             strength: 9
+          - reference-id: CCC.ObjStor.TH12
+            remarks: Untrusted Content is Written to Buckets
+            strength: 3 # Limits what a leaked upload URL can write, not what is written
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
@@ -476,16 +520,15 @@ controls:
         text: |
           When an attempt is made to disable the public access block, the
           service MUST require explicit approval from an identity with
-          elevated privileges and MUST publish an auditable event to a
-          monitored channel.
+          elevated privileges.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
           Implement an approval workflow or secondary authorization
-          requirement for disabling public access blocks. Ensure all
-          changes are logged and trigger alerts.
+          requirement for disabling public access blocks. Alerting on the
+          change is covered by CCC.Core.CN16.
       - id: CCC.ObjStor.CN09.AR04
         text: |
           When the public access block is disabled, the service MUST NOT
@@ -504,6 +547,9 @@ controls:
           - reference-id: CCC.Core.TH01
             remarks: Access is Granted to Unauthorized Users
             strength: 9
+          - reference-id: CCC.Core.TH17
+            remarks: Responses are Generated for Unauthorized Requests
+            strength: 6 # Anonymous requests are refused; authenticated-but-unauthorized ones are not in scope
     guidelines:
       - reference-id: CCM
         entries:
