@@ -7,8 +7,6 @@ imports:
         remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.CP08
-        remarks: Data Replication
       - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
       - reference-id: CCC.Core.CP10
@@ -23,6 +21,8 @@ imports:
         remarks: Alerting
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
+      - reference-id: CCC.Core.CP21
+        remarks: Resource Replication
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP23
@@ -35,6 +35,8 @@ imports:
         remarks: Passive Ingestion
       - reference-id: CCC.Core.CP31
         remarks: Elastic Scaling
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
 
 capabilities:
   - id: CCC.LB.CP01
@@ -153,3 +155,22 @@ capabilities:
       Ability to seamlessly integrate with firewall services to ensure only
       legitimate and secure traffic reaches backend servers, blocking malicious
       requests.
+  - id: CCC.LB.CP24
+    group: Encryption
+    title: Configurable TLS Policy
+    description: |
+      The service may be configured with a TLS policy that sets the minimum
+      protocol version and the permitted cipher suites negotiated with clients.
+  - id: CCC.LB.CP25
+    group: Encryption
+    title: Backend Re-encryption
+    description: |
+      The service can re-encrypt traffic to backend targets after terminating
+      TLS at the load balancer, so that data stays encrypted end to end.
+  - id: CCC.LB.CP26
+    group: Access
+    title: Mutual TLS Client Authentication
+    description: |
+      The service may be configured to require and validate client certificates
+      during the TLS handshake, rejecting connections from clients that do not
+      present a certificate issued by a trusted authority.
