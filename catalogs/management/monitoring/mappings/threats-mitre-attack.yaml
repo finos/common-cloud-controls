@@ -72,6 +72,26 @@ mappings:
   targets:
   - entry-id: T1546
     remarks: Event Triggered Execution
+- id: CCC.Monitor.TH08-mitre-attack
+  source: CCC.Monitor.TH08
+  relationship: relates-to
+  targets:
+  - entry-id: T1562
+    remarks: Impair Defenses
+- id: CCC.Monitor.TH09-mitre-attack
+  source: CCC.Monitor.TH09
+  relationship: relates-to
+  targets:
+  - entry-id: T1078.004
+    remarks: Valid Accounts - Cloud Accounts
+  - entry-id: T1005
+    remarks: Data from Local System
+- id: CCC.Monitor.TH10-mitre-attack
+  source: CCC.Monitor.TH10
+  relationship: relates-to
+  targets:
+  - entry-id: T1526
+    remarks: Cloud Service Discovery
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.

@@ -3,36 +3,55 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is Intercepted in Transit
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH08
         strength: 0 # Not yet specified
-        remarks: Cost Management Data is Manipulated
+        remarks: Runtime Metrics are Manipulated
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH10
         strength: 0 # Not yet specified
-        remarks: Alerts are Intercepted
+        remarks: State-change Events are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
-        remarks: Event Notifications are Incorrectly Triggered
+        remarks: Publications are Incorrectly Triggered
+      - reference-id: CCC.Core.TH12
+        strength: 0 # Not yet specified
+        remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
       - reference-id: CCC.Core.TH16
         strength: 0 # Not yet specified
-        remarks: Logging and Monitoring are Disabled
+        remarks: Publications are Disabled
+      - reference-id: CCC.Core.TH17
+        strength: 0 # Not yet specified
+        remarks: Responses are Generated for Unauthorized Requests
+      - reference-id: CCC.Core.TH18
+        strength: 0 # Not yet specified
+        remarks: Encryption Key is Misused
+      - reference-id: CCC.Core.TH19
+        strength: 0 # Not yet specified
+        remarks: Metrics are Read by Unauthorized Entities
 
 threats:
   - id: CCC.Monitor.TH01
     group: Observability
-    title: Capture Personal Identifiable Information
+    title: Sensitive Data is Captured in Telemetry
     description: |
-      Unauthorised viewers may get access to PII if it is incorrectly collected by
-      monitoring systems through metrics or tracing.
+      Metric dimensions, trace attributes, application telemetry, or agent-collected
+      data may include personal or otherwise sensitive information when
+      instrumentation is not configured to exclude it. The data is then stored,
+      shown on dashboards, and forwarded to external systems with the access
+      controls of the monitoring service rather than those of the originating
+      system. This impacts the confidentiality of the captured data.
     capabilities:
       - reference-id: CCC
         entries:
@@ -51,86 +70,104 @@ threats:
           - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
             remarks: Integration with External Tools
+          - reference-id: CCC.Monitor.CP12
+            strength: 0 # Not yet specified
+            remarks: Agent-Based Telemetry Collection
   - id: CCC.Monitor.TH02
     group: Observability
-    title: Health Checks Used to Identify Attack Targets
+    title: System Health is Exposed to Unauthorized Viewers
     description: |
-      Health Checks are used to inform those responsible for maintaining a system that
-      there is a problem, but if that information gets into the hands of a malicious
-      actor, it can be used to target already problematic systems and mask malicious activity.
+      Dashboards, uptime results, and service level objective status may be shared
+      beyond the intended audience through overly broad sharing settings or public
+      links. Degraded or failing components are then visible to unauthorized
+      viewers, who can target systems that are already in a weakened state or time
+      activity to coincide with existing incidents. This impacts the confidentiality
+      of operational information and the availability of the affected systems.
     capabilities:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.Monitor.CP05
+            strength: 0 # Not yet specified
+            remarks: Service Level Objective Monitoring
           - reference-id: CCC.Monitor.CP07
             strength: 0 # Not yet specified
             remarks: Uptime Monitoring
+          - reference-id: CCC.Monitor.CP09
+            strength: 0 # Not yet specified
+            remarks: Dashboards
   - id: CCC.Monitor.TH03
     group: Resource
-    title: External Monitoring DoS
+    title: Monitoring Probes Overload the Monitored Target
     description: |
-      If an external monitoring service is compromised, it can act as a host for
-      instigating denial of service attacks on internal system which otherwise may
-      not be protected against this form of attack.
+      Synthetic and uptime checks may be configured with excessive frequency,
+      concurrency, or number of provider-operated locations, or their definitions
+      may be modified to point at a different target. The probe traffic then
+      consumes the capacity of the monitored endpoint from trusted provider
+      address ranges that are typically exempt from rate limiting. This impacts
+      the availability of the monitored system.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.CP06
             strength: 0 # Not yet specified
             remarks: Synthetic Monitoring
+          - reference-id: CCC.Monitor.CP07
+            strength: 0 # Not yet specified
+            remarks: Uptime Monitoring
   - id: CCC.Monitor.TH04
     group: Access
-    title: External Monitoring Access
+    title: Monitoring Probes are Used to Reach Internal Systems
     description: |
-      If an external monitoring system is compromised, it acts as a trusted external
-      remote service and can then access internal services which would otherwise not
-      be accessible directly.
+      Synthetic and uptime checks run with an identity, network placement, and
+      stored credentials that allow them to reach endpoints not otherwise exposed.
+      If the check definition or its script can be modified, the check becomes a
+      trusted path through which arbitrary requests are issued against internal
+      systems and their responses are recorded. This impacts the confidentiality
+      and integrity of the internal systems reached.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.CP06
             strength: 0 # Not yet specified
             remarks: Synthetic Monitoring
+          - reference-id: CCC.Monitor.CP07
+            strength: 0 # Not yet specified
+            remarks: Uptime Monitoring
   - id: CCC.Monitor.TH05
     group: Data
-    title: Data Exfiltration Through Tampered Metrics
+    title: Telemetry is Used as a Data Exfiltration Channel
     description: |
-      If a malicious actor is able to make changes to the metrics being collected, it could
-      be used to encrypt and or compress sensitive data and bypass controls preventing
-      exfiltration. The data can then be staged in the monitoring system and exfiltrated in
-      bulk at a later point in time
+      Custom metric values and dimensions, trace attributes, and agent-collected
+      fields may be populated with encoded sensitive data by a compromised
+      workload. The data is accepted as ordinary telemetry, staged in the
+      monitoring service, and forwarded to external systems through configured
+      integrations, bypassing controls applied to the workload's own network
+      egress. This impacts the confidentiality of the exfiltrated data.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
             remarks: Custom Metric Ingestion
+          - reference-id: CCC.Monitor.CP02
+            strength: 0 # Not yet specified
+            remarks: Distributed Tracing
           - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
             remarks: Integration with External Tools
+          - reference-id: CCC.Monitor.CP12
+            strength: 0 # Not yet specified
+            remarks: Agent-Based Telemetry Collection
   - id: CCC.Monitor.TH06
     group: Resource
-    title: Cost Exhaustion Through Tampered Alerts or Metrics Collection
+    title: Telemetry Volume Inflates Monitoring Costs
     description: |
-      Monitoring systems are expected to generate traffic, but it a malicious actor were to
-      change alerts that were being fired at an API which charged per requests or generate
-      large volumes of metric data which would then need to be stored and processed, or even
-      triggering resource scaling, this would cause an increase in cloud bill.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Monitor.CP01
-            strength: 0 # Not yet specified
-            remarks: Custom Metric Ingestion
-          - reference-id: CCC.Monitor.CP11
-            strength: 0 # Not yet specified
-            remarks: Integration with External Tools
-  - id: CCC.Monitor.TH07
-    group: Compute
-    title: Trigger Malicious Code
-    description: |
-      If a malicious actor is able to create new triggers, they would be able to use valid
-      metric data to trigger malicious actions and re-compromise a newly replaced container
-      or compute instance.
+      Custom metrics and agent-collected telemetry are billed per metric series
+      and per data point, and alert-triggered actions may invoke external systems
+      that charge per request. A misconfigured or compromised workload can publish
+      high-cardinality metrics or fire alerts at high frequency, and the resulting
+      charges accrue before the pattern is detected. This impacts the availability
+      of budget for the service and the systems it monitors.
     capabilities:
       - reference-id: CCC
         entries:
@@ -143,3 +180,86 @@ threats:
           - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
             remarks: Integration with External Tools
+          - reference-id: CCC.Monitor.CP12
+            strength: 0 # Not yet specified
+            remarks: Agent-Based Telemetry Collection
+  - id: CCC.Monitor.TH07
+    group: Compute
+    title: Alert-Triggered Actions Execute Unauthorized Code
+    description: |
+      Alert conditions and their action targets may be created or modified by a
+      user with write access to alerting configuration. Ordinary metric data then
+      triggers the action, which invokes a function, workflow, or webhook with the
+      identity granted to the monitoring service, including re-compromise of a
+      compute instance that has just been replaced. This impacts the integrity of
+      the systems the action can reach.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP17
+            strength: 0 # Not yet specified
+            remarks: Alerting
+          - reference-id: CCC.Monitor.CP10
+            strength: 0 # Not yet specified
+            remarks: Alert-Triggered Actions
+          - reference-id: CCC.Monitor.CP11
+            strength: 0 # Not yet specified
+            remarks: Integration with External Tools
+  - id: CCC.Monitor.TH08
+    group: Observability
+    title: Alerts are Suppressed to Conceal Activity
+    description: |
+      Alert suppression, snooze, or action-disable settings may be applied by a
+      user with write access to alerting configuration while telemetry continues
+      to be published. Alert conditions are still evaluated but no notification
+      or action is delivered, so the activity that would have raised the alert
+      proceeds undetected. This impacts the availability of security and
+      operational information and delays incident response.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP17
+            strength: 0 # Not yet specified
+            remarks: Alerting
+          - reference-id: CCC.Monitor.CP13
+            strength: 0 # Not yet specified
+            remarks: Alert Suppression
+  - id: CCC.Monitor.TH09
+    group: Access
+    title: Telemetry Agent Credentials or Configuration are Compromised
+    description: |
+      A telemetry agent runs on the monitored instance with a credential that is
+      authorized to publish telemetry and with a configuration that selects which
+      host data is collected. If the credential is extracted or the configuration
+      is modified, the agent can be made to collect arbitrary files or process
+      data, or the credential can be reused to publish telemetry on behalf of
+      other instances. This impacts the confidentiality of host data and the
+      integrity of collected telemetry.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitor.CP01
+            strength: 0 # Not yet specified
+            remarks: Custom Metric Ingestion
+          - reference-id: CCC.Monitor.CP12
+            strength: 0 # Not yet specified
+            remarks: Agent-Based Telemetry Collection
+  - id: CCC.Monitor.TH10
+    group: Access
+    title: Monitoring Scope Exposes Telemetry Across Accounts
+    description: |
+      A cross-account monitoring scope may be configured to link more accounts,
+      subscriptions, or projects than intended, or the central monitoring account
+      may be granted to users who are not authorized in the linked accounts. Users
+      of the scope can then read metrics, traces, and alert state for every linked
+      account without holding access in those accounts. This impacts the
+      confidentiality of telemetry across tenancy boundaries.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP06
+            strength: 0 # Not yet specified
+            remarks: Access Control
+          - reference-id: CCC.Monitor.CP14
+            strength: 0 # Not yet specified
+            remarks: Cross-Account Monitoring Scope
