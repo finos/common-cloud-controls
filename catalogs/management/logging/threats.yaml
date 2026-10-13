@@ -49,9 +49,10 @@ threats:
     group: Observability
     title: Log Ingestion Performance Degradation
     description: |
-      Log volume bursts, ingestion quota throttling, network bottlenecks, or
-      slow transformation rules may delay the ingestion pipeline or overflow
-      agent and sink buffers. Log entries arrive late or are dropped, so
+      Log volume bursts, ingestion quota throttling, network bottlenecks,
+      slow transformation rules, or custom-format entries that fail to parse
+      may delay the ingestion pipeline or overflow agent and sink buffers. Log
+      entries arrive late or are dropped, so log-based metrics under-count,
       detections fire after the fact and the audit trail has gaps, reducing the
       availability and integrity of log data.
     capabilities:
@@ -63,9 +64,15 @@ threats:
           - reference-id: CCC.Logging.CP04
             strength: 0 # Not yet specified
             remarks: Centralised Log Collection
+          - reference-id: CCC.Logging.CP05
+            strength: 0 # Not yet specified
+            remarks: Custom Log Format Support
           - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
             remarks: Log Filtering and Transformation
+          - reference-id: CCC.Logging.CP11
+            strength: 0 # Not yet specified
+            remarks: Log-based Metrics
   - id: CCC.Logging.TH02
     group: Data
     title: Unauthorized Data Transfer Out of a Trusted Boundary
