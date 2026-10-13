@@ -178,7 +178,7 @@ threats:
             remarks: Alerting
   - title: Publications are Incorrectly Triggered
     id: CCC.Core.TH11
-    group: Resource
+    group: Observability
     description: |
       Incorrectly triggered publications may disseminate inaccurate
       or misleading information, creating a data integrity risk. Such
@@ -266,7 +266,7 @@ threats:
             remarks: Configurable Network Ports
   - title: Publications are Disabled
     id: CCC.Core.TH16
-    group: Resource
+    group: Observability
     description: |
       Publication of events, metrics, and runtime logs may be disabled, leading
       to a lack of expected security and operational information being shared.
@@ -284,7 +284,7 @@ threats:
             remarks: Log Publication
   - title: Encryption Key is Misused
     id: CCC.Core.TH18
-    group: Resource
+    group: Encryption
     description: |
       Encryption keys may be used by an unauthorized entity due to inadequate
       key management practices or the compromise of a connected system. This
