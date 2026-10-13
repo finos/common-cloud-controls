@@ -4,6 +4,12 @@ imports:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
         remarks: Access is Granted to Unauthorized Users
+      - reference-id: CCC.Core.TH02
+        strength: 0 # Not yet specified
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH06
+        strength: 0 # Not yet specified
+        remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
@@ -16,12 +22,18 @@ imports:
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
         remarks: Publications are Incorrectly Triggered
-      - reference-id: CCC.Core.TH13
+      - reference-id: CCC.Core.TH12
         strength: 0 # Not yet specified
-        remarks: Resource Tags are Manipulated
+        remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Publications are Disabled
+      - reference-id: CCC.Core.TH17
+        strength: 0 # Not yet specified
+        remarks: Responses are Generated for Unauthorized Requests
 
 threats:
   - id: CCC.IAM.TH01
@@ -310,3 +322,24 @@ threats:
             strength: 0 # Not yet specified
             remarks: Role Assumption and Delegation
 
+  - id: CCC.IAM.TH13
+    group: Access
+    title: Multi-Factor Authentication is Not Enforced
+    description: |
+      MFA enforcement may be left unconfigured or disabled for an identity, or a
+      sign-in may be allowed to complete with a single factor. A password or token
+      obtained through phishing, leakage or brute force is then sufficient to
+      authenticate as that identity. This results in a loss of confidentiality of
+      the resources the identity can read and of integrity where it can write.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.IAM.CP02
+            strength: 0 # Not yet specified
+            remarks: IAM Users
+          - reference-id: CCC.IAM.CP04
+            strength: 0 # Not yet specified
+            remarks: Password Management
+          - reference-id: CCC.IAM.CP14
+            strength: 0 # Not yet specified
+            remarks: Multi-Factor Authentication (MFA)
