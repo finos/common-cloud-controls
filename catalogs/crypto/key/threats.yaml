@@ -50,7 +50,7 @@ imports:
 threats:
   - id: CCC.KeyMgmt.TH01
     group: Encryption
-    title: Key Versions are Deleted or Disabled Causing Denial of Service or Data Loss
+    title: Key Versions are Deleted or Disabled
     description: |
       Disabling, scheduling deletion, or permanently purging KMS key versions
       that protect sensitive data can prevent required decryption or signing
@@ -74,7 +74,7 @@ threats:
 
   - id: CCC.KeyMgmt.TH02
     group: Encryption
-    title: Unrestricted Use of a KMS Key to Decrypt Data
+    title: A KMS Key is Used to Decrypt Data Without Restriction
     description: |
       Misconfigured permissions that allow broad invocation of the Decrypt API
       can expose plaintext data, enabling unintended disclosure or exfiltration
@@ -111,7 +111,7 @@ threats:
 
   - id: CCC.KeyMgmt.TH04
     group: Encryption
-    title: Introduction of Weak or Compromised Key Material During Import
+    title: Weak or Compromised Key Material is Imported
     description: |
       Insufficient validation during the key-import process may allow weak,
       back-doored, or otherwise compromised key material to be introduced,
@@ -166,10 +166,10 @@ threats:
     group: Encryption
     title: Key Material is Generated or Stored Outside a Hardware Security Module
     description: |
-      Keys may be created with a software protection level, or imported from an
-      unverified source, instead of being generated and held in a validated
-      hardware security module. Key material then exists in a form that can be
-      extracted or copied by a compromised host or privileged operator.
+      Keys may be created with a software protection level instead of being
+      generated and held in a validated hardware security module. Key material
+      then exists in a form that can be extracted or copied by a compromised
+      host or privileged operator.
       Confidentiality of every item protected by the key is lost if the material
       is exfiltrated.
     capabilities:
