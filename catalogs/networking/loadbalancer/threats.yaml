@@ -3,28 +3,49 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
         remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH03
+        strength: 0 # Not yet specified
+        remarks: Deployment Region Network is Untrusted
+      - reference-id: CCC.Core.TH05
+        strength: 0 # Not yet specified
+        remarks: Interference with Replication Processes
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0 # Not yet specified
+        remarks: Runtime Metrics are Manipulated
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
+      - reference-id: CCC.Core.TH11
+        strength: 0 # Not yet specified
+        remarks: Publications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
         strength: 0 # Not yet specified
         remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        strength: 0 # Not yet specified
+        remarks: Resource Tags are Manipulated
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
-        remarks: Automated Enumeration and Reconnaissance by Non-human
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
       - reference-id: CCC.Core.TH16
         strength: 0 # Not yet specified
-        remarks: Logging and Monitoring are Disabled
+        remarks: Publications are Disabled
       - reference-id: CCC.Core.TH17
         strength: 0 # Not yet specified
-        remarks: Unauthorized Network Access via Misconfigured Rules
+        remarks: Responses are Generated for Unauthorized Requests
+      - reference-id: CCC.Core.TH18
+        strength: 0 # Not yet specified
+        remarks: Encryption Key is Misused
+      - reference-id: CCC.Core.TH19
+        strength: 0 # Not yet specified
+        remarks: Metrics are Read by Unauthorized Entities
 
 threats:
   - id: CCC.LB.TH01
@@ -39,6 +60,17 @@ threats:
           - reference-id: CCC.Core.CP04
             strength: 0 # Not yet specified
             remarks: Transaction Rate Limits
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.CP04
+            strength: 0 # Not yet specified
+            remarks: Layer 4 Routing
+          - reference-id: CCC.LB.CP07
+            strength: 0 # Not yet specified
+            remarks: WebSocket Support
+          - reference-id: CCC.LB.CP23
+            strength: 0 # Not yet specified
+            remarks: Firewall Integration
 
   - id: CCC.LB.TH03
     group: Networking
@@ -49,12 +81,15 @@ threats:
     capabilities:
       - reference-id: LB
         entries:
+          - reference-id: CCC.LB.CP01
+            strength: 0 # Not yet specified
+            remarks: Static Load Balancing
           - reference-id: CCC.LB.CP02
             strength: 0 # Not yet specified
-            remarks: Dynamic LB
+            remarks: Dynamic Load Balancing
           - reference-id: CCC.LB.CP20
             strength: 0 # Not yet specified
-            remarks: Traffic Splitting
+            remarks: Traffic Splitting / Weighted Routing
 
   - id: CCC.LB.TH04
     group: Access
@@ -80,10 +115,10 @@ threats:
         entries:
           - reference-id: CCC.LB.CP12
             strength: 0 # Not yet specified
-            remarks: Health Checks
+            remarks: Target Health Checks
           - reference-id: CCC.LB.CP13
             strength: 0 # Not yet specified
-            remarks: Target Removal
+            remarks: Health Checks-based Target Removal
 
   - id: CCC.LB.TH06
     group: Data
@@ -92,9 +127,11 @@ threats:
       Response headers may reveal software versions, internal IPs, or other
       metadata useful for reconnaissance.
     capabilities:
-      - reference-id: LBL
+      - reference-id: LB
         entries:
           - reference-id: CCC.LB.CP19
+            strength: 0 # Not yet specified
+            remarks: Request and Response Header Transformations
 
   - id: CCC.LB.TH07
     group: Encryption
