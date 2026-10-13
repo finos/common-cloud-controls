@@ -635,3 +635,183 @@ controls:
           - reference-id: LOG-08
             remarks: Log Records
             strength: 5
+
+  - id: CCC.ObjStor.CN11
+    group: Data
+    title: Expire Noncurrent Object Versions
+    objective: |
+      Ensure that superseded and deleted object versions are permanently
+      removed after a bounded period, so that data users consider removed
+      does not remain readable indefinitely.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN11.AR01
+        text: |
+          When an object version becomes noncurrent, the service MUST
+          permanently delete it once an organization-defined retention
+          period for noncurrent versions has elapsed.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure a lifecycle rule on every versioned bucket that expires
+          noncurrent versions. Align the period with the recovery window
+          required by CCC.ObjStor.CN05 and any legal retention obligation.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH05
+            remarks: Deleted or Overwritten Object Versions Remain Readable
+            strength: 7 # Bounds the exposure window; versions remain readable until expiry
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: Data Retention and Deletion
+            strength: 7
+
+  - id: CCC.ObjStor.CN12
+    group: Access
+    title: Restrict Cross-Origin Resource Sharing to Approved Origins
+    objective: |
+      Ensure that browsers may only make cross-origin requests to a bucket
+      from web origins the organization has approved.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN12.AR01
+        text: |
+          When a cross-origin resource sharing rule is configured on a bucket,
+          the service MUST reject any rule whose allowed origin is a wildcard.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enforce the restriction with a policy-as-code check on bucket CORS
+          configuration, since providers do not reject wildcard origins
+          natively.
+      - id: CCC.ObjStor.CN12.AR02
+        text: |
+          When a cross-origin resource sharing rule is configured on a bucket,
+          the service MUST restrict the allowed origins to an
+          organization-defined allowlist.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Maintain the allowlist centrally and reject CORS configurations
+          that name origins outside it.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH07
+            remarks: Cross-Origin Requests are Permitted from Untrusted Origins
+            strength: 9
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: IAM-01
+            remarks: IAM Policy and Procedures
+            strength: 3
+
+  - id: CCC.ObjStor.CN13
+    group: Data
+    title: Bound the Period of Irrevocable Retention Locks
+    objective: |
+      Ensure that an irrevocable retention lock cannot commit the organization
+      to retaining data for longer than its retention policy permits.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN13.AR01
+        text: |
+          When an irrevocable retention lock is applied to a bucket or an
+          object, the service MUST reject a retention period that exceeds an
+          organization-defined maximum.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Derive the maximum from the records-retention schedule for the data
+          classification held in the bucket. Enforce it through a policy check
+          on lock requests, since providers accept any period natively.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH09
+            remarks: Irrevocable Retention Prevents Required Deletion
+            strength: 7 # Bounds the period; does not prevent locking the wrong bucket
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: Data Retention and Deletion
+            strength: 8
+
+  - id: CCC.ObjStor.CN14
+    group: Access
+    title: Restrict Bucket Access to Organization-Owned Accounts
+    objective: |
+      Ensure that requests from within the trust perimeter only reach buckets
+      owned by accounts the organization controls, so that a reclaimed or
+      look-alike bucket name cannot receive or serve the organization's data.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN14.AR01
+        text: |
+          When a request to a bucket originates from within the trust
+          perimeter, the service MUST deny the request if the bucket is not
+          owned by an organization-approved account.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use resource-owner conditions in access policies, service endpoint
+          or perimeter policies that name the approved accounts, and expected
+          bucket owner parameters on requests where the provider supports them.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH10
+            remarks: Deleted Bucket Names are Reclaimed by Other Tenants
+            strength: 6 # Protects callers inside the perimeter; external callers remain exposed
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-10
+            remarks: Sensitive Data Transfer
+            strength: 5
+
+  - id: CCC.ObjStor.CN15
+    group: Access
+    title: Restrict Bucket Listing to Explicitly Authorized Identities
+    objective: |
+      Ensure that the set of object keys and listing metadata in a bucket is
+      disclosed only to identities explicitly granted list permission, since
+      keys and metadata may themselves carry sensitive information.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN15.AR01
+        text: |
+          When a request lists the objects in a bucket, the service MUST deny
+          the request unless the identity holds an explicit list permission on
+          that bucket.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Grant list permission separately from object read permission and
+          never through public or anonymous grants. Review signed URL and
+          shared access token scopes so that they do not include listing.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH11
+            remarks: Object Keys and Listing Metadata Expose Sensitive Information
+            strength: 5 # Limits who can enumerate; keys still appear in logs and URLs
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: IAM-05
+            remarks: Least Privilege
+            strength: 5
