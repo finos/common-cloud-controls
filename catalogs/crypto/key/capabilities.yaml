@@ -130,8 +130,3 @@ capabilities:
     title: Key Import
     description: |
       Supports the ability to import externally generated keys into the KMS.
-  - id: CCC.KeyMgmt.CP23
-    group: Encryption
-    title: Key Expiry
-    description: |
-      Supports the ability to set an expiration date for a key
