@@ -33,6 +33,8 @@ imports:
         remarks: Resource Replication
       - reference-id: CCC.Core.CP32
         remarks: Deletion Protection
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
 capabilities:
   - id: CCC.KeyMgmt.CP01
     group: Encryption
@@ -130,3 +132,25 @@ capabilities:
     title: Key Import
     description: |
       Supports the ability to import externally generated keys into the KMS.
+  - id: CCC.KeyMgmt.CP25
+    group: Encryption
+    title: Key Usage Restriction
+    description: |
+      The service may be configured to restrict a key to a declared set of
+      operations, such as encrypt and decrypt or sign and verify, and rejects
+      requests for operations outside that set.
+  - id: CCC.KeyMgmt.CP26
+    group: Encryption
+    title: Message Authentication Code Generation and Verification
+    description: |
+      The service can generate and verify hash-based message authentication
+      codes (HMAC) over data submitted by a user with a managed symmetric key,
+      so that the MAC key never leaves the service.
+  - id: CCC.KeyMgmt.CP27
+    group: Encryption
+    title: External Key Store
+    description: |
+      The service may be configured to perform cryptographic operations with
+      keys held in a key manager outside the provider's infrastructure, so that
+      the user retains sole custody of the key material. Where a provider lacks
+      this, key material custody cannot be kept outside the provider.
