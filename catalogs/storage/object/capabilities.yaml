@@ -126,3 +126,11 @@ capabilities:
       The service may be configured to disable object-level permissions on a
       bucket, so that access to every object is governed solely by the
       bucket-level policy.
+
+  - id: CCC.ObjStor.CP17
+    group: Data
+    title: Object Immutability
+    description: |
+      The service may be configured to lock an object or a bucket so that its
+      objects cannot be overwritten or deleted until a retention period expires,
+      and the lock itself may be made irrevocable.
