@@ -28,9 +28,6 @@ imports:
       - reference-id: CCC.Core.CN11
         strength: 0 # Not yet specified
         remarks: Protect Encryption Keys
-      - reference-id: CCC.Core.CN15
-        strength: 0 # Not yet specified
-        remarks: Enforce Transaction Rate Limits
       - reference-id: CCC.Core.CN16
         strength: 0 # Not yet specified
         remarks: Alert on Changes to Protective Configuration
@@ -74,21 +71,12 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-      - id: CCC.Logging.CN01.AR04
-        text: |
-          When a new virtual network is created, network flow logging for it MUST be enabled.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: ""
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Logging.TH07
             strength: 0 # Not yet specified
-            remarks: Insufficient Logging
+            remarks: Security-relevant Events are Not Logged
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -130,7 +118,7 @@ controls:
         entries:
           - reference-id: CCC.Logging.TH05
             strength: 0 # Not yet specified
-            remarks: Log Retention Policy Evasion or Misconfiguration
+            remarks: Logs are Deleted Early or Retained Beyond Policy
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -167,7 +155,7 @@ controls:
             remarks: Data is Lost or Corrupted
           - reference-id: CCC.Logging.TH05
             strength: 0 # Not yet specified
-            remarks: Log Retention Policy Evasion or Misconfiguration
+            remarks: Logs are Deleted Early or Retained Beyond Policy
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -282,7 +270,46 @@ controls:
         entries:
           - reference-id: CCC.Logging.TH02
             strength: 0 # Not yet specified
-            remarks: Unauthorized Data Transfer Out of a Trusted Boundary
+            remarks: Log Data is Transferred Outside the Trust Boundary
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: DE.CM-03
+            strength: 0 # Not yet specified
+          - reference-id: DE.CM-09
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SI-4
+            strength: 0 # Not yet specified
+          - reference-id: CA-7
+            strength: 0 # Not yet specified
+          - reference-id: AU-6
+  - id: CCC.Logging.CN07
+    group: Observability
+    title: Detect and Alert on Log Service Tampering
+    objective: |
+      Alert when any component of the critical logging infrastructure is disabled, modified,
+      or deleted, indicating a defense evasion attempt. This extends the obligation of core
+      CN16 to tlp-clear and tlp-green for this service, pending a WG decision on CN16's
+      applicability.
+    assessment-requirements:
+      - id: CCC.Logging.CN07.AR01
+        text: |
+          When an audit log event is recorded that corresponds to a modification of the logging service
+          configuration such as disabling a log trail, deleting a log sink, or altering a log forwarding rule,
+          an alert MUST be generated.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH16
+            strength: 0 # Not yet specified
+            remarks: Publications are Disabled
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -302,7 +329,8 @@ controls:
     objective: |
       Ensure that log data can only be routed to sink or export destinations inside the
       organisation's defined trust perimeter, so that a misconfigured or compromised sink
-      cannot deliver logs to an external party.
+      cannot deliver logs to an external party. Routing logs to a sink is not data
+      replication, so this control is distinct from core CN10.
     assessment-requirements:
       - id: CCC.Logging.CN08.AR01
         text: |
@@ -320,7 +348,7 @@ controls:
         entries:
           - reference-id: CCC.Logging.TH02
             strength: 0 # Not yet specified
-            remarks: Unauthorized Data Transfer Out of a Trusted Boundary
+            remarks: Log Data is Transferred Outside the Trust Boundary
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -361,7 +389,10 @@ controls:
         entries:
           - reference-id: CCC.Logging.TH01
             strength: 0 # Not yet specified
-            remarks: Log Ingestion Performance Degradation
+            remarks: Log Entries are Delayed or Dropped During Ingestion
+          - reference-id: CCC.Core.TH12
+            strength: 0 # Not yet specified
+            remarks: Resource Constraints are Exhausted
           - reference-id: CCC.Core.TH16
             strength: 0 # Not yet specified
             remarks: Publications are Disabled
@@ -397,7 +428,7 @@ controls:
         entries:
           - reference-id: CCC.Logging.TH06
             strength: 0 # Not yet specified
-            remarks: Log Injection
+            remarks: Forged or Malformed Entries are Written to Logs
     guidelines:
       - reference-id: NIST_800_53
         entries:
