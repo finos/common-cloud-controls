@@ -113,9 +113,9 @@ capabilities:
     group: Encryption
     title: FIPS 140 Level 3 Hardware Security Modules
     description: |
-      The service may be configured to generate and store keys in hardware
-      security modules validated to FIPS 140-2 Level 3 or FIPS 140-3 Level 3,
-      so that key material never exists in plaintext outside the module.
+      The service can generate and store keys in hardware security modules
+      validated to FIPS 140-2 Level 3 or FIPS 140-3 Level 3, so that key
+      material never exists in plaintext outside the module.
   - id: CCC.KeyMgmt.CP16
     group: Encryption
     title: Disable Key
