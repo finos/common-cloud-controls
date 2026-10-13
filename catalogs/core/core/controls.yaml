@@ -652,7 +652,7 @@ controls:
       - reference-id: CCM
         entries:
           - reference-id: DSP-01
-            remarks: Security and Privacy Policy and Proceduress
+            remarks: Security and Privacy Policy and Procedures
             strength: 1
           - reference-id: DSP-07
             remarks: Data Protection by Design and Default
