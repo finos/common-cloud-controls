@@ -28,12 +28,6 @@ imports:
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Ensure Integrity of Access Logs
-      - reference-id: CCC.Core.CN11
-        strength: 0 # Not yet specified
-        remarks: Protect Encryption Keys
-      - reference-id: CCC.Core.CN15
-        strength: 0 # Not yet specified
-        remarks: Enforce Transaction Rate Limits
       - reference-id: CCC.Core.CN16
         strength: 0 # Not yet specified
         remarks: Alert on Changes to Protective Configuration
@@ -41,28 +35,42 @@ imports:
 controls:
   - id: CCC.KeyMgmt.CN02
     group: Access
-    title: Limit Decrypt Permissions
+    title: Limit Cryptographic Operation Grants
     objective: >
-      Restrict the Decrypt operation to authorised principals only, applying
-      the principle of least privilege to protect sensitive data.
+      Restrict the decrypt, sign, and MAC-generation operations to authorised
+      principals only, applying the principle of least privilege to protect
+      sensitive data and the integrity of signed content.
     assessment-requirements:
       - id: CCC.KeyMgmt.CN02.AR01
         text: |
           When a key policy or role grants the decrypt operation, the grant
-          MUST name specific principals rather than a wildcard or an entire
-          account.
+          MUST name specific principals rather than a wildcard.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: Periodically audit policy documents via automated
           tooling and report any deviations.
+      - id: CCC.KeyMgmt.CN02.AR02
+        text: |
+          When a key policy or role grants the sign or MAC-generation operation,
+          the grant MUST name specific principals rather than a wildcard.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Audit key policies and role assignments for sign and MAC permissions
+          with automated tooling and report any deviations.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH02
             strength: 0 # Not yet specified
-            remarks: Unrestricted Use of a KMS Key to Decrypt Data
+            remarks: A KMS Key is Used to Decrypt Data Without Restriction
+          - reference-id: CCC.KeyMgmt.TH07
+            strength: 0 # Not yet specified
+            remarks: Signing or MAC Key is Used to Authenticate Unauthorized Content
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -100,14 +108,19 @@ controls:
         applicability:
           - tlp-clear
           - tlp-green
-        recommendation: Shorter intervals for higher classifications are set
-          by CCC.Core.CN11.
+          - tlp-amber
+          - tlp-red
+        recommendation: Set shorter intervals for keys protecting higher
+          classifications.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH03
             strength: 0 # Not yet specified
             remarks: Key Rotation is Disabled or Delayed Beyond Policy Limits
+          - reference-id: CCC.Core.TH18
+            strength: 0 # Not yet specified
+            remarks: Encryption Key is Misused
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -133,8 +146,6 @@ controls:
           approved algorithm (AES-256, RSA-2048 or larger, EC-P256 or larger).
         applicability:
           - tlp-green
-          - tlp-amber
-          - tlp-red
         recommendation: Reject import requests whose wrapping or target key
           specification is not on the approved list.
       - id: CCC.KeyMgmt.CN04.AR02
@@ -151,7 +162,7 @@ controls:
         entries:
           - reference-id: CCC.KeyMgmt.TH04
             strength: 0 # Not yet specified
-            remarks: Introduction of Weak or Compromised Key Material During Import
+            remarks: Weak or Compromised Key Material is Imported
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -184,14 +195,22 @@ controls:
         recommendation: |
           Set the pending-deletion or soft-delete window to 7 days or more and
           enable purge protection where the provider offers it.
+      - id: CCC.KeyMgmt.CN05.AR02
+        text: |
+          When a key or key version is disabled or scheduled for destruction,
+          the service MUST publish an event to a monitored channel.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Subscribe the security team's alerting channel to the provider's
+          event stream for key disable and schedule-deletion events.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH01
             strength: 0 # Not yet specified
-            remarks: >-
-              Key Versions are Deleted or Disabled Causing Denial of Service or
-              Data Loss
+            remarks: Key Versions are Deleted or Disabled
           - reference-id: CCC.Core.TH06
             strength: 0 # Not yet specified
             remarks: Data is Lost or Corrupted
@@ -222,6 +241,9 @@ controls:
           - reference-id: CCC.KeyMgmt.TH05
             strength: 0 # Not yet specified
             remarks: Keys are Created With Algorithms Not Permitted by Policy
+          - reference-id: CCC.Core.TH18
+            strength: 0 # Not yet specified
+            remarks: Encryption Key is Misused
 
   - id: CCC.KeyMgmt.CN07
     group: Encryption
@@ -246,32 +268,6 @@ controls:
           - reference-id: CCC.KeyMgmt.TH06
             strength: 0 # Not yet specified
             remarks: Key Material is Generated or Stored Outside a Hardware Security Module
-
-  - id: CCC.KeyMgmt.CN08
-    group: Access
-    title: Limit Sign and MAC Permissions
-    objective: |
-      Ensure that only authorised principals can produce signatures or message
-      authentication codes with a managed key.
-    assessment-requirements:
-      - id: CCC.KeyMgmt.CN08.AR01
-        text: |
-          When a key policy or role grants the sign or MAC-generation operation,
-          the grant MUST name specific principals rather than a wildcard or an
-          entire account.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Audit key policies and role assignments for sign and MAC permissions
-          with automated tooling and report any deviations.
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.KeyMgmt.TH07
-            strength: 0 # Not yet specified
-            remarks: Signing or MAC Key is Used to Authenticate Unauthorized Content
 
   - id: CCC.KeyMgmt.CN09
     group: Encryption
@@ -304,7 +300,8 @@ controls:
     title: Alert on External Key Store Failures
     objective: |
       Ensure that loss of connectivity to an external key manager is detected
-      before dependent workloads fail silently.
+      before dependent workloads fail silently. Compromise of the external key
+      manager is outside the scope of a service-side control.
     assessment-requirements:
       - id: CCC.KeyMgmt.CN10.AR01
         text: |
