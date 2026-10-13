@@ -7,8 +7,6 @@ imports:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.CP04
-        remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP05
         remarks: Signed URLs
       - reference-id: CCC.Core.CP06
@@ -33,8 +31,6 @@ imports:
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
-      - reference-id: CCC.Core.CP29
-        remarks: Active Ingestion
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
       - reference-id: CCC.Core.CP32
@@ -59,19 +55,6 @@ capabilities:
       Supports storing, accessing, and managing data elements which contain
       both data and metadata.
 
-  - id: CCC.ObjStor.CP03
-    group: Resource
-    title: Bucket Capacity Limit
-    description: |
-      Provides the ability to set a maximum total capacity for objects within
-      a bucket.
-
-  - id: CCC.ObjStor.CP04
-    group: Resource
-    title: Object Size Limit
-    description: |
-      Supports setting a maximum object size for storing objects.
-
   - id: CCC.ObjStor.CP05
     group: Data
     title: Store New Objects
@@ -90,20 +73,11 @@ capabilities:
     description: |
       Supports for deleting objects from the bucket given the object key.
 
-
-
   - id: CCC.ObjStor.CP10
     group: Access
     title: Object Level Access Control
     description: |
       Supports controlling access to specific objects within the object store.
-
-  - id: CCC.ObjStor.CP11
-    group: Data
-    title: Querying
-    description: |
-      Supports performing simple select queries to retrieve only a subset of
-      objects from the bucket.
 
   - id: CCC.ObjStor.CP12
     group: Resource
