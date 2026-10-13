@@ -179,7 +179,7 @@ controls:
           - reference-id: IVS-06
   - id: CCC.VPC.CN05
     group: Networking
-    title: Restrict VPC Endpoints to Authorized Targets and Principals
+    title: Restrict Private Endpoints to Authorized Targets and Principals
     objective: |
       Ensure that private endpoints only reach resources inside the trust
       perimeter and only serve authorized principals, so that an endpoint
@@ -187,7 +187,7 @@ controls:
     assessment-requirements:
       - id: CCC.VPC.CN05.AR01
         text: |
-          When a VPC endpoint is created, the service MUST restrict the
+          When a private endpoint is created, the service MUST restrict the
           endpoint to target resources owned by accounts inside the
           organization's trust perimeter.
         applicability:
@@ -197,7 +197,7 @@ controls:
         recommendation: ""
       - id: CCC.VPC.CN05.AR02
         text: |
-          When a request through a VPC endpoint originates from a principal
+          When a request through a private endpoint originates from a principal
           outside the organization's trust perimeter, the service MUST deny
           the request.
         applicability:
