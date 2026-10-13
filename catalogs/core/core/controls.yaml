@@ -292,7 +292,7 @@ controls:
         entries:
           - reference-id: CCC.Core.TH07
           - reference-id: CCC.Core.TH09
-          - reference-id: CCC.Core.TH04
+          - reference-id: CCC.Core.TH16
     guidelines:
       - reference-id: CCM
         entries:
@@ -427,7 +427,7 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.TH16
+          - reference-id: CCC.Core.TH18
     guidelines:
       - reference-id: CCM
         entries:
