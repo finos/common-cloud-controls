@@ -94,6 +94,8 @@ capabilities:
     description: |
       The service can enforce access permissions on an individual object,
       independently of the permissions applied to the containing bucket.
+      Whether object-level permissions are enabled by default on a new bucket
+      varies by provider.
 
   - id: CCC.ObjStor.CP12
     group: Resource
