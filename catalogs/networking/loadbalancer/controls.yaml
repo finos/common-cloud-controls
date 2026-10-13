@@ -4,9 +4,6 @@ imports:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Encrypt Data for Transmission
-      - reference-id: CCC.Core.CN02
-        strength: 0 # Not yet specified
-        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
@@ -25,9 +22,6 @@ imports:
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Ensure Integrity of Access Logs
-      - reference-id: CCC.Core.CN10
-        strength: 0 # Not yet specified
-        remarks: Restrict Data Replication to Trust Perimeter
       - reference-id: CCC.Core.CN13
         strength: 0 # Not yet specified
         remarks: Minimize Lifetime of Encryption and Authentication Certificates
@@ -91,14 +85,16 @@ controls:
           - tlp-red
         recommendation: Configure header-transformation rules.
     threats:
-      - reference-id: LB
+      - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH15
             strength: 0 # Not yet specified
             remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: LB
+        entries:
           - reference-id: CCC.LB.TH06
             strength: 0 # Not yet specified
-            remarks: Sensitive Metadata Exposure via HTTP Headers
+            remarks: Sensitive Metadata Is Exposed via HTTP Headers
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -131,7 +127,8 @@ controls:
         recommendation: |
           Allow the provider-published health-check source ranges in the target's
           security group or firewall rules and deny the health-check path to all
-          other sources.
+          other sources. This requirement is assessed on the backend target's
+          security group or firewall rules, not on the load balancer itself.
       - id: CCC.LB.CN10.AR02
         text: |
           When more than 10 percent of the targets behind a listener change from
@@ -233,14 +230,17 @@ controls:
           the approved client certificate authorities.
       - id: CCC.LB.CN13.AR02
         text: |
-          When mutual TLS is enabled on a listener, the listener MUST check
-          certificate revocation against a configured revocation list.
+          When mutual TLS is enabled on a listener, the listener MUST check the
+          revocation status of the presented client certificate.
         applicability:
           - tlp-amber
           - tlp-red
         recommendation: |
-          Upload and maintain certificate revocation lists in the trust store and
-          enable revocation checking.
+          Enable revocation checking using the provider's mechanism: certificate
+          revocation lists in the trust store, or OCSP via the certificate's
+          authority information access extension. GCP load balancer frontends do
+          not perform revocation checks on client certificates today, so this
+          requirement cannot be satisfied there.
     threats:
       - reference-id: LB
         entries:
@@ -257,16 +257,15 @@ controls:
       - id: CCC.LB.CN14.AR01
         text: |
           When the load balancer forwards a layer-7 request, client-supplied
-          forwarded-for headers MUST be replaced with the connection source address
-          rather than appended to.
+          forwarded-for headers MUST be removed or replaced with the connection
+          source address.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
           Set the X-Forwarded-For handling mode to remove or replace client-supplied
-          values; where only append is available, configure backends to trust only
-          the last hop.
+          values rather than append to them.
     threats:
       - reference-id: LB
         entries:
@@ -309,8 +308,10 @@ controls:
     assessment-requirements:
       - id: CCC.LB.CN16.AR01
         text: |
-          When a redirect rule is configured, the redirect target host MUST be a
-          static value from an approved domain allowlist.
+          When a redirect rule is configured, the redirect target host MUST be
+          either the request's own host or a static value from an approved
+          allowlist, and MUST NOT be derived from any other request header or
+          parameter.
         applicability:
           - tlp-green
           - tlp-amber
@@ -329,21 +330,8 @@ controls:
     group: Encryption
     title: Enforce Minimum TLS Policy
     objective: |
-      Ensure that listeners negotiate only current TLS protocol versions and
-      approved cipher suites with clients.
+      Ensure that listeners negotiate only approved cipher suites with clients.
     assessment-requirements:
-      - id: CCC.LB.CN17.AR01
-        text: |
-          When a TLS or HTTPS listener is configured, its TLS policy MUST set the
-          minimum protocol version to TLS 1.2 or higher.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Select a provider-predefined TLS policy whose minimum version is TLS 1.2
-          or TLS 1.3 and remove listeners that use legacy policies.
       - id: CCC.LB.CN17.AR02
         text: |
           When a TLS or HTTPS listener is configured, its TLS policy MUST permit
