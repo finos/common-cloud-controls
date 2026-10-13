@@ -22,9 +22,6 @@ imports:
       - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
-      - reference-id: CCC.Core.CN08
-        strength: 0 # Not yet specified
-        remarks: Replicate Data to Multiple Locations
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Ensure Integrity of Access Logs
@@ -34,12 +31,6 @@ imports:
       - reference-id: CCC.Core.CN11
         strength: 0 # Not yet specified
         remarks: Protect Encryption Keys
-      - reference-id: CCC.Core.CN14
-        strength: 0 # Not yet specified
-        remarks: Maintain Recent Backups
-      - reference-id: CCC.Core.CN15
-        strength: 0 # Not yet specified
-        remarks: Enforce Transaction Rate Limits
       - reference-id: CCC.Core.CN16
         strength: 0 # Not yet specified
         remarks: Alert on Changes to Protective Configuration
@@ -61,7 +52,8 @@ controls:
       - id: CCC.Vector.CN01.AR02
         text: |
           When a vector embedding is submitted for indexing, the service MUST reject
-          vectors that contain NaN, infinite, or zero-magnitude values.
+          vectors that contain NaN or infinite values, or that have zero magnitude in
+          a cosine-similarity index.
         applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
         recommendation: ""
     threats:
@@ -85,8 +77,9 @@ controls:
     assessment-requirements:
       - id: CCC.Vector.CN02.AR01
         text: |
-          When an index lifecycle event is triggered, the service MUST
-          verify that the actor has explicit permissions for the operation type.
+          When a query endpoint or alias is re-pointed to a different index, the
+          service MUST require a permission distinct from the permission to write
+          documents to the index.
         applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
         recommendation: ""
     threats:
@@ -125,7 +118,7 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH03
-            remarks: Query Results Include Records the Requester is not Authorized to Read
+            remarks: Query Results Include Records the Requester is Not Authorized to Read
           - reference-id: CCC.Core.TH01
             remarks: Access is Granted to Unauthorized Users
     guidelines:
@@ -165,8 +158,7 @@ controls:
       - id: CCC.Vector.CN08.AR01
         text: |
           When a similarity query is answered, the service MUST NOT return raw
-          vector values unless the requester holds a permission distinct from
-          the permission to query.
+          vector values unless the index is explicitly configured to expose them.
         applicability: [tlp-amber, tlp-red]
         recommendation: ""
     threats:
@@ -189,8 +181,8 @@ controls:
     assessment-requirements:
       - id: CCC.Vector.CN09.AR01
         text: |
-          When integrated embedding generation is configured, the service MUST
-          reject any model endpoint that is not on an approved allowlist.
+          When integrated embedding generation is configured, the configured
+          model endpoint MUST be on an organization-approved allowlist.
         applicability: [tlp-green, tlp-amber, tlp-red]
         recommendation: ""
     threats:
