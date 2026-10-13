@@ -59,7 +59,7 @@ threats:
 
   - id: CCC.ObjStor.TH03
     group: Data
-    title: Storage Class Downgrade Leading to Durability or Availability Loss
+    title: Objects are Transitioned to a Lower-Durability Storage Class
     description: |
       An authorized entity or misconfigured lifecycle policy may transition
       objects from a high-durability or high-availability storage class to a
@@ -210,8 +210,9 @@ threats:
     group: Access
     title: Deleted Bucket Names are Reclaimed by Other Tenants
     description: |
-      Bucket names are unique across all tenants of the provider, so when a
-      bucket is deleted its name may be registered by any other tenant.
+      Bucket names are unique across all tenants of the provider (on Azure
+      this applies to the storage account name rather than the container), so
+      when a bucket is deleted its name may be registered by any other tenant.
       Configuration, code, replication rules, or links that still reference the
       name then resolve to a bucket under another tenant's control, and data is
       written to or read from it. This results in a loss of confidentiality,
@@ -255,10 +256,9 @@ threats:
     description: |
       Write access may be granted to external systems or through signed URLs
       without constraints on object content, type, or size. Objects of
-      arbitrary content are stored and later consumed by downstream processes,
-      and unbounded volume is billed to the bucket owner. This results in a
-      loss of integrity for systems that trust the bucket's contents and a loss
-      of availability through cost exhaustion.
+      arbitrary content are stored and later consumed by downstream processes.
+      This results in a loss of integrity for systems that trust the bucket's
+      contents.
     capabilities:
       - reference-id: CCC.ObjStor
         entries:
@@ -268,7 +268,5 @@ threats:
         entries:
           - reference-id: CCC.Core.CP05
             remarks: Signed URLs
-          - reference-id: CCC.Core.CP16
-            remarks: Budgeting
           - reference-id: CCC.Core.CP30
             remarks: Passive Ingestion
