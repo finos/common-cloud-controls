@@ -768,10 +768,8 @@ controls:
     assessment-requirements:
       - id: CCC.Core.CN15.AR01
         text: |
-          When requests are made to the service or a child resource, the
-          service MUST enforce a configured request rate limit by throttling
-          or rejecting requests that exceed it; a missing limit is
-          non-compliant.
+          When the service or a child resource accepts requests, a request
+          rate limit MUST be configured.
         applicability:
           - tlp-clear
           - tlp-green
@@ -780,9 +778,20 @@ controls:
         recommendation: |
           Configure rate limits or quotas at the service boundary for every
           exposed interface. Set the limit from observed legitimate peak
-          usage with headroom, and prefer throttling over rejection where
-          the protocol supports it.
+          usage with headroom.
       - id: CCC.Core.CN15.AR02
+        text: |
+          When requests exceed the configured rate limit, the service MUST
+          throttle or reject them.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Prefer throttling over rejection where the protocol supports it,
+          so that legitimate bursts degrade gracefully.
+      - id: CCC.Core.CN15.AR03
         text: |
           When requests are throttled or rejected for exceeding a rate
           limit, the service MUST log the client identity, time, and limit
