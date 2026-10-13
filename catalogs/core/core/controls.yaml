@@ -547,26 +547,6 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
-      - id: CCC.Core.CN03.AR05
-        text: |
-          When an entity attempts to modify the service through an API
-          endpoint, the request MUST originate from within the trust
-          perimeter.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: ""
-      - id: CCC.Core.CN03.AR06
-        text: |
-          When an entity attempts to view information on the service through
-          an API endpoint, the request MUST originate from within the trust
-          perimeter.
-        applicability:
-          - tlp-amber
-          - tlp-red
-        recommendation: ""
     threats:
       - reference-id: CCC
         entries:
@@ -641,6 +621,26 @@ controls:
           service MUST refuse requests from unauthorized entities.
         applicability:
           - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Core.CN05.AR07
+        text: |
+          When an entity attempts to modify the service through an API
+          endpoint, the request MUST originate from within the trust
+          perimeter.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Core.CN05.AR08
+        text: |
+          When an entity attempts to view information on the service through
+          an API endpoint, the request MUST originate from within the trust
+          perimeter.
+        applicability:
           - tlp-amber
           - tlp-red
         recommendation: ""
@@ -835,5 +835,7 @@ controls:
     threats:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.Core.TH01
+          - reference-id: CCC.Core.TH06
           - reference-id: CCC.Core.TH07
           - reference-id: CCC.Core.TH16
