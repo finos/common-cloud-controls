@@ -3,7 +3,7 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent Unencrypted Requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
@@ -15,13 +15,13 @@ imports:
         remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
-        remarks: Prevent Deployment in Restricted Regions
+        remarks: Restrict Deployments to Trust Perimeter
       - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
-        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        remarks: Ensure Integrity of Access Logs
 
 controls:
   - id: CCC.VPC.CN01
