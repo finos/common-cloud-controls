@@ -58,7 +58,6 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.RDMS.CP06
           - reference-id: CCC.RDMS.CP07
   - id: CCC.RDMS.TH02
     group: Access

@@ -75,24 +75,11 @@ capabilities:
     description: |
       Ability to create a PostgreSQL managed relational database.
 
-  - id: CCC.RDMS.CP04
-    group: Data
-    title: DB Engine Option - MariaDB
-    description: |
-      Ability to create a MariaDB managed relational database.
-
   - id: CCC.RDMS.CP05
     group: Data
     title: DB Engine Option - SQL Server
     description: |
       Ability to create a Microsoft SQL Server managed relational database.
-
-  - id: CCC.RDMS.CP06
-    group: Access
-    title: DB Managed Credentials
-    description: |
-      Ability to managed the database credentials using the cloud
-      provider's secret management service.
 
   - id: CCC.RDMS.CP07
     group: Access
