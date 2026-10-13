@@ -95,3 +95,27 @@ capabilities:
     description: |
       Provides different storage classes for frequently and infrequently
       accessed objects.
+
+  - id: CCC.ObjStor.CP14
+    group: Encryption
+    title: Customer-Provided Encryption Keys
+    description: |
+      The service can encrypt an object at rest with a key that the user supplies
+      in each request and that the service does not retain, so the object can only
+      be read by presenting the same key again.
+
+  - id: CCC.ObjStor.CP15
+    group: Access
+    title: Cross-Origin Resource Sharing
+    description: |
+      The service may be configured with a cross-origin resource sharing (CORS)
+      policy on a bucket that determines which web origins a browser is permitted
+      to request objects from.
+
+  - id: CCC.ObjStor.CP16
+    group: Access
+    title: Uniform Bucket-Level Access
+    description: |
+      The service may be configured to disable object-level permissions on a
+      bucket, so that access to every object is governed solely by the
+      bucket-level policy.
