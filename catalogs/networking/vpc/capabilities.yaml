@@ -11,8 +11,6 @@ imports:
         remarks: Log Publication
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
-      - reference-id: CCC.Core.CP21
-        remarks: Resource Replication
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP23
@@ -51,6 +49,14 @@ capabilities:
       The service can create a subnet whose resources cannot directly reach the
       public internet, so that workloads are reachable only through private
       connectivity or an outbound gateway.
+
+  - id: CCC.VPC.CP06
+    group: Networking
+    title: Multiple Availability Zone Placement
+    description: |
+      The service can place subnets, gateways, and connection endpoints in more
+      than one availability zone so that the loss of a single zone does not
+      remove connectivity for the virtual network.
 
   - id: CCC.VPC.CP07
     group: Networking
@@ -130,7 +136,7 @@ capabilities:
 
   - id: CCC.VPC.CP17
     group: Networking
-    title: VPC Endpoints
+    title: Private Endpoints
     description: |
       The service can be configured with private endpoints that allow resources
       within the virtual network to reach other cloud services without traversing
@@ -141,5 +147,5 @@ capabilities:
     title: Traffic Mirroring
     description: |
       The service can be configured to copy network traffic from selected network
-      interfaces to a monitoring destination for out-of-band inspection. Not every
-      provider offers this capability.
+      interfaces to a monitoring destination for out-of-band inspection. Azure
+      offers this only in preview.
