@@ -127,3 +127,119 @@ threats:
         entries:
           - reference-id: CCC.Core.CP11
             remarks: Backup
+  - id: CCC.RDMS.TH06
+    group: Compute
+    title: Database Engine Runs with Known Vulnerabilities
+    description: |
+      Automated engine patching may be disabled, or maintenance windows may
+      be deferred indefinitely, so the database engine continues to run a
+      version with published vulnerabilities. Those vulnerabilities can be
+      exploited by any client able to reach the engine, compromising the
+      confidentiality, integrity, and availability of the database.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP18
+            remarks: Automated Engine Patching
+          - reference-id: CCC.RDMS.CP02
+            remarks: DB Engine Option - MySQL
+          - reference-id: CCC.RDMS.CP03
+            remarks: DB Engine Option - PostgreSQL
+          - reference-id: CCC.RDMS.CP05
+            remarks: DB Engine Option - SQL Server
+  - id: CCC.RDMS.TH07
+    group: Access
+    title: Excessive Privileges are Granted Within the Database
+    description: |
+      Database roles and grants inside the engine may be configured more
+      broadly than required, such as application users holding
+      administrative roles or schemas readable by every login. Any
+      authenticated user can then read or modify data beyond their function,
+      impacting the confidentiality and integrity of all data in the
+      instance.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP01
+            remarks: SQL Support
+          - reference-id: CCC.RDMS.CP07
+            remarks: DB Self Managed Credentials
+          - reference-id: CCC.RDMS.CP17
+            remarks: Cloud Identity Authentication
+  - id: CCC.RDMS.TH08
+    group: Access
+    title: Long-lived Database Credentials are Exposed
+    description: |
+      Static usernames and passwords may be stored in application
+      configuration, connection strings, or source repositories and remain
+      valid for long periods. When such a credential is disclosed it can be
+      reused by an unauthorized party until it is rotated, impacting the
+      confidentiality and integrity of the database.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP07
+            remarks: DB Self Managed Credentials
+          - reference-id: CCC.RDMS.CP17
+            remarks: Cloud Identity Authentication
+  - id: CCC.RDMS.TH09
+    group: Data
+    title: Session State Leaks Between Pooled Connections
+    description: |
+      A managed connection pool may reuse a server session for successive
+      clients without resetting session-level state such as temporary
+      tables, prepared statements, or an assumed role. State set by one
+      client can then be read or acted on by another, impacting the
+      confidentiality and integrity of data and obscuring which client
+      performed an action.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP12
+            remarks: Managed Connection Pooling
+  - id: CCC.RDMS.TH10
+    group: Compute
+    title: Co-tenant Workloads Interfere with Database Isolation
+    description: |
+      When the database is deployed on compute shared with other tenants,
+      another tenant's workload can consume shared CPU, memory, or I/O, or
+      expose the database to hardware side-channel attacks. This can degrade
+      the availability of the database and, in the side-channel case, the
+      confidentiality of data processed in memory.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP14
+            remarks: Dedicated Database Instances
+  - id: CCC.RDMS.TH11
+    group: Data
+    title: Read Replicas are Deployed with Weaker Protections
+    description: |
+      A read replica may be created with network access rules, encryption
+      keys, or public accessibility that differ from the primary, or in a
+      region or project the primary does not use. The same data is then
+      reachable through the replica under weaker protection, impacting its
+      confidentiality.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP15
+            remarks: Horizontal Scaling
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
+  - id: CCC.RDMS.TH12
+    group: Data
+    title: Failover Causes Data Loss or Divergent Writes
+    description: |
+      When the standby is promoted while replication lags, transactions
+      committed on the primary may be absent from the new primary, and a
+      former primary that keeps accepting writes produces two divergent
+      copies. This impacts the integrity and availability of the data and
+      can defeat recovery.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP16
+            remarks: Failover
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
