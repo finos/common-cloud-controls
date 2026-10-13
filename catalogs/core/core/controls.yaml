@@ -276,8 +276,7 @@ controls:
         text: |
           When the service is operational, any attempt to redirect logs for
           the service or its child resources MUST NOT be possible without
-          halting operation of the corresponding resource and publishing
-          corresponding events to monitored channels.
+          halting operation of the corresponding resource.
         applicability:
           - tlp-amber
           - tlp-red
@@ -285,8 +284,19 @@ controls:
           No normal business operations should result in the redirection of
           logs, as this could indicate an attempt to cover up unauthorized
           access. Ensure that logging configurations are immutable during
-          service operation so that any changes require stopping the service
-          and publishing corresponding events to monitored channels.
+          service operation so that any changes require stopping the service.
+      - id: CCC.Core.CN09.AR04
+        text: |
+          When logs for the service or its child resources are redirected,
+          the service MUST publish a corresponding event to a monitored
+          channel.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Treat any change to a log destination as a security-relevant
+          event. Publish it to the channel monitored by the security team so
+          that redirection cannot occur unobserved.
     threats:
       - reference-id: CCC
         entries:
@@ -512,8 +522,7 @@ controls:
         text: |
           When an entity attempts to modify the service through an API
           endpoint, the authentication process MUST require a credential
-          such as an API key or token AND originate from within the trust
-          perimeter.
+          such as an API key or token.
         applicability:
           - tlp-clear
           - tlp-green
@@ -533,8 +542,27 @@ controls:
         text: |
           When an entity attempts to view information on the service through
           an API endpoint, the authentication process MUST require a
-          credential such as an API key or token AND originate from within
-          the trust perimeter.
+          credential such as an API key or token.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Core.CN03.AR05
+        text: |
+          When an entity attempts to modify the service through an API
+          endpoint, the request MUST originate from within the trust
+          perimeter.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Core.CN03.AR06
+        text: |
+          When an entity attempts to view information on the service through
+          an API endpoint, the request MUST originate from within the trust
+          perimeter.
         applicability:
           - tlp-amber
           - tlp-red
