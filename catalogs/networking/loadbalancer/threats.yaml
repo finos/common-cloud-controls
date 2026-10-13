@@ -52,7 +52,7 @@ threats:
     group: Resource
     title: Unrestricted Request Traffic Overwhelms Downstream Services
     description: |
-      Absence of filtering or rate limiting permits malicious traffic to
+      Absence of filtering or rate limiting permits traffic to
       overload downstream services and facilitates brute-force activity.
     capabilities:
       - reference-id: CCC
@@ -62,15 +62,9 @@ threats:
             remarks: Transaction Rate Limits
       - reference-id: LB
         entries:
-          - reference-id: CCC.LB.CP04
-            strength: 0 # Not yet specified
-            remarks: Layer 4 Routing
-          - reference-id: CCC.LB.CP07
-            strength: 0 # Not yet specified
-            remarks: WebSocket Support
           - reference-id: CCC.LB.CP23
             strength: 0 # Not yet specified
-            remarks: Firewall Integration
+            remarks: Web Application Firewall Integration
 
   - id: CCC.LB.TH03
     group: Networking
@@ -122,7 +116,7 @@ threats:
 
   - id: CCC.LB.TH06
     group: Data
-    title: Sensitive Metadata Exposure via HTTP Headers
+    title: Sensitive Metadata Is Exposed via HTTP Headers
     description: |
       Response headers may reveal software versions, internal IPs, or other
       metadata useful for reconnaissance.
@@ -254,7 +248,7 @@ threats:
             remarks: WebSocket Support
           - reference-id: CCC.LB.CP23
             strength: 0 # Not yet specified
-            remarks: Firewall Integration
+            remarks: Web Application Firewall Integration
 
   - id: CCC.LB.TH13
     group: Access
