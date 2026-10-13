@@ -38,19 +38,19 @@ threats:
         entries:
           - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
-            remarks: Metric collection
+            remarks: Custom Metric Ingestion
           - reference-id: CCC.Monitor.CP02
             strength: 0 # Not yet specified
-            remarks: Tracing
+            remarks: Distributed Tracing
           - reference-id: CCC.Monitor.CP08
             strength: 0 # Not yet specified
-            remarks: Application Performance Monitoring (APM)
+            remarks: Application Performance Monitoring
           - reference-id: CCC.Monitor.CP09
             strength: 0 # Not yet specified
-            remarks: Dashboard
+            remarks: Dashboards
           - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
-            remarks: Integration with Third-Party Tools
+            remarks: Integration with External Tools
   - id: CCC.Monitor.TH02
     group: Observability
     title: Health Checks Used to Identify Attack Targets
@@ -61,9 +61,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Monitor.CP04
+          - reference-id: CCC.Monitor.CP07
             strength: 0 # Not yet specified
-            remarks: Health Checks
+            remarks: Uptime Monitoring
   - id: CCC.Monitor.TH03
     group: Resource
     title: External Monitoring DoS
@@ -103,10 +103,10 @@ threats:
         entries:
           - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
-            remarks: Metric collection
+            remarks: Custom Metric Ingestion
           - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
-            remarks: Integration with Third-Party Tools
+            remarks: Integration with External Tools
   - id: CCC.Monitor.TH06
     group: Resource
     title: Cost Exhaustion Through Tampered Alerts or Metrics Collection
@@ -120,10 +120,10 @@ threats:
         entries:
           - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
-            remarks: Metric collection
+            remarks: Custom Metric Ingestion
           - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
-            remarks: Integration with Third-Party Tools
+            remarks: Integration with External Tools
   - id: CCC.Monitor.TH07
     group: Compute
     title: Trigger Malicious Code
@@ -136,10 +136,10 @@ threats:
         entries:
           - reference-id: CCC.Monitor.CP01
             strength: 0 # Not yet specified
-            remarks: Metric collection
+            remarks: Custom Metric Ingestion
           - reference-id: CCC.Monitor.CP10
             strength: 0 # Not yet specified
-            remarks: Triggering
+            remarks: Alert-Triggered Actions
           - reference-id: CCC.Monitor.CP11
             strength: 0 # Not yet specified
-            remarks: Integration with Third-Party Tools
+            remarks: Integration with External Tools
