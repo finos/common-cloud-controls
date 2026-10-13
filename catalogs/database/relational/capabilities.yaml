@@ -125,3 +125,19 @@ capabilities:
     description: |
       Standby database can be implemented for failover when the
       primary can't be reached.
+
+  - id: CCC.RDMS.CP17
+    group: Access
+    title: Cloud Identity Authentication
+    description: |
+      The service may be configured to authenticate database users with
+      short-lived tokens issued to the cloud provider's identity principals,
+      so that no long-lived database password needs to be stored or rotated.
+
+  - id: CCC.RDMS.CP18
+    group: Compute
+    title: Automated Engine Patching
+    description: |
+      The service automatically applies database engine security patches and
+      minor version upgrades during a maintenance window, or may be configured
+      to do so, to limit exposure to known engine vulnerabilities.
