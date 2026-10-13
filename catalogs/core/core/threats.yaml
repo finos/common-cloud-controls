@@ -61,7 +61,7 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP21
-            remarks: Replication
+            remarks: Resource Replication
   - title: Interference with Replication Processes
     id: CCC.Core.TH05
     group: Data
@@ -78,7 +78,7 @@ threats:
           - reference-id: CCC.Core.CP12
             remarks: Recovery
           - reference-id: CCC.Core.CP21
-            remarks: Replication
+            remarks: Resource Replication
   - title: Data is Lost or Corrupted
     id: CCC.Core.TH06
     group: Data
@@ -93,7 +93,7 @@ threats:
           - reference-id: CCC.Core.CP11
             remarks: Backup
           - reference-id: CCC.Core.CP18
-            remarks: Versioning
+            remarks: Resource Versioning
   - title: Logs are Tampered With or Deleted
     id: CCC.Core.TH07
     group: Observability
@@ -109,7 +109,7 @@ threats:
           - reference-id: CCC.Core.CP03
             remarks: Access Log Publication
           - reference-id: CCC.Core.CP10
-            remarks: Logging
+            remarks: Log Publication
   - title: Runtime Metrics are Manipulated
     id: CCC.Core.TH08
     group: Observability
@@ -207,7 +207,7 @@ threats:
           - reference-id: CCC.Core.CP16
             remarks: Budgeting
           - reference-id: CCC.Core.CP19
-            remarks: Auto-scaling
+            remarks: Child Resource Scaling
   - title: Resource Tags are Manipulated
     id: CCC.Core.TH13
     group: Resource
@@ -221,7 +221,7 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP20
-            remarks: Tagging
+            remarks: Resource Tagging
   - title: Older Resource Versions are Used
     id: CCC.Core.TH14
     group: Resource
@@ -235,7 +235,7 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP18
-            remarks: Versioning
+            remarks: Resource Versioning
   - title: Automated Enumeration and Reconnaissance by Non-human Entities
     id: CCC.Core.TH15
     group: Access
@@ -263,7 +263,7 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP10
-            remarks: Logging
+            remarks: Log Publication
           - reference-id: CCC.Core.CP09
             remarks: Metrics Publication
   - title: Encryption Key is Misused
