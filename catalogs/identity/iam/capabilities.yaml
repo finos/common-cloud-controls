@@ -3,12 +3,8 @@ imports:
     entries:
       - reference-id: CCC.Core.CP01
         remarks: Encryption in Transit Enabled by Default
-      - reference-id: CCC.Core.CP02
-        remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.CP04
-        remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP06
         remarks: Access Control
       - reference-id: CCC.Core.CP07
@@ -61,7 +57,7 @@ capabilities:
       that permissions assigned to the group apply to every member.
   - id: CCC.IAM.CP06
     group: Access
-    title: IAM Roles / Service Principals
+    title: IAM Roles and Service Principals
     description: |
       The service can create, list, modify and delete roles or service
       principals, which are identities that applications and services use to
@@ -114,14 +110,14 @@ capabilities:
       expire automatically after a defined duration.
   - id: CCC.IAM.CP14
     group: Access
-    title: Multi-Factor Authentication (MFA)
+    title: Multi-Factor Authentication
     description: |
       The service may be configured to require a second authentication factor
       when a user signs in, and can require that MFA was used as a condition on
       sensitive actions.
   - id: CCC.IAM.CP15
     group: Access
-    title: Role Assumption / Delegation
+    title: Role Assumption and Delegation
     description: |
       The service can allow an authenticated principal to temporarily assume
       another role or impersonate a service identity, obtaining that identity's
@@ -132,8 +128,8 @@ capabilities:
     description: |
       The service may be configured with a boundary that caps the maximum
       effective permissions an identity can hold, regardless of the permissions
-      granted to it. Not every provider offers this; where it is absent,
-      delegated permission grants have no upper bound.
+      granted to it. On providers without this feature, delegated permission
+      grants have no upper bound.
   - id: CCC.IAM.CP17
     group: Access
     title: Deny Permissions by Default
@@ -153,5 +149,5 @@ capabilities:
     description: |
       The service may be configured to set a maximum lifetime on a long-term
       credential so that it stops working automatically once that lifetime is
-      reached. Not every provider offers this for every credential type; where
-      it is absent, a credential remains valid until it is rotated or deleted.
+      reached. On providers without this feature for a credential type, the
+      credential remains valid until it is rotated or deleted.

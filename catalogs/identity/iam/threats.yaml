@@ -75,7 +75,7 @@ threats:
             remarks: IAM Groups
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
-            remarks: IAM Roles / Service Principals
+            remarks: IAM Roles and Service Principals
           - reference-id: CCC.IAM.CP07
             strength: 0 # Not yet specified
             remarks: Managed Identities
@@ -99,13 +99,13 @@ threats:
         entries:
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
-            remarks: IAM Roles / Service Principals
+            remarks: IAM Roles and Service Principals
           - reference-id: CCC.IAM.CP12
             strength: 0 # Not yet specified
             remarks: Policy Conditions
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
-            remarks: Role Assumption / Delegation
+            remarks: Role Assumption and Delegation
 
   - id: CCC.IAM.TH04
     group: Access
@@ -147,13 +147,13 @@ threats:
         entries:
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
-            remarks: IAM Roles / Service Principals
+            remarks: IAM Roles and Service Principals
           - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
-            remarks: Role Assumption / Delegation
+            remarks: Role Assumption and Delegation
 
   - id: CCC.IAM.TH06
     group: Access
@@ -169,7 +169,7 @@ threats:
             remarks: IAM Users
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
-            remarks: IAM Roles / Service Principals
+            remarks: IAM Roles and Service Principals
           - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
@@ -206,10 +206,10 @@ threats:
             remarks: IAM Users
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
-            remarks: IAM Roles / Service Principals
+            remarks: IAM Roles and Service Principals
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
-            remarks: Role Assumption / Delegation
+            remarks: Role Assumption and Delegation
 
   - id: CCC.IAM.TH09
     group: Access
@@ -267,7 +267,7 @@ threats:
             remarks: Password Management
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
-            remarks: IAM Roles / Service Principals
+            remarks: IAM Roles and Service Principals
 
   - id: CCC.IAM.TH12
     group: Access
@@ -281,10 +281,10 @@ threats:
         entries:
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
-            remarks: IAM Roles / Service Principals
+            remarks: IAM Roles and Service Principals
           - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
-            remarks: Role Assumption / Delegation
+            remarks: Role Assumption and Delegation
