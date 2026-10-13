@@ -758,3 +758,71 @@ controls:
           - reference-id: SEF-05
             remarks: Incident Response Metrics (establish and monitor metrics)
             strength: 3
+  - id: CCC.Core.CN15
+    group: Resource
+    title: Enforce Transaction Rate Limits
+    objective: |
+      Ensure that excess requests are throttled or rejected so that a single
+      client cannot exhaust the capacity available to other users of the
+      service or its child resources.
+    assessment-requirements:
+      - id: CCC.Core.CN15.AR01
+        text: |
+          When a client exceeds the configured request rate limit for the
+          service or a child resource, the service MUST throttle or reject
+          the excess requests.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure rate limits or quotas at the service boundary for every
+          exposed interface. Set the limit from observed legitimate peak
+          usage with headroom, and prefer throttling over rejection where
+          the protocol supports it.
+      - id: CCC.Core.CN15.AR02
+        text: |
+          When requests are throttled or rejected for exceeding a rate
+          limit, the service MUST log the client identity, time, and limit
+          that was exceeded.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Route throttling records to the same monitored log destination as
+          access logs so that sustained rate-limit hits can be alerted on
+          and reviewed for abuse patterns.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH12
+  - id: CCC.Core.CN16
+    group: Observability
+    title: Alert on Changes to Protective Configuration
+    objective: |
+      Ensure that disabling or weakening a protective feature of the service
+      or a child resource is published to a monitored channel so that it
+      cannot occur unobserved.
+    assessment-requirements:
+      - id: CCC.Core.CN16.AR01
+        text: |
+          When a configuration change disables or weakens a protective
+          feature of the service or a child resource, the service MUST
+          publish an event to a monitored channel which includes the client
+          identity, time, and nature of the change.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Treat changes to logging, backup, encryption, deletion protection,
+          public access restriction, and network access rules as protective
+          configuration. Subscribe the security team's alerting channel to
+          the provider's configuration-change event stream and filter for
+          these settings.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH07
+          - reference-id: CCC.Core.TH16
