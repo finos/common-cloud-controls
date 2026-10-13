@@ -3,19 +3,13 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
         remarks: Data is Intercepted in Transit
       - reference-id: CCC.Core.TH03
         strength: 0 # Not yet specified
         remarks: Deployment Region Network is Untrusted
-      - reference-id: CCC.Core.TH04
-        strength: 0 # Not yet specified
-        remarks: Data is Replicated to Untrusted or External Locations
-      - reference-id: CCC.Core.TH05
-        strength: 0 # Not yet specified
-        remarks: Data is Corrupted During Replication
       - reference-id: CCC.Core.TH06
         strength: 0 # Not yet specified
         remarks: Data is Lost or Corrupted
@@ -24,41 +18,42 @@ imports:
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH10
         strength: 0 # Not yet specified
-        remarks: Alerts are Intercepted
+        remarks: State-change Events are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
-        remarks: Event Notifications are Incorrectly Triggered
+        remarks: Publications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
         strength: 0 # Not yet specified
         remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH13
         strength: 0 # Not yet specified
         remarks: Resource Tags are Manipulated
-      - reference-id: CCC.Core.TH14
-        strength: 0 # Not yet specified
-        remarks: Older Resource Versions are Exploited
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
-        remarks: Automated Enumeration and Reconnaissance by Non-Human Entities
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
       - reference-id: CCC.Core.TH16
         strength: 0 # Not yet specified
-        remarks: Logging and Monitoring are Disabled
+        remarks: Publications are Disabled
       - reference-id: CCC.Core.TH17
         strength: 0 # Not yet specified
-        remarks: Unauthorized Network Access via Misconfigured Rules
+        remarks: Responses are Generated for Unauthorized Requests
+      - reference-id: CCC.Core.TH18
+        strength: 0 # Not yet specified
+        remarks: Encryption Key is Misused
 
 threats:
   - id: CCC.Logging.TH01
     group: Observability
     title: Log Ingestion Performance Degradation
     description: |
-      The logging service's ingestion pipeline experiences performance
-      degradation due to overwhelming log volumes, network bottlenecks, or
-      inefficient processing, leading to delayed availability of log data for
-      analysis and potential log loss if buffers overflow.
+      Log volume bursts, ingestion quota throttling, network bottlenecks, or
+      slow transformation rules may delay the ingestion pipeline or overflow
+      agent and sink buffers. Log entries arrive late or are dropped, so
+      detections fire after the fact and the audit trail has gaps, reducing the
+      availability and integrity of log data.
     capabilities:
       - reference-id: CCC.Logging
         entries:
@@ -75,10 +70,12 @@ threats:
     group: Data
     title: Unauthorized Data Transfer Out of a Trusted Boundary
     description: |
-      Sensitive log data, including PII, financial transaction details,
-      or system vulnerabilities, is exfiltrated directly from the
-      logging service's query or API interfaces by authorized but malicious
-      insiders or compromised accounts exploiting legitimate access.
+      Sensitive log data, including PII, financial transaction details, or
+      system vulnerabilities, may be exfiltrated through the query or API
+      interfaces by a compromised or over-privileged account, or routed out by
+      a sink configured to deliver logs to a destination outside the trusted
+      boundary. Log data leaves the organisation's control, compromising its
+      confidentiality.
     capabilities:
       - reference-id: CCC
         entries:
@@ -91,6 +88,14 @@ threats:
           - reference-id: CCC.Core.CP22
             strength: 0 # Not yet specified
             remarks: Location Lock-In
+      - reference-id: CCC.Logging
+        entries:
+          - reference-id: CCC.Logging.CP09
+            strength: 0 # Not yet specified
+            remarks: Internal Sink
+          - reference-id: CCC.Logging.CP10
+            strength: 0 # Not yet specified
+            remarks: External Sink
   - id: CCC.Logging.TH03
     group: Observability
     title: Log Schema or Format Drift
@@ -111,9 +116,12 @@ threats:
           - reference-id: CCC.Logging.CP11
             strength: 0 # Not yet specified
             remarks: Log-based Metrics
+          - reference-id: CCC.Logging.CP13
+            strength: 0 # Not yet specified
+            remarks: Field Indexing
   - id: CCC.Logging.TH04
     group: Observability
-    title: Inadequate Log Anonymization/Masking
+    title: Sensitive Data is Logged Without Masking
     description: |
       Sensitive data (e.g., PII, secrets, authentication tokens) is ingested
       into logs without proper anonymization, masking, or redaction at source
@@ -125,11 +133,9 @@ threats:
           - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
             remarks: Log Filtering and Transformation
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.CP34
+          - reference-id: CCC.Logging.CP14
             strength: 0 # Not yet specified
-            remarks: Data Lifecycle Policy
+            remarks: Sensitive Data Masking
   - id: CCC.Logging.TH05
     group: Observability
     title: Log Retention Policy Evasion or Misconfiguration
@@ -174,8 +180,12 @@ threats:
     group: Observability
     title: Insufficient Logging
     description: |
-      If security-critical actions are not logged, it becomes more difficult to
-      detect threats and conduct post-incident analysis.
+      Security-critical actions may not be logged because log capture is not
+      enabled for a source, verbosity is set too low, or a filter or
+      transformation rule discards the relevant entries at ingestion. The
+      events are absent from the log store, so threats go undetected and
+      post-incident analysis lacks evidence, reducing the integrity and
+      availability of the audit trail.
     capabilities:
       - reference-id: CCC
         entries:
@@ -190,3 +200,6 @@ threats:
           - reference-id: CCC.Logging.CP02
             strength: 0 # Not yet specified
             remarks: Application Log Ingestion
+          - reference-id: CCC.Logging.CP06
+            strength: 0 # Not yet specified
+            remarks: Log Filtering and Transformation
