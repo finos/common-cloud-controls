@@ -22,9 +22,6 @@ imports:
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
         remarks: Publications are Incorrectly Triggered
-      - reference-id: CCC.Core.TH12
-        strength: 0 # Not yet specified
-        remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
@@ -34,9 +31,6 @@ imports:
       - reference-id: CCC.Core.TH17
         strength: 0 # Not yet specified
         remarks: Responses are Generated for Unauthorized Requests
-      - reference-id: CCC.Core.TH18
-        strength: 0 # Not yet specified
-        remarks: Encryption Key is Misused
       - reference-id: CCC.Core.TH19
         strength: 0 # Not yet specified
         remarks: Metrics are Read by Unauthorized Entities
@@ -167,7 +161,7 @@ threats:
       that charge per request. A misconfigured or compromised workload can publish
       high-cardinality metrics or fire alerts at high frequency, and the resulting
       charges accrue before the pattern is detected. This impacts the availability
-      of budget for the service and the systems it monitors.
+      of the monitoring budget and of systems whose scaling depends on it.
     capabilities:
       - reference-id: CCC
         entries:
@@ -207,7 +201,7 @@ threats:
             remarks: Integration with External Tools
   - id: CCC.Monitor.TH08
     group: Observability
-    title: Alerts are Suppressed to Conceal Activity
+    title: Alerts are Suppressed Without Expiry or Authorization
     description: |
       Alert suppression, snooze, or action-disable settings may be applied by a
       user with write access to alerting configuration while telemetry continues
