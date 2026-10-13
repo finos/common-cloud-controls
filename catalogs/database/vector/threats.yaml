@@ -16,9 +16,6 @@ imports:
       - reference-id: CCC.Core.TH05
         strength: 0 # Not yet specified
         remarks: Interference with Replication Processes
-      - reference-id: CCC.Core.TH06
-        strength: 0 # Not yet specified
-        remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
@@ -91,7 +88,7 @@ threats:
             remarks: Passive Ingestion
   - id: CCC.Vector.TH03
     group: Access
-    title: Query Results Include Records the Requester is not Authorized to Read
+    title: Query Results Include Records the Requester is Not Authorized to Read
     description: |
       Document-level access controls may be enforced on one query path but not
       applied to vector similarity, hybrid, or metadata-filtered queries, or
@@ -132,11 +129,11 @@ threats:
     title: Malformed Vectors Cause Failures or Incorrect Results
     description: |
       Vectors submitted with unexpected dimensionality, numeric type, or
-      degenerate values such as NaN, infinity, zero magnitude, or extreme
-      magnitude may be accepted when validation is incomplete. Indexing or
-      query components fail, or similarity scores are distorted for every
-      query that encounters the vector. Availability of the service and
-      integrity of results are impacted.
+      degenerate values such as NaN, infinity, zero magnitude under cosine
+      similarity, or extreme magnitude may be accepted when validation is
+      incomplete. Indexing or query components fail, or similarity scores are
+      distorted for every query that encounters the vector. Availability of
+      the service and integrity of results are impacted.
     capabilities:
       - reference-id: CCC
         entries:

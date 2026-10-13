@@ -52,12 +52,6 @@ mappings:
   targets:
   - entry-id: AIR-OP-014
     remarks: Inadequate System Alignment
-- id: CCC.Vector.TH07-finos-aigf
-  source: CCC.Vector.TH07
-  relationship: relates-to
-  targets:
-  - entry-id: AIR-RC-001
-    remarks: Information Leaked To Hosted Model
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.
