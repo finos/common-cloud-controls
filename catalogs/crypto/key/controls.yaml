@@ -163,3 +163,165 @@ controls:
           - reference-id: SC-28
             strength: 0 # Not yet specified
             remarks: Protection of Information at Rest
+
+  - id: CCC.KeyMgmt.CN05
+    group: Data
+    title: Enforce a Key Deletion Recovery Window
+    objective: |
+      Ensure that destroyed key material remains recoverable long enough to
+      detect and reverse an unintended deletion.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN05.AR01
+        text: |
+          When a key or key version is scheduled for destruction, the service
+          MUST retain the key material in a recoverable state for at least 7
+          days before it is destroyed.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set the pending-deletion or soft-delete window to 7 days or more and
+          enable purge protection where the provider offers it.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH01
+            strength: 0 # Not yet specified
+            remarks: >-
+              Key Versions are Deleted or Disabled Causing Denial of Service or
+              Data Loss
+          - reference-id: CCC.Core.TH06
+            strength: 0 # Not yet specified
+            remarks: Data is Lost or Corrupted
+
+  - id: CCC.KeyMgmt.CN06
+    group: Encryption
+    title: Restrict Key Algorithms to the Approved List
+    objective: |
+      Ensure that every key created in the service uses an algorithm and key
+      length permitted by organizational cryptographic policy.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN06.AR01
+        text: |
+          When a key is created, its algorithm and key length MUST be on the
+          organization's approved list.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enforce the list with creation-time policy conditions on key
+          specification where the provider supports them, and scan existing keys
+          for non-compliant specifications.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH05
+            strength: 0 # Not yet specified
+            remarks: Keys are Created With Algorithms Not Permitted by Policy
+
+  - id: CCC.KeyMgmt.CN07
+    group: Encryption
+    title: Require HSM Protection for Key Material
+    objective: |
+      Ensure that key material is generated and held only inside validated hardware security modules.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN07.AR01
+        text: |
+          When a key is created, the service MUST generate and store its key
+          material in a hardware security module validated to FIPS 140-2 Level 3
+          or FIPS 140-3 Level 3.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Select the HSM protection level or HSM-backed key type at creation and
+          deny creation of software-protected keys by policy.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH06
+            strength: 0 # Not yet specified
+            remarks: Key Material is Generated or Stored Outside a Hardware Security Module
+
+  - id: CCC.KeyMgmt.CN08
+    group: Access
+    title: Limit Sign and MAC Permissions
+    objective: |
+      Ensure that only authorised principals can produce signatures or message
+      authentication codes with a managed key.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN08.AR01
+        text: |
+          When a key policy or role grants the sign or MAC-generation operation,
+          the grant MUST name specific principals rather than a wildcard or an
+          entire account.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Audit key policies and role assignments for sign and MAC permissions
+          with automated tooling and report any deviations.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH07
+            strength: 0 # Not yet specified
+            remarks: Signing or MAC Key is Used to Authenticate Unauthorized Content
+
+  - id: CCC.KeyMgmt.CN09
+    group: Encryption
+    title: Bind Each Key to a Single Cryptographic Purpose
+    objective: |
+      Ensure that no key is exposed through more than one cryptographic protocol.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN09.AR01
+        text: |
+          When a key is created, its usage restriction MUST permit exactly one
+          purpose: encryption and decryption, signing and verification, or MAC
+          generation and verification.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set the key usage or purpose attribute at creation and deny creation
+          of keys whose permitted operations span more than one purpose.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH08
+            strength: 0 # Not yet specified
+            remarks: A Single Key is Used for Multiple Cryptographic Purposes
+
+  - id: CCC.KeyMgmt.CN10
+    group: Observability
+    title: Alert on External Key Store Failures
+    objective: |
+      Ensure that loss of connectivity to an external key manager is detected
+      before dependent workloads fail silently.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN10.AR01
+        text: |
+          When an external key store is configured, the service MUST publish an
+          event to a monitored channel when a request to the external key
+          manager fails.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Route external key store error metrics or audit log entries to an
+          incident-response channel.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH09
+            strength: 0 # Not yet specified
+            remarks: External Key Store is Unavailable or Compromised
