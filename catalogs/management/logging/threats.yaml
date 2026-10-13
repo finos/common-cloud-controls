@@ -96,29 +96,6 @@ threats:
           - reference-id: CCC.Logging.CP10
             strength: 0 # Not yet specified
             remarks: External Sink
-  - id: CCC.Logging.TH03
-    group: Observability
-    title: Log Schema or Format Drift
-    description: |
-      Changes in source application or cloud service log formats, schemas,
-      or underlying data structures lead to parsing failures, incomplete
-      log ingestion, or render existing queries and dashboards ineffective,
-      hindering comprehensive analysis.
-    capabilities:
-      - reference-id: CCC.Logging
-        entries:
-          - reference-id: CCC.Logging.CP05
-            strength: 0 # Not yet specified
-            remarks: Custom Log Format Support
-          - reference-id: CCC.Logging.CP06
-            strength: 0 # Not yet specified
-            remarks: Log Filtering and Transformation
-          - reference-id: CCC.Logging.CP11
-            strength: 0 # Not yet specified
-            remarks: Log-based Metrics
-          - reference-id: CCC.Logging.CP13
-            strength: 0 # Not yet specified
-            remarks: Field Indexing
   - id: CCC.Logging.TH04
     group: Observability
     title: Sensitive Data is Logged Without Masking
