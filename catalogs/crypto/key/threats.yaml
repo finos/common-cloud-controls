@@ -88,6 +88,9 @@ threats:
           - reference-id: CCC.KeyMgmt.CP17
             strength: 0 # Not yet specified
             remarks: Enable Key
+          - reference-id: CCC.Core.CP06
+            strength: 0 # Not yet specified
+            remarks: Access Control
 
   - id: CCC.KeyMgmt.TH03
     group: Encryption
@@ -119,3 +122,148 @@ threats:
           - reference-id: CCC.KeyMgmt.CP22
             strength: 0 # Not yet specified
             remarks: Key Import
+
+  - id: CCC.KeyMgmt.TH05
+    group: Encryption
+    title: Keys are Created With Algorithms Not Permitted by Policy
+    description: |
+      Key creation accepts any supported algorithm and key length, so a key may
+      be created with a curve or modulus that organizational policy or a
+      regulatory baseline does not permit, such as a non-NIST curve or a modulus
+      below the required size. Data or signatures protected by that key then
+      rely on weaker cryptography than intended. Confidentiality and integrity
+      of the protected data are reduced for the life of the ciphertext or
+      signature.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP01
+            strength: 0 # Not yet specified
+            remarks: AES-256
+          - reference-id: CCC.KeyMgmt.CP02
+            strength: 0 # Not yet specified
+            remarks: RSA-2048
+          - reference-id: CCC.KeyMgmt.CP03
+            strength: 0 # Not yet specified
+            remarks: RSA-3072
+          - reference-id: CCC.KeyMgmt.CP04
+            strength: 0 # Not yet specified
+            remarks: RSA-4096
+          - reference-id: CCC.KeyMgmt.CP05
+            strength: 0 # Not yet specified
+            remarks: EC-P256
+          - reference-id: CCC.KeyMgmt.CP06
+            strength: 0 # Not yet specified
+            remarks: EC-P256K
+          - reference-id: CCC.KeyMgmt.CP07
+            strength: 0 # Not yet specified
+            remarks: EC-P384
+          - reference-id: CCC.KeyMgmt.CP08
+            strength: 0 # Not yet specified
+            remarks: Key Creation
+
+  - id: CCC.KeyMgmt.TH06
+    group: Encryption
+    title: Key Material is Generated or Stored Outside a Hardware Security Module
+    description: |
+      Keys may be created with a software protection level, or imported from an
+      unverified source, instead of being generated and held in a validated
+      hardware security module. Key material then exists in a form that can be
+      extracted or copied by a compromised host or privileged operator.
+      Confidentiality of every item protected by the key is lost if the material
+      is exfiltrated.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP08
+            strength: 0 # Not yet specified
+            remarks: Key Creation
+          - reference-id: CCC.KeyMgmt.CP13
+            strength: 0 # Not yet specified
+            remarks: FIPS 140 Level 3 Hardware Security Modules
+          - reference-id: CCC.KeyMgmt.CP22
+            strength: 0 # Not yet specified
+            remarks: Key Import
+
+  - id: CCC.KeyMgmt.TH07
+    group: Encryption
+    title: Signing or MAC Key is Used to Authenticate Unauthorized Content
+    description: |
+      Permission to invoke sign or MAC operations may be granted more broadly
+      than intended, or a signing key may be reachable from a compromised
+      workload. Signatures or authentication codes are then produced over
+      content the key owner did not approve, and verifiers accept that content
+      as genuine. Integrity of the code, tokens, or messages that trust the key
+      is compromised, and the key owner cannot distinguish forged artifacts from
+      legitimate ones.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP11
+            strength: 0 # Not yet specified
+            remarks: Create Digital Signature
+          - reference-id: CCC.KeyMgmt.CP12
+            strength: 0 # Not yet specified
+            remarks: Verify Digital Signature
+          - reference-id: CCC.KeyMgmt.CP26
+            strength: 0 # Not yet specified
+            remarks: Message Authentication Code Generation and Verification
+          - reference-id: CCC.Core.CP06
+            strength: 0 # Not yet specified
+            remarks: Access Control
+
+  - id: CCC.KeyMgmt.TH08
+    group: Encryption
+    title: A Single Key is Used for Multiple Cryptographic Purposes
+    description: |
+      A key may be created without a usage restriction, or with a restriction
+      that permits both encryption and signing operations. The same key material
+      is then exposed through two different cryptographic protocols, enabling
+      cross-protocol attacks in which an oracle from one operation reveals
+      information about the other. Confidentiality of data encrypted with the
+      key and integrity of signatures produced with it are both weakened.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP25
+            strength: 0 # Not yet specified
+            remarks: Key Usage Restriction
+          - reference-id: CCC.KeyMgmt.CP02
+            strength: 0 # Not yet specified
+            remarks: RSA-2048
+          - reference-id: CCC.KeyMgmt.CP03
+            strength: 0 # Not yet specified
+            remarks: RSA-3072
+          - reference-id: CCC.KeyMgmt.CP04
+            strength: 0 # Not yet specified
+            remarks: RSA-4096
+          - reference-id: CCC.KeyMgmt.CP09
+            strength: 0 # Not yet specified
+            remarks: Encrypt Data
+          - reference-id: CCC.KeyMgmt.CP11
+            strength: 0 # Not yet specified
+            remarks: Create Digital Signature
+
+  - id: CCC.KeyMgmt.TH09
+    group: Encryption
+    title: External Key Store is Unavailable or Compromised
+    description: |
+      When keys are held in an external key manager, every encrypt and decrypt
+      request depends on a network path to, and the correct operation of,
+      infrastructure outside the provider. Loss of that path or of the external
+      system halts all operations with those keys, and compromise of the
+      external system exposes the key material or the plaintext data keys that
+      pass through it. Availability of every workload that depends on the keys
+      and confidentiality of the data they protect are affected.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.CP27
+            strength: 0 # Not yet specified
+            remarks: External Key Store
+          - reference-id: CCC.KeyMgmt.CP09
+            strength: 0 # Not yet specified
+            remarks: Encrypt Data
+          - reference-id: CCC.KeyMgmt.CP10
+            strength: 0 # Not yet specified
+            remarks: Decrypt Data

@@ -53,6 +53,40 @@ mappings:
   targets:
   - entry-id: T1600
     remarks: Weaken Encryption
+- id: CCC.KeyMgmt.TH05-mitre-attack
+  source: CCC.KeyMgmt.TH05
+  relationship: relates-to
+  targets:
+  - entry-id: T1600.001
+    remarks: Weaken Encryption - Reduce Key Space
+- id: CCC.KeyMgmt.TH06-mitre-attack
+  source: CCC.KeyMgmt.TH06
+  relationship: relates-to
+  targets:
+  - entry-id: T1552.004
+    remarks: Unsecured Credentials - Private Keys
+- id: CCC.KeyMgmt.TH07-mitre-attack
+  source: CCC.KeyMgmt.TH07
+  relationship: relates-to
+  targets:
+  - entry-id: T1553.002
+    remarks: Subvert Trust Controls - Code Signing
+  - entry-id: T1606
+    remarks: Forge Web Credentials
+- id: CCC.KeyMgmt.TH08-mitre-attack
+  source: CCC.KeyMgmt.TH08
+  relationship: relates-to
+  targets:
+  - entry-id: T1600
+    remarks: Weaken Encryption
+- id: CCC.KeyMgmt.TH09-mitre-attack
+  source: CCC.KeyMgmt.TH09
+  relationship: relates-to
+  targets:
+  - entry-id: T1489
+    remarks: Service Stop
+  - entry-id: T1552.004
+    remarks: Unsecured Credentials - Private Keys
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.
