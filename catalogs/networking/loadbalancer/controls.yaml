@@ -324,3 +324,108 @@ controls:
           - reference-id: CCC.LB.TH11
             strength: 0 # Not yet specified
             remarks: Routing Rules Direct Requests to Unintended Destinations
+
+  - id: CCC.LB.CN17
+    group: Encryption
+    title: Enforce Minimum TLS Policy
+    objective: |
+      Ensure that listeners negotiate only current TLS protocol versions and
+      approved cipher suites with clients.
+    assessment-requirements:
+      - id: CCC.LB.CN17.AR01
+        text: |
+          When a TLS or HTTPS listener is configured, its TLS policy MUST set the
+          minimum protocol version to TLS 1.2 or higher.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Select a provider-predefined TLS policy whose minimum version is TLS 1.2
+          or TLS 1.3 and remove listeners that use legacy policies.
+      - id: CCC.LB.CN17.AR02
+        text: |
+          When a TLS or HTTPS listener is configured, its TLS policy MUST permit
+          only cipher suites on the organization's approved list.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use a predefined policy limited to AEAD cipher suites with forward secrecy,
+          or define a custom policy from the approved list.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH02
+            strength: 0 # Not yet specified
+            remarks: Data is Intercepted in Transit
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH08
+            strength: 0 # Not yet specified
+            remarks: Weak TLS Policy Permits Protocol Downgrade
+
+  - id: CCC.LB.CN18
+    group: Encryption
+    title: Automate Listener Certificate Renewal
+    objective: |
+      Ensure that certificates attached to listeners are renewed before expiry
+      without manual intervention.
+    assessment-requirements:
+      - id: CCC.LB.CN18.AR01
+        text: |
+          When a certificate is attached to a TLS or HTTPS listener, it MUST be
+          issued by a certificate manager with automatic renewal enabled.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use the provider's managed certificate service or a certificate-manager
+          integration that renews and redeploys certificates automatically; avoid
+          uploading certificate files directly to the listener.
+      - id: CCC.LB.CN18.AR02
+        text: |
+          When a certificate attached to a listener is within 30 days of expiry,
+          the service MUST publish an alert to a monitored channel.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Create an alarm on the certificate days-to-expiry metric or on the
+          certificate manager's expiry events.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH07
+            strength: 0 # Not yet specified
+            remarks: TLS Certificates Are Expired or Invalid
+
+  - id: CCC.LB.CN19
+    group: Observability
+    title: Alert on Traffic Distribution Changes
+    objective: |
+      Ensure that changes to how traffic is distributed across targets are
+      published so that they cannot occur unobserved.
+    assessment-requirements:
+      - id: CCC.LB.CN19.AR01
+        text: |
+          When the distribution algorithm or the routing weights of a listener rule
+          are changed, the service MUST publish an event to a monitored channel
+          which includes the client identity, time, and new distribution settings.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Route the provider's configuration-change events for load balancer rules
+          and target weights to an alerting rule or ticketing integration.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH03
+            strength: 0 # Not yet specified
+            remarks: Traffic Distribution Is Manipulated
