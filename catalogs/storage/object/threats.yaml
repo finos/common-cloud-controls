@@ -43,8 +43,10 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.ObjStor.CP08
+          - reference-id: CCC.Core.CP34
+            remarks: Data Lifecycle Policy
           - reference-id: CCC.Core.CP11
+            remarks: Backup
 
   - id: CCC.ObjStor.TH02
     group: Access
@@ -77,7 +79,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.ObjStor.CP08
-            remarks: Lifecycle Policies
+          - reference-id: CCC.Core.CP34
+            remarks: Data Lifecycle Policy
           - reference-id: CCC.ObjStor.CP12
             remarks: Storage Classes

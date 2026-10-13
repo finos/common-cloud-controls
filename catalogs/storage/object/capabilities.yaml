@@ -37,6 +37,12 @@ imports:
         remarks: Active Ingestion
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
+      - reference-id: CCC.Core.CP32
+        remarks: Deletion Protection
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
+      - reference-id: CCC.Core.CP34
+        remarks: Data Lifecycle Policy
 
 capabilities:
   - id: CCC.ObjStor.CP01
@@ -84,19 +90,7 @@ capabilities:
     description: |
       Supports for deleting objects from the bucket given the object key.
 
-  - id: CCC.ObjStor.CP08
-    group: Resource
-    title: Lifecycle Policies
-    description: |
-      Supports defining policies to automate data management tasks, especially
-      those related to cost management.
 
-  - id: CCC.ObjStor.CP09
-    group: Data
-    title: Object Modification Locks
-    description: |
-      Allows locking of objects to disable modification and/or deletion of an
-      object for a defined period of time.
 
   - id: CCC.ObjStor.CP10
     group: Access
@@ -117,11 +111,3 @@ capabilities:
     description: |
       Provides different storage classes for frequently and infrequently
       accessed objects.
-
-  - id: CCC.ObjStor.CP13
-    group: Access
-    title: Public Access Block
-    description: |
-      Supports configuring a default block on all public access to buckets
-      and objects, preventing any policy or ACL from granting unauthenticated
-      or anonymous access.
