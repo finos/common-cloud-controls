@@ -29,6 +29,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.Core.CP01
+            remarks: Encryption in Transit Enabled by Default
           - reference-id: CCC.Core.CP08
             remarks: Data Replication
           - reference-id: CCC.Core.CP14
@@ -122,6 +124,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.Core.CP09
+            remarks: Metrics Publication
           - reference-id: CCC.Core.CP15
             remarks: Cost Management
   - title: Runtime Logs are Read by Unauthorized Entities
@@ -139,8 +143,8 @@ threats:
         entries:
           - reference-id: CCC.Core.CP03
             remarks: Access Log Publication
-          - reference-id: CCC.Core.CP09
-            remarks: Metrics Publication
+          - reference-id: CCC.Core.CP10
+            remarks: Log Publication
   - title: Metrics are Read by Unauthorized Entities
     id: CCC.Core.TH19
     group: Observability
@@ -164,12 +168,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.CP03
-            remarks: Access Log Publication
           - reference-id: CCC.Core.CP07
             remarks: Event Publication
-          - reference-id: CCC.Core.CP09
-            remarks: Metrics Publication
           - reference-id: CCC.Core.CP17
             remarks: Alerting
   - title: Publications are Incorrectly Triggered
@@ -262,10 +262,12 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.CP10
-            remarks: Log Publication
+          - reference-id: CCC.Core.CP07
+            remarks: Event Publication
           - reference-id: CCC.Core.CP09
             remarks: Metrics Publication
+          - reference-id: CCC.Core.CP10
+            remarks: Log Publication
   - title: Encryption Key is Misused
     id: CCC.Core.TH18
     group: Resource
@@ -294,5 +296,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.CP29
-            remarks: Active Ingestion
+          - reference-id: CCC.Core.CP14
+            remarks: API Access
+          - reference-id: CCC.Core.CP23
+            remarks: Network Access Rules
+          - reference-id: CCC.Core.CP30
+            remarks: Passive Ingestion
