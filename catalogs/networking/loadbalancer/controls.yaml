@@ -60,7 +60,7 @@ controls:
         entries:
           - reference-id: CCC.LB.TH04
             strength: 0 # Not yet specified
-            remarks: Session Persistence Exploited
+            remarks: Session Persistence Is Exploited
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -83,7 +83,8 @@ controls:
       - id: CCC.LB.CN07.AR01
         text: |
           When responses pass through the load balancer, the
-          "Server" header MUST be replaced with "lb".
+          "Server" header MUST be removed or replaced with a generic value
+          that does not identify the software or its version.
         applicability:
           - tlp-green
           - tlp-amber
@@ -94,7 +95,10 @@ controls:
         entries:
           - reference-id: CCC.Core.TH15
             strength: 0 # Not yet specified
-            remarks: Automated Enumeration and Reconnaissance by Non-human
+            remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+          - reference-id: CCC.LB.TH06
+            strength: 0 # Not yet specified
+            remarks: Sensitive Metadata Exposure via HTTP Headers
     guidelines:
       - reference-id: NIST-CSF
         entries:
