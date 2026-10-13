@@ -53,7 +53,7 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.TH03
+          - reference-id: CCC.IAM.TH04
             strength: 0 # Not yet specified
             remarks: Additional Cloud Credentials Creation
     guidelines:
@@ -145,7 +145,7 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.TH02
+          - reference-id: CCC.IAM.TH03
             strength: 0 # Not yet specified
             remarks: Overly-Permissive Identity Trust Policy
     guidelines:
@@ -286,7 +286,7 @@ controls:
     title: Automate Identity De-provisioning
     objective: |
       Ensure that when an identity is terminated in the central Identity Provider
-      (IdP), ts corresponding access to cloud resources is revoked automatically.
+      (IdP), its corresponding access to cloud resources is revoked automatically.
     assessment-requirements:
       - id: CCC.IAM.CN07.AR01
         text: |
@@ -319,7 +319,7 @@ controls:
     group: Access
     title: Maximum Age for Unused Credentials
     objective: |
-      Ensure that unused IAM credentals are removed to reduce exposure
+      Ensure that unused IAM credentials are removed to reduce exposure
       in the event of potential compromise.
     assessment-requirements:
       - id: CCC.IAM.CN08.AR01
@@ -394,7 +394,7 @@ controls:
       API requests are made by a single identity, such as API requests
       commonly associated with privilege escalation tactics, originating
       from an external or malicious IP address or performed by a previously
-      dormant identity, which may indicate that credentals may be compromised,
+      dormant identity, which may indicate that credentials may be compromised,
       as well as for password brute-force attempts and account lockouts.
     assessment-requirements:
       - id: CCC.IAM.CN10.AR01
@@ -456,7 +456,7 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.IAM.TH02
+          - reference-id: CCC.IAM.TH03
             strength: 0 # Not yet specified
             remarks: Overly-Permissive Identity Trust Policy
           - reference-id: CCC.IAM.TH10
