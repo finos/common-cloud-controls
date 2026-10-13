@@ -101,9 +101,9 @@ capabilities:
     group: Observability
     title: Target Health Checks
     description: |
-      The service can continuously perform health checks on backend targets by
-      checking the response to an HTTP request, a TCP connection, or another
-      application-specific parameter.
+      The service automatically performs continuous health checks on backend
+      targets by checking the response to an HTTP request, a TCP connection, or
+      another application-specific parameter.
   - id: CCC.LB.CP13
     group: Networking
     title: Health Checks-based Target Removal
@@ -133,7 +133,8 @@ capabilities:
     title: Custom Response
     description: |
       The service can return specific HTTP responses directly to the client under
-      defined conditions, without forwarding the request to a backend target.
+      defined conditions, including custom error responses, without forwarding
+      the request to a backend target.
   - id: CCC.LB.CP19
     group: Networking
     title: Request and Response Header Transformations
@@ -149,7 +150,7 @@ capabilities:
       canary, A/B, blue-green, or gradual traffic migration deployments.
   - id: CCC.LB.CP23
     group: Networking
-    title: Firewall Integration
+    title: Web Application Firewall Integration
     description: |
       The service can integrate with a web application firewall so that only
       legitimate traffic reaches backend servers, blocking malicious requests.
