@@ -23,8 +23,6 @@ imports:
         remarks: Recovery
       - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.CP18
-        remarks: Resource Versioning
       - reference-id: CCC.Core.CP19
         remarks: Child Resource Scaling
       - reference-id: CCC.Core.CP20
@@ -41,10 +39,16 @@ imports:
         remarks: Persistent Storage
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
       - reference-id: CCC.Core.CP31
         remarks: Elastic Scaling
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
+      - reference-id: CCC.Core.CP35
+        remarks: Customer-Managed Encryption Keys
 
 capabilities:
   - id: CCC.Vector.CP01
