@@ -580,3 +580,46 @@ controls:
           - reference-id: AC-2
             strength: 0 # Not yet specified
           - reference-id: AC-6
+  - id: CCC.IAM.CN13
+    group: Access
+    title: Enforce Multi-Factor Authentication for Human Identities
+    objective: |
+      Ensure that no human identity can authenticate to the cloud environment
+      with a single factor, so that a compromised password alone grants no access.
+    assessment-requirements:
+      - id: CCC.IAM.CN13.AR01
+        text: |
+          When a human identity signs in without presenting a second
+          authentication factor, the service MUST deny the sign-in.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN13.AR02
+        text: |
+          When a root, global administrator or break-glass account exists, it
+          MUST have a phishing-resistant MFA method enrolled.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.IAM.TH13
+            strength: 0 # Not yet specified
+            remarks: Multi-Factor Authentication is Not Enforced
+          - reference-id: CCC.Core.TH01
+            strength: 0 # Not yet specified
+            remarks: Access is Granted to Unauthorized Users
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.AA-03
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: IA-2
