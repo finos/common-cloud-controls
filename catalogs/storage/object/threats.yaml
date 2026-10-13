@@ -39,21 +39,6 @@ imports:
         remarks: Metrics are Read by Unauthorized Entities
 
 threats:
-  - id: CCC.ObjStor.TH01
-    group: Data
-    title: Data Exfiltration via Insecure Lifecycle Policies
-    description: |
-      Misconfigured lifecycle policies may unintentionally allow data to be
-      exfiltrated or destroyed prematurely, resulting in a loss of availability
-      and potential exposure of sensitive data.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.CP34
-            remarks: Data Lifecycle Policy
-          - reference-id: CCC.Core.CP11
-            remarks: Backup
-
   - id: CCC.ObjStor.TH02
     group: Access
     title: Pre-Signed URLs are Leaked or Over-Scoped
@@ -89,3 +74,201 @@ threats:
             remarks: Data Lifecycle Policy
           - reference-id: CCC.ObjStor.CP12
             remarks: Storage Classes
+
+  - id: CCC.ObjStor.TH04
+    group: Encryption
+    title: Objects are Encrypted with Keys Outside Organizational Control
+    description: |
+      An identity with write access may store or re-encrypt objects using a
+      customer-provided key that the service does not retain, or a key held in a
+      key management service outside the organization's control. The service
+      then holds ciphertext it cannot decrypt on the organization's behalf, so
+      the plaintext is available only to the holder of the foreign key. This
+      results in a loss of availability of the affected data and, where the key
+      holder is external, a loss of confidentiality.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP05
+            remarks: Store New Objects
+          - reference-id: CCC.ObjStor.CP06
+            remarks: Replace Stored Objects
+          - reference-id: CCC.ObjStor.CP14
+            remarks: Customer-Provided Encryption Keys
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP35
+            remarks: Customer-Managed Encryption Keys
+
+  - id: CCC.ObjStor.TH05
+    group: Data
+    title: Deleted or Overwritten Object Versions Remain Readable
+    description: |
+      When versioning is enabled, deleting an object records a delete marker
+      and replacing an object creates a new version, while every prior version
+      remains stored. Data that users consider removed is still retrievable by
+      any identity permitted to read object versions, and continues to incur
+      storage cost. This results in a loss of confidentiality for data that was
+      expected to be purged.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP06
+            remarks: Replace Stored Objects
+          - reference-id: CCC.ObjStor.CP07
+            remarks: Delete Stored Objects
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP18
+            remarks: Resource Versioning
+
+  - id: CCC.ObjStor.TH06
+    group: Access
+    title: Object-Level Permissions Diverge from Bucket Policy
+    description: |
+      When object-level permissions are enabled on a bucket, a permission may be
+      attached to an individual object at upload or afterwards that grants access
+      beyond what the bucket-level policy allows. The object becomes readable or
+      writable by entities the bucket policy does not name, and a review of the
+      bucket policy does not reveal the grant. This results in a loss of
+      confidentiality or integrity of the affected objects.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP05
+            remarks: Store New Objects
+          - reference-id: CCC.ObjStor.CP10
+            remarks: Object Level Access Control
+          - reference-id: CCC.ObjStor.CP16
+            remarks: Uniform Bucket-Level Access
+
+  - id: CCC.ObjStor.TH07
+    group: Access
+    title: Cross-Origin Requests are Permitted from Untrusted Origins
+    description: |
+      A bucket's cross-origin resource sharing policy may be configured with a
+      wildcard or overly broad list of allowed origins, methods, or headers.
+      Scripts served from an untrusted web origin can then read or write
+      objects from within an authenticated user's browser session. This results
+      in a loss of confidentiality or integrity of objects in the bucket.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP15
+            remarks: Cross-Origin Resource Sharing
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP14
+            remarks: API Access
+
+  - id: CCC.ObjStor.TH08
+    group: Data
+    title: Object Immutability is Bypassed or Expires Prematurely
+    description: |
+      An immutability lock may be applied in a mode that privileged identities
+      can shorten or remove, with a retention period shorter than the record
+      requires, or not applied to objects that require it. Objects intended to
+      be write-once can then be overwritten or deleted. This results in a loss
+      of integrity and availability of records that depend on the lock.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP06
+            remarks: Replace Stored Objects
+          - reference-id: CCC.ObjStor.CP07
+            remarks: Delete Stored Objects
+          - reference-id: CCC.ObjStor.CP17
+            remarks: Object Immutability
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP32
+            remarks: Deletion Protection
+
+  - id: CCC.ObjStor.TH09
+    group: Data
+    title: Irrevocable Retention Prevents Required Deletion
+    description: |
+      An irrevocable immutability lock may be applied with an excessive
+      retention period, or to a bucket holding data that is subject to deletion
+      obligations. Neither users nor lifecycle rules can remove the objects
+      until the period expires, and storage cost accrues for the full period.
+      This results in retention of data that should no longer exist, impacting
+      confidentiality and regulatory compliance.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP07
+            remarks: Delete Stored Objects
+          - reference-id: CCC.ObjStor.CP17
+            remarks: Object Immutability
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP34
+            remarks: Data Lifecycle Policy
+
+  - id: CCC.ObjStor.TH10
+    group: Access
+    title: Deleted Bucket Names are Reclaimed by Other Tenants
+    description: |
+      Bucket names are unique across all tenants of the provider, so when a
+      bucket is deleted its name may be registered by any other tenant.
+      Configuration, code, replication rules, or links that still reference the
+      name then resolve to a bucket under another tenant's control, and data is
+      written to or read from it. This results in a loss of confidentiality,
+      integrity, and availability of the data routed through the reclaimed name.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP01
+            remarks: Storage Buckets
+          - reference-id: CCC.ObjStor.CP07
+            remarks: Delete Stored Objects
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
+
+  - id: CCC.ObjStor.TH11
+    group: Access
+    title: Object Keys and Listing Metadata Expose Sensitive Information
+    description: |
+      Sensitive values may be placed in object keys, user-defined metadata, or
+      tags. These values are returned by bucket listing operations and recorded
+      in access logs and request URLs, which are governed by weaker access
+      controls than the object content. This results in a loss of
+      confidentiality without any object being read.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP02
+            remarks: Storage Objects
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP03
+            remarks: Access Log Publication
+          - reference-id: CCC.Core.CP20
+            remarks: Resource Tagging
+
+  - id: CCC.ObjStor.TH12
+    group: Ingestion
+    title: Untrusted Content is Written to Buckets
+    description: |
+      Write access may be granted to external systems or through signed URLs
+      without constraints on object content, type, or size. Objects of
+      arbitrary content are stored and later consumed by downstream processes,
+      and unbounded volume is billed to the bucket owner. This results in a
+      loss of integrity for systems that trust the bucket's contents and a loss
+      of availability through cost exhaustion.
+    capabilities:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.CP05
+            remarks: Store New Objects
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP05
+            remarks: Signed URLs
+          - reference-id: CCC.Core.CP16
+            remarks: Budgeting
+          - reference-id: CCC.Core.CP30
+            remarks: Passive Ingestion

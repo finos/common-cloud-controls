@@ -168,11 +168,6 @@ controls:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
-      - reference-id: CCC.ObjStor
-        entries:
-          - reference-id: CCC.ObjStor.TH01
-            remarks: Data Exfiltration via Insecure Lifecycle Policies
-            strength: 10 # mmmm... lifecycle policies
     guidelines:
       - reference-id: CCM
         entries:

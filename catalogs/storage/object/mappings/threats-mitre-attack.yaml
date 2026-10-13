@@ -25,15 +25,54 @@ target-reference:
   reference-id: MITRE-ATT&CK
   entry-type: Vector
 mappings:
-- id: CCC.ObjStor.TH01-mitre-attack
-  source: CCC.ObjStor.TH01
+- id: CCC.ObjStor.TH04-mitre-attack
+  source: CCC.ObjStor.TH04
   relationship: relates-to
   targets:
-  - entry-id: T1020
-  - entry-id: T1537
-  - entry-id: T1567
-  - entry-id: T1048
+  - entry-id: T1486
+    remarks: Data Encrypted for Impact
+- id: CCC.ObjStor.TH05-mitre-attack
+  source: CCC.ObjStor.TH05
+  relationship: relates-to
+  targets:
+  - entry-id: T1530
+    remarks: Data from Cloud Storage
+- id: CCC.ObjStor.TH06-mitre-attack
+  source: CCC.ObjStor.TH06
+  relationship: relates-to
+  targets:
+  - entry-id: T1222
+    remarks: File and Directory Permissions Modification
+  - entry-id: T1530
+    remarks: Data from Cloud Storage
+- id: CCC.ObjStor.TH08-mitre-attack
+  source: CCC.ObjStor.TH08
+  relationship: relates-to
+  targets:
   - entry-id: T1485
+    remarks: Data Destruction
+  - entry-id: T1565.001
+    remarks: Stored Data Manipulation
+- id: CCC.ObjStor.TH10-mitre-attack
+  source: CCC.ObjStor.TH10
+  relationship: relates-to
+  targets:
+  - entry-id: T1584
+    remarks: Compromise Infrastructure
+  - entry-id: T1565.001
+    remarks: Stored Data Manipulation
+- id: CCC.ObjStor.TH11-mitre-attack
+  source: CCC.ObjStor.TH11
+  relationship: relates-to
+  targets:
+  - entry-id: T1619
+    remarks: Cloud Storage Object Discovery
+- id: CCC.ObjStor.TH12-mitre-attack
+  source: CCC.ObjStor.TH12
+  relationship: relates-to
+  targets:
+  - entry-id: T1608.001
+    remarks: Stage Capabilities - Upload Malware
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.
