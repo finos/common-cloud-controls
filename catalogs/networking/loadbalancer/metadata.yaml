@@ -16,6 +16,9 @@ metadata:
     - provider: Azure
       service: Load Balancer
       url: https://learn.microsoft.com/azure/load-balancer/
+    - provider: Azure
+      service: Application Gateway
+      url: https://learn.microsoft.com/azure/application-gateway/
     - provider: GCP
       service: Cloud Load Balancing
       url: https://cloud.google.com/load-balancing/docs/
