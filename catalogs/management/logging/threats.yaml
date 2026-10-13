@@ -88,8 +88,6 @@ threats:
           - reference-id: CCC.Core.CP14
             strength: 0 # Not yet specified
             remarks: API Access
-      - reference-id: CCC.Logging
-        entries:
           - reference-id: CCC.Core.CP22
             strength: 0 # Not yet specified
             remarks: Location Lock-In
@@ -127,9 +125,11 @@ threats:
           - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
             remarks: Log Filtering & Transformation
-          - reference-id: CCC.Logging.CP08
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP34
             strength: 0 # Not yet specified
-            remarks: Retention Policies
+            remarks: Data Lifecycle Policy
   - id: CCC.Logging.TH05
     group: Observability
     title: Log Retention Policy Evasion or Misconfiguration
@@ -139,17 +139,14 @@ threats:
       tactics. This can lead to non-compliance with regulatory requirements
       or loss of critical forensic evidence.
     capabilities:
-      - reference-id: CCC.Logging
+      - reference-id: CCC
         entries:
-          - reference-id: CCC.Logging.CP07
+          - reference-id: CCC.Core.CP32
             strength: 0 # Not yet specified
-            remarks: Immutable Storage
-          - reference-id: CCC.Logging.CP08
+            remarks: Deletion Protection
+          - reference-id: CCC.Core.CP34
             strength: 0 # Not yet specified
-            remarks: Retention Policies
-          - reference-id: CCC.Logging.CP12
-            strength: 0 # Not yet specified
-            remarks: Log Archiving
+            remarks: Data Lifecycle Policy
   - id: CCC.Logging.TH06
     group: Ingestion
     title: Log Injection
@@ -160,11 +157,13 @@ threats:
       compromise systems that process or display these logs, including log viewers
       or downstream services.
     capabilities:
-      - reference-id: CCC.Logging
+      - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP10
             strength: 0 # Not yet specified
-            remarks: Logging
+            remarks: Log Publication
+      - reference-id: CCC.Logging
+        entries:
           - reference-id: CCC.Logging.CP01
             strength: 0 # Not yet specified
             remarks: Service Log Capture
@@ -178,11 +177,13 @@ threats:
       If security-critical actions are not logged, it becomes more difficult to
       detect threats and conduct post-incident analysis.
     capabilities:
-      - reference-id: CCC.Logging
+      - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP10
             strength: 0 # Not yet specified
-            remarks: Logging
+            remarks: Log Publication
+      - reference-id: CCC.Logging
+        entries:
           - reference-id: CCC.Logging.CP01
             strength: 0 # Not yet specified
             remarks: Service Log Capture
