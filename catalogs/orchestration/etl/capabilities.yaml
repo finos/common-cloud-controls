@@ -8,7 +8,7 @@ imports:
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
-        remarks: Access control
+        remarks: Access Control
       - reference-id: CCC.Core.CP07
         remarks: Event Publication
       - reference-id: CCC.Core.CP09

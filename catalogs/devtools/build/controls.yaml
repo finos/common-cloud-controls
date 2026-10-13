@@ -9,10 +9,10 @@ imports:
         remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
-        remarks: Log all access and changes
+        remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
-        remarks: Prevent access from untrusted entities
+        remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Ensure Integrity of Access Logs
