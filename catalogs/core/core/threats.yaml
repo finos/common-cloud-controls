@@ -20,6 +20,8 @@ threats:
             remarks: Network Access Rules
           - reference-id: CCC.Core.CP29
             remarks: Active Ingestion
+          - reference-id: CCC.Core.CP33
+            remarks: Public Access Restriction
   - title: Data is Intercepted in Transit
     id: CCC.Core.TH02
     group: Data
@@ -100,6 +102,12 @@ threats:
             remarks: Backup
           - reference-id: CCC.Core.CP18
             remarks: Resource Versioning
+          - reference-id: CCC.Core.CP32
+            remarks: Deletion Protection
+          - reference-id: CCC.Core.CP34
+            remarks: Data Lifecycle Policy
+          - reference-id: CCC.Core.CP35
+            remarks: Customer-Managed Encryption Keys
   - title: Logs are Tampered With or Deleted
     id: CCC.Core.TH07
     group: Observability
@@ -297,6 +305,8 @@ threats:
             remarks: Encryption in Transit Enabled by Default
           - reference-id: CCC.Core.CP02
             remarks: Encryption at Rest Enabled by Default
+          - reference-id: CCC.Core.CP35
+            remarks: Customer-Managed Encryption Keys
   - title: Responses are Generated for Unauthorized Requests
     id: CCC.Core.TH17
     group: Access
@@ -316,3 +326,5 @@ threats:
             remarks: Network Access Rules
           - reference-id: CCC.Core.CP30
             remarks: Passive Ingestion
+          - reference-id: CCC.Core.CP33
+            remarks: Public Access Restriction
