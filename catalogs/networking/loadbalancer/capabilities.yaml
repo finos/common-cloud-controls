@@ -88,18 +88,6 @@ capabilities:
     title: Dual-stack Load Balancing
     description: |
       Ability to support traffic originated from both IPv4 and IPv6.
-  - id: CCC.LB.CP09
-    group: Resource
-    title: Load Balancer Autoscaling
-    description: |
-      Ability for the load balancer to dynamically adjust its capacity
-      in response to fluctuations in incoming traffic.
-  - id: CCC.LB.CP10
-    group: Resource
-    title: Target Autoscaling
-    description: |
-      Ability for the load balancer to trigger scaling actions of the
-      backend instances (targets) to handle fluctuations in incoming traffic.
   - id: CCC.LB.CP11
     group: Encryption
     title: SSL/TLS Termination
@@ -122,13 +110,6 @@ capabilities:
       the load balancer will remove that unhealthy target from its list
       of available backend instances. This ensures that traffic is no longer
       routed to the unhealthy target.
-  - id: CCC.LB.CP14
-    group: Networking
-    title: Retries
-    description: |
-      Ability to retry delivery of failed requests to targets. The conditions
-      under which the load balancer retries, how long to wait before retrying,
-      and the maximum number of retries permitted are configurable.
   - id: CCC.LB.CP15
     group: Networking
     title: Session Affinity
@@ -165,19 +146,6 @@ capabilities:
       based on predefined weights or percentages (e.g., for canary
       deployments, A/B testing, blue-green deployments, or gradual
       traffic migrations).
-  - id: CCC.LB.CP21
-    group: Networking
-    title: Traffic Mirroring
-    description: |
-      Can duplicate incoming network traffic and send it to a secondary
-      destination for monitoring, analysis, or testing purposes.
-  - id: CCC.LB.CP22
-    group: Networking
-    title: Rate Limiting / Throttling
-    description: |
-      Ability to limit the number of requests per second per client. This
-      ensures that no single client or user overloads the backend servers,
-      distributing requests fairly across multiple instances.
   - id: CCC.LB.CP23
     group: Networking
     title: Firewall Integration

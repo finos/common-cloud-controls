@@ -39,11 +39,6 @@ threats:
           - reference-id: CCC.Core.CP04
             strength: 0 # Not yet specified
             remarks: Transaction Rate Limits
-      - reference-id: LB
-        entries:
-          - reference-id: CCC.LB.CP22
-            strength: 0 # Not yet specified
-            remarks: Rate Limiting / Throttling
 
   - id: CCC.LB.TH03
     group: Networking
