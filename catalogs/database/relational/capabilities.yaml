@@ -61,70 +61,80 @@ capabilities:
     group: Data
     title: SQL Support
     description: |
-      Properly handle queries in the SQL language.
+      The service always accepts and executes queries written in the SQL
+      language for data definition, manipulation, and retrieval.
 
   - id: CCC.RDMS.CP02
     group: Data
     title: DB Engine Option - MySQL
     description: |
-      Ability to create a MySQL managed relational database.
+      The service can provision a managed relational database running the
+      MySQL engine.
 
   - id: CCC.RDMS.CP03
     group: Data
     title: DB Engine Option - PostgreSQL
     description: |
-      Ability to create a PostgreSQL managed relational database.
+      The service can provision a managed relational database running the
+      PostgreSQL engine.
 
   - id: CCC.RDMS.CP05
     group: Data
     title: DB Engine Option - SQL Server
     description: |
-      Ability to create a Microsoft SQL Server managed relational database.
+      The service can provision a managed relational database running the
+      Microsoft SQL Server engine.
 
   - id: CCC.RDMS.CP07
     group: Access
     title: DB Self Managed Credentials
     description: |
-      Ability to manage the database credentials by client managed
-      username and passwords.
+      The service always supports database users authenticated by a username
+      and password that the user creates and manages.
 
   - id: CCC.RDMS.CP08
     group: Networking
     title: Support for IPv4
     description: |
-      Ability to connect to the database using IPv4 addresses.
+      The service always exposes an IPv4 endpoint through which clients
+      connect to the database.
 
   - id: CCC.RDMS.CP09
     group: Networking
     title: Support for IPv6
     description: |
-      Ability to connect to the database using IPv6 addresses
+      The service may be configured to expose an IPv6 endpoint through which
+      clients connect to the database. Not every provider offers this, so
+      network access rules must be checked for both address families.
 
   - id: CCC.RDMS.CP12
     group: Networking
     title: Managed Connection Pooling
     description: |
-      Ability to configure a managed connection pool for the database.
+      The service may be configured to place a managed connection pool in
+      front of the database so that client connections are reused and
+      bounded.
 
   - id: CCC.RDMS.CP14
     group: Compute
     title: Dedicated Database Instances
     description: |
-      Option to deploy the database on a dedicated instance for
-      isolation requirements.
+      The service can deploy the database on compute instances that are not
+      shared with other tenants, to meet isolation requirements.
 
   - id: CCC.RDMS.CP15
     group: Data
     title: Horizontal Scaling
     description: |
-      Read replicas of the primary database can be created.
+      The service may be configured to create read replicas of the primary
+      database, in the same or another region, to serve read traffic.
 
   - id: CCC.RDMS.CP16
     group: Data
     title: Failover
     description: |
-      Standby database can be implemented for failover when the
-      primary can't be reached.
+      The service may be configured to maintain a standby database that is
+      automatically promoted when the primary cannot be reached.
 
   - id: CCC.RDMS.CP17
     group: Access
