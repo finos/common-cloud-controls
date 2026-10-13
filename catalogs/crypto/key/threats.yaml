@@ -28,15 +28,15 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.KeyMgmt.CP14
+          - reference-id: CCC.Core.CP18
             strength: 0 # Not yet specified
-            remarks: Key Versioning
+            remarks: Resource Versioning
           - reference-id: CCC.KeyMgmt.CP16
             strength: 0 # Not yet specified
             remarks: Disable key
-          - reference-id: CCC.KeyMgmt.CP18
+          - reference-id: CCC.Core.CP32
             strength: 0 # Not yet specified
-            remarks: Soft Delete
+            remarks: Deletion Protection
           - reference-id: CCC.KeyMgmt.CP19
             strength: 0 # Not yet specified
             remarks: Delete Key

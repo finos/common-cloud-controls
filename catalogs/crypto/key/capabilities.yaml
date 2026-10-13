@@ -25,6 +25,14 @@ imports:
         remarks: Command-line Interface
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
+      - reference-id: CCC.Core.CP18
+        remarks: Resource Versioning
+      - reference-id: CCC.Core.CP20
+        remarks: Resource Tagging
+      - reference-id: CCC.Core.CP21
+        remarks: Resource Replication
+      - reference-id: CCC.Core.CP32
+        remarks: Deletion Protection
 capabilities:
   - id: CCC.KeyMgmt.CP01
     group: Encryption
@@ -91,16 +99,6 @@ capabilities:
     title: Supports FIPS 140-2 Level 3
     description: |
       Supports FIPS 140-2 Level 3 certified Hardware Security Modules (HSM).
-  - id: CCC.KeyMgmt.CP14
-    group: Encryption
-    title: Key Versioning
-    description: |
-      Provides the ability to manage multiple versions of a key.
-  - id: CCC.KeyMgmt.CP15
-    group: Encryption
-    title: Key label
-    description: |
-      Supports the ability to tag a managed key with user defined labels.
   - id: CCC.KeyMgmt.CP16
     group: Encryption
     title: Disable key
@@ -111,12 +109,6 @@ capabilities:
     title: Enable key
     description: |
       Supports the ability to re-enable a disabled managed key.
-  - id: CCC.KeyMgmt.CP18
-    group: Encryption
-    title: Soft Delete
-    description: |
-      Supports the ability to prevent the immediate deletion of a managed key. This includes the ability
-      to recover accidental deletion of keys within a grace period.
   - id: CCC.KeyMgmt.CP19
     group: Encryption
     title: Delete Key
@@ -143,8 +135,3 @@ capabilities:
     title: Key Expiry
     description: |
       Supports the ability to set an expiration date for a key
-  - id: CCC.KeyMgmt.CP24
-    group: Encryption
-    title: Key Replication
-    description: |
-      Supports the ability to securely replicate a key across different regions using automated or manual process.
