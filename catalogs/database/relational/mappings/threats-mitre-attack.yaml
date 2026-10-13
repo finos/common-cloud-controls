@@ -51,26 +51,6 @@ mappings:
   relationship: relates-to
   targets:
   - entry-id: T1530
-- id: CCC.RDMS.TH06-mitre-attack
-  source: CCC.RDMS.TH06
-  relationship: relates-to
-  targets:
-  - entry-id: T1190
-- id: CCC.RDMS.TH07-mitre-attack
-  source: CCC.RDMS.TH07
-  relationship: relates-to
-  targets:
-  - entry-id: T1098
-- id: CCC.RDMS.TH08-mitre-attack
-  source: CCC.RDMS.TH08
-  relationship: relates-to
-  targets:
-  - entry-id: T1552.001
-- id: CCC.RDMS.TH11-mitre-attack
-  source: CCC.RDMS.TH11
-  relationship: relates-to
-  targets:
-  - entry-id: T1530
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.

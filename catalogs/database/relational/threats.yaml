@@ -197,27 +197,12 @@ threats:
         entries:
           - reference-id: CCC.RDMS.CP12
             remarks: Managed Connection Pooling
-  - id: CCC.RDMS.TH10
-    group: Compute
-    title: Co-tenant Workloads Interfere with Database Isolation
-    description: |
-      When the database is deployed on compute shared with other tenants,
-      another tenant's workload can consume shared CPU, memory, or I/O, or
-      expose the database to hardware side-channel attacks. This can degrade
-      the availability of the database and, in the side-channel case, the
-      confidentiality of data processed in memory.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.RDMS.CP14
-            remarks: Dedicated Database Instances
   - id: CCC.RDMS.TH11
     group: Data
     title: Read Replicas are Deployed with Weaker Protections
     description: |
-      A read replica may be created with network access rules, encryption
-      keys, or public accessibility that differ from the primary, or in a
-      region or project the primary does not use. The same data is then
+      A read replica may be created with network access rules or public
+      accessibility that differ from the primary. The same data is then
       reachable through the replica under weaker protection, impacting its
       confidentiality.
     capabilities:
