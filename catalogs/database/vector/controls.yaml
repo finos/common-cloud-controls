@@ -49,24 +49,28 @@ controls:
     group: Ingestion
     title: Validate Embeddings Before Indexing
     objective: |
-      Ensure all incoming embeddings are structurally and statistically validated
+      Ensure all incoming embeddings are structurally and numerically validated
       before indexing to prevent poisoning or corruption.
     assessment-requirements:
       - id: CCC.Vector.CN01.AR01
         text: |
-          When a vector embedding is submitted for indexing, the system MUST validate that it
+          When a vector embedding is submitted for indexing, the service MUST validate that it
           matches expected schema, dimension, and format profiles.
+        applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
+        recommendation: ""
+      - id: CCC.Vector.CN01.AR02
+        text: |
+          When a vector embedding is submitted for indexing, the service MUST reject
+          vectors that contain NaN, infinite, or zero-magnitude values.
         applicability: [tlp-clear, tlp-green, tlp-amber, tlp-red]
         recommendation: ""
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH02
-            remarks: Embedding and Index Poisoning
+            remarks: Index is Poisoned by Crafted Embeddings or Content
           - reference-id: CCC.Vector.TH05
-            remarks: Embedding Format or Dimension Attacks
-          - reference-id: CCC.Core.TH12
-            remarks: Resource Constraints are Exhausted
+            remarks: Malformed Vectors Cause Failures or Incorrect Results
     guidelines:
       - reference-id: FINOS-AIGF
         entries:
@@ -76,8 +80,8 @@ controls:
     group: Access
     title: Enforce Role-Based Index Lifecycle Management
     objective: |
-      Restrict index lifecycle operations (create, delete, rollback) to privileged
-      identities using fine-grained access controls.
+      Restrict index lifecycle operations (create, delete, replace, or re-point an
+      endpoint or alias) to privileged identities using fine-grained access controls.
     assessment-requirements:
       - id: CCC.Vector.CN02.AR01
         text: |
@@ -88,12 +92,10 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.TH02
-            remarks: Embedding and Index Poisoning
           - reference-id: CCC.Vector.TH04
-            remarks: Index Corruption or Downgrade
+            remarks: Queries are Served from a Replaced or Stale Index
           - reference-id: CCC.Core.TH01
-            remarks: Access Control is Misconfigured
+            remarks: Access is Granted to Unauthorized Users
     guidelines:
       - reference-id: FINOS-AIGF
         entries:
@@ -101,10 +103,11 @@ controls:
             remarks: Role-Based Access Control for AI Data
   - id: CCC.Vector.CN03
     group: Access
-    title: Enforce Metadata-Level Access Controls
+    title: Enforce Document-Level Access Controls on All Query Paths
     objective: |
-      Apply access control policies to metadata fields used in filtering to
-      prevent unauthorized exposure or inference.
+      Apply document- and field-level access control policies to every query path,
+      including similarity, hybrid, and metadata-filtered queries, to prevent
+      unauthorized exposure or inference.
     assessment-requirements:
       - id: CCC.Vector.CN03.AR01
         text: |
@@ -112,13 +115,19 @@ controls:
           verify the requester is authorized to access that field.
         applicability: [tlp-amber, tlp-red]
         recommendation: ""
+      - id: CCC.Vector.CN03.AR02
+        text: |
+          When a similarity or hybrid query is executed, the service MUST exclude
+          from the results every record the requester is not authorized to read.
+        applicability: [tlp-amber, tlp-red]
+        recommendation: ""
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH03
-            remarks: Cross-modal or Metadata Leakage
+            remarks: Query Results Include Records the Requester is not Authorized to Read
           - reference-id: CCC.Core.TH01
-            remarks: Access Control is Misconfigured
+            remarks: Access is Granted to Unauthorized Users
     guidelines:
       - reference-id: FINOS-AIGF
         entries:
@@ -137,12 +146,55 @@ controls:
     assessment-requirements:
       - id: CCC.Vector.CN07.AR01
         text: |
-          When a search request is issued, clients MUST be allowed
-          to declare their requirement for exact vs approximate results.
+          When a search request is issued, the service MUST allow the client
+          to require exact rather than approximate results.
         applicability: [tlp-amber, tlp-red]
         recommendation: ""
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.TH06
-            remarks: Search Result Manipulation via ANN Bias
+            remarks: Search Results are Manipulated via Approximate Search Error
+  - id: CCC.Vector.CN08
+    group: Data
+    title: Restrict Retrieval of Raw Embedding Values
+    objective: |
+      Ensure that stored vector values are not returned to query clients, so that
+      embeddings cannot be harvested and inverted to reconstruct source data.
+    assessment-requirements:
+      - id: CCC.Vector.CN08.AR01
+        text: |
+          When a similarity query is answered, the service MUST NOT return raw
+          vector values unless the requester holds a permission distinct from
+          the permission to query.
+        applicability: [tlp-amber, tlp-red]
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH01
+            remarks: Source Data is Reconstructed from Stored Embeddings
+    guidelines:
+      - reference-id: FINOS-AIGF
+        entries:
+          - reference-id: AIR-DET-001
+            remarks: AI Data Leakage Prevention and Detection
+  - id: CCC.Vector.CN09
+    group: MachineLearning
+    title: Restrict Embedding Model Endpoints to an Approved List
+    objective: |
+      Ensure that content is vectorized only by embedding model endpoints the
+      organization has approved, so that content is not disclosed to, or
+      embeddings altered by, an unapproved endpoint.
+    assessment-requirements:
+      - id: CCC.Vector.CN09.AR01
+        text: |
+          When integrated embedding generation is configured, the service MUST
+          reject any model endpoint that is not on an approved allowlist.
+        applicability: [tlp-green, tlp-amber, tlp-red]
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Vector.TH07
+            remarks: Content is Disclosed to or Altered by an Embedding Model Endpoint
