@@ -3,7 +3,7 @@ imports:
     entries:
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure Data Encryption at Rest for All Stored Data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
@@ -18,7 +18,7 @@ imports:
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
-        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        remarks: Ensure Integrity of Access Logs
 
 controls:
   - id: CCC.IAM.CN01

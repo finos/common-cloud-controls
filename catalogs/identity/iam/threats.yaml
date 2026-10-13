@@ -3,19 +3,19 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH10
         strength: 0 # Not yet specified
-        remarks: Alerts are Intercepted
+        remarks: State-change Events are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
-        remarks: Event Notifications are Incorrectly Triggered
+        remarks: Publications are Incorrectly Triggered
       - reference-id: CCC.Core.TH13
         strength: 0 # Not yet specified
         remarks: Resource Tags are Manipulated
