@@ -277,15 +277,16 @@ controls:
     assessment-requirements:
       - id: CCC.ObjStor.CN07.AR01
         text: |
-          The object storage service MUST support a configuration option that
-          requires MFA to be successfully completed before any object deletion
-          can be attempted, regardless of the request interface.
+          When a bucket is created, MFA deletion protection MUST be enabled on
+          it.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          On Azure and GCS, which have no MFA delete, enable soft delete and
+          object versioning on the bucket as the substitute.
       - id: CCC.ObjStor.CN07.AR02
         text: |
           When MFA deletion protection is enabled on a bucket or object
@@ -296,7 +297,9 @@ controls:
           - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          On Azure and GCS, which have no MFA delete, enable soft delete and
+          object versioning on the bucket as the substitute.
       - id: CCC.ObjStor.CN07.AR03
         text: |
           When an attempt is made to delete an object, the service's audit logs MUST
@@ -531,9 +534,9 @@ controls:
           change is covered by CCC.Core.CN16.
       - id: CCC.ObjStor.CN09.AR04
         text: |
-          When the public access block is disabled, the service MUST NOT
-          permit disabling for any bucket containing objects classified at
-          TLP:AMBER or TLP:RED.
+          When an attempt is made to disable the public access block on a
+          bucket holding objects classified at TLP:AMBER or TLP:RED, the
+          service MUST deny it.
         applicability:
           - tlp-amber
           - tlp-red
@@ -616,7 +619,7 @@ controls:
       - reference-id: CCC.ObjStor
         entries:
           - reference-id: CCC.ObjStor.TH03
-            remarks: Storage Class Downgrade Leading to Durability or Availability Loss
+            remarks: Objects are Transitioned to a Lower-Durability Storage Class
             strength: 9
       - reference-id: CCC
         entries:
@@ -675,14 +678,15 @@ controls:
     title: Restrict Cross-Origin Resource Sharing to Approved Origins
     objective: |
       Ensure that browsers may only make cross-origin requests to a bucket
-      from web origins the organization has approved.
+      from web origins the organization has approved. No provider rejects
+      such rules natively, so a policy-as-code check on bucket configuration
+      satisfies these requirements.
     assessment-requirements:
       - id: CCC.ObjStor.CN12.AR01
         text: |
           When a cross-origin resource sharing rule is configured on a bucket,
           the service MUST reject any rule whose allowed origin is a wildcard.
         applicability:
-          - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
@@ -719,7 +723,9 @@ controls:
     title: Bound the Period of Irrevocable Retention Locks
     objective: |
       Ensure that an irrevocable retention lock cannot commit the organization
-      to retaining data for longer than its retention policy permits.
+      to retaining data for longer than its retention policy permits. No
+      provider bounds the period natively, so a policy-as-code check on lock
+      requests satisfies this requirement.
     assessment-requirements:
       - id: CCC.ObjStor.CN13.AR01
         text: |
