@@ -37,6 +37,9 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.IAM.CP01
+            strength: 0 # Not yet specified
+            remarks: Global Identities
           - reference-id: CCC.IAM.CP02
             strength: 0 # Not yet specified
             remarks: IAM Users
@@ -55,6 +58,9 @@ threats:
           - reference-id: CCC.IAM.CP09
             strength: 0 # Not yet specified
             remarks: Federated Identity - OIDC
+          - reference-id: CCC.IAM.CP13
+            strength: 0 # Not yet specified
+            remarks: Temporary Credentials
 
   - id: CCC.IAM.TH02
     group: Access
@@ -82,6 +88,9 @@ threats:
           - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
+          - reference-id: CCC.IAM.CP11
+            strength: 0 # Not yet specified
+            remarks: Resource-Level Access
           - reference-id: CCC.IAM.CP12
             strength: 0 # Not yet specified
             remarks: Policy Conditions
@@ -100,6 +109,12 @@ threats:
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles and Service Principals
+          - reference-id: CCC.IAM.CP08
+            strength: 0 # Not yet specified
+            remarks: Federated Identity - SAML
+          - reference-id: CCC.IAM.CP09
+            strength: 0 # Not yet specified
+            remarks: Federated Identity - OIDC
           - reference-id: CCC.IAM.CP12
             strength: 0 # Not yet specified
             remarks: Policy Conditions
@@ -113,7 +128,7 @@ threats:
     description: |
       An adversary with access to a sufficiently privileged cloud account may create
       additional credentials such as access keys, service accounts and
-      temporary credentials to establish persistance or elevate their privileges.
+      temporary credentials to establish persistence or elevate their privileges.
     capabilities:
       - reference-id: CCC
         entries:
@@ -132,7 +147,7 @@ threats:
           - reference-id: CCC.IAM.CP09
             strength: 0 # Not yet specified
             remarks: Federated Identity - OIDC
-          - reference-id: CCC.IAM.CP11
+          - reference-id: CCC.IAM.CP13
             strength: 0 # Not yet specified
             remarks: Temporary Credentials
 
@@ -141,7 +156,7 @@ threats:
     title: Additional IAM Roles Creation
     description: |
       An adversary with access to a sufficiently privileged cloud account may create
-      additional IAM roles to establish persistance or elevate their privileges.
+      additional IAM roles to establish persistence or elevate their privileges.
     capabilities:
       - reference-id: CCC
         entries:
@@ -160,7 +175,7 @@ threats:
     title: IAM Policies Modification
     description: |
       An adversary with access to a sufficiently privileged cloud account may modify
-      IAM policies to establish persistance or elevate their privileges.
+      IAM policies to establish persistence or elevate their privileges.
     capabilities:
       - reference-id: CCC
         entries:
@@ -173,6 +188,9 @@ threats:
           - reference-id: CCC.IAM.CP10
             strength: 0 # Not yet specified
             remarks: Custom Roles
+          - reference-id: CCC.IAM.CP16
+            strength: 0 # Not yet specified
+            remarks: Access Boundaries
 
   - id: CCC.IAM.TH07
     group: Access
@@ -227,6 +245,9 @@ threats:
           - reference-id: CCC.IAM.CP03
             strength: 0 # Not yet specified
             remarks: Long-Term Credentials
+          - reference-id: CCC.IAM.CP19
+            strength: 0 # Not yet specified
+            remarks: Long-Term Credential Expiry
 
   - id: CCC.IAM.TH10
     group: Access
@@ -288,3 +309,4 @@ threats:
           - reference-id: CCC.IAM.CP15
             strength: 0 # Not yet specified
             remarks: Role Assumption and Delegation
+
