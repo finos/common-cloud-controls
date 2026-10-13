@@ -83,7 +83,10 @@ controls:
           - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          On Azure, attach a network security group to the subnet or network
+          interface; with no network security group attached, no inbound
+          filtering is applied and this requirement cannot be met.
     threats:
       - reference-id: CCC
         entries:
@@ -222,9 +225,9 @@ controls:
     assessment-requirements:
       - id: CCC.VPC.CN06.AR01
         text: |
-          When a peering, transit, or hybrid connection is requested between
+          When a peering connection or transit attachment is requested between
           networks whose address ranges overlap, the service MUST reject the
-          connection.
+          request.
         applicability:
           - tlp-clear
           - tlp-green
@@ -240,34 +243,37 @@ controls:
         entries:
           - reference-id: SC-7
   - id: CCC.VPC.CN07
-    group: Access
-    title: Restrict Changes to Routing and DNS Configuration
+    group: Observability
+    title: Alert on Changes That Redirect or Expose Traffic
     objective: |
-      Ensure that route tables, private DNS zones, resolver rules, and DHCP
-      options can only be changed by explicitly authorized roles, so that
-      traffic cannot be silently redirected or exposed.
+      Ensure that a route change exposing a private subnet or a change to the
+      DNS servers used by resources is published to a monitored channel, so
+      that traffic cannot be redirected or exposed unobserved.
     assessment-requirements:
       - id: CCC.VPC.CN07.AR01
         text: |
-          When a route table is created or modified, the service MUST reject
-          the request unless the requester holds an explicitly granted network
-          administration role.
+          When a route whose next hop is an internet or NAT gateway is added
+          to a route table associated with a private subnet, the service MUST
+          publish an event to a monitored channel.
         applicability:
-          - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          Subscribe the security team's alerting channel to route table change
+          events and filter for internet or NAT gateway next hops on route
+          tables associated with subnets designated as private.
       - id: CCC.VPC.CN07.AR02
         text: |
-          When a private DNS zone, resolver forwarding rule, or DHCP option set
-          is created or modified, the service MUST reject the request unless
-          the requester holds an explicitly granted network administration
-          role.
+          When the DNS servers of the built-in resolver or the DNS servers
+          assigned through DHCP are changed, the service MUST publish an event
+          to a monitored channel.
         applicability:
-          - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          Subscribe the security team's alerting channel to configuration
+          change events for resolver forwarding rules, DHCP option sets, and
+          the virtual network's DNS server settings.
     threats:
       - reference-id: CCC
         entries:
@@ -355,7 +361,10 @@ controls:
           - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          On Azure, attach a network security group to the subnet or network
+          interface; with no network security group attached, no inbound
+          filtering is applied and this requirement cannot be met.
     threats:
       - reference-id: CCC
         entries:
@@ -397,7 +406,11 @@ controls:
         applicability:
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          MACsec is available only on dedicated-port circuits (AWS Direct
+          Connect dedicated connections, Azure ExpressRoute Direct, GCP
+          Dedicated Interconnect). On partner or hosted circuits, run IPsec
+          over the connection instead.
     threats:
       - reference-id: CCC
         entries:
@@ -442,7 +455,7 @@ controls:
           - reference-id: SC-7
           - reference-id: AU-12
   - id: CCC.VPC.CN13
-    group: Data
+    group: Networking
     title: Deploy Network Resources Across Availability Zones
     objective: |
       Ensure that the loss of a single availability zone does not remove
