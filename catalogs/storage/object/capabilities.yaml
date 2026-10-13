@@ -121,7 +121,7 @@ capabilities:
 
   - id: CCC.ObjStor.CP16
     group: Access
-    title: Uniform Bucket-Level Access
+    title: Bucket-Level-Only Access Policy
     description: |
       The service may be configured to disable object-level permissions on a
       bucket, so that access to every object is governed solely by the

@@ -311,9 +311,9 @@ controls:
 
   - id: CCC.ObjStor.CN02
     group: Access
-    title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
+    title: Enforce Bucket-Level-Only Access to Prevent Inconsistent Permissions
     objective: |
-      Ensure that uniform bucket-level access is enforced across all
+      Ensure that a bucket-level-only access policy is enforced across all
       object storage buckets. This prevents the use of ad-hoc or
       inconsistent object-level permissions, ensuring centralized,
       consistent, and secure access management in accordance with the
