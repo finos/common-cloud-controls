@@ -68,6 +68,7 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.RDMS.CP07
+            remarks: DB Self Managed Credentials
   - id: CCC.RDMS.TH02
     group: Access
     title: Brute Force Attempts on Database Authentication
@@ -75,11 +76,17 @@ threats:
       Repeated attempts to guess database user passwords may be made
       through brute force techniques. This condition could result in
       unauthorized access if successful, compromising database security
-      and sensitive information.
+      and sensitive information. Attempts arrive over whichever IPv4 or
+      IPv6 endpoint the network access rules leave reachable.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.RDMS.CP07
+            remarks: DB Self Managed Credentials
+          - reference-id: CCC.RDMS.CP08
+            remarks: Support for IPv4
+          - reference-id: CCC.RDMS.CP09
+            remarks: Support for IPv6
   - id: CCC.RDMS.TH03
     group: Data
     title: Database Backups Stopped
@@ -91,6 +98,7 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP11
+            remarks: Backup
   - id: CCC.RDMS.TH04
     group: Data
     title: Unintentional Database Backup Restoration
@@ -103,6 +111,9 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP11
+            remarks: Backup
+          - reference-id: CCC.Core.CP12
+            remarks: Recovery
   - id: CCC.RDMS.TH05
     group: Data
     title: Unauthorized Snapshot Sharing
@@ -115,3 +126,4 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP11
+            remarks: Backup
