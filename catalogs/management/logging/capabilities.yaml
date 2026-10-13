@@ -35,70 +35,76 @@ capabilities:
     group: Observability
     title: Service Log Capture
     description: |
-      Ability to capture logs from all relevant cloud services at varying
-      levels of verbosity.
+      The service can be configured to collect logs emitted by other cloud
+      services at the level of verbosity selected for each source.
 
   - id: CCC.Logging.CP02
     group: Observability
     title: Application Log Ingestion
     description: |
-      Support for ingesting logs from custom applications deployed within the
-      cloud environment.
+      The service can be configured to ingest logs from custom applications
+      running in the cloud environment through a collection agent or an
+      ingestion API.
 
   - id: CCC.Logging.CP03
     group: Observability
     title: Real-Time Log Ingestion
     description: |
-      Logs should be ingested in near real-time to enable timely detection and
-      response.
+      The service automatically makes ingested log entries available for
+      search and alerting in near real time, so that detection and response
+      are not delayed.
 
   - id: CCC.Logging.CP04
     group: Observability
     title: Centralised Log Collection
     description: |
-      Ability to centralise logs from different resources within a signle
-      logging solution or platform.
+      The service may be configured to aggregate logs from resources in
+      multiple accounts or projects into a single central logging destination.
 
   - id: CCC.Logging.CP05
     group: Observability
     title: Custom Log Format Support
     description: |
-      Ability to ingest custom log formats or data from on-premises systems or
-      other cloud environments via agents.
+      The service can be configured to ingest custom log formats, including
+      logs from on-premises systems or other cloud environments, through its
+      collection agents.
 
   - id: CCC.Logging.CP06
     group: Observability
-    title: Log Filtering & Transformation
+    title: Log Filtering and Transformation
     description: |
-      Ability to to filter, normalise, and transform raw log data at ingestion
-      to optimise storage and enhance usability.
+      The service may be configured to filter, normalise, and transform raw
+      log data at ingestion to reduce storage volume and improve usability.
 
   - id: CCC.Logging.CP09
     group: Observability
     title: Internal Sink
     description: |
-      Ability to continuously stream log data to a hosted storage bucket or data lake
-      solution within the cloud service provider.
+      The service may be configured to continuously route log data to a
+      storage bucket, data warehouse, or messaging child resource within the
+      same cloud provider.
 
   - id: CCC.Logging.CP10
     group: Observability
     title: External Sink
     description: |
-      Log events can be configured to be sent to a external SIEM or data analysis
-      provider outside of the cloud platform.
+      The service may be configured to route log events to an external SIEM
+      or data analysis system outside the cloud platform.
 
   - id: CCC.Logging.CP11
     group: Observability
     title: Log-based Metrics
     description: |
-      Ability to extract quantitative metrics from log data for performance
-      monitoring and operational analysis.
+      The service may be configured to derive numeric metrics from log
+      entries that match a query or filter, for performance monitoring and
+      alerting.
 
   - id: CCC.Logging.CP13
     group: Observability
     title: Field Indexing
     description: |
-      Supports field-based indexing to improve log query performace.
+      The service can index selected log fields to improve query performance
+      over large log volumes.
 
   - id: CCC.Logging.CP14
     group: Data

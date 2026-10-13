@@ -70,7 +70,7 @@ threats:
             remarks: Centralised Log Collection
           - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
-            remarks: Log Filtering & Transformation
+            remarks: Log Filtering and Transformation
   - id: CCC.Logging.TH02
     group: Data
     title: Unauthorized Data Transfer Out of a Trusted Boundary
@@ -107,7 +107,7 @@ threats:
             remarks: Custom Log Format Support
           - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
-            remarks: Log Filtering & Transformation
+            remarks: Log Filtering and Transformation
           - reference-id: CCC.Logging.CP11
             strength: 0 # Not yet specified
             remarks: Log-based Metrics
@@ -124,7 +124,7 @@ threats:
         entries:
           - reference-id: CCC.Logging.CP06
             strength: 0 # Not yet specified
-            remarks: Log Filtering & Transformation
+            remarks: Log Filtering and Transformation
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP34
