@@ -144,3 +144,155 @@ threats:
           - reference-id: CCC.LB.CP11
             strength: 0 # Not yet specified
             remarks: SSL/TLS Termination
+
+  - id: CCC.LB.TH08
+    group: Encryption
+    title: Weak TLS Policy Permits Protocol Downgrade
+    description: |
+      The TLS policy on a listener may be configured to accept deprecated
+      protocol versions or weak cipher suites. Clients can then be forced into a
+      downgraded handshake and the session decrypted or modified by an entity on
+      the transmission path, compromising the confidentiality and integrity of
+      the data in transit.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.CP11
+            strength: 0 # Not yet specified
+            remarks: SSL/TLS Termination
+          - reference-id: CCC.LB.CP24
+            strength: 0 # Not yet specified
+            remarks: Configurable TLS Policy
+
+  - id: CCC.LB.TH09
+    group: Encryption
+    title: Traffic to Backend Targets Is Forwarded Unencrypted
+    description: |
+      When TLS is terminated at the load balancer and backend re-encryption is
+      not configured, requests are forwarded to targets in cleartext. Any entity
+      with access to the internal network path between the load balancer and the
+      targets can read or alter the traffic, compromising the confidentiality and
+      integrity of the data.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.CP11
+            strength: 0 # Not yet specified
+            remarks: SSL/TLS Termination
+          - reference-id: CCC.LB.CP25
+            strength: 0 # Not yet specified
+            remarks: Backend Re-encryption
+
+  - id: CCC.LB.TH10
+    group: Access
+    title: Client Certificate Validation Is Bypassed
+    description: |
+      Mutual TLS may be configured in passthrough mode, with a trust store that
+      contains untrusted certificate authorities, or without revocation checking.
+      Clients that present no certificate or a revoked one are then forwarded to
+      backend targets as if authenticated, compromising the confidentiality and
+      integrity of the resources behind the load balancer.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.CP26
+            strength: 0 # Not yet specified
+            remarks: Mutual TLS Client Authentication
+
+  - id: CCC.LB.TH11
+    group: Networking
+    title: Routing Rules Direct Requests to Unintended Destinations
+    description: |
+      Path, host or header routing rules, redirects, rewrites and fixed
+      responses may be misordered, overly broad, or modified without
+      authorization. Requests are then forwarded to the wrong backend, redirected
+      to an external destination, or answered with attacker-controlled content.
+      This exposes internal services and compromises the confidentiality and
+      integrity of user sessions and data.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.CP03
+            strength: 0 # Not yet specified
+            remarks: Layer 7 Routing
+          - reference-id: CCC.LB.CP05
+            strength: 0 # Not yet specified
+            remarks: URL-Based Routing
+          - reference-id: CCC.LB.CP06
+            strength: 0 # Not yet specified
+            remarks: HTTP Header-Based Routing
+          - reference-id: CCC.LB.CP16
+            strength: 0 # Not yet specified
+            remarks: URL Redirects
+          - reference-id: CCC.LB.CP17
+            strength: 0 # Not yet specified
+            remarks: URL Rewrites
+          - reference-id: CCC.LB.CP18
+            strength: 0 # Not yet specified
+            remarks: Custom Response
+
+  - id: CCC.LB.TH12
+    group: Networking
+    title: Application-Layer Inspection Is Absent or Bypassed
+    description: |
+      The web application firewall may not be attached to the listener, may run
+      in detection-only mode, or may be bypassed by traffic that is passed at
+      layer 4 or carried over an upgraded WebSocket connection. Malformed or
+      exploit payloads then reach backend targets without inspection,
+      compromising the integrity and availability of those targets.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.CP03
+            strength: 0 # Not yet specified
+            remarks: Layer 7 Routing
+          - reference-id: CCC.LB.CP04
+            strength: 0 # Not yet specified
+            remarks: Layer 4 Routing
+          - reference-id: CCC.LB.CP07
+            strength: 0 # Not yet specified
+            remarks: WebSocket Support
+          - reference-id: CCC.LB.CP23
+            strength: 0 # Not yet specified
+            remarks: Firewall Integration
+
+  - id: CCC.LB.TH13
+    group: Access
+    title: Client Source Address Is Spoofed via Forwarded Headers
+    description: |
+      Forwarded-for headers supplied by the client may be appended to rather
+      than replaced by the load balancer. Backend targets and downstream access
+      rules that trust these headers then attribute requests to a false source
+      address, allowing IP-based allowlists to be bypassed and access logs to be
+      poisoned. This compromises the confidentiality of protected resources and
+      the integrity of audit records.
+    capabilities:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.CP03
+            strength: 0 # Not yet specified
+            remarks: Layer 7 Routing
+          - reference-id: CCC.LB.CP19
+            strength: 0 # Not yet specified
+            remarks: Request and Response Header Transformations
+
+  - id: CCC.LB.TH14
+    group: Networking
+    title: IPv6 Frontend Bypasses IPv4-Only Access Rules
+    description: |
+      A dual-stack frontend exposes the same backend targets over IPv6 while
+      network access rules, firewall policies, or allowlists may be defined for
+      IPv4 addresses only. Requests arriving over IPv6 are then accepted without
+      the intended restrictions, compromising the confidentiality and integrity
+      of the resources behind the load balancer.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP23
+            strength: 0 # Not yet specified
+            remarks: Network Access Rules
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.CP08
+            strength: 0 # Not yet specified
+            remarks: Dual-stack Load Balancing

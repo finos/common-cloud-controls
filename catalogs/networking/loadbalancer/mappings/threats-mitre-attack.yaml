@@ -63,6 +63,48 @@ mappings:
   targets:
   - entry-id: T1557
   - entry-id: T1608
+- id: CCC.LB.TH08-mitre-attack
+  source: CCC.LB.TH08
+  relationship: relates-to
+  targets:
+  - entry-id: T1557
+  - entry-id: T1562.010
+- id: CCC.LB.TH09-mitre-attack
+  source: CCC.LB.TH09
+  relationship: relates-to
+  targets:
+  - entry-id: T1040
+  - entry-id: T1557
+- id: CCC.LB.TH10-mitre-attack
+  source: CCC.LB.TH10
+  relationship: relates-to
+  targets:
+  - entry-id: T1556
+  - entry-id: T1190
+- id: CCC.LB.TH11-mitre-attack
+  source: CCC.LB.TH11
+  relationship: relates-to
+  targets:
+  - entry-id: T1557
+  - entry-id: T1565.002
+- id: CCC.LB.TH12-mitre-attack
+  source: CCC.LB.TH12
+  relationship: relates-to
+  targets:
+  - entry-id: T1190
+  - entry-id: T1562.001
+- id: CCC.LB.TH13-mitre-attack
+  source: CCC.LB.TH13
+  relationship: relates-to
+  targets:
+  - entry-id: T1090
+  - entry-id: T1565.002
+- id: CCC.LB.TH14-mitre-attack
+  source: CCC.LB.TH14
+  relationship: relates-to
+  targets:
+  - entry-id: T1190
+  - entry-id: T1595.001
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.
