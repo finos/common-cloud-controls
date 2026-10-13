@@ -1,6 +1,9 @@
 imports:
   - reference-id: CCC
     entries:
+      - reference-id: CCC.Core.CN01
+        strength: 0 # Not yet specified
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
         remarks: Encrypt Data for Storage
@@ -19,6 +22,12 @@ imports:
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN15
+        strength: 0 # Not yet specified
+        remarks: Enforce Transaction Rate Limits
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.IAM.CN01
