@@ -60,6 +60,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
           - reference-id: CCC.Core.CP21
             remarks: Replication
   - title: Interference with Replication Processes
