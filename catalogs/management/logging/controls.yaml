@@ -3,10 +3,10 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent Unencrypted Requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure Data Encryption at Rest for All Stored Data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
@@ -18,22 +18,22 @@ imports:
         remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
-        remarks: Prevent Deployment in Restricted Regions
+        remarks: Restrict Deployments to Trust Perimeter
       - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
         remarks: Alert on Unusual Enumeration Activity
-      - reference-id: CCC.Core.CN08
-        strength: 0 # Not yet specified
-        remarks: Enable Multi-zone or Multi-region Data Replication
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
-        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
-      - reference-id: CCC.Core.CN10
-        strength: 0 # Not yet specified
-        remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+        remarks: Ensure Integrity of Access Logs
       - reference-id: CCC.Core.CN11
         strength: 0 # Not yet specified
-        remarks: Enforce Key Management Policies
+        remarks: Protect Encryption Keys
+      - reference-id: CCC.Core.CN15
+        strength: 0 # Not yet specified
+        remarks: Enforce Transaction Rate Limits
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.Logging.CN01
@@ -46,8 +46,8 @@ controls:
     assessment-requirements:
       - id: CCC.Logging.CN01.AR01
         text: |
-          When a new cloud account is created, provider-level audit and network flow logging MUST be
-          enabled by default and directed to the central sink.
+          When a new cloud account or project is created, provider-level audit logging for it MUST be
+          enabled.
         applicability:
           - tlp-clear
           - tlp-green
@@ -58,6 +58,25 @@ controls:
         text: |
           When a new cloud compute resource is deployed, it MUST be configured to forward all relevant
           logs (e.g., OS, application, service logs) to the central log sink.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Logging.CN01.AR03
+        text: |
+          When provider-level audit or network flow logs are generated, the service MUST receive them in
+          the central log sink.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Logging.CN01.AR04
+        text: |
+          When a new virtual network is created, network flow logging for it MUST be enabled.
         applicability:
           - tlp-clear
           - tlp-green
@@ -143,6 +162,12 @@ controls:
           - reference-id: CCC.Core.TH07
             strength: 0 # Not yet specified
             remarks: Logs are Tampered With or Deleted
+          - reference-id: CCC.Core.TH06
+            strength: 0 # Not yet specified
+            remarks: Data is Lost or Corrupted
+          - reference-id: CCC.Logging.TH05
+            strength: 0 # Not yet specified
+            remarks: Log Retention Policy Evasion or Misconfiguration
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -173,7 +198,7 @@ controls:
         entries:
           - reference-id: CCC.Logging.TH04
             strength: 0 # Not yet specified
-            remarks: Inadequate Log Anonymization/Masking
+            remarks: Sensitive Data is Logged Without Masking
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -189,15 +214,12 @@ controls:
           - reference-id: PT-2
             strength: 0 # Not yet specified
           - reference-id: PT-3
-            strength: 0 # Not yet specified
-          - reference-id: PT-3
   - id: CCC.Logging.CN05
     group: Access
     title: Ensure Log Bucket is Not Publicly Accessible
     objective: |
       Ensure that log storage buckets are not publicly accessible to prevent unauthorized
-      access to sensitive log data. In addition, logs should be replicated to another cloud
-      region to enhance availability, durability, and support disaster recovery requirements.
+      access to sensitive log data.
     assessment-requirements:
       - id: CCC.Logging.CN05.AR01
         text: |
@@ -226,7 +248,10 @@ controls:
         entries:
           - reference-id: CCC.Core.TH01
             strength: 0 # Not yet specified
-            remarks: Access Control is Misconfigured
+            remarks: Access is Granted to Unauthorized Users
+          - reference-id: CCC.Core.TH17
+            strength: 0 # Not yet specified
+            remarks: Responses are Generated for Unauthorized Requests
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -257,7 +282,7 @@ controls:
         entries:
           - reference-id: CCC.Logging.TH02
             strength: 0 # Not yet specified
-            remarks: Log Data Exfiltration via Query Interfaces
+            remarks: Unauthorized Data Transfer Out of a Trusted Boundary
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -271,18 +296,96 @@ controls:
           - reference-id: CA-7
             strength: 0 # Not yet specified
           - reference-id: AU-6
-  - id: CCC.Logging.CN07
-    group: Observability
-    title: Detect and Alert on Log Service Tampering
+  - id: CCC.Logging.CN08
+    group: Data
+    title: Restrict Log Sink Destinations to the Trust Perimeter
     objective: |
-      Alert when any component of the critical logging infrastructure is disabled, modified,
-      or deleted, indicating a defense evasion attempt.
+      Ensure that log data can only be routed to sink or export destinations inside the
+      organisation's defined trust perimeter, so that a misconfigured or compromised sink
+      cannot deliver logs to an external party.
     assessment-requirements:
-      - id: CCC.Logging.CN07.AR01
+      - id: CCC.Logging.CN08.AR01
         text: |
-          When an audit log event is recorded that corresponds to a modification of the logging service
-          configuration such as disabling a log trail, deleting a log sink, or altering a log forwarding rule,
-          an alert MUST be generated.
+          When a log sink or export destination outside the organisation's defined trust perimeter is
+          created or modified, the service MUST deny the request.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use organisation-level policy to constrain sink destinations to accounts, projects, or
+          resources owned by the organisation.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Logging.TH02
+            strength: 0 # Not yet specified
+            remarks: Unauthorized Data Transfer Out of a Trusted Boundary
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.DS-10
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-4
+            strength: 0 # Not yet specified
+          - reference-id: SC-7
+  - id: CCC.Logging.CN09
+    group: Observability
+    title: Alert on Log Ingestion Failure
+    objective: |
+      Ensure that throttled, rejected, or silently missing log data is detected promptly, so
+      that gaps in the audit trail are visible before they hinder detection or forensics.
+    assessment-requirements:
+      - id: CCC.Logging.CN09.AR01
+        text: |
+          When log events are throttled or rejected for exceeding an ingestion quota, the service MUST
+          generate an alert.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Logging.CN09.AR02
+        text: |
+          When no log entry has been received from a configured log source for longer than the
+          organisation's defined heartbeat interval, the service MUST generate an alert.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Logging.TH01
+            strength: 0 # Not yet specified
+            remarks: Log Ingestion Performance Degradation
+          - reference-id: CCC.Core.TH16
+            strength: 0 # Not yet specified
+            remarks: Publications are Disabled
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: DE.CM-09
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AU-4
+            strength: 0 # Not yet specified
+          - reference-id: AU-5
+  - id: CCC.Logging.CN10
+    group: Ingestion
+    title: Preserve Log Entry Boundaries on Ingestion
+    objective: |
+      Ensure that user-supplied content inside a log entry cannot create, split, or alter log
+      records, so that injected control characters do not forge entries or disrupt downstream
+      processing.
+    assessment-requirements:
+      - id: CCC.Logging.CN10.AR01
+        text: |
+          When a log entry containing line breaks or control characters is ingested, the service MUST
+          store it as a single structured log record.
         applicability:
           - tlp-clear
           - tlp-green
@@ -292,19 +395,10 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.TH16
+          - reference-id: CCC.Logging.TH06
             strength: 0 # Not yet specified
-            remarks: Logging and Monitoring are Disabled
+            remarks: Log Injection
     guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: DE.CM-03
-            strength: 0 # Not yet specified
-          - reference-id: DE.CM-09
       - reference-id: NIST_800_53
         entries:
-          - reference-id: SI-4
-            strength: 0 # Not yet specified
-          - reference-id: CA-7
-            strength: 0 # Not yet specified
-          - reference-id: AU-6
+          - reference-id: SI-10
