@@ -36,7 +36,7 @@ imports:
       - reference-id: CCC.Core.CP23
         remarks: Network Access Rules
       - reference-id: CCC.Core.CP24
-        remarks: Core Processing Units (CPU)
+        remarks: Core Processing Units
       - reference-id: CCC.Core.CP25
         remarks: Random Access Memory Allocation
       - reference-id: CCC.Core.CP26
