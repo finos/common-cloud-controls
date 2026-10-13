@@ -147,3 +147,11 @@ capabilities:
       The service can simulate or analyze the permissions an identity holds or
       has used, and can report which identities have access to a resource and
       whether that access is exercised.
+  - id: CCC.IAM.CP19
+    group: Access
+    title: Long-Term Credential Expiry
+    description: |
+      The service may be configured to set a maximum lifetime on a long-term
+      credential so that it stops working automatically once that lifetime is
+      reached. Not every provider offers this for every credential type; where
+      it is absent, a credential remains valid until it is rotated or deleted.
