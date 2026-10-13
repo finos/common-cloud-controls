@@ -7,8 +7,6 @@ imports:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.CP04
-        remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP06
         remarks: Access Control
       - reference-id: CCC.Core.CP07
@@ -101,18 +99,11 @@ capabilities:
       entries that match a query or filter, for performance monitoring and
       alerting.
 
-  - id: CCC.Logging.CP13
-    group: Observability
-    title: Field Indexing
-    description: |
-      The service can index selected log fields to improve query performance
-      over large log volumes.
-
   - id: CCC.Logging.CP14
-    group: Data
+    group: Observability
     title: Sensitive Data Masking
     description: |
       The service may be configured to detect sensitive data such as personal
       information, credentials, or tokens in log entries at ingestion and mask
-      or redact it before storage. Not every provider offers this natively;
-      where absent, sensitive data must be removed at the source.
+      or redact it before storage. Not every provider offers this natively
+      (GCP Cloud Logging has no ingestion-time masking).
