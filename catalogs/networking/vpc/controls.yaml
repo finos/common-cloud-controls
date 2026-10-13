@@ -22,6 +22,9 @@ imports:
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.VPC.CN01
@@ -59,16 +62,26 @@ controls:
           - reference-id: SC-7
   - id: CCC.VPC.CN02
     group: Networking
-    title: Limit Resource Creation in Public Subnet
+    title: Prevent Default Exposure of Resources to the Internet
     objective: |
-      Restrict the creation of resources in the public subnet with
-      direct access to the internet to minimize attack surfaces.
+      Ensure that resources in the virtual network are not reachable from the
+      public internet unless explicitly configured, to minimize attack surfaces.
     assessment-requirements:
       - id: CCC.VPC.CN02.AR01
         text: |
-          When a resource is created in a public subnet, that resource
+          When a resource is created in the virtual network, that resource
           MUST NOT be assigned an external IP address by default.
         applicability:
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN02.AR02
+        text: |
+          When a resource in the virtual network holds an external IPv4 or IPv6
+          address, the service MUST deny inbound traffic from the public
+          internet unless a network access rule explicitly allows it.
+        applicability:
+          - tlp-green
+          - tlp-amber
           - tlp-red
         recommendation: ""
     threats:
@@ -90,17 +103,26 @@ controls:
           - reference-id: AC-4
   - id: CCC.VPC.CN03
     group: Networking
-    title: Restrict VPC Peering to Authorized Accounts
+    title: Restrict Peering and Transit Attachments to Authorized Accounts
     objective: |
-      Ensure VPC peering connections are only established with explicitly
-      authorized destinations to limit network exposure and enforce boundary
-      controls.
+      Ensure VPC peering connections and transit hub attachments are only
+      established with explicitly authorized destinations to limit network
+      exposure and enforce boundary controls.
     assessment-requirements:
       - id: CCC.VPC.CN03.AR01
         text: |
           When a VPC peering connection is requested, the service MUST
           prevent connections from VPCs that are not explicitly
           allowed.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN03.AR02
+        text: |
+          When a network is attached to a transit hub, the service MUST reject
+          attachments from accounts that are not explicitly allowed.
         applicability:
           - tlp-green
           - tlp-amber
@@ -132,8 +154,8 @@ controls:
     assessment-requirements:
       - id: CCC.VPC.CN04.AR01
         text: |
-          When any network traffic goes to or from an interface in the VPC,
-          the service MUST capture and log all relevant information.
+          When network traffic passes to or from an interface in the VPC,
+          the service MUST record it in a flow log.
         applicability:
           - tlp-amber
           - tlp-red
