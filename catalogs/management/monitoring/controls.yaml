@@ -22,12 +22,6 @@ imports:
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Ensure Integrity of Access Logs
-      - reference-id: CCC.Core.CN11
-        strength: 0 # Not yet specified
-        remarks: Protect Encryption Keys
-      - reference-id: CCC.Core.CN15
-        strength: 0 # Not yet specified
-        remarks: Enforce Transaction Rate Limits
       - reference-id: CCC.Core.CN16
         strength: 0 # Not yet specified
         remarks: Alert on Changes to Protective Configuration
@@ -45,16 +39,6 @@ controls:
           When a synthetic or uptime check is configured, its aggregate request rate
           across all probe locations MUST NOT exceed the rate approved for the target
           endpoint.
-        applicability:
-          - tlp-clear
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: ""
-      - id: CCC.Monitor.CN01.AR02
-        text: |
-          When the aggregate probe rate against a target endpoint exceeds the approved
-          rate, the service MUST generate an alert.
         applicability:
           - tlp-clear
           - tlp-green
@@ -172,8 +156,8 @@ controls:
         recommendation: ""
       - id: CCC.Monitor.CN05.AR02
         text: |
-          When an alert suppression is created, the service MUST require an expiry
-          time after which the alert is delivered again.
+          When an alert suppression is created, it MUST have an expiry time after
+          which the alert is delivered again.
         applicability:
           - tlp-clear
           - tlp-green
@@ -247,9 +231,9 @@ controls:
     assessment-requirements:
       - id: CCC.Monitor.CN07.AR01
         text: |
-          When agent-based or application telemetry collection is configured, the
-          collection configuration MUST specify an explicit allow-list of the
-          metrics, dimensions, and trace attributes to collect.
+          When agent-based telemetry collection is configured, the agent
+          configuration MUST specify an explicit allow-list of the metrics and
+          dimensions to collect.
         applicability:
           - tlp-clear
           - tlp-green
@@ -347,3 +331,25 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.TH10
+          - reference-id: CCC.Core.TH19
+  - id: CCC.Monitor.CN10
+    group: Observability
+    title: Alert on Telemetry Ingestion Volume
+    objective: |
+      Ensure that a flood of metric series or data points is detected before the
+      resulting charges accrue.
+    assessment-requirements:
+      - id: CCC.Monitor.CN10.AR01
+        text: |
+          When telemetry ingestion for the service exceeds a user-defined volume or
+          series-count threshold, the service MUST generate an alert.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitor.TH06
