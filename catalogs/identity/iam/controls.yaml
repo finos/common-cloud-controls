@@ -4,9 +4,6 @@ imports:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
         remarks: Encrypt Data for Transmission
-      - reference-id: CCC.Core.CN02
-        strength: 0 # Not yet specified
-        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
@@ -22,9 +19,6 @@ imports:
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
         remarks: Ensure Integrity of Access Logs
-      - reference-id: CCC.Core.CN15
-        strength: 0 # Not yet specified
-        remarks: Enforce Transaction Rate Limits
       - reference-id: CCC.Core.CN16
         strength: 0 # Not yet specified
         remarks: Alert on Changes to Protective Configuration
@@ -64,7 +58,7 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH04
             strength: 0 # Not yet specified
-            remarks: Additional Cloud Credentials Creation
+            remarks: Credentials are Created Without Authorization
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -129,8 +123,9 @@ controls:
     title: Restrict Role Assumption / Delegation
     objective: |
       Limit which principals can assume a role or impersonate a service
-      identity to only those required. This prevents unintended cross-account
-      or public access by securing the "who can act as this identity" boundary.
+      identity, and which roles a principal may pass to a resource, to only
+      those required. This prevents unintended cross-account or public access
+      by securing the "who can act as this identity" boundary.
     assessment-requirements:
       - id: CCC.IAM.CN03.AR01
         text: |
@@ -513,6 +508,9 @@ controls:
     threats:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.IAM.TH02
+            strength: 0 # Not yet specified
+            remarks: Overly-Permissive IAM Policy
           - reference-id: CCC.IAM.TH03
             strength: 0 # Not yet specified
             remarks: Overly-Permissive Identity Trust Policy
@@ -570,7 +568,7 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH05
             strength: 0 # Not yet specified
-            remarks: Additional IAM Roles Creation
+            remarks: Roles are Created Without Authorization
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -589,8 +587,8 @@ controls:
     assessment-requirements:
       - id: CCC.IAM.CN13.AR01
         text: |
-          When a human identity signs in without presenting a second
-          authentication factor, the service MUST deny the sign-in.
+          When a human identity exists, an MFA enforcement policy MUST apply
+          to it.
         applicability:
           - tlp-clear
           - tlp-green
