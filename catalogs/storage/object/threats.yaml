@@ -2,7 +2,7 @@ imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.TH01
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         remarks: Data is Intercepted in Transit
       - reference-id: CCC.Core.TH03
@@ -10,27 +10,33 @@ imports:
       - reference-id: CCC.Core.TH04
         remarks: Data is Replicated to Untrusted or External Locations
       - reference-id: CCC.Core.TH05
-        remarks: Data is Corrupted During Replication
+        remarks: Interference with Replication Processes
       - reference-id: CCC.Core.TH06
         remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH08
-        remarks: Cost Management Data is Manipulated
+        remarks: Runtime Metrics are Manipulated
       - reference-id: CCC.Core.TH09
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH10
-        remarks: Alerts are Intercepted
+        remarks: State-change Events are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH11
-        remarks: Event Notifications are Incorrectly Triggered
+        remarks: Publications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
         remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH13
         remarks: Resource Tags are Manipulated
-      - reference-id: CCC.Core.TH14
-        remarks: Older Resource Versions are Exploited
       - reference-id: CCC.Core.TH15
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        remarks: Publications are Disabled
+      - reference-id: CCC.Core.TH17
+        remarks: Responses are Generated for Unauthorized Requests
+      - reference-id: CCC.Core.TH18
+        remarks: Encryption Key is Misused
+      - reference-id: CCC.Core.TH19
+        remarks: Metrics are Read by Unauthorized Entities
 
 threats:
   - id: CCC.ObjStor.TH01
@@ -50,7 +56,7 @@ threats:
 
   - id: CCC.ObjStor.TH02
     group: Access
-    title: Pre-Signed URL Abuse
+    title: Pre-Signed URLs are Leaked or Over-Scoped
     description: |
       Pre-signed URLs generated with excessive permissions, overly long
       expiry durations, or insufficient scope constraints may be leaked or

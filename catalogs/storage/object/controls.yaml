@@ -421,7 +421,7 @@ controls:
       - reference-id: CCC.ObjStor
         entries:
           - reference-id: CCC.ObjStor.TH02
-            remarks: Pre-Signed URL Abuse
+            remarks: Pre-Signed URLs are Leaked or Over-Scoped
             strength: 9
       - reference-id: CCC
         entries:
