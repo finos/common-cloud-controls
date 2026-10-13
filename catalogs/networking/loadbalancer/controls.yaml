@@ -110,3 +110,218 @@ controls:
           - reference-id: SC-13
             strength: 0 # Not yet specified
             remarks: Cryptographic protection
+
+  - id: CCC.LB.CN10
+    group: Networking
+    title: Protect Health-Check Endpoints
+    objective: |
+      Ensure that health-check results cannot be influenced by entities other than the
+      load balancer, so that healthy targets are not removed from service.
+    assessment-requirements:
+      - id: CCC.LB.CN10.AR01
+        text: |
+          When a backend target exposes a health-check endpoint, network access to
+          that endpoint MUST be restricted to the load balancer's health-check
+          source address ranges.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Allow the provider-published health-check source ranges in the target's
+          security group or firewall rules and deny the health-check path to all
+          other sources.
+      - id: CCC.LB.CN10.AR02
+        text: |
+          When more than 10 percent of the targets behind a listener change from
+          healthy to unhealthy within five minutes, the service MUST publish an
+          alert to a monitored channel.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Create an alarm on the unhealthy-target-count metric relative to the
+          registered target count.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH05
+            strength: 0 # Not yet specified
+            remarks: Health Checks Are Exploited to Take Services Offline
+
+  - id: CCC.LB.CN11
+    group: Networking
+    title: Attach a Web Application Firewall to Internet-Facing Listeners
+    objective: |
+      Ensure that application-layer traffic from the internet is inspected and
+      filtered before it reaches backend targets.
+    assessment-requirements:
+      - id: CCC.LB.CN11.AR01
+        text: |
+          When a listener is internet-facing and serves HTTP or HTTPS traffic, a web
+          application firewall policy MUST be associated with it.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Associate the provider's web application firewall with every public
+          layer-7 listener and include at least the managed core rule set.
+      - id: CCC.LB.CN11.AR02
+        text: |
+          When a web application firewall policy is associated with a listener, the
+          policy MUST run in blocking (prevention) mode rather than detection-only
+          mode.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Review WAF policies for count, log-only or detection mode and switch
+          them to block after tuning false positives.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH01
+            strength: 0 # Not yet specified
+            remarks: Unrestricted Request Traffic Overwhelms Downstream Services
+          - reference-id: CCC.LB.TH12
+            strength: 0 # Not yet specified
+            remarks: Application-Layer Inspection Is Absent or Bypassed
+
+  - id: CCC.LB.CN12
+    group: Encryption
+    title: Encrypt Traffic to Backend Targets
+    objective: |
+      Ensure that requests remain encrypted between the load balancer and its
+      backend targets after TLS termination.
+    assessment-requirements:
+      - id: CCC.LB.CN12.AR01
+        text: |
+          When TLS is terminated at the load balancer, the backend protocol for
+          every target group or backend pool MUST be HTTPS or TLS.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure HTTPS or TLS backend protocols and install certificates on the
+          targets; use backend re-encryption rather than HTTP backends.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH09
+            strength: 0 # Not yet specified
+            remarks: Traffic to Backend Targets Is Forwarded Unencrypted
+
+  - id: CCC.LB.CN13
+    group: Access
+    title: Validate Client Certificates
+    objective: |
+      Ensure that mutual TLS on a listener rejects clients that do not present a
+      valid certificate from a trusted authority.
+    assessment-requirements:
+      - id: CCC.LB.CN13.AR01
+        text: |
+          When mutual TLS is enabled on a listener, the listener MUST operate in
+          verify mode and MUST NOT be configured in passthrough mode.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set the mTLS mode to verify with an explicit trust store containing only
+          the approved client certificate authorities.
+      - id: CCC.LB.CN13.AR02
+        text: |
+          When mutual TLS is enabled on a listener, the listener MUST check
+          certificate revocation against a configured revocation list.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Upload and maintain certificate revocation lists in the trust store and
+          enable revocation checking.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH10
+            strength: 0 # Not yet specified
+            remarks: Client Certificate Validation Is Bypassed
+
+  - id: CCC.LB.CN14
+    group: Access
+    title: Prevent Forwarded-Header Spoofing
+    objective: |
+      Ensure that backend targets receive a trustworthy client source address.
+    assessment-requirements:
+      - id: CCC.LB.CN14.AR01
+        text: |
+          When the load balancer forwards a layer-7 request, client-supplied
+          forwarded-for headers MUST be replaced with the connection source address
+          rather than appended to.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set the X-Forwarded-For handling mode to remove or replace client-supplied
+          values; where only append is available, configure backends to trust only
+          the last hop.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH13
+            strength: 0 # Not yet specified
+            remarks: Client Source Address Is Spoofed via Forwarded Headers
+
+  - id: CCC.LB.CN15
+    group: Access
+    title: Apply Source Restrictions to Every Address Family
+    objective: |
+      Ensure that access restrictions on a dual-stack frontend apply to IPv6
+      clients as well as IPv4 clients.
+    assessment-requirements:
+      - id: CCC.LB.CN15.AR01
+        text: |
+          When a listener accepts IPv6 traffic, each IPv4 source restriction applied
+          to that listener MUST have a corresponding IPv6 source restriction.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Review security groups, firewall policies and WAF IP rules attached to
+          dual-stack frontends; add IPv6 entries or disable the IPv6 frontend.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH14
+            strength: 0 # Not yet specified
+            remarks: IPv6 Frontend Bypasses IPv4-Only Access Rules
+
+  - id: CCC.LB.CN16
+    group: Networking
+    title: Restrict Redirect Destinations
+    objective: |
+      Ensure that redirect rules cannot send users to hosts outside the
+      organization's control.
+    assessment-requirements:
+      - id: CCC.LB.CN16.AR01
+        text: |
+          When a redirect rule is configured, the redirect target host MUST be a
+          static value from an approved domain allowlist and MUST NOT be derived
+          from the request.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Audit listener rules for redirect actions whose host is a request
+          variable or an unapproved domain.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH11
+            strength: 0 # Not yet specified
+            remarks: Routing Rules Direct Requests to Unintended Destinations
