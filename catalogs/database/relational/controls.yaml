@@ -156,3 +156,188 @@ controls:
       - reference-id: NIST_800_53
         entries:
           - reference-id: AC-4
+  - id: CCC.RDMS.CN06
+    group: Compute
+    title: Apply Database Engine Security Patches
+    objective: |
+      Ensure that the database engine runs a supported version and receives
+      security patches automatically, so that published engine
+      vulnerabilities cannot be exploited against the instance.
+    assessment-requirements:
+      - id: CCC.RDMS.CN06.AR01
+        text: |
+          When the service offers automatic minor version upgrades, the
+          database instance MUST have automatic minor version upgrades
+          enabled.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN06.AR02
+        text: |
+          When the database instance is running, its engine version MUST be
+          one for which the provider still publishes security patches.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH06
+  - id: CCC.RDMS.CN07
+    group: Access
+    title: Enforce Least Privilege Within the Database
+    objective: |
+      Ensure that database roles and grants inside the engine give each
+      login only the privileges its function requires, so that one
+      compromised login cannot read or modify every schema.
+    assessment-requirements:
+      - id: CCC.RDMS.CN07.AR01
+        text: |
+          When a database login is used by an application, that login MUST
+          NOT hold an administrative or superuser role.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN07.AR02
+        text: |
+          When privileges are granted on a schema or table, the grant MUST
+          NOT be made to the engine's public or every-login role.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH07
+  - id: CCC.RDMS.CN08
+    group: Access
+    title: Authenticate Users with Cloud Identity
+    objective: |
+      Ensure that database users authenticate with short-lived tokens issued
+      to cloud identity principals, so that no long-lived password exists
+      to be exposed and reused.
+    assessment-requirements:
+      - id: CCC.RDMS.CN08.AR01
+        text: |
+          When a database user connects, the service MUST authenticate the
+          user with a token issued to a cloud identity principal rather than
+          a static password.
+        applicability:
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN08.AR02
+        text: |
+          When a static database password is in use, it MUST have been
+          rotated within the past 90 days.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH08
+  - id: CCC.RDMS.CN09
+    group: Data
+    title: Reset Session State Between Pooled Connections
+    objective: |
+      Ensure that a managed connection pool clears session-level state
+      before handing a server connection to another client, so that no
+      client observes or acts on state set by a previous client.
+    assessment-requirements:
+      - id: CCC.RDMS.CN09.AR01
+        text: |
+          When a pooled server connection is reassigned to a new client, the
+          pool MUST reset the session state of that connection before the
+          new client can issue a statement.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH09
+  - id: CCC.RDMS.CN10
+    group: Compute
+    title: Deploy on Dedicated Compute
+    objective: |
+      Ensure that the database runs on compute that is not shared with other
+      tenants, so that co-tenant workloads cannot degrade its availability
+      or observe it through hardware side channels.
+    assessment-requirements:
+      - id: CCC.RDMS.CN10.AR01
+        text: |
+          When the database instance is deployed, it MUST run on a compute
+          tier that is not shared with other tenants.
+        applicability:
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH10
+  - id: CCC.RDMS.CN11
+    group: Data
+    title: Apply Primary Protections to Read Replicas
+    objective: |
+      Ensure that every read replica carries the same public access
+      restriction and network access rules as its primary, so that the
+      replicated data is not reachable under weaker protection.
+    assessment-requirements:
+      - id: CCC.RDMS.CN11.AR01
+        text: |
+          When a read replica is created, its public access restriction MUST
+          be at least as restrictive as that of the primary.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN11.AR02
+        text: |
+          When a read replica is created, its network access rules MUST
+          permit no source that the primary's rules do not permit.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH11
+  - id: CCC.RDMS.CN12
+    group: Data
+    title: Prevent Data Loss During Failover
+    objective: |
+      Ensure that automatic failover promotes a standby that holds every
+      committed transaction and that the former primary stops accepting
+      writes, so that failover does not lose or fork data.
+    assessment-requirements:
+      - id: CCC.RDMS.CN12.AR01
+        text: |
+          When a standby is configured for automatic failover, replication to
+          that standby MUST be synchronous.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN12.AR02
+        text: |
+          When a standby is promoted, the former primary MUST stop accepting
+          write transactions.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH12
