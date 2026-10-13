@@ -37,9 +37,6 @@ imports:
       - reference-id: CCC.Core.CN14
         strength: 0 # Not yet specified
         remarks: Maintain Recent Backups
-      - reference-id: CCC.Core.CN15
-        strength: 0 # Not yet specified
-        remarks: Enforce Transaction Rate Limits
       - reference-id: CCC.Core.CN16
         strength: 0 # Not yet specified
         remarks: Alert on Changes to Protective Configuration
@@ -58,8 +55,8 @@ controls:
           When an attempt is made to authenticate to the database using known
           default credentials, the authentication attempt MUST fail.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
@@ -86,8 +83,8 @@ controls:
           the account MUST be locked out or rate-limited to prevent
           further login attempts.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
@@ -115,8 +112,8 @@ controls:
           explicitly authorized for backup or restore operations, the request
           MUST be denied.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
@@ -142,8 +139,8 @@ controls:
           When an attempt is made to share a snapshot with an unauthorized
           account, the sharing request MUST be denied.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
@@ -264,25 +261,6 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.RDMS.TH09
-  - id: CCC.RDMS.CN10
-    group: Compute
-    title: Deploy on Dedicated Compute
-    objective: |
-      Ensure that the database runs on compute that is not shared with other
-      tenants, so that co-tenant workloads cannot degrade its availability
-      or observe it through hardware side channels.
-    assessment-requirements:
-      - id: CCC.RDMS.CN10.AR01
-        text: |
-          When the database instance is deployed, it MUST run on a compute
-          tier that is not shared with other tenants.
-        applicability:
-          - tlp-red
-        recommendation: ""
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.RDMS.TH10
   - id: CCC.RDMS.CN11
     group: Data
     title: Apply Primary Protections to Read Replicas
