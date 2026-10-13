@@ -33,7 +33,7 @@ threats:
             remarks: Resource Versioning
           - reference-id: CCC.KeyMgmt.CP16
             strength: 0 # Not yet specified
-            remarks: Disable key
+            remarks: Disable Key
           - reference-id: CCC.Core.CP32
             strength: 0 # Not yet specified
             remarks: Deletion Protection
@@ -53,10 +53,10 @@ threats:
         entries:
           - reference-id: CCC.KeyMgmt.CP10
             strength: 0 # Not yet specified
-            remarks: Decrypt data
+            remarks: Decrypt Data
           - reference-id: CCC.KeyMgmt.CP17
             strength: 0 # Not yet specified
-            remarks: Enable key
+            remarks: Enable Key
 
   - id: CCC.KeyMgmt.TH03
     group: Encryption

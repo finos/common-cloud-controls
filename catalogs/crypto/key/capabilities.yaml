@@ -31,107 +31,132 @@ imports:
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP21
         remarks: Resource Replication
-      - reference-id: CCC.Core.CP32
-        remarks: Deletion Protection
       - reference-id: CCC.Core.CP23
         remarks: Network Access Rules
+      - reference-id: CCC.Core.CP32
+        remarks: Deletion Protection
 capabilities:
   - id: CCC.KeyMgmt.CP01
     group: Encryption
     title: AES-256
     description: |
-      Support for the AES-256 Advanced Encryption Standard with a 256-bit key for encryption and decryption.
+      The service can create and use symmetric keys that implement the Advanced
+      Encryption Standard (AES) with a 256-bit key for encryption and decryption.
   - id: CCC.KeyMgmt.CP02
     group: Encryption
     title: RSA-2048
     description: |
-      Supports the RSA algorithm with a key size of 2048 bits for encryption and digital signatures.
+      The service can create and use RSA keys with a 2048-bit modulus for
+      encryption and digital signatures.
   - id: CCC.KeyMgmt.CP03
     group: Encryption
     title: RSA-3072
     description: |
-      Supports the RSA algorithm with a key size of 3072 bits for encryption and digital signatures.
+      The service can create and use RSA keys with a 3072-bit modulus for
+      encryption and digital signatures.
   - id: CCC.KeyMgmt.CP04
     group: Encryption
     title: RSA-4096
     description: |
-      Supports the RSA algorithm with a key size of 4096 bits for encryption and digital signatures.
+      The service can create and use RSA keys with a 4096-bit modulus for
+      encryption and digital signatures.
   - id: CCC.KeyMgmt.CP05
     group: Encryption
     title: EC-P256
     description: |
-      Supports the elliptic curve signing algorithm using the P-256 Curve for digital signatures.
+      The service can create and use elliptic curve keys on the NIST P-256
+      curve for digital signatures.
   - id: CCC.KeyMgmt.CP06
     group: Encryption
     title: EC-P256K
     description: |
-      Supports the elliptic curve signing algorithm using the Secp256k1 Curve for digital signatures.
+      The service can create and use elliptic curve keys on the secp256k1
+      curve for digital signatures.
   - id: CCC.KeyMgmt.CP07
     group: Encryption
     title: EC-P384
     description: |
-      Supports the elliptic curve signing algorithm using the P-384 Curve for digital signatures.
+      The service can create and use elliptic curve keys on the NIST P-384
+      curve for digital signatures.
   - id: CCC.KeyMgmt.CP08
     group: Encryption
     title: Key Creation
     description: |
-      Supports secure key creation within the key management service using the supported algorithms.
+      The service can generate key material within its own boundary using any
+      supported algorithm, so that private key material is never exposed to
+      the user.
   - id: CCC.KeyMgmt.CP09
     group: Encryption
-    title: Encrypt data
+    title: Encrypt Data
     description: |
-      Provides the ability to securely encrypt data using a managed key in the supported encryption algorithms.
+      The service can encrypt data submitted by a user with a managed key and
+      return the ciphertext without exposing the key material.
   - id: CCC.KeyMgmt.CP10
     group: Encryption
-    title: Decrypt data
+    title: Decrypt Data
     description: |
-      Provides the ability to securely decrypt data using a managed key in the supported encryption algorithms.
+      The service can decrypt ciphertext submitted by a user with a managed key
+      and return the plaintext without exposing the key material.
   - id: CCC.KeyMgmt.CP11
     group: Encryption
     title: Create Digital Signature
     description: |
-      Supports the generation of a digital signature for data using the supported signing algorithms.
+      The service can generate a digital signature over data or a digest
+      submitted by a user with a managed asymmetric key.
   - id: CCC.KeyMgmt.CP12
     group: Encryption
     title: Verify Digital Signature
     description: |
-      Supports the verification of the digital signature of some data using the supported signing algorithms.
+      The service can verify a digital signature over data or a digest
+      submitted by a user with the public half of a managed asymmetric key.
   - id: CCC.KeyMgmt.CP13
     group: Encryption
-    title: Supports FIPS 140-2 Level 3
+    title: FIPS 140 Level 3 Hardware Security Modules
     description: |
-      Supports FIPS 140-2 Level 3 certified Hardware Security Modules (HSM).
+      The service may be configured to generate and store keys in hardware
+      security modules validated to FIPS 140-2 Level 3 or FIPS 140-3 Level 3,
+      so that key material never exists in plaintext outside the module.
   - id: CCC.KeyMgmt.CP16
     group: Encryption
-    title: Disable key
+    title: Disable Key
     description: |
-      Supports the ability to disable a managed key without deletion.
+      The service can disable a managed key or key version so that
+      cryptographic operations with it are rejected until it is re-enabled,
+      without deleting the key material.
   - id: CCC.KeyMgmt.CP17
     group: Encryption
-    title: Enable key
+    title: Enable Key
     description: |
-      Supports the ability to re-enable a disabled managed key.
+      The service can re-enable a disabled managed key or key version so that
+      cryptographic operations with it resume.
   - id: CCC.KeyMgmt.CP19
     group: Encryption
     title: Delete Key
     description: |
-      Supports the ability to permanently delete a managed key after the grace period defined on soft delete.
+      The service can permanently destroy a managed key or key version once
+      the deletion-protection recovery window has elapsed, after which data
+      protected by it can no longer be decrypted.
   - id: CCC.KeyMgmt.CP20
     group: Encryption
     title: Automatic Symmetric Key Rotation
     description: |
-      Supports the ability to automatically rotate a managed symmetric
-      key as long as the key was generated within the KMS.
+      The service may be configured to automatically generate new key material
+      for a symmetric key at a user-defined interval, provided the key material
+      was generated within the service, while retaining prior versions for
+      decryption.
   - id: CCC.KeyMgmt.CP21
     group: Encryption
     title: Manual Key Rotation
     description: |
-      Supports the ability to manually rotate a managed key.
+      The service can rotate a managed key on demand by generating a new key
+      version, while retaining prior versions for decryption.
   - id: CCC.KeyMgmt.CP22
     group: Encryption
     title: Key Import
     description: |
-      Supports the ability to import externally generated keys into the KMS.
+      The service can import key material generated outside the service,
+      wrapped under a service-provided wrapping key, so that it can be used as
+      a managed key.
   - id: CCC.KeyMgmt.CP25
     group: Encryption
     title: Key Usage Restriction
