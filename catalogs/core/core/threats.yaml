@@ -108,8 +108,6 @@ threats:
             remarks: Deletion Protection
           - reference-id: CCC.Core.CP34
             remarks: Data Lifecycle Policy
-          - reference-id: CCC.Core.CP35
-            remarks: Customer-Managed Encryption Keys
   - title: Logs are Tampered With or Deleted
     id: CCC.Core.TH07
     group: Observability
@@ -274,6 +272,8 @@ threats:
             remarks: API Access
           - reference-id: CCC.Core.CP27
             remarks: Configurable Network Ports
+          - reference-id: CCC.Core.CP28
+            remarks: Command-line Interface
   - title: Publications are Disabled
     id: CCC.Core.TH16
     group: Observability
