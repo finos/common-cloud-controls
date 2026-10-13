@@ -48,10 +48,13 @@ controls:
     assessment-requirements:
       - id: CCC.KeyMgmt.CN02.AR01
         text: |
-          When IAM roles and key policies are reviewed, Decrypt permission
-          MUST be granted exclusively to documented authorised principals.
+          When a key policy or role grants the decrypt operation, the grant
+          MUST name specific principals rather than a wildcard or an entire
+          account.
         applicability:
           - tlp-green
+          - tlp-amber
+          - tlp-red
         recommendation: Periodically audit policy documents via automated
           tooling and report any deviations.
     threats:
@@ -81,12 +84,24 @@ controls:
     assessment-requirements:
       - id: CCC.KeyMgmt.CN03.AR01
         text: |
-          When rotation settings are examined, rotation MUST be enabled with
-          an interval not exceeding 365 days.
+          When a symmetric key is generated within the service, automatic
+          rotation MUST be enabled on the key.
         applicability:
+          - tlp-clear
           - tlp-green
+          - tlp-amber
+          - tlp-red
         recommendation: Use cloud-provider rotation features and verify via
           configuration scanning.
+      - id: CCC.KeyMgmt.CN03.AR02
+        text: |
+          When automatic rotation is enabled on a key, the rotation interval
+          MUST NOT exceed 365 days.
+        applicability:
+          - tlp-clear
+          - tlp-green
+        recommendation: Shorter intervals for higher classifications are set
+          by CCC.Core.CN11.
     threats:
       - reference-id: CCC
         entries:
@@ -115,10 +130,20 @@ controls:
       - id: CCC.KeyMgmt.CN04.AR01
         text: |
           When a key import request is processed, the key MUST use an
-          approved algorithm (RSA-2048+, EC-P256+) and originate from a
-          certified HSM.
+          approved algorithm (AES-256, RSA-2048 or larger, EC-P256 or larger).
         applicability:
           - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: Reject import requests whose wrapping or target key
+          specification is not on the approved list.
+      - id: CCC.KeyMgmt.CN04.AR02
+        text: |
+          When a key import request is processed, the key material MUST
+          originate from a certified HSM.
+        applicability:
+          - tlp-amber
+          - tlp-red
         recommendation: Implement an approval workflow that validates
           attestation data before import.
     threats:
