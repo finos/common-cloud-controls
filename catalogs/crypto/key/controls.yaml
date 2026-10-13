@@ -62,7 +62,7 @@ controls:
         entries:
           - reference-id: CCC.KeyMgmt.TH02
             strength: 0 # Not yet specified
-            remarks: Unrestricted use of a KMS key to decrypt data
+            remarks: Unrestricted Use of a KMS Key to Decrypt Data
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -107,7 +107,7 @@ controls:
         entries:
           - reference-id: CCC.KeyMgmt.TH03
             strength: 0 # Not yet specified
-            remarks: Key rotation is disabled or delayed
+            remarks: Key Rotation is Disabled or Delayed Beyond Policy Limits
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -151,7 +151,7 @@ controls:
         entries:
           - reference-id: CCC.KeyMgmt.TH04
             strength: 0 # Not yet specified
-            remarks: Weak or compromised key material
+            remarks: Introduction of Weak or Compromised Key Material During Import
     guidelines:
       - reference-id: NIST-CSF
         entries:
