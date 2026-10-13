@@ -79,27 +79,6 @@ capabilities:
       Supports structured filtering on metadata fields alongside vector
       similarity search queries.
 
-  - id: CCC.Vector.CP05
-    group: Ingestion
-    title: Batch Ingestion
-    description: |
-      Allows for high-throughput batch upload and deletion of vectors and
-      associated metadata.
-
-  - id: CCC.Vector.CP06
-    group: Data
-    title: Real-Time Querying
-    description: |
-      Provides low-latency response to vector similarity queries suitable
-      for interactive applications.
-
-  - id: CCC.Vector.CP07
-    group: Resource
-    title: Index Lifecycle Management
-    description: |
-      Enables automated or manual creation, optimization, and removal of
-      vector indexes.
-
   - id: CCC.Vector.CP08
     group: MachineLearning
     title: Embedding Format Compatibility

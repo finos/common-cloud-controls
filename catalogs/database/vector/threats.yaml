@@ -64,7 +64,6 @@ threats:
         entries:
           - reference-id: CCC.Vector.CP01
           - reference-id: CCC.Vector.CP03
-          - reference-id: CCC.Vector.CP06
   - id: CCC.Vector.TH02
     group: Ingestion
     title: Embedding and Index Poisoning
@@ -75,8 +74,10 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Vector.CP02
-          - reference-id: CCC.Vector.CP05
-          - reference-id: CCC.Vector.CP07
+          - reference-id: CCC.Core.CP29
+            remarks: Active Ingestion
+          - reference-id: CCC.Core.CP30
+            remarks: Passive Ingestion
   - id: CCC.Vector.TH03
     group: Data
     title: Cross-modal or Metadata Leakage
@@ -97,7 +98,6 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Vector.CP07
           - reference-id: CCC.Vector.CP11
   - id: CCC.Vector.TH05
     group: Ingestion
