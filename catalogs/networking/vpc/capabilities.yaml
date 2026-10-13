@@ -3,18 +3,24 @@ imports:
     entries:
       - reference-id: CCC.Core.CP06
         remarks: Access Control
-      - reference-id: CCC.Core.CP08
-        remarks: Data Replication
+      - reference-id: CCC.Core.CP07
+        remarks: Event Publication
       - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
       - reference-id: CCC.Core.CP10
         remarks: Log Publication
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
+      - reference-id: CCC.Core.CP21
+        remarks: Resource Replication
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
 
 capabilities:
   - id: CCC.VPC.CP01
@@ -36,25 +42,12 @@ capabilities:
     description: |
       Ability to specify a IPv6 CIDR block to the virtual network.
 
-  - id: CCC.VPC.CP04
-    group: Networking
-    title: Public Subnet Creation
-    description: |
-      Ability to create a subnet that allows resources within the subnet to
-      communicate with the public internet.
-
   - id: CCC.VPC.CP05
     group: Networking
     title: Private Subnet Creation
     description: |
       Ability to create a subnet that resources within the subnet cannot directly
       access the public internet.
-
-  - id: CCC.VPC.CP06
-    group: Networking
-    title: Multiple Availability Zones for Subnets
-    description: |
-      Ability to spread the subnets in more than one availability zones.
 
   - id: CCC.VPC.CP07
     group: Networking
@@ -130,3 +123,11 @@ capabilities:
     description: |
       Ability to allow secure, private connectivity between resources within a VPC
       and other services without the need for a public internet.
+
+  - id: CCC.VPC.CP18
+    group: Observability
+    title: Traffic Mirroring
+    description: |
+      The service can be configured to copy network traffic from selected network
+      interfaces to a monitoring destination for out-of-band inspection. Not every
+      provider offers this capability.

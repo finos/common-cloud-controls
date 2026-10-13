@@ -48,7 +48,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VPC.CP04
+          - reference-id: CCC.VPC.CP08
   - id: CCC.VPC.TH03
     group: Networking
     title: Unauthorized Network Access Through VPC Peering
