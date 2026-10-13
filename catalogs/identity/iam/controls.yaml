@@ -142,12 +142,39 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
+      - id: CCC.IAM.CN03.AR03
+        text: |
+          When a policy grants a principal permission to pass or attach a role
+          or service identity to a resource, the policy MUST name the specific
+          roles or service identities that may be passed.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN03.AR04
+        text: |
+          When a role or service identity trusts a principal from another account
+          or an external system, the trust policy MUST require a caller-supplied
+          identifier, such as an external ID or audience, that is unique to the
+          trusting account.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.IAM.TH03
             strength: 0 # Not yet specified
             remarks: Overly-Permissive Identity Trust Policy
+          - reference-id: CCC.IAM.TH08
+            strength: 0 # Not yet specified
+            remarks: Privilege Escalation via Indirect Role Usage
+          - reference-id: CCC.IAM.TH12
+            strength: 0 # Not yet specified
+            remarks: IAM Role is Coerced into Unauthorized Cross-Account Actions (Confused Deputy)
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -445,8 +472,19 @@ controls:
       - id: CCC.IAM.CN11.AR01
         text: |
           When a cloud account or organization is provisioned, the native automated
-          access and usage analysis services MUST be enabled to continuously monitor
-          for external or public access to resources, and unused access.
+          access analysis service MUST be enabled to continuously monitor for
+          external or public access to resources.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN11.AR02
+        text: |
+          When a cloud account or organization is provisioned, the native automated
+          usage analysis service MUST be enabled to continuously monitor for
+          permissions that identities hold but do not use.
         applicability:
           - tlp-clear
           - tlp-green
@@ -459,6 +497,9 @@ controls:
           - reference-id: CCC.IAM.TH03
             strength: 0 # Not yet specified
             remarks: Overly-Permissive Identity Trust Policy
+          - reference-id: CCC.IAM.TH07
+            strength: 0 # Not yet specified
+            remarks: Identity Inherits Excessive Permissions Through Group Membership
           - reference-id: CCC.IAM.TH10
             strength: 0 # Not yet specified
             remarks: Orphaned Federated Identity Retains Access
@@ -478,3 +519,45 @@ controls:
           - reference-id: CA-7
             strength: 0 # Not yet specified
           - reference-id: RA-5
+  - id: CCC.IAM.CN12
+    group: Access
+    title: Restrict IAM Role Creation
+    objective: |
+      Ensure that only designated administrative principals can create roles
+      or service identities, closing a persistence and privilege escalation path.
+    assessment-requirements:
+      - id: CCC.IAM.CN12.AR01
+        text: |
+          When an identity policy for a non-administrative principal is evaluated,
+          it MUST NOT grant permissions for creating roles or service identities.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.IAM.CN12.AR02
+        text: |
+          When a non-administrative principal attempts to create a role or service
+          identity, the service MUST deny the action.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.IAM.TH05
+            strength: 0 # Not yet specified
+            remarks: Additional IAM Roles Creation
+    guidelines:
+      - reference-id: NIST-CSF
+        entries:
+          - reference-id: PR.AA-05
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-2
+            strength: 0 # Not yet specified
+          - reference-id: AC-6
