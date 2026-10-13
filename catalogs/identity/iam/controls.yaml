@@ -101,7 +101,7 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH06
             strength: 0 # Not yet specified
-            remarks: IAM Policies Modification
+            remarks: IAM Policies are Modified Without Authorization
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -270,7 +270,7 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH09
             strength: 0 # Not yet specified
-            remarks: Long-Lived Static Credentials
+            remarks: Static Credentials Outlive Their Rotation Period
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
@@ -340,7 +340,7 @@ controls:
         entries:
           - reference-id: CCC.IAM.TH11
             strength: 0 # Not yet specified
-            remarks: Unused Credentials
+            remarks: Unused Credentials Remain Active
           - reference-id: CCC.IAM.TH01
             strength: 0 # Not yet specified
             remarks: Valid Cloud Credentials Abuse
@@ -378,7 +378,7 @@ controls:
             remarks: Valid Cloud Credentials Abuse
           - reference-id: CCC.IAM.TH09
             strength: 0 # Not yet specified
-            remarks: Long-Lived Static Credentials
+            remarks: Static Credentials Outlive Their Rotation Period
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -464,7 +464,7 @@ controls:
             remarks: Orphaned Federated Identity Retains Access
           - reference-id: CCC.IAM.TH11
             strength: 0 # Not yet specified
-            remarks: Unused Credentials
+            remarks: Unused Credentials Remain Active
     guidelines:
       - reference-id: NIST-CSF
         entries:

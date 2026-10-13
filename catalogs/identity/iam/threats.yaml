@@ -22,9 +22,6 @@ imports:
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
         remarks: Publications are Incorrectly Triggered
-      - reference-id: CCC.Core.TH12
-        strength: 0 # Not yet specified
-        remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
@@ -106,6 +103,9 @@ threats:
           - reference-id: CCC.IAM.CP12
             strength: 0 # Not yet specified
             remarks: Policy Conditions
+          - reference-id: CCC.IAM.CP17
+            strength: 0 # Not yet specified
+            remarks: Deny Permissions by Default
 
   - id: CCC.IAM.TH03
     group: Access
@@ -136,11 +136,15 @@ threats:
 
   - id: CCC.IAM.TH04
     group: Access
-    title: Additional Cloud Credentials Creation
+    title: Credentials are Created Without Authorization
     description: |
-      An adversary with access to a sufficiently privileged cloud account may create
-      additional credentials such as access keys, service accounts and
-      temporary credentials to establish persistence or elevate their privileges.
+      A principal holds permissions to create credentials, such as access keys,
+      service account keys, client secrets or session tokens, beyond what its
+      function requires, or a compromised identity holds such permissions.
+      Additional credentials are then created outside the organization's
+      provisioning process and remain valid after the originating access ends.
+      This compromises the integrity of the access model and the confidentiality
+      of every resource the new credentials can reach.
     capabilities:
       - reference-id: CCC
         entries:
@@ -165,10 +169,15 @@ threats:
 
   - id: CCC.IAM.TH05
     group: Access
-    title: Additional IAM Roles Creation
+    title: Roles are Created Without Authorization
     description: |
-      An adversary with access to a sufficiently privileged cloud account may create
-      additional IAM roles to establish persistence or elevate their privileges.
+      A principal holds permissions to create roles or service identities beyond
+      what its function requires, or a compromised identity holds such
+      permissions. Additional roles are then created outside the organization's
+      provisioning process, each with its own trust policy and permissions, and
+      remain available after the originating access ends. This compromises the
+      integrity of the access model and the confidentiality of the resources
+      those roles can reach.
     capabilities:
       - reference-id: CCC
         entries:
@@ -184,10 +193,15 @@ threats:
 
   - id: CCC.IAM.TH06
     group: Access
-    title: IAM Policies Modification
+    title: IAM Policies are Modified Without Authorization
     description: |
-      An adversary with access to a sufficiently privileged cloud account may modify
-      IAM policies to establish persistence or elevate their privileges.
+      A principal holds permissions to create, update or attach IAM policies
+      beyond what its function requires, or a compromised identity holds such
+      permissions. Policies are then modified outside the organization's change
+      process so that identities gain permissions they were not granted by
+      design, and the change persists until it is detected. This compromises the
+      integrity of the access model and the confidentiality and integrity of the
+      resources the widened permissions reach.
     capabilities:
       - reference-id: CCC
         entries:
@@ -218,6 +232,9 @@ threats:
           - reference-id: CCC.IAM.CP05
             strength: 0 # Not yet specified
             remarks: IAM Groups
+          - reference-id: CCC.IAM.CP18
+            strength: 0 # Not yet specified
+            remarks: Audit Tooling
 
   - id: CCC.IAM.TH08
     group: Access
@@ -243,7 +260,7 @@ threats:
 
   - id: CCC.IAM.TH09
     group: Access
-    title: Long-Lived Static Credentials
+    title: Static Credentials Outlive Their Rotation Period
     description: |
       Long-lived static credentials such as access keys for an identity are used and
       not rotated periodically according to security best practices, extending exposure
@@ -282,7 +299,7 @@ threats:
 
   - id: CCC.IAM.TH11
     group: Access
-    title: Unused Credentials
+    title: Unused Credentials Remain Active
     description: |
       Unused IAM identity that is no longer needed or monitored remains active. Its compromise
       is less likely to be detected, and it represents a persistent, unnecessary attack surface.
@@ -301,6 +318,9 @@ threats:
           - reference-id: CCC.IAM.CP06
             strength: 0 # Not yet specified
             remarks: IAM Roles and Service Principals
+          - reference-id: CCC.IAM.CP18
+            strength: 0 # Not yet specified
+            remarks: Audit Tooling
 
   - id: CCC.IAM.TH12
     group: Access
@@ -342,4 +362,4 @@ threats:
             remarks: Password Management
           - reference-id: CCC.IAM.CP14
             strength: 0 # Not yet specified
-            remarks: Multi-Factor Authentication (MFA)
+            remarks: Multi-Factor Authentication

@@ -113,14 +113,6 @@ mappings:
     remarks: Trusted Relationship
   - entry-id: T1548.005
     remarks: 'Abuse Elevation Control Mechanism: Temporary Elevated Cloud Access'
-- id: CCC.IAM.TH13-mitre-attack
-  source: CCC.IAM.TH13
-  relationship: relates-to
-  targets:
-  - entry-id: T1556.006
-    remarks: 'Modify Authentication Process: Multi-Factor Authentication'
-  - entry-id: T1078.004
-    remarks: 'Valid Accounts: Cloud Accounts'
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.
