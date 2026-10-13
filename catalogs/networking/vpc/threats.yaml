@@ -10,9 +10,6 @@ imports:
       - reference-id: CCC.Core.TH03
         strength: 0 # Not yet specified
         remarks: Deployment Region Network is Untrusted
-      - reference-id: CCC.Core.TH06
-        strength: 0 # Not yet specified
-        remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
@@ -25,6 +22,9 @@ imports:
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Publications are Disabled
 
 threats:
   - id: CCC.VPC.TH01
@@ -32,34 +32,42 @@ threats:
     title: Unauthorized Access via Insecure Default Networks
     description: |
       Default network configurations may include insecure settings and open
-      firewall rules,leading to unauthorized access and potential data
+      firewall rules, leading to unauthorized access and potential data
       breaches.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP01
+            remarks: Isolated Custom Network Creation
   - id: CCC.VPC.TH02
     group: Networking
     title: Exposure of Resources to Public Internet
     description: |
-      Assignment of external IP addresses to resources exposes resources to the
-      public internet, increasing the risk of attacks such as brute force,
-      exploitation of vulnerabilities, or unauthorized access.
+      Assignment of external IP addresses to resources, including globally
+      routable IPv6 addresses, exposes resources to the public internet,
+      increasing the risk of attacks such as brute force, exploitation of
+      vulnerabilities, or unauthorized access.
     capabilities:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.VPC.CP03
+            remarks: IPv6 CIDR Block
           - reference-id: CCC.VPC.CP08
+            remarks: Connectivity Options - Internet Gateway
   - id: CCC.VPC.TH03
     group: Networking
-    title: Unauthorized Network Access Through VPC Peering
+    title: Unauthorized Network Access Through Peering or Transit Connections
     description: |
-      Unauthorized VPC peering connections can allow network traffic between
-      untrusted or unapproved subscriptions, leading to potential data
-      exposure or exfiltration.
+      Unauthorized peering connections or transit hub attachments can allow
+      network traffic between untrusted or unapproved subscriptions, leading to
+      potential data exposure or exfiltration.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP11
+            remarks: Connectivity Options - VPC Peering
+          - reference-id: CCC.VPC.CP12
+            remarks: Connectivity Options - Transit Hub
   - id: CCC.VPC.TH04
     group: Observability
     title: Lack of Network Visibility due to Disabled VPC Flow Logs
@@ -72,6 +80,7 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP16
+            remarks: Flow Logs
   - id: CCC.VPC.TH05
     group: Networking
     title: Overly Permissive VPC Endpoint Policies
@@ -82,3 +91,4 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP17
+            remarks: VPC Endpoints
