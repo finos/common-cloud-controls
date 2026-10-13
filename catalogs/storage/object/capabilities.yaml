@@ -17,6 +17,12 @@ imports:
         remarks: Data Replication
       - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
+      - reference-id: CCC.Core.CP10
+        remarks: Log Publication
+      - reference-id: CCC.Core.CP11
+        remarks: Backup
+      - reference-id: CCC.Core.CP12
+        remarks: Recovery
       - reference-id: CCC.Core.CP14
         remarks: API Access
       - reference-id: CCC.Core.CP15
@@ -29,6 +35,8 @@ imports:
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
       - reference-id: CCC.Core.CP30
@@ -39,6 +47,8 @@ imports:
         remarks: Public Access Restriction
       - reference-id: CCC.Core.CP34
         remarks: Data Lifecycle Policy
+      - reference-id: CCC.Core.CP35
+        remarks: Customer-Managed Encryption Keys
 
 capabilities:
   - id: CCC.ObjStor.CP01
