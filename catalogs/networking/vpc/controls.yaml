@@ -177,3 +177,301 @@ controls:
       - reference-id: CCM
         entries:
           - reference-id: IVS-06
+  - id: CCC.VPC.CN05
+    group: Networking
+    title: Restrict VPC Endpoints to Authorized Targets and Principals
+    objective: |
+      Ensure that private endpoints only reach resources inside the trust
+      perimeter and only serve authorized principals, so that an endpoint
+      cannot become a path for data exfiltration or unauthorized access.
+    assessment-requirements:
+      - id: CCC.VPC.CN05.AR01
+        text: |
+          When a VPC endpoint is created, the service MUST restrict the
+          endpoint to target resources owned by accounts inside the
+          organization's trust perimeter.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN05.AR02
+        text: |
+          When a request through a VPC endpoint originates from a principal
+          outside the organization's trust perimeter, the service MUST deny
+          the request.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH05
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: AC-4
+          - reference-id: SC-7
+  - id: CCC.VPC.CN06
+    group: Networking
+    title: Prevent Overlapping Address Ranges
+    objective: |
+      Ensure that connected networks never share address space, so that
+      traffic is always delivered to the intended network.
+    assessment-requirements:
+      - id: CCC.VPC.CN06.AR01
+        text: |
+          When a peering, transit, or hybrid connection is requested between
+          networks whose address ranges overlap, the service MUST reject the
+          connection.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH06
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+  - id: CCC.VPC.CN07
+    group: Access
+    title: Restrict Changes to Routing and DNS Configuration
+    objective: |
+      Ensure that route tables, private DNS zones, resolver rules, and DHCP
+      options can only be changed by explicitly authorized roles, so that
+      traffic cannot be silently redirected or exposed.
+    assessment-requirements:
+      - id: CCC.VPC.CN07.AR01
+        text: |
+          When a route table is created or modified, the service MUST reject
+          the request unless the requester holds an explicitly granted network
+          administration role.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN07.AR02
+        text: |
+          When a private DNS zone, resolver forwarding rule, or DHCP option set
+          is created or modified, the service MUST reject the request unless
+          the requester holds an explicitly granted network administration
+          role.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH07
+          - reference-id: CCC.VPC.TH11
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: CM-5
+          - reference-id: SC-20
+  - id: CCC.VPC.CN08
+    group: Networking
+    title: Restrict Outbound Internet Traffic
+    objective: |
+      Ensure that resources can only reach explicitly allowed internet
+      destinations, so that a compromised resource cannot exfiltrate data or
+      reach command-and-control infrastructure.
+    assessment-requirements:
+      - id: CCC.VPC.CN08.AR01
+        text: |
+          When a resource initiates an outbound connection to the public
+          internet through an internet or NAT gateway, the service MUST deny
+          the connection unless the destination is explicitly allowed by a
+          network access rule.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH08
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+          - reference-id: AC-4
+  - id: CCC.VPC.CN09
+    group: Networking
+    title: Filter and Log DNS Queries
+    objective: |
+      Ensure that the built-in resolver refuses queries to blocked domains and
+      records every query, so that DNS cannot be used as an unobserved
+      exfiltration channel.
+    assessment-requirements:
+      - id: CCC.VPC.CN09.AR01
+        text: |
+          When a resource queries a domain that is on a blocked list or is not
+          on an allowed list, the built-in resolver MUST refuse to resolve it.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN09.AR02
+        text: |
+          When the built-in resolver answers a query, the service MUST log the
+          source, queried name, and response code.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH12
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+          - reference-id: AU-12
+  - id: CCC.VPC.CN10
+    group: Networking
+    title: Restrict Traffic Over Hybrid Connections
+    objective: |
+      Ensure that private connections, VPNs, and transit hubs only carry
+      explicitly allowed traffic, so that a compromise on one side cannot
+      propagate to the other.
+    assessment-requirements:
+      - id: CCC.VPC.CN10.AR01
+        text: |
+          When traffic arrives over a private connection, site-to-site VPN, or
+          transit hub, the service MUST deny it unless a network access rule
+          explicitly allows the source range and destination port.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH09
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+          - reference-id: AC-4
+  - id: CCC.VPC.CN11
+    group: Encryption
+    title: Enforce Strong Encryption on Hybrid Connections
+    objective: |
+      Ensure that traffic between the virtual network and on-premises
+      networks cannot be read or modified in transit.
+    assessment-requirements:
+      - id: CCC.VPC.CN11.AR01
+        text: |
+          When a site-to-site VPN tunnel is negotiated, the service MUST reject
+          IKE version 1.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN11.AR02
+        text: |
+          When a site-to-site VPN tunnel is negotiated, the service MUST reject
+          Diffie-Hellman groups lower than group 14.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN11.AR03
+        text: |
+          When traffic traverses a dedicated private connection, the service
+          MUST encrypt it using MACsec or IPsec.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH10
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-8
+          - reference-id: SC-13
+  - id: CCC.VPC.CN12
+    group: Observability
+    title: Restrict Traffic Mirroring Targets
+    objective: |
+      Ensure that mirrored packet copies are only delivered to authorized
+      monitoring destinations and that every mirroring session is visible.
+    assessment-requirements:
+      - id: CCC.VPC.CN12.AR01
+        text: |
+          When a traffic mirroring session is created or modified, the service
+          MUST reject targets outside the organization's trust perimeter.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN12.AR02
+        text: |
+          When a traffic mirroring session is created or modified, the service
+          MUST publish an event to a monitored channel which includes the
+          client identity, time, and target of the session.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH13
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+          - reference-id: AU-12
+  - id: CCC.VPC.CN13
+    group: Data
+    title: Deploy Network Resources Across Availability Zones
+    objective: |
+      Ensure that the loss of a single availability zone does not remove
+      connectivity for workloads in the virtual network.
+    assessment-requirements:
+      - id: CCC.VPC.CN13.AR01
+        text: |
+          When workloads in more than one availability zone depend on a NAT
+          gateway, the service MUST provide a NAT gateway in every availability
+          zone those workloads occupy.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.VPC.CN13.AR02
+        text: |
+          When a site-to-site VPN or private connection is established in a
+          region with multiple availability zones, the service MUST terminate
+          it in at least two availability zones.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.TH14
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: CP-8
