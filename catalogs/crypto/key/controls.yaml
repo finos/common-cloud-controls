@@ -3,62 +3,42 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent unencrypted requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure Data Encryption at Rest for All Stored Data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
-        remarks: Implement multi-factor authentication (MFA) for access
+        remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
-        remarks: Log all access and changes
+        remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
-        remarks: Prevent access from untrusted entities
+        remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
-        remarks: Prevent deployment in restricted regions
+        remarks: Restrict Deployments to Trust Perimeter
       - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
-        remarks: Prevent Data Replication to Destinations Outside Perimeter
+        remarks: Restrict Data Replication to Trust Perimeter
+      - reference-id: CCC.Core.CN07
+        strength: 0 # Not yet specified
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.CN09
+        strength: 0 # Not yet specified
+        remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN11
+        strength: 0 # Not yet specified
+        remarks: Protect Encryption Keys
+      - reference-id: CCC.Core.CN15
+        strength: 0 # Not yet specified
+        remarks: Enforce Transaction Rate Limits
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
-  - id: CCC.KeyMgmt.CN01
-    group: Observability
-    title: Alert on Key-version Changes
-    objective: >
-      Generate near-real-time alerts when a KMS key version is disabled or
-      scheduled for deletion, enabling rapid investigation and recovery.
-    assessment-requirements:
-      - id: CCC.KeyMgmt.CN01.AR01
-        text: |
-          When a key version is scheduled for deletion or disabled, an
-          alert MUST be generated within five minutes.
-        applicability:
-          - tlp-amber
-          - tlp-red
-        recommendation: Use native event services (e.g., CloudWatch Events,
-          Azure Monitor, Cloud Audit Logs) to route notifications to an
-          incident-response channel.
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.KeyMgmt.TH01
-            strength: 0 # Not yet specified
-            remarks: Deletion or disabling of key versions
-    guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: RS.AN-1
-            strength: 0 # Not yet specified
-            remarks: Notifications from detection systems are investigated
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: IR-5
-            strength: 0 # Not yet specified
-            remarks: Incident Monitoring
-
   - id: CCC.KeyMgmt.CN02
     group: Access
     title: Limit Decrypt Permissions
