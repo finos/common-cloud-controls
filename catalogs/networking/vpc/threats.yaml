@@ -29,7 +29,7 @@ imports:
 threats:
   - id: CCC.VPC.TH01
     group: Networking
-    title: Unauthorized Access via Insecure Default Networks
+    title: Access is Granted Through Insecure Default Network Settings
     description: |
       Default network configurations may include insecure settings and open
       firewall rules, leading to unauthorized access and potential data
@@ -41,7 +41,7 @@ threats:
             remarks: Isolated Custom Network Creation
   - id: CCC.VPC.TH02
     group: Networking
-    title: Exposure of Resources to Public Internet
+    title: Resources are Exposed to the Public Internet
     description: |
       Assignment of external IP addresses to resources, including globally
       routable IPv6 addresses, exposes resources to the public internet,
@@ -56,7 +56,7 @@ threats:
             remarks: Connectivity Options - Internet Gateway
   - id: CCC.VPC.TH03
     group: Networking
-    title: Unauthorized Network Access Through Peering or Transit Connections
+    title: Network Access is Granted Through Unauthorized Peering or Transit Attachments
     description: |
       Unauthorized peering connections or transit hub attachments can allow
       network traffic between untrusted or unapproved subscriptions, leading to
@@ -70,7 +70,7 @@ threats:
             remarks: Connectivity Options - Transit Hub
   - id: CCC.VPC.TH04
     group: Observability
-    title: Lack of Network Visibility due to Disabled VPC Flow Logs
+    title: Network Traffic is Not Recorded When Flow Logs are Disabled
     description: |
       VPC subnets with disabled flow logs lack critical network traffic
       visibility, which can lead to undetected unauthorized access,
@@ -83,21 +83,21 @@ threats:
             remarks: Flow Logs
   - id: CCC.VPC.TH05
     group: Networking
-    title: Overly Permissive VPC Endpoint Policies
+    title: Private Endpoint Policies Permit Access by Unintended Principals
     description: |
-      VPC Endpoint policies that are overly permissive may inadvertently expose
+      Private endpoint policies that are overly permissive may inadvertently expose
       resources within the VPC to unintended principals or external threats.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP17
-            remarks: VPC Endpoints
+            remarks: Private Endpoints
   - id: CCC.VPC.TH06
     group: Networking
     title: Overlapping Address Ranges Disrupt Connectivity
     description: |
       Address ranges may be assigned that overlap with those of peered
-      networks, transit hubs, or on-premises networks. Traffic destined for the
+      networks or transit hub spokes. Traffic destined for the
       overlapping range is dropped or routed to the wrong network and the
       connection cannot be established, impacting the availability of
       connected resources and the integrity of traffic that reaches an
@@ -111,6 +111,8 @@ threats:
             remarks: IPv6 CIDR Block
           - reference-id: CCC.VPC.CP11
             remarks: Connectivity Options - VPC Peering
+          - reference-id: CCC.VPC.CP12
+            remarks: Connectivity Options - Transit Hub
   - id: CCC.VPC.TH07
     group: Networking
     title: Routes are Modified to Redirect or Expose Traffic
@@ -170,8 +172,8 @@ threats:
     title: Hybrid Connection Traffic is Unencrypted or Weakly Encrypted
     description: |
       Dedicated private connections may carry traffic without encryption, and
-      VPN tunnels may be negotiated with deprecated protocol versions, weak
-      cipher suites, or weak key-exchange groups. Traffic traversing the
+      VPN tunnels may be negotiated with deprecated protocol versions or weak
+      key-exchange groups. Traffic traversing the
       connection can be read or modified by an entity with access to the
       transmission path, impacting the confidentiality and integrity of data.
     capabilities:
@@ -230,7 +232,7 @@ threats:
     title: Network Resources are Confined to a Single Availability Zone
     description: |
       Subnets, NAT gateways, and VPN or private connection endpoints may be
-      deployed in a single availability zone rather than replicated across
+      deployed in a single availability zone rather than placed across
       zones. A failure of that zone removes connectivity for every resource
       that depends on them, impacting the availability of workloads in the
       network.
@@ -241,5 +243,5 @@ threats:
             remarks: Connectivity Options - NAT Gateways
           - reference-id: CCC.VPC.CP13
             remarks: Connectivity Options - Site-to-site VPN
-          - reference-id: CCC.Core.CP21
-            remarks: Resource Replication
+          - reference-id: CCC.VPC.CP06
+            remarks: Multiple Availability Zone Placement
