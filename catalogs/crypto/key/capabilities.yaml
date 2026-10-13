@@ -22,9 +22,9 @@ imports:
       - reference-id: CCC.Core.CP31
         remarks: Elastic Scaling
       - reference-id: CCC.Core.CP28
-        remarks: Command-line
-      - reference-id: CCC.Core.CP29
-        remarks: Active Ingestion
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP30
+        remarks: Passive Ingestion
 capabilities:
   - id: CCC.KeyMgmt.CP01
     group: Encryption
