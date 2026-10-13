@@ -808,10 +808,11 @@ controls:
     assessment-requirements:
       - id: CCC.Core.CN16.AR01
         text: |
-          When a configuration change disables or weakens a protective
-          feature of the service or a child resource, the service MUST
-          publish an event to a monitored channel which includes the client
-          identity, time, and nature of the change.
+          When a configuration change disables or weakens logging, backup,
+          encryption, deletion protection, public access restriction, or
+          network access rules on the service or a child resource, the
+          service MUST publish an event to a monitored channel which
+          includes the client identity, time, and nature of the change.
         applicability:
           - tlp-amber
           - tlp-red
