@@ -27,102 +27,114 @@ capabilities:
     group: Networking
     title: Isolated Custom Network Creation
     description: |
-      Ability to create a virtual network that is isolated from other users of the same
-      public cloud.
+      The service can create a virtual network that is logically isolated from
+      the networks of other users of the same public cloud.
 
   - id: CCC.VPC.CP02
     group: Networking
     title: IPv4 CIDR Block
     description: |
-      Ability to specify a IPv4 CIDR block to the virtual network.
+      The service can be configured with an IPv4 CIDR block that defines the
+      private address range of the virtual network.
 
   - id: CCC.VPC.CP03
     group: Networking
     title: IPv6 CIDR Block
     description: |
-      Ability to specify a IPv6 CIDR block to the virtual network.
+      The service can be configured with an IPv6 CIDR block in addition to IPv4
+      so that resources in the virtual network are addressable over IPv6.
 
   - id: CCC.VPC.CP05
     group: Networking
     title: Private Subnet Creation
     description: |
-      Ability to create a subnet that resources within the subnet cannot directly
-      access the public internet.
+      The service can create a subnet whose resources cannot directly reach the
+      public internet, so that workloads are reachable only through private
+      connectivity or an outbound gateway.
 
   - id: CCC.VPC.CP07
     group: Networking
     title: Routing Control
     description: |
-      Ability to control traffic within the VPC and between the VPC and the
-      internet or on-premises networks using customizable route tables.
+      The service can control traffic within the virtual network and between the
+      network and the internet or on-premises networks using customizable route
+      tables.
 
   - id: CCC.VPC.CP08
     group: Networking
     title: Connectivity Options - Internet Gateway
     description: |
-      Enables direct internet access for resources within a VPC.
+      The service can route traffic between resources in the virtual network and
+      the public internet through an internet gateway, enabling direct internet
+      access for those resources.
 
   - id: CCC.VPC.CP09
     group: Networking
     title: Connectivity Options - NAT Gateways
     description: |
-      Allows instances in private subnets to access the internet without
-      exposing them to inbound internet traffic.
+      The service can be configured with a NAT gateway that allows resources in
+      private subnets to initiate connections to the internet without exposing
+      them to inbound internet traffic.
 
   - id: CCC.VPC.CP10
     group: Networking
     title: Connectivity Options - Private Connection
     description: |
-      Dedicated, private, high-speed connections between on-premises
-       networks and cloud VPC.
+      The service can be configured with a dedicated, private, high-speed
+      connection between on-premises networks and the virtual network that does
+      not traverse the public internet.
 
   - id: CCC.VPC.CP11
     group: Networking
     title: Connectivity Options - VPC Peering
     description: |
-      Establishing a private connection between two VPCs to
-      communicate seamlessly.
+      The service can establish a private peering connection between two virtual
+      networks so that their resources communicate using private addresses.
 
   - id: CCC.VPC.CP12
     group: Networking
-    title: Connectivity Options - Transit Gateways
+    title: Connectivity Options - Transit Hub
     description: |
-      A hub-and-spoke model for connecting multiple VPCs and
-      on-premises networks.
+      The service can connect multiple virtual networks and on-premises networks
+      through a central transit hub in a hub-and-spoke model.
 
   - id: CCC.VPC.CP13
     group: Networking
     title: Connectivity Options - Site-to-site VPN
     description: |
-      Provides an encrypted connection over the internet between
-      a VPC and an on-premises network.
+      The service can establish an encrypted site-to-site VPN connection over the
+      public internet between the virtual network and an on-premises network.
 
   - id: CCC.VPC.CP14
     group: Networking
     title: Built-in DNS Resolution
     description: |
-      Resolves hostnames to IP addresses for instances within the VPC
-       allowing instances to communicate using hostnames instead of IP addresses.
+      The service automatically resolves hostnames to IP addresses for resources
+      within the virtual network, allowing resources to communicate using
+      hostnames instead of IP addresses.
 
   - id: CCC.VPC.CP15
     group: Networking
-    title: Built-in DHCP Resolution
+    title: Built-in DHCP Assignment
     description: |
-      Automatically assign IP addresses, subnet masks, default gateways
-      and other network configurations to instances within the VPC.
+      The service automatically assigns IP addresses, subnet masks, default
+      gateways, and other network configuration to resources within the virtual
+      network.
 
   - id: CCC.VPC.CP16
     group: Observability
     title: Flow Logs
     description: |
-      Ability to capture information about the IP traffic going through the VPC.
+      The service can be configured to capture and publish records of the IP
+      traffic flowing to and from network interfaces in the virtual network.
 
   - id: CCC.VPC.CP17
     group: Networking
     title: VPC Endpoints
     description: |
-      Ability to allow secure, private connectivity between resources within a VPC
-      and other services without the need for a public internet.
+      The service can be configured with private endpoints that allow resources
+      within the virtual network to reach other cloud services without traversing
+      the public internet.
 
   - id: CCC.VPC.CP18
     group: Observability
