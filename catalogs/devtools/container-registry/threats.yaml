@@ -3,7 +3,7 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access control is misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
         remarks: Data is intercepted in transit
@@ -15,7 +15,7 @@ imports:
         remarks: Data is replicated to untrusted or external locations
       - reference-id: CCC.Core.TH05
         strength: 0 # Not yet specified
-        remarks: Data is corrupted during replication
+        remarks: Interference with Replication Processes
       - reference-id: CCC.Core.TH06
         strength: 0 # Not yet specified
         remarks: Data is lost or corrupted
@@ -24,22 +24,22 @@ imports:
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
-        remarks: Event Notifications are Incorrectly Triggered
+        remarks: Publications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
         strength: 0 # Not yet specified
         remarks: Resource constraints are exhausted
       - reference-id: CCC.Core.TH14
         strength: 0 # Not yet specified
-        remarks: Older Resource Versions Are Exploited
+        remarks: Older Resource Versions are Used
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-Human Entities
       - reference-id: CCC.Core.TH16
         strength: 0 # Not yet specified
-        remarks: Logging and Monitoring are Disabled
+        remarks: Publications are Disabled
 
 threats:
   - id: CCC.CntrReg.TH01

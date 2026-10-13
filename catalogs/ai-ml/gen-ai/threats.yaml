@@ -3,7 +3,7 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
         remarks: Data is Intercepted in Transit
@@ -18,13 +18,13 @@ imports:
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH08
         strength: 0 # Not yet specified
-        remarks: Cost Management Data is Manipulated
+        remarks: Runtime Metrics are Manipulated
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH10
         strength: 0 # Not yet specified
-        remarks: Alerts are Intercepted
+        remarks: State-change Events are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH12
         strength: 0 # Not yet specified
         remarks: Resource Constraints are Exhausted
@@ -33,13 +33,13 @@ imports:
         remarks: Resource Tags are Manipulated
       - reference-id: CCC.Core.TH14
         strength: 0 # Not yet specified
-        remarks: Older Resource Versions are Exploited
+        remarks: Older Resource Versions are Used
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
       - reference-id: CCC.Core.TH16
         strength: 0 # Not yet specified
-        remarks: Logging and Monitoring are Disabled
+        remarks: Publications are Disabled
 
 threats:
   - id: CCC.GenAI.TH01
@@ -99,7 +99,7 @@ threats:
             remarks: Encryption at Rest Enabled by Default
           - reference-id: CCC.Core.CP06
             strength: 0 # Not yet specified
-            remarks: Identity-Based Access Control
+            remarks: Access Control
           - reference-id: CCC.GenAI.CP03
             strength: 0 # Not yet specified
             remarks: Embedding Model Selection
@@ -131,11 +131,11 @@ threats:
             remarks: Encryption at Rest Enabled by Default
           - reference-id: CCC.Core.CP06
             strength: 0 # Not yet specified
-            remarks: Identity-Based Access Control
+            remarks: Access Control
           - reference-id: CCC.GenAI.CP22
             strength: 0 # Not yet specified
             remarks: Data Control
-          - reference-id: CCC.GenAI.CP22
+          - reference-id: CCC.GenAI.CP25
             strength: 0 # Not yet specified
             remarks: Plugin Integrations
 
@@ -178,14 +178,14 @@ threats:
             remarks: Parameter Tuning - Frequency Penalty
           - reference-id: CCC.GenAI.CP13
             strength: 0 # Not yet specified
-            remarks: Parameter Tuning - Temperature
+            remarks: Parameter Tuning - Presence Penalty
           - reference-id: CCC.GenAI.CP14
             strength: 0 # Not yet specified
             remarks: Parameter Tuning - Context Length
           - reference-id: CCC.GenAI.CP21
             strength: 0 # Not yet specified
             remarks: Generate Content
-          - reference-id: CCC.GenAI.CP25
+          - reference-id: CCC.GenAI.CP24
             strength: 0 # Not yet specified
             remarks: Content Moderation
 
@@ -217,7 +217,7 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.GenAI.CP21
+          - reference-id: CCC.GenAI.CP25
             strength: 0 # Not yet specified
             remarks: Plugin Integrations
 
@@ -260,10 +260,10 @@ threats:
           - reference-id: CCC.GenAI.CP04
             strength: 0 # Not yet specified
             remarks: Image-Based Model Selection
-          - reference-id: CCC.GenAI.CP04
+          - reference-id: CCC.GenAI.CP05
             strength: 0 # Not yet specified
             remarks: Multimodal Model Selection
-          - reference-id: CCC.GenAI.CP04
+          - reference-id: CCC.GenAI.CP06
             strength: 0 # Not yet specified
             remarks: Customizable Model Selection
 
@@ -296,4 +296,4 @@ threats:
         entries:
           - reference-id: CCC.Core.CP18
             strength: 0 # Not yet specified
-            remarks: Versioning
+            remarks: Resource Versioning
