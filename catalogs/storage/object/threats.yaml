@@ -140,7 +140,7 @@ threats:
           - reference-id: CCC.ObjStor.CP10
             remarks: Object Level Access Control
           - reference-id: CCC.ObjStor.CP16
-            remarks: Uniform Bucket-Level Access
+            remarks: Bucket-Level-Only Access Policy
 
   - id: CCC.ObjStor.TH07
     group: Access
