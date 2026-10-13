@@ -1,9 +1,12 @@
 imports:
   - reference-id: CCC
     entries:
+      - reference-id: CCC.Core.CN01
+        strength: 0 # Not yet specified
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure Data Encryption at Rest for All Stored Data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access
@@ -18,22 +21,40 @@ imports:
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
-        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        remarks: Ensure Integrity of Access Logs
       - reference-id: CCC.Core.CN11
         strength: 0 # Not yet specified
-        remarks: Enforce Key Management Policies
+        remarks: Protect Encryption Keys
+      - reference-id: CCC.Core.CN15
+        strength: 0 # Not yet specified
+        remarks: Enforce Transaction Rate Limits
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.Monitor.CN01
     group: Observability
-    title: Rate Limiting on External Monitoring
+    title: Limit Monitoring Probe Load on Targets
     objective: |
-      Prevent DoS attacks using External Monitoring tools.
+      Ensure that synthetic and uptime checks cannot consume the capacity of the
+      endpoints they monitor.
     assessment-requirements:
       - id: CCC.Monitor.CN01.AR01
         text: |
-          When an External Monitoring system exceeds the anticipated rate of monitoring checks then
-          Rate Limiting MUST be applied and an Audit Alert MUST be generated.
+          When a synthetic or uptime check is configured, its aggregate request rate
+          across all probe locations MUST NOT exceed the rate approved for the target
+          endpoint.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN01.AR02
+        text: |
+          When the aggregate probe rate against a target endpoint exceeds the approved
+          rate, the service MUST generate an alert.
         applicability:
           - tlp-clear
           - tlp-green
@@ -55,50 +76,29 @@ controls:
           - reference-id: SC-5
             strength: 0 # Not yet specified
           - reference-id: SC-7
-  - id: CCC.Monitor.CN02
-    group: Observability
-    title: Rate Limiting on Metric Generation
+  - id: CCC.Monitor.CN03
+    group: Access
+    title: Restrict Monitoring Probe Reach
     objective: |
-      Prevent Malicious Actor or misconfiguration from flooding services with metric data.
+      Ensure that synthetic and uptime checks that reach non-public endpoints
+      cannot be used as a path into other internal systems.
     assessment-requirements:
-      - id: CCC.Monitor.CN02.AR01
+      - id: CCC.Monitor.CN03.AR01
         text: |
-          When an Custom or User-Defined Metric starts to flood a collector, then a rate limit MUST be applied
-          to reduce the network impact of traffic and an alert must triggered.
+          When a synthetic or uptime check targets an endpoint that is not publicly
+          reachable, the check MUST run with an identity whose permissions are
+          limited to that target endpoint.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: ""
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Monitor.TH06
-    guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: DE.CM-01
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: SC-5(2)
-            strength: 0 # Not yet specified
-          - reference-id: CA-7
-            strength: 0 # Not yet specified
-          - reference-id: SI-4
-  - id: CCC.Monitor.CN03
-    group: Access
-    title: Access External Monitoring
-    objective: |
-      Control access to Synthetic monitoring solutions using API keys or Certificate based authentication to
-      ensure they don't become an attack path, preventing monitoring systems from forging network requests to
-      gain access to internal systems.
-    assessment-requirements:
-      - id: CCC.Monitor.CN03.AR01
+      - id: CCC.Monitor.CN03.AR02
         text: |
-          When external systems have approved access to internal systems not normally available for public access
-          then they MUST be secured to prevent unauthorised access jumping through to the internal systems and
-          only allow access to specific internal services.
+          When a synthetic or uptime check is placed inside a private network, its
+          network access MUST be limited to the network segment of the target
+          endpoint.
         applicability:
           - tlp-clear
           - tlp-green
@@ -122,14 +122,16 @@ controls:
           - reference-id: AC-3
   - id: CCC.Monitor.CN04
     group: Access
-    title: Restrict access to Monitoring Dashboards
+    title: Restrict Access to Dashboards and Health Status
     objective: |
-      Control access to Monitoring Dashboards and reports to ensure they don't highlight an attack path.
+      Ensure that dashboards, uptime results, and service level objective status
+      are visible only to authorized users.
     assessment-requirements:
       - id: CCC.Monitor.CN04.AR01
         text: |
-          When monitoring dashboards display degraded services which may become potential targets then the
-          dashboard MUST be protected from unauthorised access.
+          When a dashboard, uptime result, or service level objective is shared, the
+          service MUST require the viewer to be an authenticated user who is
+          authorized on that resource.
         applicability:
           - tlp-clear
           - tlp-green
@@ -153,14 +155,25 @@ controls:
           - reference-id: AC-3
   - id: CCC.Monitor.CN05
     group: Access
-    title: Restrict access to silence or acknowledge an alert
+    title: Restrict Alert Suppression
     objective: |
-      Ensure only a subset of users can silence or acknowledge alerts to prevent attackers hiding their activity.
+      Ensure that alerts cannot be silenced, snoozed, or disabled by users other
+      than authorized responders, or for an unbounded period.
     assessment-requirements:
       - id: CCC.Monitor.CN05.AR01
         text: |
-          When monitoring services have generated an alert, the service MUST ensure only authorised
-          responders silence or acknowledge the alert.
+          When a user suppresses, snoozes, or disables an alert, the service MUST
+          require a permission that is granted only to authorized responders.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN05.AR02
+        text: |
+          When an alert suppression is created, the service MUST require an expiry
+          time after which the alert is delivered again.
         applicability:
           - tlp-clear
           - tlp-green
@@ -170,7 +183,7 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.TH10
+          - reference-id: CCC.Monitor.TH08
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -182,14 +195,28 @@ controls:
           - reference-id: AC-3
   - id: CCC.Monitor.CN06
     group: Access
-    title: Metrics pushed for authorised services only
+    title: Scope Telemetry Publishing Permissions
     objective: |
-      Use IAM to control which types of metrics or traces can be pushed by different system to avoid a compromised
-      system pushing fabricated metrics about a different service
+      Ensure that an identity can publish telemetry only for the resources it
+      owns, so that a compromised workload or agent cannot fabricate telemetry
+      about other systems or create unbounded metric series.
     assessment-requirements:
       - id: CCC.Monitor.CN06.AR01
         text: |
-          When systems push metrics or traces they MUST be authenticated for that particular type of metric or trace
+          When an identity is granted permission to publish metrics or traces, the
+          permission MUST be restricted to the metric namespaces or resources that
+          the identity owns.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN06.AR02
+        text: |
+          When a telemetry agent authenticates to the service, it MUST use the
+          platform identity of the instance it runs on rather than a stored
+          long-lived credential.
         applicability:
           - tlp-clear
           - tlp-green
@@ -200,6 +227,9 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Monitor.TH05
+          - reference-id: CCC.Monitor.TH06
+          - reference-id: CCC.Monitor.TH09
+          - reference-id: CCC.Core.TH08
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -207,3 +237,113 @@ controls:
       - reference-id: NIST_800_53
         entries:
           - reference-id: AC-5
+  - id: CCC.Monitor.CN07
+    group: Observability
+    title: Restrict Telemetry to Approved Fields
+    objective: |
+      Ensure that only explicitly selected metrics, dimensions, and trace
+      attributes are collected, so that sensitive data is neither captured in
+      telemetry nor carried out through it.
+    assessment-requirements:
+      - id: CCC.Monitor.CN07.AR01
+        text: |
+          When agent-based or application telemetry collection is configured, the
+          collection configuration MUST specify an explicit allow-list of the
+          metrics, dimensions, and trace attributes to collect.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN07.AR02
+        text: |
+          When trace collection is configured, request and response payloads MUST
+          NOT be recorded as trace attributes.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitor.TH01
+          - reference-id: CCC.Monitor.TH05
+  - id: CCC.Monitor.CN08
+    group: Access
+    title: Restrict Telemetry Destinations and Action Targets
+    objective: |
+      Ensure that telemetry is forwarded only to approved external systems and
+      that alerts can invoke only approved actions with least-privilege
+      identities.
+    assessment-requirements:
+      - id: CCC.Monitor.CN08.AR01
+        text: |
+          When a notification channel or telemetry export destination is configured,
+          the destination MUST be on an approved list of external systems.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN08.AR02
+        text: |
+          When an alert-triggered action is configured, the action target MUST be on
+          an approved list of functions, workflows, or endpoints.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN08.AR03
+        text: |
+          When an alert-triggered action is invoked, the service MUST use an identity
+          granted only the permissions required by that action.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitor.TH01
+          - reference-id: CCC.Monitor.TH05
+          - reference-id: CCC.Monitor.TH06
+          - reference-id: CCC.Monitor.TH07
+  - id: CCC.Monitor.CN09
+    group: Access
+    title: Restrict Cross-Account Monitoring Scope
+    objective: |
+      Ensure that telemetry is aggregated across accounts, subscriptions, or
+      projects only with the authorization of each linked account.
+    assessment-requirements:
+      - id: CCC.Monitor.CN09.AR01
+        text: |
+          When an account, subscription, or project is linked into a monitoring
+          scope, the link MUST be authorized from within the linked account.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Monitor.CN09.AR02
+        text: |
+          When a monitoring scope is configured, the set of linked accounts MUST
+          match the approved list of accounts for that scope.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Monitor.TH10
