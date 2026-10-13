@@ -87,18 +87,6 @@ threats:
             remarks: Support for IPv4
           - reference-id: CCC.RDMS.CP09
             remarks: Support for IPv6
-  - id: CCC.RDMS.TH03
-    group: Data
-    title: Database Backups Stopped
-    description: |
-      Database backups may be halted, potentially impairing the organization's
-      ability to recover data and maintain business continuity. This condition
-      increases the risk of data loss and extended system downtime.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.CP11
-            remarks: Backup
   - id: CCC.RDMS.TH04
     group: Data
     title: Unintentional Database Backup Restoration
