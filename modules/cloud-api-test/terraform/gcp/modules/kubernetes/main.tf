@@ -280,9 +280,11 @@ resource "google_container_node_pool" "main" {
     auto_upgrade = true
   }
 
-  autoscaling {
-    min_node_count = 1
-    max_node_count = 2
+  # Fixed-size pool: lifecycle Start/Stop owns SetSize(1|0). No Cluster
+  # Autoscaler — CA with pending kube-system pods fights scale-to-zero.
+  # Ignore node_count so terraform apply does not un-park after CI stop.
+  lifecycle {
+    ignore_changes = [node_count]
   }
 }
 

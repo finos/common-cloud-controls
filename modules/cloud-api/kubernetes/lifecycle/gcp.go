@@ -10,7 +10,8 @@ import (
 	container "google.golang.org/api/container/v1"
 )
 
-// GCP scales GKE node pools for fixture start/stop.
+// GCP scales GKE node pools for fixture start/stop via SetSize only
+// (no Cluster Autoscaler on the cheap fixture pool).
 type GCP struct {
 	Ctx         context.Context
 	GKE         *container.Service
@@ -21,14 +22,14 @@ type GCP struct {
 }
 
 func (g *GCP) Start(clusterID string) error {
-	return g.scaleNodePools(clusterID, 1, 1)
+	return g.scaleNodePools(clusterID, 1)
 }
 
 func (g *GCP) Stop(clusterID string) error {
-	return g.scaleNodePools(clusterID, 0, 0)
+	return g.scaleNodePools(clusterID, 0)
 }
 
-func (g *GCP) scaleNodePools(clusterID string, nodeCount, minNodes int64) error {
+func (g *GCP) scaleNodePools(clusterID string, nodeCount int64) error {
 	clusterID = strings.TrimSpace(clusterID)
 	cluster, err := g.GetCluster(clusterID)
 	if err != nil {
@@ -41,34 +42,27 @@ func (g *GCP) scaleNodePools(clusterID string, nodeCount, minNodes int64) error 
 	if err != nil {
 		return err
 	}
+	liveNodes := cluster.CurrentNodeCount
 	for _, pool := range cluster.NodePools {
-		autoscalingOK := pool.Autoscaling == nil || !pool.Autoscaling.Enabled || pool.Autoscaling.MinNodeCount == minNodes
-		if pool.InitialNodeCount == nodeCount && autoscalingOK {
+		autoscalingEnabled := pool.Autoscaling != nil && pool.Autoscaling.Enabled
+		if !poolNeedsResize(pool.InitialNodeCount, nodeCount, autoscalingEnabled, liveNodes) {
 			continue
 		}
 		poolName := fmt.Sprintf("%s/nodePools/%s", name, pool.Name)
-		if pool.Autoscaling != nil && pool.Autoscaling.Enabled {
-			maxNodes := pool.Autoscaling.MaxNodeCount
-			if maxNodes < minNodes+1 {
-				maxNodes = minNodes + 1
-			}
-			if maxNodes < 1 {
-				maxNodes = 1
-			}
+
+		// Disable leftover autoscaling before SetSize so CA cannot undo a park.
+		if autoscalingEnabled {
 			op, err := g.GKE.Projects.Locations.Clusters.NodePools.SetAutoscaling(poolName, &container.SetNodePoolAutoscalingRequest{
-				Autoscaling: &container.NodePoolAutoscaling{
-					Enabled:      true,
-					MinNodeCount: minNodes,
-					MaxNodeCount: maxNodes,
-				},
+				Autoscaling: &container.NodePoolAutoscaling{Enabled: false},
 			}).Context(g.Ctx).Do()
 			if err != nil {
-				return fmt.Errorf("set GKE autoscaling for pool %q: %w", pool.Name, err)
+				return fmt.Errorf("disable GKE autoscaling for pool %q: %w", pool.Name, err)
 			}
 			if err := g.waitOp(op.Name, 15*time.Minute); err != nil {
 				return err
 			}
 		}
+
 		op, err := g.GKE.Projects.Locations.Clusters.NodePools.SetSize(poolName, &container.SetNodePoolSizeRequest{
 			NodeCount: nodeCount,
 		}).Context(g.Ctx).Do()
@@ -80,6 +74,24 @@ func (g *GCP) scaleNodePools(clusterID string, nodeCount, minNodes int64) error 
 		}
 	}
 	return nil
+}
+
+// poolNeedsResize is true when configured size, leftover autoscaling, or live
+// cluster nodes disagree with the desired park/unpark target.
+func poolNeedsResize(initialCount, nodeCount int64, autoscalingEnabled bool, liveNodes int64) bool {
+	if autoscalingEnabled {
+		return true
+	}
+	if initialCount != nodeCount {
+		return true
+	}
+	if nodeCount == 0 && liveNodes > 0 {
+		return true
+	}
+	if nodeCount > 0 && liveNodes == 0 {
+		return true
+	}
+	return false
 }
 
 func (g *GCP) waitOp(opName string, timeout time.Duration) error {

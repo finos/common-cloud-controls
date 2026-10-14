@@ -11,7 +11,7 @@ variable "region" {
 variable "kubernetes_version" {
   type        = string
   description = "EKS Kubernetes version. Use a currently supported minor; bump with CSP support matrix."
-  default     = "1.31"
+  default     = "1.35"
 }
 
 variable "node_instance_types" {

@@ -131,7 +131,7 @@ services:
         - node
         - cni
         - csi
-        - autoscaler
+        # No cluster-autoscaler identity: fixture pool is fixed-size (no CA).
       approved-image-publishers:
         - google
         - "<approved-image-project>"

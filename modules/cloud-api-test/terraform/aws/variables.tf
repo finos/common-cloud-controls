@@ -11,7 +11,7 @@ variable "vm_instance_type" {
 variable "k8s_version" {
   type        = string
   description = "EKS Kubernetes version for the integration cluster."
-  default     = "1.31"
+  default     = "1.35"
 }
 
 variable "webhook_probe_image" {

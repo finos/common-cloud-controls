@@ -1,24 +1,15 @@
 name: Nightly fixture scale audit
 
 # Discovers CCC compute fixtures that are still online (VMs running / k8s nodes > 0
-# or AKS cluster Running). The job fails when leftovers are found so GitHub Actions
-# notifications can alert watchers. Optionally force-stops leftovers when
-# workflow_dispatch input force_stop is true.
+# or AKS cluster Running). When leftovers are found they are stopped, then the job
+# still fails so GitHub Actions notifications can alert watchers that a prior run
+# left fixtures running.
 
 on:
   schedule:
     # 06:00 UTC daily
     - cron: "0 6 * * *"
   workflow_dispatch:
-    inputs:
-      force_stop:
-        description: "Also run scale-fixtures.sh stop if anything is still started"
-        required: false
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
 
 permissions:
   contents: read
@@ -109,8 +100,8 @@ jobs:
             exit "$code"
           fi
 
-      - name: Force-stop leftovers
-        if: steps.list.outputs.found == 'true' && github.event_name == 'workflow_dispatch' && inputs.force_stop == 'true'
+      - name: Stop leftovers
+        if: steps.list.outputs.found == 'true'
         run: |
           set -euo pipefail
           ./modules/cloud-api-test/scale-fixtures.sh stop
@@ -128,10 +119,14 @@ jobs:
             else
               echo "_No list output._"
             fi
+            if [ "${{ steps.list.outputs.found }}" = "true" ]; then
+              echo ""
+              echo "Leftovers were stopped; job still fails so watchers are notified."
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Fail if fixtures still started
+      - name: Fail if fixtures were left started
         if: steps.list.outputs.found == 'true' || steps.list.outputs.found == 'error'
         run: |
-          echo "Started fixtures (or audit errors) detected — see job summary."
+          echo "Started fixtures (or audit errors) detected — leftovers stopped when found; see job summary."
           exit 1
