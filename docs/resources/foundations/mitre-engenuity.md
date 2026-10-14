@@ -9,15 +9,15 @@ MITRE Engenuity is a non-profit organization that operates under the MITRE Corpo
 > "This project created a comprehensive set of mappings between MITRE ATT&CK® and NIST Special Publication 800-53 with supporting documentation and resources. These mappings provide a critically important resource for organizations to assess their security control coverage against real-world threats as described in the ATT&CK knowledge base and provide a foundation for integrating ATT&CK-based threat information into the risk management process. With over 6,300 individual mappings between NIST 800-53 and ATT&CK, this resource greatly reduces the burden on the community to do their own baseline mappings– allowing organizations to focus their limited time and resources on understanding how controls map to threats in their specific environment. "
 
 - [Project Link (archived)](https://github.com/center-for-threat-informed-defense/attack-control-framework-mappings)
-- [NIST 800-53 Mappings Explorer (New Reference)](https://center-for-threat-informed-defense.github.io/mappings-explorer/external/nist/)
+- [NIST 800-53 Mappings Explorer (New Reference)](https://ctid.mitre.org/mappings/external/nist/)
 
 ### Example
 
-[NIST 800-53 (Rev 5) Declares a Mapping for Malicious Code Protection](https://center-for-threat-informed-defense.github.io/mappings-explorer/external/nist/attack-14.1/domain-enterprise/nist-rev5/SI-03/) like so:
+[NIST 800-53 (Rev 5) Declares a Mapping for Malicious Code Protection](https://ctid.mitre.org/mappings/external/nist/attack-14.1/domain-enterprise/nist-rev5/SI-03/) like so:
 
 > "System entry and exit points include firewalls, remote access servers, workstations, electronic mail servers, web servers, proxy servers, notebook computers, and mobile devices. Malicious code includes viruses, worms, Trojan horses, and spyware. Malicious code can also be encoded in various formats contained within compressed or hidden files or hidden in files using techniques such as steganography. Malicious code can be inserted into systems in a variety of ways, including by electronic mail, the world-wide web, and portable storage devices. Malicious code insertions occur through the exploitation of system vulnerabilities. A variety of technologies and methods exist to limit or eliminate the effects of malicious code. (...)"
 
-This is mapped in m:n fashion with MITRE ATT&CKs. For this particular mapping, 214 Att&cks are linked, including Att&ck [T1001.002 Steganography](https://center-for-threat-informed-defense.github.io/mappings-explorer/attack/attack-14.1/domain-enterprise/techniques/T1001.002/):
+This is mapped in m:n fashion with MITRE ATT&CKs. For this particular mapping, 214 Att&cks are linked, including Att&ck [T1001.002 Steganography](https://ctid.mitre.org/mappings/attack/attack-14.1/domain-enterprise/techniques/T1001.002/):
 
 > "Adversaries may use steganographic techniques to hide command and control traffic to make detection efforts more difficult. Steganographic techniques can be used to hide data in digital messages that are transferred between systems. This hidden information can be used for command and control of compromised systems. In some cases, the passing of files embedded using steganography, such as image or document files, can be used for command and control."
 
