@@ -20,7 +20,7 @@ imports:
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
       - reference-id: CCC.Core.CP28
-        remarks: Command Line Interface
+        remarks: Command-line Interface
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
       - reference-id: CCC.Core.CP31
