@@ -3,7 +3,7 @@ style_guide:
     - "Structure each capability with id, title, description."
 
   id:
-    - "Use the format CCC.<service-id>.F<seq-number>"
+    - "Use the format CCC.<service-id>.CP<seq-number>"
     - "Service id can be found in the 'id' field of the 'metadata.yaml' file."
     - "Service id should be less than 8 characters."
 

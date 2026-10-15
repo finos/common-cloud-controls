@@ -42,7 +42,7 @@ style_guide:
     - "Use the reference-id field to specify the capability set (typically matches service-id)."
     - |
       Each entry must include:
-        reference-id: the capability ID (e.g., CCC.Core.F06).
+        reference-id: the capability ID (e.g., CCC.Core.CP06).
         remarks: the capability title for human readability.
 
   mapping-documents:
