@@ -1,5 +1,5 @@
-# Three VPCs: good (receiver + VM subnet + flow logs), bad, one allow-list peer.
-# Extra allow-list / disallowed / non-allowlisted ids in outputs reuse the same VPCs.
+# Single cheap VPC for cloud-api driver coverage (VM subnet + flow logs).
+# Multi-VPC / non-compliant topologies belong in external CFI fixtures.
 
 resource "aws_vpc" "good" {
   cidr_block = "10.90.0.0/16"
@@ -23,10 +23,21 @@ resource "aws_internet_gateway" "good" {
   tags   = var.common_tags
 }
 
+# Pin the AZ: left unset, AWS can place this in a constrained zone (us-east-1e)
+# that does not offer the VM instance type.
+data "aws_ec2_instance_type_offerings" "vm" {
+  location_type = "availability-zone"
+  filter {
+    name   = "instance-type"
+    values = [var.vm_instance_type]
+  }
+}
+
 resource "aws_subnet" "vm" {
   vpc_id                  = aws_vpc.good.id
   cidr_block              = "10.90.2.0/24"
   map_public_ip_on_launch = true
+  availability_zone       = sort(data.aws_ec2_instance_type_offerings.vm.locations)[0]
   tags = merge(var.common_tags, {
     Name = "finos-ccc-integration-vm-subnet"
   })
@@ -41,35 +52,14 @@ resource "aws_route_table" "good_public" {
   tags = var.common_tags
 }
 
-resource "aws_route_table_association" "vm" {
-  subnet_id      = aws_subnet.vm.id
+resource "aws_route_table_association" "good_public" {
+  subnet_id      = aws_subnet.good_public.id
   route_table_id = aws_route_table.good_public.id
 }
 
-resource "aws_vpc" "bad" {
-  cidr_block = "10.91.0.0/16"
-  tags = merge(var.common_tags, {
-    Name          = "finos-ccc-integration-vpc-bad"
-    CFIControlSet = "CCC.VPC"
-    CFIVpcRole    = "bad"
-  })
-}
-
-resource "aws_subnet" "bad_public" {
-  vpc_id                  = aws_vpc.bad.id
-  cidr_block              = "10.91.1.0/24"
-  map_public_ip_on_launch = true
-  tags = merge(var.common_tags, {
-    Name = "finos-ccc-integration-vpc-bad-public"
-  })
-}
-
-resource "aws_vpc" "cn03_allowed_01" {
-  cidr_block = "10.92.0.0/20"
-  tags = merge(var.common_tags, {
-    Name      = "finos-ccc-integration-vpc-cn03-allow-01"
-    PeerClass = "allowed"
-  })
+resource "aws_route_table_association" "vm" {
+  subnet_id      = aws_subnet.vm.id
+  route_table_id = aws_route_table.good_public.id
 }
 
 resource "aws_cloudwatch_log_group" "flow_logs" {

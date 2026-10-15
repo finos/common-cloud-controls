@@ -1,0 +1,17 @@
+cfi:
+  id: aws-vpc
+  artifact-name: finos-integration-aws-vpc
+  provider: aws
+  source-secrets: AWS_ENV
+  service: vpc
+  start-compute: false
+  priority: 10
+  name: CCC AWS VPC Fixture
+  description: >-
+    Runs behavioural checks against the single cheap AWS VPC integration fixture.
+  path: modules/cloud-api-test/terraform/aws
+  test-on-branches:
+    - main
+  git: https://github.com/finos/common-cloud-controls
+  test-configuration: ../privateer-config/finos-integration/vpc/aws-vpc.yml
+  privateer-service: awsVpc

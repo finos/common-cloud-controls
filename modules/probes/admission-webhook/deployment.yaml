@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ccc-admission-webhook-probe
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ccc-admission-webhook-test
+  labels:
+    ccc.finos.org/admission-webhook-test: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ccc-admission-webhook-probe
+  namespace: ccc-admission-webhook-probe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ccc-admission-webhook-probe
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ccc-admission-webhook-probe
+    spec:
+      containers:
+        - name: webhook
+          image: ghcr.io/finos/common-cloud-controls/admission-webhook-probe:latest
+          imagePullPolicy: IfNotPresent
+          args: []
+          ports:
+            - name: https
+              containerPort: 8443
+          readinessProbe:
+            httpGet:
+              scheme: HTTPS
+              path: /readyz
+              port: https
+          livenessProbe:
+            httpGet:
+              scheme: HTTPS
+              path: /healthz
+              port: https
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - name: tls
+              mountPath: /tls
+              readOnly: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+        - name: tls
+          secret:
+            secretName: ccc-admission-webhook-probe-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ccc-admission-webhook-probe
+  namespace: ccc-admission-webhook-probe
+spec:
+  selector:
+    app.kubernetes.io/name: ccc-admission-webhook-probe
+  ports:
+    - name: https
+      port: 443
+      targetPort: https
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: ccc-admission-webhook-probe
+webhooks:
+  - name: admission-webhook-probe.ccc.finos.org
+    admissionReviewVersions: ["v1"]
+    sideEffects: None
+    timeoutSeconds: 5
+    failurePolicy: Fail
+    matchPolicy: Equivalent
+    clientConfig:
+      service:
+        namespace: ccc-admission-webhook-probe
+        name: ccc-admission-webhook-probe
+        path: /validate
+        port: 443
+      caBundle: REPLACE_WITH_BASE64_CA_CERTIFICATE
+    namespaceSelector:
+      matchLabels:
+        ccc.finos.org/admission-webhook-test: "true"
+    rules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+        scope: Namespaced

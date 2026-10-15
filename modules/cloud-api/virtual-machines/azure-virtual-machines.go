@@ -3,10 +3,12 @@ package virtualmachines
 import (
 	"context"
 	"fmt"
-	"net"
 	"strings"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v6"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v6"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 )
@@ -83,27 +85,100 @@ func (s *AzureVirtualMachinesService) GetVolumeEncryptionStatus(string) (*Volume
 		}},
 	}, nil
 }
-func (s *AzureVirtualMachinesService) AttemptInboundConnection(_ string, port int) (*ConnectionAttemptResult, error) {
-	host := strings.TrimSpace(s.config.Get("host-name"))
-	if host == "" {
-		return nil, fmt.Errorf("hostName is required for inbound connection checks")
+func (s *AzureVirtualMachinesService) AttemptInboundConnection(resourceID string, port int) (*ConnectionAttemptResult, error) {
+	host, err := resolveInboundHost(s.config.Get("host-name"), func() (string, error) {
+		return s.DiscoverPublicIP(resourceID)
+	})
+	if err != nil {
+		return nil, err
 	}
 	if port <= 0 {
 		port = cfgPort(s.config)
 	}
-	address := fmt.Sprintf("%s:%d", host, port)
-	conn, err := net.DialTimeout("tcp", address, 3*time.Second)
-	if err != nil {
-		return &ConnectionAttemptResult{
-			Connected: false,
-			Error:     err.Error(),
-		}, nil
+	return dialInbound(host, port)
+}
+
+func (s *AzureVirtualMachinesService) DiscoverPublicIP(resourceID string) (string, error) {
+	name := lifecycleResourceID(resourceID, s.config.Get("resource"))
+	subscription := s.config.CloudParams().AzureSubscriptionID
+	group := s.config.CloudParams().AzureResourceGroup
+	if name == "" || subscription == "" || group == "" {
+		return "", fmt.Errorf("resource, azure-subscription-id, and azure-resource-group are required to discover VM public IP")
 	}
-	remote := conn.RemoteAddr().String()
-	_ = conn.Close()
-	return &ConnectionAttemptResult{
-		Connected:  true,
-		RemoteAddr: remote,
-	}, nil
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return "", fmt.Errorf("create Azure credential for VM IP discovery: %w", err)
+	}
+	vmClient, err := armcompute.NewVirtualMachinesClient(subscription, cred, nil)
+	if err != nil {
+		return "", fmt.Errorf("create Azure VM client: %w", err)
+	}
+	vm, err := vmClient.Get(s.ctx, group, name, nil)
+	if err != nil {
+		return "", fmt.Errorf("get Azure VM %q: %w", name, err)
+	}
+	if vm.Properties == nil || vm.Properties.NetworkProfile == nil {
+		return "", fmt.Errorf("Azure VM %q has no network profile", name)
+	}
+	nicClient, err := armnetwork.NewInterfacesClient(subscription, cred, nil)
+	if err != nil {
+		return "", fmt.Errorf("create Azure NIC client: %w", err)
+	}
+	pipClient, err := armnetwork.NewPublicIPAddressesClient(subscription, cred, nil)
+	if err != nil {
+		return "", fmt.Errorf("create Azure public IP client: %w", err)
+	}
+	for _, nicRef := range vm.Properties.NetworkProfile.NetworkInterfaces {
+		if nicRef == nil || nicRef.ID == nil {
+			continue
+		}
+		nicGroup, nicName, err := azureResourceGroupAndName(*nicRef.ID)
+		if err != nil {
+			return "", err
+		}
+		nic, err := nicClient.Get(s.ctx, nicGroup, nicName, nil)
+		if err != nil {
+			return "", fmt.Errorf("get Azure NIC %q: %w", nicName, err)
+		}
+		if nic.Properties == nil {
+			continue
+		}
+		for _, ipcfg := range nic.Properties.IPConfigurations {
+			if ipcfg == nil || ipcfg.Properties == nil || ipcfg.Properties.PublicIPAddress == nil || ipcfg.Properties.PublicIPAddress.ID == nil {
+				continue
+			}
+			pipGroup, pipName, err := azureResourceGroupAndName(*ipcfg.Properties.PublicIPAddress.ID)
+			if err != nil {
+				return "", err
+			}
+			pip, err := pipClient.Get(s.ctx, pipGroup, pipName, nil)
+			if err != nil {
+				return "", fmt.Errorf("get Azure public IP %q: %w", pipName, err)
+			}
+			if pip.Properties != nil && pip.Properties.IPAddress != nil {
+				if ip := strings.TrimSpace(*pip.Properties.IPAddress); ip != "" {
+					return ip, nil
+				}
+			}
+		}
+	}
+	return "", fmt.Errorf("Azure VM %q has no public IP yet", name)
+}
+
+func azureResourceGroupAndName(resourceID string) (group, name string, err error) {
+	// /subscriptions/.../resourceGroups/<group>/providers/.../<type>/<name>
+	parts := strings.Split(strings.Trim(resourceID, "/"), "/")
+	for i := 0; i+1 < len(parts); i++ {
+		if strings.EqualFold(parts[i], "resourceGroups") || strings.EqualFold(parts[i], "resourcegroups") {
+			group = parts[i+1]
+		}
+	}
+	if len(parts) >= 2 {
+		name = parts[len(parts)-1]
+	}
+	if group == "" || name == "" {
+		return "", "", fmt.Errorf("could not parse Azure resource id %q", resourceID)
+	}
+	return group, name, nil
 }
 
