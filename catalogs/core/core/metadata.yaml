@@ -10,7 +10,7 @@ metadata:
   version: "v2025.10"
   mapping-references:
     - id: CCM
-      title: Cyber Controls Matrix
+      title: Cloud Controls Matrix
       version: v4.0
       description: |
         The Cloud Controls Matrix (CCM) is a cybersecurity framework developed

@@ -220,3 +220,35 @@ capabilities:
     description: |
       The service automatically adjusts its resource allocation
       (such as CPU, memory, and storage) based on current demand and workload.
+
+  - id: CCC.Core.CP32
+    group: Data
+    title: Deletion Protection
+    description: |
+      The service may be configured to block the deletion of a child resource,
+      or to retain a deleted child resource for a recovery window during which
+      it can be restored.
+
+  - id: CCC.Core.CP33
+    group: Access
+    title: Public Access Restriction
+    description: |
+      The service may be configured to deny all access to a child resource from
+      the public internet, regardless of any resource-level permission that
+      would otherwise grant it.
+
+  - id: CCC.Core.CP34
+    group: Data
+    title: Data Lifecycle Policy
+    description: |
+      The service may be configured to automatically delete, archive, or
+      transition data or child resources once a user-defined age or condition
+      is reached.
+
+  - id: CCC.Core.CP35
+    group: Encryption
+    title: Customer-Managed Encryption Keys
+    description: |
+      The service may be configured to encrypt data at rest using a key that
+      the user creates and controls in a key management service, instead of
+      a key managed by the provider.
