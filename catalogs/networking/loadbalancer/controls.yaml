@@ -3,163 +3,36 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent Unencrypted Requests
-      - reference-id: CCC.Core.CN02
-        strength: 0 # Not yet specified
-        remarks: Ensure Data Encryption at Rest
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
-        remarks: Enforce Multi-Factor Authentication
+        remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
         remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
-        remarks: Prevent Access From Untrusted Entities
+        remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
-        remarks: Prevent Deployment in Restricted Regions
-      - reference-id: CCC.Core.CN10
+        remarks: Restrict Deployments to Trust Perimeter
+      - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
-        remarks: Prevent Data Replication Outside Perimeter
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.CN09
+        strength: 0 # Not yet specified
+        remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN13
+        strength: 0 # Not yet specified
+        remarks: Minimize Lifetime of Encryption and Authentication Certificates
+      - reference-id: CCC.Core.CN15
+        strength: 0 # Not yet specified
+        remarks: Enforce Transaction Rate Limits
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
-  - id: CCC.LB.CN01
-    group: Networking
-    title: Enforce and Detect Rate Limiting
-    objective: >
-      Detect and throttle malicious or excessive requests to prevent
-      downstream resource exhaustion and brute-force activity.
-    assessment-requirements:
-      - id: CCC.LB.CN01.AR01
-        text: |
-          When a single client sends more than 2000 requests within any
-          5-minute sliding window, the load balancer MUST throttle all
-          subsequent requests from that client for at least 60 seconds.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Implement per-IP token-bucket limits with and verify via
-          synthetic traffic tests.
-      - id: CCC.LB.CN01.AR02
-        text: |
-          When throttling is invoked, the load balancer MUST
-          record the event in the access log within 5 minutes
-          for alerting and trend analysis.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Enable access logging and configure metric filters
-          on HTTP 429 counts to trigger alerts.
-    threats:
-      - reference-id: LB
-        entries:
-          - reference-id: CCC.LB.TH01
-            strength: 0 # Not yet specified
-            remarks: Malicious Traffic
-    guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: DE.CM-1
-            strength: 0 # Not yet specified
-            remarks: Monitor to detect events
-          - reference-id: PR.AC-7
-            strength: 0 # Not yet specified
-            remarks: Prevent brute-force
-          - reference-id: PR.PT-4
-            strength: 0 # Not yet specified
-            remarks: Protective technology
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: AU-6
-            strength: 0 # Not yet specified
-            remarks: Audit review, analysis, reporting
-          - reference-id: SC-5
-            strength: 0 # Not yet specified
-            remarks: Denial-of-Service protection
-          - reference-id: AC-7
-            strength: 0 # Not yet specified
-            remarks: Unsuccessful logon attempts
-
-  - id: CCC.LB.CN06
-    group: Observability
-    title: Secure Health-Check Telemetry
-    objective: |
-      Monitor health-check endpoints for tampering and alert on
-      abnormal status changes.
-    assessment-requirements:
-      - id: CCC.LB.CN06.AR01
-        text: |
-          When more than 10 percent of targets change from healthy to
-          unhealthy within five minutes, an alert MUST be issued.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Instrument metrics for health check results and target
-          removal events. Configure monitoring alarms to alert
-          on abnormal spikes in unhealthy targets.
-    threats:
-      - reference-id: LB
-        entries:
-          - reference-id: CCC.LB.TH05
-            strength: 0 # Not yet specified
-            remarks: Health Checks Exploited
-    guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: DE.AE-2
-            strength: 0 # Not yet specified
-            remarks: Detected events are analyzed
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: SI-4
-            strength: 0 # Not yet specified
-            remarks: System monitoring
-
-  - id: CCC.LB.CN04
-    group: Access
-    title: Enforce Distribution Policies
-    objective: |
-      Ensure traffic-splitting weights and algorithms are modified
-      only by trusted identities.
-    assessment-requirements:
-      - id: CCC.LB.CN04.AR01
-        text: |
-          When routing weights change, the request MUST originate
-          from an explicitly defined and trusted identity and MUST
-          be logged.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Define a list of trusted principals allowed to modify
-          routing configurations. Enforce via conditional access
-          policies, and log changes using audit logging.
-    threats:
-      - reference-id: LB
-        entries:
-          - reference-id: CCC.LB.TH03
-            strength: 0 # Not yet specified
-            remarks: Traffic Distribution Manipulated
-    guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: PR.AC-1
-            strength: 0 # Not yet specified
-            remarks: Identities and credentials are managed
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: AC-3
-            strength: 0 # Not yet specified
-            remarks: Access enforcement
-
   - id: CCC.LB.CN05
     group: Networking
     title: Validate Session Affinity
@@ -181,7 +54,7 @@ controls:
         entries:
           - reference-id: CCC.LB.TH04
             strength: 0 # Not yet specified
-            remarks: Session Persistence Exploited
+            remarks: Session Persistence Is Exploited
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -194,76 +67,6 @@ controls:
             strength: 0 # Not yet specified
             remarks: Session authenticity
 
-  - id: CCC.LB.CN09
-    group: Access
-    title: Restrict Management API Access
-    objective: |
-      Limit load-balancer API calls to authorised identities and
-      trusted networks.
-    assessment-requirements:
-      - id: CCC.LB.CN09.AR01
-        text: |
-          When an API call originates outside the approved CIDR
-          set, the request MUST be denied.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: Combine VPC endpoints with IAM condition-key filters
-          for protected APIs.
-    threats:
-      - reference-id: LB
-        entries:
-          - reference-id: CCC.Core.TH01
-            strength: 0 # Not yet specified
-            remarks: Access Control is Misconfigured
-    guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: PR.AC-5
-            strength: 0 # Not yet specified
-            remarks: Network integrity is protected
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: SC-7
-            strength: 0 # Not yet specified
-            remarks: Boundary protection
-
-  - id: CCC.LB.CN02
-    group: Resource
-    title: Auto-Scale Load Balancer Capacity
-    objective: |
-      Expand load-balancer capacity to maintain availability during traffic
-      spikes.
-    assessment-requirements:
-      - id: CCC.LB.CN02.AR01
-        text: |
-          When concurrent connections reach 80 percent of capacity, the
-          autoscaling group MUST add at least one instance within five
-          minutes.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: Enable autoscaling policies.
-    threats:
-      - reference-id: LB
-        entries:
-          - reference-id: CCC.LB.TH01
-            strength: 0 # Not yet specified
-            remarks: Unrestricted Request Traffic Overwhelms Downstream Services
-    guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: ID.BE-5
-            strength: 0 # Not yet specified
-            remarks: Resilience requirements are established
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: CP-10
-            strength: 0 # Not yet specified
-            remarks: System recovery and reconstitution
-
   - id: CCC.LB.CN07
     group: Networking
     title: Scrub Sensitive Headers
@@ -274,18 +77,24 @@ controls:
       - id: CCC.LB.CN07.AR01
         text: |
           When responses pass through the load balancer, the
-          "Server" header MUST be replaced with "lb".
+          "Server" header MUST be removed or replaced with a generic value
+          that does not identify the software or its version.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: Configure header-transformation rules.
     threats:
-      - reference-id: LB
+      - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH15
             strength: 0 # Not yet specified
-            remarks: Automated Enumeration and Reconnaissance by Non-human
+            remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH06
+            strength: 0 # Not yet specified
+            remarks: Sensitive Metadata Is Exposed via HTTP Headers
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -298,36 +107,313 @@ controls:
             strength: 0 # Not yet specified
             remarks: Cryptographic protection
 
-  - id: CCC.LB.CN08
-    group: Encryption
-    title: Automate Certificate Renewal
+  - id: CCC.LB.CN10
+    group: Networking
+    title: Protect Health-Check Endpoints
     objective: |
-      Maintain valid TLS certificates by automating renewal and
-      deployment before expiry.
+      Ensure that health-check results cannot be influenced by entities other than the
+      load balancer, so that healthy targets are not removed from service.
     assessment-requirements:
-      - id: CCC.LB.CN08.AR01
+      - id: CCC.LB.CN10.AR01
         text: |
-          When a certificate is within 30 days of expiry, automated renewal
-          MUST complete and deploy a new certificate within 24 hours.
+          When a backend target exposes a health-check endpoint, network access to
+          that endpoint MUST be restricted to the load balancer's health-check
+          source address ranges.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Allow the provider-published health-check source ranges in the target's
+          security group or firewall rules and deny the health-check path to all
+          other sources. This requirement is assessed on the backend target's
+          security group or firewall rules, not on the load balancer itself.
+      - id: CCC.LB.CN10.AR02
+        text: |
+          When more than 10 percent of the targets behind a listener change from
+          healthy to unhealthy within five minutes, the service MUST publish an
+          alert to a monitored channel.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: Use certificate-manager auto-renewal workflows.
+        recommendation: |
+          Create an alarm on the unhealthy-target-count metric relative to the
+          registered target count.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH05
+            strength: 0 # Not yet specified
+            remarks: Health Checks Are Exploited to Take Services Offline
+
+  - id: CCC.LB.CN11
+    group: Networking
+    title: Attach a Web Application Firewall to Internet-Facing Listeners
+    objective: |
+      Ensure that application-layer traffic from the internet is inspected and
+      filtered before it reaches backend targets.
+    assessment-requirements:
+      - id: CCC.LB.CN11.AR01
+        text: |
+          When a listener is internet-facing and serves HTTP or HTTPS traffic, a web
+          application firewall policy MUST be associated with it.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Associate the provider's web application firewall with every public
+          layer-7 listener and include at least the managed core rule set.
+      - id: CCC.LB.CN11.AR02
+        text: |
+          When a web application firewall policy is associated with a listener, the
+          policy MUST run in blocking (prevention) mode rather than detection-only
+          mode.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Review WAF policies for count, log-only or detection mode and switch
+          them to block after tuning false positives.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH01
+            strength: 0 # Not yet specified
+            remarks: Unrestricted Request Traffic Overwhelms Downstream Services
+          - reference-id: CCC.LB.TH12
+            strength: 0 # Not yet specified
+            remarks: Application-Layer Inspection Is Absent or Bypassed
+
+  - id: CCC.LB.CN12
+    group: Encryption
+    title: Encrypt Traffic to Backend Targets
+    objective: |
+      Ensure that requests remain encrypted between the load balancer and its
+      backend targets after TLS termination.
+    assessment-requirements:
+      - id: CCC.LB.CN12.AR01
+        text: |
+          When TLS is terminated at the load balancer, the backend protocol for
+          every target group or backend pool MUST be HTTPS or TLS.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure HTTPS or TLS backend protocols and install certificates on the
+          targets; use backend re-encryption rather than HTTP backends.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH09
+            strength: 0 # Not yet specified
+            remarks: Traffic to Backend Targets Is Forwarded Unencrypted
+
+  - id: CCC.LB.CN13
+    group: Access
+    title: Validate Client Certificates
+    objective: |
+      Ensure that mutual TLS on a listener rejects clients that do not present a
+      valid certificate from a trusted authority.
+    assessment-requirements:
+      - id: CCC.LB.CN13.AR01
+        text: |
+          When mutual TLS is enabled on a listener, the listener MUST operate in
+          verify mode rather than passthrough mode.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set the mTLS mode to verify with an explicit trust store containing only
+          the approved client certificate authorities.
+      - id: CCC.LB.CN13.AR02
+        text: |
+          When mutual TLS is enabled on a listener, the listener MUST check the
+          revocation status of the presented client certificate.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enable revocation checking using the provider's mechanism: certificate
+          revocation lists in the trust store, or OCSP via the certificate's
+          authority information access extension. GCP load balancer frontends do
+          not perform revocation checks on client certificates today, so this
+          requirement cannot be satisfied there.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH10
+            strength: 0 # Not yet specified
+            remarks: Client Certificate Validation Is Bypassed
+
+  - id: CCC.LB.CN14
+    group: Access
+    title: Prevent Forwarded-Header Spoofing
+    objective: |
+      Ensure that backend targets receive a trustworthy client source address.
+    assessment-requirements:
+      - id: CCC.LB.CN14.AR01
+        text: |
+          When the load balancer forwards a layer-7 request, client-supplied
+          forwarded-for headers MUST be removed or replaced with the connection
+          source address.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set the X-Forwarded-For handling mode to remove or replace client-supplied
+          values rather than append to them.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH13
+            strength: 0 # Not yet specified
+            remarks: Client Source Address Is Spoofed via Forwarded Headers
+
+  - id: CCC.LB.CN15
+    group: Access
+    title: Apply Source Restrictions to Every Address Family
+    objective: |
+      Ensure that access restrictions on a dual-stack frontend apply to IPv6
+      clients as well as IPv4 clients.
+    assessment-requirements:
+      - id: CCC.LB.CN15.AR01
+        text: |
+          When a listener accepts IPv6 traffic, each IPv4 source restriction applied
+          to that listener MUST have a corresponding IPv6 source restriction.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Review security groups, firewall policies and WAF IP rules attached to
+          dual-stack frontends; add IPv6 entries or disable the IPv6 frontend.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH14
+            strength: 0 # Not yet specified
+            remarks: IPv6 Frontend Bypasses IPv4-Only Access Rules
+
+  - id: CCC.LB.CN16
+    group: Networking
+    title: Restrict Redirect Destinations
+    objective: |
+      Ensure that redirect rules cannot send users to hosts outside the
+      organization's control.
+    assessment-requirements:
+      - id: CCC.LB.CN16.AR01
+        text: |
+          When a redirect rule is configured, the redirect target host MUST be
+          either the request's own host or a static value from an approved
+          allowlist, and MUST NOT be derived from any other request header or
+          parameter.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Audit listener rules for redirect actions whose host is a request
+          variable or an unapproved domain.
+    threats:
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH11
+            strength: 0 # Not yet specified
+            remarks: Routing Rules Direct Requests to Unintended Destinations
+
+  - id: CCC.LB.CN17
+    group: Encryption
+    title: Enforce Minimum TLS Policy
+    objective: |
+      Ensure that listeners negotiate only approved cipher suites with clients.
+    assessment-requirements:
+      - id: CCC.LB.CN17.AR02
+        text: |
+          When a TLS or HTTPS listener is configured, its TLS policy MUST permit
+          only cipher suites on the organization's approved list.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use a predefined policy limited to AEAD cipher suites with forward secrecy,
+          or define a custom policy from the approved list.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH02
+            strength: 0 # Not yet specified
+            remarks: Data is Intercepted in Transit
+      - reference-id: LB
+        entries:
+          - reference-id: CCC.LB.TH08
+            strength: 0 # Not yet specified
+            remarks: Weak TLS Policy Permits Protocol Downgrade
+
+  - id: CCC.LB.CN18
+    group: Encryption
+    title: Automate Listener Certificate Renewal
+    objective: |
+      Ensure that certificates attached to listeners are renewed before expiry
+      without manual intervention.
+    assessment-requirements:
+      - id: CCC.LB.CN18.AR01
+        text: |
+          When a certificate is attached to a TLS or HTTPS listener, it MUST be
+          issued by a certificate manager with automatic renewal enabled.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use the provider's managed certificate service or a certificate-manager
+          integration that renews and redeploys certificates automatically; avoid
+          uploading certificate files directly to the listener.
+      - id: CCC.LB.CN18.AR02
+        text: |
+          When a certificate attached to a listener is within 30 days of expiry,
+          the service MUST publish an alert to a monitored channel.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Create an alarm on the certificate days-to-expiry metric or on the
+          certificate manager's expiry events.
     threats:
       - reference-id: LB
         entries:
           - reference-id: CCC.LB.TH07
             strength: 0 # Not yet specified
-            remarks: Certificates Expired or Invalid
-    guidelines:
-      - reference-id: NIST-CSF
+            remarks: TLS Certificates Are Expired or Invalid
+
+  - id: CCC.LB.CN19
+    group: Observability
+    title: Alert on Traffic Distribution Changes
+    objective: |
+      Ensure that changes to how traffic is distributed across targets are
+      published so that they cannot occur unobserved.
+    assessment-requirements:
+      - id: CCC.LB.CN19.AR01
+        text: |
+          When the distribution algorithm or the routing weights of a listener rule
+          are changed, the service MUST publish an event to a monitored channel
+          which includes the client identity, time, and new distribution settings.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Route the provider's configuration-change events for load balancer rules
+          and target weights to an alerting rule or ticketing integration.
+    threats:
+      - reference-id: LB
         entries:
-          - reference-id: PR.DS-6
+          - reference-id: CCC.LB.TH03
             strength: 0 # Not yet specified
-            remarks: Integrity checking mechanisms are used
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: SC-17
-            strength: 0 # Not yet specified
-            remarks: PKI certificates
+            remarks: Traffic Distribution Is Manipulated
