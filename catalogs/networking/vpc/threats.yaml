@@ -3,66 +3,74 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
         remarks: Data is Intercepted in Transit
       - reference-id: CCC.Core.TH03
         strength: 0 # Not yet specified
         remarks: Deployment Region Network is Untrusted
-      - reference-id: CCC.Core.TH06
-        strength: 0 # Not yet specified
-        remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH13
         strength: 0 # Not yet specified
         remarks: Resource Tags are Manipulated
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
         remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        strength: 0 # Not yet specified
+        remarks: Publications are Disabled
 
 threats:
   - id: CCC.VPC.TH01
     group: Networking
-    title: Unauthorized Access via Insecure Default Networks
+    title: Access is Granted Through Insecure Default Network Settings
     description: |
       Default network configurations may include insecure settings and open
-      firewall rules,leading to unauthorized access and potential data
+      firewall rules, leading to unauthorized access and potential data
       breaches.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP01
+            remarks: Isolated Custom Network Creation
   - id: CCC.VPC.TH02
     group: Networking
-    title: Exposure of Resources to Public Internet
+    title: Resources are Exposed to the Public Internet
     description: |
-      Assignment of external IP addresses to resources exposes resources to the
-      public internet, increasing the risk of attacks such as brute force,
-      exploitation of vulnerabilities, or unauthorized access.
+      Assignment of external IP addresses to resources, including globally
+      routable IPv6 addresses, exposes resources to the public internet,
+      increasing the risk of attacks such as brute force, exploitation of
+      vulnerabilities, or unauthorized access.
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.VPC.CP04
+          - reference-id: CCC.VPC.CP03
+            remarks: IPv6 CIDR Block
+          - reference-id: CCC.VPC.CP08
+            remarks: Connectivity Options - Internet Gateway
   - id: CCC.VPC.TH03
     group: Networking
-    title: Unauthorized Network Access Through VPC Peering
+    title: Network Access is Granted Through Unauthorized Peering or Transit Attachments
     description: |
-      Unauthorized VPC peering connections can allow network traffic between
-      untrusted or unapproved subscriptions, leading to potential data
-      exposure or exfiltration.
+      Unauthorized peering connections or transit hub attachments can allow
+      network traffic between untrusted or unapproved subscriptions, leading to
+      potential data exposure or exfiltration.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP11
+            remarks: Connectivity Options - VPC Peering
+          - reference-id: CCC.VPC.CP12
+            remarks: Connectivity Options - Transit Hub
   - id: CCC.VPC.TH04
     group: Observability
-    title: Lack of Network Visibility due to Disabled VPC Flow Logs
+    title: Network Traffic is Not Recorded When Flow Logs are Disabled
     description: |
       VPC subnets with disabled flow logs lack critical network traffic
       visibility, which can lead to undetected unauthorized access,
@@ -72,13 +80,168 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP16
+            remarks: Flow Logs
   - id: CCC.VPC.TH05
     group: Networking
-    title: Overly Permissive VPC Endpoint Policies
+    title: Private Endpoint Policies Permit Access by Unintended Principals
     description: |
-      VPC Endpoint policies that are overly permissive may inadvertently expose
+      Private endpoint policies that are overly permissive may inadvertently expose
       resources within the VPC to unintended principals or external threats.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.VPC.CP17
+            remarks: Private Endpoints
+  - id: CCC.VPC.TH06
+    group: Networking
+    title: Overlapping Address Ranges Disrupt Connectivity
+    description: |
+      Address ranges may be assigned that overlap with those of peered
+      networks or transit hub spokes. Traffic destined for the
+      overlapping range is dropped or routed to the wrong network and the
+      connection cannot be established, impacting the availability of
+      connected resources and the integrity of traffic that reaches an
+      unintended destination.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP02
+            remarks: IPv4 CIDR Block
+          - reference-id: CCC.VPC.CP03
+            remarks: IPv6 CIDR Block
+          - reference-id: CCC.VPC.CP11
+            remarks: Connectivity Options - VPC Peering
+          - reference-id: CCC.VPC.CP12
+            remarks: Connectivity Options - Transit Hub
+  - id: CCC.VPC.TH07
+    group: Networking
+    title: Routes are Modified to Redirect or Expose Traffic
+    description: |
+      Route tables may be modified to send traffic through an unauthorized
+      network appliance, or to add an internet or NAT gateway route to a
+      subnet that was designed to be private. Traffic is then observed or
+      altered in transit, or resources gain an unintended path to the public
+      internet, impacting the confidentiality and integrity of data and
+      enabling exfiltration.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP05
+            remarks: Private Subnet Creation
+          - reference-id: CCC.VPC.CP07
+            remarks: Routing Control
+  - id: CCC.VPC.TH08
+    group: Networking
+    title: Unrestricted Outbound Traffic Enables Data Exfiltration
+    description: |
+      Internet and NAT gateways may be deployed without egress filtering, so
+      that any resource in the network can initiate connections to any
+      destination on the public internet. A compromised resource can then
+      transfer data to external systems or reach command-and-control
+      infrastructure, impacting the confidentiality of data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP08
+            remarks: Connectivity Options - Internet Gateway
+          - reference-id: CCC.VPC.CP09
+            remarks: Connectivity Options - NAT Gateways
+          - reference-id: CCC.Core.CP23
+            remarks: Network Access Rules
+  - id: CCC.VPC.TH09
+    group: Networking
+    title: Compromise Propagates Over Hybrid Connections
+    description: |
+      Private connections, site-to-site VPNs, and transit hubs may be
+      configured with routes and network rules that permit broad access
+      between on-premises networks and the virtual network. A compromise of
+      either side can be used to move laterally into the other, impacting the
+      confidentiality, integrity, and availability of resources on both sides
+      of the connection.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP10
+            remarks: Connectivity Options - Private Connection
+          - reference-id: CCC.VPC.CP12
+            remarks: Connectivity Options - Transit Hub
+          - reference-id: CCC.VPC.CP13
+            remarks: Connectivity Options - Site-to-site VPN
+  - id: CCC.VPC.TH10
+    group: Encryption
+    title: Hybrid Connection Traffic is Unencrypted or Weakly Encrypted
+    description: |
+      Dedicated private connections may carry traffic without encryption, and
+      VPN tunnels may be negotiated with deprecated protocol versions or weak
+      key-exchange groups. Traffic traversing the
+      connection can be read or modified by an entity with access to the
+      transmission path, impacting the confidentiality and integrity of data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP10
+            remarks: Connectivity Options - Private Connection
+          - reference-id: CCC.VPC.CP13
+            remarks: Connectivity Options - Site-to-site VPN
+  - id: CCC.VPC.TH11
+    group: Networking
+    title: DNS Resolution is Hijacked to Redirect Traffic
+    description: |
+      Private DNS zones, resolver forwarding rules, or the DNS servers handed
+      out through DHCP may be created or modified so that names resolve to
+      addresses controlled by an unauthorized entity. Resources connect to the
+      wrong destination and credentials or data are exposed to that
+      destination, impacting the confidentiality and integrity of data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP14
+            remarks: Built-in DNS Resolution
+          - reference-id: CCC.VPC.CP15
+            remarks: Built-in DHCP Assignment
+  - id: CCC.VPC.TH12
+    group: Networking
+    title: DNS Queries are Used as a Covert Exfiltration Channel
+    description: |
+      The built-in resolver forwards queries for any external domain, so a
+      compromised resource can encode data in DNS queries to a domain it
+      controls even when other outbound traffic is blocked. Data leaves the
+      network without traversing the filtered egress path, impacting the
+      confidentiality of data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP14
+            remarks: Built-in DNS Resolution
+  - id: CCC.VPC.TH13
+    group: Observability
+    title: Mirrored Traffic is Delivered to Unauthorized Destinations
+    description: |
+      A traffic mirroring session may be created or its target modified so
+      that full packet copies of network traffic are delivered to a resource
+      that is not an authorized monitoring destination. Plaintext payloads and
+      credentials within the mirrored traffic are exposed, impacting the
+      confidentiality of data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP18
+            remarks: Traffic Mirroring
+  - id: CCC.VPC.TH14
+    group: Networking
+    title: Network Resources are Confined to a Single Availability Zone
+    description: |
+      Subnets, NAT gateways, and VPN or private connection endpoints may be
+      deployed in a single availability zone rather than placed across
+      zones. A failure of that zone removes connectivity for every resource
+      that depends on them, impacting the availability of workloads in the
+      network.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.VPC.CP09
+            remarks: Connectivity Options - NAT Gateways
+          - reference-id: CCC.VPC.CP13
+            remarks: Connectivity Options - Site-to-site VPN
+          - reference-id: CCC.VPC.CP06
+            remarks: Multiple Availability Zone Placement
