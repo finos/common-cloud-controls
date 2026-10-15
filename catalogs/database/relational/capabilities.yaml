@@ -7,8 +7,6 @@ imports:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.CP04
-        remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP06
         remarks: Access Control
       - reference-id: CCC.Core.CP07
@@ -36,7 +34,7 @@ imports:
       - reference-id: CCC.Core.CP23
         remarks: Network Access Rules
       - reference-id: CCC.Core.CP24
-        remarks: Core Processing Units (CPU)
+        remarks: Core Processing Units
       - reference-id: CCC.Core.CP25
         remarks: Random Access Memory Allocation
       - reference-id: CCC.Core.CP26
@@ -47,104 +45,98 @@ imports:
         remarks: Passive Ingestion
       - reference-id: CCC.Core.CP31
         remarks: Elastic Scaling
+      - reference-id: CCC.Core.CP32
+        remarks: Deletion Protection
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
+      - reference-id: CCC.Core.CP35
+        remarks: Customer-Managed Encryption Keys
 
 capabilities:
   - id: CCC.RDMS.CP01
     group: Data
     title: SQL Support
     description: |
-      Properly handle queries in the SQL language.
+      The service always accepts and executes queries written in the SQL
+      language for data definition, manipulation, and retrieval.
 
   - id: CCC.RDMS.CP02
     group: Data
     title: DB Engine Option - MySQL
     description: |
-      Ability to create a MySQL managed relational database.
+      The service can provision a managed relational database running the
+      MySQL engine.
 
   - id: CCC.RDMS.CP03
     group: Data
     title: DB Engine Option - PostgreSQL
     description: |
-      Ability to create a PostgreSQL managed relational database.
-
-  - id: CCC.RDMS.CP04
-    group: Data
-    title: DB Engine Option - MariaDB
-    description: |
-      Ability to create a MariaDB managed relational database.
+      The service can provision a managed relational database running the
+      PostgreSQL engine.
 
   - id: CCC.RDMS.CP05
     group: Data
     title: DB Engine Option - SQL Server
     description: |
-      Ability to create a Microsoft SQL Server managed relational database.
-
-  - id: CCC.RDMS.CP06
-    group: Access
-    title: DB Managed Credentials
-    description: |
-      Ability to managed the database credentials using the cloud
-      provider's secret management service.
+      The service can provision a managed relational database running the
+      Microsoft SQL Server engine.
 
   - id: CCC.RDMS.CP07
     group: Access
     title: DB Self Managed Credentials
     description: |
-      Ability to manage the database credentials by client managed
-      username and passwords.
+      The service always supports database users authenticated by a username
+      and password that the user creates and manages.
 
   - id: CCC.RDMS.CP08
     group: Networking
     title: Support for IPv4
     description: |
-      Ability to connect to the database using IPv4 addresses.
+      The service always exposes an IPv4 endpoint through which clients
+      connect to the database.
 
   - id: CCC.RDMS.CP09
     group: Networking
     title: Support for IPv6
     description: |
-      Ability to connect to the database using IPv6 addresses
-
-  - id: CCC.RDMS.CP10
-    group: Networking
-    title: Public Access
-    description: |
-      Allow database to be accessed by public internet.
-
-  - id: CCC.RDMS.CP11
-    group: Networking
-    title: Disable Public Access
-    description: |
-      Prevent database been accessed by public internet.
+      The service may be configured to expose an IPv6 endpoint through which
+      clients connect to the database. Cloud SQL does not offer this.
 
   - id: CCC.RDMS.CP12
     group: Networking
     title: Managed Connection Pooling
     description: |
-      Ability to configure a managed connection pool for the database.
-
-  - id: CCC.RDMS.CP13
-    group: Data
-    title: Deletion Protection
-    description: |
-      Protect the database against accidental deletion.
-
-  - id: CCC.RDMS.CP14
-    group: Compute
-    title: Dedicated Database Instances
-    description: |
-      Option to deploy the database on a dedicated instance for
-      isolation requirements.
+      The service may be configured to place a managed connection pool in
+      front of the database so that client connections are reused and
+      bounded.
 
   - id: CCC.RDMS.CP15
     group: Data
     title: Horizontal Scaling
     description: |
-      Read replicas of the primary database can be created.
+      The service may be configured to create read replicas of the primary
+      database, in the same or another region, to serve read traffic.
 
   - id: CCC.RDMS.CP16
     group: Data
     title: Failover
     description: |
-      Standby database can be implemented for failover when the
-      primary can't be reached.
+      The service may be configured to maintain a standby database that is
+      automatically promoted when the primary cannot be reached.
+
+  - id: CCC.RDMS.CP17
+    group: Access
+    title: Cloud Identity Authentication
+    description: |
+      The service may be configured to authenticate database users with
+      short-lived tokens issued to the cloud provider's identity principals,
+      so that no long-lived database password needs to be stored or rotated.
+
+  - id: CCC.RDMS.CP18
+    group: Compute
+    title: Automated Engine Patching
+    description: |
+      The service may be configured to apply database engine security patches
+      and minor version upgrades during a maintenance window, to limit
+      exposure to known engine vulnerabilities; on some providers this is
+      always on.
