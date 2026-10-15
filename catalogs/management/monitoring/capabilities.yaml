@@ -1,6 +1,10 @@
 imports:
   - reference-id: CCC
     entries:
+      - reference-id: CCC.Core.CP01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
@@ -17,69 +21,95 @@ imports:
         remarks: Cost Management
       - reference-id: CCC.Core.CP17
         remarks: Alerting
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.CP30
+        remarks: Passive Ingestion
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
 
 capabilities:
   - id: CCC.Monitor.CP01
     group: Observability
-    title: Metric collection
+    title: Custom Metric Ingestion
     description: |
-      Gathering numerical (quantitative) data points about the performance,
-      health, or behaviour of systems, applications or infrastructure.
+      The service can receive user-defined, numeric time-series data points
+      pushed by applications or external systems through its API, in addition
+      to the metrics it collects automatically from provider resources.
   - id: CCC.Monitor.CP02
     group: Observability
-    title: Tracing
+    title: Distributed Tracing
     description: |
-      An observability technique providing an end-to-end view of a request or
-      transaction flow through a complex system to enable a single action to
-      be linked to resulting events in multiple downstream systems.
-  - id: CCC.Monitor.CP03
-    group: Observability
-    title: Reporting
-    description: |
-      Summarised view of metrics in a structured, sharable format.
-  - id: CCC.Monitor.CP04
-    group: Observability
-    title: Health Checks
-    description: |
-      A type of monitoring that focuses on the operational status and
-      readiness of components or entire systems.
+      The service may be configured to collect traces that link a single request
+      to the resulting operations in downstream components and external systems,
+      providing an end-to-end view of a transaction.
   - id: CCC.Monitor.CP05
     group: Observability
-    title: SLO Monitoring
+    title: Service Level Objective Monitoring
     description: |
-      Define and monitor Service Level Objectives (SLO) using Service Level Indicators (SLI) based on metrics.
+      The service may be configured to evaluate user-defined service level
+      objectives against service level indicators derived from collected metrics,
+      and to report the remaining error budget.
   - id: CCC.Monitor.CP06
     group: Observability
     title: Synthetic Monitoring
     description: |
-      Proactively checking sample user interactions to identify issues before real users are impacted.
+      The service may be configured to run scripted sample user interactions
+      against an application on a schedule from provider-operated locations,
+      in order to identify issues before real users are impacted.
   - id: CCC.Monitor.CP07
     group: Observability
     title: Uptime Monitoring
     description: |
-      Checking whether a specific service or application is accessible from an external perspective.
+      The service may be configured to probe an endpoint from external
+      provider-operated locations on a schedule and record whether it is
+      reachable and responding.
   - id: CCC.Monitor.CP08
     group: Observability
-    title: Application Performance Monitoring (APM)
+    title: Application Performance Monitoring
     description: |
-      A comprehensive approach to monitoring the performance, availability and user experience of
-      an application through multiple levels of data collection
+      The service may be configured to collect application-level telemetry such
+      as request latency, error rates, and dependency calls through
+      instrumentation, in order to monitor performance and user experience.
   - id: CCC.Monitor.CP09
     group: Observability
-    title: Dashboard
+    title: Dashboards
     description: |
-      A visual representation of the health of systems being monitored. Pulling together metrics,
-      current alerts, SLO/SLI's, health checks and other monitoring features into a single location
-      to enable a view of the health of the overall system.
+      The service can present metrics, alerts, service level objectives, and
+      uptime results in user-defined visual dashboards that may be shared with
+      other users.
   - id: CCC.Monitor.CP10
     group: Observability
-    title: Triggering
+    title: Alert-Triggered Actions
     description: |
-      Automatically initiating actions like alerts, notifications or automated workflows based
-      on pre-defined conditions being met.
+      The service may be configured to invoke an automated action, such as a
+      workflow, a function, or a scaling operation, when an alert condition is
+      met, in addition to emitting a notification.
   - id: CCC.Monitor.CP11
     group: Observability
-    title: Integration with Third-Party Tools
+    title: Integration with External Tools
     description: |
-      Monitoring tools are able to integrate with a number of downstream systems in order to send
-      notifications and alerts, raise tickets and create incident reports.
+      The service may be configured to forward alerts, notifications, and metric
+      data to external systems such as incident management, ticketing, or
+      third-party observability platforms.
+  - id: CCC.Monitor.CP12
+    group: Observability
+    title: Agent-Based Telemetry Collection
+    description: |
+      The service can collect metrics and traces from compute instances through
+      a provider-supplied agent that runs on the instance and authenticates to
+      the service using the instance identity or a configured credential.
+  - id: CCC.Monitor.CP13
+    group: Observability
+    title: Alert Suppression
+    description: |
+      The service may be configured to suppress or snooze alert notifications
+      for a period of time or for matching conditions, so that alerts are not
+      delivered during maintenance or known incidents.
+  - id: CCC.Monitor.CP14
+    group: Access
+    title: Cross-Account Monitoring Scope
+    description: |
+      The service may be configured to aggregate metrics from multiple accounts,
+      subscriptions, or projects into a single monitoring scope, so that users
+      of the scope can view telemetry across tenancy boundaries.
