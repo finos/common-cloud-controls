@@ -2,116 +2,108 @@ imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CP01
-        remarks: Encryption in Transit
+        remarks: Encryption in Transit Enabled by Default
       - reference-id: CCC.Core.CP02
-        remarks: Encryption at Rest
+        remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
         remarks: Access Control
+      - reference-id: CCC.Core.CP07
+        remarks: Event Publication
       - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.CP11
-        remarks: Backup
-      - reference-id: CCC.Core.CP12
-        remarks: Recovery
       - reference-id: CCC.Core.CP14
         remarks: API Access
       - reference-id: CCC.Core.CP17
         remarks: Alerting
-      - reference-id: CCC.Core.CP18
-        remarks: Resource Versioning
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP32
+        remarks: Deletion Protection
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
+      - reference-id: CCC.Core.CP34
+        remarks: Data Lifecycle Policy
+      - reference-id: CCC.Core.CP35
+        remarks: Customer-Managed Encryption Keys
 
 capabilities:
   - id: CCC.Logging.CP01
     group: Observability
     title: Service Log Capture
     description: |
-      Ability to capture logs from all relevant cloud services at varying
-      levels of verbosity.
+      The service can be configured to collect logs emitted by other cloud
+      services at the level of verbosity selected for each source.
 
   - id: CCC.Logging.CP02
     group: Observability
     title: Application Log Ingestion
     description: |
-      Support for ingesting logs from custom applications deployed within the
-      cloud environment.
+      The service can be configured to ingest logs from custom applications
+      running in the cloud environment through a collection agent or an
+      ingestion API.
 
   - id: CCC.Logging.CP03
     group: Observability
     title: Real-Time Log Ingestion
     description: |
-      Logs should be ingested in near real-time to enable timely detection and
-      response.
+      The service automatically makes ingested log entries available for
+      search and alerting in near real time, so that detection and response
+      are not delayed.
 
   - id: CCC.Logging.CP04
     group: Observability
     title: Centralised Log Collection
     description: |
-      Ability to centralise logs from different resources within a signle
-      logging solution or platform.
+      The service may be configured to aggregate logs from resources in
+      multiple accounts or projects into a single central logging destination.
 
   - id: CCC.Logging.CP05
     group: Observability
     title: Custom Log Format Support
     description: |
-      Ability to ingest custom log formats or data from on-premises systems or
-      other cloud environments via agents.
+      The service can be configured to ingest custom log formats, including
+      logs from on-premises systems or other cloud environments, through its
+      collection agents.
 
   - id: CCC.Logging.CP06
     group: Observability
-    title: Log Filtering & Transformation
+    title: Log Filtering and Transformation
     description: |
-      Ability to to filter, normalise, and transform raw log data at ingestion
-      to optimise storage and enhance usability.
-
-  - id: CCC.Logging.CP07
-    group: Observability
-    title: Immutable Storage
-    description: |
-      Ability to prevent unauthorized alteration or deletion of logs, ensuring
-      their integrity for auditing and forensic purposes.
-
-  - id: CCC.Logging.CP08
-    group: Observability
-    title: Retention Policies
-    description: |
-      Ability to define and enforce granular retention periods for different
-      log types based on regulatory requirements and internal policies.
+      The service may be configured to filter, normalise, and transform raw
+      log data at ingestion to reduce storage volume and improve usability.
 
   - id: CCC.Logging.CP09
     group: Observability
     title: Internal Sink
     description: |
-      Ability to continuously stream log data to a hosted storage bucket or data lake
-      solution within the cloud service provider.
+      The service may be configured to continuously route log data to a
+      storage bucket, data warehouse, or messaging child resource within the
+      same cloud provider.
 
   - id: CCC.Logging.CP10
     group: Observability
     title: External Sink
     description: |
-      Log events can be configured to be sent to a external SIEM or data analysis
-      provider outside of the cloud platform.
+      The service may be configured to route log events to an external SIEM
+      or data analysis system outside the cloud platform.
 
   - id: CCC.Logging.CP11
     group: Observability
     title: Log-based Metrics
     description: |
-      Ability to extract quantitative metrics from log data for performance
-      monitoring and operational analysis.
+      The service may be configured to derive numeric metrics from log
+      entries that match a query or filter, for performance monitoring and
+      alerting.
 
-  - id: CCC.Logging.CP12
+  - id: CCC.Logging.CP14
     group: Observability
-    title: Log Archiving
+    title: Sensitive Data Masking
     description: |
-      Ability to archive logs that are no longer needed but must be retained.
-
-  - id: CCC.Logging.CP13
-    group: Observability
-    title: Field Indexing
-    description: |
-      Supports field-based indexing to improve log query performace.
+      The service may be configured to detect sensitive data such as personal
+      information, credentials, or tokens in log entries at ingestion and mask
+      or redact it before storage. Not every provider offers this natively
+      (GCP Cloud Logging has no ingestion-time masking).

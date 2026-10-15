@@ -45,14 +45,6 @@ mappings:
     remarks: Exfiltration Over Web Service
   - entry-id: T1020
     remarks: Automated Exfiltration
-- id: CCC.Logging.TH03-mitre-attack
-  source: CCC.Logging.TH03
-  relationship: relates-to
-  targets:
-  - entry-id: T1562
-    remarks: Impair Defenses (indirectly, by breaking detections)
-  - entry-id: T1562.008
-    remarks: 'Impair Defenses: Disable Cloud Logs (can lead to effective disablement)'
 - id: CCC.Logging.TH04-mitre-attack
   source: CCC.Logging.TH04
   relationship: relates-to
