@@ -7,8 +7,6 @@ imports:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.CP04
-        remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP05
         remarks: Signed URLs
       - reference-id: CCC.Core.CP06
@@ -19,6 +17,12 @@ imports:
         remarks: Data Replication
       - reference-id: CCC.Core.CP09
         remarks: Metrics Publication
+      - reference-id: CCC.Core.CP10
+        remarks: Log Publication
+      - reference-id: CCC.Core.CP11
+        remarks: Backup
+      - reference-id: CCC.Core.CP12
+        remarks: Recovery
       - reference-id: CCC.Core.CP14
         remarks: API Access
       - reference-id: CCC.Core.CP15
@@ -31,97 +35,104 @@ imports:
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
         remarks: Location Lock-In
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
-      - reference-id: CCC.Core.CP29
-        remarks: Active Ingestion
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
+      - reference-id: CCC.Core.CP32
+        remarks: Deletion Protection
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
+      - reference-id: CCC.Core.CP34
+        remarks: Data Lifecycle Policy
+      - reference-id: CCC.Core.CP35
+        remarks: Customer-Managed Encryption Keys
 
 capabilities:
   - id: CCC.ObjStor.CP01
     group: Data
     title: Storage Buckets
     description: |
-      Provides uniquely identifiable segmentations in which data elements may
-      be stored.
+      The service always provides buckets as uniquely identifiable containers in
+      which objects are stored and to which access policies and configuration
+      are applied.
 
   - id: CCC.ObjStor.CP02
     group: Data
     title: Storage Objects
     description: |
-      Supports storing, accessing, and managing data elements which contain
-      both data and metadata.
-
-  - id: CCC.ObjStor.CP03
-    group: Resource
-    title: Bucket Capacity Limit
-    description: |
-      Provides the ability to set a maximum total capacity for objects within
-      a bucket.
-
-  - id: CCC.ObjStor.CP04
-    group: Resource
-    title: Object Size Limit
-    description: |
-      Supports setting a maximum object size for storing objects.
+      The service always stores each data element as an object that contains
+      both the data and its metadata, addressed by a unique key within a bucket.
 
   - id: CCC.ObjStor.CP05
     group: Data
     title: Store New Objects
     description: |
-      Supports for storing a new object in the bucket.
+      The service always allows a user to store a new object in a bucket under
+      a key that is not yet in use.
 
   - id: CCC.ObjStor.CP06
     group: Data
     title: Replace Stored Objects
     description: |
-      Supports for replacing an object in the bucket with a new object for the same key.
+      The service always allows a user to replace an object in a bucket by
+      writing a new object to the same key, overwriting the previous content
+      unless versioning retains it.
 
   - id: CCC.ObjStor.CP07
     group: Data
     title: Delete Stored Objects
     description: |
-      Supports for deleting objects from the bucket given the object key.
-
-  - id: CCC.ObjStor.CP08
-    group: Resource
-    title: Lifecycle Policies
-    description: |
-      Supports defining policies to automate data management tasks, especially
-      those related to cost management.
-
-  - id: CCC.ObjStor.CP09
-    group: Data
-    title: Object Modification Locks
-    description: |
-      Allows locking of objects to disable modification and/or deletion of an
-      object for a defined period of time.
+      The service always allows a user to delete an object from a bucket given
+      the object key.
 
   - id: CCC.ObjStor.CP10
     group: Access
     title: Object Level Access Control
     description: |
-      Supports controlling access to specific objects within the object store.
-
-  - id: CCC.ObjStor.CP11
-    group: Data
-    title: Querying
-    description: |
-      Supports performing simple select queries to retrieve only a subset of
-      objects from the bucket.
+      The service can enforce access permissions on an individual object,
+      independently of the permissions applied to the containing bucket.
+      Whether object-level permissions are enabled by default on a new bucket
+      varies by provider.
 
   - id: CCC.ObjStor.CP12
     group: Resource
     title: Storage Classes
     description: |
-      Provides different storage classes for frequently and infrequently
-      accessed objects.
+      The service always offers multiple storage classes with differing
+      durability, availability and retrieval latency, and an object may be
+      configured to use a class other than the default.
 
-  - id: CCC.ObjStor.CP13
-    group: Access
-    title: Public Access Block
+  - id: CCC.ObjStor.CP14
+    group: Encryption
+    title: Customer-Provided Encryption Keys
     description: |
-      Supports configuring a default block on all public access to buckets
-      and objects, preventing any policy or ACL from granting unauthenticated
-      or anonymous access.
+      The service can encrypt an object at rest with a key that the user supplies
+      in each request and that the service does not retain, so the object can only
+      be read by presenting the same key again.
+
+  - id: CCC.ObjStor.CP15
+    group: Access
+    title: Cross-Origin Resource Sharing
+    description: |
+      The service may be configured with a cross-origin resource sharing (CORS)
+      policy on a bucket that determines which web origins a browser is permitted
+      to request objects from.
+
+  - id: CCC.ObjStor.CP16
+    group: Access
+    title: Bucket-Level-Only Access Policy
+    description: |
+      The service may be configured to disable object-level permissions on a
+      bucket, so that access to every object is governed solely by the
+      bucket-level policy.
+
+  - id: CCC.ObjStor.CP17
+    group: Data
+    title: Object Immutability
+    description: |
+      The service may be configured to lock an object or a bucket so that its
+      objects cannot be overwritten or deleted until a retention period expires,
+      and the lock itself may be made irrevocable.
