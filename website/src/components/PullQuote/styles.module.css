@@ -1,0 +1,27 @@
+.pullQuote {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+  border-left: 4px solid var(--gf-color-accent);
+  background: var(--gf-color-surface);
+  border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.pullQuote p {
+  margin: 0;
+  font-size: 1.45rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--gf-color-accent-strong);
+  font-family: "metropolis", sans-serif;
+  font-weight: 500;
+}
+
+.pullQuote cite {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--gf-color-text-subtle);
+  letter-spacing: 0.02em;
+}
