@@ -24,7 +24,7 @@ metadata:
   mapping-references:
     - id: agent-threat-rules
       title: Agent Threat Rules
-      version: ""
+      version: v4.1.5
       description: |
         Agent Threat Rules (ATR) is an open, MIT-licensed set of detection
         rules for AI agent threats. The mapping from CCC GenAI controls is
