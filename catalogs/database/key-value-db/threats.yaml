@@ -1,0 +1,211 @@
+imports:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.TH01
+        remarks: Access is Granted to Unauthorized Users
+      - reference-id: CCC.Core.TH02
+        remarks: Data is Intercepted in Transit
+      - reference-id: CCC.Core.TH04
+        remarks: Data is Replicated to Untrusted or External Locations
+      - reference-id: CCC.Core.TH05
+        remarks: Interference with Replication Processes
+      - reference-id: CCC.Core.TH06
+        remarks: Data is Lost or Corrupted
+      - reference-id: CCC.Core.TH07
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH09
+        remarks: Runtime Logs are Read by Unauthorized Entities
+      - reference-id: CCC.Core.TH12
+        remarks: Resource Constraints are Exhausted
+      - reference-id: CCC.Core.TH13
+        remarks: Resource Tags are Manipulated
+      - reference-id: CCC.Core.TH15
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+      - reference-id: CCC.Core.TH16
+        remarks: Publications are Disabled
+      - reference-id: CCC.Core.TH17
+        remarks: Responses are Generated for Unauthorized Requests
+      - reference-id: CCC.Core.TH18
+        remarks: Encryption Key is Misused
+
+threats:
+  - id: CCC.KVDB.TH01
+    group: Access
+    title: Unauthorized Item Access via Overly Broad Key Scoping
+    description: |
+      An authorization policy may grant access at the table or collection level
+      without restricting which keys or items a caller may read or write, such as
+      a missing key-condition constraint or an overly broad rule pattern. Callers
+      can then reach items belonging to other users or tenants, leading to
+      unauthorized disclosure or tampering of data they should not be able to reach.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.CP01
+            remarks: Key-Value Storage
+          - reference-id: CCC.Core.CP06
+            remarks: Access Control
+
+  - id: CCC.KVDB.TH02
+    group: Data
+    title: Data Exposure Through Insecure Reads or Key Leakage
+    description: |
+      A key, identifier, or request pattern may be exposed through logs, APIs,
+      URLs, or untrusted client code, allowing unauthorized parties to infer or
+      read sensitive values. In key-value services, data is often retrieved by a
+      direct identifier, so improper scoping or disclosure of keys can lead to
+      widespread exposure of sensitive application data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.CP01
+            remarks: Key-Value Storage
+          - reference-id: CCC.KVDB.CP05
+            remarks: Secondary Indexing
+          - reference-id: CCC.Core.CP14
+            remarks: API Access
+
+  - id: CCC.KVDB.TH03
+    group: Resource
+    title: Throughput Exhaustion or Hot-Partition Denial of Service
+    description: |
+      A workload may generate excessive requests against a small subset of keys or
+      partitions, exhausting throughput budgets or overloading a hot partition.
+      This can cause delayed reads and writes, failed transactions, or degraded
+      availability for the affected workload and any dependent services.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.CP12
+            remarks: Automatic Partitioning
+          - reference-id: CCC.Core.CP04
+            remarks: Transaction Rate Limits
+
+  - id: CCC.KVDB.TH04
+    group: Data
+    title: Cross-Region Replication Causes Data Drift or Stale Reads
+    description: |
+      Multi-region replication may propagate writes with delay or apply them in an
+      order that diverges from the source of truth, especially when consistency
+      settings trade freshness for latency. Replicas can serve stale or conflicting
+      values, leading to inconsistent application behavior and delayed recovery
+      during an outage or failover event.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.CP11
+            remarks: Multi-Region Replication
+          - reference-id: CCC.KVDB.CP10
+            remarks: Strongly Consistent Reads
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
+          - reference-id: CCC.Core.CP22
+            remarks: Location Lock-In
+
+  - id: CCC.KVDB.TH05
+    group: Data
+    title: Data Corruption Through Inconsistent Updates or Conditional Failures
+    description: |
+      A write operation may succeed without preserving the expected state of a
+      dependent object or key because of inconsistent update ordering, stale reads,
+      or failed conditional logic. This can lead to partial updates, dropped data,
+      or application-level corruption that is difficult to detect without explicit
+      recovery or validation controls.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.CP02
+            remarks: Conditional Writes
+          - reference-id: CCC.KVDB.CP10
+            remarks: Strongly Consistent Reads
+          - reference-id: CCC.Core.CP12
+            remarks: Recovery
+
+  - id: CCC.KVDB.TH06
+    group: Data
+    title: Backup and Restore Operations Are Disabled or Fail
+    description: |
+      Backup creation, retention, or restore operations may be disabled, delayed,
+      or fail to complete for a key-value database. If this occurs, the service may
+      not be able to recover from data loss, corruption, or application errors,
+      increasing the risk of prolonged downtime and irreversible state loss.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.CP11
+            remarks: Multi-Region Replication
+          - reference-id: CCC.Core.CP11
+            remarks: Backup
+          - reference-id: CCC.Core.CP12
+            remarks: Recovery
+
+  - id: CCC.KVDB.TH07
+    group: Data
+    title: Unintended Restore of a Prior Data State
+    description: |
+      A restore action may be triggered unintentionally or executed against the
+      wrong point-in-time snapshot, causing live application data to be replaced by
+      an earlier state. This can overwrite current values, disrupt application
+      consistency, and result in data loss or unexpected behavior for dependent
+      workloads.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP11
+            remarks: Backup
+          - reference-id: CCC.Core.CP12
+            remarks: Recovery
+
+  - id: CCC.KVDB.TH08
+    group: Data
+    title: Unauthorized Sharing of Backups or Restore Points
+    description: |
+      A backup, snapshot, restore point, or replicated data set may be shared with
+      an untrusted account or entity without appropriate restrictions. Because
+      key-value data often stores application state, session records, or cached data,
+      unauthorized exposure through a backup can lead to data exfiltration or
+      downstream compromise.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.CP11
+            remarks: Multi-Region Replication
+          - reference-id: CCC.Core.CP11
+            remarks: Backup
+          - reference-id: CCC.Core.CP06
+            remarks: Access Control
+
+  - id: CCC.KVDB.TH09
+    group: Data
+    title: Data Is Irreversibly Deleted by Misconfigured Time-To-Live
+    description: |
+      A time-to-live policy may be configured with an incorrect duration or applied
+      to the wrong items, causing live data to expire and be deleted automatically.
+      Because expired items are removed without a recovery path, this can lead to
+      permanent data loss and failures in applications that depend on the deleted state.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KVDB.CP04
+            remarks: Time-To-Live Support
+          - reference-id: CCC.Core.CP11
+            remarks: Backup
+          - reference-id: CCC.Core.CP12
+            remarks: Recovery
+
+  - id: CCC.KVDB.TH10
+    group: Access
+    title: Long-Lived Data-Plane Credentials Are Exposed or Over-Scoped
+    description: |
+      Long-lived keys or credentials used for direct data-plane access may be
+      embedded in client code, logs, or configuration, or granted broader
+      permissions than required. Exposed credentials can be reused to read or modify
+      data outside the intended application scope, leading to unauthorized disclosure
+      or tampering of stored data.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.CP06
+            remarks: Access Control
+          - reference-id: CCC.Core.CP14
+            remarks: API Access

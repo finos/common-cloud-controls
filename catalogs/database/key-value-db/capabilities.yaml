@@ -1,0 +1,131 @@
+imports:
+  - reference-id: CCC
+    entries:
+      - reference-id: CCC.Core.CP01
+        remarks: Encryption in Transit Enabled by Default
+      - reference-id: CCC.Core.CP02
+        remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP03
+        remarks: Access Log Publication
+      - reference-id: CCC.Core.CP04
+        remarks: Transaction Rate Limits
+      - reference-id: CCC.Core.CP06
+        remarks: Access Control
+      - reference-id: CCC.Core.CP07
+        remarks: Event Publication
+      - reference-id: CCC.Core.CP08
+        remarks: Data Replication
+      - reference-id: CCC.Core.CP09
+        remarks: Metrics Publication
+      - reference-id: CCC.Core.CP10
+        remarks: Log Publication
+      - reference-id: CCC.Core.CP11
+        remarks: Backup
+      - reference-id: CCC.Core.CP12
+        remarks: Recovery
+      - reference-id: CCC.Core.CP14
+        remarks: API Access
+      - reference-id: CCC.Core.CP17
+        remarks: Alerting
+      - reference-id: CCC.Core.CP20
+        remarks: Resource Tagging
+      - reference-id: CCC.Core.CP22
+        remarks: Location Lock-In
+      - reference-id: CCC.Core.CP23
+        remarks: Network Access Rules
+      - reference-id: CCC.Core.CP24
+        remarks: Core Processing Units (CPU)
+      - reference-id: CCC.Core.CP25
+        remarks: Random Access Memory Allocation
+      - reference-id: CCC.Core.CP26
+        remarks: Persistent Storage
+      - reference-id: CCC.Core.CP28
+        remarks: Command-line Interface
+      - reference-id: CCC.Core.CP31
+        remarks: Elastic Scaling
+
+capabilities:
+  - id: CCC.KVDB.CP01
+    group: Data
+    title: Key-Value Storage
+    description: |
+      The service can store data as a value associated with a unique key and
+      enable retrieval by that identifier for high-speed access patterns.
+
+  - id: CCC.KVDB.CP02
+    group: Data
+    title: Conditional Writes
+    description: |
+      The service can perform writes only when a given condition is satisfied,
+      enabling safe updates and optimistic concurrency control patterns.
+
+  - id: CCC.KVDB.CP03
+    group: Data
+    title: Complex Value Storage
+    description: |
+      The service can store structured values such as nested objects, arrays,
+      or other composite data types within the value associated with a key.
+
+  - id: CCC.KVDB.CP04
+    group: Data
+    title: Time-To-Live Support
+    description: |
+      The service can automatically expire items after a configured time period,
+      which supports caching, temporary state management, and expiration policies.
+
+  - id: CCC.KVDB.CP05
+    group: Data
+    title: Secondary Indexing
+    description: |
+      The service can provide alternate query paths for data using attributes other
+      than the primary key, enabling filtered or indexed access patterns.
+
+  - id: CCC.KVDB.CP07
+    group: Data
+    title: Batch Operations
+    description: |
+      The service can process multiple read or write operations in a single
+      request, reducing per-operation overhead for application workloads.
+
+  - id: CCC.KVDB.CP08
+    group: Ingestion
+    title: Change Streams
+    description: |
+      The service can expose an ordered, replayable stream of data changes that
+      downstream components consume to react to item creations, updates, and
+      deletions as they occur.
+
+  - id: CCC.KVDB.CP10
+    group: Data
+    title: Strongly Consistent Reads
+    description: |
+      The service can provide strongly consistent reads so applications always
+      retrieve the most current data when read-after-write freshness matters.
+
+  - id: CCC.KVDB.CP11
+    group: Data
+    title: Multi-Region Replication
+    description: |
+      The service may be configured to replicate data across multiple geographic
+      regions to improve availability, resilience, and disaster recovery readiness.
+
+  - id: CCC.KVDB.CP12
+    group: Data
+    title: Automatic Partitioning
+    description: |
+      The service automatically partitions data across backend resources to sustain
+      scale, throughput, and distribution as workloads grow.
+
+  - id: CCC.KVDB.CP14
+    group: Data
+    title: Transactional Writes
+    description: |
+      The service can execute multiple read and write operations across items as a
+      single atomic transaction, so either all operations succeed or none are applied.
+
+  - id: CCC.KVDB.CP15
+    group: Encryption
+    title: Customer-Managed Encryption Keys
+    description: |
+      The service can encrypt stored data using customer-managed keys so key
+      lifecycle, rotation, and access policies remain under customer control.
