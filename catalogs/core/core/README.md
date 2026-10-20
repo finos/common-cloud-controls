@@ -42,6 +42,10 @@ imports:
         remarks: Access Log Publication
 ```
 
+> [!NOTE]
+>
+> The entries above are an example, not a template. Import only the capabilities your service actually exhibits on at least two of the mapped providers. Data-plane entries such as `CP08` Data Replication, `CP11` Backup, `CP12` Recovery and `CP18` Resource Versioning belong only to services that hold customer data or versioned resources; a stateless service should not import them.
+
 ## Reuse a threat from this catalog
 
 Similar to capabilities, add a block like the following to the top level of your catalog's YAML:
@@ -52,7 +56,7 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access Control is Misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
         remarks: Data is Intercepted in Transit
@@ -71,10 +75,10 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent Unencrypted Requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure Data Encryption at Rest
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
         remarks: Implement Multi-factor Authentication (MFA) for Access

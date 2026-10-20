@@ -34,7 +34,7 @@ Additionally, labels can flag issues specifically targeted for events (e.g., OSF
 
 ## Release Process
 
-The release process involves contributors proposing changes through a pull request, followed by reviews and validations from relevant Working Groups, the creation of a release candidate, and multiple stages of approval from the [Change Management Board] (CMB) and project contributors, culminating in the official release being published and announced to the community. The diagram below explains the entire flow at a high-level, and we expand upon this in the subsections of the flow diagram.
+The release process involves contributors proposing changes through a pull request, followed by reviews and validations from the relevant Working Groups and their leads, the creation of a release candidate, and approval by the Working Group leads, culminating in the official release being published and announced to the community. The diagram below explains the entire flow at a high-level, and we expand upon this in the subsections of the flow diagram.
 
 ![Release Flow Diagram](./imgs/release-process.drawio.svg)
 
@@ -53,11 +53,9 @@ The release process involves contributors proposing changes through a pull reque
 ### Release Candidate Preparation
 
 1. **Request for Release Candidate (RC):** After the PR is merged, the Release Manager compiles the release candidate based on the merged changes.
-2. **Working Group Approval:** The [WG]s review the release candidate to ensure all deliverables are finalized and meet release criteria. The release candidate must be approved before moving forward in the process.
-3. **Change Management Board (CMB) Review:**
-   - The CMB reviews the release candidate and confirms whether it adheres to compliance and quality standards.
+2. **Working Group Approval:** The [WG]s and their leads review the release candidate to ensure all deliverables are finalized and meet release criteria. The release candidate must be approved before moving forward in the process.
    - If further changes are required, the Release Manager aggregates feedback and creates a loop for revisions.
-4. **Prepare Official Release:** Once the CMB has approved the request, then the Release Manager will begin the promotion process for the release candidate.
+3. **Prepare Official Release:** Once the release candidate has been approved, the Release Manager will begin the promotion process for the release candidate.
 
 ### Final Release
 
@@ -68,6 +66,5 @@ The release process involves contributors proposing changes through a pull reque
 [Security WG]: ../../governance/working-groups/security/charter.md
 [Taxonomy WG]: ../../governance/working-groups/taxonomy/charter.md
 [Delivery WG]: ../../governance/working-groups/delivery/charter.md
-[Change Management Board]: ./cmb.md
 [Communications WG]: ../../governance/working-groups/communications/charter.md
 [community guideline]: ../README.md

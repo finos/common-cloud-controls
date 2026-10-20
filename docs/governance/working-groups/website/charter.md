@@ -35,15 +35,15 @@ The Website WG will:
 
 ## Membership
 
-The membership structure of this WG, including roles and responsibilities, will adhere to the latest guidelines from the Community Structure WG. Where guidelines do not yet exist, the group will follow guidance from the CCC Steering Committee (SC).
+The membership structure of this WG, including roles and responsibilities, will adhere to the latest guidelines from the Community Structure WG. Where guidelines do not yet exist, the group will follow guidance from the CCC Technical Steering Committee (TSC).
 
 ## Community Cadence
 
-A member of this WG should be present on any calls scheduled by the SC for participation by the full CCC community, such as quarterly SC calls. The WG will use the project mailing list for regular communications.
+A member of this WG should be present on any calls scheduled by the TSC for participation by the full CCC community, such as quarterly TSC calls. The WG will use the project mailing list for regular communications.
 
 ## Governance and Changes
 
-- Steering Committee Sponsor: Stevie Shiells
+- Technical Steering Committee (TSC) Sponsor: Stevie Shiells
 - Working Group Lead: Gabriele Balysevaite
 
-Changes to this charter must be approved through a majority vote by the Steering Committee.
+Changes to this charter must be approved through a majority vote by the TSC.

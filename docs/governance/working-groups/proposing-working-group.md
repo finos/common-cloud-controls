@@ -11,4 +11,4 @@ To propose a new working group complete the items in the check list below:
 
 [WG]: ../community-structure.md#working-groups
 [SC]: ../community-structure.md#steering-committee
-[vote]: ../steering/charter.md#voting
+[vote]: ../steering/process.md#voting

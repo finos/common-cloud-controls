@@ -276,8 +276,7 @@ controls:
         text: |
           When the service is operational, any attempt to redirect logs for
           the service or its child resources MUST NOT be possible without
-          halting operation of the corresponding resource and publishing
-          corresponding events to monitored channels.
+          halting operation of the corresponding resource.
         applicability:
           - tlp-amber
           - tlp-red
@@ -285,14 +284,25 @@ controls:
           No normal business operations should result in the redirection of
           logs, as this could indicate an attempt to cover up unauthorized
           access. Ensure that logging configurations are immutable during
-          service operation so that any changes require stopping the service
-          and publishing corresponding events to monitored channels.
+          service operation so that any changes require stopping the service.
+      - id: CCC.Core.CN09.AR04
+        text: |
+          When logs for the service or its child resources are redirected,
+          the service MUST publish a corresponding event to a monitored
+          channel.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Treat any change to a log destination as a security-relevant
+          event. Publish it to the channel monitored by the security team so
+          that redirection cannot occur unobserved.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH07
           - reference-id: CCC.Core.TH09
-          - reference-id: CCC.Core.TH04
+          - reference-id: CCC.Core.TH16
     guidelines:
       - reference-id: CCM
         entries:
@@ -427,7 +437,7 @@ controls:
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.Core.TH16
+          - reference-id: CCC.Core.TH18
     guidelines:
       - reference-id: CCM
         entries:
@@ -512,8 +522,7 @@ controls:
         text: |
           When an entity attempts to modify the service through an API
           endpoint, the authentication process MUST require a credential
-          such as an API key or token AND originate from within the trust
-          perimeter.
+          such as an API key or token.
         applicability:
           - tlp-clear
           - tlp-green
@@ -533,8 +542,7 @@ controls:
         text: |
           When an entity attempts to view information on the service through
           an API endpoint, the authentication process MUST require a
-          credential such as an API key or token AND originate from within
-          the trust perimeter.
+          credential such as an API key or token.
         applicability:
           - tlp-amber
           - tlp-red
@@ -616,6 +624,26 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: ""
+      - id: CCC.Core.CN05.AR07
+        text: |
+          When an entity attempts to modify the service through an API
+          endpoint, the request MUST originate from within the trust
+          perimeter.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.Core.CN05.AR08
+        text: |
+          When an entity attempts to view information on the service through
+          an API endpoint, the request MUST originate from within the trust
+          perimeter.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
     threats:
       - reference-id: CCC
         entries:
@@ -624,7 +652,7 @@ controls:
       - reference-id: CCM
         entries:
           - reference-id: DSP-01
-            remarks: Security and Privacy Policy and Proceduress
+            remarks: Security and Privacy Policy and Procedures
             strength: 1
           - reference-id: DSP-07
             remarks: Data Protection by Design and Default
@@ -730,3 +758,84 @@ controls:
           - reference-id: SEF-05
             remarks: Incident Response Metrics (establish and monitor metrics)
             strength: 3
+  - id: CCC.Core.CN15
+    group: Resource
+    title: Enforce Transaction Rate Limits
+    objective: |
+      Ensure that excess requests are throttled or rejected so that a single
+      client cannot exhaust the capacity available to other users of the
+      service or its child resources.
+    assessment-requirements:
+      - id: CCC.Core.CN15.AR01
+        text: |
+          When the service or a child resource accepts requests, a request
+          rate limit MUST be configured.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure rate limits or quotas at the service boundary for every
+          exposed interface. Set the limit from observed legitimate peak
+          usage with headroom.
+      - id: CCC.Core.CN15.AR02
+        text: |
+          When requests exceed the configured rate limit, the service MUST
+          throttle or reject them.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Prefer throttling over rejection where the protocol supports it,
+          so that legitimate bursts degrade gracefully.
+      - id: CCC.Core.CN15.AR03
+        text: |
+          When requests are throttled or rejected for exceeding a rate
+          limit, the service MUST log the client identity, time, and limit
+          that was exceeded.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Route throttling records to the same monitored log destination as
+          access logs so that sustained rate-limit hits can be alerted on
+          and reviewed for abuse patterns.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH12
+  - id: CCC.Core.CN16
+    group: Observability
+    title: Alert on Changes to Protective Configuration
+    objective: |
+      Ensure that disabling or weakening a protective feature of the service
+      or a child resource is published to a monitored channel so that it
+      cannot occur unobserved.
+    assessment-requirements:
+      - id: CCC.Core.CN16.AR01
+        text: |
+          When a configuration change disables or weakens logging, backup,
+          encryption, deletion protection, public access restriction, or
+          network access rules on the service or a child resource, the
+          service MUST publish an event to a monitored channel which
+          includes the client identity, time, and nature of the change.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Treat changes to logging, backup, encryption, deletion protection,
+          public access restriction, and network access rules as protective
+          configuration. Subscribe the security team's alerting channel to
+          the provider's configuration-change event stream and filter for
+          these settings.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH01
+          - reference-id: CCC.Core.TH06
+          - reference-id: CCC.Core.TH07
+          - reference-id: CCC.Core.TH16
