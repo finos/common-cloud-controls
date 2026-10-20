@@ -110,7 +110,8 @@ capabilities:
     title: Customer-Provided Encryption Keys
     description: |
       The service can encrypt an object at rest with a key that the user supplies
-      in each request and that the service does not retain, so the object can only
+      in each request and that the service does not retain, as distinct from a key
+      referenced from a key management service (Core CP35), so the object can only
       be read by presenting the same key again.
 
   - id: CCC.ObjStor.CP15
