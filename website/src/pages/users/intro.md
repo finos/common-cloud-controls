@@ -10,15 +10,15 @@ This note introduces the CCC user journeys. The two firm stories that follow —
 
 Two generic paths, then two named firms.
 
-**[Financial institutions](/users/financial-institutions)** already have policies, control libraries and dedicated cloud-security teams. They need a consistent way to assess services across AWS, Azure and Google Cloud, map technical controls to internal and regulatory requirements, and see which of those controls can be tested.
+**[Financial institutions](https://ccc.finos.org/users/financial-institutions)** already have policies, control libraries and dedicated cloud-security teams. They need a consistent way to assess services across AWS, Azure and Google Cloud, map technical controls to internal and regulatory requirements, and see which of those controls can be tested.
 
-**[Smaller organisations](/users/smaller-organizations)** often have one person wearing security, platform and compliance hats. They need a structured checklist and a place to start — identity, exposure, encryption, logging, data protection — without inventing a full control framework.
+**[Smaller organisations](https://ccc.finos.org/users/smaller-organizations)** often have one person wearing security, platform and compliance hats. They need a structured checklist and a place to start — identity, exposure, encryption, logging, data protection — without inventing a full control framework.
 
 Those are the use cases. The user journeys that follow are how two member banks are actually walking them.
 
 ## Two journeys, different stages
 
-**[RBC](/users/RBC)** is using CCC in production as the provider-neutral catalogue inside its cloud-review process: service threats and controls, threat modelling, validation, pen-test, and a risk scorecard for the governance board before production approval. Maxime Coquerel’s talk is the source. The story is *control intent versus policy widgets* — encryption in transit is one control, Azure Policy and AWS Config are two implementations.
+**[RBC](https://ccc.finos.org/users/RBC)** is using CCC in production as the provider-neutral catalogue inside its cloud-review process: service threats and controls, threat modelling, validation, pen-test, and a risk scorecard for the governance board before production approval. Maxime Coquerel’s talk is the source. The story is *control intent versus policy widgets* — encryption in transit is one control, Azure Policy and AWS Config are two implementations.
 
-**[Morgan Stanley](/users/Morgan-Stanley)** is investing and contributing, starting with managed Kubernetes. Dave Reeve’s talk is the source: three control tables for AKS, EKS and GKE that did not match, and a spreadsheet that could not evidence a deployment. What has landed in FINOS is the `CCC.K8S` catalog, a hardened AKS Terraform blueprint, and behavioural tests across AWS, Azure and GCP. EKS and GKE *modules* are still planned.
+**[Morgan Stanley](https://ccc.finos.org/users/Morgan-Stanley)** is investing and contributing, starting with managed Kubernetes. Dave Reeve’s talk is the source: three control tables for AKS, EKS and GKE that did not match, and a spreadsheet that could not evidence a deployment. What has landed in FINOS is the `CCC.K8S` catalog, a hardened AKS Terraform blueprint, and behavioural tests across AWS, Azure and GCP. EKS and GKE *modules* are still planned.
 
