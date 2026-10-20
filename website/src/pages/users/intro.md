@@ -1,24 +1,21 @@
-# How major banks are investing in CCC to improve security and speed delivery
+# Common Cloud Controls - User Journeys
 
-Banks do not run on one cloud if they can help it. Too much of the franchise on a single provider is **concentration risk** — an outage, a region, a contract, a question from the regulator. **Multi-cloud** is how they spread that risk. It also multiplies the control problem: the same security intent is implemented with Azure Policy on one cloud and AWS Config on another, and there is no **shared language** for what the control even *is*.
+This report looks at how RBC and Morgan Stanley are using and contributing to FINOS Common Cloud Controls (CCC). RBC’s journey shows how CCC fits into an established cloud-review and production-approval process. Morgan Stanley’s follows the development of shared Kubernetes requirements, an AKS blueprint and behavioural tests. Together, they show what adopting CCC involves, what is already in use and where work remains.
 
-FINOS Common Cloud Controls (CCC) is that language: capabilities, threats and controls that financial institutions and vendors can reuse, map to regulation, and — where possible — check against a running system. The prize is not a conversation. It is **faster reviews**, **fewer cross-cloud gaps**, and **evidence** boards and regulators can follow.
+## Problem Statement
 
-This note introduces the CCC user journeys. The two firm stories that follow — RBC and Morgan Stanley — are the detail.
+Using several cloud providers can help banks manage concentration risk, but it also adds work. Each provider has different services, configuration options and security tooling. Banks have to establish whether those differences affect the protection a control provides—and produce evidence to support that assessment.
+
+FINOS Common Cloud Controls (CCC) gives firms a common basis for this work. It defines cloud-service capabilities, threats and controls independently of any provider, with mappings to regulatory and industry frameworks. Behavioural tests check whether deployed services meet the control requirements. The aim is to reduce repeated assessment work, identify gaps across providers and produce evidence that supports risk decisions.
+
+RBC and Morgan Stanley are approaching this from different starting points. RBC is using CCC within its cloud-review process. Morgan Stanley is contributing requirements, infrastructure code and tests, beginning with managed Kubernetes.
 
 ## Who CCC is for
 
-Two generic paths, then two named firms.
+Financial institutions can use CCC alongside their existing policies and control libraries. It provides a consistent reference for assessing services across AWS, Azure and Google Cloud, linking technical controls to internal and regulatory requirements, and identifying what can be tested.
 
-**[Financial institutions](https://ccc.finos.org/users/financial-institutions)** already have policies, control libraries and dedicated cloud-security teams. They need a consistent way to assess services across AWS, Azure and Google Cloud, map technical controls to internal and regulatory requirements, and see which of those controls can be tested.
+For smaller organisations with fewer security and compliance resources, the catalogues provide a starting point. Teams can work through requirements for identity, network exposure, encryption, logging and data protection, then adapt them to their own systems and risks.
 
-**[Smaller organisations](https://ccc.finos.org/users/smaller-organizations)** often have one person wearing security, platform and compliance hats. They need a structured checklist and a place to start — identity, exposure, encryption, logging, data protection — without inventing a full control framework.
+## User Journeys
 
-Those are the use cases. The user journeys that follow are how two member banks are actually walking them.
-
-## Two journeys, different stages
-
-**[RBC](https://ccc.finos.org/users/RBC)** is using CCC in production as the provider-neutral catalogue inside its cloud-review process: service threats and controls, threat modelling, validation, pen-test, and a risk scorecard for the governance board before production approval. Maxime Coquerel’s talk is the source. The story is *control intent versus policy widgets* — encryption in transit is one control, Azure Policy and AWS Config are two implementations.
-
-**[Morgan Stanley](https://ccc.finos.org/users/Morgan-Stanley)** is investing and contributing, starting with managed Kubernetes. Dave Reeve’s talk is the source: three control tables for AKS, EKS and GKE that did not match, and a spreadsheet that could not evidence a deployment. What has landed in FINOS is the `CCC.K8S` catalog, a hardened AKS Terraform blueprint, and behavioural tests across AWS, Azure and GCP. EKS and GKE *modules* are still planned.
-
+The following user journeys show two approaches to CCC adoption. RBC is using it to bring consistency to cloud-service reviews, while Morgan Stanley is contributing shared requirements, infrastructure blueprints and behavioural tests, starting with managed Kubernetes. Both offer practical experience for firms considering how CCC could fit into their own cloud governance.
