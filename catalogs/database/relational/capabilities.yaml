@@ -100,7 +100,7 @@ capabilities:
     title: Support for IPv6
     description: |
       The service may be configured to expose an IPv6 endpoint through which
-      clients connect to the database. Cloud SQL does not offer this.
+      clients connect to the database.
 
   - id: CCC.RDMS.CP12
     group: Networking
