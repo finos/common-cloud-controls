@@ -3,83 +3,74 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent unencrypted requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure Data Encryption at Rest for All Stored Data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
-        remarks: Implement multi-factor authentication (MFA) for access
+        remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
-        remarks: Log all access and changes
+        remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
-        remarks: Prevent access from untrusted entities
+        remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
-        remarks: Prevent deployment in restricted regions
+        remarks: Restrict Deployments to Trust Perimeter
       - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
-        remarks: Prevent Data Replication to Destinations Outside Perimeter
+        remarks: Restrict Data Replication to Trust Perimeter
+      - reference-id: CCC.Core.CN07
+        strength: 0 # Not yet specified
+        remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.CN09
+        strength: 0 # Not yet specified
+        remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
-  - id: CCC.KeyMgmt.CN01
-    group: Observability
-    title: Alert on Key-version Changes
-    objective: >
-      Generate near-real-time alerts when a KMS key version is disabled or
-      scheduled for deletion, enabling rapid investigation and recovery.
-    assessment-requirements:
-      - id: CCC.KeyMgmt.CN01.AR01
-        text: |
-          When a key version is scheduled for deletion or disabled, an
-          alert MUST be generated within five minutes.
-        applicability:
-          - tlp-amber
-          - tlp-red
-        recommendation: Use native event services (e.g., CloudWatch Events,
-          Azure Monitor, Cloud Audit Logs) to route notifications to an
-          incident-response channel.
-    threats:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.KeyMgmt.TH01
-            strength: 0 # Not yet specified
-            remarks: Deletion or disabling of key versions
-    guidelines:
-      - reference-id: NIST-CSF
-        entries:
-          - reference-id: RS.AN-1
-            strength: 0 # Not yet specified
-            remarks: Notifications from detection systems are investigated
-      - reference-id: NIST_800_53
-        entries:
-          - reference-id: IR-5
-            strength: 0 # Not yet specified
-            remarks: Incident Monitoring
-
   - id: CCC.KeyMgmt.CN02
     group: Access
-    title: Limit Decrypt Permissions
+    title: Limit Cryptographic Operation Grants
     objective: >
-      Restrict the Decrypt operation to authorised principals only, applying
-      the principle of least privilege to protect sensitive data.
+      Restrict the decrypt, sign, and MAC-generation operations to authorised
+      principals only, applying the principle of least privilege to protect
+      sensitive data and the integrity of signed content.
     assessment-requirements:
       - id: CCC.KeyMgmt.CN02.AR01
         text: |
-          When IAM roles and key policies are reviewed, Decrypt permission
-          MUST be granted exclusively to documented authorised principals.
+          When a key policy or role grants the decrypt operation, the grant
+          MUST name specific principals rather than a wildcard.
         applicability:
           - tlp-green
+          - tlp-amber
+          - tlp-red
         recommendation: Periodically audit policy documents via automated
           tooling and report any deviations.
+      - id: CCC.KeyMgmt.CN02.AR02
+        text: |
+          When a key policy or role grants the sign or MAC-generation operation,
+          the grant MUST name specific principals rather than a wildcard.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Audit key policies and role assignments for sign and MAC permissions
+          with automated tooling and report any deviations.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH02
             strength: 0 # Not yet specified
-            remarks: Unrestricted use of a KMS key to decrypt data
+            remarks: A KMS Key is Used to Decrypt Data Without Restriction
+          - reference-id: CCC.KeyMgmt.TH07
+            strength: 0 # Not yet specified
+            remarks: Signing or MAC Key is Used to Authenticate Unauthorized Content
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -101,18 +92,35 @@ controls:
     assessment-requirements:
       - id: CCC.KeyMgmt.CN03.AR01
         text: |
-          When rotation settings are examined, rotation MUST be enabled with
-          an interval not exceeding 365 days.
+          When a symmetric key is generated within the service, automatic
+          rotation MUST be enabled on the key.
         applicability:
+          - tlp-clear
           - tlp-green
+          - tlp-amber
+          - tlp-red
         recommendation: Use cloud-provider rotation features and verify via
           configuration scanning.
+      - id: CCC.KeyMgmt.CN03.AR02
+        text: |
+          When automatic rotation is enabled on a key, the rotation interval
+          MUST NOT exceed 365 days.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: Set shorter intervals for keys protecting higher
+          classifications.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.KeyMgmt.TH03
             strength: 0 # Not yet specified
-            remarks: Key rotation is disabled or delayed
+            remarks: Key Rotation is Disabled or Delayed Beyond Policy Limits
+          - reference-id: CCC.Core.TH18
+            strength: 0 # Not yet specified
+            remarks: Encryption Key is Misused
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -135,10 +143,18 @@ controls:
       - id: CCC.KeyMgmt.CN04.AR01
         text: |
           When a key import request is processed, the key MUST use an
-          approved algorithm (RSA-2048+, EC-P256+) and originate from a
-          certified HSM.
+          approved algorithm (AES-256, RSA-2048 or larger, EC-P256 or larger).
         applicability:
           - tlp-green
+        recommendation: Reject import requests whose wrapping or target key
+          specification is not on the approved list.
+      - id: CCC.KeyMgmt.CN04.AR02
+        text: |
+          When a key import request is processed, the key material MUST
+          originate from a certified HSM.
+        applicability:
+          - tlp-amber
+          - tlp-red
         recommendation: Implement an approval workflow that validates
           attestation data before import.
     threats:
@@ -146,7 +162,7 @@ controls:
         entries:
           - reference-id: CCC.KeyMgmt.TH04
             strength: 0 # Not yet specified
-            remarks: Weak or compromised key material
+            remarks: Weak or Compromised Key Material is Imported
     guidelines:
       - reference-id: NIST-CSF
         entries:
@@ -158,3 +174,151 @@ controls:
           - reference-id: SC-28
             strength: 0 # Not yet specified
             remarks: Protection of Information at Rest
+
+  - id: CCC.KeyMgmt.CN05
+    group: Data
+    title: Enforce a Key Deletion Recovery Window
+    objective: |
+      Ensure that destroyed key material remains recoverable long enough to
+      detect and reverse an unintended deletion.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN05.AR01
+        text: |
+          When a key or key version is scheduled for destruction, the service
+          MUST retain the key material in a recoverable state for at least 7
+          days before it is destroyed.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set the pending-deletion or soft-delete window to 7 days or more and
+          enable purge protection where the provider offers it.
+      - id: CCC.KeyMgmt.CN05.AR02
+        text: |
+          When a key or key version is disabled or scheduled for destruction,
+          the service MUST publish an event to a monitored channel.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Subscribe the security team's alerting channel to the provider's
+          event stream for key disable and schedule-deletion events.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH01
+            strength: 0 # Not yet specified
+            remarks: Key Versions are Deleted or Disabled
+          - reference-id: CCC.Core.TH06
+            strength: 0 # Not yet specified
+            remarks: Data is Lost or Corrupted
+
+  - id: CCC.KeyMgmt.CN06
+    group: Encryption
+    title: Restrict Key Algorithms to the Approved List
+    objective: |
+      Ensure that every key created in the service uses an algorithm and key
+      length permitted by organizational cryptographic policy.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN06.AR01
+        text: |
+          When a key is created, its algorithm and key length MUST be on the
+          organization's approved list.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enforce the list with creation-time policy conditions on key
+          specification where the provider supports them, and scan existing keys
+          for non-compliant specifications.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH05
+            strength: 0 # Not yet specified
+            remarks: Keys are Created With Algorithms Not Permitted by Policy
+          - reference-id: CCC.Core.TH18
+            strength: 0 # Not yet specified
+            remarks: Encryption Key is Misused
+
+  - id: CCC.KeyMgmt.CN07
+    group: Encryption
+    title: Require HSM Protection for Key Material
+    objective: |
+      Ensure that key material is generated and held only inside validated hardware security modules.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN07.AR01
+        text: |
+          When a key is created, the service MUST generate and store its key
+          material in a hardware security module validated to FIPS 140-2 Level 3
+          or FIPS 140-3 Level 3.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Select the HSM protection level or HSM-backed key type at creation and
+          deny creation of software-protected keys by policy.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH06
+            strength: 0 # Not yet specified
+            remarks: Key Material is Generated or Stored Outside a Hardware Security Module
+
+  - id: CCC.KeyMgmt.CN09
+    group: Encryption
+    title: Bind Each Key to a Single Cryptographic Purpose
+    objective: |
+      Ensure that no key is exposed through more than one cryptographic protocol.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN09.AR01
+        text: |
+          When a key is created, its usage restriction MUST permit exactly one
+          purpose: encryption and decryption, signing and verification, or MAC
+          generation and verification.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set the key usage or purpose attribute at creation and deny creation
+          of keys whose permitted operations span more than one purpose.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH08
+            strength: 0 # Not yet specified
+            remarks: A Single Key is Used for Multiple Cryptographic Purposes
+
+  - id: CCC.KeyMgmt.CN10
+    group: Observability
+    title: Alert on External Key Store Failures
+    objective: |
+      Ensure that loss of connectivity to an external key manager is detected
+      before dependent workloads fail silently. Compromise of the external key
+      manager is outside the scope of a service-side control.
+    assessment-requirements:
+      - id: CCC.KeyMgmt.CN10.AR01
+        text: |
+          When an external key store is configured, the service MUST publish an
+          event to a monitored channel when a request to the external key
+          manager fails.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Route external key store error metrics or audit log entries to an
+          incident-response channel.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.KeyMgmt.TH09
+            strength: 0 # Not yet specified
+            remarks: External Key Store is Unavailable or Compromised
