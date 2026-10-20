@@ -2,9 +2,9 @@ imports:
   - reference-id: CCC
     entries:
       - reference-id: CCC.Core.CN01
-        remarks: Prevent Unencrypted Requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
-        remarks: Ensure Data Encryption at Rest for All Stored Data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
@@ -12,13 +12,21 @@ imports:
       - reference-id: CCC.Core.CN05
         remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
-        remarks: Prevent Deployment in Restricted Regions
+        remarks: Restrict Deployments to Trust Perimeter
       - reference-id: CCC.Core.CN07
         remarks: Alert on Unusual Enumeration Activity
+      - reference-id: CCC.Core.CN08
+        remarks: Replicate Data to Multiple Locations
       - reference-id: CCC.Core.CN09
-        remarks: Prevent Tampering, Deletion, or Unauthorized Access to Access Logs
+        remarks: Ensure Integrity of Access Logs
       - reference-id: CCC.Core.CN10
-        remarks: Prevent Data Replication to Destinations Outside of Defined Trust Perimeter
+        remarks: Restrict Data Replication to Trust Perimeter
+      - reference-id: CCC.Core.CN11
+        remarks: Protect Encryption Keys
+      - reference-id: CCC.Core.CN14
+        remarks: Maintain Recent Backups
+      - reference-id: CCC.Core.CN16
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.ObjStor.CN01
@@ -78,6 +86,14 @@ controls:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
+          - reference-id: CCC.Core.TH18
+            remarks: Encryption Key is Misused
+            strength: 5 # Blocks keys outside the trusted list, not misuse of a trusted key
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH04
+            remarks: Objects are Encrypted with Keys Outside Organizational Control
+            strength: 7 # Covers KMS keys; customer-provided keys are not addressed
     guidelines:
       - reference-id: CCM
         entries:
@@ -123,6 +139,11 @@ controls:
           - reference-id: CCC.Core.TH06
             remarks: Data is Lost or Corrupted
             strength: 2 # This is just one of many ways to mess up the data
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH08
+            remarks: Object Immutability is Bypassed or Expires Prematurely
+            strength: 6 # AR02 prevents the retention policy being weakened
     guidelines:
       - reference-id: CCM
         entries:
@@ -134,7 +155,7 @@ controls:
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN04
     group: Data
-    title: Objects have an Effective Retention Policy by Default
+    title: Apply a Default Retention Policy to All Objects
     objective: |
       Ensure that all objects stored in the object storage system have a
       retention policy applied by default, preventing premature deletion
@@ -170,9 +191,9 @@ controls:
             strength: 2 # This is just one of many ways to mess up the data
       - reference-id: CCC.ObjStor
         entries:
-          - reference-id: CCC.ObjStor.TH01
-            remarks: Data Exfiltration via Insecure Lifecycle Policies
-            strength: 10 # mmmm... lifecycle policies
+          - reference-id: CCC.ObjStor.TH08
+            remarks: Object Immutability is Bypassed or Expires Prematurely
+            strength: 7 # Objects without an explicit lock still get a default one
     guidelines:
       - reference-id: CCM
         entries:
@@ -184,7 +205,7 @@ controls:
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN05
     group: Data
-    title: Versioning is Enabled for All Objects in the Bucket
+    title: Enable Versioning for All Objects in the Bucket
     objective: |
       Ensure that versioning is enabled for all objects stored in the object
       storage bucket to enable recovery of previous versions of objects in
@@ -248,7 +269,7 @@ controls:
             strength: 1 # This is one of many things that will need to be done
   - id: CCC.ObjStor.CN07
     group: Access
-    title: Multi-Factor Authentication Is Required for Object Deletion
+    title: Require Multi-Factor Authentication for Object Deletion
     objective: |
       Ensure that deletion of objects stored in the object storage system is
       protected by multi-factor authentication (MFA), reducing the risk of
@@ -256,15 +277,16 @@ controls:
     assessment-requirements:
       - id: CCC.ObjStor.CN07.AR01
         text: |
-          The object storage service MUST support a configuration option that
-          requires MFA to be successfully completed before any object deletion
-          can be attempted, regardless of the request interface.
+          When a bucket is created, MFA deletion protection MUST be enabled on
+          it.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          On Azure and GCS, which have no MFA delete, enable soft delete and
+          object versioning on the bucket as the substitute.
       - id: CCC.ObjStor.CN07.AR02
         text: |
           When MFA deletion protection is enabled on a bucket or object
@@ -275,7 +297,9 @@ controls:
           - tlp-green
           - tlp-amber
           - tlp-red
-        recommendation: ""
+        recommendation: |
+          On Azure and GCS, which have no MFA delete, enable soft delete and
+          object versioning on the bucket as the substitute.
       - id: CCC.ObjStor.CN07.AR03
         text: |
           When an attempt is made to delete an object, the service's audit logs MUST
@@ -291,13 +315,13 @@ controls:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
-            remarks: Prevents unauthorized identities from deleting objects
+            remarks: Access is Granted to Unauthorized Users
             strength: 9
           - reference-id: CCC.Core.TH06
-            remarks: Mitigates malicious or accidental data loss through protected deletion
+            remarks: Data is Lost or Corrupted
             strength: 10
           - reference-id: CCC.Core.TH17
-            remarks: Ensures deletion requests from unauthorized entities do not result in action
+            remarks: Responses are Generated for Unauthorized Requests
             strength: 8
     guidelines:
       - reference-id: CCM
@@ -311,9 +335,9 @@ controls:
 
   - id: CCC.ObjStor.CN02
     group: Access
-    title: Enforce Uniform Bucket-level Access to Prevent Inconsistent Permissions
+    title: Enforce Bucket-Level-Only Access to Prevent Inconsistent Permissions
     objective: |
-      Ensure that uniform bucket-level access is enforced across all
+      Ensure that a bucket-level-only access policy is enforced across all
       object storage buckets. This prevents the use of ad-hoc or
       inconsistent object-level permissions, ensuring centralized,
       consistent, and secure access management in accordance with the
@@ -347,6 +371,11 @@ controls:
           - reference-id: CCC.Core.TH01
             remarks: Access is Granted to Unauthorized Users
             strength: 2 # This helps reduce errors and oversight when the intent is on point
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH06
+            remarks: Object-Level Permissions Diverge from Bucket Policy
+            strength: 9
     guidelines:
       - reference-id: CCM
         entries:
@@ -381,8 +410,7 @@ controls:
       - id: CCC.ObjStor.CN08.AR02
         text: |
           When a pre-signed URL is generated, the service MUST restrict
-          the URL scope to a single object and a single operation (read or
-          write), preventing broad access grants.
+          the URL scope to a single object, preventing broad access grants.
         applicability:
           - tlp-green
           - tlp-amber
@@ -417,12 +445,26 @@ controls:
           Implement a dedicated IAM permission for pre-signed URL generation
           rather than implicitly granting this capability to all entities
           with object-level access.
+      - id: CCC.ObjStor.CN08.AR05
+        text: |
+          When a pre-signed URL is generated, the service MUST restrict
+          the URL to a single operation (read or write).
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Generate separate URLs for upload and download. Never issue a URL
+          whose signature covers more than one HTTP method.
     threats:
       - reference-id: CCC.ObjStor
         entries:
           - reference-id: CCC.ObjStor.TH02
-            remarks: Pre-Signed URL Abuse
+            remarks: Pre-Signed URLs are Leaked or Over-Scoped
             strength: 9
+          - reference-id: CCC.ObjStor.TH12
+            remarks: Untrusted Content is Written to Buckets
+            strength: 3 # Limits what a leaked upload URL can write, not what is written
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.TH01
@@ -481,21 +523,20 @@ controls:
         text: |
           When an attempt is made to disable the public access block, the
           service MUST require explicit approval from an identity with
-          elevated privileges and MUST publish an auditable event to a
-          monitored channel.
+          elevated privileges.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
           Implement an approval workflow or secondary authorization
-          requirement for disabling public access blocks. Ensure all
-          changes are logged and trigger alerts.
+          requirement for disabling public access blocks. Alerting on the
+          change is covered by CCC.Core.CN16.
       - id: CCC.ObjStor.CN09.AR04
         text: |
-          When the public access block is disabled, the service MUST NOT
-          permit disabling for any bucket containing objects classified at
-          TLP:AMBER or TLP:RED.
+          When an attempt is made to disable the public access block on a
+          bucket holding objects classified at TLP:AMBER or TLP:RED, the
+          service MUST deny it.
         applicability:
           - tlp-amber
           - tlp-red
@@ -509,6 +550,9 @@ controls:
           - reference-id: CCC.Core.TH01
             remarks: Access is Granted to Unauthorized Users
             strength: 9
+          - reference-id: CCC.Core.TH17
+            remarks: Responses are Generated for Unauthorized Requests
+            strength: 6 # Anonymous requests are refused; authenticated-but-unauthorized ones are not in scope
     guidelines:
       - reference-id: CCM
         entries:
@@ -575,7 +619,7 @@ controls:
       - reference-id: CCC.ObjStor
         entries:
           - reference-id: CCC.ObjStor.TH03
-            remarks: Storage Class Downgrade Leading to Durability or Availability Loss
+            remarks: Objects are Transitioned to a Lower-Durability Storage Class
             strength: 9
       - reference-id: CCC
         entries:
@@ -593,4 +637,187 @@ controls:
             strength: 4
           - reference-id: LOG-08
             remarks: Log Records
+            strength: 5
+
+  - id: CCC.ObjStor.CN11
+    group: Data
+    title: Expire Noncurrent Object Versions
+    objective: |
+      Ensure that superseded and deleted object versions are permanently
+      removed after a bounded period, so that data users consider removed
+      does not remain readable indefinitely.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN11.AR01
+        text: |
+          When an object version becomes noncurrent, the service MUST
+          permanently delete it once an organization-defined retention
+          period for noncurrent versions has elapsed.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure a lifecycle rule on every versioned bucket that expires
+          noncurrent versions. Align the period with the recovery window
+          required by CCC.ObjStor.CN05 and any legal retention obligation.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH05
+            remarks: Deleted or Overwritten Object Versions Remain Readable
+            strength: 7 # Bounds the exposure window; versions remain readable until expiry
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: Data Retention and Deletion
+            strength: 7
+
+  - id: CCC.ObjStor.CN12
+    group: Access
+    title: Restrict Cross-Origin Resource Sharing to Approved Origins
+    objective: |
+      Ensure that browsers may only make cross-origin requests to a bucket
+      from web origins the organization has approved. No provider rejects
+      such rules natively, so a policy-as-code check on bucket configuration
+      satisfies these requirements.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN12.AR01
+        text: |
+          When a cross-origin resource sharing rule is configured on a bucket,
+          the service MUST reject any rule whose allowed origin is a wildcard.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enforce the restriction with a policy-as-code check on bucket CORS
+          configuration, since providers do not reject wildcard origins
+          natively.
+      - id: CCC.ObjStor.CN12.AR02
+        text: |
+          When a cross-origin resource sharing rule is configured on a bucket,
+          the service MUST restrict the allowed origins to an
+          organization-defined allowlist.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Maintain the allowlist centrally and reject CORS configurations
+          that name origins outside it.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH07
+            remarks: Cross-Origin Requests are Permitted from Untrusted Origins
+            strength: 9
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: IAM-01
+            remarks: IAM Policy and Procedures
+            strength: 3
+
+  - id: CCC.ObjStor.CN13
+    group: Data
+    title: Bound the Period of Irrevocable Retention Locks
+    objective: |
+      Ensure that an irrevocable retention lock cannot commit the organization
+      to retaining data for longer than its retention policy permits. No
+      provider bounds the period natively, so a policy-as-code check on lock
+      requests satisfies this requirement.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN13.AR01
+        text: |
+          When an irrevocable retention lock is applied to a bucket or an
+          object, the service MUST reject a retention period that exceeds an
+          organization-defined maximum.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Derive the maximum from the records-retention schedule for the data
+          classification held in the bucket. Enforce it through a policy check
+          on lock requests, since providers accept any period natively.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH09
+            remarks: Irrevocable Retention Prevents Required Deletion
+            strength: 7 # Bounds the period; does not prevent locking the wrong bucket
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-16
+            remarks: Data Retention and Deletion
+            strength: 8
+
+  - id: CCC.ObjStor.CN14
+    group: Access
+    title: Restrict Bucket Access to Organization-Owned Accounts
+    objective: |
+      Ensure that requests from within the trust perimeter only reach buckets
+      owned by accounts the organization controls, so that a reclaimed or
+      look-alike bucket name cannot receive or serve the organization's data.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN14.AR01
+        text: |
+          When a request to a bucket originates from within the trust
+          perimeter, the service MUST deny the request if the bucket is not
+          owned by an organization-approved account.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use resource-owner conditions in access policies, service endpoint
+          or perimeter policies that name the approved accounts, and expected
+          bucket owner parameters on requests where the provider supports them.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH10
+            remarks: Deleted Bucket Names are Reclaimed by Other Tenants
+            strength: 6 # Protects callers inside the perimeter; external callers remain exposed
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: DSP-10
+            remarks: Sensitive Data Transfer
+            strength: 5
+
+  - id: CCC.ObjStor.CN15
+    group: Access
+    title: Restrict Bucket Listing to Explicitly Authorized Identities
+    objective: |
+      Ensure that the set of object keys and listing metadata in a bucket is
+      disclosed only to identities explicitly granted list permission, since
+      keys and metadata may themselves carry sensitive information.
+    assessment-requirements:
+      - id: CCC.ObjStor.CN15.AR01
+        text: |
+          When a request lists the objects in a bucket, the service MUST deny
+          the request unless the identity holds an explicit list permission on
+          that bucket.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Grant list permission separately from object read permission and
+          never through public or anonymous grants. Review signed URL and
+          shared access token scopes so that they do not include listing.
+    threats:
+      - reference-id: CCC.ObjStor
+        entries:
+          - reference-id: CCC.ObjStor.TH11
+            remarks: Object Keys and Listing Metadata Expose Sensitive Information
+            strength: 5 # Limits who can enumerate; keys still appear in logs and URLs
+    guidelines:
+      - reference-id: CCM
+        entries:
+          - reference-id: IAM-05
+            remarks: Least Privilege
             strength: 5
