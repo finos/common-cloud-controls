@@ -7,8 +7,6 @@ imports:
         remarks: Encryption at Rest Enabled by Default
       - reference-id: CCC.Core.CP03
         remarks: Access Log Publication
-      - reference-id: CCC.Core.CP04
-        remarks: Transaction Rate Limits
       - reference-id: CCC.Core.CP06
         remarks: Access Control
       - reference-id: CCC.Core.CP08
@@ -17,16 +15,10 @@ imports:
         remarks: Metrics Publication
       - reference-id: CCC.Core.CP10
         remarks: Log Publication
-      - reference-id: CCC.Core.CP11
-        remarks: Backup
-      - reference-id: CCC.Core.CP12
-        remarks: Recovery
       - reference-id: CCC.Core.CP14
         remarks: API Access
-      - reference-id: CCC.Core.CP18
-        remarks: Resource Versioning
       - reference-id: CCC.Core.CP19
-        remarks: ChildResource Scaling
+        remarks: Child Resource Scaling
       - reference-id: CCC.Core.CP20
         remarks: Resource Tagging
       - reference-id: CCC.Core.CP22
@@ -34,99 +26,101 @@ imports:
       - reference-id: CCC.Core.CP23
         remarks: Network Access Rules
       - reference-id: CCC.Core.CP24
-        remarks: Core Processing Units (CPU)
+        remarks: Core Processing Units
       - reference-id: CCC.Core.CP25
         remarks: Random Access Memory Allocation
       - reference-id: CCC.Core.CP26
         remarks: Persistent Storage
       - reference-id: CCC.Core.CP28
         remarks: Command-line Interface
+      - reference-id: CCC.Core.CP29
+        remarks: Active Ingestion
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
       - reference-id: CCC.Core.CP31
         remarks: Elastic Scaling
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
+      - reference-id: CCC.Core.CP35
+        remarks: Customer-Managed Encryption Keys
 
 capabilities:
   - id: CCC.Vector.CP01
     group: Data
     title: Embedding Storage
     description: |
-      Supports storage of high-dimensional vector embeddings derived
-      from raw input data such as text, images, or audio.
+      The service always stores high-dimensional vector embeddings, derived from
+      raw input such as text, images, or audio, together with the record they
+      represent.
 
   - id: CCC.Vector.CP02
     group: Data
     title: Vector Indexing
     description: |
-      Provides creation and management of indexes optimized for similarity
-      search, such as HNSW, IVF, or PQ.
+      The service may be configured to build indexes optimized for similarity
+      search, such as HNSW, IVF, or product-quantized structures, with
+      user-selected algorithm and tuning parameters.
 
   - id: CCC.Vector.CP03
     group: Data
     title: Similarity Search
     description: |
-      Enables nearest-neighbor queries using a query embedding to return
-      the most similar vectors from the store.
+      The service always answers nearest-neighbor queries by taking a query
+      embedding and returning the stored vectors most similar to it.
 
   - id: CCC.Vector.CP04
     group: Data
     title: Metadata Filtering
     description: |
-      Supports structured filtering on metadata fields alongside vector
-      similarity search queries.
-
-  - id: CCC.Vector.CP05
-    group: Ingestion
-    title: Batch Ingestion
-    description: |
-      Allows for high-throughput batch upload and deletion of vectors and
-      associated metadata.
-
-  - id: CCC.Vector.CP06
-    group: Data
-    title: Real-Time Querying
-    description: |
-      Provides low-latency response to vector similarity queries suitable
-      for interactive applications.
-
-  - id: CCC.Vector.CP07
-    group: Resource
-    title: Index Lifecycle Management
-    description: |
-      Enables automated or manual creation, optimization, and removal of
-      vector indexes.
+      The service can apply structured filters on metadata fields alongside a
+      vector similarity query to restrict the candidate set before or after
+      ranking.
 
   - id: CCC.Vector.CP08
-    group: MachineLearning
+    group: Data
     title: Embedding Format Compatibility
     description: |
-      Supports standard vector formats and integrates with common embedding
-      generators (e.g., OpenAI, HuggingFace, TensorFlow).
+      The service can store vector values in standard numeric formats, such as
+      32-bit floating point or quantized byte and binary representations, so that
+      embeddings produced by any external embedding model can be loaded without
+      transformation.
 
   - id: CCC.Vector.CP09
     group: Data
     title: Vector Dimension Management
     description: |
-      Supports storing and managing vectors of specific or dynamic
-      dimensionality, depending on model needs.
+      The service always enforces a fixed vector dimensionality per index or
+      field, declared when the index is created, and rejects vectors that do
+      not match it.
 
   - id: CCC.Vector.CP10
     group: Data
     title: Multi-modal Vector Support
     description: |
-      Supports storing and searching across vectors derived from multiple
-      modalities (e.g., text, image, audio).
+      The service can store more than one vector field per record, so that
+      embeddings produced from different modalities (such as text and image)
+      or different models are searchable together.
 
   - id: CCC.Vector.CP11
     group: Access
-    title: Query Access Control
+    title: Document-Level Access Control
     description: |
-      Provides the ability to restrict who can run vector similarity or
-      metadata filter queries, separate from data modification rights.
+      The service may be configured to restrict which stored records and
+      metadata fields a user can retrieve, so that query results are trimmed
+      to the records the requester is authorized to see.
 
   - id: CCC.Vector.CP12
     group: Data
     title: Approximate or Exact Search Modes
     description: |
-      Supports both approximate nearest neighbor (ANN) algorithms for speed
-      and exact search modes for precision-critical applications.
+      The service can run a query either with an approximate nearest neighbor
+      (ANN) algorithm for speed or with an exhaustive exact search for
+      precision-critical applications.
+
+  - id: CCC.Vector.CP13
+    group: MachineLearning
+    title: Integrated Embedding Generation
+    description: |
+      The service may be configured to call an embedding model to vectorize
+      content at ingestion or query time, so that raw text or media is sent to
+      a model endpoint instead of pre-computed vectors.
