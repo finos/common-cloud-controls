@@ -14,8 +14,14 @@ metadata:
       service: AWS Identity and Access Management
       url: https://docs.aws.amazon.com/iam/
     - provider: Azure
+      service: Microsoft Entra ID
+      url: https://learn.microsoft.com/entra/fundamentals/
+    - provider: Azure
       service: Azure Role-Based Access Control
       url: https://learn.microsoft.com/azure/role-based-access-control/
+    - provider: GCP
+      service: Cloud Identity
+      url: https://cloud.google.com/identity/docs
     - provider: GCP
       service: Identity and Access Management
       url: https://cloud.google.com/iam/docs
