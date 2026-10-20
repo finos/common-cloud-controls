@@ -58,7 +58,7 @@ capabilities:
     description: |
       The service can distribute incoming traffic based on application layer
       (OSI layer 7) information. Some of the supported protocols on layer 7 are
-      HTTP, HTTPS, HTTP/2, gRPC, and WebSockets.
+      HTTP/2/3, HTTPS, gRPC, and WebSockets.
   - id: CCC.LB.CP04
     group: Networking
     title: Layer 4 Routing
