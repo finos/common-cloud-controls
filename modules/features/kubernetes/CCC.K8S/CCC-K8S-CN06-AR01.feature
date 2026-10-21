@@ -18,5 +18,5 @@ Feature: CCC.K8S.CN06.AR01 - Enforce default-deny network policy
     And "{result.PolicyCapable}" is true
     And "{result.DefaultDenyIngress}" is true
     And "{result.DefaultDenyEgress}" is true
-    When I call "{kubeClient}" with "AttemptWorkloadNetworkFlow" using arguments "{uid}", "{isolated-probe-selector}", "{network-control-host}", "{network-probe-port}", and "{network-probe-protocol}"
+    When I call "{kubeClient}" with "AttemptWorkloadNetworkFlowFromConfig" using arguments "{uid}", "{isolated-probe-selector}", and "{network-control-host}"
     Then "{result}" is an error

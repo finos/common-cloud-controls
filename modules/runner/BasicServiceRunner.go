@@ -79,12 +79,23 @@ func (suite *TestSuite) InitializeServiceScenario(sc *godog.ScenarioContext, par
 		return ctx, nil
 	})
 
-	// Register all cloud steps (which includes generic steps)
 	suite.RegisterSteps(sc)
+	// Five-argument calls are not in the generic library. Godog cannot bind a
+	// variadic ...string handler, so this step uses seven explicit strings.
 	sc.Step(
 		`^I call "([^"]*)" with "([^"]*)" using arguments "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)", and "([^"]*)"$`,
-		suite.callObjectMethodWithFiveParameters,
+		suite.callObjectMethodWithFiveCapturedArgs,
 	)
+}
+
+func (suite *TestSuite) callObjectMethodWithFiveCapturedArgs(objectName, methodName, a1, a2, a3, a4, a5 string) error {
+	return suite.callObjectMethodWithFiveParameters(objectName, methodName, a1, a2, a3, a4, a5)
+}
+
+// callObjectMethodWithNParameters extends the standard reflective call convention
+// so slice and bool arguments from Privateer vars can be passed into Go methods.
+func (suite *TestSuite) callObjectMethodWithNParameters(objectName, methodName string, params ...string) (err error) {
+	return suite.callObjectMethodWithFiveParameters(objectName, methodName, params...)
 }
 
 // callObjectMethodWithFiveParameters extends the standard reflective call convention,
@@ -138,6 +149,9 @@ func convertReflectArgument(target reflect.Type, value any) reflect.Value {
 	if value == nil {
 		return reflect.Zero(target)
 	}
+	if target.Kind() == reflect.Interface && target.NumMethod() == 0 {
+		return reflect.ValueOf(value)
+	}
 	resolved := reflect.ValueOf(value)
 	if resolved.Type().AssignableTo(target) {
 		return resolved
@@ -146,14 +160,66 @@ func convertReflectArgument(target reflect.Type, value any) reflect.Value {
 		return resolved.Convert(target)
 	}
 	switch target.Kind() {
+	case reflect.Bool:
+		if parsed, err := strconv.ParseBool(strings.TrimSpace(fmt.Sprint(value))); err == nil {
+			return reflect.ValueOf(parsed)
+		}
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		if parsed, err := strconv.ParseInt(fmt.Sprint(value), 10, 64); err == nil {
 			return reflect.ValueOf(parsed).Convert(target)
 		}
+	case reflect.Slice:
+		if converted, ok := convertSliceArgument(target, value); ok {
+			return converted
+		}
 	case reflect.String:
+		if resolved.Kind() == reflect.Slice || resolved.Kind() == reflect.Array {
+			if resolved.Len() == 1 {
+				return convertReflectArgument(target, resolved.Index(0).Interface())
+			}
+			parts := make([]string, 0, resolved.Len())
+			for i := 0; i < resolved.Len(); i++ {
+				parts = append(parts, fmt.Sprint(resolved.Index(i).Interface()))
+			}
+			return reflect.ValueOf(strings.Join(parts, ","))
+		}
 		return reflect.ValueOf(fmt.Sprint(value))
 	}
 	return resolved
+}
+
+func convertSliceArgument(target reflect.Type, value any) (reflect.Value, bool) {
+	if raw, ok := value.(string); ok {
+		trimmed := strings.TrimSpace(raw)
+		if trimmed == "" {
+			return reflect.MakeSlice(target, 0, 0), true
+		}
+		if strings.HasPrefix(trimmed, "[") {
+			var decoded []interface{}
+			if err := json.Unmarshal([]byte(trimmed), &decoded); err == nil {
+				return convertSliceArgument(target, decoded)
+			}
+		}
+		parts := strings.Split(trimmed, ",")
+		elems := make([]interface{}, 0, len(parts))
+		for _, part := range parts {
+			if item := strings.TrimSpace(part); item != "" {
+				elems = append(elems, item)
+			}
+		}
+		return convertSliceArgument(target, elems)
+	}
+
+	source := reflect.ValueOf(value)
+	if source.Kind() != reflect.Slice && source.Kind() != reflect.Array {
+		return reflect.Value{}, false
+	}
+	out := reflect.MakeSlice(target, source.Len(), source.Len())
+	elemType := target.Elem()
+	for i := 0; i < source.Len(); i++ {
+		out.Index(i).Set(convertReflectArgument(elemType, source.Index(i).Interface()))
+	}
+	return out, true
 }
 
 // enrichParamsProps copies Privateer vars into Props for Godog substitution and HTML reports.
@@ -168,7 +234,31 @@ func enrichParamsProps(params types.TestParams) types.TestParams {
 		}
 		params.Props[k] = v
 	}
+	if raw, ok := params.Props["permitted-regions"]; ok {
+		params.Props["permitted-regions"] = normalizePermittedRegions(raw)
+	}
 	return params
+}
+
+// normalizePermittedRegions accepts YAML string lists ([westus2]) or
+// [{value: westus2}] so CCC.Core.CN06.AR01 can match GetResourceRegion.
+func normalizePermittedRegions(raw any) any {
+	items, ok := raw.([]interface{})
+	if !ok {
+		return raw
+	}
+	out := make([]interface{}, 0, len(items))
+	for _, item := range items {
+		switch typed := item.(type) {
+		case map[string]interface{}:
+			out = append(out, typed)
+		case string:
+			out = append(out, map[string]interface{}{"value": typed})
+		default:
+			out = append(out, map[string]interface{}{"value": fmt.Sprint(item)})
+		}
+	}
+	return out
 }
 
 // BasicServiceRunner provides functionality for running service-specific compliance tests

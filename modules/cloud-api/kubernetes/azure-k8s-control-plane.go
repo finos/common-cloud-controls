@@ -72,6 +72,7 @@ type aksAgentPool struct {
 	MinCount                   int64  `json:"minCount"`
 	MaxCount                   int64  `json:"maxCount"`
 	EnableAutoScaling          bool   `json:"enableAutoScaling"`
+	EnableNodePublicIP         bool   `json:"enableNodePublicIP"`
 	OrchestratorVersion        string `json:"orchestratorVersion"`
 	CurrentOrchestratorVersion string `json:"currentOrchestratorVersion"`
 	NodeImageVersion           string `json:"nodeImageVersion"`
@@ -129,6 +130,8 @@ func newAzureService(ctx context.Context, cfg types.Config, credential azcore.To
 	service.support = service.supportEvidence
 	service.nodeIntegrity = service.nodeIntegrityEvidence
 	service.autoscalers = service.poolBounds
+	service.armInventory = service.armComponentInventory
+	service.nodeAdmin = service.nodeAdminEvidence
 	return service, nil
 }
 
@@ -331,9 +334,67 @@ func (s *AzureService) buildRESTConfig() (*rest.Config, error) {
 		return nil, err
 	}
 	base := strings.SplitN(resourceURL, "?", 2)[0]
+	if s.useCommandInvoke() {
+		return config.AzureCommandInvoke(s.ctx, s.arm, s.cred, base+"/runCommand?api-version=2025-04-01")
+	}
 	// ARM action is singular: listClusterUserCredential (plural path returns plain 404).
 	credURL := base + "/listClusterUserCredential?api-version=2025-04-01"
 	return config.Azure(s.ctx, s.arm, s.cred, credURL)
+}
+
+func (s *AzureService) useCommandInvoke() bool {
+	switch strings.ToLower(strings.TrimSpace(s.config.Get("azure-aks-kube-transport"))) {
+	case "direct":
+		return false
+	case "command-invoke":
+		return true
+	}
+	cluster, err := s.get(s.ctx, "")
+	if err != nil {
+		return false
+	}
+	access := cluster.Properties.APIServerAccessProfile
+	return access.EnablePrivateCluster && !access.EnablePrivateClusterPublicFQDN
+}
+
+func (s *AzureService) armComponentInventory(ctx context.Context, clusterID string) (string, []map[string]interface{}, error) {
+	cluster, err := s.get(ctx, clusterID)
+	if err != nil {
+		return "", nil, err
+	}
+	version := firstNonEmpty(cluster.Properties.CurrentKubernetesVersion, cluster.Properties.KubernetesVersion)
+	workers := make([]map[string]interface{}, 0, len(cluster.Properties.AgentPoolProfiles))
+	for _, pool := range cluster.Properties.AgentPoolProfiles {
+		workers = append(workers, map[string]interface{}{
+			"Name":    pool.Name,
+			"Version": firstNonEmpty(pool.CurrentOrchestratorVersion, pool.OrchestratorVersion),
+			"Image":   pool.NodeImageVersion,
+		})
+	}
+	return version, workers, nil
+}
+
+func (s *AzureService) nodeAdminEvidence(ctx context.Context, clusterID string) (map[string]interface{}, error) {
+	cluster, err := s.get(ctx, clusterID)
+	if err != nil {
+		return nil, err
+	}
+	publicIP := false
+	nodes := []map[string]interface{}{}
+	for _, pool := range cluster.Properties.AgentPoolProfiles {
+		if pool.EnableNodePublicIP {
+			publicIP = true
+		}
+		nodes = append(nodes, map[string]interface{}{
+			"Name": pool.Name, "EnableNodePublicIP": pool.EnableNodePublicIP,
+		})
+	}
+	return map[string]interface{}{
+		"AnonymousKubeletOpen": false, "KubeletReachable": false,
+		"PublicSSHOpen": false, "PublicRDPOpen": false,
+		"PublicIPPresent": publicIP, "Nodes": nodes,
+		"EvidenceSource": "arm:agentPoolProfiles.enableNodePublicIP",
+	}, nil
 }
 
 // getJSON performs an ARM GET and decodes the JSON body.

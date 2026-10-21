@@ -51,6 +51,190 @@ services:
       permitted-regions:
         - westus2
       azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
+      azure-aks-kube-transport: command-invoke
+      min-supported-version: "1.31"
+      approved-autoscaler-max: 10
+      approved-hpa-max-replicas: 10
+      test-workload-namespace: ccc-test
+      test-workload-service-account: ccc-wi-sa
+      test-workload-service-account-unbound: ccc-wi-sa-unbound
+      protected-secret-name: ccc-protected-secret
+      unrelated-secret-name: ccc-unrelated-secret
+      secret-watch-timeout-ms: 3000
+      wi-probe-action: probe-read
+      wi-probe-resource: "avmaks20260616"
+      network-probe-selector: "role=network-probe"
+      isolated-probe-selector: "role=isolated-probe"
+      security-probe-selector: "role=security-probe"
+      network-probe-image: "busybox:1.36"
+      network-probe-port: 8080
+      network-probe-protocol: tcp
+      network-allowlist-host: "ccc-allowed.ccc-network-control.svc"
+      network-denylist-host: "ccc-denied.ccc-network-control.svc"
+      network-control-host: "ccc-control.ccc-network-control.svc"
+      network-control-namespace: ccc-network-control
+      kubelet-ports: "10250,10255"
+      node-mgmt-ports: "22,3389"
+      node-probe-timeout-ms: 5000
+      webhook-probe-namespace: ccc-admission-webhook-probe
+      webhook-probe-test-namespace: ccc-admission-webhook-test
+      webhook-probe-deployment: ccc-admission-webhook-probe
+      webhook-probe-service: ccc-admission-webhook-probe
+      webhook-probe-configuration: ccc-admission-webhook-probe
+      unapproved-tag-image-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-unapproved-image
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:latest
+      privileged-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-privileged
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36
+              securityContext:
+                privileged: true
+      privileged-controller-update-manifest: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: ccc-privileged-deploy
+          namespace: ccc-test
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: ccc-privileged-deploy
+          template:
+            metadata:
+              labels:
+                app: ccc-privileged-deploy
+            spec:
+              containers:
+                - name: pause
+                  image: busybox:1.36
+                  securityContext:
+                    privileged: true
+      insecure-security-context-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-insecure-context
+          namespace: ccc-test
+          labels:
+            role: security-probe
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36
+              securityContext:
+                allowPrivilegeEscalation: true
+      static-credential-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-static-creds
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36
+              env:
+                - name: AZURE_CLIENT_SECRET
+                  value: "not-a-real-secret"
+      missing-resource-bounds-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-missing-bounds
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36
+      compliant-resource-bounds-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-compliant-bounds
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 100m
+                  memory: 128Mi
+      quota-exceed-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-quota-exceed
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36
+              resources:
+                requests:
+                  cpu: "32"
+                  memory: 64Gi
+      disallowed-pvc-manifest: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-disallowed-pvc
+          namespace: ccc-test
+        spec:
+          accessModes:
+            - ReadWriteMany
+          resources:
+            requests:
+              storage: 1Gi
+          storageClassName: default
+      compliant-pvc-manifest: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: ccc-compliant-pvc
+          namespace: ccc-test
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+          storageClassName: managed-csi
+      webhook-compliant-probe-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-webhook-probe
+          namespace: ccc-admission-webhook-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 100m
+                  memory: 128Mi
       test-identities:
         test-user-no-access:
           user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"

@@ -193,6 +193,50 @@ func (cw *CloudWorld) RegisterSteps(ctx *godog.ScenarioContext) {
 
 	// Placeholder for scenarios with no concrete assertion yet
 	ctx.Step(`^no-op required$`, cw.noOpRequired)
+	ctx.Step(`^the permitted regions include "([^"]*)"$`, cw.permittedRegionsInclude)
+}
+
+func (cw *CloudWorld) permittedRegionsInclude(regionArg string) error {
+	region := strings.TrimSpace(fmt.Sprint(cw.HandleResolve(regionArg)))
+	if region == "" || region == "<nil>" {
+		return fmt.Errorf("resource region is empty")
+	}
+	raw := cw.HandleResolve("{permitted-regions}")
+	for _, item := range flattenPermittedRegions(raw) {
+		if strings.EqualFold(item, region) {
+			return nil
+		}
+	}
+	return fmt.Errorf("permitted-regions %v does not include %q", raw, region)
+}
+
+func flattenPermittedRegions(raw any) []string {
+	switch typed := raw.(type) {
+	case []string:
+		return typed
+	case []interface{}:
+		out := make([]string, 0, len(typed))
+		for _, item := range typed {
+			switch inner := item.(type) {
+			case string:
+				out = append(out, strings.TrimSpace(inner))
+			case map[string]interface{}:
+				if value, ok := inner["value"]; ok {
+					out = append(out, strings.TrimSpace(fmt.Sprint(value)))
+				}
+			default:
+				out = append(out, strings.TrimSpace(fmt.Sprint(item)))
+			}
+		}
+		return out
+	case string:
+		if strings.TrimSpace(typed) == "" {
+			return nil
+		}
+		return []string{strings.TrimSpace(typed)}
+	default:
+		return nil
+	}
 }
 
 // noOpRequired is a placeholder step for scenarios that document controls without yet having a concrete test.

@@ -52,6 +52,11 @@ type managedService struct {
 	support       func(context.Context, string) (*supportEvidence, error)
 	nodeIntegrity func(context.Context, string) ([]map[string]interface{}, error)
 	autoscalers   func(context.Context, string) ([]autoscalerBound, error)
+	// armInventory returns control-plane version + worker/pool rows from the
+	// CSP management API so CN09 can complete when the kube API is private.
+	armInventory func(context.Context, string) (string, []map[string]interface{}, error)
+	// nodeAdmin returns CN12 public-node evidence from the CSP API (no kube list).
+	nodeAdmin func(context.Context, string) (map[string]interface{}, error)
 }
 
 const (
@@ -441,6 +446,9 @@ func (c *KubeClient) FindStaticCloudCredentials(_ string, namespace string) (map
 func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML string) (map[string]interface{}, error) {
 	_, dyn, err := s.kubeClients()
 	if err != nil {
+		if IsAPIUnreachable(err) {
+			return unreachableAdmitResult(err), nil
+		}
 		return nil, err
 	}
 	obj, gvr, err := decodeManifest(manifestYAML)
@@ -478,6 +486,11 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 		return nil, fmt.Errorf("unsupported admission operation %q", operation)
 	}
 	if err != nil {
+		if IsAPIUnreachable(err) {
+			result["Reason"] = err.Error()
+			result["Unreachable"] = true
+			return result, nil
+		}
 		result["Denied"] = true
 		result["Reason"] = err.Error()
 		return result, fmt.Errorf("workload admission denied or failed: %w", err)
@@ -485,6 +498,17 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 	result["Admitted"] = true
 	result["DeniedAt"] = ""
 	return result, nil
+}
+
+func unreachableAdmitResult(err error) map[string]interface{} {
+	reason := ""
+	if err != nil {
+		reason = err.Error()
+	}
+	return map[string]interface{}{
+		"Admitted": false, "Denied": false, "Unreachable": true,
+		"DeniedAt": "", "GeneratedWorkloadRunning": false, "Reason": reason,
+	}
 }
 
 func (c *KubeClient) GetAdmissionPolicyCoverage(string) (map[string]interface{}, error) {
@@ -572,7 +596,8 @@ func (c *KubeClient) GetNamespaceNetworkPolicyStatus(_ string, namespace string)
 	return map[string]interface{}{"DefaultDenyIngress": ingress, "DefaultDenyEgress": egress, "PolicyCapable": len(policies.Items) > 0}, nil
 }
 
-func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost string, port int, protocol string) (map[string]interface{}, error) {
+func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector string, toHost any, port int, protocol string) (map[string]interface{}, error) {
+	host := firstStringValue(toHost)
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -589,7 +614,7 @@ func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector, toHost s
 		labels["role"] = "network-probe"
 	}
 	namespace := networkFlowNamespace(c.config, labels)
-	targetURL, dialHost, dialPort := networkFlowTarget(toHost, port, protocol)
+	targetURL, dialHost, dialPort := networkFlowTarget(host, port, protocol)
 	timeout := configDuration(c.config, "network-probe-timeout-ms", 15*time.Second)
 	deadlineSec := int64(timeout.Seconds())
 	if deadlineSec < 5 {
@@ -889,7 +914,15 @@ func (s *managedService) AttemptModifyAdmissionConfig(clusterID string, change m
 		fmt.Sprintf("mutating admission configuration is destructive and no narrowly-scoped fixture target was configured (cluster=%s change=%v)", clusterID, change))
 }
 
-func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPorts, mgmtPorts []int) (map[string]interface{}, error) {
+func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPortsArg, mgmtPortsArg any) (map[string]interface{}, error) {
+	kubeletPorts, err := parseIntList(kubeletPortsArg)
+	if err != nil {
+		return nil, fmt.Errorf("kubelet-ports: %w", err)
+	}
+	mgmtPorts, err := parseIntList(mgmtPortsArg)
+	if err != nil {
+		return nil, fmt.Errorf("node-mgmt-ports: %w", err)
+	}
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
@@ -1023,6 +1056,84 @@ func (c *KubeClient) GetResourceConsumptionBounds(_ string, namespace string) (m
 		result["AutoscalerEvidenceError"] = nodePoolErr
 	}
 	return result, nil
+}
+
+func parseIntList(value any) ([]int, error) {
+	if value == nil {
+		return nil, nil
+	}
+	switch typed := value.(type) {
+	case []int:
+		return typed, nil
+	case []int64:
+		out := make([]int, len(typed))
+		for i, n := range typed {
+			out[i] = int(n)
+		}
+		return out, nil
+	case []interface{}:
+		out := make([]int, 0, len(typed))
+		for _, item := range typed {
+			n, err := parseIntListScalar(item)
+			if err != nil {
+				return nil, err
+			}
+			out = append(out, n)
+		}
+		return out, nil
+	case string:
+		trimmed := strings.TrimSpace(typed)
+		if trimmed == "" {
+			return nil, nil
+		}
+		if strings.HasPrefix(trimmed, "[") {
+			var decoded []interface{}
+			if err := json.Unmarshal([]byte(trimmed), &decoded); err == nil {
+				return parseIntList(decoded)
+			}
+		}
+		parts := strings.Split(trimmed, ",")
+		out := make([]int, 0, len(parts))
+		for _, part := range parts {
+			if strings.TrimSpace(part) == "" {
+				continue
+			}
+			n, err := parseIntListScalar(part)
+			if err != nil {
+				return nil, err
+			}
+			out = append(out, n)
+		}
+		return out, nil
+	default:
+		n, err := parseIntListScalar(value)
+		if err != nil {
+			return nil, fmt.Errorf("unsupported port list type %T", value)
+		}
+		return []int{n}, nil
+	}
+}
+
+func parseIntListScalar(value any) (int, error) {
+	switch typed := value.(type) {
+	case int:
+		return typed, nil
+	case int32:
+		return int(typed), nil
+	case int64:
+		return int(typed), nil
+	case float64:
+		return int(typed), nil
+	case json.Number:
+		n, err := typed.Int64()
+		return int(n), err
+	default:
+		n, err := strconv.Atoi(strings.TrimSpace(fmt.Sprint(value)))
+		if err != nil {
+			return 0, fmt.Errorf("invalid port %v", value)
+		}
+		return n, nil
+	}
 }
 
 func configInt(cfg types.Config, key string, fallback int64) int64 {
@@ -1259,6 +1370,28 @@ func infrastructureRoles(name string) []string {
 		}
 	}
 	return roles
+}
+
+func firstStringValue(value any) string {
+	if value == nil {
+		return ""
+	}
+	switch typed := value.(type) {
+	case string:
+		return strings.TrimSpace(typed)
+	case []string:
+		if len(typed) == 0 {
+			return ""
+		}
+		return strings.TrimSpace(typed[0])
+	case []interface{}:
+		if len(typed) == 0 {
+			return ""
+		}
+		return firstStringValue(typed[0])
+	default:
+		return strings.TrimSpace(fmt.Sprint(value))
+	}
 }
 
 func firstNonEmpty(values ...string) string {

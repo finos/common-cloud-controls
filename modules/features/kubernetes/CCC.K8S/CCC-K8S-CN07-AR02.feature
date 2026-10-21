@@ -13,14 +13,14 @@ Feature: CCC.K8S.CN07.AR02 - Restrict secret access to required names
 
   @Behavioural @kubernetes
   Scenario: Restrict secret access to required names
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "{protected-secret-name}", "{test-workload-service-account}", and "get"
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "{protected-secret-name}", "{test-workload-service-account}", and "get"
     Then "{result}" is not an error
     And "{result.Allowed}" is true
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "{unrelated-secret-name}", "{test-workload-service-account}", and "get"
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "{unrelated-secret-name}", "{test-workload-service-account}", and "get"
     Then "{result}" is an error
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "", "{test-workload-service-account}", and "list"
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "", "{test-workload-service-account}", and "list"
     Then "{result}" is an error
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "", "{test-workload-service-account}", and "watch"
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "", "{test-workload-service-account}", and "watch"
     Then "{result}" is an error
     When I call "{kubeClient}" with "GetRBACPolicyFindings" using argument "{uid}"
     Then "{result}" is not an error

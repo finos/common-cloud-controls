@@ -40,4 +40,5 @@ type ControlPlane interface {
 	AttemptCreatePVC(clusterID, claimYAML string) (map[string]interface{}, error)
 	GetResourceConsumptionBounds(clusterID, namespace string) (map[string]interface{}, error)
 	GetInfrastructureIdentities(clusterID string) (map[string]interface{}, error)
+	ProbeNodeAdminInterfaces(clusterID, nodeID string, kubeletPorts, mgmtPorts any) (map[string]interface{}, error)
 }
