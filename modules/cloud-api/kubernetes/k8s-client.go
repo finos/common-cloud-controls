@@ -22,6 +22,8 @@ type KubeClient struct {
 	provider   string
 	// autoscalers returns CSP node-pool scaling bounds (nil when the provider has none).
 	autoscalers func(context.Context) ([]autoscalerBound, error)
+	// infraIdentities returns CN17 identities from the CSP API when SA list is Forbidden.
+	infraIdentities func(context.Context, string) (map[string]interface{}, error)
 }
 
 // GetKubernetesClient builds a KubeClient using CSP-derived credentials.
@@ -46,6 +48,7 @@ func (s *managedService) GetKubernetesClient() (*KubeClient, error) {
 			}
 			return s.nodeAutoscalers
 		}(),
+		infraIdentities: s.infraIdentities,
 	}, nil
 }
 

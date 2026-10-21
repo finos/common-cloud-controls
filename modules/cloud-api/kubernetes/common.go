@@ -57,6 +57,9 @@ type managedService struct {
 	armInventory func(context.Context, string) (string, []map[string]interface{}, error)
 	// nodeAdmin returns CN12 public-node evidence from the CSP API (no kube list).
 	nodeAdmin func(context.Context, string) (map[string]interface{}, error)
+	// infraIdentities returns CN17 control-plane vs kubelet identities from the
+	// CSP API when a cluster-scoped ServiceAccount list is Forbidden.
+	infraIdentities func(context.Context, string) (map[string]interface{}, error)
 }
 
 const (
@@ -1266,13 +1269,16 @@ func (s *managedService) AttemptClusterAuthWithStaticCredential(clusterID, mode 
 // (node agent / CNI DaemonSet SA and CSI driver SA). Override with required-infrastructure-roles.
 var defaultRequiredInfrastructureRoles = []string{"node", "csi"}
 
-func (c *KubeClient) GetInfrastructureIdentities(_ string) (map[string]interface{}, error) {
+func (c *KubeClient) GetInfrastructureIdentities(clusterID string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
 	serviceAccounts, err := client.CoreV1().ServiceAccounts("").List(c.ctx, metav1.ListOptions{})
 	if err != nil {
+		if c.infraIdentities != nil && (isAuthzDenied(err) || IsAPIUnreachable(err)) {
+			return c.infraIdentities(c.ctx, clusterID)
+		}
 		return nil, err
 	}
 	principals := []map[string]interface{}{}
