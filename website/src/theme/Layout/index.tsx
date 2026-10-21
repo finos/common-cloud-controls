@@ -3,7 +3,6 @@ import clsx from "clsx";
 import ErrorBoundary from "@docusaurus/ErrorBoundary";
 import { PageMetadata, SkipToContentFallbackId, ThemeClassNames } from "@docusaurus/theme-common";
 import Breadcrumb from "../../components/Breadcrumb";
-import { useKeyboardNavigation } from "@docusaurus/theme-common/internal";
 import SkipToContent from "@theme/SkipToContent";
 import AnnouncementBar from "@theme/AnnouncementBar";
 import Navbar from "@theme/Navbar";
@@ -24,7 +23,6 @@ export default function Layout(props: Props): ReactNode {
     description,
   } = props;
 
-  useKeyboardNavigation();
   const path = useLocation().pathname;
   const nonBreadcrumbPaths = ["/", "/404"];
 
