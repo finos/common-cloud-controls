@@ -3,22 +3,22 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent unencrypted requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure data encryption at rest for all stored data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
-        remarks: Implement multi-factor authentication (MFA) for access
+        remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
-        remarks: Log all access and changes
+        remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
-        remarks: Prevent access from untrusted entities
+        remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
-        remarks: Prevent deployment in restricted regions
+        remarks: Restrict Deployments to Trust Perimeter
 
 controls:
   - id: CCC.MLDE.CN01
@@ -302,7 +302,6 @@ controls:
         entries:
           - reference-id: CCC.MLDE.TH02
             strength: 0 # Not yet specified
-          - reference-id: CCC.VPC.TH02
     guidelines:
       - reference-id: NIST-CSF
         entries:

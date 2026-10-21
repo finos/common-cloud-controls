@@ -3,34 +3,34 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access control is misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
-        remarks: Data is intercepted in transit
+        remarks: Data is Intercepted in Transit
       - reference-id: CCC.Core.TH03
         strength: 0 # Not yet specified
-        remarks: Deployment region network is untrusted
+        remarks: Deployment Region Network is Untrusted
       - reference-id: CCC.Core.TH04
         strength: 0 # Not yet specified
-        remarks: Data is replicated to untrusted or external locations
+        remarks: Data is Replicated to Untrusted or External Locations
       - reference-id: CCC.Core.TH05
         strength: 0 # Not yet specified
-        remarks: Data is corrupted during replication
+        remarks: Interference with Replication Processes
       - reference-id: CCC.Core.TH06
         strength: 0 # Not yet specified
-        remarks: Data is lost or corrupted
+        remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
         remarks: Logs are Tampered With or Deleted
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or Monitoring Data are Read by Unauthorized Users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
-        remarks: Event Notifications are Incorrectly Triggered
+        remarks: Publications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
         strength: 0 # Not yet specified
-        remarks: Resource constraints are exhausted
+        remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH14
         strength: 0 # Not yet specified
-        remarks: Older Resource Versions Are Exploited
+        remarks: Older Resource Versions are Used
