@@ -184,9 +184,11 @@ func (s *AzureService) endpointConfig(ctx context.Context, clusterID string) (ma
 	if public && cluster.Properties.FQDN != "" {
 		host = cluster.Properties.FQDN
 	}
+	cidrs := cluster.Properties.APIServerAccessProfile.AuthorizedIPRanges
 	return map[string]interface{}{
-		"PublicAccess": public, "PrivateAccess": private,
-		"AllowedCIDRs": cluster.Properties.APIServerAccessProfile.AuthorizedIPRanges, "EndpointHostname": host,
+		"PublicAccess": public, "PrivateAccess": private, "AllowedCIDRs": cidrs,
+		"RestrictedToApprovedNetworks": restrictedToApprovedNetworks(public, private, cidrs),
+		"EndpointHostname":             host,
 	}, nil
 }
 

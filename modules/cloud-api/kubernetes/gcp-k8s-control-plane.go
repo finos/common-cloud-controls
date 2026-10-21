@@ -110,9 +110,11 @@ func (s *GCPService) endpointConfig(_ context.Context, clusterID string) (map[st
 			cidrs = append(cidrs, block.CidrBlock)
 		}
 	}
+	public := !private
 	return map[string]interface{}{
-		"PublicAccess": !private, "PrivateAccess": private, "AllowedCIDRs": cidrs,
-		"EndpointHostname": endpointHostname(cluster.Endpoint),
+		"PublicAccess": public, "PrivateAccess": private, "AllowedCIDRs": cidrs,
+		"RestrictedToApprovedNetworks": restrictedToApprovedNetworks(public, private, cidrs),
+		"EndpointHostname":             endpointHostname(cluster.Endpoint),
 	}, nil
 }
 

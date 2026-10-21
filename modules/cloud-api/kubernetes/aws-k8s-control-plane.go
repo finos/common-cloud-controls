@@ -96,9 +96,13 @@ func (s *AWSService) endpointConfig(ctx context.Context, clusterID string) (map[
 	if vpc == nil {
 		return nil, fmt.Errorf("EKS cluster %q has no resourcesVpcConfig", clusterID)
 	}
+	public := vpc.EndpointPublicAccess
+	private := vpc.EndpointPrivateAccess
+	cidrs := vpc.PublicAccessCidrs
 	return map[string]interface{}{
-		"PublicAccess": vpc.EndpointPublicAccess, "PrivateAccess": vpc.EndpointPrivateAccess,
-		"AllowedCIDRs": vpc.PublicAccessCidrs, "EndpointHostname": endpointHostname(aws.ToString(output.Cluster.Endpoint)),
+		"PublicAccess": public, "PrivateAccess": private, "AllowedCIDRs": cidrs,
+		"RestrictedToApprovedNetworks": restrictedToApprovedNetworks(public, private, cidrs),
+		"EndpointHostname":             endpointHostname(aws.ToString(output.Cluster.Endpoint)),
 	}, nil
 }
 

@@ -1,0 +1,74 @@
+loglevel: info
+write-directory: evaluation_results
+write: true
+output: yaml
+
+# Azure kubernetes behavioural tests against the AVM managed cluster in
+# ccc-cfi-compliance/remote/azure/avm.
+#
+# Populated from terraform output after apply (2026-10-21, instance_id = 20260616):
+#   resource_group_name = avm-testing
+#   managed_cluster.name = avmaks20260616
+#   managed_cluster.private_fqdn = j9arz5rlyt-px206ab7.ccc-20260616.private.westus2.azmk8s.io
+#   managed_cluster.oidc_issuer_url = https://westus2.oic.prod-aks.azure.com/fa193ac0-9c06-4111-bf55-341e4db193d3/b05eedfb-a37f-4962-bcda-8208dd4b2e2a/
+#
+# Source azure-env.sh (or AZURE_AVM_ENV) for test principal credentials before running.
+#
+# Known gaps vs a full CFI kubernetes harness (tests may skip or fail until addressed):
+#   - Private cluster + API-server VNet integration; no public FQDN
+#   - Data-plane / kubectl probes need a path into avmvnet20260616 (10.40.0.0/16)
+#   - Single system node (Standard_D4s_v3, westus2 zone 2) due to regional vCPU quota
+#   - Azure Policy addon is disabled; no Entra admin groups are configured
+
+services:
+  azureKubernetes:
+    plugin: ccc-behavioural-plugin
+    policy:
+      catalogs:
+        - CCC.K8S
+      applicability:
+        - tlp-amber
+        - tlp-clear
+        - tlp-green
+        - tlp-red
+    vars:
+      service: kubernetes
+      service-type: kubernetes
+      tags: "@Behavioural @kubernetes"
+      provider: azure
+      catalog-versions:
+        CCC.Core: v2025.10
+        CCC.K8S: DEV
+      region: westus2
+      resource: "avmaks20260616"
+      kubernetes-cluster-name: "avmaks20260616"
+      azure-subscription-id: "${AZURE_SUBSCRIPTION_ID}"
+      azure-tenant-id: "${AZURE_TENANT_ID}"
+      azure-resource-group: "avm-testing"
+      azure-aks-name: "avmaks20260616"
+      private-fqdn: "j9arz5rlyt-px206ab7.ccc-20260616.private.westus2.azmk8s.io"
+      oidc-issuer-url: "https://westus2.oic.prod-aks.azure.com/fa193ac0-9c06-4111-bf55-341e4db193d3/b05eedfb-a37f-4962-bcda-8208dd4b2e2a/"
+      permitted-regions:
+        - westus2
+      azure-log-analytics-workspace-id: "${AZURE_LOG_ANALYTICS_WORKSPACE_ID}"
+      test-identities:
+        test-user-no-access:
+          user-name: "${AZURE_TEST_USER_NO_ACCESS_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_NO_ACCESS_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_NO_ACCESS_OBJECT_ID}"
+        test-user-read:
+          user-name: "${AZURE_TEST_USER_READ_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_READ_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_READ_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_READ_OBJECT_ID}"
+        test-user-write:
+          user-name: "${AZURE_TEST_USER_WRITE_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_WRITE_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_WRITE_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_WRITE_OBJECT_ID}"
+        test-user-admin:
+          user-name: "${AZURE_TEST_USER_ADMIN_USER_NAME}"
+          client_id: "${AZURE_TEST_USER_ADMIN_CLIENT_ID}"
+          client_secret: "${AZURE_TEST_USER_ADMIN_CLIENT_SECRET}"
+          object_id: "${AZURE_TEST_USER_ADMIN_OBJECT_ID}"
