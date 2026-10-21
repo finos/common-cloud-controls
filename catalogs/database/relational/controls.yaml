@@ -3,34 +3,43 @@ imports:
     entries:
       - reference-id: CCC.Core.CN01
         strength: 0 # Not yet specified
-        remarks: Prevent unencrypted requests
+        remarks: Encrypt Data for Transmission
       - reference-id: CCC.Core.CN02
         strength: 0 # Not yet specified
-        remarks: Ensure data encryption at rest for all stored data
+        remarks: Encrypt Data for Storage
       - reference-id: CCC.Core.CN03
         strength: 0 # Not yet specified
-        remarks: Implement multi-factor authentication (MFA) for access
+        remarks: Implement Multi-factor Authentication (MFA) for Access
       - reference-id: CCC.Core.CN04
         strength: 0 # Not yet specified
-        remarks: Log all access and changes
+        remarks: Log All Access and Changes
       - reference-id: CCC.Core.CN05
         strength: 0 # Not yet specified
-        remarks: Prevent access from untrusted entities
+        remarks: Prevent Access from Untrusted Entities
       - reference-id: CCC.Core.CN06
         strength: 0 # Not yet specified
-        remarks: Prevent deployment in restricted regions
+        remarks: Restrict Deployments to Trust Perimeter
       - reference-id: CCC.Core.CN07
         strength: 0 # Not yet specified
-        remarks: Alert on unusual enumeration activity
+        remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN08
         strength: 0 # Not yet specified
-        remarks: Enable Multi-zone or Multi-region Data Replication
+        remarks: Replicate Data to Multiple Locations
       - reference-id: CCC.Core.CN09
         strength: 0 # Not yet specified
-        remarks: Prevent tampering, deletion, or unauthorized access to access logs
+        remarks: Ensure Integrity of Access Logs
       - reference-id: CCC.Core.CN10
         strength: 0 # Not yet specified
-        remarks: Prevent data replication to destinations outside of defined trust perimeter
+        remarks: Restrict Data Replication to Trust Perimeter
+      - reference-id: CCC.Core.CN11
+        strength: 0 # Not yet specified
+        remarks: Protect Encryption Keys
+      - reference-id: CCC.Core.CN14
+        strength: 0 # Not yet specified
+        remarks: Maintain Recent Backups
+      - reference-id: CCC.Core.CN16
+        strength: 0 # Not yet specified
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.RDMS.CN01
@@ -44,11 +53,10 @@ controls:
       - id: CCC.RDMS.CN01.AR02
         text: |
           When an attempt is made to authenticate to the database using known
-          default credentials, the authentication attempt must fail and no
-          access should be granted.
+          default credentials, the authentication attempt MUST fail.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
@@ -72,11 +80,11 @@ controls:
       - id: CCC.RDMS.CN02.AR01
         text: |
           When repeated failed login attempts are made in a short timeframe,
-          the account must be locked out or rate-limited to prevent
+          the account MUST be locked out or rate-limited to prevent
           further login attempts.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
@@ -100,13 +108,12 @@ controls:
     assessment-requirements:
       - id: CCC.RDMS.CN04.AR01
         text: |
-          When there is an attempt to perform a backup or restore,
-          then the attempt must fail with an access denied message if
-          credentials or roles that are not explicitly authorized for
-          backup/restore functions.
+          When a backup or restore is attempted by a principal that is not
+          explicitly authorized for backup or restore operations, the request
+          MUST be denied.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
@@ -130,10 +137,10 @@ controls:
       - id: CCC.RDMS.CN05.AR01
         text: |
           When an attempt is made to share a snapshot with an unauthorized
-          account, the sharing request must be denied.
+          account, the sharing request MUST be denied.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
@@ -146,31 +153,169 @@ controls:
       - reference-id: NIST_800_53
         entries:
           - reference-id: AC-4
-  - id: CCC.RDMS.CN03
-    group: Data
-    title: Enforce and Monitor Automated Backups
+  - id: CCC.RDMS.CN06
+    group: Compute
+    title: Apply Database Engine Security Patches
     objective: |
-      Ensure database backups are automatically scheduled, actively monitored,
-      and promptly reported if any disruptions occur. This helps maintain
-      data integrity, facilitates disaster recovery, and supports business
-      continuity when a system failure or breach occurs.
+      Ensure that the database engine runs a supported version and receives
+      security patches automatically, so that published engine
+      vulnerabilities cannot be exploited against the instance.
     assessment-requirements:
-      - id: CCC.RDMS.CN03.AR01
+      - id: CCC.RDMS.CN06.AR01
         text: |
-          When backups are disabled, paused, or fail to run as scheduled,
-          an alert must be triggered and logged.
+          When the service offers automatic minor version upgrades, the
+          database instance MUST have automatic minor version upgrades
+          enabled.
         applicability:
-          - tlp-red
           - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN06.AR02
+        text: |
+          When the database instance is running, its engine version MUST be
+          one for which the provider still publishes security patches.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
         recommendation: ""
     threats:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.RDMS.TH03
-    guidelines:
-      - reference-id: NIST-CSF
+          - reference-id: CCC.RDMS.TH06
+  - id: CCC.RDMS.CN07
+    group: Access
+    title: Enforce Least Privilege Within the Database
+    objective: |
+      Ensure that database roles and grants inside the engine give each
+      login only the privileges its function requires, so that one
+      compromised login cannot read or modify every schema.
+    assessment-requirements:
+      - id: CCC.RDMS.CN07.AR01
+        text: |
+          When a database login is used by an application, that login MUST
+          NOT hold an administrative or superuser role.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN07.AR02
+        text: |
+          When privileges are granted on a schema or table, the grant MUST
+          NOT be made to the engine's public or every-login role.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
         entries:
-          - reference-id: PR.IP-4
-      - reference-id: NIST_800_53
+          - reference-id: CCC.RDMS.TH07
+  - id: CCC.RDMS.CN08
+    group: Access
+    title: Authenticate Users with Cloud Identity
+    objective: |
+      Ensure that database users authenticate with short-lived tokens issued
+      to cloud identity principals, so that no long-lived password exists
+      to be exposed and reused.
+    assessment-requirements:
+      - id: CCC.RDMS.CN08.AR01
+        text: |
+          When a database user connects, the service MUST authenticate the
+          user with a token issued to a cloud identity principal rather than
+          a static password.
+        applicability:
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN08.AR02
+        text: |
+          When a static database password is in use, it MUST have been
+          rotated within the past 90 days.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
         entries:
-          - reference-id: CP-9
+          - reference-id: CCC.RDMS.TH08
+  - id: CCC.RDMS.CN09
+    group: Data
+    title: Reset Session State Between Pooled Connections
+    objective: |
+      Ensure that a managed connection pool clears session-level state
+      before handing a server connection to another client, so that no
+      client observes or acts on state set by a previous client.
+    assessment-requirements:
+      - id: CCC.RDMS.CN09.AR01
+        text: |
+          When a pooled server connection is reassigned to a new client, the
+          pool MUST reset the session state of that connection before the
+          new client can issue a statement.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH09
+  - id: CCC.RDMS.CN11
+    group: Data
+    title: Apply Primary Protections to Read Replicas
+    objective: |
+      Ensure that every read replica carries the same public access
+      restriction and network access rules as its primary, so that the
+      replicated data is not reachable under weaker protection.
+    assessment-requirements:
+      - id: CCC.RDMS.CN11.AR01
+        text: |
+          When a read replica is created, its public access restriction MUST
+          be at least as restrictive as that of the primary.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN11.AR02
+        text: |
+          When a read replica is created, its network access rules MUST
+          permit no source that the primary's rules do not permit.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH11
+  - id: CCC.RDMS.CN12
+    group: Data
+    title: Prevent Data Loss During Failover
+    objective: |
+      Ensure that automatic failover promotes a standby that holds every
+      committed transaction and that the former primary stops accepting
+      writes, so that failover does not lose or fork data.
+    assessment-requirements:
+      - id: CCC.RDMS.CN12.AR01
+        text: |
+          When a standby is configured for automatic failover, replication to
+          that standby MUST be synchronous.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+      - id: CCC.RDMS.CN12.AR02
+        text: |
+          When a standby is promoted, the former primary MUST stop accepting
+          write transactions.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: ""
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.TH12
