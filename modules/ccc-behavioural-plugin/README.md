@@ -8,7 +8,7 @@ Configuration comes from **Privateer** `services.<id>.vars` only (no separate `e
 
 ## Config
 
-See [azure-cloud-storage.yml](../../cfi-testing/privateer-config/finos-integration/cloud-storage/azure-cloud-storage.yml) and [aws-vpc-good.yml](../../cfi-testing/privateer-config/finos-integration/vpc/aws-vpc-good.yml).
+See [azure-cloud-storage.yml](../../cfi-testing/privateer-config/finos-integration/cloud-storage/azure-cloud-storage.yml) and [aws-vpc.yml](../../cfi-testing/privateer-config/finos-integration/vpc/aws-vpc.yml).
 
 Required `services.<name>.vars`:
 

@@ -69,6 +69,9 @@ func (s *AzureServerlessComputingService) GetReplicationStatus(string) (*generic
 	return generic.ReplicationStatusNotApplicable()
 }
 func (s *AzureServerlessComputingService) TearDown() error { return nil }
+func (s *AzureServerlessComputingService) Start(string) error                { return nil }
+func (s *AzureServerlessComputingService) Stop(string) error                 { return nil }
+func (s *AzureServerlessComputingService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 func (s *AzureServerlessComputingService) GetInvokeEndpointExposure(string) (*InvokeEndpointExposure, error) {
 	privateURL := strings.TrimSpace(s.config.Get("private-endpoint-url"))
 	publicURL := strings.TrimSpace(s.config.Get("public-invoke-url"))

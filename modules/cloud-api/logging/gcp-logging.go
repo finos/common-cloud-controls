@@ -90,6 +90,10 @@ func (s *GCPLoggingService) TearDown() error {
 	return nil
 }
 
+func (s *GCPLoggingService) Start(string) error                                 { return nil }
+func (s *GCPLoggingService) Stop(string) error                                  { return nil }
+func (s *GCPLoggingService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
+
 // QueryLogs dispatches on logType by selecting the appropriate logName filter
 // against Cloud Logging. resourceID, when present, is added as a
 // protoPayload.resourceName substring filter (best-effort across log types).
@@ -146,10 +150,14 @@ func (s *GCPLoggingService) QueryLogs(resourceID, logType string, lookbackMinute
 				entry.Resource = v
 			}
 		}
-		// Severity gives us a coarse result indicator; presence of an error
-		// payload would be more precise but is logType-dependent.
-		if e.Severity.String() != "" {
-			entry.Result = e.Severity.String()
+		// Map severity to Succeeded/Failed so QueryLogs matches AWS/Azure
+		switch e.Severity.String() {
+		case "":
+			// leave Result unset when the entry has no severity
+		case "ERROR", "CRITICAL", "ALERT", "EMERGENCY":
+			entry.Result = "Failed"
+		default:
+			entry.Result = "Succeeded"
 		}
 		entries = append(entries, entry)
 	}

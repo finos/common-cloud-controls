@@ -29,6 +29,7 @@ type Service interface {
 	generic.Service
 	GetVolumeEncryptionStatus(instanceID string) (*VolumeEncryptionResult, error)
 	AttemptInboundConnection(instanceID string, port int) (*ConnectionAttemptResult, error)
+	DiscoverPublicIP(resourceID string) (string, error)
 }
 
 func cfgPort(cfg types.Config) int {

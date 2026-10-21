@@ -93,6 +93,7 @@ func (s *GCPVPCService) CreateTestResourceInSubnet(subnetID string) (map[string]
 	if err := s.gcpWaitZoneOperation(zone, op.Name); err != nil {
 		return nil, fmt.Errorf("failed waiting for test instance %s: %w", instanceName, err)
 	}
+	trackTestResource(&s.createdTestResources, instanceName)
 
 	return map[string]interface{}{
 		"ResourceId":   instanceName,
@@ -152,6 +153,7 @@ func (s *GCPVPCService) DeleteTestResource(resourceID string) (map[string]interf
 	op, err := s.compute.Instances.Delete(s.projectID, zone, resourceIDStr).Context(s.ctx).Do()
 	if err != nil {
 		if isGCPNetworkNotFound(err) {
+			untrackTestResource(&s.createdTestResources, resourceIDStr)
 			return map[string]interface{}{"ResourceId": resourceIDStr, "Deleted": true, "Reason": "resource already absent"}, nil
 		}
 		return nil, fmt.Errorf("failed to delete test instance %q: %w", resourceIDStr, err)
@@ -165,6 +167,7 @@ func (s *GCPVPCService) DeleteTestResource(resourceID string) (map[string]interf
 		}, nil
 	}
 
+	untrackTestResource(&s.createdTestResources, resourceIDStr)
 	return map[string]interface{}{
 		"ResourceId": resourceIDStr,
 		"Deleted":    true,

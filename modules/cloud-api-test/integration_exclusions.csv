@@ -1,0 +1,4 @@
+# Skip factory APIs for specific clouds.
+# cloud must be aws|azure|gcp (not all).
+# Header-only when all clouds provision the APIs under test.
+api,cloud

@@ -238,9 +238,9 @@ Extend `services.integration.vars` with secret outputs above; no separate servic
 
 | File | `privateer-service` | `test-configuration` |
 | ------ | --------------------- | ---------------------- |
-| `cfi-testing/actions-config/aws-secrets-finos.yaml` | `awsSecrets` | `../privateer-config/finos-integration/secrets/aws-secrets.yml` |
-| `cfi-testing/actions-config/azure-secrets-finos.yaml` | `azureSecrets` | `../privateer-config/finos-integration/secrets/azure-secrets.yml` |
-| `cfi-testing/actions-config/gcp-secrets-finos.yaml` | `gcpSecrets` | `../privateer-config/finos-integration/secrets/gcp-secrets.yml` |
+| `cfi-testing/actions-config/finos-integration-aws-secrets.yaml` | `awsSecrets` | `../privateer-config/finos-integration/secrets/aws-secrets.yml` |
+| `cfi-testing/actions-config/finos-integration-azure-secrets.yaml` | `azureSecrets` | `../privateer-config/finos-integration/secrets/azure-secrets.yml` |
+| `cfi-testing/actions-config/finos-integration-gcp-secrets.yaml` | `gcpSecrets` | `../privateer-config/finos-integration/secrets/gcp-secrets.yml` |
 
 `path` in each action config: `modules/cloud-api-test/terraform/<cloud>` (after secrets submodule exists).
 

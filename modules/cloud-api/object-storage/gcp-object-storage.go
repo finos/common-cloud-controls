@@ -12,10 +12,10 @@ import (
 
 	"cloud.google.com/go/storage"
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
+	"github.com/finos/common-cloud-controls/cloud-api/generic/login"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
 	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
-	"google.golang.org/api/option"
 )
 
 // GCPStorageService implements Service for Google Cloud Storage
@@ -43,18 +43,14 @@ func NewGCPStorageService(ctx context.Context, config types.Config) (*GCPStorage
 
 // NewGCPStorageServiceWithCredentials creates a new GCP Storage service with pre-provisioned test credentials.
 func NewGCPStorageServiceWithCredentials(ctx context.Context, config types.Config, identity types.Identity) (*GCPStorageService, error) {
-	serviceAccountKey := identity.Get("service_account_key")
-	if serviceAccountKey == "" {
-		return nil, fmt.Errorf("service_account_key not found for test identity %q", identity.UserName)
+	opts, err := login.GCPIdentityClientOptions(identity)
+	if err != nil {
+		return nil, err
 	}
-
-	fmt.Printf("🔐 Creating GCP Storage client with service account credentials\n")
-
-	client, err := storage.NewClient(ctx, option.WithCredentialsJSON([]byte(serviceAccountKey)))
+	client, err := storage.NewClient(ctx, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create GCP storage client with credentials: %w", err)
 	}
-
 	return &GCPStorageService{
 		client: client,
 		ctx:    ctx,
@@ -680,3 +676,7 @@ func (s *GCPStorageService) TearDown() error {
 	}
 	return nil
 }
+
+func (s *GCPStorageService) Start(string) error { return nil }
+func (s *GCPStorageService) Stop(string) error  { return nil }
+func (s *GCPStorageService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }

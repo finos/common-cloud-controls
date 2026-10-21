@@ -103,3 +103,16 @@ func (c Config) LoggingConfig() LoggingConfig {
 		GCPFlowLogName:               c.Get("gcp-flow-log-name"),
 	}
 }
+
+// KubernetesConfig holds cluster coordinates used to derive a client-go REST
+// config from the CSP SDK (kubernetes-cluster-name + CloudParams + ambient credentials).
+type KubernetesConfig struct {
+	KubernetesClusterName string
+}
+
+// KubernetesConfig returns typed kubernetes settings from flat Privateer vars.
+func (c Config) KubernetesConfig() KubernetesConfig {
+	return KubernetesConfig{
+		KubernetesClusterName: c.Get("kubernetes-cluster-name", "resource"),
+	}
+}

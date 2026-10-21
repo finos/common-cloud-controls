@@ -1,3 +1,12 @@
+# Prerequisites for kubernetes (GKE) fixtures:
+#   - Enable container.googleapis.com, cloudkms.googleapis.com, binaryauthorization.googleapis.com
+#   - Application Default Credentials / gcloud auth for kubernetes provider token
+#   - Cheap public fixture: public nodes (no NAT), public API open (0.0.0.0/0), single SPOT node
+#   - Cluster boot budget: 15–30+ minutes for GKE + KMS
+#   - Same apply installs in-cluster fixtures and the CN11.AR03 admission-webhook probe
+#   - Native controls: Calico NetworkPolicy, Workload Identity, Binary Authorization (dry-run),
+#     shielded nodes, database encryption via Cloud KMS
+
 provider "google" {
   project = "<your-project-id>"
   region  = "us-central1"

@@ -79,6 +79,9 @@ func (s *AWSLoggingService) GetReplicationStatus(_ string) (*generic.Replication
 	return generic.ReplicationStatusNotApplicable()
 }
 func (s *AWSLoggingService) TearDown() error { return nil }
+func (s *AWSLoggingService) Start(string) error                { return nil }
+func (s *AWSLoggingService) Stop(string) error                 { return nil }
+func (s *AWSLoggingService) StartedDetails() ([]generic.StartedResource, error) { return nil, nil }
 
 // QueryLogs dispatches on logType. admin/data-write/data-read all read from
 // CloudTrail (account-wide LookupEvents API); flow reads from the CloudWatch

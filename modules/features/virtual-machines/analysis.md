@@ -143,10 +143,11 @@ _None — catalog contains no `CCC.VM.CN*.AR*` entries._
 - **Reuse**: Partial — generic has no CN12 feature; may share TCP probe steps with `port/` (`@PerPort`).
 - **Approach**:
   1. Instance in VPC with restrictive SG (allow only bastion CIDR).
-  2. `AttemptInboundConnection("{uid}", port)` from test runner IP expected **outside** allow list → connection refused/timeout.
+  2. `AttemptInboundConnection("{uid}", port)` from an **untrusted** vantage expected **outside** the allow list → connection refused/timeout.
   3. Optional positive: connect from allowed CIDR succeeds.
-- **Config / fixtures**: Known `allowed-source-cidr`, `test-listener-port`, test runner egress IP or in-VPC probe host.
-- **Gaps / honesty notes**: CN12 is referenced in VM catalog but not yet in `catalogs/core/core/controls.yaml` — definition from ObjStor release embed.
+- **Reachability service (planned)**: Retrofit `AttemptInboundConnection` to delegate to the shared `reachability.Prober` (`modules/cloud-api/reachability/`) instead of dialing from the runner directly. `LocalProber` reproduces the current `net.DialTimeout` behaviour; `RemoteProber` calls the FINOS-owned probe service (outside the integration estate) for an honest "outside allowlist" source. See the shared-component plan and cross-service adoption sequence in [`kubernetes/analysis.md`](../kubernetes/analysis.md) — VM is the **first adopter**. This changes the returned shape from `{Connected}` to the richer `reachability.Result` (`TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Observer`); update the CN12 feature to assert `TCPConnected` is `false`. Keep `LocalProber` as the `@SANITY` fallback; treat probe-service errors as infrastructure failures, not passes.
+- **Config / fixtures**: Known `allowed-source-cidr`, `test-listener-port`; when using the remote prober, `reachability-probe-mode`, `reachability-probe-url`, secret-expanded `reachability-probe-shared-secret`, `reachability-probe-observer`, `reachability-probe-timeout-ms` (shared shape with kubernetes CN01).
+- **Gaps / honesty notes**: CN12 is referenced in VM catalog but not yet in `catalogs/core/core/controls.yaml` — definition from ObjStor release embed. A runner-local dial only proves deny when the runner egress is genuinely outside the allow list; the remote prober removes that assumption.
 
 ---
 
@@ -159,9 +160,11 @@ Most inherited Core ARs need **no new methods** — they use existing [`generic.
 | Method | Used by AR(s) | Args | Returns (key fields) |
 |--------|---------------|------|----------------------|
 | `GetVolumeEncryptionStatus` | CN02.AR01 | `instanceID string` | `Volumes[]` with `Encrypted`, `EncryptionAlgorithm`, `KMSKeyId`, `VolumeId` |
-| `AttemptInboundConnection` | CN12.AR01 | `instanceID string`, `port int` | `{Connected, Error, RemoteAddr}` |
+| `AttemptInboundConnection` | CN12.AR01 | `instanceID string`, `port int` | `{Connected, Error, RemoteAddr}` — **planned**: delegate to shared `reachability.Prober` and return `reachability.Result` (`TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Observer`) |
 
 Optional: fold CN05 into `TriggerDataWrite` / `UpdateResourcePolicy` on the embedded `generic.Service` implementation — **do not** add `AttemptInstanceModification` unless a single generic method cannot express both write and admin denial.
+
+**Shared reachability client (planned)**: `AttemptInboundConnection` should not keep a private `net.DialTimeout`. Inject `reachability.Prober` (`modules/cloud-api/reachability/`) so VM, serverless, and kubernetes share one probe path and one FINOS untrusted observer. VM is the first adopter — see [`kubernetes/analysis.md`](../kubernetes/analysis.md) "Cross-service adoption".
 
 ### `logging.Service`
 
