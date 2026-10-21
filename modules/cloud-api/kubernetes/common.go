@@ -263,20 +263,95 @@ func isSystemRole(role rbacv1.ClusterRole, extraPrefixes []string) bool {
 	return false
 }
 
+func isAuthzDenied(err error) bool {
+	if err == nil {
+		return false
+	}
+	if apierrors.IsForbidden(err) || apierrors.IsUnauthorized(err) {
+		return true
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "forbidden") || strings.Contains(msg, "unauthorized")
+}
+
+func unassessedIfAuthz(op string, err error) error {
+	if err == nil {
+		return nil
+	}
+	if isAuthzDenied(err) {
+		return fmt.Errorf("unassessed: %s: %w", op, err)
+	}
+	return fmt.Errorf("%s: %w", op, err)
+}
+
+func listClusterRoles(ctx context.Context, client kubernetes.Interface) ([]rbacv1.ClusterRole, error) {
+	page, err := client.RbacV1().ClusterRoles().List(ctx, metav1.ListOptions{})
+	if err != nil {
+		if recovered, ok := clusterRolesFromError(err); ok {
+			return recovered, nil
+		}
+		return nil, err
+	}
+	return page.Items, nil
+}
+
+func clusterRolesFromError(err error) ([]rbacv1.ClusterRole, bool) {
+	if err == nil {
+		return nil, false
+	}
+	msg := err.Error()
+	start := strings.Index(msg, "{")
+	if start >= 0 {
+		dec := json.NewDecoder(strings.NewReader(msg[start:]))
+		var list rbacv1.ClusterRoleList
+		if dec.Decode(&list) == nil && len(list.Items) > 0 {
+			return list.Items, true
+		}
+	}
+	itemsAt := strings.Index(msg, `"items"`)
+	if itemsAt < 0 {
+		return nil, false
+	}
+	bracket := strings.Index(msg[itemsAt:], "[")
+	if bracket < 0 {
+		return nil, false
+	}
+	dec := json.NewDecoder(strings.NewReader(msg[itemsAt+bracket:]))
+	tok, tokErr := dec.Token()
+	if tokErr != nil || tok != json.Delim('[') {
+		return nil, false
+	}
+	var roles []rbacv1.ClusterRole
+	for dec.More() {
+		var role rbacv1.ClusterRole
+		if dec.Decode(&role) != nil {
+			break
+		}
+		if role.Name != "" {
+			roles = append(roles, role)
+		}
+	}
+	if len(roles) == 0 {
+		return nil, false
+	}
+	return roles, true
+}
+
 func (c *KubeClient) GetRBACPolicyFindings(string) (map[string]interface{}, error) {
 	client := c.client
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	roles, err := client.RbacV1().ClusterRoles().List(c.ctx, metav1.ListOptions{})
+	roles, err := listClusterRoles(c.ctx, client)
 	if err != nil {
-		return nil, fmt.Errorf("list cluster roles: %w", err)
+		// Forbidden must not become WildcardRoles=[] / OverbroadSecretAccess=[].
+		return nil, unassessedIfAuthz("list clusterroles", err)
 	}
 	extraPrefixes := splitConfigList(c.config.Get("system-role-prefixes"))
 	wildcards := []map[string]interface{}{}
 	secretAccess := []map[string]interface{}{}
 	skipped := 0
-	for _, role := range roles.Items {
+	for _, role := range roles {
 		if isSystemRole(role, extraPrefixes) {
 			skipped++
 			continue
@@ -415,10 +490,10 @@ func (c *KubeClient) FindStaticCloudCredentials(_ string, namespace string) (map
 	if client == nil {
 		return nil, fmt.Errorf("Kubernetes client is not initialized")
 	}
-	var findings []map[string]interface{}
+	findings := []map[string]interface{}{}
 	secrets, err := client.CoreV1().Secrets(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
-		return nil, fmt.Errorf("list secrets: %w", err)
+		return nil, unassessedIfAuthz("list secrets", err)
 	}
 	for _, secret := range secrets.Items {
 		for key, value := range secret.Data {
@@ -429,7 +504,7 @@ func (c *KubeClient) FindStaticCloudCredentials(_ string, namespace string) (map
 	}
 	pods, err := client.CoreV1().Pods(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
-		return nil, fmt.Errorf("list pods: %w", err)
+		return nil, unassessedIfAuthz("list pods", err)
 	}
 	for _, pod := range pods.Items {
 		for _, container := range pod.Spec.Containers {
@@ -491,9 +566,15 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 			result["Unreachable"] = true
 			return result, nil
 		}
-		result["Denied"] = true
 		result["Reason"] = err.Error()
-		return result, fmt.Errorf("workload admission denied or failed: %w", err)
+		if isAuthzDenied(err) {
+			// Observer cannot create/dry-run — not a policy decision.
+			return result, unassessedIfAuthz("admit workload "+operation, err)
+		}
+		result["Denied"] = true
+		// Return the map (nil error) so features can assert Denied/Reason
+		// instead of treating any error — including Forbidden — as a deny.
+		return result, nil
 	}
 	result["Admitted"] = true
 	result["DeniedAt"] = ""

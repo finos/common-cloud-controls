@@ -80,6 +80,15 @@ func (t *aksCommandInvokeTransport) RoundTrip(req *http.Request) (*http.Response
 			Request:    req,
 		}, nil
 	}
+	if statusJSON, denied := kubectlAdmissionDeniedStatus(logs); denied {
+		return &http.Response{
+			StatusCode: http.StatusUnprocessableEntity,
+			Status:     http.StatusText(http.StatusUnprocessableEntity),
+			Header:     http.Header{"Content-Type": []string{"application/json"}},
+			Body:       io.NopCloser(strings.NewReader(statusJSON)),
+			Request:    req,
+		}, nil
+	}
 	bodyOut := extractKubectlJSON(logs)
 	if (req.Method == http.MethodGet || req.Method == "") && !json.Valid([]byte(bodyOut)) {
 		preview := strings.TrimSpace(logs)
@@ -124,7 +133,13 @@ func kubectlCommandFor(req *http.Request, body []byte) (command, contextB64 stri
 		if watch || !ok {
 			return "kubectl" + as + " get --raw " + quoted, "", nil
 		}
-		return "kubectl" + as + " get " + resource + " -o json", "", nil
+		// Collection GETs use --raw so the API returns compact JSON.
+		// `kubectl get -o json` pretty-print is ~2x larger and gets truncated
+		// by AKS runCommand logs, which then fails client-go list decode.
+		if !strings.Contains(resource, " ") {
+			return "kubectl" + as + " get --raw " + quoted, "", nil
+		}
+		return "kubectl" + as + " get " + resource + " -o json --show-managed-fields=false", "", nil
 	case http.MethodDelete:
 		if ok {
 			return "kubectl" + as + " delete " + resource + " --ignore-not-found -o json", "", nil
@@ -218,8 +233,42 @@ func extractKubectlJSON(logs string) string {
 	return candidate
 }
 
+func kubectlAdmissionDeniedStatus(logs string) (string, bool) {
+	lower := strings.ToLower(logs)
+	if strings.Contains(lower, "forbidden") || strings.Contains(lower, "unauthorized") {
+		return "", false
+	}
+	if !strings.Contains(lower, "denied request") &&
+		!strings.Contains(lower, "validatingadmissionpolicy") &&
+		!strings.Contains(lower, "admission webhook") &&
+		!strings.Contains(lower, "forbidden by") {
+		return "", false
+	}
+	message := strings.TrimSpace(logs)
+	if len(message) > 800 {
+		message = message[:800]
+	}
+	payload, err := json.Marshal(map[string]interface{}{
+		"kind":       "Status",
+		"apiVersion": "v1",
+		"status":     "Failure",
+		"message":    message,
+		"reason":     "Invalid",
+		"code":       http.StatusUnprocessableEntity,
+	})
+	if err != nil {
+		return "", true
+	}
+	return string(payload), true
+}
+
 func kubectlForbiddenStatus(logs string) (string, bool) {
 	lower := strings.ToLower(logs)
+	// Require the kubectl error prefix. A successful `kubectl get -o json`
+	// can contain the words "forbidden"/"unauthorized" inside object data.
+	if !strings.Contains(lower, "error from server") {
+		return "", false
+	}
 	if !strings.Contains(lower, "forbidden") && !strings.Contains(lower, "unauthorized") {
 		return "", false
 	}
@@ -271,13 +320,19 @@ func kubectlExitStatus(method string, exitCode int, logs string) int {
 	if exitCode == 0 {
 		return http.StatusOK
 	}
+	// A successful list/get body can still produce a non-zero kubectl exit
+	// (truncated ARM logs, discovery warnings). Do not treat valid API
+	// objects as Forbidden just because the JSON contains those words.
+	if body := extractKubectlJSON(logs); isK8sAPIObject(body) && !strings.Contains(strings.ToLower(logs), "error from server") {
+		return http.StatusOK
+	}
 	lower := strings.ToLower(logs)
 	switch {
 	case strings.Contains(lower, "not found"):
 		return http.StatusNotFound
 	case strings.Contains(lower, "already exists"):
 		return http.StatusConflict
-	case strings.Contains(lower, "forbidden"), strings.Contains(lower, "unauthorized"):
+	case strings.Contains(lower, "error from server") && (strings.Contains(lower, "forbidden") || strings.Contains(lower, "unauthorized")):
 		return http.StatusForbidden
 	case strings.Contains(lower, "denied"), strings.Contains(lower, "invalid"), strings.Contains(lower, "admission"):
 		return http.StatusUnprocessableEntity
@@ -286,6 +341,16 @@ func kubectlExitStatus(method string, exitCode int, logs string) int {
 	default:
 		return http.StatusUnprocessableEntity
 	}
+}
+
+func isK8sAPIObject(body string) bool {
+	var obj map[string]interface{}
+	if json.Unmarshal([]byte(body), &obj) != nil {
+		return false
+	}
+	_, hasKind := obj["kind"]
+	_, hasItems := obj["items"]
+	return hasKind || hasItems
 }
 
 type runCommandRequest struct {

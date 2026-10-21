@@ -151,6 +151,16 @@ services:
               env:
                 - name: AZURE_CLIENT_SECRET
                   value: "not-a-real-secret"
+      compliant-no-static-cred-workload-manifest: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          name: ccc-no-static-creds
+          namespace: ccc-test
+        spec:
+          containers:
+            - name: pause
+              image: busybox:1.36
       missing-resource-bounds-manifest: |
         apiVersion: v1
         kind: Pod
