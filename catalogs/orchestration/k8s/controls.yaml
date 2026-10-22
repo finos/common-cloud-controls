@@ -123,17 +123,17 @@ controls:
           get, update, patch, and delete.
       - id: CCC.K8S.CN02.AR03
         text: |
-          When a RoleBinding or ClusterRoleBinding is created or updated, its subjects MUST
-          NOT include the system:anonymous, system:unauthenticated, or system:authenticated
-          groups.
+          When a non-system RoleBinding or ClusterRoleBinding is created or updated, its
+          subjects MUST NOT include the system:anonymous, system:unauthenticated, or
+          system:authenticated groups.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Enforce the restriction with admission policy and review existing bindings for
-          these groups. On services where system:authenticated includes any account of the
+          Enforce the restriction with admission policy and review existing non-system
+          bindings for these groups. On services where system:authenticated includes any account of the
           identity provider, treat such a binding as public access.
       - id: CCC.K8S.CN02.AR04
         text: |
@@ -925,8 +925,8 @@ controls:
           scoped read access for monitoring and investigation roles.
       - id: CCC.K8S.CN14.AR03
         text: |
-          When a cluster-admin binding, admission webhook or policy object, or audit policy
-          changes, the monitoring system MUST generate an alert for review by an authorized
+          When a cluster-admin binding, an admission webhook or policy object, or the audit
+          log category configuration changes, the monitoring system MUST generate an alert for review by an authorized
           security function.
         applicability:
           - tlp-green
@@ -968,9 +968,6 @@ controls:
           - reference-id: CCC.Core.TH19
             strength: 10
             remarks: Metrics are Read by Unauthorized Entities
-          - reference-id: CCC.K8S.TH10
-            strength: 4 # Monitoring detects exposure changes but does not prevent them.
-            remarks: Workload Endpoints are Exposed Unintentionally
           - reference-id: CCC.K8S.TH15
             strength: 10
             remarks: Kubernetes Audit Records are Incomplete or Unavailable
@@ -1276,7 +1273,9 @@ controls:
           - tlp-red
         recommendation: |
           Expose workloads through internal or source-restricted load balancers instead of
-          node ports, and set the namespace NodePort quota to zero.
+          node ports, and deny type NodePort through admission policy. A zero NodePort
+          quota is not suitable because it also counts the node ports of LoadBalancer
+          Services, unless allocateLoadBalancerNodePorts is false.
     threats:
       - reference-id: CCC
         entries:
