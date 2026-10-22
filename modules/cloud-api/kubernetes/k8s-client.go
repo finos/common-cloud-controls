@@ -206,6 +206,24 @@ func (c *KubeClient) AttemptWorkloadNetworkFlowFromConfig(clusterID, selector, h
 	)
 }
 
+func (s *managedService) AttemptSecretAccessFromConfig(clusterID, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.AttemptSecretAccessFromConfig(clusterID, secretName, serviceAccount, verb)
+	})
+}
+
+func (s *managedService) AttemptWorkloadNetworkFlowFromConfig(clusterID, selector, host string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.AttemptWorkloadNetworkFlowFromConfig(clusterID, selector, host)
+	})
+}
+
+func (s *managedService) GetWorkloadRuntimeSecurity(clusterID, podSelector string) (map[string]interface{}, error) {
+	return s.withKubeClient(func(c *KubeClient) (map[string]interface{}, error) {
+		return c.GetWorkloadRuntimeSecurity(clusterID, podSelector)
+	})
+}
+
 func (s *managedService) ProbeNodeAdminInterfaces(clusterID, nodeID string, kubeletPorts, mgmtPorts any) (map[string]interface{}, error) {
 	if s.nodeAdmin != nil {
 		arm, err := s.nodeAdmin(s.ctx, clusterID)

@@ -12,10 +12,7 @@ import "github.com/finos/common-cloud-controls/cloud-api/generic"
 type ControlPlane interface {
 	generic.Service
 
-	// GetKubernetesClient returns the portable Kubernetes API façade using
-	// CSP-derived credentials. Features should refer to it as "kubeClient".
 	GetKubernetesClient() (*KubeClient, error)
-
 	GetAPIEndpointConfig(clusterID string) (map[string]interface{}, error)
 	AttemptAPIEndpointReachability(clusterID, networkContext string) (map[string]interface{}, error)
 	AttemptAdmitWorkload(clusterID, operation, manifestYAML string) (map[string]interface{}, error)
@@ -29,16 +26,4 @@ type ControlPlane interface {
 	GetEncryptionAtRestStatus(clusterID string) (map[string]interface{}, error)
 	GetClusterComponentInventory(clusterID string) (map[string]interface{}, error)
 	GetNodeIntegrityStatus(clusterID string) (map[string]interface{}, error)
-
-	// Portable KubeClient probes also exposed on ControlPlane so integration CSV
-	// can exercise them without a separate factory id.
-	GetRBACPolicyFindings(clusterID string) (map[string]interface{}, error)
-	GetWorkloadIdentityStatus(clusterID, namespace, serviceAccount string) (map[string]interface{}, error)
-	FindStaticCloudCredentials(clusterID, namespace string) (map[string]interface{}, error)
-	GetAdmissionPolicyCoverage(clusterID string) (map[string]interface{}, error)
-	GetNamespaceNetworkPolicyStatus(clusterID, namespace string) (map[string]interface{}, error)
-	AttemptCreatePVC(clusterID, claimYAML string) (map[string]interface{}, error)
-	GetResourceConsumptionBounds(clusterID, namespace string) (map[string]interface{}, error)
-	GetInfrastructureIdentities(clusterID string) (map[string]interface{}, error)
-	ProbeNodeAdminInterfaces(clusterID, nodeID string, kubeletPorts, mgmtPorts any) (map[string]interface{}, error)
 }
