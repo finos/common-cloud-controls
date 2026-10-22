@@ -370,8 +370,9 @@ threats:
     title: Kubernetes Authorization Permits Privilege Escalation
     description: |
       Kubernetes roles and bindings may grant wildcard permissions, role-binding,
-      escalation, or impersonation rights, workload-creation rights in privileged
-      namespaces, or access bound to broad built-in groups. An identity holding such a
+      escalation, impersonation, or certificate-approval rights, workload-creation rights
+      in privileged namespaces, interactive pod access, or access bound to broad built-in
+      groups. An identity holding such a
       grant can then obtain the permissions of other service accounts or administrators
       without a new authorization decision. Cluster data and secrets may be disclosed,
       cluster state may be altered, and workloads may be disrupted.

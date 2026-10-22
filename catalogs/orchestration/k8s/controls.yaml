@@ -138,29 +138,17 @@ controls:
       - id: CCC.K8S.CN02.AR04
         text: |
           When a non-system Kubernetes role grants the escalate, bind, or impersonate verbs,
-          that role MUST be bound only to a dedicated administrative group.
+          or grants approve on certificatesigningrequests/approval, that role MUST be bound
+          only to a dedicated administrative group.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Treat escalate, bind, and impersonate as privileged permissions, and alert on new
-          bindings that grant them.
-      - id: CCC.K8S.CN02.AR06
-        text: |
-          When a non-system Kubernetes role grants create on pods or workload controllers in
-          a system or privileged namespace, or create on pods/exec, nodes/proxy, or
-          serviceaccounts/token in any namespace, that role MUST be bound only to a
-          dedicated administrative group.
-        applicability:
-          - tlp-green
-          - tlp-amber
-          - tlp-red
-        recommendation: |
-          Keep workload creation in system and privileged namespaces with the platform
-          administration group, and alert on new bindings that grant these permissions.
-          Workloads in user namespaces are governed under CCC.K8S.CN05.
+          Treat escalate, bind, impersonate, and certificate signing request approval as
+          privileged permissions, and alert on new bindings that grant them. Approval lets
+          an identity obtain a client certificate for any user or group.
       - id: CCC.K8S.CN02.AR05
         text: |
           When a workload does not call the Kubernetes API, its service account token MUST
@@ -172,6 +160,21 @@ controls:
         recommendation: |
           Set automountServiceAccountToken to false on service accounts and pod
           specifications by default and enable it only for workloads that require API access.
+      - id: CCC.K8S.CN02.AR06
+        text: |
+          When a non-system Kubernetes role grants create on pods or workload controllers in
+          a system or privileged namespace, or create on pods/exec, pods/attach,
+          pods/portforward, pods/proxy, services/proxy, nodes/proxy, or serviceaccounts/token,
+          or update or patch on pods/ephemeralcontainers, in any namespace, that role MUST be
+          bound only to a dedicated administrative group.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Keep workload creation in system and privileged namespaces with the platform
+          administration group, and alert on new bindings that grant these permissions.
+          Workloads in user namespaces are governed under CCC.K8S.CN05.
     threats:
       - reference-id: CCC
         entries:
@@ -961,6 +964,20 @@ controls:
         recommendation: |
           Require authentication on in-cluster metrics endpoints, restrict RBAC access to
           metrics APIs, and scope read access in the cloud monitoring service.
+      - id: CCC.K8S.CN14.AR05
+        text: |
+          When a cluster is operational, runtime threat detection MUST be enabled for its
+          nodes and workloads and MUST alert an authorized security function on suspicious
+          container activity.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enable the service's managed runtime threat detection or deploy an equivalent
+          eBPF-based sensor, and route alerts for interactive shells in containers, unexpected
+          process execution, cryptominer behavior, and container drift to the security
+          function. Test alert delivery regularly.
     threats:
       - reference-id: CCC
         entries:
@@ -979,9 +996,15 @@ controls:
           - reference-id: CCC.Core.TH16
             strength: 10
             remarks: Publications are Disabled
+          - reference-id: CCC.Core.TH15
+            strength: 5 # Runtime detection surfaces enumeration but does not prevent it.
+            remarks: Automated Enumeration and Reconnaissance by Non-human Entities
           - reference-id: CCC.Core.TH19
             strength: 10
             remarks: Metrics are Read by Unauthorized Entities
+          - reference-id: CCC.K8S.TH05
+            strength: 3 # Detection reveals escape attempts after the fact and does not block them.
+            remarks: Privileged Workloads Escape Isolation
           - reference-id: CCC.K8S.TH15
             strength: 10
             remarks: Kubernetes Audit Records are Incomplete or Unavailable
@@ -1348,5 +1371,91 @@ controls:
         entries:
           - reference-id: CP-6
             remarks: Alternate Storage Site
+          - reference-id: CP-10
+            remarks: System Recovery and Reconstitution
+
+  - id: CCC.K8S.CN21
+    group: Networking
+    title: Encrypt Intra-Cluster Workload Traffic
+    objective: |
+      Ensure that traffic between workloads inside the cluster network cannot be read or
+      altered by other workloads, nodes, or network observers.
+    assessment-requirements:
+      - id: CCC.K8S.CN21.AR01
+        text: |
+          When a workload communicates with another workload inside the cluster, the traffic
+          MUST be encrypted in transit between pods, including traffic that crosses nodes.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enforce mutual TLS through a service mesh or enable transparent node-to-node
+          encryption in a network-policy-capable data plane. Verify that the encryption
+          covers every namespace that carries sensitive data, and apply CCC.Core.CN01 to
+          any port exposed outside the cluster.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH02
+            strength: 9 # Encryption protects content but not the existence of the flow.
+            remarks: Data is Intercepted in Transit
+          - reference-id: CCC.K8S.TH06
+            strength: 4 # Encryption limits lateral interception but does not stop connections.
+            remarks: Workload Network Segmentation is Not Enforced
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-8
+            remarks: Transmission Confidentiality and Integrity
+          - reference-id: SC-13
+            remarks: Cryptographic Protection
+
+  - id: CCC.K8S.CN22
+    group: Data
+    title: Back Up Cluster State and Persistent Volumes
+    objective: |
+      Ensure that cluster configuration and persistent workload data can be restored after
+      deletion, corruption, or loss of the cluster.
+    assessment-requirements:
+      - id: CCC.K8S.CN22.AR01
+        text: |
+          When a cluster hosts persistent workload data, its persistent volumes and the
+          Kubernetes resource definitions that describe its workloads MUST be backed up on a
+          scheduled basis to a location outside the cluster.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use the cloud provider's managed backup service for Kubernetes or a cluster backup
+          tool, and store backups in a separate account, project, or subscription. Retention
+          and immutability are governed by CCC.Core.CN14.
+      - id: CCC.K8S.CN22.AR02
+        text: |
+          When a cluster backup exists, a restore of it MUST have been completed successfully
+          to an isolated test cluster within the past 12 months.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Exercise restores of both resource definitions and volume data, and record the
+          recovery time achieved against the organization's recovery objective.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH06
+            strength: 9 # Backups restore data but cannot prevent the loss itself.
+            remarks: Data is Lost or Corrupted
+          - reference-id: CCC.K8S.TH11
+            strength: 3 # Recovery limits the impact of unauthorized volume modification.
+            remarks: Persistent Volumes are Bound to Unauthorized Workloads
+          - reference-id: CCC.K8S.TH21
+            strength: 5 # Backups enable rebuild in another zone but do not keep the cluster running.
+            remarks: Cluster Capacity is Lost with a Single Availability Zone
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: CP-9
+            remarks: System Backup
           - reference-id: CP-10
             remarks: System Recovery and Reconstitution
