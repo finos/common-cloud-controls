@@ -18,6 +18,7 @@ import (
 	"github.com/finos/common-cloud-controls/cloud-api/generic"
 	"github.com/finos/common-cloud-controls/cloud-api/reachability"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
+	authenticationv1 "k8s.io/api/authentication/v1"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -266,6 +267,16 @@ func isSystemRole(role rbacv1.ClusterRole, extraPrefixes []string) bool {
 	return false
 }
 
+func isWebhookUnavailable(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "failed calling webhook") ||
+		strings.Contains(msg, "failed to call webhook") ||
+		strings.Contains(msg, "no endpoints available")
+}
+
 func isAuthzDenied(err error) bool {
 	if err == nil {
 		return false
@@ -372,16 +383,76 @@ func (c *KubeClient) GetRBACPolicyFindings(string) (map[string]interface{}, erro
 	return map[string]interface{}{"WildcardRoles": wildcards, "OverbroadSecretAccess": secretAccess, "SystemRolesExcluded": skipped}, nil
 }
 
-func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
-	if c.restConfig == nil {
-		return nil, fmt.Errorf("Kubernetes API prerequisite missing: REST config is required for service-account impersonation")
+func isCommandInvokeREST(rc *rest.Config) bool {
+	return rc != nil && strings.Contains(rc.Host, "aks-command-invoke")
+}
+
+func tokenRequestUnsupported(err error) bool {
+	if err == nil {
+		return false
 	}
+	if apierrors.IsBadRequest(err) || apierrors.IsMethodNotSupported(err) || apierrors.IsNotFound(err) {
+		return true
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "the server rejected our request") ||
+		strings.Contains(msg, "the server does not allow this method")
+}
+
+func (c *KubeClient) clientWithServiceAccountToken(namespace, serviceAccount string) (kubernetes.Interface, error) {
+	expiration := int64(600)
+	tok, err := c.client.CoreV1().ServiceAccounts(namespace).CreateToken(c.ctx, serviceAccount, &authenticationv1.TokenRequest{
+		Spec: authenticationv1.TokenRequestSpec{ExpirationSeconds: &expiration},
+	}, metav1.CreateOptions{})
+	if err != nil {
+		return nil, err
+	}
+	if tok.Status.Token == "" {
+		return nil, fmt.Errorf("empty token")
+	}
+	// AnonymousClientConfig drops WrapTransport so provider auth (EKS IAM,
+	// Azure AAD, GCP ADC) cannot overwrite the bound service-account token.
+	rc := rest.AnonymousClientConfig(c.restConfig)
+	rc.BearerToken = tok.Status.Token
+	return kubernetes.NewForConfig(rc)
+}
+
+func (c *KubeClient) clientImpersonatingServiceAccount(namespace, serviceAccount string) (kubernetes.Interface, error) {
+	rc := rest.CopyConfig(c.restConfig)
+	rc.Impersonate = rest.ImpersonationConfig{
+		UserName: "system:serviceaccount:" + namespace + ":" + serviceAccount,
+	}
+	return kubernetes.NewForConfig(rc)
+}
+
+func (c *KubeClient) clientAsServiceAccount(namespace, serviceAccount string) (kubernetes.Interface, error) {
+	if c.client == nil {
+		return nil, fmt.Errorf("Kubernetes client is not initialized")
+	}
+	if c.restConfig == nil {
+		return nil, fmt.Errorf("Kubernetes API prerequisite missing: REST config is required to act as a service account")
+	}
+	if !isCommandInvokeREST(c.restConfig) {
+		client, err := c.clientWithServiceAccountToken(namespace, serviceAccount)
+		if err == nil {
+			return client, nil
+		}
+		if !tokenRequestUnsupported(err) {
+			return nil, fmt.Errorf("create token for service account %s/%s: %w", namespace, serviceAccount, err)
+		}
+	}
+	client, err := c.clientImpersonatingServiceAccount(namespace, serviceAccount)
+	if err != nil {
+		return nil, fmt.Errorf("impersonate service account %s/%s: %w", namespace, serviceAccount, err)
+	}
+	return client, nil
+}
+
+func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretName, serviceAccount, verb string) (map[string]interface{}, error) {
 	if !contains([]string{"get", "list", "watch"}, strings.ToLower(verb)) {
 		return nil, fmt.Errorf("unsupported secret verb %q", verb)
 	}
-	rc := rest.CopyConfig(c.restConfig)
-	rc.Impersonate.UserName = "system:serviceaccount:" + namespace + ":" + serviceAccount
-	client, err := kubernetes.NewForConfig(rc)
+	client, err := c.clientAsServiceAccount(namespace, serviceAccount)
 	if err != nil {
 		return nil, err
 	}
@@ -418,8 +489,8 @@ func (c *KubeClient) AttemptSecretAccessAsIdentity(_ string, namespace, secretNa
 	return result, nil
 }
 
-// secretMatchesFixture compares a digest of the secret the impersonated service
-// account read against the expected digest. Plaintext is never returned or logged.
+// secretMatchesFixture compares a digest of the secret the bound service-account
+// token read against the expected digest. Plaintext is never returned or logged.
 // The expected digest is protected-secret-sha256 (hex sha256 of the protected-secret-key
 // value, default key "value"); without it the runner's own credentials read the same
 // secret as the reference.
@@ -586,8 +657,11 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 			return result, unassessedIfAuthz("admit workload "+operation, err)
 		}
 		result["Denied"] = true
-		// Return the map (nil error) so features can assert Denied/Reason
-		// instead of treating any error — including Forbidden — as a deny.
+		// Webhook fail-closed must surface as an error (CN11.AR03 / CSV).
+		// VAP / PSA policy denials keep nil + Denied (CN03.AR02).
+		if isWebhookUnavailable(err) {
+			return result, fmt.Errorf("admit workload %s denied: %w", operation, err)
+		}
 		return result, nil
 	}
 	result["Admitted"] = true
@@ -884,7 +958,7 @@ func networkFlowTarget(toHost string, port int, protocol string) (targetURL, dia
 	if strings.EqualFold(protocol, "https") {
 		scheme = "https"
 	}
-	return fmt.Sprintf("%s://%s:%d/", scheme, dialHost, dialPort), dialHost, dialPort
+	return fmt.Sprintf("%s://%s:%d/health", scheme, dialHost, dialPort), dialHost, dialPort
 }
 
 func networkFlowProbeScript(targetURL, dialHost string, dialPort int) string {
@@ -953,7 +1027,7 @@ func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]in
 
 	timeout := configDuration(c.config, "pvc-bind-timeout-ms", 120*time.Second)
 	if c.pvcNeedsConsumer(created) {
-		consumer, consumerErr := c.createPVCConsumer(namespace, created.Name)
+		consumer, consumerErr := c.createPVCConsumer(namespace, created.Name, timeout)
 		if consumerErr != nil {
 			result["Reason"] = consumerErr.Error()
 			result["Phase"] = string(created.Status.Phase)
@@ -965,9 +1039,21 @@ func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]in
 	}
 
 	deadline := time.Now().Add(timeout)
+	notFoundDeadline := time.Now().Add(8 * time.Second)
 	for {
 		current, getErr := client.CoreV1().PersistentVolumeClaims(namespace).Get(c.ctx, created.Name, metav1.GetOptions{})
 		if getErr != nil {
+			if apierrors.IsNotFound(getErr) && time.Now().Before(notFoundDeadline) {
+				select {
+				case <-c.ctx.Done():
+					return result, c.ctx.Err()
+				case <-time.After(500 * time.Millisecond):
+				}
+				continue
+			}
+			if apierrors.IsNotFound(getErr) {
+				return result, fmt.Errorf("watch PVC %s/%s: %w (%s)", namespace, created.Name, getErr, c.pvcDiagnostics(client, namespace, created.Name))
+			}
 			return result, fmt.Errorf("watch PVC %s/%s: %w", namespace, created.Name, getErr)
 		}
 		result["Phase"] = string(current.Status.Phase)
@@ -977,7 +1063,7 @@ func (c *KubeClient) AttemptCreatePVC(_ string, claimYAML string) (map[string]in
 		}
 		if time.Now().After(deadline) {
 			result["BindTimeout"] = true
-			return result, nil
+			return result, fmt.Errorf("PVC %s/%s did not bind within %s (phase=%s; %s)", namespace, created.Name, timeout, current.Status.Phase, c.pvcDiagnostics(client, namespace, created.Name))
 		}
 		select {
 		case <-c.ctx.Done():
@@ -1000,8 +1086,12 @@ func (c *KubeClient) pvcNeedsConsumer(claim *corev1.PersistentVolumeClaim) bool 
 	return class.VolumeBindingMode != nil && *class.VolumeBindingMode == storagev1.VolumeBindingWaitForFirstConsumer
 }
 
-func (c *KubeClient) createPVCConsumer(namespace, claimName string) (string, error) {
+func (c *KubeClient) createPVCConsumer(namespace, claimName string, keepAlive time.Duration) (string, error) {
 	image := firstNonEmpty(c.config.Get("pvc-consumer-image"), c.config.Get("network-probe-image"), digestPinnedBusybox)
+	sleepSecs := int(keepAlive.Seconds()) + 30
+	if sleepSecs < 180 {
+		sleepSecs = 180
+	}
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{GenerateName: "ccc-pvc-consumer-", Namespace: namespace, Labels: map[string]string{managedByLabel: managedByValue}},
 		Spec: corev1.PodSpec{
@@ -1012,7 +1102,7 @@ func (c *KubeClient) createPVCConsumer(namespace, claimName string) (string, err
 			},
 			Containers: []corev1.Container{{
 				Name: "consumer", Image: image, ImagePullPolicy: corev1.PullIfNotPresent,
-				Command:      []string{"/bin/sh", "-c", "sleep 30"},
+				Command:      []string{"/bin/sh", "-c", fmt.Sprintf("sleep %d", sleepSecs)},
 				VolumeMounts: []corev1.VolumeMount{{Name: "data", MountPath: "/data"}},
 				SecurityContext: &corev1.SecurityContext{
 					AllowPrivilegeEscalation: boolPtr(false),
@@ -1030,6 +1120,32 @@ func (c *KubeClient) createPVCConsumer(namespace, claimName string) (string, err
 		return "", fmt.Errorf("create PVC consumer pod: %w", err)
 	}
 	return created.Name, nil
+}
+
+func (c *KubeClient) pvcDiagnostics(client kubernetes.Interface, namespace, claimName string) string {
+	var notes []string
+	if events, err := client.CoreV1().Events(namespace).List(c.ctx, metav1.ListOptions{FieldSelector: "involvedObject.name=" + claimName}); err == nil {
+		for _, event := range events.Items {
+			notes = append(notes, fmt.Sprintf("%s %s: %s", event.Type, event.Reason, event.Message))
+		}
+	}
+	if pods, err := client.CoreV1().Pods(namespace).List(c.ctx, metav1.ListOptions{LabelSelector: managedByLabel + "=" + managedByValue}); err == nil {
+		for _, pod := range pods.Items {
+			if !strings.HasPrefix(pod.Name, "ccc-pvc-consumer-") {
+				continue
+			}
+			notes = append(notes, fmt.Sprintf("consumer %s phase=%s", pod.Name, pod.Status.Phase))
+			if events, evErr := client.CoreV1().Events(namespace).List(c.ctx, metav1.ListOptions{FieldSelector: "involvedObject.name=" + pod.Name}); evErr == nil {
+				for _, event := range events.Items {
+					notes = append(notes, fmt.Sprintf("consumer %s %s: %s", event.Type, event.Reason, event.Message))
+				}
+			}
+		}
+	}
+	if len(notes) == 0 {
+		return "no claim events"
+	}
+	return strings.Join(notes, "; ")
 }
 
 func (s *managedService) AttemptModifyAdmissionConfig(clusterID string, change map[string]interface{}) (map[string]interface{}, error) {
@@ -1086,6 +1202,9 @@ func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPo
 			}
 			probe, probeErr := c.prober.Probe(c.ctx, reachability.Request{Host: external, Port: port, Protocol: "tcp", Timeout: configDuration(c.config, "node-probe-timeout-ms", 5*time.Second), NetworkContext: "untrusted"})
 			if probeErr != nil {
+				if isReachabilityPolicyDenied(probeErr) {
+					continue
+				}
 				return nil, probeErr
 			}
 			if probe.TCPConnected {
@@ -1101,6 +1220,17 @@ func (c *KubeClient) ProbeNodeAdminInterfaces(_ string, nodeID string, kubeletPo
 		"AnonymousKubeletOpen": anonymousKubelet, "KubeletReachable": kubeletReachable,
 		"PublicSSHOpen": publicSSH, "PublicRDPOpen": publicRDP, "PublicIPPresent": publicIP, "Nodes": evidence,
 	}, nil
+}
+
+func isReachabilityPolicyDenied(err error) bool {
+	if err == nil {
+		return false
+	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "http 403") ||
+		strings.Contains(msg, "target is not allowed") ||
+		strings.Contains(msg, "port is not allowed") ||
+		strings.Contains(msg, "protocol is not allowed")
 }
 
 func (s *managedService) AttemptInstanceMetadataAccess(clusterID, podSelector string) (map[string]interface{}, error) {

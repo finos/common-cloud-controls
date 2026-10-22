@@ -120,7 +120,21 @@ func (s *managedService) AttemptCloudAPIAsWorkload(clusterID, namespace, service
 		result["Error"] = waitErr.Error()
 		return result, fmt.Errorf("workload identity probe for %s/%s: %w", namespace, serviceAccount, waitErr)
 	}
+	if strings.TrimSpace(logs) == "" {
+		select {
+		case <-s.ctx.Done():
+			result["Error"] = s.ctx.Err().Error()
+			return result, s.ctx.Err()
+		case <-time.After(2 * time.Second):
+		}
+		if retried, err := s.wiProbeLogs(client, namespace, created.Name); err == nil {
+			logs = retried
+		}
+	}
 	outcome, detail := parseWIProbeResult(logs)
+	if outcome == "ERROR" && strings.HasPrefix(detail, "probe produced no result marker:") {
+		detail = detail + "; " + s.wiProbeDiagnostics(client, namespace, created.Name)
+	}
 	switch outcome {
 	case "OK":
 		result["Succeeded"] = true
@@ -273,6 +287,19 @@ func (s *managedService) wiProbeDiagnostics(client kubernetes.Interface, namespa
 			for _, status := range pod.Status.ContainerStatuses {
 				if status.State.Waiting != nil {
 					notes = append(notes, fmt.Sprintf("waiting=%s %s", status.State.Waiting.Reason, status.State.Waiting.Message))
+				}
+				if status.State.Terminated != nil {
+					notes = append(notes, fmt.Sprintf("terminated=%s exit=%d %s", status.State.Terminated.Reason, status.State.Terminated.ExitCode, status.State.Terminated.Message))
+				}
+			}
+			if events, evErr := client.CoreV1().Events(namespace).List(s.ctx, metav1.ListOptions{FieldSelector: "involvedObject.name=" + pod.Name}); evErr == nil {
+				sort.Slice(events.Items, func(i, j int) bool {
+					return events.Items[i].LastTimestamp.Before(&events.Items[j].LastTimestamp)
+				})
+				for _, event := range events.Items {
+					if event.Type == corev1.EventTypeWarning {
+						notes = append(notes, fmt.Sprintf("pod %s %s: %s", pod.Name, event.Reason, event.Message))
+					}
 				}
 			}
 		}

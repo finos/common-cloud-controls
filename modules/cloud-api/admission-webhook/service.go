@@ -23,7 +23,7 @@ import (
 // behaviour. Factory id: "admission-webhook".
 type Service interface {
 	generic.Service
-	SetBackendAvailability(clusterID string, enabled any) (map[string]interface{}, error)
+	SetBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error)
 	GetBackendAvailability(clusterID string) (map[string]interface{}, error)
 	CheckWebhookRegistration(clusterID string) (map[string]interface{}, error)
 }
@@ -182,31 +182,8 @@ func (c *Controller) CheckWebhookRegistration(clusterID string) (map[string]inte
 
 // SetBackendAvailability scales the probe Deployment up or down and waits until
 // ReadyReplicas / EndpointSlices match the requested availability.
-func (c *Controller) SetBackendAvailability(clusterID string, enabled any) (map[string]interface{}, error) {
-	enabledBool, err := parseBoolish(enabled)
-	if err != nil {
-		return nil, err
-	}
-	return c.setBackendAvailability(clusterID, enabledBool)
-}
-
-func parseBoolish(value any) (bool, error) {
-	switch typed := value.(type) {
-	case bool:
-		return typed, nil
-	case string:
-		parsed, err := strconv.ParseBool(strings.TrimSpace(typed))
-		if err != nil {
-			return false, fmt.Errorf("SetBackendAvailability enabled: %w", err)
-		}
-		return parsed, nil
-	default:
-		parsed, err := strconv.ParseBool(strings.TrimSpace(fmt.Sprint(value)))
-		if err != nil {
-			return false, fmt.Errorf("SetBackendAvailability enabled: unsupported type %T", value)
-		}
-		return parsed, nil
-	}
+func (c *Controller) SetBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error) {
+	return c.setBackendAvailability(clusterID, enabled)
 }
 
 func (c *Controller) setBackendAvailability(clusterID string, enabled bool) (map[string]interface{}, error) {
@@ -352,8 +329,8 @@ func (c *Controller) TearDown() error {
 	_, err := c.SetBackendAvailability(clusterID, true)
 	return err
 }
-func (c *Controller) Start(string) error                { return nil }
-func (c *Controller) Stop(string) error                 { return nil }
+func (c *Controller) Start(string) error { return nil }
+func (c *Controller) Stop(string) error  { return nil }
 func (c *Controller) StartedDetails() ([]generic.StartedResource, error) {
 	return nil, nil
 }

@@ -18,7 +18,7 @@ import (
 	"github.com/cucumber/godog"
 	"github.com/finos/common-cloud-controls/cloud-api/factory"
 	"github.com/finos/common-cloud-controls/cloud-api/types"
-	generic "github.com/robmoffat/standard-cucumber-steps/go"
+	generic "github.com/finos/cucumber-testing-steps/go"
 )
 
 // Connection represents a network connection with state and I/O
