@@ -56,17 +56,21 @@ const Breadcrumb = () => {
   });
 
   return (
-    <nav className={styles.nav}>
-      <Link to="/" className={styles.link}>Home</Link>
+    <nav className="text-sm text-gray-500 mb-4 mx-16 py-5">
+      <Link to="/" className="px-3 hover:bg-gray-200 rounded-full hover:no-underline">
+        Home
+      </Link>
       {crumbs.map(({ label, to, isLastPart }) => {
         const showLink = !isLastPart && isRegisteredRoute(to);
         return (
           <span key={to}>
             {" > "}
             {showLink ? (
-              <Link to={to} className={styles.link}>{label}</Link>
+              <Link to={to} className="px-3 rounded-full hover:bg-gray-200 hover:no-underline">
+                {label}
+              </Link>
             ) : (
-              <span className={isLastPart ? styles.current : undefined}>{label}</span>
+              <span className={`px-3 rounded-full ${isLastPart ? "bg-gray-200" : ""}`}>{label}</span>
             )}
           </span>
         );
@@ -78,7 +82,12 @@ const Breadcrumb = () => {
 export default Breadcrumb;
 
 const format = (part: string): string => {
-  if (part === "core") return "Common Cloud Controls";
-  if (part === "cfi") return "CFI";
+  if (part === "core") {
+    return "Common Cloud Controls";
+  }
+  if (part === "cfi") {
+    return "CFI";
+  }
+
   return part;
 };
