@@ -549,17 +549,28 @@ func (s *managedService) AttemptAdmitWorkload(_ string, operation, manifestYAML 
 		_, err = ri.Create(s.ctx, obj, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
 	case "update":
 		current, getErr := ri.Get(s.ctx, obj.GetName(), metav1.GetOptions{})
-		if getErr != nil {
-			err = getErr
-		} else {
+		switch {
+		case getErr == nil:
 			obj.SetResourceVersion(current.GetResourceVersion())
 			_, err = ri.Update(s.ctx, obj, metav1.UpdateOptions{DryRun: []string{metav1.DryRunAll}})
+		case apierrors.IsNotFound(getErr):
+			// Create is dry-run, so the target often does not exist. Still evaluate
+			// the generated Pod so "expected deny" is PSA/VAP, not NotFound.
+			err = nil
+		default:
+			err = getErr
+		}
+		if err == nil {
+			err = s.dryRunGeneratedPodAdmission(dyn, obj, gvr, namespace)
 		}
 	case "ephemeral-update":
 		if gvr.Resource != "pods" {
 			return nil, fmt.Errorf("ephemeral-update requires a Pod manifest")
 		}
 		_, err = ri.Update(s.ctx, obj, metav1.UpdateOptions{DryRun: []string{metav1.DryRunAll}}, "ephemeralcontainers")
+		if apierrors.IsNotFound(err) {
+			err = s.dryRunEphemeralContainerAdmission(dyn, obj, namespace)
+		}
 	default:
 		return nil, fmt.Errorf("unsupported admission operation %q", operation)
 	}
@@ -769,7 +780,7 @@ func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector string, t
 			return map[string]interface{}{
 				"Allowed": false, "Connected": false, "Error": "probe job failed",
 				"Namespace": namespace, "Job": created.Name,
-			}, fmt.Errorf("network flow blocked or unreachable from %q to %s:%d/%s", fromSelector, toHost, port, protocol)
+			}, fmt.Errorf("network flow blocked or unreachable from %q to %s:%d/%s: %s", fromSelector, toHost, port, protocol, c.networkFlowDiagnostics(client, namespace, created.Name))
 		}
 		select {
 		case <-c.ctx.Done():
@@ -780,7 +791,35 @@ func (c *KubeClient) AttemptWorkloadNetworkFlow(_ string, fromSelector string, t
 	return map[string]interface{}{
 		"Allowed": false, "Connected": false, "Error": "probe timed out",
 		"Namespace": namespace, "Job": created.Name,
-	}, fmt.Errorf("network flow probe timed out from %q to %s:%d/%s", fromSelector, toHost, port, protocol)
+	}, fmt.Errorf("network flow probe timed out from %q to %s:%d/%s: %s", fromSelector, toHost, port, protocol, c.networkFlowDiagnostics(client, namespace, created.Name))
+}
+
+func (c *KubeClient) networkFlowDiagnostics(client kubernetes.Interface, namespace, jobName string) string {
+	var notes []string
+	if pods, err := client.CoreV1().Pods(namespace).List(c.ctx, metav1.ListOptions{LabelSelector: "job-name=" + jobName}); err == nil {
+		if len(pods.Items) == 0 {
+			notes = append(notes, "no probe pod")
+		}
+		for _, pod := range pods.Items {
+			notes = append(notes, fmt.Sprintf("pod %s phase=%s", pod.Name, pod.Status.Phase))
+			for _, status := range pod.Status.ContainerStatuses {
+				if status.State.Waiting != nil {
+					notes = append(notes, fmt.Sprintf("waiting=%s %s", status.State.Waiting.Reason, status.State.Waiting.Message))
+				}
+			}
+		}
+	}
+	if events, err := client.CoreV1().Events(namespace).List(c.ctx, metav1.ListOptions{FieldSelector: "involvedObject.name=" + jobName}); err == nil {
+		for _, event := range events.Items {
+			if event.Type == corev1.EventTypeWarning {
+				notes = append(notes, fmt.Sprintf("%s: %s", event.Reason, event.Message))
+			}
+		}
+	}
+	if len(notes) == 0 {
+		return "no pod or event evidence"
+	}
+	return strings.Join(notes, "; ")
 }
 
 func parseLabelSelector(raw string) (map[string]string, error) {
@@ -962,7 +1001,7 @@ func (c *KubeClient) pvcNeedsConsumer(claim *corev1.PersistentVolumeClaim) bool 
 }
 
 func (c *KubeClient) createPVCConsumer(namespace, claimName string) (string, error) {
-	image := firstNonEmpty(c.config.Get("pvc-consumer-image"), c.config.Get("network-probe-image"), "busybox:1.36")
+	image := firstNonEmpty(c.config.Get("pvc-consumer-image"), c.config.Get("network-probe-image"), digestPinnedBusybox)
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{GenerateName: "ccc-pvc-consumer-", Namespace: namespace, Labels: map[string]string{managedByLabel: managedByValue}},
 		Spec: corev1.PodSpec{
@@ -1357,6 +1396,94 @@ func (s *managedService) GetEncryptionAtRestStatus(clusterID string) (map[string
 		return nil, unsupported(s.provider, "GetEncryptionAtRestStatus", "provider encryption configuration API is unavailable")
 	}
 	return s.encryption(s.ctx, clusterID)
+}
+
+// digestPinnedBusybox matches the terraform network-listener image. Tag-only
+// busybox:1.36 is denied by ccc-deny-tag-only-images in ccc-test.
+const digestPinnedBusybox = "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662"
+
+func (s *managedService) dryRunGeneratedPodAdmission(dyn dynamic.Interface, obj *unstructured.Unstructured, gvr schema.GroupVersionResource, namespace string) error {
+	pod, err := generatedPodFromWorkload(obj, gvr, namespace)
+	if err != nil {
+		return err
+	}
+	_, err = dyn.Resource(schema.GroupVersionResource{Version: "v1", Resource: "pods"}).
+		Namespace(namespace).
+		Create(s.ctx, pod, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
+	return err
+}
+
+func (s *managedService) dryRunEphemeralContainerAdmission(dyn dynamic.Interface, obj *unstructured.Unstructured, namespace string) error {
+	pod, err := ephemeralContainersAsPod(obj, namespace)
+	if err != nil {
+		return err
+	}
+	_, err = dyn.Resource(schema.GroupVersionResource{Version: "v1", Resource: "pods"}).
+		Namespace(namespace).
+		Create(s.ctx, pod, metav1.CreateOptions{DryRun: []string{metav1.DryRunAll}})
+	return err
+}
+
+func generatedPodFromWorkload(obj *unstructured.Unstructured, gvr schema.GroupVersionResource, namespace string) (*unstructured.Unstructured, error) {
+	if gvr.Resource == "pods" {
+		pod := obj.DeepCopy()
+		pod.SetNamespace(namespace)
+		pod.SetResourceVersion("")
+		pod.SetUID("")
+		if pod.GetName() == "" {
+			pod.SetGenerateName("ccc-admit-")
+		}
+		return pod, nil
+	}
+	template, found, err := unstructured.NestedMap(obj.Object, "spec", "template")
+	if err != nil {
+		return nil, fmt.Errorf("read generated pod template: %w", err)
+	}
+	if !found {
+		return nil, fmt.Errorf("workload kind %s has no spec.template to admit", obj.GetKind())
+	}
+	spec, _ := template["spec"].(map[string]interface{})
+	if spec == nil {
+		return nil, fmt.Errorf("workload kind %s has empty spec.template.spec", obj.GetKind())
+	}
+	pod := &unstructured.Unstructured{Object: map[string]interface{}{
+		"apiVersion": "v1",
+		"kind":       "Pod",
+		"metadata": map[string]interface{}{
+			"generateName": "ccc-admit-",
+			"namespace":    namespace,
+		},
+		"spec": spec,
+	}}
+	if meta, ok := template["metadata"].(map[string]interface{}); ok {
+		if labels, ok := meta["labels"].(map[string]interface{}); ok {
+			if err := unstructured.SetNestedMap(pod.Object, labels, "metadata", "labels"); err != nil {
+				return nil, err
+			}
+		}
+	}
+	return pod, nil
+}
+
+func ephemeralContainersAsPod(obj *unstructured.Unstructured, namespace string) (*unstructured.Unstructured, error) {
+	containers, found, err := unstructured.NestedSlice(obj.Object, "spec", "ephemeralContainers")
+	if err != nil {
+		return nil, fmt.Errorf("read ephemeralContainers: %w", err)
+	}
+	if !found || len(containers) == 0 {
+		return nil, fmt.Errorf("ephemeral-update manifest has no spec.ephemeralContainers")
+	}
+	return &unstructured.Unstructured{Object: map[string]interface{}{
+		"apiVersion": "v1",
+		"kind":       "Pod",
+		"metadata": map[string]interface{}{
+			"generateName": "ccc-admit-eph-",
+			"namespace":    namespace,
+		},
+		"spec": map[string]interface{}{
+			"containers": containers,
+		},
+	}}, nil
 }
 
 func decodeManifest(manifest string) (*unstructured.Unstructured, schema.GroupVersionResource, error) {

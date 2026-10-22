@@ -250,7 +250,7 @@ func (s *managedService) wiProbeLogs(client kubernetes.Interface, namespace, job
 		return "", fmt.Errorf("list probe pods: %w", err)
 	}
 	if len(pods.Items) == 0 {
-		return "", fmt.Errorf("probe job %s finished without a pod", jobName)
+		return "", fmt.Errorf("probe job %s finished without a pod: %s", jobName, s.wiProbeDiagnostics(client, namespace, jobName))
 	}
 	raw, err := client.CoreV1().Pods(namespace).GetLogs(pods.Items[0].Name, &corev1.PodLogOptions{Container: "probe"}).DoRaw(s.ctx)
 	if err != nil {
@@ -261,6 +261,12 @@ func (s *managedService) wiProbeLogs(client kubernetes.Interface, namespace, job
 
 func (s *managedService) wiProbeDiagnostics(client kubernetes.Interface, namespace, jobName string) string {
 	var notes []string
+	if job, err := client.BatchV1().Jobs(namespace).Get(s.ctx, jobName, metav1.GetOptions{}); err == nil {
+		notes = append(notes, fmt.Sprintf("job succeeded=%d failed=%d", job.Status.Succeeded, job.Status.Failed))
+		for _, cond := range job.Status.Conditions {
+			notes = append(notes, fmt.Sprintf("job %s=%s %s", cond.Type, cond.Status, cond.Message))
+		}
+	}
 	if pods, err := client.CoreV1().Pods(namespace).List(s.ctx, metav1.ListOptions{LabelSelector: "job-name=" + jobName}); err == nil {
 		for _, pod := range pods.Items {
 			notes = append(notes, fmt.Sprintf("pod %s phase=%s", pod.Name, pod.Status.Phase))

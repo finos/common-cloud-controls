@@ -124,7 +124,13 @@ kubectl set image "deployment/${WEBHOOK_DEPLOY}" \
   "${WEBHOOK_CONTAINER}=${REMOTE_IMAGE}"
 # Ensure at least one replica so rollout validates the real image (not a no-op at 0).
 kubectl scale "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" --replicas=1
-kubectl rollout status "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" --timeout=180s
+if ! kubectl rollout status "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" --timeout=180s; then
+  echo "error: webhook rollout failed; dumping ${WEBHOOK_NS} diagnostics" >&2
+  kubectl -n "$WEBHOOK_NS" get deploy,rs,pods,events -o wide || true
+  kubectl -n "$WEBHOOK_NS" describe "deployment/${WEBHOOK_DEPLOY}" || true
+  kubectl -n "$WEBHOOK_NS" describe pods -l "app.kubernetes.io/name=${WEBHOOK_DEPLOY}" || true
+  exit 1
+fi
 
 CURRENT_IMAGE="$(kubectl get deployment "$WEBHOOK_DEPLOY" -n "$WEBHOOK_NS" -o jsonpath='{.spec.template.spec.containers[0].image}')"
 case "$CURRENT_IMAGE" in

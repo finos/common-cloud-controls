@@ -10,7 +10,8 @@ output: yaml
 #   resource_group_name = avm-testing
 #   managed_cluster.name = avmaks20260616
 #   managed_cluster.private_fqdn = j9arz5rlyt-px206ab7.ccc-20260616.private.westus2.azmk8s.io
-#   managed_cluster.oidc_issuer_url = https://westus2.oic.prod-aks.azure.com/fa193ac0-9c06-4111-bf55-341e4db193d3/b05eedfb-a37f-4962-bcda-8208dd4b2e2a/
+#   managed_cluster.oidc_issuer_url =
+#     https://westus2.oic.prod-aks.azure.com/fa193ac0-9c06-4111-bf55-341e4db193d3/b05eedfb-a37f-4962-bcda-8208dd4b2e2a/
 #
 # Source azure-env.sh (or AZURE_AVM_ENV) for test principal credentials before running.
 #
@@ -66,7 +67,8 @@ services:
       network-probe-selector: "role=network-probe"
       isolated-probe-selector: "role=isolated-probe"
       security-probe-selector: "role=security-probe"
-      network-probe-image: "busybox:1.36"
+      # Digest-pinned: ccc-test VAP (ccc-deny-tag-only-images) rejects tag-only refs.
+      network-probe-image: "busybox:1.36@sha256:73aaf090f3d85aa34ee199857f03fa3a95c8ede2ffd4cc2cdb5b94e566b11662"
       network-probe-port: 8080
       network-probe-protocol: tcp
       network-allowlist-host: "ccc-allowed.ccc-network-control.svc"
