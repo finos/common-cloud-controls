@@ -11,7 +11,7 @@ Identify and create security threats for a cloud service, supporting the onboard
 
 ## Final Outcome
 
-A `threats.yaml` file created in the service folder that imports applicable core threats from `catalogs/core/core/threats.yaml`, defines service-specific threats mapped to the service's capabilities, grounds each threat in current adversary and exploitation evidence, and maps it to external frameworks — adversary techniques (MITRE ATT&CK), defensive countermeasures (MITRE D3FEND), known exploited vulnerabilities (CISA KEV), and weakness taxonomies (CWE, OWASP) — validated against `schemas/threats-schema.json`.
+A `threats.yaml` file created in the service folder that imports applicable core threats from `catalogs/core/core/threats.yaml`, defines service-specific threats mapped to the service's capabilities, and grounds each threat in current adversary and exploitation evidence, validated against `schemas/threats-schema.json` — plus one standalone Gemara MappingDocument per external framework in the service's `mappings/` directory (`mappings/threats-<framework>.yaml`, validated against `schemas/mappingdocument-schema.json`) connecting the threats to adversary techniques (MITRE ATT&CK), defensive countermeasures (MITRE D3FEND), known exploited vulnerabilities (CISA KEV), and weakness taxonomies (CWE, OWASP). Threats never carry inline `external-mappings`; that field is not part of the schema.
 
 ## When to Use
 
@@ -250,22 +250,13 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
    - `reference-id` capability IDs must match the pattern `CCC[.<service>].CP<n>` and exist in the service `capabilities.yaml` or core capabilities.
    - Include `remarks` with the capability title for readability.
 
-5. External mapping rules:
-   - **Gate:** only emit `reference-id` framework values that are declared in `metadata.mapping-references`. Any framework used for discovery but not declared stays out of the YAML (carry it in `remarks` if it adds context).
-   - Group entries by framework; include `remarks` with the entry title where it aids readability.
-   - **`MITRE-ATT&CK`:** technique IDs from the cloud platforms; sub-techniques preferred over parents.
-   - **`D3FEND`:** countermeasure IDs (`D3-XXX`) derived from the threat's ATT&CK techniques; `remarks` should note which technique each counters. Omit the block if the threat has no ATT&CK anchor.
-   - **`CISA-KEV`:** CVE IDs as illustrative exploitation evidence only; `remarks` must include the affected product and `dateAdded` and flag the CVE as illustrative. Do not fabricate a CVE to populate the block. Because CCC threats are provider-neutral, the threat statement itself must remain CVE-free — KEV lives only in the mapping/remarks.
-   - **CSP advisories:** record in the threat `remarks` by default (e.g., "documented in GCP bulletin GCP-2024-NNN"); emit a `CSP-Advisory` block only when that `reference-id` is declared in metadata.
-   - Omit the `external-mappings` block entirely when no confident, in-gate mapping exists rather than guessing.
-
-6. Validate the final object against `schemas/threats-schema.json` before writing the file. Verify:
+5. Validate the final object against `schemas/threats-schema.json` before writing the file. Verify:
    - Every `group` id exists in `catalogs/core/core/groups.yaml`.
    - Every capability `reference-id` exists in the service `capabilities.yaml` or core capabilities.
 
-7. Write the file to `<target-path>/threats.yaml`.
+6. Write the file to `<target-path>/threats.yaml`.
 
-8. If a `threats.yaml` already exists, show a diff-style summary and ask for confirmation before overwrite.
+7. If a `threats.yaml` already exists, show a diff-style summary and ask for confirmation before overwrite.
 
 ### Output Format
 

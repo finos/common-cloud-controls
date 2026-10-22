@@ -145,8 +145,9 @@ _None — catalog contains no `CCC.VM.CN*.AR*` entries._
   1. Instance in VPC with restrictive SG (allow only bastion CIDR).
   2. `AttemptInboundConnection("{uid}", port)` from an **untrusted** vantage expected **outside** the allow list → connection refused/timeout.
   3. Optional positive: connect from allowed CIDR succeeds.
-- **Config / fixtures**: Known `allowed-source-cidr`, `test-listener-port`, test runner egress IP or in-VPC probe host.
-- **Gaps / honesty notes**: CN12 is referenced in VM catalog but not yet in `catalogs/core/core/controls.yaml` — definition from ObjStor release embed.
+- **Reachability service (planned)**: Retrofit `AttemptInboundConnection` to delegate to the shared `reachability.Prober` (`modules/cloud-api/reachability/`) instead of dialing from the runner directly. `LocalProber` reproduces the current `net.DialTimeout` behaviour; `RemoteProber` calls the FINOS-owned probe service (outside the integration estate) for an honest "outside allowlist" source. See the shared-component plan and cross-service adoption sequence in [`kubernetes/analysis.md`](../kubernetes/analysis.md) — VM is the **first adopter**. This changes the returned shape from `{Connected}` to the richer `reachability.Result` (`TCPConnected`, `TLSConnected`, `HTTPStatus`, `Failure`, `Observer`); update the CN12 feature to assert `TCPConnected` is `false`. Keep `LocalProber` as the `@SANITY` fallback; treat probe-service errors as infrastructure failures, not passes.
+- **Config / fixtures**: Known `allowed-source-cidr`, `test-listener-port`; when using the remote prober, `reachability-probe-mode`, `reachability-probe-url`, secret-expanded `reachability-probe-shared-secret`, `reachability-probe-observer`, `reachability-probe-timeout-ms` (shared shape with kubernetes CN01).
+- **Gaps / honesty notes**: CN12 is referenced in VM catalog but not yet in `catalogs/core/core/controls.yaml` — definition from ObjStor release embed. A runner-local dial only proves deny when the runner egress is genuinely outside the allow list; the remote prober removes that assumption.
 
 ---
 
