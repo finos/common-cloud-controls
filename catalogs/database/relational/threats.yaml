@@ -3,49 +3,58 @@ imports:
     entries:
       - reference-id: CCC.Core.TH01
         strength: 0 # Not yet specified
-        remarks: Access control is misconfigured
+        remarks: Access is Granted to Unauthorized Users
       - reference-id: CCC.Core.TH02
         strength: 0 # Not yet specified
-        remarks: Data is intercepted in transit
+        remarks: Data is Intercepted in Transit
       - reference-id: CCC.Core.TH03
         strength: 0 # Not yet specified
-        remarks: Deployment region network is untrusted
+        remarks: Deployment Region Network is Untrusted
       - reference-id: CCC.Core.TH04
         strength: 0 # Not yet specified
         remarks: Data is Replicated to Untrusted or External Locations
       - reference-id: CCC.Core.TH05
         strength: 0 # Not yet specified
-        remarks: Data is corrupted during replication
+        remarks: Interference with Replication Processes
       - reference-id: CCC.Core.TH06
         strength: 0 # Not yet specified
-        remarks: Data is lost or corrupted
+        remarks: Data is Lost or Corrupted
       - reference-id: CCC.Core.TH07
         strength: 0 # Not yet specified
-        remarks: Logs are tampered with or deleted
+        remarks: Logs are Tampered With or Deleted
+      - reference-id: CCC.Core.TH08
+        strength: 0 # Not yet specified
+        remarks: Runtime Metrics are Manipulated
       - reference-id: CCC.Core.TH09
         strength: 0 # Not yet specified
-        remarks: Logs or monitoring data are read by unauthorized users
+        remarks: Runtime Logs are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH10
         strength: 0 # Not yet specified
-        remarks: Alerts are Intercepted
+        remarks: State-change Events are Read by Unauthorized Entities
       - reference-id: CCC.Core.TH11
         strength: 0 # Not yet specified
-        remarks: Event Notifications are Incorrectly Triggered
+        remarks: Publications are Incorrectly Triggered
       - reference-id: CCC.Core.TH12
         strength: 0 # Not yet specified
-        remarks: Resource constraints are exhausted
+        remarks: Resource Constraints are Exhausted
       - reference-id: CCC.Core.TH13
         strength: 0 # Not yet specified
-        remarks: Resource tags are manipulated
+        remarks: Resource Tags are Manipulated
       - reference-id: CCC.Core.TH15
         strength: 0 # Not yet specified
-        remarks: Automated enumeration and reconnaissance by non-human entities
+        remarks: Automated Enumeration and Reconnaissance by Non-human Entities
       - reference-id: CCC.Core.TH16
         strength: 0 # Not yet specified
-        remarks: Logging and Monitoring are Disabled
+        remarks: Publications are Disabled
       - reference-id: CCC.Core.TH17
         strength: 0 # Not yet specified
-        remarks: Unauthorized Network Access via Misconfigured Rules
+        remarks: Responses are Generated for Unauthorized Requests
+      - reference-id: CCC.Core.TH18
+        strength: 0 # Not yet specified
+        remarks: Encryption Key is Misused
+      - reference-id: CCC.Core.TH19
+        strength: 0 # Not yet specified
+        remarks: Metrics are Read by Unauthorized Entities
 
 threats:
   - id: CCC.RDMS.TH01
@@ -58,8 +67,8 @@ threats:
     capabilities:
       - reference-id: CCC
         entries:
-          - reference-id: CCC.RDMS.CP06
           - reference-id: CCC.RDMS.CP07
+            remarks: DB Self Managed Credentials
   - id: CCC.RDMS.TH02
     group: Access
     title: Brute Force Attempts on Database Authentication
@@ -67,22 +76,17 @@ threats:
       Repeated attempts to guess database user passwords may be made
       through brute force techniques. This condition could result in
       unauthorized access if successful, compromising database security
-      and sensitive information.
+      and sensitive information. Attempts arrive over whichever IPv4 or
+      IPv6 endpoint the network access rules leave reachable.
     capabilities:
       - reference-id: CCC
         entries:
           - reference-id: CCC.RDMS.CP07
-  - id: CCC.RDMS.TH03
-    group: Data
-    title: Database Backups Stopped
-    description: |
-      Database backups may be halted, potentially impairing the organization's
-      ability to recover data and maintain business continuity. This condition
-      increases the risk of data loss and extended system downtime.
-    capabilities:
-      - reference-id: CCC
-        entries:
-          - reference-id: CCC.Core.CP11
+            remarks: DB Self Managed Credentials
+          - reference-id: CCC.RDMS.CP08
+            remarks: Support for IPv4
+          - reference-id: CCC.RDMS.CP09
+            remarks: Support for IPv6
   - id: CCC.RDMS.TH04
     group: Data
     title: Unintentional Database Backup Restoration
@@ -95,6 +99,9 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP11
+            remarks: Backup
+          - reference-id: CCC.Core.CP12
+            remarks: Recovery
   - id: CCC.RDMS.TH05
     group: Data
     title: Unauthorized Snapshot Sharing
@@ -107,3 +114,105 @@ threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.Core.CP11
+            remarks: Backup
+  - id: CCC.RDMS.TH06
+    group: Compute
+    title: Database Engine Runs with Known Vulnerabilities
+    description: |
+      Automated engine patching may be disabled, or maintenance windows may
+      be deferred indefinitely, so the database engine continues to run a
+      version with published vulnerabilities. Those vulnerabilities can be
+      exploited by any client able to reach the engine, compromising the
+      confidentiality, integrity, and availability of the database.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP18
+            remarks: Automated Engine Patching
+          - reference-id: CCC.RDMS.CP02
+            remarks: DB Engine Option - MySQL
+          - reference-id: CCC.RDMS.CP03
+            remarks: DB Engine Option - PostgreSQL
+          - reference-id: CCC.RDMS.CP05
+            remarks: DB Engine Option - SQL Server
+  - id: CCC.RDMS.TH07
+    group: Access
+    title: Excessive Privileges are Granted Within the Database
+    description: |
+      Database roles and grants inside the engine may be configured more
+      broadly than required, such as application users holding
+      administrative roles or schemas readable by every login. Any
+      authenticated user can then read or modify data beyond their function,
+      impacting the confidentiality and integrity of all data in the
+      instance.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP01
+            remarks: SQL Support
+          - reference-id: CCC.RDMS.CP07
+            remarks: DB Self Managed Credentials
+          - reference-id: CCC.RDMS.CP17
+            remarks: Cloud Identity Authentication
+  - id: CCC.RDMS.TH08
+    group: Access
+    title: Long-lived Database Credentials are Exposed
+    description: |
+      Static usernames and passwords may be stored in application
+      configuration, connection strings, or source repositories and remain
+      valid for long periods. When such a credential is disclosed it can be
+      reused by an unauthorized party until it is rotated, impacting the
+      confidentiality and integrity of the database.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP07
+            remarks: DB Self Managed Credentials
+          - reference-id: CCC.RDMS.CP17
+            remarks: Cloud Identity Authentication
+  - id: CCC.RDMS.TH09
+    group: Data
+    title: Session State Leaks Between Pooled Connections
+    description: |
+      A managed connection pool may reuse a server session for successive
+      clients without resetting session-level state such as temporary
+      tables, prepared statements, or an assumed role. State set by one
+      client can then be read or acted on by another, impacting the
+      confidentiality and integrity of data and obscuring which client
+      performed an action.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP12
+            remarks: Managed Connection Pooling
+  - id: CCC.RDMS.TH11
+    group: Data
+    title: Read Replicas are Deployed with Weaker Protections
+    description: |
+      A read replica may be created with network access rules or public
+      accessibility that differ from the primary. The same data is then
+      reachable through the replica under weaker protection, impacting its
+      confidentiality.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP15
+            remarks: Horizontal Scaling
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
+  - id: CCC.RDMS.TH12
+    group: Data
+    title: Failover Causes Data Loss or Divergent Writes
+    description: |
+      When the standby is promoted while replication lags, transactions
+      committed on the primary may be absent from the new primary, and a
+      former primary that keeps accepting writes produces two divergent
+      copies. This impacts the integrity and availability of the data and
+      can defeat recovery.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.RDMS.CP16
+            remarks: Failover
+          - reference-id: CCC.Core.CP08
+            remarks: Data Replication
