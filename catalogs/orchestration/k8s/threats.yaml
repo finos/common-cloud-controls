@@ -407,3 +407,24 @@ threats:
             remarks: Workload Identity Federation
           - reference-id: CCC.K8S.CP21
             remarks: Cluster Infrastructure Identity
+
+  - id: CCC.K8S.TH21
+    group: Compute
+    title: Cluster Capacity is Lost with a Single Availability Zone
+    description: |
+      A cluster whose control plane or worker capacity is placed in a single availability
+      zone may become unavailable when that zone is disrupted. API requests, workload
+      scheduling, and running workloads may then fail until the zone recovers or the
+      cluster is rebuilt. Cluster availability may be lost, and workload state held only in
+      the affected zone may be lost.
+    capabilities:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.CP01
+            remarks: Managed Kubernetes Control Plane
+          - reference-id: CCC.K8S.CP02
+            remarks: Managed Worker Pools
+          - reference-id: CCC.K8S.CP23
+            remarks: Multi-Zone Cluster Placement
+          - reference-id: CCC.Core.CP12
+            remarks: Recovery

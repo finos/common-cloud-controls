@@ -145,8 +145,22 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: |
-          Treat escalate, bind, impersonate, nodes/proxy, pods/exec, and serviceaccounts/token
-          create as privileged permissions, and alert on new bindings that grant them.
+          Treat escalate, bind, and impersonate as privileged permissions, and alert on new
+          bindings that grant them.
+      - id: CCC.K8S.CN02.AR06
+        text: |
+          When a non-system Kubernetes role grants create on pods or workload controllers in
+          a system or privileged namespace, or create on pods/exec, nodes/proxy, or
+          serviceaccounts/token in any namespace, that role MUST be bound only to a
+          dedicated administrative group.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Keep workload creation in system and privileged namespaces with the platform
+          administration group, and alert on new bindings that grant these permissions.
+          Workloads in user namespaces are governed under CCC.K8S.CN05.
       - id: CCC.K8S.CN02.AR05
         text: |
           When a workload does not call the Kubernetes API, its service account token MUST
@@ -1296,3 +1310,43 @@ controls:
         entries:
           - reference-id: PR.IR-01.01
             remarks: Network segmentation
+
+  - id: CCC.K8S.CN20
+    group: Compute
+    title: Distribute Cluster Capacity Across Availability Zones
+    objective: |
+      Ensure that the loss of a single availability zone does not make the cluster
+      control plane or its workload capacity unavailable.
+    assessment-requirements:
+      - id: CCC.K8S.CN20.AR01
+        text: |
+          When a cluster is created, its control plane MUST be provisioned across multiple
+          availability zones.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Select the regional or highly available control-plane tier of the service, where
+          the service offers one.
+      - id: CCC.K8S.CN20.AR02
+        text: |
+          When a worker pool is created, it MUST span at least two availability zones.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure each worker pool with subnets or zones in multiple availability zones and
+          size remaining capacity to carry workloads when one zone is lost.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.TH21
+            strength: 9 # Zone distribution does not protect against loss of the whole region.
+            remarks: Cluster Capacity is Lost with a Single Availability Zone
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: CP-6
+            remarks: Alternate Storage Site
+          - reference-id: CP-10
+            remarks: System Recovery and Reconstitution
