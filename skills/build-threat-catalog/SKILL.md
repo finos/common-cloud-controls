@@ -263,9 +263,9 @@ Do not proceed to Step 5 until the user replies CONFIRM. If the user replies EDI
    - Every `group` id exists in `catalogs/core/core/groups.yaml`.
    - Every capability `reference-id` exists in the service `capabilities.yaml` or core capabilities.
 
-6. Write the file to `<target-path>/threats.yaml`.
+7. Write the file to `<target-path>/threats.yaml`.
 
-7. If a `threats.yaml` already exists, show a diff-style summary and ask for confirmation before overwrite.
+8. If a `threats.yaml` already exists, show a diff-style summary and ask for confirmation before overwrite.
 
 ### Output Format
 
