@@ -10,6 +10,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/kubernetes"
 )
 
@@ -25,21 +26,23 @@ var optionalReadyDeployments = []struct {
 var policyAddonNamespaces = []string{"kube-system", "gatekeeper-system"}
 
 func (s *managedService) waitForClusterUsable() error {
-	client, _, err := s.kubeClients()
-	if err != nil {
-		return err
-	}
-	return waitForClusterUsable(s.ctx, client, clusterUsableTimeout)
+	return waitForClusterUsable(s.ctx, s.kubeClients, clusterUsableTimeout)
 }
 
-func waitForClusterUsable(ctx context.Context, client kubernetes.Interface, timeout time.Duration) error {
+func waitForClusterUsable(ctx context.Context, clients func() (kubernetes.Interface, dynamic.Interface, error), timeout time.Duration) error {
 	deadline := time.Now().Add(timeout)
 	var last error
 	for {
-		last = clusterUsableError(ctx, client)
+		client, _, err := clients()
+		if err != nil {
+			last = err
+		} else {
+			last = clusterUsableError(ctx, client)
+		}
 		if last == nil {
 			return nil
 		}
+		fmt.Printf("==> wait for cluster usable: %v\n", last)
 		if time.Now().After(deadline) {
 			return fmt.Errorf("timed out waiting for cluster to become usable: %w", last)
 		}

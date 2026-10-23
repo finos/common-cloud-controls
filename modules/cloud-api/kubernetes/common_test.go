@@ -11,6 +11,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/dynamic"
+	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
 	"k8s.io/client-go/rest"
 )
@@ -166,16 +168,40 @@ func TestClusterUsableErrorWaitsForPolicyAddon(t *testing.T) {
 
 func TestWaitForClusterUsableImmediate(t *testing.T) {
 	client := fake.NewSimpleClientset(readyNode("n1", false))
-	if err := waitForClusterUsable(context.Background(), client, time.Second); err != nil {
+	if err := waitForClusterUsable(context.Background(), staticKubeClients(client), time.Second); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestWaitForClusterUsableTimesOut(t *testing.T) {
 	client := fake.NewSimpleClientset(readyNode("n1", true))
-	err := waitForClusterUsable(context.Background(), client, -time.Second)
+	err := waitForClusterUsable(context.Background(), staticKubeClients(client), -time.Second)
 	if err == nil || !strings.Contains(err.Error(), "timed out") {
 		t.Fatalf("expected timeout, got %v", err)
+	}
+}
+
+func TestWaitForClusterUsableRetriesKubeClients(t *testing.T) {
+	client := fake.NewSimpleClientset(readyNode("n1", false))
+	calls := 0
+	clients := func() (kubernetes.Interface, dynamic.Interface, error) {
+		calls++
+		if calls == 1 {
+			return nil, nil, fmt.Errorf("temporary rest config error")
+		}
+		return client, nil, nil
+	}
+	if err := waitForClusterUsable(context.Background(), clients, 15*time.Second); err != nil {
+		t.Fatal(err)
+	}
+	if calls < 2 {
+		t.Fatalf("expected a retry after kube client failure, calls=%d", calls)
+	}
+}
+
+func staticKubeClients(client kubernetes.Interface) func() (kubernetes.Interface, dynamic.Interface, error) {
+	return func() (kubernetes.Interface, dynamic.Interface, error) {
+		return client, nil, nil
 	}
 }
 
