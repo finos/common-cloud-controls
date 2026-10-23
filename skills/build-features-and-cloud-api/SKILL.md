@@ -142,7 +142,7 @@ Naming: `CCC-<ControlFamily>-<AR>.feature` (match existing repos).
 - Identity keys: `test-user-no-access`, `test-user-read`, `test-user-write`, `test-user-admin` — never `ProvisionUserWithAccess`
 - Logging ARs: `GetServiceAPI` → `logging`, then `QueryLogs` with explicit `logType` (`admin`, `data-write`, `data-read`)
 - Attach results for reports: `I attach "{result}" to the test output as "..."`
-- Steps use the DSL provided by <https://github.com/robmoffat/standard-cucumber-steps/blob/main/README.md> (which you should either read or see examples of in the other feature files)
+- Steps use the DSL provided by <https://github.com/finos/cucumber-testing-steps/blob/main/README.md> (which you should either read or see examples of in the other feature files)
 
 #### 2c. @NotTestable
 

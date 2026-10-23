@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/cucumber/godog v0.14.1
 	github.com/finos/common-cloud-controls/cloud-api v0.0.0
-	github.com/robmoffat/standard-cucumber-steps/go v1.0.5
+	github.com/finos/cucumber-testing-steps/go v1.3.0
 )
 
 require (

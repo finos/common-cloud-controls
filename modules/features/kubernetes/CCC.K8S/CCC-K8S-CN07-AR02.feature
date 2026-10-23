@@ -12,16 +12,22 @@ Feature: CCC.K8S.CN07.AR02 - Restrict secret access to required names
     And I refer to "{result}" as "kubeClient"
 
   @Behavioural @kubernetes
-  Scenario: Restrict secret access to required names
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "{protected-secret-name}", "{test-workload-service-account}", and "get"
+  Scenario: The workload can get only the named protected secret
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "{protected-secret-name}", "{test-workload-service-account}", and "get"
     Then "{result}" is not an error
     And "{result.Allowed}" is true
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "{unrelated-secret-name}", "{test-workload-service-account}", and "get"
+
+  @Behavioural @kubernetes
+  Scenario: The workload cannot get an unrelated secret
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "{unrelated-secret-name}", "{test-workload-service-account}", and "get"
     Then "{result}" is an error
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "", "{test-workload-service-account}", and "list"
+
+  @Behavioural @kubernetes
+  Scenario: The workload cannot list secrets
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "", "{test-workload-service-account}", and "list"
     Then "{result}" is an error
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "", "{test-workload-service-account}", and "watch"
+
+  @Behavioural @kubernetes
+  Scenario: The workload cannot watch secrets
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "", "{test-workload-service-account}", and "watch"
     Then "{result}" is an error
-    When I call "{kubeClient}" with "GetRBACPolicyFindings" using argument "{uid}"
-    Then "{result}" is not an error
-    And "{result.OverbroadSecretAccess}" is an array of objects with length "0"

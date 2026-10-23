@@ -110,9 +110,11 @@ func (s *GCPService) endpointConfig(_ context.Context, clusterID string) (map[st
 			cidrs = append(cidrs, block.CidrBlock)
 		}
 	}
+	public := !private
 	return map[string]interface{}{
-		"PublicAccess": !private, "PrivateAccess": private, "AllowedCIDRs": cidrs,
-		"EndpointHostname": endpointHostname(cluster.Endpoint),
+		"PublicAccess": public, "PrivateAccess": private, "AllowedCIDRs": cidrs,
+		"RestrictedToApprovedNetworks": restrictedToApprovedNetworks(public, private, cidrs),
+		"EndpointHostname":             endpointHostname(cluster.Endpoint),
 	}, nil
 }
 
@@ -423,7 +425,10 @@ func (s *GCPService) gcpLifecycle() *lifecycle.GCP {
 }
 
 func (s *GCPService) Start(resourceID string) error {
-	return s.gcpLifecycle().Start(s.lifecycleClusterID(resourceID))
+	if err := s.gcpLifecycle().Start(s.lifecycleClusterID(resourceID)); err != nil {
+		return err
+	}
+	return s.waitForClusterUsable()
 }
 
 func (s *GCPService) Stop(resourceID string) error {

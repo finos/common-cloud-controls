@@ -162,8 +162,34 @@ func buildComponentInventory(cfg types.Config, controlPlaneVersion string, worke
 }
 
 func (s *managedService) GetClusterComponentInventory(clusterID string) (map[string]interface{}, error) {
+	var (
+		evidence    *supportEvidence
+		evidenceErr error
+	)
+	if s.support != nil {
+		evidence, evidenceErr = s.support(s.ctx, clusterID)
+	}
+
+	if s.armInventory != nil {
+		version, workers, err := s.armInventory(s.ctx, clusterID)
+		if err == nil && strings.TrimSpace(version) != "" {
+			result := buildComponentInventory(s.config, version, workers, evidence, evidenceErr)
+			result["InventorySource"] = "csp-management-api"
+			return result, nil
+		}
+		if err != nil && evidenceErr == nil {
+			evidenceErr = err
+		}
+	}
+
 	client, _, err := s.kubeClients()
 	if err != nil {
+		if evidence != nil {
+			result := buildComponentInventory(s.config, "", nil, evidence, evidenceErr)
+			result["InventorySource"] = "csp-support-only"
+			result["KubeAPIError"] = err.Error()
+			return result, nil
+		}
 		return nil, err
 	}
 	version, err := client.Discovery().ServerVersion()
@@ -178,14 +204,9 @@ func (s *managedService) GetClusterComponentInventory(clusterID string) (map[str
 	for _, node := range nodes.Items {
 		workers = append(workers, map[string]interface{}{"Name": node.Name, "Version": node.Status.NodeInfo.KubeletVersion, "Image": node.Status.NodeInfo.OSImage})
 	}
-	var (
-		evidence    *supportEvidence
-		evidenceErr error
-	)
-	if s.support != nil {
-		evidence, evidenceErr = s.support(s.ctx, clusterID)
-	}
-	return buildComponentInventory(s.config, version.GitVersion, workers, evidence, evidenceErr), nil
+	result := buildComponentInventory(s.config, version.GitVersion, workers, evidence, evidenceErr)
+	result["InventorySource"] = "kubernetes-api"
+	return result, nil
 }
 
 // summarizeNodeIntegrity derives the CN18 summary arrays from per-node evidence.

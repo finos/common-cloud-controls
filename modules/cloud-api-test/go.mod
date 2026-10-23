@@ -73,6 +73,7 @@ require (
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/finos/common-cloud-controls/cloud-testing-dsl v0.0.0 // indirect
 	github.com/finos/common-cloud-controls/reporters v0.0.0 // indirect
+	github.com/finos/cucumber-testing-steps/go v1.3.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.0 // indirect
 	github.com/gemaraproj/go-gemara v0.5.0 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.3 // indirect
@@ -101,7 +102,6 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
 	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10 // indirect
-	github.com/robmoffat/standard-cucumber-steps/go v1.0.5 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.6.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect

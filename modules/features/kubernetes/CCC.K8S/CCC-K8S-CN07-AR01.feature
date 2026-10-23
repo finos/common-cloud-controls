@@ -16,11 +16,11 @@ Feature: CCC.K8S.CN07.AR01 - Protect workload secret material
     When I call "{k8sControlPlane}" with "GetEncryptionAtRestStatus" using argument "{uid}"
     Then "{result}" is not an error
     And "{result.SecretsEncrypted}" is true
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "{protected-secret-name}", "{test-workload-service-account}", and "get"
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "{protected-secret-name}", "{test-workload-service-account}", and "get"
     Then "{result}" is not an error
     And "{result.Allowed}" is true
     And "{result.ValueMatched}" is true
-    When I call "{kubeClient}" with "AttemptSecretAccessAsIdentity" using arguments "{uid}", "{test-workload-namespace}", "{protected-secret-name}", "{test-workload-service-account-unbound}", and "get"
+    When I call "{kubeClient}" with "AttemptSecretAccessFromConfig" using arguments "{uid}", "{protected-secret-name}", "{test-workload-service-account-unbound}", and "get"
     Then "{result}" is an error
     When I call "{kubeClient}" with "FindStaticCloudCredentials" using arguments "{uid}" and "{test-workload-namespace}"
     Then "{result}" is not an error

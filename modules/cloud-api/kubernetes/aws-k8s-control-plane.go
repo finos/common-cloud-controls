@@ -96,9 +96,13 @@ func (s *AWSService) endpointConfig(ctx context.Context, clusterID string) (map[
 	if vpc == nil {
 		return nil, fmt.Errorf("EKS cluster %q has no resourcesVpcConfig", clusterID)
 	}
+	public := vpc.EndpointPublicAccess
+	private := vpc.EndpointPrivateAccess
+	cidrs := vpc.PublicAccessCidrs
 	return map[string]interface{}{
-		"PublicAccess": vpc.EndpointPublicAccess, "PrivateAccess": vpc.EndpointPrivateAccess,
-		"AllowedCIDRs": vpc.PublicAccessCidrs, "EndpointHostname": endpointHostname(aws.ToString(output.Cluster.Endpoint)),
+		"PublicAccess": public, "PrivateAccess": private, "AllowedCIDRs": cidrs,
+		"RestrictedToApprovedNetworks": restrictedToApprovedNetworks(public, private, cidrs),
+		"EndpointHostname":             endpointHostname(aws.ToString(output.Cluster.Endpoint)),
 	}, nil
 }
 
@@ -190,7 +194,10 @@ func (s *AWSService) awsLifecycle() *lifecycle.AWS {
 }
 
 func (s *AWSService) Start(resourceID string) error {
-	return s.awsLifecycle().Start(s.lifecycleClusterID(resourceID))
+	if err := s.awsLifecycle().Start(s.lifecycleClusterID(resourceID)); err != nil {
+		return err
+	}
+	return s.waitForClusterUsable()
 }
 
 func (s *AWSService) Stop(resourceID string) error {

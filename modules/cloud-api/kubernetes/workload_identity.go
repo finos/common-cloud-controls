@@ -120,7 +120,21 @@ func (s *managedService) AttemptCloudAPIAsWorkload(clusterID, namespace, service
 		result["Error"] = waitErr.Error()
 		return result, fmt.Errorf("workload identity probe for %s/%s: %w", namespace, serviceAccount, waitErr)
 	}
+	if strings.TrimSpace(logs) == "" {
+		select {
+		case <-s.ctx.Done():
+			result["Error"] = s.ctx.Err().Error()
+			return result, s.ctx.Err()
+		case <-time.After(2 * time.Second):
+		}
+		if retried, err := s.wiProbeLogs(client, namespace, created.Name); err == nil {
+			logs = retried
+		}
+	}
 	outcome, detail := parseWIProbeResult(logs)
+	if outcome == "ERROR" && strings.HasPrefix(detail, "probe produced no result marker:") {
+		detail = detail + "; " + s.wiProbeDiagnostics(client, namespace, created.Name)
+	}
 	switch outcome {
 	case "OK":
 		result["Succeeded"] = true
@@ -250,7 +264,7 @@ func (s *managedService) wiProbeLogs(client kubernetes.Interface, namespace, job
 		return "", fmt.Errorf("list probe pods: %w", err)
 	}
 	if len(pods.Items) == 0 {
-		return "", fmt.Errorf("probe job %s finished without a pod", jobName)
+		return "", fmt.Errorf("probe job %s finished without a pod: %s", jobName, s.wiProbeDiagnostics(client, namespace, jobName))
 	}
 	raw, err := client.CoreV1().Pods(namespace).GetLogs(pods.Items[0].Name, &corev1.PodLogOptions{Container: "probe"}).DoRaw(s.ctx)
 	if err != nil {
@@ -261,12 +275,31 @@ func (s *managedService) wiProbeLogs(client kubernetes.Interface, namespace, job
 
 func (s *managedService) wiProbeDiagnostics(client kubernetes.Interface, namespace, jobName string) string {
 	var notes []string
+	if job, err := client.BatchV1().Jobs(namespace).Get(s.ctx, jobName, metav1.GetOptions{}); err == nil {
+		notes = append(notes, fmt.Sprintf("job succeeded=%d failed=%d", job.Status.Succeeded, job.Status.Failed))
+		for _, cond := range job.Status.Conditions {
+			notes = append(notes, fmt.Sprintf("job %s=%s %s", cond.Type, cond.Status, cond.Message))
+		}
+	}
 	if pods, err := client.CoreV1().Pods(namespace).List(s.ctx, metav1.ListOptions{LabelSelector: "job-name=" + jobName}); err == nil {
 		for _, pod := range pods.Items {
 			notes = append(notes, fmt.Sprintf("pod %s phase=%s", pod.Name, pod.Status.Phase))
 			for _, status := range pod.Status.ContainerStatuses {
 				if status.State.Waiting != nil {
 					notes = append(notes, fmt.Sprintf("waiting=%s %s", status.State.Waiting.Reason, status.State.Waiting.Message))
+				}
+				if status.State.Terminated != nil {
+					notes = append(notes, fmt.Sprintf("terminated=%s exit=%d %s", status.State.Terminated.Reason, status.State.Terminated.ExitCode, status.State.Terminated.Message))
+				}
+			}
+			if events, evErr := client.CoreV1().Events(namespace).List(s.ctx, metav1.ListOptions{FieldSelector: "involvedObject.name=" + pod.Name}); evErr == nil {
+				sort.Slice(events.Items, func(i, j int) bool {
+					return events.Items[i].LastTimestamp.Before(&events.Items[j].LastTimestamp)
+				})
+				for _, event := range events.Items {
+					if event.Type == corev1.EventTypeWarning {
+						notes = append(notes, fmt.Sprintf("pod %s %s: %s", pod.Name, event.Reason, event.Message))
+					}
 				}
 			}
 		}

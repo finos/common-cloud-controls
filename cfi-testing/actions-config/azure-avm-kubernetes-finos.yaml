@@ -1,0 +1,16 @@
+cfi:
+  id: azure-avm-kubernetes
+  artifact-name: azure-avm-kubernetes
+  provider: azure
+  source-secrets: AZURE_AVM_ENV
+  service: kubernetes
+  name: CCC Azure AVM Managed Cluster Terraform Module
+  description: >-
+    Control-informed AVM private AKS deployment from ccc-cfi-compliance
+    remote/azure/avm (Azure/avm-res-containerservice-managedcluster @ 0.8.1).
+  path: remote/azure/avm
+  test-on-branches:
+    - main
+  git: https://github.com/Azure/terraform-azurerm-avm-res-containerservice-managedcluster
+  test-configuration: ../privateer-config/avm/azure-avm-kubernetes.yml
+  privateer-service: azureKubernetes

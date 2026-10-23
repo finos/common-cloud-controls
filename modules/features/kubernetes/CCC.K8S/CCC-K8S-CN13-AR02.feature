@@ -13,7 +13,7 @@ Feature: CCC.K8S.CN13.AR02 - Enforce namespace resource quotas
 
   @Behavioural @kubernetes
   Scenario: Enforce namespace resource quotas
-    When I call "{kubeClient}" with "GetResourceConsumptionBounds" using arguments "{uid}" and "{test-workload-namespace}"
+    When I call "{kubeClient}" with "GetResourceConsumptionBoundsFromConfig" using argument "{uid}"
     Then "{result}" is not an error
     And "{result.Quotas}" is not nil
     When I call "{k8sControlPlane}" with "AttemptAdmitWorkload" using arguments "{uid}", "create", and "{quota-exceed-workload-manifest}"
