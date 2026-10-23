@@ -425,7 +425,10 @@ func (s *GCPService) gcpLifecycle() *lifecycle.GCP {
 }
 
 func (s *GCPService) Start(resourceID string) error {
-	return s.gcpLifecycle().Start(s.lifecycleClusterID(resourceID))
+	if err := s.gcpLifecycle().Start(s.lifecycleClusterID(resourceID)); err != nil {
+		return err
+	}
+	return s.waitForClusterUsable()
 }
 
 func (s *GCPService) Stop(resourceID string) error {

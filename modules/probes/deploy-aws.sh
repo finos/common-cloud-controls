@@ -114,8 +114,8 @@ REMOTE_IMAGE="${ECR_URI}@${PUSHED_DIGEST}"
 
 echo "==> admission-webhook: roll deployment to ${REMOTE_IMAGE}"
 aws eks update-kubeconfig --name "$CLUSTER_NAME" --region "$AWS_REGION"
-echo "==> admission-webhook: wait for Ready nodes"
-kubectl wait --for=condition=Ready nodes --all --timeout=300s
+# shellcheck source=wait-schedulable-node.sh
+. "$(dirname "$0")/wait-schedulable-node.sh"
 # Clear a stuck Failed rollout from prior arm64/local mistakes.
 kubectl patch "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" \
   --type merge -p '{"spec":{"progressDeadlineSeconds":600}}' >/dev/null

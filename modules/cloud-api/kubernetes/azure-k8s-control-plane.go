@@ -307,7 +307,10 @@ func (s *AzureService) azureLifecycle() *lifecycle.Azure {
 }
 
 func (s *AzureService) Start(resourceID string) error {
-	return s.azureLifecycle().Start(s.lifecycleClusterID(resourceID))
+	if err := s.azureLifecycle().Start(s.lifecycleClusterID(resourceID)); err != nil {
+		return err
+	}
+	return s.waitForClusterUsable()
 }
 
 func (s *AzureService) Stop(resourceID string) error {

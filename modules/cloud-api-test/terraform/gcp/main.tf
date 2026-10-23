@@ -68,11 +68,12 @@ module "secrets" {
 }
 
 module "kubernetes" {
-  source         = "./modules/kubernetes"
-  project_id     = var.project_id
-  region         = var.region
-  node_locations = [var.zone]
-  common_labels  = local.common_labels
+  source                                   = "./modules/kubernetes"
+  project_id                               = var.project_id
+  region                                   = var.region
+  node_locations                           = [var.zone]
+  common_labels                            = local.common_labels
+  integration_runner_service_account_email = var.integration_runner_service_account_email
 }
 
 data "google_client_config" "default" {}

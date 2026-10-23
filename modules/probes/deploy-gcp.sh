@@ -99,8 +99,8 @@ if ! gcloud container clusters get-credentials "$CLUSTER_NAME" \
     --zone "$ZONE" --project "$PROJECT_ID"
 fi
 
-echo "==> admission-webhook: wait for Ready nodes"
-kubectl wait --for=condition=Ready nodes --all --timeout=300s
+# shellcheck source=wait-schedulable-node.sh
+. "$(dirname "$0")/wait-schedulable-node.sh"
 kubectl patch "deployment/${WEBHOOK_DEPLOY}" -n "$WEBHOOK_NS" \
   --type merge -p '{"spec":{"progressDeadlineSeconds":600}}' >/dev/null
 kubectl set image "deployment/${WEBHOOK_DEPLOY}" \

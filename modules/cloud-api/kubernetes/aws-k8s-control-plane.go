@@ -194,7 +194,10 @@ func (s *AWSService) awsLifecycle() *lifecycle.AWS {
 }
 
 func (s *AWSService) Start(resourceID string) error {
-	return s.awsLifecycle().Start(s.lifecycleClusterID(resourceID))
+	if err := s.awsLifecycle().Start(s.lifecycleClusterID(resourceID)); err != nil {
+		return err
+	}
+	return s.waitForClusterUsable()
 }
 
 func (s *AWSService) Stop(resourceID string) error {
