@@ -12,7 +12,7 @@ CCC complements this with technical controls for individual cloud services and b
 
 The connection is already visible in the [managed Kubernetes catalog](https://ccc.finos.org/catalogs/orchestration/k8s), which maps technical controls to CRI Profile statements alongside NIST and other frameworks. The aim is to make the whole chain traceable: from the bank’s risk requirements, through the controls implemented in its cloud services, to test results showing whether those controls are effective. That gives the Cloud Profile’s expectations a practical route into engineering and gives engineering evidence a clear place in the bank’s assurance process.
 
-That evidence is more useful when it lines up with the frameworks banks already take to the board and the regulator. The Cyber Risk Institute (CRI) Profile is one of those. CRI is mapping the Profile to CCC so a diagnostic statement can land on a concrete control, not another spreadsheet. You can already see it on [managed Kubernetes](https://ccc.finos.org/catalogs/orchestration/k8s): each CCC.K8S control lists the CRI statements it supports, alongside NIST and the rest.
+That evidence is more useful when it lines up with the frameworks like CRI that banks already take to the board and the regulator.  You can already see it on [managed Kubernetes](https://ccc.finos.org/catalogs/orchestration/k8s): each CCC.K8S control lists the CRI statements it supports, alongside NIST and the rest.
 
 ## Going Further
 
