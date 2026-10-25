@@ -283,6 +283,7 @@ func compileMappings(srcDir string, meta sourceMeta, version, outputDir, buildTa
 	}
 
 	threatsCatalogID := artifactCatalogID(meta.id, "threats")
+	legacyThreatsCatalogID := strings.TrimSpace(meta.id) + ".TH"
 	ctx := context.Background()
 	count := 0
 	for _, e := range entries {
@@ -299,11 +300,16 @@ func compileMappings(srcDir string, meta sourceMeta, version, outputDir, buildTa
 		doc.Metadata.GemaraVersion = gemaraSpecVersion
 		doc.Metadata.Version = version
 		// The source authors the threats catalog mapping-reference at "dev";
-		// pin it to the release version actually being compiled.
+		// pin it to the release version actually being compiled and align any
+		// legacy <id>.TH reference to the spelled-out <id>.Threats catalog ID.
 		for i := range doc.Metadata.MappingReferences {
-			if doc.Metadata.MappingReferences[i].Id == threatsCatalogID {
+			if doc.Metadata.MappingReferences[i].Id == threatsCatalogID || doc.Metadata.MappingReferences[i].Id == legacyThreatsCatalogID {
+				doc.Metadata.MappingReferences[i].Id = threatsCatalogID
 				doc.Metadata.MappingReferences[i].Version = version
 			}
+		}
+		if doc.SourceReference.ReferenceId == legacyThreatsCatalogID {
+			doc.SourceReference.ReferenceId = threatsCatalogID
 		}
 
 		out := filepath.Join(outputDir, buildTarget, "mappings", name)
@@ -499,12 +505,15 @@ func newMetadata(id string, t gemara.ArtifactType, desc, version string, refs []
 }
 
 // artifactCatalogID derives the published per-type catalog id from metadata.id.
+// Uses spelled-out type suffixes (.Capabilities, .Threats, .Controls) consistent
+// with coreImportName and regroupMappings so lowercased catalog IDs never collide
+// with country-code TLDs (.cn, .th).
 func artifactCatalogID(catalogID, assetType string) string {
 	base := strings.TrimSpace(catalogID)
 	suffix := map[string]string{
-		"capabilities": ".CP",
-		"threats":      ".TH",
-		"controls":     ".CN",
+		"capabilities": ".Capabilities",
+		"threats":      ".Threats",
+		"controls":     ".Controls",
 	}[assetType]
 	if suffix == "" || strings.HasSuffix(base, suffix) {
 		return base
