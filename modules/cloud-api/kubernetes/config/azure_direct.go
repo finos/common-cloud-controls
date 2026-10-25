@@ -22,10 +22,11 @@ import (
 // AKS Entra ID server application ID (fixed across tenants).
 const aksAADServerAppID = "6dae42f8-4368-4678-94ff-3960e28e3630"
 
-// Azure builds a REST config for an AKS API server. listUserCredentialURL is the
-// full ARM POST URL for listClusterUserCredential (host/CA only); auth uses cred
-// against the AKS AAD audience (no kubelogin).
-func Azure(ctx context.Context, arm *azcore.Client, cred azcore.TokenCredential, listUserCredentialURL string) (*rest.Config, error) {
+// AzureDirect builds a REST config that talks HTTPS to the AKS API FQDN.
+// listUserCredentialURL is the full ARM POST URL for listClusterUserCredential
+// (host/CA only); auth uses cred against the AKS AAD audience (no kubelogin).
+// The other AKS constructor is AzureCommandInvoke.
+func AzureDirect(ctx context.Context, arm *azcore.Client, cred azcore.TokenCredential, listUserCredentialURL string) (*rest.Config, error) {
 	host, caData, err := aksAPIServerTrust(ctx, arm, listUserCredentialURL)
 	if err != nil {
 		return nil, err

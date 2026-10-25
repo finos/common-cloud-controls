@@ -43,14 +43,17 @@ Kubernetes (and later other services) inject `reachability.Prober` from Privatee
 ## CSV format
 
 ```csv
-api,method,cloud,expect_error,identity,arg1,arg2,arg3,arg4,arg5
-serverless-computing,TriggerDataWrite,all,,,finos-ccc-integration-fn-main,,,
-virtual-machines,UpdateResourcePolicy,aws,true,,,,,,
-object-storage,ListBuckets,all,true,test-user-no-access,,,,,
-logging,QueryLogs,all,,,finos-ccc-integration-fn-main,admin,60,,
+api,method,cloud,access_method,expect_error,identity,arg1,arg2,arg3,arg4,arg5
+serverless-computing,TriggerDataWrite,all,,,,finos-ccc-integration-fn-main,,,
+virtual-machines,UpdateResourcePolicy,aws,,true,,,,,,
+object-storage,ListBuckets,all,,true,test-user-no-access,,,,,
+logging,QueryLogs,all,,,,finos-ccc-integration-fn-main,admin,60,,
+kubernetes,GetClusterComponentInventory,all,direct,,,finos-ccc-integration-k8s-main,,,,
+kubernetes,GetClusterComponentInventory,azure,command-invoke,,,finos-ccc-integration-k8s-main,,,,
 ```
 
 - `cloud`: `all` runs on every provider; otherwise only that cloud.
+- `access_method`: constructor overlay for how the Kubernetes client is built. Empty on non-kube APIs. Kubernetes and admission-webhook rows set `direct` (HTTPS to the API FQDN) or, on Azure only, `command-invoke` (ARM `runCommand` / `az aks command invoke`). Do not put `azure-aks-kube-transport` in `privateer-config/azure.yml` — `scale-fixtures` Start would then poll through ARM.
 - `expect_error`: `true` when the call is expected to return an error (denied path, unsupported stub, etc.).
 - `identity`: empty for ambient credentials; otherwise a `test-identities` key such as `test-user-admin` or `test-user-no-access`. Incomplete identities (missing `*_TEST_USER_*` in env / CI `*_ENV` secrets) are a hard **FAIL** and are not treated as a successful `expect_error`.
 - Identity matrix at the end of the CSV is cloud-scoped to **existing** principals: Azure uses kubernetes `GetResourceRegion` (ARM read via AKS Cluster Admin Role — test SPs lack reliable blob data-plane RBAC in CI, so `ListObjects` is not used); AWS object-storage uses `ListObjects`; GCP object-storage uses `ListBuckets`; VM/serverless/secrets/kubernetes identity rows are otherwise aws/gcp; VPC identity is gcp only.

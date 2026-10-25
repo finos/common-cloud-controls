@@ -9,8 +9,9 @@ import (
 	"k8s.io/client-go/rest"
 )
 
-// GCP builds a REST config for a GKE API server using the given oauth2 token source.
-func GCP(endpoint, caDataB64 string, ts oauth2.TokenSource) (*rest.Config, error) {
+// GCPDirect builds a REST config that talks HTTPS to the GKE API FQDN using
+// the given oauth2 token source.
+func GCPDirect(endpoint, caDataB64 string, ts oauth2.TokenSource) (*rest.Config, error) {
 	if strings.TrimSpace(endpoint) == "" {
 		return nil, fmt.Errorf("GKE cluster endpoint is empty")
 	}

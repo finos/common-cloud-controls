@@ -108,12 +108,18 @@ func TestCloudAPIIntegration(t *testing.T) {
 			continue
 		}
 		started := time.Now()
-		svc, err := serviceFor(f, services, row.API, row.Identity)
+		rowFactory, err := factoryForRow(f, cloudProvider, cfg, row)
 		var callErr error
 		if err != nil {
 			callErr = err
 		} else {
-			callErr = invokeMethod(svc, cfg, row.Method, row.Args)
+			var svc generic.Service
+			svc, err = serviceFor(rowFactory, services, row.API, row.Identity, row.AccessMethod)
+			if err != nil {
+				callErr = err
+			} else {
+				callErr = invokeMethod(svc, cfg, row.Method, row.Args)
+			}
 		}
 		elapsed := time.Since(started).Seconds()
 		if recordResult(row.ExpectError, callErr != nil, &passed, &failed) {
@@ -184,6 +190,9 @@ func emitCallLine(line string, t *testing.T) {
 
 func formatCallRow(row callRow) string {
 	parts := []string{row.API, row.Method}
+	if am := strings.TrimSpace(row.AccessMethod); am != "" {
+		parts = append(parts, "access_method="+am)
+	}
 	if id := strings.TrimSpace(row.Identity); id != "" {
 		parts = append(parts, "identity="+id)
 	}
@@ -193,6 +202,30 @@ func formatCallRow(row callRow) string {
 	return strings.Join(parts, " ")
 }
 
+func factoryForRow(defaultFactory factory.Factory, provider types.CloudProvider, cfg types.Config, row callRow) (factory.Factory, error) {
+	switch strings.ToLower(strings.TrimSpace(row.AccessMethod)) {
+	case "", "direct":
+		return defaultFactory, nil
+	case "command-invoke":
+		if provider != types.ProviderAzure {
+			return nil, fmt.Errorf("access_method command-invoke is azure-only")
+		}
+		return factory.NewAzureFactory(overlayConfig(cfg, "azure-aks-kube-transport", "command-invoke")), nil
+	default:
+		return nil, fmt.Errorf("unknown access_method %q", row.AccessMethod)
+	}
+}
+
+func overlayConfig(cfg types.Config, key, value string) types.Config {
+	src := cfg.Vars()
+	dst := make(map[string]interface{}, len(src)+1)
+	for k, v := range src {
+		dst[k] = v
+	}
+	dst[key] = value
+	return types.NewConfig(dst)
+}
+
 func formatCallResult(status string, seconds float64, label string, err error) string {
 	if err != nil {
 		return fmt.Sprintf("%-4s  %8.1f  %s  %v\n", status, seconds, label, err)
@@ -200,10 +233,13 @@ func formatCallResult(status string, seconds float64, label string, err error) s
 	return fmt.Sprintf("%-4s  %8.1f  %s\n", status, seconds, label)
 }
 
-func serviceFor(f factory.Factory, cache map[string]generic.Service, api, identity string) (generic.Service, error) {
+func serviceFor(f factory.Factory, cache map[string]generic.Service, api, identity, accessMethod string) (generic.Service, error) {
 	key := api
 	if id := strings.TrimSpace(identity); id != "" {
 		key = api + ":" + id
+	}
+	if am := strings.TrimSpace(accessMethod); am != "" {
+		key = key + "#" + am
 	}
 	if svc, ok := cache[key]; ok {
 		return svc, nil

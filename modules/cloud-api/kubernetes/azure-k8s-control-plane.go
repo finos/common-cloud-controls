@@ -127,7 +127,7 @@ func newAzureService(ctx context.Context, cfg types.Config, credential azcore.To
 		return nil, fmt.Errorf("create Azure ARM client: %w", err)
 	}
 	service := &AzureService{managedService: newManagedService(ctx, cfg, "azure"), arm: client, cred: credential}
-	service.resolveREST = service.buildRESTConfig
+	service.resolveREST = service.kubeRESTConfig
 	service.endpoint = service.endpointConfig
 	service.region = service.clusterRegion
 	service.updateMetadata = service.updateTags
@@ -339,33 +339,38 @@ func (s *AzureService) clusterAPIHostname(clusterID string) (string, error) {
 	return strings.TrimSpace(cluster.Properties.PrivateFQDN), nil
 }
 
-func (s *AzureService) buildRESTConfig() (*rest.Config, error) {
+func (s *AzureService) kubeRESTConfig() (*rest.Config, error) {
 	resourceURL, err := s.resourceURL("")
 	if err != nil {
 		return nil, err
 	}
 	base := strings.SplitN(resourceURL, "?", 2)[0]
-	if s.useCommandInvoke() {
+	switch s.kubeAccessMethod() {
+	case "command-invoke":
 		return config.AzureCommandInvoke(s.ctx, s.arm, s.cred, base+"/runCommand?api-version=2025-04-01")
+	default:
+		// ARM action is singular: listClusterUserCredential (plural path returns plain 404).
+		credURL := base + "/listClusterUserCredential?api-version=2025-04-01"
+		return config.AzureDirect(s.ctx, s.arm, s.cred, credURL)
 	}
-	// ARM action is singular: listClusterUserCredential (plural path returns plain 404).
-	credURL := base + "/listClusterUserCredential?api-version=2025-04-01"
-	return config.Azure(s.ctx, s.arm, s.cred, credURL)
 }
 
-func (s *AzureService) useCommandInvoke() bool {
+func (s *AzureService) kubeAccessMethod() string {
 	switch strings.ToLower(strings.TrimSpace(s.config.Get("azure-aks-kube-transport"))) {
 	case "direct":
-		return false
+		return "direct"
 	case "command-invoke":
-		return true
+		return "command-invoke"
 	}
 	cluster, err := s.get(s.ctx, "")
 	if err != nil {
-		return false
+		return "direct"
 	}
 	access := cluster.Properties.APIServerAccessProfile
-	return access.EnablePrivateCluster && !access.EnablePrivateClusterPublicFQDN
+	if access.EnablePrivateCluster && !access.EnablePrivateClusterPublicFQDN {
+		return "command-invoke"
+	}
+	return "direct"
 }
 
 func (s *AzureService) armComponentInventory(ctx context.Context, clusterID string) (string, []map[string]interface{}, error) {

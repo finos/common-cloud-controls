@@ -23,12 +23,13 @@ func providerConfigFile(provider string) string {
 }
 
 type callRow struct {
-	API         string
-	Method      string
-	Cloud       string
-	ExpectError bool
-	Identity    string
-	Args        []string
+	API          string
+	Method       string
+	Cloud        string
+	AccessMethod string
+	ExpectError  bool
+	Identity     string
+	Args         []string
 }
 
 // exclusionSet maps "api|cloud" for whole-API skips.
@@ -165,12 +166,13 @@ func loadCallRowsWithExclusions(csvData, exclusionsCSV, provider string) ([]call
 			args = append(args, get(a))
 		}
 		rows = append(rows, callRow{
-			API:         get("api"),
-			Method:      method,
-			Cloud:       cloud,
-			ExpectError: expectErr,
-			Identity:    get("identity"),
-			Args:        args,
+			API:          get("api"),
+			Method:       method,
+			Cloud:        cloud,
+			AccessMethod: strings.ToLower(get("access_method")),
+			ExpectError:  expectErr,
+			Identity:     get("identity"),
+			Args:         args,
 		})
 	}
 	return rows, nil

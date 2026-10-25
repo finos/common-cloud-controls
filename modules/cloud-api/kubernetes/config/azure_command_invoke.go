@@ -21,9 +21,10 @@ import (
 
 const commandInvokeHost = "https://aks-command-invoke.local"
 
-// AzureCommandInvoke returns a REST config that sends Kubernetes API calls
+// AzureCommandInvoke builds a REST config that sends Kubernetes API calls
 // through ARM `managedClusters/runCommand` (az aks command invoke). Hosted
-// runners can use this when the AKS API FQDN is private.
+// runners use this when the AKS API FQDN is private. The other AKS
+// constructor is AzureDirect.
 func AzureCommandInvoke(ctx context.Context, arm *azcore.Client, cred azcore.TokenCredential, runCommandURL string) (*rest.Config, error) {
 	if arm == nil {
 		return nil, fmt.Errorf("Azure ARM client is required for AKS command invoke")
