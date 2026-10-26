@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Validate Catalogs Against Schemas
         uses: InoUno/yaml-ls-check@65e68de258b4c36c7e57bd715584229e1b61a876 # v1.5.1
