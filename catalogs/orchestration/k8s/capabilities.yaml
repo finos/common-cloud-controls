@@ -5,10 +5,20 @@ imports:
         remarks: Encryption in Transit Enabled by Default
       - reference-id: CCC.Core.CP02
         remarks: Encryption at Rest Enabled by Default
+      - reference-id: CCC.Core.CP03
+        remarks: Access Log Publication
       - reference-id: CCC.Core.CP06
         remarks: Access Control
       - reference-id: CCC.Core.CP07
         remarks: Event Publication
+      - reference-id: CCC.Core.CP09
+        remarks: Metrics Publication
+      - reference-id: CCC.Core.CP10
+        remarks: Log Publication
+      - reference-id: CCC.Core.CP11
+        remarks: Backup
+      - reference-id: CCC.Core.CP12
+        remarks: Recovery
       - reference-id: CCC.Core.CP14
         remarks: API Access
       - reference-id: CCC.Core.CP17
@@ -35,6 +45,10 @@ imports:
         remarks: Active Ingestion
       - reference-id: CCC.Core.CP30
         remarks: Passive Ingestion
+      - reference-id: CCC.Core.CP33
+        remarks: Public Access Restriction
+      - reference-id: CCC.Core.CP35
+        remarks: Customer-Managed Encryption Keys
 
 capabilities:
   - id: CCC.K8S.CP01
@@ -49,14 +63,14 @@ capabilities:
     title: Managed Worker Pools
     description: |
       The service can organize worker nodes into managed pools that provide Kubernetes with
-      compute capacity for scheduling and running containerized workloads.
+      compute capacity for running containerized workloads and can replace unhealthy nodes.
 
   - id: CCC.K8S.CP03
     group: Compute
     title: Abstracted Worker Infrastructure
     description: |
-      The service may be configured to abstract worker infrastructure so that provisioning,
-      scaling, patching, and replacement occur without exposing individual nodes to the user.
+      The service may be configured to manage worker infrastructure on the user's behalf so that
+      provisioning, scaling, patching, and replacement occur without user administration of nodes.
 
   - id: CCC.K8S.CP04
     group: Orchestration
@@ -118,7 +132,7 @@ capabilities:
     group: Access
     title: Secrets Service Integration
     description: |
-      The service can present secrets, keys, and certificates from a cloud secrets service
+      The service can present secrets and other sensitive values from a cloud secrets service
       to authorized Kubernetes workloads without embedding them in workload definitions.
 
   - id: CCC.K8S.CP13
@@ -139,22 +153,22 @@ capabilities:
     group: Resource
     title: Cluster Version Management
     description: |
-      The service may be configured with upgrade channels and maintenance settings that keep
-      control-plane and worker components within provider-defined compatibility and support periods.
+      The service may be configured with version, support-period, and upgrade settings that keep
+      control-plane and worker components within provider-defined compatibility windows.
 
   - id: CCC.K8S.CP16
     group: Observability
     title: Kubernetes Audit Logging
     description: |
-      The service may be configured to emit Kubernetes API audit and control-plane records
-      to a cloud logging destination for monitoring and investigation.
+      The service may be configured to emit Kubernetes API-server audit records and control-plane
+      component logs, such as scheduler and controller-manager logs, to a cloud logging destination.
 
   - id: CCC.K8S.CP17
     group: Observability
     title: Cluster Monitoring Integration
     description: |
-      The service can send cluster, node, workload, and network activity telemetry to
-      cloud-native or Kubernetes-compatible monitoring components.
+      The service can collect Kubernetes-native metrics from cluster, node, and workload components
+      in a Prometheus-compatible format for querying by managed or user-operated monitoring tools.
 
   - id: CCC.K8S.CP18
     group: Access
@@ -181,13 +195,20 @@ capabilities:
     group: Access
     title: Cluster Infrastructure Identity
     description: |
-      The service may be configured with distinct cloud identities for control-plane,
-      worker-node, and supporting components so their access to cloud resources can be
-      independently authorized.
+      The service always uses distinct cloud identities for control-plane and worker-node
+      components, and may be configured with user-selected identities for worker nodes and
+      supporting components so their cloud access can be independently authorized.
 
   - id: CCC.K8S.CP22
     group: Compute
     title: Worker Node Integrity Protection
     description: |
-      The service may be configured with trusted worker-node images and platform mechanisms
-      that verify node boot integrity before workloads are executed.
+      The service may be configured to run worker nodes on hardened, provider-supplied images
+      whose boot chain or root filesystem is verified before workloads are executed.
+
+  - id: CCC.K8S.CP23
+    group: Data
+    title: Multi-Zone Cluster Placement
+    description: |
+      The service can distribute control-plane and worker-pool capacity across multiple
+      availability zones so that the loss of a single zone does not stop the cluster.
