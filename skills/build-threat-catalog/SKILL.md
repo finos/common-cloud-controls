@@ -287,7 +287,7 @@ allowed fields, and an existing document (e.g.
    ```yaml
    title: <Service Title> Threats to <Framework>
    metadata:
-     id: CCC.<ABBREVIATION>.TH.threats-to-<framework-slug>
+     id: CCC.<ABBREVIATION>.Threats.threats-to-<framework-slug>
      type: MappingDocument
      gemara-version: 1.2.0
      version: dev
@@ -297,7 +297,7 @@ allowed fields, and an existing document (e.g.
        name: FINOS Common Cloud Controls
        type: Human
      mapping-references:
-       - id: CCC.<ABBREVIATION>.TH
+       - id: CCC.<ABBREVIATION>.Threats
          title: <Service Title> Threats
          version: dev
        - id: <framework reference-id, e.g. MITRE-ATT&CK>
@@ -305,7 +305,7 @@ allowed fields, and an existing document (e.g.
          version: <framework version, or dev_to-be-determined>
          url: <framework canonical URL>
    source-reference:
-     reference-id: CCC.<ABBREVIATION>.TH
+     reference-id: CCC.<ABBREVIATION>.Threats
      entry-type: Threat
    target-reference:
      reference-id: <framework reference-id>
