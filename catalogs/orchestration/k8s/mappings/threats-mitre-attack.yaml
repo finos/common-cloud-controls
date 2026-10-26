@@ -16,7 +16,7 @@ metadata:
     version: dev
   - id: MITRE-ATT&CK
     title: MITRE ATT&CK
-    version: dev_to-be-determined
+    version: v20
     url: https://attack.mitre.org/
 source-reference:
   reference-id: CCC.K8S.TH
@@ -113,8 +113,8 @@ mappings:
   source: CCC.K8S.TH12
   relationship: relates-to
   targets:
-  - entry-id: T1685
-    remarks: Disable or Modify Tools
+  - entry-id: T1610
+    remarks: Deploy Container
   - entry-id: T1609
     remarks: Container Administration Command
 - id: CCC.K8S.TH13-mitre-attack
@@ -157,6 +157,22 @@ mappings:
   targets:
   - entry-id: T1542.003
     remarks: Pre-OS Boot - Bootkit
+- id: CCC.K8S.TH19-mitre-attack
+  source: CCC.K8S.TH19
+  relationship: relates-to
+  targets:
+  - entry-id: T1098.006
+    remarks: Account Manipulation - Additional Container Cluster Roles
+  - entry-id: T1609
+    remarks: Container Administration Command
+- id: CCC.K8S.TH20-mitre-attack
+  source: CCC.K8S.TH20
+  relationship: relates-to
+  targets:
+  - entry-id: T1552.005
+    remarks: Unsecured Credentials - Cloud Instance Metadata API
+  - entry-id: T1078.004
+    remarks: Valid Accounts - Cloud Accounts
 remarks: Migrated from inline external-mappings previously on threats.yaml. relationship is a conservative
   'relates-to' default (the source carried no relationship semantics); framework version and the target
   entry-type for non-attack frameworks (OWASP, CWE) are provisional, pending WG review.

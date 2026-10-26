@@ -17,16 +17,22 @@ imports:
         remarks: Alert on Unusual Enumeration Activity
       - reference-id: CCC.Core.CN09
         remarks: Ensure Integrity of Access Logs
+      - reference-id: CCC.Core.CN11
+        remarks: Protect Encryption Keys
       - reference-id: CCC.Core.CN13
         remarks: Minimize Lifetime of Encryption and Authentication Certificates
+      - reference-id: CCC.Core.CN14
+        remarks: Maintain Recent Backups
+      - reference-id: CCC.Core.CN16
+        remarks: Alert on Changes to Protective Configuration
 
 controls:
   - id: CCC.K8S.CN01
     group: Access
     title: Restrict Kubernetes API Network Access
     objective: |
-      Limit Kubernetes API reachability to explicitly approved networks and private
-      management paths to reduce administrative exposure.
+      Ensure that Kubernetes API reachability is limited to explicitly approved networks
+      and private management paths to reduce administrative exposure.
     assessment-requirements:
       - id: CCC.K8S.CN01.AR01
         text: |
@@ -50,7 +56,9 @@ controls:
           - tlp-red
         recommendation: |
           Use private endpoint connectivity, private DNS, and controlled administrative
-          access paths from trusted networks.
+          access paths from trusted networks. Note that an IAM-gated, DNS-based control-plane
+          endpoint remains reachable from the internet and does not by itself satisfy this
+          requirement.
     threats:
       - reference-id: CCC
         entries:
@@ -84,8 +92,8 @@ controls:
     group: Access
     title: Enforce Least-Privilege Cluster Authorization
     objective: |
-      Apply least privilege across cloud and Kubernetes authorization so identities receive
-      only the permissions required for their cluster responsibilities.
+      Ensure that cloud and Kubernetes authorization grant identities only the permissions
+      required for their cluster responsibilities and cannot be used to escalate privilege.
     assessment-requirements:
       - id: CCC.K8S.CN02.AR01
         text: |
@@ -102,18 +110,71 @@ controls:
           ClusterRoleBindings, and RoleBindings against an approved entitlement inventory.
       - id: CCC.K8S.CN02.AR02
         text: |
-          When a non-system Kubernetes role is defined, it MUST NOT grant wildcard verbs
-          or wildcard resources AND any access to secrets, role bindings, admission
-          configuration, or node proxy functions MUST enumerate the required verbs and
-          resource names.
+          When a non-system Kubernetes role is defined, it MUST NOT grant wildcard verbs,
+          wildcard resources, or wildcard API groups.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Replace broad roles with namespace-scoped roles and narrowly enumerated API
-          groups, resources, resource names, and verbs.
+          Replace broad roles with namespace-scoped roles that enumerate API groups,
+          resources, and verbs. Use resource names where the verb supports them, such as
+          get, update, patch, and delete.
+      - id: CCC.K8S.CN02.AR03
+        text: |
+          When a non-system RoleBinding or ClusterRoleBinding is created or updated, its
+          subjects MUST NOT include the system:anonymous, system:unauthenticated, or
+          system:authenticated groups.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enforce the restriction with admission policy and review existing non-system
+          bindings for these groups. On services where system:authenticated includes any account of the
+          identity provider, treat such a binding as public access.
+      - id: CCC.K8S.CN02.AR04
+        text: |
+          When a non-system Kubernetes role grants the escalate, bind, or impersonate verbs,
+          or grants approve on certificatesigningrequests/approval, that role MUST be bound
+          only to a dedicated administrative group.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Treat escalate, bind, impersonate, and certificate signing request approval as
+          privileged permissions, and alert on new bindings that grant them. Approval lets
+          an identity obtain a client certificate for any user or group.
+      - id: CCC.K8S.CN02.AR05
+        text: |
+          When a workload does not call the Kubernetes API, its service account token MUST
+          NOT be mounted into the workload.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set automountServiceAccountToken to false on service accounts and pod
+          specifications by default and enable it only for workloads that require API access.
+      - id: CCC.K8S.CN02.AR06
+        text: |
+          When a non-system Kubernetes role grants create on pods or workload controllers in
+          a system or privileged namespace, or create on pods/exec, pods/attach,
+          pods/portforward, pods/proxy, services/proxy, nodes/proxy, or serviceaccounts/token,
+          or update or patch on pods/ephemeralcontainers, in any namespace, that role MUST be
+          bound only to a dedicated administrative group.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Keep workload creation in system and privileged namespaces with the platform
+          administration group, and alert on new bindings that grant these permissions.
+          Workloads in user namespaces are governed under CCC.K8S.CN05.
     threats:
       - reference-id: CCC
         entries:
@@ -126,6 +187,9 @@ controls:
           - reference-id: CCC.K8S.TH13
             strength: 8 # Least privilege constrains controller reconciliation scope.
             remarks: Controllers Reconcile Unauthorized Cluster State
+          - reference-id: CCC.K8S.TH19
+            strength: 10
+            remarks: Kubernetes Authorization Permits Privilege Escalation
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -144,8 +208,8 @@ controls:
     group: Access
     title: Use Federated Identities for Workloads
     objective: |
-      Replace stored cloud credentials with narrowly scoped, short-lived federated identity
-      for workload access to cloud services.
+      Ensure that workloads access cloud services through narrowly scoped, short-lived
+      federated identity rather than stored cloud credentials.
     assessment-requirements:
       - id: CCC.K8S.CN03.AR01
         text: |
@@ -162,9 +226,9 @@ controls:
           for each distinct workload responsibility.
       - id: CCC.K8S.CN03.AR02
         text: |
-          When workload identity federation is enabled, workload specifications and
-          Kubernetes configuration objects MUST NOT contain long-lived cloud access keys,
-          client secrets, or service-account key files.
+          When a workload specification or Kubernetes configuration object is created or
+          updated, it MUST NOT contain long-lived cloud access keys, client secrets, or
+          service-account key files.
         applicability:
           - tlp-clear
           - tlp-green
@@ -184,7 +248,10 @@ controls:
             remarks: Long-Lived Credentials are Exposed to Workloads
           - reference-id: CCC.K8S.TH07
             strength: 7 # Federation removes cloud keys but not all workload secrets.
-            remarks: Secrets are Exposed to Unauthorized Workloads
+            remarks: Secrets are Exposed to Unauthorized Workloads or Users
+          - reference-id: CCC.K8S.TH20
+            strength: 5 # Federated identity removes the need for node metadata credentials.
+            remarks: Workloads Obtain Node Credentials from Instance Metadata
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -203,8 +270,8 @@ controls:
     group: Resource
     title: Admit Only Trusted Container Images
     objective: |
-      Prevent unapproved, mutable, unverifiable, or critically vulnerable container images
-      from entering the workload environment.
+      Ensure that unapproved, mutable, unverifiable, or critically vulnerable container
+      images cannot enter the workload environment.
     assessment-requirements:
       - id: CCC.K8S.CN04.AR01
         text: |
@@ -267,34 +334,36 @@ controls:
     group: Compute
     title: Enforce Restricted Workload Security
     objective: |
-      Minimize workload privilege and block unnecessary access to host-level resources that
-      could defeat container isolation.
+      Ensure that workload privilege is minimized and that unnecessary access to host-level
+      resources that could defeat container isolation is blocked.
     assessment-requirements:
       - id: CCC.K8S.CN05.AR01
         text: |
-          When a workload is admitted, it MUST NOT request privileged execution, privilege
-          escalation, host PID, host IPC, host networking, unrestricted host paths, or
-          additional Linux capabilities.
+          When a workload is admitted to a user workload namespace, it MUST satisfy the
+          Kubernetes Baseline Pod Security Standard.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Enforce the Kubernetes Restricted Pod Security Standard or a stricter equivalent
-          policy across all workload namespaces.
+          Enforce the Baseline standard through Pod Security Admission namespace labels or an
+          equivalent admission policy. The Baseline standard blocks privileged execution,
+          host namespaces, host paths, host ports, and capabilities beyond the default set.
+          CSP-managed system namespaces are governed separately under CCC.K8S.CN11.
       - id: CCC.K8S.CN05.AR02
         text: |
-          When a Linux workload is admitted, each container MUST run as a non-root user,
-          use the runtime-default seccomp profile, disable privilege escalation, and drop
-          all Linux capabilities without adding capabilities back to the container.
+          When a Linux workload is admitted to a user workload namespace, it MUST satisfy the
+          Kubernetes Restricted Pod Security Standard.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Define secure defaults in workload templates and enforce them through admission
-          policy before resources are persisted.
+          Define secure defaults in workload templates and enforce the Restricted standard
+          through admission policy before resources are persisted. The Restricted standard
+          requires a non-root user, a RuntimeDefault or Localhost seccomp profile, disabled
+          privilege escalation, and dropping all capabilities except NET_BIND_SERVICE.
     threats:
       - reference-id: CCC
         entries:
@@ -302,7 +371,7 @@ controls:
             strength: 10
             remarks: Privileged Workloads Escape Isolation
           - reference-id: CCC.K8S.TH12
-            strength: 8 # Secure workload policy reduces the impact of admission gaps.
+            strength: 4 # Policy is enforced by admission, so it adds little when admission is bypassed.
             remarks: Admission Controls are Bypassed
     guidelines:
       - reference-id: NIST_800_53
@@ -322,8 +391,8 @@ controls:
     group: Networking
     title: Enforce Default-Deny Workload Network Policies
     objective: |
-      Confine workload communication to flows permitted by explicit, least-privilege network
-      policies, with all other traffic denied by default.
+      Ensure that workload communication is confined to flows permitted by explicit,
+      least-privilege network policies, with all other traffic denied by default.
     assessment-requirements:
       - id: CCC.K8S.CN06.AR01
         text: |
@@ -336,7 +405,9 @@ controls:
           - tlp-red
         recommendation: |
           Enable a network-policy-capable data plane and deploy default-deny ingress and
-          egress policies through the namespace provisioning process.
+          egress policies through the namespace provisioning process. Allow egress to the
+          cluster DNS service explicitly. Network policies do not apply to host-network pods,
+          which CCC.K8S.CN05 prevents in user workload namespaces.
       - id: CCC.K8S.CN06.AR02
         text: |
           When communication is required, each allow policy MUST identify the approved
@@ -377,22 +448,20 @@ controls:
     group: Access
     title: Protect Workload Secrets
     objective: |
-      Protect workload secrets through encrypted handling, narrow authorization, and removal
-      from images and non-secret configuration objects.
+      Ensure that workload secrets are encrypted, readable only by their intended
+      identities, and kept out of images and non-secret configuration objects.
     assessment-requirements:
       - id: CCC.K8S.CN07.AR01
         text: |
-          Secret material used by a workload MUST be encrypted during storage and delivery,
-          MUST be accessible only to the intended workload identity, and MUST NOT be
-          embedded in a container image or non-secret configuration resource.
+          When a secret is mounted or injected into a workload, it MUST be readable only by
+          the intended workload's service account.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Use a protected Kubernetes secret mechanism, encrypted manifest workflow, or
-          external secrets service, and rotate any secret discovered in a static workload
-          artifact.
+          Use a protected Kubernetes secret mechanism or an external secrets service, and
+          verify that other service accounts in the namespace cannot read the secret.
       - id: CCC.K8S.CN07.AR02
         text: |
           When Kubernetes secret access is granted, workload roles MUST be limited to the
@@ -404,7 +473,43 @@ controls:
           - tlp-red
         recommendation: |
           Use namespace-scoped roles with resource names and audit service accounts that
-          can read Secret resources.
+          can read Secret resources. Permission to create pods in a namespace also allows
+          mounting any secret in that namespace.
+      - id: CCC.K8S.CN07.AR03
+        text: |
+          When a Kubernetes Secret is persisted to the cluster datastore, it MUST be
+          envelope-encrypted with a key held in a cloud key management service.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enable the service's KMS envelope encryption for Kubernetes Secrets. Use a
+          customer-managed key where CCC.Core.CN11 requires one.
+      - id: CCC.K8S.CN07.AR04
+        text: |
+          When a workload is deployed, secret values MUST NOT be present in its container
+          images, ConfigMaps, or plain environment variables in the workload specification.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Scan images and manifests for secret material before deployment and rotate any
+          secret discovered in a static workload artifact.
+      - id: CCC.K8S.CN07.AR05
+        text: |
+          When a cluster is operational, long-lived service-account-token Secrets MUST NOT
+          exist outside an approved exception list.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use projected, time-bound service account tokens and remove Secrets of type
+          kubernetes.io/service-account-token that are not explicitly approved.
     threats:
       - reference-id: CCC
         entries:
@@ -413,7 +518,7 @@ controls:
             remarks: Long-Lived Credentials are Exposed to Workloads
           - reference-id: CCC.K8S.TH07
             strength: 10
-            remarks: Secrets are Exposed to Unauthorized Workloads
+            remarks: Secrets are Exposed to Unauthorized Workloads or Users
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -430,10 +535,10 @@ controls:
 
   - id: CCC.K8S.CN08
     group: Orchestration
-    title: Allowlist CSP-Provided Cluster Add-ons and Extensions
+    title: Govern Cluster Add-ons and Extensions
     objective: |
-      Restrict enabled CSP-provided cluster add-ons, extensions, and managed features to an
-      organization-controlled allowlist.
+      Ensure that enabled CSP-provided add-ons are limited to an organization-controlled
+      allowlist and that third-party extensions run with constrained permissions.
     assessment-requirements:
       - id: CCC.K8S.CN08.AR01
         text: |
@@ -447,12 +552,27 @@ controls:
         recommendation: |
           Assign a cluster platform owner to maintain the allowlist through change control and
           continuously reconcile installed components against it.
+      - id: CCC.K8S.CN08.AR02
+        text: |
+          When a third-party operator, controller, or admission webhook is installed, its
+          Kubernetes permissions MUST be limited to the namespaces and resources it manages.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Review the roles shipped with each chart or operator before installation, replace
+          cluster-wide grants with namespace-scoped roles where possible, and admit its images
+          under CCC.K8S.CN04.
     threats:
       - reference-id: CCC
         entries:
           - reference-id: CCC.K8S.TH08
             strength: 10
             remarks: Cluster Extensions Execute Untrusted Code
+          - reference-id: CCC.K8S.TH13
+            strength: 7 # Scoped extension permissions bound what a controller can reconcile.
+            remarks: Controllers Reconcile Unauthorized Cluster State
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -471,14 +591,13 @@ controls:
     group: Resource
     title: Maintain Supported Cluster Components
     objective: |
-      Keep control-plane, worker, runtime, and extension components within supported and
-      vulnerability-managed release lifecycles.
+      Ensure that control-plane, worker, runtime, and extension components remain within
+      supported and vulnerability-managed release lifecycles.
     assessment-requirements:
       - id: CCC.K8S.CN09.AR01
         text: |
           When a cluster is operational, its Kubernetes control-plane version, worker
-          version, node image, and container runtime MUST remain within the CSP's current
-          support lifecycle.
+          version, and node image MUST remain within the CSP's current support lifecycle.
         applicability:
           - tlp-clear
           - tlp-green
@@ -486,18 +605,20 @@ controls:
           - tlp-red
         recommendation: |
           Monitor provider support calendars and inventory all control-plane and worker
-          versions before support deadlines.
+          versions before support deadlines. The container runtime is supported as part of
+          the node image. Treat an extended support period as within lifecycle only while the
+          cluster is enrolled in it.
       - id: CCC.K8S.CN09.AR02
         text: |
-          Managed cluster components and worker-node images MUST incorporate published
-          security updates through a supported update or replacement mechanism.
+          When the CSP publishes a security update for a cluster component or worker-node
+          image, the update MUST be applied within 30 days of publication.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Use automatic upgrade channels where available and test upgrades in a
-          representative non-production cluster before promotion.
+          Use automatic upgrade channels and maintenance windows where available, and test
+          upgrades in a representative non-production cluster before promotion.
       - id: CCC.K8S.CN09.AR03
         text: |
           When a cluster add-on or extension is installed, its version MUST be compatible with
@@ -536,27 +657,25 @@ controls:
     group: Data
     title: Restrict Persistent Volume Access
     objective: |
-      Confine persistent storage provisioning and mounts to their approved namespace,
-      workload, access mode, and ownership boundary.
+      Ensure that persistent storage provisioning and mounts stay within their approved
+      namespace, storage class, and ownership boundary.
     assessment-requirements:
       - id: CCC.K8S.CN10.AR01
         text: |
-          When a persistent volume claim is created, its namespace, storage class, access
-          mode, and requesting service account MUST match an approved workload storage
-          policy.
+          When a persistent volume claim is created, its storage class MUST be approved for
+          the claim's namespace.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Restrict storage classes through admission policy and use dedicated service
-          accounts for stateful workloads.
+          Restrict storage classes per namespace through admission policy or per-storage-class
+          ResourceQuota limits, and use dedicated service accounts for stateful workloads.
       - id: CCC.K8S.CN10.AR02
         text: |
-          When a persistent volume is statically provisioned or rebound, its underlying
-          storage identity and prior ownership MUST be verified before it is mounted by a
-          different workload.
+          When a persistent volume is statically created, it MUST be pre-bound through its
+          claim reference to the intended namespace and claim.
         applicability:
           - tlp-green
           - tlp-amber
@@ -583,11 +702,12 @@ controls:
             remarks: Configuration baselines
 
   - id: CCC.K8S.CN11
-    group: Access
+    group: Orchestration
     title: Protect Admission Control Enforcement
     objective: |
-      Apply mandatory cluster security policy to every workload path and prevent its scope
-      or enforcement configuration from being bypassed or modified without authorization.
+      Ensure that mandatory cluster security policy applies to every workload path and that
+      its scope or enforcement configuration cannot be bypassed or modified without
+      authorization.
     assessment-requirements:
       - id: CCC.K8S.CN11.AR01
         text: |
@@ -605,7 +725,7 @@ controls:
       - id: CCC.K8S.CN11.AR02
         text: |
           When admission policy configuration is modified, the change MUST require a
-          dedicated administrative role AND produce an externally retained audit record.
+          dedicated administrative role.
         applicability:
           - tlp-clear
           - tlp-green
@@ -654,22 +774,22 @@ controls:
     group: Access
     title: Restrict Node Administrative Access
     objective: |
-      Block untrusted or unauthenticated paths to worker-node administration, kubelet
-      interfaces, and instance metadata.
+      Ensure that untrusted or unauthenticated paths to worker-node administration, kubelet
+      interfaces, and instance metadata are blocked.
     assessment-requirements:
       - id: CCC.K8S.CN12.AR01
         text: |
-          When a worker node is active, kubelet and node administrative APIs MUST require
-          authentication and authorization AND anonymous or read-only unauthenticated
-          access MUST be disabled.
+          When a worker node is active, kubelet and node administrative APIs MUST reject
+          anonymous and unauthenticated requests, including through read-only ports.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Use provider-managed node authorization and verify kubelet configuration and
-          network reachability from outside approved management paths.
+          Use provider-managed node authorization, disable the kubelet read-only port, and
+          verify kubelet configuration and network reachability from outside approved
+          management paths.
       - id: CCC.K8S.CN12.AR02
         text: |
           When SSH, RDP, or another node management interface is enabled, it MUST NOT be
@@ -685,7 +805,7 @@ controls:
           session-management or bastion service without public node addresses.
       - id: CCC.K8S.CN12.AR03
         text: |
-          When a workload does not require instance metadata, network access from that
+          When a workload is not approved for node metadata access, network access from that
           workload to the node metadata service MUST be denied.
         applicability:
           - tlp-green
@@ -697,9 +817,15 @@ controls:
     threats:
       - reference-id: CCC
         entries:
+          - reference-id: CCC.Core.TH19
+            strength: 4 # Closing unauthenticated kubelet ports limits node metrics exposure.
+            remarks: Metrics are Read by Unauthorized Entities
           - reference-id: CCC.K8S.TH14
             strength: 10
             remarks: Node Administrative Interfaces Expose Cluster Credentials
+          - reference-id: CCC.K8S.TH20
+            strength: 10
+            remarks: Workloads Obtain Node Credentials from Instance Metadata
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -722,13 +848,13 @@ controls:
     group: Resource
     title: Bound Workload Resource Consumption
     objective: |
-      Bound resource requests, namespace consumption, and autoscaling so workloads cannot
-      exhaust cluster or cloud capacity.
+      Ensure that resource requests, namespace consumption, and autoscaling are bounded so
+      workloads cannot exhaust cluster or cloud capacity.
     assessment-requirements:
       - id: CCC.K8S.CN13.AR01
         text: |
           When a workload is admitted, every container MUST define approved CPU and memory
-          requests and limits.
+          requests and an approved memory limit.
         applicability:
           - tlp-clear
           - tlp-green
@@ -736,7 +862,7 @@ controls:
           - tlp-red
         recommendation: |
           Apply LimitRanges for defaults and validate workload-specific requests and limits
-          against tested capacity requirements.
+          against tested capacity requirements. Set CPU limits where throttling is acceptable.
       - id: CCC.K8S.CN13.AR02
         text: |
           When a user workload namespace is active, ResourceQuota objects MUST bound its
@@ -759,8 +885,8 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: |
-          Set workload replica maxima, node-pool maxima, cloud quotas, budgets, and alerts
-          that constrain the complete scaling chain.
+          Set workload replica maxima, node-pool maxima, node provisioner limits, cloud
+          quotas, budgets, and alerts that constrain the complete scaling chain.
     threats:
       - reference-id: CCC
         entries:
@@ -783,8 +909,8 @@ controls:
     group: Observability
     title: Preserve Kubernetes Audit and Monitoring Records
     objective: |
-      Maintain complete, externally retained, access-controlled, and monitored records of
-      security-relevant Kubernetes activity and health signals.
+      Ensure that security-relevant Kubernetes activity and health signals are completely
+      recorded, externally retained, access-controlled, and monitored.
     assessment-requirements:
       - id: CCC.K8S.CN14.AR01
         text: |
@@ -797,8 +923,10 @@ controls:
           - tlp-amber
           - tlp-red
         recommendation: |
-          Enable each CSP control-plane logging category and export cluster telemetry to a
-          centrally governed logging account or project.
+          Enable each CSP control-plane logging category, such as the api, audit, and
+          authenticator log types, the kube-audit and kube-audit-admin categories, or the
+          Kubernetes Data Access audit logs, and export cluster telemetry to a centrally
+          governed logging account or project.
       - id: CCC.K8S.CN14.AR02
         text: |
           When Kubernetes audit or monitoring records are retained, write, delete, and
@@ -814,16 +942,42 @@ controls:
           scoped read access for monitoring and investigation roles.
       - id: CCC.K8S.CN14.AR03
         text: |
-          When cluster-admin bindings, admission controls, audit settings, network exposure,
-          or security extensions change, the monitoring system MUST generate an alert for
-          review by an authorized security function.
+          When a cluster-admin binding, an admission webhook or policy object, or the audit
+          log category configuration changes, the monitoring system MUST generate an alert for review by an authorized
+          security function.
         applicability:
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Create detections for security-sensitive Kubernetes audit events and CSP cluster
-          configuration changes, and test alert delivery regularly.
+          Create detections for these security-sensitive Kubernetes audit events and test
+          alert delivery regularly. CSP-level protective configuration changes are covered by
+          CCC.Core.CN16.
+      - id: CCC.K8S.CN14.AR04
+        text: |
+          When cluster or workload metrics are exposed or exported, read access MUST be
+          restricted to authorized monitoring identities.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Require authentication on in-cluster metrics endpoints, restrict RBAC access to
+          metrics APIs, and scope read access in the cloud monitoring service.
+      - id: CCC.K8S.CN14.AR05
+        text: |
+          When a cluster is operational, runtime threat detection MUST be enabled for its
+          nodes and workloads and MUST alert an authorized security function on suspicious
+          container activity.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enable the service's managed runtime threat detection or deploy an equivalent
+          eBPF-based sensor, and route alerts for interactive shells in containers, unexpected
+          process execution, cryptominer behavior, and container drift to the security
+          function. Test alert delivery regularly.
     threats:
       - reference-id: CCC
         entries:
@@ -837,14 +991,20 @@ controls:
             strength: 8 # Central access control protects state-change records.
             remarks: State-change Events are Read by Unauthorized Entities
           - reference-id: CCC.Core.TH11
-            strength: 8 # Monitoring and review identify incorrectly triggered publications.
+            strength: 4 # Review can surface incorrectly triggered publications but not prevent them.
             remarks: Publications are Incorrectly Triggered
           - reference-id: CCC.Core.TH16
             strength: 10
             remarks: Publications are Disabled
-          - reference-id: CCC.K8S.TH10
-            strength: 4 # Monitoring detects exposure changes but does not prevent them.
-            remarks: Workload Endpoints are Exposed Unintentionally
+          - reference-id: CCC.Core.TH15
+            strength: 5 # Runtime detection surfaces enumeration but does not prevent it.
+            remarks: Automated Enumeration and Reconnaissance by Non-human Entities
+          - reference-id: CCC.Core.TH19
+            strength: 10
+            remarks: Metrics are Read by Unauthorized Entities
+          - reference-id: CCC.K8S.TH05
+            strength: 3 # Detection reveals escape attempts after the fact and does not block them.
+            remarks: Privileged Workloads Escape Isolation
           - reference-id: CCC.K8S.TH15
             strength: 10
             remarks: Kubernetes Audit Records are Incomplete or Unavailable
@@ -870,8 +1030,8 @@ controls:
     group: Resource
     title: Protect Resource Metadata
     objective: |
-      Preserve the completeness and accuracy of policy-relevant cloud tags and Kubernetes
-      labels by limiting modification to authorized identities.
+      Ensure that policy-relevant cloud tags and Kubernetes labels remain complete and
+      accurate by limiting their modification to authorized identities.
     assessment-requirements:
       - id: CCC.K8S.CN15.AR01
         text: |
@@ -889,8 +1049,7 @@ controls:
       - id: CCC.K8S.CN15.AR02
         text: |
           When metadata controls authorization, network policy, admission, billing, or data
-          handling, modification of that metadata MUST be restricted to a dedicated role
-          and MUST produce an externally retained audit record.
+          handling, modification of that metadata MUST be restricted to a dedicated role.
         applicability:
           - tlp-clear
           - tlp-green
@@ -923,14 +1082,14 @@ controls:
     group: Access
     title: Enforce Managed Cluster Authentication
     objective: |
-      Bind human access to the Kubernetes API and cluster resources to identities that can
-      be centrally governed, monitored, and revoked.
+      Ensure that human access to the Kubernetes API and cluster resources is bound to
+      identities that can be centrally governed, monitored, and revoked.
     assessment-requirements:
       - id: CCC.K8S.CN16.AR01
         text: |
           When a human accesses the Kubernetes API or cluster resources, authentication MUST
           use an identity from a centrally managed identity provider or cloud identity service
-          AND that access MUST be revocable independently of the cluster.
+          whose revocation removes that access independently of the cluster.
         applicability:
           - tlp-clear
           - tlp-green
@@ -942,16 +1101,20 @@ controls:
           processes.
       - id: CCC.K8S.CN16.AR02
         text: |
-          Unmanaged local accounts, static human credentials, and legacy authentication
-          methods MUST NOT provide human access to the Kubernetes API or cluster resources.
+          When a human user authenticates to the Kubernetes API or cluster resources, the
+          authentication MUST NOT use an unmanaged local account, a static credential, or a
+          legacy authentication method.
         applicability:
           - tlp-clear
           - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Disable authentication methods that cannot be centrally governed or promptly
-          revoked, and monitor the cluster for their reintroduction.
+          Disable local cluster accounts, client certificate issuance for users, and legacy
+          configuration-map identity mappings in favor of the service's managed access entries,
+          and monitor the cluster for their reintroduction. This requirement applies to human
+          users only; certificate-based authentication between components is governed by
+          CCC.Core.CN01.
     threats:
       - reference-id: CCC
         entries:
@@ -983,13 +1146,14 @@ controls:
     group: Access
     title: Restrict Cluster Infrastructure Identities
     objective: |
-      Limit cloud access by cluster infrastructure to the permissions and resources required
-      for each platform responsibility.
+      Ensure that cloud access by cluster infrastructure is limited to the permissions and
+      resources required for each platform responsibility.
     assessment-requirements:
       - id: CCC.K8S.CN17.AR01
         text: |
-          Control-plane, worker-node, and supporting components with distinct security
-          responsibilities MUST use independently governed cloud identities.
+          When cluster infrastructure identities are assigned, control-plane, worker-node, and
+          supporting components with distinct security responsibilities MUST use independently
+          governed cloud identities.
         applicability:
           - tlp-clear
           - tlp-green
@@ -1000,8 +1164,8 @@ controls:
           review their trust relationships and assignments together.
       - id: CCC.K8S.CN17.AR02
         text: |
-          Each cluster infrastructure identity MUST grant only the cloud actions and
-          resource scope required for its platform responsibility.
+          When a cluster infrastructure identity is granted cloud permissions, it MUST receive
+          only the cloud actions and resource scope required for its platform responsibility.
         applicability:
           - tlp-clear
           - tlp-green
@@ -1009,7 +1173,9 @@ controls:
           - tlp-red
         recommendation: |
           Replace shared, default, or general-purpose permissions with narrowly scoped
-          identity assignments and continuously review their effective access.
+          identity assignments and continuously review their effective access. Avoid default
+          compute identities with broad project roles for nodes, and move networking add-on
+          permissions from the node identity to a workload identity.
     threats:
       - reference-id: CCC
         entries:
@@ -1019,6 +1185,9 @@ controls:
           - reference-id: CCC.K8S.TH17
             strength: 10
             remarks: Cluster Infrastructure Identities Grant Excessive Cloud Access
+          - reference-id: CCC.K8S.TH20
+            strength: 5 # A narrowly scoped node identity limits the value of metadata credentials.
+            remarks: Workloads Obtain Node Credentials from Instance Metadata
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -1035,13 +1204,13 @@ controls:
     group: Compute
     title: Protect Worker Node Integrity
     objective: |
-      Prevent untrusted or altered worker-node software from operating beneath Kubernetes
-      workloads.
+      Ensure that untrusted or altered worker-node software cannot operate beneath
+      Kubernetes workloads.
     assessment-requirements:
       - id: CCC.K8S.CN18.AR01
         text: |
-          Worker nodes MUST use supported images obtained from the service or an
-          authenticated publisher.
+          When a worker node is created, it MUST use a supported image obtained from the
+          service or an authenticated publisher.
         applicability:
           - tlp-clear
           - tlp-green
@@ -1052,16 +1221,14 @@ controls:
           support status during creation and replacement.
       - id: CCC.K8S.CN18.AR02
         text: |
-          Worker nodes MUST use service-supported boot-integrity verification before
-          accepting workloads.
+          When a worker node starts, it MUST complete service-supported boot-integrity
+          verification before accepting workloads.
         applicability:
-          - tlp-clear
-          - tlp-green
           - tlp-amber
           - tlp-red
         recommendation: |
-          Enable the service's node boot-integrity protections and monitor their reported
-          state throughout the worker-node lifecycle.
+          Enable the service's node boot-integrity protections, such as secure boot and a
+          virtual TPM, and monitor their reported state throughout the worker-node lifecycle.
     threats:
       - reference-id: CCC
         entries:
@@ -1073,7 +1240,7 @@ controls:
             remarks: Unsupported Cluster Components Remain in Use
           - reference-id: CCC.K8S.TH18
             strength: 10
-            remarks: Worker Node Integrity Is Not Verified
+            remarks: Worker Node Integrity is Not Verified
     guidelines:
       - reference-id: NIST_800_53
         entries:
@@ -1089,3 +1256,206 @@ controls:
             remarks: Software and data integrity checking
           - reference-id: DE.CM-09.03
             remarks: Unauthorized software, hardware, or configuration changes
+
+  - id: CCC.K8S.CN19
+    group: Networking
+    title: Restrict External Exposure of Workload Services
+    objective: |
+      Ensure that workload services are reachable from outside the cluster network only
+      through explicitly approved, source-restricted entry points.
+    assessment-requirements:
+      - id: CCC.K8S.CN19.AR01
+        text: |
+          When a LoadBalancer Service, Ingress, or Gateway is created, its load balancer MUST
+          be provisioned with internal scope unless its namespace is approved for external
+          exposure.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enforce internal load balancer annotations or classes through admission policy,
+          such as an internal scheme on AWS, an internal load balancer on Azure, or an
+          internal load balancer type on GCP.
+      - id: CCC.K8S.CN19.AR02
+        text: |
+          When an externally scoped load balancer is created for a workload, it MUST restrict
+          inbound traffic to an approved source address allowlist.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Set load balancer source ranges or the equivalent provider firewall rules, and
+          reject externally scoped services that omit them.
+      - id: CCC.K8S.CN19.AR03
+        text: |
+          When a Service is created or updated, it MUST NOT set external IP addresses unless
+          they are explicitly approved.
+        applicability:
+          - tlp-clear
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Deny the externalIPs field through admission policy, because it can be used to
+          intercept traffic destined for other addresses.
+      - id: CCC.K8S.CN19.AR04
+        text: |
+          When a Service is created in a user workload namespace, it MUST NOT be of type
+          NodePort.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Expose workloads through internal or source-restricted load balancers instead of
+          node ports, and deny type NodePort through admission policy. A zero NodePort
+          quota is not suitable because it also counts the node ports of LoadBalancer
+          Services, unless allocateLoadBalancerNodePorts is false.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH17
+            strength: 6 # Restricted entry points reduce responses to untrusted sources.
+            remarks: Responses are Generated for Unauthorized Requests
+          - reference-id: CCC.K8S.TH10
+            strength: 10
+            remarks: Workload Endpoints are Exposed Unintentionally
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-7
+            remarks: Boundary Protection
+          - reference-id: AC-4
+            remarks: Information Flow Enforcement
+      - reference-id: CRI
+        entries:
+          - reference-id: PR.IR-01.01
+            remarks: Network segmentation
+
+  - id: CCC.K8S.CN20
+    group: Compute
+    title: Distribute Cluster Capacity Across Availability Zones
+    objective: |
+      Ensure that the loss of a single availability zone does not make the cluster
+      control plane or its workload capacity unavailable.
+    assessment-requirements:
+      - id: CCC.K8S.CN20.AR01
+        text: |
+          When a cluster is created, its control plane MUST be provisioned across multiple
+          availability zones.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Select the regional or highly available control-plane tier of the service, where
+          the service offers one.
+      - id: CCC.K8S.CN20.AR02
+        text: |
+          When a worker pool is created, it MUST span at least two availability zones.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Configure each worker pool with subnets or zones in multiple availability zones and
+          size remaining capacity to carry workloads when one zone is lost.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.K8S.TH21
+            strength: 9 # Zone distribution does not protect against loss of the whole region.
+            remarks: Cluster Capacity is Lost with a Single Availability Zone
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: CP-6
+            remarks: Alternate Storage Site
+          - reference-id: CP-10
+            remarks: System Recovery and Reconstitution
+
+  - id: CCC.K8S.CN21
+    group: Networking
+    title: Encrypt Intra-Cluster Workload Traffic
+    objective: |
+      Ensure that traffic between workloads inside the cluster network cannot be read or
+      altered by other workloads, nodes, or network observers.
+    assessment-requirements:
+      - id: CCC.K8S.CN21.AR01
+        text: |
+          When a workload communicates with another workload inside the cluster, the traffic
+          MUST be encrypted in transit between pods, including traffic that crosses nodes.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Enforce mutual TLS through a service mesh or enable transparent node-to-node
+          encryption in a network-policy-capable data plane. Verify that the encryption
+          covers every namespace that carries sensitive data, and apply CCC.Core.CN01 to
+          any port exposed outside the cluster.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH02
+            strength: 9 # Encryption protects content but not the existence of the flow.
+            remarks: Data is Intercepted in Transit
+          - reference-id: CCC.K8S.TH06
+            strength: 4 # Encryption limits lateral interception but does not stop connections.
+            remarks: Workload Network Segmentation is Not Enforced
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: SC-8
+            remarks: Transmission Confidentiality and Integrity
+          - reference-id: SC-13
+            remarks: Cryptographic Protection
+
+  - id: CCC.K8S.CN22
+    group: Data
+    title: Back Up Cluster State and Persistent Volumes
+    objective: |
+      Ensure that cluster configuration and persistent workload data can be restored after
+      deletion, corruption, or loss of the cluster.
+    assessment-requirements:
+      - id: CCC.K8S.CN22.AR01
+        text: |
+          When a cluster hosts persistent workload data, its persistent volumes and the
+          Kubernetes resource definitions that describe its workloads MUST be backed up on a
+          scheduled basis to a location outside the cluster.
+        applicability:
+          - tlp-green
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Use the cloud provider's managed backup service for Kubernetes or a cluster backup
+          tool, and store backups in a separate account, project, or subscription. Retention
+          and immutability are governed by CCC.Core.CN14.
+      - id: CCC.K8S.CN22.AR02
+        text: |
+          When a cluster backup exists, a restore of it MUST have been completed successfully
+          to an isolated test cluster within the past 12 months.
+        applicability:
+          - tlp-amber
+          - tlp-red
+        recommendation: |
+          Exercise restores of both resource definitions and volume data, and record the
+          recovery time achieved against the organization's recovery objective.
+    threats:
+      - reference-id: CCC
+        entries:
+          - reference-id: CCC.Core.TH06
+            strength: 9 # Backups restore data but cannot prevent the loss itself.
+            remarks: Data is Lost or Corrupted
+          - reference-id: CCC.K8S.TH11
+            strength: 3 # Recovery limits the impact of unauthorized volume modification.
+            remarks: Persistent Volumes are Bound to Unauthorized Workloads
+          - reference-id: CCC.K8S.TH21
+            strength: 5 # Backups enable rebuild in another zone but do not keep the cluster running.
+            remarks: Cluster Capacity is Lost with a Single Availability Zone
+    guidelines:
+      - reference-id: NIST_800_53
+        entries:
+          - reference-id: CP-9
+            remarks: System Backup
+          - reference-id: CP-10
+            remarks: System Recovery and Reconstitution
