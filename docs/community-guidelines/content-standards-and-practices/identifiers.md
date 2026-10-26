@@ -6,6 +6,8 @@ This document provides a standardized approach for assigning unique identifiers 
 | -------------------- | ------------------------------------------- | ---------------------- |
 | **Service Family**   | `CCC.<ServiceType>`                         | `CCC.Storage`          |
 | **Service Category** | `CCC.<ServiceCategory>`                     | `CCC.ObjStor`          |
+| **Catalog**          | `CCC.<ServiceCategory>.<Type>`              | `CCC.ObjStor.Controls` |
+| **Mapping Document** | `CCC.<ServiceCategory>.Threats.<slug>`      | `CCC.VM.Threats.threats-to-cwe` |
 | **Capability**       | `CCC.<ServiceCategory>.CP<##>`               | `CCC.ObjStor.CP01`      |
 | **Threat**           | `CCC.<ServiceCategory>.TH<##>`              | `CCC.RDMS.TH01`        |
 | **Control**          | `CCC.<ServiceCategory>.CN<##>`               | `CCC.VM.CN01`           |
@@ -36,6 +38,21 @@ Each service category ID follows the format `CCC.<ServiceCategory>`.
 - **CCC.ObjStor** - Represents the Object Storage service category under `CCC.Storage`.
 - **CCC.RDMS** - Represents the Relational Database Management System service category under `CCC.DB`.
 - **CCC.VM** - Represents the Virtual Machine service category under `CCC.Compute`.
+
+## Catalogs
+
+Each service category publishes one catalog per asset type. A catalog ID appends the spelled-out type to the service category ID: `.Capabilities`, `.Threats` or `.Controls`.
+
+Catalog IDs never use the two-letter entry prefixes (`.CP`, `.TH`, `.CN`). Lowercased, those read as hostnames ending in country-code TLDs (`ccc.objstor.cn`, `ccc.vpc.th`). Catalog IDs also become repository names on grc.store, so they must not be mistaken for domains.
+
+Mapping documents name the threats catalog they map from in `metadata.mapping-references` and `source-reference.reference-id`, and take their own ID from it: `CCC.<ServiceCategory>.Threats.threats-to-<framework-slug>`.
+
+### Examples
+
+- **CCC.ObjStor.Capabilities** - The capability catalog for the Object Storage service category.
+- **CCC.RDMS.Threats** - The threat catalog for the RDMS service category.
+- **CCC.VM.Controls** - The control catalog for the Virtual Machine service category.
+- **CCC.Core.Threats.threats-to-mitre-attack** - The mapping document from the Core threats to MITRE ATT&CK.
 
 ## Capabilities
 

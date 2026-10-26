@@ -1,6 +1,6 @@
 title: CCC Generative AI Platform Threats to Agent Threat Rules
 metadata:
-  id: CCC.GenAI.TH.threats-to-agent-threat-rules
+  id: CCC.GenAI.Threats.threats-to-agent-threat-rules
   type: MappingDocument
   gemara-version: 1.2.0
   version: dev
@@ -11,7 +11,7 @@ metadata:
     name: FINOS Common Cloud Controls
     type: Human
   mapping-references:
-  - id: CCC.GenAI.TH
+  - id: CCC.GenAI.Threats
     title: CCC Generative AI Platform Threats
     version: dev
   - id: AGENT-THREAT-RULES
@@ -20,7 +20,7 @@ metadata:
     description: Open catalog of executable detection rules for AI agent threats.
     url: https://agentthreatrule.org
 source-reference:
-  reference-id: CCC.GenAI.TH
+  reference-id: CCC.GenAI.Threats
   entry-type: Threat
 target-reference:
   reference-id: AGENT-THREAT-RULES
