@@ -2,12 +2,15 @@ package cmd
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	gemara "github.com/gemaraproj/go-gemara"
 	"github.com/spf13/cobra"
@@ -29,6 +32,7 @@ var Compile = &cobra.Command{
 func init() {
 	Compile.Flags().String("type", "", "Asset type: capabilities | threats | controls | mappings")
 	Compile.Flags().String("version", "", "Release version stamped into the artifact (e.g. v2026.04)")
+	Compile.Flags().String("hub-url", defaultHubURL, "grc.store hub API used to look up the latest published CCC Core version")
 }
 
 var entryRef = regexp.MustCompile(`^CCC\.([A-Za-z0-9]+)\.(CP|CN|TH)\d+$`)
@@ -39,9 +43,12 @@ var abbrToWord = map[string]string{"CP": "Capabilities", "CN": "Controls", "TH":
 // to the catalogs directory. Entries reference these groups by id.
 var groupDefsPath = filepath.Join("core", "core", "groups.yaml")
 
-// defaultCoreVersion is used when a source catalog doesn't declare the CCC.Core
-// mapping-reference version.
-const defaultCoreVersion = "v2025.10"
+// defaultHubURL is the grc.store hub API (the same default grcli uses).
+const defaultHubURL = "https://hub.grc.store"
+
+// coreHubNamespace is the grc.store namespace the core catalogs publish under
+// (the lowercased metadata.author.id stamped by newMetadata).
+const coreHubNamespace = "finos-ccc"
 
 // coreImportName maps an asset type to the import/mapping-reference id used for
 // the shared CCC Core catalog of that type.
@@ -77,6 +84,16 @@ func runCompile(cmd *cobra.Command, args []string) error {
 		return err
 	}
 	service := serviceNameFromTitle(meta.title)
+
+	// Pin core imports to the latest published core release unless the source
+	// metadata pins CCC.Core explicitly. Core itself imports nothing.
+	if assetType != "mappings" && meta.coreVersion == "" && meta.id != "CCC.Core" {
+		hubURL, _ := cmd.Flags().GetString("hub-url")
+		meta.coreVersion, err = latestCoreVersion(cmd.Context(), hubURL, coreImportName[assetType])
+		if err != nil {
+			return err
+		}
+	}
 
 	// Mapping documents are already authored in canonical Gemara form (no
 	// imports/shorthand to reshape), and a catalog may have several of them.
@@ -138,13 +155,49 @@ func loadSourceMetadata(path string) (sourceMeta, error) {
 	if doc.Metadata.Id == "" || doc.Metadata.Title == "" {
 		return sourceMeta{}, fmt.Errorf("%s: metadata.id and metadata.title are required", path)
 	}
-	core := defaultCoreVersion
+	core := ""
 	for _, r := range doc.Metadata.MappingReferences {
 		if r.Id == "CCC.Core" && r.Version != "" {
 			core = r.Version
 		}
 	}
 	return sourceMeta{id: doc.Metadata.Id, title: doc.Metadata.Title, coreVersion: core}, nil
+}
+
+// latestCoreVersion asks the grc.store hub for the latest published version of
+// a core catalog (e.g. CCC.Core.Controls -> finos-ccc/ccc.core.controls). It
+// fails rather than guessing when the catalog has no published version.
+func latestCoreVersion(ctx context.Context, hubURL, coreID string) (string, error) {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	url := fmt.Sprintf("%s/v1/catalogs/%s/%s", strings.TrimRight(hubURL, "/"), coreHubNamespace, strings.ToLower(coreID))
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Accept", "application/json")
+	resp, err := (&http.Client{Timeout: 30 * time.Second}).Do(req)
+	if err != nil {
+		return "", fmt.Errorf("looking up latest %s version: %w", coreID, err)
+	}
+	defer resp.Body.Close() //nolint:errcheck
+	if resp.StatusCode == http.StatusNotFound {
+		return "", fmt.Errorf("%s has no published version on grc.store (%s returned 404): release core first, or pin CCC.Core in metadata.yaml mapping-references", coreID, url)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("looking up latest %s version: %s returned %d", coreID, url, resp.StatusCode)
+	}
+	var body struct {
+		LatestVersion string `json:"latest_version"`
+	}
+	if err := json.NewDecoder(io.LimitReader(resp.Body, 1<<20)).Decode(&body); err != nil {
+		return "", fmt.Errorf("decoding %s: %w", url, err)
+	}
+	if body.LatestVersion == "" {
+		return "", fmt.Errorf("%s has no published version on grc.store (%s lists no latest_version): release core first", coreID, url)
+	}
+	return body.LatestVersion, nil
 }
 
 // loadGroupDefs reads the canonical group definitions (the single source of
