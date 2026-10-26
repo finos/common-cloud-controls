@@ -21,9 +21,11 @@ permissions:
   pull-requests: write
   id-token: write
 
+# Share one lock with cfi-test: both start/stop the same finos-ccc-integration-* fixtures.
+# cancel-in-progress must be false so a new push cannot park the cluster under a sibling run.
 concurrency:
-  group: cloud-api-integration-${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: true
+  group: ccc-finos-integration-fixtures
+  cancel-in-progress: false
 
 jobs:
   integration:
