@@ -265,11 +265,78 @@ jobs:
             modules/cloud-api-test/coverage-lifecycle-${{ matrix.provider }}.out
           if-no-files-found: ignore
 
-      - name: Upload coverage to Codecov
-        if: always() && hashFiles(format('modules/cloud-api-test/coverage-integration-{0}.out', matrix.provider)) != ''
+  # Provider implementations diverge; do not publish Codecov from a single
+  # matrix leg. Merge aws + azure + gcp first, or do not report.
+  report-coverage:
+    name: Unify and upload coverage
+    needs: integration
+    if: |
+      always() &&
+      !cancelled() &&
+      needs.integration.result != 'skipped' &&
+      (github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-go-workspace
+
+      - name: Download per-provider coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cloud-api-integration-*
+          path: ${{ runner.temp }}/cloud-api-coverage
+          merge-multiple: true
+
+      - name: Merge aws + azure + gcp coverage
+        env:
+          STAGING: ${{ runner.temp }}/cloud-api-coverage
+        run: |
+          set -euo pipefail
+          dest=modules/cloud-api-test
+          # Artifacts may nest workspace-relative paths; flatten the profiles.
+          for cloud in aws azure gcp; do
+            found="$(find "$STAGING" -type f -name "coverage-integration-${cloud}.out" -print -quit)"
+            if [[ -z "$found" ]]; then
+              echo "error: no coverage-integration-${cloud}.out in downloaded artifacts" >&2
+              find "$STAGING" -type f -print >&2 || true
+              exit 1
+            fi
+            cp "$found" "$dest/coverage-integration-${cloud}.out"
+          done
+          chmod +x "$dest/merge-provider-coverage.sh"
+          "$dest/merge-provider-coverage.sh"
+
+      - name: Publish combined coverage summary
+        if: always()
+        run: |
+          {
+            echo "## Combined cloud-api coverage (aws + azure + gcp)"
+            echo ""
+            if [ -f modules/cloud-api-test/coverage-integration-all.out ]; then
+              echo '```text'
+              go tool cover -func=modules/cloud-api-test/coverage-integration-all.out | tail -5
+              echo '```'
+            else
+              echo "_No combined profile — a provider coverage file was missing._"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload combined coverage artifact
+        if: always() && hashFiles('modules/cloud-api-test/coverage-integration-all.out') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-api-integration-all
+          path: |
+            modules/cloud-api-test/coverage-integration-all.out
+            modules/cloud-api-test/coverage-integration-all.html
+
+      - name: Upload unified coverage to Codecov
+        if: hashFiles('modules/cloud-api-test/coverage-integration-all.out') != ''
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: modules/cloud-api-test/coverage-integration-${{ matrix.provider }}.out
-          flags: cloud-api-integration-${{ matrix.provider }}
+          files: modules/cloud-api-test/coverage-integration-all.out
+          flags: cloud-api-integration
           fail_ci_if_error: false

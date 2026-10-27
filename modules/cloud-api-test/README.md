@@ -96,7 +96,7 @@ mkdir -p "$GOCOVERDIR"
 
 The script sets `INTEGRATION_PROVIDER`, sources `environment-config/<cloud>-env.sh` when present, refreshes VM hostnames from the live public IP, runs `go test -tags=integration` with coverage, writes `integration-results-<cloud>.txt`, and generates `coverage-integration-<cloud>.html`.
 
-`./run-integration-tests.sh all` runs aws → azure → gcp (continues on failure) and merges coverage into `coverage-integration-all.out` / `.html`.
+`./run-integration-tests.sh all` runs aws → azure → gcp (continues on failure) and merges coverage into `coverage-integration-all.out` / `.html`. CI uses `merge-provider-coverage.sh` instead: that script **exits 1** unless all three per-cloud profiles exist, so Codecov never sees a one- or two-cloud report.
 
 Manual equivalent:
 
@@ -144,7 +144,7 @@ Workflow: `.github/workflows/cloud-api-integration.yml`.
 - Matrix: `aws` | `azure` | `gcp` (one job per provider).
 - Starts VM/Kubernetes fixtures, runs `./run-integration-tests.sh $PROVIDER`, then stops fixtures (`if: always()`).
 - Kubernetes kube clients are derived inside `cloud-api` from `kubernetes-cluster-name` + ambient cloud credentials (no CI kubeconfig bootstrap).
-- Uploads per-provider results/coverage artifacts and Codecov.
+- Uploads per-provider results/coverage artifacts. Codecov is **not** updated from a single cloud — a follow-up job runs `merge-provider-coverage.sh` and uploads only when aws, azure, and gcp profiles are all present.
 
 ## Terraform
 
