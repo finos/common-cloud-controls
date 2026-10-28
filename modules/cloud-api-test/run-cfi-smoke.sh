@@ -27,7 +27,9 @@ PRIVATEER_SERVICE="${CFI_SMOKE_SERVICE:-awsSecrets}"
 TAGS="${CFI_SMOKE_TAGS:-@Behavioural}"
 BIN_DIR="${PRIVATEER_BINARIES_PATH:-$REPO_ROOT/cfi-testing/.privateer/bin}"
 PLUGIN_BINARY="$BIN_DIR/ccc-behavioural-plugin.cover"
-COVERPKG="${CFI_SMOKE_COVERPKG:-github.com/finos/common-cloud-controls/runner/...,github.com/finos/common-cloud-controls/cloud-api/...}"
+# Main package must be in -coverpkg or the binary exits without writing GOCOVERDIR
+# (Go emits no covmeta/covcounters when only dependency packages are listed).
+COVERPKG="${CFI_SMOKE_COVERPKG:-github.com/finos/common-cloud-controls/ccc-behavioural-plugin,github.com/finos/common-cloud-controls/runner/...,github.com/finos/common-cloud-controls/cloud-api/...}"
 
 mkdir -p "$COVER_DIR" "$BIN_DIR"
 rm -rf "$COVER_DIR"/*
