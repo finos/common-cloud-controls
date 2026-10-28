@@ -5,6 +5,9 @@
 # misleading. This script refuses to write an output unless all three
 # profiles exist and are non-empty.
 #
+# When coverage-cfi-smoke.out is present (CFI-style runner smoke), it is
+# merged too so BasicServiceRunner appears in the unified Codecov upload.
+#
 # Usage (from modules/cloud-api-test):
 #   ./merge-provider-coverage.sh
 #
@@ -18,6 +21,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLOUDS=(aws azure gcp)
 OUTPUT="$SCRIPT_DIR/coverage-integration-all.out"
 HTML="$SCRIPT_DIR/coverage-integration-all.html"
+CFI_SMOKE="$SCRIPT_DIR/coverage-cfi-smoke.out"
 
 profiles=()
 missing=0
@@ -34,6 +38,13 @@ done
 if [[ "$missing" -ne 0 ]]; then
   echo "error: refusing to report coverage until aws, azure, and gcp profiles are all present" >&2
   exit 1
+fi
+
+if [[ -s "$CFI_SMOKE" ]]; then
+  echo "==> including CFI smoke profile: $CFI_SMOKE"
+  profiles+=("$CFI_SMOKE")
+else
+  echo "==> no coverage-cfi-smoke.out (optional) — continuing without runner smoke coverage"
 fi
 
 echo "==> gocovmerge ${profiles[*]}"

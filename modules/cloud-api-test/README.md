@@ -30,7 +30,7 @@ Prefer CSV rows that hit **distinct branches in our implementations**. Extra row
 4. Applies `integration_exclusions.csv` to drop entire APIs for the current provider.
 5. Resolves each `api` via `factory.GetServiceAPI` (ambient) or `GetServiceAPIWithIdentity` when `identity` is set, then invokes `method` by reflection.
 6. `expect_error=true` → pass only if the call returns an error; otherwise pass only if it succeeds.
-7. `DeleteObject` / `DeleteBucket` run for `object-storage` only; other `Delete*` methods are skipped.
+7. `DeleteObject` / `DeleteBucket` run for `object-storage`; `DeleteTestResource` is allowed for `vpc` (CN02 cleanup). Other `Delete*` methods are skipped. VPC CN02 rows may use `arg1=auto` to chain SelectPublicSubnet → Create → Get → Delete.
 8. Calls `factory.TearDown()` once at the end.
 9. Writes per-provider results and Go coverage over `modules/cloud-api/...`.
 
@@ -126,6 +126,10 @@ INTEGRATION_METHOD_MATCH=Admit ./run-integration-tests.sh gcp --api kubernetes
 `INTEGRATION_API` matches factory id exactly; `INTEGRATION_METHOD` matches method name exactly; `INTEGRATION_METHOD_MATCH` is a case-insensitive substring on the method name.
 
 Coverage uses `-coverpkg=../cloud-api/...`. A single-cloud run under-reports packages that only exist on other clouds; merge or run the matrix for a fuller picture. Packages never referenced by the CSV (for example some `generic/login` paths) stay at 0% until rows or unit tests cover them.
+
+### CFI smoke (runner coverage)
+
+CI also runs `./run-cfi-smoke.sh`: builds `ccc-behavioural-plugin` with `-coverpkg=runner/...,cloud-api/...`, executes the aws-secrets Privateer config in `--debug` mode, and writes `coverage-cfi-smoke.out`. `merge-provider-coverage.sh` merges that profile when present so `BasicServiceRunner` appears in Codecov.
 
 Unit checks (no cloud):
 

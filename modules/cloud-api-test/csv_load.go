@@ -143,8 +143,7 @@ func loadCallRowsWithExclusions(csvData, exclusionsCSV, provider string) ([]call
 			continue
 		}
 		api := get("api")
-		if strings.HasPrefix(method, "Delete") &&
-			(api != "object-storage" || (method != "DeleteObject" && method != "DeleteBucket")) {
+		if strings.HasPrefix(method, "Delete") && !deleteMethodAllowed(api, method) {
 			continue
 		}
 		cloud := strings.ToLower(get("cloud"))
@@ -176,6 +175,19 @@ func loadCallRowsWithExclusions(csvData, exclusionsCSV, provider string) ([]call
 		})
 	}
 	return rows, nil
+}
+
+// deleteMethodAllowed gates destructive Delete* CSV methods. Object-storage
+// Deletes and vpc DeleteTestResource (CN02 cleanup) are allowed; others are skipped.
+func deleteMethodAllowed(api, method string) bool {
+	switch {
+	case api == "object-storage" && (method == "DeleteObject" || method == "DeleteBucket"):
+		return true
+	case api == "vpc" && method == "DeleteTestResource":
+		return true
+	default:
+		return false
+	}
 }
 
 func privateerConfigRoot() string {

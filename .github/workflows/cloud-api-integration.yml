@@ -269,11 +269,73 @@ jobs:
             modules/cloud-api-test/coverage-lifecycle-${{ matrix.provider }}.out
           if-no-files-found: ignore
 
+  # Minimal CFI-style smoke: Privateer plugin → BasicServiceRunner with -cover.
+  # start-compute: false (aws-secrets). Shares fixture concurrency with integration.
+  cfi-smoke:
+    name: CFI smoke (aws-secrets + runner cover)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    if: github.event_name != 'pull_request' || github.repository == 'finos/common-cloud-controls'
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-go-workspace
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/TerraformRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Load AWS env
+        env:
+          AWS_ENV: ${{ secrets.AWS_ENV }}
+        run: |
+          set -euo pipefail
+          out="modules/cloud-api-test/environment-config/aws-env.sh"
+          if [ -n "${AWS_ENV:-}" ]; then
+            printf '%s\n' "$AWS_ENV" > "$out"
+            set -a
+            # shellcheck source=/dev/null
+            source "$out"
+            set +a
+            while IFS= read -r line || [ -n "$line" ]; do
+              line="${line#export }"
+              case "$line" in
+                ''|\#*) continue ;;
+                *=*) echo "$line" >> "$GITHUB_ENV" ;;
+              esac
+            done < "$out"
+          fi
+
+      - name: Generate release catalogs
+        run: |
+          set -euo pipefail
+          npm ci --prefix website
+          npm run --prefix website generate:catalogs
+
+      - name: Run CFI smoke with coverage
+        run: |
+          set -euo pipefail
+          chmod +x modules/cloud-api-test/run-cfi-smoke.sh
+          ./modules/cloud-api-test/run-cfi-smoke.sh
+
+      - name: Upload CFI smoke coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloud-api-cfi-smoke
+          path: |
+            modules/cloud-api-test/coverage-cfi-smoke.out
+          if-no-files-found: warn
+
   # Provider implementations diverge; do not publish Codecov from a single
   # matrix leg. Merge aws + azure + gcp first, or do not report.
   report-coverage:
     name: Unify and upload coverage
-    needs: integration
+    needs: [integration, cfi-smoke]
     if: |
       always() &&
       !cancelled() &&
@@ -293,9 +355,17 @@ jobs:
           path: ${{ runner.temp }}/cloud-api-coverage
           merge-multiple: true
 
+      - name: Download CFI smoke coverage
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: cloud-api-cfi-smoke
+          path: ${{ runner.temp }}/cloud-api-cfi-smoke
+
       - name: Merge aws + azure + gcp coverage
         env:
           STAGING: ${{ runner.temp }}/cloud-api-coverage
+          CFI_STAGING: ${{ runner.temp }}/cloud-api-cfi-smoke
         run: |
           set -euo pipefail
           dest=modules/cloud-api-test
@@ -309,6 +379,10 @@ jobs:
             fi
             cp "$found" "$dest/coverage-integration-${cloud}.out"
           done
+          smoke="$(find "${CFI_STAGING:-/nonexistent}" -type f -name "coverage-cfi-smoke.out" -print -quit 2>/dev/null || true)"
+          if [[ -n "$smoke" ]]; then
+            cp "$smoke" "$dest/coverage-cfi-smoke.out"
+          fi
           chmod +x "$dest/merge-provider-coverage.sh"
           "$dest/merge-provider-coverage.sh"
 
