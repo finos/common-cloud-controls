@@ -338,13 +338,29 @@ type sourceAR struct {
 	Recommendation string   `yaml:"recommendation"`
 }
 
+// sourceControlImportGroup mirrors imports[] in controls.yaml, allowing each
+// imported core control entry to declare optional service-specific or imported
+// threat mappings (`threats:`) alongside its reference-id and remarks.
+type sourceControlImportGroup struct {
+	ReferenceId string                     `yaml:"reference-id"`
+	Remarks     string                     `yaml:"remarks"`
+	Entries     []sourceControlImportEntry `yaml:"entries"`
+}
+
+type sourceControlImportEntry struct {
+	ReferenceId    string                     `yaml:"reference-id"`
+	Remarks        string                     `yaml:"remarks"`
+	Strength       int                        `yaml:"strength"`
+	ThreatMappings []gemara.MultiEntryMapping `yaml:"threats"`
+}
+
 func compileControls(path, catalogID, service, version, coreVersion string, groupDefs map[string]gemara.Group) (*gemara.ControlCatalog, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %w", path, err)
 	}
 	var src struct {
-		Imported []gemara.MultiEntryMapping `yaml:"imports"`
+		Imported []sourceControlImportGroup `yaml:"imports"`
 		Controls []sourceControl            `yaml:"controls"`
 	}
 	if err := yaml.Unmarshal(data, &src); err != nil {
@@ -352,6 +368,29 @@ func compileControls(path, catalogID, service, version, coreVersion string, grou
 	}
 	if len(src.Controls) == 0 && len(src.Imported) == 0 {
 		return nil, fmt.Errorf("%s: no controls to compile", path)
+	}
+
+	rawImports := make([]gemara.MultiEntryMapping, len(src.Imported))
+	for i, ig := range src.Imported {
+		entries := make([]gemara.ArtifactMapping, len(ig.Entries))
+		for j, ie := range ig.Entries {
+			for _, tm := range ie.ThreatMappings {
+				for _, te := range tm.Entries {
+					if g := entryRef.FindStringSubmatch(te.ReferenceId); g == nil || g[2] != "TH" {
+						return nil, fmt.Errorf("%s: imported control %s references invalid threat id %q", path, ie.ReferenceId, te.ReferenceId)
+					}
+				}
+			}
+			entries[j] = gemara.ArtifactMapping{
+				ReferenceId: ie.ReferenceId,
+				Remarks:     ie.Remarks,
+			}
+		}
+		rawImports[i] = gemara.MultiEntryMapping{
+			ReferenceId: ig.ReferenceId,
+			Remarks:     ig.Remarks,
+			Entries:     entries,
+		}
 	}
 
 	controls := make([]gemara.Control, len(src.Controls))
@@ -394,7 +433,7 @@ func compileControls(path, catalogID, service, version, coreVersion string, grou
 	if err != nil {
 		return nil, err
 	}
-	imports, refs := reshapeImports(src.Imported, "controls", coreVersion)
+	imports, refs := reshapeImports(rawImports, "controls", coreVersion)
 
 	md := newMetadata(artifactCatalogID(catalogID, "controls"), gemara.ControlCatalogArtifact,
 		fmt.Sprintf("Controls for %s technologies, as defined by the FINOS Common Cloud Controls project.", service),

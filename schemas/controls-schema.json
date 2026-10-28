@@ -26,6 +26,43 @@
                   },
                   "remarks": {
                     "type": "string"
+                  },
+                  "threats": {
+                    "type": "array",
+                    "description": "Optional service-specific or imported threats mitigated by this imported control within the service catalog",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reference-id": {
+                          "type": "string"
+                        },
+                        "entries": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "reference-id": {
+                                "type": "string",
+                                "pattern": "^((CCC\\.TH\\d{2,8})|(CCC\\.\\w{1,8}\\.TH\\d{2,8}))$"
+                              },
+                              "strength": {
+                                "type": "integer"
+                              },
+                              "remarks": {
+                                "type": "string"
+                              }
+                            },
+                            "required": ["reference-id"],
+                            "additionalProperties": false
+                          }
+                        },
+                        "remarks": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["reference-id", "entries"],
+                      "additionalProperties": false
+                    }
                   }
                 },
                 "required": ["reference-id"],
