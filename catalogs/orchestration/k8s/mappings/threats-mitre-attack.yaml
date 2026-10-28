@@ -113,8 +113,8 @@ mappings:
   source: CCC.K8S.TH12
   relationship: relates-to
   targets:
-  - entry-id: T1610
-    remarks: Deploy Container
+  - entry-id: T1685
+    remarks: Disable or Modify Tools
   - entry-id: T1609
     remarks: Container Administration Command
 - id: CCC.K8S.TH13-mitre-attack
