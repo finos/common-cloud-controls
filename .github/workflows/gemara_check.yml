@@ -4,8 +4,8 @@ name: Gemara Schema Check
 # delivery-toolkit and validates against the Gemara CUE schema (pinned at
 # GEMARA_SPEC_REF). Per-file scope: only build targets whose YAMLs were touched
 # are re-validated. Changes to shared/core files (`catalogs/categories.yaml`,
-# `catalogs/core/core/**`) cascade to every target because every catalog depends
-# on them.
+# `catalogs/core/core/**`), `delivery-toolkit/**`, or this workflow cascade to
+# every target because every catalog depends on them.
 #
 # Fails the PR on any compile error or schema violation.
 
@@ -48,10 +48,11 @@ jobs:
         with:
           version: ${{ env.CUE_VERSION }}
 
-      - name: Build delivery-toolkit
+      - name: Test and build delivery-toolkit
         run: |
           set -euo pipefail
           cd delivery-toolkit
+          go test ./...
           go build -o "$RUNNER_TEMP/delivery-toolkit" .
 
       - name: Determine affected build targets
@@ -63,22 +64,23 @@ jobs:
           set -euo pipefail
 
           changed=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- \
-            'catalogs/**.yaml' 'catalogs/**.yml' | sort -u || true)
+            'catalogs/**.yaml' 'catalogs/**.yml' \
+            'delivery-toolkit/**' '.github/workflows/gemara_check.yml' | sort -u || true)
 
           if [ -z "$changed" ]; then
-            echo "No catalog YAML files were touched — nothing to validate."
+            echo "No catalog YAML or delivery-toolkit files were touched — nothing to validate."
             printf 'targets=\n' >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          echo "Changed catalog YAML files:"
+          echo "Changed catalog/compiler files:"
           printf '  %s\n' $changed
 
           broad=
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             case "$f" in
-              catalogs/categories.yaml|catalogs/categories.yml|catalogs/core/core/*)
+              catalogs/categories.yaml|catalogs/categories.yml|catalogs/core/core/*|delivery-toolkit/*|.github/workflows/gemara_check.yml)
                 broad=1
                 break
                 ;;
@@ -86,7 +88,7 @@ jobs:
           done <<< "$changed"
 
           if [ -n "$broad" ]; then
-            echo "Shared/core catalog file touched — every build target will be re-validated."
+            echo "Shared/core catalog or delivery-toolkit file touched — every build target will be re-validated."
             targets=$(find catalogs -mindepth 3 -maxdepth 3 -name metadata.yaml \
               -printf '%h\n' | sed 's|^catalogs/||' | sort -u)
           else
