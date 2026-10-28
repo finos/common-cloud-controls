@@ -656,6 +656,7 @@ github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
 github.com/swaggest/jsonschema-go v0.3.78 h1:5+YFQrLxOR8z6CHvgtZc42WRy/Q9zRQQ4HoAxlinlHw=
 github.com/swaggest/jsonschema-go v0.3.78/go.mod h1:4nniXBuE+FIGkOGuidjOINMH7OEqZK3HCSbfDuLRI0g=
+github.com/swaggest/jsonschema-go v0.3.79 h1:0TOShCbAJ9Xjt1e2W83l+QtMQSG2pbun2EkiYTyafCs=
 github.com/swaggest/jsonschema-go v0.3.79/go.mod h1:GqVmJ+XNLeUHhFIhHNKc+C68euxfrl3a3aoZH4vTRl0=
 github.com/swaggest/refl v1.4.0 h1:CftOSdTqRqs100xpFOT/Rifss5xBV/CT0S/FN60Xe9k=
 github.com/swaggest/refl v1.4.0/go.mod h1:4uUVFVfPJ0NSX9FPwMPspeHos9wPFlCMGoPRllUbpvA=
@@ -1165,6 +1166,7 @@ k8s.io/gengo/v2 v2.0.0-20250604051438-85fd79dbfd9f h1:SLb+kxmzfA87x4E4brQzB33VBb
 k8s.io/gengo/v2 v2.0.0-20250604051438-85fd79dbfd9f/go.mod h1:EJykeLsmFC60UQbYJezXkEsG2FLrt0GPNkU5iK5GWxU=
 oras.land/oras-go/v2 v2.6.0 h1:X4ELRsiGkrbeox69+9tzTu492FMUu7zJQW6eJU+I2oc=
 oras.land/oras-go/v2 v2.6.0/go.mod h1:magiQDfG6H1O9APp+rOsvCPcW1GD2MM7vgnKY0Y+u1o=
+oras.land/oras-go/v2 v2.6.2 h1:N04RXngAp1LJKTG6ifz3xHPipasEkWr+hFmInja5YKo=
 oras.land/oras-go/v2 v2.6.2/go.mod h1:PlTtg4JTDJkDe8yVHpM2wz7/YDc00GVas+i4jAW2TZ4=
 rsc.io/binaryregexp v0.2.0 h1:HfqmD5MEmC0zvwBuF187nq9mdnXjXsSivRiXN7SmRkE=
 rsc.io/binaryregexp v0.2.0/go.mod h1:qTv7/COck+e2FymRvadv62gMdZztPaShugOCi3I+8D8=

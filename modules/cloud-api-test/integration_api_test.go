@@ -346,10 +346,22 @@ func resolveVpcAutoArgs(rv reflect.Value, cfg types.Config, method string, args 
 }
 
 func rememberVpcAutoResult(method string, out []reflect.Value) {
-	if len(out) == 0 || !out[0].IsValid() || out[0].IsNil() {
+	switch method {
+	case "SelectPublicSubnetForTest", "CreateTestResourceInSubnet", "DeleteTestResource":
+	default:
 		return
 	}
-	m, ok := out[0].Interface().(map[string]interface{})
+	if len(out) == 0 || !out[0].IsValid() {
+		return
+	}
+	v := out[0]
+	switch v.Kind() {
+	case reflect.Interface, reflect.Map, reflect.Pointer, reflect.Slice:
+		if v.IsNil() {
+			return
+		}
+	}
+	m, ok := v.Interface().(map[string]interface{})
 	if !ok {
 		return
 	}
