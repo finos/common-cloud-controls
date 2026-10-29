@@ -96,7 +96,7 @@ jobs:
         id: compile
         working-directory: delivery-toolkit
         # tee to a log so the summary step can parse a friendly reason if this fails.
-        # pipefail (the GHA default) keeps the step's exit status that of `go run`.
+        # pipefail (from `shell: bash` in defaults above) keeps the step's exit status that of `go run`.
         run: |
           go run . compile \
             --build-target "$BUILD_TARGET" \
