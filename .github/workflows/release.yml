@@ -167,9 +167,7 @@ jobs:
             grcli publish "$ARTIFACT" --license "$LICENSE" 2>&1 | tee /tmp/publish.log
           fi
 
-      # Read the signature back from grc.store before cutting the GitHub release. The
-      # identity is pinned here, not taken from the hub record, and only matches this
-      # workflow on main, so a release run from any other ref fails here.
+      # Read the signature back from grc.store before cutting the GitHub release.
       - name: Verify published signature
         id: sigverify
         if: ${{ inputs.dry_run == false }}
