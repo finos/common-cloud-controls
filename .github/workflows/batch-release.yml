@@ -2,21 +2,21 @@ name: Batch Release All Catalogs
 
 # Batch sibling of release.yml: release EVERY typed catalog in one run.
 #
-# Where release.yml releases ONE family/service + ONE asset type, this loops over
-# every catalogs/<family>/<service> directory and releases each capabilities.yaml,
-# threats.yaml, and controls.yaml it finds. Directories that lack a given asset
+# Where release.yml releases ONE build target (family/service) + its ticked catalogs,
+# this loops over every catalogs/<family>/<service> directory and releases each
+# capabilities.yaml, threats.yaml, and controls.yaml it finds. Directories that lack a given catalog
 # (e.g. a service with only capabilities.yaml) are skipped, not errored.
 #
 # Each family/service gets its OWN GitHub release, tagged <family>/<service>/<version>,
 # carrying that target's three typed catalogs — not one shared release for the batch.
 #
-# The per-asset pipeline (the release_asset bash function below) is identical to
+# The per-catalog pipeline (the release_asset bash function below) is identical to
 # release.yml — compile, locate, validate against the Gemara spec, publish to
 # grc.store, then cut/append the per-target GitHub release — so see that file for the
 # rationale on each step (OIDC auth, version stamping, the create-or-upload dance).
 #
 # This is one sequential job, not a matrix: it keeps the create-or-upload of each
-# per-target release single-threaded (the three assets of a target would otherwise
+# per-target release single-threaded (the three catalogs of a target would otherwise
 # race to create its tag) and keeps the run log easy to follow.
 #
 # Best-effort by design: the batch releases everything it can and LOGS the rest — it
@@ -41,6 +41,12 @@ on:
 permissions:
   contents: write # cut the GitHub release
   id-token: write # grcli mints a GHA OIDC token for hub auth + cosign keyless signing
+
+# Shared with release.yml: runs touching the same version's releases queue rather
+# than overlap, so release-notes-link.sh's read-modify-write can't lose a link.
+concurrency:
+  group: catalog-release-${{ inputs.version }}
+  cancel-in-progress: false
 
 jobs:
   batch-release:
@@ -76,7 +82,7 @@ jobs:
         with:
           cosign-release: v3.1.1
 
-      - name: Release every catalog asset
+      - name: Release every catalog
         run: |
           set -u
 
@@ -110,7 +116,7 @@ jobs:
             { if [ "$n" -gt 3 ]; then printf '%s (+%d more)' "$shown" "$((n - 3))"; else printf '%s' "$shown"; fi; } | sanitize
           }
 
-          # Release one typed catalog asset. Args: <build_target> <asset_type>.
+          # Release one typed catalog. Args: <build_target> <asset_type>.
           # Communicates back via globals: R_REASON (failure text), R_AUTHOR / R_ARTIFACT
           # (lowercased ids for the grc.store link). Return codes the caller dispatches on:
           #   0 = released (or built, on a dry run)
@@ -198,16 +204,18 @@ jobs:
 
             # Cut/append a per-target GitHub release. Each family/service gets its own
             # release tagged <family>/<service>/<version>, carrying that target's three
-            # typed catalogs. The first asset for a target creates the release; the rest
+            # typed catalogs. The first catalog for a target creates the release; the rest
             # upload into it. Within one target the basenames are unique, so the file is
             # uploaded under its plain name (capabilities.yaml / threats.yaml / ...).
             case "$VERSION" in *rc*) prerelease="--prerelease" ;; esac
             tag="${build_target}/${VERSION}"
-            if ! out="$( { gh release create "$tag" "$file" \
+            if ! out="$( { { gh release create "$tag" "$file" \
                   --title "${build_target} ${VERSION}" \
                   --notes "Release of ${build_target} typed catalogs (${VERSION}), published to grc.store." \
                   $prerelease \
-                || gh release upload "$tag" "$file" --clobber; } 2>&1)"; then
+                || gh release upload "$tag" "$file" --clobber; } \
+                && .github/scripts/release-notes-link.sh "$tag" "$build_target" "$VERSION" "$asset_type" \
+                  "https://grc.store/${R_AUTHOR}/${R_ARTIFACT}/versions/${VERSION}"; } 2>&1)"; then
               echo "$out"; R_REASON="GitHub release failed — $(printf '%s' "$out" | tail -2 | sanitize)"; return 1
             fi
             echo "$out"
@@ -219,7 +227,7 @@ jobs:
           unreleased=()
           rows=()
 
-          # One asset at a time, in directory order, so the run log is easy to follow.
+          # One catalog at a time, in directory order, so the run log is easy to follow.
           for dir in $(find catalogs -mindepth 2 -maxdepth 2 -type d | sort); do
             # catalogs/<family>/<service> -> <family>/<service>
             build_target="${dir#catalogs/}"
